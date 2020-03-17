@@ -1,6 +1,6 @@
 # MyEMS
 
- [中文](#MyEMS 介绍) | [EN](#MyEMS Introduction)
+ [中文](#MyEMS-介绍) | [EN](#MyEMS-Introduction)
 
 ## MyEMS 介绍
 
