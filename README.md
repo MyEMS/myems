@@ -2,6 +2,9 @@
 
 This project is under MIT license.
 
+## Architecture
+![MyEMS Architecture](/readme/architecture.png)
+
 ## Components
 
 This project is compose of  following components:
