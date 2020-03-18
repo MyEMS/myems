@@ -4,9 +4,7 @@
 
 ## MyEMS 介绍
 
-MyEMS是领先的免费开源能源管理系统。
-MyEMS由资深专业团队开发维护。
-MyEMS系统基于MIT开源软件许可协议
+MyEMS是领先的开源能源管理系统，利用云计算、物联网、大数据、人工智能等信息化技术构建而成。MyEMS可用于构建统一规范、功能强大的综合能源管理服务平台。MyEMS由资深专业团队开发维护，系统代码基于MIT开源软件许可协议。
 
 ## MyEMS架构
 ![MyEMS Architecture](/.readme/architecture.png)
@@ -53,9 +51,8 @@ MyEMS项目由下列组件构成:
 
 
 ## MyEMS Introduction
-MyEMS is an advanced open source Energy Management System.
-MyEMS is developed and maintained by an experienced development team.
-This project is under MIT license.
+ MyEMS is an advanced Energy Management System that is built on cloud computing, IOT, Big Data and AI technologies. MyEMS can be used to build an standard and powerful integrated energy management service platform.
+MyEMS is developed and maintained by an experienced development team, and the source code is under MIT license.
 
 ## Architecture
 ![MyEMS Architecture](/.readme/architecture.png)
