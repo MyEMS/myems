@@ -78,8 +78,11 @@ MyEMS项目由下列组件构成:
 | 在线支持                    |✔️                                                           | ✔️ |
 | 邮件支持                    |✔️                                                           | ✔️ |
 | Modbus  TCP             | ❌                                                           | ✔️ |
+| Modbus  RTU             | ❌                                                           | ✔️ |
 | OPC UA                     | ❌                                                           | ✔️ |
+| OPC DA                     | ❌                                                           | ✔️ |
 | Siemens S7                 | ❌                                                           | ✔️|
+| IEC 104                      | ❌                                                           | ✔️|
 | Johnson Controls Metasys | ❌                                                    | ✔️|
 | FDD  规则引擎          | ❌                                                          | ✔️ |
 | 高级报表                    |❌                                                          | ✔️ |
@@ -169,8 +172,11 @@ See the repository [myems-bacnet](https://github.com/myems/myems-bacnet.git) for
 | Online Support            |✔️                                                           | ✔️ |
 | Email Support             |✔️                                                           | ✔️ |
 | Modbus  TCP             | ❌                                                           | ✔️ |
+| Modbus  RTU             | ❌                                                           | ✔️ |
 | OPC UA                     | ❌                                                           | ✔️ |
+| OPC DA                     | ❌                                                           | ✔️ |
 | Siemens S7                 | ❌                                                           | ✔️|
+| IEC 104                      | ❌                                                           | ✔️|
 | Johnson Controls Metasys | ❌                                                    | ✔️|
 | FDD  Rule Engine      | ❌                                                          | ✔️ |
 | Advanced Reporting   |❌                                                          | ✔️ |
