@@ -49,6 +49,38 @@ MyEMS项目由下列组件构成:
 
 参考仓库  [myems-bacnet](https://github.com/myems/myems-bacnet.git) 获取更多信息。
 
+## 版本对比
+| 功能                            |                      标准版                               | 企业版  |
+| :---                               |                       :----:                                  |  :----:    |
+| Open Source                | ✔️ MIT                                                  | ❌ |
+| Free of Charge             | ✔️                                                           | ❌ |
+| Rights to Modify         | ✔️                                                           | ❌ |
+| Rights to Resell           | ✔️                                                           | ❌ |
+| BACnet/IP                  | ✔️                                                           | ✔️ |
+| MQTT                        | ✔️                                                           | ✔️ |
+| Modbus  TCP             | ❌                                                           | ✔️ |
+| OPC UA                     | ❌                                                           | ✔️ |
+| Siemens S7                  | ❌                                                           | ✔️|
+| Unlimited Number of Points | ✔️                                                 | ✔️ |
+| Unlimited Number of Meters | ✔️                                                 | ✔️ |
+| Unlimited Number of Virtual Meters | ✔️                                     | ✔️ |
+| Unlimited Number of Spaces | ✔️                                                 | ✔️ |
+| MySQL                      | ✔️                                                           | ✔️ |
+| MemSQL                    | ❌                                                          | ✔️ |
+| Energy Reporting        | ✔️                                                           | ✔️ |
+| Dashboard                   | ✔️                                                           | ✔️ |
+| Tenant                         | ✔️                                                           | ✔️ |
+| FDD  Rule Engine      | ❌                                                          | ✔️ |
+| Advanced Reporting   |❌                                                          | ✔️ |
+| Draw Diagrams          | ❌                                                          | ✔️ |
+| Web APP                    |✔️                                                           | ✔️ |
+| iOS APP                     | ❌                                                          | ✔️ |
+| Android APP              | ❌                                                          | ✔️ |
+| Online Support            |✔️                                                          | ✔️ |
+| Email Support             |✔️                                                          | ✔️ |
+| Telephone Support      |❌                                                          | ✔️ |
+| Remote Support          |❌                                                          | ✔️ |
+| Onsite Support            |❌                                                          | ✔️ |
 
 ## MyEMS Introduction
  MyEMS is an advanced Energy Management System that is built on cloud computing, IOT, Big Data and AI technologies. MyEMS can be used to build an standard and powerful integrated energy management service platform.
