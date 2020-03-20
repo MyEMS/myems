@@ -53,34 +53,44 @@ MyEMS项目由下列组件构成:
 | 功能                            |                      标准版                               | 企业版  |
 | :---                               |                       :----:                                  |  :----:    |
 | Open Source                | ✔️ MIT                                                  | ❌ |
-| Free of Charge             | ✔️                                                           | ❌ |
-| Rights to Modify         | ✔️                                                           | ❌ |
-| Rights to Resell           | ✔️                                                           | ❌ |
+| Price                             | Free                                                        | Floating |
 | BACnet/IP                  | ✔️                                                           | ✔️ |
 | MQTT                        | ✔️                                                           | ✔️ |
+| Unlimited Number of Points | ✔️                                                | ✔️ |
+| Unlimited Number of Meters | ✔️                                                | ✔️ |
+| Unlimited Number of Virtual Meters | ✔️                                    | ✔️ |
+| Unlimited Number of Spaces | ✔️                                                | ✔️ |
+| Docker                         | ✔️                                                           | ✔️ |
+| Kubernetes                   | ✔️                                                           | ✔️ |
+| MySQL                        | ✔️                                                           | ✔️ |
+| MemSQL                     | ✔️                                                           | ✔️ |
+| AWS Cloud                  | ✔️                                                          | ✔️ |
+| AZure Cloud                | ✔️                                                          | ✔️ |
+| Alibaba Cloud              | ✔️                                                          | ✔️ |
+| Energy Reporting        | ✔️                                                           | ✔️ |
+| Energy Billing             | ✔️                                                           | ✔️ |
+| Energy Ranking          | ✔️                                                           | ✔️ |
+| Energy Dashboard      | ✔️                                                           | ✔️ |
+| Tenant                         | ✔️                                                           | ✔️ |
+| RESTful API               | ✔️                                                          | ✔️ |
+| Web APP                     |✔️                                                           | ✔️ |
+| Online Support            |✔️                                                           | ✔️ |
+| Email Support             |✔️                                                           | ✔️ |
 | Modbus  TCP             | ❌                                                           | ✔️ |
 | OPC UA                     | ❌                                                           | ✔️ |
-| Siemens S7                  | ❌                                                           | ✔️|
-| Unlimited Number of Points | ✔️                                                 | ✔️ |
-| Unlimited Number of Meters | ✔️                                                 | ✔️ |
-| Unlimited Number of Virtual Meters | ✔️                                     | ✔️ |
-| Unlimited Number of Spaces | ✔️                                                 | ✔️ |
-| MySQL                      | ✔️                                                           | ✔️ |
-| MemSQL                    | ❌                                                          | ✔️ |
-| Energy Reporting        | ✔️                                                           | ✔️ |
-| Dashboard                   | ✔️                                                           | ✔️ |
-| Tenant                         | ✔️                                                           | ✔️ |
+| Siemens S7                 | ❌                                                           | ✔️|
+| Johnson Controls Metasys | ❌                                                    | ✔️|
 | FDD  Rule Engine      | ❌                                                          | ✔️ |
 | Advanced Reporting   |❌                                                          | ✔️ |
 | Draw Diagrams          | ❌                                                          | ✔️ |
-| Web APP                    |✔️                                                           | ✔️ |
+| BACnet Server           | ❌                                                          | ✔️|
 | iOS APP                     | ❌                                                          | ✔️ |
 | Android APP              | ❌                                                          | ✔️ |
-| Online Support            |✔️                                                          | ✔️ |
-| Email Support             |✔️                                                          | ✔️ |
 | Telephone Support      |❌                                                          | ✔️ |
 | Remote Support          |❌                                                          | ✔️ |
 | Onsite Support            |❌                                                          | ✔️ |
+| Bid Support                 |❌                                                          | ✔️ |
+| Customize Support      |❌                                                          | ✔️ |
 
 ## MyEMS Introduction
  MyEMS is an advanced Energy Management System that is built on cloud computing, IOT, Big Data and AI technologies. MyEMS can be used to build an standard and powerful integrated energy management service platform.
