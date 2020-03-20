@@ -52,45 +52,46 @@ MyEMS项目由下列组件构成:
 ## 版本对比
 | 功能                            |                      标准版                               | 企业版  |
 | :---                               |                       :----:                                  |  :----:    |
-| Open Source                | ✔️ MIT                                                  | ❌ |
-| Price                             | Free                                                        | Floating |
+| 开源                            | ✔️ MIT                                                  | ❌ |
+| 价格                             | Free                                                        | Floating |
 | BACnet/IP                  | ✔️                                                           | ✔️ |
 | MQTT                        | ✔️                                                           | ✔️ |
-| Unlimited Number of Points | ✔️                                                | ✔️ |
-| Unlimited Number of Meters | ✔️                                                | ✔️ |
-| Unlimited Number of Virtual Meters | ✔️                                    | ✔️ |
-| Unlimited Number of Spaces | ✔️                                                | ✔️ |
+| 无点数限制               | ✔️                                                           | ✔️ |
+| 无计量表数限制       | ✔️                                                            | ✔️ |
+| 无虚拟表数限制        | ✔️                                                            | ✔️ |
+| 无用能单位数限制    | ✔️                                                            | ✔️ |
 | Docker                         | ✔️                                                           | ✔️ |
 | Kubernetes                   | ✔️                                                           | ✔️ |
 | MySQL                        | ✔️                                                           | ✔️ |
 | MemSQL                     | ✔️                                                           | ✔️ |
-| AWS Cloud                  | ✔️                                                          | ✔️ |
-| AZure Cloud                | ✔️                                                          | ✔️ |
-| Alibaba Cloud              | ✔️                                                          | ✔️ |
-| Energy Reporting        | ✔️                                                           | ✔️ |
-| Energy Billing             | ✔️                                                           | ✔️ |
-| Energy Ranking          | ✔️                                                           | ✔️ |
-| Energy Dashboard      | ✔️                                                           | ✔️ |
-| Tenant                         | ✔️                                                           | ✔️ |
+| AWS 云                        | ✔️                                                          | ✔️ |
+| AZure 云                      | ✔️                                                          | ✔️ |
+| 阿里云                         | ✔️                                                          | ✔️ |
+| 能耗报告                     | ✔️                                                           | ✔️ |
+| 能源费用                     | ✔️                                                           | ✔️ |
+| 能耗排名                    | ✔️                                                           | ✔️ |
+| 能耗概览页                | ✔️                                                           | ✔️ |
+| 设备能效                    | ✔️                                                           | ✔️ |
+| 租户                            | ✔️                                                           | ✔️ |
 | RESTful API               | ✔️                                                          | ✔️ |
 | Web APP                     |✔️                                                           | ✔️ |
-| Online Support            |✔️                                                           | ✔️ |
-| Email Support             |✔️                                                           | ✔️ |
+| 在线支持                    |✔️                                                           | ✔️ |
+| 邮件支持                    |✔️                                                           | ✔️ |
 | Modbus  TCP             | ❌                                                           | ✔️ |
 | OPC UA                     | ❌                                                           | ✔️ |
 | Siemens S7                 | ❌                                                           | ✔️|
 | Johnson Controls Metasys | ❌                                                    | ✔️|
-| FDD  Rule Engine      | ❌                                                          | ✔️ |
-| Advanced Reporting   |❌                                                          | ✔️ |
-| Draw Diagrams          | ❌                                                          | ✔️ |
+| FDD  规则引擎          | ❌                                                          | ✔️ |
+| 高级报表                    |❌                                                          | ✔️ |
+| 组态图形绘制            | ❌                                                          | ✔️ |
 | BACnet Server           | ❌                                                          | ✔️|
 | iOS APP                     | ❌                                                          | ✔️ |
 | Android APP              | ❌                                                          | ✔️ |
-| Telephone Support      |❌                                                          | ✔️ |
-| Remote Support          |❌                                                          | ✔️ |
-| Onsite Support            |❌                                                          | ✔️ |
-| Bid Support                 |❌                                                          | ✔️ |
-| Customize Support      |❌                                                          | ✔️ |
+| 电话支持                    |❌                                                          | ✔️ |
+| 远程支持                    |❌                                                          | ✔️ |
+| 现场支持                    |❌                                                          | ✔️ |
+| 投标支持                    |❌                                                          | ✔️ |
+| 定制支持                    |❌                                                          | ✔️ |
 
 ## MyEMS Introduction
  MyEMS is an advanced Energy Management System that is built on cloud computing, IOT, Big Data and AI technologies. MyEMS can be used to build an standard and powerful integrated energy management service platform.
@@ -138,3 +139,47 @@ See the repository [myems-mqtt](https://github.com/myems/myems-mqtt.git) for mor
 ### MyEMS BACnet/IP Service
 
 See the repository [myems-bacnet](https://github.com/myems/myems-bacnet.git) for more information.
+
+## Compare Editions
+| Features                       | Standard Edition                                    | Enterprise Edition  |
+| :---                               |                       :----:                                  |  :----:    |
+| Open Source                | ✔️ MIT                                                  | ❌ |
+| Price                             | Free                                                        | Floating |
+| BACnet/IP                  | ✔️                                                           | ✔️ |
+| MQTT                        | ✔️                                                           | ✔️ |
+| Unlimited Number of Points | ✔️                                                | ✔️ |
+| Unlimited Number of Meters | ✔️                                                | ✔️ |
+| Unlimited Number of Virtual Meters | ✔️                                    | ✔️ |
+| Unlimited Number of Spaces | ✔️                                                | ✔️ |
+| Docker                         | ✔️                                                           | ✔️ |
+| Kubernetes                   | ✔️                                                           | ✔️ |
+| MySQL                        | ✔️                                                           | ✔️ |
+| MemSQL                     | ✔️                                                           | ✔️ |
+| AWS Cloud                  | ✔️                                                          | ✔️ |
+| AZure Cloud                | ✔️                                                          | ✔️ |
+| Alibaba Cloud              | ✔️                                                          | ✔️ |
+| Energy Reporting        | ✔️                                                           | ✔️ |
+| Energy Billing             | ✔️                                                           | ✔️ |
+| Energy Ranking          | ✔️                                                           | ✔️ |
+| Energy Dashboard      | ✔️                                                           | ✔️ |
+| Equipment Efficiency | ✔️                                                           | ✔️ |
+| Tenant                         | ✔️                                                           | ✔️ |
+| RESTful API               | ✔️                                                          | ✔️ |
+| Web APP                     |✔️                                                           | ✔️ |
+| Online Support            |✔️                                                           | ✔️ |
+| Email Support             |✔️                                                           | ✔️ |
+| Modbus  TCP             | ❌                                                           | ✔️ |
+| OPC UA                     | ❌                                                           | ✔️ |
+| Siemens S7                 | ❌                                                           | ✔️|
+| Johnson Controls Metasys | ❌                                                    | ✔️|
+| FDD  Rule Engine      | ❌                                                          | ✔️ |
+| Advanced Reporting   |❌                                                          | ✔️ |
+| Draw Diagrams          | ❌                                                          | ✔️ |
+| BACnet Server           | ❌                                                          | ✔️|
+| iOS APP                     | ❌                                                          | ✔️ |
+| Android APP              | ❌                                                          | ✔️ |
+| Telephone Support      |❌                                                          | ✔️ |
+| Remote Support          |❌                                                          | ✔️ |
+| Onsite Support            |❌                                                          | ✔️ |
+| Bid Support                 |❌                                                          | ✔️ |
+| Customize Support      |❌                                                          | ✔️ |
