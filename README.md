@@ -53,7 +53,7 @@ MyEMS项目由下列组件构成:
 | 功能                            |                      标准版                               | 企业版  |
 | :---                               |                       :----:                                  |  :----:    |
 | 开源                            | ✔️                                                           | ❌ |
-| 价格                            | 免费                                                       | 浮动 |
+| 定价模式                    | 免费                                                       | 按项目付费 |
 | BACnet/IP                  | ✔️                                                           | ✔️ |
 | MQTT                        | ✔️                                                           | ✔️ |
 | 无点数限制               | ✔️                                                           | ✔️ |
@@ -78,12 +78,15 @@ MyEMS项目由下列组件构成:
 | 在线支持                    |✔️                                                           | ✔️ |
 | 邮件支持                    |✔️                                                           | ✔️ |
 | Modbus  TCP             | ❌                                                           | ✔️ |
+| Modbus  RTU             | ❌                                                           | ✔️ |
 | OPC UA                     | ❌                                                           | ✔️ |
+| OPC DA                     | ❌                                                           | ✔️ |
 | Siemens S7                 | ❌                                                           | ✔️|
+| IEC 104                      | ❌                                                           | ✔️|
 | Johnson Controls Metasys | ❌                                                    | ✔️|
 | FDD  规则引擎          | ❌                                                          | ✔️ |
 | 高级报表                    |❌                                                          | ✔️ |
-| 组态图形绘制            | ❌                                                          | ✔️ |
+| 组态图形绘制工具    | ❌                                                          | ✔️ |
 | BACnet Server           | ❌                                                          | ✔️|
 | iOS APP                     | ❌                                                          | ✔️ |
 | Android APP              | ❌                                                          | ✔️ |
@@ -144,7 +147,7 @@ See the repository [myems-bacnet](https://github.com/myems/myems-bacnet.git) for
 | Features                       | Standard Edition                                    | Enterprise Edition  |
 | :---                               |                       :----:                                  |  :----:    |
 | Open Source                | ✔️ MIT                                                  | ❌ |
-| Price                             | Free                                                        | Floating |
+| Pricing Model             | Free                                                        | Pay for Projects |
 | BACnet/IP                  | ✔️                                                           | ✔️ |
 | MQTT                        | ✔️                                                           | ✔️ |
 | Unlimited Number of Points | ✔️                                                | ✔️ |
@@ -169,12 +172,15 @@ See the repository [myems-bacnet](https://github.com/myems/myems-bacnet.git) for
 | Online Support            |✔️                                                           | ✔️ |
 | Email Support             |✔️                                                           | ✔️ |
 | Modbus  TCP             | ❌                                                           | ✔️ |
+| Modbus  RTU             | ❌                                                           | ✔️ |
 | OPC UA                     | ❌                                                           | ✔️ |
+| OPC DA                     | ❌                                                           | ✔️ |
 | Siemens S7                 | ❌                                                           | ✔️|
+| IEC 104                      | ❌                                                           | ✔️|
 | Johnson Controls Metasys | ❌                                                    | ✔️|
 | FDD  Rule Engine      | ❌                                                          | ✔️ |
 | Advanced Reporting   |❌                                                          | ✔️ |
-| Draw Diagrams          | ❌                                                          | ✔️ |
+| Draw Diagrams Tool   | ❌                                                          | ✔️ |
 | BACnet Server           | ❌                                                          | ✔️|
 | iOS APP                     | ❌                                                          | ✔️ |
 | Android APP              | ❌                                                          | ✔️ |
