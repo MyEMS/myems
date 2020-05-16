@@ -54,38 +54,41 @@ MyEMS项目由下列组件构成:
 | :---                               |                       :----:                                  |  :----:    |
 | 开源                            | ✔️                                                           | ❌ |
 | 定价模式                    | 免费                                                       | 按项目付费 |
-| BACnet/IP                  | ✔️                                                           | ✔️ |
-| MQTT                        | ✔️                                                           | ✔️ |
+| Modbus  TCP 协议     | ✔️                                                           | ✔️ |
+| BACnet/IP 协议         | ✔️                                                           | ✔️ |
+| MQTT  协议              | ✔️                                                           | ✔️ |
 | 无点数限制               | ✔️                                                           | ✔️ |
 | 无计量表数限制       | ✔️                                                            | ✔️ |
 | 无虚拟表数限制        | ✔️                                                            | ✔️ |
 | 无用能单位数限制    | ✔️                                                            | ✔️ |
-| Docker                         | ✔️                                                           | ✔️ |
-| Kubernetes                   | ✔️                                                           | ✔️ |
+| Docker 容器部署        | ✔️                                                           | ✔️ |
+| Kubernetes部署           | ✔️                                                           | ✔️ |
 | MySQL                        | ✔️                                                           | ✔️ |
 | MemSQL                     | ✔️                                                           | ✔️ |
-| AWS 云                        | ✔️                                                          | ✔️ |
-| AZure 云                      | ✔️                                                          | ✔️ |
-| 阿里云                         | ✔️                                                          | ✔️ |
+| AWS 云部署                | ✔️                                                          | ✔️ |
+| AZure 云部署              | ✔️                                                          | ✔️ |
+| 阿里云部署                 | ✔️                                                          | ✔️ |
 | 能耗报告                     | ✔️                                                           | ✔️ |
 | 能源费用                     | ✔️                                                           | ✔️ |
 | 能耗排名                    | ✔️                                                           | ✔️ |
 | 能耗概览页                | ✔️                                                           | ✔️ |
-| 设备能效                    | ✔️                                                           | ✔️ |
-| 租户                            | ✔️                                                           | ✔️ |
+| 能流图分析                | ✔️                                                           | ✔️ |
+| 配电系统分析            | ✔️                                                           | ✔️ |
+| 设备能效分析            | ✔️                                                           | ✔️ |
+| 租户能耗分析            | ✔️                                                           | ✔️ |
 | RESTful API               | ✔️                                                          | ✔️ |
 | Web APP                     |✔️                                                           | ✔️ |
 | 在线支持                    |✔️                                                           | ✔️ |
 | 邮件支持                    |✔️                                                           | ✔️ |
-| Modbus  TCP             | ❌                                                           | ✔️ |
-| Modbus  RTU             | ❌                                                           | ✔️ |
-| OPC UA                     | ❌                                                           | ✔️ |
-| OPC DA                     | ❌                                                           | ✔️ |
-| Siemens S7                 | ❌                                                           | ✔️|
-| IEC 104                      | ❌                                                           | ✔️|
-| Johnson Controls Metasys | ❌                                                    | ✔️|
+| Modbus  RTU  协议   | ❌                                                           | ✔️ |
+| OPC UA 协议            | ❌                                                           | ✔️ |
+| OPC DA 协议            | ❌                                                           | ✔️ |
+| Siemens S7 协议        | ❌                                                           | ✔️|
+| IEC 104 协议             | ❌                                                           | ✔️|
+| Johnson Controls Metasys | ❌                                                   | ✔️|
+| Honeywell EBI           | ❌                                                          | ✔️|
 | FDD  规则引擎          | ❌                                                          | ✔️ |
-| 高级报表                    |❌                                                          | ✔️ |
+| 高级报表                    |❌                                                           | ✔️ |
 | 组态图形绘制工具    | ❌                                                          | ✔️ |
 | BACnet Server           | ❌                                                          | ✔️|
 | iOS APP                     | ❌                                                          | ✔️ |
@@ -148,6 +151,7 @@ See the repository [myems-bacnet](https://github.com/myems/myems-bacnet.git) for
 | :---                               |                       :----:                                  |  :----:    |
 | Open Source                | ✔️ MIT                                                  | ❌ |
 | Pricing Model             | Free                                                        | Pay for Projects |
+| Modbus  TCP             | ✔️                                                           | ✔️ |
 | BACnet/IP                  | ✔️                                                           | ✔️ |
 | MQTT                        | ✔️                                                           | ✔️ |
 | Unlimited Number of Points | ✔️                                                | ✔️ |
@@ -165,22 +169,24 @@ See the repository [myems-bacnet](https://github.com/myems/myems-bacnet.git) for
 | Energy Billing             | ✔️                                                           | ✔️ |
 | Energy Ranking          | ✔️                                                           | ✔️ |
 | Energy Dashboard      | ✔️                                                           | ✔️ |
+| Energy Flow Diagram | ✔️                                                          | ✔️ |
+| Distribution System     | ✔️                                                          | ✔️ |
 | Equipment Efficiency | ✔️                                                           | ✔️ |
 | Tenant                         | ✔️                                                           | ✔️ |
 | RESTful API               | ✔️                                                          | ✔️ |
 | Web APP                     |✔️                                                           | ✔️ |
 | Online Support            |✔️                                                           | ✔️ |
 | Email Support             |✔️                                                           | ✔️ |
-| Modbus  TCP             | ❌                                                           | ✔️ |
 | Modbus  RTU             | ❌                                                           | ✔️ |
 | OPC UA                     | ❌                                                           | ✔️ |
 | OPC DA                     | ❌                                                           | ✔️ |
 | Siemens S7                 | ❌                                                           | ✔️|
 | IEC 104                      | ❌                                                           | ✔️|
-| Johnson Controls Metasys | ❌                                                    | ✔️|
+| Johnson Controls Metasys | ❌                                                   | ✔️|
+| Honeywell EBI           | ❌                                                          | ✔️|
 | FDD  Rule Engine      | ❌                                                          | ✔️ |
-| Advanced Reporting   |❌                                                          | ✔️ |
-| Draw Diagrams Tool   | ❌                                                          | ✔️ |
+| Advanced Reporting   |❌                                                           | ✔️ |
+| Draw Diagrams Tool   | ❌                                                         | ✔️ |
 | BACnet Server           | ❌                                                          | ✔️|
 | iOS APP                     | ❌                                                          | ✔️ |
 | Android APP              | ❌                                                          | ✔️ |
