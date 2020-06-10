@@ -9,13 +9,14 @@ MyEMS是领先的开源能源管理系统，利用云计算、物联网、大数
 ## MyEMS架构
 ![MyEMS Architecture](/.readme/architecture.png)
 
-## 组件
+## MyEMS组件(标准版 )
 
 MyEMS项目由下列组件构成:
+![MyEMS Conponents](/.readme/myem-conponets.svg)
 
 ### MyEMS Web APP
 
-参考仓库 [myems](https://github.com/myems/myems.git) 获取更多信息。
+参考仓库 [myems-web](https://github.com/myems/myems-web.git) 获取更多信息。
 
 ### MyEMS 管理面板
 
@@ -41,9 +42,9 @@ MyEMS项目由下列组件构成:
 
 参考仓库  [myems-api](https://github.com/myems/myems-api.git) 获取更多信息。
 
-### MyEMS MQTT 服务
+### MyEMS MQTT 发布服务
 
-参考仓库  [myems-mqtt](https://github.com/myems/myems-mqtt.git) 获取更多信息。
+参考仓库  [myems-mqtt-publisher](https://github.com/myems/myems-mqtt-publisher.git) 获取更多信息。
 
 ### MyEMS BACnet/IP 服务
 
@@ -57,13 +58,14 @@ MyEMS项目由下列组件构成:
 | Modbus  TCP 协议     | ✔️                                                           | ✔️ |
 | BACnet/IP 协议         | ✔️                                                           | ✔️ |
 | MQTT  协议              | ✔️                                                           | ✔️ |
-| 无点数限制               | ✔️                                                           | ✔️ |
-| 无计量表数限制       | ✔️                                                            | ✔️ |
-| 无虚拟表数限制        | ✔️                                                            | ✔️ |
-| 无用能单位数限制    | ✔️                                                            | ✔️ |
+| 点数无限制               | ✔️                                                           | ✔️ |
+| 计量表数无限制       | ✔️                                                            | ✔️ |
+| 虚拟表数无限制        | ✔️                                                            | ✔️ |
+| 用能单位数无限制    | ✔️                                                            | ✔️ |
 | Docker 容器部署        | ✔️                                                           | ✔️ |
 | Kubernetes部署           | ✔️                                                           | ✔️ |
 | MySQL                        | ✔️                                                           | ✔️ |
+| MariaDB                       | ✔️                                                           | ✔️ |
 | MemSQL                     | ✔️                                                           | ✔️ |
 | AWS 云部署                | ✔️                                                          | ✔️ |
 | AZure 云部署              | ✔️                                                          | ✔️ |
@@ -76,7 +78,7 @@ MyEMS项目由下列组件构成:
 | 配电系统分析            | ✔️                                                           | ✔️ |
 | 设备能效分析            | ✔️                                                           | ✔️ |
 | 租户能耗分析            | ✔️                                                           | ✔️ |
-| RESTful API               | ✔️                                                          | ✔️ |
+| REST API                   | ✔️                                                          | ✔️ |
 | Web APP                     |✔️                                                           | ✔️ |
 | 在线支持                    |✔️                                                           | ✔️ |
 | 邮件支持                    |✔️                                                           | ✔️ |
@@ -93,28 +95,31 @@ MyEMS项目由下列组件构成:
 | BACnet Server           | ❌                                                          | ✔️|
 | iOS APP                     | ❌                                                          | ✔️ |
 | Android APP              | ❌                                                          | ✔️ |
-| 电话支持                    |❌                                                          | ✔️ |
-| 远程支持                    |❌                                                          | ✔️ |
-| 现场支持                    |❌                                                          | ✔️ |
-| 投标支持                    |❌                                                          | ✔️ |
-| 定制支持                    |❌                                                          | ✔️ |
+| 第三方系统集成服务| ❌                                                          | ✔️ |
+| 电话技术支持服务    |❌                                                          | ✔️ |
+| 微信技术支持服务    |❌                                                          | ✔️ |
+| 远程技术支持服务    |❌                                                          | ✔️ |
+| 现场技术支持服务    |❌                                                          | ✔️ |
+| 投标技术支持服务    |❌                                                          | ✔️ |
+| 定制技术支持服务    |❌                                                          | ✔️ |
 
 ## MyEMS Introduction
  MyEMS is an advanced Energy Management System that is built on cloud computing, IOT, Big Data and AI technologies. MyEMS can be used to build an standard and powerful integrated energy management service platform.
 MyEMS is developed and maintained by an experienced development team, and the source code is under MIT license.
 
-## Architecture
+## MyEMS Architecture
 ![MyEMS Architecture](/.readme/architecture.png)
 
-## Components
+## MyEMS Components (Standard Edition)
+![MyEMS Conponents](/.readme/myem-conponets.svg)
 
 This project is compose of  following components:
 
 ### MyEMS Web APP
 
-See the repository [myems](https://github.com/myems/myems.git) for more information.
+See the repository [myems-web](https://github.com/myems/myems-web.git) for more information.
 
-### MyEMS Administration Panel
+### MyEMS Admin Panel
 
 See the repository [myems-admin](https://github.com/myems/myems-admin.git) for more information.
 
@@ -140,7 +145,7 @@ See the repository [myems-api](https://github.com/myems/myems-api.git) for more 
 
 ### MyEMS MQTT Service
 
-See the repository [myems-mqtt](https://github.com/myems/myems-mqtt.git) for more information.
+See the repository [myems-mqtt-publisher](https://github.com/myems/myems-mqtt-publisher.git) for more information.
 
 ### MyEMS BACnet/IP Service
 
@@ -190,7 +195,9 @@ See the repository [myems-bacnet](https://github.com/myems/myems-bacnet.git) for
 | BACnet Server           | ❌                                                          | ✔️|
 | iOS APP                     | ❌                                                          | ✔️ |
 | Android APP              | ❌                                                          | ✔️ |
+| 3rd Party Systems Integration | ❌                                             | ✔️ |
 | Telephone Support      |❌                                                          | ✔️ |
+| WeChat Support         |❌                                                          | ✔️ |
 | Remote Support          |❌                                                          | ✔️ |
 | Onsite Support            |❌                                                          | ✔️ |
 | Bid Support                 |❌                                                          | ✔️ |
