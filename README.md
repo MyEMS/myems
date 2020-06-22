@@ -55,11 +55,11 @@ MyEMS项目由下列组件构成:
 参考仓库  [myems-modbut-tcp](https://github.com/myems/myems-modbus-tcp.git) 获取更多信息。
 
 ## 功能版本对比
-| 功能                              |      标准版    | 企业版   |
+| 功能                              |标准版(MyEMS)   |企业版(AlbertEOS)|
 | :---                             |      :----:   |  :----: |
 | 开源                              | ✔️             | ❌      |
-| 定价模式                           | 免费          | 按项目付费 |
-| 更换品牌名称与标志LOGO               | ✔️             | ✔️        |
+| 定价模式                          | 免费           | 按项目付费 |
+| 更换品牌名称与标志LOGO              | ✔️             | ✔️        |
 | Modbus TCP 协议                   | ✔️             | ✔️        |
 | BACnet/IP 协议                    | ✔️             | ✔️        |
 | MQTT 协议                         | ✔️             | ✔️        |
@@ -171,7 +171,7 @@ See the repository [myems-modbus-tcp](https://github.com/myems/myems-modbus-tcp.
 
 ## Compare Editions
 
-| Features                         |      Standard |Enterprise|
+| Features                         |Standard(MyEMS) |Enterprise(AlbertEOS)|
 | :---                             |      :----:   |  :----: |
 | Open Source                      | ✔️             | ❌      |
 | Pricing                          | Free          | Pay for Projects |
