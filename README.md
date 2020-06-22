@@ -101,9 +101,11 @@ MyEMS项目由下列组件构成:
 | FDD 故障诊断规则引擎                | ❌            | ✔️        |
 | 高级报表引擎                       | ❌            | ✔️        |
 | 组态图形绘制工具                    | ❌            | ✔️        |
+| 设备远程控制                       | ❌            | ✔️        |
 | BACnet Server                    | ❌            | ✔️        |
 | iOS APP                          | ❌            | ✔️        |
 | Android APP                      | ❌            | ✔️        |
+| 硬件网关(数据采集和远程控制）         | ❌            | ✔️        |
 | 第三方系统集成服务                  | ❌            | ✔️        |
 | 在线社区技术支持                    | ✔️             | ✔️        |
 | 邮件技术支持                       | ✔️             | ✔️        |
@@ -215,9 +217,11 @@ See the repository [myems-modbus-tcp](https://github.com/myems/myems-modbus-tcp.
 | FDD Rule Engine                  | ❌            | ✔️        |
 | Advanced Reporting Engine        | ❌            | ✔️        |
 | Graphics Drwaing Tool            | ❌            | ✔️        |
+| Equipments Remote Control        | ❌            | ✔️        |
 | BACnet Server                    | ❌            | ✔️        |
 | iOS APP                          | ❌            | ✔️        |
 | Android APP                      | ❌            | ✔️        |
+| Hardware Gateways (Data Acquisition and Remote Control）| ❌            | ✔️        |
 | 3rd Party Systems Integration    | ❌            | ✔️        |
 | Online Community Customer Support| ✔️             | ✔️        |
 | Email Customer Support           | ✔️             | ✔️        |
