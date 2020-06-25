@@ -206,11 +206,11 @@ See the repository [myems-modbus-tcp](https://github.com/myems/myems-modbus-tcp.
 | Sotre Energy Consumption Reports | ✔️             | ✔️        |
 | REST API                         | ✔️             | ✔️        |
 | Web APP                          | ✔️             | ✔️        |
-| Modbus RTU                       | ✔️             | ✔️        |
-| OPC UA                           | ✔️             | ✔️        |
-| OPC DA                           | ✔️             | ✔️        |
-| Siemens S7                       | ✔️             | ✔️        |
-| IEC 104                          | ✔️             | ✔️        |
+| Modbus RTU                       | ❌            | ✔️        |
+| OPC UA                           | ❌            | ✔️        |
+| OPC DA                           | ❌            | ✔️        |
+| Siemens S7                       | ❌            | ✔️        |
+| IEC 104                          | ❌            | ✔️        |
 | Johnson Controls Metasys         | ❌            | ✔️        |
 | Honeywell EBI                    | ❌            | ✔️        |
 | SIEMENS Desigo CC                | ❌            | ✔️        |
