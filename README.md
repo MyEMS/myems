@@ -90,11 +90,11 @@ MyEMS项目由下列组件构成:
 | 店铺能耗分析                       | ✔️             | ✔️        |
 | REST API                         | ✔️             | ✔️        |
 | Web APP                          | ✔️             | ✔️        |
-| Modbus RTU 协议                   | ✔️             | ✔️        |
-| OPC UA 协议                       | ✔️             | ✔️        |
-| OPC DA 协议                       | ✔️             | ✔️        |
-| Siemens S7 协议                   | ✔️             | ✔️        |
-| IEC 104 协议                      | ✔️             | ✔️        |
+| Modbus RTU 协议                   | ❌            | ✔️        |
+| OPC UA 协议                       | ❌            | ✔️        |
+| OPC DA 协议                       | ❌            | ✔️        |
+| Siemens S7 协议                   | ❌            | ✔️        |
+| IEC 104 协议                      | ❌            | ✔️        |
 | Johnson Controls Metasys         | ❌            | ✔️        |
 | Honeywell EBI                    | ❌            | ✔️        |
 | SIEMENS Desigo CC                | ❌            | ✔️        |
