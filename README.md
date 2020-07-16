@@ -223,7 +223,9 @@ See the repository [myems-modbus-tcp](https://github.com/myems/myems-modbus-tcp.
 | BACnet Server                    | ❌            | ✔️        |
 | iOS APP                          | ❌            | ✔️        |
 | Android APP                      | ❌            | ✔️        |
-| Hardware Gateways (Data Acquisition and Remote Control）| ❌            | ✔️        |
+| Fanless IPC Hardware Gateways (Data Acquisition and Remote Control）| ❌            | ✔️        |
+| LoRa Radio Module (Data Acquisition and Remote Control）| ❌          | ✔️        |
+| Protocol for Uploading to Provincial Platform of On-line monitoring system for key energy-consuming unit energy consumption| ❌     | ✔️        |
 | 3rd Party Systems Integration    | ❌            | ✔️        |
 | Online Community Customer Support| ✔️             | ✔️        |
 | Email Customer Support           | ✔️             | ✔️        |
