@@ -4,12 +4,12 @@
 
 ## MyEMS 介绍
 
-MyEMS是领先的开源且免费的能源管理系统，利用云计算、物联网、大数据、人工智能等信息化技术构建而成。MyEMS可用于构建统一规范、功能强大的综合能源管理服务平台。MyEMS由资深专业团队开发维护，系统代码基于MIT开源软件许可协议发布。
+MyEMS是领先的开源的能源管理系统，利用云计算、物联网、大数据、人工智能等信息化技术构建而成。MyEMS可用于构建统一规范、功能强大的综合能源管理服务平台。MyEMS由资深专业团队开发维护，系统代码基于MIT开源软件许可协议发布。
 
 ## MyEMS架构
 ![MyEMS Architecture](/.readme/architecture.png)
 
-## MyEMS组件(标准版 )
+## MyEMS组件(社区版 )
 
 MyEMS项目由下列组件构成:
 ![MyEMS Conponents](/.readme/myem-conponets.svg)
@@ -55,7 +55,7 @@ MyEMS项目由下列组件构成:
 参考仓库  [myems-modbut-tcp](https://github.com/myems/myems-modbus-tcp.git) 获取更多信息。
 
 ## 功能版本对比
-| 功能                              |标准版(MyEMS)   |企业版(AlbertEOS)|
+| 功能                              |社区版(MyEMS)   |企业版(AlbertEOS)|
 | :---                             |      :----:   |  :----: |
 | 开源                              | ✔️             | ❌      |
 | 定价模式                          | 免费           | 按项目付费 |
@@ -88,6 +88,7 @@ MyEMS项目由下列组件构成:
 | 设备能效分析                       | ✔️             | ✔️        |
 | 租户能耗分析                       | ✔️             | ✔️        |
 | 店铺能耗分析                       | ✔️             | ✔️        |
+| 车间能耗分析                       | ✔️             | ✔️        |
 | REST API                         | ✔️             | ✔️        |
 | Web APP                          | ✔️             | ✔️        |
 | Modbus RTU 协议                   | ❌            | ✔️        |
@@ -95,8 +96,8 @@ MyEMS项目由下列组件构成:
 | OPC DA 协议                       | ❌            | ✔️        |
 | Siemens S7 协议                   | ❌            | ✔️        |
 | IEC 104 协议                      | ❌            | ✔️        |
-| Johnson Controls Metasys         | ❌            | ✔️        |
-| Honeywell EBI                    | ❌            | ✔️        |
+| Johnson Controls Metasys         | ✔️             | ✔️        |
+| Honeywell EBI                    | ✔️             | ✔️        |
 | SIEMENS Desigo CC                | ❌            | ✔️        |
 | FDD 故障诊断规则引擎                | ❌            | ✔️        |
 | 高级报表引擎                       | ❌            | ✔️        |
@@ -120,7 +121,7 @@ MyEMS项目由下列组件构成:
 
 
 ## MyEMS Introduction
- MyEMS is a leading open-source and free Energy Management System that is built on cloud computing, IOT, Big Data and AI technologies. MyEMS can be used for a standard and powerful integrated energy management service platform.
+ MyEMS is a leading Open Source Energy Management System that is built on cloud computing, IOT, Big Data and AI technologies. MyEMS can be used for a standard and powerful integrated energy management service platform.
 MyEMS is being developed and maintained by an experienced development team, and the system's source code is publishied under MIT license.
 
 ## MyEMS Architecture
@@ -206,6 +207,7 @@ See the repository [myems-modbus-tcp](https://github.com/myems/myems-modbus-tcp.
 | Equipment Efficiency Reports     | ✔️             | ✔️        |
 | Tenant Energy Consumption Reports| ✔️             | ✔️        |
 | Sotre Energy Consumption Reports | ✔️             | ✔️        |
+| Shopfloor Energy Consumption Reports | ✔️         | ✔️        |
 | REST API                         | ✔️             | ✔️        |
 | Web APP                          | ✔️             | ✔️        |
 | Modbus RTU                       | ❌            | ✔️        |
@@ -213,8 +215,8 @@ See the repository [myems-modbus-tcp](https://github.com/myems/myems-modbus-tcp.
 | OPC DA                           | ❌            | ✔️        |
 | Siemens S7                       | ❌            | ✔️        |
 | IEC 104                          | ❌            | ✔️        |
-| Johnson Controls Metasys         | ❌            | ✔️        |
-| Honeywell EBI                    | ❌            | ✔️        |
+| Johnson Controls Metasys         | ✔️             | ✔️        |
+| Honeywell EBI                    | ✔️             | ✔️        |
 | SIEMENS Desigo CC                | ❌            | ✔️        |
 | FDD Rule Engine                  | ❌            | ✔️        |
 | Advanced Reporting Engine        | ❌            | ✔️        |
