@@ -4,7 +4,7 @@
 
 ## MyEMS 介绍
 
-MyEMS是领先的开源的能源管理系统，利用云计算、物联网、大数据、人工智能等信息化技术构建而成。MyEMS可用于构建统一规范、功能强大的综合能源管理服务平台。MyEMS由资深专业团队开发维护，系统代码基于MIT开源软件许可协议发布。
+MyEMS是行业领先的开源能源管理系统，利用云计算、物联网、大数据、人工智能等信息化技术构建而成。MyEMS可用于构建统一规范、功能强大的综合能源管理服务平台。MyEMS由资深专业团队开发维护，系统代码基于MIT开源软件许可协议发布。
 
 ## MyEMS架构
 ![MyEMS Architecture](/.readme/architecture.png)
@@ -38,19 +38,19 @@ MyEMS项目由下列组件构成:
 
 参考仓库  [myems-aggregation](https://github.com/myems/myems-aggregation.git) 获取更多信息。
 
-### MyEMS API接口
+### MyEMS 数据接口API
 
 参考仓库  [myems-api](https://github.com/myems/myems-api.git) 获取更多信息。
 
-### MyEMS MQTT 发布服务
+### MyEMS MQTT 数据发布服务 (从MyEMS转发到第三方)
 
 参考仓库  [myems-mqtt-publisher](https://github.com/myems/myems-mqtt-publisher.git) 获取更多信息。
 
-### MyEMS BACnet/IP 服务
+### MyEMS BACnet/IP 数据采集服务
 
 参考仓库  [myems-bacnet](https://github.com/myems/myems-bacnet.git) 获取更多信息。
 
-### MyEMS Modbus TCP 服务
+### MyEMS Modbus TCP 数据采集服务
 
 参考仓库  [myems-modbut-tcp](https://github.com/myems/myems-modbus-tcp.git) 获取更多信息。
 
@@ -62,7 +62,7 @@ MyEMS项目由下列组件构成:
 | 更换品牌名称与标志LOGO              | ✔️             | ✔️        |
 | Modbus TCP 协议                   | ✔️             | ✔️        |
 | BACnet/IP 协议                    | ✔️             | ✔️        |
-| MQTT 协议                         | ✔️             | ✔️        |
+| MQTT 协议发布                      | ✔️             | ✔️        |
 | 数据点数                           | 无限制         |无限制     |
 | 计量表数                           | 无限制         |无限制     |
 | 设备数                             | 无限制         |无限制     |
@@ -121,7 +121,7 @@ MyEMS项目由下列组件构成:
 
 
 ## MyEMS Introduction
- MyEMS is a leading Open Source Energy Management System that is built on cloud computing, IOT, Big Data and AI technologies. MyEMS can be used for a standard and powerful integrated energy management service platform.
+ MyEMS is an industry leading open source Energy Management System that is built on cloud computing, IOT, Big Data and AI technologies. MyEMS can be used for a standard and powerful integrated energy management service platform.
 MyEMS is being developed and maintained by an experienced development team, and the system's source code is publishied under MIT license.
 
 ## MyEMS Architecture
@@ -160,15 +160,15 @@ See the repository [myems-aggregation](https://github.com/myems/myems-aggregatio
 
 See the repository [myems-api](https://github.com/myems/myems-api.git) for more information.
 
-### MyEMS MQTT Publisher Service
+### MyEMS MQTT Data Publisher Service (transmit data from MyEMS to 3rd Party)
 
 See the repository [myems-mqtt-publisher](https://github.com/myems/myems-mqtt-publisher.git) for more information.
 
-### MyEMS BACnet/IP Service
+### MyEMS BACnet/IP Acquisition Service
 
 See the repository [myems-bacnet](https://github.com/myems/myems-bacnet.git) for more information.
 
-### MyEMS Modbus TCP Service
+### MyEMS Modbus TCP Acquisition Service
 
 See the repository [myems-modbus-tcp](https://github.com/myems/myems-modbus-tcp.git) for more information.
 
@@ -181,7 +181,7 @@ See the repository [myems-modbus-tcp](https://github.com/myems/myems-modbus-tcp.
 | Change Name and Logo             | ✔️             | ✔️        |
 | Modbus TCP                       | ✔️             | ✔️        |
 | BACnet/IP                        | ✔️             | ✔️        |
-| MQTT 协议                         | ✔️             | ✔️        |
+| MQTT Publisher                   | ✔️             | ✔️        |
 | Data Points Number               | Unlimited     |Unlimited |
 | Meters Number                    | Unlimited     |Unlimited |
 | Equipments Number                | Unlimited     |Unlimited |
