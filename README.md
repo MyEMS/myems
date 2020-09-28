@@ -91,6 +91,7 @@ MyEMS项目由下列组件构成:
 | 车间能耗分析                       | ✔️             | ✔️        |
 | REST API                         | ✔️             | ✔️        |
 | Web APP                          | ✔️             | ✔️        |
+| MQTT 协议 订阅                    | ❌            | ✔️        |
 | Modbus RTU 协议                   | ❌            | ✔️        |
 | OPC UA 协议                       | ❌            | ✔️        |
 | OPC DA 协议                       | ❌            | ✔️        |
@@ -210,6 +211,7 @@ See the repository [myems-modbus-tcp](https://github.com/myems/myems-modbus-tcp.
 | Shopfloor Energy Consumption Reports | ✔️         | ✔️        |
 | REST API                         | ✔️             | ✔️        |
 | Web APP                          | ✔️             | ✔️        |
+| MQTT Subscriber                  | ❌            | ✔️        |
 | Modbus RTU                       | ❌            | ✔️        |
 | OPC UA                           | ❌            | ✔️        |
 | OPC DA                           | ❌            | ✔️        |
