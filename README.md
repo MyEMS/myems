@@ -52,7 +52,7 @@ MyEMS项目由下列组件构成:
 
 ### MyEMS Modbus TCP 数据采集服务
 
-参考仓库  [myems-modbut-tcp](https://github.com/myems/myems-modbus-tcp.git) 获取更多信息。
+参考仓库  [myems-modbus-tcp](https://github.com/myems/myems-modbus-tcp.git) 获取更多信息。
 
 ## 功能版本对比
 | 功能                              |社区版(MyEMS)   |企业版(AlbertEOS)|
