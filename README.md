@@ -1,6 +1,6 @@
 # MyEMS
 
- [中文](#MyEMS-介绍) | [EN](#MyEMS-Introduction)
+ [中文](#MyEMS-介绍) | [EN](#MyEMS-Introduction) | [DE](#MyEMS-Einführung)
 
 ## MyEMS 介绍
 
@@ -123,7 +123,7 @@ MyEMS项目由下列组件构成:
 
 ## MyEMS Introduction
  MyEMS is an industry leading open source Energy Management System that is built on cloud computing, IOT, Big Data and AI technologies. MyEMS can be used for a standard and powerful integrated energy management service platform.
-MyEMS is being developed and maintained by an experienced development team, and the system's source code is publishied under MIT license.
+MyEMS is being developed and maintained by an experienced development team, and the system's source code is published under MIT license.
 
 ## MyEMS Architecture
 ![MyEMS Architecture](/.readme/architecture.png)
@@ -175,7 +175,126 @@ See the repository [myems-modbus-tcp](https://github.com/myems/myems-modbus-tcp.
 
 ## Compare Editions
 
-| Features                         |Standard(MyEMS) |Enterprise(AlbertEOS)|
+| Features                         |Communit Edition (MyEMS) |Enterprise Edition (AlbertEOS)|
+| :---                             |      :----:   |  :----: |
+| Open Source                      | ✔️             | ❌      |
+| Pricing                          | Free          | Pay for Projects |
+| Change Name and Logo             | ✔️             | ✔️        |
+| Modbus TCP                       | ✔️             | ✔️        |
+| BACnet/IP                        | ✔️             | ✔️        |
+| MQTT Publisher                   | ✔️             | ✔️        |
+| Data Points Number               | Unlimited     |Unlimited |
+| Meters Number                    | Unlimited     |Unlimited |
+| Equipments Number                | Unlimited     |Unlimited |
+| Spaces Number                    | Unlimited     |Unlimited |
+| Docker                           | ✔️             | ✔️        |
+| Kubernetes                       | ✔️             | ✔️        |
+| MySQL                            | ✔️             | ✔️        |
+| MariaDB                          | ✔️             | ✔️        |
+| MemSQL                           | ✔️             | ✔️        |
+| AWS Cloud                        | ✔️             | ✔️        |
+| AZure Cloud                      | ✔️             | ✔️        |
+| Alibaba Cloud                    | ✔️             | ✔️        |
+| Private Cloud                    | ✔️             | ✔️        |
+| Space Energy Consumption Reports | ✔️             | ✔️        |
+| Space Energy Billing Reports     | ✔️             | ✔️        |
+| Space Efficiency Reports         | ✔️             | ✔️        |
+| Space Energy Output Reports      | ✔️             | ✔️        |
+| Space Comparison Reports         | ✔️             | ✔️        |
+| Space Energy Ranking Reports     | ✔️             | ✔️        |
+| Energy Dashboard                 | ✔️             | ✔️        |
+| Energy Flow Diagram              | ✔️             | ✔️        |
+| Distribution System              | ✔️             | ✔️        |
+| Equipment Efficiency Reports     | ✔️             | ✔️        |
+| Tenant Energy Consumption Reports| ✔️             | ✔️        |
+| Sotre Energy Consumption Reports | ✔️             | ✔️        |
+| Shopfloor Energy Consumption Reports | ✔️         | ✔️        |
+| REST API                         | ✔️             | ✔️        |
+| Web APP                          | ✔️             | ✔️        |
+| MQTT Subscriber                  | ❌            | ✔️        |
+| Modbus RTU                       | ❌            | ✔️        |
+| OPC UA                           | ❌            | ✔️        |
+| OPC DA                           | ❌            | ✔️        |
+| Siemens S7                       | ❌            | ✔️        |
+| IEC 104                          | ❌            | ✔️        |
+| Johnson Controls Metasys         | ✔️             | ✔️        |
+| Honeywell EBI                    | ✔️             | ✔️        |
+| SIEMENS Desigo CC                | ❌            | ✔️        |
+| FDD Rule Engine                  | ❌            | ✔️        |
+| Advanced Reporting Engine        | ❌            | ✔️        |
+| Graphics Drwaing Tool            | ❌            | ✔️        |
+| Equipments Remote Control        | ❌            | ✔️        |
+| BACnet Server                    | ❌            | ✔️        |
+| iOS APP                          | ❌            | ✔️        |
+| Android APP                      | ❌            | ✔️        |
+| Fanless IPC Hardware Gateways (Data Acquisition and Remote Control）| ❌            | ✔️        |
+| LoRa Radio Module (Data Acquisition and Remote Control）| ❌          | ✔️        |
+| Protocol for Uploading to Provincial Platform of On-line monitoring system for Key Energy-Consuming Unit| ❌     | ✔️        |
+| 3rd Party Systems Integration    | ❌            | ✔️        |
+| Online Community Customer Support| ✔️             | ✔️        |
+| Email Customer Support           | ✔️             | ✔️        |
+| Telephone Customer Support       | ❌            | ✔️        |
+| WeChat Customer Support          | ❌            | ✔️        |
+| Remote Desktop Customer Support  | ❌            | ✔️        |
+| Onsite Customer Support          | ❌            | ✔️        |
+| Bidding Support Service          | ❌            | ✔️        |
+| Customize Support Service        | ❌            | ✔️        |
+
+## MyEMS-Einführung
+MyEMS ist ein branchenführendes Open-Source-Energiemanagementsystem, das auf Cloud-Computing-, IOT-, Big Data- und AI-Technologien basiert. MyEMS kann für eine standardmäßige und leistungsstarke integrierte Energiemanagement-Serviceplattform verwendet werden.
+MyEMS wird von einem erfahrenen Entwicklungsteam entwickelt und gewartet, und der Quellcode des Systems wird unter MIT-Lizenz veröffentlicht.
+
+## MyEMS Architektur
+![MyEMS Architecture](/.readme/architecture.png)
+
+## MyEMS Komponenten (Gemeinschaftsausgabe)
+![MyEMS Conponents](/.readme/myem-conponets.svg)
+
+Dieses Projekt besteht aus folgenden Komponenten:
+
+### MyEMS Web APP
+
+Weitere Informationen finden Sie im Repository [myems-web](https://github.com/myems/myems-web.git).
+
+### MyEMS Admin Panel
+
+Weitere Informationen finden Sie im Repository [myems-admin](https://github.com/myems/myems-admin.git).
+
+### MyEMS Database
+
+Weitere Informationen finden Sie im Repository [myems-database](https://github.com/myems/myems-database.git).
+
+### MyEMS Cleaning Service
+
+Weitere Informationen finden Sie im Repository [myems-cleaning](https://github.com/myems/myems-cleaning.git).
+
+### MyEMS Normalization Service
+
+Weitere Informationen finden Sie im Repository [myems-normalization](https://github.com/myems/myems-normalization.git).
+
+### MyEMS Aggregation Service
+
+Weitere Informationen finden Sie im Repository [myems-aggregation](https://github.com/myems/myems-aggregation.git).
+
+### MyEMS API
+
+Weitere Informationen finden Sie im Repository [myems-api](https://github.com/myems/myems-api.git).
+
+### MyEMS MQTT Data Publisher Service (transmit data from MyEMS to 3rd Party)
+
+Weitere Informationen finden Sie im Repository [myems-mqtt-publisher](https://github.com/myems/myems-mqtt-publisher.git).
+
+### MyEMS BACnet/IP Acquisition Service
+
+Weitere Informationen finden Sie im Repository [myems-bacnet](https://github.com/myems/myems-bacnet.git).
+
+### MyEMS Modbus TCP Acquisition Service
+
+Weitere Informationen finden Sie im Repository [myems-modbus-tcp](https://github.com/myems/myems-modbus-tcp.git).
+
+## Editionen vergleichen
+
+| Eigenschaften                    |Gemeinschaftsausgabe (MyEMS) |Enterprise Edition (AlbertEOS)|
 | :---                             |      :----:   |  :----: |
 | Open Source                      | ✔️             | ❌      |
 | Pricing                          | Free          | Pay for Projects |
