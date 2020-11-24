@@ -1,6 +1,9 @@
 # MyEMS
 
  [中文](#MyEMS-介绍) | [EN](#MyEMS-Introduction) | [DE](#MyEMS-Einführung)
+ 
+ [![Documentation Status](https://readthedocs.org/projects/myems/badge/?version=latest)](https://myems.readthedocs.io/en/latest/?badge=latest)
+      
 
 ## MyEMS 介绍
 
