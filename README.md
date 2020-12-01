@@ -1,9 +1,9 @@
 # MyEMS
 
  [中文](#MyEMS-介绍) | [EN](#MyEMS-Introduction) | [DE](#MyEMS-Einführung)
- 
+
  [![Documentation Status](https://readthedocs.org/projects/myems/badge/?version=latest)](https://myems.readthedocs.io/en/latest/?badge=latest)
-      
+
 
 ## MyEMS 介绍
 
@@ -56,6 +56,9 @@ MyEMS项目由下列组件构成:
 ### MyEMS Modbus TCP 数据采集服务
 
 参考仓库  [myems-modbus-tcp](https://github.com/myems/myems-modbus-tcp.git) 获取更多信息。
+
+## MyEMS截图
+![MyEMS Screenshot](/.readme/screenshot-2020.12.01-16_53_12.png)
 
 ## 功能版本对比
 | 功能                              |社区版(MyEMS)   |企业版(AlbertEOS)|
@@ -176,6 +179,9 @@ See the repository [myems-bacnet](https://github.com/myems/myems-bacnet.git) for
 
 See the repository [myems-modbus-tcp](https://github.com/myems/myems-modbus-tcp.git) for more information.
 
+## MyEMS Screenshot
+![MyEMS Screenshot](/.readme/screenshot-2020.12.01-16_53_12.png)
+
 ## Compare Editions
 
 | Features                         |Communit Edition (MyEMS) |Enterprise Edition (AlbertEOS)|
@@ -295,6 +301,9 @@ Weitere Informationen finden Sie im Repository [myems-bacnet](https://github.com
 
 Weitere Informationen finden Sie im Repository [myems-modbus-tcp](https://github.com/myems/myems-modbus-tcp.git).
 
+## MyEMS Bildschirmfoto
+![MyEMS Bildschirmfoto](/.readme/screenshot-2020.12.01-16_53_12.png)
+
 ## Editionen vergleichen
 
 | Eigenschaften                    |Gemeinschaftsausgabe (MyEMS) |Enterprise Edition (AlbertEOS)|
@@ -361,4 +370,3 @@ Weitere Informationen finden Sie im Repository [myems-modbus-tcp](https://github
 | Onsite Customer Support          | ❌            | ✔️        |
 | Bidding Support Service          | ❌            | ✔️        |
 | Customize Support Service        | ❌            | ✔️        |
-
