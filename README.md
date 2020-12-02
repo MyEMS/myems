@@ -10,12 +10,12 @@
 MyEMS是行业领先的开源能源管理系统，利用云计算、物联网、大数据、人工智能等信息化技术构建而成。MyEMS可用于构建统一规范、功能强大的综合能源管理服务平台。MyEMS由资深专业团队开发维护，系统代码基于MIT开源软件许可协议发布。
 
 ## MyEMS架构
-![MyEMS Architecture](/.readme/architecture.png)
+![MyEMS Architecture](/docs/images/architecture.png)
 
 ## MyEMS组件(社区版 )
 
 MyEMS项目由下列组件构成:
-![MyEMS Conponents](/.readme/myem-conponets.svg)
+![MyEMS Components](/docs/images/myem-componets.png)
 
 ### MyEMS Web APP
 
@@ -58,7 +58,7 @@ MyEMS项目由下列组件构成:
 参考仓库  [myems-modbus-tcp](https://github.com/myems/myems-modbus-tcp.git) 获取更多信息。
 
 ## MyEMS截图
-![MyEMS Screenshot](/.readme/screenshot-2020.12.01-16_53_12.png)
+![MyEMS Screenshot](/docs/images/screenshot-2020.12.01-16_53_12.png)
 
 ## 功能版本对比
 | 功能                              |社区版(MyEMS)   |企业版(AlbertEOS)|
@@ -132,10 +132,10 @@ MyEMS项目由下列组件构成:
 MyEMS is being developed and maintained by an experienced development team, and the system's source code is published under MIT license.
 
 ## MyEMS Architecture
-![MyEMS Architecture](/.readme/architecture.png)
+![MyEMS Architecture](/docs/images/architecture.png)
 
 ## MyEMS Components (Standard Edition)
-![MyEMS Conponents](/.readme/myem-conponets.svg)
+![MyEMS Components](/docs/images/myem-componets.png)
 
 This project is compose of  following components:
 
@@ -180,7 +180,7 @@ See the repository [myems-bacnet](https://github.com/myems/myems-bacnet.git) for
 See the repository [myems-modbus-tcp](https://github.com/myems/myems-modbus-tcp.git) for more information.
 
 ## MyEMS Screenshot
-![MyEMS Screenshot](/.readme/screenshot-2020.12.01-16_53_12.png)
+![MyEMS Screenshot](/docs/images/screenshot-2020.12.01-16_53_12.png)
 
 ## Compare Editions
 
@@ -254,10 +254,10 @@ MyEMS ist ein branchenführendes Open-Source-Energiemanagementsystem, das auf Cl
 MyEMS wird von einem erfahrenen Entwicklungsteam entwickelt und gewartet, und der Quellcode des Systems wird unter MIT-Lizenz veröffentlicht.
 
 ## MyEMS Architektur
-![MyEMS Architecture](/.readme/architecture.png)
+![MyEMS Architecture](/docs/images/architecture.png)
 
 ## MyEMS Komponenten (Gemeinschaftsausgabe)
-![MyEMS Conponents](/.readme/myem-conponets.svg)
+![MyEMS Components](/docs/images/myem-componets.png)
 
 Dieses Projekt besteht aus folgenden Komponenten:
 
@@ -302,7 +302,7 @@ Weitere Informationen finden Sie im Repository [myems-bacnet](https://github.com
 Weitere Informationen finden Sie im Repository [myems-modbus-tcp](https://github.com/myems/myems-modbus-tcp.git).
 
 ## MyEMS Bildschirmfoto
-![MyEMS Bildschirmfoto](/.readme/screenshot-2020.12.01-16_53_12.png)
+![MyEMS Bildschirmfoto](/docs/images/screenshot-2020.12.01-16_53_12.png)
 
 ## Editionen vergleichen
 
