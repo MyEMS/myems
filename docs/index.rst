@@ -11,7 +11,7 @@ Welcome to MyEMS's documentation!
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-   
+
    introduction
    architecture
    components
@@ -22,4 +22,3 @@ Welcome to MyEMS's documentation!
    administrator-guide
    user-guide
    developer-guide
-
