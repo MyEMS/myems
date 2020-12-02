@@ -11,12 +11,9 @@ Welcome to MyEMS's documentation!
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   
+   introduction
+   architecture
+   components
+   screenshots
+   compare-editions
