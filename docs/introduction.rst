@@ -1,4 +1,4 @@
-Introduction to MyEMS
+Introduction
 =======================
 
 MyEMS is an industry leading open source Energy Management System that is built on cloud computing, IOT, 
