@@ -19,8 +19,8 @@ import sphinx_rtd_theme
 # -- Project information -----------------------------------------------------
 
 project = 'MyEMS'
-copyright = '2020, MyEMS'
-author = 'MyEMS'
+copyright = '2019, 2020, MyEMS'
+author = 'MyEMS Team'
 
 
 # -- General configuration ---------------------------------------------------
