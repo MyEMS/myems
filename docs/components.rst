@@ -1,3 +1,3 @@
 Components
 ================
-.. image:: images/myems-conponets.png
+.. image:: images/myems-componets.png
