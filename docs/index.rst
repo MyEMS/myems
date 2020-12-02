@@ -17,3 +17,9 @@ Welcome to MyEMS's documentation!
    components
    screenshots
    compare-editions
+   download
+   installation
+   administrator-guide
+   user-guide
+   developer-guide
+

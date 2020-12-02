@@ -1,2 +1,2 @@
-Compre Editions
+Compare Editions
 ================
