@@ -5,3 +5,4 @@ logs
 *_static
 *_templates
 .idea
+.vscode
