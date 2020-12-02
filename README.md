@@ -15,7 +15,7 @@ MyEMS是行业领先的开源能源管理系统，利用云计算、物联网、
 ## MyEMS组件(社区版 )
 
 MyEMS项目由下列组件构成:
-![MyEMS Components](/docs/images/myem-componets.png)
+![MyEMS Components](/docs/images/myems-componets.png)
 
 ### MyEMS Web APP
 
@@ -135,7 +135,7 @@ MyEMS is being developed and maintained by an experienced development team, and 
 ![MyEMS Architecture](/docs/images/architecture.png)
 
 ## MyEMS Components (Standard Edition)
-![MyEMS Components](/docs/images/myem-componets.png)
+![MyEMS Components](/docs/images/myems-componets.png)
 
 This project is compose of  following components:
 
@@ -257,7 +257,7 @@ MyEMS wird von einem erfahrenen Entwicklungsteam entwickelt und gewartet, und de
 ![MyEMS Architecture](/docs/images/architecture.png)
 
 ## MyEMS Komponenten (Gemeinschaftsausgabe)
-![MyEMS Components](/docs/images/myem-componets.png)
+![MyEMS Components](/docs/images/myems-componets.png)
 
 Dieses Projekt besteht aus folgenden Komponenten:
 
