@@ -77,7 +77,7 @@ MyEMS项目由下列组件构成:
 | Kubernetes部署                    | ✔️             | ✔️        |
 | MySQL                            | ✔️             | ✔️        |
 | MariaDB                          | ✔️             | ✔️        |
-| MemSQL                           | ✔️             | ✔️        |
+| SingleStore                      | ✔️             | ✔️        |
 | AWS 云部署                        | ✔️             | ✔️        |
 | AZure 云部署                      | ✔️             | ✔️        |
 | 阿里云部署                         | ✔️             | ✔️        |
@@ -203,17 +203,20 @@ See the repository [myems-modbus-tcp](https://github.com/myems/myems-modbus-tcp.
 | Kubernetes                       | ✔️             | ✔️        |
 | MySQL                            | ✔️             | ✔️        |
 | MariaDB                          | ✔️             | ✔️        |
-| MemSQL                           | ✔️             | ✔️        |
+| SingleStore                      | ✔️             | ✔️        |
 | AWS Cloud                        | ✔️             | ✔️        |
 | AZure Cloud                      | ✔️             | ✔️        |
 | Alibaba Cloud                    | ✔️             | ✔️        |
 | Private Cloud                    | ✔️             | ✔️        |
-| Space Energy Consumption Reports | ✔️             | ✔️        |
-| Space Energy Billing Reports     | ✔️             | ✔️        |
-| Space Efficiency Reports         | ✔️             | ✔️        |
-| Space Energy Output Reports      | ✔️             | ✔️        |
-| Space Comparison Reports         | ✔️             | ✔️        |
-| Space Energy Ranking Reports     | ✔️             | ✔️        |
+| Data Comparison（Year-on-Year、Month-on-Month、Any-on-Any） | ✔️             | ✔️        |
+| Space/Energy Category Data       | ✔️             | ✔️        |
+| Space/Energy Item Data           | ✔️             | ✔️        |
+| Space/Cost Data                  | ✔️             | ✔️        |
+| Space/Output Data                | ✔️             | ✔️        |
+| Space/Income Data                | ✔️             | ✔️        |
+| Space/Efficiency Data            | ✔️             | ✔️        |
+| Space/Statistics                 | ✔️             | ✔️        |
+| Space/Saving Data                | ❌            | ✔️        |
 | Energy Dashboard                 | ✔️             | ✔️        |
 | Energy Flow Diagram              | ✔️             | ✔️        |
 | Distribution System              | ✔️             | ✔️        |
@@ -325,17 +328,20 @@ Weitere Informationen finden Sie im Repository [myems-modbus-tcp](https://github
 | Kubernetes                       | ✔️             | ✔️        |
 | MySQL                            | ✔️             | ✔️        |
 | MariaDB                          | ✔️             | ✔️        |
-| MemSQL                           | ✔️             | ✔️        |
+| SingleStore                      | ✔️             | ✔️        |
 | AWS Cloud                        | ✔️             | ✔️        |
 | AZure Cloud                      | ✔️             | ✔️        |
 | Alibaba Cloud                    | ✔️             | ✔️        |
 | Private Cloud                    | ✔️             | ✔️        |
-| Space Energy Consumption Reports | ✔️             | ✔️        |
-| Space Energy Billing Reports     | ✔️             | ✔️        |
-| Space Efficiency Reports         | ✔️             | ✔️        |
-| Space Energy Output Reports      | ✔️             | ✔️        |
-| Space Comparison Reports         | ✔️             | ✔️        |
-| Space Energy Ranking Reports     | ✔️             | ✔️        |
+| Data Comparison（Year-on-Year、Month-on-Month、Any-on-Any） | ✔️             | ✔️        |
+| Space/Energy Category Data       | ✔️             | ✔️        |
+| Space/Energy Item Data           | ✔️             | ✔️        |
+| Space/Cost Data                  | ✔️             | ✔️        |
+| Space/Output Data                | ✔️             | ✔️        |
+| Space/Income Data                | ✔️             | ✔️        |
+| Space/Efficiency Data            | ✔️             | ✔️        |
+| Space/Statistics                 | ✔️             | ✔️        |
+| Space/Saving Data                | ❌            | ✔️        |
 | Energy Dashboard                 | ✔️             | ✔️        |
 | Energy Flow Diagram              | ✔️             | ✔️        |
 | Distribution System              | ✔️             | ✔️        |
