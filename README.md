@@ -89,8 +89,19 @@ MyEMS项目由下列组件构成:
 | 空间数据/产出分析                   | ✔️             | ✔️        |
 | 空间数据/收入分析                   | ✔️             | ✔️        |
 | 空间数据/效率分析                   | ✔️             | ✔️        |
+| 空间数据/负荷分析                   | ✔️             | ✔️        |
 | 空间数据/统计分析                   | ✔️             | ✔️        |
 | 空间数据/节能分析                   | ❌            | ✔️        |
+| 设备数据/能耗分类分析                | ✔️             | ✔️        |
+| 设备数据/能耗分项分析                | ✔️             | ✔️        |
+| 设备数据/成本分析                   | ✔️             | ✔️        |
+| 设备数据/产出分析                   | ✔️             | ✔️        |
+| 设备数据/收入分析                   | ✔️             | ✔️        |
+| 设备数据/效率分析                   | ✔️             | ✔️        |
+| 设备数据/负荷分析                   | ✔️             | ✔️        |
+| 设备数据/统计分析                   | ✔️             | ✔️        |
+| 设备数据/节能分析                   | ❌            | ✔️        |
+| 设备数据/设备台账                   | ✔️             | ✔️        |
 | 能耗概览页                         | ✔️             | ✔️        |
 | 能流图分析                         | ✔️             | ✔️        |
 | 配电系统分析                       | ✔️             | ✔️        |
@@ -215,8 +226,19 @@ See the repository [myems-modbus-tcp](https://github.com/myems/myems-modbus-tcp.
 | Space/Output Data                | ✔️             | ✔️        |
 | Space/Income Data                | ✔️             | ✔️        |
 | Space/Efficiency Data            | ✔️             | ✔️        |
+| Space/Load Data                  | ✔️             | ✔️        |
 | Space/Statistics                 | ✔️             | ✔️        |
 | Space/Saving Data                | ❌            | ✔️        |
+| Equipment/Energy Category Data   | ✔️             | ✔️        |
+| Equipment/Energy Item Data       | ✔️             | ✔️        |
+| Equipment/Cost Data              | ✔️             | ✔️        |
+| Equipment/Output Data            | ✔️             | ✔️        |
+| Equipment/Income Data            | ✔️             | ✔️        |
+| Equipment/Efficiency Data        | ✔️             | ✔️        |
+| Equipment/Load Data              | ✔️             | ✔️        |
+| Equipment/Statistics             | ✔️             | ✔️        |
+| Equipment/Saving Data            | ❌            | ✔️        |
+| Equipment/Equipment Tracking     | ✔️             | ✔️        |
 | Energy Dashboard                 | ✔️             | ✔️        |
 | Energy Flow Diagram              | ✔️             | ✔️        |
 | Distribution System              | ✔️             | ✔️        |
@@ -242,7 +264,7 @@ See the repository [myems-modbus-tcp](https://github.com/myems/myems-modbus-tcp.
 | BACnet Server                    | ❌            | ✔️        |
 | iOS APP                          | ❌            | ✔️        |
 | Android APP                      | ❌            | ✔️        |
-| Fanless IPC Hardware Gateways (Data Acquisition and Remote Control）| ❌            | ✔️        |
+| IPC Hardware Gateway (Data Acquisition and Remote Control）| ❌            | ✔️        |
 | LoRa Radio Module (Data Acquisition and Remote Control）| ❌          | ✔️        |
 | Protocol for Uploading to Provincial Platform of On-line monitoring system for Key Energy-Consuming Unit| ❌     | ✔️        |
 | 3rd Party Systems Integration    | ❌            | ✔️        |
@@ -340,8 +362,19 @@ Weitere Informationen finden Sie im Repository [myems-modbus-tcp](https://github
 | Space/Output Data                | ✔️             | ✔️        |
 | Space/Income Data                | ✔️             | ✔️        |
 | Space/Efficiency Data            | ✔️             | ✔️        |
+| Space/Load Data                  | ✔️             | ✔️        |
 | Space/Statistics                 | ✔️             | ✔️        |
 | Space/Saving Data                | ❌            | ✔️        |
+| Equipment/Energy Category Data   | ✔️             | ✔️        |
+| Equipment/Energy Item Data       | ✔️             | ✔️        |
+| Equipment/Cost Data              | ✔️             | ✔️        |
+| Equipment/Output Data            | ✔️             | ✔️        |
+| Equipment/Income Data            | ✔️             | ✔️        |
+| Equipment/Efficiency Data        | ✔️             | ✔️        |
+| Equipment/Load Data              | ✔️             | ✔️        |
+| Equipment/Statistics             | ✔️             | ✔️        |
+| Equipment/Saving Data            | ❌            | ✔️        |
+| Equipment/Equipment Tracking     | ✔️             | ✔️        |
 | Energy Dashboard                 | ✔️             | ✔️        |
 | Energy Flow Diagram              | ✔️             | ✔️        |
 | Distribution System              | ✔️             | ✔️        |
@@ -367,7 +400,7 @@ Weitere Informationen finden Sie im Repository [myems-modbus-tcp](https://github
 | BACnet Server                    | ❌            | ✔️        |
 | iOS APP                          | ❌            | ✔️        |
 | Android APP                      | ❌            | ✔️        |
-| Fanless IPC Hardware Gateways (Data Acquisition and Remote Control）| ❌            | ✔️        |
+| IPC Hardware Gateway (Data Acquisition and Remote Control）| ❌            | ✔️        |
 | LoRa Radio Module (Data Acquisition and Remote Control）| ❌          | ✔️        |
 | Protocol for Uploading to Provincial Platform of On-line monitoring system for Key Energy-Consuming Unit| ❌     | ✔️        |
 | 3rd Party Systems Integration    | ❌            | ✔️        |
