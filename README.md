@@ -82,6 +82,7 @@ MyEMS项目由下列组件构成:
 | AZure 云部署                      | ✔️             | ✔️        |
 | 阿里云部署                         | ✔️             | ✔️        |
 | 私有云部署                         | ✔️             | ✔️        |
+| 总览页                            | ✔️             | ✔️        |
 | 数据比较分析（同比、环比、自由比）     | ✔️             | ✔️        |
 | 空间数据/能耗分类分析                | ✔️             | ✔️        |
 | 空间数据/能耗分项分析                | ✔️             | ✔️        |
@@ -101,8 +102,17 @@ MyEMS项目由下列组件构成:
 | 设备数据/负荷分析                   | ✔️             | ✔️        |
 | 设备数据/统计分析                   | ✔️             | ✔️        |
 | 设备数据/节能分析                   | ❌            | ✔️        |
-| 设备数据/设备台账                   | ✔️             | ✔️        |
-| 能耗概览页                         | ✔️             | ✔️        |
+| 设备数据/设备台账                   | ✔️             | ✔️        ｜
+| 计量表数据/能耗分析                 | ✔️             | ✔️        |
+| 计量表数据/成本分析                 | ✔️             | ✔️        |
+| 计量表数据/趋势分析                 | ✔️             | ✔️        |
+| 计量表数据/实时分析                 | ✔️             | ✔️        |
+| 计量表数据/总分表平衡分析            | ✔️             | ✔️        |
+| 计量表数据/离线表能耗分析            | ✔️             | ✔️        |
+| 计量表数据/离线表成本分析            | ✔️             | ✔️        |
+| 计量表数据/虚拟表能耗分析            | ✔️             | ✔️        |
+| 计量表数据/虚拟表成本分析            | ✔️             | ✔️        |
+| 计量表数据/计量表台账               | ✔️             | ✔️        |
 | 能流图分析                         | ✔️             | ✔️        |
 | 配电系统分析                       | ✔️             | ✔️        |
 | 设备能效分析                       | ✔️             | ✔️        |
@@ -239,6 +249,16 @@ See the repository [myems-modbus-tcp](https://github.com/myems/myems-modbus-tcp.
 | Equipment/Statistics             | ✔️             | ✔️        |
 | Equipment/Saving Data            | ❌            | ✔️        |
 | Equipment/Equipment Tracking     | ✔️             | ✔️        |
+| Meter/Energy Data                | ✔️             | ✔️        |
+| Meter/Cost Data                  | ✔️             | ✔️        |
+| Meter/Trend Data                 | ✔️             | ✔️        |
+| Meter/Realtime Data              | ✔️             | ✔️        |
+| Meter/Master Meter Submeters Balance | ✔️         | ✔️        |
+| Meter/Offline Meter Energy Data  | ✔️             | ✔️        |
+| Meter/Offline Meter Cost Data    | ✔️             | ✔️        |
+| Meter/Virtual Meter Energy Data  | ✔️             | ✔️        |
+| Meter/Virtual Meter Cost Data    | ✔️             | ✔️        |
+| Meter/Meter Tracking             | ✔️             | ✔️        |
 | Energy Dashboard                 | ✔️             | ✔️        |
 | Energy Flow Diagram              | ✔️             | ✔️        |
 | Distribution System              | ✔️             | ✔️        |
@@ -375,6 +395,16 @@ Weitere Informationen finden Sie im Repository [myems-modbus-tcp](https://github
 | Equipment/Statistics             | ✔️             | ✔️        |
 | Equipment/Saving Data            | ❌            | ✔️        |
 | Equipment/Equipment Tracking     | ✔️             | ✔️        |
+| Meter/Energy Data                | ✔️             | ✔️        |
+| Meter/Cost Data                  | ✔️             | ✔️        |
+| Meter/Trend Data                 | ✔️             | ✔️        |
+| Meter/Realtime Data              | ✔️             | ✔️        |
+| Meter/Master Meter Submeters Balance | ✔️         | ✔️        |
+| Meter/Offline Meter Energy Data  | ✔️             | ✔️        |
+| Meter/Offline Meter Cost Data    | ✔️             | ✔️        |
+| Meter/Virtual Meter Energy Data  | ✔️             | ✔️        |
+| Meter/Virtual Meter Cost Data    | ✔️             | ✔️        |
+| Meter/Meter Tracking             | ✔️             | ✔️        |
 | Energy Dashboard                 | ✔️             | ✔️        |
 | Energy Flow Diagram              | ✔️             | ✔️        |
 | Distribution System              | ✔️             | ✔️        |
