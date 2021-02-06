@@ -118,14 +118,29 @@ MyEMS项目由下列组件构成:
 | 租户数据/成本分析                   | ✔️             | ✔️        |
 | 租户数据/负荷分析                   | ✔️             | ✔️        |
 | 租户数据/统计分析                   | ✔️             | ✔️        |
-| 租户数据/节能分析                   | ✔️             | ✔️        |
+| 租户数据/节能分析                   | ❌             | ✔️        |
 | 租户数据/租户账单                   | ✔️             | ✔️        |
+| 门店数据/能耗分类分析                | ✔️             | ✔️        |
+| 门店数据/能耗分项分析                | ✔️             | ✔️        |
+| 门店数据/成本分析                   | ✔️             | ✔️        |
+| 门店数据/负荷分析                   | ✔️             | ✔️        |
+| 门店数据/统计分析                   | ✔️             | ✔️        |
+| 门店数据/节能分析                   | ❌             | ✔️        |
+| 车间数据/能耗分类分析                | ✔️             | ✔️        |
+| 车间数据/能耗分项分析                | ✔️             | ✔️        |
+| 车间数据/成本分析                   | ✔️             | ✔️        |
+| 车间数据/负荷分析                   | ✔️             | ✔️        |
+| 车间数据/统计分析                   | ✔️             | ✔️        |
+| 车间数据/节能分析                   | ❌            | ✔️        |
+| 组合设备数据/成本分析                | ✔️             | ✔️        |
+| 组合设备数据/产出分析                | ✔️             | ✔️        |
+| 组合设备数据/收入分析                | ✔️             | ✔️        |
+| 组合设备数据/效率分析                | ✔️             | ✔️        |
+| 组合设备数据/负荷分析                | ✔️             | ✔️        |
+| 组合设备数据/统计分析                | ✔️             | ✔️        |
+| 组合设备数据/节能分析                | ❌            | ✔️        |
 | 能流图分析                         | ✔️             | ✔️        |
 | 配电系统分析                       | ✔️             | ✔️        |
-| 设备能效分析                       | ✔️             | ✔️        |
-| 租户能耗分析                       | ✔️             | ✔️        |
-| 店铺能耗分析                       | ✔️             | ✔️        |
-| 车间能耗分析                       | ✔️             | ✔️        |
 | REST API                         | ✔️             | ✔️        |
 | Web APP                          | ✔️             | ✔️        |
 | MQTT 协议订阅数据                  | ❌            | ✔️        |
@@ -236,7 +251,7 @@ See the repository [myems-modbus-tcp](https://github.com/myems/myems-modbus-tcp.
 | AZure Cloud                      | ✔️             | ✔️        |
 | Alibaba Cloud                    | ✔️             | ✔️        |
 | Private Cloud                    | ✔️             | ✔️        |
-| Data Comparison（Year-on-Year、Month-on-Month、Any-on-Any） | ✔️             | ✔️        |
+| Data Comparison（Year-on-Year、Month-on-Month、Any-on-Any）| ✔️  | ✔️        |
 | Space/Energy Category Data       | ✔️             | ✔️        |
 | Space/Energy Item Data           | ✔️             | ✔️        |
 | Space/Cost Data                  | ✔️             | ✔️        |
@@ -271,15 +286,32 @@ See the repository [myems-modbus-tcp](https://github.com/myems/myems-modbus-tcp.
 | Tenant/Cost Data                 | ✔️             | ✔️        |
 | Tenant/Load Data                 | ✔️             | ✔️        |
 | Tenant/Statistics                | ✔️             | ✔️        |
-| Tenant/Saving Data               | ✔️             | ✔️        |
+| Tenant/Saving Data               | ❌            | ✔️        |
 | Tenant/Tenant Bill               | ✔️             | ✔️        |
+| Store/Energy Category Data       | ✔️             | ✔️        |
+| Store/Energy Item Data           | ✔️             | ✔️        |
+| Store/Cost Data                  | ✔️             | ✔️        |
+| Store/Load Data                  | ✔️             | ✔️        |
+| Store/Statistics                 | ✔️             | ✔️        |
+| Store/Saving Data                | ❌            | ✔️        |
+| Shopfloor/Energy Category Data   | ✔️             | ✔️        |
+| Shopfloor/Energy Item Data       | ✔️             | ✔️        |
+| Shopfloor/Cost Data              | ✔️             | ✔️        |
+| Shopfloor/Load Data              | ✔️             | ✔️        |
+| Shopfloor/Statistics             | ✔️             | ✔️        |
+| Shopfloor/Saving Data            | ❌            | ✔️        ｜
+| Combined Equipment/Energy Category Data | ✔️      | ✔️        |
+| Combined Equipment/Energy Item Data     | ✔️      | ✔️        |
+| Combined Equipment/Cost Data            | ✔️      | ✔️        |
+| Combined Equipment/Output Data          | ✔️      | ✔️        |
+| Combined Equipment/Income Data          | ✔️      | ✔️        |
+| Combined Equipment/Efficiency Data      | ✔️      | ✔️        |
+| Combined Equipment/Load Data            | ✔️      | ✔️        |
+| Combined Equipment/Statistics           | ✔️      | ✔️        |
+| Combined Equipment/Saving Data          | ❌     | ✔️        |
 | Energy Dashboard                 | ✔️             | ✔️        |
 | Energy Flow Diagram              | ✔️             | ✔️        |
 | Distribution System              | ✔️             | ✔️        |
-| Equipment Efficiency Reports     | ✔️             | ✔️        |
-| Tenant Energy Consumption Reports| ✔️             | ✔️        |
-| Sotre Energy Consumption Reports | ✔️             | ✔️        |
-| Shopfloor Energy Consumption Reports | ✔️         | ✔️        |
 | REST API                         | ✔️             | ✔️        |
 | Web APP                          | ✔️             | ✔️        |
 | MQTT Subscriber                  | ❌            | ✔️        |
@@ -424,15 +456,32 @@ Weitere Informationen finden Sie im Repository [myems-modbus-tcp](https://github
 | Tenant/Cost Data                 | ✔️             | ✔️        |
 | Tenant/Load Data                 | ✔️             | ✔️        |
 | Tenant/Statistics                | ✔️             | ✔️        |
-| Tenant/Saving Data               | ✔️             | ✔️        |
+| Tenant/Saving Data               | ❌            | ✔️        |
 | Tenant/Tenant Bill               | ✔️             | ✔️        |
+| Store/Energy Category Data       | ✔️             | ✔️        |
+| Store/Energy Item Data           | ✔️             | ✔️        |
+| Store/Cost Data                  | ✔️             | ✔️        |
+| Store/Load Data                  | ✔️             | ✔️        |
+| Store/Statistics                 | ✔️             | ✔️        |
+| Store/Saving Data                | ❌            | ✔️        |
+| Shopfloor/Energy Category Data   | ✔️             | ✔️        |
+| Shopfloor/Energy Item Data       | ✔️             | ✔️        |
+| Shopfloor/Cost Data              | ✔️             | ✔️        |
+| Shopfloor/Load Data              | ✔️             | ✔️        |
+| Shopfloor/Statistics             | ✔️             | ✔️        |
+| Shopfloor/Saving Data            | ❌            | ✔️        |
+| Combined Equipment/Energy Category Data | ✔️      | ✔️        |
+| Combined Equipment/Energy Item Data     | ✔️      | ✔️        |
+| Combined Equipment/Cost Data            | ✔️      | ✔️        |
+| Combined Equipment/Output Data          | ✔️      | ✔️        |
+| Combined Equipment/Income Data          | ✔️      | ✔️        |
+| Combined Equipment/Efficiency Data      | ✔️      | ✔️        |
+| Combined Equipment/Load Data            | ✔️      | ✔️        |
+| Combined Equipment/Statistics           | ✔️      | ✔️        |
+| Combined Equipment/Saving Data          | ❌     | ✔️        |
 | Energy Dashboard                 | ✔️             | ✔️        |
 | Energy Flow Diagram              | ✔️             | ✔️        |
 | Distribution System              | ✔️             | ✔️        |
-| Equipment Efficiency Reports     | ✔️             | ✔️        |
-| Tenant Energy Consumption Reports| ✔️             | ✔️        |
-| Sotre Energy Consumption Reports | ✔️             | ✔️        |
-| Shopfloor Energy Consumption Reports | ✔️         | ✔️        |
 | REST API                         | ✔️             | ✔️        |
 | Web APP                          | ✔️             | ✔️        |
 | MQTT Subscriber                  | ❌            | ✔️        |
