@@ -158,7 +158,7 @@ MyEMS is being developed and maintained by an experienced development team, and 
 ## MyEMS Architecture
 ![MyEMS Architecture](/docs/images/architecture.png)
 
-## MyEMS Components (Standard Edition)
+## MyEMS Components (Community Edition)
 ![MyEMS Components](/docs/images/myems-componets.png)
 
 This project is compose of  following components:
@@ -304,7 +304,7 @@ MyEMS wird von einem erfahrenen Entwicklungsteam entwickelt und gewartet, und de
 ## MyEMS Architektur
 ![MyEMS Architecture](/docs/images/architecture.png)
 
-## MyEMS Komponenten (Gemeinschaftsausgabe)
+## MyEMS Komponenten (GCommunity Edition)
 ![MyEMS Components](/docs/images/myems-componets.png)
 
 Dieses Projekt besteht aus folgenden Komponenten:
@@ -354,7 +354,7 @@ Weitere Informationen finden Sie im Repository [myems-modbus-tcp](https://github
 
 ## Editionen vergleichen
 
-| Eigenschaften                    |Gemeinschaftsausgabe (MyEMS) |Enterprise Edition (AlbertEOS)|
+| Eigenschaften                    |Community Edition (MyEMS) |Enterprise Edition (AlbertEOS)|
 | :---                             |      :----:   |  :----: |
 | Open Source                      | ✔️             | ❌      |
 | Pricing                          | Free          | Pay for Projects |
