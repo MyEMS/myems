@@ -84,6 +84,7 @@ MyEMS项目由下列组件构成:
 | 私有云部署                         | ✔️             | ✔️        |
 | 总览页                            | ✔️             | ✔️        |
 | 数据比较分析（同比、环比、自由比）     | ✔️             | ✔️        |
+| 数据分析结果导出到Excel              | ✔️             | ✔️        |
 | 空间数据/能耗分类分析                | ✔️             | ✔️        |
 | 空间数据/能耗分项分析                | ✔️             | ✔️        |
 | 空间数据/成本分析                   | ✔️             | ✔️        |
@@ -252,6 +253,7 @@ See the repository [myems-modbus-tcp](https://github.com/myems/myems-modbus-tcp.
 | Alibaba Cloud                    | ✔️             | ✔️        |
 | Private Cloud                    | ✔️             | ✔️        |
 | Data Comparison（Year-on-Year、Month-on-Month、Any-on-Any）| ✔️  | ✔️        |
+| Export result to Excel           | ✔️             | ✔️        |
 | Space/Energy Category Data       | ✔️             | ✔️        |
 | Space/Energy Item Data           | ✔️             | ✔️        |
 | Space/Cost Data                  | ✔️             | ✔️        |
@@ -422,6 +424,7 @@ Weitere Informationen finden Sie im Repository [myems-modbus-tcp](https://github
 | Alibaba Cloud                    | ✔️             | ✔️        |
 | Private Cloud                    | ✔️             | ✔️        |
 | Data Comparison（Year-on-Year、Month-on-Month、Any-on-Any） | ✔️             | ✔️        |
+| Export result to Excel           | ✔️             | ✔️        |
 | Space/Energy Category Data       | ✔️             | ✔️        |
 | Space/Energy Item Data           | ✔️             | ✔️        |
 | Space/Cost Data                  | ✔️             | ✔️        |
