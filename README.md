@@ -111,8 +111,15 @@ MyEMS项目由下列组件构成:
 | 计量表数据/离线表能耗分析            | ✔️             | ✔️        |
 | 计量表数据/离线表成本分析            | ✔️             | ✔️        |
 | 计量表数据/虚拟表能耗分析            | ✔️             | ✔️        |
-| 计量表数据/虚拟表成本分析            | ✔️             | ✔️        |
-| 计量表数据/计量表台账               | ✔️             | ✔️        |
+| 计量表数据/虚拟表成本分析             | ✔️             | ✔️        |
+| 计量表数据/计量表台账                | ✔️             | ✔️        |
+| 租户数据/能耗分类分析                | ✔️             | ✔️        |
+| 租户数据/能耗分项分析                | ✔️             | ✔️        |
+| 租户数据/成本分析                   | ✔️             | ✔️        |
+| 租户数据/负荷分析                   | ✔️             | ✔️        |
+| 租户数据/统计分析                   | ✔️             | ✔️        |
+| 租户数据/节能分析                   | ✔️             | ✔️        |
+| 租户数据/租户账单                   | ✔️             | ✔️        |
 | 能流图分析                         | ✔️             | ✔️        |
 | 配电系统分析                       | ✔️             | ✔️        |
 | 设备能效分析                       | ✔️             | ✔️        |
@@ -259,6 +266,13 @@ See the repository [myems-modbus-tcp](https://github.com/myems/myems-modbus-tcp.
 | Meter/Virtual Meter Energy Data  | ✔️             | ✔️        |
 | Meter/Virtual Meter Cost Data    | ✔️             | ✔️        |
 | Meter/Meter Tracking             | ✔️             | ✔️        |
+| Tenant/Energy Category Data      | ✔️             | ✔️        |
+| Tenant/Energy Item Data          | ✔️             | ✔️        |
+| Tenant/Cost Data                 | ✔️             | ✔️        |
+| Tenant/Load Data                 | ✔️             | ✔️        |
+| Tenant/Statistics                | ✔️             | ✔️        |
+| Tenant/Saving Data               | ✔️             | ✔️        |
+| Tenant/Tenant Bill               | ✔️             | ✔️        |
 | Energy Dashboard                 | ✔️             | ✔️        |
 | Energy Flow Diagram              | ✔️             | ✔️        |
 | Distribution System              | ✔️             | ✔️        |
@@ -405,6 +419,13 @@ Weitere Informationen finden Sie im Repository [myems-modbus-tcp](https://github
 | Meter/Virtual Meter Energy Data  | ✔️             | ✔️        |
 | Meter/Virtual Meter Cost Data    | ✔️             | ✔️        |
 | Meter/Meter Tracking             | ✔️             | ✔️        |
+| Tenant/Energy Category Data      | ✔️             | ✔️        |
+| Tenant/Energy Item Data          | ✔️             | ✔️        |
+| Tenant/Cost Data                 | ✔️             | ✔️        |
+| Tenant/Load Data                 | ✔️             | ✔️        |
+| Tenant/Statistics                | ✔️             | ✔️        |
+| Tenant/Saving Data               | ✔️             | ✔️        |
+| Tenant/Tenant Bill               | ✔️             | ✔️        |
 | Energy Dashboard                 | ✔️             | ✔️        |
 | Energy Flow Diagram              | ✔️             | ✔️        |
 | Distribution System              | ✔️             | ✔️        |
