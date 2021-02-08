@@ -12,7 +12,7 @@ MyEMS wird von einem erfahrenen Entwicklungsteam entwickelt und gewartet, und de
 ![MyEMS Architecture](/docs/images/architecture.png)
 
 ## MyEMS Komponenten (GCommunity Edition)
-![MyEMS Components](/docs/images/myems-componets.png)
+![MyEMS Components](/docs/images/myems-components.png)
 
 Dieses Projekt besteht aus folgenden Komponenten:
 
