@@ -131,7 +131,7 @@ See the repository [myems-modbus-tcp](https://github.com/myems/myems-modbus-tcp.
 | Shopfloor/Cost Data              | ✔️             | ✔️        |
 | Shopfloor/Load Data              | ✔️             | ✔️        |
 | Shopfloor/Statistics             | ✔️             | ✔️        |
-| Shopfloor/Saving Data            | ❌            | ✔️        ｜
+| Shopfloor/Saving Data            | ❌            | ✔️        |
 | Combined Equipment/Energy Category Data | ✔️      | ✔️        |
 | Combined Equipment/Energy Item Data     | ✔️      | ✔️        |
 | Combined Equipment/Cost Data            | ✔️      | ✔️        |
