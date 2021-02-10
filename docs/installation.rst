@@ -73,19 +73,22 @@ Installation
   | Get the latest version of openpyxl from `https://bitbucket.org/openpyxl/openpyxl/downloads/ <https://bitbucket.org/openpyxl/openpyxl/downloads/>`_
   ::
 
-    $ cd ~/tools
-    $ wget https://foss.heptapod.net/openpyxl/et_xmlfile/-/archive/branch/default/et_xmlfile-branch-default.zip
-    $ 7z x et_xmlfile-branch-default.zip
+    $ cd ~/tools  
+    $ wget https://foss.heptapod.net/openpyxl/et_xmlfile/-/archive/branch/default/et_xmlfile-branch-default.tar.gz
+    $ tar xzf et_xmlfile-branch-default.tar.gz
     $ cd ~/tools/et_xmlfile-branch-default
     $ sudo python3 setup.py install
     $ cd ~/tools
     $ git clone https://github.com/phn/jdcal.git
     $ cd ~/tools/jdcal
     $ sudo python3 setup.py install
+    $ mkdir ~/tools/pillow && cd ~/tools/pillow 
+    $ pip3 download Pillow
+    $ sudo pip3 install --no-index --find-links ~/tools/pillow Pillow
     $ cd ~/tools
-    $ wget https://foss.heptapod.net/openpyxl/openpyxl/-/archive/branch/3.0/openpyxl-branch-3.0.zip
-    $ 7z x openpyxl-branch-3.0.zip
-    $ cd ~/tools/openpyxl-branch-3.0
+    $ wget https://foss.heptapod.net/openpyxl/openpyxl/-/archive/branch/3.0/openpyxl-branch-3.0.tar.gz
+    $ tar xzf openpyxl-branch-3.0.tar.gz
+    $ cd openpyxl-branch-3.0
     $ sudo python3 setup.py install
 
 * Install gunicorn service for myems-api::
