@@ -12,7 +12,6 @@ MyEMS is being developed and maintained by an experienced development team, and 
 ![MyEMS Architecture](/docs/images/architecture.png)
 
 ## MyEMS Components (Community Edition)
-![MyEMS Components](/docs/images/myems-components.png)
 
 This project is compose of  following components:
 
