@@ -15,7 +15,6 @@ MyEMS是行业领先的开源能源管理系统，利用云计算、物联网、
 ## MyEMS组件(社区版 )
 
 MyEMS项目由下列组件构成:
-![MyEMS Components](/docs/images/myems-components.png)
 
 ### MyEMS Web APP
 
