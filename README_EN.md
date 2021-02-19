@@ -21,23 +21,23 @@ See the repository [myems-web](https://github.com/myems/myems-web.git) for more 
 
 ### MyEMS Admin Panel
 
-See the repository [myems-admin](https://github.com/myems/myems-admin.git) for more information.
+See [admin](./admin/README.md) for more information.
 
 ### MyEMS Database
 
-See the repository [myems-database](https://github.com/myems/myems-database.git) for more information.
+See [database](./database/README.md) for more information.
 
 ### MyEMS Cleaning Service
 
-See the repository [myems-cleaning](https://github.com/myems/myems-cleaning.git) for more information.
+See [myems-cleaning](./myems-cleaning/README.md) for more information.
 
 ### MyEMS Normalization Service
 
-See the repository [myems-normalization](https://github.com/myems/myems-normalization.git) for more information.
+See [myems-normalization](./myems-normalization/README.md) for more information.
 
 ### MyEMS Aggregation Service
 
-See the repository [myems-aggregation](https://github.com/myems/myems-aggregation.git) for more information.
+See [myems-aggregation](./myems-aggregation/README.md) for more information.
 
 ### MyEMS API
 
@@ -45,15 +45,15 @@ See the repository [myems-api](https://github.com/myems/myems-api.git) for more 
 
 ### MyEMS MQTT Data Publisher Service (transmit data from MyEMS to 3rd Party)
 
-See the repository [myems-mqtt-publisher](https://github.com/myems/myems-mqtt-publisher.git) for more information.
+See [myems-mqtt-publisher](./myems-mqtt-publisher/README.md) for more information.
 
 ### MyEMS BACnet/IP Acquisition Service
 
-See the repository [myems-bacnet](https://github.com/myems/myems-bacnet.git) for more information.
+See [myems-bacnet](./myems-bacnet/README.md) for more information.
 
 ### MyEMS Modbus TCP Acquisition Service
 
-See the repository [myems-modbus-tcp](https://github.com/myems/myems-modbus-tcp.git) for more information.
+See [myems-modbus-tcp](./myems-modbus-tcp/README.md) for more information.
 
 ## MyEMS Screenshot
 ![MyEMS Screenshot](/docs/images/screenshot-2020.12.01-16_53_12.png)

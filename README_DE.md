@@ -21,23 +21,23 @@ Weitere Informationen finden Sie im Repository [myems-web](https://github.com/my
 
 ### MyEMS Admin Panel
 
-Weitere Informationen finden Sie im Repository [myems-admin](https://github.com/myems/myems-admin.git).
+Weitere Informationen finden Sie im [admin](./admin/README.md).
 
 ### MyEMS Database
 
-Weitere Informationen finden Sie im Repository [myems-database](https://github.com/myems/myems-database.git).
+Weitere Informationen finden Sie im [database](./database/README.md).
 
 ### MyEMS Cleaning Service
 
-Weitere Informationen finden Sie im Repository [myems-cleaning](https://github.com/myems/myems-cleaning.git).
+Weitere Informationen finden Sie im [myems-cleaning](./myems-cleaning/README.md).
 
 ### MyEMS Normalization Service
 
-Weitere Informationen finden Sie im Repository [myems-normalization](https://github.com/myems/myems-normalization.git).
+Weitere Informationen finden Sie im [myems-normalization](./myems-normalization/README.md).
 
 ### MyEMS Aggregation Service
 
-Weitere Informationen finden Sie im Repository [myems-aggregation](https://github.com/myems/myems-aggregation.git).
+Weitere Informationen finden Sie im [myems-aggregation](./myems-aggregation/README.md).
 
 ### MyEMS API
 
@@ -45,15 +45,15 @@ Weitere Informationen finden Sie im Repository [myems-api](https://github.com/my
 
 ### MyEMS MQTT Data Publisher Service (transmit data from MyEMS to 3rd Party)
 
-Weitere Informationen finden Sie im Repository [myems-mqtt-publisher](https://github.com/myems/myems-mqtt-publisher.git).
+Weitere Informationen finden Sie im [myems-mqtt-publisher](./myems-mqtt-publisher/README.md).
 
 ### MyEMS BACnet/IP Acquisition Service
 
-Weitere Informationen finden Sie im Repository [myems-bacnet](https://github.com/myems/myems-bacnet.git).
+Weitere Informationen finden Sie im [myems-bacnet](./myems-bacnet/README.md).
 
 ### MyEMS Modbus TCP Acquisition Service
 
-Weitere Informationen finden Sie im Repository [myems-modbus-tcp](https://github.com/myems/myems-modbus-tcp.git).
+Weitere Informationen finden Sie im [myems-modbus-tcp](./myems-modbus-tcp/README.md).
 
 ## MyEMS Bildschirmfoto
 ![MyEMS Bildschirmfoto](/docs/images/screenshot-2020.12.01-16_53_12.png)
