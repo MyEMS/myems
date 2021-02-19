@@ -1,0 +1,22 @@
+<!-- Wrapper-->
+<div id="wrapper" class="top-navigation login-bg">
+
+    <!-- Navigation -->
+    <div ng-include="'views/common/login_navigation.html'"></div>
+
+    <!-- Page wraper -->
+    <!-- ng-class with current state name give you the ability to extended customization your view -->
+    <div id="page-wrapper" class=" {{$state.current.name}}">
+
+        <!-- Main view  -->
+        <div ui-view></div>
+
+        <!-- Footer -->
+
+    </div>
+    <div ng-include="'views/common/footer-login.html'"></div>
+    <!-- End page wrapper-->
+    <toaster-container></toaster-container>
+
+</div>
+<!-- End wrapper-->

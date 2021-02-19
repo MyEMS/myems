@@ -1,0 +1,50 @@
+<div class="wrapper wrapper-content">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="tabs-container">
+				<uib-tabset>
+					<uib-tab heading="{{'FDD.RULE_LIST' | translate}}" >
+						<div class="panel-body" ng-controller="RuleController">
+							<a ng-click="addRule()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'FDD.ADD_RULE' | translate}}</a>
+							<table class="table table-bordered table-hover" >
+								<thead>
+									<tr>
+										<th >{{'SETTING.ID' | translate}}</th>
+										<th >{{'SETTING.NAME' | translate}}</th>
+										<th >{{'FDD.FDD_CODE' | translate}}</th>
+										<th >{{'FDD.CATEGORY' | translate}}</th>
+										<th >{{'FDD.PRIORITY' | translate}}</th>
+										<th >{{'FDD.CHANNEL' | translate}}</th>
+										<th >{{'FDD.IS_ENABLED' | translate}}</th>
+										<th >{{'FDD.EXPRESSION' | translate}}</th>
+										<th >{{'FDD.MESSAGE_TEMPLATE' | translate}}</th>
+										<th >{{'SETTING.ACTION' | translate}}</th>
+
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="rule in rules">
+										<td >{{ rule.id }}</td>
+										<td >{{ rule.name }}</td>
+										<td >{{ rule.fdd_code }}</td>
+										<td >{{ rule.category }}</td>
+										<td >{{ rule.priority }}</td>
+										<td >{{ rule.channel }}</td>
+										<td >{{ rule.is_enabled==true?'SETTING.ON':'SETTING.OFF' | translate}}</td>
+										<td > {{'FDD.DES_EXPRESSION' | translate}} </td>
+										<td class="col-lg-5 col-md-5">{{ rule.message_template }}</td>
+										<td class="text-center">
+											<a class="btn btn-primary btn-rounded btn-xs" ng-click="editRule(rule)" >{{'SETTING.EDIT' | translate}}</a>
+											<a ng-click="deleteRule(rule)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</uib-tab>
+				</uib-tabset>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,84 @@
+<div class="row border-bottom">
+    <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <span minimaliza-sidebar></span>
+            <!--
+            <form role="search" class="navbar-form-custom" method="post" action="views/search_results.html">
+                <div class="form-group">
+                    <input type="text" placeholder="{{ 'SEARCH' | translate }}" class="form-control" name="top-search" id="top-search">
+                </div>
+            </form>-->
+            <span translate class="logo">{{pageTitle}}</span>
+        </div>
+
+        <ul class="nav navbar-top-links navbar-right" ng-controller="LoginController">
+
+            <li>
+                <a ng-click="fullscreen()">
+                    <i class="fa fa-arrows-alt"></i>{{fullScreenTitle | translate}}
+                </a>
+            </li>
+
+            <li uib-dropdown auto-close="outsideClick">
+                <a class="count-info" href uib-dropdown-toggle>
+                    <i class="fa fa-desktop"></i> <span ng-hide="webmessages.length==0" class="label label-warning">{{webmessages.length}}</span>
+                </a>
+                <ul class="dropdown-messages" uib-dropdown-menu>
+                    <li ng-repeat="webmessage in webmessages.slice(0,10)">
+                        <div class="dropdown-messages-box">
+                            <div>
+                                <small class="pull-right label-danger">{{webmessage.status}}</small>
+                                <strong>{{webmessage.subject}}</strong>. <br>
+                                {{webmessage.message.slice(0,50)}}...<br>
+                                <small class="text-muted">{{webmessage.created_datetime | date:'yyyy-MM-dd HH:mm'}}</small>
+                            </div>
+                        </div>
+                        <span class="divider"></span>
+                    </li>
+                    <li>
+                        <div class="text-center link-block">
+                            <a ui-sref="fdd.webmessage">
+                                <i class="fa fa-angle-right"></i> <strong>{{'FDD.ALARM_LIST' | translate}}</strong>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li uib-dropdown auto-close="outsideClick">
+                    <a class="count-info" href uib-dropdown-toggle>
+                        <i class="fa fa-user">{{cur_user.display_name}}</i>
+                    </a>
+                    <ul class="dropdown-messages" uib-dropdown-menu>
+                        <li >
+                            <div class="dropdown-messages-box">
+                                <div class="text-center">
+                                    <strong>{{cur_user.display_name}}</strong> <br>
+                                    {{cur_user.email}}<br>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="divider"></span>
+                            <div class="text-center link-block">
+                                <a ng-click="changePwd()">
+                                    <i class="fa fa-angle-right"></i> <strong>{{'USER.CHANGE_PASSWORD' | translate}}</strong>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            <li>
+                <a ng-click="logout()">
+                    <i class="fa fa-sign-out"></i> {{'LOGOUT' | translate}}
+                </a>
+            </li>
+            <!--
+            <li>
+                <a ng-click="$root.rightSidebar = !$root.rightSidebar">
+                    <i class="fa fa-tasks"></i>
+                </a>
+            </li>-->
+        </ul>
+
+    </nav>
+</div>

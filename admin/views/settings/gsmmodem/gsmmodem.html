@@ -1,0 +1,36 @@
+	<div class="wrapper wrapper-content">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="tabs-container">
+					<uib-tabset>
+							<uib-tab heading="{{'SETTING.GSM_MODEM' | translate}}">
+								<div class="panel-body" ng-controller="GSMModemController">
+									<!-- <a ng-click="addGSMModem()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.ADD_GSM_MODEM' | translate}}</a> -->
+									<table class="table table-bordered table-hover" >
+										<thead>
+											<tr>
+												<th class="text-center">{{'SETTING.ID' | translate}}</th>
+												<th class="text-center">{{'SETTING.SERIAL_PORT' | translate}}</th>
+												<th class="text-center">{{'SETTING.BAUD_RATE' | translate}}</th>
+												<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="gsmmodem in gsmmodems">
+												<td class="text-center">{{ gsmmodem.id }}</td>
+												<td class="text-center">{{ gsmmodem.serial_port }}</td>
+												<td class="text-center">{{ gsmmodem.baud_rate }}</td>
+												<td class="text-center">
+													<a class="btn btn-primary btn-rounded btn-xs" ng-click="editGSMModem(gsmmodem)" >{{'SETTING.EDIT' | translate}}</a>
+													<!-- <a ng-click="deleteGSMModem(gsmmodem)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a> -->
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</uib-tab>
+						</uib-tabset>
+					</div>
+				</div>
+			</div>
+		</div>
