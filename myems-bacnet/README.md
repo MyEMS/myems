@@ -46,7 +46,8 @@ Download and install bacpypes library
 Install myems-bacnet service
 ```
     $ cd ~
-    $ git clone https://github.com/myems.git
+    $ git clone https://github.com/myems/myems.git
+    $ cd myems
     $ git checkout master (or the latest release tag)
     $ sudo cp -R ~/myems/myems-bacnet /myems-bacnet
 ```

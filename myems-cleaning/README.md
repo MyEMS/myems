@@ -33,14 +33,14 @@ Download and install MySQL Connector:
 Install myems-cleaning service
 ```bash
     $ cd ~
-    $ git clone https://github.com/myems.git
+    $ git clone https://github.com/myems/myems.git
+    $ cd myems
     $ sudo git checkout master (or the latest release tag)
     $ sudo cp -R ~/myems/myems-cleaning /myems-cleaning
-    $ cd /myems-cleaning
 ```
 Open config file and edit database configuration
 ```bash
-    $ sudo nano config.py
+    $ sudo nano /myems-cleaning/config.py
 ```
 Setup systemd service:
 ```bash
