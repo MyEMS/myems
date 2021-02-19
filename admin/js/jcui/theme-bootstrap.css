@@ -1,0 +1,81 @@
+/* --- IntegralUI TreeView ----------------------------------------------- */
+.iui-treeview
+{
+	background-color: white;
+	border-color: #dddddd;
+    color: #333333;
+}
+.iui-treeview-item
+{
+	border: thin solid transparent;
+	border-radius: 0;
+}
+.iui-treeview-item-disabled
+{
+	background-color: white;
+	color: #cecece;
+}
+.iui-treeview-item-hovered
+{
+	background-color: #e6e6e6;
+	border: thin solid #adadad;
+	color: #333333;
+}
+.iui-treeview-item-selected
+{
+	background-color: #d4d4d4;
+	border: thin solid #9a9a9a;
+	color: #333333;
+}
+.iui-treeview-item-content
+{
+	display: inline-block;
+	border: thin solid transparent;
+	border-radius: 0;
+	padding: 3px;
+}
+.iui-treeview-item-content:focus {
+    outline: none !important;
+    border: thin dotted gray;
+}
+.iui-treeview-expand-box
+{
+	margin: 0 2px;
+}
+.iui-treeview-expand-box-open
+{
+	background: url(../../img/tree-icon/expandbox-icons.png) no-repeat -16px 0;
+}
+.iui-treeview-expand-box-open-disabled
+{
+	background: url(../../img/tree-icon/expandbox-icons.png) no-repeat -16px 0;
+	opacity: 0.5;
+}
+.iui-treeview-expand-box-close
+{
+	background: url(../../img/tree-icon/expandbox-icons.png) no-repeat -16px -16px;
+}
+.iui-treeview-expand-box-close-disabled
+{
+	background: url(../../img/tree-icon/expandbox-icons.png) no-repeat -16px -16px;
+	opacity: 0.5;
+}
+.iui-treeview-expand-box-open-rtl
+{
+	background: url(../../img/tree-icon/expandbox-icons.png) no-repeat -16px -32px;
+}
+.iui-treeview-expand-box-open-rtl-disabled
+{
+	background: url(../../img/tree-icon/expandbox-icons.png) no-repeat -16px -32px;
+	opacity: 0.5;
+}
+.iui-treeview-expand-box-close-rtl
+{
+	background: url(../../img/tree-icon/expandbox-icons.png) no-repeat -16px -16px;
+}
+.iui-treeview-expand-box-close-rtl-disabled
+{
+	background: url(../../img/tree-icon/expandbox-icons.png) no-repeat -16px -16px;
+	opacity: 0.5;
+}
+

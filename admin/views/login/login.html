@@ -1,0 +1,46 @@
+<div class="" ng-controller="LoginController">
+    <div class="">
+        <div class="row">
+
+            <div class="paddingtop">
+                <div class="margincenter">
+                    <div class="panel panel-warning loginform">
+                        <div class="panel-body">
+                            <p class="text-center">
+                                {{'LOGIN.USERLOGIN' | translate}}
+                            </p>
+                            <div class="input-group m-b">
+                                <span class="input-group-addon">{{'LOGIN.USERNAME' | translate}}</span>
+                                <input ng-keypress="onKeypress($event)" type="text" ng-model="user.name" placeholder="Username" class="form-control" required="" autofocus="autofocus">
+                            </div>
+                            <div class="input-group m-b">
+                                <span class="input-group-addon"> {{'LOGIN.PASSWORD' | translate}}</span>
+                                <input ng-keypress="onKeypress($event)" ng-model="user.password" type="password" placeholder="Password" class="form-control" required="">
+                            </div>
+                            <div class="input-group m-x">
+                                <span class="input-group-addon"> {{'LANGUAGE' | translate}}</span>
+                                <select ng-change="changeLanguage(language)"  ng-model="language" class="form-control" >
+                                    <option value="en">English</option>
+                                    <option value="cn">中 文</option>
+                                </select>
+                            </div>
+                            <div>
+                                <button  ng-click="login(user)" type="submit" class="btn btn-block " >{{'LOGIN' | translate}}</button>
+
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+</div>

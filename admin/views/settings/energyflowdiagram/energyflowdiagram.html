@@ -1,0 +1,185 @@
+<div class="wrapper wrapper-content"  ng-controller="EnergyFlowDiagramMasterController">
+
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="tabs-container">
+				<uib-tabset>
+					<uib-tab heading="{{'COMMON.ENERGY_FLOW_DIAGRAM' | translate}}">
+						<div class="panel-body" ng-controller="EnergyFlowDiagramController">
+							<a ng-click="addEnergyFlowDiagram()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'ENERGY_FLOW_DIAGRAM.ADD_ENERGY_FLOW_DIAGRAM' | translate}}</a>
+							<table class="table table-bordered table-hover" >
+								<thead>
+									<tr>
+										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat=" energyflowdiagram in energyflowdiagrams">
+										<td class="text-center">{{  energyflowdiagram.id }}</td>
+										<td class="text-center">{{  energyflowdiagram.name }}</td>
+										<td class="text-center">
+											<a ng-click="editEnergyFlowDiagram(energyflowdiagram)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
+											<a ng-click="deleteEnergyFlowDiagram(energyflowdiagram)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</uib-tab>
+          <uib-tab heading="{{'ENERGY_FLOW_DIAGRAM.NODE' | translate}}">
+            <div class="panel-body" ng-controller="EnergyFlowDiagramNodeController">
+              <div class="row">
+                <div class="col-lg-3">
+                  <div class="panel panel-info">
+                    <div class="panel-heading">
+                      {{'COMMON.ENERGY_FLOW_DIAGRAM' | translate}}
+                    </div>
+                    <div class="panel-body" >
+                      <form role="form">
+                        <div class="form-group no-margin"><label>{{'ENERGY_FLOW_DIAGRAM.SELECT_ENERGY_FLOW_DIAGRAM' | translate}}</label>
+                          <ui-select  on-select="changeEnergyFlowDiagram($item,$model)" ng-model="currentEnergyFlowDiagram.selected" theme="bootstrap">
+                            <ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices repeat="energyflowdiagram.id as energyflowdiagram in energyflowdiagrams | filter: $select.search">
+                              <div ng-bind-html="energyflowdiagram.name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                          </ui-select>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-9">
+                  <div class="panel panel-primary">
+                    <div class="panel-heading">
+                      {{currentEnergyFlowDiagram.name}}{{'ENERGY_FLOW_DIAGRAM.N_S_NODE' | translate}}
+                    </div>
+                    <div class="panel-body" >
+                      <a ng-show="is_show_add_node" ng-click="addEnergyFlowDiagramNode()" class="btn btn-primary btn-rounded  btn-outline" href="">
+												<i class="fa fa-plus-circle"></i> {{'ENERGY_FLOW_DIAGRAM.ADD_NODE' | translate}}</a>
+                      <table class="table table-bordered table-hover" >
+                        <thead>
+                          <tr>
+                            <th class="text-center">{{'ENERGY_FLOW_DIAGRAM.NODE_ID' | translate}}</th>
+                            <th class="text-center">{{'ENERGY_FLOW_DIAGRAM.NODE_NAME' | translate}}</th>
+                            <th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr ng-repeat="energyflowdiagramnode in energyflowdiagramnodes">
+                            <td class="text-center">{{ energyflowdiagramnode.id }}</td>
+                            <td class="text-center">{{ energyflowdiagramnode.name }}</td>
+                            <td class="text-center">
+                              <a ng-click="editEnergyFlowDiagramNode(energyflowdiagramnode)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
+                              <a ng-click="deleteEnergyFlowDiagramNode(energyflowdiagramnode)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                  </div>
+                </div>
+                </div>
+            </div>
+          </div>
+          </uib-tab>
+          <uib-tab heading="{{'ENERGY_FLOW_DIAGRAM.LINK' | translate}}">
+            <div class="panel-body" ng-controller="EnergyFlowDiagramLinkController">
+              <div class="row">
+                <div class="col-lg-3">
+                  <div class="panel panel-info">
+                    <div class="panel-heading">
+                      {{'COMMON.ENERGY_FLOW_DIAGRAM' | translate}}
+                    </div>
+                    <div class="panel-body" >
+                      <form role="form">
+                        <div class="form-group no-margin"><label>{{'ENERGY_FLOW_DIAGRAM.SELECT_ENERGY_FLOW_DIAGRAM' | translate}}</label>
+                          <ui-select  on-select="changeEnergyFlowDiagram($item,$model)" ng-model="currentEnergyFlowDiagram.selected" theme="bootstrap">
+                            <ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices repeat="energyflowdiagram.id as energyflowdiagram in energyflowdiagrams | filter: $select.search">
+                              <div ng-bind-html="energyflowdiagram.name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                          </ui-select>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-9">
+                  <div class="panel panel-primary">
+                    <div class="panel-heading">
+                      {{currentEnergyFlowDiagram.name}}{{'ENERGY_FLOW_DIAGRAM.N_S_LINK' | translate}}
+                    </div>
+                    <div class="panel-body" >
+                      <a ng-show="is_show_add_link" ng-click="addEnergyFlowDiagramLink()" class="btn btn-primary btn-rounded  btn-outline" href="">
+												<i class="fa fa-plus-circle"></i> {{'ENERGY_FLOW_DIAGRAM.ADD_LINK' | translate}}</a>
+                      <table class="table table-bordered table-hover" >
+                        <thead>
+                          <tr>
+                            <th class="text-center">{{'ENERGY_FLOW_DIAGRAM.LINK_ID' | translate}}</th>
+                            <th class="text-center">{{'ENERGY_FLOW_DIAGRAM.SOURCE_NODE' | translate}}</th>
+                            <th class="text-center">{{'ENERGY_FLOW_DIAGRAM.TARGET_NODE' | translate}}</th>
+                            <th class="text-center">{{'ENERGY_FLOW_DIAGRAM.METER' | translate}}</th>
+                            <th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr ng-repeat="energyflowdiagramlink in energyflowdiagramlinks">
+                            <td class="text-center">{{ energyflowdiagramlink.id }}</td>
+                            <td class="text-center">{{ energyflowdiagramlink.source_node.name }}</td>
+                            <td class="text-center">{{ energyflowdiagramlink.target_node.name }}</td>
+                            <td class="text-center">{{ showEnergyFlowDiagramMeter(energyflowdiagramlink) }}</td>
+                            <td class="text-center">
+                              <a ng-click="editEnergyFlowDiagramLink(energyflowdiagramlink)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
+                              <a ng-click="deleteEnergyFlowDiagramLink(energyflowdiagramlink)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                  </div>
+                </div>
+                </div>
+            </div>
+          </div>
+          </uib-tab>
+          <uib-tab heading="{{'ENERGY_FLOW_DIAGRAM.PREVIEW' | translate}}">
+            <div class="panel-body" ng-controller="EnergyFlowDiagramPreviewController">
+              <div class="row">
+                <div class="col-lg-3">
+                  <div class="panel panel-info">
+                    <div class="panel-heading">
+                      {{'COMMON.ENERGY_FLOW_DIAGRAM' | translate}}
+                    </div>
+                    <div class="panel-body" >
+                      <form role="form">
+                        <div class="form-group no-margin"><label>{{'ENERGY_FLOW_DIAGRAM.SELECT_ENERGY_FLOW_DIAGRAM' | translate}}</label>
+                          <ui-select  on-select="changeEnergyFlowDiagram($item,$model)" ng-model="currentEnergyFlowDiagram.selected" theme="bootstrap">
+                            <ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices repeat="energyflowdiagram.id as energyflowdiagram in energyflowdiagrams | filter: $select.search">
+                              <div ng-bind-html="energyflowdiagram.name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                          </ui-select>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-9">
+                  <div class="panel panel-primary">
+                    <div class="panel-heading">
+                      {{currentEnergyFlowDiagram.name}}{{'ENERGY_FLOW_DIAGRAM.N_S_PREVIEW' | translate}}
+                    </div>
+                    <div class="panel-body" >
+											<highchart class="chart" config="energyFlowChart"></highchart>
+                  </div>
+                </div>
+                </div>
+            </div>
+          </div>
+          </uib-tab>
+
+		    </uib-tabset>
+	</div>
+</div>
+</div>
+</div>

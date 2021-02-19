@@ -1,0 +1,84 @@
+<div class="inmodal">
+    <div class="modal-header">
+        <h4 class="modal-title">{{operation | translate}}</h4>
+    </div>
+    <div class="modal-body">
+        <form role="form" name="form_equipmentparameter" novalidate class="form-horizontal">
+            <div class="form-group">
+              <label class="col-sm-4 control-label">{{'EQUIPMENT.PARAMETER_NAME' | translate}}</label>
+                <div class="col-sm-8"><input ng-model="equipmentparameter.name" type="text" name="equipmentparametername" class="form-control" required="">
+                    <div class="m-t-xs" ng-show="form_equipmentparameter.equipmentparametername.$invalid && form_equipmentparameter.equipmentparametername.$dirty">
+                        <small class="text-danger" ng-show="form_equipmentparameter.equipmentparametername.$error.required">{{'EQUIPMENT.INPUT_PARAMETER_NAME' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label">{{'EQUIPMENT.PARAMETER_TYPE' | translate}}</label>
+                <div class="col-sm-8">
+                    <select ng-disabled="is_disabled" name="equipment_parameter_type"  ng-model="equipmentparameter.parameter_type" class="form-control m-b">
+                                <option value="constant">{{'EQUIPMENT.CONSTANT' | translate}}</option>
+                                <option value="point">{{'EQUIPMENT.POINT' | translate}}</option>
+                                <option value="fraction">{{'EQUIPMENT.FRACTION' | translate}}</option>
+                    </select>
+                    <div class="m-t-xs" ng-show="form_equipmentparameter.equipmentparameter.parameter_type.$invalid && form_equipmentparameter.equipmentparameter.parameter_type.$dirty">
+                        <small class="text-danger" ng-show="form_equipmentparameter.equipmentparameter.parameter_type.$error.required">{{'EQUIPMENT.SELECT_PARAMETER_TYPE' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="hr-line-dashed" ng-show=" equipmentparameter.parameter_type=='constant' "></div>
+            <div class="form-group" ng-show=" equipmentparameter.parameter_type=='constant' ">
+              <label class="col-sm-4 control-label">{{'EQUIPMENT.CONSTANT' | translate}}</label>
+              <div class="col-sm-8">
+                  <input ng-model="equipmentparameter.constant" type="text" name="equipmentparameterconstant" class="form-control" >
+                  <div class="m-t-xs" ng-show="form_equipmentparameter.equipmentparameterconstant.$invalid && form_equipmentparameter.equipmentparameterconstant.$dirty">
+                      <small class="text-danger" ng-show="form_equipmentparameter.equipmentparameterconstant.$error.required">{{'EQUIPMENT.INPUT_CONSTANT' | translate}}</small>
+                  </div>
+              </div>
+            </div>
+            <div class="hr-line-dashed" ng-show=" equipmentparameter.parameter_type=='point' "></div>
+            <div class="form-group" ng-show=" equipmentparameter.parameter_type=='point' " >
+              <label class="col-sm-4 control-label">{{'EQUIPMENT.POINT' | translate}}</label>
+                <div class="col-sm-8">
+                    <ui-select ng-model="equipmentparameter.point.id" name="equipmentparameter.point_id" theme="bootstrap">
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                    <div class="m-t-xs" ng-show="form_equipmentparameter.point_id.$invalid && form_equipmentparameter.point_id.$dirty">
+                        <small class="text-danger" ng-show="form_equipmentparameter.point_id.$error.required">{{'EQUIPMENT.SELECT_POINT' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="hr-line-dashed"  ng-show=" equipmentparameter.parameter_type=='fraction' "></div>
+            <div class="form-group"  ng-show=" equipmentparameter.parameter_type=='fraction' ">
+              <label class="col-sm-4 control-label">{{'EQUIPMENT.PARAMETER_NUMERATOR_METER' | translate}}</label>
+                <div class="col-sm-8">
+                    <ui-select ng-model="equipmentparameter.numerator_meter.uuid" name="equipmentparameter.numerator_meter_uuid" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="meter.uuid as meter in mergedmeters | filter: $select.search">
+                            <div ng-bind-html="meter.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="hr-line-dashed"  ng-show=" equipmentparameter.parameter_type=='fraction' "></div>
+            <div class="form-group"  ng-show=" equipmentparameter.parameter_type=='fraction' ">
+              <label class="col-sm-4 control-label">{{'EQUIPMENT.PARAMETER_DENOMINATOR_METER' | translate}}</label>
+                <div class="col-sm-8">
+                    <ui-select ng-model="equipmentparameter.denominator_meter.uuid" name="equipmentparameter.denominator_meter_uuid" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="meter.uuid as meter in mergedmeters  | filter: $select.search">
+                            <div ng-bind-html="meter.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
+        <button type="button" ng-disabled="form_meter.$invalid" class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
+    </div>
+</div>
