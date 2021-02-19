@@ -43,9 +43,9 @@ Install myems-modbus-tcp service
 ```
     $ cd ~
     $ git clone https://github.com/myems/myems.git
+    $ cd myems
     $ sudo git checkout master (or the latest release tag)
     $ sudo cp -R ~/myems/myems-modbus-tcp /myems-modbus-tcp
-    $ cd /myems-modbus-tcp
 ```
     Eidt the config
 ```
