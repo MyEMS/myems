@@ -18,43 +18,43 @@ MyEMS项目由下列组件构成:
 
 ### MyEMS Web APP
 
-参考仓库 [myems-web](https://github.com/myems/myems-web.git) 获取更多信息。
+参考[myems-web](https://github.com/myems/myems-web.git) 获取更多信息。
 
 ### MyEMS 管理面板
 
-参考仓库  [myems-admin](https://github.com/myems/myems-admin.git) 获取更多信息。
+参考[admin](./admin/README.md) 获取更多信息。
 
 ### MyEMS 数据库
 
-参考仓库  [myems-database](https://github.com/myems/myems-database.git) 获取更多信息。
+参考[database](./database/README.md) 获取更多信息。
 
 ### MyEMS 数据清洗服务
 
-参考仓库  [myems-cleaning](https://github.com/myems/myems-cleaning.git) 获取更多信息。
+参考[myems-cleaning](./myems-cleaning/README.md) 获取更多信息。
 
 ### MyEMS 数据规范化服务
 
-参考仓库  [myems-normalization](https://github.com/myems/myems-normalization.git) 获取更多信息。
+参考[myems-normalization](./myems-normalization/README.md) 获取更多信息。
 
 ### MyEMS 数据汇总服务
 
-参考仓库  [myems-aggregation](https://github.com/myems/myems-aggregation.git) 获取更多信息。
+参考[myems-aggregation](./myems-aggregation/README.md) 获取更多信息。
 
 ### MyEMS 数据接口API
 
-参考仓库  [myems-api](https://github.com/myems/myems-api.git) 获取更多信息。
+参考仓库[myems-api](https://github.com/myems/myems-api.git) 获取更多信息。
 
 ### MyEMS MQTT 数据发布服务 (从MyEMS转发到第三方)
 
-参考仓库  [myems-mqtt-publisher](https://github.com/myems/myems-mqtt-publisher.git) 获取更多信息。
+参考[myems-mqtt-publisher](./myems-mqtt-publisher/README.md) 获取更多信息。
 
 ### MyEMS BACnet/IP 数据采集服务
 
-参考仓库  [myems-bacnet](https://github.com/myems/myems-bacnet.git) 获取更多信息。
+参考[myems-bacnet](./myems-bacnet/README.md) 获取更多信息。
 
 ### MyEMS Modbus TCP 数据采集服务
 
-参考仓库  [myems-modbus-tcp](https://github.com/myems/myems-modbus-tcp.git) 获取更多信息。
+参考[myems-modbus-tcp](./myems-modbus-tcp/README.md) 获取更多信息。
 
 ## MyEMS截图
 ![MyEMS Screenshot](/docs/images/screenshot-2020.12.01-16_53_12.png)
