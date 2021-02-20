@@ -1,1 +1,2 @@
-admin/js/* linguist-vendored
+admin/* linguist-vendored
+web/* linguist-vendored
