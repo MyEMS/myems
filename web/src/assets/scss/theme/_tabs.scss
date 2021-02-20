@@ -1,0 +1,92 @@
+/*-----------------------------------------------
+|   Tabs
+-----------------------------------------------*/
+@keyframes fadeInLeft{
+  0%{
+    opacity: 0;
+    transform: translateX(-3.125rem);
+  }
+  100%{
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeOutRight{
+  0%{
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100%{
+    opacity: 0;
+    transform: translateX(3.125rem);
+  }
+}
+
+
+@mixin navigation-bar(){
+  .nav-bar{
+    display: flex;
+    justify-content: flex-start;
+    position: relative;
+    flex-flow: row wrap;
+    position: relative;
+     border-bottom: ($border-width * 2) solid $gray-100;
+
+    .tab-indicator{
+      content: '';
+      position: absolute;
+      display: block;
+      bottom: -0.125rem;
+      height: 0.125rem;
+      background-color: $primary;
+      transition: left 0.4s ease-in-out, right 0.2s ease-in-out;
+      &.transition-reverse{ transition: left 0.2s ease-in-out, right 0.4s ease-in-out; }
+    }
+
+    &.nav-bar-right{ justify-content: flex-end; }
+    &.nav-bar-center{ justify-content: center; }
+
+    .nav-bar-item{
+      color: map_get($theme-colors, 400);
+      padding: map_get($spacers, 2) map_get($spacers, 4);
+      font-size: $font-size-sm;
+      line-height: $font-size-base;
+      font-family: $font-family-sans-serif;
+      display: inline-block;
+      font-weight: $font-weight-bold;
+      margin-bottom: 0;
+      text-align: center;
+      cursor: pointer;
+      border: $border-width solid transparent;
+      &.active{ color: $primary; }
+    }
+  }
+}
+
+.fancy-tab{
+  display: flex;
+  flex-direction: column;
+
+  @include navigation-bar();
+
+  .tab-contents{
+    margin-top: 1.875rem;
+    position: relative;
+
+    .tab-content{
+      backface-visibility: hidden;
+
+      &:not(.active){
+        position: absolute;
+        left: 0;
+        top: 0;
+        pointer-events: none;
+        opacity: 1;
+        animation: fadeOutRight .25s ease forwards;
+      }
+
+      &.active{ animation: fadeInLeft .5s ease forwards; }
+    }
+  }
+}

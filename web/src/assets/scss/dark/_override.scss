@@ -1,0 +1,351 @@
+@each $color, $value in $theme-colors {
+  /*-----------------------------------------------
+  |   Badges
+  -----------------------------------------------*/
+  .badge-#{$color} {
+    color: #fff !important;
+
+    @if $color== 'dark' {
+      color: #000 !important;
+    }
+  }
+
+  /*-----------------------------------------------
+  |   Solid Buttons
+  -----------------------------------------------*/
+  .btn-#{$color} {
+    @if $color== 'dark' {
+      color: $white;
+
+      @include hover-focus {
+        &:not(:disabled):not(.disabled) {
+          color: #000 !important;
+        }
+      }
+
+      &:active {
+        color: #000 !important;
+        background-color: darken($gray-900, 10%) !important;
+        border-color: darken($gray-900, 10%) !important;
+      }
+    } @else if $color== 'light' {
+      color: #fff;
+
+      @include hover-focus {
+        &:not(:disabled):not(.disabled) {
+          color: #fff;
+        }
+      }
+
+      &:active {
+        color: #fff !important;
+        background-color: darken(#000, 10%) !important;
+        border-color: darken(#000, 10%) !important;
+      }
+
+      &.disabled,
+      &:disabled {
+        color: $black !important;
+      }
+    } @else {
+      color: #fff;
+
+      @include hover-focus {
+        &:not(:disabled):not(.disabled) {
+          color: #fff;
+        }
+      }
+
+      &:active {
+        color: #fff !important;
+      }
+
+      &:not(:disabled):not(.disabled):active,
+      &:not(:disabled):not(.disabled).active,
+      .show > &.dropdown-toggle {
+        color: $black !important;
+      }
+    }
+  }
+
+  /*-----------------------------------------------
+  |   Outline Buttons
+  -----------------------------------------------*/
+  .btn-outline-#{$color} {
+    @if $color== 'light' {
+      border-color: $gray-1100 !important;
+      color: $gray-1100;
+
+      @include hover-focus {
+        &:not(:disabled):not(.disabled) {
+          background-color: $gray-1100;
+          color: $gray-400;
+          border-color: $gray-1100;
+        }
+      }
+
+      &:active {
+        background-color: darken($gray-1100, 10%) !important;
+        color: $gray-400 !important;
+        border-color: $gray-1100 !important;
+      }
+    } @else if $color== 'dark' {
+      border-color: $white !important;
+      color: $white;
+
+      @include hover-focus {
+        &:not(:disabled):not(.disabled) {
+          background-color: $white;
+          border-color: $white;
+        }
+      }
+
+      &:active {
+        background-color: darken($white, 2%) !important;
+        border-color: darken($white, 2%) !important;
+        color: $gray-800 !important;
+      }
+    } @else {
+      @include hover-focus {
+        &:not(:disabled):not(.disabled) {
+          color: #fff;
+        }
+      }
+
+      &:active {
+        color: #fff !important;
+      }
+    }
+  }
+}
+
+/*-----------------------------------------------
+|   Falcon Buttons
+-----------------------------------------------*/
+$theme-falcon-btn-colors: (
+  'primary': $primary,
+  'success': $success,
+  'info': $info,
+  'warning': $warning,
+  'danger': $danger,
+  'default': $dark
+);
+
+@each $color, $value in $theme-falcon-btn-colors {
+  .btn-falcon-#{$color} {
+    background: #132238;
+    border-color: #132238;
+
+    @if $color != 'default' {
+      color: $value !important;
+    } @else {
+      color: darken(#fff, 10%) !important;
+    }
+
+    box-shadow: 0 0 0 1px rgba(0, 8, 19, 0.3), 0 2px 5px 0 rgba(0, 13, 33, 0.5), 0 1px 1.5px 0 rgba(0, 8, 1, 0.48),
+      0 1px 2px 0 rgba(0, 8, 1, 0.4);
+
+    @include hover-focus {
+      box-shadow: 0 0 0 1px rgba(0, 8, 19, 0.3), 0 3px 7px 0 rgba(0, 13, 33, 0.8), 0 1px 1.5px 0 rgba(0, 8, 1, 1),
+        0 1px 2px 0 rgba(0, 8, 1, 1) !important;
+
+      &:not(.disabled):not(:disabled) {
+        color: darken($value, 8.5%) !important;
+        border-color: #132238;
+        background: #132238;
+      }
+    }
+
+    &:active {
+      &:not(.disabled):not(:disabled) {
+        box-shadow: none !important;
+        color: darken($value, 8.5%) !important;
+        background: #071629 !important;
+        border-color: #071629 !important;
+      }
+    }
+  }
+}
+
+/*-----------------------------------------------
+|   Reveal Buttons
+-----------------------------------------------*/
+.btn-reveal-trigger {
+  .btn-reveal {
+    &:active:focus,
+    &:active,
+    &:focus {
+      background-color: #071629;
+      border-color: #071629;
+    }
+  }
+}
+
+// Socail buttons
+.btn-outline-twitter,
+.btn-outline-facebook,
+.btn-outline-google-plus {
+  @include hover-focus {
+    color: #fff;
+  }
+}
+
+/*-----------------------------------------------
+|   Box Shadow
+-----------------------------------------------*/
+.card,
+.notification,
+// .dropdown-menu,
+.navbar-glass-shadow {
+  box-shadow: none !important;
+}
+
+/*-----------------------------------------------
+|   Documentation
+-----------------------------------------------*/
+// :not(pre) > code[class*='language-'], pre[class*='language-'] {
+//   background-color: $white;
+//   border: $border-width solid $gray-200;
+// }
+// code[class*='language-'], pre[class*='language-'] { color: $black; }
+
+/*-----------------------------------------------
+|   Landing
+-----------------------------------------------*/
+.card-span {
+  border: 1px solid rgba(0, 0, 0, 0.23) !important;
+}
+
+/*-----------------------------------------------
+|   Backgrounds
+-----------------------------------------------*/
+.bg-card-gradient:not(.progress-bar),
+.bg-gradient {
+  background-image: linear-gradient(45deg, #012552, #001835);
+}
+
+.bg-dark {
+  background-color: $gray-200 !important;
+}
+
+.hover-shadow {
+  @include hover-focus {
+    box-shadow: 0 0 0.75rem 0 rgba(0, 0, 0, 0.3);
+  }
+}
+
+.bg-circle-shape {
+  background-image: linear-gradient(45deg, #012552, #001835) !important;
+
+  &:before {
+    background-image: linear-gradient(45deg, rgba(20, 58, 101, 0.41), rgb(5, 53, 113)) !important;
+  }
+
+  &:after {
+    background-image: linear-gradient(-45deg, rgba(9, 25, 43, 0.41), rgb(10, 59, 121)) !important;
+  }
+}
+
+.custom-select {
+  option:checked {
+    background: $gray-300;
+  }
+}
+
+.modal-shape-header {
+  background-image: linear-gradient(-45deg, #012552, #001835) !important;
+
+  &:after {
+    background-image: linear-gradient(-45deg, rgba(20, 58, 101, 0.41), rgb(5, 53, 113)) !important;
+  }
+
+  &:before {
+    background-image: linear-gradient(45deg, rgba(9, 25, 43, 0.41), rgb(10, 59, 121)) !important;
+  }
+}
+
+/*-----------------------------------------------
+|   Typography
+-----------------------------------------------*/
+.text-white {
+  color: #fff !important;
+}
+
+a.text-white {
+  color: #fff !important;
+
+  @include hover-focus {
+    color: $gray-800 !important;
+  }
+}
+
+/*-----------------------------------------------
+|   Leaflet World Map
+-----------------------------------------------*/
+.leaflet-popup-tip,
+.leaflet-popup-content-wrapper {
+  background-color: $white !important;
+}
+
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+  background-color: $gray-300 !important;
+  color: #fff !important;
+}
+
+.leaflet-bar {
+  a {
+    border-color: #000 !important;
+
+    @include hover-focus {
+      border-color: #000 !important;
+    }
+
+    &.leaflet-disabled {
+      color: $gray-200 !important;
+    }
+  }
+}
+
+/*-----------------------------------------------
+|   Navbar
+-----------------------------------------------*/
+
+.navbar-vertical.navbar-vibrant {
+  .btn-purchase {
+    @extend .btn-dark;
+  }
+}
+.navbar-vertical-collapsed {
+  .navbar-vertical .navbar-collapse {
+    box-shadow: none !important;
+  }
+}
+/*-----------------------------------------------
+|   Cookie Notice
+-----------------------------------------------*/
+.notice {
+  border-top: 1px solid $border-color !important;
+}
+
+/*-----------------------------------------------
+|   Kanban
+-----------------------------------------------*/
+.theme-modal {
+  border: 1px solid $border-color;
+}
+button.close-circle {
+  background-color: $gray-300;
+  box-shadow: none;
+  @include hover-focus {
+    background-color: $gray-200;
+  }
+}
+.avatar .avatar-button {
+  background-color: $gray-400 !important;
+  color: #fff !important;
+  @include hover-focus {
+    border-color: #4d5969 !important;
+    background-color: #37404c !important;
+  }
+}

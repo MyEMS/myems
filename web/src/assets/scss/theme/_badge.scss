@@ -1,0 +1,29 @@
+/*-----------------------------------------------
+|   Badge
+-----------------------------------------------*/
+@mixin badge-soft-variant($bg, $color) {
+  color: $color;
+  background-color: $bg;
+
+  &[href] {
+    @include hover-focus {
+      text-decoration: none;
+      color: $color;
+      background-color: darken($bg, 10%);
+    }
+  }
+}
+
+@each $color, $value in $theme-colors {
+  .badge-soft-#{$color} {
+    @if $color == 'secondary' {
+      @include badge-soft-variant(theme-color-level($color, -10), theme-color-level($color, -0.8));
+    } @else if $color == 'warning' {
+      @include badge-soft-variant(theme-color-level($color, -10), theme-color-level($color, 2.5));
+    } @else if $color == 'danger' {
+      @include badge-soft-variant(theme-color-level($color, -10), theme-color-level($color, 4.5));
+    } @else {
+      @include badge-soft-variant(theme-color-level($color, -10), theme-color-level($color, 4.5));
+    }
+  }
+}

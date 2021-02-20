@@ -1,0 +1,188 @@
+/*-----------------------------------------------
+|   Avatar
+-----------------------------------------------*/
+
+.avatar {
+  position: relative;
+  display: inline-block;
+  .avatar-name {
+    background-color: $gray-900;
+    position: absolute;
+    text-align: center;
+    color: $white;
+    font-weight: bold;
+    text-transform: uppercase;
+    display: block;
+    > span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate3d(-50%, -50%, 0);
+    }
+  }
+  .avatar-emoji {
+    //background-color: $gray-200;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    > span {
+      transform: translateY(2%);
+      display: inline-block;
+    }
+  }
+  img {
+    display: block;
+  }
+  img,
+  .avatar-name {
+    width: 100%;
+    height: 100%;
+  }
+  img {
+    object-fit: cover;
+  }
+  &[class*='status-']:before {
+    content: '';
+    position: absolute;
+    border-radius: 100%;
+    z-index: 1;
+  }
+  &.status-online:before {
+    background-color: $success;
+  }
+  &.status-offline:before {
+    background-color: $secondary;
+  }
+  &.status-away:before {
+    background-color: $warning;
+  }
+  &.status-do-not-disturb:before {
+    background-color: $danger;
+  }
+  .avatar-button {
+    background-color: $gray-400 !important;
+    transition: $transition-base;
+    border: 1px solid $gray-400;
+    font-size: 12px;
+    @include hover-focus {
+      background-color: $gray-500 !important;
+    }
+  }
+}
+.avatar {
+  &:hover .overlay-icon {
+    opacity: 1;
+  }
+}
+
+@each $suffix, $size in $avatars-dimension {
+  .avatar-#{$suffix} {
+    height: $size;
+    width: $size;
+    .avatar-name {
+      font-size: #{$size / 3};
+    }
+    .avatar-emoji {
+      font-size: #{$size};
+    }
+    @if $suffix == 's' or $suffix == 'm' or $suffix == 'l' {
+      &[class*='status-']:before {
+        border: 1px solid $white;
+        height: 9px;
+        width: 9px;
+        right: -1px;
+        bottom: -1px;
+      }
+    }
+    @if $suffix == 'xl' {
+      &[class*='status-']:before {
+        border: 2px solid $white;
+        height: 13px;
+        width: 13px;
+        right: -2px;
+        bottom: -2px;
+      }
+    }
+    @if $suffix == '2xl' {
+      &[class*='status-']:before {
+        border: 2px solid $white;
+        height: 16px;
+        width: 16px;
+        right: -3px;
+        bottom: -3px;
+      }
+    }
+    @if $suffix == '3xl' {
+      &[class*='status-']:before {
+        border: 3px solid $white;
+        height: 18px;
+        width: 18px;
+        right: 0;
+        bottom: 0;
+      }
+    }
+    @if $suffix == '4xl' {
+      &[class*='status-']:before {
+        border: 3px solid $white;
+        height: 24px;
+        width: 24px;
+        right: 3px;
+        bottom: 3px;
+      }
+    }
+    @if $suffix == '5xl' {
+      &[class*='status-']:before {
+        border: 4px solid $white;
+        height: 32px;
+        width: 32px;
+        right: 8px;
+        bottom: 8px;
+      }
+    }
+    .rounded-soft {
+      border-radius: $size/6 !important;
+    }
+  }
+}
+
+/*-----------------------------------------------
+|   Cover and profile image
+-----------------------------------------------*/
+.avatar-profile {
+  position: absolute;
+  bottom: 0;
+  transform: translateY(50%);
+}
+
+.overlay-icon {
+  position: absolute;
+  height: 50%;
+  width: 100%;
+  bottom: 0;
+  opacity: 0;
+  transition: $transition-base;
+  cursor: pointer;
+}
+
+.cover-image-file-input {
+  opacity: 0;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: map_get($spacers, 1) map_get($spacers, 2);
+  margin-left: map_get($spacers, 3);
+  margin-top: map_get($spacers, 3);
+  border-radius: $border-radius;
+  font-size: map_get($font-sizes, '-1');
+  color: $white;
+  border: 1px solid $border-color;
+  box-shadow: $box-shadow-sm;
+  background-color: rgba($black, 0.9);
+}
+.cover-image:hover .cover-image-file-input {
+  opacity: 1;
+  transition: $transition-base;
+}

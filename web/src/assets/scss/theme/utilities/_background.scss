@@ -1,0 +1,237 @@
+/*-----------------------------------------------
+|   Backgrounds
+-----------------------------------------------*/
+.bg-holder {
+  position: absolute;
+  width: 100%;
+  min-height: 100%;
+  top: 0;
+  left: 0;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  will-change: transform, opacity, filter;
+  backface-visibility: hidden;
+  background-repeat: no-repeat;
+  z-index: 0;
+
+  &.bg-right {
+    left: auto;
+    right: 0;
+  }
+
+  &.overlay:before {
+    position: absolute;
+    content: '';
+    background: rgba(#000, 0.25);
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  &.overlay-primary:before {
+    background: rgba($primary, 0.4);
+  }
+
+  &.overlay-info:before {
+    background: rgba($info, 0.4);
+  }
+
+  &.overlay-success:before {
+    background: rgba($success, 0.4);
+  }
+
+  &.overlay-warning:before {
+    background: rgba($warning, 0.4);
+  }
+
+  &.overlay-danger:before {
+    background: rgba($danger, 0.4);
+  }
+
+  &.overlay-0:before {
+    background: rgba(#000, 0.7);
+  }
+
+  &.overlay-1:before {
+    background: rgba(#000, 0.55);
+  }
+
+  &.overlay-2:before {
+    background: rgba(#000, 0.4);
+  }
+
+  .bg-video {
+    position: absolute;
+    display: block;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+    height: 100%;
+    min-width: 100%;
+  }
+
+  .bg-youtube {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.bg-fixed {
+  background-attachment: fixed;
+}
+
+.has-parallax {
+  position: relative;
+  overflow: hidden;
+}
+
+.bg-glass {
+  background-color: rgba($white, 0.9);
+}
+
+/*-----------------------------------------------
+|   Background Colors [Grays]
+-----------------------------------------------*/
+@each $key, $value in $grays {
+  @include bg-variant('.bg-#{$key}', $value, true);
+}
+
+/*-----------------------------------------------
+|   Background Colors [Brands]
+-----------------------------------------------*/
+@include bg-variant('.bg-facebook', $facebook, true);
+@include bg-variant('.bg-twitter', $twitter, true);
+@include bg-variant('.bg-google-plus', $google-plus, true);
+@include bg-variant('.bg-linkedin', $linkedin, true);
+
+.bg-card {
+  background-size: contain;
+  background-position: right;
+  border-top-right-radius: 0.375rem;
+  border-bottom-right-radius: 0.375rem;
+
+  [dir='rtl'] & {
+    background-position: left;
+    transform: scaleX(-1);
+    border-top-left-radius: 0.375rem;
+    border-bottom-left-radius: 0.375rem;
+  }
+}
+
+/*-----------------------------------------------
+|   Background gradient
+-----------------------------------------------*/
+.bg-gradient {
+  background-image: linear-gradient(-45deg, #014ba7, #0183d0);
+  background-position: center;
+}
+
+.bg-card-gradient {
+  background-image: linear-gradient(-45deg, #1970e2, #4695ff);
+  background-position: center;
+}
+
+.bg-auth-circle-shape,
+.bg-auth-circle-shape-2 {
+  display: none;
+
+  @include media-breakpoint-up(lg) {
+    display: block;
+  }
+}
+
+.bg-auth-circle-shape {
+  position: absolute;
+  right: -140px;
+  top: -82px;
+}
+
+.bg-auth-circle-shape-2 {
+  position: absolute;
+  left: -100px;
+  bottom: -39px;
+}
+
+.bg-auth-card-shape {
+  background-position: 0 100%;
+
+  @include media-breakpoint-up(md) {
+    background-position: 0 133%;
+  }
+}
+
+@mixin shape($bg-color) {
+  position: relative;
+  overflow: hidden;
+  background-color: $bg-color;
+
+  &:after,
+  &:before {
+    position: absolute;
+    content: '';
+    border-radius: 50%;
+  }
+}
+
+.bg-circle-shape {
+  @include shape(#4695ff);
+
+  &:after {
+    height: 250px;
+    width: 115%;
+    background-image: linear-gradient(-45deg, #1970e2, #4695ff);
+    left: 32%;
+    top: -188%;
+  }
+
+  &:before {
+    height: 332%;
+    width: 45%;
+    background-image: linear-gradient(-45deg, #1970e2, #4695ff);
+    left: -9%;
+    top: 9px;
+  }
+}
+
+.modal-shape-header {
+  @include shape(#4494ff);
+
+  &:after {
+    height: 463px;
+    width: 155%;
+    background-image: linear-gradient(-45deg, #4c98ff, #0051bb);
+    right: 23%;
+    top: -357%;
+  }
+
+  &:before {
+    height: 289%;
+    width: 45%;
+    background-image: linear-gradient(-45deg, #1970e2, #4695ff);
+    right: -10%;
+    top: 40px;
+  }
+}
+
+@mixin bg-soft-variant($parent, $color) {
+  #{$parent} {
+    background-color: $color !important;
+  }
+
+  a#{$parent},
+  button#{$parent} {
+    @include hover-focus {
+      background-color: darken($color, 10%) !important;
+    }
+  }
+}
+
+@each $color, $value in $theme-colors {
+  @include bg-soft-variant('.bg-soft-#{$color}', theme-color-level($color, -11));
+}

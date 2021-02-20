@@ -1,0 +1,78 @@
+/*-----------------------------------------------
+|   Headers
+-----------------------------------------------*/
+
+h5, .h5 {
+  margin-bottom: map_get($spacers, 1);
+}
+
+/*-----------------------------------------------
+|   Drop cap
+-----------------------------------------------*/
+.dropcap::first-letter {
+  font-size: 3em;
+  float: left;
+  line-height: .92;
+  margin-right: 0.375rem;
+}
+
+
+/*-----------------------------------------------
+|   Letter Spacing
+-----------------------------------------------*/
+.ls { letter-spacing: 0.04em; }
+.ls-2{ letter-spacing: 0.25em; }
+
+
+
+/*-----------------------------------------------
+|   List
+-----------------------------------------------*/
+.bullet-inside { list-style-position: inside; }
+
+// Style Check mark
+.style-check li {
+  position: relative;
+  list-style-type: none;
+  padding-left: .25rem;
+  &:before {
+    content: url(data:image/svg+xml;base64,PHN2ZyBhcmlhLWhpZGRlbj0idHJ1ZSIgZGF0YS1mYS1wcm9jZXNzZWQ9IiIgZGF0YS1wcmVmaXg9ImZhbCIgZGF0YS1pY29uPSJjaGVjayIgcm9sZT0iaW1nIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIiBjbGFzcz0ic3ZnLWlubGluZS0tZmEgZmEtY2hlY2sgZmEtdy0xNCIgc3R5bGU9ImZvbnQtc2l6ZTogNDhweDsiPjxwYXRoIGZpbGw9ImN1cnJlbnRDb2xvciIgZD0iTTQxMy41MDUgOTEuOTUxTDEzMy40OSAzNzEuOTY2bC05OC45OTUtOTguOTk1Yy00LjY4Ni00LjY4Ni0xMi4yODQtNC42ODYtMTYuOTcxIDBMNi4yMTEgMjg0LjI4NGMtNC42ODYgNC42ODYtNC42ODYgMTIuMjg0IDAgMTYuOTcxbDExOC43OTQgMTE4Ljc5NGM0LjY4NiA0LjY4NiAxMi4yODQgNC42ODYgMTYuOTcxIDBsMjk5LjgxMy0yOTkuODEzYzQuNjg2LTQuNjg2IDQuNjg2LTEyLjI4NCAwLTE2Ljk3MWwtMTEuMzE0LTExLjMxNGMtNC42ODYtNC42ODYtMTIuMjg0LTQuNjg2LTE2Ljk3IDB6IiBjbGFzcz0iIj48L3BhdGg+PC9zdmc+);
+    padding-right: 0.1875rem;
+    position: absolute;
+    top: 0.0625rem;
+    left: -1rem;
+    background-repeat: no-repeat;
+    width: 1rem;
+  }
+}
+
+/*-----------------------------------------------
+|   Horizontal rules
+-----------------------------------------------*/
+.hr-short{ width: 4.2rem; }
+
+/*-----------------------------------------------
+|   Blockquote
+-----------------------------------------------*/
+.blockquote-content{
+  font-style: italic;
+  position: relative;
+  &:before{
+    position: absolute;
+    left: -3rem;
+    top: -0.5rem;
+    line-height: 1;
+    content: quote('\201C');
+    display: inline-block;
+    color: $gray-300;
+    font-size: map_get($font-sizes, 6);
+  }
+}
+
+.blockquote-footer{
+  &::before {
+    transform: translateY(0.125rem);
+    font-weight: $font-weight-normal;
+    display: inline-block;
+  }
+}

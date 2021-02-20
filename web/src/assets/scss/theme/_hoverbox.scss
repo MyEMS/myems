@@ -1,0 +1,32 @@
+/*-----------------------------------------------
+|   Hover Box
+-----------------------------------------------*/
+.hoverbox {
+  position: relative;
+  overflow: hidden;
+  .hoverbox-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    margin: 0 !important;
+    display: flex;
+  }
+  .hoverbox-primary-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100%;
+  }
+  @include hover-focus {
+    .hover-box-content-initial { opacity: 0; }
+    .hoverbox-content { opacity: 1; }
+    .as-hoverbox-content { z-index: 1; }
+  }
+}
+
+.hoverbox-content-gradient { background: linear-gradient(transparent, $black); }

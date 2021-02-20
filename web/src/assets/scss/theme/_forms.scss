@@ -1,0 +1,45 @@
+/*-----------------------------------------------
+|   Form
+-----------------------------------------------*/
+label {
+  font-size: map_get($font-sizes, '-1');
+  font-weight: $font-weight-bold;
+  letter-spacing: 0.02em;
+}
+
+.custom-control-label {
+  line-height: 1.45rem;
+}
+
+/*-----------------------------------------------
+|   Remove spinner from Input[type="number"]
+-----------------------------------------------*/
+.input-spin-none::-webkit-outer-spin-button,
+.input-spin-none::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.input-spin-none[type='number'] {
+  -moz-appearance: textfield; /* Firefox */
+}
+/*-----------------------------------------------
+|   For Side panel Radio style
+-----------------------------------------------*/
+.custom-radio-success {
+  .custom-control-input {
+    &:not(:disabled):active ~ .custom-control-label::before {
+      background-color: rgba($success, 0.2);
+      border-color: rgba($success, 0.2);
+    }
+    &:focus ~ .custom-control-label:before {
+      box-shadow: 0 0 0 0.2rem rgba($success, 0.25);
+    }
+    &:checked ~ .custom-control-label {
+      &:before {
+        background-color: $success;
+        border-color: $success;
+      }
+    }
+  }
+}

@@ -1,0 +1,36 @@
+.quill{
+  .ql-snow {
+    border-color: $gray-200 !important;
+    border-left-width: 0 !important;
+    border-right-width: 0 !important;
+    .ql-picker {
+      color: $gray-600;
+      &:not(.ql-color-picker):not(.ql-icon-picker) svg {
+        right: 0;
+        left: auto;
+      }
+    }
+    .ql-picker-label {
+      color: $gray-600;
+      border: none !important;
+    }
+    .ql-stroke {
+      stroke: $gray-600;
+    }
+    .ql-fill {
+      fill: $gray-600;
+    }
+    .ql-selected, .ql-active {
+      color: $primary !important;
+    }
+    .ql-editor {
+      padding: $card-spacer-y $card-spacer-x;
+    }
+    &.ql-toolbar {
+      padding-left: 0;
+      .ql-formats:first-child {
+        padding-left: calc(#{$card-spacer-x} - 8px);
+      }
+    }
+  }
+}

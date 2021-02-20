@@ -1,0 +1,38 @@
+.table-dashboard-th-nowrap thead th { white-space: nowrap !important; }
+.order-4, .order-4:after, .caret-4-desc, .caret-4-asc{
+    border-right: 0.25rem solid transparent;
+    border-left: 0.25rem solid transparent;
+    margin-left: 0.5rem;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.order-4 {
+    border-bottom: 0.25rem solid #b6c1d2;
+    border-top: 0;
+    transform: translateY(-70%);
+    position: relative;
+    &:after {
+        content: '';
+        position: absolute;
+        left: -0.75rem;
+        top: 0.35rem;
+        border-top: 0.25rem solid #b6c1d2;
+        border-bottom: 0;
+    }
+}
+
+.caret-4-asc {
+    border-bottom: 0.25rem solid #b6c1d2;
+    border-top: 0;
+}
+
+.caret-4-desc{
+    border-top: 0.25rem solid #b6c1d2;
+    border-bottom: 0;
+}
+
+[data-row-selection], .sortable {
+    cursor: pointer;
+    &:focus { outline: none; }
+}
