@@ -1,0 +1,108 @@
+/*-----------------------------------------------
+|   Font Sizes
+-----------------------------------------------*/
+@each $breakpoint in map_keys($grid-breakpoints) {
+  @include media-breakpoint-up($breakpoint) {
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+    @each $index, $value in $font-sizes {
+      .fs#{$infix}-#{$index} {
+        font-size: $value;
+      }
+    }
+  }
+}
+
+/*-----------------------------------------------
+|   TODO: Proposed
+-----------------------------------------------*/
+.fsp-75 {
+  font-size: 75%;
+}
+
+/*-----------------------------------------------
+|   Text style
+-----------------------------------------------*/
+
+/*   Font Weight */
+.font-weight-thin {
+  font-weight: $font-weight-thin !important;
+}
+.font-weight-extra-light {
+  font-weight: $font-weight-extra-light !important;
+}
+.font-weight-medium {
+  font-weight: $font-weight-medium !important;
+}
+.font-weight-semi-bold {
+  font-weight: $font-weight-semi-bold !important;
+}
+.font-weight-extra-bold {
+  font-weight: $font-weight-extra-bold !important;
+}
+.font-weight-black {
+  font-weight: $font-weight-black !important;
+}
+
+/* Decoration */
+.text-underline {
+  text-decoration: underline;
+  text-decoration-skip-ink: auto;
+}
+
+.text-smallcaps {
+  font-variant: small-caps;
+}
+.text-superscript {
+  vertical-align: super;
+}
+
+.text-word-break {
+  word-break: break-word;
+}
+
+/*-----------------------------------------------
+|   Font family
+-----------------------------------------------*/
+//.text-serif { font-family: $font-family-serif; }
+.text-sans-serif {
+  font-family: $font-family-sans-serif;
+}
+.text-base {
+  font-family: $font-family-base;
+}
+
+/*-----------------------------------------------
+|   Contextual colors
+-----------------------------------------------*/
+@each $color, $value in $grays {
+  @include text-emphasis-variant('.text-#{$color}', $value, true);
+}
+
+/*-----------------------------------------------
+|   Colors for social icons
+-----------------------------------------------*/
+.text-facebook {
+  color: $facebook;
+}
+.text-google-plus {
+  color: $google-plus;
+}
+.text-twitter {
+  color: $twitter;
+}
+.text-linkedin {
+  color: $linkedin;
+}
+.text-youtube {
+  color: $youtube;
+}
+
+/*-----------------------------------------------
+|   Error Page
+-----------------------------------------------*/
+.fs-error {
+  font-size: 7rem;
+  @include media-breakpoint-up(sm) {
+    font-size: 10rem;
+  }
+}

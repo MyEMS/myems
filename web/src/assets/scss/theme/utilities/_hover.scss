@@ -1,0 +1,44 @@
+/*-----------------------------------------------
+|   Hover
+-----------------------------------------------*/
+.hover-actions {
+  display: none;
+  position: absolute;
+  &.show {
+    display: flex;
+
+    & + .hover-hide {
+      display: none;
+    }
+  }
+}
+.hover-actions-trigger {
+  position: relative;
+
+  // Style for email Inbox
+  .inbox-link {
+    color: inherit;
+    text-decoration: none;
+  }
+  @include hover-focus {
+    .hover-actions {
+      z-index: 1;
+      display: flex;
+    }
+    .hover-hide {
+      display: none;
+    }
+  }
+}
+.hover-shadow {
+  @include hover-focus {
+    box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.1);
+  }
+}
+@each $key, $value in $grays {
+  .hover-#{$key} {
+    @include hover-focus {
+      background-color: $value !important;
+    }
+  }
+}

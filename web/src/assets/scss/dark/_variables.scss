@@ -1,0 +1,108 @@
+$white: #0e1c2f !default;
+$gray-100: #132238 !default; // proposed after working in table
+$gray-200: #061325 !default;
+$gray-300: #344050 !default;
+$gray-400: #4d5969 !default;
+$gray-500: #5e6e82 !default;
+$gray-600: #748194 !default;
+$gray-700: #9da9bb !default;
+$gray-800: #b6c1d2 !default;
+$gray-900: #d8e2ef !default;
+$gray-1000: #edf2f9 !default;
+$gray-1100: #f9fafd !default;
+$black: #fff !default;
+
+//*-----------------------------------------------
+//|   Solid Colors
+//-----------------------------------------------*/
+$blue: #2c7be5 !default;
+$indigo: #727cf5 !default;
+$purple: #6b5eae !default;
+$pink: #ff679b !default;
+$red: #e63757 !default;
+$orange: #fd7e14 !default;
+$yellow: #f5803e !default;
+$green: #00d27a !default;
+$teal: #02a8b5 !default;
+$cyan: #27bcfd !default;
+
+//*-----------------------------------------------
+//|   Theme Colors
+//-----------------------------------------------*/
+$primary: $blue !default;
+$secondary: $gray-600 !default;
+$success: $green !default;
+$info: $cyan !default;
+$warning: $yellow !default;
+$danger: $red !default;
+$light: $gray-100 !default;
+$dark: $gray-1100 !default;
+
+$border-color: rgba(163, 203, 255, 0.16) !default;
+$input-focus-border-color: $gray-400 !default;
+$component-active-color: #fff !default;
+
+$modal-backdrop-bg: $white !default;
+$modal-backdrop-opacity: 0.7 !default;
+
+$navbar-dark-color: rgba($black, 0.5) !default;
+$navbar-dark-hover-color: rgba($black, 0.75) !default;
+$navbar-dark-active-color: $black !default;
+$navbar-dark-disabled-color: rgba($black, 0.25) !default;
+
+$table-head-bg: $white !default;
+
+$table-hover-bg: $gray-200 !default;
+$table-dark-color: $black !default;
+$table-dark-bg: $white !default;
+$table-dark-accent-bg: rgba($white, 0.05) !default;
+$table-dark-border-color: darken($table-dark-bg, 7.5%) !default;
+
+//--------------------------------------------
+//  Tooltip
+//--------------------------------------------
+
+$tooltip-color: $black !default;
+$tooltip-bg: #000 !default;
+
+//--------------------------------------------
+//  Button reveal
+//--------------------------------------------
+
+$btn-reveal-hover-shadow: 0 0 0 1px rgba(0, 8, 19, 0.3), 0 2px 5px 0 rgba(0, 13, 33, 0.5),
+  0 1px 1.5px 0 rgba(0, 8, 1, 0.48), 0 1px 2px 0 rgba(0, 8, 1, 0.4) !default;
+
+//--------------------------------------------
+// Box shadow
+//--------------------------------------------
+$box-shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.5) !default;
+$box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.25) !default;
+$box-shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.4) !default;
+
+//*-----------------------------------------------
+//|   Input
+//-----------------------------------------------*/
+$input-disabled-bg: rgba(186, 195, 204, 0.16) !default;
+//*-----------------------------------------------
+//|   Navbar Inverted
+//-----------------------------------------------*/
+// $navbar-inverted-bg: $gray-100 !default;
+$navbar-inverted-bg: #040d1a !default;
+$navbar-inverted-link-color: $gray-500 !default;
+$navbar-inverted-link-hover-color: $gray-700 !default;
+$navbar-inverted-link-active-color: $primary !default;
+$navbar-inverted-hr-color: rgba($white, 0.2) !default;
+$navbar-inverted-scrollbar-color: rgba($gray-600, 0.3) !default;
+
+//*-----------------------------------------------
+//|   Navbar Card
+//-----------------------------------------------*/
+$navbar-card-bg: $white !default;
+$navbar-card-shadow: 'none' !default;
+
+//*-----------------------------------------------
+//|   Navbar Vibrant
+//-----------------------------------------------*/
+$navbar-vibrant-link-color: $gray-900 !default;
+$navbar-vibrant-link-hover-color: #fff !default;
+$navbar-vibrant-scrollbar-color: $gray-800 !default;

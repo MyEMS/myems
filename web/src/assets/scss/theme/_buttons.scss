@@ -1,0 +1,212 @@
+/*-----------------------------------------------
+|   Button
+-----------------------------------------------*/
+.btn {
+  &.disabled,
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+/*-----------------------------------------------
+|   Button Reveal
+-----------------------------------------------*/
+.btn-reveal-trigger {
+  @include hover-focus {
+    .btn-reveal {
+      box-shadow: $btn-reveal-hover-shadow;
+
+      @include hover-focus-active {
+        color: $dark !important;
+      }
+    }
+  }
+
+  .btn-reveal {
+    &:active:focus,
+    &:active,
+    &:focus {
+      box-shadow: none;
+      color: $dark !important;
+      background-color: darken($white, 10%);
+      border-color: darken($white, 12.5%);
+    }
+  }
+
+  .dropdown-toggle:after {
+    display: none;
+  }
+}
+
+/*-----------------------------------------------
+|   Falcon buttons
+-----------------------------------------------*/
+$theme-falcon-btn-colors: (
+  'primary': $primary,
+  'success': $success,
+  'info': $info,
+  'warning': $warning,
+  'danger': $danger,
+  'default': $dark
+);
+
+@each $color, $value in $theme-falcon-btn-colors {
+  .btn-falcon-#{$color} {
+    @if $color != 'default' {
+      color: $value !important;
+      @include button-variant(
+        $white,
+        $white,
+        $white,
+        $white,
+        theme-color-level($color, -10),
+        theme-color-level($color, -10)
+      );
+    } @else {
+      @include button-variant($white, $white, $white, $white);
+    }
+
+    box-shadow: 0 0 0 1px rgba(43, 45, 80, 0.1), 0 2px 5px 0 rgba(43, 45, 80, 0.08), 0 1px 1.5px 0 rgba($black, 0.07),
+      0 1px 2px 0 rgba($black, 0.08);
+
+    @include hover-focus {
+      &:not(.disabled) {
+        color: darken($value, 8.5%) !important;
+        box-shadow: 0 0 0 1px rgba(43, 45, 80, 0.1), 0 2px 5px 0 rgba(43, 45, 80, 0.1),
+          0 3px 9px 0 rgba(43, 45, 80, 0.08), 0 1px 1.5px 0 rgba($black, 0.08), 0 1px 2px 0 rgba($black, 0.08);
+      }
+    }
+
+    &:active {
+      box-shadow: none;
+      color: darken($value, 8.5%) !important;
+    }
+  }
+}
+
+@each $color, $value in $theme-colors {
+  .btn-outline-#{$color} {
+    &:active {
+      background-color: darken($value, 5%) !important;
+      border-color: darken($value, 5%) !important;
+    }
+  }
+}
+
+/*-----------------------------------------------
+|   Social Outline Buttons
+-----------------------------------------------*/
+.btn-outline-facebook {
+  @include button-outline-variant($facebook);
+}
+
+.btn-outline-twitter {
+  @include button-outline-variant($twitter);
+}
+
+.btn-outline-google-plus {
+  @include button-outline-variant($google-plus);
+}
+
+/*-----------------------------------------------
+|   Profile Page Introduction
+-----------------------------------------------*/
+.btn-intro-collapse {
+  .less {
+    display: none;
+  }
+
+  &[aria-expanded='true'] {
+    .less {
+      display: inline;
+    }
+
+    .full {
+      display: none;
+    }
+  }
+}
+/*-----------------------------------------------
+|   Settings Panel
+-----------------------------------------------*/
+.btn-navbar-vertical,
+.btn-navbar-top {
+  border-color: $gray-400;
+  &.active {
+    border-color: $primary;
+    background-color: $primary;
+    color: #fff;
+  }
+}
+.btn-theme-default,
+.btn-theme-dark {
+  width: 50%;
+  padding: 0;
+  &.focus,
+  &:focus {
+    box-shadow: none;
+  }
+  .custom-control-label {
+    cursor: pointer;
+  }
+
+  .hover-overlay {
+    border: 3px solid transparent;
+    position: relative;
+    overflow: hidden;
+    border-radius: $border-radius-soft;
+    display: block;
+    &:after {
+      position: absolute;
+      content: '';
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: transparent;
+      z-index: 1;
+      transition: $transition-base;
+    }
+  }
+  @include hover-focus {
+    .hover-overlay {
+      &:after {
+        background: rgba($black, 0.2);
+      }
+    }
+  }
+  &.active {
+    .hover-overlay {
+      border: 3px solid $success;
+    }
+  }
+}
+.btn-theme-default {
+  margin-right: map_get($spacers, 2);
+}
+.btn-theme-dark {
+  margin-left: map_get($spacers, 2);
+}
+
+.btn-group-navbar-style {
+  .btn {
+    border-radius: $border-radius !important;
+    label:first-child {
+      background-color: $gray-100;
+      border: 3px solid $gray-300;
+      border-radius: $border-radius-soft;
+    }
+    &.active {
+      label:first-child {
+        border-color: $success;
+      }
+    }
+    &.focus,
+    &:focus {
+      box-shadow: none !important;
+    }
+    &.disabled label {
+      cursor: not-allowed;
+    }
+  }
+}

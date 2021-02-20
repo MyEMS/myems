@@ -1,0 +1,153 @@
+/*-----------------------------------------------
+|   Navigation Top
+-----------------------------------------------*/
+.navbar-top {
+  position: sticky;
+  top: 0;
+  font-size: map_get($font-sizes, '-1');
+  font-weight: $font-weight-semi-bold;
+  margin-left: -15px;
+  margin-right: -15px;
+  .navbar-nav-icons {
+    .dropdown-menu {
+      position: absolute;
+    }
+  }
+  .navbar-collapse {
+    overflow: auto;
+    max-height: calc(100vh - #{$top-nav-height});
+    margin: 0 -0.75rem;
+    padding: 0 0.75rem;
+    order: 1;
+  }
+  .navbar-toggler {
+    margin-left: -0.625rem;
+  }
+}
+.navbar-top,
+.navbar-standard {
+  .navbar-nav:not(.navbar-nav-icons) {
+    .dropdown-menu {
+      &:after {
+        display: none;
+      }
+    }
+  }
+}
+.dropdown-menu-card {
+  padding: 0;
+  .card {
+    border: 0;
+  }
+}
+.navbar-toggler {
+  border: 0;
+  padding: 0;
+}
+.card-notification {
+  min-width: 20rem;
+  @include media-breakpoint-only(xs) {
+    min-width: 16rem;
+  }
+}
+.settings-popover {
+  position: relative;
+  padding: 0;
+  height: 30px;
+  width: 30px;
+}
+
+/*-----------------------------------------------
+|   Navbar Standard
+-----------------------------------------------*/
+.navbar-standard {
+  font-size: map_get($font-sizes, '-1');
+  font-weight: $font-weight-semi-bold;
+  .navbar-collapse {
+    overflow-y: auto;
+    max-height: calc(100vh - #{$standard-nav-height});
+  }
+}
+.ie,
+.edge {
+  .navbar-top {
+    position: relative;
+  }
+}
+
+@each $breakpoint, $container-max-width in $container-max-widths {
+  @include media-breakpoint-up($breakpoint) {
+    .navbar-expand-#{$breakpoint} {
+      &.navbar-top {
+        .navbar-collapse {
+          max-height: none;
+          margin: 0;
+          padding: 0;
+          order: 0;
+        }
+      }
+      &.navbar {
+        .max-h-dropdown {
+          max-height: 75vh;
+        }
+      }
+      &.navbar-standard {
+        .navbar-collapse {
+          max-height: none;
+        }
+      }
+      &.navbar-top,
+      &.navbar-standard {
+        .navbar-nav:not(.navbar-nav-icons) {
+          .dropdown-menu {
+            &:after {
+              display: block;
+            }
+          }
+        }
+      }
+    }
+
+    .navbar.navbar-expand-#{$breakpoint} {
+      &:not(.navbar-vertical) {
+        .navbar-collapse {
+          overflow: visible;
+        }
+      }
+    }
+  }
+}
+
+@include media-breakpoint-only('xs') {
+  .navbar-top {
+    position: fixed;
+    width: 100%;
+    max-width: 100vw !important;
+  }
+}
+@include media-breakpoint-up(md) {
+  .navbar-card-components {
+    min-width: 20rem;
+  }
+  .navbar-card-auth {
+    min-width: 21rem;
+  }
+  .navbar-card-pages {
+    min-width: 29.6875rem;
+  }
+}
+@include media-breakpoint-up(lg) {
+  .navbar-card-login {
+    min-width: 22rem;
+  }
+}
+@include media-breakpoint-up(xl) {
+  .navbar-card-components {
+    min-width: 43.5625rem;
+  }
+}
+@include media-breakpoint-up(xxl) {
+  .navbar-card-auth {
+    min-width: 40.375rem;
+  }
+}
