@@ -33,7 +33,7 @@ Download and install MySQL Connector:
 Install myems-cleaning service
 ```bash
     $ cd ~
-    $ git clone https://github.com/myems/myems.git
+    $ git clone https://github.com/MyEMS/myems.git
     $ cd myems
     $ sudo git checkout master (or the latest release tag)
     $ sudo cp -R ~/myems/myems-cleaning /myems-cleaning

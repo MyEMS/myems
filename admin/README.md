@@ -46,7 +46,7 @@ Add another new 'server' section, add values as below:
 * Download myems-admin
 ```
 $ cd ~
-$ git clone https://github.com/myems/myems.git
+$ git clone https://github.com/MyEMS/myems.git
 ```
 
 * Install myems-admin :

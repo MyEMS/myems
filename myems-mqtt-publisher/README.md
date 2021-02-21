@@ -46,7 +46,7 @@ Download and install paho-mqtt:
 Install myems-mqtt-publisher service
 ```
     $ cd ~
-    $ git clone https://github.com/myems/myems.git
+    $ git clone https://github.com/MyEMS/myems.git
     $ cd myems
     $ sudo git checkout master (or the latest release tag)
     $ sudo cp -R ~/myems/myems-mqtt-publisher /myems-mqtt-publisher

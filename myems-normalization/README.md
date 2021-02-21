@@ -73,7 +73,7 @@ Download and install openpyxl
 Install myems-normalization service:
 ```
     $ cd ~
-    $ git clone https://github.com/myems/myems.git
+    $ git clone https://github.com/MyEMS/myems.git
     $ cd myems
     $ sudo git checkout master (or the latest release tag)
     $ sudo cp -r ~/myems/myems-normalization /myems-normalization

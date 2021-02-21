@@ -42,7 +42,7 @@ Download and install modbus-tk
 Install myems-modbus-tcp service
 ```
     $ cd ~
-    $ git clone https://github.com/myems/myems.git
+    $ git clone https://github.com/MyEMS/myems.git
     $ cd myems
     $ sudo git checkout master (or the latest release tag)
     $ sudo cp -R ~/myems/myems-modbus-tcp /myems-modbus-tcp
@@ -61,7 +61,6 @@ Install myems-modbus-tcp service
 
 
 ### Add Data Sources and Points in MyEMS Admin 
-refer to https://github.com/myems/myesm-admin.git
 
 NOTE: If you modified Modbus TCP datasources and points, please restart this service:
 ```
