@@ -39,6 +39,49 @@ You can run 'node server.js' to run the production build locally at http://local
 
 refer to http://nginx.org/en/docs/install.html
 
+* Configure NGINX
+```
+$ sudo nano /etc/nginx/nginx.conf
+```
+In the 'http' section, add some directives:
+```
+http{
+    client_header_timeout 600;
+    client_max_body_size 512M;
+    gzip on;
+    gzip_min_length 512;
+    gzip_proxied any;
+    gzip_types *;
+    gzip_vary on;
+    ...
+
+}
+```
+
+Add a new 'server' section with direstives as below:
+```
+  server {
+      listen                 80;
+      server_name     myems-web;
+      location / {
+          root    /var/www/html/web;
+          index index.html index.htm;
+      }
+      -- To avoid CORS issue, use Nginx to proxy myems-api to path /api 
+      -- Add another location /api in 'server ', replace demo address http://127.0.0.1:8000/ with actual url
+      location /api {
+          proxy_pass http://127.0.0.1:8000/;
+          proxy_connect_timeout 75;
+          proxy_read_timeout 600;
+          send_timeout 600;
+      }
+  }
+```
+Restart NGINX
+```
+$ sudo systemctl restart nginx
+```
+
 * Download myems:
 ```
   $ cd ~
@@ -58,7 +101,7 @@ refer to http://nginx.org/en/docs/install.html
 ```
   Install
   Upload the file myems-web.tar.gz to you web server. 
-  Note that the following path may be different in your server.
+  Note that the following path shoudl be same as that in nginx.conf.
 ```
   $ tar xzf myems-web.tar.gz
   $ sudo rm -r /var/www/html/web
