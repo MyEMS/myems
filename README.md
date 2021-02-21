@@ -18,7 +18,7 @@ MyEMS项目由下列组件构成:
 
 ### MyEMS Web APP
 
-参考[myems-web](https://github.com/myems/myems-web.git) 获取更多信息。
+参考[web](./web/README.md) 获取更多信息。
 
 ### MyEMS 管理面板
 
@@ -42,7 +42,7 @@ MyEMS项目由下列组件构成:
 
 ### MyEMS 数据接口API
 
-参考仓库[myems-api](https://github.com/myems/myems-api.git) 获取更多信息。
+参考仓库[myems-api](https://github.com/MyEMS/myems-api.git) 获取更多信息。
 
 ### MyEMS MQTT 数据发布服务 (从MyEMS转发到第三方)
 

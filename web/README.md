@@ -39,11 +39,16 @@ You can run 'node server.js' to run the production build locally at http://local
 
 refer to http://nginx.org/en/docs/install.html
 
+* Download myems:
+```
+  $ cd ~
+  $ git clone https://github.com/MyEMS/myems.git
+```
 * Install myems-web :
 
   Check and change the config file if necessary:
 ```
-  $ cd ~/myems-web
+  $ cd ~/myems/web
   $ sudo nano src/config.js
 ```
   Build and Compress

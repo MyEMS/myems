@@ -31,7 +31,7 @@ Download and install MySQL Connector:
 Install myems-aggregation service:
 ```
     $ cd ~
-    $ git clone https://github.com/myems/myems.git
+    $ git clone https://github.com/MyEMS/myems.git
     $ cd myems
     $ sudo git checkout master (or the latest release tag)
     $ sudo cp -R ~/myems/myems-aggregation /myems-aggregation

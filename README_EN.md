@@ -17,7 +17,7 @@ This project is compose of  following components:
 
 ### MyEMS Web APP
 
-See the repository [myems-web](https://github.com/myems/myems-web.git) for more information.
+See the repository [web](./web/README.md) for more information.
 
 ### MyEMS Admin Panel
 
@@ -41,7 +41,7 @@ See [myems-aggregation](./myems-aggregation/README.md) for more information.
 
 ### MyEMS API
 
-See the repository [myems-api](https://github.com/myems/myems-api.git) for more information.
+See the repository [myems-api](https://github.com/MyEMS/myems-api.git) for more information.
 
 ### MyEMS MQTT Data Publisher Service (transmit data from MyEMS to 3rd Party)
 
