@@ -171,3 +171,11 @@ MyEMS项目由下列组件构成:
 | 现场技术支持服务                   | ❌            | ✔️        |
 | 投标技术支持服务                   | ❌            | ✔️        |
 | 二次开发技术支持服务                | ❌            | ✔️        |
+
+
+## MyEMS镜像
+
+[1]. http://github.com/MyEMS/myems
+  
+[2]. http://gitee.com/myems/myems
+
