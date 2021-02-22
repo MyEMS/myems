@@ -101,7 +101,7 @@ $ sudo systemctl restart nginx
 ```
   Install
   Upload the file myems-web.tar.gz to you web server. 
-  Note that the following path shoudl be same as that in nginx.conf.
+  Note that the following path should be same as that was configured in nginx.conf.
 ```
   $ tar xzf myems-web.tar.gz
   $ sudo rm -r /var/www/html/web
