@@ -173,3 +173,10 @@ See [myems-modbus-tcp](./myems-modbus-tcp/README.md) for more information.
 | Onsite Customer Support          | ❌            | ✔️        |
 | Bidding Support Service          | ❌            | ✔️        |
 | Customize Support Service        | ❌            | ✔️        |
+
+## MyEMS Mirrors
+
+[1]. http://github.com/MyEMS/myems
+  
+[2]. http://gitee.com/myems/myems
+
