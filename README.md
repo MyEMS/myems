@@ -177,5 +177,5 @@ MyEMS项目由下列组件构成:
 
 [1]. http://github.com/MyEMS/myems
   
-[2]. http://gitee.com/myems/myems
+[2]. http://gitee.com/MyEMS/myems
 
