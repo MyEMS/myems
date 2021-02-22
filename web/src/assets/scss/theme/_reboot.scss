@@ -1,0 +1,51 @@
+/*-----------------------------------------------
+|   Reboot
+-----------------------------------------------*/
+::placeholder{
+  opacity: 1;
+  color: $gray-400 !important;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+  position: relative;
+}
+
+pre, code {
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+}
+
+section {
+  position: relative;
+  padding-top: map_get($spacers, 6);
+  padding-bottom: map_get($spacers, 6);
+  @include media-breakpoint-up(lg){
+    padding-top: map_get($spacers, 8);
+    padding-bottom: map_get($spacers, 8);
+  }
+}
+
+//setting up font family for bootstrap components
+input,
+button,
+select,
+optgroup,
+textarea,
+label,
+.alert,
+.badge,
+.blockquote-footer,
+.btn,
+.navbar,
+.pagination,
+.valid-feedback,
+.invalid-feedback { font-family: $font-family-sans-serif; }
+pre{
+  margin: 0;
+  transform: translate3d(0,0,0);
+}
+strong{ font-weight: $font-weight-semi-bold; }
+label{ font-weight: $font-weight-medium !important; }

@@ -1,0 +1,25 @@
+/*-----------------------------------------------
+|   Icons group
+-----------------------------------------------*/
+.icon-group{
+  display: flex;
+  .icon-item:not(:last-child){ margin-right: map_get($spacers, 2); }
+}
+.icon-item{
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $gray-700;
+  transition: $transition-base;
+  height: 2.5rem;
+  width: 2.5rem;
+  border: 0;
+  font-size: $font-size-sm;
+  box-shadow: $box-shadow-sm;
+  @include hover-focus{ background-color: $light; }
+  &.icon-item-lg{
+    height: 2.75rem;
+    width: 2.75rem;
+  }
+}

@@ -1,0 +1,112 @@
+<div class="wrapper wrapper-content" ng-controller="DataSourceMasterController">
+
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="tabs-container">
+
+				<uib-tabset>
+					<uib-tab heading="{{'DATA_SOURCE.DATA_SOURCE' | translate}}">
+						<div class="panel-body" ng-controller="DataSourceController">
+							<a ng-click="addDataSource()" class="btn btn-primary btn-rounded  btn-outline" href=""><i
+									class="fa fa-plus-circle"></i> {{'DATA_SOURCE.ADD_DATA_SOURCE' | translate}}</a>
+							<table class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
+										<th class="text-center">{{'GATEWAY.GATEWAY' | translate}}</th>
+										<th class="text-center">{{'DATA_SOURCE.PROTOCOL' | translate}}</th>
+										<th class="text-center">{{'DATA_SOURCE.CONNECTION' | translate}}</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="datasource in datasources">
+										<td class="text-center">{{ datasource.id }}</td>
+										<td class="text-center">{{ datasource.name }}</td>
+										<td class="text-center">{{ datasource.gateway.name }}</td>
+										<td class="text-center">{{ datasource.protocol }}</td>
+										<td class="text-center">{{ datasource.connection }}</td>
+										<td class="text-center">
+											<a ng-click="editDataSource(datasource)"
+												class="btn btn-primary btn-rounded btn-xs">{{'SETTING.EDIT' | translate}}</a>
+											<a ng-click="deleteDataSource(datasource)"
+												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' | translate}}</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</uib-tab>
+					<uib-tab heading="{{'SETTING.POINT' | translate}}">
+						<div class="panel-body" ng-controller="PointController">
+							<form method="get" class="form-horizontal">
+								<div class="form-group"><label
+										class="col-sm-2 control-label">{{'DATA_SOURCE.SELECT_DATA_SOURCE' | translate}}:</label>
+									<div class="col-sm-3">
+										<ui-select on-select="changeDataSource($item, $model)"
+											ng-model="currentDataSource" theme="bootstrap">
+											<ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
+												{{$select.selected.name}}</ui-select-match>
+											<ui-select-choices
+												repeat="datasource.id as datasource in datasources | filter: $select.search">
+												<div ng-bind-html="datasource.name | highlight: $select.search"></div>
+											</ui-select-choices>
+										</ui-select>
+									</div>
+								</div>
+							</form>
+							<div class="hr-line-dashed"></div>
+							<a ng-click="addPoint()" class="btn btn-primary btn-rounded  btn-outline" href=""><i
+									class="fa fa-plus-circle"></i> {{'SETTING.ADD_POINT' | translate}}</a>
+							<table class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
+										<th class="text-center">{{'POINT.OBJECT_TYPE' | translate}}</th>
+										<th class="text-center">{{'POINT.UNIT' | translate}}</th>
+										<th class="text-center">{{'POINT.HIGH_LIMIT' | translate}}</th>
+										<th class="text-center">{{'POINT.LOW_LIMIT' | translate}}</th>
+										<th class="text-center">{{'POINT.RATIO' | translate}}</th>
+										<th class="text-center">{{'POINT.IS_TREND' | translate}}</th>
+										<th class="text-center">{{'POINT.ADDRESS' | translate}}</th>
+										<th class="text-center">{{'POINT.DESCRIPTION' | translate}}</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="point in points">
+										<td class="text-center">{{ point.id }}</td>
+										<td class="text-center">{{ point.name }}</td>
+										<td class="text-center">{{ point.object_type }}</td>
+										<td class="text-center">{{ point.units }}</td>
+										<td class="text-center">{{ point.high_limit }}</td>
+										<td class="text-center">{{ point.low_limit }}</td>
+										<td class="text-center">{{ point.ratio }}</td>
+										<td class="text-center">
+											{{ point.is_trend==false?'SETTING.NO':'SETTING.YES' | translate }}</td>
+										<td class="text-center md">{{ point.address }}</td>
+										<td class="text-center md">{{ point.description }}</td>
+										<td class="text-center">
+											<a ng-click="editPoint(point)"
+												class="btn btn-primary btn-rounded btn-xs">{{'SETTING.EDIT' | translate}}</a>
+											<a ng-click="deletePoint(point)"
+												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' | translate}}</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</uib-tab>
+
+
+				</uib-tabset>
+
+			</div>
+		</div>
+	</div>
+
+
+
+</div>

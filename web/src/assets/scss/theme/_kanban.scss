@@ -1,0 +1,186 @@
+// Variables
+$page-header-height: 4.3125rem;
+$column-header-height: 2.5625rem;
+$column-footer-height: 2.8125rem;
+$horizontal-scroll-height: 0.9375rem;
+$default-height-remove: $top-nav-height + $page-header-height + $column-header-height + $column-footer-height +
+  $horizontal-scroll-height; // With bottom spaces for horizontal scrollbar
+$updated-height-remove: $top-nav-height + $page-header-height + $column-header-height + $horizontal-scroll-height; // Except column footer height
+
+.kanban-container {
+  padding-bottom: 0.25rem;
+  white-space: nowrap;
+}
+.kanban-column {
+  display: inline-block !important;
+  width: 22.1875rem;
+  white-space: normal;
+  vertical-align: top;
+  margin-right: map_get($spacers, 3);
+  &:not(.form-added) .add-card-form {
+    display: none;
+  }
+  &:not(:first-child) {
+    margin-left: -0.375rem;
+  }
+}
+.kanban-column-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: $gray-100;
+  padding: map_get($spacers, 2) $card-spacer-x;
+  border-top-left-radius: $border-radius-soft;
+  border-top-right-radius: $border-radius-soft;
+}
+.kanban-column-footer {
+  background-color: $gray-100;
+  border-bottom-left-radius: $border-radius-soft;
+  border-bottom-right-radius: $border-radius-soft;
+  padding: map_get($spacers, 2) $card-spacer-x;
+}
+.kanban-items-container {
+  outline: none;
+  padding: map_get($spacers, 2) $card-spacer-x;
+  .kanban-collapse:first-child,
+  .kanban-item:first-child {
+    margin-top: 0 !important;
+  }
+  max-height: calc(100vh - #{$default-height-remove});
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: $gray-100;
+}
+.kanban-item {
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  margin-top: 1rem;
+}
+.kanban-item-card {
+  border: 0;
+  color: $gray-900;
+  font-size: map_get($font-sizes, '-1');
+  background-color: $white;
+  border-radius: $border-radius-soft;
+  box-shadow: $box-shadow-sm;
+}
+.kanban-item-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: map_get($font-sizes, '-2');
+  margin-top: map_get($spacers, 3);
+  color: $gray-600;
+}
+.form-added {
+  .kanban-items-container {
+    max-height: calc(100vh - #{$updated-height-remove});
+    border-bottom-left-radius: $border-radius-soft;
+    border-bottom-right-radius: $border-radius-soft;
+  }
+  .kanban-column-footer {
+    display: none;
+  }
+}
+.btn-add-card {
+  @include hover-focus {
+    background-color: $gray-200;
+  }
+}
+.bg-attachment {
+  position: relative;
+  height: 3.5625rem;
+  width: 6.25rem;
+  border-radius: $border-radius;
+  overflow: hidden;
+  background: $gray-300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $gray-600;
+  .icon-play {
+    position: relative;
+    color: $gray-200;
+    z-index: 111;
+  }
+  @include hover-focus {
+    color: $gray-700 !important;
+    .icon-play {
+      color: $gray-300;
+    }
+  }
+}
+.avatar-group {
+  .avatar {
+    vertical-align: top;
+  }
+}
+
+// Update Draggable default styles
+.draggable--is-dragging * {
+  cursor: grab !important;
+}
+.draggable-source--is-dragging {
+  background-color: $gray-200 !important;
+  box-shadow: none !important;
+  border-radius: $border-radius-soft;
+  * {
+    opacity: 0;
+  }
+}
+.draggable-mirror {
+  z-index: 1100;
+  .kanban-item-card {
+    transform: rotate(-2deg);
+  }
+}
+button.close-circle {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: $gray-200;
+  text-shadow: none;
+  border-radius: 50%;
+  box-shadow: $box-shadow-sm;
+  opacity: 1;
+  @include hover-focus {
+    opacity: 1 !important;
+    background-color: $gray-300;
+  }
+}
+.icon-title {
+  width: 1.25rem;
+  text-align: center;
+  margin-right: map_get($spacers, 3);
+}
+div[data-collapse],
+.draggable--original:first-child {
+  + .kanban-item {
+    margin-top: 0;
+  }
+}
+.nav-link-card-details {
+  background-color: $gray-100;
+  color: $gray-700;
+  transition: $transition-base;
+  border-radius: $border-radius;
+  margin-bottom: map_get($spacers, 1);
+  @include hover-focus {
+    background-color: $gray-200;
+    color: $gray-700;
+  }
+}
+
+// Browser support
+.ipad,
+.mobile.safari,
+.mobile.chrome {
+  .kanban-items-container {
+    max-height: calc(100vh - #{$default-height-remove + 3.5rem});
+  }
+  .form-added {
+    .kanban-items-container {
+      max-height: calc(100vh - #{$updated-height-remove + 3.5rem});
+    }
+  }
+}

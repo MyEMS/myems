@@ -1,0 +1,31 @@
+<div class="inmodal">
+    <div class="modal-header">
+        <h4 class="modal-title">{{operation | translate}}</h4>
+    </div>
+    <div class="modal-body">
+        <form role="form" name="form_gsmmodem" novalidate class="form-horizontal">
+            <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.SERIAL_PORT' | translate}}</label>
+
+                <div class="col-sm-9"><input ng-model="gsmmodem.serial_port" type="text" name="serial_port" class="form-control" required="">
+                    <div class="m-t-xs" ng-show="form_gsmmodem.serial_port.$invalid && form_gsmmodem.serial_port.$dirty">
+                        <small class="text-danger" ng-show="form_gsmmodem.serial_port.$error.required">{{'SETTING.INPUT_SERIAL_PORT' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.BAUD_RATE' | translate}}</label>
+
+                <div class="col-sm-9"><input ng-model="gsmmodem.baud_rate" type="number" name="baud_rate" class="form-control" required="">
+                <div class="m-t-xs" ng-show="form_gsmmodem.port.$invalid && form_gsmmodem.baud_rate.$dirty">
+                        <small class="text-danger" ng-show="form_gsmmodem.baud_rate.$error.required">{{'SETTING.INPUT_BAUD_RATE' | translate}}</small>
+                        <small class="text-danger" ng-show="form_gsmmodem.baud_rate.$error">{{'SETTING.INVALID_BAUD_RATE' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
+        <button type="button" ng-disabled="form_contact.$invalid" class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
+    </div>
+</div>

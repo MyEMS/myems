@@ -1,0 +1,15 @@
+[Unit]
+Description=myems-cleaning daemon
+After=network.target
+
+[Service]
+User=root
+Group=root
+ExecStart=/usr/bin/python3 /myems-cleaning/main.py
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+PrivateTmp=true
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

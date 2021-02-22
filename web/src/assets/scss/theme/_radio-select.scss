@@ -1,0 +1,21 @@
+// Used in E-commerce checkout page
+
+.radio-select .custom-control-label{
+  cursor: pointer;
+}
+.radio-select-content {
+  border: 1px solid $gray-200;
+  color: $gray-500;
+  transition: $transition-base;
+  display: block;
+  padding: map_get($spacers, 3);
+  font-weight: $font-weight-normal;
+  border-radius: $border-radius;
+  font-size: map_get($font-sizes, -1);
+  margin-top: map_get($spacers, 2);
+}
+.radio-select-link { color: inherit; }
+.radio-select .custom-control-input:checked + .custom-control-label .radio-select-content {
+  border: 1px solid $success;
+  color: $dark;
+}

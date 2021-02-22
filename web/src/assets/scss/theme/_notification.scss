@@ -1,0 +1,59 @@
+/*-----------------------------------------------
+|   Notification
+-----------------------------------------------*/
+.notification{
+  color: $gray-1000;
+  text-decoration: none;
+  display: flex;
+  font-size: map_get($font-sizes, '-1');
+  font-family: $font-family-base;
+  transition: $transition-base;
+  &:not(.notification-flush){
+    border: 1px solid $light;
+    background-color: $white;
+    box-shadow: $box-shadow-sm;
+    border-radius: $border-radius-soft;
+    padding: map_get($spacers, 3);
+  }
+  @include hover-focus{
+    color: $dark;
+    text-decoration: none;
+  }
+}
+.notification-body{ margin-bottom: map_get($spacers, 1); }
+.notification-time{
+  margin-bottom: 0;
+  color: $gray-600;
+  font-size: map_get($font-sizes, '-1');
+}
+.notification-indicator{
+  position: relative;
+  &::before{
+    position: absolute;
+    content: '';
+    right: 0.125rem;
+    top: 0.5rem;
+    height: 1rem;
+    width: 1rem;
+    border-radius: 50%;
+    border: 2px solid map-get($grays, '200' );
+  }
+  &-number{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 0.125rem;
+    top: 0.505rem;
+    height: 1rem;
+    width: 1rem;
+    font-size: 0.67rem;
+    color: #fff;
+    font-weight: $font-weight-bold;
+  }
+  & {
+    &-primary::before { background-color: $primary; }
+    &-warning::before { background-color: $warning; }
+    &-fill::before { border : 0; }
+  }
+}

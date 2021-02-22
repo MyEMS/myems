@@ -1,0 +1,363 @@
+/*-----------------------------------------------
+|   Chat Page
+-----------------------------------------------*/
+
+.card-chat {
+  height: calc(100vh - #{$top-nav-height} - #{$responsive-footer-height});
+  z-index: 1;
+
+  // overflow: hidden;
+  .card-body {
+    position: relative;
+    overflow: hidden;
+  }
+}
+
+.card-chat-pane {
+  height: calc(100% - 2.063rem);
+  position: relative;
+  overflow: hidden;
+}
+
+.card-chat-content {
+  flex-grow: 1;
+  flex-basis: 0;
+  max-width: 100%;
+  height: 100%;
+}
+
+/*-----------------------------------------------
+|   Chat Sidebar
+-----------------------------------------------*/
+.chat-sidebar {
+  position: absolute;
+  height: 100%;
+  z-index: 11;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  transition: all 0.5s ease;
+  overflow: hidden;
+}
+
+.contacts-list {
+  height: calc(100% - 2rem);
+  border-right: 1px solid $border-color;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.chat-contact {
+  align-items: center;
+  padding: map-get($spacers, 3);
+  height: 4.188rem;
+  cursor: pointer;
+  border-top: 1px solid transparent;
+  background-color: $white;
+
+  &:after {
+    position: absolute;
+    content: '';
+    height: 100%;
+    width: 0.25rem;
+    left: 0;
+    top: 0;
+  }
+
+  &:first-child {
+    border-top: 0 !important;
+  }
+
+  @include hover-focus() {
+    &:after {
+      background-color: $success;
+    }
+  }
+
+  &.active {
+    &:after {
+      background-color: $success;
+    }
+  }
+
+  &.active:not(:first-child),
+  &.active + .chat-contact {
+    border-top: 1px solid $border-color;
+  }
+}
+
+.chat-contact-body {
+  position: relative;
+  min-width: 0;
+}
+
+.chat-contact-title {
+  font-weight: $font-weight-normal;
+}
+
+.message-time {
+  color: $gray-400;
+}
+
+.chat-contact-content {
+  font-size: map-get($font-sizes, '-1');
+  color: $gray-600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.unread-message {
+  color: $black;
+
+  .chat-contact-title,
+  .chat-contact-content {
+    font-weight: $font-weight-semi-bold;
+    color: $black;
+  }
+
+  .message-time {
+    color: $primary;
+  }
+}
+
+// Contacts search style
+.contacts-search-wrapper {
+  position: relative;
+  border-top: 1px solid $border-color;
+  border-right: 1px solid $border-color;
+  background-color: $white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.063rem;
+}
+
+.chat-contacts-search {
+  padding-left: 2.12rem;
+
+  @include hover-focus {
+    box-shadow: none;
+  }
+}
+
+.contacts-search-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: $gray-400;
+  font-size: map-get($font-sizes, '-1');
+  left: 1rem;
+}
+
+/*-----------------------------------------------
+|   Chat contents
+-----------------------------------------------*/
+.chat-content-header {
+  padding: map-get($spacers, 3);
+  border-bottom: 1px solid $border-color;
+}
+
+.chat-content-body {
+  height: calc(100% - 4.25rem);
+
+  .scroll-content {
+    position: relative;
+  }
+}
+
+.chat-content-scroll-area {
+  height: 100%;
+  padding-bottom: map-get($spacers, 3);
+  overflow-y: auto;
+}
+
+.chat-message {
+  max-width: calc(100% - 7rem);
+  display: inline-block;
+  position: relative;
+}
+
+.message-settings {
+  position: absolute;
+  bottom: -0.9375rem;
+  border: 1px solid $gray-200;
+  background-color: $gray-100;
+  border-radius: 50%;
+  height: 1.875rem;
+  width: 1.875rem;
+  text-align: center;
+}
+
+.message-settings-left {
+  right: -0.9375rem;
+}
+
+.message-settings-right {
+  left: -0.9375rem;
+}
+
+.conversation-info {
+  position: absolute;
+  width: 15rem;
+  right: -100%;
+  background-color: $gray-100;
+  border-left: 1px solid $border-color;
+  z-index: 10;
+  top: 4.25rem;
+  height: calc(100% - 4.25rem);
+  transition: 0.5s;
+
+  &.show {
+    right: 0;
+  }
+
+  .conversation-info-icon {
+    width: 1.25rem;
+    font-size: map_get($font-sizes, 0);
+  }
+}
+
+.chat-file-upload {
+  position: absolute;
+  right: 5.5rem;
+  z-index: 2;
+  top: 0.125rem;
+  color: $gray-500;
+
+  @include hover-focus {
+    color: $gray-600;
+  }
+}
+.emoji-icon {
+  position: absolute;
+  top: 8px;
+  right: 64px;
+  cursor: pointer;
+  color: $gray-500;
+
+  @include hover-focus {
+    color: $gray-600 !important;
+  }
+}
+
+.btn-message-submit {
+  position: absolute;
+  right: 3.938rem;
+  top: 0.1875rem;
+}
+
+.btn-send {
+  position: absolute;
+  top: 0.125rem;
+  z-index: 2;
+  right: 1rem;
+}
+
+.btn-send {
+  background-color: transparent;
+  padding-left: 0;
+  padding-right: 0;
+  color: $gray-500;
+}
+
+.chat-editor-area {
+  border-top: 1px solid $border-color;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+
+  // Emojionearea editor style for chat page
+  .emojionearea-editor {
+    // min-height: 1.875rem;
+    min-height: 2rem;
+    padding-right: 7rem;
+  }
+
+  .emojionearea-button {
+    right: 3.75rem;
+  }
+}
+
+@include media-breakpoint-up(sm) {
+  .contacts-list {
+    height: calc(100% - 2.063rem);
+  }
+
+  .conversation-scroll-area {
+    height: calc(100% - 2.188rem);
+  }
+
+  .card-chat {
+    height: calc(100vh - #{$top-nav-height} - #{$footer-height});
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .chat-sidebar {
+    position: relative;
+    height: 100%;
+    top: 0;
+    left: 0 !important;
+    width: auto;
+    transition: none;
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  .chat-sidebar {
+    flex: 0 0 17.5rem;
+    max-width: 17.5rem;
+  }
+}
+
+@include media-breakpoint-up(xxl) {
+  .chat-sidebar {
+    flex: 0 0 21.88rem;
+    max-width: 21.88rem;
+  }
+}
+
+// Specific styles for edge
+.safari {
+  .contacts-list {
+    height: calc(100% - 2.063rem);
+  }
+
+  .contacts-search-wrapper {
+    height: 2.125rem;
+  }
+}
+
+// Specific styles for ie
+.ie {
+  .chat-contact {
+    height: 4.25rem;
+  }
+
+  .chat-gallery {
+    width: calc(100% - 7rem);
+  }
+
+  .conversation-info {
+    top: 4.313rem;
+  }
+}
+
+// Specific styles for edge
+.edge {
+  .chat-contact {
+    height: 4.25rem;
+  }
+
+  .conversation-info {
+    top: 4.313rem;
+  }
+}
+// individual massage thread option on hover color
+.chat-option-hover {
+  transition: 0.2s;
+  @include hover-focus {
+    color: $primary;
+  }
+}
