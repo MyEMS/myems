@@ -178,5 +178,5 @@ Weitere Informationen finden Sie im [myems-modbus-tcp](./myems-modbus-tcp/README
 
 [1]. http://github.com/MyEMS/myems
   
-[2]. http://gitee.com/myems/myems
+[2]. http://gitee.com/MyEMS/myems
 
