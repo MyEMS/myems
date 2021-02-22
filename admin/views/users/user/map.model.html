@@ -1,0 +1,19 @@
+<div class="inmodal">
+    <div class="modal-header">
+        <h4 class="modal-title">{{operation}}分表</h4>
+    </div>
+    <div class="modal-body">
+        <form method="get" class="form-horizontal">
+            <div class="form-group"><label class="col-sm-2 control-label">名称</label>
+
+                <div class="col-sm-10"><input ng-model="meter.name" type="text" class="form-control"></div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-white" ng-click="cancel()">取消</button>
+        <button type="button" class="btn btn-primary" ng-click="ok()">保存</button>
+    </div>
+</div>

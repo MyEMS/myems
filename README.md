@@ -1,6 +1,6 @@
 # MyEMS
 
- [中文](#MyEMS-介绍) | [EN](#MyEMS-Introduction) | [DE](#MyEMS-Einführung)
+ [中文](./README.md) | [EN](./README_EN.md) | [DE](./README_DE.md)
 
  [![Documentation Status](https://readthedocs.org/projects/myems/badge/?version=latest)](https://myems.readthedocs.io/en/latest/?badge=latest)
 
@@ -15,47 +15,46 @@ MyEMS是行业领先的开源能源管理系统，利用云计算、物联网、
 ## MyEMS组件(社区版 )
 
 MyEMS项目由下列组件构成:
-![MyEMS Components](/docs/images/myems-componets.png)
 
 ### MyEMS Web APP
 
-参考仓库 [myems-web](https://github.com/myems/myems-web.git) 获取更多信息。
+参考[web](./web/README.md) 获取更多信息。
 
 ### MyEMS 管理面板
 
-参考仓库  [myems-admin](https://github.com/myems/myems-admin.git) 获取更多信息。
+参考[admin](./admin/README.md) 获取更多信息。
 
 ### MyEMS 数据库
 
-参考仓库  [myems-database](https://github.com/myems/myems-database.git) 获取更多信息。
+参考[database](./database/README.md) 获取更多信息。
 
 ### MyEMS 数据清洗服务
 
-参考仓库  [myems-cleaning](https://github.com/myems/myems-cleaning.git) 获取更多信息。
+参考[myems-cleaning](./myems-cleaning/README.md) 获取更多信息。
 
 ### MyEMS 数据规范化服务
 
-参考仓库  [myems-normalization](https://github.com/myems/myems-normalization.git) 获取更多信息。
+参考[myems-normalization](./myems-normalization/README.md) 获取更多信息。
 
 ### MyEMS 数据汇总服务
 
-参考仓库  [myems-aggregation](https://github.com/myems/myems-aggregation.git) 获取更多信息。
+参考[myems-aggregation](./myems-aggregation/README.md) 获取更多信息。
 
 ### MyEMS 数据接口API
 
-参考仓库  [myems-api](https://github.com/myems/myems-api.git) 获取更多信息。
+参考仓库[myems-api](https://github.com/MyEMS/myems-api.git) 获取更多信息。
 
 ### MyEMS MQTT 数据发布服务 (从MyEMS转发到第三方)
 
-参考仓库  [myems-mqtt-publisher](https://github.com/myems/myems-mqtt-publisher.git) 获取更多信息。
+参考[myems-mqtt-publisher](./myems-mqtt-publisher/README.md) 获取更多信息。
 
 ### MyEMS BACnet/IP 数据采集服务
 
-参考仓库  [myems-bacnet](https://github.com/myems/myems-bacnet.git) 获取更多信息。
+参考[myems-bacnet](./myems-bacnet/README.md) 获取更多信息。
 
 ### MyEMS Modbus TCP 数据采集服务
 
-参考仓库  [myems-modbus-tcp](https://github.com/myems/myems-modbus-tcp.git) 获取更多信息。
+参考[myems-modbus-tcp](./myems-modbus-tcp/README.md) 获取更多信息。
 
 ## MyEMS截图
 ![MyEMS Screenshot](/docs/images/screenshot-2020.12.01-16_53_12.png)
@@ -68,36 +67,83 @@ MyEMS项目由下列组件构成:
 | 更换品牌名称与标志LOGO              | ✔️             | ✔️        |
 | Modbus TCP 协议                   | ✔️             | ✔️        |
 | BACnet/IP 协议                    | ✔️             | ✔️        |
-| MQTT 协议发布                      | ✔️             | ✔️        |
+| MQTT 协议发布数据                  | ✔️             | ✔️        |
 | 数据点数                           | 无限制         |无限制     |
 | 计量表数                           | 无限制         |无限制     |
 | 设备数                             | 无限制         |无限制     |
 | 用能单位数                         | 无限制         |无限制     |
-| Docker 容器部署                    | ✔️             | ✔️        |
+| Docker容器化部署                    | ✔️             | ✔️        |
 | Kubernetes部署                    | ✔️             | ✔️        |
 | MySQL                            | ✔️             | ✔️        |
 | MariaDB                          | ✔️             | ✔️        |
-| MemSQL                           | ✔️             | ✔️        |
+| SingleStore                      | ✔️             | ✔️        |
 | AWS 云部署                        | ✔️             | ✔️        |
 | AZure 云部署                      | ✔️             | ✔️        |
 | 阿里云部署                         | ✔️             | ✔️        |
 | 私有云部署                         | ✔️             | ✔️        |
-| 空间能源消耗分析                    | ✔️             | ✔️        |
-| 空间能源费用分析                    | ✔️             | ✔️        |
-| 空间能源产出分析                    | ✔️             | ✔️        |
-| 空间能效分析                       | ✔️             | ✔️        |
-| 空间对比分析                       | ✔️             | ✔️        |
-| 空间能耗排名                       | ✔️             | ✔️        |
-| 能耗概览页                         | ✔️             | ✔️        |
+| 总览页                            | ✔️             | ✔️        |
+| 数据比较分析（同比、环比、自由比）     | ✔️             | ✔️        |
+| 数据分析结果导出到Excel              | ✔️             | ✔️        |
+| 空间数据/能耗分类分析                | ✔️             | ✔️        |
+| 空间数据/能耗分项分析                | ✔️             | ✔️        |
+| 空间数据/成本分析                   | ✔️             | ✔️        |
+| 空间数据/产出分析                   | ✔️             | ✔️        |
+| 空间数据/收入分析                   | ✔️             | ✔️        |
+| 空间数据/效率分析                   | ✔️             | ✔️        |
+| 空间数据/负荷分析                   | ✔️             | ✔️        |
+| 空间数据/统计分析                   | ✔️             | ✔️        |
+| 空间数据/节能分析                   | ❌            | ✔️        |
+| 设备数据/能耗分类分析                | ✔️             | ✔️        |
+| 设备数据/能耗分项分析                | ✔️             | ✔️        |
+| 设备数据/成本分析                   | ✔️             | ✔️        |
+| 设备数据/产出分析                   | ✔️             | ✔️        |
+| 设备数据/收入分析                   | ✔️             | ✔️        |
+| 设备数据/效率分析                   | ✔️             | ✔️        |
+| 设备数据/负荷分析                   | ✔️             | ✔️        |
+| 设备数据/统计分析                   | ✔️             | ✔️        |
+| 设备数据/节能分析                   | ❌            | ✔️        |
+| 设备数据/设备台账                   | ✔️             | ✔️        |
+| 计量表数据/能耗分析                 | ✔️             | ✔️        |
+| 计量表数据/成本分析                 | ✔️             | ✔️        |
+| 计量表数据/趋势分析                 | ✔️             | ✔️        |
+| 计量表数据/实时分析                 | ✔️             | ✔️        |
+| 计量表数据/总分表平衡分析            | ✔️             | ✔️        |
+| 计量表数据/离线表能耗分析            | ✔️             | ✔️        |
+| 计量表数据/离线表成本分析            | ✔️             | ✔️        |
+| 计量表数据/虚拟表能耗分析            | ✔️             | ✔️        |
+| 计量表数据/虚拟表成本分析             | ✔️             | ✔️        |
+| 计量表数据/计量表台账                | ✔️             | ✔️        |
+| 租户数据/能耗分类分析                | ✔️             | ✔️        |
+| 租户数据/能耗分项分析                | ✔️             | ✔️        |
+| 租户数据/成本分析                   | ✔️             | ✔️        |
+| 租户数据/负荷分析                   | ✔️             | ✔️        |
+| 租户数据/统计分析                   | ✔️             | ✔️        |
+| 租户数据/节能分析                   | ❌             | ✔️        |
+| 租户数据/租户账单                   | ✔️             | ✔️        |
+| 门店数据/能耗分类分析                | ✔️             | ✔️        |
+| 门店数据/能耗分项分析                | ✔️             | ✔️        |
+| 门店数据/成本分析                   | ✔️             | ✔️        |
+| 门店数据/负荷分析                   | ✔️             | ✔️        |
+| 门店数据/统计分析                   | ✔️             | ✔️        |
+| 门店数据/节能分析                   | ❌             | ✔️        |
+| 车间数据/能耗分类分析                | ✔️             | ✔️        |
+| 车间数据/能耗分项分析                | ✔️             | ✔️        |
+| 车间数据/成本分析                   | ✔️             | ✔️        |
+| 车间数据/负荷分析                   | ✔️             | ✔️        |
+| 车间数据/统计分析                   | ✔️             | ✔️        |
+| 车间数据/节能分析                   | ❌            | ✔️        |
+| 组合设备数据/成本分析                | ✔️             | ✔️        |
+| 组合设备数据/产出分析                | ✔️             | ✔️        |
+| 组合设备数据/收入分析                | ✔️             | ✔️        |
+| 组合设备数据/效率分析                | ✔️             | ✔️        |
+| 组合设备数据/负荷分析                | ✔️             | ✔️        |
+| 组合设备数据/统计分析                | ✔️             | ✔️        |
+| 组合设备数据/节能分析                | ❌            | ✔️        |
 | 能流图分析                         | ✔️             | ✔️        |
 | 配电系统分析                       | ✔️             | ✔️        |
-| 设备能效分析                       | ✔️             | ✔️        |
-| 租户能耗分析                       | ✔️             | ✔️        |
-| 店铺能耗分析                       | ✔️             | ✔️        |
-| 车间能耗分析                       | ✔️             | ✔️        |
 | REST API                         | ✔️             | ✔️        |
 | Web APP                          | ✔️             | ✔️        |
-| MQTT 协议 订阅                    | ❌            | ✔️        |
+| MQTT 协议订阅数据                  | ❌            | ✔️        |
 | Modbus RTU 协议                   | ❌            | ✔️        |
 | OPC UA 协议                       | ❌            | ✔️        |
 | OPC DA 协议                       | ❌            | ✔️        |
@@ -106,14 +152,14 @@ MyEMS项目由下列组件构成:
 | Johnson Controls Metasys         | ✔️             | ✔️        |
 | Honeywell EBI                    | ✔️             | ✔️        |
 | SIEMENS Desigo CC                | ❌            | ✔️        |
-| FDD 故障诊断规则引擎                | ❌            | ✔️        |
-| 高级报表引擎                       | ❌            | ✔️        |
+| FDD 能效故障诊断规系统              | ❌            | ✔️        |
+| 高级报表系统                       | ❌            | ✔️        |
 | 组态图形绘制工具                    | ❌            | ✔️        |
 | 设备远程控制                       | ❌            | ✔️        |
 | BACnet Server                    | ❌            | ✔️        |
 | iOS APP                          | ❌            | ✔️        |
 | Android APP                      | ❌            | ✔️        |
-| 无风扇工控机硬件网关(数据采集和远程控制）| ❌           | ✔️        |
+| 工控机硬件网关(数据采集和远程控制）    | ❌           | ✔️        |
 | LoRa无线数传电台模块(数据采集和远程控制）| ❌          | ✔️        |
 | 重点用能单位能耗在线监测系统上传省级平台通信协议| ❌     | ✔️        |
 | 第三方系统集成服务                  | ❌            | ✔️        |
@@ -127,246 +173,9 @@ MyEMS项目由下列组件构成:
 | 二次开发技术支持服务                | ❌            | ✔️        |
 
 
-## MyEMS Introduction
- MyEMS is an industry leading open source Energy Management System that is built on cloud computing, IOT, Big Data and AI technologies. MyEMS can be used for a standard and powerful integrated energy management service platform.
-MyEMS is being developed and maintained by an experienced development team, and the system's source code is published under MIT license.
+## MyEMS镜像
 
-## MyEMS Architecture
-![MyEMS Architecture](/docs/images/architecture.png)
+[1]. http://github.com/MyEMS/myems
+  
+[2]. http://gitee.com/myems/myems
 
-## MyEMS Components (Standard Edition)
-![MyEMS Components](/docs/images/myems-componets.png)
-
-This project is compose of  following components:
-
-### MyEMS Web APP
-
-See the repository [myems-web](https://github.com/myems/myems-web.git) for more information.
-
-### MyEMS Admin Panel
-
-See the repository [myems-admin](https://github.com/myems/myems-admin.git) for more information.
-
-### MyEMS Database
-
-See the repository [myems-database](https://github.com/myems/myems-database.git) for more information.
-
-### MyEMS Cleaning Service
-
-See the repository [myems-cleaning](https://github.com/myems/myems-cleaning.git) for more information.
-
-### MyEMS Normalization Service
-
-See the repository [myems-normalization](https://github.com/myems/myems-normalization.git) for more information.
-
-### MyEMS Aggregation Service
-
-See the repository [myems-aggregation](https://github.com/myems/myems-aggregation.git) for more information.
-
-### MyEMS API
-
-See the repository [myems-api](https://github.com/myems/myems-api.git) for more information.
-
-### MyEMS MQTT Data Publisher Service (transmit data from MyEMS to 3rd Party)
-
-See the repository [myems-mqtt-publisher](https://github.com/myems/myems-mqtt-publisher.git) for more information.
-
-### MyEMS BACnet/IP Acquisition Service
-
-See the repository [myems-bacnet](https://github.com/myems/myems-bacnet.git) for more information.
-
-### MyEMS Modbus TCP Acquisition Service
-
-See the repository [myems-modbus-tcp](https://github.com/myems/myems-modbus-tcp.git) for more information.
-
-## MyEMS Screenshot
-![MyEMS Screenshot](/docs/images/screenshot-2020.12.01-16_53_12.png)
-
-## Compare Editions
-
-| Features                         |Communit Edition (MyEMS) |Enterprise Edition (AlbertEOS)|
-| :---                             |      :----:   |  :----: |
-| Open Source                      | ✔️             | ❌      |
-| Pricing                          | Free          | Pay for Projects |
-| Change Name and Logo             | ✔️             | ✔️        |
-| Modbus TCP                       | ✔️             | ✔️        |
-| BACnet/IP                        | ✔️             | ✔️        |
-| MQTT Publisher                   | ✔️             | ✔️        |
-| Data Points Number               | Unlimited     |Unlimited |
-| Meters Number                    | Unlimited     |Unlimited |
-| Equipments Number                | Unlimited     |Unlimited |
-| Spaces Number                    | Unlimited     |Unlimited |
-| Docker                           | ✔️             | ✔️        |
-| Kubernetes                       | ✔️             | ✔️        |
-| MySQL                            | ✔️             | ✔️        |
-| MariaDB                          | ✔️             | ✔️        |
-| MemSQL                           | ✔️             | ✔️        |
-| AWS Cloud                        | ✔️             | ✔️        |
-| AZure Cloud                      | ✔️             | ✔️        |
-| Alibaba Cloud                    | ✔️             | ✔️        |
-| Private Cloud                    | ✔️             | ✔️        |
-| Space Energy Consumption Reports | ✔️             | ✔️        |
-| Space Energy Billing Reports     | ✔️             | ✔️        |
-| Space Efficiency Reports         | ✔️             | ✔️        |
-| Space Energy Output Reports      | ✔️             | ✔️        |
-| Space Comparison Reports         | ✔️             | ✔️        |
-| Space Energy Ranking Reports     | ✔️             | ✔️        |
-| Energy Dashboard                 | ✔️             | ✔️        |
-| Energy Flow Diagram              | ✔️             | ✔️        |
-| Distribution System              | ✔️             | ✔️        |
-| Equipment Efficiency Reports     | ✔️             | ✔️        |
-| Tenant Energy Consumption Reports| ✔️             | ✔️        |
-| Sotre Energy Consumption Reports | ✔️             | ✔️        |
-| Shopfloor Energy Consumption Reports | ✔️         | ✔️        |
-| REST API                         | ✔️             | ✔️        |
-| Web APP                          | ✔️             | ✔️        |
-| MQTT Subscriber                  | ❌            | ✔️        |
-| Modbus RTU                       | ❌            | ✔️        |
-| OPC UA                           | ❌            | ✔️        |
-| OPC DA                           | ❌            | ✔️        |
-| Siemens S7                       | ❌            | ✔️        |
-| IEC 104                          | ❌            | ✔️        |
-| Johnson Controls Metasys         | ✔️             | ✔️        |
-| Honeywell EBI                    | ✔️             | ✔️        |
-| SIEMENS Desigo CC                | ❌            | ✔️        |
-| FDD Rule Engine                  | ❌            | ✔️        |
-| Advanced Reporting Engine        | ❌            | ✔️        |
-| Graphics Drwaing Tool            | ❌            | ✔️        |
-| Equipments Remote Control        | ❌            | ✔️        |
-| BACnet Server                    | ❌            | ✔️        |
-| iOS APP                          | ❌            | ✔️        |
-| Android APP                      | ❌            | ✔️        |
-| Fanless IPC Hardware Gateways (Data Acquisition and Remote Control）| ❌            | ✔️        |
-| LoRa Radio Module (Data Acquisition and Remote Control）| ❌          | ✔️        |
-| Protocol for Uploading to Provincial Platform of On-line monitoring system for Key Energy-Consuming Unit| ❌     | ✔️        |
-| 3rd Party Systems Integration    | ❌            | ✔️        |
-| Online Community Customer Support| ✔️             | ✔️        |
-| Email Customer Support           | ✔️             | ✔️        |
-| Telephone Customer Support       | ❌            | ✔️        |
-| WeChat Customer Support          | ❌            | ✔️        |
-| Remote Desktop Customer Support  | ❌            | ✔️        |
-| Onsite Customer Support          | ❌            | ✔️        |
-| Bidding Support Service          | ❌            | ✔️        |
-| Customize Support Service        | ❌            | ✔️        |
-
-## MyEMS-Einführung
-MyEMS ist ein branchenführendes Open-Source-Energiemanagementsystem, das auf Cloud-Computing-, IOT-, Big Data- und AI-Technologien basiert. MyEMS kann für eine standardmäßige und leistungsstarke integrierte Energiemanagement-Serviceplattform verwendet werden.
-MyEMS wird von einem erfahrenen Entwicklungsteam entwickelt und gewartet, und der Quellcode des Systems wird unter MIT-Lizenz veröffentlicht.
-
-## MyEMS Architektur
-![MyEMS Architecture](/docs/images/architecture.png)
-
-## MyEMS Komponenten (Gemeinschaftsausgabe)
-![MyEMS Components](/docs/images/myems-componets.png)
-
-Dieses Projekt besteht aus folgenden Komponenten:
-
-### MyEMS Web APP
-
-Weitere Informationen finden Sie im Repository [myems-web](https://github.com/myems/myems-web.git).
-
-### MyEMS Admin Panel
-
-Weitere Informationen finden Sie im Repository [myems-admin](https://github.com/myems/myems-admin.git).
-
-### MyEMS Database
-
-Weitere Informationen finden Sie im Repository [myems-database](https://github.com/myems/myems-database.git).
-
-### MyEMS Cleaning Service
-
-Weitere Informationen finden Sie im Repository [myems-cleaning](https://github.com/myems/myems-cleaning.git).
-
-### MyEMS Normalization Service
-
-Weitere Informationen finden Sie im Repository [myems-normalization](https://github.com/myems/myems-normalization.git).
-
-### MyEMS Aggregation Service
-
-Weitere Informationen finden Sie im Repository [myems-aggregation](https://github.com/myems/myems-aggregation.git).
-
-### MyEMS API
-
-Weitere Informationen finden Sie im Repository [myems-api](https://github.com/myems/myems-api.git).
-
-### MyEMS MQTT Data Publisher Service (transmit data from MyEMS to 3rd Party)
-
-Weitere Informationen finden Sie im Repository [myems-mqtt-publisher](https://github.com/myems/myems-mqtt-publisher.git).
-
-### MyEMS BACnet/IP Acquisition Service
-
-Weitere Informationen finden Sie im Repository [myems-bacnet](https://github.com/myems/myems-bacnet.git).
-
-### MyEMS Modbus TCP Acquisition Service
-
-Weitere Informationen finden Sie im Repository [myems-modbus-tcp](https://github.com/myems/myems-modbus-tcp.git).
-
-## MyEMS Bildschirmfoto
-![MyEMS Bildschirmfoto](/docs/images/screenshot-2020.12.01-16_53_12.png)
-
-## Editionen vergleichen
-
-| Eigenschaften                    |Gemeinschaftsausgabe (MyEMS) |Enterprise Edition (AlbertEOS)|
-| :---                             |      :----:   |  :----: |
-| Open Source                      | ✔️             | ❌      |
-| Pricing                          | Free          | Pay for Projects |
-| Change Name and Logo             | ✔️             | ✔️        |
-| Modbus TCP                       | ✔️             | ✔️        |
-| BACnet/IP                        | ✔️             | ✔️        |
-| MQTT Publisher                   | ✔️             | ✔️        |
-| Data Points Number               | Unlimited     |Unlimited |
-| Meters Number                    | Unlimited     |Unlimited |
-| Equipments Number                | Unlimited     |Unlimited |
-| Spaces Number                    | Unlimited     |Unlimited |
-| Docker                           | ✔️             | ✔️        |
-| Kubernetes                       | ✔️             | ✔️        |
-| MySQL                            | ✔️             | ✔️        |
-| MariaDB                          | ✔️             | ✔️        |
-| MemSQL                           | ✔️             | ✔️        |
-| AWS Cloud                        | ✔️             | ✔️        |
-| AZure Cloud                      | ✔️             | ✔️        |
-| Alibaba Cloud                    | ✔️             | ✔️        |
-| Private Cloud                    | ✔️             | ✔️        |
-| Space Energy Consumption Reports | ✔️             | ✔️        |
-| Space Energy Billing Reports     | ✔️             | ✔️        |
-| Space Efficiency Reports         | ✔️             | ✔️        |
-| Space Energy Output Reports      | ✔️             | ✔️        |
-| Space Comparison Reports         | ✔️             | ✔️        |
-| Space Energy Ranking Reports     | ✔️             | ✔️        |
-| Energy Dashboard                 | ✔️             | ✔️        |
-| Energy Flow Diagram              | ✔️             | ✔️        |
-| Distribution System              | ✔️             | ✔️        |
-| Equipment Efficiency Reports     | ✔️             | ✔️        |
-| Tenant Energy Consumption Reports| ✔️             | ✔️        |
-| Sotre Energy Consumption Reports | ✔️             | ✔️        |
-| Shopfloor Energy Consumption Reports | ✔️         | ✔️        |
-| REST API                         | ✔️             | ✔️        |
-| Web APP                          | ✔️             | ✔️        |
-| MQTT Subscriber                  | ❌            | ✔️        |
-| Modbus RTU                       | ❌            | ✔️        |
-| OPC UA                           | ❌            | ✔️        |
-| OPC DA                           | ❌            | ✔️        |
-| Siemens S7                       | ❌            | ✔️        |
-| IEC 104                          | ❌            | ✔️        |
-| Johnson Controls Metasys         | ✔️             | ✔️        |
-| Honeywell EBI                    | ✔️             | ✔️        |
-| SIEMENS Desigo CC                | ❌            | ✔️        |
-| FDD Rule Engine                  | ❌            | ✔️        |
-| Advanced Reporting Engine        | ❌            | ✔️        |
-| Graphics Drwaing Tool            | ❌            | ✔️        |
-| Equipments Remote Control        | ❌            | ✔️        |
-| BACnet Server                    | ❌            | ✔️        |
-| iOS APP                          | ❌            | ✔️        |
-| Android APP                      | ❌            | ✔️        |
-| Fanless IPC Hardware Gateways (Data Acquisition and Remote Control）| ❌            | ✔️        |
-| LoRa Radio Module (Data Acquisition and Remote Control）| ❌          | ✔️        |
-| Protocol for Uploading to Provincial Platform of On-line monitoring system for Key Energy-Consuming Unit| ❌     | ✔️        |
-| 3rd Party Systems Integration    | ❌            | ✔️        |
-| Online Community Customer Support| ✔️             | ✔️        |
-| Email Customer Support           | ✔️             | ✔️        |
-| Telephone Customer Support       | ❌            | ✔️        |
-| WeChat Customer Support          | ❌            | ✔️        |
-| Remote Desktop Customer Support  | ❌            | ✔️        |
-| Onsite Customer Support          | ❌            | ✔️        |
-| Bidding Support Service          | ❌            | ✔️        |
-| Customize Support Service        | ❌            | ✔️        |

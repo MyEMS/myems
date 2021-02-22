@@ -1,0 +1,119 @@
+<!--
+* INSPINIA - Responsive Admin Theme
+* Version 2.5
+*
+-->
+
+<!DOCTYPE html>
+<html ng-app="inspinia">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Page title set in pageTitle directive -->
+    <title page-title></title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font awesome -->
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <!-- Main Inspinia CSS files -->
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="js/plugins/angular-loading-bar/loading-bar.css" rel="stylesheet">
+    <link href="js/nvd3/nv.d3.css" rel="stylesheet">
+    <link href="js/dropzone/basic.css" rel="stylesheet">
+    <link href="js/dropzone/dropzone.css" rel="stylesheet">
+    <link id="loadBefore" href="css/style.css" rel="stylesheet">
+    <link id="loadBefore" href="css/myems.css" rel="stylesheet">
+    <link href="css/plugins/jsTree/style.min.css" rel="stylesheet">
+
+
+</head>
+
+<!-- ControllerAs syntax -->
+<!-- Main controller with serveral data used in Inspinia theme on diferent view -->
+<body ng-controller="MainController" class="{{$state.current.data.specialClass}}" landing-scrollspy id="page-top">
+
+<!-- Main view  -->
+<div ui-view></div>
+
+<!-- jQuery and Bootstrap -->
+<script src="js/jquery/jquery-2.1.1.min.js"></script>
+<script src="js/jc/jc.jsextend.js"></script>
+<script src="js/jquery/jquery.panzoom.min.js"></script>
+<script src="js/plugins/jquery-ui/jquery-ui.js"></script>
+<script src="js/bootstrap/bootstrap.min.js"></script>
+<script src="js/dropzone/dropzone.js"></script>
+<script type="text/javascript">
+    jQuery.event.props.push('dataTransfer');
+    Dropzone.autoDiscover = false;
+</script>
+<!-- MetsiMenu -->
+<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="js/daterangepicker/moment.min.js"></script>
+<!-- <script src="js/angular-highcharts/highcharts.js" ></script> -->
+<script src="js/angular-highcharts/highstock.src.js" ></script>
+<script src="js/angular-highcharts/highcharts-3d.js" ></script>
+<script src="js/angular-highcharts/highcharts-more.js" ></script>
+<script src="js/angular-highcharts/highcharts-funnel.js" ></script>
+<script src="js/angular-highcharts/sankey.js" ></script>
+<script src="js/angular-highcharts/solid-gauge.src.js" ></script>
+<script src="js/angular-highcharts/heatmap.src.js" ></script>
+<script src="js/d3/d3.js" ></script>
+<script src="js/nvd3/nv.d3.js" ></script>
+<!-- SlimScroll -->
+<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<!-- <script src="js/mathjax/MathJax.js?config=AM_HTMLorMML-full"></script> -->
+
+<!-- Peace JS -->
+<script src="js/plugins/pace/pace.min.js"></script>
+
+<!-- Main Angular scripts-->
+<script src="js/angular/angular.min.js"></script>
+<script src="js/angular/angular-sanitize.js"></script>
+<!-- <script src="js/angular/angular-dragdrop.min.js"></script> -->
+<script src="js/angular-highcharts/highcharts-ng.js"></script>
+<script src="js/and3/and3.js"></script>
+<script src="js/dropzone/ng-dropzone.js"></script>
+<script src="js/plugins/oclazyload/dist/ocLazyLoad.min.js"></script>
+<script src="js/angular-translate/angular-translate.min.js"></script>
+<script src="js/ui-router/angular-ui-router.min.js"></script>
+<script src="js/bootstrap/ui-bootstrap-tpls-1.1.2.min.js"></script>
+<script src="js/plugins/angular-idle/angular-idle.js"></script>
+<script src="js/plugins/angular-loading-bar/loading-bar.js"></script>
+<script src="js/angular/angular-cookies.min.js"></script>
+<script src="js/plugins/jsTree/jstree.min.js"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="app/inspinia.js"></script>
+
+<!--
+ You need to include this script on any page that has a Google Map.
+ When using Google Maps on your own site you MUST signup for your own API key at:
+ https://developers.google.com/maps/documentation/javascript/tutorial#api_key
+ After your sign up replace the key in the URL below..
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQTpXj82d8UpCi97wzo_nKXL7nYrd4G70"></script>-->
+
+<!-- Anglar App Script -->
+<script src="app/api.js"></script>
+<script src="app/app.js"></script>
+<script src="app/config.js"></script>
+<script src="app/config.highcharts.js"></script>
+<script src="app/config.lazyload.js"></script>
+<script src="app/config.router.js"></script>
+<script src="app/translations.js"></script>
+<script src="app/directives/directives.js"></script>
+<script src="app/directives/jc-drag-drop/jc-drag-drop.js"></script>
+<script src="app/directives/jc-drag-drop/jc-uuid.js"></script>
+<script src="app/constant/common.const.js"></script>
+<script src="app/controllers/main.controller.js"></script>
+
+</body>
+</html>

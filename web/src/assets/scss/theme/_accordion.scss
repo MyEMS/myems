@@ -1,0 +1,24 @@
+// Used in chat
+.btn-accordion {
+  padding: 0.25rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: map-get($font-sizes, '-1');
+  font-weight: $font-weight-medium;
+
+  &[aria-expanded="true"] {
+    [data-prefix="fas"] {
+      transform: rotate(90deg);
+    }
+  }
+}
+
+.accordion-icon {
+  transition: transform 0.1s linear;
+  color: $gray-900;
+
+  [aria-expanded="true"] & {
+    transform: rotate(90deg);
+  }
+}

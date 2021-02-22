@@ -1,0 +1,485 @@
+///*-----------------------------------------------
+//|   Breakpoints
+//-----------------------------------------------*/
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1480px
+) !default;
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1540px
+) !default;
+
+//*-----------------------------------------------
+//|   Color System
+//-----------------------------------------------*/
+$white: #fff !default;
+$gray-100: #f9fafd !default;
+$gray-200: #edf2f9 !default;
+$gray-300: #d8e2ef !default;
+$gray-400: #b6c1d2 !default;
+$gray-500: #9da9bb !default;
+$gray-600: #748194 !default;
+$gray-700: #5e6e82 !default;
+$gray-800: #4d5969 !default;
+$gray-900: #344050 !default;
+$gray-1000: #232e3c !default;
+$gray-1100: #0b1727 !default;
+$black: #000 !default;
+
+$grays: () !default;
+$grays: map_merge(
+  $grays,
+  (
+    'black': $black,
+    '100': $gray-100,
+    '200': $gray-200,
+    '300': $gray-300,
+    '400': $gray-400,
+    '500': $gray-500,
+    '600': $gray-600,
+    '700': $gray-700,
+    '800': $gray-800,
+    '900': $gray-900,
+    '1000': $gray-1000,
+    '1100': $gray-1100,
+    'white': $white
+  )
+);
+
+//*-----------------------------------------------
+//|   Solid Colors
+//-----------------------------------------------*/
+$blue: #2c7be5 !default;
+$indigo: #727cf5 !default;
+$purple: #6b5eae !default;
+$pink: #ff679b !default;
+$red: #e63757 !default;
+$orange: #fd7e14 !default;
+$yellow: #f5803e !default;
+$green: #00d27a !default;
+$teal: #02a8b5 !default;
+$cyan: #27bcfd !default;
+
+//*-----------------------------------------------
+//|   Theme Colors
+//-----------------------------------------------*/
+$primary: $blue !default;
+$secondary: $gray-600 !default;
+$success: $green !default;
+$info: $cyan !default;
+$warning: $yellow !default;
+$danger: $red !default;
+$light: $gray-100 !default;
+$dark: $gray-1100 !default;
+
+$theme-colors: () !default;
+$theme-colors: map_merge(
+  $theme-colors,
+  (
+    'primary': $primary,
+    'secondary': $secondary,
+    'success': $success,
+    'info': $info,
+    'warning': $warning,
+    'danger': $danger,
+    'light': $light,
+    'dark': $dark
+  )
+);
+
+// The yiq lightness value that determines when the lightness of color changes from "dark" to "light". Acceptable values are between 0 and 255.
+$yiq-contrasted-threshold: 180 !default;
+
+// Customize the light and dark text colors for use in our YIQ color contrast function.
+$yiq-text-dark: $gray-800 !default;
+
+//*-----------------------------------------------
+//|   Social colors
+//-----------------------------------------------*/
+$linkedin: #0077b5 !default;
+$facebook: #3c5a99 !default;
+$twitter: #1da1f2 !default;
+$google-plus: #dd4b39 !default;
+$github: #333 !default;
+$youtube: #ff0000 !default;
+
+//*-----------------------------------------------
+//|   Shadow
+//-----------------------------------------------*/
+$box-shadow: 0 7px 14px 0 rgba(59, 65, 94, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.07) !default;
+$box-shadow-lg: 0 1rem 4rem rgba($black, 0.175) !default;
+
+//*-----------------------------------------------
+//|   Spacing
+//-----------------------------------------------*/
+
+$spacer: 1rem !default;
+$spacers: () !default;
+$spacers: map-merge(
+  $spacers,
+  (
+    0: 0,
+    1: (
+      $spacer * 0.25
+    ),
+    2: (
+      $spacer * 0.5
+    ),
+    3: $spacer,
+    4: (
+      $spacer * 1.8
+    ),
+    5: (
+      $spacer * 3
+    ),
+    6: (
+      $spacer * 4
+    ),
+    7: (
+      $spacer * 5
+    ),
+    8: (
+      $spacer * 7.5
+    ),
+    9: (
+      $spacer * 10
+    ),
+    10: (
+      $spacer * 12.5
+    ),
+    11: (
+      $spacer * 15
+    )
+  )
+);
+
+//*-----------------------------------------------
+//|   Components
+//-----------------------------------------------*/
+$border-radius: 0.25rem !default;
+$border-radius-soft: 0.375rem !default;
+$border-radius-capsule: 3.125rem !default;
+
+//*-----------------------------------------------
+//|   Fonts Families
+//-----------------------------------------------*/
+$font-family-sans-serif: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+  sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol' !default;
+$font-family-monospace: 'SFMono-Regular', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace !default;
+$font-family-base: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+  sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol' !default;
+
+//*-----------------------------------------------
+//|   Fonts
+//-----------------------------------------------*/
+$type-scale: 1.2;
+$font-size-base: 1rem !default;
+$font-sizes: () !default;
+$font-sizes: (
+  '-2': 1 / pow($type-scale, 2) * $font-size-base,
+  '-1': 1 / $type-scale * $font-size-base,
+  0: $font-size-base,
+  1: pow($type-scale, 1) * $font-size-base,
+  2: pow($type-scale, 2) * $font-size-base,
+  3: pow($type-scale, 3) * $font-size-base,
+  4: pow($type-scale, 4) * $font-size-base,
+  5: pow($type-scale, 5) * $font-size-base,
+  6: pow($type-scale, 6) * $font-size-base,
+  7: pow($type-scale, 7) * $font-size-base,
+  8: pow($type-scale, 8) * $font-size-base
+);
+
+$font-weight-thin: 100 !default;
+$font-weight-extra-light: 200 !default;
+$font-weight-light: 300 !default;
+$font-weight-normal: 400 !default;
+$font-weight-medium: 500 !default;
+$font-weight-semi-bold: 600 !default;
+$font-weight-bold: 700 !default;
+$font-weight-extra-bold: 800 !default;
+$font-weight-black: 900 !default;
+
+$h1-font-size: map_get($font-sizes, 5) !default;
+$h2-font-size: map_get($font-sizes, 4) !default;
+$h3-font-size: map_get($font-sizes, 3) !default;
+$h4-font-size: map_get($font-sizes, 2) !default;
+$h5-font-size: map_get($font-sizes, 1) !default;
+$h6-font-size: map_get($font-sizes, '-1') !default;
+
+$headings-margin-bottom: ($spacer / 2) !default;
+$headings-font-family: $font-family-sans-serif !default;
+$headings-font-weight: $font-weight-medium !default;
+$headings-line-height: 1.2 !default;
+$headings-color: $gray-900 !default;
+
+$display1-size: map_get($font-sizes, 8) !default;
+$display2-size: map_get($font-sizes, 7) !default;
+$display3-size: map_get($font-sizes, 6) !default;
+$display4-size: map_get($font-sizes, 5) !default;
+
+$display1-weight: $font-weight-black !default;
+$display2-weight: $font-weight-black !default;
+$display3-weight: $font-weight-black !default;
+$display4-weight: $font-weight-black !default;
+$display-line-height: 1 !default;
+
+$lead-font-size: map_get($font-sizes, 1) !default;
+$lead-font-weight: $font-weight-normal !default;
+
+$small-font-size: 75% !default;
+
+$text-muted: $gray-500 !default;
+
+$blockquote-small-color: $gray-500 !default;
+$blockquote-font-size: map_get($font-sizes, 1) !default;
+
+//*-----------------------------------------------
+//|   Cards
+//-----------------------------------------------*/
+$card-spacer-y: map_get($spacers, 3) !default;
+$card-border-radius: $border-radius-soft !default;
+$card-cap-bg: $white !default;
+$card-border-color: $gray-200 !default;
+$card-border-width: 0px !default;
+$card-deck-margin: map_get($spacers, 2) !default;
+
+//*-----------------------------------------------
+//|   Body
+//-----------------------------------------------*/
+$body-bg: $gray-200 !default;
+$body-color: $gray-700 !default;
+
+//*-----------------------------------------------
+//|   Buttons and Forms
+//-----------------------------------------------*/
+$input-btn-padding-y-sm: 0.1875rem !default;
+$input-btn-padding-x-sm: 0.75rem !default;
+
+$input-btn-padding-y-lg: 0.375rem !default;
+$input-btn-padding-x-lg: 1.25rem !default;
+
+$input-btn-padding-y: 0.3125rem !default;
+$input-btn-padding-x: 1rem !default;
+
+//*-----------------------------------------------
+//|   Buttons
+//-----------------------------------------------*/
+$btn-reveal-hover-shadow: 0 0 0 1px rgba(43, 45, 80, 0.1), 0 2px 5px 0 rgba(43, 45, 80, 0.08),
+  0 1px 1.5px 0 rgba($black, 0.07), 0 1px 2px 0 rgba($black, 0.08) !default;
+$btn-font-weight: $font-weight-medium !default;
+$btn-focus-width: 0 !default;
+
+//*-----------------------------------------------
+//|   Badge
+//-----------------------------------------------*/
+$badge-font-weight: $font-weight-semi-bold !default;
+$badge-padding-y: 0.355555em !default;
+$badge-padding-x: 0.711111em !default;
+$badge-pill-padding-x: 0.711111em !default;
+
+//*-----------------------------------------------
+//|   Forms
+//-----------------------------------------------*/
+$input-disabled-bg: $gray-200 !default;
+$input-group-addon-bg: $gray-200 !default;
+$input-border-color: $gray-300 !default;
+$input-color: $gray-900 !default;
+$form-check-input-margin-y: 0.34375rem !default;
+
+//*-----------------------------------------------
+//|   Pagination
+//-----------------------------------------------*/
+$pagination-padding-y: 0.5rem !default;
+$pagination-padding-x: 0.75rem !default;
+$pagination-padding-y-sm: 0.25rem !default;
+$pagination-padding-x-sm: 0.5rem !default;
+$pagination-padding-y-lg: 0.75rem !default;
+$pagination-padding-x-lg: 1.5rem !default;
+$pagination-line-height: 1.25 !default;
+
+$pagination-color: $black !default;
+$pagination-border-color: $gray-300 !default;
+
+$pagination-hover-color: $white !default;
+$pagination-hover-bg: $black !default;
+$pagination-hover-border-color: $black !default;
+
+$pagination-active-color: $white !default;
+$pagination-active-bg: $black !default;
+$pagination-active-border-color: $black !default;
+
+///*-----------------------------------------------
+//|   List Group
+//-----------------------------------------------*/
+$list-group-border-color: $gray-300 !default;
+
+//*-----------------------------------------------
+//|   Tables
+//-----------------------------------------------*/
+$table-border-color: $gray-200 !default;
+// $table-border-color: lighten($gray-300, 4%) !default;
+$table-head-bg: $gray-200 !default;
+$table-head-color: $dark !default;
+$table-dark-bg: $gray-1000 !default;
+$table-dark-border-color: lighten($gray-1000, 7.5%) !default;
+$table-striped-order: even !default;
+$table-accent-bg: $gray-100 !default;
+
+//*-----------------------------------------------
+//|   Navigation
+//-----------------------------------------------*/
+$navbar-dark-color: rgba($white, 0.7) !default;
+$navbar-dark-hover-color: rgba($white, 0.8) !default;
+$navbar-font-size: $font-size-base * 0.8 !default;
+
+$navbar-light-color: rgba($black, 0.55) !default;
+$navbar-light-hover-color: rgba($black, 0.9) !default;
+$navbar-light-active-color: $primary !default;
+$navbar-light-disabled-color: rgba($black, 0.25) !default;
+
+$navbar-dark-color: rgba($white, 0.55) !default;
+$navbar-dark-hover-color: rgba($white, 0.9) !default;
+$navbar-dark-active-color: $white !default;
+$navbar-dark-disabled-color: rgba($white, 0.25) !default;
+
+$navbar-padding-y: map_get($spacers, 2) !default;
+$navbar-padding-x: $spacer !default;
+$top-nav-height: 4.3125rem !default;
+$standard-nav-height: 57px !default;
+
+$navbar-light-toggler-icon-bg: str-replace(
+  url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='#{$navbar-light-color}' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M0 6h30M0 14h30M0 22h30'/%3E%3C/svg%3E"),
+  '#',
+  '%23'
+) !default;
+
+// /*-----------------------------------------------
+//|   Navbar Brand
+//-----------------------------------------------*/
+$navbar-brand-font-size: map_get($font-sizes, 3) !default;
+$navbar-brand-font-weight: $font-weight-extra-bold !default;
+
+//*-----------------------------------------------
+//|   Dropdowns | Dropdown menu container and contents.
+//-----------------------------------------------*/
+$dropdown-link-color: $gray-700 !default;
+$dropdown-link-hover-color: $gray-900 !default;
+$dropdown-link-hover-bg: $gray-200 !default;
+$dropdown-link-disabled-color: $gray-500 !default;
+$dropdown-divider-bg: $gray-200 !default;
+$dropdown-border-color: $light !default;
+
+$dropdown-font-size: $navbar-font-size !default;
+$dropdown-item-padding-y: map_get($spacers, 1) !default;
+$dropdown-item-padding-x: map_get($spacers, 3) !default;
+$dropdown-padding-y: map_get($spacers, 3) !default;
+
+$dropdown-link-active-color: $gray-1000 !default;
+$dropdown-link-active-bg: $gray-300 !default;
+
+$dropdown-box-shadow: $box-shadow !default;
+
+//*-----------------------------------------------
+//|   Carousel
+//-----------------------------------------------*/
+
+$carousel-transition-duration: 0.8s !default;
+
+//*-----------------------------------------------
+//|   Thumbnail
+//-----------------------------------------------*/
+$thumbnail-bg: $white;
+$thumbnail-border-width: 3px;
+$thumbnail-border-color: $white;
+
+// /*-----------------------------------------------
+//|   Breadcrumbs
+//-----------------------------------------------*/
+$breadcrumb-padding-x: 0 !default;
+$breadcrumb-margin-bottom: 0 !default;
+$breadcrumb-bg: 'transparent';
+$breadcrumb-divider: quote('\00BB') !default;
+
+// /*-----------------------------------------------
+//|   Calendar
+//-----------------------------------------------*/
+$calendar-color: $danger !default;
+
+// /*-----------------------------------------------
+//|   Modal
+//-----------------------------------------------*/
+$modal-content-border-radius: $border-radius-soft !default;
+
+// /*-----------------------------------------------
+//|   Spinner
+//-----------------------------------------------*/
+$spinner-width-sm: 1.35rem !default;
+$spinner-height-sm: 1.35rem !default;
+
+// /*-----------------------------------------------
+//|   Footer
+//-----------------------------------------------*/
+
+$footer-height: 63.8px !default;
+$responsive-footer-height: 10px !default;
+
+// /*-----------------------------------------------
+//|   Avatar
+//-----------------------------------------------*/
+
+$avatars-dimension: (
+  's': toRem(20rem),
+  'm': toRem(24rem),
+  'l': toRem(28rem),
+  'xl': toRem(32rem),
+  '2xl': toRem(40rem),
+  '3xl': toRem(56rem),
+  '4xl': toRem(98rem),
+  '5xl': toRem(168rem)
+);
+
+// /*-----------------------------------------------
+//|   Tooltip
+//-----------------------------------------------*/
+
+$tooltip-padding-y: 0.5rem !default;
+$tooltip-font-size: map_get($font-sizes, '-1') !default;
+//*-----------------------------------------------
+//|   Navbar Inverted
+//-----------------------------------------------*/
+$navbar-inverted-bg: $gray-1000 !default;
+$navbar-inverted-link-color: $gray-500 !default;
+$navbar-inverted-link-hover-color: $gray-200 !default;
+$navbar-inverted-link-active-color: $navbar-inverted-link-hover-color !default;
+$navbar-inverted-hr-color: rgba($white, 0.2) !default;
+$navbar-inverted-scrollbar-color: $gray-400 !default;
+
+//*-----------------------------------------------
+//|   Navbar Vibrant
+//-----------------------------------------------*/
+$navbar-vibrant-bg-image: linear-gradient(-45deg, rgba(0, 160, 255, 0.86), #0048a2) !default;
+$navbar-vibrant-link-color: rgba(#fff, 0.75) !default;
+$navbar-vibrant-link-hover-color: #fff !default;
+$navbar-vibrant-link-active-color: $navbar-vibrant-link-hover-color !default;
+$navbar-vibrant-hr-color: rgba(#fff, 0.2) !default;
+$navbar-vibrant-scrollbar-color: $gray-400 !default;
+
+//*-----------------------------------------------
+//|   Navbar card
+//-----------------------------------------------*/
+$navbar-card-bg: $white !default;
+$navbar-card-link-color: $gray-700 !default;
+$navbar-card-link-hover-color: $gray-900 !default;
+$navbar-card-link-active-color: $primary !default;
+$navbar-card-shadow: $box-shadow !default;
+$navbar-card-hr-color: $gray-300 !default;
+$navbar-card-scrollbar-color: rgba($gray-600, 0.3) !default;

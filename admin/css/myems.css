@@ -1,0 +1,711 @@
+.nav-header{
+	padding:10px 0px !important;
+}
+.top-navigation.login-bg .navbar{
+	margin-bottom: 0px;
+	margin-top: 30px;
+}
+.footer-login{
+	width: 100%;
+	bottom: 60px;
+	position: absolute;
+	text-align: center;
+	font-size: 16px;
+	color: white
+}
+.logopng{
+	max-width: 100%;
+	max-height: 100%;
+}
+.ibox{
+	margin-bottom: 10px;
+}
+.wrapper-content {
+	padding: 10px 10px 20px;
+}
+.btn-large-dim-feed{
+	width:150px;
+	height: 60px;
+	font-size: 20px;
+}
+button.dim.date{
+	margin-right: 1px;
+	margin-bottom: 10px !important
+}
+
+.logo{
+	font-size: 30px;
+	color:#1ab394;
+	float: left;
+	height: 50px;
+	padding: 8px 0px 0px;
+	width: 500px;
+}
+.sidebard-panel {
+	width: 230px;
+}
+
+.inmodal .modal-header {
+	padding: 15px;
+	text-align: center;
+}
+
+.agile-detail {
+	font-size: 15px;
+}
+
+.modal-lg{
+	width:1200px !important;
+}
+
+td.sm{
+	padding:4px !important;
+	vertical-align: middle !important;
+}
+td.min-width90{
+	min-width: 90px;
+}
+td.min-width220{
+	min-width: 220px;
+}
+td.md{
+	word-break:break-all;
+	word-wrap:break-all;
+}
+.table-bordered > thead > tr > td.bgred {
+    background-color: #FF0000;
+}
+.table-bordered > thead > tr > td.bgyellow {
+    background-color: #FFF500;
+}
+.table-bordered > thead > tr > td.bggreen {
+    background-color: #06F700;
+}
+td.fontred{
+	color: red;
+	background-color: #F1E0DA;
+}
+td.bgred{
+	background-color: #FF0000;
+}
+td.bgyellow{
+	background-color: #FFF500;
+}
+td.bggreen{
+	background-color: #06F700;
+}
+td.fontgreen{
+	color: green;
+}
+td.fontorange{
+	color: #FD9B00;
+	background-color: #F9EDD0;
+}
+select.sm{
+	width:60px;
+}
+td.action{
+	width:100px !important;
+}
+.input-sm{
+	text-align: center !important;
+}
+.inmodal table{
+	margin-bottom: 0px !important;
+}
+.trashcan{
+	width: 100% !important;
+}
+.panel-body.trash{
+	padding: 0px !important;
+}
+.panel-body.maxheight{
+	max-height: 500px;
+	overflow-y: auto;
+}
+[draggable] {
+	/* not applied by the directive, but useful to indicate a draggable element */
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;
+	-khtml-user-drag: element;
+	-webkit-user-drag: element;
+	cursor: move;
+}
+.hjc-over {
+	/* applied to a drop target when a draggable object is over it */
+	border: 2px dashed black !important;
+}
+
+.hjc-target {
+				/*
+				applied to all drop targets when a drag operation begins
+				removed when the drag operation ends
+				used to indicate drop targets on a page
+				*/
+				background-color: #ddd;
+				opacity: .5;
+}
+
+.form-group.no-margin{
+	margin-bottom:5px !important;
+}
+
+.paneltable{
+	margin-bottom: 16px !important;
+}
+
+.table > thead > tr > th {
+  vertical-align: middle !important;
+}
+
+tr.status-tr td{
+	padding: 18px 8px !important;
+}
+tr.status-tr th{
+	padding: 18px 8px !important;
+}
+
+img.dashboard-logo{
+	width:110px;
+}
+
+.paddingleft30{
+	padding-left: 30px;
+}
+
+.panel.dashboard{
+	background-color: rgba(255,255,255,0.4) !important;
+	border: transparent !important;
+	border-radius: 16px !important;
+}
+
+.panel-heading.dashboard{
+	background-color: rgba(255,255,255,0) !important;
+	border-color:#ffffff !important;
+	border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+	color:#ffffff !important;
+	font-size: 25px;
+	font-weight: bold;
+	padding: 3px 20px;
+}
+
+.dashboard-bg{
+	background: url("../img/dashboard/dashboard-bg.png") no-repeat;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+}
+
+
+
+.dashboard-btn{
+	text-align: center;
+}
+.dashboard-right div{
+		text-align: center;
+}
+.dashboard-right div{
+		position: absolute;
+    	/*left: 130px;*/
+    	top: 260px;
+	    font-size: 45px;
+    	font-weight: bold;
+    	color: white;
+    	text-shadow: 4px 4px 8px black;
+}
+
+.dashboard-right div sub{
+	    font-size: 15px;
+
+}
+
+
+@media (min-width: 768px) {
+  	.chart-box{
+ 		padding:20px 15px 0px;
+ 	}
+ 	.dashboard-btn img{
+ 		width: 100px;
+ 		cursor: pointer;
+ 	}
+
+
+ 	.paddingtop{
+ 		padding-top: 16%;
+	}
+ 	.margincenter{
+ 		margin:auto;
+ 		width: 30%;
+ 	}
+}
+@media (min-width: 992px) {
+  	.chart-box{
+ 		padding:30px 20px 5px;
+ 	}
+ 	.dashboard-btn img{
+ 		width: 150px;
+ 		cursor: pointer;
+ 	}
+ 	.p-r-45{
+ 		padding-right: 45px !important;
+ 	}
+ 	.paddingtop{
+ 		padding-top: 16%;
+	}
+ 	.margincenter{
+ 		margin:auto;
+ 		width: 25%;
+ 	}
+}
+@media (min-width: 1200px) {
+ 	.chart-box{
+ 		padding:40px 20px 10px;
+ 	}
+ 	.dashboard-btn img{
+ 		width: 180px;
+ 		cursor: pointer;
+ 	}
+
+ 	.p-r-45{
+ 		padding-right: 45px !important;
+ 	}
+
+ 	.paddingtop{
+ 		padding-top: 10%;
+	}
+ 	.margincenter{
+ 		margin:auto;
+ 		width: 25%;
+ 	}
+}
+
+@media (min-width: 1800px) {
+ 	.chart-box{
+ 		padding:40px 20px 20px;
+ 	}
+ 	.dashboard-btn img{
+ 		width: 250px;
+ 		cursor: pointer;
+ 	}
+
+ 	.paddingtop{
+ 		padding-top: 9%;
+	}
+ 	.margincenter{
+ 		margin:auto;
+ 		width: 20%;
+ 	}
+}
+
+
+@media (max-width: 767px) {
+  	.chart-box{
+ 		padding:30px 10px 10px;
+ 	}
+ 	.dashboard-btn img{
+ 		width: 170px;
+ 		cursor: pointer;
+ 	}
+ 	.paddingtop{
+ 		padding-top: 16%;
+	}
+ 	.margincenter{
+ 		margin:auto;
+ 		width: 50%;
+ 	}
+}
+
+.header-login{
+	float: none !important;
+}
+.login-center{
+	text-align: center !important;
+	margin:0px auto !important;
+}
+
+.panel.loginform{
+	background-color: rgba(137, 137, 250,0.2) !important;
+	border-radius: 2px !important;
+	border-color:#3561C0 !important;
+}
+
+.loginform .panel-body{
+	padding:6% 10% 6% 10%;
+}
+
+.input-group-addon {
+    background-color: #3868CE;
+    border: 1px solid #3868CE;
+    border-radius: 1px;
+    color: white;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    padding: 6px 12px;
+    text-align: center;
+	min-width: 110px;
+}
+
+.loginform p{
+	font-size: 20px !important;
+	font-family: "Microsoft YaHei UI";
+	color: white;
+	position: relative;
+	letter-spacing:4px;
+	margin-bottom: 17px !important;
+}
+.loginform label{
+	font-size: 15px !important;
+	color: white;
+	background-color: #3a6ad2;
+}
+
+.loginform button{
+	font-size: 15px !important;
+	background-color: #3a6ad2;
+	color: white;
+	border:#3a6ad2;
+	background: #3a6ad2; /* For browsers that do not support gradients */
+	background: -webkit-linear-gradient(left top,#5780DA, #3a6ad2); /* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(#5780DA, #3a6ad2); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(#5780DA, #3a6ad2); /* For Firefox 3.6 to 15 */
+	background: linear-gradient( #5780DA, #3a6ad2); /* Standard syntax */
+}
+
+.loginform .m-x{
+	margin-bottom: 30px !important;
+}
+.login-bg{
+	/*background: -webkit-linear-gradient(white, #1a91a7 );
+	background: -moz-linear-gradient(white, #1a91a7);
+	background: linear-gradient(white, #1a91a7);*/
+	background: url("../img/login-bg.png") no-repeat;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size:100% 100%;
+}
+img.login-logo{
+	width:160px;
+	/*padding-bottom: 15px;*/
+}
+.header-login h1{
+	font-size: 50px;
+	font-weight: bold;
+	/* letter-spacing: 11px; */
+	color: white;
+}
+
+.btn-login
+{
+  background: -webkit-linear-gradient(red, blue);
+  background: -moz-linear-gradient(red, blue);
+  background: linear-gradient(red, blue);
+}
+
+
+.loginformpos
+{
+  display:inline-block;
+  float:none;
+  text-align:left;
+  position: relative;
+  margin-top: -150px;
+  margin-right:-4px;
+  margin-bottom: 50px;
+}
+
+
+.autoHeight{
+  background-color: white;
+  height: 100vh;
+  /*min-height: 1024px;*/
+}
+
+.form-control[readonly] {
+    background-color: #fff8f8;
+    opacity: 1;
+}
+
+textarea[readonly]{
+	resize: none;
+}
+
+.panel-buttons {
+    display: inline-block;
+    position: relative;
+    text-align: left;
+    float: right;
+}
+
+li span.divider{
+	display: block;
+}
+
+.hr-line-dashed-2 {
+	border-top: 2px dashed #e7eaec;
+    color: #ffffff;
+    background-color: #5BC0DE;
+    height: 2px;
+    margin: 20px 0;
+}
+
+
+/*
+ *
+ *   SKIN 3 - INSPINIA - Responsive Admin Theme
+ *   NAME - Yellow/purple
+ *
+*/
+
+  .skin-4 .spin-icon {
+	background: #ecba52 !important;
+  }
+  .skin-4 .nav-header {
+	background: #ecba52;
+	background: url('patterns/header-profile-skin-3.png');
+  }
+  .skin-4.mini-navbar .nav-second-level {
+	background: #3e2c42;
+  }
+  .skin-4 .page-heading {
+	border: none;
+  }
+  .fixed-nav.skin-4 .navbar-fixed-top {
+	background: #fff;
+  }
+  .skin-4 .navbar-default .nav > li.active {
+	border-left: 4px solid #f37a1f;
+  }
+  .skin-4 .navbar-default .nav > li.active > a,
+  .skin-4 .navbar-default .nav > li.active > a:hover {
+	color: #fff;
+	background-color: #f37a1f;
+  }
+  .skin-4 .navbar-default .nav > li > a {
+	color: #fff;
+	border-bottom: 1px solid #373535;
+	box-shadow: #666666 0 1px 0px 0px;
+  }
+  .skin-4 .navbar-default .nav > li > a:hover {
+	background: transparent;
+	color: #f37a1f;
+  }
+
+  .skin-4 .navbar .nav > li > a {
+	color: #a89785;
+  }
+  .skin-4 .navbar-minimalize {
+	background: #f37a1f;
+	border-color: #ecba52;
+  }
+  body.skin-4 {
+	background: #454d53;
+  }
+  .skin-4 .navbar-static-top {
+	background: #ffffff;
+  }
+  .skin-4 .dashboard-header {
+	background: transparent;
+	border-bottom: none !important;
+	border-top: none;
+	padding: 20px 30px 10px 30px;
+  }
+
+  .skin-4 .nav-header a.dropdown-toggle {
+	color: #fff;
+  }
+  .skin-4 .nav-header a.dropdown-toggle .text-muted {
+	color: #fff;
+	opacity: 0.8;
+  }
+
+  .skin-4 .nav.nav-tabs > li.active > a {
+	color: #555;
+  }
+  .skin-4 .nav.nav-tabs > li.active {
+	background: transparent;
+  }
+  .skin-4 .text-info{
+	  color: #f37a1f;
+  }
+  .skin-4 .logo{
+	  color: #f37a1f;
+  }
+  .skin-4 .btn-primary{
+	  border-color: #f37a1f;
+	  color: white;
+	  background-color: #f37a1f;
+  }
+  .skin-4 .btn-primary:hover{
+	background-color: #f37a1f;
+  }
+  .skin-4 .btn-primary.btn-outline{
+	color: #f37a1f;
+	background-color: transparent;
+	}
+  .skin-4 .btn-primary.btn-outline:hover,
+  .skin-4 .btn-primary.btn-outline:focus{
+	background-color: #f37a1f;
+	color: white;
+  }
+  .skin-4 .btn-info {
+    background-color: #d38339;
+    border-color: #d38339;
+    color: #FFFFFF;
+  }
+  .skin-4 .btn-success {
+    background-color: #c45805;
+    border-color: #c45805;
+    color: #FFFFFF;
+  }
+  .skin-4 .btn-success:hover{
+	background-color: #c45805;
+  }
+
+  .skin-4 .panel-info{
+	  border-color: #d38339;
+  }
+  .skin-4 .panel-info .panel-heading{
+	  background-color: #d38339;
+	  border-color: #d38339;
+  }
+  .skin-4 .panel-primary{
+	border-color: #f37a1f;
+  }
+  .skin-4 .panel-primary .panel-heading{
+	background-color: #f37a1f;
+	border-color: #f37a1f;
+  }
+  .skin-4 .panel-heading a{
+	color: white;
+ }
+
+  .skin-4 .navbar-minimalize.btn-primary {
+	color: white;
+  }
+  .skin-4 .radio-info input[type="radio"] + label::after {
+	background-color: #f37a1f;
+  }
+  .skin-4 .radio-info input[type="radio"]:checked + label::before {
+	border-color: #f37a1f;
+  }
+  .skin-4 .radio-info input[type="radio"]:checked + label::after {
+	background-color: #f37a1f;
+  }
+
+  .skin-4 .checkbox-success input[type="checkbox"]:checked + label::before,
+  .skin-4 .checkbox-success input[type="radio"]:checked + label::before {
+    background-color: #f37a1f;
+    border-color: #f37a1f;
+}
+
+  .skin-4 .ui-select-bootstrap .ui-select-choices-row.active>a {
+    background-color: #f37a1f;
+  }
+  .skin-4 .logopng{
+	  width:210px;
+  }
+  .skin-4 .pace .pace-progress{
+	  background: #ca7860;
+  }
+  .skin-4 .panel.loginform{
+	  background-color: rgba(250, 181, 137,0.2) !important;
+	  border-color: #f37a1f !important;
+  }
+  .skin-4 .loginform .input-group-addon{
+	  background-color: #f37a1f;
+	  border: 1px solid #f37a1f;
+  }
+  .skin-4 .loginform button{
+	  background-color: #f37a1f;
+	  border:#f37a1f;
+	  background: #f37a1f; /* For browsers that do not support gradients */
+	  background: -webkit-linear-gradient(left top,#da8157, #f37a1f); /* For Safari 5.1 to 6.0 */
+	  background: -o-linear-gradient(#da8157, #f37a1f); /* For Opera 11.1 to 12.0 */
+	  background: -moz-linear-gradient(#da8157, #f37a1f); /* For Firefox 3.6 to 15 */
+	  background: linear-gradient( #da8157, #f37a1f); /* Standard syntax */
+  }
+  .skin-4 .header-login h1{
+	  color: #f37a1f;
+  }
+  .skin-4 .footer-login{
+	  color: gray;
+  }
+  .skin-4 .navbar-header h3{
+	  color: #f37a1f;
+	  font-size: 23px;
+	  margin-top: 15px;
+	  margin-bottom: 0px;
+  }
+  .skin-4 img.dashboard-logo{
+	  width:85px;
+	  margin-bottom: 8px;
+  }
+
+  .skin-4 .daterangepicker .ranges li {
+    color: #f37a1f;
+  }
+  .skin-4 .daterangepicker .ranges li.active,
+  .skin-4 .daterangepicker .ranges li:hover {
+    background: #f37a1f;
+    border: 1px solid #f37a1f;
+    color: #fff;
+  }
+  .skin-4 .daterangepicker td.in-range {
+    background: #f8f1eb;
+  }
+  .skin-4 .daterangepicker td.active,
+  .skin-4 .daterangepicker td.active:hover {
+    background-color: #f37a1f;
+    border-color: #f37a1f;
+    color: #fff;
+  }
+  .skin-4 .ibox-title{
+	  border-color: #f08636;
+	  border-width: 2px 0 0;
+  }
+
+  .svg-center {
+	  text-align: center;
+  }
+
+  .skin-4 .bg-stihl {
+	  background-color: #C0C0C0;
+  }
+  .no-padding{
+	padding: 0px;
+  }
+  .margin-bottom-0 {
+	  margin-bottom: 0px;
+  }
+
+  .p-t-5{
+	  padding-top: 5px;
+  }
+
+.skin-4 .modal-body {
+    padding: 10px 10px 0px 10px;
+}
+.skin-4 .svgGraphic svg {
+	min-height: 750px;
+}
+
+.skin-4 .hr-line-dashed-2 {
+	background-color: #f37a1f;
+}
+
+.dashboardbtn{
+	position: absolute;
+	right: 70px;
+	top: 70px;
+	cursor: pointer;
+	z-index: 100
+}
+.dashboard .panel-body{
+	padding: 1px;
+}

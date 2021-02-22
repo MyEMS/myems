@@ -1,0 +1,42 @@
+	<div class="wrapper wrapper-content">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="tabs-container">
+					<uib-tabset>
+							<uib-tab heading="{{'SETTING.EMAIL_SERVER' | translate}}">
+								<div class="panel-body" ng-controller="EmailServerController">
+									<!-- <a ng-click="addEmailServer()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.ADD_EMAIL_SERVER' | translate}}</a>  -->
+									<table class="table table-bordered table-hover" >
+										<thead>
+											<tr>
+												<th class="text-center">{{'SETTING.ID' | translate}}</th>
+												<th class="text-center">{{'SETTING.HOST' | translate}}</th>
+												<th class="text-center">{{'SETTING.PORT' | translate}}</th>
+												<th class="text-center">{{'SETTING.REQUIRES_AUTHENTICATION' | translate}}</th>
+												<th class="text-center">{{'SETTING.USER_NAME' | translate}}</th>
+												<th class="text-center">{{'SETTING.FROM_ADDR' | translate}}</th>
+												<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="emailserver in emailservers">
+												<td class="text-center">{{ emailserver.id }}</td>
+												<td class="text-center">{{ emailserver.host }}</td>
+												<td class="text-center">{{ emailserver.port }}</td>
+												<td class="text-center">{{ emailserver.requires_authentication }}</td>
+												<td class="text-center">{{ emailserver.user_name }}</td>
+												<td class="text-center">{{ emailserver.from_addr }}</td>
+												<td class="text-center">
+													<a class="btn btn-primary btn-rounded btn-xs" ng-click="editEmailServer(emailserver)" >{{'SETTING.EDIT' | translate}}</a>
+													<!-- <a ng-click="deleteEmailServer(emailserver)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a> -->
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</uib-tab>
+						</uib-tabset>
+					</div>
+				</div>
+			</div>
+		</div>

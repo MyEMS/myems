@@ -1,0 +1,19 @@
+<div class="inmodal">
+    <div class="modal-header">
+        <h4 class="modal-title">{{operation | translate}}</h4>
+    </div>
+    <div class="modal-body">
+        <form method="get" class="form-horizontal">
+            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.NAME' | translate}}</label>
+
+                <div class="col-sm-10"><input ng-model="meter.name" type="text" class="form-control"></div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
+        <button type="button" class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
+    </div>
+</div>

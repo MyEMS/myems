@@ -1,0 +1,74 @@
+<div ng-controller="EmailMessageMasterController">
+    <div class="sidebard-panel" ng-controller="EmailMessageOptionController">
+        <div>
+            <form role="form">
+                <div class="form-group no-margin">
+                    <label>{{'COMMON.DATE' | translate}}</label>
+                    <textarea rows="1" date-range-picker class="form-control date-picker" type="text"
+                        ng-model="daterange" options="dtOptions" readonly="" placeholder="请选择日期" />
+                    </div>
+            </form>
+        </div>
+        <div class="m-t-md">
+            <div class="row">
+                <div class="col-sm-12">
+                    <button ng-click="execute()" class="btn btn-primary btn-rounded btn-block btn-outline" ><i class="fa fa-send"></i> <strong>{{'COMMON.EXECUTE' | translate}}</strong></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="wrapper sidebar-content wrapper-content" ng-controller="EmailMessageController">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="tabs-container">
+                    <uib-tabset>
+                        <uib-tab heading="{{'FDD.EMAIL_ALARM_LIST' | translate}}">
+                            <div class="panel-body">
+                                <input type="text" class="form-control m-b-xs" id="emailmessagefilter"
+                                    placeholder="{{'SETTING.SEARCH' | translate}}">
+                                <table id="emailmessageTable" class="footable table table-bordered table-hover" data-sort="true"
+                                    data-empty="There is no data" data-page-size="20" data-filter="#emailmessagefilter">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center">{{'FDD.ID' | translate}}</th>
+                                        <th class="text-center">{{'FDD.RECIPIENT_NAME' | translate}}</th>
+                                        <th data-sort-ignore="true" class="text-center">{{'FDD.EMAIL' | translate}}</th>
+                                        <th data-sort-ignore="true" class="text-center">{{'FDD.TOPIC' | translate}}</th>
+                                        <th data-sort-ignore="true" class="text-center">{{'FDD.ALARM_MESSAGE' | translate}}</th>
+                                        <th data-sort-ignore="true" class="text-center">{{'FDD.ATTACHMENT_NAME' | translate}}</th>
+                                        <th data-sort-ignore="true" class="text-center">{{'FDD.ALARM_TIME' | translate}}</th>
+                                        <th data-sort-ignore="true" class="text-center">{{'FDD.SCHEDULE_TIME' | translate}}</th>
+                                        <th class="text-center">{{'SETTING.STATUS' | translate}}</th>
+                                        <th data-sort-ignore="true" class="text-center">{{'SETTING.ACTION' | translate}}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="row in tabledata track by $index">
+                                            <td class="text-center sm">{{ row.id }}</td>
+                                            <td class="text-center sm">{{ row.recipient_name }}</td>
+                                            <td class="text-center sm">{{ row.recipient_email }}</td>
+                                            <td class="text-center sm">{{ row.subject }}</td>
+                                            <td class="text-center sm col-lg-3 col-md-3">{{ row.message }}</td>
+                                            <td class="text-center sm">{{ row.attachment_file_name }}</td>
+                                            <td class="text-center sm">{{ row.created_datetime | date:'yyyy-MM-ddTHH:mm:ss'}}</td>
+                                            <td class="text-center sm">{{ row.scheduled_datetime | date:'yyyy-MM-ddTHH:mm:ss'}}</td>
+                                            <td class="text-center sm">{{ row.status }}</td>
+                                            <td class="text-center"> 
+                                                <a ng-click="deleteEmailMessage(row)" 
+                                                    class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' | translate}}</a> </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot class="hide-if-no-paging">
+                                    <tr>
+                                        <td colspan="10"> <ul class="pagination pull-right"></ul> </td>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </uib-tab>
+                    </uib-tabset>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
