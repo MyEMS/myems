@@ -1,6 +1,6 @@
 {
   "name": "myems",
-  "version": "1.0.2",
+  "version": "1.0.5",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
