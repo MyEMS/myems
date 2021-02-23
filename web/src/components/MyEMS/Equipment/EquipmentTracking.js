@@ -104,10 +104,10 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
           return response.json();
         }).then(json => {
           if (isSecondResponseOK) {
-            json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
+            let json_equipments = JSON.parse(JSON.stringify([json['equipments']]).split('"id":').join('"value":').split('"name":').join('"label":'));
             console.log(json)
             let equipments = [];
-            json[0].forEach((currentValue, index) => {
+            json_equipments[0].forEach((currentValue, index) => {
               equipments.push({
                 'key': index,
                 'id': currentValue['id'],
@@ -117,6 +117,9 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
                 'description': currentValue['description']});
             });
             setEquipmentList(equipments);
+
+            setExcelBytesBase64(json['excel_bytes_base64']);
+            
             // hide spinner
             setSpinnerHidden(true);
             // show export buttion
