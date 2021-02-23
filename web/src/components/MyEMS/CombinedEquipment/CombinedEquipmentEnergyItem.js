@@ -330,6 +330,7 @@ const CombinedEquipmentEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
         setCardSummaryList(cardSummaryArray);
         
         let sharePieDict = {}
+        let energyCategoryDict = {};
         json['reporting_period']['names'].forEach((currentValue, index) => {
           let sharePieSubItem = {}
           sharePieSubItem['id'] = index;
@@ -344,13 +345,20 @@ const CombinedEquipmentEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
             sharePieDict[current_energy_category_id] = [];
             sharePieDict[current_energy_category_id].push(sharePieSubItem);
           }
+
+          if (!(current_energy_category_id in energyCategoryDict)) {
+            energyCategoryDict[current_energy_category_id] = 
+            {'name': json['reporting_period']['energy_category_names'][index],
+             'unit': json['reporting_period']['units'][index],
+            }
+          }
         });
         let sharePieArray = [];
         for (let current_energy_category_id in sharePieDict) {
           let sharePieItem = {}
           sharePieItem['data'] = sharePieDict[current_energy_category_id];
-          sharePieItem['energy_category_name'] = json['reporting_period']['energy_category_names'][current_energy_category_id];
-          sharePieItem['unit'] = json['reporting_period']['units'][current_energy_category_id];
+          sharePieItem['energy_category_name'] = energyCategoryDict[current_energy_category_id]['name'];
+          sharePieItem['unit'] = energyCategoryDict[current_energy_category_id]['unit'];
           sharePieArray.push(sharePieItem);
         }
 
