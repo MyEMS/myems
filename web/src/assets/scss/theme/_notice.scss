@@ -1,0 +1,21 @@
+/*-----------------------------------------------
+|   Notice
+-----------------------------------------------*/
+.notice {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  margin: 0 !important;
+  z-index: -1;
+  border: 0;
+  width: 100%;
+  max-width: 100%;
+  box-shadow: $box-shadow-lg;
+  border-radius: 0;
+  &.show {
+    z-index: 1040;
+  }
+  .close {
+    text-shadow: none !important;
+  }
+}

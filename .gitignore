@@ -1,44 +1,14 @@
-*.py[cod]
-
-# C extensions
-*.c
-*.so
-
-# Jython
-*$py.class
-
-# Packages
-*.egg
-*.egg-info
-dist
-build
-eggs
-parts
-var
-sdist
-develop-eggs
-.installed.cfg
-lib
-lib64
-
-# Installer logs
-pip-log.txt
-
-# Unit test / coverage reports
-.coverage
-.tox
-nosetests.xml
-htmlcov
-*.dat
-
-# Docs
-doc/_build
-
-# Translations
-*.mo
-
-# Idea
+# Logs
+logs
+*.log
+*_build
+*_static
+*_templates
+#################
+## JetBrains
+#################
 .idea
+
 .vscode
 
 # System
@@ -50,10 +20,17 @@ doc/_build
 # VIM temp files
 *~
 
-# Log
-*.log
-*.log.1
-logs
-*_build
-*_static
-*_templates
+#################
+## Sublime Text
+#################
+*.sublime-*
+
+############
+## Windows
+############
+
+# Windows image file caches
+Thumbs.db
+
+# Folder config file
+Desktop.ini

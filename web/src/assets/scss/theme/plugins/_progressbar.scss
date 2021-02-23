@@ -1,0 +1,64 @@
+/*-----------------------------------------------
+|   Progress bar and circle
+-----------------------------------------------*/
+.progress-circle {
+  height: 15.625rem;
+  position: relative;
+  font-family: $font-family-sans-serif;
+  .progressbar-text{
+    text-align: center;
+    color: $gray-1100 !important;
+    margin-bottom: 0;
+    line-height: 1;
+    span{
+      font-size:  map_get($font-sizes, 0);
+      display: block;
+    }
+    .value{
+      font-weight: $font-weight-semi-bold;
+      font-size: map_get($font-sizes, 6);
+    }
+    b{
+      font-size:  map_get($font-sizes, 4);
+      font-weight: $font-weight-semi-bold;
+    }
+  }
+  svg {
+    height: 100%;
+    display: block;
+  }
+}
+
+.progress-line{
+  position: relative;
+  font-family: $font-family-sans-serif;
+  .progressbar-text{
+    position: absolute;
+    width: 100%;
+    color: $gray-1100;
+    left: 0;
+    top: - map_get($spacers, 3);
+    padding: 0;
+    margin: 0;
+    .value{
+      right: 0;
+      position: absolute;
+    }
+  }
+}
+
+.progress-circle-dashboard{
+  height: 150px;
+  width: 150px;
+
+  .progressbar-text{
+    color: $gray-500 !important;
+    .value{
+      font-size: map_get($font-sizes, 3);
+      font-weight: $font-weight-medium !important;
+      b{
+        font-size: map_get($font-sizes, 3);
+      }
+    }
+  }
+}

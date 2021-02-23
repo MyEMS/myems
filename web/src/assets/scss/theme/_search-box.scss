@@ -1,0 +1,17 @@
+/*-----------------------------------------------
+|   Search box
+-----------------------------------------------*/
+.search-box{
+  position: relative;
+  .search-input{
+    width: 20rem;
+    padding-left: 1.95rem;
+    line-height: 2;
+  }
+  .search-box-icon{
+    z-index: 1020;
+    top: 50%;
+    left: 0.9rem;
+    transform: translateY(-48%);
+  }
+}

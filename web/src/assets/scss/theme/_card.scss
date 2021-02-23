@@ -1,0 +1,71 @@
+/*-----------------------------------------------
+|   Card
+-----------------------------------------------*/
+.card {
+  box-shadow: $box-shadow;
+}
+.card-link {
+  font-size: map_get($font-sizes, '-1');
+  font-weight: $font-weight-semi-bold;
+}
+.card-title {
+  font-weight: $font-weight-semi-bold;
+  font-size: map_get($font-sizes, 1);
+}
+.card-body:last-child {
+  border-bottom-left-radius: $card-border-radius;
+  border-bottom-right-radius: $card-border-radius;
+}
+.card-notification {
+  .card-header,
+  .card-footer {
+    padding-top: map_get($spacers, 2);
+    padding-bottom: map_get($spacers, 2);
+  }
+  .list-group-flush {
+    .list-group-item {
+      padding: 0;
+      .notification-flush {
+        padding: 0.5rem 1rem;
+      }
+    }
+    .list-group-title {
+      background-color: $light;
+      font-weight: $font-weight-semi-bold;
+      font-size: map_get($font-sizes, '-2');
+      color: $gray-600;
+      padding: map_get($spacers, 1) $card-spacer-x;
+    }
+  }
+}
+
+/*-----------------------------------------------
+|   Card spacer
+-----------------------------------------------*/
+.pl-card,
+.px-card,
+.p-card {
+  padding-left: $card-spacer-x !important;
+}
+.pr-card,
+.px-card,
+.p-card {
+  padding-right: $card-spacer-x !important;
+}
+.pt-card,
+.py-card,
+.p-card {
+  padding-top: $card-spacer-y !important;
+}
+.pb-card,
+.py-card,
+.p-card {
+  padding-bottom: $card-spacer-y !important;
+}
+
+.mt-card {
+  margin-top: $card-spacer-x !important;
+}
+.mr-card {
+  margin-right: $card-spacer-x !important;
+}

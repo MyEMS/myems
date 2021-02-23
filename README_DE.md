@@ -17,7 +17,7 @@ Dieses Projekt besteht aus folgenden Komponenten:
 
 ### MyEMS Web APP
 
-Weitere Informationen finden Sie im Repository [myems-web](https://github.com/myems/myems-web.git).
+Weitere Informationen finden Sie [web](./web/README.md).
 
 ### MyEMS Admin Panel
 
@@ -41,7 +41,7 @@ Weitere Informationen finden Sie im [myems-aggregation](./myems-aggregation/READ
 
 ### MyEMS API
 
-Weitere Informationen finden Sie im Repository [myems-api](https://github.com/myems/myems-api.git).
+Weitere Informationen finden Sie im Repository [myems-api](https://github.com/MyEMS/myems-api.git).
 
 ### MyEMS MQTT Data Publisher Service (transmit data from MyEMS to 3rd Party)
 
@@ -173,3 +173,10 @@ Weitere Informationen finden Sie im [myems-modbus-tcp](./myems-modbus-tcp/README
 | Onsite Customer Support          | ❌            | ✔️        |
 | Bidding Support Service          | ❌            | ✔️        |
 | Customize Support Service        | ❌            | ✔️        |
+
+## MyEMS Spiegel
+
+[1]. http://github.com/MyEMS/myems
+  
+[2]. http://gitee.com/MyEMS/myems
+

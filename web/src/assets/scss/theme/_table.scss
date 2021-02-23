@@ -1,0 +1,20 @@
+/*-----------------------------------------------
+|   Table
+-----------------------------------------------*/
+.table{
+  tfoot > tr > th:first-child,
+  thead > tr > th:first-child,
+  tr th:first-child,
+  tr td:first-child{ padding-left: $card-spacer-x; }
+}
+.white-space-nowrap{
+  width: 1px;
+  white-space: nowrap;
+}
+th{ font-weight: $font-weight-semi-bold; }
+td .dropdown-toggle:after{ display: none; }
+.table-dashboard{
+  overflow: hidden;
+  th{ border-bottom-width: 1px !important; }
+}
+
