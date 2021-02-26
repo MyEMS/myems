@@ -1,0 +1,9 @@
+[Unit]
+Description=myems-api socket
+
+[Socket]
+ListenStream=/run/myems-api/socket
+ListenStream=0.0.0.0:8000
+
+[Install]
+WantedBy=sockets.target
