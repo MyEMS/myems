@@ -99,7 +99,7 @@ app.controller('CombinedEquipmentController', function ($scope, $common, $transl
 
 		modalInstance.result.then(function (modifiedCombinedEquipment) {
 			modifiedCombinedEquipment.cost_center_id = modifiedCombinedEquipment.cost_center.id;
-			CombinedEquipmentService.editCombinedEquipment(modifiedEquipment, function (error, status) {
+			CombinedEquipmentService.editCombinedEquipment(modifiedCombinedEquipment, function (error, status) {
 				if (angular.isDefined(status) && status == 200) {
 					var templateName = "COMMON.COMBINED_EQUIPMENT";
 					templateName = $translate.instant(templateName);
