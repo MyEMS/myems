@@ -432,11 +432,12 @@ def generate_excel(report,
 
     has_child_space_data_flag = True
 
-    if 'child_space' not in report.keys() or \
-            report['child_space'] is None or \
-            'energy_category_names' not in report['child_space'].keys() or \
-            report['child_space']['energy_category_names'] is None or \
-            len(report['child_space']['energy_category_names']) == 0:
+    if "child_space" not in report.keys() or "energy_category_names" not in report['child_space'].keys() or \
+            len(report['child_space']["energy_category_names"]) == 0 \
+            or 'child_space_names_array' not in report['child_space'].keys() \
+            or report['child_space']['energy_category_names'] is None \
+            or len(report['child_space']['child_space_names_array']) == 0 \
+            or len(report['child_space']['child_space_names_array'][0]) == 0:
         has_child_space_data_flag = False
 
     if has_child_space_data_flag:
