@@ -133,7 +133,7 @@ app.controller('OfflineMeterController', function($scope, $common, $translate, $
 
 		modalInstance.result.then(function(modifiedOfflineMeter) {
 			modifiedOfflineMeter.energy_category_id = modifiedOfflineMeter.energy_category.id;
-			if(angular.isDefined(modifiedOfflineMeter.energy_item)) {
+			if (modifiedOfflineMeter.energy_item != null && modifiedOfflineMeter.energy_item.id != null ) {
 				modifiedOfflineMeter.energy_item_id = modifiedOfflineMeter.energy_item.id;
 			} else {
 				modifiedOfflineMeter.energy_item_id = undefined;
