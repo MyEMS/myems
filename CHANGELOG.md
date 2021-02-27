@@ -29,7 +29,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - merged myems-api.
 
 ### Changed
-- None.
+- modified database table tbl_energy_flow_diagrams_links
 
 ### Fixed
 - fixed energy category names and units issue in EnergyItem reports.
