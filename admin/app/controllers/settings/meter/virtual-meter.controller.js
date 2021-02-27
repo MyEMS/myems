@@ -159,7 +159,7 @@ $scope.getAllEnergyItems = function() {
 
 		modalInstance.result.then(function(modifiedVirtualMeter) {
 			modifiedVirtualMeter.energy_category_id = modifiedVirtualMeter.energy_category.id;
-			if(angular.isDefined(modifiedVirtualMeter.energy_item)) {
+			if (modifiedVirtualMeter.energy_item != null && modifiedVirtualMeter.energy_item.id != null ) {
 				modifiedVirtualMeter.energy_item_id = modifiedVirtualMeter.energy_item.id;
 			} else {
 				modifiedVirtualMeter.energy_item_id = undefined;
