@@ -482,7 +482,8 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_flow_diagrams_links` (
   `energy_flow_diagram_id` BIGINT NOT NULL,
   `source_node_id` BIGINT NOT NULL,
   `target_node_id` BIGINT NOT NULL,
-  `meter_uuid` CHAR(36) NOT NULL,
+  `value_object_type` VARCHAR(32) NOT NULL COMMENT 'meter, offline_meter, virtual_meter, space',
+  `value_object_id` BIGINT NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_energy_flow_diagrams_links_index_1` ON  `myems_system_db`.`tbl_energy_flow_diagrams_links`   (`energy_flow_diagram_id`);
 
@@ -493,16 +494,15 @@ CREATE INDEX `tbl_energy_flow_diagrams_links_index_1` ON  `myems_system_db`.`tbl
 -- USE `myems_system_db`;
 --
 -- INSERT INTO `myems_system_db`.`tbl_energy_flow_diagrams_links`
--- (`id`, `energy_flow_diagram_id`, `name`)
+-- (`id`, `energy_flow_diagram_id`, `source_node_id`, `value_object_type`, `object_uuid`)
 -- VALUES
--- (1, 1, 1, 3, '5ca47bc5-22c2-47fc-b906-33222191ea40'),
--- (2, 1, 2, 4, '5d4d2f06-6200-4671-b182-4cf32cd9228f'),
--- (3, 1, 2, 5, '7897665b-66ac-481d-9c31-2ab2ecbda16c'),
--- (4, 1, 2, 6, 'f0c278ec-eb32-4c5e-a35f-88643b00c367'),
--- (5, 1, 3, 7, '9918aa6c-79e9-4579-8f2e-a76eb9fe4e3e'),
--- (6, 1, 3, 8, '831cbc8c-1429-4840-946e-f0b389b2253e'),
--- (7, 1, 4, 9, 'd2fc8464-3f13-42a9-8a57-63f95f677f0f'),
--- (8, 1, 4, 10, '7e4b3831-887b-40e2-b7f8-4d77c6f206a9');
+-- (1, 1, 1, 3, 'space', 1),
+-- (2, 1, 2, 4, 'space', 2),
+-- (3, 1, 2, 5, 'space', 3),
+-- (4, 1, 2, 6, 'space', 4),
+-- (5, 1, 3, 7, 'meter', 1),
+-- (6, 1, 3, 8, 'offline_meter', 1),
+-- (7, 1, 4, 9, 'virtual_meter', 1);
 --
 -- COMMIT;
 

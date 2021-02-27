@@ -11,7 +11,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - None.
 
 ### Fixed
-- None.
+- fixed typo in combinedequipment controller in admin.
+- removed required property from equipment model in admin.
+- fixed energy item undefined issue when edit virtual meter and offline meter.
 
 ### Removed
 - None.
@@ -27,7 +29,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - merged myems-api.
 
 ### Changed
-- None.
+- modified database table tbl_energy_flow_diagrams_links
 
 ### Fixed
 - fixed energy category names and units issue in EnergyItem reports.
