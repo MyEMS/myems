@@ -321,8 +321,13 @@ def generate_excel(report,
         #####################################
 
         has_child_flag = True
+
         if "child_space" not in report.keys() or "energy_item_names" not in report['child_space'].keys() or \
-                len(report['child_space']["energy_item_names"]) == 0:
+                len(report['child_space']["energy_item_names"]) == 0 \
+                or 'child_space_names_array' not in report['child_space'].keys() \
+                or report['child_space']['child_space_names_array'] is None \
+                or len(report['child_space']['child_space_names_array']) == 0 \
+                or len(report['child_space']['child_space_names_array'][0]) == 0:
             has_child_flag = False
 
         if has_child_flag:
@@ -332,6 +337,7 @@ def generate_excel(report,
             ws['B' + str(current_row_number)] = name + ' 子空间数据'
 
             current_row_number += 1
+            table_start_row_number = current_row_number
 
             ws.row_dimensions[current_row_number].height = 60
             ws['B' + str(current_row_number)].fill = table_fill
@@ -365,21 +371,22 @@ def generate_excel(report,
                     ws[col + row] = round(child['subtotals_array'][j][i], 2)
                     ws[col + row].border = f_border
 
+            table_end_row_number = current_row_number
             current_row_number += 1
+            pie_start_row_number = current_row_number
 
             # Pie
             for i in range(0, ca_len):
                 pie = PieChart()
-                labels = Reference(ws, min_col=2, min_row=current_row_number - space_len,
-                                   max_row=current_row_number - 1)
-                pie_data = Reference(ws, min_col=3 + i, min_row=current_row_number - space_len - 1,
-                                     max_row=current_row_number - 1)
+                labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1,
+                                   max_row=table_end_row_number)
+                pie_data = Reference(ws, min_col=3 + i, min_row=table_start_row_number,
+                                     max_row=table_end_row_number)
                 pie.add_data(pie_data, titles_from_data=True)
                 pie.set_categories(labels)
                 pie.height = 6.6
                 pie.width = 8
-                col = chr(ord('C') + i)
-                pie.title = ws[col + str(current_row_number - space_len - 1)].value
+                pie.title = ws.cell(column=3 + i, row=table_start_row_number).value
                 s1 = pie.series[0]
                 s1.dLbls = DataLabelList()
                 s1.dLbls.showCatName = False
@@ -387,12 +394,13 @@ def generate_excel(report,
                 s1.dLbls.showPercent = True
                 chart_cell = ''
                 if i % 2 == 0:
-                    chart_cell = 'B' + str(current_row_number)
+                    chart_cell = 'B' + str(pie_start_row_number)
                 else:
-                    chart_cell = 'E' + str(current_row_number)
-                    current_row_number += 5
+                    chart_cell = 'E' + str(pie_start_row_number)
+                    pie_start_row_number += 5
                 ws.add_chart(pie, chart_cell)
 
+            current_row_number = pie_start_row_number
             if ca_len % 2 == 1:
                 current_row_number += 5
 
@@ -506,7 +514,7 @@ def generate_excel(report,
             for i in range(0, ca_len):
                 line = LineChart()
                 line.title = '报告期消耗 - ' + \
-                    reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
+                             reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
                 labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1, max_row=table_end_row_number)
                 line_data = Reference(ws, min_col=3 + i, min_row=table_start_row_number, max_row=table_end_row_number)
                 line.add_data(line_data, titles_from_data=True)
@@ -541,4 +549,3 @@ def group_by_category(category_list):
             category_dict[value] = list()
         category_dict[value].append(i)
     return category_dict
-
