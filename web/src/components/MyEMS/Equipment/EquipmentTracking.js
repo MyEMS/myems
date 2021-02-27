@@ -27,6 +27,7 @@ import { getCookieValue, createCookie } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL } from '../../../config';
 
 
@@ -56,6 +57,8 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
   const [cascaderOptions, setCascaderOptions] = useState(undefined);
   const [equipmentList, setEquipmentList] = useState([]);
   const [spinnerHidden, setSpinnerHidden] = useState(false);
+  const [exportButtonHidden, setExportButtonHidden] = useState(true);
+  const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
   
   useEffect(() => {
     let isResponseOK = false;
@@ -101,10 +104,10 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
           return response.json();
         }).then(json => {
           if (isSecondResponseOK) {
-            json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
+            let json_equipments = JSON.parse(JSON.stringify([json['equipments']]).split('"id":').join('"value":').split('"name":').join('"label":'));
             console.log(json)
             let equipments = [];
-            json[0].forEach((currentValue, index) => {
+            json_equipments[0].forEach((currentValue, index) => {
               equipments.push({
                 'key': index,
                 'id': currentValue['id'],
@@ -114,7 +117,13 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
                 'description': currentValue['description']});
             });
             setEquipmentList(equipments);
+
+            setExcelBytesBase64(json['excel_bytes_base64']);
+            
+            // hide spinner
             setSpinnerHidden(true);
+            // show export buttion
+            setExportButtonHidden(false);
           } else {
             toast.error(json.description)
           }
@@ -204,7 +213,10 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
   let onSpaceCascaderChange = (value, selectedOptions) => {
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
     let selectedSpaceID = value[value.length - 1];
+    // show spinner
     setSpinnerHidden(false);
+    // hide export buttion
+    setExportButtonHidden(true) 
     // begin of getting equipment list
     let isResponseOK = false;
     fetch(APIBaseURL + '/reports/equipmenttracking?' +
@@ -224,10 +236,10 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
       return response.json();
     }).then(json => {
       if (isResponseOK) {
-        json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
+        let json_equipments = JSON.parse(JSON.stringify([json['equipments']]).split('"id":').join('"value":').split('"name":').join('"label":'));
         console.log(json)
         let equipments = [];
-        json[0].forEach((currentValue, index) => {
+        json_equipments[0].forEach((currentValue, index) => {
           equipments.push({
             'key': index,
             'id': currentValue['id'],
@@ -237,7 +249,13 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
             'description': currentValue['description']});
         });
         setEquipmentList(equipments);
+
+        setExcelBytesBase64(json['excel_bytes_base64']);
+        
+        // hide spinner
         setSpinnerHidden(true);
+        // show export buttion
+        setExportButtonHidden(false);
       } else {
         toast.error(json.description)
       }
@@ -246,6 +264,24 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
     });
     // end of getting equipment list
   }
+
+
+  const handleExport = e => {
+    e.preventDefault();
+    const mimeType='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    const fileName = 'equipmenttracking.xlsx'
+    var fileUrl = "data:" + mimeType + ";base64," + excelBytesBase64;
+    fetch(fileUrl)
+        .then(response => response.blob())
+        .then(blob => {
+            var link = window.document.createElement("a");
+            link.href = window.URL.createObjectURL(blob, { type: mimeType });
+            link.download = fileName;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+  };
 
   return (
     <Fragment>
@@ -277,7 +313,15 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
                   <br></br>
                   <Spinner color="primary" hidden={spinnerHidden}  />
                 </FormGroup>
-              </Col>  
+              </Col>
+              <Col xs="auto">
+                  <br></br>
+                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default" 
+                  hidden={exportButtonHidden}
+                  onClick={handleExport} >
+                    {t('Export')}
+                  </ButtonIcon>
+              </Col>
             </Row>
           </Form>
         </CardBody>

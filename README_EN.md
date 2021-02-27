@@ -177,6 +177,8 @@ See [myems-modbus-tcp](./myems-modbus-tcp/README.md) for more information.
 ## MyEMS Mirrors
 
 [1]. http://github.com/MyEMS/myems
-  
-[2]. http://gitee.com/MyEMS/myems
+
+[2]. http://gitee.com/myems/myems
+
+[3]. http://bitbucket.org/myems/myems
 
