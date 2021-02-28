@@ -1,0 +1,52 @@
+*.py[cod]
+
+# C extensions
+*.c
+*.so
+
+# Jython
+*$py.class
+
+# Packages
+*.egg
+*.egg-info
+dist
+build
+eggs
+parts
+var
+sdist
+develop-eggs
+.installed.cfg
+lib
+lib64
+
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+nosetests.xml
+htmlcov
+*.dat
+
+# Docs
+doc/_build
+
+# Translations
+
+
+# Idea
+.idea
+
+# System
+.DS_Store
+
+# VIM swap files
+.*.swp
+
+# VIM temp files
+*~
+
+advancereport/
