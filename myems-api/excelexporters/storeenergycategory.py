@@ -2,16 +2,15 @@ import base64
 import uuid
 import os
 from openpyxl.chart import (
-    PieChart,
-    LineChart,
-    BarChart,
-    Reference,
-)
+        PieChart,
+        LineChart,
+        BarChart,
+        Reference,
+    )
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 from openpyxl.drawing.image import Image
 from openpyxl import Workbook
 from openpyxl.chart.label import DataLabelList
-
 
 ####################################################################################################################
 # PROCEDURES
@@ -67,6 +66,7 @@ def generate_excel(report,
                    reporting_start_datetime_local,
                    reporting_end_datetime_local,
                    period_type):
+
     wb = Workbook()
     ws = wb.active
 
@@ -75,12 +75,6 @@ def generate_excel(report,
 
     for i in range(2, 2000 + 1):
         ws.row_dimensions[i].height = 42
-    #
-    # for i in range(2, 37 + 1):
-    #     ws.row_dimensions[i].height = 30
-    #
-    # for i in range(38, 90 + 1):
-    #     ws.row_dimensions[i].height = 30
 
     # Col width
     ws.column_dimensions['A'].width = 1.5
@@ -132,9 +126,9 @@ def generate_excel(report,
 
     # Img
     img = Image("excelexporters/myems.png")
-    img.width = img.width * 1.1
-    img.height = img.height * 1.1
     # img = Image("myems.png")
+    img.width = img.width * 1.06
+    img.height = img.height * 1.06
     ws.add_image(img, 'B1')
 
     # Title
@@ -162,7 +156,6 @@ def generate_excel(report,
     ws['G3'].border = b_border
     ws['G3'].alignment = b_c_alignment
     ws['G3'].font = name_font
-    # print(type(reporting_start_datetime_local))
     ws['G3'] = reporting_start_datetime_local[:10] + "__" + reporting_end_datetime_local[:10]
     ws.merge_cells("G3:H3")
 
@@ -190,7 +183,7 @@ def generate_excel(report,
 
     if has_energy_data_flag:
         ws['B6'].font = title_font
-        ws['B6'] = name + ' 能耗分析'
+        ws['B6'] = name+' 能耗分析'
 
         category = reporting_period_data['names']
         ca_len = len(category)
@@ -309,7 +302,7 @@ def generate_excel(report,
 
     if has_ele_peak_flag:
         ws['B12'].font = title_font
-        ws['B12'] = name + ' 分时电耗'
+        ws['B12'] = name+' 分时电耗'
 
         ws.row_dimensions[13].height = 60
         ws['B13'].fill = table_fill
@@ -364,7 +357,7 @@ def generate_excel(report,
         ws['C17'] = round(reporting_period_data['offpeaks'][0], 2)
 
         pie = PieChart()
-        pie.title = name + ' 分时电耗'
+        pie.title = name+' 分时电耗'
         labels = Reference(ws, min_col=2, min_row=14, max_row=17)
         pie_data = Reference(ws, min_col=3, min_row=13, max_row=17)
         pie.add_data(pie_data, titles_from_data=True)
@@ -396,8 +389,15 @@ def generate_excel(report,
     has_child_flag = True
     # Judge if the space has child space, if not, delete it.
     if "child_space" not in report.keys() or "energy_category_names" not in report['child_space'].keys() or \
-            len(report['child_space']["energy_category_names"]) == 0:
+            len(report['child_space']["energy_category_names"]) == 0 \
+            or 'child_space_names_array' not in report['child_space'].keys() \
+            or report['child_space']['energy_category_names'] is None \
+            or len(report['child_space']['child_space_names_array']) == 0 \
+            or len(report['child_space']['child_space_nchild_space_names_arrayames_array'][0]) == 0:
+
         has_child_flag = False
+
+    current_row_number = 19
 
     if has_child_flag:
         child = report['child_space']
@@ -405,12 +405,14 @@ def generate_excel(report,
         child_subtotals = child['subtotals_array'][0]
 
         ws['B19'].font = title_font
-        ws['B19'] = name + ' 子空间能耗'
+        ws['B19'] = name+' 子空间能耗'
 
         ws.row_dimensions[20].height = 60
         ws['B20'].fill = table_fill
         ws['B20'].border = f_border
         ca_len = len(child['energy_category_names'])
+
+        table_start_row_number = 20
 
         for i in range(0, ca_len):
             row = chr(ord('C') + i)
@@ -421,6 +423,7 @@ def generate_excel(report,
             ws[row + '20'] = child['energy_category_names'][i] + ' (' + child['units'][i] + ')'
 
         space_len = len(child['child_space_names_array'][0])
+
         for i in range(0, space_len):
             row = str(i + 21)
 
@@ -435,58 +438,74 @@ def generate_excel(report,
                 ws[col + row].alignment = c_c_alignment
                 ws[col + row] = round(child['subtotals_array'][j][i], 2)
                 ws[col + row].border = f_border
-                # pie
-                # 25~30: pie
-                pie = PieChart()
-                pie.title = ws.cell(column=3 + j, row=20).value
-                labels = Reference(ws, min_col=2, min_row=21, max_row=24)
-                pie_data = Reference(ws, min_col=3 + j, min_row=20, max_row=24)
-                pie.add_data(pie_data, titles_from_data=True)
-                pie.set_categories(labels)
-                pie.height = 6.6  # cm 1.05*5 1.05cm = 30 pt
-                pie.width = 8
-                # pie.title = "Pies sold by category"
-                s1 = pie.series[0]
-                s1.dLbls = DataLabelList()
-                s1.dLbls.showCatName = True  # 标签显示
-                s1.dLbls.showVal = True  # 数量显示
-                s1.dLbls.showPercent = True  # 百分比显示
-                # s1 = CharacterProperties(sz=1800)     # 图表中字体大小 *100
-                chart_col = chr(ord('B') + 2 * j)
-                chart_cell = chart_col + '25'
-                ws.add_chart(pie, chart_cell)
-    else:
-        for i in range(19, 36 + 1):
-            ws.row_dimensions[i].height = 0.1
-    for i in range(30, 35 + 1):
-        ws.row_dimensions[i].height = 0.1
+
+        table_end_row_number = 20 + space_len
+        chart_start_row_number = 20 + space_len + 1
+
+        for i in range(0, ca_len):
+            # pie
+            # 25~30: pie
+            pie = PieChart()
+            pie.title = ws.cell(column=3 + i, row=table_start_row_number).value
+            labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1, max_row=table_end_row_number)
+            pie_data = Reference(ws, min_col=3 + i, min_row=table_start_row_number, max_row=table_end_row_number)
+            pie.add_data(pie_data, titles_from_data=True)
+            pie.set_categories(labels)
+            pie.height = 6.6  # cm 1.05*5 1.05cm = 30 pt
+            pie.width = 8
+            # pie.title = "Pies sold by category"
+            s1 = pie.series[0]
+            s1.dLbls = DataLabelList()
+            s1.dLbls.showCatName = False  # 标签显示
+            s1.dLbls.showVal = True  # 数量显示
+            s1.dLbls.showPercent = True  # 百分比显示
+            # s1 = CharacterProperties(sz=1800)     # 图表中字体大小 *100
+            chart_cell = ''
+            if i % 2 == 0:
+                chart_cell = 'B' + str(chart_start_row_number)
+            else:
+                chart_cell = 'E' + str(chart_start_row_number)
+                chart_start_row_number += 5
+            # ws.add_chart(pie, chart_cell)
+            # chart_col = chr(ord('B') + 2 * j)
+            # chart_cell = chart_col + '25'
+            ws.add_chart(pie, chart_cell)
+
+        current_row_number = chart_start_row_number
+
+        if ca_len % 2 == 1:
+            current_row_number += 5
+
+        current_row_number += 1
+
     ################################################
     # Fourth: 能耗详情
-    # 37: title
-    # 38~ 38+ca_len*6-1: line
-    # 38+ca_len*6: table title
-    # 38+ca_len*6~: table_data
+    # current_row_number: title
+    # current_row_number+1 ~ current_row_number+1+ca_len*6-1: line
+    # current_row_number+1+ca_len*6: table title
+    # current_row_number+1+ca_len*6~: table_data
     ################################################
     reporting_period_data = report['reporting_period']
     times = reporting_period_data['timestamps']
     has_detail_data_flag = True
     ca_len = len(report['reporting_period']['names'])
-    table_row = 38 + ca_len * 6
+    table_row = current_row_number + 1 + ca_len*6
+    chart_start_row_number = current_row_number + 1
     if "timestamps" not in reporting_period_data.keys() or \
             reporting_period_data['timestamps'] is None or \
             len(reporting_period_data['timestamps']) == 0:
         has_detail_data_flag = False
 
     if has_detail_data_flag:
-        ws['B37'].font = title_font
-        ws['B37'] = name + ' 能耗详情'
+        ws['B' + str(current_row_number)].font = title_font
+        ws['B' + str(current_row_number)] = name+' 详细数据'
 
         ws.row_dimensions[table_row].height = 60
-        ws['B' + str(table_row)].fill = table_fill
+        ws['B'+str(table_row)].fill = table_fill
         ws['B' + str(table_row)].font = title_font
-        ws['B' + str(table_row)].border = f_border
-        ws['B' + str(table_row)].alignment = c_c_alignment
-        ws['B' + str(table_row)] = '时间'
+        ws['B'+str(table_row)].border = f_border
+        ws['B'+str(table_row)].alignment = c_c_alignment
+        ws['B'+str(table_row)] = '日期时间'
         time = times[0]
         has_data = False
         max_row = 0
@@ -498,7 +517,7 @@ def generate_excel(report,
         if has_data:
             for i in range(0, len(time)):
                 col = 'B'
-                row = str(table_row + 1 + i)
+                row = str(table_row+1 + i)
                 # col = chr(ord('B') + i)
                 ws[col + row].font = title_font
                 ws[col + row].alignment = c_c_alignment
@@ -513,7 +532,7 @@ def generate_excel(report,
                 ws[col + str(table_row)].font = title_font
                 ws[col + str(table_row)].alignment = c_c_alignment
                 ws[col + str(table_row)] = reporting_period_data['names'][i] + \
-                                           " (" + reporting_period_data['units'][i] + ")"
+                    " (" + reporting_period_data['units'][i] + ")"
                 ws[col + str(table_row)].border = f_border
 
                 # 39 data
@@ -521,37 +540,51 @@ def generate_excel(report,
                 time_len = len(time)
 
                 for j in range(0, time_len):
-                    row = str(table_row + 1 + j)
+                    row = str(table_row+1 + j)
                     # col = chr(ord('B') + i)
                     ws[col + row].font = title_font
                     ws[col + row].alignment = c_c_alignment
                     ws[col + row] = round(reporting_period_data['values'][i][j], 2)
                     ws[col + row].border = f_border
+
+            current_row_number = table_row + 1 + len(times[0])
+
+            ws['B' + str(current_row_number)].font = title_font
+            ws['B' + str(current_row_number)].alignment = c_c_alignment
+            ws['B' + str(current_row_number)].border = f_border
+            ws['B' + str(current_row_number)] = '小计'
+
+            for i in range(0, ca_len):
+                col = chr(ord('C') + i)
+                ws[col + str(current_row_number)].font = title_font
+                ws[col + str(current_row_number)].alignment = c_c_alignment
+                ws[col + str(current_row_number)].border = f_border
+                ws[col + str(current_row_number)] = reporting_period_data['subtotals'][i]
+
                 # line
                 # 39~: line
                 line = LineChart()
-                line.title = '报告期消耗 - '
-                labels = Reference(ws, min_col=2, min_row=table_row + 1, max_row=max_row + 1)
-                line_data = Reference(ws, min_col=3 + i, min_row=table_row, max_row=max_row + 1)  # openpyxl bug
+                line.title = '报告期消耗 - ' + ws.cell(column=3+i, row=table_row).value
+                labels = Reference(ws, min_col=2, min_row=table_row+1, max_row=max_row)
+                line_data = Reference(ws, min_col=3 + i, min_row=table_row, max_row=max_row)  # openpyxl bug
                 line.add_data(line_data, titles_from_data=True)
                 line.set_categories(labels)
                 line_data = line.series[0]
                 line_data.marker.symbol = "circle"
-                line_data.smooth = False
+                line_data.smooth = True
+                line.x_axis.crosses = 'min'
                 line.height = 8.25  # cm 1.05*5 1.05cm = 30 pt
                 line.width = 24
                 # pie.title = "Pies sold by category"
                 line.dLbls = DataLabelList()
+                line.dLbls.dLblPos = 't'
                 # line.dLbls.showCatName = True  # label show
                 line.dLbls.showVal = True  # val show
                 line.dLbls.showPercent = True  # percent show
                 # s1 = CharacterProperties(sz=1800)     # font size *100
                 chart_col = 'B'
-                chart_cell = chart_col + str(38 + 6 * i)
+                chart_cell = chart_col + str(chart_start_row_number + 6*i)
                 ws.add_chart(line, chart_cell)
-    else:
-        for i in range(37, 69 + 1):
-            ws.row_dimensions[i].height = 0.1
 
     filename = str(uuid.uuid4()) + '.xlsx'
     wb.save(filename)
