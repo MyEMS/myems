@@ -227,7 +227,7 @@ class Reporting:
             elif meta_result['links'][x]['meter']['type'] == 'offline_meter':
                 query = (" SELECT SUM(actual_value) "
                          " FROM tbl_offline_meter_hourly "
-                         " WHERE meter_id = %s "
+                         " WHERE offline_meter_id = %s "
                          " AND start_datetime_utc >= %s "
                          " AND start_datetime_utc < %s ")
                 cursor_energy.execute(query, (meta_result['links'][x]['meter']['id'],
@@ -239,7 +239,7 @@ class Reporting:
             elif meta_result['links'][x]['meter']['type'] == 'virtual_meter':
                 query = (" SELECT SUM(actual_value) "
                          " FROM tbl_virtual_meter_hourly "
-                         " WHERE meter_id = %s "
+                         " WHERE virtual_meter_id = %s "
                          " AND start_datetime_utc >= %s "
                          " AND start_datetime_utc < %s ")
                 cursor_energy.execute(query, (meta_result['links'][x]['meter']['id'],
