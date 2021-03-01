@@ -5,6 +5,7 @@ import config
 from datetime import datetime, timedelta, timezone
 from core import utilities
 from decimal import Decimal
+import excelexporters.storeenergycategory
 
 
 class Reporting:
@@ -562,5 +563,10 @@ class Reporting:
             "timestamps": parameters_data['timestamps'],
             "values": parameters_data['values']
         }
-
+        # export result to Excel file and then encode the file to base64 string
+        result['excel_bytes_base64'] = excelexporters.storeenergycategory.export(result,
+                                                                                 store['name'],
+                                                                                 reporting_start_datetime_local,
+                                                                                 reporting_end_datetime_local,
+                                                                                 period_type)
         resp.body = json.dumps(result)
