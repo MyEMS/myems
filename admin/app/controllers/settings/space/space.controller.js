@@ -207,7 +207,10 @@ app.controller('SpaceController', function ($scope, $common, $uibModal, SpaceSer
 				modifiedSpace.parent_space_id = null;
 			}
 			modifiedSpace.timezone_id = modifiedSpace.timezone.id;
-			modifiedSpace.contact_id = modifiedSpace.contact.id;
+			if (modifiedSpace.contact != null) {
+				modifiedSpace.contact_id = modifiedSpace.contact.id;
+			}
+			 
 			modifiedSpace.cost_center_id = modifiedSpace.cost_center.id;
 			SpaceService.editSpace(modifiedSpace, function (error, status) {
 				if (angular.isDefined(status) && status == 200) {
