@@ -172,9 +172,7 @@ app.controller('UserController', function ($scope,
 				name: modifiedUser.name, 
 				password: modifiedUser.password };
 
-			let headers = {
-				User_UUID: $scope.cur_user.uuid, 
-				Token: $scope.cur_user.token };
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 
 			UserService.resetPassword(data, headers, function (error, status) {
 				if (angular.isDefined(status) && status == 200) {

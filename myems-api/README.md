@@ -3,12 +3,6 @@
 ## Introduction
 Providing REST API service for [MyEMS](https://github.com/MyEMS/myems) components and third parties.
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/dc671ff43f374b4a8c72f14a4462660c)](https://app.codacy.com/gh/myems/myems-api?utm_source=github.com&utm_medium=referral&utm_content=myems/myems-api&utm_campaign=Badge_Grade)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/myems/myems-api/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/myems/myems-api/?branch=master)
-[![Maintainability](https://api.codeclimate.com/v1/badges/db3f8cbee8920476f3c4/maintainability)](https://codeclimate.com/github/myems/myems-api/maintainability)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/myems/myems-api.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/myems/myems-api/alerts/)
-
-
 ## Prerequisites
 
 anytree
