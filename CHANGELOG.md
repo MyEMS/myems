@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - None.
 
 ### Fixed
+- added excel exporter of equipmentenergycategory report.
 - added excel exporter of shopfloorenergyitem report.
 - fixed wrong HTTP headers in admin.
 - fixed typo in combinedequipment controller in admin.
