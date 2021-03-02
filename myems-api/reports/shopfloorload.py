@@ -5,7 +5,7 @@ import config
 from datetime import datetime, timedelta, timezone
 from core import utilities
 from decimal import Decimal
-
+import excelexporters.shopfloorload
 
 class Reporting:
     @staticmethod
@@ -546,4 +546,10 @@ class Reporting:
             "values": parameters_data['values']
         }
 
+        # export result to Excel file and then encode the file to base64 string
+        result['excel_bytes_base64'] = excelexporters.shopfloorload.export(result,
+                                                                                 shopfloor['name'],
+                                                                                 reporting_start_datetime_local,
+                                                                                 reporting_end_datetime_local,
+                                                                                 period_type)
         resp.body = json.dumps(result)
