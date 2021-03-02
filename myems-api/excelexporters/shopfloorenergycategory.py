@@ -559,7 +559,7 @@ def generate_excel(report,
                 ws[col + str(current_row_number)].font = title_font
                 ws[col + str(current_row_number)].alignment = c_c_alignment
                 ws[col + str(current_row_number)].border = f_border
-                ws[col + str(current_row_number)] = reporting_period_data['subtotals'][i]
+                ws[col + str(current_row_number)] = round(reporting_period_data['subtotals'][i], 2)
 
                 # line
                 # 39~: line
