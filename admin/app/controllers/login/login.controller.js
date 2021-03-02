@@ -85,9 +85,7 @@ app.controller('LoginController', function ($rootScope,
 
 	$scope.logout = function () {
 		let data = null;
-		let headers = {
-			User_UUID: $scope.cur_user.uuid, 
-			Token: $scope.cur_user.token };
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		LoginService.logout(data, headers, function (error, status, headers) {
 			if (angular.isDefined(status) && status == 200) {
 				var popType = 'TOASTER.SUCCESS';
@@ -158,9 +156,7 @@ app.controller('LoginController', function ($rootScope,
 				old_password: user.old_password, 
 				new_password: user.new_password };
 
-			let headers = {
-				User_UUID: $scope.cur_user.uuid, 
-				Token: $scope.cur_user.token };
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			
 			UserService.changePassword(data, headers, function (error, status) {
 				if (angular.isDefined(status) && status == 200) {
