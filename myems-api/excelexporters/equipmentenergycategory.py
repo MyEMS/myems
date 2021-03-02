@@ -199,13 +199,8 @@ def generate_excel(report,
 
         ws['B9'].font = title_font
         ws['B9'].alignment = c_c_alignment
-        ws['B9'] = '单位面积能耗'
+        ws['B9'] = '环比'
         ws['B9'].border = f_border
-
-        ws['B10'].font = title_font
-        ws['B10'].alignment = c_c_alignment
-        ws['B10'] = '环比'
-        ws['B10'].border = f_border
 
         col = ''
 
@@ -226,14 +221,9 @@ def generate_excel(report,
 
             ws[col + '9'].font = name_font
             ws[col + '9'].alignment = c_c_alignment
-            ws[col + '9'] = round(reporting_period_data['subtotals_per_unit_area'][i], 2)
-            ws[col + '9'].border = f_border
-
-            ws[col + '10'].font = name_font
-            ws[col + '10'].alignment = c_c_alignment
-            ws[col + '10'] = str(round(reporting_period_data['increment_rates'][i] * 100, 2)) + "%" \
+            ws[col + '9'] = str(round(reporting_period_data['increment_rates'][i] * 100, 2)) + "%" \
                 if reporting_period_data['increment_rates'][i] is not None else "-"
-            ws[col + '10'].border = f_border
+            ws[col + '9'].border = f_border
 
         # TCE TCO2E
         end_col = col
@@ -252,14 +242,9 @@ def generate_excel(report,
 
         ws[tce_col + '9'].font = name_font
         ws[tce_col + '9'].alignment = c_c_alignment
-        ws[tce_col + '9'] = round(reporting_period_data['total_in_kgce_per_unit_area'] / 1000, 2)
-        ws[tce_col + '9'].border = f_border
-
-        ws[tce_col + '10'].font = name_font
-        ws[tce_col + '10'].alignment = c_c_alignment
-        ws[tce_col + '10'] = str(round(reporting_period_data['increment_rate_in_kgce'] * 100, 2)) + "%" \
+        ws[tce_col + '9'] = str(round(reporting_period_data['increment_rate_in_kgce'] * 100, 2)) + "%" \
             if reporting_period_data['increment_rate_in_kgce'] is not None else "-"
-        ws[tce_col + '10'].border = f_border
+        ws[tce_col + '9'].border = f_border
 
         # TCO2E
         tco2e_col = chr(ord(end_col) + 2)
@@ -276,16 +261,11 @@ def generate_excel(report,
 
         ws[tco2e_col + '9'].font = name_font
         ws[tco2e_col + '9'].alignment = c_c_alignment
-        ws[tco2e_col + '9'] = round(reporting_period_data['total_in_kgco2e_per_unit_area'] / 1000, 2)
-        ws[tco2e_col + '9'].border = f_border
-
-        ws[tco2e_col + '10'].font = name_font
-        ws[tco2e_col + '10'].alignment = c_c_alignment
-        ws[tco2e_col + '10'] = str(round(reporting_period_data['increment_rate_in_kgco2e'] * 100, 2)) + "%" \
+        ws[tco2e_col + '9'] = str(round(reporting_period_data['increment_rate_in_kgco2e'] * 100, 2)) + "%" \
             if reporting_period_data['increment_rate_in_kgco2e'] is not None else "-"
-        ws[tco2e_col + '10'].border = f_border
+        ws[tco2e_col + '9'].border = f_border
     else:
-        for i in range(6, 10 + 1):
+        for i in range(6, 9 + 1):
             ws.row_dimensions[i].height = 0.1
     #################################################
     # Second: 分时电耗
