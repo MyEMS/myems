@@ -4,11 +4,6 @@
 MyEMS 系统管理面板，用于项目配置和系统管理
 Providing admin panel  for MyEMS system administration and configuration
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f4c68eda47ba45948809f3f42ce8d82e)](https://app.codacy.com/gh/myems/myems-admin?utm_source=github.com&utm_medium=referral&utm_content=myems/myems-admin&utm_campaign=Badge_Grade)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/myems/myems-admin/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/myems/myems-admin/?branch=master)
-[![Maintainability](https://api.codeclimate.com/v1/badges/4ece07b4f1e10b578277/maintainability)](https://codeclimate.com/github/myems/myems-admin/maintainability)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/myems/myems-admin.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/myems/myems-admin/alerts/)
-
 ## Prerequisites
 nginx-1.18.0 or later
 

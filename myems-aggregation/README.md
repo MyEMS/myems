@@ -6,11 +6,6 @@
 
 This service is a component of MyEMS and it aggregates normalized data up to multiple dimensions.
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/cb75cee835ba46118115e088f8be6d87)](https://app.codacy.com/gh/myems/myems-aggregation?utm_source=github.com&utm_medium=referral&utm_content=myems/myems-aggregation&utm_campaign=Badge_Grade)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/myems/myems-aggregation/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/myems/myems-aggregation/?branch=master)
-[![Maintainability](https://api.codeclimate.com/v1/badges/ecff11174fd74975946c/maintainability)](https://codeclimate.com/github/myems/myems-aggregation/maintainability)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/myems/myems-bacnet.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/myems/myems-bacnet/alerts/)
-
 ### Prerequisites
 
 mysql.connector
