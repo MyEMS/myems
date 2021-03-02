@@ -48,7 +48,7 @@ MyEMS项目由下列组件构成:
 
 ### MyEMS 数据接口API
 
-参考仓库[myems-api](https://github.com/MyEMS/myems-api.git) 获取更多信息。
+参考[myems-api](./myems-api/README.md) 获取更多信息。
 
 ### MyEMS MQTT 数据发布服务 (从MyEMS转发到第三方)
 

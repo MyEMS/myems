@@ -48,7 +48,7 @@ Weitere Informationen finden Sie im [myems-aggregation](./myems-aggregation/READ
 
 ### MyEMS API
 
-Weitere Informationen finden Sie im Repository [myems-api](https://github.com/MyEMS/myems-api.git).
+Weitere Informationen finden Sie im [myems-api](./myems-api/README.md).
 
 ### MyEMS MQTT Data Publisher Service (transmit data from MyEMS to 3rd Party)
 
