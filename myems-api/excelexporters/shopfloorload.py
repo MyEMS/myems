@@ -30,7 +30,6 @@ def export(report,
     if report is None:
         return None
 
-
     ####################################################################################################################
     # Step 2: Generate excel file from the report data
     ####################################################################################################################
@@ -211,7 +210,7 @@ def generate_excel(report,
         # table_data
 
         for i, value in enumerate(category):
-            row = i*2 + 8
+            row = i * 2 + 8
             ws['B' + str(row)].font = name_font
             ws['B' + str(row)].alignment = c_c_alignment
             ws['B' + str(row)] = reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + "/H )"
@@ -358,14 +357,14 @@ def generate_excel(report,
         # row_st == row_statistical analysis table
         row_sat = 12 + 3 * ca_len
 
-        ws['B' + str(row_sat+row_title)].font = title_font
-        ws['B' + str(row_sat+row_title)] = name + ' 详细数据'
+        ws['B' + str(row_sat + row_title)].font = title_font
+        ws['B' + str(row_sat + row_title)] = name + ' 详细数据'
         # table_title
-        ws['B' + str(row_sat+1+row_title)].fill = table_fill
-        ws['B' + str(row_sat+1+row_title)].font = name_font
-        ws['B' + str(row_sat+1+row_title)].alignment = c_c_alignment
-        ws['B' + str(row_sat+1+row_title)] = "日期时间"
-        ws['B' + str(row_sat+1+row_title)].border = f_border
+        ws['B' + str(row_sat + 1 + row_title)].fill = table_fill
+        ws['B' + str(row_sat + 1 + row_title)].font = name_font
+        ws['B' + str(row_sat + 1 + row_title)].alignment = c_c_alignment
+        ws['B' + str(row_sat + 1 + row_title)] = "日期时间"
+        ws['B' + str(row_sat + 1 + row_title)].border = f_border
 
         for i in range(0, ca_len):
             col_average = chr(ord('C') + i)
@@ -392,27 +391,25 @@ def generate_excel(report,
             ws['B' + str(rows)].border = f_border
 
             for index in range(0, ca_len):
-
                 col_average = chr(ord('C') + index * 2)
                 col_maximum = chr(ord('C') + index * 2 + 1)
 
                 ws[col_average + str(rows)].font = name_font
                 ws[col_average + str(rows)].alignment = c_c_alignment
                 ws[col_average + str(rows)] = reporting_period_data['sub_averages'][index][i] \
-                if reporting_period_data['sub_maximums'][index] is not None else ''
+                    if reporting_period_data['sub_maximums'][index] is not None else ''
                 ws[col_average + str(rows)].number_format = '0.00'
                 ws[col_average + str(rows)].border = f_border
 
                 ws[col_maximum + str(rows)].font = name_font
                 ws[col_maximum + str(rows)].alignment = c_c_alignment
                 ws[col_maximum + str(rows)] = reporting_period_data['sub_maximums'][index][i] \
-                if reporting_period_data['sub_maximums'][index] is not None else ''
+                    if reporting_period_data['sub_maximums'][index] is not None else ''
                 ws[col_maximum + str(rows)].number_format = '0.00'
                 ws[col_maximum + str(rows)].border = f_border
 
         # LineChart
         for i in range(0, ca_len):
-
             lc = LineChart()
             lc.title = "报告期 最大负荷"
             lc.style = 10
