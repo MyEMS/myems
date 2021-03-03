@@ -5,20 +5,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
-- None.
+- added excel exporter of equipmentenergyitem report.
+- added excel exporter of equipmentenergycategory report.
+- added excel exporter of shopfloorenergyitem report.
 
 ### Changed
 - None.
 
 ### Fixed
-- added excel exporter of shopfloorenergyitem report.
 - fixed wrong HTTP headers in admin.
 - fixed typo in combinedequipment controller in admin.
-- removed required property from equipment model in admin.
 - fixed energy item undefined issue when edit virtual meter and offline meter.
 
 ### Removed
-- None.
+- removed 'required' property from equipment model in admin.
 
 ## [v1.0.6] - 2021-02-26
 ### Added
