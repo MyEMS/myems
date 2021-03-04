@@ -319,7 +319,7 @@ def generate_excel(report,
 
             for index in range(0, ca_len):
                 col_average = chr(ord('C') + index)
-                col_maximum = chr(ord(col_average) + ca_len )
+                col_maximum = chr(ord(col_average) + ca_len)
 
                 ws[col_average + str(rows)].font = name_font
                 ws[col_average + str(rows)].alignment = c_c_alignment
