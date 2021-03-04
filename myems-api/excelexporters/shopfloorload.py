@@ -299,11 +299,6 @@ def generate_excel(report,
         ws['D' + str(row_title + 1)] = '最大负荷'
         ws['D' + str(row_title + 1)].border = f_border
 
-        ws['E' + str(row_title + 1)].font = title_font
-        ws['E' + str(row_title + 1)].alignment = c_c_alignment
-        ws['E' + str(row_title + 1)] = '负荷系数'
-        ws['E' + str(row_title + 1)].border = f_border
-
         # table_data
 
         for i, value in enumerate(category):
@@ -329,11 +324,6 @@ def generate_excel(report,
                 ws['D' + str(row_data)] = round(reporting_period_data['maximums_per_unit_area'][i], 2)
             ws['D' + str(row_data)].border = f_border
             ws['D' + str(row_data)].number_format = '0.00'
-
-            ws['E' + str(row_data)].font = name_font
-            ws['E' + str(row_data)].alignment = c_c_alignment
-            ws['E' + str(row_data)] = "平均负荷与最大负荷的比值"
-            ws['E' + str(row_data)].border = f_border
 
     ########################################################
     # Third: 详细数据
