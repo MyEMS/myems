@@ -207,7 +207,7 @@ def generate_excel(report,
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)].alignment = c_c_alignment
         ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)] = '消耗'
+        ws['B' + str(current_row_number)] = '产出'
 
         col = 'C'
 
