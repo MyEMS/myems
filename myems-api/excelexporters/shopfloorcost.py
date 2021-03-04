@@ -198,7 +198,7 @@ def generate_excel(report,
 
         ws['B9'].font = title_font
         ws['B9'].alignment = c_c_alignment
-        ws['B9'] = '单位面积能耗'
+        ws['B9'] = '单位面积值'
         ws['B9'].border = f_border
 
         ws['B10'].font = title_font
@@ -271,7 +271,6 @@ def generate_excel(report,
         ws['B12'].font = title_font
         ws['B12'] = name+'分时用电成本'
 
-
         ws['B13'].fill = table_fill
         ws['B13'].font = name_font
         ws['B13'].alignment = c_c_alignment
@@ -283,6 +282,15 @@ def generate_excel(report,
         ws['C13'].border = f_border
         ws['C13'] = '分时用电成本'
 
+        ws['D13'].fill = table_fill
+        ws['D13'].font = name_font
+        ws['D13'].alignment = c_c_alignment
+        ws['D13'].border = f_border
+        ws['D13'] = '分时用电成本比'
+
+        wssum = round(reporting_period_data['toppeaks'][0], 2)+round(reporting_period_data['onpeaks'][0], 2)\
+            + round(reporting_period_data['midpeaks'][0], 2)+round(reporting_period_data['offpeaks'][0], 2)
+
         ws['B14'].font = title_font
         ws['B14'].alignment = c_c_alignment
         ws['B14'] = '尖'
@@ -292,6 +300,11 @@ def generate_excel(report,
         ws['C14'].alignment = c_c_alignment
         ws['C14'].border = f_border
         ws['C14'] = round(reporting_period_data['toppeaks'][0], 2)
+
+        ws['D14'].font = title_font
+        ws['D14'].alignment = c_c_alignment
+        ws['D14'].border = f_border
+        ws['D14'] = '{:.2%}'.format(round(reporting_period_data['toppeaks'][0], 2)/wssum)
 
         ws['B15'].font = title_font
         ws['B15'].alignment = c_c_alignment
@@ -303,6 +316,11 @@ def generate_excel(report,
         ws['C15'].border = f_border
         ws['C15'] = round(reporting_period_data['onpeaks'][0], 2)
 
+        ws['D15'].font = title_font
+        ws['D15'].alignment = c_c_alignment
+        ws['D15'].border = f_border
+        ws['D15'] = '{:.2%}'.format(round(reporting_period_data['onpeaks'][0], 2)/wssum)
+
         ws['B16'].font = title_font
         ws['B16'].alignment = c_c_alignment
         ws['B16'] = '平'
@@ -313,6 +331,11 @@ def generate_excel(report,
         ws['C16'].border = f_border
         ws['C16'] = round(reporting_period_data['midpeaks'][0], 2)
 
+        ws['D16'].font = title_font
+        ws['D16'].alignment = c_c_alignment
+        ws['D16'].border = f_border
+        ws['D16'] = '{:.2%}'.format(round(reporting_period_data['midpeaks'][0], 2)/wssum)
+
         ws['B17'].font = title_font
         ws['B17'].alignment = c_c_alignment
         ws['B17'] = '谷'
@@ -322,6 +345,11 @@ def generate_excel(report,
         ws['C17'].alignment = c_c_alignment
         ws['C17'].border = f_border
         ws['C17'] = round(reporting_period_data['offpeaks'][0], 2)
+
+        ws['D17'].font = title_font
+        ws['D17'].alignment = c_c_alignment
+        ws['D17'].border = f_border
+        ws['D17'] = '{:.2%}'.format(round(reporting_period_data['offpeaks'][0], 2)/wssum)
 
         pie = PieChart()
         pie.title = name+'分时用电成本'
@@ -336,7 +364,7 @@ def generate_excel(report,
         s1.dLbls.showCatName = False
         s1.dLbls.showVal = True
         s1.dLbls.showPercent = True
-        ws.add_chart(pie, "D13")
+        ws.add_chart(pie, "E13")
 
     else:
         for i in range(12, 18 + 1):
@@ -369,12 +397,20 @@ def generate_excel(report,
         ws['C' + str(current_row_number)].font = name_font
         ws['C' + str(current_row_number)].alignment = c_c_alignment
         ws['C' + str(current_row_number)].border = f_border
-        ws['C' + str(current_row_number)] = '成本占比'
+        ws['C' + str(current_row_number)] = '成本'
+
+        ws['D' + str(current_row_number)].fill = table_fill
+        ws['D' + str(current_row_number)].font = name_font
+        ws['D' + str(current_row_number)].alignment = c_c_alignment
+        ws['D' + str(current_row_number)].border = f_border
+        ws['D' + str(current_row_number)] = '成本占比'
 
         current_row_number += 1
 
         ca_len = len(reporting_period_data['names'])
-
+        wssum = 0
+        for i in range(0, ca_len):
+            wssum = round(reporting_period_data['subtotals'][i], 2) + wssum
         for i in range(0, ca_len):
             ws['B' + str(current_row_number)].font = title_font
             ws['B' + str(current_row_number)].alignment = c_c_alignment
@@ -385,6 +421,11 @@ def generate_excel(report,
             ws['C' + str(current_row_number)].alignment = c_c_alignment
             ws['C' + str(current_row_number)].border = f_border
             ws['C' + str(current_row_number)] = round(reporting_period_data['subtotals'][i], 2)
+
+            ws['D' + str(current_row_number)].font = title_font
+            ws['D' + str(current_row_number)].alignment = c_c_alignment
+            ws['D' + str(current_row_number)].border = f_border
+            ws['D' + str(current_row_number)] = '{:.2%}'.format(round(reporting_period_data['subtotals'][i], 2) / wssum)
 
             current_row_number += 1
 
@@ -403,7 +444,7 @@ def generate_excel(report,
         s1.dLbls.showCatName = False
         s1.dLbls.showVal = True
         s1.dLbls.showPercent = True
-        table_cell = 'D' + str(table_start_row_number)
+        table_cell = 'E' + str(table_start_row_number)
         ws.add_chart(pie, table_cell)
 
         if ca_len < 4:
