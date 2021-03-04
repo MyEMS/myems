@@ -286,7 +286,7 @@ def generate_excel(report,
         ws['D13'].font = name_font
         ws['D13'].alignment = c_c_alignment
         ws['D13'].border = f_border
-        ws['D13'] = '分时用电成本比'
+        ws['D13'] = '分时用电成本占比'
 
         wssum = round(reporting_period_data['toppeaks'][0], 2)+round(reporting_period_data['onpeaks'][0], 2)\
             + round(reporting_period_data['midpeaks'][0], 2)+round(reporting_period_data['offpeaks'][0], 2)
