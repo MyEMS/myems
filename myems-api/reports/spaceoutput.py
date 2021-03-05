@@ -5,6 +5,7 @@ import config
 from datetime import datetime, timedelta, timezone
 from core import utilities
 from decimal import Decimal
+import excelexporters.spaceoutput
 
 
 class Reporting:
@@ -68,7 +69,7 @@ class Reporting:
             try:
                 base_start_datetime_utc = datetime.strptime(base_start_datetime_local,
                                                             '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
-                    timedelta(minutes=timezone_offset)
+                                          timedelta(minutes=timezone_offset)
             except ValueError:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_BASE_PERIOD_START_DATETIME")
@@ -79,7 +80,7 @@ class Reporting:
             try:
                 base_end_datetime_utc = datetime.strptime(base_end_datetime_local,
                                                           '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
-                    timedelta(minutes=timezone_offset)
+                                        timedelta(minutes=timezone_offset)
             except ValueError:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_BASE_PERIOD_END_DATETIME")
@@ -97,7 +98,7 @@ class Reporting:
             try:
                 reporting_start_datetime_utc = datetime.strptime(reporting_start_datetime_local,
                                                                  '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
-                    timedelta(minutes=timezone_offset)
+                                               timedelta(minutes=timezone_offset)
             except ValueError:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_REPORTING_PERIOD_START_DATETIME")
@@ -110,7 +111,7 @@ class Reporting:
             try:
                 reporting_end_datetime_utc = datetime.strptime(reporting_end_datetime_local,
                                                                '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
-                    timedelta(minutes=timezone_offset)
+                                             timedelta(minutes=timezone_offset)
             except ValueError:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_REPORTING_PERIOD_END_DATETIME")
@@ -226,7 +227,7 @@ class Reporting:
                               "      tbl_points po, tbl_sensors_points sepo "
                               " WHERE sp.id = %s AND sp.id = spse.space_id AND spse.sensor_id = se.id "
                               "       AND se.id = sepo.sensor_id AND sepo.point_id = po.id "
-                              " ORDER BY po.id ", (space['id'], ))
+                              " ORDER BY po.id ", (space['id'],))
         rows_points = cursor_system.fetchall()
         if rows_points is not None and len(rows_points) > 0:
             for row in rows_points:
@@ -238,7 +239,7 @@ class Reporting:
         cursor_system.execute(" SELECT po.id, po.name, po.units, po.object_type  "
                               " FROM tbl_spaces sp, tbl_spaces_points sppo, tbl_points po "
                               " WHERE sp.id = %s AND sp.id = sppo.space_id AND sppo.point_id = po.id "
-                              " ORDER BY po.id ", (space['id'], ))
+                              " ORDER BY po.id ", (space['id'],))
         rows_points = cursor_system.fetchall()
         if rows_points is not None and len(rows_points) > 0:
             for row in rows_points:
@@ -251,7 +252,7 @@ class Reporting:
         cursor_system.execute(" SELECT id, name  "
                               " FROM tbl_spaces "
                               " WHERE parent_space_id = %s "
-                              " ORDER BY id ", (space['id'], ))
+                              " ORDER BY id ", (space['id'],))
         rows_child_spaces = cursor_system.fetchall()
         if rows_child_spaces is not None and len(rows_child_spaces) > 0:
             for row in rows_child_spaces:
@@ -544,5 +545,12 @@ class Reporting:
                     child_space_data[energy_category_id]['child_space_names'])
                 result['child_space']['subtotals_array'].append(
                     child_space_data[energy_category_id]['subtotals'])
+
+        # export result to Excel file and then encode the file to base64 string
+        result['excel_bytes_base64'] = excelexporters.spaceoutput.export(result,
+                                                                         space['name'],
+                                                                         reporting_start_datetime_local,
+                                                                         reporting_end_datetime_local,
+                                                                         period_type)
 
         resp.body = json.dumps(result)
