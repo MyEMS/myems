@@ -12,7 +12,6 @@ from openpyxl.drawing.image import Image
 from openpyxl import Workbook
 from openpyxl.chart.label import DataLabelList
 
-
 ####################################################################################################################
 # PROCEDURES
 # Step 1: Validate the report data
@@ -304,9 +303,17 @@ def generate_excel(report,
         ws['C' + str(current_row_number)].font = name_font
         ws['C' + str(current_row_number)].alignment = c_c_alignment
         ws['C' + str(current_row_number)].border = f_border
-        ws['C' + str(current_row_number)] = '吨标准煤(TCE)占比'
+        ws['C' + str(current_row_number)] = '节约'
+
+        ws['D' + str(current_row_number)].fill = table_fill
+        ws['D' + str(current_row_number)].font = name_font
+        ws['D' + str(current_row_number)].alignment = c_c_alignment
+        ws['D' + str(current_row_number)].border = f_border
+        ws['D' + str(current_row_number)] = '吨标准煤(TCE) 节约占比'
 
         current_row_number += 1
+
+        subtotals_in_kgce_saving_sum = sum_list(reporting_period_data['subtotals_in_kgce_saving'])
 
         for i in range(0, ca_len):
             ws['B' + str(current_row_number)].font = title_font
@@ -318,6 +325,13 @@ def generate_excel(report,
             ws['C' + str(current_row_number)].alignment = c_c_alignment
             ws['C' + str(current_row_number)].border = f_border
             ws['C' + str(current_row_number)] = round(reporting_period_data['subtotals_in_kgce_saving'][i] / 1000, 3)
+
+            ws['D' + str(current_row_number)].font = name_font
+            ws['D' + str(current_row_number)].alignment = c_c_alignment
+            ws['D' + str(current_row_number)].border = f_border
+            ws['D' + str(current_row_number)] = \
+                str(round(abs(reporting_period_data['subtotals_in_kgce_saving'][i]) /
+                          subtotals_in_kgce_saving_sum * 100, 2)) + '%'
 
             current_row_number += 1
 
@@ -341,7 +355,7 @@ def generate_excel(report,
         s1.dLbls.showCatName = False
         s1.dLbls.showVal = True
         s1.dLbls.showPercent = True
-        ws.add_chart(pie, 'D' + str(chart_start_row_number))
+        ws.add_chart(pie, 'E' + str(chart_start_row_number))
 
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)] = name + ' 吨二氧化碳排放(TCO2E)占比'
@@ -358,9 +372,17 @@ def generate_excel(report,
         ws['C' + str(current_row_number)].font = name_font
         ws['C' + str(current_row_number)].alignment = c_c_alignment
         ws['C' + str(current_row_number)].border = f_border
-        ws['C' + str(current_row_number)] = '吨二氧化碳排放(TCO2E)占比'
+        ws['C' + str(current_row_number)] = '节约'
+
+        ws['D' + str(current_row_number)].fill = table_fill
+        ws['D' + str(current_row_number)].font = name_font
+        ws['D' + str(current_row_number)].alignment = c_c_alignment
+        ws['D' + str(current_row_number)].border = f_border
+        ws['D' + str(current_row_number)] = '吨二氧化碳排放(TCO2E) 节约占比'
 
         current_row_number += 1
+
+        subtotals_in_kgco2e_saving_sum = sum_list(reporting_period_data['subtotals_in_kgco2e_saving'])
 
         for i in range(0, ca_len):
             ws['B' + str(current_row_number)].font = title_font
@@ -372,6 +394,13 @@ def generate_excel(report,
             ws['C' + str(current_row_number)].alignment = c_c_alignment
             ws['C' + str(current_row_number)].border = f_border
             ws['C' + str(current_row_number)] = round(reporting_period_data['subtotals_in_kgco2e_saving'][i] / 1000, 3)
+
+            ws['D' + str(current_row_number)].font = name_font
+            ws['D' + str(current_row_number)].alignment = c_c_alignment
+            ws['D' + str(current_row_number)].border = f_border
+            ws['D' + str(current_row_number)] = \
+                str(round(abs(reporting_period_data['subtotals_in_kgco2e_saving'][i]) /
+                          subtotals_in_kgco2e_saving_sum * 100, 2)) + '%'
 
             current_row_number += 1
 
@@ -395,7 +424,7 @@ def generate_excel(report,
         s1.dLbls.showCatName = False
         s1.dLbls.showVal = True
         s1.dLbls.showPercent = True
-        ws.add_chart(pie, 'D' + str(chart_start_row_number))
+        ws.add_chart(pie, 'E' + str(chart_start_row_number))
 
     #############################################
 
@@ -506,7 +535,7 @@ def generate_excel(report,
         for i in range(0, ca_len):
             line = LineChart()
             line.title = '报告期节约 - ' + \
-                reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
+                         reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
             labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1, max_row=table_end_row_number)
             line_data = Reference(ws, min_col=3 + i, min_row=table_start_row_number, max_row=table_end_row_number)
             line.add_data(line_data, titles_from_data=True)
@@ -532,3 +561,12 @@ def generate_excel(report,
     wb.save(filename)
 
     return filename
+
+
+def sum_list(lists):
+    total = 0
+
+    for i in range(0, len(lists)):
+        total += abs(lists[i])
+
+    return total
