@@ -183,86 +183,86 @@ def generate_excel(report,
         has_cost_data_flag = False
 
     if has_cost_data_flag:
-        ws['B6'].font = title_font
-        ws['B6'] = name + ' 报告期收入'
+        ws['B5'].font = title_font
+        ws['B5'] = name + ' 报告期收入'
         category = reporting_period_data['names']
         ca_len = len(category)
 
         ws.row_dimensions[7].height = 60
-        ws['B7'].fill = table_fill
+        ws['B6'].fill = table_fill
+        ws['B6'].border = f_border
+
+        ws['B7'].font = title_font
+        ws['B7'].alignment = c_c_alignment
+        ws['B7'] = '报告期收入总计'
         ws['B7'].border = f_border
 
         ws['B8'].font = title_font
         ws['B8'].alignment = c_c_alignment
-        ws['B8'] = '报告期收入总计'
+        ws['B8'] = '单位面积值'
         ws['B8'].border = f_border
 
         ws['B9'].font = title_font
         ws['B9'].alignment = c_c_alignment
-        ws['B9'] = '单位面积值'
+        ws['B9'] = '环比'
         ws['B9'].border = f_border
-
-        ws['B10'].font = title_font
-        ws['B10'].alignment = c_c_alignment
-        ws['B10'] = '环比'
-        ws['B10'].border = f_border
 
         col = ''
 
         for i in range(0, ca_len):
             col = chr(ord('C') + i)
 
-            ws[col + '7'].fill = table_fill
+            ws[col + '6'].fill = table_fill
+            ws[col + '6'].font = name_font
+            ws[col + '6'].alignment = c_c_alignment
+            ws[col + '6'] = reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
+            ws[col + '6'].border = f_border
+
             ws[col + '7'].font = name_font
             ws[col + '7'].alignment = c_c_alignment
-            ws[col + '7'] = reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
+            ws[col + '7'] = round(reporting_period_data['subtotals'][i], 2)
             ws[col + '7'].border = f_border
 
             ws[col + '8'].font = name_font
             ws[col + '8'].alignment = c_c_alignment
-            ws[col + '8'] = round(reporting_period_data['subtotals'][i], 2)
+            ws[col + '8'] = round(reporting_period_data['subtotals_per_unit_area'][i], 2)
             ws[col + '8'].border = f_border
 
             ws[col + '9'].font = name_font
             ws[col + '9'].alignment = c_c_alignment
-            ws[col + '9'] = round(reporting_period_data['subtotals_per_unit_area'][i], 2)
-            ws[col + '9'].border = f_border
-
-            ws[col + '10'].font = name_font
-            ws[col + '10'].alignment = c_c_alignment
-            ws[col + '10'] = str(round(reporting_period_data['increment_rates'][i] * 100, 2)) + "%" \
+            ws[col + '9'] = str(round(reporting_period_data['increment_rates'][i] * 100, 2)) + "%" \
                 if reporting_period_data['increment_rates'][i] is not None else "-"
-            ws[col + '10'].border = f_border
+            ws[col + '9'].border = f_border
 
         col = chr(ord(col) + 1)
 
-        ws[col + '7'].fill = table_fill
+        ws[col + '6'].fill = table_fill
+        ws[col + '6'].font = name_font
+        ws[col + '6'].alignment = c_c_alignment
+        ws[col + '6'] = "总计 (" + reporting_period_data['total_unit'] + ")"
+        ws[col + '6'].border = f_border
+
         ws[col + '7'].font = name_font
         ws[col + '7'].alignment = c_c_alignment
-        ws[col + '7'] = "总计 (" + reporting_period_data['total_unit'] + ")"
+        ws[col + '7'] = round(reporting_period_data['total'], 2)
         ws[col + '7'].border = f_border
 
         ws[col + '8'].font = name_font
         ws[col + '8'].alignment = c_c_alignment
-        ws[col + '8'] = round(reporting_period_data['total'], 2)
+        ws[col + '8'] = round(reporting_period_data['total_per_unit_area'], 2)
         ws[col + '8'].border = f_border
 
         ws[col + '9'].font = name_font
         ws[col + '9'].alignment = c_c_alignment
-        ws[col + '9'] = round(reporting_period_data['total_per_unit_area'], 2)
+        ws[col + '9'] = str(round(reporting_period_data['total_increment_rate'] * 100, 2)) + "%" \
+            if reporting_period_data['total_increment_rate'] is not None else "-"
         ws[col + '9'].border = f_border
 
-        ws[col + '10'].font = name_font
-        ws[col + '10'].alignment = c_c_alignment
-        ws[col + '10'] = str(round(reporting_period_data['total_increment_rate'] * 100, 2)) + "%" \
-            if reporting_period_data['total_increment_rate'] is not None else "-"
-        ws[col + '10'].border = f_border
-
     else:
-        for i in range(6, 10 + 1):
+        for i in range(6, 9 + 1):
             ws.row_dimensions[i].height = 0.1
     ##################################
-    current_row_number = 12
+    current_row_number = 11
     has_subtotals_data_flag = True
     if "subtotals" not in reporting_period_data.keys() or \
             reporting_period_data['subtotals'] is None or \
@@ -333,19 +333,19 @@ def generate_excel(report,
         s1.dLbls.showCatName = False
         s1.dLbls.showVal = True
         s1.dLbls.showPercent = True
-        table_cell = 'E' + str(table_start_row_number)
+        table_cell = 'E' + str(table_start_row_number - 1)
         ws.add_chart(pie, table_cell)
 
         if ca_len < 4:
             current_row_number = current_row_number - ca_len + 4
 
     else:
-        for i in range(21, 29 + 1):
-            current_row_number = 30
+        for i in range(13, 22 + 1):
+            current_row_number = 23
             ws.row_dimensions[i].height = 0.1
 
     ##################################
-    current_row_number = 20
+    current_row_number = 15
 
     has_child_flag = True
 
@@ -420,42 +420,42 @@ def generate_excel(report,
         current_row_number += 1
         chart_start_row_number = current_row_number
 
-        # Pie
-        for i in range(0, ca_len):
-            pie = PieChart()
-            labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1, max_row=table_end_row_number)
-            pie_data = Reference(ws, min_col=3 + i, min_row=table_start_row_number,
-                                 max_row=table_end_row_number)
-            pie.add_data(pie_data, titles_from_data=True)
-            pie.set_categories(labels)
-            pie.height = 6.6
-            pie.width = 8
-            pie.title = ws.cell(column=3+i, row=table_start_row_number).value
-            s1 = pie.series[0]
-            s1.dLbls = DataLabelList()
-            s1.dLbls.showCatName = False
-            s1.dLbls.showVal = True
-            s1.dLbls.showPercent = True
-            chart_cell = ''
-            if i % 2 == 0:
-                chart_cell = 'B' + str(chart_start_row_number)
-            else:
-                chart_cell = 'E' + str(chart_start_row_number)
-                chart_start_row_number += 5
-            ws.add_chart(pie, chart_cell)
-
-            # chart_col = chr(ord('B') + 2 * i)
-            # chart_cell = chart_col + str(current_row_number)
-            # ws.add_chart(pie, chart_cell)
-        current_row_number = chart_start_row_number
-
-        if ca_len % 2 == 1:
-            current_row_number += 5
-
-    # else:
-    #     for i in range(19, 36 + 1):
-    #         current_row_number = 36
-    #         ws.row_dimensions[i].height = 0.1
+    #     # Pie
+    #     for i in range(0, ca_len):
+    #         pie = PieChart()
+    #         labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1, max_row=table_end_row_number)
+    #         pie_data = Reference(ws, min_col=3 + i, min_row=table_start_row_number,
+    #                              max_row=table_end_row_number)
+    #         pie.add_data(pie_data, titles_from_data=True)
+    #         pie.set_categories(labels)
+    #         pie.height = 6.6
+    #         pie.width = 8
+    #         pie.title = ws.cell(column=3+i, row=table_start_row_number).value
+    #         s1 = pie.series[0]
+    #         s1.dLbls = DataLabelList()
+    #         s1.dLbls.showCatName = False
+    #         s1.dLbls.showVal = True
+    #         s1.dLbls.showPercent = True
+    #         chart_cell = ''
+    #         if i % 2 == 0:
+    #             chart_cell = 'B' + str(chart_start_row_number)
+    #         else:
+    #             chart_cell = 'E' + str(chart_start_row_number)
+    #             chart_start_row_number += 5
+    #         ws.add_chart(pie, chart_cell)
+    #
+    #         # chart_col = chr(ord('B') + 2 * i)
+    #         # chart_cell = chart_col + str(current_row_number)
+    #         # ws.add_chart(pie, chart_cell)
+    #     current_row_number = chart_start_row_number
+    #
+    #     if ca_len % 2 == 1:
+    #         current_row_number += 5
+    #
+    # # else:
+    # #     for i in range(19, 36 + 1):
+    # #         current_row_number = 36
+    # #         ws.row_dimensions[i].height = 0.1
 
     current_row_number += 1
 
