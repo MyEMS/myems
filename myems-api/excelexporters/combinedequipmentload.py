@@ -163,7 +163,7 @@ def generate_excel(report,
     # First: 统计分析
     # 6: title
     # 7: table title
-    # 8~ca_len table_data
+    # 8~2*ca_len table_data
     #################################################
     reporting_period_data = report['reporting_period']
 
@@ -259,71 +259,6 @@ def generate_excel(report,
             ws['E' + str(row + 1)] = str(round(reporting_period_data['factors_increment_rate'][i] * 100, 2)) + "%" \
                 if reporting_period_data['factors_increment_rate'][i] is not None else '0.00%'
             ws['E' + str(row + 1)].border = f_border
-
-    #################################################
-    # Second: 报告期单位面积消耗
-    # 9 + ca_len * 2: title
-    # 10 + ca_len * 2: table title
-    # row_title + 2 ~ row_title + 2 + ca_len :  table_data
-    #################################################
-
-    if has_energy_data_flag:
-        names = reporting_period_data['names']
-        ca_len = len(names)
-        row_title = 9 + ca_len * 2
-
-        for i in range(row_title + 2, row_title + 2 + ca_len):
-            ws.row_dimensions[i].height = 62
-
-        ws['B' + str(row_title)].font = title_font
-        ws['B' + str(row_title)] = name + ' 单位面积值'
-        ws['D' + str(row_title)].font = title_font
-        ws['D' + str(row_title)] = str(report['shopfloor']['area']) + 'M²'
-
-        category = reporting_period_data['names']
-
-        # table_title
-        ws['B' + str(row_title + 1)].fill = table_fill
-        ws['B' + str(row_title + 1)].font = title_font
-        ws['B' + str(row_title + 1)].alignment = c_c_alignment
-        ws['B' + str(row_title + 1)] = '报告期'
-        ws['B' + str(row_title + 1)].border = f_border
-
-        ws['C' + str(row_title + 1)].font = title_font
-        ws['C' + str(row_title + 1)].alignment = c_c_alignment
-        ws['C' + str(row_title + 1)] = '平均负荷'
-        ws['C' + str(row_title + 1)].border = f_border
-
-        ws['D' + str(row_title + 1)].font = title_font
-        ws['D' + str(row_title + 1)].alignment = c_c_alignment
-        ws['D' + str(row_title + 1)] = '最大负荷'
-        ws['D' + str(row_title + 1)].border = f_border
-
-        # table_data
-
-        for i, value in enumerate(category):
-            row_data = row_title + 2 + i
-            ws['B' + str(row_data)].font = name_font
-            ws['B' + str(row_data)].alignment = c_c_alignment
-            ws['B' + str(row_data)] = reporting_period_data['names'][i] + " (" + reporting_period_data['units'][
-                i] + "/H/M²)"
-            ws['B' + str(row_data)].border = f_border
-
-            ws['C' + str(row_data)].font = name_font
-            ws['C' + str(row_data)].alignment = c_c_alignment
-            if reporting_period_data['averages_per_unit_area'][i] \
-                    or reporting_period_data['averages_per_unit_area'][i] == 0:
-                ws['C' + str(row_data)] = round(reporting_period_data['averages_per_unit_area'][i], 2)
-            ws['C' + str(row_data)].border = f_border
-            ws['C' + str(row_data)].number_format = '0.00'
-
-            ws['D' + str(row_data)].font = name_font
-            ws['D' + str(row_data)].alignment = c_c_alignment
-            if reporting_period_data['maximums_per_unit_area'][i] \
-                    or reporting_period_data['maximums_per_unit_area'][i] == 0:
-                ws['D' + str(row_data)] = round(reporting_period_data['maximums_per_unit_area'][i], 2)
-            ws['D' + str(row_data)].border = f_border
-            ws['D' + str(row_data)].number_format = '0.00'
 
     ########################################################
     # Third: 详细数据
