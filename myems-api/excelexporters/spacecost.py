@@ -75,12 +75,6 @@ def generate_excel(report,
     for i in range(2, 2000 + 1):
         ws.row_dimensions[i].height = 42
 
-    # for i in range(2, 37 + 1):
-    #     ws.row_dimensions[i].height = 30
-    #
-    # for i in range(38, 69 + 1):
-    #     ws.row_dimensions[i].height = 30
-
     # Col width
     ws.column_dimensions['A'].width = 1.5
 
