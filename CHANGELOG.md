@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+- added excel exporter of combinedequipmentitem report.
 - added excel exporter of equipmentenergyitem report.
 - added excel exporter of equipmentenergycategory report.
 - added excel exporter of shopfloorenergyitem report.

@@ -551,9 +551,10 @@ class Reporting:
             "values": parameters_data['values']
         }
 
-        result['excel_bytes_base64'] = excelexporters.combinedequipmentenergycategory.export(result,
-                                                                                             combined_equipment['name'],
-                                                                                             reporting_start_datetime_local,
-                                                                                             reporting_end_datetime_local,
-                                                                                             period_type)
+        result['excel_bytes_base64'] = \
+            excelexporters.combinedequipmentenergycategory.export(result,
+                                                                  combined_equipment['name'],
+                                                                  reporting_start_datetime_local,
+                                                                  reporting_end_datetime_local,
+                                                                  period_type)
         resp.body = json.dumps(result)
