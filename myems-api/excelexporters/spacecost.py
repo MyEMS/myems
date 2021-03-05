@@ -343,6 +343,10 @@ def generate_excel(report,
 
         ws.add_chart(pie, "D13")
 
+    else:
+        for i in range(12, 18 + 1):
+            ws.row_dimensions[i].height = 0.1
+
     ##################################
 
     current_row_number = 19
