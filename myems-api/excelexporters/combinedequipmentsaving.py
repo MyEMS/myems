@@ -155,6 +155,7 @@ def generate_excel(report,
     ws['G3'].alignment = b_c_alignment
     ws['G3'].font = name_font
     ws['G3'] = reporting_start_datetime_local + "__" + reporting_end_datetime_local
+    ws['G3'].border = b_border
     ws.merge_cells("G3:H3")
 
     if "reporting_period" not in report.keys() or \
