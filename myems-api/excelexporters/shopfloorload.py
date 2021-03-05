@@ -359,8 +359,8 @@ def generate_excel(report,
         ws['B' + str(row_da + 1)].border = f_border
 
         for i in range(0, ca_len):
-            col_average = chr(ord('C') + i)
-            col_maximum = chr(ord('C') + i + ca_len)
+            col_average = chr(ord('C') + 2 * i)
+            col_maximum = chr(ord('D') + 2 * i)
 
             ws[col_average + str(row_da + 1)].font = name_font
             ws[col_average + str(row_da + 1)].alignment = c_c_alignment
@@ -383,8 +383,8 @@ def generate_excel(report,
             ws['B' + str(rows)].border = f_border
 
             for index in range(0, ca_len):
-                col_average = chr(ord('C') + index)
-                col_maximum = chr(ord(col_average) + ca_len)
+                col_average = chr(ord('C') + 2 * index)
+                col_maximum = chr(ord('D') + 2 * index)
 
                 ws[col_average + str(rows)].font = name_font
                 ws[col_average + str(rows)].alignment = c_c_alignment
@@ -416,7 +416,7 @@ def generate_excel(report,
             lc.dLbls.showVal = True
             times = Reference(ws, min_col=2, min_row=row_da + 2,
                               max_row=row_da + 2 + time_len)
-            lc_data = Reference(ws, min_col=3 + ca_len + i, min_row=row_da + 1,
+            lc_data = Reference(ws, min_col=2 + 2 * (i+1), min_row=row_da + 1,
                                 max_row=row_da + 1 + time_len)
             lc.add_data(lc_data, titles_from_data=True)
             lc.set_categories(times)
