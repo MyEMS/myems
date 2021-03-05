@@ -384,7 +384,7 @@ def generate_excel(report,
             ws['B' + str(current_row_number)].font = title_font
             ws['B' + str(current_row_number)].alignment = c_c_alignment
             ws['B' + str(current_row_number)] = reporting_period_data['names'][i] + \
-                                                ' (' + reporting_period_data['units'][i] + ')'
+                ' (' + reporting_period_data['units'][i] + ')'
             ws['B' + str(current_row_number)].border = f_border
 
             ws['C' + str(current_row_number)].font = title_font
@@ -647,7 +647,7 @@ def generate_excel(report,
         if ca_len % 2 == 1:
             current_row_number += 5
 
-    current_row_number += 1
+        current_row_number += 1
 
     filename = str(uuid.uuid4()) + '.xlsx'
     wb.save(filename)
