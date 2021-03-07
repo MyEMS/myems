@@ -330,7 +330,7 @@ def generate_excel(report,
             ws['D' + str(current_row_number)].alignment = c_c_alignment
             ws['D' + str(current_row_number)].border = f_border
             ws['D' + str(current_row_number)] = \
-                str(round(abs(reporting_period_data['subtotals_in_kgce_saving'][i]) /
+                str(round(reporting_period_data['subtotals_in_kgce_saving'][i] /
                           subtotals_in_kgce_saving_sum * 100, 2)) + '%'
 
             current_row_number += 1
@@ -399,7 +399,7 @@ def generate_excel(report,
             ws['D' + str(current_row_number)].alignment = c_c_alignment
             ws['D' + str(current_row_number)].border = f_border
             ws['D' + str(current_row_number)] = \
-                str(round(abs(reporting_period_data['subtotals_in_kgco2e_saving'][i]) /
+                str(round(reporting_period_data['subtotals_in_kgco2e_saving'][i] /
                           subtotals_in_kgco2e_saving_sum * 100, 2)) + '%'
 
             current_row_number += 1
@@ -567,6 +567,6 @@ def sum_list(lists):
     total = 0
 
     for i in range(0, len(lists)):
-        total += abs(lists[i])
+        total += lists[i]
 
     return total
