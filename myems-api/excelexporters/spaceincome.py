@@ -75,12 +75,6 @@ def generate_excel(report,
     for i in range(2, 2000 + 1):
         ws.row_dimensions[i].height = 42
 
-    # for i in range(2, 37 + 1):
-    #     ws.row_dimensions[i].height = 30
-    #
-    # for i in range(38, 69 + 1):
-    #     ws.row_dimensions[i].height = 30
-
     # Col width
     ws.column_dimensions['A'].width = 1.5
 
@@ -341,7 +335,6 @@ def generate_excel(report,
 
     else:
         for i in range(13, 22 + 1):
-            current_row_number = 23
             ws.row_dimensions[i].height = 0.1
 
     ##################################
@@ -415,47 +408,7 @@ def generate_excel(report,
             ws[col + row].alignment = c_c_alignment
             ws[col + row] = round(every_day_sum, 2)
             ws[col + row].border = f_border
-
-        table_end_row_number = current_row_number
         current_row_number += 1
-        chart_start_row_number = current_row_number
-
-    #     # Pie
-    #     for i in range(0, ca_len):
-    #         pie = PieChart()
-    #         labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1, max_row=table_end_row_number)
-    #         pie_data = Reference(ws, min_col=3 + i, min_row=table_start_row_number,
-    #                              max_row=table_end_row_number)
-    #         pie.add_data(pie_data, titles_from_data=True)
-    #         pie.set_categories(labels)
-    #         pie.height = 6.6
-    #         pie.width = 8
-    #         pie.title = ws.cell(column=3+i, row=table_start_row_number).value
-    #         s1 = pie.series[0]
-    #         s1.dLbls = DataLabelList()
-    #         s1.dLbls.showCatName = False
-    #         s1.dLbls.showVal = True
-    #         s1.dLbls.showPercent = True
-    #         chart_cell = ''
-    #         if i % 2 == 0:
-    #             chart_cell = 'B' + str(chart_start_row_number)
-    #         else:
-    #             chart_cell = 'E' + str(chart_start_row_number)
-    #             chart_start_row_number += 5
-    #         ws.add_chart(pie, chart_cell)
-    #
-    #         # chart_col = chr(ord('B') + 2 * i)
-    #         # chart_cell = chart_col + str(current_row_number)
-    #         # ws.add_chart(pie, chart_cell)
-    #     current_row_number = chart_start_row_number
-    #
-    #     if ca_len % 2 == 1:
-    #         current_row_number += 5
-    #
-    # # else:
-    # #     for i in range(19, 36 + 1):
-    # #         current_row_number = 36
-    # #         ws.row_dimensions[i].height = 0.1
 
     current_row_number += 1
 
