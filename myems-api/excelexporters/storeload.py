@@ -273,7 +273,7 @@ def generate_excel(report,
         row_title = 9 + ca_len * 2
 
         ws['B' + str(row_title)].font = title_font
-        ws['B' + str(row_title)] = name + ' 单位面积值' + str(report['shopfloor']['area']) + 'M²'
+        ws['B' + str(row_title)] = name + ' 单位面积值' + str(report['store']['area']) + 'M²'
 
         category = reporting_period_data['names']
 
