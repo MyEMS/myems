@@ -5,6 +5,7 @@ import config
 from datetime import datetime, timedelta, timezone
 from core import utilities
 from decimal import Decimal
+import excelexporters.spaceincome
 
 
 class Reporting:
@@ -561,4 +562,10 @@ class Reporting:
                 result['child_space']['subtotals_array'].append(
                     child_space_data[energy_category_id]['subtotals'])
 
+        # export result to Excel file and then encode the file to base64 string
+        result['excel_bytes_base64'] = excelexporters.spaceincome.export(result,
+                                                                         space['name'],
+                                                                         reporting_start_datetime_local,
+                                                                         reporting_end_datetime_local,
+                                                                         period_type)
         resp.body = json.dumps(result)
