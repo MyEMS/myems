@@ -632,8 +632,7 @@ def generate_excel(report,
             pie_data = Reference(ws, min_col=3 + i, min_row=table_start_row_number, max_row=table_end_row_number)
             pie.add_data(pie_data, titles_from_data=True)
             pie.set_categories(labels)
-            pie.title = reporting_period_data['names'][i] + " (" + \
-                        reporting_period_data['units'][i] + ")"
+            pie.title = reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
             pie.height = 6.6
             pie.width = 9
             s1 = pie.series[0]
