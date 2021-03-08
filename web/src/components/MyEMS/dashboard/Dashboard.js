@@ -108,7 +108,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               let cardSummaryItem = {}
               cardSummaryItem['name'] = json['reporting_period_input']['names'][index];
               cardSummaryItem['unit'] = json['reporting_period_input']['units'][index];
-              cardSummaryItem['subtotal'] = Math.round(json['reporting_period_input']['subtotals'][index]);
+              cardSummaryItem['subtotal'] = json['reporting_period_input']['subtotals'][index];
               cardSummaryItem['increment_rate'] = parseFloat(json['reporting_period_input']['increment_rates'][index] * 100).toFixed(2) + "%";
               cardSummaryItem['subtotal_per_unit_area'] = json['reporting_period_input']['subtotals_per_unit_area'][index];
               inputCardSummaryArray.push(cardSummaryItem);
@@ -120,7 +120,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               let cardSummaryItem = {}
               cardSummaryItem['name'] = json['reporting_period_cost']['names'][index];
               cardSummaryItem['unit'] = json['reporting_period_cost']['units'][index];
-              cardSummaryItem['subtotal'] = Math.round(json['reporting_period_cost']['subtotals'][index]);
+              cardSummaryItem['subtotal'] = json['reporting_period_cost']['subtotals'][index];
               cardSummaryItem['increment_rate'] = parseFloat(json['reporting_period_cost']['increment_rates'][index] * 100).toFixed(2) + "%";
               cardSummaryItem['subtotal_per_unit_area'] = json['reporting_period_cost']['subtotals_per_unit_area'][index];
               costCardSummaryArray.push(cardSummaryItem);
@@ -363,7 +363,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             footnote={t('Per Unit Area')}
             footvalue={cardSummaryItem['subtotal_per_unit_area']}
             footunit={"(" + cardSummaryItem['unit'] + "/M²)"} >
-            {cardSummaryItem['subtotal'] && <CountUp end={cardSummaryItem['subtotal']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+            {cardSummaryItem['subtotal'] && <CountUp end={cardSummaryItem['subtotal']} duration={2} prefix="" separator="," decimal="." decimals={0} />}
           </CardSummary>
         ))}
         {costCardSummaryList.map(cardSummaryItem => (
@@ -374,7 +374,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             footnote={t('Per Unit Area')}
             footvalue={cardSummaryItem['subtotal_per_unit_area']}
             footunit={"(" + cardSummaryItem['unit'] + "/M²)"} >
-            {cardSummaryItem['subtotal'] && <CountUp end={cardSummaryItem['subtotal']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+            {cardSummaryItem['subtotal'] && <CountUp end={cardSummaryItem['subtotal']} duration={2} prefix="" separator="," decimal="." decimals={0} />}
           </CardSummary>
         ))}
         <CardSummary
