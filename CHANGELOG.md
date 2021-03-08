@@ -5,7 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
-- None.
+- added excel exporter of equipmentincome report 
+- added excel exporter of shopfloorsaving report 
+- added excel exporter of equipmentload report
 
 ### Changed
 - None.
