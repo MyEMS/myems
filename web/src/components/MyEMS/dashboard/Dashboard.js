@@ -40,17 +40,17 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
   const [spaceCostLineChartLabels, setSpaceCostLineChartLabels] = useState([]);
   const [spaceCostLineChartData, setSpaceCostLineChartData] = useState({});
   const [spaceCostLineChartOptions, setSpaceCostLineChartOptions] = useState([]);
-  
+
   const [parameterLineChartLabels, setParameterLineChartLabels] = useState([]);
   const [parameterLineChartData, setParameterLineChartData] = useState({});
   const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
-  
+
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([{dataField: 'startdatetime', text: t('Datetime'), sort: true}]);
-  
+
   const [childSpacesTableData, setChildSpacesTableData] = useState([]);
   const [childSpacesTableColumns, setChildSpacesTableColumns] = useState([{dataField: 'name', text: t('Child Spaces'), sort: true }]);
-  
+
 
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
@@ -71,14 +71,14 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
       createCookie('token', token, 1000 * 60 * 60 * 8);
 
       let isResponseOK = false;
-      if (!fetchSuccess) { 
+      if (!fetchSuccess) {
         toast(
           <Fragment>
             {t("Welcome to MyEMS")}!<br />
             {t("An Industry Leading Open Source Energy Management System")}
           </Fragment>
         );
-      
+
         fetch(APIBaseURL + '/reports/dashboard?' +
           'useruuid=' + user_uuid +
           '&periodtype=' + periodType +
@@ -108,7 +108,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               let cardSummaryItem = {}
               cardSummaryItem['name'] = json['reporting_period_input']['names'][index];
               cardSummaryItem['unit'] = json['reporting_period_input']['units'][index];
-              cardSummaryItem['subtotal'] = json['reporting_period_input']['subtotals'][index];
+              cardSummaryItem['subtotal'] = json['reporting_period_input']['subtotals'][index].toFixed();
               cardSummaryItem['increment_rate'] = parseFloat(json['reporting_period_input']['increment_rates'][index] * 100).toFixed(2) + "%";
               cardSummaryItem['subtotal_per_unit_area'] = json['reporting_period_input']['subtotals_per_unit_area'][index];
               inputCardSummaryArray.push(cardSummaryItem);
@@ -120,7 +120,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               let cardSummaryItem = {}
               cardSummaryItem['name'] = json['reporting_period_cost']['names'][index];
               cardSummaryItem['unit'] = json['reporting_period_cost']['units'][index];
-              cardSummaryItem['subtotal'] = json['reporting_period_cost']['subtotals'][index];
+              cardSummaryItem['subtotal'] = json['reporting_period_cost']['subtotals'][index].toFixed();
               cardSummaryItem['increment_rate'] = parseFloat(json['reporting_period_cost']['increment_rates'][index] * 100).toFixed(2) + "%";
               cardSummaryItem['subtotal_per_unit_area'] = json['reporting_period_cost']['subtotals_per_unit_area'][index];
               costCardSummaryArray.push(cardSummaryItem);
@@ -137,7 +137,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 timeOfUseItem['value'] = json['reporting_period_input']['toppeaks'][index];
                 timeOfUseItem['color'] = "#"+((1<<24)*Math.random()|0).toString(16);
                 timeOfUseArray.push(timeOfUseItem);
-                
+
                 timeOfUseItem = {}
                 timeOfUseItem['id'] = 2;
                 timeOfUseItem['name'] =  t('On-Peak');
@@ -161,7 +161,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               }
             });
             setTimeOfUseShareData(timeOfUseArray);
-            let totalInTCE = {}; 
+            let totalInTCE = {};
             totalInTCE['value'] = json['reporting_period_input']['total_in_kgce'] / 1000; // convert from kg to t
             totalInTCE['increment_rate'] = parseFloat(json['reporting_period_input']['increment_rate_in_kgce'] * 100).toFixed(2) + "%";
             totalInTCE['value_per_unit_area'] = json['reporting_period_input']['total_in_kgce_per_unit_area'] / 1000; // convert from kg to t
@@ -178,7 +178,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             });
 
             setCostShareData(costDataArray);
-            let totalInTCO2E = {}; 
+            let totalInTCO2E = {};
             totalInTCO2E['value'] = json['reporting_period_input']['total_in_kgco2e'] / 1000; // convert from kg to t
             totalInTCO2E['increment_rate'] = parseFloat(json['reporting_period_input']['increment_rate_in_kgco2e'] * 100).toFixed(2) + "%";
             totalInTCO2E['value_per_unit_area'] = json['reporting_period_input']['total_in_kgco2e_per_unit_area'] / 1000; // convert from kg to t
@@ -211,13 +211,13 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               timestamps['a' + index] = currentValue;
             });
             setSpaceInputLineChartLabels(timestamps);
-            
+
             let values = {}
             json['reporting_period_input']['values'].forEach((currentValue, index) => {
               values['a' + index] = currentValue;
             });
             setSpaceInputLineChartData(values);
-            
+
             let names = Array();
             json['reporting_period_input']['names'].forEach((currentValue, index) => {
               let unit = json['reporting_period_input']['units'][index];
@@ -230,13 +230,13 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               timestamps['a' + index] = currentValue;
             });
             setSpaceCostLineChartLabels(timestamps);
-            
+
             values = {}
             json['reporting_period_cost']['values'].forEach((currentValue, index) => {
               values['a' + index] = currentValue;
             });
             setSpaceCostLineChartData(values);
-            
+
             names = Array();
             json['reporting_period_cost']['names'].forEach((currentValue, index) => {
               let unit = json['reporting_period_cost']['units'][index];
@@ -255,17 +255,17 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               values['a' + index] = currentValue;
             });
             setParameterLineChartData(values);
-          
+
             names = Array();
             json['parameters']['names'].forEach((currentValue, index) => {
               if (currentValue.startsWith('TARIFF-')) {
                 currentValue = t('Tariff') + currentValue.replace('TARIFF-', '-');
               }
-              
+
               names.push({ 'value': 'a' + index, 'label': currentValue });
             });
             setParameterLineChartOptions(names);
-            
+
             let detailed_value_list = [];
             if (json['reporting_period_input']['timestamps'].length > 0 ) {
               json['reporting_period_input']['timestamps'][0].forEach((currentTimestamp, timestampIndex) => {
@@ -287,7 +287,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               });
             detailed_value_list.push(detailed_value);
             setDetailedDataTableData(detailed_value_list);
-            
+
             let detailed_column_list = [];
             detailed_column_list.push({
               dataField: 'startdatetime',
@@ -350,7 +350,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
 
     };
   }, );
-  
+
 
   return (
     <Fragment>
@@ -359,8 +359,8 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           <CardSummary key={uuid()}
             rate={cardSummaryItem['increment_rate']}
             title={t("This Month's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': cardSummaryItem['name'], 'VALUE': null, 'UNIT': '(' + cardSummaryItem['unit'] + ')' })}
-            color="success" 
-            footnote={t('Per Unit Area')} 
+            color="success"
+            footnote={t('Per Unit Area')}
             footvalue={cardSummaryItem['subtotal_per_unit_area']}
             footunit={"(" + cardSummaryItem['unit'] + "/M²)"} >
             {cardSummaryItem['subtotal'] && <CountUp end={cardSummaryItem['subtotal']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
@@ -370,28 +370,28 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           <CardSummary key={uuid()}
             rate={cardSummaryItem['increment_rate']}
             title={t("This Month's Costs CATEGORY VALUE UNIT", { 'CATEGORY': cardSummaryItem['name'], 'VALUE': null, 'UNIT': '(' + cardSummaryItem['unit'] + ')' })}
-            color="success" 
-            footnote={t('Per Unit Area')} 
+            color="success"
+            footnote={t('Per Unit Area')}
             footvalue={cardSummaryItem['subtotal_per_unit_area']}
             footunit={"(" + cardSummaryItem['unit'] + "/M²)"} >
             {cardSummaryItem['subtotal'] && <CountUp end={cardSummaryItem['subtotal']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
           </CardSummary>
         ))}
-        <CardSummary 
-          rate={totalInTCE['increment_rate'] || ''} 
+        <CardSummary
+          rate={totalInTCE['increment_rate'] || ''}
           title={t("This Month's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': t('Ton of Standard Coal'), 'UNIT': '(TCE)' })}
-          color="warning" 
-          footnote={t('Per Unit Area')} 
-          footvalue={totalInTCE['value_per_unit_area']} 
+          color="warning"
+          footnote={t('Per Unit Area')}
+          footvalue={totalInTCE['value_per_unit_area']}
           footunit="(TCE/M²)">
           {totalInTCE['value'] && <CountUp end={totalInTCE['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
         </CardSummary>
-        <CardSummary 
-          rate={totalInTCO2E['increment_rate'] || ''} 
+        <CardSummary
+          rate={totalInTCO2E['increment_rate'] || ''}
           title={t("This Month's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': t('Ton of Carbon Dioxide Emissions'), 'UNIT': '(TCO2E)' })}
-          color="warning" 
-          footnote={t('Per Unit Area')} 
-          footvalue={totalInTCO2E['value_per_unit_area']} 
+          color="warning"
+          footnote={t('Per Unit Area')}
+          footvalue={totalInTCO2E['value_per_unit_area']}
           footunit="(TCO2E/M²)">
           {totalInTCO2E['value'] && <CountUp end={totalInTCO2E['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
         </CardSummary>
