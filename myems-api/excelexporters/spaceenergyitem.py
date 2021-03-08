@@ -472,7 +472,10 @@ def generate_excel(report,
 
         ws.row_dimensions[current_row_number].height = 60
         ws['B' + str(current_row_number)].fill = table_fill
+        ws['B' + str(current_row_number)].font = name_font
+        ws['B' + str(current_row_number)].alignment = c_c_alignment
         ws['B' + str(current_row_number)].border = f_border
+        ws['B' + str(current_row_number)] = '子空间'
         ca_len = len(child['energy_item_names'])
 
         for i in range(0, ca_len):
@@ -490,7 +493,7 @@ def generate_excel(report,
             current_row_number += 1
             row = str(current_row_number)
 
-            ws['B' + row].font = name_font
+            ws['B' + row].font = title_font
             ws['B' + row].alignment = c_c_alignment
             ws['B' + row] = child['child_space_names_array'][0][i]
             ws['B' + row].border = f_border
