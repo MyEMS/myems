@@ -23,11 +23,11 @@ MyEMS wird von einem erfahrenen Entwicklungsteam entwickelt und gewartet, und de
 
 Dieses Projekt besteht aus folgenden Komponenten:
 
-### MyEMS Web APP
+### MyEMS Web UI
 
 Weitere Informationen finden Sie [web](./web/README.md).
 
-### MyEMS Admin Panel
+### MyEMS Admin UI
 
 Weitere Informationen finden Sie im [admin](./admin/README.md).
 
@@ -190,3 +190,4 @@ Weitere Informationen finden Sie im [myems-modbus-tcp](./myems-modbus-tcp/README
 
 [3]. http://bitbucket.org/myems/myems
 
+[4]. https://gitlab.com/myems/myems

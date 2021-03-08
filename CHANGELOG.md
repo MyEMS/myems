@@ -5,6 +5,32 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+- added excel exporter of equipmentincome report 
+- added excel exporter of shopfloorsaving report 
+- added excel exporter of equipmentload report
+
+### Changed
+- None.
+
+### Fixed
+- None.
+
+### Removed
+- None.
+
+## [v1.0.7] - 2021-03-07
+### Added
+- added excel exporter of storeload report
+- added excel exporter of spaceincome report
+- added excel exporter of equipmentsaving report
+- added excel exporter of combinedequipmentsaving report
+- added excel exporter of combinedequipmentload report
+- added excel exporter of spaceoutput report
+- added excel exporter of combinedequipmentoutput
+- added excel exporter of combinedequipmentcost report
+- added excel exporter of shopfloorcost report
+- added excel exporter of shopfloorload report
+- added excel exporter of combinedequipmentenergycategory report
 - added excel exporter of combinedequipmentitem report.
 - added excel exporter of equipmentenergyitem report.
 - added excel exporter of equipmentenergycategory report.
@@ -53,7 +79,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v1.0.5...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v1.0.7...HEAD
+[v1.0.7]: https://github.com/MyEMS/myems/compare/v1.0.6...v1.0.7
 [v1.0.6]: https://github.com/MyEMS/myems/compare/v1.0.5...v1.0.6
 [v1.0.5]: https://github.com/MyEMS/myems/releases/tag/v1.0.5
 
