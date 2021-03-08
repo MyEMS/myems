@@ -254,6 +254,38 @@ def generate_excel(report,
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)].alignment = c_c_alignment
         ws['B' + str(current_row_number)].border = f_border
+        ws['B' + str(current_row_number)] = '单位面积值'
+
+        col = 'C'
+
+        for i in range(0, ca_len):
+            ws[col + str(current_row_number)].font = name_font
+            ws[col + str(current_row_number)].alignment = c_c_alignment
+            ws[col + str(current_row_number)].border = f_border
+            ws[col + str(current_row_number)] = round(reporting_period_data['subtotals_per_unit_area_saving'][i], 2)
+
+            col = chr(ord(col) + 1)
+
+        ws[col + str(current_row_number)].font = name_font
+        ws[col + str(current_row_number)].alignment = c_c_alignment
+        ws[col + str(current_row_number)].border = f_border
+        ws[col + str(current_row_number)] = round(reporting_period_data['total_in_kgce_per_unit_area_saving'] / 1000, 2)
+
+        col = chr(ord(col) + 1)
+
+        ws[col + str(current_row_number)].font = name_font
+        ws[col + str(current_row_number)].alignment = c_c_alignment
+        ws[col + str(current_row_number)].border = f_border
+        ws[col + str(current_row_number)] = \
+            round(reporting_period_data['total_in_kgco2e_per_unit_area_saving'] / 1000, 2)
+
+        col = chr(ord(col) + 1)
+
+        current_row_number += 1
+
+        ws['B' + str(current_row_number)].font = title_font
+        ws['B' + str(current_row_number)].alignment = c_c_alignment
+        ws['B' + str(current_row_number)].border = f_border
         ws['B' + str(current_row_number)] = '环比'
 
         col = 'C'
