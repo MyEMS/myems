@@ -257,224 +257,224 @@ def generate_excel(report,
 
         current_row_number += 2
 
-        #######################
+    #######################
 
-        has_values_data = True
-        has_timestamps_data = True
+    has_values_data = True
+    has_timestamps_data = True
 
-        if 'values' not in reporting_period_data.keys() or \
-                reporting_period_data['values'] is None or \
-                len(reporting_period_data['values']) == 0:
-            has_values_data = False
+    if 'values' not in reporting_period_data.keys() or \
+            reporting_period_data['values'] is None or \
+            len(reporting_period_data['values']) == 0:
+        has_values_data = False
 
-        if 'timestamps' not in reporting_period_data.keys() or \
-                reporting_period_data['timestamps'] is None or \
-                len(reporting_period_data['timestamps']) == 0 or \
-                len(reporting_period_data['timestamps'][0]) == 0:
-            has_timestamps_data = False
+    if 'timestamps' not in reporting_period_data.keys() or \
+            reporting_period_data['timestamps'] is None or \
+            len(reporting_period_data['timestamps']) == 0 or \
+            len(reporting_period_data['timestamps'][0]) == 0:
+        has_timestamps_data = False
 
-        if has_values_data and has_timestamps_data:
-            ca_len = len(reporting_period_data['names'])
-            time = reporting_period_data['timestamps'][0]
+    if has_values_data and has_timestamps_data:
+        ca_len = len(reporting_period_data['names'])
+        time = reporting_period_data['timestamps'][0]
 
-            ws['B' + str(current_row_number)].font = title_font
-            ws['B' + str(current_row_number)] = name + ' 详细数据'
+        ws['B' + str(current_row_number)].font = title_font
+        ws['B' + str(current_row_number)] = name + ' 详细数据'
 
-            current_row_number += 1
+        current_row_number += 1
 
-            chart_start_row_number = current_row_number
+        chart_start_row_number = current_row_number
 
-            current_row_number += ca_len * 6
-            table_start_row_number = current_row_number
+        current_row_number += ca_len * 6
+        table_start_row_number = current_row_number
 
-            ws.row_dimensions[current_row_number].height = 60
-            ws['B' + str(current_row_number)].fill = table_fill
+        ws.row_dimensions[current_row_number].height = 60
+        ws['B' + str(current_row_number)].fill = table_fill
+        ws['B' + str(current_row_number)].font = title_font
+        ws['B' + str(current_row_number)].alignment = c_c_alignment
+        ws['B' + str(current_row_number)].border = f_border
+        ws['B' + str(current_row_number)] = '日期时间'
+
+        col = 'C'
+
+        for i in range(0, ca_len):
+            ws[col + str(current_row_number)].fill = table_fill
+            ws[col + str(current_row_number)].font = title_font
+            ws[col + str(current_row_number)].alignment = c_c_alignment
+            ws[col + str(current_row_number)].border = f_border
+            ws[col + str(current_row_number)] = \
+                reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
+            col = chr(ord(col) + 1)
+
+        current_row_number += 1
+
+        for i in range(0, len(time)):
             ws['B' + str(current_row_number)].font = title_font
             ws['B' + str(current_row_number)].alignment = c_c_alignment
             ws['B' + str(current_row_number)].border = f_border
-            ws['B' + str(current_row_number)] = '日期时间'
+            ws['B' + str(current_row_number)] = time[i]
 
             col = 'C'
-
-            for i in range(0, ca_len):
-                ws[col + str(current_row_number)].fill = table_fill
+            for j in range(0, ca_len):
                 ws[col + str(current_row_number)].font = title_font
                 ws[col + str(current_row_number)].alignment = c_c_alignment
                 ws[col + str(current_row_number)].border = f_border
-                ws[col + str(current_row_number)] = \
-                    reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
+                ws[col + str(current_row_number)] = round(reporting_period_data['values'][j][i], 2) \
+                    if reporting_period_data['values'][j][i] is not None else 0.00
                 col = chr(ord(col) + 1)
 
             current_row_number += 1
 
-            for i in range(0, len(time)):
-                ws['B' + str(current_row_number)].font = title_font
-                ws['B' + str(current_row_number)].alignment = c_c_alignment
-                ws['B' + str(current_row_number)].border = f_border
-                ws['B' + str(current_row_number)] = time[i]
+        table_end_row_number = current_row_number - 1
 
-                col = 'C'
-                for j in range(0, ca_len):
-                    ws[col + str(current_row_number)].font = title_font
-                    ws[col + str(current_row_number)].alignment = c_c_alignment
-                    ws[col + str(current_row_number)].border = f_border
-                    ws[col + str(current_row_number)] = round(reporting_period_data['values'][j][i], 2) \
-                        if reporting_period_data['values'][j][i] is not None else 0.00
-                    col = chr(ord(col) + 1)
+        ws['B' + str(current_row_number)].font = title_font
+        ws['B' + str(current_row_number)].alignment = c_c_alignment
+        ws['B' + str(current_row_number)].border = f_border
+        ws['B' + str(current_row_number)] = '小计'
 
-                current_row_number += 1
+        col = 'C'
 
-            table_end_row_number = current_row_number - 1
+        for i in range(0, ca_len):
+            ws[col + str(current_row_number)].font = title_font
+            ws[col + str(current_row_number)].alignment = c_c_alignment
+            ws[col + str(current_row_number)].border = f_border
+            ws[col + str(current_row_number)] = round(reporting_period_data['subtotals'][i], 2)
+            col = chr(ord(col) + 1)
 
-            ws['B' + str(current_row_number)].font = title_font
-            ws['B' + str(current_row_number)].alignment = c_c_alignment
-            ws['B' + str(current_row_number)].border = f_border
-            ws['B' + str(current_row_number)] = '小计'
+        current_row_number += 2
 
-            col = 'C'
+        format_time_width_number = 1.0
+        min_len_number = 1.0
+        min_width_number = 11.0  # format_time_width_number * min_len_number + 4 and min_width_number > 11.0
 
-            for i in range(0, ca_len):
-                ws[col + str(current_row_number)].font = title_font
-                ws[col + str(current_row_number)].alignment = c_c_alignment
-                ws[col + str(current_row_number)].border = f_border
-                ws[col + str(current_row_number)] = round(reporting_period_data['subtotals'][i], 2)
-                col = chr(ord(col) + 1)
+        if period_type == 'hourly':
+            format_time_width_number = 4.0
+            min_len_number = 2
+            min_width_number = 12.0
+        elif period_type == 'daily':
+            format_time_width_number = 2.5
+            min_len_number = 4
+            min_width_number = 14.0
+        elif period_type == 'monthly':
+            format_time_width_number = 2.1
+            min_len_number = 4
+            min_width_number = 12.4
+        elif period_type == 'yearly':
+            format_time_width_number = 1.5
+            min_len_number = 5
+            min_width_number = 11.5
 
-            current_row_number += 2
+        for i in range(0, ca_len):
+            line = LineChart()
+            line.title = '报告期产出 - ' + \
+                         reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
+            labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1, max_row=table_end_row_number)
+            line_data = Reference(ws, min_col=3 + i, min_row=table_start_row_number, max_row=table_end_row_number)
+            line.add_data(line_data, titles_from_data=True)
+            line.set_categories(labels)
+            line_data = line.series[0]
+            line_data.marker.symbol = "circle"
+            line_data.smooth = True
+            line.x_axis.crosses = 'min'
+            line.height = 8.25
+            line.width = format_time_width_number * len(time) if len(time) > min_len_number else min_width_number
+            if line.width > 24:
+                line.width = 24
+            line.dLbls = DataLabelList()
+            line.dLbls.dLblPos = 't'
+            line.dLbls.showVal = True
+            line.dLbls.showPercent = False
+            chart_col = 'B'
+            chart_cell = chart_col + str(chart_start_row_number)
+            chart_start_row_number += 6
+            ws.add_chart(line, chart_cell)
 
-            format_time_width_number = 1.0
-            min_len_number = 1.0
-            min_width_number = 11.0  # format_time_width_number * min_len_number + 4 and min_width_number > 11.0
+    #####################################
 
-            if period_type == 'hourly':
-                format_time_width_number = 4.0
-                min_len_number = 2
-                min_width_number = 12.0
-            elif period_type == 'daily':
-                format_time_width_number = 2.5
-                min_len_number = 4
-                min_width_number = 14.0
-            elif period_type == 'monthly':
-                format_time_width_number = 2.1
-                min_len_number = 4
-                min_width_number = 12.4
-            elif period_type == 'yearly':
-                format_time_width_number = 1.5
-                min_len_number = 5
-                min_width_number = 11.5
+    has_child_flag = True
 
-            for i in range(0, ca_len):
-                line = LineChart()
-                line.title = '报告期产出 - ' + \
-                             reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
-                labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1, max_row=table_end_row_number)
-                line_data = Reference(ws, min_col=3 + i, min_row=table_start_row_number, max_row=table_end_row_number)
-                line.add_data(line_data, titles_from_data=True)
-                line.set_categories(labels)
-                line_data = line.series[0]
-                line_data.marker.symbol = "circle"
-                line_data.smooth = True
-                line.x_axis.crosses = 'min'
-                line.height = 8.25
-                line.width = format_time_width_number * len(time) if len(time) > min_len_number else min_width_number
-                if line.width > 24:
-                    line.width = 24
-                line.dLbls = DataLabelList()
-                line.dLbls.dLblPos = 't'
-                line.dLbls.showVal = True
-                line.dLbls.showPercent = False
-                chart_col = 'B'
-                chart_cell = chart_col + str(chart_start_row_number)
-                chart_start_row_number += 6
-                ws.add_chart(line, chart_cell)
+    if "child_space" not in report.keys() or "energy_category_names" not in report['child_space'].keys() or \
+            len(report['child_space']["energy_category_names"]) == 0 \
+            or 'child_space_names_array' not in report['child_space'].keys() \
+            or report['child_space']['child_space_names_array'] is None \
+            or len(report['child_space']['child_space_names_array']) == 0 \
+            or len(report['child_space']['child_space_names_array'][0]) == 0:
+        has_child_flag = False
 
-        #####################################
+    if has_child_flag:
+        child = report['child_space']
 
-        has_child_flag = True
+        ws['B' + str(current_row_number)].font = title_font
+        ws['B' + str(current_row_number)] = name + ' 子空间数据'
 
-        if "child_space" not in report.keys() or "energy_category_names" not in report['child_space'].keys() or \
-                len(report['child_space']["energy_category_names"]) == 0 \
-                or 'child_space_names_array' not in report['child_space'].keys() \
-                or report['child_space']['child_space_names_array'] is None \
-                or len(report['child_space']['child_space_names_array']) == 0 \
-                or len(report['child_space']['child_space_names_array'][0]) == 0:
-            has_child_flag = False
+        current_row_number += 1
+        table_start_row_number = current_row_number
 
-        if has_child_flag:
-            child = report['child_space']
+        ws.row_dimensions[current_row_number].height = 60
+        ws['B' + str(current_row_number)].fill = table_fill
+        ws['B' + str(current_row_number)].border = f_border
+        ca_len = len(child['energy_category_names'])
 
-            ws['B' + str(current_row_number)].font = title_font
-            ws['B' + str(current_row_number)] = name + ' 子空间数据'
+        for i in range(0, ca_len):
+            row = chr(ord('C') + i)
+            ws[row + str(current_row_number)].fill = table_fill
+            ws[row + str(current_row_number)].font = name_font
+            ws[row + str(current_row_number)].alignment = c_c_alignment
+            ws[row + str(current_row_number)].border = f_border
+            ws[row + str(current_row_number)] = \
+                reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
 
+        space_len = len(child['child_space_names_array'][0])
+
+        for i in range(0, space_len):
             current_row_number += 1
-            table_start_row_number = current_row_number
+            row = str(current_row_number)
 
-            ws.row_dimensions[current_row_number].height = 60
-            ws['B' + str(current_row_number)].fill = table_fill
-            ws['B' + str(current_row_number)].border = f_border
-            ca_len = len(child['energy_category_names'])
+            ws['B' + row].font = name_font
+            ws['B' + row].alignment = c_c_alignment
+            ws['B' + row] = child['child_space_names_array'][0][i]
+            ws['B' + row].border = f_border
 
-            for i in range(0, ca_len):
-                row = chr(ord('C') + i)
-                ws[row + str(current_row_number)].fill = table_fill
-                ws[row + str(current_row_number)].font = name_font
-                ws[row + str(current_row_number)].alignment = c_c_alignment
-                ws[row + str(current_row_number)].border = f_border
-                ws[row + str(current_row_number)] = \
-                    reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
+            for j in range(0, ca_len):
+                col = chr(ord('C') + j)
+                ws[col + row].font = name_font
+                ws[col + row].alignment = c_c_alignment
+                ws[col + row] = round(child['subtotals_array'][j][i], 2)
+                ws[col + row].border = f_border
 
-            space_len = len(child['child_space_names_array'][0])
+        table_end_row_number = current_row_number
+        current_row_number += 1
+        pie_start_row_number = current_row_number
 
-            for i in range(0, space_len):
-                current_row_number += 1
-                row = str(current_row_number)
+        # Pie
+        for i in range(0, ca_len):
+            pie = PieChart()
+            labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1,
+                               max_row=table_end_row_number)
+            pie_data = Reference(ws, min_col=3 + i, min_row=table_start_row_number,
+                                 max_row=table_end_row_number)
+            pie.add_data(pie_data, titles_from_data=True)
+            pie.set_categories(labels)
+            pie.height = 6.6
+            pie.width = 8
+            pie.title = ws.cell(column=3 + i, row=table_start_row_number).value
+            s1 = pie.series[0]
+            s1.dLbls = DataLabelList()
+            s1.dLbls.showCatName = False
+            s1.dLbls.showVal = True
+            s1.dLbls.showPercent = True
+            chart_cell = ''
+            if i % 2 == 0:
+                chart_cell = 'B' + str(pie_start_row_number)
+            else:
+                chart_cell = 'E' + str(pie_start_row_number)
+                pie_start_row_number += 5
+            ws.add_chart(pie, chart_cell)
 
-                ws['B' + row].font = name_font
-                ws['B' + row].alignment = c_c_alignment
-                ws['B' + row] = child['child_space_names_array'][0][i]
-                ws['B' + row].border = f_border
+        current_row_number = pie_start_row_number
+        if ca_len % 2 == 1:
+            current_row_number += 5
 
-                for j in range(0, ca_len):
-                    col = chr(ord('C') + j)
-                    ws[col + row].font = name_font
-                    ws[col + row].alignment = c_c_alignment
-                    ws[col + row] = round(child['subtotals_array'][j][i], 2)
-                    ws[col + row].border = f_border
-
-            table_end_row_number = current_row_number
-            current_row_number += 1
-            pie_start_row_number = current_row_number
-
-            # Pie
-            for i in range(0, ca_len):
-                pie = PieChart()
-                labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1,
-                                   max_row=table_end_row_number)
-                pie_data = Reference(ws, min_col=3 + i, min_row=table_start_row_number,
-                                     max_row=table_end_row_number)
-                pie.add_data(pie_data, titles_from_data=True)
-                pie.set_categories(labels)
-                pie.height = 6.6
-                pie.width = 8
-                pie.title = ws.cell(column=3 + i, row=table_start_row_number).value
-                s1 = pie.series[0]
-                s1.dLbls = DataLabelList()
-                s1.dLbls.showCatName = False
-                s1.dLbls.showVal = True
-                s1.dLbls.showPercent = True
-                chart_cell = ''
-                if i % 2 == 0:
-                    chart_cell = 'B' + str(pie_start_row_number)
-                else:
-                    chart_cell = 'E' + str(pie_start_row_number)
-                    pie_start_row_number += 5
-                ws.add_chart(pie, chart_cell)
-
-            current_row_number = pie_start_row_number
-            if ca_len % 2 == 1:
-                current_row_number += 5
-
-            current_row_number += 1
+        current_row_number += 1
 
     filename = str(uuid.uuid4()) + '.xlsx'
     wb.save(filename)
