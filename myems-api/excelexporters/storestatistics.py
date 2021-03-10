@@ -7,6 +7,7 @@ from openpyxl.chart import (
     LineChart,
     Reference,
 )
+from openpyxl.chart.label import DataLabelList
 from openpyxl.drawing.image import Image
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 
@@ -69,19 +70,16 @@ def generate_excel(report,
     ws = wb.active
 
     # Row height
-    ws.row_dimensions[1].height = 121
+    ws.row_dimensions[1].height = 102
 
-    for i in range(2, 37 + 1):
-        ws.row_dimensions[i].height = 30
-
-    for i in range(38, 90 + 1):
-        ws.row_dimensions[i].height = 30
+    for i in range(2, 2000 + 1):
+        ws.row_dimensions[i].height = 42
 
     # Col width
     ws.column_dimensions['A'].width = 1.5
-    ws.column_dimensions['B'].width = 20.0
+    ws.column_dimensions['B'].width = 25.0
 
-    for i in range(ord('C'), ord('I')):
+    for i in range(ord('C'), ord('L')):
         ws.column_dimensions[chr(i)].width = 15.0
 
     # Font
@@ -319,63 +317,61 @@ def generate_excel(report,
     # Second: 报告期消耗
     # 9 + ca_len * 2: title
     # 10 + ca_len * 2: table title
-    # row_title + 2 ~ row_title + 2 + ca_len :  table_data
+    # per_unit_area_start_row_number + 2 ~ per_unit_area_start_row_number + 2 + ca_len :  table_data
     #################################################
 
     if has_energy_data_flag:
         names = reporting_period_data['names']
         ca_len = len(names)
 
-        row_title = 9 + ca_len * 2
+        per_unit_area_start_row_number = 9 + ca_len * 2
 
-        ws['B' + str(row_title)].font = title_font
-        ws['B' + str(row_title)] = name + ' 单位面积值'
-        ws['D' + str(row_title)].font = title_font
-        ws['D' + str(row_title)] = str(report['store']['area']) + 'M²'
+        ws['B' + str(per_unit_area_start_row_number)].font = title_font
+        ws['B' + str(per_unit_area_start_row_number)] = name + ' 单位面积值' + str(report['store']['area']) + 'M²'
 
         category = reporting_period_data['names']
 
         # table_title
-        ws['B' + str(row_title + 1)].fill = table_fill
-        ws['B' + str(row_title + 1)].font = title_font
-        ws['B' + str(row_title + 1)].alignment = c_c_alignment
-        ws['B' + str(row_title + 1)] = '报告期'
-        ws['B' + str(row_title + 1)].border = f_border
+        ws['B' + str(per_unit_area_start_row_number + 1)].fill = table_fill
+        ws['B' + str(per_unit_area_start_row_number + 1)].font = title_font
+        ws['B' + str(per_unit_area_start_row_number + 1)].alignment = c_c_alignment
+        ws['B' + str(per_unit_area_start_row_number + 1)] = '报告期'
+        ws['B' + str(per_unit_area_start_row_number + 1)].border = f_border
 
-        ws['C' + str(row_title + 1)].font = title_font
-        ws['C' + str(row_title + 1)].alignment = c_c_alignment
-        ws['C' + str(row_title + 1)] = '算术平均数'
-        ws['C' + str(row_title + 1)].border = f_border
+        ws['C' + str(per_unit_area_start_row_number + 1)].font = title_font
+        ws['C' + str(per_unit_area_start_row_number + 1)].alignment = c_c_alignment
+        ws['C' + str(per_unit_area_start_row_number + 1)] = '算术平均数'
+        ws['C' + str(per_unit_area_start_row_number + 1)].border = f_border
 
-        ws['D' + str(row_title + 1)].font = title_font
-        ws['D' + str(row_title + 1)].alignment = c_c_alignment
-        ws['D' + str(row_title + 1)] = '中位数'
-        ws['D' + str(row_title + 1)].border = f_border
+        ws['D' + str(per_unit_area_start_row_number + 1)].font = title_font
+        ws['D' + str(per_unit_area_start_row_number + 1)].alignment = c_c_alignment
+        ws['D' + str(per_unit_area_start_row_number + 1)] = '中位数'
+        ws['D' + str(per_unit_area_start_row_number + 1)].border = f_border
 
-        ws['E' + str(row_title + 1)].font = title_font
-        ws['E' + str(row_title + 1)].alignment = c_c_alignment
-        ws['E' + str(row_title + 1)] = '最小值'
-        ws['E' + str(row_title + 1)].border = f_border
+        ws['E' + str(per_unit_area_start_row_number + 1)].font = title_font
+        ws['E' + str(per_unit_area_start_row_number + 1)].alignment = c_c_alignment
+        ws['E' + str(per_unit_area_start_row_number + 1)] = '最小值'
+        ws['E' + str(per_unit_area_start_row_number + 1)].border = f_border
 
-        ws['F' + str(row_title + 1)].font = title_font
-        ws['F' + str(row_title + 1)].alignment = c_c_alignment
-        ws['F' + str(row_title + 1)] = '最大值'
-        ws['F' + str(row_title + 1)].border = f_border
+        ws['F' + str(per_unit_area_start_row_number + 1)].font = title_font
+        ws['F' + str(per_unit_area_start_row_number + 1)].alignment = c_c_alignment
+        ws['F' + str(per_unit_area_start_row_number + 1)] = '最大值'
+        ws['F' + str(per_unit_area_start_row_number + 1)].border = f_border
 
-        ws['G' + str(row_title + 1)].font = title_font
-        ws['G' + str(row_title + 1)].alignment = c_c_alignment
-        ws['G' + str(row_title + 1)] = '样本标准差'
-        ws['G' + str(row_title + 1)].border = f_border
+        ws['G' + str(per_unit_area_start_row_number + 1)].font = title_font
+        ws['G' + str(per_unit_area_start_row_number + 1)].alignment = c_c_alignment
+        ws['G' + str(per_unit_area_start_row_number + 1)] = '样本标准差'
+        ws['G' + str(per_unit_area_start_row_number + 1)].border = f_border
 
-        ws['H' + str(row_title + 1)].font = title_font
-        ws['H' + str(row_title + 1)].alignment = c_c_alignment
-        ws['H' + str(row_title + 1)] = '样本方差'
-        ws['H' + str(row_title + 1)].border = f_border
+        ws['H' + str(per_unit_area_start_row_number + 1)].font = title_font
+        ws['H' + str(per_unit_area_start_row_number + 1)].alignment = c_c_alignment
+        ws['H' + str(per_unit_area_start_row_number + 1)] = '样本方差'
+        ws['H' + str(per_unit_area_start_row_number + 1)].border = f_border
 
         # table_data
 
         for i, value in enumerate(category):
-            row_data = row_title + 2 + i
+            row_data = per_unit_area_start_row_number + 2 + i
             ws['B' + str(row_data)].font = name_font
             ws['B' + str(row_data)].alignment = c_c_alignment
             ws['B' + str(row_data)] = reporting_period_data['names'][i] + " (" + reporting_period_data['units'][
@@ -432,9 +428,9 @@ def generate_excel(report,
 
     ########################################################
     # Third: 详细数据
-    # row_sat+row_title~ row_sat+row_title+time_len: line
-    # row_sat+1+row_title: table title
-    # i + row_sat + 2 + 10 * ca_len~: table_data
+    # detailed_start_row_number~ detailed_start_row_number+time_len: line
+    # detailed_start_row_number+1: table title
+    # i + analysis_end_row_number + 2 + 6 * ca_len~: table_data
     ########################################################
     has_timestamps_flag = True
     if "timestamps" not in reporting_period_data.keys() or \
@@ -449,29 +445,29 @@ def generate_excel(report,
         ca_len = len(names)
         time_len = len(timestamps)
         # title
-        row_title = 10 * ca_len
-        # row_st == row_statistical analysis table
-        row_sat = 12 + 3 * ca_len
+        line_charts_row_number = 6 * ca_len
+        analysis_end_row_number = 12 + 3 * ca_len
+        detailed_start_row_number = analysis_end_row_number + line_charts_row_number + 1
 
-        ws['B' + str(row_sat + row_title)].font = title_font
-        ws['B' + str(row_sat + row_title)] = name + ' 详细数据'
+        ws['B' + str(detailed_start_row_number)].font = title_font
+        ws['B' + str(detailed_start_row_number)] = name + ' 详细数据'
         # table_title
-        ws['B' + str(row_sat + 1 + row_title)].fill = table_fill
-        ws['B' + str(row_sat + 1 + row_title)].font = name_font
-        ws['B' + str(row_sat + 1 + row_title)].alignment = c_c_alignment
-        ws['B' + str(row_sat + 1 + row_title)] = "时间"
-        ws['B' + str(row_sat + 1 + row_title)].border = f_border
+        ws['B' + str(detailed_start_row_number + 1)].fill = table_fill
+        ws['B' + str(detailed_start_row_number + 1)].font = name_font
+        ws['B' + str(detailed_start_row_number + 1)].alignment = c_c_alignment
+        ws['B' + str(detailed_start_row_number + 1)] = "时间"
+        ws['B' + str(detailed_start_row_number + 1)].border = f_border
 
         for i in range(0, ca_len):
             col = chr(ord('C') + i)
 
-            ws[col + str(row_sat + 1 + row_title)].font = name_font
-            ws[col + str(row_sat + 1 + row_title)].alignment = c_c_alignment
-            ws[col + str(row_sat + 1 + row_title)] = names[i] + " - (" + reporting_period_data['units'][i] + ")"
-            ws[col + str(row_sat + 1 + row_title)].border = f_border
+            ws[col + str(detailed_start_row_number + 1)].font = name_font
+            ws[col + str(detailed_start_row_number + 1)].alignment = c_c_alignment
+            ws[col + str(detailed_start_row_number + 1)] = names[i] + " - (" + reporting_period_data['units'][i] + ")"
+            ws[col + str(detailed_start_row_number + 1)].border = f_border
         # table_date
         for i in range(0, time_len):
-            rows = i + row_sat + 2 + 10 * ca_len
+            rows = i + detailed_start_row_number + 2
 
             ws['B' + str(rows)].font = name_font
             ws['B' + str(rows)].alignment = c_c_alignment
@@ -488,7 +484,7 @@ def generate_excel(report,
                 ws[col + str(rows)].border = f_border
 
         # 小计
-        row_subtotals = row_sat + 2 + time_len + 10 * ca_len
+        row_subtotals = detailed_start_row_number + 2 + time_len
         ws['B' + str(row_subtotals)].font = name_font
         ws['B' + str(row_subtotals)].alignment = c_c_alignment
         ws['B' + str(row_subtotals)] = "小计"
@@ -503,25 +499,34 @@ def generate_excel(report,
             ws[col + str(row_subtotals)].border = f_border
             ws[col + str(row_subtotals)].number_format = '0.00'
 
-        # LineChart
+    ########################################################
+    # third: LineChart
+    # LineChart requires data from the detailed data table in the Excel file
+    # so print the detailed data table first and then print LineChart
+    ########################################################
         for i in range(0, ca_len):
-            lc = LineChart()
-            lc.title = "报告期消耗" + " - " + names[i] + "(" + reporting_period_data['units'][i] + ")"
-            lc.style = 10
-            lc.height = 8.40  # cm 1.05*8 1.05cm = 30 pt
-            lc.width = 31
-            lc.x_axis.majorTickMark = 'in'
-            lc.y_axis.majorTickMark = 'in'
-            times = Reference(ws, min_col=2, min_row=row_sat + 2 + row_title,
-                              max_row=row_sat + 2 + row_title + time_len)
-            lc_data = Reference(ws, min_col=3 + i, min_row=row_sat + 1 + row_title,
-                                max_row=row_sat + 1 + row_title + time_len)
-            lc.add_data(lc_data, titles_from_data=True)
-            lc.set_categories(times)
-            ser = lc.series[0]
+            line = LineChart()
+            line.title = "报告期消耗" + " - " + names[i] + "(" + reporting_period_data['units'][i] + ")"
+            line.style = 10
+            line.x_axis.majorTickMark = 'in'
+            line.y_axis.majorTickMark = 'in'
+            line.smooth = True
+            line.x_axis.crosses = 'min'
+            line.height = 8.25
+            line.width = 24
+            line.dLbls = DataLabelList()
+            line.dLbls.dLblPos = 't'
+            line.dLbls.showVal = True
+            times = Reference(ws, min_col=2, min_row=detailed_start_row_number + 2,
+                              max_row=detailed_start_row_number + 2 + time_len)
+            line_data = Reference(ws, min_col=3 + i, min_row=detailed_start_row_number + 1,
+                                  max_row=detailed_start_row_number + 1 + time_len)
+            line.add_data(line_data, titles_from_data=True)
+            line.set_categories(times)
+            ser = line.series[0]
             ser.marker.symbol = "diamond"
             ser.marker.size = 5
-            ws.add_chart(lc, 'B' + str(row_sat + 10 * i))
+            ws.add_chart(line, 'B' + str(analysis_end_row_number + 10 * i))
 
     filename = str(uuid.uuid4()) + '.xlsx'
     wb.save(filename)

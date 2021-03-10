@@ -114,12 +114,6 @@ def generate_excel(report,
                               wrap_text=False,
                               shrink_to_fit=False,
                               indent=0)
-    # c_r_alignment = Alignment(vertical='bottom',
-    #                           horizontal='center',
-    #                           text_rotation=0,
-    #                           wrap_text=False,
-    #                           shrink_to_fit=False,
-    #                           indent=0)
 
     # Img
     img = Image("excelexporters/myems.png")
@@ -317,11 +311,8 @@ def generate_excel(report,
 
     ########################################################
     # Second: 详细数据
-    # row_sat+1~ row_sat+1+row_lines+: line
-    # row_ddt~ : the detailed data table
-    # row_sat : the number of rows of the analysis table
-    # row_lines : the number of rows of all line charts
-    # row_ddt : The number of rows in which the detailed data table header resides
+    # analysis_end_row_number+1~ analysis_end_row_number+1+line_charts_row_number+: line
+    # detailed_start_row_number~ : the detailed data table
     ########################################################
     has_timestamps_flag = True
     if "timestamps" not in reporting_period_data.keys() or \
@@ -336,29 +327,29 @@ def generate_excel(report,
         ca_len = len(names)
         time_len = len(timestamps)
         # the detailed title
-        row_lines = 6 * ca_len + 1
-        row_sat = 9 + 2 * ca_len
-        row_ddt = row_sat + row_lines
+        line_charts_row_number = 6 * ca_len + 1
+        analysis_end_row_number = 9 + 2 * ca_len
+        detailed_start_row_number = analysis_end_row_number + line_charts_row_number
 
-        ws['B' + str(row_ddt)].font = title_font
-        ws['B' + str(row_ddt)] = name + ' 详细数据'
+        ws['B' + str(detailed_start_row_number)].font = title_font
+        ws['B' + str(detailed_start_row_number)] = name + ' 详细数据'
         # the detailed table_title
-        ws['B' + str(row_ddt+1)].fill = table_fill
-        ws['B' + str(row_ddt+1)].font = name_font
-        ws['B' + str(row_ddt+1)].alignment = c_c_alignment
-        ws['B' + str(row_ddt+1)] = "时间"
-        ws['B' + str(row_ddt+1)].border = f_border
+        ws['B' + str(detailed_start_row_number + 1)].fill = table_fill
+        ws['B' + str(detailed_start_row_number + 1)].font = name_font
+        ws['B' + str(detailed_start_row_number + 1)].alignment = c_c_alignment
+        ws['B' + str(detailed_start_row_number + 1)] = "时间"
+        ws['B' + str(detailed_start_row_number + 1)].border = f_border
 
         for i in range(0, ca_len):
             col = chr(ord('C') + i)
 
-            ws[col + str(row_ddt+1)].font = name_font
-            ws[col + str(row_ddt+1)].alignment = c_c_alignment
-            ws[col + str(row_ddt+1)] = names[i] + " - (" + reporting_period_data['units'][i] + ")"
-            ws[col + str(row_ddt+1)].border = f_border
+            ws[col + str(detailed_start_row_number + 1)].font = name_font
+            ws[col + str(detailed_start_row_number + 1)].alignment = c_c_alignment
+            ws[col + str(detailed_start_row_number + 1)] = names[i] + " - (" + reporting_period_data['units'][i] + ")"
+            ws[col + str(detailed_start_row_number + 1)].border = f_border
         # the detailed table_date
         for i in range(0, time_len):
-            rows = i + row_ddt + 2
+            rows = i + detailed_start_row_number + 2
 
             ws['B' + str(rows)].font = name_font
             ws['B' + str(rows)].alignment = c_c_alignment
@@ -375,7 +366,7 @@ def generate_excel(report,
                 ws[col + str(rows)].border = f_border
 
         # 小计
-        row_subtotals = row_ddt + 2 + time_len
+        row_subtotals = detailed_start_row_number + 2 + time_len
         ws['B' + str(row_subtotals)].font = name_font
         ws['B' + str(row_subtotals)].alignment = c_c_alignment
         ws['B' + str(row_subtotals)] = "小计"
@@ -390,29 +381,32 @@ def generate_excel(report,
             ws[col + str(row_subtotals)].border = f_border
             ws[col + str(row_subtotals)].number_format = '0.00'
 
-        # LineChart
+    ########################################################
+    # third: LineChart
+    # LineChart requires data from the detailed data table in the Excel file
+    # so print the detailed data table first and then print LineChart
+    ########################################################
         for i in range(0, ca_len):
-
-            lc = LineChart()
-            lc.title = "报告期消耗" + " - " + names[i] + "(" + reporting_period_data['units'][i] + ")"
-            lc.style = 10
-            lc.height = 8.40  # cm 1.05*8 1.05cm = 30 pt
-            lc.width = 24
-            lc.x_axis.majorTickMark = 'in'
-            lc.y_axis.majorTickMark = 'in'
-            lc.dLbls = DataLabelList()
-            lc.dLbls.dLblPos = 't'
-            lc.dLbls.showVal = True
-            times = Reference(ws, min_col=2, min_row=row_ddt + 2,
-                              max_row=row_ddt + 2 + time_len)
-            lc_data = Reference(ws, min_col=3 + i, min_row=row_ddt + 1,
-                                max_row=row_ddt + 1 + time_len)
-            lc.add_data(lc_data, titles_from_data=True)
-            lc.set_categories(times)
-            ser = lc.series[0]
+            line = LineChart()
+            line.title = "报告期消耗" + " - " + names[i] + "(" + reporting_period_data['units'][i] + ")"
+            line.style = 10
+            line.height = 8.40  # cm 1.05*8 1.05cm = 30 pt
+            line.width = 24
+            line.x_axis.majorTickMark = 'in'
+            line.y_axis.majorTickMark = 'in'
+            line.dLbls = DataLabelList()
+            line.dLbls.dLblPos = 't'
+            line.dLbls.showVal = True
+            times = Reference(ws, min_col=2, min_row=detailed_start_row_number + 2,
+                              max_row=detailed_start_row_number + 2 + time_len)
+            line_data = Reference(ws, min_col=3 + i, min_row=detailed_start_row_number + 1,
+                                  max_row=detailed_start_row_number + 1 + time_len)
+            line.add_data(line_data, titles_from_data=True)
+            line.set_categories(times)
+            ser = line.series[0]
             ser.marker.symbol = "diamond"
             ser.marker.size = 5
-            ws.add_chart(lc, 'B' + str(row_sat + 6 * i))
+            ws.add_chart(line, 'B' + str(analysis_end_row_number + 6 * i))
 
     filename = str(uuid.uuid4()) + '.xlsx'
     wb.save(filename)

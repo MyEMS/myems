@@ -264,40 +264,40 @@ def generate_excel(report,
     # Second: 报告期单位面积消耗
     # 9 + ca_len * 2: title
     # 10 + ca_len * 2: table title
-    # row_title + 2 ~ row_title + 2 + ca_len :  table_data
+    # per_unit_area_start_row_number + 2 ~ per_unit_area_start_row_number + 2 + ca_len :  table_data
     #################################################
 
     if has_energy_data_flag:
         names = reporting_period_data['names']
         ca_len = len(names)
-        row_title = 9 + ca_len * 2
+        per_unit_area_start_row_number = 9 + ca_len * 2
 
-        ws['B' + str(row_title)].font = title_font
-        ws['B' + str(row_title)] = name + ' 单位面积值' + str(report['store']['area']) + 'M²'
+        ws['B' + str(per_unit_area_start_row_number)].font = title_font
+        ws['B' + str(per_unit_area_start_row_number)] = name + ' 单位面积值' + str(report['store']['area']) + 'M²'
 
         category = reporting_period_data['names']
 
         # table_title
-        ws['B' + str(row_title + 1)].fill = table_fill
-        ws['B' + str(row_title + 1)].font = title_font
-        ws['B' + str(row_title + 1)].alignment = c_c_alignment
-        ws['B' + str(row_title + 1)] = '报告期'
-        ws['B' + str(row_title + 1)].border = f_border
+        ws['B' + str(per_unit_area_start_row_number + 1)].fill = table_fill
+        ws['B' + str(per_unit_area_start_row_number + 1)].font = title_font
+        ws['B' + str(per_unit_area_start_row_number + 1)].alignment = c_c_alignment
+        ws['B' + str(per_unit_area_start_row_number + 1)] = '报告期'
+        ws['B' + str(per_unit_area_start_row_number + 1)].border = f_border
 
-        ws['C' + str(row_title + 1)].font = title_font
-        ws['C' + str(row_title + 1)].alignment = c_c_alignment
-        ws['C' + str(row_title + 1)] = '平均负荷'
-        ws['C' + str(row_title + 1)].border = f_border
+        ws['C' + str(per_unit_area_start_row_number + 1)].font = title_font
+        ws['C' + str(per_unit_area_start_row_number + 1)].alignment = c_c_alignment
+        ws['C' + str(per_unit_area_start_row_number + 1)] = '平均负荷'
+        ws['C' + str(per_unit_area_start_row_number + 1)].border = f_border
 
-        ws['D' + str(row_title + 1)].font = title_font
-        ws['D' + str(row_title + 1)].alignment = c_c_alignment
-        ws['D' + str(row_title + 1)] = '最大负荷'
-        ws['D' + str(row_title + 1)].border = f_border
+        ws['D' + str(per_unit_area_start_row_number + 1)].font = title_font
+        ws['D' + str(per_unit_area_start_row_number + 1)].alignment = c_c_alignment
+        ws['D' + str(per_unit_area_start_row_number + 1)] = '最大负荷'
+        ws['D' + str(per_unit_area_start_row_number + 1)].border = f_border
 
         # table_data
 
         for i, value in enumerate(category):
-            row_data = row_title + 2 + i
+            row_data = per_unit_area_start_row_number + 2 + i
             ws['B' + str(row_data)].font = name_font
             ws['B' + str(row_data)].alignment = c_c_alignment
             ws['B' + str(row_data)] = reporting_period_data['names'][i] + " (" + reporting_period_data['units'][
@@ -322,9 +322,9 @@ def generate_excel(report,
 
     ########################################################
     # Third: 详细数据
-    # row_sat~ row_sat + 6*cal_len: line
-    # row_da: table title
-    # row_da + 1~: table_data
+    # analysis_end_row_number~ analysis_end_row_number + 6*cal_len: line
+    # detailed_start_row_number: table title
+    # detailed_start_row_number + 1~: table_data
     ########################################################
     has_timestamps_flag = True
     if "timestamps" not in reporting_period_data.keys() or \
@@ -337,40 +337,37 @@ def generate_excel(report,
         names = reporting_period_data['names']
         ca_len = len(names)
         time_len = len(timestamps)
-        # row_lines == the number of rows of lines
-        row_lines = 6 * ca_len
-        # row_sat == the number of rows of statistical analysis table
-        row_sat = 12 + 3 * ca_len
-        # row_da == the number of rows of Detailed data
-        row_da = row_sat + row_lines + 1
+        line_charts_row_number = 6 * ca_len
+        analysis_end_row_number = 12 + 3 * ca_len
+        detailed_start_row_number = analysis_end_row_number + line_charts_row_number + 1
 
-        ws['B' + str(row_da)].font = title_font
-        ws['B' + str(row_da)] = name + ' 详细数据'
+        ws['B' + str(detailed_start_row_number)].font = title_font
+        ws['B' + str(detailed_start_row_number)] = name + ' 详细数据'
         # table_title
-        ws['B' + str(row_da + 1)].fill = table_fill
-        ws['B' + str(row_da + 1)].font = name_font
-        ws['B' + str(row_da + 1)].alignment = c_c_alignment
-        ws['B' + str(row_da + 1)] = "日期时间"
-        ws['B' + str(row_da + 1)].border = f_border
+        ws['B' + str(detailed_start_row_number + 1)].fill = table_fill
+        ws['B' + str(detailed_start_row_number + 1)].font = name_font
+        ws['B' + str(detailed_start_row_number + 1)].alignment = c_c_alignment
+        ws['B' + str(detailed_start_row_number + 1)] = "日期时间"
+        ws['B' + str(detailed_start_row_number + 1)].border = f_border
 
         for i in range(0, ca_len):
             col_average = chr(ord('C') + 2 * i)
             col_maximum = chr(ord('D') + 2 * i)
 
-            ws[col_average + str(row_da + 1)].font = name_font
-            ws[col_average + str(row_da + 1)].alignment = c_c_alignment
-            ws[col_average + str(row_da + 1)] = names[i] + " 平均负荷(" + reporting_period_data['units'][
+            ws[col_average + str(detailed_start_row_number + 1)].font = name_font
+            ws[col_average + str(detailed_start_row_number + 1)].alignment = c_c_alignment
+            ws[col_average + str(detailed_start_row_number + 1)] = names[i] + " 平均负荷(" + reporting_period_data['units'][
                 i] + "/H)"
-            ws[col_average + str(row_da + 1)].border = f_border
+            ws[col_average + str(detailed_start_row_number + 1)].border = f_border
 
-            ws[col_maximum + str(row_da + 1)].font = name_font
-            ws[col_maximum + str(row_da + 1)].alignment = c_c_alignment
-            ws[col_maximum + str(row_da + 1)] = names[i] + " 最大负荷(" + reporting_period_data['units'][
+            ws[col_maximum + str(detailed_start_row_number + 1)].font = name_font
+            ws[col_maximum + str(detailed_start_row_number + 1)].alignment = c_c_alignment
+            ws[col_maximum + str(detailed_start_row_number + 1)] = names[i] + " 最大负荷(" + reporting_period_data['units'][
                 i] + "/H)"
-            ws[col_maximum + str(row_da + 1)].border = f_border
+            ws[col_maximum + str(detailed_start_row_number + 1)].border = f_border
         # table_date
         for i in range(0, time_len):
-            rows = i + row_da + 2
+            rows = i + detailed_start_row_number + 2
 
             ws['B' + str(rows)].font = name_font
             ws['B' + str(rows)].alignment = c_c_alignment
@@ -395,32 +392,36 @@ def generate_excel(report,
                 ws[col_maximum + str(rows)].number_format = '0.00'
                 ws[col_maximum + str(rows)].border = f_border
 
-        # LineChart
+    ########################################################
+    # third: LineChart
+    # LineChart requires data from the detailed data table in the Excel file
+    # so print the detailed data table first and then print LineChart
+    ########################################################
         for i in range(0, ca_len):
-            lc = LineChart()
-            lc.title = "报告期 最大负荷"
-            lc.style = 10
-            lc.x_axis.majorTickMark = 'in'
-            lc.y_axis.majorTickMark = 'in'
-            lc.smooth = True
-            lc.x_axis.crosses = 'min'
-            lc.height = 8.25
-            lc.width = 24
-            lc.dLbls = DataLabelList()
-            lc.dLbls.dLblPos = 't'
-            lc.dLbls.showVal = True
-            times = Reference(ws, min_col=2, min_row=row_da + 2,
-                              max_row=row_da + 2 + time_len)
-            lc_data = Reference(ws, min_col=2 + 2 * (i+1), min_row=row_da + 1,
-                                max_row=row_da + 1 + time_len)
-            lc.add_data(lc_data, titles_from_data=True)
-            lc.set_categories(times)
-            ser = lc.series[0]
+            line = LineChart()
+            line.title = "报告期 最大负荷 - " + names[i] + "(" + reporting_period_data['units'][i] + ")"
+            line.style = 10
+            line.x_axis.majorTickMark = 'in'
+            line.y_axis.majorTickMark = 'in'
+            line.smooth = True
+            line.x_axis.crosses = 'min'
+            line.height = 8.25
+            line.width = 24
+            line.dLbls = DataLabelList()
+            line.dLbls.dLblPos = 't'
+            line.dLbls.showVal = True
+            times = Reference(ws, min_col=2, min_row=detailed_start_row_number + 2,
+                              max_row=detailed_start_row_number + 2 + time_len)
+            line_data = Reference(ws, min_col=2 + 2 * (i+1), min_row=detailed_start_row_number + 1,
+                                  max_row=detailed_start_row_number + 1 + time_len)
+            line.add_data(line_data, titles_from_data=True)
+            line.set_categories(times)
+            ser = line.series[0]
             ser.marker.symbol = "diamond"
             ser.marker.size = 5
             chart_col = 'B'
-            chart_cell = str(row_sat + 6 * i)
-            ws.add_chart(lc, chart_col + chart_cell)
+            chart_cell = str(analysis_end_row_number + 6 * i)
+            ws.add_chart(line, chart_col + chart_cell)
 
     filename = str(uuid.uuid4()) + '.xlsx'
     wb.save(filename)
