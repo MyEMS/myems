@@ -152,6 +152,7 @@ def generate_excel(report,
     ws['F3'].font = name_font
     ws['F3'].alignment = b_r_alignment
     ws['F3'] = 'Date:'
+    ws['G3'].border = b_border
     ws['G3'].alignment = b_c_alignment
     ws['G3'].font = name_font
     ws['G3'] = reporting_start_datetime_local + "__" + reporting_end_datetime_local
@@ -335,9 +336,17 @@ def generate_excel(report,
         ws['C' + str(current_row_number)].font = name_font
         ws['C' + str(current_row_number)].alignment = c_c_alignment
         ws['C' + str(current_row_number)].border = f_border
-        ws['C' + str(current_row_number)] = '吨标准煤(TCE)占比'
+        ws['C' + str(current_row_number)] = '节约'
+
+        ws['D' + str(current_row_number)].fill = table_fill
+        ws['D' + str(current_row_number)].font = name_font
+        ws['D' + str(current_row_number)].alignment = c_c_alignment
+        ws['D' + str(current_row_number)].border = f_border
+        ws['D' + str(current_row_number)] = '吨标准煤(TCE) 节约占比'
 
         current_row_number += 1
+
+        subtotals_in_kgce_saving_sum = sum_list(reporting_period_data['subtotals_in_kgce_saving'])
 
         for i in range(0, ca_len):
             ws['B' + str(current_row_number)].font = title_font
@@ -349,6 +358,13 @@ def generate_excel(report,
             ws['C' + str(current_row_number)].alignment = c_c_alignment
             ws['C' + str(current_row_number)].border = f_border
             ws['C' + str(current_row_number)] = round(reporting_period_data['subtotals_in_kgce_saving'][i] / 1000, 3)
+
+            ws['D' + str(current_row_number)].font = name_font
+            ws['D' + str(current_row_number)].alignment = c_c_alignment
+            ws['D' + str(current_row_number)].border = f_border
+            ws['D' + str(current_row_number)] = str(round(reporting_period_data['subtotals_in_kgce_saving'][i] /
+                                                          subtotals_in_kgce_saving_sum * 100, 2)) + '%'\
+                if abs(subtotals_in_kgce_saving_sum) > 0 else '-'
 
             current_row_number += 1
 
@@ -372,7 +388,7 @@ def generate_excel(report,
         s1.dLbls.showCatName = False
         s1.dLbls.showVal = True
         s1.dLbls.showPercent = True
-        ws.add_chart(pie, 'D' + str(chart_start_row_number))
+        ws.add_chart(pie, 'E' + str(chart_start_row_number))
 
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)] = name + ' 吨二氧化碳排放(TCO2E)占比'
@@ -389,9 +405,17 @@ def generate_excel(report,
         ws['C' + str(current_row_number)].font = name_font
         ws['C' + str(current_row_number)].alignment = c_c_alignment
         ws['C' + str(current_row_number)].border = f_border
-        ws['C' + str(current_row_number)] = '吨二氧化碳排放(TCO2E)占比'
+        ws['C' + str(current_row_number)] = '节约'
+
+        ws['D' + str(current_row_number)].fill = table_fill
+        ws['D' + str(current_row_number)].font = name_font
+        ws['D' + str(current_row_number)].alignment = c_c_alignment
+        ws['D' + str(current_row_number)].border = f_border
+        ws['D' + str(current_row_number)] = '吨二氧化碳排放(TCO2E) 节约占比'
 
         current_row_number += 1
+
+        subtotals_in_kgco2e_saving_sum = sum_list(reporting_period_data['subtotals_in_kgco2e_saving'])
 
         for i in range(0, ca_len):
             ws['B' + str(current_row_number)].font = title_font
@@ -403,6 +427,13 @@ def generate_excel(report,
             ws['C' + str(current_row_number)].alignment = c_c_alignment
             ws['C' + str(current_row_number)].border = f_border
             ws['C' + str(current_row_number)] = round(reporting_period_data['subtotals_in_kgco2e_saving'][i] / 1000, 3)
+
+            ws['D' + str(current_row_number)].font = name_font
+            ws['D' + str(current_row_number)].alignment = c_c_alignment
+            ws['D' + str(current_row_number)].border = f_border
+            ws['D' + str(current_row_number)] = str(round(reporting_period_data['subtotals_in_kgco2e_saving'][i] /
+                                                          subtotals_in_kgco2e_saving_sum * 100, 2)) + '%'\
+                if abs(subtotals_in_kgco2e_saving_sum) > 0 else '-'
 
             current_row_number += 1
 
@@ -426,7 +457,7 @@ def generate_excel(report,
         s1.dLbls.showCatName = False
         s1.dLbls.showVal = True
         s1.dLbls.showPercent = True
-        ws.add_chart(pie, 'D' + str(chart_start_row_number))
+        ws.add_chart(pie, 'E' + str(chart_start_row_number))
 
     #############################################
 
@@ -563,3 +594,12 @@ def generate_excel(report,
     wb.save(filename)
 
     return filename
+
+
+def sum_list(lists):
+    total = 0
+
+    for i in range(0, len(lists)):
+        total += lists[i]
+
+    return total
