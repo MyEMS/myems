@@ -1,6 +1,7 @@
 import base64
 import uuid
 import os
+from decimal import Decimal
 from openpyxl.chart import (
     PieChart,
     LineChart,
@@ -291,9 +292,10 @@ def generate_excel(report,
         current_row_number += 1
 
         ca_len = len(reporting_period_data['names'])
-        wssum = 0
+        total = Decimal(0.0)
         for i in range(0, ca_len):
-            wssum = round(reporting_period_data['subtotals'][i], 2) + wssum
+            total = reporting_period_data['subtotals'][i] + total
+
         for i in range(0, ca_len):
             ws['B' + str(current_row_number)].font = title_font
             ws['B' + str(current_row_number)].alignment = c_c_alignment
@@ -308,7 +310,8 @@ def generate_excel(report,
             ws['D' + str(current_row_number)].font = title_font
             ws['D' + str(current_row_number)].alignment = c_c_alignment
             ws['D' + str(current_row_number)].border = f_border
-            ws['D' + str(current_row_number)] = '{:.2%}'.format(round(reporting_period_data['subtotals'][i], 2) / wssum)
+            ws['D' + str(current_row_number)] = '{:.2%}'.format(reporting_period_data['subtotals'][i] / total) \
+                if total > Decimal(0.0) else '-'
 
             current_row_number += 1
 
@@ -444,7 +447,7 @@ def generate_excel(report,
             ws[col + str(table_row)] = '总计 (' + report['reporting_period']['total_unit'] + ')'
             ws[col + str(table_row)].border = f_border
 
-            total_sum = 0
+            total_sum = Decimal(0.0)
 
             for j in range(0, len(time)):
                 row = str(table_row + 1 + j)
@@ -521,7 +524,7 @@ def generate_excel(report,
             ws['B' + row].border = f_border
 
             col = ''
-            every_day_sum = 0
+            every_day_sum = Decimal(0.0)
 
             for j in range(0, ca_len):
                 col = chr(ord('C') + j)
@@ -583,7 +586,7 @@ def generate_excel(report,
 
 
 def reporting_period_values_every_day_sum(reporting_period_data, every_day_index, ca_len):
-    every_day_sum = 0
+    every_day_sum = Decimal(0.0)
     for i in range(0, ca_len):
         every_day_sum += reporting_period_data['values'][i][every_day_index]
 
