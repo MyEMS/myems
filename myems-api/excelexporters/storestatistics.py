@@ -115,12 +115,6 @@ def generate_excel(report,
                               wrap_text=False,
                               shrink_to_fit=False,
                               indent=0)
-    # c_r_alignment = Alignment(vertical='bottom',
-    #                           horizontal='center',
-    #                           text_rotation=0,
-    #                           wrap_text=False,
-    #                           shrink_to_fit=False,
-    #                           indent=0)
 
     # Img
     img = Image("excelexporters/myems.png")
@@ -526,7 +520,7 @@ def generate_excel(report,
             ser = line.series[0]
             ser.marker.symbol = "diamond"
             ser.marker.size = 5
-            ws.add_chart(line, 'B' + str(analysis_end_row_number + 10 * i))
+            ws.add_chart(line, 'B' + str(analysis_end_row_number + 6 * i))
 
     filename = str(uuid.uuid4()) + '.xlsx'
     wb.save(filename)
