@@ -118,6 +118,8 @@ def generate_excel(report,
     # Img
     img = Image("excelexporters/myems.png")
     # img = Image("myems.png")
+    img.width = img.width * 0.85
+    img.height = img.height * 0.85
     ws.add_image(img, 'B1')
 
     # Title
@@ -175,8 +177,6 @@ def generate_excel(report,
     if has_energy_data_flag:
         ws['B6'].font = title_font
         ws['B6'] = name + ' 统计分析'
-        # ws['D6'].font = title_font
-        # ws['D6'] = '面积' +report['space']['area']
 
         category = reporting_period_data['names']
 
@@ -220,7 +220,7 @@ def generate_excel(report,
         # table_data
 
         for i, value in enumerate(category):
-            row = i*2 + 8
+            row = i * 2 + 8
             ws['B' + str(row)].font = name_font
             ws['B' + str(row)].alignment = c_c_alignment
             ws['B' + str(row)] = reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + " )"
@@ -233,7 +233,7 @@ def generate_excel(report,
 
             ws['C' + str(row)].font = name_font
             ws['C' + str(row)].alignment = c_c_alignment
-            ws['C' + str(row)] = round(reporting_period_data['means'][i], 2) \
+            ws['C' + str(row)] = reporting_period_data['means'][i] \
                 if reporting_period_data['means'][i] is not None else ''
             ws['C' + str(row)].border = f_border
             ws['C' + str(row)].number_format = '0.00'
@@ -246,7 +246,7 @@ def generate_excel(report,
 
             ws['D' + str(row)].font = name_font
             ws['D' + str(row)].alignment = c_c_alignment
-            ws['D' + str(row)] = round(reporting_period_data['medians'][i], 2) \
+            ws['D' + str(row)] = reporting_period_data['medians'][i] \
                 if reporting_period_data['medians'][i] is not None else ''
             ws['D' + str(row)].border = f_border
             ws['D' + str(row)].number_format = '0.00'
@@ -259,7 +259,7 @@ def generate_excel(report,
 
             ws['E' + str(row)].font = name_font
             ws['E' + str(row)].alignment = c_c_alignment
-            ws['E' + str(row)] = round(reporting_period_data['minimums'][i], 2) \
+            ws['E' + str(row)] = reporting_period_data['minimums'][i] \
                 if reporting_period_data['minimums'][i] is not None else ''
             ws['E' + str(row)].border = f_border
             ws['E' + str(row)].number_format = '0.00'
@@ -272,7 +272,7 @@ def generate_excel(report,
 
             ws['F' + str(row)].font = name_font
             ws['F' + str(row)].alignment = c_c_alignment
-            ws['F' + str(row)] = round(reporting_period_data['maximums'][i], 2) \
+            ws['F' + str(row)] = reporting_period_data['maximums'][i] \
                 if reporting_period_data['maximums'][i] is not None else ''
             ws['F' + str(row)].border = f_border
             ws['F' + str(row)].number_format = '0.00'
@@ -285,7 +285,7 @@ def generate_excel(report,
 
             ws['G' + str(row)].font = name_font
             ws['G' + str(row)].alignment = c_c_alignment
-            ws['G' + str(row)] = round(reporting_period_data['stdevs'][i], 2) \
+            ws['G' + str(row)] = reporting_period_data['stdevs'][i] \
                 if reporting_period_data['stdevs'][i] is not None else ''
             ws['G' + str(row)].border = f_border
             ws['G' + str(row)].number_format = '0.00'
@@ -298,7 +298,7 @@ def generate_excel(report,
 
             ws['H' + str(row)].font = name_font
             ws['H' + str(row)].alignment = c_c_alignment
-            ws['H' + str(row)] = round(reporting_period_data['variances'][i], 2) \
+            ws['H' + str(row)] = reporting_period_data['variances'][i] \
                 if reporting_period_data['variances'][i] is not None else ''
             ws['H' + str(row)].border = f_border
             ws['H' + str(row)].number_format = '0.00'
@@ -308,126 +308,11 @@ def generate_excel(report,
             ws['H' + str(row + 1)] = str(round(reporting_period_data['variances_increment_rate'][i] * 100, 2)) + "%" \
                 if reporting_period_data['variances_increment_rate'][i] is not None else '0.00%'
             ws['H' + str(row + 1)].border = f_border
-    #################################################
-    # Second: 报告期消耗
-    # 9 + ca_len * 2: title
-    # 10 + ca_len * 2: table title
-    # per_unit_area_start_row_number + 2 ~ per_unit_area_start_row_number + 2 + ca_len :  table_data
-    #################################################
-
-    if has_energy_data_flag:
-        names = reporting_period_data['names']
-        ca_len = len(names)
-
-        per_unit_area_start_row_number = 9 + ca_len * 2
-
-        ws['B' + str(per_unit_area_start_row_number)].font = title_font
-        ws['B' + str(per_unit_area_start_row_number)] = name + ' 单位面积值'
-        ws['D' + str(per_unit_area_start_row_number)].font = title_font
-        ws['D' + str(per_unit_area_start_row_number)] = str(report['space']['area']) + 'M²'
-
-        category = reporting_period_data['names']
-
-        # table_title
-        ws['B' + str(per_unit_area_start_row_number + 1)].fill = table_fill
-        ws['B' + str(per_unit_area_start_row_number + 1)].font = title_font
-        ws['B' + str(per_unit_area_start_row_number + 1)].alignment = c_c_alignment
-        ws['B' + str(per_unit_area_start_row_number + 1)] = '报告期'
-        ws['B' + str(per_unit_area_start_row_number + 1)].border = f_border
-
-        ws['C' + str(per_unit_area_start_row_number + 1)].font = title_font
-        ws['C' + str(per_unit_area_start_row_number + 1)].alignment = c_c_alignment
-        ws['C' + str(per_unit_area_start_row_number + 1)] = '算术平均数'
-        ws['C' + str(per_unit_area_start_row_number + 1)].border = f_border
-
-        ws['D' + str(per_unit_area_start_row_number + 1)].font = title_font
-        ws['D' + str(per_unit_area_start_row_number + 1)].alignment = c_c_alignment
-        ws['D' + str(per_unit_area_start_row_number + 1)] = '中位数'
-        ws['D' + str(per_unit_area_start_row_number + 1)].border = f_border
-
-        ws['E' + str(per_unit_area_start_row_number + 1)].font = title_font
-        ws['E' + str(per_unit_area_start_row_number + 1)].alignment = c_c_alignment
-        ws['E' + str(per_unit_area_start_row_number + 1)] = '最小值'
-        ws['E' + str(per_unit_area_start_row_number + 1)].border = f_border
-
-        ws['F' + str(per_unit_area_start_row_number + 1)].font = title_font
-        ws['F' + str(per_unit_area_start_row_number + 1)].alignment = c_c_alignment
-        ws['F' + str(per_unit_area_start_row_number + 1)] = '最大值'
-        ws['F' + str(per_unit_area_start_row_number + 1)].border = f_border
-
-        ws['G' + str(per_unit_area_start_row_number + 1)].font = title_font
-        ws['G' + str(per_unit_area_start_row_number + 1)].alignment = c_c_alignment
-        ws['G' + str(per_unit_area_start_row_number + 1)] = '样本标准差'
-        ws['G' + str(per_unit_area_start_row_number + 1)].border = f_border
-
-        ws['H' + str(per_unit_area_start_row_number + 1)].font = title_font
-        ws['H' + str(per_unit_area_start_row_number + 1)].alignment = c_c_alignment
-        ws['H' + str(per_unit_area_start_row_number + 1)] = '样本方差'
-        ws['H' + str(per_unit_area_start_row_number + 1)].border = f_border
-
-        # table_data
-
-        for i, value in enumerate(category):
-            row_data = per_unit_area_start_row_number + 2 + i
-            ws['B' + str(row_data)].font = name_font
-            ws['B' + str(row_data)].alignment = c_c_alignment
-            ws['B' + str(row_data)] = reporting_period_data['names'][i] + " (" + reporting_period_data['units'][
-                i] + "/M²)"
-            ws['B' + str(row_data)].border = f_border
-
-            ws['C' + str(row_data)].font = name_font
-            ws['C' + str(row_data)].alignment = c_c_alignment
-            if reporting_period_data['means_per_unit_area'][i] \
-                    or reporting_period_data['means_per_unit_area'][i] == 0:
-                ws['C' + str(row_data)] = round(reporting_period_data['means_per_unit_area'][i], 2)
-            ws['C' + str(row_data)].border = f_border
-            ws['C' + str(row_data)].number_format = '0.00'
-
-            ws['D' + str(row_data)].font = name_font
-            ws['D' + str(row_data)].alignment = c_c_alignment
-            if reporting_period_data['medians_per_unit_area'][i] \
-                    or reporting_period_data['medians_per_unit_area'][i] == 0:
-                ws['D' + str(row_data)] = round(reporting_period_data['medians_per_unit_area'][i], 2)
-            ws['D' + str(row_data)].border = f_border
-            ws['D' + str(row_data)].number_format = '0.00'
-
-            ws['E' + str(row_data)].font = name_font
-            ws['E' + str(row_data)].alignment = c_c_alignment
-            if reporting_period_data['minimums_per_unit_area'][i] \
-                    or reporting_period_data['minimums_per_unit_area'][i] == 0:
-                ws['E' + str(row_data)] = round(reporting_period_data['minimums_per_unit_area'][i], 2)
-            ws['E' + str(row_data)].border = f_border
-            ws['E' + str(row_data)].number_format = '0.00'
-
-            ws['F' + str(row_data)].font = name_font
-            ws['F' + str(row_data)].alignment = c_c_alignment
-            if reporting_period_data['maximums_per_unit_area'][i] \
-                    or reporting_period_data['maximums_per_unit_area'][i] == 0:
-                ws['F' + str(row_data)] = round(reporting_period_data['maximums_per_unit_area'][i], 2)
-            ws['F' + str(row_data)].border = f_border
-            ws['F' + str(row_data)].number_format = '0.00'
-
-            ws['G' + str(row_data)].font = name_font
-            ws['G' + str(row_data)].alignment = c_c_alignment
-            if (reporting_period_data['stdevs_per_unit_area'][i]) \
-                    or reporting_period_data['stdevs_per_unit_area'][i] == 0:
-                ws['G' + str(row_data)] = round(reporting_period_data['stdevs_per_unit_area'][i], 2)
-            ws['G' + str(row_data)].border = f_border
-            ws['G' + str(row_data)].number_format = '0.00'
-
-            ws['H' + str(row_data)].font = name_font
-            ws['H' + str(row_data)].alignment = c_c_alignment
-            if reporting_period_data['variances_per_unit_area'][i] \
-                    or reporting_period_data['variances_per_unit_area'][i] == 0:
-                ws['H' + str(row_data)] = round(reporting_period_data['variances_per_unit_area'][i], 2)
-            ws['H' + str(row_data)].border = f_border
-            ws['H' + str(row_data)].number_format = '0.00'
 
     ########################################################
-    # Third: 详细数据
-    # analysis_end_row_number~ analysis_end_row_number+time_len: line
-    # analysis_end_row_number+1+line_charts_row_number: table title
-    # i + analysis_end_row_number + 2 + 10 * ca_len~: table_data
+    # Second: 详细数据
+    # analysis_end_row_number+1~ analysis_end_row_number+1+line_charts_row_number+: line
+    # detailed_start_row_number~ : the detailed data table
     ########################################################
     has_timestamps_flag = True
     if "timestamps" not in reporting_period_data.keys() or \
@@ -441,14 +326,14 @@ def generate_excel(report,
         names = reporting_period_data['names']
         ca_len = len(names)
         time_len = len(timestamps)
-        # title
-        line_charts_row_number = 6 * ca_len
-        analysis_end_row_number = 12 + 3 * ca_len
-        detailed_start_row_number = analysis_end_row_number + line_charts_row_number + 1
-        
+        # the detailed title
+        line_charts_row_number = 6 * ca_len + 1
+        analysis_end_row_number = 9 + 2 * ca_len
+        detailed_start_row_number = analysis_end_row_number + line_charts_row_number
+
         ws['B' + str(detailed_start_row_number)].font = title_font
         ws['B' + str(detailed_start_row_number)] = name + ' 详细数据'
-        # table_title
+        # the detailed table_title
         ws['B' + str(detailed_start_row_number + 1)].fill = table_fill
         ws['B' + str(detailed_start_row_number + 1)].font = name_font
         ws['B' + str(detailed_start_row_number + 1)].alignment = c_c_alignment
@@ -462,7 +347,7 @@ def generate_excel(report,
             ws[col + str(detailed_start_row_number + 1)].alignment = c_c_alignment
             ws[col + str(detailed_start_row_number + 1)] = names[i] + " - (" + reporting_period_data['units'][i] + ")"
             ws[col + str(detailed_start_row_number + 1)].border = f_border
-        # table_date
+        # the detailed table_date
         for i in range(0, time_len):
             rows = i + detailed_start_row_number + 2
 
@@ -476,7 +361,7 @@ def generate_excel(report,
 
                 ws[col + str(rows)].font = name_font
                 ws[col + str(rows)].alignment = c_c_alignment
-                ws[col + str(rows)] = round(values[index][i], 2)
+                ws[col + str(rows)] = values[index][i]
                 ws[col + str(rows)].number_format = '0.00'
                 ws[col + str(rows)].border = f_border
 
@@ -492,7 +377,7 @@ def generate_excel(report,
 
             ws[col + str(row_subtotals)].font = name_font
             ws[col + str(row_subtotals)].alignment = c_c_alignment
-            ws[col + str(row_subtotals)] = round(reporting_period_data['subtotals'][i], 2)
+            ws[col + str(row_subtotals)] = reporting_period_data['subtotals'][i]
             ws[col + str(row_subtotals)].border = f_border
             ws[col + str(row_subtotals)].number_format = '0.00'
 
@@ -502,16 +387,13 @@ def generate_excel(report,
     # so print the detailed data table first and then print LineChart
     ########################################################
         for i in range(0, ca_len):
-
             line = LineChart()
             line.title = "报告期消耗" + " - " + names[i] + "(" + reporting_period_data['units'][i] + ")"
             line.style = 10
+            line.height = 8.40  # cm 1.05*8 1.05cm = 30 pt
+            line.width = 24
             line.x_axis.majorTickMark = 'in'
             line.y_axis.majorTickMark = 'in'
-            line.smooth = True
-            line.x_axis.crosses = 'min'
-            line.height = 8.25
-            line.width = 24
             line.dLbls = DataLabelList()
             line.dLbls.dLblPos = 't'
             line.dLbls.showVal = True
