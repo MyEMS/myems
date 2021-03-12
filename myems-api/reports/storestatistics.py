@@ -465,6 +465,11 @@ class Reporting:
         if cnx_energy:
             cnx_energy.disconnect()
 
+        if cnx_historical:
+            cnx_historical.close()
+        if cursor_historical:
+            cursor_historical.disconnect()
+
         result = dict()
 
         result['store'] = dict()

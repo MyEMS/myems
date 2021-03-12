@@ -575,6 +575,11 @@ class Reporting:
         if cnx_energy_baseline:
             cnx_energy_baseline.disconnect()
 
+        if cnx_historical:
+            cnx_historical.close()
+        if cursor_historical:
+            cursor_historical.disconnect()
+
         result = dict()
 
         result['equipment'] = dict()
