@@ -5,13 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
-- None.
+- added equipmentefficiency report api.
 
 ### Changed
 - None.
 
 ### Fixed
-- None.
+- added historical database close and disconnect at the end of reports.
 
 ### Removed
 - None.

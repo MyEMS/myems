@@ -20,17 +20,13 @@ class Reporting:
     # PROCEDURES
     # Step 1: valid parameters
     # Step 2: query the equipment
-    # Step 3: query energy categories
-    # Step 4: query associated constants
-    # Step 4: query associated points
-    # Step 5: query associated fractions
-    # Step 5: query base period energy input
-    # Step 6: query base period energy output
-    # Step 7: query reporting period energy input
-    # Step 8: query reporting period energy output
-    # Step 9: query tariff data
-    # Step 10: query associated points data
-    # Step 11: construct the report
+    # Step 3: query associated points
+    # Step 4: query associated fractions
+    # Step 5: query fractions' numerator and denominator
+    # Step 6: calculate base period fractions
+    # Step 7: calculate reporting period fractions
+    # Step 8: query associated points data
+    # Step 9: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
@@ -159,92 +155,7 @@ class Reporting:
         equipment['cost_center_id'] = row_equipment[2]
 
         ################################################################################################################
-        # Step 3: query input energy categories and output energy categories
-        ################################################################################################################
-        energy_category_set_input = set()
-        energy_category_set_output = set()
-        # query input energy categories in base period
-        cursor_energy.execute(" SELECT DISTINCT(energy_category_id) "
-                              " FROM tbl_equipment_input_category_hourly "
-                              " WHERE equipment_id = %s "
-                              "     AND start_datetime_utc >= %s "
-                              "     AND start_datetime_utc < %s ",
-                              (equipment['id'], base_start_datetime_utc, base_end_datetime_utc))
-        rows_energy_categories = cursor_energy.fetchall()
-        if rows_energy_categories is not None or len(rows_energy_categories) > 0:
-            for row_energy_category in rows_energy_categories:
-                energy_category_set_input.add(row_energy_category[0])
-
-        # query input energy categories in reporting period
-        cursor_energy.execute(" SELECT DISTINCT(energy_category_id) "
-                              " FROM tbl_equipment_input_category_hourly "
-                              " WHERE equipment_id = %s "
-                              "     AND start_datetime_utc >= %s "
-                              "     AND start_datetime_utc < %s ",
-                              (equipment['id'], reporting_start_datetime_utc, reporting_end_datetime_utc))
-        rows_energy_categories = cursor_energy.fetchall()
-        if rows_energy_categories is not None or len(rows_energy_categories) > 0:
-            for row_energy_category in rows_energy_categories:
-                energy_category_set_input.add(row_energy_category[0])
-
-        # query output energy categories in base period
-        cursor_energy.execute(" SELECT DISTINCT(energy_category_id) "
-                              " FROM tbl_equipment_output_category_hourly "
-                              " WHERE equipment_id = %s "
-                              "     AND start_datetime_utc >= %s "
-                              "     AND start_datetime_utc < %s ",
-                              (equipment['id'], base_start_datetime_utc, base_end_datetime_utc))
-        rows_energy_categories = cursor_energy.fetchall()
-        if rows_energy_categories is not None or len(rows_energy_categories) > 0:
-            for row_energy_category in rows_energy_categories:
-                energy_category_set_output.add(row_energy_category[0])
-
-        # query output energy categories in reporting period
-        cursor_energy.execute(" SELECT DISTINCT(energy_category_id) "
-                              " FROM tbl_equipment_output_category_hourly "
-                              " WHERE equipment_id = %s "
-                              "     AND start_datetime_utc >= %s "
-                              "     AND start_datetime_utc < %s ",
-                              (equipment['id'], reporting_start_datetime_utc, reporting_end_datetime_utc))
-        rows_energy_categories = cursor_energy.fetchall()
-        if rows_energy_categories is not None or len(rows_energy_categories) > 0:
-            for row_energy_category in rows_energy_categories:
-                energy_category_set_output.add(row_energy_category[0])
-
-        # query properties of all energy categories above
-        cursor_system.execute(" SELECT id, name, unit_of_measure, kgce, kgco2e "
-                              " FROM tbl_energy_categories "
-                              " ORDER BY id ", )
-        rows_energy_categories = cursor_system.fetchall()
-        if rows_energy_categories is None or len(rows_energy_categories) == 0:
-            if cursor_system:
-                cursor_system.close()
-            if cnx_system:
-                cnx_system.disconnect()
-
-            if cursor_energy:
-                cursor_energy.close()
-            if cnx_energy:
-                cnx_energy.disconnect()
-
-            if cnx_historical:
-                cnx_historical.close()
-            if cursor_historical:
-                cursor_historical.disconnect()
-            raise falcon.HTTPError(falcon.HTTP_404,
-                                   title='API.NOT_FOUND',
-                                   description='API.ENERGY_CATEGORY_NOT_FOUND')
-        energy_category_dict = dict()
-        for row_energy_category in rows_energy_categories:
-            if row_energy_category[0] in energy_category_set_input or \
-                    row_energy_category[0] in energy_category_set_output:
-                energy_category_dict[row_energy_category[0]] = {"name": row_energy_category[1],
-                                                                "unit_of_measure": row_energy_category[2],
-                                                                "kgce": row_energy_category[3],
-                                                                "kgco2e": row_energy_category[4]}
-
-        ################################################################################################################
-        # Step 4: query associated points
+        # Step 3: query associated points
         ################################################################################################################
         point_list = list()
         cursor_system.execute(" SELECT p.id, p.name, p.units, p.object_type  "
@@ -257,36 +168,181 @@ class Reporting:
             for row in rows_points:
                 point_list.append({"id": row[0], "name": row[1], "units": row[2], "object_type": row[3]})
 
+        print(point_list)
         ################################################################################################################
-        # Step 5: query base period energy input
+        # Step 4: query associated fractions
         ################################################################################################################
-        base_input = dict()
-        if energy_category_set_input is not None and len(energy_category_set_input) > 0:
-            for energy_category_id in energy_category_set_input:
-                base_input[energy_category_id] = dict()
-                base_input[energy_category_id]['timestamps'] = list()
-                base_input[energy_category_id]['values'] = list()
-                base_input[energy_category_id]['subtotal'] = Decimal(0.0)
+        fraction_list = list()
+        cursor_system.execute(" SELECT id, name, numerator_meter_uuid, denominator_meter_uuid  "
+                              " FROM tbl_equipments_parameters "
+                              " WHERE equipment_id = %s AND parameter_type = 'fraction' ",
+                              (equipment['id'],))
+        rows_fractions = cursor_system.fetchall()
+        if rows_fractions is not None and len(rows_fractions) > 0:
+            for row in rows_fractions:
+                fraction_list.append({"id": row[0],
+                                      "name": row[1],
+                                      "numerator_meter_uuid": row[2],
+                                      "denominator_meter_uuid": row[3],
+                                      })
 
-                cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
-                                      " FROM tbl_equipment_input_category_hourly "
-                                      " WHERE equipment_id = %s "
-                                      "     AND energy_category_id = %s "
-                                      "     AND start_datetime_utc >= %s "
-                                      "     AND start_datetime_utc < %s "
-                                      " ORDER BY start_datetime_utc ",
-                                      (equipment['id'],
-                                       energy_category_id,
-                                       base_start_datetime_utc,
-                                       base_end_datetime_utc))
-                rows_equipment_hourly = cursor_energy.fetchall()
+        print(fraction_list)
 
-                rows_equipment_periodically = utilities.aggregate_hourly_data_by_period(rows_equipment_hourly,
-                                                                                        base_start_datetime_utc,
-                                                                                        base_end_datetime_utc,
-                                                                                        period_type)
-                for row_equipment_periodically in rows_equipment_periodically:
-                    current_datetime_local = row_equipment_periodically[0].replace(tzinfo=timezone.utc) + \
+        ################################################################################################################
+        # Step 5: query fractions' numerator and denominator
+        ################################################################################################################
+        # get all meters
+        meter_dict = dict()
+        query = (" SELECT m.id, m.uuid, ec.unit_of_measure "
+                 " FROM tbl_meters m, tbl_energy_categories ec "
+                 " WHERE m.energy_category_id  = ec.id ")
+        cursor_system.execute(query)
+        rows_meters = cursor_system.fetchall()
+
+        if rows_meters is not None and len(rows_meters) > 0:
+            for row in rows_meters:
+                meter_dict[row[1]] = {'id': row[0], 'unit': row[2]}
+        # get all offline meters
+        offline_meter_dict = dict()
+        query = (" SELECT m.id, m.uuid, ec.unit_of_measure "
+                 " FROM tbl_offline_meters m, tbl_energy_categories ec "
+                 " WHERE m.energy_category_id  = ec.id ")
+        cursor_system.execute(query)
+        rows_offline_meters = cursor_system.fetchall()
+
+        if rows_offline_meters is not None and len(rows_offline_meters) > 0:
+            for row in rows_offline_meters:
+                offline_meter_dict[row[1]] = {'id': row[0], 'unit': row[2]}
+        # get all virtual meters
+        virtual_meter_dict = dict()
+        query = (" SELECT m.id, m.uuid, ec.unit_of_measure "
+                 " FROM tbl_offline_meters m, tbl_energy_categories ec "
+                 " WHERE m.energy_category_id  = ec.id ")
+        cursor_system.execute(query)
+        rows_virtual_meters = cursor_system.fetchall()
+
+        if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
+            for row in rows_virtual_meters:
+                virtual_meter_dict[row[1]] = {'id': row[0], 'unit': row[2]}
+
+        if fraction_list is not None and len(fraction_list) > 0:
+            for fraction in fraction_list:
+                if fraction['numerator_meter_uuid'] in offline_meter_dict:
+                    fraction['numerator_meter_id'] = offline_meter_dict[fraction['numerator_meter_uuid']]['id']
+                    fraction['numerator_meter_unit'] = offline_meter_dict[fraction['numerator_meter_uuid']]['unit']
+                    fraction['numerator_meter_type'] = 'offline_meter'
+                elif fraction['numerator_meter_uuid'] in virtual_meter_dict:
+                    fraction['numerator_meter_id'] = virtual_meter_dict[fraction['numerator_meter_uuid']]['id']
+                    fraction['numerator_meter_unit'] = virtual_meter_dict[fraction['numerator_meter_uuid']]['unit']
+                    fraction['numerator_meter_type'] = 'virtual_meter'
+                elif fraction['numerator_meter_uuid'] in meter_dict:
+                    fraction['numerator_meter_id'] = meter_dict[fraction['numerator_meter_uuid']]['id']
+                    fraction['numerator_meter_unit'] = meter_dict[fraction['numerator_meter_uuid']]['unit']
+                    fraction['numerator_meter_type'] = 'meter'
+
+                if fraction['denominator_meter_uuid'] in offline_meter_dict:
+                    fraction['denominator_meter_id'] = offline_meter_dict[fraction['denominator_meter_uuid']]['id']
+                    fraction['denominator_meter_unit'] = offline_meter_dict[fraction['denominator_meter_uuid']]['unit']
+                    fraction['denominator_meter_type'] = 'offline_meter'
+                elif fraction['denominator_meter_uuid'] in virtual_meter_dict:
+                    fraction['denominator_meter_id'] = virtual_meter_dict[fraction['denominator_meter_uuid']]['id']
+                    fraction['denominator_meter_unit'] = virtual_meter_dict[fraction['denominator_meter_uuid']]['unit']
+                    fraction['denominator_meter_type'] = 'virtual_meter'
+                elif fraction['denominator_meter_uuid'] in meter_dict:
+                    fraction['denominator_meter_id'] = meter_dict[fraction['denominator_meter_uuid']]['id']
+                    fraction['denominator_meter_unit'] = meter_dict[fraction['denominator_meter_uuid']]['unit']
+                    fraction['denominator_meter_type'] = 'meter'
+
+        print(fraction_list)
+
+        ################################################################################################################
+        # Step 5: calculate base period fractions
+        ################################################################################################################
+        base = dict()
+        if fraction_list is not None and len(fraction_list) > 0:
+            for fraction in fraction_list:
+                base[fraction['id']] = dict()
+                base[fraction['id']]['name'] = fraction['name']
+                base[fraction['id']]['unit'] = fraction['numerator_meter_unit'] + '/' + \
+                    fraction['denominator_meter_unit']
+                base[fraction['id']]['numerator_timestamps'] = list()
+                base[fraction['id']]['numerator_values'] = list()
+                base[fraction['id']]['numerator_cumulation'] = Decimal(0.0)
+                base[fraction['id']]['denominator_timestamps'] = list()
+                base[fraction['id']]['denominator_values'] = list()
+                base[fraction['id']]['denominator_cumulation'] = Decimal(0.0)
+                base[fraction['id']]['timestamps'] = list()
+                base[fraction['id']]['values'] = list()
+                base[fraction['id']]['cumulation'] = Decimal(0.0)
+                # query numerator meter output
+                if fraction['numerator_meter_type'] == 'meter':
+                    query = (" SELECT start_datetime_utc, actual_value "
+                             " FROM tbl_meter_hourly "
+                             " WHERE meter_id = %s "
+                             " AND start_datetime_utc >= %s "
+                             " AND start_datetime_utc < %s "
+                             " ORDER BY start_datetime_utc ")
+                elif fraction['numerator_meter_type'] == 'offline_meter':
+                    query = (" SELECT start_datetime_utc, actual_value "
+                             " FROM tbl_offline_meter_hourly "
+                             " WHERE offline_meter_id = %s "
+                             " AND start_datetime_utc >= %s "
+                             " AND start_datetime_utc < %s "
+                             " ORDER BY start_datetime_utc ")
+                elif fraction['numerator_meter_type'] == 'virtual_meter':
+                    query = (" SELECT start_datetime_utc, actual_value "
+                             " FROM tbl_virtual_meter_hourly "
+                             " WHERE virtual_meter_id = %s "
+                             " AND start_datetime_utc >= %s "
+                             " AND start_datetime_utc < %s "
+                             " ORDER BY start_datetime_utc ")
+
+                cursor_energy.execute(query, (fraction['numerator_meter_id'],
+                                              base_start_datetime_utc,
+                                              base_end_datetime_utc))
+                rows_numerator_meter_hourly = cursor_energy.fetchall()
+
+                rows_numerator_meter_periodically = \
+                    utilities.aggregate_hourly_data_by_period(rows_numerator_meter_hourly,
+                                                              base_start_datetime_utc,
+                                                              base_end_datetime_utc,
+                                                              period_type)
+                # query denominator meter input
+                if fraction['denominator_meter_type'] == 'meter':
+                    query = (" SELECT start_datetime_utc, actual_value "
+                             " FROM tbl_meter_hourly "
+                             " WHERE meter_id = %s "
+                             " AND start_datetime_utc >= %s "
+                             " AND start_datetime_utc < %s "
+                             " ORDER BY start_datetime_utc ")
+                elif fraction['denominator_meter_type'] == 'offline_meter':
+                    query = (" SELECT start_datetime_utc, actual_value "
+                             " FROM tbl_offline_meter_hourly "
+                             " WHERE offline_meter_id = %s "
+                             " AND start_datetime_utc >= %s "
+                             " AND start_datetime_utc < %s "
+                             " ORDER BY start_datetime_utc ")
+                elif fraction['denominator_meter_type'] == 'virtual_meter':
+                    query = (" SELECT start_datetime_utc, actual_value "
+                             " FROM tbl_virtual_meter_hourly "
+                             " WHERE virtual_meter_id = %s "
+                             " AND start_datetime_utc >= %s "
+                             " AND start_datetime_utc < %s "
+                             " ORDER BY start_datetime_utc ")
+
+                cursor_energy.execute(query, (fraction['denominator_meter_id'],
+                                              base_start_datetime_utc,
+                                              base_end_datetime_utc))
+                rows_denominator_meter_hourly = cursor_energy.fetchall()
+
+                rows_denominator_meter_periodically = \
+                    utilities.aggregate_hourly_data_by_period(rows_denominator_meter_hourly,
+                                                              base_start_datetime_utc,
+                                                              base_end_datetime_utc,
+                                                              period_type)
+
+                for row_numerator_meter_periodically in rows_numerator_meter_periodically:
+                    current_datetime_local = row_numerator_meter_periodically[0].replace(tzinfo=timezone.utc) + \
                                              timedelta(minutes=timezone_offset)
                     if period_type == 'hourly':
                         current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
@@ -297,42 +353,15 @@ class Reporting:
                     elif period_type == 'yearly':
                         current_datetime = current_datetime_local.strftime('%Y')
 
-                    actual_value = Decimal(0.0) if row_equipment_periodically[1] is None \
-                        else row_equipment_periodically[1]
-                    base_input[energy_category_id]['timestamps'].append(current_datetime)
-                    base_input[energy_category_id]['values'].append(actual_value)
-                    base_input[energy_category_id]['subtotal'] += actual_value
+                    actual_value = Decimal(0.0) if row_numerator_meter_periodically[1] is None \
+                        else row_numerator_meter_periodically[1]
 
-        ################################################################################################################
-        # Step 6: query base period energy output
-        ################################################################################################################
-        base_output = dict()
-        if energy_category_set_output is not None and len(energy_category_set_output) > 0:
-            for energy_category_id in energy_category_set_output:
-                base_output[energy_category_id] = dict()
-                base_output[energy_category_id]['timestamps'] = list()
-                base_output[energy_category_id]['values'] = list()
-                base_output[energy_category_id]['subtotal'] = Decimal(0.0)
+                    base[fraction['id']]['numerator_timestamps'].append(current_datetime)
+                    base[fraction['id']]['numerator_values'].append(actual_value)
+                    base[fraction['id']]['numerator_cumulation'] += actual_value
 
-                cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
-                                      " FROM tbl_equipment_output_category_hourly "
-                                      " WHERE equipment_id = %s "
-                                      "     AND energy_category_id = %s "
-                                      "     AND start_datetime_utc >= %s "
-                                      "     AND start_datetime_utc < %s "
-                                      " ORDER BY start_datetime_utc ",
-                                      (equipment['id'],
-                                       energy_category_id,
-                                       base_start_datetime_utc,
-                                       base_end_datetime_utc))
-                rows_equipment_hourly = cursor_energy.fetchall()
-
-                rows_equipment_periodically = utilities.aggregate_hourly_data_by_period(rows_equipment_hourly,
-                                                                                        base_start_datetime_utc,
-                                                                                        base_end_datetime_utc,
-                                                                                        period_type)
-                for row_equipment_periodically in rows_equipment_periodically:
-                    current_datetime_local = row_equipment_periodically[0].replace(tzinfo=timezone.utc) + \
+                for row_denominator_meter_periodically in rows_denominator_meter_periodically:
+                    current_datetime_local = row_denominator_meter_periodically[0].replace(tzinfo=timezone.utc) + \
                                              timedelta(minutes=timezone_offset)
                     if period_type == 'hourly':
                         current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
@@ -343,42 +372,114 @@ class Reporting:
                     elif period_type == 'yearly':
                         current_datetime = current_datetime_local.strftime('%Y')
 
-                    actual_value = Decimal(0.0) if row_equipment_periodically[1] is None \
-                        else row_equipment_periodically[1]
-                    base_output[energy_category_id]['timestamps'].append(current_datetime)
-                    base_output[energy_category_id]['values'].append(actual_value)
-                    base_output[energy_category_id]['subtotal'] += actual_value
+                    actual_value = Decimal(0.0) if row_denominator_meter_periodically[1] is None \
+                        else row_denominator_meter_periodically[1]
+
+                    base[fraction['id']]['denominator_timestamps'].append(current_datetime)
+                    base[fraction['id']]['denominator_values'].append(actual_value)
+                    base[fraction['id']]['denominator_cumulation'] += actual_value
+
+                for i in range(len(base[fraction['id']]['denominator_timestamps'])):
+                    timestamp = base[fraction['id']]['denominator_timestamps'][i]
+                    base[fraction['id']]['timestamps'].append(timestamp)
+                    value = \
+                        base[fraction['id']]['denominator_values'][i] / base[fraction['id']]['denominator_values'][i] \
+                        if base[fraction['id']]['denominator_values'][i] > Decimal(0.0) else Decimal(0.0)
+                    base[fraction['id']]['values'].append(value)
+
+                cumulation = \
+                    base[fraction['id']]['numerator_cumulation'] / base[fraction['id']]['denominator_cumulation'] \
+                    if base[fraction['id']]['denominator_cumulation'] > Decimal(0.0) else Decimal(0.0)
+                base[fraction['id']]['cumulation'] = cumulation
+
         ################################################################################################################
-        # Step 7: query reporting period energy input
+        # Step 6: calculate reporting period fractions
         ################################################################################################################
-        reporting_input = dict()
-        if energy_category_set_input is not None and len(energy_category_set_input) > 0:
-            for energy_category_id in energy_category_set_input:
+        reporting = dict()
+        if fraction_list is not None and len(fraction_list) > 0:
+            for fraction in fraction_list:
+                reporting[fraction['id']] = dict()
+                reporting[fraction['id']]['name'] = fraction['name']
+                reporting[fraction['id']]['unit'] = fraction['numerator_meter_unit'] + '/' + \
+                    fraction['denominator_meter_unit']
+                reporting[fraction['id']]['numerator_timestamps'] = list()
+                reporting[fraction['id']]['numerator_values'] = list()
+                reporting[fraction['id']]['numerator_cumulation'] = Decimal(0.0)
+                reporting[fraction['id']]['denominator_timestamps'] = list()
+                reporting[fraction['id']]['denominator_values'] = list()
+                reporting[fraction['id']]['denominator_cumulation'] = Decimal(0.0)
+                reporting[fraction['id']]['timestamps'] = list()
+                reporting[fraction['id']]['values'] = list()
+                reporting[fraction['id']]['cumulation'] = Decimal(0.0)
+                # query numerator meter output
+                if fraction['numerator_meter_type'] == 'meter':
+                    query = (" SELECT start_datetime_utc, actual_value "
+                             " FROM tbl_meter_hourly "
+                             " WHERE meter_id = %s "
+                             " AND start_datetime_utc >= %s "
+                             " AND start_datetime_utc < %s "
+                             " ORDER BY start_datetime_utc ")
+                elif fraction['numerator_meter_type'] == 'offline_meter':
+                    query = (" SELECT start_datetime_utc, actual_value "
+                             " FROM tbl_offline_meter_hourly "
+                             " WHERE offline_meter_id = %s "
+                             " AND start_datetime_utc >= %s "
+                             " AND start_datetime_utc < %s "
+                             " ORDER BY start_datetime_utc ")
+                elif fraction['numerator_meter_type'] == 'virtual_meter':
+                    query = (" SELECT start_datetime_utc, actual_value "
+                             " FROM tbl_virtual_meter_hourly "
+                             " WHERE virtual_meter_id = %s "
+                             " AND start_datetime_utc >= %s "
+                             " AND start_datetime_utc < %s "
+                             " ORDER BY start_datetime_utc ")
 
-                reporting_input[energy_category_id] = dict()
-                reporting_input[energy_category_id]['timestamps'] = list()
-                reporting_input[energy_category_id]['values'] = list()
-                reporting_input[energy_category_id]['subtotal'] = Decimal(0.0)
+                cursor_energy.execute(query, (fraction['numerator_meter_id'],
+                                              reporting_start_datetime_utc,
+                                              reporting_end_datetime_utc))
+                rows_numerator_meter_hourly = cursor_energy.fetchall()
 
-                cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
-                                      " FROM tbl_equipment_input_category_hourly "
-                                      " WHERE equipment_id = %s "
-                                      "     AND energy_category_id = %s "
-                                      "     AND start_datetime_utc >= %s "
-                                      "     AND start_datetime_utc < %s "
-                                      " ORDER BY start_datetime_utc ",
-                                      (equipment['id'],
-                                       energy_category_id,
-                                       reporting_start_datetime_utc,
-                                       reporting_end_datetime_utc))
-                rows_equipment_hourly = cursor_energy.fetchall()
+                rows_numerator_meter_periodically = \
+                    utilities.aggregate_hourly_data_by_period(rows_numerator_meter_hourly,
+                                                              reporting_start_datetime_utc,
+                                                              reporting_end_datetime_utc,
+                                                              period_type)
+                # query denominator meter input
+                if fraction['denominator_meter_type'] == 'meter':
+                    query = (" SELECT start_datetime_utc, actual_value "
+                             " FROM tbl_meter_hourly "
+                             " WHERE meter_id = %s "
+                             " AND start_datetime_utc >= %s "
+                             " AND start_datetime_utc < %s "
+                             " ORDER BY start_datetime_utc ")
+                elif fraction['denominator_meter_type'] == 'offline_meter':
+                    query = (" SELECT start_datetime_utc, actual_value "
+                             " FROM tbl_offline_meter_hourly "
+                             " WHERE offline_meter_id = %s "
+                             " AND start_datetime_utc >= %s "
+                             " AND start_datetime_utc < %s "
+                             " ORDER BY start_datetime_utc ")
+                elif fraction['denominator_meter_type'] == 'virtual_meter':
+                    query = (" SELECT start_datetime_utc, actual_value "
+                             " FROM tbl_virtual_meter_hourly "
+                             " WHERE virtual_meter_id = %s "
+                             " AND start_datetime_utc >= %s "
+                             " AND start_datetime_utc < %s "
+                             " ORDER BY start_datetime_utc ")
 
-                rows_equipment_periodically = utilities.aggregate_hourly_data_by_period(rows_equipment_hourly,
-                                                                                        reporting_start_datetime_utc,
-                                                                                        reporting_end_datetime_utc,
-                                                                                        period_type)
-                for row_equipment_periodically in rows_equipment_periodically:
-                    current_datetime_local = row_equipment_periodically[0].replace(tzinfo=timezone.utc) + \
+                cursor_energy.execute(query, (fraction['denominator_meter_id'],
+                                              reporting_start_datetime_utc,
+                                              reporting_end_datetime_utc))
+                rows_denominator_meter_hourly = cursor_energy.fetchall()
+
+                rows_denominator_meter_periodically = \
+                    utilities.aggregate_hourly_data_by_period(rows_denominator_meter_hourly,
+                                                              reporting_start_datetime_utc,
+                                                              reporting_end_datetime_utc,
+                                                              period_type)
+
+                for row_numerator_meter_periodically in rows_numerator_meter_periodically:
+                    current_datetime_local = row_numerator_meter_periodically[0].replace(tzinfo=timezone.utc) + \
                                              timedelta(minutes=timezone_offset)
                     if period_type == 'hourly':
                         current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
@@ -389,43 +490,15 @@ class Reporting:
                     elif period_type == 'yearly':
                         current_datetime = current_datetime_local.strftime('%Y')
 
-                    actual_value = Decimal(0.0) if row_equipment_periodically[1] is None \
-                        else row_equipment_periodically[1]
-                    reporting_input[energy_category_id]['timestamps'].append(current_datetime)
-                    reporting_input[energy_category_id]['values'].append(actual_value)
-                    reporting_input[energy_category_id]['subtotal'] += actual_value
+                    actual_value = Decimal(0.0) if row_numerator_meter_periodically[1] is None \
+                        else row_numerator_meter_periodically[1]
 
-        ################################################################################################################
-        # Step 8: query reporting period energy output
-        ################################################################################################################
-        reporting_output = dict()
-        if energy_category_set_output is not None and len(energy_category_set_output) > 0:
-            for energy_category_id in energy_category_set_output:
+                    reporting[fraction['id']]['numerator_timestamps'].append(current_datetime)
+                    reporting[fraction['id']]['numerator_values'].append(actual_value)
+                    reporting[fraction['id']]['numerator_cumulation'] += actual_value
 
-                reporting_output[energy_category_id] = dict()
-                reporting_output[energy_category_id]['timestamps'] = list()
-                reporting_output[energy_category_id]['values'] = list()
-                reporting_output[energy_category_id]['subtotal'] = Decimal(0.0)
-
-                cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
-                                      " FROM tbl_equipment_output_category_hourly "
-                                      " WHERE equipment_id = %s "
-                                      "     AND energy_category_id = %s "
-                                      "     AND start_datetime_utc >= %s "
-                                      "     AND start_datetime_utc < %s "
-                                      " ORDER BY start_datetime_utc ",
-                                      (equipment['id'],
-                                       energy_category_id,
-                                       reporting_start_datetime_utc,
-                                       reporting_end_datetime_utc))
-                rows_equipment_hourly = cursor_energy.fetchall()
-
-                rows_equipment_periodically = utilities.aggregate_hourly_data_by_period(rows_equipment_hourly,
-                                                                                        reporting_start_datetime_utc,
-                                                                                        reporting_end_datetime_utc,
-                                                                                        period_type)
-                for row_equipment_periodically in rows_equipment_periodically:
-                    current_datetime_local = row_equipment_periodically[0].replace(tzinfo=timezone.utc) + \
+                for row_denominator_meter_periodically in rows_denominator_meter_periodically:
+                    current_datetime_local = row_denominator_meter_periodically[0].replace(tzinfo=timezone.utc) + \
                                              timedelta(minutes=timezone_offset)
                     if period_type == 'hourly':
                         current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
@@ -436,40 +509,34 @@ class Reporting:
                     elif period_type == 'yearly':
                         current_datetime = current_datetime_local.strftime('%Y')
 
-                    actual_value = Decimal(0.0) if row_equipment_periodically[1] is None \
-                        else row_equipment_periodically[1]
-                    reporting_output[energy_category_id]['timestamps'].append(current_datetime)
-                    reporting_output[energy_category_id]['values'].append(actual_value)
-                    reporting_output[energy_category_id]['subtotal'] += actual_value
+                    actual_value = Decimal(0.0) if row_denominator_meter_periodically[1] is None \
+                        else row_denominator_meter_periodically[1]
+
+                    reporting[fraction['id']]['denominator_timestamps'].append(current_datetime)
+                    reporting[fraction['id']]['denominator_values'].append(actual_value)
+                    reporting[fraction['id']]['denominator_cumulation'] += actual_value
+
+                for i in range(len(reporting[fraction['id']]['denominator_timestamps'])):
+                    timestamp = reporting[fraction['id']]['denominator_timestamps'][i]
+                    reporting[fraction['id']]['timestamps'].append(timestamp)
+                    value = reporting[fraction['id']]['denominator_values'][i] / \
+                        reporting[fraction['id']]['denominator_values'][i] \
+                        if reporting[fraction['id']]['denominator_values'][i] > Decimal(0.0) else Decimal(0.0)
+                    reporting[fraction['id']]['values'].append(value)
+
+                cumulation = reporting[fraction['id']]['numerator_cumulation'] / \
+                    reporting[fraction['id']]['denominator_cumulation'] \
+                    if reporting[fraction['id']]['denominator_cumulation'] > Decimal(0.0) else Decimal(0.0)
+                reporting[fraction['id']]['cumulation'] = cumulation
 
         ################################################################################################################
-        # Step 9: query tariff data
+        # Step 7: query associated points data
         ################################################################################################################
         parameters_data = dict()
         parameters_data['names'] = list()
         parameters_data['timestamps'] = list()
         parameters_data['values'] = list()
-        if energy_category_set_input is not None and len(energy_category_set_input) > 0:
-            for energy_category_id in energy_category_set_input:
-                energy_category_tariff_dict = utilities.get_energy_category_tariffs(equipment['cost_center_id'],
-                                                                                    energy_category_id,
-                                                                                    reporting_start_datetime_utc,
-                                                                                    reporting_end_datetime_utc)
-                tariff_timestamp_list = list()
-                tariff_value_list = list()
-                for k, v in energy_category_tariff_dict.items():
-                    # convert k from utc to local
-                    k = k + timedelta(minutes=timezone_offset)
-                    tariff_timestamp_list.append(k.isoformat()[0:19][0:19])
-                    tariff_value_list.append(v)
 
-                parameters_data['names'].append('TARIFF-' + energy_category_dict[energy_category_id]['name'])
-                parameters_data['timestamps'].append(tariff_timestamp_list)
-                parameters_data['values'].append(tariff_value_list)
-
-        ################################################################################################################
-        # Step 10: query associated sensors and points data
-        ################################################################################################################
         for point in point_list:
             point_values = []
             point_timestamps = []
@@ -533,7 +600,7 @@ class Reporting:
             parameters_data['values'].append(point_values)
 
         ################################################################################################################
-        # Step 11: construct the report
+        # Step 8: construct the report
         ################################################################################################################
         if cursor_system:
             cursor_system.close()
@@ -550,118 +617,12 @@ class Reporting:
         result['equipment'] = dict()
         result['equipment']['name'] = equipment['name']
 
-        result['base_period_input'] = dict()
-        result['base_period_input']['names'] = list()
-        result['base_period_input']['units'] = list()
-        result['base_period_input']['timestamps'] = list()
-        result['base_period_input']['values'] = list()
-        result['base_period_input']['subtotals'] = list()
-        if energy_category_set_input is not None and len(energy_category_set_input) > 0:
-            for energy_category_id in energy_category_set_input:
-                result['base_period_input']['names'].append(energy_category_dict[energy_category_id]['name'])
-                result['base_period_input']['units'].append(energy_category_dict[energy_category_id]['unit_of_measure'])
-                result['base_period_input']['timestamps'].append(base_input[energy_category_id]['timestamps'])
-                result['base_period_input']['values'].append(base_input[energy_category_id]['values'])
-                result['base_period_input']['subtotals'].append(base_input[energy_category_id]['subtotal'])
-
-        result['base_period_output'] = dict()
-        result['base_period_output']['names'] = list()
-        result['base_period_output']['units'] = list()
-        result['base_period_output']['timestamps'] = list()
-        result['base_period_output']['values'] = list()
-        result['base_period_output']['subtotals'] = list()
-
-        if energy_category_set_output is not None and len(energy_category_set_output) > 0:
-            for energy_category_id in energy_category_set_output:
-                result['base_period_output']['names'].append(energy_category_dict[energy_category_id]['name'])
-                result['base_period_output']['units'].append(
-                    energy_category_dict[energy_category_id]['unit_of_measure'])
-                result['base_period_output']['timestamps'].append(base_output[energy_category_id]['timestamps'])
-                result['base_period_output']['values'].append(base_output[energy_category_id]['values'])
-                result['base_period_output']['subtotals'].append(base_output[energy_category_id]['subtotal'])
-
         result['base_period_efficiency'] = dict()
         result['base_period_efficiency']['names'] = list()
         result['base_period_efficiency']['units'] = list()
         result['base_period_efficiency']['timestamps'] = list()
         result['base_period_efficiency']['values'] = list()
         result['base_period_efficiency']['cumulations'] = list()
-
-        if energy_category_set_output is not None and len(energy_category_set_output) > 0:
-            for energy_category_id_output in energy_category_set_output:
-                for energy_category_id_input in energy_category_set_input:
-                    result['base_period_efficiency']['names'].append(
-                        energy_category_dict[energy_category_id_output]['name'] + '/' +
-                        energy_category_dict[energy_category_id_input]['name'])
-                    result['base_period_efficiency']['units'].append(
-                        energy_category_dict[energy_category_id_output]['unit_of_measure'] + '/' +
-                        energy_category_dict[energy_category_id_input]['unit_of_measure'])
-                    result['base_period_efficiency']['timestamps'].append(
-                        base_output[energy_category_id_output]['timestamps'])
-                    efficiency_values = list()
-                    for i in range(len(base_output[energy_category_id_output]['timestamps'])):
-                        efficiency_values.append((base_output[energy_category_id_output]['values'][i] /
-                                                  base_input[energy_category_id_input]['values'][i])
-                                                 if base_input[energy_category_id_input]['values'][i] > Decimal(0.0)
-                                                 else None)
-                    result['base_period_efficiency']['values'].append(efficiency_values)
-
-                    base_cumulation = (base_output[energy_category_id_output]['subtotal'] /
-                                       base_input[energy_category_id_input]['subtotal']) if \
-                        base_input[energy_category_id_input]['subtotal'] > Decimal(0.0) else None
-                    result['base_period_efficiency']['cumulations'].append(base_cumulation)
-
-        result['reporting_period_input'] = dict()
-        result['reporting_period_input']['names'] = list()
-        result['reporting_period_input']['energy_category_ids'] = list()
-        result['reporting_period_input']['units'] = list()
-        result['reporting_period_input']['timestamps'] = list()
-        result['reporting_period_input']['values'] = list()
-        result['reporting_period_input']['subtotals'] = list()
-        result['reporting_period_input']['increment_rates'] = list()
-
-        if energy_category_set_input is not None and len(energy_category_set_input) > 0:
-            for energy_category_id in energy_category_set_input:
-                result['reporting_period_input']['names'].append(energy_category_dict[energy_category_id]['name'])
-                result['reporting_period_input']['energy_category_ids'].append(energy_category_id)
-                result['reporting_period_input']['units'].append(
-                    energy_category_dict[energy_category_id]['unit_of_measure'])
-                result['reporting_period_input']['timestamps'].append(
-                    reporting_input[energy_category_id]['timestamps'])
-                result['reporting_period_input']['values'].append(
-                    reporting_input[energy_category_id]['values'])
-                result['reporting_period_input']['subtotals'].append(
-                    reporting_input[energy_category_id]['subtotal'])
-                result['reporting_period_input']['increment_rates'].append(
-                    (reporting_input[energy_category_id]['subtotal'] -
-                     base_input[energy_category_id]['subtotal']) /
-                    base_input[energy_category_id]['subtotal']
-                    if base_input[energy_category_id]['subtotal'] > 0.0 else None)
-
-        result['reporting_period_output'] = dict()
-        result['reporting_period_output']['names'] = list()
-        result['reporting_period_output']['energy_category_ids'] = list()
-        result['reporting_period_output']['units'] = list()
-        result['reporting_period_output']['timestamps'] = list()
-        result['reporting_period_output']['values'] = list()
-        result['reporting_period_output']['subtotals'] = list()
-        result['reporting_period_output']['increment_rates'] = list()
-
-        if energy_category_set_output is not None and len(energy_category_set_output) > 0:
-            for energy_category_id in energy_category_set_output:
-                result['reporting_period_output']['names'].append(energy_category_dict[energy_category_id]['name'])
-                result['reporting_period_output']['energy_category_ids'].append(energy_category_id)
-                result['reporting_period_output']['units'].append(
-                    energy_category_dict[energy_category_id]['unit_of_measure'])
-                result['reporting_period_output']['timestamps'].append(
-                    reporting_output[energy_category_id]['timestamps'])
-                result['reporting_period_output']['values'].append(reporting_output[energy_category_id]['values'])
-                result['reporting_period_output']['subtotals'].append(reporting_output[energy_category_id]['subtotal'])
-                result['reporting_period_output']['increment_rates'].append(
-                    (reporting_output[energy_category_id]['subtotal'] -
-                     base_output[energy_category_id]['subtotal']) /
-                    base_output[energy_category_id]['subtotal']
-                    if base_output[energy_category_id]['subtotal'] > 0.0 else None)
 
         result['reporting_period_efficiency'] = dict()
         result['reporting_period_efficiency']['names'] = list()
@@ -670,40 +631,16 @@ class Reporting:
         result['reporting_period_efficiency']['values'] = list()
         result['reporting_period_efficiency']['cumulations'] = list()
         result['reporting_period_efficiency']['increment_rates'] = list()
-
-        if energy_category_set_output is not None and len(energy_category_set_output) > 0:
-            for energy_category_id_output in energy_category_set_output:
-                for energy_category_id_input in energy_category_set_input:
-                    result['reporting_period_efficiency']['names'].append(
-                        energy_category_dict[energy_category_id_output]['name'] + '/' +
-                        energy_category_dict[energy_category_id_input]['name'])
-                    result['reporting_period_efficiency']['units'].append(
-                        energy_category_dict[energy_category_id_output]['unit_of_measure'] + '/' +
-                        energy_category_dict[energy_category_id_input]['unit_of_measure'])
-                    result['reporting_period_efficiency']['timestamps'].append(
-                        reporting_output[energy_category_id_output]['timestamps'])
-                    efficiency_values = list()
-                    for i in range(len(reporting_output[energy_category_id_output]['timestamps'])):
-                        efficiency_values.append((reporting_output[energy_category_id_output]['values'][i] /
-                                                 reporting_input[energy_category_id_input]['values'][i])
-                                                 if reporting_input[energy_category_id_input]['values'][i] >
-                                                 Decimal(0.0) else None)
-                    result['reporting_period_efficiency']['values'].append(efficiency_values)
-
-                    base_cumulation = (base_output[energy_category_id_output]['subtotal'] /
-                                       base_input[energy_category_id_input]['subtotal']) if \
-                        base_input[energy_category_id_input]['subtotal'] > Decimal(0.0) else None
-
-                    reporting_cumulation = (reporting_output[energy_category_id_output]['subtotal'] /
-                                            reporting_input[energy_category_id_input]['subtotal']) if \
-                        reporting_input[energy_category_id_input]['subtotal'] > Decimal(0.0) else None
-
-                    result['reporting_period_efficiency']['cumulations'].append(reporting_cumulation)
-                    result['reporting_period_efficiency']['increment_rates'].append(
-                        ((reporting_cumulation - base_cumulation) / base_cumulation if (base_cumulation is not None and
-                                                                                        base_cumulation > Decimal(0.0))
-                         else None)
-                    )
+        if fraction_list is not None and len(fraction_list) > 0:
+            for fraction in fraction_list:
+                result['base_period_efficiency']['names'].append(reporting[fraction['id']]['name'])
+                result['base_period_efficiency']['units'].append(reporting[fraction['id']]['unit'])
+                result['base_period_efficiency']['timestamps'].append(base[fraction['id']]['timestamps'])
+                result['base_period_efficiency']['values'].append(base[fraction['id']]['values'])
+                result['base_period_efficiency']['cumulations'].append(base[fraction['id']]['cumulation'])
+                result['reporting_period_efficiency']['timestamps'].append(reporting[fraction['id']]['timestamps'])
+                result['reporting_period_efficiency']['values'].append(reporting[fraction['id']]['values'])
+                result['reporting_period_efficiency']['cumulations'].append(reporting[fraction['id']]['cumulation'])
 
         result['parameters'] = {
             "names": parameters_data['names'],
