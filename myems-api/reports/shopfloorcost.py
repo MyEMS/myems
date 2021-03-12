@@ -457,6 +457,11 @@ class Reporting:
         if cnx_billing:
             cnx_billing.disconnect()
 
+        if cnx_historical:
+            cnx_historical.close()
+        if cursor_historical:
+            cursor_historical.disconnect()
+
         result = dict()
 
         result['shopfloor'] = dict()
