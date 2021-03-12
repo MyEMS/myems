@@ -382,13 +382,13 @@ class Reporting:
                 for i in range(len(base[fraction['id']]['denominator_timestamps'])):
                     timestamp = base[fraction['id']]['denominator_timestamps'][i]
                     base[fraction['id']]['timestamps'].append(timestamp)
-                    value = \
-                        base[fraction['id']]['denominator_values'][i] / base[fraction['id']]['denominator_values'][i] \
+                    value = (base[fraction['id']]['numerator_values'][i] /
+                             base[fraction['id']]['denominator_values'][i]) \
                         if base[fraction['id']]['denominator_values'][i] > Decimal(0.0) else Decimal(0.0)
                     base[fraction['id']]['values'].append(value)
 
-                cumulation = \
-                    base[fraction['id']]['numerator_cumulation'] / base[fraction['id']]['denominator_cumulation'] \
+                cumulation = (base[fraction['id']]['numerator_cumulation'] /
+                              base[fraction['id']]['denominator_cumulation']) \
                     if base[fraction['id']]['denominator_cumulation'] > Decimal(0.0) else Decimal(0.0)
                 base[fraction['id']]['cumulation'] = cumulation
 
@@ -519,13 +519,13 @@ class Reporting:
                 for i in range(len(reporting[fraction['id']]['denominator_timestamps'])):
                     timestamp = reporting[fraction['id']]['denominator_timestamps'][i]
                     reporting[fraction['id']]['timestamps'].append(timestamp)
-                    value = reporting[fraction['id']]['denominator_values'][i] / \
+                    value = reporting[fraction['id']]['numerator_values'][i] / \
                         reporting[fraction['id']]['denominator_values'][i] \
                         if reporting[fraction['id']]['denominator_values'][i] > Decimal(0.0) else Decimal(0.0)
                     reporting[fraction['id']]['values'].append(value)
 
-                cumulation = reporting[fraction['id']]['numerator_cumulation'] / \
-                    reporting[fraction['id']]['denominator_cumulation'] \
+                cumulation = (reporting[fraction['id']]['numerator_cumulation'] /
+                              reporting[fraction['id']]['denominator_cumulation']) \
                     if reporting[fraction['id']]['denominator_cumulation'] > Decimal(0.0) else Decimal(0.0)
                 reporting[fraction['id']]['cumulation'] = cumulation
 
@@ -618,8 +618,6 @@ class Reporting:
         result['equipment']['name'] = equipment['name']
 
         result['base_period_efficiency'] = dict()
-        result['base_period_efficiency']['names'] = list()
-        result['base_period_efficiency']['units'] = list()
         result['base_period_efficiency']['timestamps'] = list()
         result['base_period_efficiency']['values'] = list()
         result['base_period_efficiency']['cumulations'] = list()
@@ -633,14 +631,17 @@ class Reporting:
         result['reporting_period_efficiency']['increment_rates'] = list()
         if fraction_list is not None and len(fraction_list) > 0:
             for fraction in fraction_list:
-                result['base_period_efficiency']['names'].append(reporting[fraction['id']]['name'])
-                result['base_period_efficiency']['units'].append(reporting[fraction['id']]['unit'])
                 result['base_period_efficiency']['timestamps'].append(base[fraction['id']]['timestamps'])
                 result['base_period_efficiency']['values'].append(base[fraction['id']]['values'])
                 result['base_period_efficiency']['cumulations'].append(base[fraction['id']]['cumulation'])
+                result['reporting_period_efficiency']['names'].append(reporting[fraction['id']]['name'])
+                result['reporting_period_efficiency']['units'].append(reporting[fraction['id']]['unit'])
                 result['reporting_period_efficiency']['timestamps'].append(reporting[fraction['id']]['timestamps'])
                 result['reporting_period_efficiency']['values'].append(reporting[fraction['id']]['values'])
                 result['reporting_period_efficiency']['cumulations'].append(reporting[fraction['id']]['cumulation'])
+                result['reporting_period_efficiency']['increment_rates'].append(
+                    (reporting[fraction['id']]['cumulation'] - base[fraction['id']]['cumulation']) /
+                    base[fraction['id']]['cumulation'] if base[fraction['id']]['cumulation'] > Decimal(0.0) else None)
 
         result['parameters'] = {
             "names": parameters_data['names'],
