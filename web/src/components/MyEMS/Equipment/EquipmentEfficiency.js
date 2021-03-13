@@ -374,20 +374,22 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
         setParameterLineChartOptions(names);
       
         let detailed_value_list = [];
-        json['reporting_period_efficiency']['timestamps'][0].forEach((currentTimestamp, timestampIndex) => {
-          let detailed_value = {};
-          detailed_value['id'] = timestampIndex;
-          detailed_value['startdatetime'] = currentTimestamp;
-          json['reporting_period_efficiency']['values'].forEach((currentValue, energyCategoryIndex) => {
-            if (json['reporting_period_efficiency']['values'][energyCategoryIndex][timestampIndex] != null) {
-              detailed_value['a' + 2 * energyCategoryIndex] = json['reporting_period_efficiency']['values'][energyCategoryIndex][timestampIndex].toFixed(2);
-            } else {
-              detailed_value['a' + 2 * energyCategoryIndex] = '';
-            };
+        if (json['reporting_period_efficiency']['timestamps'].length > 0) {
+          json['reporting_period_efficiency']['timestamps'][0].forEach((currentTimestamp, timestampIndex) => {
+            let detailed_value = {};
+            detailed_value['id'] = timestampIndex;
+            detailed_value['startdatetime'] = currentTimestamp;
+            json['reporting_period_efficiency']['values'].forEach((currentValue, energyCategoryIndex) => {
+              if (json['reporting_period_efficiency']['values'][energyCategoryIndex][timestampIndex] != null) {
+                detailed_value['a' + 2 * energyCategoryIndex] = json['reporting_period_efficiency']['values'][energyCategoryIndex][timestampIndex].toFixed(2);
+              } else {
+                detailed_value['a' + 2 * energyCategoryIndex] = '';
+              };
+            });
+            
+            detailed_value_list.push(detailed_value);
           });
-           
-          detailed_value_list.push(detailed_value);
-        });
+        };
 
         let detailed_value = {};
         detailed_value['id'] = detailed_value_list.length;
