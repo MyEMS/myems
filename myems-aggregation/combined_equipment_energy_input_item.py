@@ -411,7 +411,7 @@ def worker(combined_equipment):
         try:
             for equipment in equipment_list:
                 equipment_id = str(equipment['id'])
-                query = (" SELECT start_datetime_utc, energy_category_id, actual_value "
+                query = (" SELECT start_datetime_utc, energy_item_id, actual_value "
                          " FROM tbl_equipment_input_item_hourly "
                          " WHERE equipment_id = %s "
                          "       AND start_datetime_utc >= %s "
@@ -427,9 +427,9 @@ def worker(combined_equipment):
                         current_datetime_utc = row_value[0]
                         if current_datetime_utc not in energy_equipment_hourly[equipment_id]:
                             energy_equipment_hourly[equipment_id][current_datetime_utc] = dict()
-                        energy_category_id = row_value[1]
+                        energy_item_id = row_value[1]
                         actual_value = row_value[2]
-                        energy_equipment_hourly[equipment_id][current_datetime_utc][energy_category_id] = \
+                        energy_equipment_hourly[equipment_id][current_datetime_utc][energy_item_id] = \
                             actual_value
         except Exception as e:
             error_string = "Error in step 9 of combined_equipment_energy_input_item.worker " + str(e)
@@ -563,9 +563,9 @@ def worker(combined_equipment):
                     equipment_id = str(equipment['id'])
                     meta_data_dict = energy_equipment_hourly[equipment_id].get(current_datetime_utc, None)
                     if meta_data_dict is not None and len(meta_data_dict) > 0:
-                        for energy_category_id, actual_value in meta_data_dict.items():
-                            aggregated_value['meta_data'][energy_category_id] = \
-                                aggregated_value['meta_data'].get(energy_category_id, Decimal(0.0)) + actual_value
+                        for energy_item_id, actual_value in meta_data_dict.items():
+                            aggregated_value['meta_data'][energy_item_id] = \
+                                aggregated_value['meta_data'].get(energy_item_id, Decimal(0.0)) + actual_value
 
             aggregated_values.append(aggregated_value)
 
