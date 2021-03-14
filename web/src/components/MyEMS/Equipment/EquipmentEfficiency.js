@@ -381,7 +381,7 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
             detailed_value['startdatetime'] = currentTimestamp;
             json['reporting_period_efficiency']['values'].forEach((currentValue, parameterIndex) => {
               if (json['reporting_period_efficiency']['values'][parameterIndex][timestampIndex] != null) {
-                detailed_value['a' + arameterIndex] = json['reporting_period_efficiency']['values'][parameterIndex][timestampIndex].toFixed(2);
+                detailed_value['a' + parameterIndex] = json['reporting_period_efficiency']['values'][parameterIndex][timestampIndex].toFixed(2);
               } else {
                 detailed_value['a' + parameterIndex] = '';
               };
