@@ -219,7 +219,7 @@ class Reporting:
         # get all virtual meters
         virtual_meter_dict = dict()
         query = (" SELECT m.id, m.uuid, ec.unit_of_measure "
-                 " FROM tbl_offline_meters m, tbl_energy_categories ec "
+                 " FROM tbl_virtual_meters m, tbl_energy_categories ec "
                  " WHERE m.energy_category_id  = ec.id ")
         cursor_system.execute(query)
         rows_virtual_meters = cursor_system.fetchall()
