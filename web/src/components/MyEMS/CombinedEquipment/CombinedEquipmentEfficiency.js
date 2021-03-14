@@ -379,11 +379,11 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
             let detailed_value = {};
             detailed_value['id'] = timestampIndex;
             detailed_value['startdatetime'] = currentTimestamp;
-            json['reporting_period_efficiency']['values'].forEach((currentValue, energyCategoryIndex) => {
-              if (json['reporting_period_efficiency']['values'][energyCategoryIndex][timestampIndex] != null) {
-                detailed_value['a' + 2 * energyCategoryIndex] = json['reporting_period_efficiency']['values'][energyCategoryIndex][timestampIndex].toFixed(2);
+            json['reporting_period_efficiency']['values'].forEach((currentValue, parameterIndex) => {
+              if (json['reporting_period_efficiency']['values'][parameterIndex][timestampIndex] != null) {
+                detailed_value['a' + parameterIndex] = json['reporting_period_efficiency']['values'][parameterIndex][timestampIndex].toFixed(2);
               } else {
-                detailed_value['a' + 2 * energyCategoryIndex] = '';
+                detailed_value['a' + parameterIndex] = '';
               };
             });
             
