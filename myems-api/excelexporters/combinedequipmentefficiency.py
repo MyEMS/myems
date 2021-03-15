@@ -253,14 +253,15 @@ def generate_excel(report,
             'timestamps' not in report['parameters'].keys() or \
             report['parameters']['timestamps'] is None or \
             len(report['parameters']['timestamps']) == 0 or \
-            len(report['parameters']['timestamps'][0]) == 0 or \
             'values' not in report['parameters'].keys() or \
             report['parameters']['values'] is None or \
-            len(report['parameters']['values']) == 0:
+            len(report['parameters']['values']) == 0 or \
+            timestamps_data_all_equal_0(report['parameters']['timestamps']):
 
         has_parameters_names_and_timestamps_and_values_data = False
 
     if has_parameters_names_and_timestamps_and_values_data:
+
 
         ###############################
         # new worksheet
@@ -271,11 +272,12 @@ def generate_excel(report,
 
         parameters_ws = wb.create_sheet('相关参数')
 
-        parameters_timestamps_data = list(parameters_data['timestamps'][0])
+        parameters_timestamps_data_max_len = \
+            get_parameters_timestamps_lists_max_len(list(parameters_data['timestamps']))
 
         # Row height
         parameters_ws.row_dimensions[1].height = 102
-        for i in range(2, len(parameters_timestamps_data) + 10):
+        for i in range(2, parameters_timestamps_data_max_len + 10):
             parameters_ws.row_dimensions[i].height = 42
 
         # Col width
@@ -331,41 +333,48 @@ def generate_excel(report,
         parameters_table_start_row_number = parameters_ws_current_row_number
 
         parameters_ws.row_dimensions[parameters_ws_current_row_number].height = 80
-        parameters_ws['B' + str(parameters_ws_current_row_number)].fill = table_fill
-        parameters_ws['B' + str(parameters_ws_current_row_number)].border = f_border
-
-        col = 'C'
-
-        for i in range(0, parameters_names_len):
-            parameters_ws[col + str(parameters_ws_current_row_number)].fill = table_fill
-            parameters_ws[col + str(parameters_ws_current_row_number)].border = f_border
-            parameters_ws[col + str(parameters_ws_current_row_number)].font = name_font
-            parameters_ws[col + str(parameters_ws_current_row_number)].alignment = c_c_alignment
-            parameters_ws[col + str(parameters_ws_current_row_number)] = parameters_data['names'][i]
-
-            col = chr(ord(col) + 1)
 
         parameters_ws_current_row_number += 1
 
-        for i, value in enumerate(parameters_timestamps_data):
-            parameters_ws['B' + str(parameters_ws_current_row_number)].border = f_border
-            parameters_ws['B' + str(parameters_ws_current_row_number)].font = title_font
-            parameters_ws['B' + str(parameters_ws_current_row_number)].alignment = c_c_alignment
-            parameters_ws['B' + str(parameters_ws_current_row_number)] = value
+        table_current_col_number = 'B'
 
-            col = 'C'
+        for i in range(0, parameters_names_len):
 
-            for j in range(0, parameters_names_len):
-                parameters_ws[col + str(parameters_ws_current_row_number)].border = f_border
-                parameters_ws[col + str(parameters_ws_current_row_number)].font = name_font
-                parameters_ws[col + str(parameters_ws_current_row_number)].alignment = c_c_alignment
-                parameters_ws[col + str(parameters_ws_current_row_number)] = round(parameters_data['values'][j][i], 2)
+            if len(parameters_data['timestamps'][i]) == 0:
+                continue
+
+            parameters_ws[table_current_col_number + str(parameters_ws_current_row_number-1)].fill = table_fill
+            parameters_ws[table_current_col_number + str(parameters_ws_current_row_number-1)].border = f_border
+
+            col = chr(ord(table_current_col_number) + 1)
+
+            parameters_ws[col + str(parameters_ws_current_row_number-1)].fill = table_fill
+            parameters_ws[col + str(parameters_ws_current_row_number-1)].border = f_border
+            parameters_ws[col + str(parameters_ws_current_row_number-1)].font = name_font
+            parameters_ws[col + str(parameters_ws_current_row_number-1)].alignment = c_c_alignment
+            parameters_ws[col + str(parameters_ws_current_row_number-1)] = parameters_data['names'][i]
+
+            table_current_row_number = parameters_ws_current_row_number
+
+            for j, value in enumerate(list(parameters_data['timestamps'][i])):
+                col = table_current_col_number
+
+                parameters_ws[col + str(table_current_row_number)].border = f_border
+                parameters_ws[col + str(table_current_row_number)].font = title_font
+                parameters_ws[col + str(table_current_row_number)].alignment = c_c_alignment
+                parameters_ws[col + str(table_current_row_number)] = value
 
                 col = chr(ord(col) + 1)
 
-            parameters_ws_current_row_number += 1
+                parameters_ws[col + str(table_current_row_number)].border = f_border
+                parameters_ws[col + str(table_current_row_number)].font = title_font
+                parameters_ws[col + str(table_current_row_number)].alignment = c_c_alignment
+                parameters_ws[col + str(table_current_row_number)] = round(parameters_data['values'][i][j], 2)
 
-        parameters_table_end_row_number = parameters_ws_current_row_number - 1
+                table_current_row_number += 1
+
+            table_current_col_number = chr(ord(table_current_col_number) + 3)
+
 
         ########################################################
         # parameters chart and parameters table
@@ -378,14 +387,23 @@ def generate_excel(report,
 
         chart_start_row_number = current_row_number
 
+        col_index = 0
+
         for i in range(0, parameters_names_len):
+
+            if len(parameters_data['timestamps'][i]) == 0:
+                continue
+
             line = LineChart()
+            data_col = 3+col_index*3
+            labels_col = 2+col_index*3
+            col_index += 1
             line.title = '相关参数 - ' + \
-                         ws.cell(row=parameters_table_start_row_number, column=3+i).value
-            labels = Reference(parameters_ws, min_col=2, min_row=parameters_table_start_row_number + 1,
-                               max_row=parameters_table_end_row_number)
-            line_data = Reference(parameters_ws, min_col=3 + i, min_row=parameters_table_start_row_number,
-                                  max_row=parameters_table_end_row_number)
+                         parameters_ws.cell(row=parameters_table_start_row_number, column=data_col).value
+            labels = Reference(parameters_ws, min_col=labels_col, min_row=parameters_table_start_row_number + 1,
+                               max_row=(len(parameters_data['timestamps'][i])+parameters_table_start_row_number))
+            line_data = Reference(parameters_ws, min_col=data_col, min_row=parameters_table_start_row_number,
+                                  max_row=(len(parameters_data['timestamps'][i])+parameters_table_start_row_number))
             line.add_data(line_data, titles_from_data=True)
             line.set_categories(labels)
             line_data = line.series[0]
@@ -543,3 +561,19 @@ def generate_excel(report,
 
     return filename
 
+
+def get_parameters_timestamps_lists_max_len(parameters_timestamps_lists):
+    max_len = 0
+    for i, value in enumerate(list(parameters_timestamps_lists)):
+        if len(value) > max_len:
+            max_len = len(value)
+
+    return max_len
+
+
+def timestamps_data_all_equal_0(lists):
+    for i,value in enumerate(list(lists)):
+        if len(value) > 0:
+            return False
+
+    return True
