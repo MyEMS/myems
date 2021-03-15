@@ -567,7 +567,7 @@ class SpaceItem:
                                    description='API.INVALID_IS_OUTPUT_COUNTED_VALUE')
         is_output_counted = new_values['data']['is_output_counted']
 
-        if 'contact_id' in new_values['data'].keys():
+        if 'contact_id' in new_values['data'].keys() and new_values['data']['contact_id'] is not None:
             if new_values['data']['contact_id'] <= 0:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_CONTACT_ID')
@@ -608,7 +608,7 @@ class SpaceItem:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.disconnect()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.SPACE_NAME_IS_ALREADY_IN_USE')
 
         if parent_space_id is not None:
