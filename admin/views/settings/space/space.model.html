@@ -28,10 +28,10 @@
                 </div>
             </div>
             <div class="hr-line-dashed"></div>
-            <div class="form-group"><label class="col-sm-4 control-label">{{'SETTING.CONTACT' | translate}}</label>
+            <div class="form-group"><label class="col-sm-4 control-label">{{'SETTING.CONTACT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
                 <div class="col-sm-8">
                     <ui-select ng-model="space.contact.id" name="spacecontact" theme="bootstrap">
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
                             {{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="contact.id as contact in contacts | filter: $select.search">
                             <div ng-bind-html="contact.name | highlight: $select.search"></div>
