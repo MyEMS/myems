@@ -262,7 +262,6 @@ def generate_excel(report,
 
     if has_parameters_names_and_timestamps_and_values_data:
 
-
         ###############################
         # new worksheet
         ###############################
@@ -374,7 +373,6 @@ def generate_excel(report,
                 table_current_row_number += 1
 
             table_current_col_number = chr(ord(table_current_col_number) + 3)
-
 
         ########################################################
         # parameters chart and parameters table
@@ -572,7 +570,7 @@ def get_parameters_timestamps_lists_max_len(parameters_timestamps_lists):
 
 
 def timestamps_data_all_equal_0(lists):
-    for i,value in enumerate(list(lists)):
+    for i, value in enumerate(list(lists)):
         if len(value) > 0:
             return False
 
