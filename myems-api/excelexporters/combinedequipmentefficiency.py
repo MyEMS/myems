@@ -284,7 +284,7 @@ def generate_excel(report,
 
         parameters_ws.column_dimensions['B'].width = 25.0
 
-        for i in range(ord('C'), ord('L')):
+        for i in range(ord('C'), ord('L')+parameters_names_len*3):
             parameters_ws.column_dimensions[chr(i)].width = 15.0
 
         # Img
