@@ -1,6 +1,17 @@
 'use strict';
 
-app.controller('OfflineMeterFileController', function($scope, $common,  $cookies, $translate,$uibModal,$interval, OfflineMeterFileService, toaster, SweetAlert) {
+app.controller('OfflineMeterFileController', function(
+	$scope, 
+	$window,
+	$common, 
+	$translate,
+	$uibModal,
+	$interval, 
+	OfflineMeterFileService, 
+	toaster, 
+	SweetAlert) {
+
+	$scope.cur_user = JSON.parse($window.localStorage.getItem("currentUser"));
 
 	$scope.getAllOfflineMeterFiles = function() {
 		OfflineMeterFileService.getAllOfflineMeterFiles(function(error, data) {
@@ -18,7 +29,7 @@ app.controller('OfflineMeterFileController', function($scope, $common,  $cookies
 		acceptedFiles: '.xlsx',
 		dictDefaultMessage: 'Click(or Drop) to add files',
 		maxFilesize: '100',
-		headers: { "User-UUID": $cookies.get("user_uuid"), "Token": $cookies.get("token") }
+		headers: { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token }
 	};
 
 	$scope.dzCallbacks = {
