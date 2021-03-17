@@ -16,7 +16,7 @@ app.controller('OfflineMeterFileController', function($scope, $common,  $cookies
 	$scope.dzOptions = {
 		url: getAPI() + 'offlinemeterfiles',
 		acceptedFiles: '.xlsx',
-		dictDefaultMessage : 'Click(or Drop) to add files',
+		dictDefaultMessage: 'Click(or Drop) to add files',
 		maxFilesize: '100',
 		headers: { "User-UUID": $cookies.get("user_uuid"), "Token": $cookies.get("token") }
 	};
