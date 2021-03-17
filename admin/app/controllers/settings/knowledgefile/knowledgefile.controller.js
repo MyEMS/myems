@@ -1,6 +1,16 @@
 'use strict';
 
-app.controller('KnowledgeFileController', function ($scope, $common, $cookies, $translate, $uibModal, KnowledgeFileService, toaster, SweetAlert) {
+app.controller('KnowledgeFileController', function (
+    $scope, 
+	$window,
+    $common, 
+    $translate, 
+    $uibModal, 
+    KnowledgeFileService, 
+    toaster, 
+    SweetAlert) {
+    
+    $scope.cur_user = JSON.parse($window.localStorage.getItem("currentUser"));
 
     $scope.getAllKnowledgeFiles = function () {
         KnowledgeFileService.getAllKnowledgeFiles(function (error, data) {
@@ -18,7 +28,7 @@ app.controller('KnowledgeFileController', function ($scope, $common, $cookies, $
         acceptedFiles: '.xlsx,.xls,.pdf,.docx,.doc,.dwg,.jpg,.png,.csv',
         dictDefaultMessage: 'Click(or Drop) to add files',
         maxFilesize: '100',
-        headers: { "User-UUID": $cookies.get("user_uuid"), "Token": $cookies.get("token") }
+        headers: { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token }
     };
 
     $scope.dzCallbacks = {
