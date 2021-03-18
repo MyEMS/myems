@@ -421,8 +421,11 @@ def generate_excel(report,
 
         # Row height
         parameters_ws.row_dimensions[1].height = 102
-        for i in range(2, parameters_timestamps_data_max_len + 10):
+        for i in range(2, 7 + 1):
             parameters_ws.row_dimensions[i].height = 42
+
+        for i in range(8, parameters_timestamps_data_max_len + 10):
+            parameters_ws.row_dimensions[i].height = 60
 
         # Col width
         parameters_ws.column_dimensions['A'].width = 1.5
