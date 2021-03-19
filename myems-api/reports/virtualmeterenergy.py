@@ -281,11 +281,6 @@ class Reporting:
         if cnx_energy:
             cnx_energy.disconnect()
 
-        if cursor_historical:
-            cursor_historical.close()
-        if cnx_historical:
-            cnx_historical.disconnect()
-
         result = {
             "virtual_meter": {
                 "cost_center_id": virtual_meter['cost_center_id'],
