@@ -152,7 +152,8 @@ See [myems-modbus-tcp](./myems-modbus-tcp/README.md) for more information.
 | Energy Flow Diagram              | ✔️             | ✔️        |
 | Distribution System              | ✔️             | ✔️        |
 | REST API                         | ✔️             | ✔️        |
-| Web APP                          | ✔️             | ✔️        |
+| Web UI                           | ✔️             | ✔️        |
+| Admin UI                         | ✔️             | ✔️        |
 | MQTT Subscriber                  | ❌            | ✔️        |
 | Modbus RTU                       | ❌            | ✔️        |
 | OPC UA                           | ❌            | ✔️        |
@@ -167,8 +168,12 @@ See [myems-modbus-tcp](./myems-modbus-tcp/README.md) for more information.
 | Graphics Drwaing Tool            | ❌            | ✔️        |
 | Equipments Remote Control        | ❌            | ✔️        |
 | BACnet Server                    | ❌            | ✔️        |
+| Modbus TCP Server(Slave)         | ❌            | ✔️        |
+| OPC UA Server                    | ❌            | ✔️        |
 | iOS APP                          | ❌            | ✔️        |
 | Android APP                      | ❌            | ✔️        |
+| WeChat Mini Program              | ❌            | ✔️        |
+| Alipay Mini Program              | ❌            | ✔️        |
 | IPC Hardware Gateway (Data Acquisition and Remote Control）| ❌            | ✔️        |
 | LoRa Radio Module (Data Acquisition and Remote Control）| ❌          | ✔️        |
 | Protocol for Uploading to Provincial Platform of On-line monitoring system for Key Energy-Consuming Unit| ❌     | ✔️        |
