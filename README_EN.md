@@ -165,7 +165,7 @@ See [myems-modbus-tcp](./myems-modbus-tcp/README.md) for more information.
 | SIEMENS Desigo CC                | ❌            | ✔️        |
 | FDD Rule Engine                  | ❌            | ✔️        |
 | Advanced Reporting Engine        | ❌            | ✔️        |
-| Graphics Drwaing Tool            | ❌            | ✔️        |
+| Graphics Drawing Tool            | ❌            | ✔️        |
 | Equipments Remote Control        | ❌            | ✔️        |
 | BACnet Server                    | ❌            | ✔️        |
 | Modbus TCP Server(Slave)         | ❌            | ✔️        |
