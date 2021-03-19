@@ -168,6 +168,8 @@ See [myems-modbus-tcp](./myems-modbus-tcp/README.md) for more information.
 | Graphics Drwaing Tool            | ❌            | ✔️        |
 | Equipments Remote Control        | ❌            | ✔️        |
 | BACnet Server                    | ❌            | ✔️        |
+| Modbus TCP Server(Slave)         | ❌            | ✔️        |
+| OPC UA Server                    | ❌            | ✔️        |
 | iOS APP                          | ❌            | ✔️        |
 | Android APP                      | ❌            | ✔️        |
 | WeChat Mini Program              | ❌            | ✔️        |

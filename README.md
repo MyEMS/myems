@@ -165,6 +165,8 @@ MyEMS项目由下列组件构成:
 | 组态图形绘制工具                    | ❌            | ✔️        |
 | 设备远程控制                       | ❌            | ✔️        |
 | BACnet Server                    | ❌            | ✔️        |
+| Modbus TCP Server(Slave)         | ❌            | ✔️        |
+| OPC UA Server                    | ❌            | ✔️        |
 | iOS APP                          | ❌            | ✔️        |
 | Android APP                      | ❌            | ✔️        |
 | 微信小程序                         | ❌            | ✔️        |
