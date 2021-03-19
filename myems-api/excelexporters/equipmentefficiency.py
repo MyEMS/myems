@@ -11,6 +11,7 @@ from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 from openpyxl.drawing.image import Image
 from openpyxl import Workbook
 from openpyxl.chart.label import DataLabelList
+import openpyxl.utils.cell as format_cell
 
 
 ####################################################################################################################
@@ -432,8 +433,8 @@ def generate_excel(report,
 
         parameters_ws.column_dimensions['B'].width = 25.0
 
-        for i in range(ord('C'), ord('L')+parameters_names_len*3):
-            parameters_ws.column_dimensions[chr(i)].width = 15.0
+        for i in range(3, 12+parameters_names_len*3):
+            parameters_ws.column_dimensions[format_cell.get_column_letter(i)].width = 15.0
 
         # Img
         img = Image("excelexporters/myems.png")
