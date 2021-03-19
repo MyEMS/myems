@@ -160,7 +160,7 @@ MyEMS项目由下列组件构成:
 | Johnson Controls Metasys         | ✔️             | ✔️        |
 | Honeywell EBI                    | ✔️             | ✔️        |
 | SIEMENS Desigo CC                | ❌            | ✔️        |
-| FDD 能效故障诊断规系统              | ❌            | ✔️        |
+| FDD 能效故障诊断系统               | ❌            | ✔️        |
 | 高级报表系统                       | ❌            | ✔️        |
 | 组态图形绘制工具                    | ❌            | ✔️        |
 | 设备远程控制                       | ❌            | ✔️        |
