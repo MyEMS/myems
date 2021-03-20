@@ -24,42 +24,52 @@ MyEMS是行业领先的开源能源管理系统，利用云计算、物联网、
 MyEMS项目由下列组件构成:
 
 ### MyEMS Web UI
+ReactJS
 
 参考[web](./web/README.md) 获取更多信息。
 
 ### MyEMS 管理 UI
+AngularJS
 
 参考[admin](./admin/README.md) 获取更多信息。
 
 ### MyEMS 数据库
+SQL
 
 参考[database](./database/README.md) 获取更多信息。
 
 ### MyEMS 数据清洗服务
+Python
 
 参考[myems-cleaning](./myems-cleaning/README.md) 获取更多信息。
 
 ### MyEMS 数据规范化服务
+Python
 
 参考[myems-normalization](./myems-normalization/README.md) 获取更多信息。
 
 ### MyEMS 数据汇总服务
+Python
 
 参考[myems-aggregation](./myems-aggregation/README.md) 获取更多信息。
 
 ### MyEMS 数据接口API
+Python
 
 参考[myems-api](./myems-api/README.md) 获取更多信息。
 
 ### MyEMS MQTT 数据发布服务 (从MyEMS转发到第三方)
+Python
 
 参考[myems-mqtt-publisher](./myems-mqtt-publisher/README.md) 获取更多信息。
 
 ### MyEMS BACnet/IP 数据采集服务
+Python
 
 参考[myems-bacnet](./myems-bacnet/README.md) 获取更多信息。
 
 ### MyEMS Modbus TCP 数据采集服务
+Python
 
 参考[myems-modbus-tcp](./myems-modbus-tcp/README.md) 获取更多信息。
 

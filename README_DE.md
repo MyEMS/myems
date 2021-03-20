@@ -24,42 +24,52 @@ MyEMS wird von einem erfahrenen Entwicklungsteam entwickelt und gewartet, und de
 Dieses Projekt besteht aus folgenden Komponenten:
 
 ### MyEMS Web UI
+ReactJS
 
 Weitere Informationen finden Sie [web](./web/README.md).
 
 ### MyEMS Admin UI
+AngularJS
 
 Weitere Informationen finden Sie im [admin](./admin/README.md).
 
 ### MyEMS Database
+SQL
 
 Weitere Informationen finden Sie im [database](./database/README.md).
 
 ### MyEMS Cleaning Service
+Python
 
 Weitere Informationen finden Sie im [myems-cleaning](./myems-cleaning/README.md).
 
 ### MyEMS Normalization Service
+Python
 
 Weitere Informationen finden Sie im [myems-normalization](./myems-normalization/README.md).
 
 ### MyEMS Aggregation Service
+Python
 
 Weitere Informationen finden Sie im [myems-aggregation](./myems-aggregation/README.md).
 
 ### MyEMS API
+Python
 
 Weitere Informationen finden Sie im [myems-api](./myems-api/README.md).
 
 ### MyEMS MQTT Data Publisher Service (transmit data from MyEMS to 3rd Party)
+Python
 
 Weitere Informationen finden Sie im [myems-mqtt-publisher](./myems-mqtt-publisher/README.md).
 
 ### MyEMS BACnet/IP Acquisition Service
+Python
 
 Weitere Informationen finden Sie im [myems-bacnet](./myems-bacnet/README.md).
 
 ### MyEMS Modbus TCP Acquisition Service
+Python
 
 Weitere Informationen finden Sie im [myems-modbus-tcp](./myems-modbus-tcp/README.md).
 
