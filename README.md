@@ -73,9 +73,6 @@ Python
 
 参考[myems-modbus-tcp](./myems-modbus-tcp/README.md) 获取更多信息。
 
-## MyEMS截图
-![MyEMS Screenshot](/docs/images/screenshot-2020.12.01-16_53_12.png)
-
 ## 功能版本对比
 | 功能                              |社区版(MyEMS)   |企业版(AlbertEOS)|
 | :---                             |      :----:   |  :----: |
@@ -195,6 +192,9 @@ Python
 | 投标技术支持服务                   | ❌            | ✔️        |
 | 二次开发技术支持服务                | ❌            | ✔️        |
 
+## MyEMS截图
+![MyEMS Screenshot](/docs/images/screenshot-2020.12.01-16_53_12.png)
+![MyEMS Large Screen Dashboard](/docs/images/myems-large-screen-dashboard.gif)
 
 ## MyEMS镜像
 
