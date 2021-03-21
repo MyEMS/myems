@@ -73,8 +73,6 @@ Python
 
 Weitere Informationen finden Sie im [myems-modbus-tcp](./myems-modbus-tcp/README.md).
 
-## MyEMS Bildschirmfoto
-![MyEMS Bildschirmfoto](/docs/images/screenshot-2020.12.01-16_53_12.png)
 
 ## Editionen vergleichen
 
@@ -188,7 +186,7 @@ Weitere Informationen finden Sie im [myems-modbus-tcp](./myems-modbus-tcp/README
 | IPC Hardware Gateway (Data Acquisition and Remote Control）| ❌            | ✔️        |
 | LoRa Radio Module (Data Acquisition and Remote Control）| ❌          | ✔️        |
 | Protocol for Uploading to Provincial Platform of On-line monitoring system for Key Energy-Consuming Unit| ❌     | ✔️        |
-| 3rd Party Systems Integration    | ❌            | ✔️        |
+| 3rd Party Systems Integration Service | ❌            | ✔️        |
 | Online Community Customer Support| ✔️             | ✔️        |
 | Email Customer Support           | ✔️             | ✔️        |
 | Telephone Customer Support       | ❌            | ✔️        |
@@ -197,6 +195,11 @@ Weitere Informationen finden Sie im [myems-modbus-tcp](./myems-modbus-tcp/README
 | Onsite Customer Support          | ❌            | ✔️        |
 | Bidding Support Service          | ❌            | ✔️        |
 | Customize Support Service        | ❌            | ✔️        |
+
+
+## MyEMS Bildschirmfoto
+![MyEMS Bildschirmfoto](/docs/images/screenshot-2020.12.01-16_53_12.png)
+![MyEMS Großbild-Dashboard](/docs/images/myems-large-screen-dashboard.gif)
 
 ## MyEMS Spiegel
 
