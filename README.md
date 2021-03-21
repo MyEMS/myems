@@ -22,56 +22,55 @@ MyEMS是行业领先的开源能源管理系统，利用云计算、物联网、
 ## MyEMS组件(社区版)
 
 MyEMS项目由下列组件构成:
+### MyEMS 数据库
+SQL
 
-### MyEMS Web UI
-ReactJS
+[安装 数据库](./database/README.md)
 
-参考[web](./web/README.md) 获取更多信息。
+### MyEMS API 应用程序接口 
+Python
+
+[安装 myems-api](./myems-api/README.md)
 
 ### MyEMS 管理 UI
 AngularJS
 
-参考[admin](./admin/README.md) 获取更多信息。
-
-### MyEMS 数据库
-SQL
-
-参考[database](./database/README.md) 获取更多信息。
-
-### MyEMS 数据清洗服务
-Python
-
-参考[myems-cleaning](./myems-cleaning/README.md) 获取更多信息。
-
-### MyEMS 数据规范化服务
-Python
-
-参考[myems-normalization](./myems-normalization/README.md) 获取更多信息。
-
-### MyEMS 数据汇总服务
-Python
-
-参考[myems-aggregation](./myems-aggregation/README.md) 获取更多信息。
-
-### MyEMS 数据接口API
-Python
-
-参考[myems-api](./myems-api/README.md) 获取更多信息。
-
-### MyEMS MQTT 数据发布服务 (从MyEMS转发到第三方)
-Python
-
-参考[myems-mqtt-publisher](./myems-mqtt-publisher/README.md) 获取更多信息。
+[安装 admin UI](./admin/README.md)
 
 ### MyEMS BACnet/IP 数据采集服务
 Python
 
-参考[myems-bacnet](./myems-bacnet/README.md) 获取更多信息。
+[安装 myems-bacnet](./myems-bacnet/README.md)
 
 ### MyEMS Modbus TCP 数据采集服务
 Python
 
-参考[myems-modbus-tcp](./myems-modbus-tcp/README.md) 获取更多信息。
+[安装 myems-modbus-tcp](./myems-modbus-tcp/README.md)
+
+### MyEMS MQTT数据转发服务
+Python
+
+[安装 myems-mqtt-publisher](./myems-mqtt-publisher/README.md)
+
+### MyEMS 数据清洗服务
+Python
+
+[安装 myems-cleaning](./myems-cleaning/README.md)
+
+### MyEMS 数据规范化服务
+Python
+
+[安装 myems-normalization](./myems-normalization/README.md)
+
+### MyEMS 数据汇总服务
+Python
+
+[安装 myems-aggregation](./myems-aggregation/README.md)
+
+### MyEMS Web UI
+ReactJS
+
+[安装 web UI](./web/README.md)
 
 ## 功能版本对比
 | 功能                              |社区版(MyEMS)   |企业版(AlbertEOS)|
