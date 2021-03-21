@@ -170,6 +170,7 @@ Python
 | Johnson Controls Metasys         | ✔️             | ✔️        |
 | Honeywell EBI                    | ✔️             | ✔️        |
 | SIEMENS Desigo CC                | ❌            | ✔️        |
+| QWeather API                     | ❌            | ✔️        |
 | FDD 能效故障诊断系统               | ❌            | ✔️        |
 | 高级报表系统                       | ❌            | ✔️        |
 | 组态图形绘制工具                    | ❌            | ✔️        |

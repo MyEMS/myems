@@ -173,6 +173,7 @@ Weitere Informationen finden Sie im [myems-modbus-tcp](./myems-modbus-tcp/README
 | Johnson Controls Metasys         | ✔️             | ✔️        |
 | Honeywell EBI                    | ✔️             | ✔️        |
 | SIEMENS Desigo CC                | ❌            | ✔️        |
+| QWeather API                     | ❌            | ✔️        |
 | FDD Rule Engine                  | ❌            | ✔️        |
 | Advanced Reporting Engine        | ❌            | ✔️        |
 | Graphics Drawing Tool            | ❌            | ✔️        |
