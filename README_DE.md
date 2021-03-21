@@ -198,7 +198,9 @@ Weitere Informationen finden Sie im [myems-modbus-tcp](./myems-modbus-tcp/README
 
 
 ## MyEMS Bildschirmfoto
-![MyEMS Bildschirmfoto](/docs/images/myems-space-energycategory.gif)
+![MyEMS Space EnergyCategory1](/docs/images/myems-space-energycategory1.gif)
+![MyEMS Space EnergyCategory2](/docs/images/myems-space-energycategory2.gif)
+![MyEMS Space EnergyCategory3](/docs/images/myems-space-energycategory3.gif)
 ![MyEMS Großbild-Dashboard](/docs/images/myems-large-screen-dashboard.gif)
 
 ## MyEMS Spiegel
