@@ -197,7 +197,7 @@ See [myems-modbus-tcp](./myems-modbus-tcp/README.md) for more information.
 | Customize Support Service        | ❌            | ✔️        |
 
 ## MyEMS Screenshot
-![MyEMS Screenshot](/docs/images/screenshot-2020.12.01-16_53_12.png)
+![MyEMS Screenshot](/docs/images/myems-space-energycategory.gif)
 ![MyEMS Large Screen Dashboard](/docs/images/myems-large-screen-dashboard.gif)
 
 
