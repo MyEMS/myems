@@ -193,7 +193,9 @@ Python
 | 二次开发技术支持服务                | ❌            | ✔️        |
 
 ## MyEMS截图
-![MyEMS Screenshot](/docs/images/myems-space-energycategory.gif)
+![MyEMS Space EnergyCategory1](/docs/images/myems-space-energycategory1.gif)
+![MyEMS Space EnergyCategory2](/docs/images/myems-space-energycategory2.gif)
+![MyEMS Space EnergyCategory3](/docs/images/myems-space-energycategory3.gif)
 ![MyEMS Large Screen Dashboard](/docs/images/myems-large-screen-dashboard.gif)
 
 ## MyEMS镜像
