@@ -16,6 +16,8 @@
 										<th >{{'FDD.PRIORITY' | translate}}</th>
 										<th >{{'FDD.CHANNEL' | translate}}</th>
 										<th >{{'FDD.IS_ENABLED' | translate}}</th>
+										<th >{{'FDD.LAST_RUN_DATETIME' | translate}}</th>
+										<th >{{'FDD.NEXT_RUN_DATETIME' | translate}}</th>
 										<th >{{'FDD.EXPRESSION' | translate}}</th>
 										<th >{{'FDD.MESSAGE_TEMPLATE' | translate}}</th>
 										<th >{{'SETTING.ACTION' | translate}}</th>
@@ -31,8 +33,10 @@
 										<td >{{ rule.priority }}</td>
 										<td >{{ rule.channel }}</td>
 										<td >{{ rule.is_enabled==true?'SETTING.ON':'SETTING.OFF' | translate}}</td>
-										<td > {{'FDD.DES_EXPRESSION' | translate}} </td>
-										<td class="col-lg-5 col-md-5">{{ rule.message_template }}</td>
+                                        <td >{{ rule.last_run_datetime | date:'yyyy-MM-ddTHH:mm:ss'}}</td>
+                                        <td >{{ rule.next_run_datetime | date:'yyyy-MM-ddTHH:mm:ss'}}</td>
+										<td > {{'FDD.CLICK_EDIT_FOR_DETAILS' | translate}} </td>
+										<td > {{'FDD.CLICK_EDIT_FOR_DETAILS' | translate}} </td>
 										<td class="text-center">
 											<a class="btn btn-primary btn-rounded btn-xs" ng-click="editRule(rule)" >{{'SETTING.EDIT' | translate}}</a>
 											<a ng-click="deleteRule(rule)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
