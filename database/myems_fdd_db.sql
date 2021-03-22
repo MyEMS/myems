@@ -72,13 +72,15 @@ CREATE TABLE IF NOT EXISTS `myems_fdd_db`.`tbl_rules` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(128) NOT NULL,
   `uuid` CHAR(36) NOT NULL,
-  `fdd_code` VARCHAR(128) NOT NULL COMMENT 'SYSTEM01, SYSTEM02, ... SPACE01, SPACE02, ... METER01, METER02, ...',
-  `category` VARCHAR(128) NOT NULL COMMENT 'SYSTEM, SPACE, METER, TENANT, STORE, SHOPFLOOR, EQUIPMENT, COMBINEDEQUIPMENT',
+  `category` VARCHAR(128) NOT NULL COMMENT 'REALTIME, SYSTEM, SPACE, METER, TENANT, STORE, SHOPFLOOR, EQUIPMENT, COMBINEDEQUIPMENT',
+  `fdd_code` VARCHAR(128) NOT NULL COMMENT 'REALTIME01, REALTIME01... SYSTEM01, SYSTEM02, ... SPACE01, SPACE02, ... METER01, METER02, ...',
   `priority` VARCHAR(128) NOT NULL COMMENT 'CRITICAL, HIGH, MEDIUM, LOW',
   `channel` VARCHAR(128) NOT NULL COMMENT 'WEB, EMAIL, SMS, WECHAT, CALL',
   `expression` JSON NOT NULL COMMENT 'JSON string of diagnosed objects, points, values, and recipients',
   `message_template` TEXT NOT NULL COMMENT 'Plain text template that supports $-substitutions',
   `is_enabled` BOOL NOT NULL,
+  `last_run_datetime_utc` DATETIME,
+  `next_run_datetime_utc` DATETIME,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_rules_index_1` ON  `myems_fdd_db`.`tbl_rules`  (`name`);
 
