@@ -1,8 +1,9 @@
 import falcon
 import json
 import mysql.connector
-import config
 import uuid
+from datetime import datetime, timezone, timedelta
+import config
 
 
 class RuleCollection:
@@ -20,9 +21,9 @@ class RuleCollection:
         cursor = cnx.cursor(dictionary=True)
 
         query = (" SELECT id, name, uuid, "
-                 "        fdd_code, category, priority, "
+                 "        category, fdd_code, priority, "
                  "        channel, expression, message_template, "
-                 "        is_enabled "
+                 "        is_enabled, last_run_datetime_utc, next_run_datetime_utc "
                  " FROM tbl_rules "
                  " ORDER BY id ")
         cursor.execute(query)
@@ -33,11 +34,22 @@ class RuleCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
+                last_run_datetime = None
+                if row['last_run_datetime_utc'] is not None:
+                    last_run_datetime = row['last_run_datetime_utc'].replace(tzinfo=timezone.utc).timestamp() * 1000
+
+                next_run_datetime = None
+                if row['next_run_datetime_utc'] is not None:
+                    next_run_datetime = row['next_run_datetime_utc'].replace(tzinfo=timezone.utc).timestamp() * 1000
+
                 meta_result = {"id": row['id'], "name": row['name'], "uuid": row['uuid'],
-                               "fdd_code": row['fdd_code'], "category": row['category'], "priority": row['priority'],
+                               "category": row['category'], "fdd_code": row['fdd_code'], "priority": row['priority'],
                                "channel": row['channel'], "expression": row['expression'],
                                "message_template": row['message_template'].replace("<br>", ""),
-                               "is_enabled": bool(row['is_enabled'])}
+                               "is_enabled": bool(row['is_enabled']),
+                               "last_run_datetime": last_run_datetime,
+                               "next_run_datetime": next_run_datetime,
+                               }
                 result.append(meta_result)
 
         resp.body = json.dumps(result)
@@ -58,6 +70,17 @@ class RuleCollection:
                                    description='API.INVALID_RULE_NAME')
         name = str.strip(new_values['data']['name'])
 
+        if 'category' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['category'], str) or \
+                len(str.strip(new_values['data']['category'])) == 0 or \
+                str.strip(new_values['data']['category']) not in \
+                ('SYSTEM', 'REALTIME', 'SPACE', 'METER', 'TENANT', 'STORE', 'SHOPFLOOR', 'EQUIPMENT',
+                 'COMBINEDEQUIPMENT'):
+            raise falcon.HTTPError(falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_CATEGORY')
+        category = str.strip(new_values['data']['category'])
+
         if 'fdd_code' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['fdd_code'], str) or \
                 len(str.strip(new_values['data']['fdd_code'])) == 0:
@@ -65,16 +88,6 @@ class RuleCollection:
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_FDD_CODE')
         fdd_code = str.strip(new_values['data']['fdd_code'])
-
-        if 'category' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['category'], str) or \
-                len(str.strip(new_values['data']['category'])) == 0 or \
-                str.strip(new_values['data']['category']) not in \
-                ('SYSTEM', 'SPACE', 'METER', 'TENANT', 'STORE', 'SHOPFLOOR', 'EQUIPMENT', 'COMBINEDEQUIPMENT'):
-            raise falcon.HTTPError(falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.INVALID_CATEGORY')
-        category = str.strip(new_values['data']['category'])
 
         if 'priority' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['priority'], str) or \
@@ -171,7 +184,8 @@ class RuleItem:
 
         query = (" SELECT id, name, uuid, "
                  "        fdd_code, category, priority, "
-                 "        channel, expression, message_template, is_enabled "
+                 "        channel, expression, message_template, "
+                 "        is_enabled, last_run_datetime_utc, next_run_datetime_utc "
                  " FROM tbl_rules "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -181,12 +195,22 @@ class RuleItem:
         if row is None:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.RULE_NOT_FOUND')
+        last_run_datetime = None
+        if row['last_run_datetime_utc'] is not None:
+            last_run_datetime = row['last_run_datetime_utc'].replace(tzinfo=timezone.utc).timestamp() * 1000
+
+        next_run_datetime = None
+        if row['next_run_datetime_utc'] is not None:
+            next_run_datetime = row['next_run_datetime_utc'].replace(tzinfo=timezone.utc).timestamp() * 1000
 
         result = {"id": row['id'], "name": row['name'], "uuid": row['uuid'],
                   "fdd_code": row['fdd_code'], "category": row['category'], "priority": row['priority'],
                   "channel": row['channel'], "expression": row['expression'],
                   "message_template": row['message_template'].replace("<br>", ""),
-                  "is_enabled": bool(row['is_enabled'])}
+                  "is_enabled": bool(row['is_enabled']),
+                  "last_run_datetime": last_run_datetime,
+                  "next_run_datetime": next_run_datetime,
+                  }
         resp.body = json.dumps(result)
 
     @staticmethod
@@ -236,6 +260,17 @@ class RuleItem:
                                    description='API.INVALID_RULE_NAME')
         name = str.strip(new_values['data']['name'])
 
+        if 'category' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['category'], str) or \
+                len(str.strip(new_values['data']['category'])) == 0 or \
+                str.strip(new_values['data']['category']) not in \
+                ('SYSTEM', 'REALTIME', 'SPACE', 'METER', 'TENANT', 'STORE', 'SHOPFLOOR', 'EQUIPMENT',
+                 'COMBINEDEQUIPMENT'):
+            raise falcon.HTTPError(falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_CATEGORY')
+        category = str.strip(new_values['data']['category'])
+
         if 'fdd_code' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['fdd_code'], str) or \
                 len(str.strip(new_values['data']['fdd_code'])) == 0:
@@ -243,16 +278,6 @@ class RuleItem:
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_FDD_CODE')
         fdd_code = str.strip(new_values['data']['fdd_code'])
-
-        if 'category' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['category'], str) or \
-                len(str.strip(new_values['data']['category'])) == 0 or \
-                str.strip(new_values['data']['category']) not in \
-                ('SYSTEM', 'SPACE', 'METER', 'TENANT', 'STORE', 'SHOPFLOOR', 'EQUIPMENT', 'COMBINEDEQUIPMENT'):
-            raise falcon.HTTPError(falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.INVALID_CATEGORY')
-        category = str.strip(new_values['data']['category'])
 
         if 'priority' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['priority'], str) or \
