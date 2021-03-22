@@ -1164,13 +1164,16 @@ Result in JSON
 | id            | integer   | Rule ID                                   |
 | name          | string    | Rule Name                                 |
 | uuid          | string    | Rule UUID                                 |
-| fdd_code      | string    | SYSTEM01, SYSTEM02, ... SPACE01, SPACE02, ... METER01, METER02, ... |
-| category      | string    | SYSTEM, SPACE, METER, TENANT, STORE, SHOPFLOOR, EQUIPMENT, COMBINEDEQUIPMENT |
+| fdd_code      | string    | SYSTEM01, SYSTEM02, ..., REALTIME01, REALTIME02, ..., SPACE01, SPACE02, ... METER01, METER02, ... |
+| category      | string    | SYSTEM, REALTIME, SPACE, METER, TENANT, STORE, SHOPFLOOR, EQUIPMENT, COMBINEDEQUIPMENT |
 | priority      | string    | CRITICAL, HIGH, MEDIUM, LOW               |
 | channel       | string    | WEB, EMAIL, SMS, WECHAT, CALL             |
 | expression    | string    | JSON string of diagnosed objects, points, values, and recipients |
 | message_template | string | Plain text template that supports $-substitutions |
 | is_enabled    | boolean   | Indicates if this rule is enabled         |
+| last_run_datetime | float | null, or the number of milliseconds since January 1, 1970, 00:00:00, universal time |
+| next_run_datetime | float | null, or the number of milliseconds since January 1, 1970, 00:00:00, universal time |
+
 
 ```bash
 $ curl -i -X GET {{base_url}}/rules/{id}
