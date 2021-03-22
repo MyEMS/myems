@@ -144,10 +144,10 @@ class Reporting:
             if cnx_energy:
                 cnx_energy.disconnect()
 
-            if cnx_historical:
-                cnx_historical.close()
             if cursor_historical:
-                cursor_historical.disconnect()
+                cursor_historical.close()
+            if cnx_historical:
+                cnx_historical.disconnect()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND', description='API.EQUIPMENT_NOT_FOUND')
 
         equipment = dict()
@@ -201,10 +201,10 @@ class Reporting:
             if cnx_energy:
                 cnx_energy.disconnect()
 
-            if cnx_historical:
-                cnx_historical.close()
             if cursor_historical:
-                cursor_historical.disconnect()
+                cursor_historical.close()
+            if cnx_historical:
+                cnx_historical.disconnect()
             raise falcon.HTTPError(falcon.HTTP_404,
                                    title='API.NOT_FOUND',
                                    description='API.ENERGY_ITEM_NOT_FOUND')
@@ -447,6 +447,11 @@ class Reporting:
             cursor_energy.close()
         if cnx_energy:
             cnx_energy.disconnect()
+
+        if cursor_historical:
+            cursor_historical.close()
+        if cnx_historical:
+            cnx_historical.disconnect()
 
         result = dict()
 

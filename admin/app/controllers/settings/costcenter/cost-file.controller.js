@@ -1,6 +1,17 @@
 'use strict';
 
-app.controller('CostFileController', function ($scope, $common,  $translate, $uibModal, $interval, CostFileService, toaster, SweetAlert) {
+app.controller('CostFileController', function (
+    $scope, 
+	$window,
+    $common, 
+    $translate, 
+    $uibModal, 
+    $interval, 
+    CostFileService, 
+    toaster, 
+    SweetAlert) {
+
+    $scope.cur_user = JSON.parse($window.localStorage.getItem("currentUser"));
 
     $scope.getAllCostFiles = function () {
         CostFileService.getAllCostFiles(function (error, data) {
@@ -17,7 +28,8 @@ app.controller('CostFileController', function ($scope, $common,  $translate, $ui
         url: getAPI() + 'offlinecostfiles',
         acceptedFiles: '.xlsx',
         dictDefaultMessage: 'Click(or Drop) to add files',
-        maxFilesize: '100'
+        maxFilesize: '100',
+        headers: { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token }
     };
 
     $scope.dzCallbacks = {

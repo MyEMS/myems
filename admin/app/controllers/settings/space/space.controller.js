@@ -136,7 +136,9 @@ app.controller('SpaceController', function ($scope, $common, $uibModal, SpaceSer
 		modalInstance.result.then(function (space) {
 			space.timezone_id = space.timezone.id;
 			space.cost_center_id = space.cost_center.id;
-			space.contact_id = space.contact.id;
+			if (space.contact != null) {
+				space.contact_id = space.contact.id;
+			}
 			SpaceService.addSpace(space, function (error, status) {
 				if (angular.isDefined(status) && status == 201) {
 					var templateName = "COMMON.SPACE";

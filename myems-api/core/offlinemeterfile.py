@@ -208,8 +208,8 @@ class OfflineMeterFileItem:
             # remove the file from disk
             os.remove(file_path)
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.OFFLINE_METER_FILE_NOT_FOUND')
+            # ignore exception and don't return API.OFFLINE_METER_FILE_NOT_FOUND error
+            pass
 
         # Note: the energy data imported from the deleted file will not be deleted
         cursor.execute(" DELETE FROM tbl_offline_meter_files WHERE id = %s ", (id_,))

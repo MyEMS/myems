@@ -23,48 +23,56 @@ MyEMS is being developed and maintained by an experienced development team, and 
 
 This project is compose of  following components:
 
-### MyEMS Web UI
-
-See the repository [web](./web/README.md) for more information.
-
-### MyEMS Admin UI
-
-See [admin](./admin/README.md) for more information.
-
 ### MyEMS Database
+SQL
 
-See [database](./database/README.md) for more information.
-
-### MyEMS Cleaning Service
-
-See [myems-cleaning](./myems-cleaning/README.md) for more information.
-
-### MyEMS Normalization Service
-
-See [myems-normalization](./myems-normalization/README.md) for more information.
-
-### MyEMS Aggregation Service
-
-See [myems-aggregation](./myems-aggregation/README.md) for more information.
+[Install database](./database/README.md)
 
 ### MyEMS API
+Python
 
-See the repository [myems-api](./myems-api/README.md) for more information.
+[Install myems-api](./myems-api/README.md)
 
-### MyEMS MQTT Data Publisher Service (transmit data from MyEMS to 3rd Party)
+### MyEMS Admin UI
+ReactJS
 
-See [myems-mqtt-publisher](./myems-mqtt-publisher/README.md) for more information.
+[Install admin UI](./admin/README.md)
 
 ### MyEMS BACnet/IP Acquisition Service
+Python
 
-See [myems-bacnet](./myems-bacnet/README.md) for more information.
+[Install myems-bacnet](./myems-bacnet/README.md)
 
 ### MyEMS Modbus TCP Acquisition Service
+Python
 
-See [myems-modbus-tcp](./myems-modbus-tcp/README.md) for more information.
+[Install myems-modbus-tcp](./myems-modbus-tcp/README.md)
 
-## MyEMS Screenshot
-![MyEMS Screenshot](/docs/images/screenshot-2020.12.01-16_53_12.png)
+### MyEMS MQTT Data Forwarding Service
+Python
+
+[Install myems-mqtt-publisher](./myems-mqtt-publisher/README.md)
+
+### MyEMS Cleaning Service
+Python
+
+[Install myems-cleaning](./myems-cleaning/README.md)
+
+### MyEMS Normalization Service
+Python
+
+[Install myems-normalization](./myems-normalization/README.md)
+
+### MyEMS Aggregation Service
+Python
+
+[Install myems-aggregation](./myems-aggregation/README.md)
+
+### MyEMS Web UI
+AngularJS
+
+[Install web UI](./web/README.md)
+
 
 ## Compare Editions
 
@@ -152,7 +160,8 @@ See [myems-modbus-tcp](./myems-modbus-tcp/README.md) for more information.
 | Energy Flow Diagram              | ✔️             | ✔️        |
 | Distribution System              | ✔️             | ✔️        |
 | REST API                         | ✔️             | ✔️        |
-| Web APP                          | ✔️             | ✔️        |
+| Web UI                           | ✔️             | ✔️        |
+| Admin UI                         | ✔️             | ✔️        |
 | MQTT Subscriber                  | ❌            | ✔️        |
 | Modbus RTU                       | ❌            | ✔️        |
 | OPC UA                           | ❌            | ✔️        |
@@ -162,17 +171,22 @@ See [myems-modbus-tcp](./myems-modbus-tcp/README.md) for more information.
 | Johnson Controls Metasys         | ✔️             | ✔️        |
 | Honeywell EBI                    | ✔️             | ✔️        |
 | SIEMENS Desigo CC                | ❌            | ✔️        |
+| QWeather API                     | ❌            | ✔️        |
 | FDD Rule Engine                  | ❌            | ✔️        |
 | Advanced Reporting Engine        | ❌            | ✔️        |
-| Graphics Drwaing Tool            | ❌            | ✔️        |
+| Graphics Drawing Tool            | ❌            | ✔️        |
 | Equipments Remote Control        | ❌            | ✔️        |
 | BACnet Server                    | ❌            | ✔️        |
+| Modbus TCP Server(Slave)         | ❌            | ✔️        |
+| OPC UA Server                    | ❌            | ✔️        |
 | iOS APP                          | ❌            | ✔️        |
 | Android APP                      | ❌            | ✔️        |
+| WeChat Mini Program              | ❌            | ✔️        |
+| Alipay Mini Program              | ❌            | ✔️        |
 | IPC Hardware Gateway (Data Acquisition and Remote Control）| ❌            | ✔️        |
 | LoRa Radio Module (Data Acquisition and Remote Control）| ❌          | ✔️        |
 | Protocol for Uploading to Provincial Platform of On-line monitoring system for Key Energy-Consuming Unit| ❌     | ✔️        |
-| 3rd Party Systems Integration    | ❌            | ✔️        |
+| 3rd Party Systems Integration Service | ❌            | ✔️        |
 | Online Community Customer Support| ✔️             | ✔️        |
 | Email Customer Support           | ✔️             | ✔️        |
 | Telephone Customer Support       | ❌            | ✔️        |
@@ -181,6 +195,13 @@ See [myems-modbus-tcp](./myems-modbus-tcp/README.md) for more information.
 | Onsite Customer Support          | ❌            | ✔️        |
 | Bidding Support Service          | ❌            | ✔️        |
 | Customize Support Service        | ❌            | ✔️        |
+
+## MyEMS Screenshot
+![MyEMS Space EnergyCategory1](/docs/images/myems-space-energycategory1.gif)
+![MyEMS Space EnergyCategory2](/docs/images/myems-space-energycategory2.gif)
+![MyEMS Space EnergyCategory3](/docs/images/myems-space-energycategory3.gif)
+![MyEMS Large Screen Dashboard](/docs/images/myems-large-screen-dashboard.gif)
+
 
 ## MyEMS Mirrors
 

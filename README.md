@@ -22,49 +22,55 @@ MyEMS是行业领先的开源能源管理系统，利用云计算、物联网、
 ## MyEMS组件(社区版)
 
 MyEMS项目由下列组件构成:
+### MyEMS 数据库
+SQL
 
-### MyEMS Web UI
+[安装 数据库](./database/README.md)
 
-参考[web](./web/README.md) 获取更多信息。
+### MyEMS API 应用程序接口 
+Python
+
+[安装 myems-api](./myems-api/README.md)
 
 ### MyEMS 管理 UI
+AngularJS
 
-参考[admin](./admin/README.md) 获取更多信息。
-
-### MyEMS 数据库
-
-参考[database](./database/README.md) 获取更多信息。
-
-### MyEMS 数据清洗服务
-
-参考[myems-cleaning](./myems-cleaning/README.md) 获取更多信息。
-
-### MyEMS 数据规范化服务
-
-参考[myems-normalization](./myems-normalization/README.md) 获取更多信息。
-
-### MyEMS 数据汇总服务
-
-参考[myems-aggregation](./myems-aggregation/README.md) 获取更多信息。
-
-### MyEMS 数据接口API
-
-参考[myems-api](./myems-api/README.md) 获取更多信息。
-
-### MyEMS MQTT 数据发布服务 (从MyEMS转发到第三方)
-
-参考[myems-mqtt-publisher](./myems-mqtt-publisher/README.md) 获取更多信息。
+[安装 admin UI](./admin/README.md)
 
 ### MyEMS BACnet/IP 数据采集服务
+Python
 
-参考[myems-bacnet](./myems-bacnet/README.md) 获取更多信息。
+[安装 myems-bacnet](./myems-bacnet/README.md)
 
 ### MyEMS Modbus TCP 数据采集服务
+Python
 
-参考[myems-modbus-tcp](./myems-modbus-tcp/README.md) 获取更多信息。
+[安装 myems-modbus-tcp](./myems-modbus-tcp/README.md)
 
-## MyEMS截图
-![MyEMS Screenshot](/docs/images/screenshot-2020.12.01-16_53_12.png)
+### MyEMS MQTT数据转发服务
+Python
+
+[安装 myems-mqtt-publisher](./myems-mqtt-publisher/README.md)
+
+### MyEMS 数据清洗服务
+Python
+
+[安装 myems-cleaning](./myems-cleaning/README.md)
+
+### MyEMS 数据规范化服务
+Python
+
+[安装 myems-normalization](./myems-normalization/README.md)
+
+### MyEMS 数据汇总服务
+Python
+
+[安装 myems-aggregation](./myems-aggregation/README.md)
+
+### MyEMS Web UI
+ReactJS
+
+[安装 web UI](./web/README.md)
 
 ## 功能版本对比
 | 功能                              |社区版(MyEMS)   |企业版(AlbertEOS)|
@@ -149,7 +155,8 @@ MyEMS项目由下列组件构成:
 | 能流图分析                         | ✔️             | ✔️        |
 | 配电系统分析                       | ✔️             | ✔️        |
 | REST API                         | ✔️             | ✔️        |
-| Web APP                          | ✔️             | ✔️        |
+| Web UI                           | ✔️             | ✔️        |
+| Admin UI                         | ✔️             | ✔️        |
 | MQTT 协议订阅数据                  | ❌            | ✔️        |
 | Modbus RTU 协议                   | ❌            | ✔️        |
 | OPC UA 协议                       | ❌            | ✔️        |
@@ -159,13 +166,18 @@ MyEMS项目由下列组件构成:
 | Johnson Controls Metasys         | ✔️             | ✔️        |
 | Honeywell EBI                    | ✔️             | ✔️        |
 | SIEMENS Desigo CC                | ❌            | ✔️        |
-| FDD 能效故障诊断规系统              | ❌            | ✔️        |
+| QWeather API                     | ❌            | ✔️        |
+| FDD 能效故障诊断系统               | ❌            | ✔️        |
 | 高级报表系统                       | ❌            | ✔️        |
 | 组态图形绘制工具                    | ❌            | ✔️        |
 | 设备远程控制                       | ❌            | ✔️        |
 | BACnet Server                    | ❌            | ✔️        |
+| Modbus TCP Server(Slave)         | ❌            | ✔️        |
+| OPC UA Server                    | ❌            | ✔️        |
 | iOS APP                          | ❌            | ✔️        |
 | Android APP                      | ❌            | ✔️        |
+| 微信小程序                         | ❌            | ✔️        |
+| 支付宝小程序                       | ❌            | ✔️        |
 | 工控机硬件网关(数据采集和远程控制）    | ❌           | ✔️        |
 | LoRa无线数传电台模块(数据采集和远程控制）| ❌          | ✔️        |
 | 重点用能单位能耗在线监测系统上传省级平台通信协议| ❌     | ✔️        |
@@ -179,6 +191,11 @@ MyEMS项目由下列组件构成:
 | 投标技术支持服务                   | ❌            | ✔️        |
 | 二次开发技术支持服务                | ❌            | ✔️        |
 
+## MyEMS截图
+![MyEMS Space EnergyCategory1](/docs/images/myems-space-energycategory1.gif)
+![MyEMS Space EnergyCategory2](/docs/images/myems-space-energycategory2.gif)
+![MyEMS Space EnergyCategory3](/docs/images/myems-space-energycategory3.gif)
+![MyEMS Large Screen Dashboard](/docs/images/myems-large-screen-dashboard.gif)
 
 ## MyEMS镜像
 
