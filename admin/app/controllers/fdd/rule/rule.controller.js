@@ -3,12 +3,10 @@
 app.controller('RuleController', function($scope, $common, $uibModal, $translate, RuleService, toaster, SweetAlert) {
 
 	$scope.initExpression = [{
-		"spaceid": 1,
+		"sample_object_id": 1,
 		"limit": 1000.000,
 		"recipients": [{
 			"user_id": "1"
-		}, {
-			"user_id": "2"
 		}]
 	}];
 

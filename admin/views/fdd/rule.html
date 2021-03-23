@@ -11,8 +11,8 @@
 									<tr>
 										<th >{{'SETTING.ID' | translate}}</th>
 										<th >{{'SETTING.NAME' | translate}}</th>
-										<th >{{'FDD.FDD_CODE' | translate}}</th>
 										<th >{{'FDD.CATEGORY' | translate}}</th>
+										<th >{{'FDD.FDD_CODE' | translate}}</th>
 										<th >{{'FDD.PRIORITY' | translate}}</th>
 										<th >{{'FDD.CHANNEL' | translate}}</th>
 										<th >{{'FDD.IS_ENABLED' | translate}}</th>
@@ -28,8 +28,8 @@
 									<tr ng-repeat="rule in rules">
 										<td >{{ rule.id }}</td>
 										<td >{{ rule.name }}</td>
-										<td >{{ rule.fdd_code }}</td>
 										<td >{{ rule.category }}</td>
+										<td >{{ rule.fdd_code }}</td>
 										<td >{{ rule.priority }}</td>
 										<td >{{ rule.channel }}</td>
 										<td >{{ rule.is_enabled==true?'SETTING.ON':'SETTING.OFF' | translate}}</td>
