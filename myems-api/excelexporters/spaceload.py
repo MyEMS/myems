@@ -204,7 +204,8 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             ws[col + str(current_row_number)].font = name_font
             ws[col + str(current_row_number)].alignment = c_c_alignment
             ws[col + str(current_row_number)].border = f_border
-            ws[col + str(current_row_number)] = round(reporting_period_data['averages'][i], 2)
+            ws[col + str(current_row_number)] = round(reporting_period_data['averages'][i], 2) \
+                if reporting_period_data['averages'][i] is not None else 'N/A'
 
         current_row_number += 1
 
@@ -218,7 +219,8 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             ws[col + str(current_row_number)].font = name_font
             ws[col + str(current_row_number)].alignment = c_c_alignment
             ws[col + str(current_row_number)].border = f_border
-            ws[col + str(current_row_number)] = round(reporting_period_data['averages_per_unit_area'][i], 2)
+            ws[col + str(current_row_number)] = round(reporting_period_data['averages_per_unit_area'][i], 2) \
+                if reporting_period_data['averages_per_unit_area'][i] is not None else 'N/A'
 
         current_row_number += 1
 
@@ -267,7 +269,8 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             ws[col + str(current_row_number)].font = name_font
             ws[col + str(current_row_number)].alignment = c_c_alignment
             ws[col + str(current_row_number)].border = f_border
-            ws[col + str(current_row_number)] = round(reporting_period_data['maximums'][i], 2)
+            ws[col + str(current_row_number)] = round(reporting_period_data['maximums'][i], 2) \
+                if reporting_period_data['maximums'][i] is not None else 'N/A'
 
         current_row_number += 1
 
@@ -281,7 +284,8 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             ws[col + str(current_row_number)].font = name_font
             ws[col + str(current_row_number)].alignment = c_c_alignment
             ws[col + str(current_row_number)].border = f_border
-            ws[col + str(current_row_number)] = round(reporting_period_data['maximums_per_unit_area'][i], 2)
+            ws[col + str(current_row_number)] = round(reporting_period_data['maximums_per_unit_area'][i], 2) \
+                if reporting_period_data['maximums_per_unit_area'][i] is not None else 'N/A'
 
         current_row_number += 1
 

@@ -143,13 +143,13 @@ class RuleCollection:
                                    description='API.RULE_NAME_IS_ALREADY_IN_USE')
 
         add_row = (" INSERT INTO tbl_rules "
-                   "             (name, uuid, fdd_code, category, priority, "
+                   "             (name, uuid, category, fdd_code, priority, "
                    "              channel, expression, message_template, is_enabled) "
                    " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_row, (name,
                                  str(uuid.uuid4()),
-                                 fdd_code,
                                  category,
+                                 fdd_code,
                                  priority,
                                  channel,
                                  expression,
@@ -183,7 +183,7 @@ class RuleItem:
         cursor = cnx.cursor(dictionary=True)
 
         query = (" SELECT id, name, uuid, "
-                 "        fdd_code, category, priority, "
+                 "        category, fdd_code, priority, "
                  "        channel, expression, message_template, "
                  "        is_enabled, last_run_datetime_utc, next_run_datetime_utc "
                  " FROM tbl_rules "
@@ -204,7 +204,7 @@ class RuleItem:
             next_run_datetime = row['next_run_datetime_utc'].replace(tzinfo=timezone.utc).timestamp() * 1000
 
         result = {"id": row['id'], "name": row['name'], "uuid": row['uuid'],
-                  "fdd_code": row['fdd_code'], "category": row['category'], "priority": row['priority'],
+                  "category": row['category'], "fdd_code": row['fdd_code'], "priority": row['priority'],
                   "channel": row['channel'], "expression": row['expression'],
                   "message_template": row['message_template'].replace("<br>", ""),
                   "is_enabled": bool(row['is_enabled']),
@@ -342,13 +342,13 @@ class RuleItem:
                                    description='API.RULE_NAME_IS_ALREADY_IN_USE')
 
         update_row = (" UPDATE tbl_rules "
-                      " SET name = %s, fdd_code = %s, category = %s, priority = %s, "
+                      " SET name = %s, category = %s, fdd_code = %s, priority = %s, "
                       "     channel = %s, expression = %s, message_template = %s, "
                       "     is_enabled = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
-                                    fdd_code,
                                     category,
+                                    fdd_code,
                                     priority,
                                     channel,
                                     expression,
