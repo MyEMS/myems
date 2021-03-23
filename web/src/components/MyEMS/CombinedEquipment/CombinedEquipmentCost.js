@@ -34,6 +34,7 @@ import { APIBaseURL } from '../../../config';
 
 
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
+const AssociatedEquipmentTable = loadable(() => import('../common/AssociatedEquipmentTable'));
 
 const CombinedEquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
@@ -91,6 +92,10 @@ const CombinedEquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
 
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([{dataField: 'startdatetime', text: t('Datetime'), sort: true}]);
+  
+  const [associatedEquipmentTableData, setAssociatedEquipmentTableData] = useState([]);
+  const [associatedEquipmentTableColumns, setAssociatedEquipmentTableColumns] = useState([{dataField: 'name', text: t('Associated Equipment'), sort: true }]);
+  
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
   
   useEffect(() => {
@@ -295,6 +300,7 @@ const CombinedEquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
 
     // Reinitialize tables
     setDetailedDataTableData([]);
+    setAssociatedEquipmentTableData([]);
     
     let isResponseOK = false;
     fetch(APIBaseURL + '/reports/combinedequipmentcost?' +
@@ -473,7 +479,47 @@ const CombinedEquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
           sort: true
         });
         setDetailedDataTableColumns(detailed_column_list);
+        
+        let associated_equipment_value_list = [];
+        if (json['associated_equipment']['associated_equipment_names_array'].length > 0) {
+          json['associated_equipment']['associated_equipment_names_array'][0].forEach((currentEquipmentName, equipmentIndex) => {
+            let associated_equipment_value = {};
+            associated_equipment_value['id'] = equipmentIndex;
+            associated_equipment_value['name'] = currentEquipmentName;
+            let total = 0.0;
+            json['associated_equipment']['energy_category_names'].forEach((currentValue, energyCategoryIndex) => {
+              associated_equipment_value['a' + energyCategoryIndex] = json['associated_equipment']['subtotals_array'][energyCategoryIndex][equipmentIndex].toFixed(2);
+              total += json['associated_equipment']['subtotals_array'][energyCategoryIndex][equipmentIndex]
+            });
+            associated_equipment_value['total'] = total.toFixed(2);
+            associated_equipment_value_list.push(associated_equipment_value);
+          });
+        };
 
+        setAssociatedEquipmentTableData(associated_equipment_value_list);
+
+        let associated_equipment_column_list = [];
+        associated_equipment_column_list.push({
+          dataField: 'name',
+          text: t('Associated Equipment'),
+          sort: true
+        });
+        json['associated_equipment']['energy_category_names'].forEach((currentValue, index) => {
+          let unit = json['associated_equipment']['units'][index];
+          associated_equipment_column_list.push({
+            dataField: 'a' + index,
+            text: currentValue + ' (' + unit + ')',
+            sort: true
+          });
+        });
+        associated_equipment_column_list.push({
+          dataField: 'total',
+          text: t('Total') + ' (' + json['associated_equipment']['total_unit'] + ')',
+          sort: true
+        });
+
+        setAssociatedEquipmentTableColumns(associated_equipment_column_list);
+        
         setExcelBytesBase64(json['excel_bytes_base64']);
 
         // enable submit button
@@ -690,6 +736,9 @@ const CombinedEquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
       <br />
       <DetailedDataTable data={detailedDataTableData} title={t('Detailed Data')} columns={detailedDataTableColumns} pagesize={50} >
       </DetailedDataTable>
+      <br />
+      <AssociatedEquipmentTable data={associatedEquipmentTableData} title={t('Associated Equipment Data')} columns={associatedEquipmentTableColumns}>
+      </AssociatedEquipmentTable>
 
     </Fragment>
   );
