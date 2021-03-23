@@ -82,6 +82,7 @@ const resources = {
       "Description": "Description",
       "Energy Category": "Energy Category",
       "Child Spaces": "Child Spaces",
+      "Associated Equipment": "Associated Equipment",
       //Energy Categories
       "Electricity": "Electricity",
       "Water": "Water",
@@ -220,6 +221,7 @@ const resources = {
       "Detailed Data": "Detailed Data",
       "Child Spaces Data": "Child Spaces Data",
       "Child Spaces Data of This Month": "Child Spaces Data of This Month",
+      "Associated Equipment Data": "Associated Equipment Data",
       "This Year": "This Year",
       "This Month": "This Month",
       "This Day": "This Day",
@@ -419,6 +421,7 @@ const resources = {
       "Description": "Beschreibung",
       "Energy Category": "Energiekategorie",
       "Child Spaces": "Teilplatz",
+      "Associated Equipment": "Dazugehörige Geräte",
       //Energy Categories
       "Electricity": "Elektrizität",
       "Water": "Wasser",
@@ -557,6 +560,7 @@ const resources = {
       "Detailed Data": "Detaillierte Daten",
       "Child Spaces Data": "Teilplatz Daten",
       "Child Spaces Data of This Month": "Teilplatz Daten dieses Monats",
+      "Associated Equipment Data": "Dazugehörige Geräte Daten",
       "This Year": "Dieses Jahr",
       "This Month": "Diesen Monat",
       "This Day": "Dieser Tag",
@@ -759,6 +763,7 @@ const resources = {
       "Description": "描述",
       "Energy Category": "能耗分类",
       "Child Spaces": "子空间",
+      "Associated Equipment": "相关设备",
       //Energy Categories
       "Electricity": "电",
       "Water": "自来水",
@@ -897,6 +902,7 @@ const resources = {
       "Detailed Data": "详细数据",
       "Child Spaces Data": "子空间数据",
       "Child Spaces Data of This Month": "本月子空间数据",
+      "Associated Equipment Data": "相关设备数据",
       "This Year": "本年",
       "This Month": "本月",
       "This Day": "本日",
