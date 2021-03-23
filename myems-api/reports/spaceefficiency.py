@@ -652,7 +652,7 @@ class Reporting:
                     (reporting_input[energy_category_id]['subtotal'] -
                      base_input[energy_category_id]['subtotal']) /
                     base_input[energy_category_id]['subtotal']
-                    if base_input[energy_category_id]['subtotal'] > 0.0 else None)
+                    if base_input[energy_category_id]['subtotal'] > Decimal(0.0) else None)
 
         result['reporting_period_output'] = dict()
         result['reporting_period_output']['names'] = list()
@@ -717,7 +717,10 @@ class Reporting:
 
                     result['reporting_period_efficiency']['cumulations'].append(reporting_cumulation)
                     result['reporting_period_efficiency']['increment_rates'].append(
-                        ((reporting_cumulation - base_cumulation) / base_cumulation if (base_cumulation > Decimal(0.0))
+                        ((reporting_cumulation - base_cumulation) / base_cumulation
+                         if (reporting_cumulation is not None and
+                             base_cumulation is not None and
+                             base_cumulation > Decimal(0.0))
                          else None)
                     )
 
