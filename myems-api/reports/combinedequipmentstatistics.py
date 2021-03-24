@@ -5,6 +5,7 @@ import config
 from datetime import datetime, timedelta, timezone
 from core import utilities
 from decimal import Decimal
+import excelexporters.combinedequipmentstatistics
 
 
 class Reporting:
@@ -147,10 +148,10 @@ class Reporting:
             if cnx_energy:
                 cnx_energy.disconnect()
 
-            if cnx_historical:
-                cnx_historical.close()
             if cursor_historical:
-                cursor_historical.disconnect()
+                cursor_historical.close()
+            if cnx_historical:
+                cnx_historical.disconnect()
             raise falcon.HTTPError(falcon.HTTP_404,
                                    title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_NOT_FOUND')
@@ -204,10 +205,10 @@ class Reporting:
             if cnx_energy:
                 cnx_energy.disconnect()
 
-            if cnx_historical:
-                cnx_historical.close()
             if cursor_historical:
-                cursor_historical.disconnect()
+                cursor_historical.close()
+            if cnx_historical:
+                cnx_historical.disconnect()
             raise falcon.HTTPError(falcon.HTTP_404,
                                    title='API.NOT_FOUND',
                                    description='API.ENERGY_CATEGORY_NOT_FOUND')
@@ -457,6 +458,11 @@ class Reporting:
         if cnx_energy:
             cnx_energy.disconnect()
 
+        if cursor_historical:
+            cursor_historical.close()
+        if cnx_historical:
+            cnx_historical.disconnect()
+
         result = dict()
 
         result['combined_equipment'] = dict()
@@ -559,5 +565,12 @@ class Reporting:
             "timestamps": parameters_data['timestamps'],
             "values": parameters_data['values']
         }
+
+        # export result to Excel file and then encode the file to base64 string
+        result['excel_bytes_base64'] = excelexporters.combinedequipmentstatistics.export(result,
+                                                                                         combined_equipment['name'],
+                                                                                         reporting_start_datetime_local,
+                                                                                         reporting_end_datetime_local,
+                                                                                         period_type)
 
         resp.body = json.dumps(result)

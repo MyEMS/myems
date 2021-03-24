@@ -2,6 +2,7 @@ import time
 from datetime import datetime, timedelta
 import mysql.connector
 from openpyxl import load_workbook
+from decimal import Decimal
 import config
 
 ################################################################################################################
@@ -71,7 +72,7 @@ def calculate_hourly(logger):
         # STEP 2: for each new files, dump file object to local file and then load workbook from the local file
         ################################################################################################################
         for excel_file in excel_file_list:
-            print("read data from each offline meter file" + excel_file['name'])
+            print("read data from offline meter file" + excel_file['name'])
             is_valid_file = True
             fw = None
             try:
@@ -134,20 +135,20 @@ def calculate_hourly(logger):
                         elif col_num > 3:
                             # get date of the cell
                             try:
-                                offline_datetime = datetime(year=ws['A2'].value,
-                                                            month=ws['B2'].value,
-                                                            day=col_num - 3)
+                                start_datetime_local = datetime(year=ws['A2'].value,
+                                                                month=ws['B2'].value,
+                                                                day=col_num - 3)
                             except ValueError:
                                 # invalid date and go to next cell in this row until reach max_col
                                 continue
 
-                            offline_datetime_utc = offline_datetime - timedelta(minutes=timezone_offset)
+                            start_datetime_utc = start_datetime_local - timedelta(minutes=timezone_offset)
 
                             if cell.value is None:
                                 # if the cell is empty then stop at that day
                                 break
                             else:
-                                offline_meter_data['data'][offline_datetime_utc] = cell.value
+                                offline_meter_data['data'][start_datetime_utc] = Decimal(cell.value)
 
                     if len(offline_meter_data['data']) > 0:
                         print("offline_meter_data:" + str(offline_meter_data))
@@ -224,10 +225,10 @@ def calculate_hourly(logger):
                         for energy_data_item in energy_data_list:
                             offline_meter_id = energy_data_item['offline_meter_id']
                             print(energy_data_item['data'].items())
-                            for k, v in energy_data_item['data'].items():
-                                start_datetime_utc = k
+                            for start_datetime_utc, daily_value in energy_data_item['data'].items():
                                 end_datetime_utc = start_datetime_utc + timedelta(hours=24)
-                                actual_value = v / (24 * 60 / config.minutes_to_count)
+                                actual_value = \
+                                    daily_value / (Decimal(24) * Decimal(60) / Decimal(config.minutes_to_count))
                                 cursor.execute(" DELETE FROM tbl_offline_meter_hourly "
                                                " WHERE offline_meter_id = %s "
                                                "       AND start_datetime_utc >= %s "

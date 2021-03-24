@@ -792,7 +792,7 @@ CREATE INDEX `tbl_meters_index_3` ON  `myems_system_db`.`tbl_meters`   (`energy_
 -- USE `myems_system_db`;
 
 -- INSERT INTO `myems_system_db`.`tbl_meters`
--- (`id`, `name`, `uuid`, `energy_category_id`, `is_counted`, `max_hourly_value`, `cost_center_id`, `energy_item_id`, `master_meter_id`, `description`)
+-- (`id`, `name`, `uuid`, `energy_category_id`, `is_counted`, `hourly_low_limit`, `hourly_high_limit`, `cost_center_id`, `energy_item_id`, `master_meter_id`, `description`)
 -- VALUES
 -- (1, '示例表1', '5ca47bc5-22c2-47fc-b906-33222191ea40', 1, true, 0.000, 999.999, 1, 1, null, 'meter1'),
 -- (2, '示例表2', '5ca47bc5-22c2-47fc-b906-33222191ea40', 1, true, 0.000, 999.999, 1, 1, 1,  'meter2'),
@@ -1686,7 +1686,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_stores`
 (`id`, `name`, `uuid`, `address`, `latitude`, `longitude`, `area`, `store_type_id`, `is_input_counted`, `contact_id`, `cost_center_id`, `description`)
 VALUES
-    (1, '麦当劳(祈年大街得来速店)', 'd8a24322-4bab-4ba2-aedc-5d55a84c3db8', '北京市东城区东打磨厂街7号', 39.899493, 116.412041, 500.000, 1, true, 1, 1,  'MacDonald\'s');
+    (1, '麦当劳(祈年大街得来速店)', 'd8a24322-4bab-4ba2-aedc-5d55a84c3db8', '北京市东城区东打磨厂街7号', 39.899493, 116.412041, 500.000, 1, true, 1, 1,  'MacDonalds');
 COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -2249,6 +2249,6 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '1.0.5', '2021-02-23');
+(1, '1.1.0', '2021-03-18');
 
 COMMIT;

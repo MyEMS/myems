@@ -146,10 +146,10 @@ class Reporting:
             if cnx_energy:
                 cnx_energy.disconnect()
 
-            if cnx_historical:
-                cnx_historical.close()
             if cursor_historical:
-                cursor_historical.disconnect()
+                cursor_historical.close()
+            if cnx_historical:
+                cnx_historical.disconnect()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND', description='API.SPACE_NOT_FOUND')
 
         space = dict()
@@ -227,10 +227,10 @@ class Reporting:
             if cnx_energy:
                 cnx_energy.disconnect()
 
-            if cnx_historical:
-                cnx_historical.close()
             if cursor_historical:
-                cursor_historical.disconnect()
+                cursor_historical.close()
+            if cnx_historical:
+                cnx_historical.disconnect()
             raise falcon.HTTPError(falcon.HTTP_404,
                                    title='API.NOT_FOUND',
                                    description='API.ENERGY_CATEGORY_NOT_FOUND')
@@ -554,6 +554,11 @@ class Reporting:
         if cnx_energy:
             cnx_energy.disconnect()
 
+        if cursor_historical:
+            cursor_historical.close()
+        if cnx_historical:
+            cnx_historical.disconnect()
+
         result = dict()
 
         result['space'] = dict()
@@ -647,7 +652,7 @@ class Reporting:
                     (reporting_input[energy_category_id]['subtotal'] -
                      base_input[energy_category_id]['subtotal']) /
                     base_input[energy_category_id]['subtotal']
-                    if base_input[energy_category_id]['subtotal'] > 0.0 else None)
+                    if base_input[energy_category_id]['subtotal'] > Decimal(0.0) else None)
 
         result['reporting_period_output'] = dict()
         result['reporting_period_output']['names'] = list()
@@ -712,7 +717,10 @@ class Reporting:
 
                     result['reporting_period_efficiency']['cumulations'].append(reporting_cumulation)
                     result['reporting_period_efficiency']['increment_rates'].append(
-                        ((reporting_cumulation - base_cumulation) / base_cumulation if (base_cumulation > Decimal(0.0))
+                        ((reporting_cumulation - base_cumulation) / base_cumulation
+                         if (reporting_cumulation is not None and
+                             base_cumulation is not None and
+                             base_cumulation > Decimal(0.0))
                          else None)
                     )
 

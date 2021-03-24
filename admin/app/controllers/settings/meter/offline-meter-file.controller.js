@@ -1,6 +1,17 @@
 'use strict';
 
-app.controller('OfflineMeterFileController', function($scope, $common,  $cookies, $translate,$uibModal,$interval, OfflineMeterFileService, toaster, SweetAlert) {
+app.controller('OfflineMeterFileController', function(
+	$scope, 
+	$window,
+	$common, 
+	$translate,
+	$uibModal,
+	$interval, 
+	OfflineMeterFileService, 
+	toaster, 
+	SweetAlert) {
+
+	$scope.cur_user = JSON.parse($window.localStorage.getItem("currentUser"));
 
 	$scope.getAllOfflineMeterFiles = function() {
 		OfflineMeterFileService.getAllOfflineMeterFiles(function(error, data) {
@@ -16,9 +27,9 @@ app.controller('OfflineMeterFileController', function($scope, $common,  $cookies
 	$scope.dzOptions = {
 		url: getAPI() + 'offlinemeterfiles',
 		acceptedFiles: '.xlsx',
-		dictDefaultMessage : 'Click(or Drop) to add files',
+		dictDefaultMessage: 'Click(or Drop) to add files',
 		maxFilesize: '100',
-		headers: { "User-UUID": $cookies.get("user_uuid"), "Token": $cookies.get("token") }
+		headers: { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token }
 	};
 
 	$scope.dzCallbacks = {
@@ -27,22 +38,22 @@ app.controller('OfflineMeterFileController', function($scope, $common,  $cookies
 		},
 		'success': function(file, xhr) {
 			//console.log('File success to upload from dropzone', file, xhr);
-					var templateName = file.name;
+			var templateName = file.name;
 
-					var popType = 'TOASTER.SUCCESS';
-					var popTitle = $common.toaster.success_title;
-					var popBody = $common.toaster.success_add_body;
+			var popType = 'TOASTER.SUCCESS';
+			var popTitle = $common.toaster.success_title;
+			var popBody = $common.toaster.success_add_body;
 
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody,{template: templateName});
+			popType = $translate.instant(popType);
+			popTitle = $translate.instant(popTitle);
+			popBody = $translate.instant(popBody,{template: templateName});
 
-					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
-						showCloseButton: true,
-					});
+			toaster.pop({
+				type: popType,
+				title: popTitle,
+				body: popBody,
+				showCloseButton: true,
+			});
 
 			// toaster.pop({
 			// 	type: 'success',
@@ -77,15 +88,15 @@ app.controller('OfflineMeterFileController', function($scope, $common,  $cookies
 
 	$scope.deleteOfflineMeterFile = function(offlinemeterfile) {
 		SweetAlert.swal({
-				title: $translate.instant($common.sweet.title),
-				text: $translate.instant($common.sweet.text),
-				type: "warning",
-				showCancelButton: true,
-				confirmButtonColor: "#DD6B55",
-				confirmButtonText: $translate.instant($common.sweet.confirmButtonText),
-				cancelButtonText: $translate.instant($common.sweet.cancelButtonText),
-				closeOnConfirm: true,
-				closeOnCancel: true
+			title: $translate.instant($common.sweet.title),
+			text: $translate.instant($common.sweet.text),
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#DD6B55",
+			confirmButtonText: $translate.instant($common.sweet.confirmButtonText),
+			cancelButtonText: $translate.instant($common.sweet.cancelButtonText),
+			closeOnConfirm: true,
+			closeOnCancel: true
 			},
 			function(isConfirm) {
 				if (isConfirm) {

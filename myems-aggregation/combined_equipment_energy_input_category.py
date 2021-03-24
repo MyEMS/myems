@@ -207,13 +207,12 @@ def worker(combined_equipment):
 
     except Exception as e:
         error_string = "Error in step 3.1 of combined_equipment_energy_input_category.worker " + str(e)
-        print(error_string)
-        return error_string
-    finally:
         if cursor_system_db:
             cursor_system_db.close()
         if cnx_system_db:
             cnx_system_db.close()
+        print(error_string)
+        return error_string
 
     ####################################################################################################################
     # Step 4: get all equipments associated with the combined equipment

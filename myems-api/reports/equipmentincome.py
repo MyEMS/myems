@@ -5,6 +5,7 @@ import config
 from datetime import datetime, timedelta, timezone
 from core import utilities
 from decimal import Decimal
+import excelexporters.equipmentincome
 
 
 class Reporting:
@@ -143,10 +144,10 @@ class Reporting:
             if cnx_billing:
                 cnx_billing.disconnect()
 
-            if cnx_historical:
-                cnx_historical.close()
             if cursor_historical:
-                cursor_historical.disconnect()
+                cursor_historical.close()
+            if cnx_historical:
+                cnx_historical.disconnect()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND', description='API.EQUIPMENT_NOT_FOUND')
 
         equipment = dict()
@@ -198,10 +199,10 @@ class Reporting:
             if cnx_billing:
                 cnx_billing.disconnect()
 
-            if cnx_historical:
-                cnx_historical.close()
             if cursor_historical:
-                cursor_historical.disconnect()
+                cursor_historical.close()
+            if cnx_historical:
+                cnx_historical.disconnect()
             raise falcon.HTTPError(falcon.HTTP_404,
                                    title='API.NOT_FOUND',
                                    description='API.ENERGY_CATEGORY_NOT_FOUND')
@@ -422,6 +423,11 @@ class Reporting:
         if cnx_billing:
             cnx_billing.disconnect()
 
+        if cursor_historical:
+            cursor_historical.close()
+        if cnx_historical:
+            cnx_historical.disconnect()
+
         result = dict()
 
         result['equipment'] = dict()
@@ -482,4 +488,10 @@ class Reporting:
             "values": parameters_data['values']
         }
 
+        # export result to Excel file and then encode the file to base64 string
+        result['excel_bytes_base64'] = excelexporters.equipmentincome.export(result,
+                                                                             equipment['name'],
+                                                                             reporting_start_datetime_local,
+                                                                             reporting_end_datetime_local,
+                                                                             period_type)
         resp.body = json.dumps(result)

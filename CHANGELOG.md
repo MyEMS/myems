@@ -16,6 +16,48 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None.
 
+
+## [v1.1.0] - 2021-03-18
+### Added
+- added excel exporter of equipmentefficiency report.
+- added excel exporter of conbinedequipmentefficiency report in API.
+- added 'optional' tips to meter,virtual meter and offline meter setting in admin UI.
+- added Optional key to translation in admin UI.
+- added cominbedequipmentefficiency report to api and web.
+- added equipmentefficiency report api.
+
+### Changed
+- updated cost file controller in admin UI
+- updated user login session expire time to 8 hours.
+- changed web UI and API to set contact of space is optional.
+
+### Fixed
+- fixed http headers issues of offlinemeterfile, knowledgefile and costfile in admin UI
+- changed float datatype to Decimal datatype for offline meter normalization.
+- fixed issue of add space in web UI.
+- added historical database close and disconnect at the end of reports.
+
+### Removed
+- None.
+
+## [v1.0.8] - 2021-03-11
+### Added
+- added excel exporter of combinedequipmentstatistics report
+- added translation for German
+- added excel exporter of storesaving report
+- added excel exporter of equipmentincome report
+- added excel exporter of shopfloorsaving report
+- added excel exporter of equipmentload report
+
+### Changed
+- Changed default reporting range in EnergyFlowDiagram.
+
+### Fixed
+- None.
+
+### Removed
+- None.
+
 ## [v1.0.7] - 2021-03-07
 ### Added
 - added excel exporter of storeload report
@@ -77,7 +119,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v1.0.7...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v1.1.0...HEAD
+[v1.0.8]: https://github.com/MyEMS/myems/compare/v1.0.8...v1.1.0
+[v1.0.8]: https://github.com/MyEMS/myems/compare/v1.0.7...v1.0.8
 [v1.0.7]: https://github.com/MyEMS/myems/compare/v1.0.6...v1.0.7
 [v1.0.6]: https://github.com/MyEMS/myems/compare/v1.0.5...v1.0.6
 [v1.0.5]: https://github.com/MyEMS/myems/releases/tag/v1.0.5

@@ -12,7 +12,8 @@ import {
   FormGroup,
   Input,
   Label,
-  CustomInput
+  CustomInput,
+  Spinner,
 } from 'reactstrap';
 import CountUp from 'react-countup';
 import Datetime from 'react-datetime';
@@ -25,6 +26,7 @@ import { getCookieValue, createCookie } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL } from '../../../config';
 import { periodTypeOptions } from '../common/PeriodTypeOptions';
 import { comparisonTypeOptions } from '../common/ComparisonTypeOptions';
@@ -67,7 +69,11 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
   const [reportingPeriodBeginsDatetime, setReportingPeriodBeginsDatetime] = useState(current_moment.clone().startOf('month'));
   const [reportingPeriodEndsDatetime, setReportingPeriodEndsDatetime] = useState(current_moment);
   const [cascaderOptions, setCascaderOptions] = useState(undefined);
-  const [isDisabled, setIsDisabled] = useState(true);
+
+  // buttons
+  const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
+  const [spinnerHidden, setSpinnerHidden] = useState(true);
+  const [exportButtonHidden, setExportButtonHidden] = useState(true);
 
   //Results
   const [cardSummaryList, setCardSummaryList] = useState([]);
@@ -81,6 +87,7 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
 
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([{dataField: 'startdatetime', text: t('Datetime'), sort: true}]);
+  const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
 
   useEffect(() => {
     let isResponseOK = false;
@@ -130,10 +137,12 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
             setEquipmentList(json[0]);
             if (json[0].length > 0) {
               setSelectedEquipment(json[0][0].value);
-              setIsDisabled(false);
+              // enable submit button
+              setSubmitButtonDisabled(false);
             } else {
               setSelectedEquipment(undefined);
-              setIsDisabled(true);
+              // disable submit button
+              setSubmitButtonDisabled(true);
             }
           } else {
             toast.error(json.description)
@@ -180,11 +189,16 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
         setEquipmentList(json[0]);
         if (json[0].length > 0) {
           setSelectedEquipment(json[0][0].value);
-          setIsDisabled(false);
+          // enable submit button
+          setSubmitButtonDisabled(false);
         } else {
           setSelectedEquipment(undefined);
-          setIsDisabled(true);
+          // disable submit button
+          setSubmitButtonDisabled(true);
         }
+
+        // hide export buttion
+        setExportButtonHidden(true)
       } else {
         toast.error(json.description)
       }
@@ -271,6 +285,13 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
     console.log(basePeriodEndsDatetime != null ? basePeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss') : undefined);
     console.log(reportingPeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss'));
     console.log(reportingPeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss'));
+    
+    // disable submit button
+    setSubmitButtonDisabled(true);
+    // show spinner
+    setSpinnerHidden(false);
+    // hide export buttion
+    setExportButtonHidden(true)
 
     // Reinitialize tables
     setDetailedDataTableData([]);
@@ -353,20 +374,22 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
         setParameterLineChartOptions(names);
       
         let detailed_value_list = [];
-        json['reporting_period_efficiency']['timestamps'][0].forEach((currentTimestamp, timestampIndex) => {
-          let detailed_value = {};
-          detailed_value['id'] = timestampIndex;
-          detailed_value['startdatetime'] = currentTimestamp;
-          json['reporting_period_efficiency']['values'].forEach((currentValue, energyCategoryIndex) => {
-            if (json['reporting_period_efficiency']['values'][energyCategoryIndex][timestampIndex] != null) {
-              detailed_value['a' + 2 * energyCategoryIndex] = json['reporting_period_efficiency']['values'][energyCategoryIndex][timestampIndex].toFixed(2);
-            } else {
-              detailed_value['a' + 2 * energyCategoryIndex] = '';
-            };
+        if (json['reporting_period_efficiency']['timestamps'].length > 0) {
+          json['reporting_period_efficiency']['timestamps'][0].forEach((currentTimestamp, timestampIndex) => {
+            let detailed_value = {};
+            detailed_value['id'] = timestampIndex;
+            detailed_value['startdatetime'] = currentTimestamp;
+            json['reporting_period_efficiency']['values'].forEach((currentValue, parameterIndex) => {
+              if (json['reporting_period_efficiency']['values'][parameterIndex][timestampIndex] != null) {
+                detailed_value['a' + parameterIndex] = json['reporting_period_efficiency']['values'][parameterIndex][timestampIndex].toFixed(2);
+              } else {
+                detailed_value['a' + parameterIndex] = '';
+              };
+            });
+            
+            detailed_value_list.push(detailed_value);
           });
-           
-          detailed_value_list.push(detailed_value);
-        });
+        };
 
         let detailed_value = {};
         detailed_value['id'] = detailed_value_list.length;
@@ -392,6 +415,16 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
           })
         });
         setDetailedDataTableColumns(detailed_column_list);
+        
+        setExcelBytesBase64(json['excel_bytes_base64']);
+      
+        // enable submit button
+        setSubmitButtonDisabled(false);
+        // hide spinner
+        setSpinnerHidden(true);
+        // show export buttion
+        setExportButtonHidden(false);
+
       } else {
         toast.error(json.description)
       }
@@ -399,6 +432,24 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
       console.log(err);
     });      
   };
+  
+  const handleExport = e => {
+    e.preventDefault();
+    const mimeType='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    const fileName = 'equipmentefficiency.xlsx'
+    var fileUrl = "data:" + mimeType + ";base64," + excelBytesBase64;
+    fetch(fileUrl)
+        .then(response => response.blob())
+        .then(blob => {
+            var link = window.document.createElement("a");
+            link.href = window.URL.createObjectURL(blob, { type: mimeType });
+            link.download = fileName;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+  };
+  
 
   return (
     <Fragment>
@@ -526,9 +577,23 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
                 <FormGroup>
                   <br></br>
                   <ButtonGroup id="submit">
-                    <Button color="success" disabled={isDisabled} >{t('Submit')}</Button>
+                    <Button color="success" disabled={submitButtonDisabled} >{t('Submit')}</Button>
                   </ButtonGroup>
                 </FormGroup>
+              </Col>
+              <Col xs="auto">
+                <FormGroup>
+                  <br></br>
+                  <Spinner color="primary" hidden={spinnerHidden}  />
+                </FormGroup>
+              </Col>
+              <Col xs="auto">
+                  <br></br>
+                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default" 
+                  hidden={exportButtonHidden}
+                  onClick={handleExport} >
+                    {t('Export')}
+                  </ButtonIcon>
               </Col>
             </Row>
           </Form>

@@ -5,6 +5,7 @@ import config
 from datetime import datetime, timedelta, timezone
 from core import utilities
 from decimal import Decimal
+import excelexporters.shopfloorsaving
 
 
 class Reporting:
@@ -152,10 +153,10 @@ class Reporting:
             if cnx_energy_baseline:
                 cnx_energy_baseline.disconnect()
 
-            if cnx_historical:
-                cnx_historical.close()
             if cursor_historical:
-                cursor_historical.disconnect()
+                cursor_historical.close()
+            if cnx_historical:
+                cnx_historical.disconnect()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND', description='API.SHOPFLOOR_NOT_FOUND')
 
         shopfloor = dict()
@@ -213,10 +214,10 @@ class Reporting:
             if cnx_energy_baseline:
                 cnx_energy_baseline.disconnect()
 
-            if cnx_historical:
-                cnx_historical.close()
             if cursor_historical:
-                cursor_historical.disconnect()
+                cursor_historical.close()
+            if cnx_historical:
+                cnx_historical.disconnect()
             raise falcon.HTTPError(falcon.HTTP_404,
                                    title='API.NOT_FOUND',
                                    description='API.ENERGY_CATEGORY_NOT_FOUND')
@@ -589,6 +590,11 @@ class Reporting:
         if cnx_energy_baseline:
             cnx_energy_baseline.disconnect()
 
+        if cursor_historical:
+            cursor_historical.close()
+        if cnx_historical:
+            cnx_historical.disconnect()
+
         result = dict()
 
         result['shopfloor'] = dict()
@@ -681,5 +687,11 @@ class Reporting:
             "timestamps": parameters_data['timestamps'],
             "values": parameters_data['values']
         }
+
+        result['excel_bytes_base64'] = excelexporters.shopfloorsaving.export(result,
+                                                                             shopfloor['name'],
+                                                                             reporting_start_datetime_local,
+                                                                             reporting_end_datetime_local,
+                                                                             period_type)
 
         resp.body = json.dumps(result)

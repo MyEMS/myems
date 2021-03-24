@@ -143,10 +143,10 @@ class Reporting:
             if cnx_energy:
                 cnx_energy.disconnect()
 
-            if cnx_historical:
-                cnx_historical.close()
             if cursor_historical:
-                cursor_historical.disconnect()
+                cursor_historical.close()
+            if cnx_historical:
+                cnx_historical.disconnect()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND', description='API.EQUIPMENT_NOT_FOUND')
 
         equipment = dict()
@@ -198,10 +198,10 @@ class Reporting:
             if cnx_energy:
                 cnx_energy.disconnect()
 
-            if cnx_historical:
-                cnx_historical.close()
             if cursor_historical:
-                cursor_historical.disconnect()
+                cursor_historical.close()
+            if cnx_historical:
+                cnx_historical.disconnect()
             raise falcon.HTTPError(falcon.HTTP_404,
                                    title='API.NOT_FOUND',
                                    description='API.ENERGY_CATEGORY_NOT_FOUND')
@@ -444,6 +444,11 @@ class Reporting:
         if cnx_energy:
             cnx_energy.disconnect()
 
+        if cursor_historical:
+            cursor_historical.close()
+        if cnx_historical:
+            cnx_historical.disconnect()
+
         result = dict()
 
         result['equipment'] = dict()
@@ -494,19 +499,22 @@ class Reporting:
                 result['reporting_period']['averages'].append(reporting[energy_category_id]['average'])
                 result['reporting_period']['averages_increment_rate'].append(
                     (reporting[energy_category_id]['average'] - base[energy_category_id]['average']) /
-                    base[energy_category_id]['average'] if (base[energy_category_id]['average'] is not None and
+                    base[energy_category_id]['average'] if (reporting[energy_category_id]['average'] is not None and
+                                                            base[energy_category_id]['average'] is not None and
                                                             base[energy_category_id]['average'] > Decimal(0.0))
                     else None)
                 result['reporting_period']['maximums'].append(reporting[energy_category_id]['maximum'])
                 result['reporting_period']['maximums_increment_rate'].append(
                     (reporting[energy_category_id]['maximum'] - base[energy_category_id]['maximum']) /
-                    base[energy_category_id]['maximum'] if (base[energy_category_id]['maximum'] is not None and
+                    base[energy_category_id]['maximum'] if (reporting[energy_category_id]['maximum'] is not None and
+                                                            base[energy_category_id]['maximum'] is not None and
                                                             base[energy_category_id]['maximum'] > Decimal(0.0))
                     else None)
                 result['reporting_period']['factors'].append(reporting[energy_category_id]['factor'])
                 result['reporting_period']['factors_increment_rate'].append(
                     (reporting[energy_category_id]['factor'] - base[energy_category_id]['factor']) /
-                    base[energy_category_id]['factor'] if (base[energy_category_id]['factor'] is not None and
+                    base[energy_category_id]['factor'] if (reporting[energy_category_id]['factor'] is not None and
+                                                           base[energy_category_id]['factor'] is not None and
                                                            base[energy_category_id]['factor'] > Decimal(0.0))
                     else None)
 
