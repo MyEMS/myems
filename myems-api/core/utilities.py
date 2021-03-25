@@ -16,6 +16,12 @@ import statistics
 ########################################################################################################################
 def aggregate_hourly_data_by_period(rows_hourly, start_datetime_utc, end_datetime_utc, period_type):
     # todo: validate parameters
+    if start_datetime_utc is None or \
+            end_datetime_utc is None or \
+            start_datetime_utc >= end_datetime_utc or \
+            period_type not in ('hourly', 'daily', 'monthly', 'yearly'):
+        return list()
+
     start_datetime_utc = start_datetime_utc.replace(tzinfo=None)
     end_datetime_utc = end_datetime_utc.replace(tzinfo=None)
 
