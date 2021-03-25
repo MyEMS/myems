@@ -474,8 +474,8 @@ class Reporting:
                         associated_equipment['name'])
 
                     cursor_energy.execute(" SELECT SUM(actual_value) "
-                                          " FROM tbl_combined_equipment_input_item_hourly "
-                                          " WHERE combined_equipment_id = %s "
+                                          " FROM tbl_equipment_input_item_hourly "
+                                          " WHERE equipment_id = %s "
                                           "     AND energy_item_id = %s "
                                           "     AND start_datetime_utc >= %s "
                                           "     AND start_datetime_utc < %s "
