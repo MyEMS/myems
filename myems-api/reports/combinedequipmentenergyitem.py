@@ -247,7 +247,7 @@ class Reporting:
         cursor_system.execute(" SELECT e.id, e.name "
                               " FROM tbl_equipments e,tbl_combined_equipments_equipments ee"
                               " WHERE ee.combined_equipment_id = %s AND e.id = ee.equipment_id"
-                              " ORDER BY id ", (combined_equipment['id'],))
+                              " ORDER BY e.id ", (combined_equipment['id'],))
         rows_associated_equipments = cursor_system.fetchall()
         if rows_associated_equipments is not None and len(rows_associated_equipments) > 0:
             for row in rows_associated_equipments:
