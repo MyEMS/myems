@@ -22,53 +22,43 @@ MyEMS是行业领先的开源能源管理系统，利用云计算、物联网、
 ## MyEMS组件(社区版)
 
 MyEMS项目由下列组件构成:
-### MyEMS 数据库
-SQL
+### MyEMS 数据库 (SQL)
 
 [安装 数据库](./database/README.md)
 
-### MyEMS API 应用程序接口 
-Python
+### MyEMS API 应用程序接口 (Python)
 
 [安装 myems-api](./myems-api/README.md)
 
-### MyEMS 管理 UI
-AngularJS
+### MyEMS 管理 UI (AngularJS)
 
 [安装 admin UI](./admin/README.md)
 
-### MyEMS BACnet/IP 数据采集服务
-Python
+### MyEMS BACnet/IP 数据采集服务 (Python)
 
 [安装 myems-bacnet](./myems-bacnet/README.md)
 
-### MyEMS Modbus TCP 数据采集服务
-Python
+### MyEMS Modbus TCP 数据采集服务 (Python)
 
 [安装 myems-modbus-tcp](./myems-modbus-tcp/README.md)
 
-### MyEMS MQTT数据转发服务
-Python
+### MyEMS MQTT数据转发服务 (Python)
 
 [安装 myems-mqtt-publisher](./myems-mqtt-publisher/README.md)
 
-### MyEMS 数据清洗服务
-Python
+### MyEMS 数据清洗服务 (Python)
 
 [安装 myems-cleaning](./myems-cleaning/README.md)
 
-### MyEMS 数据规范化服务
-Python
+### MyEMS 数据规范化服务 (Python)
 
 [安装 myems-normalization](./myems-normalization/README.md)
 
-### MyEMS 数据汇总服务
-Python
+### MyEMS 数据汇总服务 (Python)
 
 [安装 myems-aggregation](./myems-aggregation/README.md)
 
-### MyEMS Web UI
-ReactJS
+### MyEMS Web UI (ReactJS)
 
 [安装 web UI](./web/README.md)
 
