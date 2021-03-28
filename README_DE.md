@@ -23,53 +23,43 @@ MyEMS wird von einem erfahrenen Entwicklungsteam entwickelt und gewartet, und de
 
 Dieses Projekt besteht aus folgenden Komponenten:
 
-### MyEMS Database
-SQL
+### MyEMS Database (SQL)
 
 [Installieren database](./database/README.md)
 
-### MyEMS API
-Python
+### MyEMS API (Python)
 
 [Installieren myems-api](./myems-api/README.md)
 
-### MyEMS Admin UI
-AngularJS
+### MyEMS Admin UI (AngularJS)
 
 [Installieren admin UI](./admin/README.md)
 
-### MyEMS BACnet/IP Acquisition Service
-Python
+### MyEMS BACnet/IP Acquisition Service (Python)
 
 [Installieren myems-bacnet](./myems-bacnet/README.md)
 
-### MyEMS Modbus TCP Acquisition Service
-Python
+### MyEMS Modbus TCP Acquisition Service (Python)
 
 [Installieren myems-modbus-tcp](./myems-modbus-tcp/README.md)
 
-### MyEMS MQTT Data vorwärts Service
-Python
+### MyEMS MQTT Data vorwärts Service (Python)
 
 [Installieren myems-mqtt-publisher](./myems-mqtt-publisher/README.md)
 
-### MyEMS Cleaning Service
-Python
+### MyEMS Cleaning Service (Python)
 
 [Installieren myems-cleaning](./myems-cleaning/README.md)
 
-### MyEMS Normalization Service
-Python
+### MyEMS Normalization Service (Python)
 
 [Installieren myems-normalization](./myems-normalization/README.md)
 
-### MyEMS Aggregation Service
-Python
+### MyEMS Aggregation Service (Python)
 
 [Installieren myems-aggregation](./myems-aggregation/README.md)
 
-### MyEMS Web UI
-ReactJS
+### MyEMS Web UI (ReactJS)
 
 [Installieren web UI](./web/README.md)
 
