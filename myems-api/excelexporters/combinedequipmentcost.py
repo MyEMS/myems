@@ -7,7 +7,6 @@ from openpyxl.chart import (
         BarChart,
         Reference,
     )
-from decimal import *
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 from openpyxl.drawing.image import Image
 from openpyxl import Workbook
@@ -274,7 +273,7 @@ def generate_excel(report,
         ws['D13'].border = f_border
         ws['D13'] = '分时用电成本占比'
 
-        cost_sum = round(reporting_period_data['toppeaks'][0], 2)+round(reporting_period_data['onpeaks'][0], 2)\
+        wssum = round(reporting_period_data['toppeaks'][0], 2)+round(reporting_period_data['onpeaks'][0], 2)\
             + round(reporting_period_data['midpeaks'][0], 2)+round(reporting_period_data['offpeaks'][0], 2)
 
         ws['B14'].font = title_font
@@ -290,8 +289,7 @@ def generate_excel(report,
         ws['D14'].font = title_font
         ws['D14'].alignment = c_c_alignment
         ws['D14'].border = f_border
-        ws['D14'] = '{:.2%}'.format(round(reporting_period_data['toppeaks'][0], 2) / cost_sum
-                                    if cost_sum is not None and cost_sum != Decimal(0.0) else "")
+        ws['D14'] = '{:.2%}'.format(round(reporting_period_data['toppeaks'][0], 2)/wssum)
 
         ws['B15'].font = title_font
         ws['B15'].alignment = c_c_alignment
@@ -306,8 +304,7 @@ def generate_excel(report,
         ws['D15'].font = title_font
         ws['D15'].alignment = c_c_alignment
         ws['D15'].border = f_border
-        ws['D15'] = '{:.2%}'.format(round(reporting_period_data['toppeaks'][0], 2) / cost_sum
-                                    if cost_sum is not None and cost_sum != Decimal(0.0) else "")
+        ws['D15'] = '{:.2%}'.format(round(reporting_period_data['onpeaks'][0], 2)/wssum)
 
         ws['B16'].font = title_font
         ws['B16'].alignment = c_c_alignment
@@ -322,8 +319,7 @@ def generate_excel(report,
         ws['D16'].font = title_font
         ws['D16'].alignment = c_c_alignment
         ws['D16'].border = f_border
-        ws['D16'] = '{:.2%}'.format(round(reporting_period_data['toppeaks'][0], 2) / cost_sum
-                                    if cost_sum is not None and cost_sum != Decimal(0.0) else "")
+        ws['D16'] = '{:.2%}'.format(round(reporting_period_data['midpeaks'][0], 2)/wssum)
 
         ws['B17'].font = title_font
         ws['B17'].alignment = c_c_alignment
@@ -338,8 +334,7 @@ def generate_excel(report,
         ws['D17'].font = title_font
         ws['D17'].alignment = c_c_alignment
         ws['D17'].border = f_border
-        ws['D17'] = '{:.2%}'.format(round(reporting_period_data['toppeaks'][0], 2) / cost_sum
-                                    if cost_sum is not None and cost_sum != Decimal(0.0) else "")
+        ws['D17'] = '{:.2%}'.format(round(reporting_period_data['offpeaks'][0], 2)/wssum)
 
         pie = PieChart()
         pie.title = name+'分时用电成本'
@@ -398,9 +393,9 @@ def generate_excel(report,
         current_row_number += 1
 
         ca_len = len(reporting_period_data['names'])
-        cost_sum = Decimal(0.0)
+        wssum = 0
         for i in range(0, ca_len):
-            cost_sum = round(reporting_period_data['subtotals'][i], 2) + cost_sum
+            wssum = round(reporting_period_data['subtotals'][i], 2) + wssum
         for i in range(0, ca_len):
             ws['B' + str(current_row_number)].font = title_font
             ws['B' + str(current_row_number)].alignment = c_c_alignment
@@ -415,9 +410,7 @@ def generate_excel(report,
             ws['D' + str(current_row_number)].font = title_font
             ws['D' + str(current_row_number)].alignment = c_c_alignment
             ws['D' + str(current_row_number)].border = f_border
-            ws['D' + str(current_row_number)] = '{:.2%}'.format(round(reporting_period_data['toppeaks'][0], 2) /
-                                                                cost_sum if cost_sum is not None and
-                                                                cost_sum != Decimal(0.0) else "")
+            ws['D' + str(current_row_number)] = '{:.2%}'.format(round(reporting_period_data['subtotals'][i], 2) / wssum)
 
             current_row_number += 1
 
