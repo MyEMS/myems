@@ -7,6 +7,7 @@ from openpyxl.chart import (
     BarChart,
     Reference,
 )
+from decimal import *
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 from openpyxl.drawing.image import Image
 from openpyxl import Workbook
@@ -276,9 +277,9 @@ def generate_excel(report,
         current_row_number += 1
 
         ca_len = len(reporting_period_data['names'])
-        wssum = 0
+        income_sum = 0
         for i in range(0, ca_len):
-            wssum = round(reporting_period_data['subtotals'][i], 2) + wssum
+            income_sum = round(reporting_period_data['subtotals'][i], 2) + income_sum
         for i in range(0, ca_len):
             ws['B' + str(current_row_number)].font = title_font
             ws['B' + str(current_row_number)].alignment = c_c_alignment
@@ -293,7 +294,9 @@ def generate_excel(report,
             ws['D' + str(current_row_number)].font = title_font
             ws['D' + str(current_row_number)].alignment = c_c_alignment
             ws['D' + str(current_row_number)].border = f_border
-            ws['D' + str(current_row_number)] = '{:.2%}'.format(round(reporting_period_data['subtotals'][i], 2) / wssum)
+            ws['D' + str(current_row_number)] = '{:.2%}'.format(round(reporting_period_data['subtotals'][i], 2) /
+                                                                income_sum if income_sum is not None and
+                                                                income_sum != Decimal(0.0) else "")
 
             current_row_number += 1
 
