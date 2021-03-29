@@ -14,7 +14,6 @@ from openpyxl import Workbook
 from openpyxl.chart.label import DataLabelList
 import openpyxl.utils.cell as format_cell
 
-
 ####################################################################################################################
 # PROCEDURES
 # Step 1: Validate the report data
@@ -296,8 +295,8 @@ def generate_excel(report,
             ws['D' + str(current_row_number)].alignment = c_c_alignment
             ws['D' + str(current_row_number)].border = f_border
             ws['D' + str(current_row_number)] = '{:.2%}'.format(round(reporting_period_data['subtotals'][i], 2) /
-                                                                income_sum) if income_sum is not None and income_sum.\
-                compare(Decimal(0.0) != 0)else round(reporting_period_data['subtotals'][i], 2)
+                                                                income_sum if income_sum is not None and
+                                                                income_sum != Decimal(0.0) else "")
 
             current_row_number += 1
 
@@ -332,8 +331,7 @@ def generate_excel(report,
     times = reporting_period_data['timestamps']
     has_detail_data_flag = True
     ca_len = len(report['reporting_period']['names'])
-    real_timestamps_len = timestamps_data_not_equal_0(report['parameters']['timestamps'])
-    table_row = (current_row_number + 1) + ca_len * 6 + real_timestamps_len * 7 + 1
+    table_row = (current_row_number + 1) + ca_len * 6
     if "timestamps" not in reporting_period_data.keys() or \
             reporting_period_data['timestamps'] is None or \
             len(reporting_period_data['timestamps']) == 0:
