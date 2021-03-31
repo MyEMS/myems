@@ -206,7 +206,7 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
         <CardBody className="p-3">
           <Form onSubmit={handleSubmit}>
             <Row form>
-              <Col xs="auto">
+              <Col xs={6} sm={3}>
                 <FormGroup>
                   <Label className={labelClasses} for="energyFlowDiagramSelect">
                     {t('Energy Flow Diagram')}

@@ -122,7 +122,7 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
         <CardBody className="p-3">
           <Form >
             <Row form>
-              <Col xs="auto">
+              <Col xs={6} sm={3}>
                 <FormGroup>
                   <Label className={labelClasses} for="distributionSystemSelect">
                     {t('Distribution System')}
