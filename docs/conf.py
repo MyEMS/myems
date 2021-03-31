@@ -19,7 +19,7 @@ import sphinx_rtd_theme
 # -- Project information -----------------------------------------------------
 
 project = 'MyEMS'
-copyright = '2019, 2020, MyEMS'
+copyright = '2021, MyEMS'
 author = 'MyEMS Team'
 
 
