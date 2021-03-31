@@ -16,6 +16,44 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None.
 
+## [v1.1.1] - 2021-03-31
+### Added
+- added associated equipment data to CombinedEquipmentCost report in API
+- added associated equipment data to CombinedEquipmentStatistics report in API
+- added associated equipment data to CombinedEquipmentSaving report in API
+- added associated equipment data to CombinedEquipmentOutput report in API
+- added associated equipment data to CombinedEquipmentLoad report in API
+- added associated equipment data to CombinedEquipmentIncome report in API
+- added associated equipment data to CombinedEquipmentEnergyItem report in API
+- added associated equipment data to CombinedEquipmentEnergyCategory report in API
+- added quickmode paramter to combinedequipmentefficiency report in API
+- added associated equipment data to CombinedEquipmentStatistics in Web UI
+- added associated equipment data to CombinedEquipmentLoad in Web UI
+- added excel exporter of equipmentcost reporter in API
+- added associated equipment data to CombinedEquipmentEnergyItem report in API
+- added AssociatedEquipmentTable to CombinedEquipmentIncome Report in web UI
+- added AssociatedEquipmentTable to CombinedEquipmentSaving Report in web UI
+- added AssociatedEquipmentTable to CombinedEquipmentOutput Report in web UI
+- added AssociatedEquipmentTable to CombinedEquipmentIncome Report in web UI
+- added AssociatedEquipmentTable to CombinedEquipmentCost Report in web UI
+- added AssociatedEquipmentTable to CombinedEquipmentEnergyCategory Report in web UI
+- added AssociatedEquipmentTable to CombinedEquipmentEnergyItem Report in web UI
+- added last_run_datetime and next_run_datetime to rule in API
+- added Deutsch (German) login language list in admin UI
+
+### Changed
+- reduced font size of meterrealtime in Web UI
+- moved category before fdd_code of rule in admin UI and API
+
+### Fixed
+- fixed omission mistakes in myems-cleaning
+- fixed error for large number of parameters in combinedequipmentefficiency and equipmentefficiency in API
+- fixed error of None Comparision in API
+- fixed NoneType error in all Load reports API.
+
+### Removed
+- None.
+
 
 ## [v1.1.0] - 2021-03-18
 ### Added
@@ -120,6 +158,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - None.
 
 [Unreleased]: https://github.com/MyEMS/myems/compare/v1.1.0...HEAD
+[v1.1.1]: https://github.com/MyEMS/myems/compare/v1.1.0...v1.1.1
 [v1.0.8]: https://github.com/MyEMS/myems/compare/v1.0.8...v1.1.0
 [v1.0.8]: https://github.com/MyEMS/myems/compare/v1.0.7...v1.0.8
 [v1.0.7]: https://github.com/MyEMS/myems/compare/v1.0.6...v1.0.7
