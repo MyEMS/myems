@@ -23,11 +23,13 @@ class Reporting:
     # Step 2: query the combined equipment
     # Step 3: query energy categories
     # Step 4: query associated points
-    # Step 5: query base period energy income
-    # Step 6: query reporting period energy income
-    # Step 7: query tariff data
-    # Step 8: query associated points data
-    # Step 9: construct the report
+    # Step 5: query associated equipments
+    # Step 6: query base period energy income
+    # Step 7: query reporting period energy income
+    # Step 8: query tariff data
+    # Step 9: query associated points data
+    # Step 10: query associated equipments energy income
+    # Step 11: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
@@ -70,7 +72,7 @@ class Reporting:
             try:
                 base_start_datetime_utc = datetime.strptime(base_start_datetime_local,
                                                             '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
-                    timedelta(minutes=timezone_offset)
+                                          timedelta(minutes=timezone_offset)
             except ValueError:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_BASE_PERIOD_START_DATETIME")
@@ -81,7 +83,7 @@ class Reporting:
             try:
                 base_end_datetime_utc = datetime.strptime(base_end_datetime_local,
                                                           '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
-                    timedelta(minutes=timezone_offset)
+                                        timedelta(minutes=timezone_offset)
             except ValueError:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_BASE_PERIOD_END_DATETIME")
@@ -99,7 +101,7 @@ class Reporting:
             try:
                 reporting_start_datetime_utc = datetime.strptime(reporting_start_datetime_local,
                                                                  '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
-                    timedelta(minutes=timezone_offset)
+                                               timedelta(minutes=timezone_offset)
             except ValueError:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_REPORTING_PERIOD_START_DATETIME")
@@ -112,7 +114,7 @@ class Reporting:
             try:
                 reporting_end_datetime_utc = datetime.strptime(reporting_end_datetime_local,
                                                                '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
-                    timedelta(minutes=timezone_offset)
+                                             timedelta(minutes=timezone_offset)
             except ValueError:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_REPORTING_PERIOD_END_DATETIME")
@@ -235,7 +237,20 @@ class Reporting:
                 point_list.append({"id": row[0], "name": row[1], "units": row[2], "object_type": row[3]})
 
         ################################################################################################################
-        # Step 5: query base period energy income
+        # Step 5: query associated equipments
+        ################################################################################################################
+        associated_equipment_list = list()
+        cursor_system.execute(" SELECT e.id, e.name "
+                              " FROM tbl_equipments e,tbl_combined_equipments_equipments ee"
+                              " WHERE ee.combined_equipment_id = %s AND e.id = ee.equipment_id"
+                              " ORDER BY id ", (combined_equipment['id'],))
+        rows_associated_equipments = cursor_system.fetchall()
+        if rows_associated_equipments is not None and len(rows_associated_equipments) > 0:
+            for row in rows_associated_equipments:
+                associated_equipment_list.append({"id": row[0], "name": row[1]})
+
+        ################################################################################################################
+        # Step 6: query base period energy income
         ################################################################################################################
         base = dict()
         if energy_category_set is not None and len(energy_category_set) > 0:
@@ -282,7 +297,7 @@ class Reporting:
                     base[energy_category_id]['subtotal'] += actual_value
 
         ################################################################################################################
-        # Step 8: query reporting period energy income
+        # Step 7: query reporting period energy income
         ################################################################################################################
         reporting = dict()
         if energy_category_set is not None and len(energy_category_set) > 0:
@@ -329,7 +344,7 @@ class Reporting:
                     reporting[energy_category_id]['subtotal'] += actual_value
 
         ################################################################################################################
-        # Step 9: query tariff data
+        # Step 8: query tariff data
         ################################################################################################################
         parameters_data = dict()
         parameters_data['names'] = list()
@@ -355,7 +370,7 @@ class Reporting:
                 parameters_data['values'].append(tariff_value_list)
 
         ################################################################################################################
-        # Step 10: query associated points data
+        # Step 9: query associated points data
         ################################################################################################################
         for point in point_list:
             point_values = []
@@ -420,7 +435,37 @@ class Reporting:
             parameters_data['values'].append(point_values)
 
         ################################################################################################################
-        # Step 12: construct the report
+        # Step 10: query associated equipments energy income
+        ################################################################################################################
+        associated_equipment_data = dict()
+
+        if energy_category_set is not None and len(energy_category_set) > 0:
+            for energy_category_id in energy_category_set:
+                associated_equipment_data[energy_category_id] = dict()
+                associated_equipment_data[energy_category_id]['associated_equipment_names'] = list()
+                associated_equipment_data[energy_category_id]['subtotals'] = list()
+                for associated_equipment in associated_equipment_list:
+                    associated_equipment_data[energy_category_id]['associated_equipment_names'].append(
+                        associated_equipment['name'])
+
+                    cursor_billing.execute(" SELECT SUM(actual_value) "
+                                           " FROM tbl_equipment_output_category_hourly "
+                                           " WHERE equipment_id = %s "
+                                           "     AND energy_category_id = %s "
+                                           "     AND start_datetime_utc >= %s "
+                                           "     AND start_datetime_utc < %s "
+                                           " ORDER BY start_datetime_utc ",
+                                           (associated_equipment['id'],
+                                            energy_category_id,
+                                            reporting_start_datetime_utc,
+                                            reporting_end_datetime_utc))
+                    row_subtotal = cursor_billing.fetchone()
+
+                    subtotal = Decimal(0.0) if (row_subtotal is None or row_subtotal[0] is None) else row_subtotal[0]
+                    associated_equipment_data[energy_category_id]['subtotals'].append(subtotal)
+
+        ################################################################################################################
+        # Step 11: construct the report
         ################################################################################################################
         if cursor_system:
             cursor_system.close()
@@ -496,6 +541,22 @@ class Reporting:
             "timestamps": parameters_data['timestamps'],
             "values": parameters_data['values']
         }
+
+        result['associated_equipment'] = dict()
+        result['associated_equipment']['energy_category_names'] = list()
+        result['associated_equipment']['units'] = list()
+        result['associated_equipment']['associated_equipment_names_array'] = list()
+        result['associated_equipment']['subtotals_array'] = list()
+        result['associated_equipment']['total_unit'] = config.currency_unit
+        if energy_category_set is not None and len(energy_category_set) > 0:
+            for energy_category_id in energy_category_set:
+                result['associated_equipment']['energy_category_names'].append(
+                    energy_category_dict[energy_category_id]['name'])
+                result['associated_equipment']['units'].append(config.currency_unit)
+                result['associated_equipment']['associated_equipment_names_array'].append(
+                    associated_equipment_data[energy_category_id]['associated_equipment_names'])
+                result['associated_equipment']['subtotals_array'].append(
+                    associated_equipment_data[energy_category_id]['subtotals'])
 
         # export result to Excel file and then encode the file to base64 string
         result['excel_bytes_base64'] = excelexporters.combinedequipmentincome.export(result,
