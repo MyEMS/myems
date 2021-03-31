@@ -180,7 +180,7 @@ class RealtimeChart extends Component {
       <Card className="h-100 bg-gradient">
         <CardHeader className="bg-transparent">
           <h5 className="text-white">{this.props.meterName}</h5>
-          <div className="real-time-user display-1 font-weight-normal text-white">{this.state.currentEnergyValue}</div>
+          <div className="real-time-user display-4 font-weight-normal text-white">{this.state.currentEnergyValue}</div>
         </CardHeader>
         <CardBody className="text-white fs--1">
           <p className="pb-2" style={{ borderBottom: dividerBorder }}>
