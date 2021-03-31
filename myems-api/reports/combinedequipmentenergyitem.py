@@ -253,7 +253,6 @@ class Reporting:
             for row in rows_associated_equipments:
                 associated_equipment_list.append({"id": row[0], "name": row[1]})
 
-        print(associated_equipment_list)
         ################################################################################################################
         # Step 6: query base period energy input
         ################################################################################################################
@@ -560,7 +559,7 @@ class Reporting:
                 result['reporting_period']['increment_rates'].append(
                     (reporting[energy_item_id]['subtotal'] - base[energy_item_id]['subtotal']) /
                     base[energy_item_id]['subtotal']
-                    if base[energy_item_id]['subtotal'] > 0.0 else None)
+                    if base[energy_item_id]['subtotal'] > Decimal(0.0) else None)
 
         result['parameters'] = {
             "names": parameters_data['names'],

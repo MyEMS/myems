@@ -483,12 +483,12 @@ class Reporting:
                         associated_equipment['name'])
 
                     cursor_energy.execute(" SELECT SUM(actual_value) "
-                                           " FROM tbl_equipment_input_category_hourly "
-                                           " WHERE equipment_id = %s "
-                                           "     AND energy_category_id = %s "
-                                           "     AND start_datetime_utc >= %s "
-                                           "     AND start_datetime_utc < %s "
-                                           " ORDER BY start_datetime_utc ",
+                                          " FROM tbl_equipment_input_category_hourly "
+                                          " WHERE equipment_id = %s "
+                                          "     AND energy_category_id = %s "
+                                          "     AND start_datetime_utc >= %s "
+                                          "     AND start_datetime_utc < %s "
+                                          " ORDER BY start_datetime_utc ",
                                           (associated_equipment['id'],
                                            energy_category_id,
                                            reporting_start_datetime_utc,
@@ -582,7 +582,7 @@ class Reporting:
                 result['reporting_period']['increment_rates'].append(
                     (reporting[energy_category_id]['subtotal'] - base[energy_category_id]['subtotal']) /
                     base[energy_category_id]['subtotal']
-                    if base[energy_category_id]['subtotal'] > 0.0 else None)
+                    if base[energy_category_id]['subtotal'] > Decimal(0.0) else None)
                 result['reporting_period']['total_in_kgce'] += reporting[energy_category_id]['subtotal_in_kgce']
                 result['reporting_period']['total_in_kgco2e'] += reporting[energy_category_id]['subtotal_in_kgco2e']
 
