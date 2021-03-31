@@ -1,16 +1,19 @@
 import base64
 import uuid
 import os
+from decimal import Decimal
+
 from openpyxl.chart import (
-        PieChart,
-        LineChart,
-        BarChart,
-        Reference,
-    )
+    PieChart,
+    LineChart,
+    BarChart,
+    Reference,
+)
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 from openpyxl.drawing.image import Image
 from openpyxl import Workbook
 from openpyxl.chart.label import DataLabelList
+
 
 ####################################################################################################################
 # PROCEDURES
@@ -66,7 +69,6 @@ def generate_excel(report,
                    reporting_start_datetime_local,
                    reporting_end_datetime_local,
                    period_type):
-
     wb = Workbook()
     ws = wb.active
 
@@ -182,7 +184,7 @@ def generate_excel(report,
 
     if has_energy_data_flag:
         ws['B6'].font = title_font
-        ws['B6'] = name+' 报告期成本'
+        ws['B6'] = name + ' 报告期成本'
 
         category = reporting_period_data['names']
         ca_len = len(category)
@@ -222,7 +224,7 @@ def generate_excel(report,
                 if reporting_period_data['increment_rates'][i] is not None else "-"
             ws[col + '9'].border = f_border
 
-        end_col = chr(ord(col)+1)
+        end_col = chr(ord(col) + 1)
         ws[end_col + '7'].fill = table_fill
         ws[end_col + '7'].font = name_font
         ws[end_col + '7'].alignment = c_c_alignment
@@ -254,7 +256,7 @@ def generate_excel(report,
 
     if has_ele_peak_flag:
         ws['B12'].font = title_font
-        ws['B12'] = name+'分时用电成本'
+        ws['B12'] = name + '分时用电成本'
 
         ws['B13'].fill = table_fill
         ws['B13'].font = name_font
@@ -273,8 +275,8 @@ def generate_excel(report,
         ws['D13'].border = f_border
         ws['D13'] = '分时用电成本占比'
 
-        wssum = round(reporting_period_data['toppeaks'][0], 2)+round(reporting_period_data['onpeaks'][0], 2)\
-            + round(reporting_period_data['midpeaks'][0], 2)+round(reporting_period_data['offpeaks'][0], 2)
+        wssum = round(reporting_period_data['toppeaks'][0], 2) + round(reporting_period_data['onpeaks'][0], 2) + \
+            round(reporting_period_data['midpeaks'][0], 2) + round(reporting_period_data['offpeaks'][0], 2)
 
         ws['B14'].font = title_font
         ws['B14'].alignment = c_c_alignment
@@ -289,7 +291,8 @@ def generate_excel(report,
         ws['D14'].font = title_font
         ws['D14'].alignment = c_c_alignment
         ws['D14'].border = f_border
-        ws['D14'] = '{:.2%}'.format(round(reporting_period_data['toppeaks'][0], 2)/wssum)
+        ws['D14'] = '{:.2%}'.format(round(reporting_period_data['toppeaks'][0], 2) / wssum) \
+            if wssum is not None and wssum != Decimal(0.0) else " "
 
         ws['B15'].font = title_font
         ws['B15'].alignment = c_c_alignment
@@ -304,7 +307,8 @@ def generate_excel(report,
         ws['D15'].font = title_font
         ws['D15'].alignment = c_c_alignment
         ws['D15'].border = f_border
-        ws['D15'] = '{:.2%}'.format(round(reporting_period_data['onpeaks'][0], 2)/wssum)
+        ws['D15'] = '{:.2%}'.format(round(reporting_period_data['onpeaks'][0], 2) / wssum) \
+            if wssum is not None and wssum != Decimal(0.0) else " "
 
         ws['B16'].font = title_font
         ws['B16'].alignment = c_c_alignment
@@ -319,7 +323,8 @@ def generate_excel(report,
         ws['D16'].font = title_font
         ws['D16'].alignment = c_c_alignment
         ws['D16'].border = f_border
-        ws['D16'] = '{:.2%}'.format(round(reporting_period_data['midpeaks'][0], 2)/wssum)
+        ws['D16'] = '{:.2%}'.format(round(reporting_period_data['midpeaks'][0], 2) / wssum) \
+            if wssum is not None and wssum != Decimal(0.0) else " "
 
         ws['B17'].font = title_font
         ws['B17'].alignment = c_c_alignment
@@ -334,10 +339,11 @@ def generate_excel(report,
         ws['D17'].font = title_font
         ws['D17'].alignment = c_c_alignment
         ws['D17'].border = f_border
-        ws['D17'] = '{:.2%}'.format(round(reporting_period_data['offpeaks'][0], 2)/wssum)
+        ws['D17'] = '{:.2%}'.format(round(reporting_period_data['offpeaks'][0], 2) / wssum) \
+            if wssum is not None and wssum != Decimal(0.0) else " "
 
         pie = PieChart()
-        pie.title = name+'分时用电成本'
+        pie.title = name + '分时用电成本'
         labels = Reference(ws, min_col=2, min_row=14, max_row=17)
         pie_data = Reference(ws, min_col=3, min_row=13, max_row=17)
         pie.add_data(pie_data, titles_from_data=True)
@@ -393,7 +399,7 @@ def generate_excel(report,
         current_row_number += 1
 
         ca_len = len(reporting_period_data['names'])
-        wssum = 0
+        wssum = Decimal(0.0)
         for i in range(0, ca_len):
             wssum = round(reporting_period_data['subtotals'][i], 2) + wssum
         for i in range(0, ca_len):
@@ -410,8 +416,9 @@ def generate_excel(report,
             ws['D' + str(current_row_number)].font = title_font
             ws['D' + str(current_row_number)].alignment = c_c_alignment
             ws['D' + str(current_row_number)].border = f_border
-            ws['D' + str(current_row_number)] = '{:.2%}'.format(round(reporting_period_data['subtotals'][i], 2) / wssum)
-
+            ws['D' + str(current_row_number)] = '{:.2%}'.format(round(
+                reporting_period_data['subtotals'][i], 2) / wssum) if wssum is not None and wssum != Decimal(0.0) \
+                else " "
             current_row_number += 1
 
         table_end_row_number = current_row_number - 1
@@ -459,7 +466,7 @@ def generate_excel(report,
         ca_len = len(report['reporting_period']['names'])
 
         ws['B' + str(current_row_number)].font = title_font
-        ws['B' + str(current_row_number)] = name+' 详细数据'
+        ws['B' + str(current_row_number)] = name + ' 详细数据'
 
         table_start_row_number = (current_row_number + 1) + ca_len * 6
         current_row_number = table_start_row_number
@@ -487,8 +494,8 @@ def generate_excel(report,
                 ws[col + str(current_row_number)].fill = table_fill
                 ws[col + str(current_row_number)].font = title_font
                 ws[col + str(current_row_number)].alignment = c_c_alignment
-                ws[col + str(current_row_number)] = reporting_period_data['names'][i] + \
-                    " (" + reporting_period_data['units'][i] + ")"
+                ws[col + str(current_row_number)] = \
+                    reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
                 ws[col + str(current_row_number)].border = f_border
 
             end_col = chr(ord(col) + 1)
@@ -509,7 +516,7 @@ def generate_excel(report,
 
                 col = 'B'
 
-                every_day_total = 0
+                every_day_total = Decimal(0.0)
 
                 for j in range(0, ca_len):
                     col = chr(ord('C') + j)
@@ -547,7 +554,7 @@ def generate_excel(report,
 
                 # line
                 line = LineChart()
-                line.title = '报告期成本 - ' + ws.cell(column=3+i, row=table_start_row_number).value
+                line.title = '报告期成本 - ' + ws.cell(column=3 + i, row=table_start_row_number).value
                 labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1, max_row=table_end_row_number)
                 line_data = Reference(ws, min_col=3 + i, min_row=table_start_row_number, max_row=table_end_row_number)
                 line.add_data(line_data, titles_from_data=True)
@@ -578,6 +585,78 @@ def generate_excel(report,
         for i in range(30, 69 + 1):
             current_row_number = 70
             ws.row_dimensions[i].height = 0.1
+
+    #####################################
+
+    has_associated_equipment_flag = True
+
+    if "associated_equipment" not in report.keys() or \
+            "energy_category_names" not in report['associated_equipment'].keys() or \
+            len(report['associated_equipment']["energy_category_names"]) == 0 \
+            or 'associated_equipment_names_array' not in report['associated_equipment'].keys() \
+            or report['associated_equipment']['associated_equipment_names_array'] is None \
+            or len(report['associated_equipment']['associated_equipment_names_array']) == 0 \
+            or len(report['associated_equipment']['associated_equipment_names_array'][0]) == 0:
+        has_associated_equipment_flag = False
+
+    if has_associated_equipment_flag:
+        associated_equipment = report['associated_equipment']
+        current_row_number += 1
+
+        ws['B' + str(current_row_number)].font = title_font
+        ws['B' + str(current_row_number)] = name + ' 相关设备数据'
+
+        current_row_number += 1
+
+        ws.row_dimensions[current_row_number].height = 60
+        ws['B' + str(current_row_number)].fill = table_fill
+        ws['B' + str(current_row_number)].font = name_font
+        ws['B' + str(current_row_number)].alignment = c_c_alignment
+        ws['B' + str(current_row_number)].border = f_border
+        ws['B' + str(current_row_number)] = '相关设备'
+        ca_len = len(associated_equipment['energy_category_names'])
+
+        for i in range(0, ca_len):
+            col = chr(ord('C') + i)
+            ws[col + str(current_row_number)].fill = table_fill
+            ws[col + str(current_row_number)].font = name_font
+            ws[col + str(current_row_number)].alignment = c_c_alignment
+            ws[col + str(current_row_number)].border = f_border
+            ws[col + str(current_row_number)] = \
+                reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
+
+        end_col = chr(ord('B') + ca_len + 1)
+        ws[end_col + str(current_row_number)].fill = table_fill
+        ws[end_col + str(current_row_number)].font = name_font
+        ws[end_col + str(current_row_number)].alignment = c_c_alignment
+        ws[end_col + str(current_row_number)].border = f_border
+        ws[end_col + str(current_row_number)] = "总计" + " (" + reporting_period_data['units'][i] + ")"
+
+        associated_equipment_len = len(associated_equipment['associated_equipment_names_array'][0])
+
+        for i in range(0, associated_equipment_len):
+            current_row_number += 1
+            row = str(current_row_number)
+            value = Decimal(0.0)
+
+            ws['B' + row].font = title_font
+            ws['B' + row].alignment = c_c_alignment
+            ws['B' + row] = associated_equipment['associated_equipment_names_array'][0][i]
+            ws['B' + row].border = f_border
+
+            for j in range(0, ca_len):
+                col = chr(ord('C') + j)
+                ws[col + row].font = title_font
+                ws[col + row].alignment = c_c_alignment
+                ws[col + row] = round(associated_equipment['subtotals_array'][j][i], 2)
+                value += round(associated_equipment['subtotals_array'][j][i], 2)
+                ws[col + row].border = f_border
+
+            end_col = chr(ord(col) + 1)
+            ws[end_col + row].font = title_font
+            ws[end_col + row].alignment = c_c_alignment
+            ws[end_col + row] = round(value, 2)
+            ws[end_col + row].border = f_border
 
     filename = str(uuid.uuid4()) + '.xlsx'
     wb.save(filename)
