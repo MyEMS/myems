@@ -483,7 +483,7 @@ def generate_excel(report,
 
             for j in range(0, ca_len):
                 col = chr(ord('C') + j)
-                ws[col + row].font = name_font
+                ws[col + row].font = title_font
                 ws[col + row].alignment = c_c_alignment
                 ws[col + row] = round(associated_equipment['subtotals_array'][j][i], 2)
                 ws[col + row].border = f_border
