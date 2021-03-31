@@ -49,6 +49,14 @@ Start the service:
 ```bash
     $ sudo systemctl start myems-cleaning.service
 ```
+Monitor the service:
+```bash
+    $ sudo systemctl status myems-cleaning.service
+```
+View the log:
+```bash
+    $ cat /myems-cleaning.log
+```
 
 ### References
 

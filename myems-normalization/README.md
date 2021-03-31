@@ -74,24 +74,29 @@ Install myems-normalization service:
     $ sudo cp -r ~/myems/myems-normalization /myems-normalization
 ```
 
-    Edit config.py for your project
+Edit config.py
 ```
     $ sudo nano /myems-normalization/config.py
 ```
-
-    Setup systemd service:
+Setup systemd service:
 ```
     $ sudo cp myems-normalization.service /lib/systemd/system/
 ```
-
-    Enable the service:
+Enable the service:
 ```
     $ sudo systemctl enable feed-normalization.service
 ```
-
-    Start the service:
+Start the service:
 ```
     $ sudo systemctl start feed-normalization.service
+```
+Monitor the service:
+```bash
+    $ sudo systemctl status myems-normalization.service
+```
+View the log:
+```bash
+    $ cat /myems-normalization.log
 ```
 
 ### References

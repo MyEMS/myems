@@ -45,15 +45,29 @@ Install myems-mqtt-publisher service
     $ sudo git checkout master (or the latest release tag)
     $ sudo cp -R ~/myems/myems-mqtt-publisher /myems-mqtt-publisher
 ```
-    Eidt the config
+Edit the config
 ```
     $ sudo nano /myems-mqtt-publisher/config.py
 ```
-    Setup systemd service:
+Setup systemd service:
+```bash
+    $ sudo cp myems--mqtt-publisher.service /lib/systemd/system/
 ```
-    $ sudo cp /myems-mqtt-publisher/myems-mqtt-publisher.service /lib/systemd/system/
-    $ sudo systemctl enable myems-mqtt-publisher.service
-    $ sudo systemctl start myems-mqtt-publisher.service
+Enable the service:
+```bash
+    $ sudo systemctl enable myems--mqtt-publisher.service
+```
+Start the service:
+```bash
+    $ sudo systemctl start myems--mqtt-publisher.service
+```
+Monitor the service:
+```bash
+    $ sudo systemctl status myems--mqtt-publisher.service
+```
+View the log:
+```bash
+    $ cat /myems--mqtt-publisher.log
 ```
 
 ### Topic

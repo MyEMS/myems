@@ -42,15 +42,29 @@ Install myems-modbus-tcp service
     $ sudo git checkout master (or the latest release tag)
     $ sudo cp -R ~/myems/myems-modbus-tcp /myems-modbus-tcp
 ```
-    Eidt the config
+Edit the config
 ```
     $ sudo nano /myems-modbus-tcp/config.py
 ```
-    Setup systemd service:
+Setup systemd service:
+```bash
+    $ sudo cp myems-modbus-tcp.service /lib/systemd/system/
 ```
-    $ sudo cp /myems-modbus-tcp/myems-modbus-tcp.service /lib/systemd/system/
+Enable the service:
+```bash
     $ sudo systemctl enable myems-modbus-tcp.service
+```
+Start the service:
+```bash
     $ sudo systemctl start myems-modbus-tcp.service
+```
+Monitor the service:
+```bash
+    $ sudo systemctl status myems-modbus-tcp.service
+```
+View the log:
+```bash
+    $ cat /myems-modbus-tcp.log
 ```
 
 
