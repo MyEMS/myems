@@ -462,7 +462,7 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
         <CardBody className="p-3">
           <Form onSubmit={handleSubmit}>
             <Row form>
-              <Col xs="auto">
+              <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="space">
                     {t('Space')}
@@ -523,7 +523,7 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
                   </CustomInput>
                 </FormGroup>
               </Col>
-              <Col xs="auto">
+              <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="basePeriodBeginsDatetime">
                     {t('Base Period Begins')}{t('(Optional)')}
@@ -536,7 +536,7 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
                     closeOnSelect={true} />
                 </FormGroup>
               </Col>
-              <Col xs="auto">
+              <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="basePeriodEndsDatetime">
                     {t('Base Period Ends')}{t('(Optional)')}
@@ -549,7 +549,7 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
                     closeOnSelect={true} />
                 </FormGroup>
               </Col>
-              <Col xs="auto">
+              <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="reportingPeriodBeginsDatetime">
                     {t('Reporting Period Begins')}
@@ -561,7 +561,7 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
                     closeOnSelect={true} />
                 </FormGroup>
               </Col>
-              <Col xs="auto">
+              <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="reportingPeriodEndsDatetime">
                     {t('Reporting Period Ends')}
