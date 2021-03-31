@@ -46,15 +46,29 @@ Install myems-bacnet service
     $ git checkout master (or the latest release tag)
     $ sudo cp -R ~/myems/myems-bacnet /myems-bacnet
 ```
-    Eidt the config config
+Edit the config
 ```
     $ sudo nano /myems-bacnet/config.py
 ```
-    Setup systemd service:
+Setup systemd service:
+```bash
+    $ sudo cp myems-bacnet.service /lib/systemd/system/
 ```
-    $ sudo cp /myems-bacnet/myems-bacnet.service /lib/systemd/system/
+Enable the service:
+```bash
     $ sudo systemctl enable myems-bacnet.service
+```
+Start the service:
+```bash
     $ sudo systemctl start myems-bacnet.service
+```
+Monitor the service:
+```bash
+    $ sudo systemctl status myems-bacnet.service
+```
+View the log:
+```bash
+    $ cat /myems-bacnet.log
 ```
 
 ### Add Data Sources and Points in MyEMS Admin

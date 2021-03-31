@@ -31,23 +31,29 @@ Install myems-aggregation service:
     $ sudo git checkout master (or the latest release tag)
     $ sudo cp -R ~/myems/myems-aggregation /myems-aggregation
 ```
-    Edit config.py for your project
+Edit config.py
 ```
     $ sudo nano /myems-aggregation/config.py
 ```
-
-    Setup systemd service:
+Setup systemd service:
 ```
     $ sudo cp myems-aggregation.service /lib/systemd/system/
 ```
-    Enable the service:
+Enable the service:
 ```
     $ sudo systemctl enable myems-aggregation.service
 ```
-
-    Start the service:
+Start the service:
 ```
     $ sudo systemctl start myems-aggregation.service
+```
+Monitor the service:
+```bash
+    $ sudo systemctl status myems-aggregation.service
+```
+View the log:
+```bash
+    $ cat /myems-aggregation.log
 ```
 
 ### References
