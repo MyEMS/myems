@@ -1,6 +1,8 @@
 import base64
 import uuid
 import os
+from decimal import Decimal
+
 from openpyxl.chart import (
     PieChart,
     LineChart,
@@ -276,7 +278,7 @@ def generate_excel(report,
         current_row_number += 1
 
         ca_len = len(reporting_period_data['names'])
-        wssum = 0
+        wssum = Decimal(0.0)
         for i in range(0, ca_len):
             wssum = round(reporting_period_data['subtotals'][i], 2) + wssum
         for i in range(0, ca_len):
@@ -293,7 +295,9 @@ def generate_excel(report,
             ws['D' + str(current_row_number)].font = title_font
             ws['D' + str(current_row_number)].alignment = c_c_alignment
             ws['D' + str(current_row_number)].border = f_border
-            ws['D' + str(current_row_number)] = '{:.2%}'.format(round(reporting_period_data['subtotals'][i], 2) / wssum)
+            ws['D' + str(current_row_number)] = '{:.2%}'.format(round(
+                reporting_period_data['subtotals'][i], 2) / wssum) if wssum is not None and wssum != Decimal(0.0) \
+                else " "
 
             current_row_number += 1
 
@@ -448,6 +452,63 @@ def generate_excel(report,
     else:
         for i in range(37, 69 + 1):
             ws.row_dimensions[i].height = 0.1
+
+    #####################################
+
+    has_associated_equipment_flag = True
+
+    current_row_number += 2
+    if "associated_equipment" not in report.keys() or \
+            "energy_category_names" not in report['associated_equipment'].keys() or \
+            len(report['associated_equipment']["energy_category_names"]) == 0 \
+            or 'associated_equipment_names_array' not in report['associated_equipment'].keys() \
+            or report['associated_equipment']['associated_equipment_names_array'] is None \
+            or len(report['associated_equipment']['associated_equipment_names_array']) == 0 \
+            or len(report['associated_equipment']['associated_equipment_names_array'][0]) == 0:
+        has_associated_equipment_flag = False
+
+    if has_associated_equipment_flag:
+        associated_equipment = report['associated_equipment']
+
+        ws['B' + str(current_row_number)].font = title_font
+        ws['B' + str(current_row_number)] = name + ' 相关设备数据'
+
+        current_row_number += 1
+
+        ws.row_dimensions[current_row_number].height = 60
+        ws['B' + str(current_row_number)].fill = table_fill
+        ws['B' + str(current_row_number)].font = name_font
+        ws['B' + str(current_row_number)].alignment = c_c_alignment
+        ws['B' + str(current_row_number)].border = f_border
+        ws['B' + str(current_row_number)] = '相关设备'
+        ca_len = len(associated_equipment['energy_category_names'])
+
+        for i in range(0, ca_len):
+            row = chr(ord('C') + i)
+            ws[row + str(current_row_number)].fill = table_fill
+            ws[row + str(current_row_number)].font = name_font
+            ws[row + str(current_row_number)].alignment = c_c_alignment
+            ws[row + str(current_row_number)].border = f_border
+            ws[row + str(current_row_number)] = \
+                reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
+
+        associated_equipment_len = len(associated_equipment['associated_equipment_names_array'][0])
+
+        for i in range(0, associated_equipment_len):
+            current_row_number += 1
+            row = str(current_row_number)
+
+            ws['B' + row].font = title_font
+            ws['B' + row].alignment = c_c_alignment
+            ws['B' + row] = associated_equipment['associated_equipment_names_array'][0][i]
+            ws['B' + row].border = f_border
+
+            for j in range(0, ca_len):
+                col = chr(ord('C') + j)
+                ws[col + row].font = title_font
+                ws[col + row].alignment = c_c_alignment
+                ws[col + row] = round(associated_equipment['subtotals_array'][j][i], 2)
+                ws[col + row].border = f_border
 
     filename = str(uuid.uuid4()) + '.xlsx'
     wb.save(filename)
