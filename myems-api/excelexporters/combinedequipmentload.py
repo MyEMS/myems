@@ -154,7 +154,7 @@ def generate_excel(report,
 
         return filename
     #################################################
-    # First: 统计分析
+    # First: 负荷分析
     # 6: title
     # 7: table title
     # 8~2*ca_len table_data
@@ -175,7 +175,7 @@ def generate_excel(report,
 
     if has_energy_data_flag:
         ws['B6'].font = title_font
-        ws['B6'] = name + ' 统计分析'
+        ws['B6'] = name + ' 负荷分析'
 
         category = reporting_period_data['names']
 
@@ -356,6 +356,84 @@ def generate_excel(report,
             chart_col = 'B'
             chart_cell = str(analysis_end_row_number + 6 * i)
             ws.add_chart(line, chart_col + chart_cell)
+
+        #####################################
+
+        has_associated_equipment_flag = True
+
+        current_row_number = detailed_start_row_number + 3 + time_len
+
+        if "associated_equipment" not in report.keys() or \
+                "energy_category_names" not in report['associated_equipment'].keys() or \
+                len(report['associated_equipment']["energy_category_names"]) == 0 \
+                or 'associated_equipment_names_array' not in report['associated_equipment'].keys() \
+                or report['associated_equipment']['associated_equipment_names_array'] is None \
+                or len(report['associated_equipment']['associated_equipment_names_array']) == 0 \
+                or len(report['associated_equipment']['associated_equipment_names_array'][0]) == 0:
+            has_associated_equipment_flag = False
+
+        if has_associated_equipment_flag:
+            associated_equipment = report['associated_equipment']
+
+            ws['B' + str(current_row_number)].font = title_font
+            ws['B' + str(current_row_number)] = name + ' 相关设备数据'
+
+            current_row_number += 1
+            table_start_row_number = current_row_number
+
+            ws.row_dimensions[current_row_number].height = 60
+            ws['B' + str(current_row_number)].fill = table_fill
+            ws['B' + str(current_row_number)].font = name_font
+            ws['B' + str(current_row_number)].alignment = c_c_alignment
+            ws['B' + str(current_row_number)].border = f_border
+            ws['B' + str(current_row_number)] = '相关设备'
+            ca_len = len(associated_equipment['energy_category_names'])
+
+            for i in range(0, ca_len):
+                col_average = chr(ord('C') + 2 * i)
+                col_maximum = chr(ord('D') + 2 * i)
+
+                ws[col_average + str(current_row_number)].font = name_font
+                ws[col_average + str(current_row_number)].alignment = c_c_alignment
+                ws[col_average + str(current_row_number)] = names[i] + " 平均负荷(" + \
+                                                                       reporting_period_data['units'][i] + "/H)"
+                ws[col_average + str(current_row_number)].border = f_border
+
+                ws[col_maximum + str(current_row_number)].font = name_font
+                ws[col_maximum + str(current_row_number)].alignment = c_c_alignment
+                ws[col_maximum + str(current_row_number)] = names[i] + " 最大负荷(" + \
+                                                                       reporting_period_data['units'][i] + "/H)"
+                ws[col_maximum + str(current_row_number)].border = f_border
+
+                associated_equipment_len = len(associated_equipment['associated_equipment_names_array'][0])
+                # table_date
+
+            for j in range(0, associated_equipment_len):
+                current_row_number += 1
+                rows = str(current_row_number)
+
+                ws['B' + rows].font = title_font
+                ws['B' + rows].alignment = c_c_alignment
+                ws['B' + rows] = associated_equipment['associated_equipment_names_array'][0][j]
+                ws['B' + rows].border = f_border
+
+                for index in range(0, ca_len):
+                    col_average = chr(ord('C') + 2 * index)
+                    col_maximum = chr(ord('D') + 2 * index)
+
+                    ws[col_average + str(rows)].font = name_font
+                    ws[col_average + str(rows)].alignment = c_c_alignment
+                    ws[col_average + str(rows)] = associated_equipment['sub_averages_array'][index][j] \
+                        if associated_equipment['sub_averages_array'][index][j] is not None else ''
+                    ws[col_average + str(rows)].number_format = '0.00'
+                    ws[col_average + str(rows)].border = f_border
+
+                    ws[col_maximum + str(rows)].font = name_font
+                    ws[col_maximum + str(rows)].alignment = c_c_alignment
+                    ws[col_maximum + str(rows)] = associated_equipment['sub_maximums_array'][index][j] \
+                        if associated_equipment['sub_maximums_array'][index][j] is not None else ''
+                    ws[col_maximum + str(rows)].number_format = '0.00'
+                    ws[col_maximum + str(rows)].border = f_border
 
     filename = str(uuid.uuid4()) + '.xlsx'
     wb.save(filename)

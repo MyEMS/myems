@@ -424,6 +424,7 @@ const CombinedEquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
           });
         });
         setDetailedDataTableColumns(detailed_column_list);
+        
         let associated_equipment_value_list = [];
         if (json['associated_equipment']['associated_equipment_names_array'].length > 0) {
           json['associated_equipment']['associated_equipment_names_array'][0].forEach((currentEquipmentName, equipmentIndex) => {
@@ -431,8 +432,17 @@ const CombinedEquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
             associated_equipment_value['id'] = equipmentIndex;
             associated_equipment_value['name'] = currentEquipmentName;
             json['associated_equipment']['energy_category_names'].forEach((currentValue, energyCategoryIndex) => {
-              associated_equipment_value['a' + 2 * energyCategoryIndex] = json['associated_equipment']['sub_averages'][energyCategoryIndex][equipmentIndex].toFixed(2);
-              associated_equipment_value['a' + 2 * energyCategoryIndex + 1] = json['associated_equipment']['sub_maximums'][energyCategoryIndex][equipmentIndex].toFixed(2);
+              if (json['associated_equipment']['sub_averages_array'][energyCategoryIndex][equipmentIndex] != null) {
+                associated_equipment_value['a' + 2 * energyCategoryIndex] = json['associated_equipment']['sub_averages_array'][energyCategoryIndex][equipmentIndex].toFixed(2);
+              } else {
+                associated_equipment_value['a' + 2 * energyCategoryIndex] = '';
+              };  
+              if (json['associated_equipment']['sub_maximums_array'][energyCategoryIndex][equipmentIndex] != null) {
+                associated_equipment_value['a' + (2 * energyCategoryIndex + 1)] = json['associated_equipment']['sub_maximums_array'][energyCategoryIndex][equipmentIndex].toFixed(2);
+              } else {
+                associated_equipment_value['a' + (2 * energyCategoryIndex + 1)] = '';
+              };       
+              
             });
             associated_equipment_value_list.push(associated_equipment_value);
           });
