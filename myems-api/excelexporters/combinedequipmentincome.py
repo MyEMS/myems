@@ -457,7 +457,8 @@ def generate_excel(report,
 
     has_associated_equipment_flag = True
 
-    current_row_number += 2
+    time_len = len(times[0])
+    current_row_number = time_len + table_row + 3
     if "associated_equipment" not in report.keys() or \
             "energy_category_names" not in report['associated_equipment'].keys() or \
             len(report['associated_equipment']["energy_category_names"]) == 0 \
@@ -484,13 +485,20 @@ def generate_excel(report,
         ca_len = len(associated_equipment['energy_category_names'])
 
         for i in range(0, ca_len):
-            row = chr(ord('C') + i)
-            ws[row + str(current_row_number)].fill = table_fill
-            ws[row + str(current_row_number)].font = name_font
-            ws[row + str(current_row_number)].alignment = c_c_alignment
-            ws[row + str(current_row_number)].border = f_border
-            ws[row + str(current_row_number)] = \
+            col = chr(ord('C') + i)
+            ws[col + str(current_row_number)].fill = table_fill
+            ws[col + str(current_row_number)].font = name_font
+            ws[col + str(current_row_number)].alignment = c_c_alignment
+            ws[col + str(current_row_number)].border = f_border
+            ws[col + str(current_row_number)] = \
                 reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
+
+        col_subtotal = chr(ord('C') + ca_len)
+        ws[col_subtotal + str(current_row_number)].fill = table_fill
+        ws[col_subtotal + str(current_row_number)].font = name_font
+        ws[col_subtotal + str(current_row_number)].alignment = c_c_alignment
+        ws[col_subtotal + str(current_row_number)].border = f_border
+        ws[col_subtotal + str(current_row_number)] = '总计 (' + report['reporting_period']['total_unit'] + ')'
 
         associated_equipment_len = len(associated_equipment['associated_equipment_names_array'][0])
 
@@ -503,12 +511,21 @@ def generate_excel(report,
             ws['B' + row] = associated_equipment['associated_equipment_names_array'][0][i]
             ws['B' + row].border = f_border
 
+            subtotal = Decimal(0.0)
             for j in range(0, ca_len):
                 col = chr(ord('C') + j)
                 ws[col + row].font = title_font
                 ws[col + row].alignment = c_c_alignment
                 ws[col + row] = round(associated_equipment['subtotals_array'][j][i], 2)
                 ws[col + row].border = f_border
+
+                subtotal += associated_equipment['subtotals_array'][j][i]
+
+            ws[col_subtotal + row].font = title_font
+            ws[col_subtotal + row].alignment = c_c_alignment
+            ws[col_subtotal + row] = round(subtotal, 2)
+            ws[col_subtotal + row].border = f_border
+            print(subtotal)
 
     filename = str(uuid.uuid4()) + '.xlsx'
     wb.save(filename)
