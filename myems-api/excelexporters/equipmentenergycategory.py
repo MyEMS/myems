@@ -472,7 +472,7 @@ def generate_excel(report,
     has_detail_data_flag = True
     ca_len = len(report['reporting_period']['names'])
     real_timestamps_len = timestamps_data_not_equal_0(report['parameters']['timestamps'])
-    table_row = current_row_number + 2 + ca_len*6 + real_timestamps_len*7
+    table_row = current_row_number + ca_len * 6 + real_timestamps_len * 7 + 2
     chart_start_row_number = current_row_number + 1
     if "timestamps" not in reporting_period_data.keys() or \
             reporting_period_data['timestamps'] is None or \

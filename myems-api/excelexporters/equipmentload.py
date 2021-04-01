@@ -284,7 +284,7 @@ def generate_excel(report,
         # row_sat == the number of rows of statistical analysis table
         row_sat = 9 + 2 * ca_len
         # row_da == the number of rows of Detailed data
-        row_da = row_sat + row_lines + 1 + real_timestamps_len * 7
+        row_da = row_sat + row_lines + real_timestamps_len * 7 + 2
 
         ws['B' + str(row_da)].font = title_font
         ws['B' + str(row_da)] = name + ' 详细数据'

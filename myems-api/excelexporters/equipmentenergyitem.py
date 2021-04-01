@@ -329,7 +329,7 @@ def generate_excel(report,
 
         chart_start_row_number = current_row_number
         real_timestamps_len = timestamps_data_not_equal_0(report['parameters']['timestamps'])
-        current_row_number += ca_len * 6 + real_timestamps_len * 7 + 1
+        current_row_number += ca_len * 6 + real_timestamps_len * 7 + 2
         table_start_row_number = current_row_number
 
         ws.row_dimensions[current_row_number].height = 60
