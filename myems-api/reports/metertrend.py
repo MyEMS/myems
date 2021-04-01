@@ -31,6 +31,7 @@ class Reporting:
         meter_id = req.params.get('meterid')
         reporting_period_start_datetime_local = req.params.get('reportingperiodstartdatetime')
         reporting_period_end_datetime_local = req.params.get('reportingperiodenddatetime')
+        quick_mode = req.params.get('quickmode')
 
         ################################################################################################################
         # Step 1: valid parameters
@@ -77,6 +78,13 @@ class Reporting:
         if reporting_start_datetime_utc >= reporting_end_datetime_utc:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_REPORTING_PERIOD_END_DATETIME')
+
+        # if turn quick mode on, do not return parameters data and excel file
+        is_quick_mode = False
+        if quick_mode is not None and \
+                len(str.strip(quick_mode)) > 0 and \
+                str.lower(str.strip(quick_mode)) in ('true', 't', 'on', 'yes', 'y'):
+            is_quick_mode = True
 
         ################################################################################################################
         # Step 2: query the meter and energy category
@@ -136,6 +144,9 @@ class Reporting:
         reporting['values'] = list()
 
         for point in point_list:
+            if is_quick_mode and point['object_type'] != 'ENERGY_VALUE':
+                continue
+
             point_values = []
             point_timestamps = []
             if point['object_type'] == 'ANALOG_VALUE':
@@ -204,23 +215,23 @@ class Reporting:
         parameters_data['names'] = list()
         parameters_data['timestamps'] = list()
         parameters_data['values'] = list()
+        if not is_quick_mode:
+            tariff_dict = utilities.get_energy_category_tariffs(meter['cost_center_id'],
+                                                                meter['energy_category_id'],
+                                                                reporting_start_datetime_utc,
+                                                                reporting_end_datetime_utc)
+            print(tariff_dict)
+            tariff_timestamp_list = list()
+            tariff_value_list = list()
+            for k, v in tariff_dict.items():
+                # convert k from utc to local
+                k = k + timedelta(minutes=timezone_offset)
+                tariff_timestamp_list.append(k.isoformat()[0:19])
+                tariff_value_list.append(v)
 
-        tariff_dict = utilities.get_energy_category_tariffs(meter['cost_center_id'],
-                                                            meter['energy_category_id'],
-                                                            reporting_start_datetime_utc,
-                                                            reporting_end_datetime_utc)
-        print(tariff_dict)
-        tariff_timestamp_list = list()
-        tariff_value_list = list()
-        for k, v in tariff_dict.items():
-            # convert k from utc to local
-            k = k + timedelta(minutes=timezone_offset)
-            tariff_timestamp_list.append(k.isoformat()[0:19])
-            tariff_value_list.append(v)
-
-        parameters_data['names'].append('TARIFF-' + meter['energy_category_name'])
-        parameters_data['timestamps'].append(tariff_timestamp_list)
-        parameters_data['values'].append(tariff_value_list)
+            parameters_data['names'].append('TARIFF-' + meter['energy_category_name'])
+            parameters_data['timestamps'].append(tariff_timestamp_list)
+            parameters_data['values'].append(tariff_value_list)
 
         ################################################################################################################
         # Step 6: construct the report
@@ -254,12 +265,14 @@ class Reporting:
                 "timestamps": parameters_data['timestamps'],
                 "values": parameters_data['values']
             },
+            "excel_bytes_base64": None
         }
         # export result to Excel file and then encode the file to base64 string
-        result['excel_bytes_base64'] = excelexporters.metertrend.export(result,
-                                                                        meter['name'],
-                                                                        reporting_period_start_datetime_local,
-                                                                        reporting_period_end_datetime_local,
-                                                                        None)
+        if not is_quick_mode:
+            result['excel_bytes_base64'] = excelexporters.metertrend.export(result,
+                                                                            meter['name'],
+                                                                            reporting_period_start_datetime_local,
+                                                                            reporting_period_end_datetime_local,
+                                                                            None)
 
         resp.body = json.dumps(result)
