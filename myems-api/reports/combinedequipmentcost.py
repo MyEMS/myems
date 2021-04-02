@@ -573,12 +573,12 @@ class Reporting:
         result['associated_equipment']['units'] = list()
         result['associated_equipment']['associated_equipment_names_array'] = list()
         result['associated_equipment']['subtotals_array'] = list()
+        result['associated_equipment']['total_unit'] = config.currency_unit
         if energy_category_set is not None and len(energy_category_set) > 0:
             for energy_category_id in energy_category_set:
                 result['associated_equipment']['energy_category_names'].append(
                     energy_category_dict[energy_category_id]['name'])
-                result['associated_equipment']['units'].append(
-                    energy_category_dict[energy_category_id]['unit_of_measure'])
+                result['associated_equipment']['units'].append(config.currency_unit)
                 result['associated_equipment']['associated_equipment_names_array'].append(
                     associated_equipment_data[energy_category_id]['associated_equipment_names'])
                 result['associated_equipment']['subtotals_array'].append(
