@@ -143,15 +143,14 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-lg-3">
-									<div class="panel panel-primary">
+								<div class="col-lg-4">
+									<div class="panel panel-primary" slim-scroll box-height="500px">
 										<div class="panel-heading">
 											{{'SETTING.N_S_METER' | translate}}
 										</div>
 										<div class="panel-body" x-hjc-drop-target="true"
 											x-on-drop="pairMeter(dragEl,dropEl)"
-											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}"
-											slim-scroll box-height="600px">
+											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}"">
 
 											<div class="btn btn-rounded btn-block"
 												ng-class="colorMeterType(spacemeter.metertype)"
@@ -172,7 +171,7 @@
 									</div>
 								</div>
 
-								<div class="col-lg-3">
+								<div class="col-lg-4">
 									<!-- according panel-->
 									<div class="panel panel-primary">
 										<div class="panel-heading">
@@ -180,7 +179,7 @@
 										</div>
 
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
-											slim-scroll box-height="600px">
+											slim-scroll box-height="765px">
 											<div class="form-group no-margin">
 												<label>{{'SETTING.METER_TYPE' | translate}}</label>
 												<select ng-change="changeMeterType()" ng-model="currentMeterType"
@@ -224,8 +223,8 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-lg-3">
-									<div class="panel panel-primary">
+								<div class="col-lg-4">
+									<div class="panel panel-primary" slim-scroll box-height="500px">
 										<div class="panel-heading">
 											{{'SPACE.N_S_EQUIPMENT' | translate}}
 										</div>
@@ -250,12 +249,12 @@
 									</div>
 								</div>
 
-								<div class="col-lg-3">
+								<div class="col-lg-4">
 									<!-- according panel-->
 									<div class="panel panel-primary">
 										<div class="panel-heading"> {{'SPACE.EQUIPMENT_LIST' | translate}} </div>
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
-											slim-scroll box-height="600px">
+											slim-scroll box-height="760">
 											<div class="source btn btn-info btn-rounded btn-block"
 												ng-repeat="equipment in equipments" x-hjc-draggable="true">
 												{{equipment.name}}
@@ -280,8 +279,8 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-lg-3">
-									<div class="panel panel-primary">
+								<div class="col-lg-4">
+									<div class="panel panel-primary" slim-scroll box-height="500px">
 										<div class="panel-heading">
 											{{'SPACE.N_S_COMBINED_EQUIPMENT' | translate}}
 										</div>
@@ -306,12 +305,12 @@
 									</div>
 								</div>
 
-								<div class="col-lg-3">
+								<div class="col-lg-4">
 									<!-- according panel-->
 									<div class="panel panel-primary">
 										<div class="panel-heading"> {{'SPACE.COMBINED_EQUIPMENT_LIST' | translate}} </div>
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
-											slim-scroll box-height="600px">
+											slim-scroll box-height="765px">
 											<div class="source btn btn-info btn-rounded btn-block"
 												ng-repeat="combinedequipment in combinedequipments" x-hjc-draggable="true">
 												{{combinedequipment.name}}
@@ -337,7 +336,7 @@
 									</div>
 								</div>
 								<div class="col-lg-4">
-									<div class="panel panel-primary">
+									<div class="panel panel-primary" slim-scroll box-height="500px">
 										<div class="panel-heading">
 											{{'SETTING.N_S_POINT' | translate}}
 										</div>
@@ -366,7 +365,7 @@
 										<div class="panel-heading">
 											{{'SETTING.POINT_LIST' | translate}}
 										</div>
-										<div class="panel-body" slim-scroll box-height="600px"
+										<div class="panel-body" slim-scroll box-height="765px"
 											uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}">
 											<form role="form">
 												<div class="form-group no-margin">
@@ -409,7 +408,7 @@
 									</div>
 								</div>
 								<div class="col-lg-4">
-									<div class="panel panel-primary">
+									<div class="panel panel-primary" slim-scroll box-height="500px">
 										<div class="panel-heading">
 											{{'SETTING.N_S_SENSOR' | translate}}
 										</div>
@@ -438,7 +437,7 @@
 										<div class="panel-heading">
 											{{'SENSOR.SELECT_SENSOR' | translate}}
 										</div>
-										<div class="panel-body" slim-scroll box-height="600px"
+										<div class="panel-body" slim-scroll box-height="765px"
 											uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}">
 											<h5>{{'SETTING.SENSOR_LIST' | translate}}</h5>
 											<div class="source btn btn-info btn-rounded btn-block"
@@ -464,8 +463,8 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-lg-3">
-									<div class="panel panel-primary">
+								<div class="col-lg-4">
+									<div class="panel panel-primary" slim-scroll box-height="500px">
 										<div class="panel-heading">
 											{{'SPACE.N_S_TENANT' | translate}}
 										</div>
@@ -489,12 +488,12 @@
 									</div>
 								</div>
 
-								<div class="col-lg-3">
+								<div class="col-lg-4">
 									<!-- according panel-->
 									<div class="panel panel-primary">
 										<div class="panel-heading"> {{'SPACE.TENANT_LIST' | translate}} </div>
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
-											slim-scroll box-height="600px">
+											slim-scroll box-height="765px">
 											<div class="source btn btn-info btn-rounded btn-block"
 												ng-repeat="tenant in tenants" x-hjc-draggable="true">
 												{{tenant.name}}
@@ -519,8 +518,8 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-lg-3">
-									<div class="panel panel-primary">
+								<div class="col-lg-4">
+									<div class="panel panel-primary" slim-scroll box-height="500px">
 										<div class="panel-heading">
 											{{'SPACE.N_S_STORE' | translate}}
 										</div>
@@ -544,12 +543,12 @@
 									</div>
 								</div>
 
-								<div class="col-lg-3">
+								<div class="col-lg-4">
 									<!-- according panel-->
 									<div class="panel panel-primary">
 										<div class="panel-heading"> {{'SPACE.STORE_LIST' | translate}} </div>
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
-											slim-scroll box-height="600px">
+											slim-scroll box-height="765px">
 											<div class="source btn btn-info btn-rounded btn-block"
 												ng-repeat="store in stores" x-hjc-draggable="true">
 												{{store.name}}
@@ -574,8 +573,8 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-lg-3">
-									<div class="panel panel-primary">
+								<div class="col-lg-4">
+									<div class="panel panel-primary" slim-scroll box-height="500px">
 										<div class="panel-heading">
 											{{'SPACE.N_S_SHOPFLOOR' | translate}}
 										</div>
@@ -599,12 +598,12 @@
 									</div>
 								</div>
 
-								<div class="col-lg-3">
+								<div class="col-lg-4">
 									<!-- according panel-->
 									<div class="panel panel-primary">
 										<div class="panel-heading"> {{'SPACE.SHOPFLOOR_LIST' | translate}} </div>
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
-											slim-scroll box-height="600px">
+											slim-scroll box-height="765px">
 											<div class="source btn btn-info btn-rounded btn-block"
 												ng-repeat="shopfloor in shopfloors" x-hjc-draggable="true">
 												{{shopfloor.name}}
