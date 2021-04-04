@@ -68,8 +68,8 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-lg-3">
-									<div class="panel panel-primary">
+								<div class="col-lg-4">
+									<div class="panel panel-primary" slim-scroll box-height="500px">
 										<div class="panel-heading">
 											{{currentStore.name}}{{'SETTING.N_S_METER' | translate}}
 										</div>
@@ -98,13 +98,14 @@
 								</div>
 							</div>
 
-							<div class="col-lg-3">
+							<div class="col-lg-4">
 								<!-- according panel-->
 								<div class="panel panel-primary">
 									<div class="panel-heading">
 										{{'SETTING.METER' | translate}}
 									</div>
-									<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}" slim-scroll box-height="600px">
+									<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}" 
+									slim-scroll box-height="765px">
 										<div class="form-group no-margin"><label>{{'SETTING.METER_TYPE' | translate}}</label>
 											<select ng-change="changeMeterType()"  ng-model="currentMeterType" class="form-control m-b" name="metertype">
 												<option value="meters">{{'SETTING.METER' | translate}}</option>
@@ -131,7 +132,7 @@
 											<div class="panel-heading">
 												{{'COMMON.STORE' | translate}}
 											</div>
-											<div class="panel-body" slim-scroll box-height="600px">
+											<div class="panel-body">
 													<form role="form">
 													<div class="form-group no-margin"><label>{{'SETTING.SELECT_STORE' | translate}}</label>
 														<ui-select  on-select="changeStore($item,$model)" ng-model="currentStore.selected" theme="bootstrap">
@@ -146,7 +147,7 @@
 										</div>
 									</div>
 									<div class="col-lg-4">
-										<div class="panel panel-primary">
+										<div class="panel panel-primary" slim-scroll box-height="500px">
 											<div class="panel-heading">
 												{{currentStore.name}}{{'SETTING.N_S_POINT' | translate}}
 											</div>
@@ -178,7 +179,7 @@
 										<div class="panel-heading">
 											{{'SETTING.POINT_LIST' | translate}}
 										</div>
-										<div class="panel-body" slim-scroll box-height="600px"
+										<div class="panel-body" slim-scroll box-height="765px"
 										uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}">
 											<form role="form">
 												<div class="form-group no-margin"><label>{{'DATA_SOURCE.SELECT_DATA_SOURCE' | translate}}</label>
@@ -208,7 +209,7 @@
 											<div class="panel-heading">
 												{{'COMMON.STORE' | translate}}
 											</div>
-											<div class="panel-body" slim-scroll box-height="600px">
+											<div class="panel-body">
 													<form role="form">
 													<div class="form-group no-margin"><label>{{'SETTING.SELECT_STORE' | translate}}</label>
 														<ui-select  on-select="changeStore($item,$model)" ng-model="currentStore.selected" theme="bootstrap">
@@ -223,7 +224,7 @@
 										</div>
 									</div>
 									<div class="col-lg-4">
-										<div class="panel panel-primary">
+										<div class="panel panel-primary" slim-scroll box-height="500px">
 											<div class="panel-heading">
 												{{currentStore.name}}{{'SETTING.N_S_SENSOR' | translate}}
 											</div>
@@ -255,7 +256,7 @@
 										<div class="panel-heading">
 											{{'SENSOR.SELECT_SENSOR' | translate}}
 										</div>
-										<div class="panel-body" slim-scroll box-height="600px"
+										<div class="panel-body" slim-scroll box-height="765px"
 										uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}">
 											<h5>{{'SETTING.SENSOR_LIST' | translate}}</h5>
 											<div class="source btn btn-info btn-rounded btn-block"
