@@ -94,8 +94,8 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-lg-3">
-									<div class="panel panel-primary">
+								<div class="col-lg-4">
+									<div class="panel panel-primary" slim-scroll box-height="500px">
 										<div class="panel-heading">
 											{{currentTenant.name}}{{'SETTING.N_S_METER' | translate}}
 										</div>
@@ -121,14 +121,14 @@
 									</div>
 								</div>
 
-								<div class="col-lg-3">
+								<div class="col-lg-4">
 									<!-- according panel-->
 									<div class="panel panel-primary">
 										<div class="panel-heading">
 											{{'SETTING.METER' | translate}}
 										</div>
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
-											slim-scroll box-height="600px">
+											slim-scroll box-height="765px">
 											<div class="form-group no-margin">
 												<label>{{'SETTING.METER_TYPE' | translate}}</label>
 												<select ng-change="changeMeterType()" ng-model="currentMeterType"
@@ -158,7 +158,7 @@
 										<div class="panel-heading">
 											{{'COMMON.TENANT' | translate}}
 										</div>
-										<div class="panel-body" slim-scroll box-height="600px">
+										<div class="panel-body">
 											<form role="form">
 												<div class="form-group no-margin">
 													<label>{{'SETTING.SELECT_TENANT' | translate}}</label>
@@ -179,7 +179,7 @@
 									</div>
 								</div>
 								<div class="col-lg-4">
-									<div class="panel panel-primary">
+									<div class="panel panel-primary" slim-scroll box-height="500px">
 										<div class="panel-heading">
 											{{currentTenant.name}}{{'SETTING.N_S_POINT' | translate}}
 										</div>
@@ -208,8 +208,8 @@
 										<div class="panel-heading">
 											{{'SETTING.POINT_LIST' | translate}}
 										</div>
-										<div class="panel-body" slim-scroll box-height="600px"
-											uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}">
+										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
+										slim-scroll box-height="765px">
 											<form role="form">
 												<div class="form-group no-margin">
 													<label>{{'DATA_SOURCE.SELECT_DATA_SOURCE' | translate}}</label>
@@ -244,7 +244,7 @@
 										<div class="panel-heading">
 											{{'COMMON.TENANT' | translate}}
 										</div>
-										<div class="panel-body" slim-scroll box-height="600px">
+										<div class="panel-body">
 											<form role="form">
 												<div class="form-group no-margin">
 													<label>{{'SETTING.SELECT_TENANT' | translate}}</label>
@@ -265,7 +265,7 @@
 									</div>
 								</div>
 								<div class="col-lg-4">
-									<div class="panel panel-primary">
+									<div class="panel panel-primary" slim-scroll box-height="500px">
 										<div class="panel-heading">
 											{{currentTenant.name}}{{'SETTING.N_S_SENSOR' | translate}}
 										</div>
@@ -294,8 +294,8 @@
 										<div class="panel-heading">
 											{{'SENSOR.SELECT_SENSOR' | translate}}
 										</div>
-										<div class="panel-body" slim-scroll box-height="600px"
-											uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}">
+										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
+										slim-scroll box-height="765px">
 											<h5>{{'SETTING.SENSOR_LIST' | translate}}</h5>
 											<div class="source btn btn-info btn-rounded btn-block"
 												ng-repeat="sensor in sensors" x-hjc-draggable="true"> {{sensor.name}}
