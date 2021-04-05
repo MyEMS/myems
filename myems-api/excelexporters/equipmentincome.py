@@ -294,9 +294,10 @@ def generate_excel(report,
             ws['D' + str(current_row_number)].font = title_font
             ws['D' + str(current_row_number)].alignment = c_c_alignment
             ws['D' + str(current_row_number)].border = f_border
-            ws['D' + str(current_row_number)] = '{:.2%}'.format(round(reporting_period_data['subtotals'][i], 2) /
-                                                                income_sum if income_sum is not None and
-                                                                income_sum != Decimal(0.0) else "")
+            ws['D' + str(current_row_number)] = '{:.2%}'.format(round(
+                reporting_period_data['subtotals'][i], 2) / income_sum) \
+                if income_sum is not None and income_sum != Decimal(0.0) \
+                else ''
 
             current_row_number += 1
 
