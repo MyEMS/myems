@@ -58,8 +58,8 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-lg-3">
-									<div class="panel panel-primary">
+								<div class="col-lg-4">
+									<div class="panel panel-primary" slim-scroll box-height="500px">
 										<div class="panel-heading">
 											{{currentEquipment.name}}{{'SETTING.N_S_METER' | translate}}
 										</div>
@@ -88,13 +88,14 @@
 								</div>
 							</div>
 
-							<div class="col-lg-3">
+							<div class="col-lg-4">
 								<!-- according panel-->
 								<div class="panel panel-primary">
 									<div class="panel-heading">
 										{{'SETTING.METER' | translate}}
 									</div>
-									<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}" slim-scroll box-height="600px">
+									<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}" 
+									slim-scroll box-height="765px">
 										<div class="form-group no-margin"><label>{{'SETTING.METER_TYPE' | translate}}</label>
 											<select ng-change="changeMeterType()"  ng-model="currentMeterType" class="form-control m-b" name="metertype">
 												<option value="meters">{{'SETTING.METER' | translate}}</option>
