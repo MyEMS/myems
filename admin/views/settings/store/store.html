@@ -69,20 +69,20 @@
 									</div>
 								</div>
 								<div class="col-lg-4">
-									<div class="panel panel-primary" slim-scroll box-height="500px">
+									<div class="panel panel-primary">
 										<div class="panel-heading">
 											{{currentStore.name}}{{'SETTING.N_S_METER' | translate}}
 										</div>
-										<div class="panel-body"
-										x-hjc-drop-target="true"
-										x-on-drop="pairMeter(dragEl,dropEl)"
-										uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}" >
+										<div class="panel-body maxheight"
+										    x-hjc-drop-target="true"
+										    x-on-drop="pairMeter(dragEl,dropEl)"
+										    uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}" >
 
-										<div class="btn btn-rounded btn-block"
-										ng-class="colorMeterType(storemeter.metertype)"
-										ng-repeat="storemeter in storemeters"
-										x-hjc-draggable="true"
-										title="{{storemeter.metertype}}">({{storemeter.energy_category.name}}){{storemeter.name}}</div>
+											<div class="btn btn-rounded btn-block"
+											    ng-class="colorMeterType(storemeter.metertype)"
+											    ng-repeat="storemeter in storemeters"
+											    x-hjc-draggable="true"
+											    title="{{storemeter.metertype}}">({{storemeter.energy_category.name}}){{storemeter.name}}</div>
 									</div>
 								</div>
 								<div class="panel panel-danger">
@@ -147,19 +147,19 @@
 										</div>
 									</div>
 									<div class="col-lg-4">
-										<div class="panel panel-primary" slim-scroll box-height="500px">
+										<div class="panel panel-primary">
 											<div class="panel-heading">
 												{{currentStore.name}}{{'SETTING.N_S_POINT' | translate}}
 											</div>
-											<div class="panel-body"
-											x-hjc-drop-target="true"
-											x-on-drop="pairPoint(dragEl,dropEl)"
-											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}" >
-											<div class="btn btn-primary btn-rounded btn-block"
-											title="{{'COMMON.STORE' | translate}}:{{storepoint.data_source.name}}"
-											ng-repeat="storepoint in storepoints"
-											x-hjc-draggable="true"> {{storepoint.name}}
-										</div>
+											<div class="panel-body maxheight"
+											    x-hjc-drop-target="true"
+											    x-on-drop="pairPoint(dragEl,dropEl)"
+											    uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}" >
+												
+												<div class="btn btn-primary btn-rounded btn-block"
+												    title="{{'COMMON.STORE' | translate}}:{{storepoint.data_source.name}}"
+												    ng-repeat="storepoint in storepoints"
+												    x-hjc-draggable="true"> {{storepoint.name}}</div>
 										</div>
 									</div>
 									<div class="panel panel-danger">
@@ -224,19 +224,20 @@
 										</div>
 									</div>
 									<div class="col-lg-4">
-										<div class="panel panel-primary" slim-scroll box-height="500px">
+										<div class="panel panel-primary">
 											<div class="panel-heading">
 												{{currentStore.name}}{{'SETTING.N_S_SENSOR' | translate}}
 											</div>
 											<div class="panel-body"
-											x-hjc-drop-target="true"
-											x-on-drop="pairSensor(dragEl,dropEl)"
-											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}" >
-											<div class="btn btn-primary btn-rounded btn-block"
-											title="{{'COMMON.STORE' | translate}}:{{storesensor.data_source.name}}"
-											ng-repeat="storesensor in storesensors"
-											x-hjc-draggable="true"> {{storesensor.name}}
-										</div>
+											    x-hjc-drop-target="true"
+											    x-on-drop="pairSensor(dragEl,dropEl)"
+											    uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}" >
+												
+												<div class="btn btn-primary btn-rounded btn-block"
+												    title="{{'COMMON.STORE' | translate}}:{{storesensor.data_source.name}}"
+												    ng-repeat="storesensor in storesensors"
+												    x-hjc-draggable="true"> {{storesensor.name}}
+											</div>
 										</div>
 									</div>
 									<div class="panel panel-danger">

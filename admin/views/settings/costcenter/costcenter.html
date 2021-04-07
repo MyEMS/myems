@@ -53,17 +53,18 @@
 
 										</div>
 										<div class="col-lg-4">
-											<div class="panel panel-primary" slim-scroll box-height="500px">
+											<div class="panel panel-primary">
 												<div class="panel-heading">
 													{{currentCostCenter.name}}{{'SETTING.N_S_TARIFF' | translate}}
 												</div>
-												<div class="panel-body maxheight"
+											<div class="panel-body maxheight"
 												x-hjc-drop-target="true"
 												x-on-drop="pairTariff(dragEl,dropEl)"
-												uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}" >
+												uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
+
 												<div class="btn btn-primary btn-rounded btn-block"
-												ng-repeat="costcentertariff in costcentertariffs"
-												x-hjc-draggable="true"> {{costcentertariff.name}}</div>
+												    ng-repeat="costcentertariff in costcentertariffs"
+												    x-hjc-draggable="true"> {{costcentertariff.name}}</div>
 
 											</div>
 										</div>
