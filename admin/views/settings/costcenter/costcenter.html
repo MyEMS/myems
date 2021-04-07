@@ -40,7 +40,7 @@
 												<div class="panel-heading">
 													{{'SETTING.SELECT_COSTCENTER' | translate}}
 												</div>
-												<div class="panel-body" slim-scroll box-height="600px">
+												<div class="panel-body">
 													<div ng-repeat="costcenter in costcenters" class="radio radio-info">
 													    <input type="radio" name="radiocostcenter" id="radiocostcenter{{costcenter.id}}" ng-value="costcenter" ng-model="$parent.currentCostCenter" ng-change="changeCostCenter()" >
 													    <label for="radiocostcenter{{costcenter.id}}">
@@ -52,8 +52,8 @@
 											</div>
 
 										</div>
-										<div class="col-lg-3">
-											<div class="panel panel-primary">
+										<div class="col-lg-4">
+											<div class="panel panel-primary" slim-scroll box-height="500px">
 												<div class="panel-heading">
 													{{currentCostCenter.name}}{{'SETTING.N_S_TARIFF' | translate}}
 												</div>
@@ -86,8 +86,8 @@
 											<div class="panel-heading">
 												{{'SETTING.TARIFF_LIST' | translate}}
 											</div>
-											<div class="panel-body" slim-scroll box-height="600px"
-											uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}">
+											<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
+											slim-scroll box-height="765px">
 												<div class="source btn btn-info btn-rounded btn-block"
 												ng-repeat="tariff in tariffs"
 												x-hjc-draggable="true"> {{tariff.name}}</div>
