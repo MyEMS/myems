@@ -177,7 +177,6 @@
 										<div class="panel-heading">
 											{{'SETTING.METER' | translate}}
 										</div>
-
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="765px">
 											<div class="form-group no-margin">
@@ -185,20 +184,12 @@
 												<select ng-change="changeMeterType()" ng-model="currentMeterType"
 													class="form-control m-b" name="metertype">
 													<option value="meters">{{'SETTING.METER' | translate}}</option>
-													<!-- <option value="mastermeter">总表</option -->
 													<option value="virtualmeters">
 														{{'SETTING.VIRTUAL_METER' | translate}}</option>
 													<option value="offlinemeters">
 														{{'SETTING.OFFLINE_METER' | translate}}</option>
 												</select>
-
 											</div>
-											<!-- <div ng-repeat="meter in currentmeters" class="radio radio-info">
-											<input type="radio" name="radiometer" id="radiometer{{meter.id}}" ng-value="meter" ng-model="$parent.currentMeter" ng-change="changeMeter()" >
-											<label for="radiometer{{meter.id}}">
-												{{meter.name}}
-											</label>
-										</div> -->
 											<div class="source btn btn-primary btn-rounded btn-block"
 												ng-repeat="meter in currentmeters" x-hjc-draggable="true"
 												ng-class="colorMeterType(currentMeterType)">
