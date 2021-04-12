@@ -199,14 +199,6 @@ def generate_excel(report,
     ws['C3'].font = name_font
     ws['C3'] = name
 
-    ws['D3'].font = name_font
-    ws['D3'].alignment = b_r_alignment
-    ws['D3'] = 'Period:'
-    ws['E3'].border = b_border
-    ws['E3'].alignment = b_c_alignment
-    ws['E3'].font = name_font
-    ws['E3'] = period_type
-
     ws['F3'].font = name_font
     ws['F3'].alignment = b_r_alignment
     ws['F3'] = 'Date:'
@@ -247,6 +239,7 @@ def generate_excel(report,
     ca_len = len(ca)
     temp_max_row = 0
     times = reporting_period_data['timestamps']
+    category = report['meter']['energy_category_name']
     if has_data_flag:
         ws['B6'].font = title_font
         ws['B6'] = name + ' 趋势'
@@ -258,13 +251,18 @@ def generate_excel(report,
         ws['B7'].alignment = c_c_alignment
         ws['B7'] = '日期时间'
         time = times[0]
+        for time in times:
+            if len(time) > 0:
+                break
         has_data = False
         max_row = 0
+        current_sheet_parameters_row_number = 10
         if len(time) > 0:
             has_data = True
             max_row = 8 + len(time)
             # print("max_row", max_row)
             temp_max_row = max_row
+            current_sheet_parameters_row_number = 2 + ca_len * 6 + temp_max_row
         if has_data:
             for i in range(0, len(time)):
                 col = 'B'
@@ -285,19 +283,18 @@ def generate_excel(report,
                 ws[col + '7'] = reporting_period_data['names'][i]
                 ws[col + '7'].border = f_border
 
-                # 39 data
-                time = times[i]
-                time_len = len(time)
+                for j in range(0, len(time)):
 
-                for j in range(0, time_len):
                     row = str(8 + j)
                     # col = chr(ord('B') + i)
                     ws[col + row].font = title_font
                     ws[col + row].alignment = c_c_alignment
-                    ws[col + row] = round(reporting_period_data['values'][i][j], 3)
+                    ws[col + row] = round(reporting_period_data['values'][i][j], 3) if \
+                        len(reporting_period_data['values'][i]) > 0 is not None and \
+                        reporting_period_data['values'][i][j] is not None else " "
                     ws[col + row].border = f_border
-                # line
-                # 39~: line
+            # line
+            # 39~: line
                 line = LineChart()
                 line.title = '趋势值 - ' + reporting_period_data['names'][i]
                 labels = Reference(ws, min_col=2, min_row=8, max_row=max_row-1)
@@ -319,21 +316,18 @@ def generate_excel(report,
                 # s1 = CharacterProperties(sz=1800)     # font size *100
                 chart_col = chr(ord('B'))
                 chart_cell = chart_col + str(max_row + 2 + 6*i)
-                print("chart_cell", chart_cell)
+
                 ws.add_chart(line, chart_cell)
     else:
         pass
 
-    for i in range(8, temp_max_row + 1 + 1 + + ca_len * 6):
+    for i in range(8, temp_max_row + 1 + 1 + + ca_len * 6 + len(category) * 6 + 2):
         ws.row_dimensions[i].height = 42
 
     ##########################################
     has_parameters_names_and_timestamps_and_values_data = True
     # 12 is the starting line number of the last line chart in the report period
-    category = report['meter']['energy_category_name']
-    ca_len = len(category)
-    time_len = len(report['reporting_period']['timestamps'])
-    current_sheet_parameters_row_number = 17 + ca_len * 6 + time_len
+
     if 'parameters' not in report.keys() or \
             report['parameters'] is None or \
             'names' not in report['parameters'].keys() or \
@@ -395,14 +389,6 @@ def generate_excel(report,
         parameters_ws['C3'].alignment = b_c_alignment
         parameters_ws['C3'].font = name_font
         parameters_ws['C3'] = name
-
-        parameters_ws['D3'].font = name_font
-        parameters_ws['D3'].alignment = b_r_alignment
-        parameters_ws['D3'] = 'Period:'
-        parameters_ws['E3'].border = b_border
-        parameters_ws['E3'].alignment = b_c_alignment
-        parameters_ws['E3'].font = name_font
-        parameters_ws['E3'] = period_type
 
         parameters_ws['F3'].font = name_font
         parameters_ws['F3'].alignment = b_r_alignment

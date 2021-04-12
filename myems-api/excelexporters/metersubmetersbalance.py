@@ -290,6 +290,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             current_row_number += 2
 
             time = reporting_period_data['timestamps']
+            parameters_names_len = len(report['parameters']['names'])
             has_time_data_flag = False
             if time is not None and len(time) > 0:
                 has_time_data_flag = True
@@ -301,7 +302,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
                 current_row_number += 1
                 chart_start_number = current_row_number
-                current_row_number = current_row_number + 6
+                current_row_number = current_row_number + 7 + parameters_names_len * 6
                 table_start_number = current_row_number
 
                 ws.row_dimensions[current_row_number].height = 60
@@ -374,7 +375,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
     category = report['meter']['energy_category_name']
     ca_len = len(category)
     time_len = len(report['reporting_period']['timestamps'])
-    current_sheet_parameters_row_number = 17 + ca_len * 6 + time_len
+    current_sheet_parameters_row_number = 14 + ca_len * 6
     if 'parameters' not in report.keys() or \
             report['parameters'] is None or \
             'names' not in report['parameters'].keys() or \
@@ -550,10 +551,6 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             chart_cell = chart_col + str(chart_start_row_number)
             chart_start_row_number += 6
             ws.add_chart(line, chart_cell)
-
-        current_sheet_parameters_row_number = chart_start_row_number
-
-        current_sheet_parameters_row_number += 1
 
     filename = str(uuid.uuid4()) + '.xlsx'
     wb.save(filename)

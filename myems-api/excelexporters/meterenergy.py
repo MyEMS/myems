@@ -333,28 +333,30 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         reporting_period_data = report['reporting_period']
         category = report['meter']['energy_category_name']
         ca_len = len(category)
+        parameters_names_len = len(report['parameters']['names'])
+        start_detail_data_row_num = 7 + (parameters_names_len + ca_len) * 6
 
         ws['B11'].font = title_font
         ws['B11'] = name + '详细数据'
 
-        ws.row_dimensions[18].height = 60
+        ws.row_dimensions[start_detail_data_row_num].height = 60
 
-        ws['B18'].fill = table_fill
-        ws['B18'].font = title_font
-        ws['B18'].border = f_border
-        ws['B18'].alignment = c_c_alignment
-        ws['B18'] = '日期时间'
+        ws['B' + str(start_detail_data_row_num)].fill = table_fill
+        ws['B' + str(start_detail_data_row_num)].font = title_font
+        ws['B' + str(start_detail_data_row_num)].border = f_border
+        ws['B' + str(start_detail_data_row_num)].alignment = c_c_alignment
+        ws['B' + str(start_detail_data_row_num)] = '日期时间'
         time = times
         has_data = False
         max_row = 0
         if len(time) > 0:
             has_data = True
-            max_row = 18 + len(time)
+            max_row = start_detail_data_row_num + len(time)
 
         if has_data:
             for i in range(0, len(time)):
                 col = 'B'
-                row = str(19 + i)
+                row = str(start_detail_data_row_num + 1 + i)
                 # col = chr(ord('B') + i)
                 ws[col + row].font = title_font
                 ws[col + row].alignment = c_c_alignment
@@ -365,19 +367,19 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                 # 12 title
                 col = chr(ord('C') + i)
 
-                ws[col + '18'].fill = table_fill
-                ws[col + '18'].font = title_font
-                ws[col + '18'].alignment = c_c_alignment
-                ws[col + '18'] = report['meter']['energy_category_name'] + \
+                ws[col + str(start_detail_data_row_num)].fill = table_fill
+                ws[col + str(start_detail_data_row_num)].font = title_font
+                ws[col + str(start_detail_data_row_num)].alignment = c_c_alignment
+                ws[col + str(start_detail_data_row_num)] = report['meter']['energy_category_name'] + \
                     " (" + report['meter']['unit_of_measure'] + ")"
-                ws[col + '18'].border = f_border
+                ws[col + str(start_detail_data_row_num)].border = f_border
 
                 # 13 data
                 time = times
                 time_len = len(time)
 
                 for j in range(0, time_len):
-                    row = str(19 + j)
+                    row = str(start_detail_data_row_num + 1 + j)
                     # col = chr(ord('B') + i)
                     ws[col + row].font = title_font
                     ws[col + row].alignment = c_c_alignment
@@ -388,8 +390,8 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             line = LineChart()
             line.title = '报告期消耗 - ' + report['meter']['energy_category_name'] + \
                 " (" + report['meter']['unit_of_measure'] + ")"
-            labels = Reference(ws, min_col=2, min_row=19, max_row=max_row)
-            bar_data = Reference(ws, min_col=3, min_row=18, max_row=max_row)
+            labels = Reference(ws, min_col=2, min_row=start_detail_data_row_num + 1, max_row=max_row)
+            bar_data = Reference(ws, min_col=3, min_row=start_detail_data_row_num, max_row=max_row)
             line.add_data(bar_data, titles_from_data=True)
             line.set_categories(labels)
             line_data = line.series[0]
@@ -410,7 +412,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             ws.add_chart(line, "B12")
 
             col = 'B'
-            row = str(19 + len(time))
+            row = str(start_detail_data_row_num + 1 + len(time))
 
             ws[col + row].font = title_font
             ws[col + row].alignment = c_c_alignment
@@ -432,8 +434,9 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
     has_parameters_names_and_timestamps_and_values_data = True
     # 12 is the starting line number of the last line chart in the report period
     category = report['meter']['energy_category_name']
+    time_len = len(reporting_period_data['timestamps'])
     ca_len = len(category)
-    current_sheet_parameters_row_number = 15 + ca_len * 6 + time_len
+    current_sheet_parameters_row_number = 12 + ca_len * 6
     if 'parameters' not in report.keys() or \
             report['parameters'] is None or \
             'names' not in report['parameters'].keys() or \
