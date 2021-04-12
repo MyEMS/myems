@@ -334,8 +334,13 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         category = report['meter']['energy_category_name']
         ca_len = len(category)
         parameters_names_len = len(report['parameters']['names'])
-        start_detail_data_row_num = 7 + (parameters_names_len + ca_len) * 6
-
+        parameters_data = report['parameters']
+        parameters_parameters_datas_len = 0
+        for i in range(0, parameters_names_len):
+            if len(parameters_data['timestamps'][i]) == 0:
+                continue
+            parameters_parameters_datas_len += 1
+        start_detail_data_row_num = 13 + (parameters_parameters_datas_len + ca_len) * 6
         ws['B11'].font = title_font
         ws['B11'] = name + '详细数据'
 
