@@ -71,7 +71,7 @@ Dieses Projekt besteht aus folgenden Komponenten:
 ## Editionen vergleichen
 
 | Eigenschaften                    | Gemeinschaftsausgabe | Enterprise Edition | Erläuterung   |
-| :---                             |      :----:      |  :----: |                      |
+| :---                             |      :----:          |  :----:            |  :----:       |
 | Open Source                      | ✔️              | ❌      |                      |
 | Pricing                          | Free            | Pay for Projects |              |
 | Change Name and Logo             | ✔️             | ✔️        |                      |

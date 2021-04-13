@@ -70,8 +70,8 @@ This project is compose of  following components:
 
 ## Compare Editions
 
-| Features                         | Community Edition | Enterprise Edition | Explaination    |
-| :---                             |      :----:      |  :----:           |                 |
+| Features                         | Community Edition | Enterprise Edition | Explanation    |
+| :---                             |      :----:       |  :----:            | :----:         |
 | Open Source                      | ✔️              | ❌       |                      |
 | Pricing                          | Free            | Pay for Projects |               |
 | Change Name and Logo             | ✔️             | ✔️        |                      |
