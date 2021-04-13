@@ -17,7 +17,8 @@ MyEMS ist ein branchenführendes Open-Source-Energiemanagementsystem, das auf Cl
 MyEMS wird von einem erfahrenen Entwicklungsteam entwickelt und gewartet, und der Quellcode des Systems wird unter MIT-Lizenz veröffentlicht.
 
 ## MyEMS Architektur
-![MyEMS Architecture](/docs/images/architecture.png)
+![MyEMS Architecture Field View](/docs/images/architecture-field-view.png)
+![MyEMS Architecture Function View](/docs/images/architecture-function-view.png)
 
 ## MyEMS Komponenten (GCommunity Edition)
 
