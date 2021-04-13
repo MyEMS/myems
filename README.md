@@ -17,8 +17,11 @@
 MyEMS是行业领先的开源能源管理系统，利用云计算、物联网、大数据、人工智能等信息化技术构建而成。MyEMS可用于构建统一规范、功能强大的综合能源管理服务平台。MyEMS由资深专业团队开发维护，系统代码基于MIT开源软件许可协议发布。
 
 ## MyEMS架构
-![MyEMS Architecture Field View](/docs/images/architecture-field-view.png)
 ![MyEMS Architecture Function View](/docs/images/architecture-function-view.png)
+*功能视图*
+![MyEMS Architecture Site View](/docs/images/architecture-site-view.png)
+*现场视图*
+
 
 ## MyEMS组件(社区版)
 
