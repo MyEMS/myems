@@ -185,7 +185,7 @@ Dieses Projekt besteht aus folgenden Komponenten:
 | LoRa Radio Module (Data Acquisition and Remote Control）   | ❌| ✔️ | MyEMS-zertifiziertes LoRa-Hardwaregerät |
 | Protocol for Uploading to Provincial Platform of On-line monitoring system for Key Energy-Consuming Unit | ❌     | ✔️        |                      |
 | 3rd Party Systems Integration Service | ❌        | ✔️        | Kundenspezifische Entwicklung |
-| Online software training         | ❌             | ✔️        |                      |
+| Online software training         | ✔️             | ✔️        | Kostenlos            |
 | Face to face software training   | ❌             | ✔️        |                      |
 | Online Community Customer Support| ✔️             | ✔️        | Kostenlos            |
 | Email Customer Support           | ✔️             | ✔️        | Kostenlos            |
