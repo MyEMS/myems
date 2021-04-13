@@ -291,6 +291,12 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
             time = reporting_period_data['timestamps']
             parameters_names_len = len(report['parameters']['names'])
+            parameters_data = report['parameters']
+            parameters_parameters_datas_len = 0
+            for i in range(0, parameters_names_len):
+                if len(parameters_data['timestamps'][i]) == 0:
+                    continue
+                parameters_parameters_datas_len += 1
             has_time_data_flag = False
             if time is not None and len(time) > 0:
                 has_time_data_flag = True
@@ -302,7 +308,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
                 current_row_number += 1
                 chart_start_number = current_row_number
-                current_row_number = current_row_number + 7 + parameters_names_len * 6
+                current_row_number = current_row_number + 1 + len(category) * 6 + parameters_parameters_datas_len * 6
                 table_start_number = current_row_number
 
                 ws.row_dimensions[current_row_number].height = 60

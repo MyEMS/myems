@@ -127,7 +127,7 @@ def generate_excel(report,
 
     # Row height
     ws.row_dimensions[1].height = 102
-    for i in range(2, 5 + 1):
+    for i in range(2, 8):
         ws.row_dimensions[i].height = 42
 
     # for i in range(2, 6 + 1):
@@ -240,33 +240,45 @@ def generate_excel(report,
     temp_max_row = 0
     times = reporting_period_data['timestamps']
     category = report['meter']['energy_category_name']
+    parameters_names_len = len(report['parameters']['names'])
+    parameters_data = report['parameters']
+    parameters_parameters_datas_len = 0
+    for i in range(0, parameters_names_len):
+        if len(parameters_data['timestamps'][i]) == 0:
+            continue
+        parameters_parameters_datas_len += 1
+    start_detail_data_row_num = 9 + (parameters_parameters_datas_len + ca_len) * 6
     if has_data_flag:
-        ws['B6'].font = title_font
-        ws['B6'] = name + ' 趋势'
-
-        ws.row_dimensions[7].height = 60
-        ws['B7'].fill = table_fill
-        ws['B7'].font = title_font
-        ws['B7'].border = f_border
-        ws['B7'].alignment = c_c_alignment
-        ws['B7'] = '日期时间'
         time = times[0]
         for time in times:
             if len(time) > 0:
                 break
         has_data = False
         max_row = 0
-        current_sheet_parameters_row_number = 10
+        current_sheet_parameters_row_number = 7
+        temp_max_row = max_row
+        for i in range(8, len(time) + 6 + ca_len * 6 + len(category) * 6 + 2):
+            ws.row_dimensions[i].height = 42
         if len(time) > 0:
             has_data = True
-            max_row = 8 + len(time)
-            # print("max_row", max_row)
-            temp_max_row = max_row
-            current_sheet_parameters_row_number = 2 + ca_len * 6 + temp_max_row
+            current_sheet_parameters_row_number = 7 + ca_len * 6
         if has_data:
+
+            max_row = start_detail_data_row_num + len(time)
+            # print("max_row", max_row)
+            ws['B6'].font = title_font
+            ws['B6'] = name + ' 趋势'
+
+            ws.row_dimensions[start_detail_data_row_num - 1].height = 60
+            ws['B' + str(start_detail_data_row_num - 1)].fill = table_fill
+            ws['B' + str(start_detail_data_row_num - 1)].font = title_font
+            ws['B' + str(start_detail_data_row_num - 1)].border = f_border
+            ws['B' + str(start_detail_data_row_num - 1)].alignment = c_c_alignment
+            ws['B' + str(start_detail_data_row_num - 1)] = '日期时间'
+
             for i in range(0, len(time)):
                 col = 'B'
-                row = str(8 + i)
+                row = str(start_detail_data_row_num + i)
                 # col = chr(ord('B') + i)
                 ws[col + row].font = title_font
                 ws[col + row].alignment = c_c_alignment
@@ -277,28 +289,28 @@ def generate_excel(report,
                 # 38 title
                 col = chr(ord('C') + i)
 
-                ws[col + '7'].fill = table_fill
-                ws[col + '7'].font = title_font
-                ws[col + '7'].alignment = c_c_alignment
-                ws[col + '7'] = reporting_period_data['names'][i]
-                ws[col + '7'].border = f_border
+                ws[col + str(start_detail_data_row_num - 1)].fill = table_fill
+                ws[col + str(start_detail_data_row_num - 1)].font = title_font
+                ws[col + str(start_detail_data_row_num - 1)].alignment = c_c_alignment
+                ws[col + str(start_detail_data_row_num - 1)] = reporting_period_data['names'][i]
+                ws[col + str(start_detail_data_row_num - 1)].border = f_border
 
                 for j in range(0, len(time)):
 
-                    row = str(8 + j)
+                    row = str(start_detail_data_row_num + j)
                     # col = chr(ord('B') + i)
                     ws[col + row].font = title_font
                     ws[col + row].alignment = c_c_alignment
                     ws[col + row] = round(reporting_period_data['values'][i][j], 3) if \
-                        len(reporting_period_data['values'][i]) > 0 is not None and \
+                        len(reporting_period_data['values'][i]) > 0 and \
                         reporting_period_data['values'][i][j] is not None else " "
                     ws[col + row].border = f_border
             # line
             # 39~: line
                 line = LineChart()
                 line.title = '趋势值 - ' + reporting_period_data['names'][i]
-                labels = Reference(ws, min_col=2, min_row=8, max_row=max_row-1)
-                line_data = Reference(ws, min_col=3 + i, min_row=7, max_row=max_row-1)
+                labels = Reference(ws, min_col=2, min_row=start_detail_data_row_num, max_row=max_row-1)
+                line_data = Reference(ws, min_col=3 + i, min_row=start_detail_data_row_num+1, max_row=max_row-1)
                 line.add_data(line_data, titles_from_data=True)
                 line.set_categories(labels)
                 # line_data = line.series[0]
@@ -315,14 +327,11 @@ def generate_excel(report,
                 line.dLbls.showPercent = False  # percent show
                 # s1 = CharacterProperties(sz=1800)     # font size *100
                 chart_col = chr(ord('B'))
-                chart_cell = chart_col + str(max_row + 2 + 6*i)
+                chart_cell = chart_col + str(7 + 6*i)
 
                 ws.add_chart(line, chart_cell)
     else:
         pass
-
-    for i in range(8, temp_max_row + 1 + 1 + + ca_len * 6 + len(category) * 6 + 2):
-        ws.row_dimensions[i].height = 42
 
     ##########################################
     has_parameters_names_and_timestamps_and_values_data = True
