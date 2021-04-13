@@ -17,7 +17,11 @@
 MyEMS is being developed and maintained by an experienced development team, and the system's source code is published under MIT license.
 
 ## MyEMS Architecture
-![MyEMS Architecture](/docs/images/architecture.png)
+
+![MyEMS Architecture Function View](/docs/images/architecture-function-view.png)
+
+![MyEMS Architecture Site View](/docs/images/architecture-site-view.png)
+
 
 ## MyEMS Components (Community Edition)
 
