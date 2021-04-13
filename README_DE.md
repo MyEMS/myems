@@ -78,10 +78,10 @@ Dieses Projekt besteht aus folgenden Komponenten:
 | Modbus TCP                       | ✔️             | ✔️        |                      |
 | BACnet/IP                        | ✔️             | ✔️        |                      |
 | MQTT Publisher                   | ✔️             | ✔️        |                      |
-| Data Points Number               | Unlimited       |Unlimited  |                      |
-| Meters Number                    | Unlimited       |Unlimited  |                      |
-| Equipments Number                | Unlimited       |Unlimited  |                      |
-| Spaces Number                    | Unlimited       |Unlimited  |                      |
+| Data Points Number               | Unlimited      | Unlimited  |                      |
+| Meters Number                    | Unlimited      | Unlimited  |                      |
+| Equipments Number                | Unlimited      | Unlimited  |                      |
+| Spaces Number                    | Unlimited      | Unlimited  |                      |
 | Docker                           | ✔️             | ✔️        |                      |
 | Kubernetes                       | ✔️             | ✔️        |                      |
 | MySQL                            | ✔️             | ✔️        |                      |
@@ -179,7 +179,7 @@ Dieses Projekt besteht aus folgenden Komponenten:
 | Alipay Mini Program              | ❌             | ✔️        |                      |
 | IPC Hardware Gateway (Data Acquisition and Remote Control）| ❌| ✔️ |                |
 | LoRa Radio Module (Data Acquisition and Remote Control）   | ❌| ✔️ |                |
-| Protocol for Uploading to Provincial Platform of On-line monitoring system for Key Energy-Consuming Unit| ❌     | ✔️        |                      |
+| Protocol for Uploading to Provincial Platform of On-line monitoring system for Key Energy-Consuming Unit | ❌     | ✔️        |                      |
 | 3rd Party Systems Integration Service | ❌        | ✔️        |                      |
 | Online Community Customer Support| ✔️             | ✔️        |                      |
 | Email Customer Support           | ✔️             | ✔️        |                      |
