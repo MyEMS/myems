@@ -78,10 +78,14 @@ Dieses Projekt besteht aus folgenden Komponenten:
 | Modbus TCP                       | ✔️             | ✔️        |                      |
 | BACnet/IP                        | ✔️             | ✔️        |                      |
 | MQTT Publisher                   | ✔️             | ✔️        |                      |
-| Data Points Number               | Unlimited      | Unlimited  |                      |
-| Meters Number                    | Unlimited      | Unlimited  |                      |
-| Equipments Number                | Unlimited      | Unlimited  |                      |
-| Spaces Number                    | Unlimited      | Unlimited  |                      |
+| Data Points Number               | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
+| Meters Number                    | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
+| Spaces Number                    | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
+| Equipments Number                | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
+| Tenants Number                   | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
+| Stores Number                    | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
+| Shopfloors Number                | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
+| Combined Equipments Number       | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
 | Docker                           | ✔️             | ✔️        |                      |
 | Kubernetes                       | ✔️             | ✔️        |                      |
 | MySQL                            | ✔️             | ✔️        |                      |
@@ -91,8 +95,18 @@ Dieses Projekt besteht aus folgenden Komponenten:
 | AZure Cloud                      | ✔️             | ✔️        |                      |
 | Alibaba Cloud                    | ✔️             | ✔️        |                      |
 | Private Cloud                    | ✔️             | ✔️        |                      |
-| Data Comparison（Year-on-Year、Month-on-Month、Any-on-Any） | ✔️ | ✔️ |               |
-| Export result to Excel           | ✔️             | ✔️        |                      |
+| Data Comparison                  | ✔️             | ✔️        | Jahr für Jahr, Monat für Monat, Freier Vergleich, Kein Vergleich |
+| Excel Exporter                   | ✔️             | ✔️        | Tabellen, Liniendiagramme, Säulendiagramme, Kreisdiagramme |
+| Meter/Energy Data                | ✔️             | ✔️        |                      |
+| Meter/Cost Data                  | ✔️             | ✔️        |                      |
+| Meter/Trend Data                 | ✔️             | ✔️        |                      |
+| Meter/Realtime Data              | ✔️             | ✔️        |                      |
+| Meter/Master Meter Submeters Balance | ✔️         | ✔️        |                      |
+| Meter/Offline Meter Energy Data  | ✔️             | ✔️        |                      |
+| Meter/Offline Meter Cost Data    | ✔️             | ✔️        |                      |
+| Meter/Virtual Meter Energy Data  | ✔️             | ✔️        |                      |
+| Meter/Virtual Meter Cost Data    | ✔️             | ✔️        |                      |
+| Meter/Meter Tracking             | ✔️             | ✔️        |                      |
 | Space/Energy Category Data       | ✔️             | ✔️        |                      |
 | Space/Energy Item Data           | ✔️             | ✔️        |                      |
 | Space/Cost Data                  | ✔️             | ✔️        |                      |
@@ -112,16 +126,6 @@ Dieses Projekt besteht aus folgenden Komponenten:
 | Equipment/Statistics             | ✔️             | ✔️        |                      |
 | Equipment/Saving Data            | ❌             | ✔️        |                      |
 | Equipment/Equipment Tracking     | ✔️             | ✔️        |                      |
-| Meter/Energy Data                | ✔️             | ✔️        |                      |
-| Meter/Cost Data                  | ✔️             | ✔️        |                      |
-| Meter/Trend Data                 | ✔️             | ✔️        |                      |
-| Meter/Realtime Data              | ✔️             | ✔️        |                      |
-| Meter/Master Meter Submeters Balance | ✔️         | ✔️        |                      |
-| Meter/Offline Meter Energy Data  | ✔️             | ✔️        |                      |
-| Meter/Offline Meter Cost Data    | ✔️             | ✔️        |                      |
-| Meter/Virtual Meter Energy Data  | ✔️             | ✔️        |                      |
-| Meter/Virtual Meter Cost Data    | ✔️             | ✔️        |                      |
-| Meter/Meter Tracking             | ✔️             | ✔️        |                      |
 | Tenant/Energy Category Data      | ✔️             | ✔️        |                      |
 | Tenant/Energy Item Data          | ✔️             | ✔️        |                      |
 | Tenant/Cost Data                 | ✔️             | ✔️        |                      |
