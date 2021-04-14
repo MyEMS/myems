@@ -17,7 +17,11 @@ MyEMS ist ein branchenführendes Open-Source-Energiemanagementsystem, das auf Cl
 MyEMS wird von einem erfahrenen Entwicklungsteam entwickelt und gewartet, und der Quellcode des Systems wird unter MIT-Lizenz veröffentlicht.
 
 ## MyEMS Architektur
-![MyEMS Architecture](/docs/images/architecture.png)
+
+![MyEMS Architecture Function View](/docs/images/architecture-function-view.png)
+
+![MyEMS Architecture Site View](/docs/images/architecture-site-view.png)
+
 
 ## MyEMS Komponenten (GCommunity Edition)
 
@@ -66,125 +70,131 @@ Dieses Projekt besteht aus folgenden Komponenten:
 
 ## Editionen vergleichen
 
-| Eigenschaften                    |Community Edition (MyEMS) |Enterprise Edition (AlbertEOS)|
-| :---                             |      :----:   |  :----: |
-| Open Source                      | ✔️             | ❌      |
-| Pricing                          | Free          | Pay for Projects |
-| Change Name and Logo             | ✔️             | ✔️        |
-| Modbus TCP                       | ✔️             | ✔️        |
-| BACnet/IP                        | ✔️             | ✔️        |
-| MQTT Publisher                   | ✔️             | ✔️        |
-| Data Points Number               | Unlimited     |Unlimited |
-| Meters Number                    | Unlimited     |Unlimited |
-| Equipments Number                | Unlimited     |Unlimited |
-| Spaces Number                    | Unlimited     |Unlimited |
-| Docker                           | ✔️             | ✔️        |
-| Kubernetes                       | ✔️             | ✔️        |
-| MySQL                            | ✔️             | ✔️        |
-| MariaDB                          | ✔️             | ✔️        |
-| SingleStore                      | ✔️             | ✔️        |
-| AWS Cloud                        | ✔️             | ✔️        |
-| AZure Cloud                      | ✔️             | ✔️        |
-| Alibaba Cloud                    | ✔️             | ✔️        |
-| Private Cloud                    | ✔️             | ✔️        |
-| Data Comparison（Year-on-Year、Month-on-Month、Any-on-Any） | ✔️             | ✔️        |
-| Export result to Excel           | ✔️             | ✔️        |
-| Space/Energy Category Data       | ✔️             | ✔️        |
-| Space/Energy Item Data           | ✔️             | ✔️        |
-| Space/Cost Data                  | ✔️             | ✔️        |
-| Space/Output Data                | ✔️             | ✔️        |
-| Space/Income Data                | ✔️             | ✔️        |
-| Space/Efficiency Data            | ✔️             | ✔️        |
-| Space/Load Data                  | ✔️             | ✔️        |
-| Space/Statistics                 | ✔️             | ✔️        |
-| Space/Saving Data                | ❌            | ✔️        |
-| Equipment/Energy Category Data   | ✔️             | ✔️        |
-| Equipment/Energy Item Data       | ✔️             | ✔️        |
-| Equipment/Cost Data              | ✔️             | ✔️        |
-| Equipment/Output Data            | ✔️             | ✔️        |
-| Equipment/Income Data            | ✔️             | ✔️        |
-| Equipment/Efficiency Data        | ✔️             | ✔️        |
-| Equipment/Load Data              | ✔️             | ✔️        |
-| Equipment/Statistics             | ✔️             | ✔️        |
-| Equipment/Saving Data            | ❌            | ✔️        |
-| Equipment/Equipment Tracking     | ✔️             | ✔️        |
-| Meter/Energy Data                | ✔️             | ✔️        |
-| Meter/Cost Data                  | ✔️             | ✔️        |
-| Meter/Trend Data                 | ✔️             | ✔️        |
-| Meter/Realtime Data              | ✔️             | ✔️        |
-| Meter/Master Meter Submeters Balance | ✔️         | ✔️        |
-| Meter/Offline Meter Energy Data  | ✔️             | ✔️        |
-| Meter/Offline Meter Cost Data    | ✔️             | ✔️        |
-| Meter/Virtual Meter Energy Data  | ✔️             | ✔️        |
-| Meter/Virtual Meter Cost Data    | ✔️             | ✔️        |
-| Meter/Meter Tracking             | ✔️             | ✔️        |
-| Tenant/Energy Category Data      | ✔️             | ✔️        |
-| Tenant/Energy Item Data          | ✔️             | ✔️        |
-| Tenant/Cost Data                 | ✔️             | ✔️        |
-| Tenant/Load Data                 | ✔️             | ✔️        |
-| Tenant/Statistics                | ✔️             | ✔️        |
-| Tenant/Saving Data               | ❌            | ✔️        |
-| Tenant/Tenant Bill               | ✔️             | ✔️        |
-| Store/Energy Category Data       | ✔️             | ✔️        |
-| Store/Energy Item Data           | ✔️             | ✔️        |
-| Store/Cost Data                  | ✔️             | ✔️        |
-| Store/Load Data                  | ✔️             | ✔️        |
-| Store/Statistics                 | ✔️             | ✔️        |
-| Store/Saving Data                | ❌            | ✔️        |
-| Shopfloor/Energy Category Data   | ✔️             | ✔️        |
-| Shopfloor/Energy Item Data       | ✔️             | ✔️        |
-| Shopfloor/Cost Data              | ✔️             | ✔️        |
-| Shopfloor/Load Data              | ✔️             | ✔️        |
-| Shopfloor/Statistics             | ✔️             | ✔️        |
-| Shopfloor/Saving Data            | ❌            | ✔️        |
-| Combined Equipment/Energy Category Data | ✔️      | ✔️        |
-| Combined Equipment/Energy Item Data     | ✔️      | ✔️        |
-| Combined Equipment/Cost Data            | ✔️      | ✔️        |
-| Combined Equipment/Output Data          | ✔️      | ✔️        |
-| Combined Equipment/Income Data          | ✔️      | ✔️        |
-| Combined Equipment/Efficiency Data      | ✔️      | ✔️        |
-| Combined Equipment/Load Data            | ✔️      | ✔️        |
-| Combined Equipment/Statistics           | ✔️      | ✔️        |
-| Combined Equipment/Saving Data          | ❌     | ✔️        |
-| Energy Dashboard                 | ✔️             | ✔️        |
-| Energy Flow Diagram              | ✔️             | ✔️        |
-| Distribution System              | ✔️             | ✔️        |
-| REST API                         | ✔️             | ✔️        |
-| Web UI                           | ✔️             | ✔️        |
-| Admin UI                         | ✔️             | ✔️        |
-| MQTT Subscriber                  | ❌            | ✔️        |
-| Modbus RTU                       | ❌            | ✔️        |
-| OPC UA                           | ❌            | ✔️        |
-| OPC DA                           | ❌            | ✔️        |
-| Siemens S7                       | ❌            | ✔️        |
-| IEC 104                          | ❌            | ✔️        |
-| Johnson Controls Metasys         | ✔️             | ✔️        |
-| Honeywell EBI                    | ✔️             | ✔️        |
-| SIEMENS Desigo CC                | ❌            | ✔️        |
-| QWeather API                     | ❌            | ✔️        |
-| FDD Rule Engine                  | ❌            | ✔️        |
-| Advanced Reporting Engine        | ❌            | ✔️        |
-| Graphics Drawing Tool            | ❌            | ✔️        |
-| Equipments Remote Control        | ❌            | ✔️        |
-| BACnet Server                    | ❌            | ✔️        |
-| Modbus TCP Server(Slave)         | ❌            | ✔️        |
-| OPC UA Server                    | ❌            | ✔️        |
-| iOS APP                          | ❌            | ✔️        |
-| Android APP                      | ❌            | ✔️        |
-| WeChat Mini Program              | ❌            | ✔️        |
-| Alipay Mini Program              | ❌            | ✔️        |
-| IPC Hardware Gateway (Data Acquisition and Remote Control）| ❌            | ✔️        |
-| LoRa Radio Module (Data Acquisition and Remote Control）| ❌          | ✔️        |
-| Protocol for Uploading to Provincial Platform of On-line monitoring system for Key Energy-Consuming Unit| ❌     | ✔️        |
-| 3rd Party Systems Integration Service | ❌            | ✔️        |
-| Online Community Customer Support| ✔️             | ✔️        |
-| Email Customer Support           | ✔️             | ✔️        |
-| Telephone Customer Support       | ❌            | ✔️        |
-| WeChat Customer Support          | ❌            | ✔️        |
-| Remote Desktop Customer Support  | ❌            | ✔️        |
-| Onsite Customer Support          | ❌            | ✔️        |
-| Bidding Support Service          | ❌            | ✔️        |
-| Customize Support Service        | ❌            | ✔️        |
+| Eigenschaften                    | Gemeinschaftsausgabe | Enterprise Edition | Erläuterung   |
+| :---                             |      :----:          |  :----:            |  :----:       |
+| Open Source                      | ✔️              | ❌      |                      |
+| Pricing                          | Free            | Pay for Projects |              |
+| Change Name and Logo             | ✔️             | ✔️        |                      |
+| Modbus TCP                       | ✔️             | ✔️        |                      |
+| BACnet/IP                        | ✔️             | ✔️        |                      |
+| MQTT Publisher                   | ✔️             | ✔️        |                      |
+| Data Points Number               | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
+| Meters Number                    | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
+| Spaces Number                    | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
+| Equipments Number                | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
+| Tenants Number                   | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
+| Stores Number                    | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
+| Shopfloors Number                | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
+| Combined Equipments Number       | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
+| Docker                           | ✔️             | ✔️        |                      |
+| Kubernetes                       | ✔️             | ✔️        |                      |
+| MySQL                            | ✔️             | ✔️        |                      |
+| MariaDB                          | ✔️             | ✔️        |                      |
+| SingleStore                      | ✔️             | ✔️        |                      |
+| AWS Cloud                        | ✔️             | ✔️        |                      |
+| AZure Cloud                      | ✔️             | ✔️        |                      |
+| Alibaba Cloud                    | ✔️             | ✔️        |                      |
+| Private Cloud                    | ✔️             | ✔️        |                      |
+| Data Comparison                  | ✔️             | ✔️        | Jahr für Jahr, Monat für Monat, Freier Vergleich, Kein Vergleich |
+| Excel Exporter                   | ✔️             | ✔️        | Tabellen, Liniendiagramme, Säulendiagramme, Kreisdiagramme |
+| Meter/Energy Data                | ✔️             | ✔️        |                      |
+| Meter/Cost Data                  | ✔️             | ✔️        |                      |
+| Meter/Trend Data                 | ✔️             | ✔️        |                      |
+| Meter/Realtime Data              | ✔️             | ✔️        |                      |
+| Meter/Master Meter Submeters Balance | ✔️         | ✔️        |                      |
+| Meter/Offline Meter Energy Data  | ✔️             | ✔️        |                      |
+| Meter/Offline Meter Cost Data    | ✔️             | ✔️        |                      |
+| Meter/Virtual Meter Energy Data  | ✔️             | ✔️        |                      |
+| Meter/Virtual Meter Cost Data    | ✔️             | ✔️        |                      |
+| Meter/Meter Tracking             | ✔️             | ✔️        |                      |
+| Space/Energy Category Data       | ✔️             | ✔️        |                      |
+| Space/Energy Item Data           | ✔️             | ✔️        |                      |
+| Space/Cost Data                  | ✔️             | ✔️        |                      |
+| Space/Output Data                | ✔️             | ✔️        |                      |
+| Space/Income Data                | ✔️             | ✔️        |                      |
+| Space/Efficiency Data            | ✔️             | ✔️        |                      |
+| Space/Load Data                  | ✔️             | ✔️        |                      |
+| Space/Statistics                 | ✔️             | ✔️        |                      |
+| Space/Saving Data                | ❌             | ✔️        | Erfordert eine Komponente zur Vorhersage des Energieverbrauchs |
+| Equipment/Energy Category Data   | ✔️             | ✔️        |                      |
+| Equipment/Energy Item Data       | ✔️             | ✔️        |                      |
+| Equipment/Cost Data              | ✔️             | ✔️        |                      |
+| Equipment/Output Data            | ✔️             | ✔️        |                      |
+| Equipment/Income Data            | ✔️             | ✔️        |                      |
+| Equipment/Efficiency Data        | ✔️             | ✔️        |                      |
+| Equipment/Load Data              | ✔️             | ✔️        |                      |
+| Equipment/Statistics             | ✔️             | ✔️        |                      |
+| Equipment/Saving Data            | ❌             | ✔️        | Erfordert eine Komponente zur Vorhersage des Energieverbrauchs |
+| Equipment/Equipment Tracking     | ✔️             | ✔️        |                      |
+| Tenant/Energy Category Data      | ✔️             | ✔️        |                      |
+| Tenant/Energy Item Data          | ✔️             | ✔️        |                      |
+| Tenant/Cost Data                 | ✔️             | ✔️        |                      |
+| Tenant/Load Data                 | ✔️             | ✔️        |                      |
+| Tenant/Statistics                | ✔️             | ✔️        |                      |
+| Tenant/Saving Data               | ❌             | ✔️        | Erfordert eine Komponente zur Vorhersage des Energieverbrauchs |
+| Tenant/Tenant Bill               | ✔️             | ✔️        |                      |
+| Store/Energy Category Data       | ✔️             | ✔️        |                      |
+| Store/Energy Item Data           | ✔️             | ✔️        |                      |
+| Store/Cost Data                  | ✔️             | ✔️        |                      |
+| Store/Load Data                  | ✔️             | ✔️        |                      |
+| Store/Statistics                 | ✔️             | ✔️        |                      |
+| Store/Saving Data                | ❌             | ✔️        |                      |
+| Shopfloor/Energy Category Data   | ✔️             | ✔️        |                      |
+| Shopfloor/Energy Item Data       | ✔️             | ✔️        |                      |
+| Shopfloor/Cost Data              | ✔️             | ✔️        |                      |
+| Shopfloor/Load Data              | ✔️             | ✔️        |                      |
+| Shopfloor/Statistics             | ✔️             | ✔️        |                      |
+| Shopfloor/Saving Data            | ❌             | ✔️        | Erfordert eine Komponente zur Vorhersage des Energieverbrauchs |
+| Combined Equipment/Energy Category Data | ✔️      | ✔️        |                      |
+| Combined Equipment/Energy Item Data     | ✔️      | ✔️        |                      |
+| Combined Equipment/Cost Data            | ✔️      | ✔️        |                      |
+| Combined Equipment/Output Data          | ✔️      | ✔️        |                      |
+| Combined Equipment/Income Data          | ✔️      | ✔️        |                      |
+| Combined Equipment/Efficiency Data      | ✔️      | ✔️        |                      |
+| Combined Equipment/Load Data            | ✔️      | ✔️        |                      |
+| Combined Equipment/Statistics           | ✔️      | ✔️        |                      |
+| Combined Equipment/Saving Data          | ❌      | ✔️        | Erfordert eine Komponente zur Vorhersage des Energieverbrauchs |
+| Energy Dashboard                 | ✔️             | ✔️        |                      |
+| Energy Flow Diagram              | ✔️             | ✔️        |                      |
+| Distribution System              | ✔️             | ✔️        |                      |
+| REST API                         | ✔️             | ✔️        |                      |
+| Web UI                           | ✔️             | ✔️        |                      |
+| Admin UI                         | ✔️             | ✔️        |                      |
+| MQTT Subscriber                  | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
+| Modbus RTU                       | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
+| OPC UA                           | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
+| OPC DA                           | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
+| Siemens S7                       | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
+| IEC 104                          | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
+| Johnson Controls Metasys API     | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
+| Honeywell EBI                    | ✔️             | ✔️        |                      |
+| SIEMENS Desigo CC                | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
+| QWeather API                     | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
+| FDD Rule Engine                  | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
+| Advanced Reporting Engine        | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz oder eine benutzerdefinierte Entwicklung |
+| Graphics Drawing Tool            | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
+| Equipments Remote Control        | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz oder eine benutzerdefinierte Entwicklung |
+| BACnet Server                    | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
+| Modbus TCP Server(Slave)         | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
+| OPC UA Server                    | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
+| iOS APP                          | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz oder eine benutzerdefinierte Entwicklung |
+| Android APP                      | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz oder eine benutzerdefinierte Entwicklung |
+| WeChat Mini Program              | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz oder eine benutzerdefinierte Entwicklung |
+| Alipay Mini Program              | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz oder eine benutzerdefinierte Entwicklung |
+| IPC Hardware Gateway (Data Acquisition and Remote Control）| ❌| ✔️ | MyEMS-zertifizierte industrielle Computerhardware |
+| LoRa Radio Module (Data Acquisition and Remote Control）   | ❌| ✔️ | MyEMS-zertifiziertes LoRa-Hardwaregerät |
+| Protocol for Uploading to Provincial Platform of On-line monitoring system for Key Energy-Consuming Unit | ❌     | ✔️        |                      |
+| 3rd Party Systems Integration Service | ❌        | ✔️        | Kundenspezifische Entwicklung |
+| Online software training         | ✔️             | ✔️        | Kostenlos            |
+| Face to face software training   | ❌             | ✔️        |                      |
+| Online Community Customer Support| ✔️             | ✔️        | Kostenlos            |
+| Email Customer Support           | ✔️             | ✔️        | Kostenlos            |
+| Telephone Customer Support       | ❌             | ✔️        |                      |
+| WeChat Customer Support          | ❌             | ✔️        |                      |
+| Remote Desktop Customer Support  | ❌             | ✔️        |                      |
+| Onsite Customer Support          | ❌             | ✔️        |                      |
+| Bidding Support Service          | ❌             | ✔️        |                      |
+| Customize Support Service        | ❌             | ✔️        |                      |
 
 
 ## MyEMS Bildschirmfoto
