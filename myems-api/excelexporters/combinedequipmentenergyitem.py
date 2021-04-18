@@ -593,7 +593,7 @@ def generate_excel(report,
             parameters_ws[table_current_col_number + str(parameters_ws_current_row_number-1)].fill = table_fill
             parameters_ws[table_current_col_number + str(parameters_ws_current_row_number-1)].border = f_border
 
-            col = chr(ord(table_current_col_number) + 1)
+            col = decimal_to_column(column_to_decimal(table_current_col_number) + 1)
 
             parameters_ws[col + str(parameters_ws_current_row_number-1)].fill = table_fill
             parameters_ws[col + str(parameters_ws_current_row_number-1)].border = f_border
@@ -611,7 +611,7 @@ def generate_excel(report,
                 parameters_ws[col + str(table_current_row_number)].alignment = c_c_alignment
                 parameters_ws[col + str(table_current_row_number)] = value
 
-                col = chr(ord(col) + 1)
+                col = decimal_to_column(column_to_decimal(col) + 1)
 
                 parameters_ws[col + str(table_current_row_number)].border = f_border
                 parameters_ws[col + str(table_current_row_number)].font = title_font
@@ -620,7 +620,7 @@ def generate_excel(report,
 
                 table_current_row_number += 1
 
-            table_current_col_number = chr(ord(table_current_col_number) + 3)
+            table_current_col_number = decimal_to_column(column_to_decimal(table_current_col_number) + 3)
 
         ########################################################
         # parameters chart and parameters table
@@ -709,3 +709,32 @@ def timestamps_data_not_equal_0(lists):
         if len(value) > 0:
             number += 1
     return number
+
+
+def decimal_to_column(num=65):
+    string = ''
+    num = num - 64
+    # The column number is not greater than 90
+    if num <= 26:
+        return chr(num + 64)
+    # The column number is greater than 90
+    while num // 26 > 0:
+        if num % 26 == 0:
+            string += 'Z'
+            num = num // 26 - 1
+        else:
+            string += chr(num % 26 + 64)
+            num //= 26
+    # Avoid conversion errors that might occur between 741 and 766
+    if num > 0:
+        string += chr(num + 64)
+
+    return string[::-1]
+
+
+def column_to_decimal(string='A'):
+    num = 0
+    for index, key in enumerate(string[::-1]):
+        num += (ord(key) - 64) * (26 ** index)
+
+    return num + 64
