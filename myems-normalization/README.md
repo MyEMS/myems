@@ -84,11 +84,11 @@ Setup systemd service:
 ```
 Enable the service:
 ```
-    $ sudo systemctl enable feed-normalization.service
+    $ sudo systemctl enable myems-normalization.service
 ```
 Start the service:
 ```
-    $ sudo systemctl start feed-normalization.service
+    $ sudo systemctl start myems-normalization.service
 ```
 Monitor the service:
 ```bash
