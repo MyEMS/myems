@@ -617,7 +617,6 @@ def generate_excel(report,
 
     ##########################################
     has_parameters_names_and_timestamps_and_values_data = True
-    # 12 is the starting line number of the last line chart in the report period
 
     ca_len = len(report['reporting_period']['names'])
     current_sheet_parameters_row_number = table_start_draw_flag + ca_len * 6
