@@ -360,106 +360,6 @@ def generate_excel(report,
     else:
         for i in range(12, 18 + 1):
             ws.row_dimensions[i].height = 0.1
-        # end_row 10
-        # start_row 12
-    ################################################
-    # Third: 子空间能耗
-    # 19: title
-    # 20: table title
-    # 21~24 table_data
-    # Total: 6 rows
-    ################################################
-    has_child_flag = True
-    # Judge if the space has child space, if not, delete it.
-    if "child_space" not in report.keys() or "energy_category_names" not in report['child_space'].keys() or \
-            len(report['child_space']["energy_category_names"]) == 0 \
-            or 'child_space_names_array' not in report['child_space'].keys() \
-            or report['child_space']['energy_category_names'] is None \
-            or len(report['child_space']['child_space_names_array']) == 0 \
-            or len(report['child_space']['child_space_nchild_space_names_arrayames_array'][0]) == 0:
-
-        has_child_flag = False
-
-    current_row_number = 19
-
-    if has_child_flag:
-        child = report['child_space']
-        child_spaces = child['child_space_names_array'][0]
-        child_subtotals = child['subtotals_array'][0]
-
-        ws['B19'].font = title_font
-        ws['B19'] = name+' 子空间能耗'
-
-        ws.row_dimensions[20].height = 60
-        ws['B20'].fill = table_fill
-        ws['B20'].border = f_border
-        ca_len = len(child['energy_category_names'])
-
-        table_start_row_number = 20
-
-        for i in range(0, ca_len):
-            row = chr(ord('C') + i)
-            ws[row + '20'].fill = table_fill
-            ws[row + '20'].font = title_font
-            ws[row + '20'].alignment = c_c_alignment
-            ws[row + '20'].border = f_border
-            ws[row + '20'] = child['energy_category_names'][i] + ' (' + child['units'][i] + ')'
-
-        space_len = len(child['child_space_names_array'][0])
-
-        for i in range(0, space_len):
-            row = str(i + 21)
-
-            ws['B' + row].font = name_font
-            ws['B' + row].alignment = c_c_alignment
-            ws['B' + row] = child['child_space_names_array'][0][i]
-            ws['B' + row].border = f_border
-
-            for j in range(0, ca_len):
-                col = chr(ord('C') + j)
-                ws[col + row].font = name_font
-                ws[col + row].alignment = c_c_alignment
-                ws[col + row] = round(child['subtotals_array'][j][i], 2)
-                ws[col + row].border = f_border
-
-        table_end_row_number = 20 + space_len
-        chart_start_row_number = 20 + space_len + 1
-
-        for i in range(0, ca_len):
-            # pie
-            # 25~30: pie
-            pie = PieChart()
-            pie.title = ws.cell(column=3 + i, row=table_start_row_number).value
-            labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1, max_row=table_end_row_number)
-            pie_data = Reference(ws, min_col=3 + i, min_row=table_start_row_number, max_row=table_end_row_number)
-            pie.add_data(pie_data, titles_from_data=True)
-            pie.set_categories(labels)
-            pie.height = 6.6  # cm 1.05*5 1.05cm = 30 pt
-            pie.width = 8
-            # pie.title = "Pies sold by category"
-            s1 = pie.series[0]
-            s1.dLbls = DataLabelList()
-            s1.dLbls.showCatName = False  # 标签显示
-            s1.dLbls.showVal = True  # 数量显示
-            s1.dLbls.showPercent = True  # 百分比显示
-            # s1 = CharacterProperties(sz=1800)     # 图表中字体大小 *100
-            chart_cell = ''
-            if i % 2 == 0:
-                chart_cell = 'B' + str(chart_start_row_number)
-            else:
-                chart_cell = 'E' + str(chart_start_row_number)
-                chart_start_row_number += 5
-            # ws.add_chart(pie, chart_cell)
-            # chart_col = chr(ord('B') + 2 * j)
-            # chart_cell = chart_col + '25'
-            ws.add_chart(pie, chart_cell)
-
-        current_row_number = chart_start_row_number
-
-        if ca_len % 2 == 1:
-            current_row_number += 5
-
-        current_row_number += 1
 
     ################################################
     # Fourth: 能耗详情
@@ -468,6 +368,7 @@ def generate_excel(report,
     # current_row_number+1+ca_len*6: table title
     # current_row_number+1+ca_len*6~: table_data
     ################################################
+    current_row_number = 19
     reporting_period_data = report['reporting_period']
     times = reporting_period_data['timestamps']
     has_detail_data_flag = True
@@ -732,7 +633,7 @@ def generate_excel(report,
             parameters_ws[table_current_col_number + str(parameters_ws_current_row_number-1)].fill = table_fill
             parameters_ws[table_current_col_number + str(parameters_ws_current_row_number-1)].border = f_border
 
-            col = chr(ord(table_current_col_number) + 1)
+            col = decimal_to_column(column_to_decimal(table_current_col_number) + 1)
 
             parameters_ws[col + str(parameters_ws_current_row_number-1)].fill = table_fill
             parameters_ws[col + str(parameters_ws_current_row_number-1)].border = f_border
@@ -750,7 +651,7 @@ def generate_excel(report,
                 parameters_ws[col + str(table_current_row_number)].alignment = c_c_alignment
                 parameters_ws[col + str(table_current_row_number)] = value
 
-                col = chr(ord(col) + 1)
+                col = decimal_to_column(column_to_decimal(col) + 1)
 
                 parameters_ws[col + str(table_current_row_number)].border = f_border
                 parameters_ws[col + str(table_current_row_number)].font = title_font
@@ -759,7 +660,7 @@ def generate_excel(report,
 
                 table_current_row_number += 1
 
-            table_current_col_number = chr(ord(table_current_col_number) + 3)
+            table_current_col_number = decimal_to_column(column_to_decimal(table_current_col_number) + 3)
 
         ########################################################
         # parameters chart and parameters table
@@ -839,3 +740,33 @@ def timestamps_data_not_equal_0(lists):
         if len(value) > 0:
             number += 1
     return number
+
+
+def decimal_to_column(num=65):
+    string = ''
+    num = num - 64
+    # The column number is not greater than 90
+    if num <= 26:
+        return chr(num + 64)
+    # The column number is greater than 90
+    while num // 26 > 0:
+        if num % 26 == 0:
+            string += 'Z'
+            num = num // 26 - 1
+        else:
+            string += chr(num % 26 + 64)
+            num //= 26
+    # Avoid conversion errors that might occur between 741 and 766
+    if num > 0:
+        string += chr(num + 64)
+
+    return string[::-1]
+
+
+def column_to_decimal(string='A'):
+    num = 0
+    for index, key in enumerate(string[::-1]):
+        num += (ord(key) - 64) * (26 ** index)
+
+    return num + 64
+

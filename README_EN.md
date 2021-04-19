@@ -172,6 +172,7 @@ This project is compose of  following components:
 | QWeather API                     | ❌             | ✔️        | Requires standard component license |
 | FDD Rule Engine                  | ❌             | ✔️        | Requires standard component license or custom development |
 | Advanced Reporting Engine        | ❌             | ✔️        | Requires standard component license or custom development |
+| Prognose des Energieverbrauchs   | ❌             | ✔️        | Requires standard component license or custom development |
 | Graphics Drawing Tool            | ❌             | ✔️        |                      |
 | Equipments Remote Control        | ❌             | ✔️        | Requires standard component license or custom development |
 | BACnet Server                    | ❌             | ✔️        |                      |
