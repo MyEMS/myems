@@ -209,45 +209,46 @@ class Reporting:
         ################################################################################################################
         cnx_energy = mysql.connector.connect(**config.myems_energy_db)
         cursor_energy = cnx_energy.cursor()
-        for x in range(len(meta_result['links'])):
-            if meta_result['links'][x] is None or meta_result['links'][x]['meter'] is None:
-                continue
-            if meta_result['links'][x]['meter']['type'] == 'meter':
-                query = (" SELECT SUM(actual_value) "
-                         " FROM tbl_meter_hourly "
-                         " WHERE meter_id = %s "
-                         " AND start_datetime_utc >= %s "
-                         " AND start_datetime_utc < %s ")
-                cursor_energy.execute(query, (meta_result['links'][x]['meter']['id'],
-                                              reporting_start_datetime_utc,
-                                              reporting_end_datetime_utc))
-                row = cursor_energy.fetchone()
-                if row is not None:
-                    meta_result['links'][x]['value'] = row[0]
-            elif meta_result['links'][x]['meter']['type'] == 'offline_meter':
-                query = (" SELECT SUM(actual_value) "
-                         " FROM tbl_offline_meter_hourly "
-                         " WHERE offline_meter_id = %s "
-                         " AND start_datetime_utc >= %s "
-                         " AND start_datetime_utc < %s ")
-                cursor_energy.execute(query, (meta_result['links'][x]['meter']['id'],
-                                              reporting_start_datetime_utc,
-                                              reporting_end_datetime_utc))
-                row = cursor_energy.fetchone()
-                if row is not None:
-                    meta_result['links'][x]['value'] = row[0]
-            elif meta_result['links'][x]['meter']['type'] == 'virtual_meter':
-                query = (" SELECT SUM(actual_value) "
-                         " FROM tbl_virtual_meter_hourly "
-                         " WHERE virtual_meter_id = %s "
-                         " AND start_datetime_utc >= %s "
-                         " AND start_datetime_utc < %s ")
-                cursor_energy.execute(query, (meta_result['links'][x]['meter']['id'],
-                                              reporting_start_datetime_utc,
-                                              reporting_end_datetime_utc))
-                row = cursor_energy.fetchone()
-                if row is not None:
-                    meta_result['links'][x]['value'] = row[0]
+        if meta_result['links'] is not None and len(meta_result['links']) > 0:
+            for x in range(len(meta_result['links'])):
+                if meta_result['links'][x] is None or meta_result['links'][x]['meter'] is None:
+                    continue
+                if meta_result['links'][x]['meter']['type'] == 'meter':
+                    query = (" SELECT SUM(actual_value) "
+                             " FROM tbl_meter_hourly "
+                             " WHERE meter_id = %s "
+                             " AND start_datetime_utc >= %s "
+                             " AND start_datetime_utc < %s ")
+                    cursor_energy.execute(query, (meta_result['links'][x]['meter']['id'],
+                                                  reporting_start_datetime_utc,
+                                                  reporting_end_datetime_utc))
+                    row = cursor_energy.fetchone()
+                    if row is not None:
+                        meta_result['links'][x]['value'] = row[0]
+                elif meta_result['links'][x]['meter']['type'] == 'offline_meter':
+                    query = (" SELECT SUM(actual_value) "
+                             " FROM tbl_offline_meter_hourly "
+                             " WHERE offline_meter_id = %s "
+                             " AND start_datetime_utc >= %s "
+                             " AND start_datetime_utc < %s ")
+                    cursor_energy.execute(query, (meta_result['links'][x]['meter']['id'],
+                                                  reporting_start_datetime_utc,
+                                                  reporting_end_datetime_utc))
+                    row = cursor_energy.fetchone()
+                    if row is not None:
+                        meta_result['links'][x]['value'] = row[0]
+                elif meta_result['links'][x]['meter']['type'] == 'virtual_meter':
+                    query = (" SELECT SUM(actual_value) "
+                             " FROM tbl_virtual_meter_hourly "
+                             " WHERE virtual_meter_id = %s "
+                             " AND start_datetime_utc >= %s "
+                             " AND start_datetime_utc < %s ")
+                    cursor_energy.execute(query, (meta_result['links'][x]['meter']['id'],
+                                                  reporting_start_datetime_utc,
+                                                  reporting_end_datetime_utc))
+                    row = cursor_energy.fetchone()
+                    if row is not None:
+                        meta_result['links'][x]['value'] = row[0]
 
         ################################################################################################################
         # Step 8: construct the report
