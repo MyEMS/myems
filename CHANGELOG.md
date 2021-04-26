@@ -16,6 +16,76 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None.
 
+## [v1.1.2] - 2021-04-23
+### Added
+- added assoicated parameters data to excel exporter of shopfloorstatistics in API
+- added associated parameters data to excel exporter of shopfloorsaving in API
+- added associated parameters data to excel exporter of shopfloorload in API
+- added associated parameters data to excel exporter of shopfloorenergyitem in API
+- added associated parameters data to excel exporter of shopfloorenergycategory in API
+- added associated parameters data to excel exporter of shopfloorcost in API
+- added associated parameters data to excel exporter of storestatistics in API
+- added associated parameters data to excel exporter of storesaving in API
+- added associated parameters data to excel exporter of storeload in API 
+- added associated parameters data to storeenergyitem in API 
+- added associated parameters data to excel exporter of storeenergycategory in API
+- added associated parameters data to excel exporter of storecost in API
+- added associated parameters data to excel exporter of spacestatistics in API
+- added associated parameters data to excel exporter of spacesaving in API
+- added associated parameters data to excel exporter of spaceoutput in API
+- added associated parameters data to excel exporter of spaceload in API
+- added associated parameters data to excel exporter of spaceincome in API
+- added associated parameters data to excel exporter of spaceenergyitem in API
+- added associated parameters data to excel exporter of spaceenergycategory in API
+- added associated parameters data to excel export of spacecost in API
+- added associated parameters data to excel exporter of metertrend in API
+- added associated parameters data to excel exporter of meterenergy in API
+- added associated parameters data to excel exporter of metersubmetersbalance in API
+- added parameters data to excel exporter of metercost in API
+- added associated parameters data to excel exporter of tenantstatistics in API
+- added associated paramters data to excel exporter of tenantsaving in API
+- added associated paramters data to excel exporter of tenantload in API
+- added associated paramters data to excel exporter of tenantenergyitem in API
+- added associated parameters data to excel exporter of tenantenergycategory in API
+- added associated parameters data to excel exporter of tenantcost in API
+- added associated parameters data to excel exporter of combinedequipmentstatistics in API
+- added associated paramters data to combinedequipmentsaving in API
+- added associated parameters data to combinedequipmentload in API
+- added associated parameters data to combinedequipmentoutput in API
+- added associated parameters data to combinedequipmentincome in API
+- added associated parameters data to combinedequipmentenergyitem in API
+- added associated parameters data to combinedequipmentenergycategory in API
+- added associated parameters data to combinedequipmentcost in API
+- added quickmode to HTTP request parameters of MeterTrend report in API
+- added paramter data to excel exporter of EquipmentStatistics in API
+- added parameter data to excel exporter of EquipmentSaving in API
+- added paramter data to excel exporter of EquipmentOutput in API
+- added parameter data to excel exporter of EquipmentLoad in API
+- added paramters data to excel exporter of EquipmentEnergyItem in API
+- added parameters data to excel exporter of EquipmentEnergyCategory in API
+
+### Changed
+- updated README
+- updated excel exporter of metersubmetersbalance in API
+- updated excel exporter of meterenergy in API
+- updated excel exporter of metercost in API
+- updated panel width and height of costcenter in Admin UI
+- updated panel width and height of combinedequipment view in Admin UI
+- updated panel width and height of equipment view in Admin UI
+- changed query form column width from auto to xs={6} sm={3} in Web UI
+
+### Fixed
+- fixed issues in excel exporters of combinedequipment in API
+- added parameters validator to statistics_hourly_data_by_period in API
+- added code to validate parameters of averaging_hourly_data_by_period in API
+- fixed issue in excel exporter of equipmentincome in API
+- fixed unit issue in CombinedEquipmentCost report in API
+
+
+### Removed
+- deleted slim-scroll from and added maxheight to panel of views in Admin UI
+
+
 ## [v1.1.1] - 2021-03-31
 ### Added
 - added associated equipment data to CombinedEquipmentCost report in API
@@ -157,7 +227,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v1.1.2...HEAD
+[v1.1.2]: https://github.com/MyEMS/myems/compare/v1.1.1...v1.1.2
 [v1.1.1]: https://github.com/MyEMS/myems/compare/v1.1.0...v1.1.1
 [v1.0.8]: https://github.com/MyEMS/myems/compare/v1.0.8...v1.1.0
 [v1.0.8]: https://github.com/MyEMS/myems/compare/v1.0.7...v1.0.8

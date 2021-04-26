@@ -101,9 +101,64 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
   
   const getOption = () => {
+    let colorArr = ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de',
+      '#3ba272', '#fc8452', '#9a60b4', '#ea7ccc'];
+    let backgroundColor = '#FFFFFF';
+    let labelColor = 'rgba(0, 0, 0, 1)';
+    let labelTextBorderColor = 'rgba(255, 255, 255, 1)';
+
+    if (isDark) {
+      colorArr = ['#4992ff', '#7cffb2', '#fddd60', '#ff6e76', '#58d9f9',
+        '#05c091', '#ff8a45', '#8d48e3', '#dd79ff'];
+      backgroundColor = '#100C2A';
+      labelColor = 'rgba(255, 255, 255, 1)';
+      labelTextBorderColor = 'rgba(0, 0, 0, 1)';
+    }
+
+    let colorIndex = 0
+    for(let i = 0; i < energyFlowDiagramData.nodes.length; i++) {
+      let item = energyFlowDiagramData.nodes[i];
+      item.itemStyle = {color: colorArr[colorIndex%9]};
+      colorIndex ++;
+    }
+
+    energyFlowDiagramData.links.forEach(function (item) {
+      if(item.value == null) {
+          item.value = 0;
+      }
+      let sourceColor = null;
+      let targetColor = null;
+      for(let i = 0; i < energyFlowDiagramData.nodes.length; i++) {
+        if (item.source === energyFlowDiagramData.nodes[i].name) {
+          sourceColor = energyFlowDiagramData.nodes[i].itemStyle.color;
+        }
+        if (item.target === energyFlowDiagramData.nodes[i].name) {
+          targetColor = energyFlowDiagramData.nodes[i].itemStyle.color;
+        }
+        if(sourceColor != null && targetColor != null) {
+          break;
+        }
+      }
+      const color = {
+        type: 'linear',
+        x: 0,
+        y: 0,
+        x2: 1,
+        y2: 0,
+        colorStops: [{
+            offset: 0, color: sourceColor
+        }, {
+            offset: 1, color: targetColor
+        }],
+        globalCoord: false
+      }
+      item.lineStyle = {
+        color: color
+      }
+    });
 
     return {
-      backgroundColor: "#FFFFFF",
+      backgroundColor: backgroundColor,
       tooltip: {
         trigger: 'item',
         triggerOn: 'mousemove'
@@ -120,8 +175,17 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
             borderColor: '#aaa'
           },
           lineStyle: {
-            color: 'source',
+            color: 'gradient',
             curveness: 0.5
+          },
+          label: {
+            color: labelColor,
+            fontFamily: 'sans-serif',
+            fontSize: 13,
+            fontStyle: 'normal',
+            fontWeight: 'normal',
+            textBorderWidth: 1.5,
+            textBorderColor: labelTextBorderColor
           }
         }
       ]
