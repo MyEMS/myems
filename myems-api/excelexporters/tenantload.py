@@ -584,17 +584,19 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
         parameters_ws_current_row_number += 1
 
-        table_current_col_number = 'B'
+        table_current_col_number = 2
 
         for i in range(0, parameters_names_len):
 
             if len(parameters_data['timestamps'][i]) == 0:
                 continue
 
-            parameters_ws[table_current_col_number + str(parameters_ws_current_row_number - 1)].fill = table_fill
-            parameters_ws[table_current_col_number + str(parameters_ws_current_row_number - 1)].border = f_border
+            col = format_cell.get_column_letter(table_current_col_number)
 
-            col = chr(ord(table_current_col_number) + 1)
+            parameters_ws[col + str(parameters_ws_current_row_number - 1)].fill = table_fill
+            parameters_ws[col + str(parameters_ws_current_row_number - 1)].border = f_border
+
+            col = format_cell.get_column_letter(table_current_col_number + 1)
 
             parameters_ws[col + str(parameters_ws_current_row_number - 1)].fill = table_fill
             parameters_ws[col + str(parameters_ws_current_row_number - 1)].border = f_border
@@ -605,14 +607,14 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             table_current_row_number = parameters_ws_current_row_number
 
             for j, value in enumerate(list(parameters_data['timestamps'][i])):
-                col = table_current_col_number
+                col = format_cell.get_column_letter(table_current_col_number)
 
                 parameters_ws[col + str(table_current_row_number)].border = f_border
                 parameters_ws[col + str(table_current_row_number)].font = title_font
                 parameters_ws[col + str(table_current_row_number)].alignment = c_c_alignment
                 parameters_ws[col + str(table_current_row_number)] = value
 
-                col = chr(ord(col) + 1)
+                col = format_cell.get_column_letter(table_current_col_number + 1)
 
                 parameters_ws[col + str(table_current_row_number)].border = f_border
                 parameters_ws[col + str(table_current_row_number)].font = title_font
@@ -621,7 +623,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
                 table_current_row_number += 1
 
-            table_current_col_number = chr(ord(table_current_col_number) + 3)
+            table_current_col_number = table_current_col_number + 3
 
         ########################################################
         # parameters chart and parameters table
