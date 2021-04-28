@@ -3,7 +3,7 @@ import simplejson as json
 import mysql.connector
 import config
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class GatewayCollection:
@@ -18,7 +18,7 @@ class GatewayCollection:
     @staticmethod
     def on_get(req, resp):
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cursor = cnx.cursor(dictionary=True)
 
         query = (" SELECT id, name, uuid, token, last_seen_datetime_utc "
                  " FROM tbl_gateways "
@@ -29,19 +29,14 @@ class GatewayCollection:
         cnx.disconnect()
 
         result = list()
-        now = datetime.utcnow().replace(second=0, microsecond=0, tzinfo=None)
         if rows is not None and len(rows) > 0:
             for row in rows:
-                last_seen_time = row[4]
-                if last_seen_time is not None and (now - last_seen_time).total_seconds() > 5 * 60:
-                    status = "online"
-                else:
-                    status = "offline"
-                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
-                               "token": row[3],
-                               "last_seen_datetime": row[4].timestamp() * 1000 if isinstance(row[4],
-                                                                                             datetime) else None,
-                               "status": status}
+                meta_result = {"id": row['id'], "name": row['name'], "uuid": row['uuid'],
+                               "token": row['token'],
+                               "last_seen_datetime":
+                                   row['last_seen_datetime_utc'].replace(tzinfo=timezone.utc).timestamp() * 1000
+                               if isinstance(row['last_seen_datetime_utc'], datetime) else None,
+                               }
                 result.append(meta_result)
 
         resp.body = json.dumps(result)
@@ -105,7 +100,7 @@ class GatewayItem:
                                    description='API.INVALID_GATEWAY_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cursor = cnx.cursor(dictionary=True)
 
         query = (" SELECT id, name, uuid, token, last_seen_datetime_utc "
                  " FROM tbl_gateways "
@@ -118,17 +113,13 @@ class GatewayItem:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.GATEWAY_NOT_FOUND')
 
-        now = datetime.utcnow().replace(second=0, microsecond=0, tzinfo=None)
-        last_seen_time = row[4]
-        if last_seen_time is not None and (now - last_seen_time).total_seconds() > 5 * 60:
-            status = "online"
-        else:
-            status = "offline"
-
-        result = {"id": row[0], "name": row[1], "uuid": row[2],
-                  "token": row[3],
-                  "last_seen_datetime": row[4].timestamp()*1000 if isinstance(row[4], datetime) else None,
-                  "status": status}
+        result = {"id": row['id'],
+                  "name": row['name'],
+                  "uuid": row['uuid'],
+                  "token": row['token'],
+                  "last_seen_datetime":
+                      row['last_seen_datetime_utc'].replace(tzinfo=timezone.utc).timestamp()*1000
+                  if isinstance(row['last_seen_datetime_utc'], datetime) else None}
 
         resp.body = json.dumps(result)
 
