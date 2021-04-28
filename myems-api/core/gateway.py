@@ -232,7 +232,7 @@ class GatewayDataSourceCollection:
                                    description='API.INVALID_GATEWAY_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cursor = cnx.cursor(dictionary=True)
 
         cursor.execute(" SELECT name "
                        " FROM tbl_gateways "
@@ -254,18 +254,15 @@ class GatewayDataSourceCollection:
         now = datetime.utcnow().replace(second=0, microsecond=0, tzinfo=None)
         if rows_data_source is not None and len(rows_data_source) > 0:
             for row in rows_data_source:
-                last_seen_time = row[5]
-                if last_seen_time is not None and (now - last_seen_time).total_seconds() > 5 * 60:
-                    status = "online"
-                else:
-                    status = "offline"
-                meta_result = {"id": row[0],
-                               "name": row[1],
-                               "uuid": row[2],
-                               "protocol": row[3],
-                               "connection": row[4],
-                               "last_seen_datetime": row[5].timestamp()*1000 if isinstance(row[5], datetime) else None,
-                               "status": status}
+                meta_result = {"id": row['id'],
+                               "name": row['name'],
+                               "uuid": row['uuid'],
+                               "protocol": row['protocol'],
+                               "connection": row['connection'],
+                               "last_seen_datetime":
+                                   row['last_seen_datetime_utc'].replace(tzinfo=timezone.utc).timestamp()*1000
+                                   if isinstance(row['last_seen_datetime_utc'], datetime) else None,
+                               }
                 result.append(meta_result)
 
         cursor.close()
