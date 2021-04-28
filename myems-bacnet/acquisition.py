@@ -510,14 +510,14 @@ def process(logger, ):
 
         if len(last_seen_data_source_set) > 0:
             update_row = (" UPDATE tbl_data_sources "
-                          " SET last_seen_datetime_utc = %s "
+                          " SET last_seen_datetime_utc = '" + current_datetime_utc.isoformat() + "' "
                           " WHERE id IN (")
 
             for data_source_id in last_seen_data_source_set:
                 update_row += str(data_source_id) + ","
 
             try:
-                cursor_system_db.execute(update_row[:-1] + ")", (current_datetime_utc.isoformat(),))
+                cursor_system_db.execute(update_row[:-1] + ")",)
                 cnx_system_db.commit()
             except Exception as e:
                 logger.error("Error in step 4.4.4 of acquisition process " + str(e))
