@@ -510,7 +510,7 @@ def process(logger, ):
 
         if len(last_seen_data_source_set) > 0:
             update_row = (" UPDATE tbl_data_sources "
-                          " SET last_seen_datetime_utc = '%s' "
+                          " SET last_seen_datetime_utc = %s "
                           " WHERE id IN (")
 
             for data_source_id in last_seen_data_source_set:
