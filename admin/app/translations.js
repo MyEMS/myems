@@ -422,6 +422,14 @@ function config($translateProvider) {
                 PREVIEW: 'Preview',
                 N_S_PREVIEW: ' Preview',
             },
+            GATEWAY: {
+                GATEWAY: 'Gateway',
+                TOKEN: 'Token',
+                LAST_SEEN_DATETIME: 'Last Seen Datetime',
+                SELECT_GATEWAY: 'Select Gateway',
+                ADD_GATEWAY: 'Add Gateway',
+                EDIT_GATEWAY: 'Edit Gateway',
+            },
             DATA_SOURCE: {
                 DATA_SOURCE: 'Data Source',
                 ADD_DATA_SOURCE: 'Add Data Source',
@@ -429,6 +437,7 @@ function config($translateProvider) {
                 SELECT_DATA_SOURCE: 'Please Select Data Source',
                 PROTOCOL: 'Protocol',
                 CONNECTION: 'Connection',
+                LAST_SEEN_DATETIME: 'Last Seen Datetime',
                 INPUT_PROTOCOL: 'Please Input Protocol',
                 INPUT_CONNECTION: 'Please Input Connection',
 
@@ -540,14 +549,6 @@ function config($translateProvider) {
                 PARAMETER_POINT: 'Point',
                 PARAMETER_NUMERATOR_METER: 'Numerator Meter',
                 PARAMETER_DENOMINATOR_METER: 'Denominator Meter',
-            },
-            GATEWAY: {
-                GATEWAY: 'Gateway',
-                TOKEN: 'Token',
-                LAST_SEEN_DATETIME: 'Last Seen Datetime',
-                SELECT_GATEWAY: 'Select Gateway',
-                ADD_GATEWAY: 'Add Gateway',
-                EDIT_GATEWAY: 'Edit Gateway',
             },
             SPACE: {
                 PARENT_SPACE: 'Parent Space',
@@ -1457,10 +1458,17 @@ function config($translateProvider) {
                 INPUT_DESCRIPTION: '请输入描述',
                 INVALID_EMAIL: '邮箱格式不正确(xxx@xxx.xx)',
             },
-
             COSTCENTER: {
                 EXTERNAL_ID: '外部ID',
                 INPUT_EXTERNAL_ID: '请输入外部ID',
+            },
+            GATEWAY: {
+                GATEWAY: '网关',
+                TOKEN: '令牌',
+                LAST_SEEN_DATETIME: '最后在线时间',
+                SELECT_GATEWAY: '选择网关',
+                ADD_GATEWAY: '添加网关',
+                EDIT_GATEWAY: '编辑网关',
             },
             DATA_SOURCE: {
                 DATA_SOURCE: '数据源',
@@ -1469,6 +1477,7 @@ function config($translateProvider) {
                 SELECT_DATA_SOURCE: '请选择数据源',
                 PROTOCOL: '协议',
                 CONNECTION: '连接',
+                LAST_SEEN_DATETIME: '最后在线时间',
                 INPUT_PROTOCOL: '请输入协议类型',
                 INPUT_CONNECTION: '请输入连接地址',
             },
@@ -1603,14 +1612,6 @@ function config($translateProvider) {
                 PARAMETER_POINT: '数据点',
                 PARAMETER_NUMERATOR_METER: '分子计量表',
                 PARAMETER_DENOMINATOR_METER: '分母计量表',
-            },
-            GATEWAY: {
-                GATEWAY: '网关',
-                TOKEN: '令牌',
-                LAST_SEEN_DATETIME: '最后在线时间',
-                SELECT_GATEWAY: '选择网关',
-                ADD_GATEWAY: '添加网关',
-                EDIT_GATEWAY: '编辑网关',
             },
             SPACE: {
                 PARENT_SPACE: '上级',
@@ -2508,10 +2509,17 @@ function config($translateProvider) {
                 INPUT_DESCRIPTION: 'Bitte geben Sie eine Beschreibung ein',
                 INVALID_EMAIL: 'Falsches E-Mail-Format (xxx@xxx.xx)',
             },
-
             COSTCENTER: {
                 EXTERNAL_ID: 'Externe ID',
                 INPUT_EXTERNAL_ID: 'Bitte geben Sie eine externe ID ein',
+            },
+            GATEWAY: {
+                GATEWAY: 'Tor',
+                TOKEN: 'Token',
+                LAST_SEEN_DATETIME: 'Zuletzt gesehen datetime',
+                SELECT_GATEWAY: 'Wählen Sie ein Gateway',
+                ADD_GATEWAY: 'Gateway hinzufügen',
+                EDIT_GATEWAY: 'Gateway bearbeiten',
             },
             DATA_SOURCE: {
                 DATA_SOURCE: 'Datenquelle',
@@ -2520,6 +2528,7 @@ function config($translateProvider) {
                 SELECT_DATA_SOURCE: 'Bitte wählen Sie die Datenquelle',
                 PROTOCOL: 'Protokoll',
                 CONNECTION: 'Verbindung',
+                LAST_SEEN_DATETIME: 'Zuletzt gesehen datetime',
                 INPUT_PROTOCOL: 'Bitte geben Sie den Protokolltyp ein',
                 INPUT_CONNECTION: 'Bitte geben Sie die Verbindungsadresse ein',
             },
@@ -2538,7 +2547,6 @@ function config($translateProvider) {
                 INPUT_ADDRESS: 'Bitte geben Sie die Adresse ein',
                 INPUT_DESCRIPTION: 'Bitte geben Sie eine Beschreibung ein',
             },
-
             DISTRIBUTION_SYSTEM: {
                 DISTRIBUTION_SYSTEM: 'Vertriebssystem',
                 ADD_DISTRIBUTION_SYSTEM: 'Stromverteilungssystem hinzufügen',
@@ -2654,14 +2662,6 @@ function config($translateProvider) {
                 PARAMETER_POINT: 'Datenpunkt',
                 PARAMETER_NUMERATOR_METER: 'Molekularmessgerät',
                 PARAMETER_DENOMINATOR_METER: 'Nenner Meter',
-            },
-            GATEWAY: {
-                GATEWAY: 'Tor',
-                TOKEN: 'Token',
-                LAST_SEEN_DATETIME: 'Zuletzt gesehen datetime',
-                SELECT_GATEWAY: 'Wählen Sie ein Gateway',
-                ADD_GATEWAY: 'Gateway hinzufügen',
-                EDIT_GATEWAY: 'Gateway bearbeiten',
             },
             SPACE: {
                 PARENT_SPACE: 'Überlegen',
