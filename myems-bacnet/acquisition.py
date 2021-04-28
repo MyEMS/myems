@@ -261,6 +261,7 @@ def process(logger, ):
             energy_value_list = list()
             analog_value_list = list()
             digital_value_list = list()
+            last_seen_data_source_set = set()
 
             # dump out the results
             for request, response in zip(bacnet_point_list, this_application.response_values):
@@ -290,6 +291,7 @@ def process(logger, ):
                                               'point_id': point_id,
                                               'is_trend': is_trend,
                                               'value': Decimal(value) * ratio})
+
                 elif object_type == 'ENERGY_VALUE':
                     if math.isnan(value):
                         logger.error("response data type is Not A Number: request=%s", request)
@@ -311,6 +313,8 @@ def process(logger, ):
                                                'is_trend': is_trend,
                                                'value': int(value) * int(ratio)})
 
+                # add data_source_id to the last seen set
+                last_seen_data_source_set.add(data_source_id)
         except Exception as e:
             logger.error("Step 3.2 ReadPointList " + str(e))
             time.sleep(60)
@@ -503,6 +507,22 @@ def process(logger, ):
                     logger.error("Error in step 4.4.3 of acquisition process " + str(e))
                     # ignore this exception
                     pass
+
+        if len(last_seen_data_source_set) > 0:
+            update_row = (" UPDATE tbl_data_sources "
+                          " SET last_seen_datetime_utc = '%s' "
+                          " WHERE id IN (")
+
+            for data_source_id in last_seen_data_source_set:
+                update_row += str(data_source_id) + ","
+
+            try:
+                cursor_system_db.execute(update_row[:-1] + ")", (current_datetime_utc.isoformat(),))
+                cnx_system_db.commit()
+            except Exception as e:
+                logger.error("Error in step 4.4.4 of acquisition process " + str(e))
+                # ignore this exception
+                pass
 
         # sleep some seconds
         time.sleep(config.interval_in_seconds)
