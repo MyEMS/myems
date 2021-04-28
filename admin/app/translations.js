@@ -544,6 +544,7 @@ function config($translateProvider) {
             GATEWAY: {
                 GATEWAY: 'Gateway',
                 TOKEN: 'Token',
+                LAST_SEEN_DATETIME: 'Last Seen Datetime',
                 SELECT_GATEWAY: 'Select Gateway',
                 ADD_GATEWAY: 'Add Gateway',
                 EDIT_GATEWAY: 'Edit Gateway',
@@ -1605,7 +1606,8 @@ function config($translateProvider) {
             },
             GATEWAY: {
                 GATEWAY: '网关',
-                TOKEN: 'Token',
+                TOKEN: '令牌',
+                LAST_SEEN_DATETIME: '最后在线时间',
                 SELECT_GATEWAY: '选择网关',
                 ADD_GATEWAY: '添加网关',
                 EDIT_GATEWAY: '编辑网关',
@@ -2655,7 +2657,8 @@ function config($translateProvider) {
             },
             GATEWAY: {
                 GATEWAY: 'Tor',
-                TOKEN: 'Zeichen',
+                TOKEN: 'Token',
+                LAST_SEEN_DATETIME: 'Zuletzt gesehen datetime',
                 SELECT_GATEWAY: 'Wählen Sie ein Gateway',
                 ADD_GATEWAY: 'Gateway hinzufügen',
                 EDIT_GATEWAY: 'Gateway bearbeiten',

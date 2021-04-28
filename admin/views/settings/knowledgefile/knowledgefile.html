@@ -20,12 +20,9 @@
 								<tbody>
 									<tr ng-repeat="knowledgefile in knowledgefiles">
 										<td class="text-center">{{ knowledgefile.id }}</td>
-										<td class="text-center"><a href="./upload/{{knowledgefile.uuid}}"
-												download="{{knowledgefile.file_name}}">{{ knowledgefile.file_name }}</a>
-										</td>
+										<td class="text-center"><a href="./upload/{{knowledgefile.uuid}}" download="{{knowledgefile.file_name}}">{{ knowledgefile.file_name }}</a></td>
 										<td class="text-center">{{ knowledgefile.user_display_name }}</td>
-										<td class="text-center">
-											{{ knowledgefile.upload_datetime | date:'yyyy-MM-dd HH:mm'}}</td>
+										<td class="text-center">{{ knowledgefile.upload_datetime | date:'yyyy-MM-dd HH:mm'}}</td>
 										<td class="text-center">
 											<a ng-click="restoreKnowledgeFile(knowledgefile)"
 												class="btn btn-danger btn-rounded btn-xs">{{'KNOWLEDGEFILE.RESTORE' | translate}}</a>
