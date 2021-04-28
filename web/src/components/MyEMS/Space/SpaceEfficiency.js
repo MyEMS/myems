@@ -304,9 +304,9 @@ const SpaceEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
             detailed_value['startdatetime'] = currentTimestamp;
             json['reporting_period_efficiency']['values'].forEach((currentValue, energyCategoryIndex) => {
               if (json['reporting_period_efficiency']['values'][energyCategoryIndex][timestampIndex] != null) {
-                detailed_value['a' + 2 * energyCategoryIndex] = json['reporting_period_efficiency']['values'][energyCategoryIndex][timestampIndex].toFixed(2);
+                detailed_value['a' + energyCategoryIndex] = json['reporting_period_efficiency']['values'][energyCategoryIndex][timestampIndex].toFixed(2);
               } else {
-                detailed_value['a' + 2 * energyCategoryIndex] = '';
+                detailed_value['a' + energyCategoryIndex] = '';
               };
             });
             
@@ -318,7 +318,11 @@ const SpaceEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
         detailed_value['id'] = detailed_value_list.length;
         detailed_value['startdatetime'] = t('Subtotal');
         json['reporting_period_efficiency']['cumulations'].forEach((currentValue, index) => {
-            detailed_value['a' + index] = currentValue.toFixed(2);
+            if (currentValue != null) {
+              detailed_value['a' + index] = currentValue.toFixed(2);
+            }else {
+              detailed_value['a' + index] = '';
+            }
           });
         detailed_value_list.push(detailed_value);
         setDetailedDataTableData(detailed_value_list);
