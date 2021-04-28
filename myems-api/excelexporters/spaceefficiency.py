@@ -218,7 +218,7 @@ def generate_excel(report,
             ws[col + str(current_row_number)].alignment = c_c_alignment
             ws[col + str(current_row_number)].border = f_border
             ws[col + str(current_row_number)] = round(reporting_period_data['cumulations'][i], 2) \
-                if reporting_period_data['cumulations'][i] is not None else 0
+                if reporting_period_data['cumulations'][i] is not None else None
 
             col = chr(ord(col) + 1)
 
@@ -336,7 +336,7 @@ def generate_excel(report,
                 ws[col + str(current_row_number)].alignment = c_c_alignment
                 ws[col + str(current_row_number)].border = f_border
                 ws[col + str(current_row_number)] = round(reporting_period_data['values'][j][i], 2) \
-                    if reporting_period_data['values'][j][i] is not None else 0.00
+                    if reporting_period_data['values'][j][i] is not None else None
                 col = chr(ord(col) + 1)
 
             current_row_number += 1
@@ -355,7 +355,7 @@ def generate_excel(report,
             ws[col + str(current_row_number)].alignment = c_c_alignment
             ws[col + str(current_row_number)].border = f_border
             ws[col + str(current_row_number)] = round(reporting_period_data['cumulations'][i], 2) \
-                if reporting_period_data['cumulations'][i] is not None else 0.00
+                if reporting_period_data['cumulations'][i] is not None else None
             col = chr(ord(col) + 1)
 
         current_row_number += 2
