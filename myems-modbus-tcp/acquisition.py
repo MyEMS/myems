@@ -65,11 +65,6 @@ def process(logger, data_source_id, host, port):
             # sleep several minutes and continue the outer loop to reload points
             time.sleep(60)
             continue
-        finally:
-            if cursor_system_db:
-                cursor_system_db.close()
-            if cnx_system_db:
-                cnx_system_db.close()
 
         if rows_point is None or len(rows_point) == 0:
             # there is no points for this data source
@@ -247,6 +242,21 @@ def process(logger, data_source_id, host, port):
                     time.sleep(60)
                     continue
 
+            # check the connection to the System Database
+            if not cnx_system_db.is_connected():
+                try:
+                    cnx_system_db = mysql.connector.connect(**config.myems_system_db)
+                    cursor_system_db = cnx_system_db.cursor()
+                except Exception as e:
+                    logger.error("Error in step 4.4 of acquisition process: " + str(e))
+                    if cursor_system_db:
+                        cursor_system_db.close()
+                    if cnx_system_db:
+                        cnx_system_db.close()
+                    # sleep some seconds
+                    time.sleep(60)
+                    continue
+
             current_datetime_utc = datetime.utcnow()
             # bulk insert values into historical database within a period
             # update latest values in the meanwhile
@@ -412,6 +422,18 @@ def process(logger, data_source_id, host, port):
                         logger.error("Error in step 4.4.3 of acquisition process " + str(e))
                         # ignore this exception
                         pass
+
+            # update data source last seen datetime
+            update_row = (" UPDATE tbl_data_sources "
+                          " SET last_seen_datetime_utc = '" + current_datetime_utc.isoformat() + "' "
+                          " WHERE id = %s ")
+            try:
+                cursor_system_db.execute(update_row, (data_source_id, ))
+                cnx_system_db.commit()
+            except Exception as e:
+                logger.error("Error in step 4.4.4 of acquisition process " + str(e))
+                # ignore this exception
+                pass
 
             # sleep some seconds
             time.sleep(config.interval_in_seconds)
