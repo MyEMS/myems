@@ -924,6 +924,8 @@ const resources = {
       //Meter Tracking
       "Meter List": "计量表列表",
       "Edit Meter": "编辑",
+      "Start Value": "开始值",
+      "End Value": "结束值",
       //Equipment Tracking
       "Equipment List": "设备列表",
       "Edit Equipment": "编辑",

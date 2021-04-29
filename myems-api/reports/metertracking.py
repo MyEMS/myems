@@ -4,6 +4,7 @@ import mysql.connector
 import config
 from anytree import Node, AnyNode, LevelOrderIter
 import excelexporters.metertracking
+from datetime import datetime, timedelta, timezone
 
 
 class Reporting:
@@ -26,6 +27,8 @@ class Reporting:
     def on_get(req, resp):
         print(req.params)
         space_id = req.params.get('spaceid')
+        reporting_period_start_datetime_local = req.params.get('reportingperiodstartdatetime')
+        reporting_period_end_datetime_local = req.params.get('reportingperiodenddatetime')
 
         ################################################################################################################
         # Step 1: valid parameters
@@ -39,8 +42,51 @@ class Reporting:
             else:
                 space_id = int(space_id)
 
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
+
+        if reporting_period_start_datetime_local is None:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description="API.INVALID_REPORTING_PERIOD_START_DATETIME")
+        else:
+            reporting_period_start_datetime_local = str.strip(reporting_period_start_datetime_local)
+            try:
+                reporting_start_datetime_utc = datetime.strptime(reporting_period_start_datetime_local,
+                                                                 '%Y-%m-%dT%H:%M:%S')
+            except ValueError:
+                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description="API.INVALID_REPORTING_PERIOD_START_DATETIME")
+            reporting_start_datetime_utc = reporting_start_datetime_utc.replace(tzinfo=timezone.utc) - \
+                timedelta(minutes=timezone_offset)
+
+        if reporting_period_end_datetime_local is None:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description="API.INVALID_REPORTING_PERIOD_END_DATETIME")
+        else:
+            reporting_period_end_datetime_local = str.strip(reporting_period_end_datetime_local)
+            try:
+                reporting_end_datetime_utc = datetime.strptime(reporting_period_end_datetime_local,
+                                                               '%Y-%m-%dT%H:%M:%S')
+            except ValueError:
+                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description="API.INVALID_REPORTING_PERIOD_END_DATETIME")
+            reporting_end_datetime_utc = reporting_end_datetime_utc.replace(tzinfo=timezone.utc) - \
+                timedelta(minutes=timezone_offset)
+
+        if reporting_start_datetime_utc >= reporting_end_datetime_utc:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_REPORTING_PERIOD_END_DATETIME')
+
+        if reporting_start_datetime_utc + timedelta(minutes=15) >= reporting_end_datetime_utc:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.THE_REPORTING_PERIOD_MUST_BE_LONGER_THAN_15_MINUTES')
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor(dictionary=True)
+
+        cnx_historical = mysql.connector.connect(**config.myems_historical_db)
+        cursor_historical = cnx_historical.cursor()
 
         cursor.execute(" SELECT name "
                        " FROM tbl_spaces "
@@ -83,7 +129,7 @@ class Reporting:
 
         cursor.execute(" SELECT m.id, m.name AS meter_name, s.name AS space_name, "
                        "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
-                       "         m.description "
+                       "         m.description, m.id AS meter_id"
                        " FROM tbl_spaces s, tbl_spaces_meters sm, tbl_meters m, tbl_cost_centers cc, "
                        "      tbl_energy_categories ec "
                        " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
@@ -93,16 +139,80 @@ class Reporting:
         if rows_meters is not None and len(rows_meters) > 0:
             for row in rows_meters:
                 meter_list.append({"id": row['id'],
+                                   "meter_id": row['meter_id'],
                                    "meter_name": row['meter_name'],
                                    "space_name": row['space_name'],
                                    "cost_center_name": row['cost_center_name'],
                                    "energy_category_name": row['energy_category_name'],
                                    "description": row['description']})
 
+        ################################################################################################################
+        # Step 3.1: Add start and end values
+        ################################################################################################################
+        save_meter_id_value = dict()
+        for meter in meter_list:
+            meter_id = meter['meter_id']
+            if meter_id not in save_meter_id_value.keys():
+                cursor.execute(" SELECT point_id "
+                               " FROM tbl_meters_points "
+                               " WHERE meter_id = %s ", (meter_id, ))
+
+                rows_points_id = cursor.fetchall()
+
+                start_value = None
+                end_value = None
+
+                if rows_points_id is not None and len(rows_points_id) > 0:
+
+                    query_start_value = (" SELECT actual_value "
+                                         " FROM tbl_energy_value "
+                                         " where point_id in ("
+                                         + ', '.join(map(lambda x: str(x['point_id']), rows_points_id)) + ") "
+                                         " AND utc_date_time BETWEEN %s AND %s "
+                                         " order by utc_date_time ASC LIMIT 0,1")
+
+                    query_end_value = (" SELECT actual_value "
+                                       " FROM tbl_energy_value "
+                                       " where point_id in ("
+                                       + ', '.join(map(lambda x: str(x['point_id']), rows_points_id)) + ") "
+                                       " AND utc_date_time BETWEEN %s AND %s "
+                                       " order by utc_date_time DESC LIMIT 0,1")
+
+                    cursor_historical.execute(query_start_value,
+                                              (reporting_start_datetime_utc,
+                                               (reporting_start_datetime_utc + timedelta(minutes=15)), ))
+
+                    row_start_value = cursor_historical.fetchone()
+
+                    if row_start_value is not None:
+                        start_value = row_start_value[0]
+
+                    cursor_historical.execute(query_end_value,
+                                              ((reporting_end_datetime_utc - timedelta(minutes=15)),
+                                               reporting_end_datetime_utc, ))
+
+                    row_end_value = cursor_historical.fetchone()
+
+                    if row_end_value is not None:
+                        end_value = row_end_value[0]
+
+                save_meter_id_value[meter_id] = [start_value, end_value]
+                meter['start_value'] = start_value
+                meter['end_value'] = end_value
+
+            else:
+                meter['start_value'] = save_meter_id_value[meter_id][0]
+                meter['end_value'] = save_meter_id_value[meter_id][1]
+
         if cursor:
             cursor.close()
         if cnx:
             cnx.disconnect()
+
+        if cursor_historical:
+            cursor_historical.close()
+        if cnx_historical:
+            cnx_historical.disconnect()
 
         ################################################################################################################
         # Step 4: construct the report
@@ -111,5 +221,7 @@ class Reporting:
         # export result to Excel file and then encode the file to base64 string
         result['excel_bytes_base64'] = \
             excelexporters.metertracking.export(result,
-                                                space_name)
+                                                space_name,
+                                                reporting_period_start_datetime_local,
+                                                reporting_period_end_datetime_local)
         resp.body = json.dumps(result)
