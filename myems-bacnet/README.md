@@ -10,8 +10,6 @@ bacpypes
 
 mysql.connector
 
-Schedule
-
 ## Installation
 
 Download and install MySQL Connector:
@@ -36,14 +34,6 @@ Download and install bacpypes library
     $ cd ~/tools/bacpypes
     $ sudo python3 setup.py install
     $ sudo ufw allow 47808
-```
-
-Download and install Schedule
-```
-$ cd ~/tools
-$ git clone https://github.com/dbader/schedule.git
-$ cd ~/tools/schedule
-$ sudo python3 setup.py install
 ```
 
 Install myems-bacnet service
