@@ -1,6 +1,7 @@
 import logging
 from logging.handlers import RotatingFileHandler
 import acquisition
+import gateway
 
 
 def main():
@@ -24,6 +25,10 @@ def main():
     # Create Acquisition Process
     ####################################################################################################################
     acquisition.process(logger,)
+    ####################################################################################################################
+    # Create Gateway Process
+    ####################################################################################################################
+    gateway.process(logger,)
 
 
 if __name__ == "__main__":
