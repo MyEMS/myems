@@ -10,6 +10,8 @@ bacpypes
 
 mysql.connector
 
+Schedule
+
 ## Installation
 
 Download and install MySQL Connector:
@@ -18,6 +20,14 @@ Download and install MySQL Connector:
     $ wget https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python-8.0.20.tar.gz
     $ tar xzf mysql-connector-python-8.0.20.tar.gz
     $ cd ~/tools/mysql-connector-python-8.0.20
+    $ sudo python3 setup.py install
+```
+
+Download and install Schedule
+```
+    $ cd ~/tools
+    $ git clone https://github.com/dbader/schedule.git
+    $ cd ~/tools/schedule
     $ sudo python3 setup.py install
 ```
 
