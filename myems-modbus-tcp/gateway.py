@@ -78,7 +78,7 @@ def job(logger, ):
 
 
 def process(logger, ):
-    schedule.every(int(config.interval_in_seconds/60)).minutes.do(job, logger,)
+    schedule.every(config.interval_in_seconds).seconds.do(job, logger,)
 
     while True:
         schedule.run_pending()
