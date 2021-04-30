@@ -1,10 +1,7 @@
-import json
 import mysql.connector
 import config
 import time
 from datetime import datetime
-import requests
-from decimal import Decimal
 import schedule
 
 ########################################################################################################################
@@ -81,7 +78,7 @@ def job(logger, ):
 
 
 def process(logger, ):
-    schedule.every(3).minutes.do(job, logger,)
+    schedule.every(1).minutes.do(job, logger,)
 
     while True:
         schedule.run_pending()
