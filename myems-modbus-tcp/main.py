@@ -5,6 +5,7 @@ from multiprocessing import Process
 import time
 import logging
 from logging.handlers import RotatingFileHandler
+import gateway
 import acquisition
 
 
@@ -24,6 +25,11 @@ def main():
     fh.setFormatter(formatter)
     # add the handlers to logger
     logger.addHandler(fh)
+
+    ####################################################################################################################
+    # Create Gateway Process
+    ####################################################################################################################
+    Process(target=gateway.process, args=(logger,)).start()
 
     # Get Data Sources
     while True:
