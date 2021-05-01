@@ -12,7 +12,7 @@ from byte_swap import byte_swap_32_bit, byte_swap_64_bit
 
 ########################################################################################################################
 # Acquisition Procedures
-# Step 1: telnet hosts
+# Step 1: telnet the host
 # Step 2: Get point list
 # Step 3: Read point values from Modbus slaves
 # Step 4: Bulk insert point values and update latest values in historical database
@@ -25,7 +25,7 @@ def process(logger, data_source_id, host, port):
         # the outermost while loop
 
         ################################################################################################################
-        # Step 1: telnet hosts
+        # Step 1: telnet the host
         ################################################################################################################
         try:
             telnetlib.Telnet(host, port, 10)
@@ -138,7 +138,8 @@ def process(logger, data_source_id, host, port):
 
                     logger.error('Data Source(ID=%s), Point(ID=%s) Invalid address data.',
                                  data_source_id, point['id'])
-                    # invalid point is found, and go on the foreach point loop to process next point
+                    # invalid point is found,
+                    # and go on the foreach point loop to process next point
                     continue
 
                 # read register value for valid point
@@ -163,11 +164,13 @@ def process(logger, data_source_id, host, port):
                         # timeout error, break the foreach point loop
                         break
                     else:
-                        # exception occurred when read register value, go on the foreach point loop
+                        # exception occurred when read register value,
+                        # and go on the foreach point loop to process next point
                         continue
 
                 if result is None or not isinstance(result, tuple) or len(result) == 0:
-                    # invalid result, and go on the foreach point loop to process next point
+                    # invalid result,
+                    # and go on the foreach point loop to process next point
                     logger.error("Error in step 3.3 of acquisition process: \n"
                                  " invalid result: None "
                                  " for point_id: " + str(point['id']))
@@ -248,7 +251,7 @@ def process(logger, data_source_id, host, port):
                     cnx_system_db = mysql.connector.connect(**config.myems_system_db)
                     cursor_system_db = cnx_system_db.cursor()
                 except Exception as e:
-                    logger.error("Error in step 4.4 of acquisition process: " + str(e))
+                    logger.error("Error in step 4.2 of acquisition process: " + str(e))
                     if cursor_system_db:
                         cursor_system_db.close()
                     if cnx_system_db:
@@ -278,7 +281,7 @@ def process(logger, data_source_id, host, port):
                         cursor_historical_db.execute(add_values[:-2])
                         cnx_historical_db.commit()
                     except Exception as e:
-                        logger.error("Error in step 4.2.1 of acquisition process " + str(e))
+                        logger.error("Error in step 4.3.1 of acquisition process " + str(e))
                         # ignore this exception
                         pass
 
@@ -301,7 +304,7 @@ def process(logger, data_source_id, host, port):
                         cursor_historical_db.execute(delete_values[:-1] + ")")
                         cnx_historical_db.commit()
                     except Exception as e:
-                        logger.error("Error in step 4.2.2 of acquisition process " + str(e))
+                        logger.error("Error in step 4.3.2 of acquisition process " + str(e))
                         # ignore this exception
                         pass
 
@@ -310,7 +313,7 @@ def process(logger, data_source_id, host, port):
                         cursor_historical_db.execute(latest_values[:-2])
                         cnx_historical_db.commit()
                     except Exception as e:
-                        logger.error("Error in step 4.2.3 of acquisition process " + str(e))
+                        logger.error("Error in step 4.3.3 of acquisition process " + str(e))
                         # ignore this exception
                         pass
 
@@ -332,7 +335,7 @@ def process(logger, data_source_id, host, port):
                         cursor_historical_db.execute(add_values[:-2])
                         cnx_historical_db.commit()
                     except Exception as e:
-                        logger.error("Error in step 4.3.1 of acquisition process: " + str(e))
+                        logger.error("Error in step 4.4.1 of acquisition process: " + str(e))
                         # ignore this exception
                         pass
 
@@ -356,7 +359,7 @@ def process(logger, data_source_id, host, port):
                         cnx_historical_db.commit()
 
                     except Exception as e:
-                        logger.error("Error in step 4.3.2 of acquisition process " + str(e))
+                        logger.error("Error in step 4.4.2 of acquisition process " + str(e))
                         # ignore this exception
                         pass
 
@@ -366,7 +369,7 @@ def process(logger, data_source_id, host, port):
                         cnx_historical_db.commit()
 
                     except Exception as e:
-                        logger.error("Error in step 4.3.3 of acquisition process " + str(e))
+                        logger.error("Error in step 4.4.3 of acquisition process " + str(e))
                         # ignore this exception
                         pass
 
@@ -388,7 +391,7 @@ def process(logger, data_source_id, host, port):
                         cursor_historical_db.execute(add_values[:-2])
                         cnx_historical_db.commit()
                     except Exception as e:
-                        logger.error("Error in step 4.4.1 of acquisition process: " + str(e))
+                        logger.error("Error in step 4.5.1 of acquisition process: " + str(e))
                         # ignore this exception
                         pass
 
@@ -410,7 +413,7 @@ def process(logger, data_source_id, host, port):
                         cursor_historical_db.execute(delete_values[:-1] + ")")
                         cnx_historical_db.commit()
                     except Exception as e:
-                        logger.error("Error in step 4.4.2 of acquisition process " + str(e))
+                        logger.error("Error in step 4.5.2 of acquisition process " + str(e))
                         # ignore this exception
                         pass
 
@@ -419,7 +422,7 @@ def process(logger, data_source_id, host, port):
                         cursor_historical_db.execute(latest_values[:-2])
                         cnx_historical_db.commit()
                     except Exception as e:
-                        logger.error("Error in step 4.4.3 of acquisition process " + str(e))
+                        logger.error("Error in step 4.5.3 of acquisition process " + str(e))
                         # ignore this exception
                         pass
 
@@ -431,11 +434,11 @@ def process(logger, data_source_id, host, port):
                 cursor_system_db.execute(update_row, (data_source_id, ))
                 cnx_system_db.commit()
             except Exception as e:
-                logger.error("Error in step 4.4.4 of acquisition process " + str(e))
+                logger.error("Error in step 4.6 of acquisition process " + str(e))
                 # ignore this exception
                 pass
 
-            # sleep some seconds
+            # sleep and continue the next iteration of the inner while loop
             time.sleep(config.interval_in_seconds)
 
         # end of inner while loop
