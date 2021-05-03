@@ -150,8 +150,9 @@ class Reporting:
         ################################################################################################################
         for meter_id in meter_dict:
             cursor_system_db.execute(" SELECT point_id "
-                                     " FROM tbl_meters_points "
-                                     " WHERE meter_id = %s ", (meter_id, ))
+                                     " FROM tbl_meters_points mp, tbl_points p"
+                                     " WHERE p.id = mp.point_id AND p.object_type = 'ENERGY_VALUE' "
+                                     "       AND meter_id = %s ", (meter_id, ))
 
             rows_points_id = cursor_system_db.fetchall()
 
