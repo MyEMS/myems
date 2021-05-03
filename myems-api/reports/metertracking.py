@@ -21,7 +21,8 @@ class Reporting:
     # Step 1: valid parameters
     # Step 2: build a space tree
     # Step 3: query all meters in the space tree
-    # Step 4: construct the report
+    # Step 4: query start value and end value
+    # Step 5: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
@@ -82,22 +83,22 @@ class Reporting:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.THE_REPORTING_PERIOD_MUST_BE_LONGER_THAN_15_MINUTES')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cnx_system_db = mysql.connector.connect(**config.myems_system_db)
+        cursor_system_db = cnx_system_db.cursor(dictionary=True)
 
         cnx_historical = mysql.connector.connect(**config.myems_historical_db)
         cursor_historical = cnx_historical.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_spaces "
-                       " WHERE id = %s ", (space_id,))
-        row = cursor.fetchone()
+        cursor_system_db.execute(" SELECT name "
+                                 " FROM tbl_spaces "
+                                 " WHERE id = %s ", (space_id,))
+        row = cursor_system_db.fetchone()
 
         if row is None:
-            if cursor:
-                cursor.close()
-            if cnx:
-                cnx.disconnect()
+            if cursor_system_db:
+                cursor_system_db.close()
+            if cnx_system_db:
+                cnx_system_db.disconnect()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
         else:
@@ -110,8 +111,8 @@ class Reporting:
         query = (" SELECT id, name, parent_space_id "
                  " FROM tbl_spaces "
                  " ORDER BY id ")
-        cursor.execute(query)
-        rows_spaces = cursor.fetchall()
+        cursor_system_db.execute(query)
+        rows_spaces = cursor_system_db.fetchall()
         node_dict = dict()
         if rows_spaces is not None and len(rows_spaces) > 0:
             for row in rows_spaces:
@@ -121,93 +122,77 @@ class Reporting:
         ################################################################################################################
         # Step 3: query all meters in the space tree
         ################################################################################################################
-        meter_list = list()
+        meter_dict = dict()
         space_dict = dict()
 
         for node in LevelOrderIter(node_dict[space_id]):
             space_dict[node.id] = node.name
 
-        cursor.execute(" SELECT m.id, m.name AS meter_name, s.name AS space_name, "
-                       "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
-                       "         m.description, m.id AS meter_id"
-                       " FROM tbl_spaces s, tbl_spaces_meters sm, tbl_meters m, tbl_cost_centers cc, "
-                       "      tbl_energy_categories ec "
-                       " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
-                       "       AND sm.space_id = s.id AND sm.meter_id = m.id "
-                       "       AND m.cost_center_id = cc.id AND m.energy_category_id = ec.id ", )
-        rows_meters = cursor.fetchall()
+        cursor_system_db.execute(" SELECT m.id, m.name AS meter_name, s.name AS space_name, "
+                                 "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
+                                 "         m.description "
+                                 " FROM tbl_spaces s, tbl_spaces_meters sm, tbl_meters m, tbl_cost_centers cc, "
+                                 "      tbl_energy_categories ec "
+                                 " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
+                                 "       AND sm.space_id = s.id AND sm.meter_id = m.id "
+                                 "       AND m.cost_center_id = cc.id AND m.energy_category_id = ec.id ", )
+        rows_meters = cursor_system_db.fetchall()
         if rows_meters is not None and len(rows_meters) > 0:
             for row in rows_meters:
-                meter_list.append({"id": row['id'],
-                                   "meter_id": row['meter_id'],
-                                   "meter_name": row['meter_name'],
-                                   "space_name": row['space_name'],
-                                   "cost_center_name": row['cost_center_name'],
-                                   "energy_category_name": row['energy_category_name'],
-                                   "description": row['description']})
+                meter_dict[row['id']] = {"meter_name": row['meter_name'],
+                                         "space_name": row['space_name'],
+                                         "cost_center_name": row['cost_center_name'],
+                                         "energy_category_name": row['energy_category_name'],
+                                         "description": row['description']}
 
         ################################################################################################################
-        # Step 3.1: Add start and end values
+        # Step 4: query start value and end value
         ################################################################################################################
-        save_meter_id_value = dict()
-        for meter in meter_list:
-            meter_id = meter['meter_id']
-            if meter_id not in save_meter_id_value.keys():
-                cursor.execute(" SELECT point_id "
-                               " FROM tbl_meters_points "
-                               " WHERE meter_id = %s ", (meter_id, ))
+        for meter_id in meter_dict:
+            cursor_system_db.execute(" SELECT point_id "
+                                     " FROM tbl_meters_points "
+                                     " WHERE meter_id = %s ", (meter_id, ))
 
-                rows_points_id = cursor.fetchall()
+            rows_points_id = cursor_system_db.fetchall()
 
-                start_value = None
-                end_value = None
+            start_value = None
+            end_value = None
 
-                if rows_points_id is not None and len(rows_points_id) > 0:
+            if rows_points_id is not None and len(rows_points_id) > 0:
+                query_start_value = (" SELECT actual_value "
+                                     " FROM tbl_energy_value "
+                                     " where point_id in ("
+                                     + ', '.join(map(lambda x: str(x['point_id']), rows_points_id)) + ") "
+                                     " AND utc_date_time BETWEEN %s AND %s "
+                                     " order by utc_date_time ASC LIMIT 0,1")
+                query_end_value = (" SELECT actual_value "
+                                   " FROM tbl_energy_value "
+                                   " where point_id in ("
+                                   + ', '.join(map(lambda x: str(x['point_id']), rows_points_id)) + ") "
+                                   " AND utc_date_time BETWEEN %s AND %s "
+                                   " order by utc_date_time DESC LIMIT 0,1")
+                cursor_historical.execute(query_start_value,
+                                          (reporting_start_datetime_utc,
+                                           (reporting_start_datetime_utc + timedelta(minutes=15)), ))
+                row_start_value = cursor_historical.fetchone()
+                if row_start_value is not None:
+                    start_value = row_start_value[0]
 
-                    query_start_value = (" SELECT actual_value "
-                                         " FROM tbl_energy_value "
-                                         " where point_id in ("
-                                         + ', '.join(map(lambda x: str(x['point_id']), rows_points_id)) + ") "
-                                         " AND utc_date_time BETWEEN %s AND %s "
-                                         " order by utc_date_time ASC LIMIT 0,1")
+                cursor_historical.execute(query_end_value,
+                                          ((reporting_end_datetime_utc - timedelta(minutes=15)),
+                                           reporting_end_datetime_utc, ))
+                row_end_value = cursor_historical.fetchone()
 
-                    query_end_value = (" SELECT actual_value "
-                                       " FROM tbl_energy_value "
-                                       " where point_id in ("
-                                       + ', '.join(map(lambda x: str(x['point_id']), rows_points_id)) + ") "
-                                       " AND utc_date_time BETWEEN %s AND %s "
-                                       " order by utc_date_time DESC LIMIT 0,1")
+                if row_end_value is not None:
+                    end_value = row_end_value[0]
 
-                    cursor_historical.execute(query_start_value,
-                                              (reporting_start_datetime_utc,
-                                               (reporting_start_datetime_utc + timedelta(minutes=15)), ))
+            meter_dict[meter_id]['start_value'] = start_value
+            meter_dict[meter_id]['end_value'] = end_value
 
-                    row_start_value = cursor_historical.fetchone()
-
-                    if row_start_value is not None:
-                        start_value = row_start_value[0]
-
-                    cursor_historical.execute(query_end_value,
-                                              ((reporting_end_datetime_utc - timedelta(minutes=15)),
-                                               reporting_end_datetime_utc, ))
-
-                    row_end_value = cursor_historical.fetchone()
-
-                    if row_end_value is not None:
-                        end_value = row_end_value[0]
-
-                save_meter_id_value[meter_id] = [start_value, end_value]
-                meter['start_value'] = start_value
-                meter['end_value'] = end_value
-
-            else:
-                meter['start_value'] = save_meter_id_value[meter_id][0]
-                meter['end_value'] = save_meter_id_value[meter_id][1]
-
-        if cursor:
-            cursor.close()
-        if cnx:
-            cnx.disconnect()
+        if cursor_system_db:
+            cursor_system_db.close()
+        if cnx_system_db:
+            cnx_system_db.disconnect()
 
         if cursor_historical:
             cursor_historical.close()
@@ -215,8 +200,21 @@ class Reporting:
             cnx_historical.disconnect()
 
         ################################################################################################################
-        # Step 4: construct the report
+        # Step 5: construct the report
         ################################################################################################################
+        meter_list = list()
+        for meter_id, meter in meter_dict.items():
+            meter_list.append({
+                "id": meter_id,
+                "meter_name": meter['meter_name'],
+                "space_name": meter['space_name'],
+                "cost_center_name": meter['cost_center_name'],
+                "energy_category_name": meter['energy_category_name'],
+                "description": meter['description'],
+                "start_value": meter['start_value'],
+                "end_value": meter['end_value']
+            })
+
         result = {'meters': meter_list}
         # export result to Excel file and then encode the file to base64 string
         result['excel_bytes_base64'] = \

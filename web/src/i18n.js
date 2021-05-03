@@ -243,6 +243,8 @@ const resources = {
       //Meter Tracking
       "Meter List": "Meter List",
       "Edit Meter": "Edit",
+      "Start Value": "Start Value",
+      "End Value": "End Value",
       //Equipment Tracking
       "Equipment List": "Equipment List",
       "Edit Equipment": "Edit",
@@ -582,6 +584,8 @@ const resources = {
       //Meter Tracking
       "Meter List": "Zählerliste",
       "Edit Meter": "bearbeiten",
+      "Start Value": "Wert des Starts",
+      "End Value": "Wert des Ends",
       //Equipment Tracking
       "Equipment List": "Ausrüstungsliste",
       "Edit Equipment": "bearbeiten",
