@@ -243,6 +243,8 @@ const resources = {
       //Meter Tracking
       "Meter List": "Meter List",
       "Edit Meter": "Edit",
+      "Start Value": "Start Value",
+      "End Value": "End Value",
       //Equipment Tracking
       "Equipment List": "Equipment List",
       "Edit Equipment": "Edit",
@@ -582,6 +584,8 @@ const resources = {
       //Meter Tracking
       "Meter List": "Zählerliste",
       "Edit Meter": "bearbeiten",
+      "Start Value": "Wert des Starts",
+      "End Value": "Wert des Ends",
       //Equipment Tracking
       "Equipment List": "Ausrüstungsliste",
       "Edit Equipment": "bearbeiten",
@@ -924,6 +928,8 @@ const resources = {
       //Meter Tracking
       "Meter List": "计量表列表",
       "Edit Meter": "编辑",
+      "Start Value": "开始值",
+      "End Value": "结束值",
       //Equipment Tracking
       "Equipment List": "设备列表",
       "Edit Equipment": "编辑",

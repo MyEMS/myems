@@ -31,9 +31,12 @@ import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL } from '../../../config';
+import Datetime from "react-datetime";
+import moment from "moment";
 
 
 const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
+  let current_moment = moment();
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
     let user_name = getCookieValue('user_name');
@@ -60,6 +63,14 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
   const [spinnerHidden, setSpinnerHidden] = useState(false);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
+  const [selectedSpaceID, setSelectedSpaceID] = useState(undefined)
+
+  //Query From
+  const [reportingPeriodBeginsDatetime, setReportingPeriodBeginsDatetime] = useState(current_moment.clone().startOf('month'));
+  const [reportingPeriodEndsDatetime, setReportingPeriodEndsDatetime] = useState(current_moment);
+
+  // buttons
+  const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
 
   useEffect(() => {
     // begin of getting space tree
@@ -87,51 +98,10 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
         setCascaderOptions(json);
         // set the default selected space
         setSelectedSpaceName([json[0]].map(o => o.label));
-        let selectedSpaceID = [json[0]].map(o => o.value);
-        // begin of gettting meter list
-        let isSecondResponseOK = false;
-        fetch(APIBaseURL + '/reports/metertracking?spaceid=' + selectedSpaceID, {
-          method: 'GET',
-          headers: {
-            "Content-type": "application/json",
-            "User-UUID": getCookieValue('user_uuid'),
-            "Token": getCookieValue('token')
-          },
-          body: null,
+        setSelectedSpaceID([json[0]].map(o => o.value));
 
-        }).then(response => {
-          if (response.ok) {
-            isSecondResponseOK = true;
-          }
-          return response.json();
-        }).then(json => {
-          if (isSecondResponseOK) {
-            let json_meters = JSON.parse(JSON.stringify([json['meters']]).split('"id":').join('"value":').split('"name":').join('"label":'));
-            let meters = [];
-            json_meters[0].forEach((currentValue, index) => {
-              meters.push({
-                'id': currentValue['id'],
-                'name': currentValue['meter_name'],
-                'space': currentValue['space_name'],
-                'costcenter': currentValue['cost_center_name'],
-                'energycategory': currentValue['energy_category_name'],
-                'description': currentValue['description']});
-            });
-            setMeterList(meters);
-
-            setExcelBytesBase64(json['excel_bytes_base64']);
-            
-            // hide spinner
-            setSpinnerHidden(true);
-            // show export buttion
-            setExportButtonHidden(false);
-          } else {
-            toast.error(json.description)
-          }
-        }).catch(err => {
-          console.log(err);
-        });
-        // end of getting meter list
+        setSubmitButtonDisabled(false);
+        setSpinnerHidden(true);
       } else {
         toast.error(json.description);
       }
@@ -204,6 +174,20 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
       sort: true
     },
     {
+      dataField: 'startvalue',
+      headerClasses: 'border-0',
+      text: t('Start Value'),
+      classes: 'border-0 py-2 align-middle',
+      sort: true
+    },
+    {
+      dataField: 'endvalue',
+      headerClasses: 'border-0',
+      text: t('End Value'),
+      classes: 'border-0 py-2 align-middle',
+      sort: true
+    },
+    {
       dataField: '',
       headerClasses: 'border-0',
       text: '',
@@ -217,57 +201,97 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
-    let selectedSpaceID = value[value.length - 1];
+    setSelectedSpaceID(value[value.length - 1]);
+    setMeterList([]);
+    setExportButtonHidden(true);
+    setSubmitButtonDisabled(false);
+  };
+
+  let onReportingPeriodBeginsDatetimeChange = (newDateTime) => {
+    setReportingPeriodBeginsDatetime(newDateTime);
+
+  }
+
+  let onReportingPeriodEndsDatetimeChange = (newDateTime) => {
+    setReportingPeriodEndsDatetime(newDateTime);
+
+  }
+
+  var getValidReportingPeriodBeginsDatetimes = function (currentDate) {
+    return currentDate.isBefore(moment(reportingPeriodEndsDatetime, 'MM/DD/YYYY, hh:mm:ss a'));
+  }
+
+  var getValidReportingPeriodEndsDatetimes = function (currentDate) {
+    return currentDate.isAfter(moment(reportingPeriodBeginsDatetime, 'MM/DD/YYYY, hh:mm:ss a'));
+  }
+
+  // Handler
+  const handleSubmit = e => {
+    e.preventDefault();
+    console.log('handleSubmit');
+    console.log(selectedSpaceID);
+    console.log(reportingPeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss'));
+    console.log(reportingPeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss'));
+
+    // disable submit button
+    setSubmitButtonDisabled(true);
     // show spinner
     setSpinnerHidden(false);
     // hide export buttion
-    setExportButtonHidden(true) 
-    // begin of gettting meter list
-    let isSecondResponseOK = false;
-    fetch(APIBaseURL + '/reports/metertracking?spaceid=' + selectedSpaceID, {
-      method: 'GET',
-      headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
-      },
-      body: null,
+    setExportButtonHidden(true)
 
-    }).then(response => {
-      if (response.ok) {
-        isSecondResponseOK = true;
-      }
-      return response.json();
-    }).then(json => {
-      if (isSecondResponseOK) {
-        let json_meters = JSON.parse(JSON.stringify([json['meters']]).split('"id":').join('"value":').split('"name":').join('"label":'));
-        let meters = [];
-        json_meters[0].forEach((currentValue, index) => {
-          meters.push({
-            'id': currentValue['id'],
-            'name': currentValue['meter_name'],
-            'space': currentValue['space_name'],
-            'costcenter': currentValue['cost_center_name'],
-            'energycategory': currentValue['energy_category_name'],
-            'description': currentValue['description']});
-        });
-        setMeterList(meters);
+    setMeterList([]);
 
-        setExcelBytesBase64(json['excel_bytes_base64']);
-        
-        // hide spinner
-        setSpinnerHidden(true);
-        // show export buttion
-        setExportButtonHidden(false);
-      } else {
-        toast.error(json.description)
-      }
-    }).catch(err => {
-      console.log(err);
-    });
-    // end of getting meter list
+    let isResponseOK = false;
+      fetch(APIBaseURL + '/reports/metertracking?' +
+        'spaceid=' + selectedSpaceID +
+        '&reportingperiodstartdatetime=' + reportingPeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+        '&reportingperiodenddatetime=' + reportingPeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss'), {
+        method: 'GET',
+        headers: {
+          "Content-type": "application/json",
+          "User-UUID": getCookieValue('user_uuid'),
+          "Token": getCookieValue('token')
+        },
+        body: null,
+
+      }).then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      }).then(json => {
+        if (isResponseOK) {
+          let json_meters = JSON.parse(JSON.stringify([json['meters']]).split('"id":').join('"value":').split('"name":').join('"label":'));
+          let meters = [];
+          json_meters[0].forEach((currentValue, index) => {
+            meters.push({
+              'id': currentValue['id'],
+              'name': currentValue['meter_name'],
+              'space': currentValue['space_name'],
+              'costcenter': currentValue['cost_center_name'],
+              'energycategory': currentValue['energy_category_name'],
+              'description': currentValue['description'],
+              'startvalue': currentValue['start_value'],
+              'endvalue': currentValue['end_value']});
+          });
+          setMeterList(meters);
+
+          setExcelBytesBase64(json['excel_bytes_base64']);
+
+          // hide spinner
+          setSpinnerHidden(true);
+          // show export buttion
+          setExportButtonHidden(false);
+
+          setSubmitButtonDisabled(false);
+        } else {
+          toast.error(json.description)
+        }
+      }).catch(err => {
+        console.log(err);
+      });
   };
-
 
   const handleExport = e => {
     e.preventDefault();
@@ -295,7 +319,7 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
       </div>
       <Card className="bg-light mb-3">
         <CardBody className="p-3">
-          <Form >
+          <Form onSubmit={handleSubmit}>
             <Row form>
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
@@ -309,6 +333,38 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
                     expandTrigger="hover">
                     <Input value={selectedSpaceName || ''} readOnly />
                   </Cascader>
+                </FormGroup>
+              </Col>
+              <Col xs={6} sm={3}>
+                <FormGroup className="form-group">
+                  <Label className={labelClasses} for="reportingPeriodBeginsDatetime">
+                    {t('Reporting Period Begins')}
+                  </Label>
+                  <Datetime id='reportingPeriodBeginsDatetime'
+                    value={reportingPeriodBeginsDatetime}
+                    onChange={onReportingPeriodBeginsDatetimeChange}
+                    isValidDate={getValidReportingPeriodBeginsDatetimes}
+                    closeOnSelect={true} />
+                </FormGroup>
+              </Col>
+              <Col xs={6} sm={3}>
+                <FormGroup className="form-group">
+                  <Label className={labelClasses} for="reportingPeriodEndsDatetime">
+                    {t('Reporting Period Ends')}
+                  </Label>
+                  <Datetime id='reportingPeriodEndsDatetime'
+                    value={reportingPeriodEndsDatetime}
+                    onChange={onReportingPeriodEndsDatetimeChange}
+                    isValidDate={getValidReportingPeriodEndsDatetimes}
+                    closeOnSelect={true} />
+                </FormGroup>
+              </Col>
+              <Col xs="auto">
+                <FormGroup>
+                  <br></br>
+                  <ButtonGroup id="submit">
+                    <Button color="success" disabled={submitButtonDisabled} >{t('Submit')}</Button>
+                  </ButtonGroup>
                 </FormGroup>
               </Col>
               <Col xs="auto">
