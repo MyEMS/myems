@@ -1097,8 +1097,9 @@ Result in JSON
 | units         | string    | Units of Measure                          |
 | high_limit    | float     | High Limit of the Point Value             |
 | low_limit     | float     | Low Limit of the Point Value              |
-| ratio         | float     | Raw value will be multiplied by ratio value|                            |
-| is_trend      | boolean   | The Point Value is Recorded as Trend      |
+| ratio         | float     | Raw value will be multiplied by ratio value. It is not applicable to virtual point. |                            |
+| is_trend      | boolean   | Indicates that trend value will be saved  |                            |
+| is_virtual    | boolean   | Indicates that it is a virtual point      |
 | address       | json      | Address structure varied by protocol      |
 |               |           | Modbus TCP Structure                      |
 | ├slave_id     | integer   | Slave ID                                  |
@@ -1123,11 +1124,11 @@ $ curl -i -X DELETE {{base_url}}/points/{id}
 ```
 * POST Point
 ```bash
-$ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"ModbusPoint1", "data_source_id":1, "object_type": "ENERGY_VALUE", "units":"kWh", "low_limit":0, "high_limit":999999999, "is_trend":true, "address":"{\"slave_id\":1, \"function_code\":3, \"offset\":1, \"number_of_registers\":2, \"data_format\":\"float\"}", "description":null}}' {{base_url}}/points
+$ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"ModbusPoint1", "data_source_id":1, "object_type": "ENERGY_VALUE", "units":"kWh", "low_limit":0, "high_limit":999999999, "is_trend":true, "is_virtual":false, "address":"{\"slave_id\":1, \"function_code\":3, \"offset\":1, \"number_of_registers\":2, \"data_format\":\"float\"}", "description":null}}' {{base_url}}/points
 ```
 * PUT Point
 ```bash
-$ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"ModbusPoint1", "data_source_id":1, "object_type": "ENERGY_VALUE", "units":"kWh", "low_limit":0, "high_limit":999999999, "is_trend":true, "address":"{\"slave_id\":1, \"function_code\":3, \"offset\":1, \"number_of_registers\":2, \"data_format\":\"float\"}", "description":null}}' {{base_url}}/points/{id}
+$ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"ModbusPoint1", "data_source_id":1, "object_type": "ENERGY_VALUE", "units":"kWh", "low_limit":0, "high_limit":999999999, "is_trend":true, "is_virtual":false, "address":"{\"slave_id\":1, \"function_code\":3, \"offset\":1, \"number_of_registers\":2, \"data_format\":\"float\"}", "description":null}}' {{base_url}}/points/{id}
 ```
 
 
