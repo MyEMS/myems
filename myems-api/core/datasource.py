@@ -323,7 +323,7 @@ class DataSourcePointCollection:
                                    description='API.INVALID_DATA_SOURCE_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cursor = cnx.cursor(dictionary=True)
 
         cursor.execute(" SELECT name "
                        " FROM tbl_data_sources "
@@ -338,7 +338,7 @@ class DataSourcePointCollection:
         # Get points of the data source
         # NOTE: there is no uuid in tbl_points
         query_point = (" SELECT id, name, object_type, "
-                       "        units, high_limit, low_limit, ratio, is_trend, address, description "
+                       "        units, high_limit, low_limit, ratio, is_trend, is_virtual, address, description "
                        " FROM tbl_points "
                        " WHERE data_source_id = %s "
                        " ORDER BY name ")
@@ -347,16 +347,17 @@ class DataSourcePointCollection:
 
         if rows_point is not None and len(rows_point) > 0:
             for row in rows_point:
-                meta_result = {"id": row[0],
-                               "name": row[1],
-                               "object_type": row[2],
-                               "units": row[3],
-                               "high_limit": row[4],
-                               "low_limit": row[5],
-                               "ratio": float(row[6]),
-                               "is_trend": True if row[7] else False,
-                               "address": row[8],
-                               "description": row[9]}
+                meta_result = {"id": row['id'],
+                               "name": row['name'],
+                               "object_type": row['object_type'],
+                               "units": row['units'],
+                               "high_limit": row['high_limit'],
+                               "low_limit": row['low_limit'],
+                               "ratio": float(row['ratio']),
+                               "is_trend": bool(row['is_trend']),
+                               "is_virtual": bool(row['is_virtual']),
+                               "address": row['address'],
+                               "description": row['description']}
                 result.append(meta_result)
 
         cursor.close()
