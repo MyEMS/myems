@@ -244,6 +244,7 @@ app.controller('ModalAddPointCtrl', function($scope, $uibModalInstance) {
 	$scope.point = {};
 	$scope.point.object_type = "ENERGY_VALUE";
 	$scope.point.is_trend = true;
+	$scope.point.is_virtual = false;
 	$scope.ok = function() {
 		$uibModalInstance.close($scope.point);
 	};

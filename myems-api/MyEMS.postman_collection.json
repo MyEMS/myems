@@ -3400,7 +3400,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"ModbusPoint2\", \"data_source_id\":1, \"object_type\": \"ENERGY_VALUE\", \"units\":\"kWh\", \"high_limit\":999999999, \"low_limit\":0, \"ratio\":1,\"is_trend\":true, \"address\":\"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":1, \\\"number_of_registers\\\":2, \\\"data_format\\\":\\\"float\\\"}\", \"description\":null}}"
+									"raw": "{\"data\":{\"name\":\"ModbusPoint2\", \"data_source_id\":1, \"object_type\": \"ENERGY_VALUE\", \"units\":\"kWh\", \"high_limit\":999999999, \"low_limit\":0, \"ratio\":1,\"is_trend\":true, \"is_virtual\":false, \"address\":\"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":1, \\\"number_of_registers\\\":2, \\\"data_format\\\":\\\"float\\\"}\", \"description\":null}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/points",
@@ -3439,7 +3439,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"ModbusPoint1\", \"data_source_id\":1, \"object_type\": \"ENERGY_VALUE\", \"units\":\"kWh\", \"high_limit\":999999999, \"low_limit\":0, \"ratio\":100, \"is_trend\":true, \"address\":\"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":1, \\\"number_of_registers\\\":2, \\\"data_format\\\":\\\"float\\\"}\", \"description\":null}}"
+									"raw": "{\"data\":{\"name\":\"ModbusPoint1\", \"data_source_id\":1, \"object_type\": \"ENERGY_VALUE\", \"units\":\"kWh\", \"high_limit\":999999999, \"low_limit\":0, \"ratio\":100, \"is_trend\":true, \"is_virtual\":false, \"address\":\"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":1, \\\"number_of_registers\\\":2, \\\"data_format\\\":\\\"float\\\"}\", \"description\":null}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/points/1",
@@ -7080,6 +7080,98 @@
 					"response": []
 				},
 				{
+					"name": "GET Combined Equipment Efficiency Report",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/combinedequipmentefficiency?combinedequipmentid=1000001&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"combinedequipmentefficiency"
+							],
+							"query": [
+								{
+									"key": "combinedequipmentid",
+									"value": "1000001"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Combined Equipment Efficiency Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/combinedequipmentefficiency?combinedequipmentid=1000001&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"combinedequipmentefficiency"
+							],
+							"query": [
+								{
+									"key": "combinedequipmentid",
+									"value": "1000001"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Dashboard",
 					"request": {
 						"method": "GET",
@@ -7749,6 +7841,47 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-09-11T00:00:00"
+								},
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Meter Trend Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/metertrend?meterid=6&reportingperiodstartdatetime=2020-09-10T00:00:00&reportingperiodenddatetime=2020-09-11T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"metertrend"
+							],
+							"query": [
+								{
+									"key": "meterid",
+									"value": "6"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-10T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-09-11T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
 								}
 							]
 						}
@@ -8620,6 +8753,50 @@
 							"query": [
 								{
 									"key": "virtualmeterid",
+									"value": "1"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Equipment Efficiency Report Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/equipmentefficiency?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"equipmentefficiency"
+							],
+							"query": [
+								{
+									"key": "equipmentid",
 									"value": "1"
 								},
 								{

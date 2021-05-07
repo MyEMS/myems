@@ -31,7 +31,7 @@ class PointCollection:
                                                "uuid": row['uuid']}
 
         query = (" SELECT id, name, data_source_id, object_type, units, "
-                 "        high_limit, low_limit, ratio, is_trend, address, description "
+                 "        high_limit, low_limit, ratio, is_trend, is_virtual, address, description "
                  " FROM tbl_points ")
         cursor.execute(query)
         rows = cursor.fetchall()
@@ -50,7 +50,8 @@ class PointCollection:
                                "high_limit": row['high_limit'],
                                "low_limit": row['low_limit'],
                                "ratio": float(row['ratio']),
-                               "is_trend": row['is_trend'],
+                               "is_trend": bool(row['is_trend']),
+                               "is_virtual": bool(row['is_virtual']),
                                "address": row['address'],
                                "description": row['description']}
                 result.append(meta_result)
@@ -122,6 +123,12 @@ class PointCollection:
                                    description='API.INVALID_IS_TREND_VALUE')
         is_trend = new_values['data']['is_trend']
 
+        if 'is_virtual' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['is_virtual'], bool):
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_IS_VIRTUAL_VALUE')
+        is_virtual = new_values['data']['is_virtual']
+
         if 'address' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['address'], str) or \
                 len(str.strip(new_values['data']['address'])) == 0:
@@ -159,8 +166,8 @@ class PointCollection:
 
         add_value = (" INSERT INTO tbl_points (name, data_source_id, "
                      "                         object_type, units, high_limit, low_limit, ratio, "
-                     "                         is_trend, address, description) "
-                     " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                     "                         is_trend, is_virtual, address, description) "
+                     " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_value, (name,
                                    data_source_id,
                                    object_type,
@@ -169,6 +176,7 @@ class PointCollection:
                                    low_limit,
                                    ratio,
                                    is_trend,
+                                   is_virtual,
                                    address,
                                    description))
         new_id = cursor.lastrowid
@@ -211,7 +219,7 @@ class PointItem:
                                                "uuid": row['uuid']}
 
         query = (" SELECT id, name, data_source_id, object_type, units, "
-                 "        high_limit, low_limit, ratio, is_trend, address, description "
+                 "        high_limit, low_limit, ratio, is_trend, is_virtual, address, description "
                  " FROM tbl_points "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -232,6 +240,7 @@ class PointItem:
                   "low_limit": row['low_limit'],
                   "ratio": float(row['ratio']),
                   "is_trend": bool(row['is_trend']),
+                  "is_virtual": bool(row['is_virtual']),
                   "address": row['address'],
                   "description": row['description']}
         resp.body = json.dumps(result)
@@ -443,6 +452,12 @@ class PointItem:
                                    description='API.INVALID_IS_TREND_VALUE')
         is_trend = new_values['data']['is_trend']
 
+        if 'is_virtual' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['is_virtual'], bool):
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_IS_VIRTUAL_VALUE')
+        is_virtual = new_values['data']['is_virtual']
+
         if 'address' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['address'], str) or \
                 len(str.strip(new_values['data']['address'])) == 0:
@@ -491,7 +506,7 @@ class PointItem:
                       " SET name = %s, data_source_id = %s, "
                       "     object_type = %s, units = %s, "
                       "     high_limit = %s, low_limit = %s, ratio = %s, "
-                      "     is_trend = %s, address = %s, description = %s "
+                      "     is_trend = %s, is_virtual = %s, address = %s, description = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     data_source_id,
@@ -501,6 +516,7 @@ class PointItem:
                                     low_limit,
                                     ratio,
                                     is_trend,
+                                    is_virtual,
                                     address,
                                     description,
                                     id_,))

@@ -154,7 +154,7 @@ def process(logger, ):
             try:
                 query = (" SELECT id, name, object_type, is_trend, ratio, address "
                          " FROM tbl_points "
-                         " WHERE data_source_id = %s "
+                         " WHERE data_source_id = %s AND is_virtual = FALSE "
                          " ORDER BY id ")
                 cursor_system_db.execute(query, (data_source_id,))
                 rows_points = cursor_system_db.fetchall()
