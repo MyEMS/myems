@@ -1,7 +1,6 @@
 -- UPDATE POINT TABLE
 ALTER TABLE myems_system_db.tbl_points MODIFY COLUMN low_limit decimal(18,3) NOT NULL;
-ALTER TABLE myems_system_db.tbl_points ADD is_virtual BOOL DEFAULT FALSE NOT NULL;
-ALTER TABLE myems_system_db.tbl_points CHANGE is_virtual is_virtual BOOL DEFAULT FALSE NOT NULL AFTER is_trend;
+ALTER TABLE myems_system_db.tbl_points ADD is_virtual BOOL DEFAULT FALSE NOT NULL AFTER is_trend;
 
 
 -- UPDATE VERSION NUMBER
