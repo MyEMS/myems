@@ -1091,15 +1091,15 @@ Result in JSON
 | Name          | Data Type | Description                               |
 |---------------|-----------|-------------------------------------------|
 | id            | integer   | Point ID                                  |
-| name          | string    | Point name                                |
+| name          | string    | Point Name                                |
 | data_source   | object    | Data Source Object                        |
-| object_type   | string    | Object Type ('ENERGY_VALUE', 'ANALOG_VALUE, 'BINARY_VALUE')   |
+| object_type   | string    | Object Type ('ENERGY_VALUE', 'ANALOG_VALUE', 'BINARY_VALUE')   |
 | units         | string    | Units of Measure                          |
 | high_limit    | float     | High Limit of the Point Value             |
 | low_limit     | float     | Low Limit of the Point Value              |
 | ratio         | float     | Raw value will be multiplied by ratio value. It is not applicable to virtual point. |                            |
-| is_trend      | boolean   | Indicates that trend value will be saved  |                            |
-| is_virtual    | boolean   | Indicates that it is a virtual point      |
+| is_trend      | boolean   | Indicates that trend value will be saved  |
+| is_virtual    | boolean   | Indicates a virtual point. It is only applicable to object type 'ANALOG_VALUE'|
 | address       | json      | Address structure varied by protocol      |
 |               |           | Modbus TCP Structure                      |
 | ├slave_id     | integer   | Slave ID                                  |
@@ -1112,6 +1112,9 @@ Result in JSON
 | ├object_id    | integer   | BACnet Object Instance Number             |
 | ├property_name| string    | BACnet Property Name ('presentValue')     |
 | └property_array_index| integer/null    | BACnet Property Array Index or None of Object Type is not Array   |
+|               |           | Virtual Point Structure                   |
+| ├expression   | string    | Expression                                |
+| └substitutions| string    | Substitutions                             |
 | description   | string    | Point description, allow null             |
 
 * GET all Points
