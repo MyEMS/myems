@@ -168,16 +168,16 @@ def worker(virtual_meter):
     # Step 2: parse the expression and get all meters, virtual meters, and
     #         offline meters associated with the expression
     ############################################################################################################
-    cnx_factory_db = None
-    cursor_factory_db = None
+    cnx_system_db = None
+    cursor_system_db = None
     try:
-        cnx_factory_db = mysql.connector.connect(**config.myems_system_db)
-        cursor_factory_db = cnx_factory_db.cursor()
+        cnx_system_db = mysql.connector.connect(**config.myems_system_db)
+        cursor_system_db = cnx_system_db.cursor()
     except Exception as e:
-        if cursor_factory_db:
-            cursor_factory_db.close()
-        if cnx_factory_db:
-            cnx_factory_db.close()
+        if cursor_system_db:
+            cursor_system_db.close()
+        if cnx_system_db:
+            cnx_system_db.close()
         if cursor_energy_db:
             cursor_energy_db.close()
         if cnx_energy_db:
@@ -192,13 +192,13 @@ def worker(virtual_meter):
         # get all meters associated with the expression
         ########################################################################################################
 
-        cursor_factory_db.execute(" SELECT m.id as meter_id, v.name as variable_name "
-                                  " FROM tbl_meters m, tbl_variables v "
-                                  " WHERE m.id = v.meter_id "
-                                  "       AND v.meter_type = 'meter' "
-                                  "       AND v.expression_id = %s ",
-                                  (virtual_meter['expression_id'], ))
-        rows = cursor_factory_db.fetchall()
+        cursor_system_db.execute(" SELECT m.id as meter_id, v.name as variable_name "
+                                 " FROM tbl_meters m, tbl_variables v "
+                                 " WHERE m.id = v.meter_id "
+                                 "       AND v.meter_type = 'meter' "
+                                 "       AND v.expression_id = %s ",
+                                 (virtual_meter['expression_id'], ))
+        rows = cursor_system_db.fetchall()
         if rows is not None and len(rows) > 0:
             for row in rows:
                 meter_list_in_expression.append({"meter_id": row[0], "variable_name": row[1].lower()})
@@ -207,13 +207,13 @@ def worker(virtual_meter):
         # get all virtual meters associated with the expression
         ########################################################################################################
 
-        cursor_factory_db.execute(" SELECT m.id as virtual_meter_id, v.name as variable_name "
-                                  " FROM tbl_virtual_meters m, tbl_variables v "
-                                  " WHERE m.id = v.meter_id "
-                                  "       AND v.meter_type = 'virtual_meter' "
-                                  "       AND v.expression_id = %s ",
-                                  (virtual_meter['expression_id'],))
-        rows = cursor_factory_db.fetchall()
+        cursor_system_db.execute(" SELECT m.id as virtual_meter_id, v.name as variable_name "
+                                 " FROM tbl_virtual_meters m, tbl_variables v "
+                                 " WHERE m.id = v.meter_id "
+                                 "       AND v.meter_type = 'virtual_meter' "
+                                 "       AND v.expression_id = %s ",
+                                 (virtual_meter['expression_id'],))
+        rows = cursor_system_db.fetchall()
         if rows is not None and len(rows) > 0:
             for row in rows:
                 virtual_meter_list_in_expression.append({"virtual_meter_id": row[0],
@@ -223,13 +223,13 @@ def worker(virtual_meter):
         # get all offline meters associated with the expression
         ########################################################################################################
 
-        cursor_factory_db.execute(" SELECT m.id as offline_meter_id, v.name as variable_name "
-                                  " FROM tbl_offline_meters m, tbl_variables v "
-                                  " WHERE m.id = v.meter_id "
-                                  "       AND v.meter_type = 'offline_meter' "
-                                  "       AND v.expression_id = %s ",
-                                  (virtual_meter['expression_id'],))
-        rows = cursor_factory_db.fetchall()
+        cursor_system_db.execute(" SELECT m.id as offline_meter_id, v.name as variable_name "
+                                 " FROM tbl_offline_meters m, tbl_variables v "
+                                 " WHERE m.id = v.meter_id "
+                                 "       AND v.meter_type = 'offline_meter' "
+                                 "       AND v.expression_id = %s ",
+                                 (virtual_meter['expression_id'],))
+        rows = cursor_system_db.fetchall()
         if rows is not None and len(rows) > 0:
             for row in rows:
                 offline_meter_list_in_expression.append({"offline_meter_id": row[0],
@@ -241,10 +241,10 @@ def worker(virtual_meter):
             cnx_energy_db.close()
         return "Error in step 2.2 of virtual meter worker " + str(e) + " for '" + virtual_meter['name'] + "'"
     finally:
-        if cursor_factory_db:
-            cursor_factory_db.close()
-        if cnx_factory_db:
-            cnx_factory_db.close()
+        if cursor_system_db:
+            cursor_system_db.close()
+        if cnx_system_db:
+            cnx_system_db.close()
 
     ############################################################################################################
     # Step 3: query energy consumption values from table meter hourly, virtual meter hourly

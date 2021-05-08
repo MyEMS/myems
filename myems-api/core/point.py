@@ -127,6 +127,9 @@ class PointCollection:
                 not isinstance(new_values['data']['is_virtual'], bool):
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_VIRTUAL_VALUE')
+        if new_values['data']['is_virtual'] is True and object_type != 'ANALOG_VALUE':
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.VIRTUAL_POINT_SHOULD_BE_ANALOG_VALUE')
         is_virtual = new_values['data']['is_virtual']
 
         if 'address' not in new_values['data'].keys() or \
@@ -456,6 +459,9 @@ class PointItem:
                 not isinstance(new_values['data']['is_virtual'], bool):
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_VIRTUAL_VALUE')
+        if new_values['data']['is_virtual'] is True and object_type != 'ANALOG_VALUE':
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.VIRTUAL_POINT_SHOULD_BE_ANALOG_VALUE')
         is_virtual = new_values['data']['is_virtual']
 
         if 'address' not in new_values['data'].keys() or \
