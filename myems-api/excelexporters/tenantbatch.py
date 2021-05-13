@@ -148,16 +148,10 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
     ws['C6'].fill = table_fill
     ws['C6'] = '空间'
 
-    ws['D6'].border = f_border
-    ws['D6'].font = name_font
-    ws['D6'].alignment = c_c_alignment
-    ws['D6'].fill = table_fill
-    ws['D6'] = '成本中心'
-
     ca_len = len(report['energycategories'])
 
     for i in range(0, ca_len):
-        col = chr(ord('E') + i)
+        col = chr(ord('D') + i)
         ws[col + '6'].fill = table_fill
         ws[col + '6'].font = name_font
         ws[col + '6'].alignment = c_c_alignment
@@ -178,15 +172,10 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
         ws['C' + str(current_row_number)].alignment = c_c_alignment
         ws['C' + str(current_row_number)] = report['tenants'][i]['space_name']
 
-        ws['D' + str(current_row_number)].font = title_font
-        ws['D' + str(current_row_number)].border = f_border
-        ws['D' + str(current_row_number)].alignment = c_c_alignment
-        ws['D' + str(current_row_number)] = report['tenants'][i]['cost_center_name']
-
         ca_len = len(report['tenants'][i]['values'])
         for j in range(0, ca_len):
-            col = chr(ord('E') + j)
-            ws[col + str(current_row_number)].font = title_font
+            col = chr(ord('D') + j)
+            ws[col + str(current_row_number)].font = data_font
             ws[col + str(current_row_number)].border = f_border
             ws[col + str(current_row_number)].alignment = c_c_alignment
             ws[col + str(current_row_number)] = report['tenants'][i]['values'][j]
