@@ -5,6 +5,7 @@ import config
 from anytree import Node, AnyNode, LevelOrderIter
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
+import excelexporters.tenantbatch
 
 
 class Reporting:
@@ -99,6 +100,8 @@ class Reporting:
                 cnx_system_db.disconnect()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
+        else:
+            space_name = row['name']
 
         ################################################################################################################
         # Step 2: build a space tree
@@ -232,4 +235,9 @@ class Reporting:
         result = {'tenants': tenant_list,
                   'energycategories': energy_category_list}
 
+        # export result to Excel file and then encode the file to base64 string
+        result['excel_bytes_base64'] = excelexporters.tenantbatch.export(result,
+                                                                         space_name,
+                                                                         reporting_period_start_datetime_local,
+                                                                         reporting_period_end_datetime_local)
         resp.body = json.dumps(result)
