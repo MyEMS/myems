@@ -142,6 +142,7 @@ import TenantLoad from '../components/MyEMS/Tenant/TenantLoad';
 import TenantStatistics from '../components/MyEMS/Tenant/TenantStatistics';
 import TenantSaving from '../components/MyEMS/Tenant/TenantSaving';
 import TenantBill from '../components/MyEMS/Tenant/TenantBill';
+import TenantBatch from '../components/MyEMS/Tenant/TenantBatch';
 // Store
 import StoreEnergyCategory from '../components/MyEMS/Store/StoreEnergyCategory';
 import StoreEnergyItem from '../components/MyEMS/Store/StoreEnergyItem';
@@ -375,6 +376,7 @@ const MyEMSRoutes = () => (
     <Route path="/tenant/statistics" exact component={TenantStatistics} />
     <Route path="/tenant/saving" exact component={TenantSaving} />
     <Route path="/tenant/bill" exact component={TenantBill} />
+    <Route path="/tenant/batch" exact component={TenantBatch} />
     
     {/*Sotore*/}
     <Route path="/store/energycategory" exact component={StoreEnergyCategory} />

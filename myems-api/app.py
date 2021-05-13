@@ -49,8 +49,6 @@ from reports import shopfloorenergyitem
 from reports import shopfloorload
 from reports import shopfloorsaving
 from reports import shopfloorstatistics
-from reports import virtualmeterenergy
-from reports import virtualmetercost
 from reports import spaceefficiency
 from reports import spacecost
 from reports import spaceenergycategory
@@ -71,8 +69,11 @@ from reports import tenantcost
 from reports import tenantenergycategory
 from reports import tenantenergyitem
 from reports import tenantload
+from reports import tenantbatch
 from reports import tenantsaving
 from reports import tenantstatistics
+from reports import virtualmeterenergy
+from reports import virtualmetercost
 
 ########################################################################################################################
 # BEGIN imports for Enterprise Version
@@ -589,6 +590,8 @@ api.add_route('/reports/storesaving',
               storesaving.Reporting())
 api.add_route('/reports/storestatistics',
               storestatistics.Reporting())
+api.add_route('/reports/tenantbatch',
+              tenantbatch.Reporting())
 api.add_route('/reports/tenantbill',
               tenantbill.Reporting())
 api.add_route('/reports/tenantcost',
