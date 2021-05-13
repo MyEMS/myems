@@ -1,41 +1,36 @@
-import React, { createRef, Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
-  Button,
-  ButtonGroup,
+  Row,
+  Col,
   Card,
   CardBody,
-  Col,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
+  Button,
+  ButtonGroup,
   Form,
   FormGroup,
   Input,
   Label,
-  Media,
-  Row,
-  UncontrolledDropdown,
+  CustomInput,
   Spinner,
 } from 'reactstrap';
-import uuid from 'uuid/v1';
-import Cascader from 'rc-cascader';
+import Datetime from 'react-datetime';
+import moment from 'moment';
 import loadable from '@loadable/component';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Link } from 'react-router-dom';
-import Flex from '../../common/Flex';
+import Cascader from 'rc-cascader';
 import { getCookieValue, createCookie } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL } from '../../../config';
-import Datetime from "react-datetime";
-import moment from "moment";
 
 
-const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
+const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
+
+
+const TenantBatch = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
@@ -55,25 +50,26 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
       createCookie('token', token, 1000 * 60 * 60 * 8);
     }
   });
-  let table = createRef();
   // State
+  // Query Parameters
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
-  const [meterList, setMeterList] = useState([]);
-  const [cascaderOptions, setCascaderOptions] = useState(undefined);
-  const [spinnerHidden, setSpinnerHidden] = useState(false);
-  const [exportButtonHidden, setExportButtonHidden] = useState(true);
-  const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
-  const [selectedSpaceID, setSelectedSpaceID] = useState(undefined)
-
-  //Query From
+  const [selectedSpaceID, setSelectedSpaceID] = useState(undefined);
+  const [tenantList, setTenantList] = useState([]);
   const [reportingPeriodBeginsDatetime, setReportingPeriodBeginsDatetime] = useState(current_moment.clone().startOf('month'));
   const [reportingPeriodEndsDatetime, setReportingPeriodEndsDatetime] = useState(current_moment);
-
+  const [cascaderOptions, setCascaderOptions] = useState(undefined);
+      
   // buttons
-  const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
+  const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
+  const [spinnerHidden, setSpinnerHidden] = useState(true);
+  const [exportButtonHidden, setExportButtonHidden] = useState(true);
 
+  //Results
+  const [detailedDataTableColumns, setDetailedDataTableColumns] = useState(
+    [{dataField: 'name', text: t('Name'), sort: true}, {dataField: 'space', text: t('Space'), sort: true}]);
+  const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
+  
   useEffect(() => {
-    // begin of getting space tree
     let isResponseOK = false;
     fetch(APIBaseURL + '/spaces/tree', {
       method: 'GET',
@@ -108,113 +104,24 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
     }).catch(err => {
       console.log(err);
     });
-    // end of getting space tree
 
   }, []);
-  const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
-
-  const nameFormatter = (dataField, { name }) => (
-    <Link to='#'>
-      <Media tag={Flex} align="center">
-        <Media body className="ml-2">
-          <h5 className="mb-0 fs--1">{name}</h5>
-        </Media>
-      </Media>
-    </Link>
-  );
-
-  const actionFormatter = (dataField, { id }) => (
-    // Control your row with this id
-    // todo: add edit meter function
-    <UncontrolledDropdown>
-      <DropdownToggle color="link" size="sm" className="text-600 btn-reveal mr-3">
-        <FontAwesomeIcon icon="ellipsis-h" className="fs--1" />
-      </DropdownToggle>
-      <DropdownMenu right className="border py-2">
-        <DropdownItem onClick={() => console.log('Edit: ', id)}>{t('Edit Meter')}</DropdownItem>
-      </DropdownMenu>
-    </UncontrolledDropdown>
-  );
-
-  const columns = [
-    {
-      dataField: 'metername',
-      headerClasses: 'border-0',
-      text: t('Name'),
-      classes: 'border-0 py-2 align-middle',
-      formatter: nameFormatter,
-      sort: true
-    },
-    {
-      dataField: 'space',
-      headerClasses: 'border-0',
-      text: t('Space'),
-      classes: 'border-0 py-2 align-middle',
-      sort: true
-    },
-    {
-      dataField: 'costcenter',
-      headerClasses: 'border-0',
-      text: t('Cost Center'),
-      classes: 'border-0 py-2 align-middle',
-      sort: true
-    },
-    {
-      dataField: 'energycategory',
-      headerClasses: 'border-0',
-      text: t('Energy Category'),
-      classes: 'border-0 py-2 align-middle',
-      sort: true
-    },
-    {
-      dataField: 'description',
-      headerClasses: 'border-0',
-      text: t('Description'),
-      classes: 'border-0 py-2 align-middle',
-      sort: true
-    },
-    {
-      dataField: 'startvalue',
-      headerClasses: 'border-0',
-      text: t('Start Value'),
-      classes: 'border-0 py-2 align-middle',
-      sort: true
-    },
-    {
-      dataField: 'endvalue',
-      headerClasses: 'border-0',
-      text: t('End Value'),
-      classes: 'border-0 py-2 align-middle',
-      sort: true
-    },
-    {
-      dataField: '',
-      headerClasses: 'border-0',
-      text: '',
-      classes: 'border-0 py-2 align-middle',
-      formatter: actionFormatter,
-      align: 'right'
-    }
-  ];
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
     setSelectedSpaceID(value[value.length - 1]);
-    setMeterList([]);
+    setTenantList([]);
     setExportButtonHidden(true);
     setSubmitButtonDisabled(false);
-  };
-
+  }
   let onReportingPeriodBeginsDatetimeChange = (newDateTime) => {
     setReportingPeriodBeginsDatetime(newDateTime);
-
   }
 
   let onReportingPeriodEndsDatetimeChange = (newDateTime) => {
     setReportingPeriodEndsDatetime(newDateTime);
-
   }
 
   var getValidReportingPeriodBeginsDatetimes = function (currentDate) {
@@ -239,63 +146,89 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
     setSpinnerHidden(false);
     // hide export buttion
     setExportButtonHidden(true)
-
-    setMeterList([]);
-
+ 
+    // Reinitialize tables
+    setTenantList([]);
+    
     let isResponseOK = false;
-      fetch(APIBaseURL + '/reports/metertracking?' +
-        'spaceid=' + selectedSpaceID +
-        '&reportingperiodstartdatetime=' + reportingPeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-        '&reportingperiodenddatetime=' + reportingPeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss'), {
-        method: 'GET',
-        headers: {
-          "Content-type": "application/json",
-          "User-UUID": getCookieValue('user_uuid'),
-          "Token": getCookieValue('token')
-        },
-        body: null,
+    fetch(APIBaseURL + '/reports/tenantbatch?' +
+      'spaceid=' + selectedSpaceID +
+      '&reportingperiodstartdatetime=' + reportingPeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+      '&reportingperiodenddatetime=' + reportingPeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss'), {
+      method: 'GET',
+      headers: {
+        "Content-type": "application/json",
+        "User-UUID": getCookieValue('user_uuid'),
+        "Token": getCookieValue('token')
+      },
+      body: null,
 
-      }).then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      }).then(json => {
-        if (isResponseOK) {
-          let meters = [];
-          json['meters'].forEach((currentValue, index) => {
-            meters.push({
-              'id': currentValue['id'],
-              'name': currentValue['meter_name'],
-              'space': currentValue['space_name'],
-              'costcenter': currentValue['cost_center_name'],
-              'energycategory': currentValue['energy_category_name'],
-              'description': currentValue['description'],
-              'startvalue': currentValue['start_value'],
-              'endvalue': currentValue['end_value']});
+    }).then(response => {
+      if (response.ok) {
+        isResponseOK = true;
+      };
+      return response.json();
+    }).then(json => {
+      if (isResponseOK) {
+        console.log(json)
+        let tenants = [];
+        if (json['tenants'].length > 0) {
+          json['tenants'].forEach((currentTenant, index) => {
+            let detailed_value = {};
+            detailed_value['id'] = currentTenant['id'];
+            detailed_value['name'] = currentTenant['tenant_name'];
+            detailed_value['space'] = currentTenant['space_name'];
+            detailed_value['costcenter'] = currentTenant['cost_center_name'];
+            currentTenant['values'].forEach((currentValue, energyCategoryIndex) => {
+              detailed_value['a' + energyCategoryIndex] = currentValue.toFixed(2);
+            });
+            tenants.push(detailed_value);
           });
-          setMeterList(meters);
+        };
 
-          setExcelBytesBase64(json['excel_bytes_base64']);
+        setTenantList(tenants);
 
-          // hide spinner
-          setSpinnerHidden(true);
-          // show export buttion
-          setExportButtonHidden(false);
+        let detailed_column_list = [];
+        detailed_column_list.push({
+          dataField: 'name',
+          text: t('Name'),
+          sort: true
+        });
+        detailed_column_list.push({
+          dataField: 'space',
+          text: t('Space'),
+          sort: true
+        });
+        json['energycategories'].forEach((currentValue, index) => {
+          detailed_column_list.push({
+            dataField: 'a' + index,
+            text: currentValue['name'] + ' (' + currentValue['unit_of_measure'] + ')',
+            sort: true
+          })
+        });
+        setDetailedDataTableColumns(detailed_column_list);
 
-          setSubmitButtonDisabled(false);
-        } else {
-          toast.error(json.description)
-        }
-      }).catch(err => {
-        console.log(err);
-      });
+        setExcelBytesBase64(json['excel_bytes_base64']);
+
+        // enable submit button
+        setSubmitButtonDisabled(false);
+        // hide spinner
+        setSpinnerHidden(true);
+        // show export buttion
+        setExportButtonHidden(false);
+          
+      } else {
+        toast.error(json.description)
+      }
+    }).catch(err => {
+      console.log(err);
+    });
   };
 
   const handleExport = e => {
     e.preventDefault();
     const mimeType='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    const fileName = 'metertracking.xlsx'
+    const fileName = 'tenantbatch.xlsx'
     var fileUrl = "data:" + mimeType + ";base64," + excelBytesBase64;
     fetch(fileUrl)
         .then(response => response.blob())
@@ -308,12 +241,14 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
             document.body.removeChild(link);
         });
   };
+  
+
 
   return (
     <Fragment>
       <div>
         <Breadcrumb>
-          <BreadcrumbItem>{t('Meter Data')}</BreadcrumbItem><BreadcrumbItem active>{t('Meter Tracking')}</BreadcrumbItem>
+          <BreadcrumbItem>{t('Tenant Data')}</BreadcrumbItem><BreadcrumbItem active>{t('Batch Analysis')}</BreadcrumbItem>
         </Breadcrumb>
       </div>
       <Card className="bg-light mb-3">
@@ -334,6 +269,7 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
                   </Cascader>
                 </FormGroup>
               </Col>
+              
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="reportingPeriodBeginsDatetime">
@@ -371,7 +307,7 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
                   <br></br>
                   <Spinner color="primary" hidden={spinnerHidden}  />
                 </FormGroup>
-              </Col>  
+              </Col>
               <Col xs="auto">
                   <br></br>
                   <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default" 
@@ -384,11 +320,11 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <DetailedDataTable data={meterList} title={t('Meter List')} columns={columns} pagesize={50} >
+      <DetailedDataTable data={tenantList} title={t('Detailed Data')} columns={detailedDataTableColumns} pagesize={50} >
       </DetailedDataTable>
 
     </Fragment>
   );
 };
 
-export default withTranslation()(withRedirect(MeterTracking));
+export default withTranslation()(withRedirect(TenantBatch));

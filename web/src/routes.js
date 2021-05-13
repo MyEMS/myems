@@ -375,6 +375,7 @@ export const tenantRoutes = {
     { to: '/tenant/statistics', name: 'Statistics' },
     { to: '/tenant/saving', name: 'Saving' },
     { to: '/tenant/bill', name: 'Tenant Bill' },
+    { to: '/tenant/batch', name: 'Batch Analysis' },
   ]
 };
 
