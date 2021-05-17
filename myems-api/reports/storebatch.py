@@ -5,7 +5,7 @@ import config
 from anytree import Node, AnyNode, LevelOrderIter
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
-import excelexporters.tenantbatch
+import excelexporters.storebatch
 
 
 class Reporting:
@@ -236,8 +236,8 @@ class Reporting:
                   'energycategories': energy_category_list}
 
         # export result to Excel file and then encode the file to base64 string
-        # result['excel_bytes_base64'] = excelexporters.storebatch.export(result,
-        #                                                                  space_name,
-        #                                                                  reporting_period_start_datetime_local,
-        #                                                                  reporting_period_end_datetime_local)
+        result['excel_bytes_base64'] = excelexporters.storebatch.export(result,
+                                                                        space_name,
+                                                                        reporting_period_start_datetime_local,
+                                                                        reporting_period_end_datetime_local)
         resp.body = json.dumps(result)
