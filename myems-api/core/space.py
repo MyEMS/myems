@@ -1299,7 +1299,9 @@ class SpaceMeterItem:
         cursor.execute(" SELECT id "
                        " FROM tbl_spaces_meters "
                        " WHERE space_id = %s AND meter_id = %s ", (id_, mid))
-        if cursor.fetchone() is None:
+        # use fetchall to avoid 'Unread result found' error in case there are duplicate rows
+        rows = cursor.fetchall()
+        if rows is None or len(rows) == 0:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
