@@ -21,7 +21,7 @@ class Reporting:
     # PROCEDURES
     # Step 1: valid parameters
     # Step 2: build a space tree
-    # Step 3: query all tenants in the space tree
+    # Step 3: query all stores in the space tree
     # Step 4: query energy categories
     # Step 5: query reporting period energy input
     # Step 6: construct the report
@@ -81,10 +81,6 @@ class Reporting:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_REPORTING_PERIOD_END_DATETIME')
 
-        # if reporting_start_datetime_utc + timedelta(minutes=15) >= reporting_end_datetime_utc:
-        #     raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-        #                            description='API.THE_REPORTING_PERIOD_MUST_BE_LONGER_THAN_15_MINUTES')
-
         cnx_system_db = mysql.connector.connect(**config.myems_system_db)
         cursor_system_db = cnx_system_db.cursor(dictionary=True)
 
@@ -119,7 +115,7 @@ class Reporting:
                 node_dict[row['id']] = AnyNode(id=row['id'], parent=parent_node, name=row['name'])
 
         ################################################################################################################
-        # Step 3: query all tenants in the space tree
+        # Step 3: query all stores in the space tree
         ################################################################################################################
         store_dict = dict()
         space_dict = dict()
@@ -199,12 +195,12 @@ class Reporting:
                                      (store_id,
                                       reporting_start_datetime_utc,
                                       reporting_end_datetime_utc))
-            rows_tenant_energy = cursor_energy_db.fetchall()
+            rows_store_energy = cursor_energy_db.fetchall()
             for energy_category in energy_category_list:
                 subtotal = Decimal(0.0)
-                for row_tenant_energy in rows_tenant_energy:
-                    if energy_category['id'] == row_tenant_energy[0]:
-                        subtotal = row_tenant_energy[1]
+                for row_store_energy in rows_store_energy:
+                    if energy_category['id'] == row_store_energy[0]:
+                        subtotal = row_store_energy[1]
                         break
                 store_dict[store_id]['values'].append(subtotal)
 
