@@ -390,6 +390,7 @@ export const storeRoutes = {
     { to: '/store/load', name: 'Load' },
     { to: '/store/statistics', name: 'Statistics' },
     { to: '/store/saving', name: 'Saving' },
+    { to: '/store/batch', name: 'Batch Analysis' },
   ]
 };
 
