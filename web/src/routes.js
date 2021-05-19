@@ -405,6 +405,7 @@ export const shopfloorRoutes = {
     { to: '/shopfloor/load', name: 'Load' },
     { to: '/shopfloor/statistics', name: 'Statistics' },
     { to: '/shopfloor/saving', name: 'Saving' },
+    { to: '/shopfloor/batch', name: 'Batch Analysis'},
   ]
 };
 
