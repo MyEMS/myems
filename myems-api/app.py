@@ -49,6 +49,7 @@ from reports import shopfloorenergyitem
 from reports import shopfloorload
 from reports import shopfloorsaving
 from reports import shopfloorstatistics
+from reports import shopfloorbatch
 from reports import spaceefficiency
 from reports import spacecost
 from reports import spaceenergycategory
@@ -561,6 +562,8 @@ api.add_route('/reports/shopfloorsaving',
               shopfloorsaving.Reporting())
 api.add_route('/reports/shopfloorstatistics',
               shopfloorstatistics.Reporting())
+api.add_route('/reports/shopfloorbatch',
+              shopfloorbatch.Reporting())
 api.add_route('/reports/spacecost',
               spacecost.Reporting())
 api.add_route('/reports/spaceefficiency',

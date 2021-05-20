@@ -150,7 +150,7 @@ import StoreCost from '../components/MyEMS/Store/StoreCost';
 import StoreLoad from '../components/MyEMS/Store/StoreLoad';
 import StoreStatistics from '../components/MyEMS/Store/StoreStatistics';
 import StoreSaving from '../components/MyEMS/Store/StoreSaving';
-import StoreBatch from "../components/MyEMS/Store/StoreBatch";
+import StoreBatch from '../components/MyEMS/Store/StoreBatch';
 // Shopfloor
 import ShopfloorEnergyCategory from '../components/MyEMS/Shopfloor/ShopfloorEnergyCategory';
 import ShopfloorEnergyItem from '../components/MyEMS/Shopfloor/ShopfloorEnergyItem';
@@ -158,6 +158,7 @@ import ShopfloorCost from '../components/MyEMS/Shopfloor/ShopfloorCost';
 import ShopfloorLoad from '../components/MyEMS/Shopfloor/ShopfloorLoad';
 import ShopfloorStatistics from '../components/MyEMS/Shopfloor/ShopfloorStatistics';
 import ShopfloorSaving from '../components/MyEMS/Shopfloor/ShopfloorSaving';
+import ShopfloorBatch from '../components/MyEMS/Shopfloor/ShopfloorBatch';
 // CombinedEquipment
 import CombinedEquipmentEnergyCategory from '../components/MyEMS/CombinedEquipment/CombinedEquipmentEnergyCategory';
 import CombinedEquipmentEnergyItem from '../components/MyEMS/CombinedEquipment/CombinedEquipmentEnergyItem';
@@ -395,6 +396,7 @@ const MyEMSRoutes = () => (
     <Route path="/shopfloor/load" exact component={ShopfloorLoad} />
     <Route path="/shopfloor/statistics" exact component={ShopfloorStatistics} />
     <Route path="/shopfloor/saving" exact component={ShopfloorSaving} />
+    <Route path="/shopfloor/batch" exact component={ShopfloorBatch} />
 
     {/*CombinedEquipment*/}
     <Route path="/combinedequipment/energycategory" exact component={CombinedEquipmentEnergyCategory} />
