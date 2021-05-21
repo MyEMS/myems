@@ -9787,50 +9787,6 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "GET Equipment Efficiency Report Copy",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/reports/equipmentefficiency?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"reports",
-								"equipmentefficiency"
-							],
-							"query": [
-								{
-									"key": "equipmentid",
-									"value": "1"
-								},
-								{
-									"key": "periodtype",
-									"value": "daily"
-								},
-								{
-									"key": "baseperiodstartdatetime",
-									"value": "2020-08-01T00:00:00"
-								},
-								{
-									"key": "baseperiodenddatetime",
-									"value": "2020-09-01T00:00:00"
-								},
-								{
-									"key": "reportingperiodstartdatetime",
-									"value": "2020-09-01T00:00:00"
-								},
-								{
-									"key": "reportingperiodenddatetime",
-									"value": "2020-10-01T00:00:00"
-								}
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
