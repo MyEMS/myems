@@ -7080,6 +7080,38 @@
 					"response": []
 				},
 				{
+					"name": "GET Combined Equipment Batch Analysis Report",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/combinedequipmentbatch?spaceid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"combinedequipmentbatch"
+							],
+							"query": [
+								{
+									"key": "spaceid",
+									"value": "1"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-11-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Combined Equipment Cost Report",
 					"request": {
 						"method": "GET",
@@ -9729,50 +9761,6 @@
 							"query": [
 								{
 									"key": "virtualmeterid",
-									"value": "1"
-								},
-								{
-									"key": "periodtype",
-									"value": "daily"
-								},
-								{
-									"key": "baseperiodstartdatetime",
-									"value": "2020-08-01T00:00:00"
-								},
-								{
-									"key": "baseperiodenddatetime",
-									"value": "2020-09-01T00:00:00"
-								},
-								{
-									"key": "reportingperiodstartdatetime",
-									"value": "2020-09-01T00:00:00"
-								},
-								{
-									"key": "reportingperiodenddatetime",
-									"value": "2020-10-01T00:00:00"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GET Equipment Efficiency Report Copy",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/reports/equipmentefficiency?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"reports",
-								"equipmentefficiency"
-							],
-							"query": [
-								{
-									"key": "equipmentid",
 									"value": "1"
 								},
 								{

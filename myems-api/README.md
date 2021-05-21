@@ -2040,6 +2040,10 @@ $ curl -i -X GET {{base_url}}/reports/advancedreports/{id}
 ```
 $ curl -i -X GET {{base_url}}/reports/advancedreports/{id}
 ```
+* GET Combined Equipment Batch Analysis Report
+```
+$ curl -i -X GET {{base_url}}/reports/combinedequipmentbatch?spaceid=1&reportingperiodstartdatetime=2021-05-01T00:00:00&reportingperiodenddatetime=2021-05-20T11:41:09
+```
 * GET Combined Equipment Cost Report
 ```
 $ curl -i -X GET {{base_url}}/reports/combinedequipmentcost?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
