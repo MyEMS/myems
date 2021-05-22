@@ -40,7 +40,7 @@ MyEMS项目由下列组件构成:
 
 ### MyEMS BACnet/IP 数据采集服务 (Python)
 
-[安装 myems-bacnet](./myems-bacnet/README.md)
+[安装 myems-bacnet](../myems-bacnet/README.md)
 
 ### MyEMS Modbus TCP 数据采集服务 (Python)
 
@@ -71,10 +71,8 @@ MyEMS项目由下列组件构成:
 | :---                              |      :----:   |  :----:  |  :----:               |
 | 开源                              | ✔️             | ❌      |                      |                   
 | 价格                              | 免费           | 收费      | 标准组件授权费；定制组件开发费； |
-| 更换品牌名称与标志LOGO              | ✔️             | ✔️       |                     |
+| 更换品牌名称与标志LOGO              | ❌             | ✔️       |                     |
 | Modbus TCP 协议                   | ✔️             | ✔️        | 采集数据 https://modbus.org/ |
-| BACnet/IP 协议                    | ✔️             | ✔️        | 采集数据 http://www.bacnet.org/ |
-| MQTT 协议发布                     | ✔️             | ✔️        | 发布最新采集到的数据 https://mqtt.org/ |
 | 数据点数量                         | 无限制         |无限制      | 仅受硬件性能限制       |
 | 计量表数量                         | 无限制         |无限制      | 仅受硬件性能限制       |
 | 空间数量                           | 无限制         |无限制      | 仅受硬件性能限制       |
@@ -83,11 +81,11 @@ MyEMS项目由下列组件构成:
 | 门店数量                           | 无限制         |无限制      | 仅受硬件性能限制       |
 | 车间数量                           | 无限制         |无限制      | 仅受硬件性能限制       |
 | 组合设备数量                       | 无限制         |无限制      | 仅受硬件性能限制       |
-| Docker容器化部署                   | ✔️             | ✔️        | https://www.docker.com/ |
-| Kubernetes部署                    | ✔️             | ✔️        | https://kubernetes.io/ |
+| Docker容器化部署                   | ❌️             | ✔️        | https://www.docker.com/ |
+| Kubernetes部署                    | ❌             | ✔️        | https://kubernetes.io/ |
 | MySQL                             | ✔️             | ✔️        | http://mysql.com/    |
 | MariaDB                           | ✔️             | ✔️        | https://mariadb.org/ |
-| SingleStore                       | ✔️             | ✔️        | https://www.singlestore.com/ |
+| SingleStore                       | ❌️             | ✔️        | https://www.singlestore.com/ |
 | AWS 云部署                         | ✔️             | ✔️        | https://aws.amazon.com/ |
 | AZure 云部署                       | ✔️             | ✔️        | https://azure.microsoft.com/ |
 | 阿里云部署                         | ✔️             | ✔️        | https://aliyun.com/ |
@@ -157,14 +155,16 @@ MyEMS项目由下列组件构成:
 | REST API                          | ✔️             | ✔️        | 基于Python开发，提供系统配置、能源报告、Excel导出接口 |
 | Web UI                            | ✔️             | ✔️        | 基于React开发，用于能源数据分析 |
 | Admin UI                          | ✔️             | ✔️        | 基于Angular开发，用于系统配置管理 |
+| BACnet/IP 协议                    | ❌             | ✔️        | 采集数据 http://www.bacnet.org/ |
 | MQTT 协议订阅数据                  | ❌            | ✔️        | 采集数据 https://mqtt.org/ |
+| MQTT 协议发布                     | ❌             | ✔️        | 发布最新采集到的数据 https://mqtt.org/ |
 | Modbus RTU 协议                   | ❌            | ✔️        | 采集数据 https://modbus.org/ |
 | OPC UA 协议                       | ❌            | ✔️        | 采集数据 https://opcfoundation.org/ |
 | OPC DA 协议                       | ❌            | ✔️        | 采集数据 https://opcfoundation.org/ |
 | Siemens S7 协议                   | ❌            | ✔️        | 采集数据 https://siemens.com/ |
 | IEC 104 协议                      | ❌            | ✔️        | 采集数据 IEC 60870-5-104 https://en.wikipedia.org/wiki/IEC_60870-5 |
-| Johnson Controls Metasys API     | ✔️             | ✔️        | 采集数据 https://www.johnsoncontrols.com/ |
-| Honeywell EBI                    | ✔️             | ✔️        | 采集数据 https://www.honeywell.com/ |
+| Johnson Controls Metasys API     | ❌             | ✔️        | 采集数据 https://www.johnsoncontrols.com/ |
+| Honeywell EBI                    | ❌             | ✔️        | 采集数据 https://www.honeywell.com/ |
 | SIEMENS Desigo CC                | ❌            | ✔️        |  采集数据 https://siemens.com/ |
 | QWeather API                     | ❌            | ✔️        | 采集数据 https://www.qweather.com/ |
 | FDD 能效故障诊断系统              | ❌            | ✔️        | 需要企业版组件许可或定制开发 |
@@ -183,10 +183,10 @@ MyEMS项目由下列组件构成:
 | LoRa无线数传电台模块(数据采集和远程控制）| ❌        | ✔️        | MyEMS认证LoRa硬件设备  |
 | 重点用能单位能耗在线监测系统上传省级平台通信协议| ❌  | ✔️        | 需要企业版组件许可或定制开发 |
 | 第三方系统集成服务                  | ❌           | ✔️        | 需要企业版组件许可或定制开发 |
-| 线上软件使用培训                    | ✔️           | ✔️        | 免费                 |
+| 线上软件使用培训                    | ❌           | ✔️        |                      |
 | 线下软件使用培训                    | ❌           | ✔️        |                      |
-| 在线社区技术支持                    | ✔️           | ✔️        | 免费                 |
-| 邮件技术支持                       | ✔️           | ✔️         | 免费                 |
+| 在线社区技术支持                    | ✔️           | ✔️        |                      |
+| 邮件技术支持                       | ❌️           | ✔️         |                     |
 | 电话技术支持服务                   | ❌            | ✔️        |                      |
 | 微信技术支持服务                   | ❌            | ✔️        |                      |
 | 远程桌面技术支持服务               | ❌            | ✔️        |                      |

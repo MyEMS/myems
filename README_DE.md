@@ -41,7 +41,7 @@ Dieses Projekt besteht aus folgenden Komponenten:
 
 ### MyEMS BACnet/IP Acquisition Service (Python)
 
-[Installieren myems-bacnet](./myems-bacnet/README.md)
+[Installieren myems-bacnet](../myems-bacnet/README.md)
 
 ### MyEMS Modbus TCP Acquisition Service (Python)
 
@@ -74,10 +74,8 @@ Dieses Projekt besteht aus folgenden Komponenten:
 | :---                             |      :----:          |  :----:            |  :----:       |
 | Open Source                      | ✔️              | ❌      |                      |
 | Pricing                          | Free            | Pay for Projects |              |
-| Change Name and Logo             | ✔️             | ✔️        |                      |
+| Change Name and Logo             | ️❌             | ✔️        |                      |
 | Modbus TCP                       | ✔️             | ✔️        |                      |
-| BACnet/IP                        | ✔️             | ✔️        |                      |
-| MQTT Publisher                   | ✔️             | ✔️        |                      |
 | Data Points Number               | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
 | Meters Number                    | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
 | Spaces Number                    | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
@@ -86,11 +84,11 @@ Dieses Projekt besteht aus folgenden Komponenten:
 | Stores Number                    | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
 | Shopfloors Number                | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
 | Combined Equipments Number       | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
-| Docker                           | ✔️             | ✔️        |                      |
-| Kubernetes                       | ✔️             | ✔️        |                      |
+| Docker                           | ❌             | ✔️        |                      |
+| Kubernetes                       | ❌             | ✔️        |                      |
 | MySQL                            | ✔️             | ✔️        |                      |
 | MariaDB                          | ✔️             | ✔️        |                      |
-| SingleStore                      | ✔️             | ✔️        |                      |
+| SingleStore                      | ❌             | ✔️        |                      |
 | AWS Cloud                        | ✔️             | ✔️        |                      |
 | AZure Cloud                      | ✔️             | ✔️        |                      |
 | Alibaba Cloud                    | ✔️             | ✔️        |                      |
@@ -160,14 +158,16 @@ Dieses Projekt besteht aus folgenden Komponenten:
 | REST API                         | ✔️             | ✔️        |                      |
 | Web UI                           | ✔️             | ✔️        |                      |
 | Admin UI                         | ✔️             | ✔️        |                      |
+| BACnet/IP                        | ❌️             | ✔️        |                      |
 | MQTT Subscriber                  | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
+| MQTT Publisher                   | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
 | Modbus RTU                       | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
 | OPC UA                           | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
 | OPC DA                           | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
 | Siemens S7                       | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
 | IEC 104                          | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
 | Johnson Controls Metasys API     | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
-| Honeywell EBI                    | ✔️             | ✔️        |                      |
+| Honeywell EBI                    | ❌️             | ✔️        |                      |
 | SIEMENS Desigo CC                | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
 | QWeather API                     | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
 | FDD Rule Engine                  | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
@@ -186,10 +186,10 @@ Dieses Projekt besteht aus folgenden Komponenten:
 | LoRa Radio Module (Data Acquisition and Remote Control）   | ❌| ✔️ | MyEMS-zertifiziertes LoRa-Hardwaregerät |
 | Protocol for Uploading to Provincial Platform of On-line monitoring system for Key Energy-Consuming Unit | ❌     | ✔️        |                      |
 | 3rd Party Systems Integration Service | ❌        | ✔️        | Kundenspezifische Entwicklung |
-| Online software training         | ✔️             | ✔️        | Kostenlos            |
+| Online software training         | ❌             | ✔️        |                      |
 | Face to face software training   | ❌             | ✔️        |                      |
-| Online Community Customer Support| ✔️             | ✔️        | Kostenlos            |
-| Email Customer Support           | ✔️             | ✔️        | Kostenlos            |
+| Online Community Customer Support| ✔️             | ✔️        |                      |
+| Email Customer Support           | ❌             | ✔️        |                      |
 | Telephone Customer Support       | ❌             | ✔️        |                      |
 | WeChat Customer Support          | ❌             | ✔️        |                      |
 | Remote Desktop Customer Support  | ❌             | ✔️        |                      |
