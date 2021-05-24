@@ -704,7 +704,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_expressions` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `uuid` CHAR(36) NOT NULL,
   `virtual_meter_id` BIGINT NOT NULL,
-  `equation` VARCHAR(1024) NOT NULL,
+  `equation` LONGTEXT NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_expressions_index_1` ON  `myems_system_db`.`tbl_expressions`   (`virtual_meter_id`);
 
@@ -717,7 +717,7 @@ CREATE INDEX `tbl_expressions_index_1` ON  `myems_system_db`.`tbl_expressions`  
 -- INSERT INTO `myems_system_db`.`tbl_expressions`
 -- (`id`, `uuid`, `virtual_meter_id`, `equation`)
 -- VALUES
--- (1, '3fff2cfb-f755-44c8-a919-6135205a8573', 1, 'x+y-z');
+-- (1, '3fff2cfb-f755-44c8-a919-6135205a8573', 1, 'x1+x2-x3');
 -- COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
