@@ -16,6 +16,35 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None.
 
+## [v1.1.3] - 2021-05-25
+### Added
+- added Combined Equipment Batch Analysis Report
+- added Shopfloor Batch Analysis Report
+- added Store Batch Analysis Report
+- added Tenant Batch Analysis Report
+- implemented virtual point calculating in myems-normalization service
+- added is_virtual to tbl_points in database
+- added gateway process to myems-modbus-tcp service
+- added gateway process to myems-bacnet service
+- added procedure to update last seen datetime of data source in myems-modbus service
+- added last seen datetime to data source setting in Admin UI
+- added last seen datetime to Gateway Setting in Admin UI
+- added excel exporter of spaceefficiency report in API
+
+### Changed
+- updated Dashboard in web to display energy data of this year
+- updated tbl_expressions in database
+- added start value and end value to metertracking report
+- updated comments and log messages in myems-modbust-tcp service
+- improved theme of energyflowdiagram in Web UI
+
+### Fixed
+- updated metertracking report to reduce duplicated meters
+- fixed detailed value missing issue in SpaceEfficiency report in Web UI
+
+### Removed
+- None.
+
 ## [v1.1.2] - 2021-04-23
 ### Added
 - added assoicated parameters data to excel exporter of shopfloorstatistics in API
@@ -227,7 +256,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v1.1.2...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v1.1.3...HEAD
+[v1.1.3]: https://github.com/MyEMS/myems/compare/v1.1.2...v1.1.3
 [v1.1.2]: https://github.com/MyEMS/myems/compare/v1.1.1...v1.1.2
 [v1.1.1]: https://github.com/MyEMS/myems/compare/v1.1.0...v1.1.1
 [v1.0.8]: https://github.com/MyEMS/myems/compare/v1.0.8...v1.1.0
