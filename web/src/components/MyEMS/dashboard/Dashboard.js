@@ -18,10 +18,10 @@ const ChildSpacesTable = loadable(() => import('../common/ChildSpacesTable'));
 const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
   const [fetchSuccess, setFetchSuccess] = useState(false);
-  const [periodType, setPeriodType] = useState('daily');
-  const [basePeriodBeginsDatetime, setBasePeriodBeginsDatetime] = useState(current_moment.clone().subtract(1, 'months').startOf('month'));
-  const [basePeriodEndsDatetime, setBasePeriodEndsDatetime] = useState(current_moment.clone().subtract(1, 'months'));
-  const [reportingPeriodBeginsDatetime, setReportingPeriodBeginsDatetime] = useState(current_moment.clone().startOf('month'));
+  const [periodType, setPeriodType] = useState('monthly');
+  const [basePeriodBeginsDatetime, setBasePeriodBeginsDatetime] = useState(current_moment.clone().subtract(1, 'years').startOf('year'));
+  const [basePeriodEndsDatetime, setBasePeriodEndsDatetime] = useState(current_moment.clone().subtract(1, 'years'));
+  const [reportingPeriodBeginsDatetime, setReportingPeriodBeginsDatetime] = useState(current_moment.clone().startOf('year'));
   const [reportingPeriodEndsDatetime, setReportingPeriodEndsDatetime] = useState(current_moment);
   //Results
   const [costShareData, setCostShareData] = useState([]);
@@ -358,7 +358,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
       {inputCardSummaryList.map(cardSummaryItem => (
           <CardSummary key={uuid()}
             rate={cardSummaryItem['increment_rate']}
-            title={t("This Month's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': cardSummaryItem['name'], 'VALUE': null, 'UNIT': '(' + cardSummaryItem['unit'] + ')' })}
+            title={t("This Year's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': cardSummaryItem['name'], 'VALUE': null, 'UNIT': '(' + cardSummaryItem['unit'] + ')' })}
             color="success"
             footnote={t('Per Unit Area')}
             footvalue={cardSummaryItem['subtotal_per_unit_area']}
@@ -369,7 +369,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
         {costCardSummaryList.map(cardSummaryItem => (
           <CardSummary key={uuid()}
             rate={cardSummaryItem['increment_rate']}
-            title={t("This Month's Costs CATEGORY VALUE UNIT", { 'CATEGORY': cardSummaryItem['name'], 'VALUE': null, 'UNIT': '(' + cardSummaryItem['unit'] + ')' })}
+            title={t("This Year's Costs CATEGORY VALUE UNIT", { 'CATEGORY': cardSummaryItem['name'], 'VALUE': null, 'UNIT': '(' + cardSummaryItem['unit'] + ')' })}
             color="success"
             footnote={t('Per Unit Area')}
             footvalue={cardSummaryItem['subtotal_per_unit_area']}
@@ -379,7 +379,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
         ))}
         <CardSummary
           rate={totalInTCE['increment_rate'] || ''}
-          title={t("This Month's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': t('Ton of Standard Coal'), 'UNIT': '(TCE)' })}
+          title={t("This Year's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': t('Ton of Standard Coal'), 'UNIT': '(TCE)' })}
           color="warning"
           footnote={t('Per Unit Area')}
           footvalue={totalInTCE['value_per_unit_area']}
@@ -388,7 +388,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
         </CardSummary>
         <CardSummary
           rate={totalInTCO2E['increment_rate'] || ''}
-          title={t("This Month's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': t('Ton of Carbon Dioxide Emissions'), 'UNIT': '(TCO2E)' })}
+          title={t("This Year's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': t('Ton of Carbon Dioxide Emissions'), 'UNIT': '(TCO2E)' })}
           color="warning"
           footnote={t('Per Unit Area')}
           footvalue={totalInTCO2E['value_per_unit_area']}
@@ -410,13 +410,13 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           <SharePie data={TCO2EShareData} title={t('Ton of Carbon Dioxide Emissions by Energy Category')} />
         </Col>
       </Row>
-      <LineChart reportingTitle={t("This Month's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': null, 'VALUE': null, 'UNIT': null })}
+      <LineChart reportingTitle={t("This Year's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': null, 'VALUE': null, 'UNIT': null })}
         baseTitle=''
         labels={spaceInputLineChartLabels}
         data={spaceInputLineChartData}
         options={spaceInputLineChartOptions}>
       </LineChart>
-      <LineChart reportingTitle={t("This Month's Costs CATEGORY VALUE UNIT", { 'CATEGORY': null, 'VALUE': null, 'UNIT': null })}
+      <LineChart reportingTitle={t("This Year's Costs CATEGORY VALUE UNIT", { 'CATEGORY': null, 'VALUE': null, 'UNIT': null })}
         baseTitle=''
         labels={spaceCostLineChartLabels}
         data={spaceCostLineChartData}
@@ -431,7 +431,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
       </LineChart>
 
       <ChildSpacesTable data={childSpacesTableData}
-        title={t('Child Spaces Data of This Month')}
+        title={t('Child Spaces Data')}
         columns={childSpacesTableColumns}>
       </ChildSpacesTable>
 
