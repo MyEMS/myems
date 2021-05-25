@@ -1,0 +1,43 @@
+
+-- NOTE: this script is DANGEROUS and may cause data loss so it is for advanced users only
+-- NOTE: before running this script, you should stop the myems-normalization service and myems-aggregation service
+-- NOTE  after running this scipt, you should start the myems-normalization service and myems-aggregation service
+
+TRUNCATE TABLE myems_energy_db.tbl_combined_equipment_input_category_hourly;
+TRUNCATE TABLE myems_energy_db.tbl_combined_equipment_input_item_hourly;
+TRUNCATE TABLE myems_energy_db.tbl_combined_equipment_output_category_hourly;
+TRUNCATE TABLE myems_energy_db.tbl_equipment_input_category_hourly;
+TRUNCATE TABLE myems_energy_db.tbl_equipment_input_item_hourly;
+TRUNCATE TABLE myems_energy_db.tbl_equipment_output_category_hourly;
+TRUNCATE TABLE myems_energy_db.tbl_meter_hourly;
+-- NOTE: if you truncate tbl_offline_meter_hourly, the offline meter files should be reuploaded
+-- TRUNCATE TABLE myems_energy_db.tbl_offline_meter_hourly;
+TRUNCATE TABLE myems_energy_db.tbl_shopfloor_input_category_hourly;
+TRUNCATE TABLE myems_energy_db.tbl_shopfloor_input_item_hourly;
+TRUNCATE TABLE myems_energy_db.tbl_space_input_category_hourly;
+TRUNCATE TABLE myems_energy_db.tbl_space_input_item_hourly;
+TRUNCATE TABLE myems_energy_db.tbl_space_output_category_hourly;
+TRUNCATE TABLE myems_energy_db.tbl_store_input_category_hourly;
+TRUNCATE TABLE myems_energy_db.tbl_store_input_item_hourly;
+TRUNCATE TABLE myems_energy_db.tbl_tenant_input_category_hourly;
+TRUNCATE TABLE myems_energy_db.tbl_tenant_input_item_hourly;
+TRUNCATE TABLE myems_energy_db.tbl_virtual_meter_hourly;
+
+TRUNCATE TABLE myems_billing_db.tbl_combined_equipment_input_category_hourly;
+TRUNCATE TABLE myems_billing_db.tbl_combined_equipment_input_item_hourly;
+TRUNCATE TABLE myems_billing_db.tbl_combined_equipment_output_category_hourly;
+TRUNCATE TABLE myems_billing_db.tbl_equipment_input_category_hourly;
+TRUNCATE TABLE myems_billing_db.tbl_equipment_input_item_hourly;
+TRUNCATE TABLE myems_billing_db.tbl_equipment_output_category_hourly;
+TRUNCATE TABLE myems_billing_db.tbl_meter_hourly;
+TRUNCATE TABLE myems_billing_db.tbl_meter_hourly;
+TRUNCATE TABLE myems_billing_db.tbl_shopfloor_input_category_hourly;
+TRUNCATE TABLE myems_billing_db.tbl_shopfloor_input_item_hourly;
+TRUNCATE TABLE myems_billing_db.tbl_space_input_category_hourly;
+TRUNCATE TABLE myems_billing_db.tbl_space_input_item_hourly;
+TRUNCATE TABLE myems_billing_db.tbl_space_output_category_hourly;
+TRUNCATE TABLE myems_billing_db.tbl_store_input_category_hourly;
+TRUNCATE TABLE myems_billing_db.tbl_store_input_item_hourly;
+TRUNCATE TABLE myems_billing_db.tbl_tenant_input_category_hourly;
+TRUNCATE TABLE myems_billing_db.tbl_tenant_input_item_hourly;
+TRUNCATE TABLE myems_billing_db.tbl_virtual_meter_hourly;
