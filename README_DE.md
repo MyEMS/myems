@@ -152,6 +152,7 @@ Dieses Projekt besteht aus folgenden Komponenten:
 | Combined Equipment/Load Data            | ✔️      | ✔️        |                      |
 | Combined Equipment/Statistics           | ✔️      | ✔️        |                      |
 | Combined Equipment/Saving Data          | ❌     | ✔️        | Erfordert eine Komponente zur Vorhersage des Energieverbrauchs |
+| Combined Equipment/Batch Analysis       | ✔️      | ✔️        |                      |
 | Energy Dashboard                 | ✔️             | ✔️        |                      |
 | Energy Flow Diagram              | ✔️             | ✔️        |                      |
 | Distribution System              | ✔️             | ✔️        |                      |
