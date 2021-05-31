@@ -155,6 +155,7 @@ This project is compose of  following components:
 | Combined Equipment/Load Data            | ✔️      | ✔️        |                      |
 | Combined Equipment/Statistics           | ✔️      | ✔️        |                      |
 | Combined Equipment/Saving Data          | ❌     | ✔️        | Requires Energy consumption prediction component |
+| Combined Equipment/Batch Analysis       | ✔️      | ✔️        |                      |
 | Energy Dashboard                 | ✔️             | ✔️        |                      |
 | Energy Flow Diagram              | ✔️             | ✔️        |                      |
 | Distribution System              | ✔️             | ✔️        |                      |
