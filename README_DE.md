@@ -84,14 +84,14 @@ Dieses Projekt besteht aus folgenden Komponenten:
 | Stores Number                    | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
 | Shopfloors Number                | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
 | Combined Equipments Number       | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
-| Docker                           | ❌             | ✔️        |                      |
-| Kubernetes                       | ❌             | ✔️        |                      |
-| MySQL                            | ✔️             | ✔️        |                      |
-| MariaDB                          | ✔️             | ✔️        |                      |
-| SingleStore                      | ❌             | ✔️        |                      |
-| AWS Cloud                        | ✔️             | ✔️        |                      |
-| AZure Cloud                      | ✔️             | ✔️        |                      |
-| Alibaba Cloud                    | ✔️             | ✔️        |                      |
+| Docker                           | ❌             | ✔️        | https://www.docker.com/ |
+| Kubernetes                       | ❌             | ✔️        | https://kubernetes.io/ |
+| MySQL                            | ✔️             | ✔️        | http://mysql.com/    |
+| MariaDB                          | ✔️             | ✔️        | https://mariadb.org/ |
+| SingleStore                      | ❌            | ✔️        | https://www.singlestore.com/ |
+| AWS Cloud                        | ✔️             | ✔️        | https://aws.amazon.com/ |
+| AZure Cloud                      | ✔️             | ✔️        | https://azure.microsoft.com/ |
+| Alibaba Cloud                    | ✔️             | ✔️        | https://aliyun.com/ |
 | Private Cloud                    | ✔️             | ✔️        |                      |
 | Data Comparison                  | ✔️             | ✔️        | Jahr für Jahr, Monat für Monat, Freier Vergleich, Kein Vergleich |
 | Excel Exporter                   | ✔️             | ✔️        | Tabellen, Liniendiagramme, Säulendiagramme, Kreisdiagramme |
@@ -151,33 +151,33 @@ Dieses Projekt besteht aus folgenden Komponenten:
 | Combined Equipment/Efficiency Data      | ✔️      | ✔️        |                      |
 | Combined Equipment/Load Data            | ✔️      | ✔️        |                      |
 | Combined Equipment/Statistics           | ✔️      | ✔️        |                      |
-| Combined Equipment/Saving Data          | ❌      | ✔️        | Erfordert eine Komponente zur Vorhersage des Energieverbrauchs |
+| Combined Equipment/Saving Data          | ❌     | ✔️        | Erfordert eine Komponente zur Vorhersage des Energieverbrauchs |
 | Energy Dashboard                 | ✔️             | ✔️        |                      |
 | Energy Flow Diagram              | ✔️             | ✔️        |                      |
 | Distribution System              | ✔️             | ✔️        |                      |
 | REST API                         | ✔️             | ✔️        |                      |
 | Web UI                           | ✔️             | ✔️        |                      |
 | Admin UI                         | ✔️             | ✔️        |                      |
-| BACnet/IP                        | ❌️             | ✔️        |                      |
-| MQTT Subscriber                  | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
-| MQTT Publisher                   | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
-| Modbus RTU                       | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
-| OPC UA                           | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
-| OPC DA                           | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
-| Siemens S7                       | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
-| IEC 104                          | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
-| Johnson Controls Metasys API     | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
-| Honeywell EBI                    | ❌️             | ✔️        |                      |
-| SIEMENS Desigo CC                | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
+| BACnet/IP                        | ❌️             | ✔️        | http://www.bacnet.org/ |
+| MQTT Subscriber                  | ❌             | ✔️        | https://mqtt.org/ |
+| Modbus RTU                       | ❌             | ✔️        | https://modbus.org/ |
+| OPC UA                           | ❌             | ✔️        | https://opcfoundation.org/ |
+| OPC DA                           | ❌             | ✔️        | https://opcfoundation.org/ |
+| Siemens S7                       | ❌             | ✔️        | https://siemens.com/ |
+| IEC 104                          | ❌             | ✔️        | IEC 60870-5-104 https://en.wikipedia.org/wiki/IEC_60870-5 |
+| Johnson Controls Metasys API     | ❌             | ✔️        | https://www.johnsoncontrols.com/ |
+| Honeywell EBI                    | ❌️             | ✔️        | https://www.honeywell.com/ |
+| SIEMENS Desigo CC                | ❌             | ✔️        | https://siemens.com/ |
 | QWeather API                     | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
 | FDD Rule Engine                  | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
 | Advanced Reporting Engine        | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz oder eine benutzerdefinierte Entwicklung |
 | Prognose des Energieverbrauchs   | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz oder eine benutzerdefinierte Entwicklung |
 | Graphics Drawing Tool            | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
 | Equipments Remote Control        | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz oder eine benutzerdefinierte Entwicklung |
-| BACnet Server                    | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
-| Modbus TCP Server(Slave)         | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
-| OPC UA Server                    | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
+| BACnet Server                    | ❌             | ✔️        | http://www.bacnet.org/ |
+| Modbus TCP Server                | ❌             | ✔️        | https://modbus.org/ |
+| OPC UA Server                    | ❌             | ✔️        | https://opcfoundation.org/ |
+| MQTT Publisher                   | ❌             | ✔️        | https://mqtt.org/ |
 | iOS APP                          | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz oder eine benutzerdefinierte Entwicklung |
 | Android APP                      | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz oder eine benutzerdefinierte Entwicklung |
 | WeChat Mini Program              | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz oder eine benutzerdefinierte Entwicklung |
@@ -188,7 +188,7 @@ Dieses Projekt besteht aus folgenden Komponenten:
 | 3rd Party Systems Integration Service | ❌        | ✔️        | Kundenspezifische Entwicklung |
 | Online software training         | ❌             | ✔️        |                      |
 | Face to face software training   | ❌             | ✔️        |                      |
-| Online Community Customer Support| ✔️             | ✔️        |                      |
+| Online Community Customer Support| ✔️              | ✔️        |                      |
 | Email Customer Support           | ❌             | ✔️        |                      |
 | Telephone Customer Support       | ❌             | ✔️        |                      |
 | WeChat Customer Support          | ❌             | ✔️        |                      |
