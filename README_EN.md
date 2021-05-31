@@ -84,14 +84,14 @@ This project is compose of  following components:
 | Stores Number                    | Unlimited       | Unlimited | Limited only by hardware performance |
 | Shopfloors Number                | Unlimited       | Unlimited | Limited only by hardware performance |
 | Combined Equipments Number       | Unlimited       | Unlimited | Limited only by hardware performance |
-| Docker                           | ❌             | ✔️        |                      |
-| Kubernetes                       | ❌             | ✔️        |                      |
-| MySQL                            | ✔️             | ✔️        |                      |
-| MariaDB                          | ✔️             | ✔️        |                      |
-| SingleStore                      | ❌             | ✔️        |                      |
-| AWS Cloud                        | ✔️             | ✔️        |                      |
-| AZure Cloud                      | ✔️             | ✔️        |                      |
-| Alibaba Cloud                    | ✔️             | ✔️        |                      |
+| Docker                           | ❌             | ✔️        | https://www.docker.com/ |
+| Kubernetes                       | ❌             | ✔️        | https://kubernetes.io/ |
+| MySQL                            | ✔️             | ✔️        | http://mysql.com/    |
+| MariaDB                          | ✔️             | ✔️        | https://mariadb.org/ |
+| SingleStore                      | ❌            | ✔️        | https://www.singlestore.com/ |
+| AWS Cloud                        | ✔️             | ✔️        | https://aws.amazon.com/ |
+| AZure Cloud                      | ✔️             | ✔️        | https://azure.microsoft.com/ |
+| Alibaba Cloud                    | ✔️             | ✔️        | https://aliyun.com/ |
 | Private Cloud                    | ✔️             | ✔️        |                      |
 | Data Comparison                  | ✔️             | ✔️        | Year-on-Year, Month-on-Month, Free Comparison, None Comparison |
 | Excel Exporter                   | ✔️             | ✔️        | Tables, Line Charts, Column Charts, Pie Charts |
@@ -113,7 +113,7 @@ This project is compose of  following components:
 | Space/Efficiency Data            | ✔️             | ✔️        |                      |
 | Space/Load Data                  | ✔️             | ✔️        |                      |
 | Space/Statistics                 | ✔️             | ✔️        |                      |
-| Space/Saving Data                | ❌             | ✔️        | Requires Energy consumption prediction component |
+| Space/Saving Data                | ❌            | ✔️        | Requires Energy consumption prediction component |
 | Equipment/Energy Category Data   | ✔️             | ✔️        |                      |
 | Equipment/Energy Item Data       | ✔️             | ✔️        |                      |
 | Equipment/Cost Data              | ✔️             | ✔️        |                      |
@@ -122,27 +122,30 @@ This project is compose of  following components:
 | Equipment/Efficiency Data        | ✔️             | ✔️        |                      |
 | Equipment/Load Data              | ✔️             | ✔️        |                      |
 | Equipment/Statistics             | ✔️             | ✔️        |                      |
-| Equipment/Saving Data            | ❌             | ✔️        | Requires Energy consumption prediction component |
+| Equipment/Saving Data            | ❌            | ✔️        | Requires Energy consumption prediction component |
 | Equipment/Equipment Tracking     | ✔️             | ✔️        |                      |
 | Tenant/Energy Category Data      | ✔️             | ✔️        |                      |
 | Tenant/Energy Item Data          | ✔️             | ✔️        |                      |
 | Tenant/Cost Data                 | ✔️             | ✔️        |                      |
 | Tenant/Load Data                 | ✔️             | ✔️        |                      |
 | Tenant/Statistics                | ✔️             | ✔️        |                      |
-| Tenant/Saving Data               | ❌             | ✔️        | Requires Energy consumption prediction component |
+| Tenant/Saving Data               | ❌            | ✔️        | Requires Energy consumption prediction component |
 | Tenant/Tenant Bill               | ✔️             | ✔️        |                      |
+| Tenant/Batch Analysis            | ✔️             | ✔️        |                      |
 | Store/Energy Category Data       | ✔️             | ✔️        |                      |
 | Store/Energy Item Data           | ✔️             | ✔️        |                      |
 | Store/Cost Data                  | ✔️             | ✔️        |                      |
 | Store/Load Data                  | ✔️             | ✔️        |                      |
 | Store/Statistics                 | ✔️             | ✔️        |                      |
-| Store/Saving Data                | ❌             | ✔️        | Requires Energy consumption prediction component |
+| Store/Saving Data                | ❌            | ✔️        | Requires Energy consumption prediction component |
+| Store/Batch Analysis             | ✔️             | ✔️        |                      |
 | Shopfloor/Energy Category Data   | ✔️             | ✔️        |                      |
 | Shopfloor/Energy Item Data       | ✔️             | ✔️        |                      |
 | Shopfloor/Cost Data              | ✔️             | ✔️        |                      |
 | Shopfloor/Load Data              | ✔️             | ✔️        |                      |
 | Shopfloor/Statistics             | ✔️             | ✔️        |                      |
-| Shopfloor/Saving Data            | ❌             | ✔️        | Requires Energy consumption prediction component |
+| Shopfloor/Saving Data            | ❌            | ✔️        | Requires Energy consumption prediction component |
+| Shopfloor/Batch Analysis         | ✔️             | ✔️        |                      |
 | Combined Equipment/Energy Category Data | ✔️      | ✔️        |                      |
 | Combined Equipment/Energy Item Data     | ✔️      | ✔️        |                      |
 | Combined Equipment/Cost Data            | ✔️      | ✔️        |                      |
@@ -151,33 +154,33 @@ This project is compose of  following components:
 | Combined Equipment/Efficiency Data      | ✔️      | ✔️        |                      |
 | Combined Equipment/Load Data            | ✔️      | ✔️        |                      |
 | Combined Equipment/Statistics           | ✔️      | ✔️        |                      |
-| Combined Equipment/Saving Data          | ❌      | ✔️        | Requires Energy consumption prediction component |
+| Combined Equipment/Saving Data          | ❌     | ✔️        | Requires Energy consumption prediction component |
 | Energy Dashboard                 | ✔️             | ✔️        |                      |
 | Energy Flow Diagram              | ✔️             | ✔️        |                      |
 | Distribution System              | ✔️             | ✔️        |                      |
 | REST API                         | ✔️             | ✔️        |                      |
 | Web UI                           | ✔️             | ✔️        |                      |
 | Admin UI                         | ✔️             | ✔️        |                      |
-| BACnet/IP                        | ❌             | ✔️        |                      |
-| MQTT Subscriber                  | ❌             | ✔️        | Requires standard component license |
-| MQTT Publisher                   | ❌️             | ✔️        | Requires standard component license |
-| Modbus RTU                       | ❌             | ✔️        | Requires standard component license |
-| OPC UA                           | ❌             | ✔️        | Requires standard component license |
-| OPC DA                           | ❌             | ✔️        | Requires standard component license |
-| Siemens S7                       | ❌             | ✔️        | Requires standard component license |
-| IEC 104                          | ❌             | ✔️        | Requires standard component license |
-| Johnson Controls Metasys API     | ❌             | ✔️        | Requires standard component license |
-| Honeywell EBI                    | ❌             | ✔️        |                      |
-| SIEMENS Desigo CC                | ❌             | ✔️        | Requires standard component license |
+| BACnet/IP                        | ❌             | ✔️        | http://www.bacnet.org/ |
+| MQTT Subscriber                  | ❌             | ✔️        | https://mqtt.org/ |
+| Modbus RTU                       | ❌             | ✔️        | https://modbus.org/ |
+| OPC UA                           | ❌             | ✔️        | https://opcfoundation.org/ |
+| OPC DA                           | ❌             | ✔️        | https://opcfoundation.org/ |
+| Siemens S7                       | ❌             | ✔️        | https://siemens.com/ |
+| IEC 104                          | ❌             | ✔️        | IEC 60870-5-104 https://en.wikipedia.org/wiki/IEC_60870-5 |
+| Johnson Controls Metasys API     | ❌             | ✔️        | https://www.johnsoncontrols.com/ |
+| Honeywell EBI                    | ❌             | ✔️        | https://www.honeywell.com/ |
+| SIEMENS Desigo CC                | ❌             | ✔️        | https://siemens.com/ |
 | QWeather API                     | ❌             | ✔️        | Requires standard component license |
 | FDD Rule Engine                  | ❌             | ✔️        | Requires standard component license or custom development |
 | Advanced Reporting Engine        | ❌             | ✔️        | Requires standard component license or custom development |
 | Prognose des Energieverbrauchs   | ❌             | ✔️        | Requires standard component license or custom development |
 | Graphics Drawing Tool            | ❌             | ✔️        |                      |
 | Equipments Remote Control        | ❌             | ✔️        | Requires standard component license or custom development |
-| BACnet Server                    | ❌             | ✔️        |                      |
-| Modbus TCP Server(Slave)         | ❌             | ✔️        |                      |
-| OPC UA Server                    | ❌             | ✔️        |                      |
+| BACnet Server                    | ❌             | ✔️        | http://www.bacnet.org/ |
+| Modbus TCP Server                | ❌             | ✔️        | https://modbus.org/ |
+| OPC UA Server                    | ❌             | ✔️        | https://opcfoundation.org/ |
+| MQTT Publisher                   | ❌️             | ✔️        | https://mqtt.org/ |
 | iOS APP                          | ❌             | ✔️        | Requires standard component license or custom development |
 | Android APP                      | ❌             | ✔️        | Requires standard component license or custom development |
 | WeChat Mini Program              | ❌             | ✔️        | Requires standard component license or custom development |
@@ -188,7 +191,7 @@ This project is compose of  following components:
 | 3rd Party Systems Integration Service | ❌        | ✔️        | Custom development |
 | Online software training         | ❌             | ✔️        |                      |
 | Face to face software training   | ❌             | ✔️        |                      |
-| Online Community Customer Support| ✔️             | ✔️        |                      |
+| Online Community Customer Support| ✔️              | ✔️        |                      |
 | Email Customer Support           | ❌             | ✔️        |                      |
 | Telephone Customer Support       | ❌             | ✔️        |                      |
 | WeChat Customer Support          | ❌             | ✔️        |                      |
