@@ -341,7 +341,7 @@ class DataSourcePointCollection:
                        "        units, high_limit, low_limit, ratio, is_trend, is_virtual, address, description "
                        " FROM tbl_points "
                        " WHERE data_source_id = %s "
-                       " ORDER BY name ")
+                       " ORDER BY id ")
         cursor.execute(query_point, (id_,))
         rows_point = cursor.fetchall()
 
