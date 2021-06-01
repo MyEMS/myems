@@ -239,7 +239,7 @@ class Reporting:
         # Step 4: query associated points
         ################################################################################################################
         point_list = list()
-        cursor_system.execute(" SELECT p.id, p.name, p.units, p.object_type  "
+        cursor_system.execute(" SELECT p.id, ep.name, p.units, p.object_type  "
                               " FROM tbl_combined_equipments e, tbl_combined_equipments_parameters ep, tbl_points p "
                               " WHERE e.id = %s AND e.id = ep.combined_equipment_id AND ep.parameter_type = 'point' "
                               "       AND ep.point_id = p.id "
