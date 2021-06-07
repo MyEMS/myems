@@ -1,4 +1,4 @@
--- MyEMS Fault Detection and Diagnosis Database
+-- MyEMS Fault Detection and Diagnostics Database
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Schema myems_fdd_db
@@ -25,19 +25,6 @@ CREATE TABLE IF NOT EXISTS `myems_fdd_db`.`tbl_email_messages` (
   `status` VARCHAR(32) NOT NULL COMMENT 'new, sent, timeout',
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_email_messages_index_1` ON  `myems_fdd_db`.`tbl_email_messages`  (`status`,   `scheduled_datetime_utc`);
-
--- ---------------------------------------------------------------------------------------------------------------------
--- Example Data for table `myems_fdd_db`.`tbl_email_recipients`
--- ---------------------------------------------------------------------------------------------------------------------
--- START TRANSACTION;
--- USE `myems_fdd_db`;
-
--- INSERT INTO `myems_fdd_db`.`tbl_email_recipients`
--- (`id`, `name`, `uuid`, `email`)
--- VALUES
--- (1, '江工', '590efb36-8587-42a9-ae6f-c715d21496d6', 'ems@example.com');
-
--- COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_fdd_db`.`tbl_gsm_modems`
@@ -83,33 +70,6 @@ CREATE TABLE IF NOT EXISTS `myems_fdd_db`.`tbl_rules` (
   `next_run_datetime_utc` DATETIME,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_rules_index_1` ON  `myems_fdd_db`.`tbl_rules`  (`name`);
-
-
--- ---------------------------------------------------------------------------------------------------------------------
--- Table `myems_fdd_db`.`tbl_sms_recipients`
--- ---------------------------------------------------------------------------------------------------------------------
-DROP TABLE IF EXISTS `myems_fdd_db`.`tbl_sms_recipients` ;
-
-CREATE TABLE IF NOT EXISTS `myems_fdd_db`.`tbl_sms_recipients` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(32) NOT NULL,
-  `uuid` CHAR(36) NOT NULL,
-  `mobile_number` VARCHAR(32) NOT NULL,
-  PRIMARY KEY (`id`));
-CREATE INDEX `tbl_sms_recipients_index_1` ON  `myems_fdd_db`.`tbl_sms_recipients`  (`name`);
-
--- ---------------------------------------------------------------------------------------------------------------------
--- Example Data for table `myems_fdd_db`.`tbl_sms_recipients`
--- ----------------------------------------------------------------------------------
--- START TRANSACTION;
--- USE `myems_fdd_db`;
-
--- INSERT INTO `myems_fdd_db`.`tbl_sms_recipients`
--- (`id`, `name`, `uuid`, `mobile_number`)
--- VALUES
--- (1, '王工', 'cb9f9009-4f13-4844-9ef0-3f8a537420d7', '008613888888888');
-
--- COMMIT;
 
 -- ----------------------------------------------------------------------------------
 -- Table `myems_fdd_db`.`tbl_email_servers`
