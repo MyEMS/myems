@@ -15,7 +15,7 @@ app.factory('EmailMessageAnalysisService', function($http) {
         },
 
         deleteEmailMessage: function(emailmessage, callback) {
-            $http.delete(getAPI()+'eamilmessages/'+emailmessage.id)
+            $http.delete(getAPI()+'emailmessages/'+emailmessage.id)
                 .success(function (response, status, headers, config) {
                     callback(null, status);
                 })
