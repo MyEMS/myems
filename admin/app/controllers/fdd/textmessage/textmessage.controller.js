@@ -52,7 +52,7 @@ app.controller('TextMessageController', function($scope, $common,$timeout,$trans
                                 showCloseButton: true,
                             });
 
-							$scope.getTextMessages();
+							$scope.$emit('handleEmitTextMessageTableChanged');
 						} else {
 							var templateName = "FDD.TEXT_MESSAGE";
                             templateName = $translate.instant(templateName);
@@ -76,8 +76,5 @@ app.controller('TextMessageController', function($scope, $common,$timeout,$trans
 				}
 			});
 	};
-
-	// $scope.getTextMessages();
-
 
 });

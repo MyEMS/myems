@@ -54,7 +54,8 @@ app.controller('WechatMessageController', function($scope, $timeout,$translate,
                                 body: popBody,
                                 showCloseButton: true,
                             });
-							$scope.getWechatMessages();
+							
+                            $scope.$emit('handleEmitWechatMessageTableChanged');
 						} else {
 							var templateName = "FDD.WECHAT_MESSAGE";
              templateName = $translate.instant(templateName);
@@ -78,5 +79,4 @@ app.controller('WechatMessageController', function($scope, $timeout,$translate,
 				}
 			});
 	};
-	// $scope.getWechatMessages();
 });
