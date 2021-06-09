@@ -38,22 +38,11 @@ app.controller('TextMessageOptionController', function($scope, $timeout,
 			period:$scope.currentPeriod
 		});
 		
-		if(true){
-			TextMessageAnalysisService.getAnalysisResult(query, function(error, data) {
-				if (!error) {
-					$scope.$emit('handleEmitTextMessageOptionChanged', data);
-				}
-			});
-		}else{
-			TextMessageAnalysisService.getTestDataResult(query, function(error, data) {
-				if (!error) {
-					$timeout(function(){
-						$scope.$emit('handleEmitTextMessageOptionChanged', data);
-					},1000);
-
-				}
-			});
-		}
+		TextMessageAnalysisService.getAnalysisResult(query, function(error, data) {
+			if (!error) {
+				$scope.$emit('handleEmitTextMessageOptionChanged', data);
+			}
+		});
 		
 	};
 	$timeout(function() {

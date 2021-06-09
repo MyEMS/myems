@@ -59,7 +59,7 @@ app.controller('EmailMessageController', function($scope, $timeout,$translate,
                                 showCloseButton: true,
                             });
 
-							$scope.getEmailMessages();
+							$scope.$emit('handleEmitEmailMessageTableChanged');
 						} else {
 							var templateName = "FDD.EMAIL_MESSAGE";
                             templateName = $translate.instant(templateName);
@@ -85,7 +85,4 @@ app.controller('EmailMessageController', function($scope, $timeout,$translate,
 			});
 	};
 
-	// $scope.getEmailMessages();
-
-	
 });

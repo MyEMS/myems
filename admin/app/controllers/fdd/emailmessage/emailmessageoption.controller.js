@@ -38,22 +38,11 @@ app.controller('EmailMessageOptionController', function($scope, $timeout,
 			period:$scope.currentPeriod
 		});
 		
-		if(true){
-			EmailMessageAnalysisService.getAnalysisResult(query, function(error, data) {
-				if (!error) {
-					$scope.$emit('handleEmitEmailMessageOptionChanged', data);
-				}
-			});
-		}else{
-			EmailMessageAnalysisService.getTestDataResult(query, function(error, data) {
-				if (!error) {
-					$timeout(function(){
-						$scope.$emit('handleEmitEmailMessageOptionChanged', data);
-					},1000);
-
-				}
-			});
-		}
+		EmailMessageAnalysisService.getAnalysisResult(query, function(error, data) {
+			if (!error) {
+				$scope.$emit('handleEmitEmailMessageOptionChanged', data);
+			}
+		});
 		
 	};
 	$timeout(function() {
