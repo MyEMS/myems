@@ -115,6 +115,11 @@ class RuleCollection:
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_EXPRESSION')
         expression = str.strip(new_values['data']['expression'])
+        # validate expression in json
+        try:
+            json.loads(expression)
+        except Exception as ex:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description=ex)
 
         if 'message_template' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['message_template'], str) or \
@@ -305,6 +310,11 @@ class RuleItem:
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_EXPRESSION')
         expression = str.strip(new_values['data']['expression'])
+        # validate expression in json
+        try:
+            json.loads(expression)
+        except Exception as ex:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description=ex)
 
         if 'message_template' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['message_template'], str) or \
