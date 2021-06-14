@@ -21,19 +21,20 @@
             <div class="col-lg-12">
                 <div class="tabs-container">
                     <uib-tabset>
-                        <uib-tab heading="{{'FDD.SMS_ALARM_LIST' | translate}}">                       
+                        <uib-tab heading="{{'FDD.SMS_ALARM_LIST' | translate}}">
                             <div class="panel-body" ng-controller="TextMessageController">
                                 <input type="text" class="form-control m-b-xs" id="textmessagefilter"
                                     placeholder="{{'SETTING.SEARCH' | translate}}">
-                                <table id="textmessageTable" class="footable table table-bordered table-hover" data-sort="true" data-empty="There are no rows"  data-page-size="20" data-filter="#textmessagefilter">
+                                <table id="textmessageTable" class="footable table table-bordered table-hover" data-sort="true"
+                                       data-empty="There are no rows"  data-page-size="20" data-filter="#textmessagefilter">
                                     <thead>
                                         <tr >
                                             <th class="text-center">{{'FDD.ID' | translate}}</th>
                                             <th class="text-center">{{'FDD.RECIPIENT_NAME' | translate}}</th>
-                                            <th data-sort-ignore="true" class="text-center">{{'FDD.RECIPIENT_MOBILE' | translate}}</th>
+                                            <th class="text-center">{{'FDD.RECIPIENT_MOBILE' | translate}}</th>
                                             <th data-sort-ignore="true" class="text-center">{{'FDD.ALARM_MESSAGE' | translate}}</th>
-                                            <th data-sort-ignore="true" class="text-center">{{'FDD.ALARM_TIME' | translate}}</th>
-                                            <th data-sort-ignore="true" class="text-center">{{'FDD.SCHEDULE_TIME' | translate}}</th>
+                                            <th class="text-center">{{'FDD.ALARM_TIME' | translate}}</th>
+                                            <th class="text-center">{{'FDD.SCHEDULE_TIME' | translate}}</th>
                                             <th data-sort-ignore="true" class="text-center">{{'FDD.ACKNOWLEDGE_CODE' | translate}}</th>
                                             <th class="text-center">{{'SETTING.STATUS' | translate}}</th>
                                             <th data-sort-ignore="true" class="text-center">{{'SETTING.ACTION' | translate}}</th>
