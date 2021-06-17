@@ -162,7 +162,9 @@ class EmailMessageItem:
             raise falcon.HTTPError(falcon.HTTP_500, title='API.DATABASE_ERROR', description=str(e))
 
         try:
-            cursor.execute(" SELECT id FROM tbl_email_messages WHERE id = %s ", (id_,))
+            cursor.execute(" SELECT id "
+                           " FROM tbl_email_messages "
+                           " WHERE id = %s ", (id_,))
             row = cursor.fetchone()
         except Exception as e:
             if cursor:
