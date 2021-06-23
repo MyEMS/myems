@@ -213,7 +213,6 @@ const resources = {
       "Number of Store Faults": "Number of Store Faults",
       "Number of Shopfloor Faults": "Number of Shopfloor Faults",
       "Number of Combined Equipment Faults": "Number of Combined Equipment Faults",
-      "Upstream Meter": "Upstream Meter",
       //Data Panels
       "Ton of Standard Coal": "Ton of Standard Coal",
       "Ton of Carbon Dioxide Emissions": "Ton of Carbon Dioxide Emissions",
@@ -554,7 +553,6 @@ const resources = {
       "Number of Store Faults": "Anzahl der Geschäft Fehler",
       "Number of Shopfloor Faults": "Anzahl der Werkstatt Fehler",
       "Number of Combined Equipment Faults": "Anzahl der Kombinierte Ausrüstung Fehler",
-      "Upstream Meter": "Upstream Meter",
       //Data Panels
       "Ton of Standard Coal": "Tonne Standardkohle",
       "Ton of Carbon Dioxide Emissions": "Tonne Kohlendioxidemissionen",
@@ -898,7 +896,6 @@ const resources = {
       "Number of Store Faults": "门店故障数",
       "Number of Shopfloor Faults": "车间故障数",
       "Number of Combined Equipment Faults": "组合设备故障数",
-      "Upstream Meter": "上游计量表",
       //Data Panels
       "Ton of Standard Coal": "吨标准煤",
       "Ton of Carbon Dioxide Emissions": "吨二氧化碳排放",
