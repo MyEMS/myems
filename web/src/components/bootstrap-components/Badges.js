@@ -6,7 +6,7 @@ import FalconCardHeader from '../common/FalconCardHeader';
 import FalconEditor from '../common/FalconEditor';
 
 const contextualCode = `['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'].map((color, index) => (
-  <Badge color={color} key={index} className="mr-2">
+  <Badge color={color} key={index} className="mr-2" >
     {color}
   </Badge>
 ))`;
@@ -18,7 +18,7 @@ const softBadgesCode = `['primary', 'secondary', 'success', 'danger', 'warning',
 ))`;
 
 const softBadgesPillCode = `['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'].map((color, index) => (
-  <Badge color={'badge-pill badge-soft-'+color} key={index} className="mr-2">
+  <Badge color={'soft-'+color} key={index} className="mr-2" pill>
     {color}
   </Badge>
 ))`;

@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Media, Progress } from 'reactstrap';
+import { Media } from 'reactstrap';
 import Flex from '../common/Flex';
 import AppContext from '../../context/Context';
 import { Link } from 'react-router-dom';
+import FalconProgress from '../common/FalconProgress';
 
 const getProductItemCalculatedData = (unit, price, totalPrice) => {
   const productTotalPrice = unit * price;
@@ -37,14 +38,15 @@ const BestSellingProduct = ({ product, totalPrice, isLast }) => {
         {productTotalPrice}
       </td>
       <td className="align-middle pr-card">
-        <Flex align="center">
-          <Progress
+        <Flex align="center" justify="between">
+          <FalconProgress
             value={percentage}
             color="primary"
-            className="w-100 mr-2 rounded-soft bg-200"
+            className="w-100 rounded-soft bg-200"
             barClassName="rounded-capsule"
-            style={{ height: '5px' }}
+            style={{ height: 5, maxWidth: 54 }}
           />
+
           <div className="font-weight-semi-bold ml-2">{percentage}%</div>
         </Flex>
       </td>

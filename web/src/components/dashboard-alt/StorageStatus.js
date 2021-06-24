@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, CardBody, Progress, Row } from 'reactstrap';
+import { Card, CardBody, Row } from 'reactstrap';
 import Flex from '../common/Flex';
 import { isIterableArray } from '../../helpers/utils';
 import StorageStatusProgressBar from './StorageStatusProgressBar';
 import StorageStatusDot from './StorageStatusDot';
+import FalconProgress from '../common/FalconProgress';
 
 const StorageStatus = ({ data, className }) => {
   const totalStorage = data.map(d => d.size).reduce((total, currentValue) => total + currentValue, 0);
@@ -18,17 +19,19 @@ const StorageStatus = ({ data, className }) => {
             Using Storage <strong className="text-dark">{totalStorage - freeStorage} MB </strong>of{' '}
             {Math.round(totalStorage / 1024)} GB
           </h6>
-          <Progress multi className="rounded-soft mb-3" style={{ height: 10 }}>
+          <FalconProgress multi className="rounded-soft mb-3" style={{ height: '10px' }}>
             {isIterableArray(data) &&
-              data.map((d, index) => (
-                <StorageStatusProgressBar
-                  {...d}
-                  percentage={(d.size * 100) / totalStorage}
-                  isLast={data.length - 1 === index}
-                  key={index}
-                />
-              ))}
-          </Progress>
+              data.map((d, index) => {
+                return (
+                  <StorageStatusProgressBar
+                    {...d}
+                    percentage={(d.size * 100) / totalStorage}
+                    isLast={data.length - 1 === index}
+                    key={index}
+                  />
+                );
+              })}
+          </FalconProgress>
           <Row className="fs--1 font-weight-semi-bold text-500">
             {isIterableArray(data) &&
               data.map((d, index) => (

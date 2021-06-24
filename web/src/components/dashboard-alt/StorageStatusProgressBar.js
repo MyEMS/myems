@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Progress } from 'reactstrap';
 import classNames from 'classnames';
+import FalconProgress from '../common/FalconProgressBar';
 
 const StorageStatusProgressBar = ({ color, percentage, isLast }) => (
-  <Progress
+  <FalconProgress
     bar
-    color={color}
     value={percentage}
+    color={color}
     className={classNames({ 'border-right border-white border-2x': !isLast })}
   />
 );

@@ -42,6 +42,7 @@ import ProgressBar from '../components/bootstrap-components/ProgressBar';
 import Tables from '../components/bootstrap-components/Tables';
 import Tooltips from '../components/bootstrap-components/Tooltips';
 import NavBarTop from '../components/bootstrap-components/NavBarTop';
+import Combo from '../components/bootstrap-components/Combo';
 import VerticalNavbar from '../components/bootstrap-components/VerticalNavbar';
 import Sidepanel from '../components/bootstrap-components/Sidepanel';
 import CookieNotice from '../components/bootstrap-components/CookieNotice';
@@ -191,6 +192,7 @@ const DashboardRoutes = () => (
     <Route path="/components/navs" exact component={Navs} />
     <Route path="/components/navbars" exact component={Navbars} />
     <Route path="/components/navbar-top" exact component={NavBarTop} />
+    <Route path="/components/combo" exact component={Combo} />
     <Route path="/components/navbar-vertical" exact component={VerticalNavbar} />
     <Route path="/components/Sidepanel" exact component={Sidepanel} />
     <Route path="/components/pageheaders" exact component={PageHeaders} />
@@ -229,7 +231,7 @@ const DashboardRoutes = () => (
     <Route path="/plugins/chart" exact component={Chart} />
     <Route path="/plugins/countup" exact component={CountUpExample} />
     <Route path="/plugins/datetime" exact component={DatetimeExample} />
-    <Route path="/plugins/fontawesome" exact component={FontAwesome} />
+    <Route path="/plugins/font-awesome" exact component={FontAwesome} />
     <Route path="/plugins/echarts" exact component={Echarts} />
     <Route path="/plugins/toastify" exact component={Toastify} />
     <Route path="/plugins/select" exact component={Select} />

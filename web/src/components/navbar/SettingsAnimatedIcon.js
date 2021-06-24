@@ -1,13 +1,11 @@
 import React, { useContext } from 'react';
 import AppContext from '../../context/Context';
-import { Link } from 'react-router-dom';
 
 const SettingsAnimatedIcon = () => {
   const { toggleModal } = useContext(AppContext);
   return (
-    <Link
-      className="settings-popover nav-link"
-      to="#!"
+    <div
+      className="settings-popover nav-link cursor-pointer"
       onClick={() => {
         toggleModal();
       }}
@@ -23,7 +21,7 @@ const SettingsAnimatedIcon = () => {
           </svg>
         </span>
       </span>
-    </Link>
+    </div>
   );
 };
 

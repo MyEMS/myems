@@ -15,7 +15,17 @@ const TopNavRightSideNavItem = () => {
       <NavItem>
         <SettingsAnimatedIcon />
       </NavItem>
-      
+      {isTopNav && (
+        <NavItem className={`p-2 px-lg-0 cursor-pointer d-none d-sm-block`}>
+          <NavLink tag={Link} to="/changelog" id="changelog">
+            <FontAwesomeIcon icon="code-branch" transform="right-6 grow-4" />
+          </NavLink>
+          <UncontrolledTooltip autohide={false} placement="left" target="changelog">
+            Changelog
+          </UncontrolledTooltip>
+        </NavItem>
+      )}
+      <CartNotification />
       <NotificationDropdown />
       <ProfileDropdown />
     </Nav>

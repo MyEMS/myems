@@ -124,12 +124,6 @@ const ProgressBar = () => {
           <FalconEditor code={stripedExampleCode} />
         </CardBody>
       </Card>
-      <Card className="mb-3">
-        <FalconCardHeader title="Animated" light={false} />
-        <CardBody className="bg-light">
-          <FalconEditor code={animatedExampleCode} language="jsx" />
-        </CardBody>
-      </Card>
     </Fragment>
   );
 };

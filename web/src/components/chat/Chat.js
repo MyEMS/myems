@@ -5,15 +5,17 @@ import ChatSidebar from './sidebar/ChatSidebar';
 import ChatContent from './content/ChatContent';
 import Flex from '../common/Flex';
 
-const Chat = () => (
-  <ChatProvider>
-    <Card className="card-chat">
-      <CardBody tag={Flex} className="p-0 h-100">
-        <ChatSidebar />
-        <ChatContent />
-      </CardBody>
-    </Card>
-  </ChatProvider>
-);
+const Chat = () => {
+  return (
+    <ChatProvider>
+      <Card className="card-chat">
+        <CardBody tag={Flex} className="p-0 h-100">
+          <ChatSidebar />
+          <ChatContent />
+        </CardBody>
+      </Card>
+    </ChatProvider>
+  );
+};
 
 export default Chat;

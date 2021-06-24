@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Input, Label, Form, Button } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -38,6 +38,8 @@ const MessageTextArea = ({ thread }) => {
   const [previewEmoji, setPreviewEmoji] = useState(false);
   const [message, setMessage] = useState('');
 
+  const isMountedRef = useRef(null);
+
   //Emoji box hiding Controller
   useEffect(() => {
     const handleClickOutsideEmojiBox = e => {
@@ -56,6 +58,7 @@ const MessageTextArea = ({ thread }) => {
 
   useEffect(() => {
     //TextBox and message body height controlling
+    isMountedRef.current = true;
     let textAreaPreviousHeight = textAreaInitialHeight;
     const autoExpand = function(field) {
       // Reset field height
@@ -64,24 +67,28 @@ const MessageTextArea = ({ thread }) => {
       // Calculate the height
       const textAreaCurrentHeight = field.scrollHeight;
 
-      if (textAreaCurrentHeight <= 160) {
-        if (textAreaPreviousHeight !== textAreaCurrentHeight) {
-          document.getElementsByClassName('card-chat-pane')[0].style.height = `calc(100% - ${textAreaCurrentHeight}px)`;
-
+      if (textAreaCurrentHeight <= 160 && document.querySelector('.card-chat-pane')) {
+        if (textAreaPreviousHeight !== textAreaCurrentHeight && isMountedRef.current) {
+          document.querySelector('.card-chat-pane').style.height = `calc(100% - ${textAreaCurrentHeight}px)`;
           setTextAreaInitialHeight((textAreaPreviousHeight = textAreaCurrentHeight));
         }
       }
 
       field.style.height = textAreaCurrentHeight + 'px';
     };
-    document.addEventListener(
-      'input',
-      function(event) {
-        if (event.target.className === 'textarea');
-        autoExpand(event.target);
-      },
-      false
-    );
+    if (document.querySelector('.textarea')) {
+      document.addEventListener(
+        'input',
+        function(event) {
+          if (event.target.className === 'textarea');
+          autoExpand(event.target);
+        },
+        false
+      );
+    }
+    return () => {
+      isMountedRef.current = false;
+    };
   }, [textAreaInitialHeight, setTextAreaInitialHeight]);
 
   const addEmoji = e => {
@@ -118,8 +125,8 @@ const MessageTextArea = ({ thread }) => {
 
     setMessage('');
 
-    document.getElementsByClassName('textarea')[0].style.height = '2rem';
-    document.getElementsByClassName('card-chat-pane')[0].style.height = `calc(100% - 2rem)`;
+    document.querySelector('.textarea').style.height = '2rem';
+    document.querySelector('.card-chat-pane').style.height = `calc(100% - 2rem)`;
   };
 
   return (

@@ -171,18 +171,13 @@ const ProductDetailsFooter = () => {
                       <StarCount stars={0} />
                     </FormGroup>
                     <FormGroup>
-                      <FalconInput label="Name:" onChange={({ target }) => console.log(target.value)} />
+                      <FalconInput label="Name:" onChange={value => console.log(value)} />
                     </FormGroup>
                     <FormGroup>
-                      <FalconInput label="Email:" onChange={({ target }) => console.log(target.value)} type="email" />
+                      <FalconInput label="Email:" onChange={value => console.log(value)} type="email" />
                     </FormGroup>
                     <FormGroup>
-                      <FalconInput
-                        label="Review:"
-                        onChange={({ target }) => console.log(target.value)}
-                        type="textarea"
-                        rows="2"
-                      />
+                      <FalconInput label="Review:" onChange={value => console.log(value)} type="textarea" rows="2" />
                     </FormGroup>
                     <Button color="primary" type="submit">
                       Submit

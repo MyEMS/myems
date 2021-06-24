@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
-import { Card, CardBody } from 'reactstrap';
+import { Card, CardBody, CardHeader, NavLink } from 'reactstrap';
+import CodeHighlight from '../common/CodeHighlight';
 import FalconCardHeader from '../common/FalconCardHeader';
 import PageHeader from '../common/PageHeader';
 
@@ -99,6 +100,40 @@ const GettingStarted = () => (
           <code>node_modules/bootstrap/scss/_variables.scss</code> or <code>src/assets/scss/theme/_variables.scss</code>{' '}
           can be overridden with your own value.
         </p>
+      </CardBody>
+    </Card>
+    <Card className="mb-3" id="setting-config">
+      <CardHeader className="bg-light">
+        <NavLink href="#setting-config" className="font-weight-semi-bold fs-1  p-0 text-900">
+          Settings configuration
+        </NavLink>
+      </CardHeader>
+      <CardBody>
+        <p>
+          Control side panel settings from one place. Go to <code>src/config.js</code> file and set your setting
+          configuration.
+        </p>
+        <CodeHighlight
+          code={`export const version = '2.8.0';
+export const navbarBreakPoint = 'xl'; // Vertical navbar breakpoint
+export const topNavbarBreakpoint = 'lg';
+export const settings = {
+  isFluid: false,
+  isRTL: false,
+  isDark: true,
+  isTopNav: true,
+  isVertical: false,
+  get isCombo() {
+    return this.isVertical && this.isTopNav;
+  },
+  showBurgerMenu: false, // controls showing vertical nav on mobile
+  currency: '$',
+  isNavbarVerticalCollapsed: false, // toggle vertical navbar collapse
+  navbarStyle: 'transparent'
+};
+export default { version, navbarBreakPoint, topNavbarBreakpoint, settings };`}
+          language="jsx"
+        />
       </CardBody>
     </Card>
     <Card className="mb-3">
