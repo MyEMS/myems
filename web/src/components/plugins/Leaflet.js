@@ -45,7 +45,7 @@ const leafletCode = `function LeafletMap  () {
     : ['bright:101%', 'contrast:101%', 'hue:23deg', 'saturate:225%'];
 
 
-  if(mapWidht){
+  if(mapWidth){
     useEffect(() => {
       L.tileLayer
         .colorFilter('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
@@ -63,7 +63,7 @@ const leafletCode = `function LeafletMap  () {
         maxZoom={18}
         zoomSnap={0.5}
         className="h-100 w-100"
-        style={{ width:mapWidht, minHeight: 300 }}
+        style={{ width:mapWidth, minHeight: 300 }}
         ref={map}
       >
         <MarkerCluster markers={markers} />
@@ -75,17 +75,17 @@ const leafletCode = `function LeafletMap  () {
 const Leaflet = () => {
   const { isDark } = useContext(AppContext);
   let map = useRef(null);
-  const [mapWidht, setMapwidth] = useState();
+  const [mapWidth, setMapWidth] = useState();
 
   const egMap = useRef();
   useEffect(() => {
     const timer = setTimeout(() => {
-      setMapwidth(egMap.current.offsetWidth);
+      setMapWidth(egMap.current.offsetWidth);
     }, 500);
     return () => {
       clearTimeout(timer);
     };
-  }, [isDark, mapWidht]);
+  }, [isDark, mapWidth]);
 
   return (
     <Fragment>
@@ -107,7 +107,7 @@ const Leaflet = () => {
         <CardBody className="p-0">
           <FalconEditor
             code={leafletCode}
-            scope={{ AppContext, MarkerCluster, Map, map, mapWidht, L }}
+            scope={{ AppContext, MarkerCluster, Map, map, mapWidth, L }}
             language="jsx"
           />
         </CardBody>

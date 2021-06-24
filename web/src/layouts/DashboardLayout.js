@@ -17,7 +17,7 @@ import { getPageName } from '../helpers/utils';
 const DashboardRoutes = loadable(() => import('./MyEMSRoutes'));
 
 const DashboardLayout = ({ location }) => {
-  const { isFluid, isTopNav, navbarStyle } = useContext(AppContext);
+  const { isFluid, isVertical, navbarStyle } = useContext(AppContext);
 
   const isKanban = getPageName('kanban');
 
@@ -31,7 +31,7 @@ const DashboardLayout = ({ location }) => {
 
   return (
     <div className={isFluid || isKanban ? 'container-fluid' : 'container'}>
-      {!isTopNav && <NavbarVertical isKanban={isKanban} navbarStyle={navbarStyle} />}
+      {isVertical && <NavbarVertical isKanban={isKanban} navbarStyle={navbarStyle} />}
       <ProductProvider>
         <div className="content">
           <NavbarTop />

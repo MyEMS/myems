@@ -24,6 +24,7 @@ import { withTranslation } from 'react-i18next';
 
 const SidePanelModal = ({ autoShow, showOnce, autoShowDelay, cookieExpireTime, path, t }) => {
   const {
+    isCombo,
     isOpenSidePanel,
     toggleModal,
     isFluid,
@@ -34,9 +35,11 @@ const SidePanelModal = ({ autoShow, showOnce, autoShowDelay, cookieExpireTime, p
     setIsDark,
     isTopNav,
     setIsTopNav,
-    setIsOpenSidePanel
+    setIsOpenSidePanel,
+    setIsCombo,
+    isVertical,
+    setIsVertical
   } = useContext(AppContext);
-
   const isKanban = getPageName('kanban');
 
   useEffect(() => {
@@ -49,7 +52,6 @@ const SidePanelModal = ({ autoShow, showOnce, autoShowDelay, cookieExpireTime, p
       }, autoShowDelay);
     }
   }, [autoShow, showOnce, setIsOpenSidePanel, autoShowDelay, cookieExpireTime]);
-
   return (
     <Modal
       isOpen={isOpenSidePanel}
@@ -157,28 +159,46 @@ const SidePanelModal = ({ autoShow, showOnce, autoShowDelay, cookieExpireTime, p
             <CustomInput
               type="radio"
               id="verticalNav-radio"
-              label={t('Vertical Nav')}
-              checked={!isTopNav}
-              onChange={({ target }) => setIsTopNav(!target.checked)}
+              label="Vertical"
+              name="NavBarPositionRadioButton"
+              checked={!isCombo && isVertical}
+              onChange={({ target }) => {
+                setIsVertical(target.checked);
+                setIsTopNav(!target.checked);
+                setIsCombo(!target.checked);
+              }}
               inline
             />
             <CustomInput
               type="radio"
               id="topNav-radio"
-              label={t('Top Nav')}
-              checked={isTopNav}
-              onChange={({ target }) => setIsTopNav(target.checked)}
+              label="Top"
+              name="NavBarPositionRadioButton"
+              checked={!isCombo && isTopNav}
+              onChange={({ target }) => {
+                setIsTopNav(target.checked);
+                setIsVertical(!target.checked);
+                setIsCombo(!target.checked);
+              }}
+              inline
+            />
+            <CustomInput
+              type="radio"
+              id="combo-radio"
+              label="Combo"
+              name="NavBarPositionRadioButton"
+              checked={isCombo}
+              onChange={({ target }) => {
+                setIsCombo(target.checked);
+                setIsTopNav(target.checked);
+                setIsVertical(target.checked);
+              }}
               inline
             />
           </Media>
         </Media>
         <hr />
-        <h5 className="fs-0 d-flex align-items-center">
-          {t('Vertical Navbar Style')}{' '}
-          <Badge pill color="soft-success" className="fs--2 ml-2">
-            new
-          </Badge>
-        </h5>
+        <h5 className="fs-0 d-flex align-items-center">{t('Vertical Navbar Style')}</h5>
         <p className="fs--1">{t('Switch between styles for your vertical navbar')}</p>
         <div className="btn-group-toggle btn-block btn-group-navbar-style">
           <ButtonGroup className="btn-block">

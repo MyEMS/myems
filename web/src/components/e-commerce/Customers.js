@@ -25,16 +25,18 @@ import { getPaginationArray } from '../../helpers/utils';
 
 import customers from '../../data/e-commerce/customers';
 
-const nameFormatter = (dataField, { name, avatar }: row) => (
-  <Link to="/pages/customer-details">
-    <Media tag={Flex} align="center">
-      <Avatar {...avatar} />
-      <Media body className="ml-2">
-        <h5 className="mb-0 fs--1">{name}</h5>
+const nameFormatter = (dataField, { avatar, name }) => {
+  return (
+    <Link to="/pages/customer-details">
+      <Media tag={Flex} align="center">
+        <Avatar {...avatar} />
+        <Media body className="ml-2">
+          <h5 className="mb-0 fs--1">{name}</h5>
+        </Media>
       </Media>
-    </Media>
-  </Link>
-);
+    </Link>
+  );
+};
 
 const emailFormatter = email => <a href={`mailto:${email}`}>{email}</a>;
 const phoneFormatter = phone => <a href={`tel:${phone}`}>{phone}</a>;

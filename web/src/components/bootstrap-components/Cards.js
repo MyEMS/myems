@@ -34,7 +34,7 @@ const cardStyleCode = `<CardColumns>
 const basicExampleCode = `<Card style={{width: '20rem'}}>
   <CardImg src={generic1} top />
   <CardBody>
-    <CardTitle tag="h5" tag="h5">
+    <CardTitle tag="h5">
       Card title
     </CardTitle>
     <CardText tag="p">

@@ -1,15 +1,7 @@
 import { createContext } from 'react';
+import { settings } from '../config';
 
-const AppContext = createContext({
-  isFluid: true,
-  isRTL: false,
-  isDark: true,
-  showBurgerMenu: false, // controls showing vertical nav on mobile
-  currency: '$',
-  isNavbarVerticalCollapsed: false,
-  navbarStyle: 'vibrant',
-  language: 'zh_cn',
-});
+const AppContext = createContext(settings);
 
 export const EmailContext = createContext({ emails: [] });
 

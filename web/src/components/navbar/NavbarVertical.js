@@ -9,14 +9,22 @@ import ToggleButton from './ToggleButton';
 import AppContext from '../../context/Context';
 import Flex from '../common/Flex';
 import routes from '../../routes';
-import { navbarBreakPoint } from '../../config';
+import { navbarBreakPoint, topNavbarBreakpoint } from '../../config';
 
 import bgNavbarImg from '../../assets/img/generic/bg-navbar.png';
+import NavbarTopDropDownMenus from './NavbarTopDropDownMenus';
 
 const NavbarVertical = ({ navbarStyle }) => {
   const navBarRef = useRef(null);
 
-  const { showBurgerMenu, isNavbarVerticalCollapsed, setIsNavbarVerticalCollapsed } = useContext(AppContext);
+  const {
+    showBurgerMenu,
+    isNavbarVerticalCollapsed,
+    setIsNavbarVerticalCollapsed,
+    isCombo,
+    setShowBurgerMenu,
+    setNavbarCollapsed
+  } = useContext(AppContext);
 
   const HTMLClassList = document.getElementsByTagName('html')[0].classList;
   //Control Component did mount and unmounted of hover effect
@@ -48,7 +56,6 @@ const NavbarVertical = ({ navbarStyle }) => {
       }, 100);
     }
   };
-
   return (
     <Navbar
       expand={navbarBreakPoint}
@@ -85,10 +92,19 @@ const NavbarVertical = ({ navbarStyle }) => {
           <NavbarVerticalMenu routes={routes} />
         </Nav>
         <div className="settings px-3 px-xl-0">
+          {isCombo && (
+            <div className={`d-${topNavbarBreakpoint}-none`}>
+              <div className="navbar-vertical-divider">
+                <hr className="navbar-vertical-hr my-2" />
+              </div>
+              <Nav navbar>
+                <NavbarTopDropDownMenus setNavbarCollapsed={setNavbarCollapsed} setShowBurgerMenu={setShowBurgerMenu} />
+              </Nav>
+            </div>
+          )}
           <div className="navbar-vertical-divider">
             <hr className="navbar-vertical-hr my-2" />
           </div>
-
           <Button
             tag={'a'}
             href="https://myems.io"
@@ -101,8 +117,6 @@ const NavbarVertical = ({ navbarStyle }) => {
             Purchase
           </Button>
         </div>
-
-        {/* </Scrollbar> */}
       </Collapse>
     </Navbar>
   );

@@ -26,11 +26,11 @@ const Layout = () => {
     <Router fallback={<span />}>
       <Switch>
         <Route path="/landing" exact component={Landing} />
-        <Route path="/authentication/basic" component={AuthBasicLayout} />
         <Route path="/authentication/card" component={AuthCardRoutes} />
         <Route path="/authentication/split" component={AuthSplitRoutes} />
         <Route path="/authentication/wizard" component={WizardLayout} />
         <Route path="/errors" component={ErrorLayout} />
+        <Route path="/authentication/basic" component={AuthBasicLayout} />
         <Route component={DashboardLayout} />
       </Switch>
       <ToastContainer transition={Fade} closeButton={<CloseButton />} position={toast.POSITION.BOTTOM_LEFT} />

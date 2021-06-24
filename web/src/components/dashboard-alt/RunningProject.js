@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Media, Progress, Row, Col, Badge } from 'reactstrap';
+import { Media, Row, Col, Badge } from 'reactstrap';
 import Flex from '../common/Flex';
+import FalconProgress from '../common/FalconProgress';
 
 const RunningProject = ({ project, isLast }) => {
   const { color, progress, time, title } = project;
@@ -34,12 +35,11 @@ const RunningProject = ({ project, isLast }) => {
             <div className="fs--1 font-weight-semi-bold">{time}</div>
           </Col>
           <Col xs="5" className="pr-card">
-            <Progress
+            <FalconProgress
               value={progress}
               color="primary"
-              className="w-100 rounded-soft bg-200"
-              barClassName="rounded-capsule"
               style={{ height: '5px' }}
+              className="w-100 rounded-soft bg-200"
             />
           </Col>
         </Row>
