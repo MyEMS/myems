@@ -1,7 +1,26 @@
 export default [
   {
+    title: `2.10.2 - African hobby`,
+    publish: '13 May, 2021',
+    logs: {
+      Fix: ['Plyr plugin compatibility'],
+    }
+  },
+  {
+    title: `2.10.1 - Greater Kestrels`,
+    publish: '19 November, 2020',
+    logs: {
+      New: ['<strong>Component</strong> : Tabs'],
+      Fix: ['Chat page flickering on fluid layout'],
+      Migration: {
+        Add: ['<code>src/components/bootstrap-component/Tabs.js</code>'],
+        Update: ['<code>src/components/chat/Chat.js</code>']
+      }
+    }
+  },
+  {
     title: `2.10.0 - Eurasian hobby`,
-    publish: '14 September, 2020',
+    publish: '14 November, 2020',
     logs: {
       New: ['<strong>Component</strong> : Autocomplete', '<strong>Plugin</strong> : <code>FuseJS</code>'],
       Migration: {
@@ -22,7 +41,7 @@ export default [
   },
   {
     title: `2.9.0 - Banded kestrel`,
-    publish: '02 September, 2020',
+    publish: '02 November, 2020',
     logs: {
       New: [
         '<strong>Page</strong> :Calender',

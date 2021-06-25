@@ -44,7 +44,7 @@ const InboxHeader = ({ isAllSelected, toggleIsAllSelected, selectedItems, isInde
         <Col xs="auto">
           <Button tag={Link} color="falcon-primary" size="sm" to="/email/compose">
             <FontAwesomeIcon icon="plus" transform="shrink-3" className="mr-1" />
-            Compose new
+            Compose <span className="d-md-inline-block d-none ">new</span>
           </Button>
         </Col>
       </Row>

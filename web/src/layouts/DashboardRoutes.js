@@ -27,6 +27,7 @@ import ProgressBar from '../components/bootstrap-components/ProgressBar';
 import Sidepanel from '../components/bootstrap-components/Sidepanel';
 import Spinners from '../components/bootstrap-components/Spinners';
 import Tables from '../components/bootstrap-components/Tables';
+import Tabs from '../components/bootstrap-components/Tabs';
 import Tooltips from '../components/bootstrap-components/Tooltips';
 import VerticalNavbar from '../components/bootstrap-components/VerticalNavbar';
 import Calendar from '../components/calendar/Calendar';
@@ -205,6 +206,7 @@ const DashboardRoutes = () => (
     <Route path="/components/paginations" exact component={Paginations} />
     <Route path="/components/popovers" exact component={Popovers} />
     <Route path="/components/progress" exact component={ProgressBar} />
+    <Route path="/components/tab" exact component={Tabs} />
     <Route path="/components/tables" exact component={Tables} />
     <Route path="/components/tooltips" exact component={Tooltips} />
     <Route path="/components/spinners" exact component={Spinners} />
