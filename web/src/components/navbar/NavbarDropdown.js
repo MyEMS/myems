@@ -77,7 +77,7 @@ const NavbarDropdown = ({ title, items, right, children, handleSetNavbarCollapse
             {title === 'Authentication' && (
               <img src={AuthCornerImage} alt="" className="position-absolute b-0 r-0" width={130} />
             )}
-            <CardBody className={classNames('scrollbar', { 'p-2': title === 'Home' })}>
+            <CardBody className={classNames('scrollbar px-0 py-2', { 'p-0': title === 'Home' })}>
               <div className="nav flex-column">
                 {title === 'Home' ? (
                   items.map(({ to, name }, index) => (
@@ -86,7 +86,7 @@ const NavbarDropdown = ({ title, items, right, children, handleSetNavbarCollapse
                     </DropdownItem>
                   ))
                 ) : (
-                  <Row>
+                  <Row noGutters>
                     {navItemGroup.map((groupItem, index) => {
                       return (
                         <Col
@@ -102,14 +102,8 @@ const NavbarDropdown = ({ title, items, right, children, handleSetNavbarCollapse
 
                             return (
                               <Fragment key={`${index}-${i}`}>
-                                {title && <div className="nav-link py-1 pl-0 text-900 font-weight-bold">{title}</div>}
-                                <DropdownItem
-                                  tag={Link}
-                                  to={navItem.to}
-                                  key={i}
-                                  className="pl-0"
-                                  onClick={handleSetNavbarCollapsed}
-                                >
+                                {title && <div className="nav-link  py-1 text-900 font-weight-bold">{title}</div>}
+                                <DropdownItem tag={Link} to={navItem.to} key={i} onClick={handleSetNavbarCollapsed}>
                                   {navItem.name}
                                   {navItem.badge && (
                                     <Badge color={navItem.badge.color || 'soft-success'} pill className="ml-2">

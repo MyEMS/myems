@@ -25,6 +25,7 @@
     "echarts-for-react": "^2.0.16",
     "element-resize-event": "^3.0.3",
     "emoji-mart": "^3.0.0",
+    "fuse.js": "^6.4.3",
     "google-maps-react": "^2.0.6",
     "i18next": "^19.6.3",
     "is_js": "^0.9.0",

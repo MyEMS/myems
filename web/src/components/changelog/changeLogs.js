@@ -1,5 +1,26 @@
 export default [
   {
+    title: `2.10.0 - Eurasian hobby`,
+    publish: '14 September, 2020',
+    logs: {
+      New: ['<strong>Component</strong> : Autocomplete', '<strong>Plugin</strong> : <code>FuseJS</code>'],
+      Migration: {
+        Add: ['<code>src/components/bootstrap-component/AutocompleteExample.js</code>'],
+        Update: [
+          '<code>src/data/autocomplete/autocomplete.js</code>',
+          '<code>src/components/navbar/NavbarTop.js</code>',
+          '<code>src/components/navbar/NavbarDropdownComponents.js</code>',
+          '<code>src/components/navbar/NavbarDropdown.js</code>',
+          '<code>src/components/navbar/SearchBox.js</code>',
+          '<code>src/assets/scss/theme/_search-box.scss</code>',
+          '<code>src/assets/scss/theme/_hover.scss</code>',
+          '<code>src/assets/scss/theme/_navbar.scss</code>',
+          'Move All variables From <code>src/assets/scss/theme/_navbar-vertical.scss</code> To <code>src/assets/scss/theme/_variables.scss</code>'
+        ]
+      }
+    }
+  },
+  {
     title: `2.9.0 - Banded kestrel`,
     publish: '02 September, 2020',
     logs: {
@@ -12,7 +33,7 @@ export default [
         Add: [
           '<code>src/components/calendar/*.*</code>',
           '<code>src/components/plugins/CalenderExample.js</code>',
-          '<code>src/assets/scss/theme/_full-calender.scss</code>'
+          '<code>src/assets/scss/theme/plugins/_full-calender.scss</code>'
         ]
       }
     }

@@ -36,7 +36,6 @@
   .dropdown-item {
     font-weight: $font-weight-medium;
     @include hover-focus {
-      background-color: initial;
       color: $gray-1000;
     }
   }

@@ -35,7 +35,7 @@ const NavbarDropdownComponents = ({ title, items, right, handleSetNavbarCollapse
       <DropdownMenu right={right} className="dropdown-menu-card mt-0">
         {isIterableArray(items) && (
           <Card className="navbar-card-components shadow-none">
-            <CardBody className="max-h-dropdown scrollbar">
+            <CardBody className="max-h-dropdown scrollbar px-0 py-2">
               <div className="nav flex-column">
                 {items.map((groupItem, index) => {
                   const NavItemGroup = routesSlicer({
@@ -46,9 +46,9 @@ const NavbarDropdownComponents = ({ title, items, right, handleSetNavbarCollapse
                   return (
                     <Fragment key={index}>
                       {index !== 0 && (
-                        <div className="nav-link pl-0 py-1 text-900 font-weight-bold">{items[index].name}</div>
+                        <div className="nav-link  py-1 text-900 font-weight-bold">{items[index].name}</div>
                       )}
-                      <Row className={index + 1 === items.length ? 'mb-0' : 'mb-3'}>
+                      <Row className={index + 1 === items.length ? 'mb-0' : 'mb-3'} noGutters>
                         {NavItemGroup.map((navItems, i) => {
                           return (
                             <Fragment key={`${index}-${i}`}>
@@ -59,7 +59,6 @@ const NavbarDropdownComponents = ({ title, items, right, handleSetNavbarCollapse
                                       tag={Link}
                                       to={navItem.to}
                                       key={`${index}-${i}-${j}`}
-                                      className="pl-0"
                                       onClick={handleSetNavbarCollapsed}
                                     >
                                       {t(navItem.name)}

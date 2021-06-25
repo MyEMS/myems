@@ -24,26 +24,41 @@
 .sticky-bottom {
   z-index: 1019;
   position: sticky;
-  bottom: 0
+  bottom: 0;
 }
 
 /*-----------------------------------------------
 |   Position
 -----------------------------------------------*/
-.container, .container-fluid { position: relative; }
+.container,
+.container-fluid {
+  position: relative;
+}
 
-.a-0, .t-0 { top: 0; }
-.a-0, .b-0 { bottom: 0; }
-.a-0, .l-0 { left: 0; }
-.a-0, .r-0 { right: 0; }
+.a-0,
+.t-0 {
+  top: 0 !important;
+}
+.a-0,
+.b-0 {
+  bottom: 0 !important;
+}
+.a-0,
+.l-0 {
+  left: 0 !important;
+}
+.a-0,
+.r-0 {
+  right: 0 !important;
+}
 
-.absolute-centered{
+.absolute-centered {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate3d(-50%, -50%, 0);
 }
-.absolute-vertical-center{
+.absolute-vertical-center {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -51,10 +66,10 @@
 
 // Used in product list page
 @include media-breakpoint-up(sm) {
-  .absolute-sm-centered{
+  .absolute-sm-centered {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate3d(-50%, -50%, 0);
-  } 
+  }
 }

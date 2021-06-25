@@ -42,3 +42,8 @@
     }
   }
 }
+.hover-primary {
+  @include hover-focus {
+    color: $primary !important;
+  }
+}

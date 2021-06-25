@@ -2,6 +2,7 @@ import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import Alerts from '../components/bootstrap-components/Alerts';
 import Avatar from '../components/bootstrap-components/Avatar';
+import AutocompleteExample from '../components/bootstrap-components/AutocompleteExample';
 import Backgrounds from '../components/bootstrap-components/Backgrounds';
 import Badges from '../components/bootstrap-components/Badges';
 import Breadcrumbs from '../components/bootstrap-components/Breadcrumb';
@@ -180,6 +181,7 @@ const DashboardRoutes = () => (
 
     {/*Components*/}
     <Route path="/components/alerts" exact component={Alerts} />
+    <Route path="/components/autocomplete" exact component={AutocompleteExample} />
     <Route path="/components/accordions" exact component={FalconAccordions} />
     <Route path="/components/avatar" exact component={Avatar} />
     <Route path="/components/badges" exact component={Badges} />

@@ -7,6 +7,7 @@ import SearchBox from './SearchBox';
 import TopNavRightSideNavItem from './TopNavRightSideNavItem';
 import NavbarTopDropDownMenus from './NavbarTopDropDownMenus';
 import { navbarBreakPoint, topNavbarBreakpoint } from '../../config';
+import autoCompleteInitialItem from '../../data/autocomplete/autocomplete';
 
 const NavbarTop = () => {
   const {
@@ -26,7 +27,7 @@ const NavbarTop = () => {
     <Navbar
       light
       className="navbar-glass fs--1 font-weight-semi-bold row navbar-top sticky-kit"
-      expand={topNavbarBreakpoint}
+      expand={isTopNav && topNavbarBreakpoint}
     >
       <div
         className={classNames('toggle-icon-wrapper mr-md-3 mr-2', {
@@ -45,19 +46,20 @@ const NavbarTop = () => {
         </button>
       </div>
       <Logo at="navbar-top" width={40} id="topLogo" />
-      <Collapse navbar isOpen={navbarCollapsed} className="scrollbar">
-        {!isTopNav ? (
-          <Nav navbar className="align-items-center d-none d-lg-block">
-            <NavItem>
-              <SearchBox />
-            </NavItem>
-          </Nav>
-        ) : (
+      {isTopNav ? (
+        <Collapse navbar isOpen={navbarCollapsed} className="scrollbar">
           <Nav navbar>
             <NavbarTopDropDownMenus setNavbarCollapsed={setNavbarCollapsed} />
           </Nav>
-        )}
-      </Collapse>
+        </Collapse>
+      ) : (
+        <Nav navbar className={`align-items-center d-none d-${topNavbarBreakpoint}-block`}>
+          <NavItem>
+            <SearchBox autoCompleteItem={autoCompleteInitialItem} />
+          </NavItem>
+        </Nav>
+      )}
+
       <TopNavRightSideNavItem />
     </Navbar>
   );
