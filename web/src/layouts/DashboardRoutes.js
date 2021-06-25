@@ -1,51 +1,94 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import Activity from '../components/page/Activity';
-import Associations from '../components/page/Associations';
-import Billing from '../components/page/Billing';
-import CustomerDetails from '../components/page/CustomerDetails';
-import EventDetail from '../components/page/EventDetail';
-import EventCreate from '../components/page/EventCreate';
-import Events from '../components/page/Events';
-import Faq from '../components/page/Faq';
-import Invoice from '../components/page/Invoice';
-import InvitePeople from '../components/page/InvitePeople';
-import Notifications from '../components/page/Notifications';
-import People from '../components/page/People';
-import Pricing from '../components/pricing/Pricing';
-import PricingAlt from '../components/pricing/PricingAlt';
-import Profile from '../components/profile/Profile';
-import Settings from '../components/page/Settings';
-import Starter from '../components/extra/Starter';
-import GettingStarted from '../components/documentation/GettingStarted';
 import Alerts from '../components/bootstrap-components/Alerts';
-import FalconAccordions from '../components/bootstrap-components/FalconAccordions';
-import Spinners from '../components/bootstrap-components/Spinners';
-import Carousel from '../components/bootstrap-components/Carousel';
 import Avatar from '../components/bootstrap-components/Avatar';
-import Badges from '../components/bootstrap-components/Badges';
 import Backgrounds from '../components/bootstrap-components/Backgrounds';
+import Badges from '../components/bootstrap-components/Badges';
 import Breadcrumbs from '../components/bootstrap-components/Breadcrumb';
 import Buttons from '../components/bootstrap-components/Buttons';
 import Cards from '../components/bootstrap-components/Cards';
+import Carousel from '../components/bootstrap-components/Carousel';
 import Collapses from '../components/bootstrap-components/Collapses';
+import Combo from '../components/bootstrap-components/Combo';
+import CookieNotice from '../components/bootstrap-components/CookieNotice';
 import Dropdowns from '../components/bootstrap-components/Dropdowns';
+import FalconAccordions from '../components/bootstrap-components/FalconAccordions';
 import Forms from '../components/bootstrap-components/Forms';
 import ListGroups from '../components/bootstrap-components/ListGroups';
 import Modals from '../components/bootstrap-components/Modals';
-import Navs from '../components/bootstrap-components/Navs';
 import Navbars from '../components/bootstrap-components/Navbars';
+import NavBarTop from '../components/bootstrap-components/NavBarTop';
+import Navs from '../components/bootstrap-components/Navs';
 import PageHeaders from '../components/bootstrap-components/PageHeaders';
 import Paginations from '../components/bootstrap-components/Paginations';
 import Popovers from '../components/bootstrap-components/Popovers';
 import ProgressBar from '../components/bootstrap-components/ProgressBar';
+import Sidepanel from '../components/bootstrap-components/Sidepanel';
+import Spinners from '../components/bootstrap-components/Spinners';
 import Tables from '../components/bootstrap-components/Tables';
 import Tooltips from '../components/bootstrap-components/Tooltips';
-import NavBarTop from '../components/bootstrap-components/NavBarTop';
-import Combo from '../components/bootstrap-components/Combo';
 import VerticalNavbar from '../components/bootstrap-components/VerticalNavbar';
-import Sidepanel from '../components/bootstrap-components/Sidepanel';
-import CookieNotice from '../components/bootstrap-components/CookieNotice';
+import Calendar from '../components/calendar/Calendar';
+import ChangeLog from '../components/changelog/ChangeLog';
+import Chat from '../components/chat/Chat';
+import GettingStarted from '../components/documentation/GettingStarted';
+import Checkout from '../components/e-commerce/Checkout';
+import Customers from '../components/e-commerce/Customers';
+import FavouriteItems from '../components/e-commerce/FavouriteItems';
+import OrderDetails from '../components/e-commerce/OrderDetails';
+import Orders from '../components/e-commerce/Orders';
+import ProductDetails from '../components/e-commerce/ProductDetails';
+import Products from '../components/e-commerce/Products';
+import ShoppingCart from '../components/e-commerce/ShoppingCart';
+import Compose from '../components/email/Compose';
+import EmailDetail from '../components/email/EmailDetail';
+import Inbox from '../components/email/Inbox';
+import InboxProvider from '../components/email/inbox/InboxProvider';
+import Starter from '../components/extra/Starter';
+import Feed from '../components/feed/Feed';
+import Kanban from '../components/kanban/Kanban';
+import Activity from '../components/page/Activity';
+import Associations from '../components/page/Associations';
+import Billing from '../components/page/Billing';
+import CustomerDetails from '../components/page/CustomerDetails';
+import EventCreate from '../components/page/EventCreate';
+import EventDetail from '../components/page/EventDetail';
+import Events from '../components/page/Events';
+import Faq from '../components/page/Faq';
+import InvitePeople from '../components/page/InvitePeople';
+import Invoice from '../components/page/Invoice';
+import Notifications from '../components/page/Notifications';
+import People from '../components/page/People';
+import Settings from '../components/page/Settings';
+import BulkSelect from '../components/plugins/BulkSelect';
+import CalendarExample from '../components/plugins/CalendarExample';
+import Chart from '../components/plugins/Chart';
+import CodeHighlightDoc from '../components/plugins/CodeHighlightDoc';
+import CountUpExample from '../components/plugins/Countup';
+import DatetimeExample from '../components/plugins/Datetime';
+import Dropzone from '../components/plugins/Dropzone';
+import EchartMap from '../components/plugins/EchartMap';
+import Echarts from '../components/plugins/Echarts';
+import EmojiMart from '../components/plugins/EmojiMart';
+import FontAwesome from '../components/plugins/FontAwesome';
+import GoogleMapExample from '../components/plugins/GoogleMap';
+import ImageLightbox from '../components/plugins/ImageLightbox';
+import Leaflet from '../components/plugins/Leaflet';
+import Lottie from '../components/plugins/Lottie';
+import Plyr from '../components/plugins/Plyr';
+import ProgressBarJs from '../components/plugins/ProgressBarJs';
+import QuillEditorExample from '../components/plugins/Quill';
+import ReactBeautifulDnD from '../components/plugins/ReactBeautifulDnD';
+import ReactBootstrapTable2 from '../components/plugins/ReactBootstrapTable2';
+import ReactHookFrom from '../components/plugins/ReactHookFrom';
+import Scrollbar from '../components/plugins/Scrollbar';
+import Select from '../components/plugins/Select';
+import SlickCarousel from '../components/plugins/SlickCarousel';
+import Toastify from '../components/plugins/Toastify';
+import Typed from '../components/plugins/Typed';
+import Pricing from '../components/pricing/Pricing';
+import PricingAlt from '../components/pricing/PricingAlt';
+import Profile from '../components/profile/Profile';
 import Borders from '../components/utilities/Borders';
 import Clearfix from '../components/utilities/Clearfix';
 import CloseIcon from '../components/utilities/CloseIcon';
@@ -61,48 +104,7 @@ import StretchedLink from '../components/utilities/StretchedLink';
 import Typography from '../components/utilities/Typography';
 import VerticalAlign from '../components/utilities/VerticalAlign';
 import Visibility from '../components/utilities/Visibility';
-import Typed from '../components/plugins/Typed';
-import ImageLightbox from '../components/plugins/ImageLightbox';
-import GoogleMapExample from '../components/plugins/GoogleMap';
-import Chart from '../components/plugins/Chart';
-import CountUpExample from '../components/plugins/Countup';
-import DatetimeExample from '../components/plugins/Datetime';
-import FontAwesome from '../components/plugins/FontAwesome';
-import Echarts from '../components/plugins/Echarts';
-import Toastify from '../components/plugins/Toastify';
-import Select from '../components/plugins/Select';
-import SlickCarousel from '../components/plugins/SlickCarousel';
-import ReactBootstrapTable2 from '../components/plugins/ReactBootstrapTable2';
-import ReactBeautifulDnD from '../components/plugins/ReactBeautifulDnD';
-import EmailDetail from '../components/email/EmailDetail';
-import Inbox from '../components/email/Inbox';
-import Compose from '../components/email/Compose';
-import QuillEditorExample from '../components/plugins/Quill';
-import BulkSelect from '../components/plugins/BulkSelect';
-import ChangeLog from '../components/changelog/ChangeLog';
-import ProgressBarJs from '../components/plugins/ProgressBarJs';
-import Products from '../components/e-commerce/Products';
-import ProductDetails from '../components/e-commerce/ProductDetails';
-import ShoppingCart from '../components/e-commerce/ShoppingCart';
-import FavouriteItems from '../components/e-commerce/FavouriteItems';
-import Orders from '../components/e-commerce/Orders';
-import OrderDetails from '../components/e-commerce/OrderDetails';
-import Customers from '../components/e-commerce/Customers';
-import Checkout from '../components/e-commerce/Checkout';
-import Feed from '../components/feed/Feed';
-import Plyr from '../components/plugins/Plyr';
-import Scrollbar from '../components/plugins/Scrollbar';
-import Leaflet from '../components/plugins/Leaflet';
-import EchartMap from '../components/plugins/EchartMap';
-import InboxProvider from '../components/email/inbox/InboxProvider';
-import ReactHookFrom from '../components/plugins/ReactHookFrom';
-import Lottie from '../components/plugins/Lottie';
-import Dropzone from '../components/plugins/Dropzone';
-import CodeHighlightDoc from '../components/plugins/CodeHighlightDoc';
-import EmojiMart from '../components/plugins/EmojiMart';
-import Chat from '../components/chat/Chat';
 import Widgets from '../components/widgets/Widgets';
-import Kanban from '../components/kanban/Kanban';
 
 const InboxRoutes = ({ match: { url } }) => (
   <InboxProvider>
@@ -157,6 +159,8 @@ const DashboardRoutes = () => (
     <Route path="/pages/starter" exact component={Starter} />
     {/*chat*/}
     <Route path="/chat" exact component={Chat} />
+    {/*calendar*/}
+    <Route path="/calendar" exact component={Calendar} />
     {/*kanban*/}
     <Route path="/kanban" exact component={Kanban} />
     {/*E commerce*/}
@@ -222,6 +226,7 @@ const DashboardRoutes = () => (
     <Route path="/utilities/visibility" exact component={Visibility} />
 
     {/*Plugins*/}
+    <Route path="/plugins/calendar-example" exact component={CalendarExample} />
     <Route path="/plugins/bulk-select" exact component={BulkSelect} />
     <Route path="/plugins/typed" exact component={Typed} />
     <Route path="/plugins/image-lightbox" exact component={ImageLightbox} />

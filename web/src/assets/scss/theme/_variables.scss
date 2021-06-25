@@ -453,6 +453,16 @@ $avatars-dimension: (
 
 $tooltip-padding-y: 0.5rem !default;
 $tooltip-font-size: map_get($font-sizes, '-1') !default;
+
+/*-----------------------------------------------
+|   Navbar vertical
+-----------------------------------------------*/
+$navbar-vertical-width: 12.5rem !default;
+$vertical-navbar-padding: 1.5rem !default;
+$breaks: ('xxl', 'xl', 'lg', 'md', 'sm', 'xs') !default;
+$navbar-collapsed-width: 3.125rem !default;
+$navbar-vertical-max-width: 12.625rem !default;
+
 //*-----------------------------------------------
 //|   Navbar Inverted
 //-----------------------------------------------*/

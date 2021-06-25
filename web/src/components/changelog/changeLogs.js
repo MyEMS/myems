@@ -1,7 +1,25 @@
 export default [
   {
+    title: `2.9.0 - Banded kestrel`,
+    publish: '02 September, 2020',
+    logs: {
+      New: [
+        '<strong>Page</strong> :Calender',
+        '<strong>DOC</strong> : Full Calendar',
+        '<strong>Plugin</strong> : <code>FullCalendar</code>'
+      ],
+      Migration: {
+        Add: [
+          '<code>src/components/calendar/*.*</code>',
+          '<code>src/components/plugins/CalenderExample.js</code>',
+          '<code>src/assets/scss/theme/_full-calender.scss</code>'
+        ]
+      }
+    }
+  },
+  {
     title: `2.8.0 - Dickinson's kestrel`,
-    publish: '29 September, 2020',
+    publish: '28 September, 2020',
     logs: {
       New: ['Navbar combo layout', '<strong>DOC</strong> : Navbar combo Doc'],
       Update: ['<strong>DOC</strong>: Documentation'],

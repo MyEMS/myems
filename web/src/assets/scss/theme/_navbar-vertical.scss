@@ -1,15 +1,10 @@
 /*-----------------------------------------------
-|   Navbar
+|   Navbar vertical
 -----------------------------------------------*/
 .shadow-bottom {
   box-shadow: 0 0.5rem 0.5rem -0.5rem rgba($black, 0.2) !important;
 }
 
-/*-----------------------------------------------
-|   Navbar vertical
------------------------------------------------*/
-$navbar-vertical-width: 12.625rem;
-$vartical-navbar-padding: 1.5rem;
 .navbar-top {
   top: 0;
   z-index: 1020;
@@ -67,8 +62,8 @@ $vartical-navbar-padding: 1.5rem;
       }
     }
     .nav-link-icon {
-      width: $vartical-navbar-padding;
-      min-width: $vartical-navbar-padding;
+      width: $vertical-navbar-padding;
+      min-width: $vertical-navbar-padding;
       font-size: map_get($font-sizes, 0);
     }
     .nav {
@@ -76,7 +71,7 @@ $vartical-navbar-padding: 1.5rem;
       font-size: 0.8125rem;
       .nav-item {
         .nav-link {
-          padding: 0.2rem $vartical-navbar-padding;
+          padding: 0.2rem $vertical-navbar-padding;
         }
         &:last-child {
           margin-bottom: 0.35rem;
@@ -85,13 +80,13 @@ $vartical-navbar-padding: 1.5rem;
       .nav {
         .nav-item {
           .nav-link {
-            padding-left: $vartical-navbar-padding * 1.75;
+            padding-left: $vertical-navbar-padding * 1.75;
           }
         }
         .nav {
           .nav-item {
             .nav-link {
-              padding-left: $vartical-navbar-padding * 2.75;
+              padding-left: $vertical-navbar-padding * 2.75;
             }
           }
         }
@@ -264,11 +259,6 @@ $vartical-navbar-padding: 1.5rem;
 /*-----------------------------------------------
 |   Break 
 -----------------------------------------------*/
-
-$breaks: ('xxl', 'xl', 'lg', 'md', 'sm', 'xs');
-// $navbar-collapsed-width: 3.4375rem;
-$navbar-collapsed-width: 3.125rem;
-$navbar-vertical-max-width: 12.625rem;
 
 @for $i from 1 through length($breaks) {
   $item: nth($breaks, $i);
