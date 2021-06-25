@@ -10,7 +10,7 @@ import { EmailContext } from '../../../context/Context';
 
 const InboxHeader = ({ isAllSelected, toggleIsAllSelected, selectedItems, isIndeterminate }) => {
   // Context
-  const { handleFilter } = useContext(EmailContext);
+  const { filters, handleFilter, currentFilter } = useContext(EmailContext);
 
   return (
     <CardHeader>
@@ -31,7 +31,13 @@ const InboxHeader = ({ isAllSelected, toggleIsAllSelected, selectedItems, isInde
               <Button color="falcon-default" className="btn-sm ml-sm-1" onClick={() => handleFilter('all')}>
                 <FontAwesomeIcon icon="redo" />
               </Button>
-              <DropdownFilter className="ml-2" />
+              <DropdownFilter
+                className="ml-2"
+                filters={filters}
+                handleFilter={handleFilter}
+                currentFilter={currentFilter}
+                icon="sliders-h"
+              />
             </Fragment>
           )}
         </Col>

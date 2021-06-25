@@ -9,4 +9,24 @@
   }
   @return $raised;
 }
-@function toRem($px) { @return ($px / 16); }
+@function toRem($px) {
+  @return ($px / 16);
+}
+
+@mixin chrome-scrollbar {
+  overflow: auto;
+  &::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+    height: 7px;
+    background-color: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba($gray-600, 0.3);
+  }
+}
+@mixin firefox-scrollbar {
+  scrollbar-color: rgba($gray-600, 0.3) transparent;
+  scrollbar-width: thin;
+}

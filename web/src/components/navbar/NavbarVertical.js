@@ -1,18 +1,17 @@
-import React, { useContext, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
-import { Button, Collapse, Nav, Navbar } from 'reactstrap';
-import is from 'is_js';
 import classNames from 'classnames';
+import is from 'is_js';
+import PropTypes from 'prop-types';
+import React, { useContext, useEffect, useRef } from 'react';
+import { Button, Collapse, Nav, Navbar } from 'reactstrap';
+import bgNavbarImg from '../../assets/img/generic/bg-navbar.png';
+import { navbarBreakPoint, topNavbarBreakpoint } from '../../config';
+import AppContext from '../../context/Context';
+import routes from '../../routes';
+import Flex from '../common/Flex';
 import Logo from './Logo';
+import NavbarTopDropDownMenus from './NavbarTopDropDownMenus';
 import NavbarVerticalMenu from './NavbarVerticalMenu';
 import ToggleButton from './ToggleButton';
-import AppContext from '../../context/Context';
-import Flex from '../common/Flex';
-import routes from '../../routes';
-import { navbarBreakPoint, topNavbarBreakpoint } from '../../config';
-
-import bgNavbarImg from '../../assets/img/generic/bg-navbar.png';
-import NavbarTopDropDownMenus from './NavbarTopDropDownMenus';
 
 const NavbarVertical = ({ navbarStyle }) => {
   const navBarRef = useRef(null);

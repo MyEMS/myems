@@ -1,12 +1,13 @@
 import React, { Fragment, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Col, Row } from 'reactstrap';
+import { Button, Col, Row } from 'reactstrap';
 import StarCount from '../product/StarCount';
 import classNames from 'classnames';
 import { calculateSale, isIterableArray } from '../../../helpers/utils';
 import QuantityController from '../../common/QuantityController';
 import ButtonIcon from '../../common/ButtonIcon';
 import AppContext, { ProductContext } from '../../../context/Context';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const ProductDetailsMain = ({
   id,
@@ -103,7 +104,7 @@ const ProductDetailsMain = ({
         <Col xs="auto" className="pr-0">
           <QuantityController quantity={quantity} setQuantity={setQuantity} />
         </Col>
-        <div className="col-auto">
+        <div className="col-auto pr-0">
           {cartLoading ? (
             <ButtonIcon
               color="primary"
@@ -116,16 +117,17 @@ const ProductDetailsMain = ({
               Processing
             </ButtonIcon>
           ) : (
-            <ButtonIcon color="primary" size="sm" icon="cart-plus" onClick={handleAddToCart}>
-              Add to Cart
-            </ButtonIcon>
+            <Button color="primary" size="sm" onClick={handleAddToCart}>
+              <FontAwesomeIcon icon="cart-plus" className="mr-sm-2" />
+              <span className="d-md-inline-block d-none">Add to Cart</span>
+            </Button>
           )}
         </div>
-        <div className="col-sm-auto pl-3 pl-sm-0">
+        <div className="col-auto">
           <ButtonIcon
             color="outline-danger"
             size="sm"
-            className="border-300 mr-2 mt-2 mt-sm-0"
+            className="border-300 mr-2 "
             icon={[isInFavouriteItems(id) ? 'fas' : 'far', 'heart']}
             onClick={() =>
               isInFavouriteItems(id)

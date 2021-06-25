@@ -6,8 +6,8 @@
   top: 0;
   font-size: map_get($font-sizes, '-1');
   font-weight: $font-weight-semi-bold;
-  margin-left: -15px;
-  margin-right: -15px;
+  margin-left: -1rem;
+  margin-right: -1rem;
   .navbar-nav-icons {
     .dropdown-menu {
       position: absolute;
@@ -47,7 +47,7 @@
 .card-notification {
   min-width: 20rem;
   @include media-breakpoint-only(xs) {
-    min-width: 16rem;
+    min-width: 17rem;
   }
 }
 .settings-popover {

@@ -122,6 +122,13 @@ import { Trans } from 'react-i18next'
 //   icon: 'poll'
 // };
 
+// export const calenderRoutes = {
+//   name: 'Calendar',
+//   to: '/calendar',
+//   exact: true,
+//   icon: 'calendar-alt'
+// };
+
 // export const chatRoutes = {
 //   name: 'Chat',
 //   to: '/chat',
@@ -146,6 +153,7 @@ import { Trans } from 'react-i18next'
 //     { to: '/email/compose', name: 'Compose' }
 //   ]
 // };
+
 
 // export const documentationRoutes = {
 //   name: 'Documentation',
@@ -483,6 +491,7 @@ export default [
   // pageRoutes,
   // chatRoutes,
   // kanbanRoutes,
+  // calenderRoutes,
   // emailRoutes,
   // authenticationRoutes,
   // ECommerceRoutes,

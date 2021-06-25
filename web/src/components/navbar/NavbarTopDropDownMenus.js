@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import NavbarDropdown from './NavbarDropdown';
 import NavbarDropdownComponents from './NavbarDropdownComponents';
@@ -30,19 +30,22 @@ import {
 } from '../../routes';
 import { NavItem } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
-import { breakpoints } from '../../helpers/utils';
-import { topNavbarBreakpoint } from '../../config';
+import { breakpoints, getPageName } from '../../helpers/utils';
+import { navbarBreakPoint, topNavbarBreakpoint } from '../../config';
+import AppContext from '../../context/Context';
 import { withTranslation } from 'react-i18next';
 
 
-const NavbarTopDropDownMenus = ({ setNavbarCollapsed, t }) => {
+const NavbarTopDropDownMenus = ({ setNavbarCollapsed, setShowBurgerMenu, t }) => {
+  const { isCombo, isTopNav } = useContext(AppContext);
   // const components = [componentRoutes, pluginRoutes, utilityRoutes];
   // const pages = [pageRoutes, kanbanRoutes, widgetsRoutes, chatRoutes, emailRoutes, ECommerceRoutes];
   const handleSetNavbarCollapsed = () => {
     const windowWidth = window.innerWidth;
-    windowWidth < breakpoints[topNavbarBreakpoint] && setNavbarCollapsed(false);
+    isTopNav && !isCombo && windowWidth < breakpoints[topNavbarBreakpoint] && setNavbarCollapsed(false);
+    isCombo && windowWidth < breakpoints[navbarBreakPoint] && setShowBurgerMenu(false);
   };
-
+  const isLanding = getPageName('landing');
   return (
     <>
       {/*<NavbarDropdown
