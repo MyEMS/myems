@@ -640,8 +640,7 @@ class Reporting:
             for energy_category_id in energy_category_set:
                 result['base_period_cost']['names'].append(
                     energy_category_dict[energy_category_id]['name'])
-                result['base_period_cost']['units'].append(
-                    energy_category_dict[energy_category_id]['unit_of_measure'])
+                result['base_period_cost']['units'].append(config.currency_unit)
                 result['base_period_cost']['timestamps'].append(
                     base_cost[energy_category_id]['timestamps'])
                 result['base_period_cost']['values'].append(
