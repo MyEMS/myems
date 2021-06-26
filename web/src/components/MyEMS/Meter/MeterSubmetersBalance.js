@@ -60,6 +60,7 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
   const [selectedSpaceID, setSelectedSpaceID] = useState(undefined);
   const [meterList, setMeterList] = useState([]);
+  const [filteredMeterList, setFilteredMeterList] = useState([]);
   const [selectedMeter, setSelectedMeter] = useState(undefined);
   const [periodType, setPeriodType] = useState('daily');
   const [reportingPeriodBeginsDatetime, setReportingPeriodBeginsDatetime] = useState(current_moment.clone().startOf('month'));
@@ -134,6 +135,7 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
             json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
             console.log(json);
             setMeterList(json[0]);
+            setFilteredMeterList(json[0]);
             if (json[0].length > 0) {
               setSelectedMeter(json[0][0].value);
               // enable submit button
@@ -186,6 +188,7 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
         json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
         console.log(json)
         setMeterList(json[0]);
+        setFilteredMeterList(json[0]);
         if (json[0].length > 0) {
           setSelectedMeter(json[0][0].value);
           // enable submit button
@@ -201,15 +204,23 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
     }).catch(err => {
       console.log(err);
     });
-  }
+  };
+  
+  const onSearchMeter = ({ target }) => {
+    const keyword = target.value.toLowerCase();
+    const filteredResult = meterList.filter(
+      meter => meter.label.toLowerCase().includes(keyword)
+    );
+    setFilteredMeterList(keyword.length ? filteredResult : meterList);
+  };
 
   let onReportingPeriodBeginsDatetimeChange = (newDateTime) => {
     setReportingPeriodBeginsDatetime(newDateTime);
-  }
+  };
 
   let onReportingPeriodEndsDatetimeChange = (newDateTime) => {
     setReportingPeriodEndsDatetime(newDateTime);
-  }
+  };
 
   var getValidReportingPeriodBeginsDatetimes = function (currentDate) {
     return currentDate.isBefore(moment(reportingPeriodEndsDatetime, 'MM/DD/YYYY, hh:mm:ss a'));
@@ -393,14 +404,17 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
                   <Label className={labelClasses} for="meterSelect">
                     {t('Meter')}
                   </Label>
-                  <CustomInput type="select" id="meterSelect" name="meterSelect" onChange={({ target }) => setSelectedMeter(target.value)}
-                  >
-                    {meterList.map((meter, index) => (
-                      <option value={meter.value} key={meter.value}>
-                        {meter.label}
-                      </option>
-                    ))}
-                  </CustomInput>
+                  <Form inline>
+                      <Input placeholder={t('Search')} onChange={onSearchMeter} />
+                      <CustomInput type="select" id="meterSelect" name="meterSelect" onChange={({ target }) => setSelectedMeter(target.value)}
+                      >
+                        {filteredMeterList.map((meter, index) => (
+                          <option value={meter.value} key={meter.value}>
+                            {meter.label}
+                          </option>
+                        ))}
+                      </CustomInput>
+                  </Form>
                 </FormGroup>
               </Col>
               <Col xs="auto">
