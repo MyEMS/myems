@@ -133,6 +133,7 @@ const resources = {
       "Input Energy Category": "Input Energy Category",
       "Output Energy Category": "Output Energy Category",
       "Fraction Parameter": "Fraction Parameter",
+      "Search": "Search",
       //Card Summaries and Line Charts
       "Base Period": "Base Period",
       "Reporting Period": "Reporting Period",
@@ -473,6 +474,7 @@ const resources = {
       "Input Energy Category": "Eingangsenergiekategorie",
       "Output Energy Category": "Ausgangsenergiekategorie",
       "Fraction Parameter": "Fraktion Parameter",
+      "Search": "Suche",
       //Card Summaries and Line Charts
       "Base Period": "Basiszeitraum",
       "Reporting Period": "Berichtszeitraum",
@@ -816,6 +818,7 @@ const resources = {
       "Input Energy Category": "消耗能源分类",
       "Output Energy Category": "产出能源分类",
       "Fraction Parameter": "分式参数",
+      "Search": "搜索",
       //Card Summaries and Line Charts
       "Base Period": "基准期",
       "Reporting Period": "报告期",
