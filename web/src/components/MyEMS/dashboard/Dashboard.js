@@ -41,10 +41,6 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
   const [spaceCostLineChartData, setSpaceCostLineChartData] = useState({});
   const [spaceCostLineChartOptions, setSpaceCostLineChartOptions] = useState([]);
 
-  const [parameterLineChartLabels, setParameterLineChartLabels] = useState([]);
-  const [parameterLineChartData, setParameterLineChartData] = useState({});
-  const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
-
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([{dataField: 'startdatetime', text: t('Datetime'), sort: true}]);
 
@@ -244,28 +240,6 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             });
             setSpaceCostLineChartOptions(names);
 
-            timestamps = {}
-            json['parameters']['timestamps'].forEach((currentValue, index) => {
-              timestamps['a' + index] = currentValue;
-            });
-            setParameterLineChartLabels(timestamps);
-
-            values = {}
-            json['parameters']['values'].forEach((currentValue, index) => {
-              values['a' + index] = currentValue;
-            });
-            setParameterLineChartData(values);
-
-            names = Array();
-            json['parameters']['names'].forEach((currentValue, index) => {
-              if (currentValue.startsWith('TARIFF-')) {
-                currentValue = t('Tariff') + currentValue.replace('TARIFF-', '-');
-              }
-
-              names.push({ 'value': 'a' + index, 'label': currentValue });
-            });
-            setParameterLineChartOptions(names);
-
             let detailed_value_list = [];
             if (json['reporting_period_input']['timestamps'].length > 0 ) {
               json['reporting_period_input']['timestamps'][0].forEach((currentTimestamp, timestampIndex) => {
@@ -421,13 +395,6 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
         labels={spaceCostLineChartLabels}
         data={spaceCostLineChartData}
         options={spaceCostLineChartOptions}>
-      </LineChart>
-
-      <LineChart reportingTitle={t('Related Parameters')}
-        baseTitle=''
-        labels={parameterLineChartLabels}
-        data={parameterLineChartData}
-        options={parameterLineChartOptions}>
       </LineChart>
 
       <ChildSpacesTable data={childSpacesTableData}
