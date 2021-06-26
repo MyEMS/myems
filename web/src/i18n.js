@@ -68,6 +68,8 @@ const resources = {
       "Ton of Carbon Dioxide Emissions by Energy Category": "Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category",
       "This Year's Consumption CATEGORY VALUE UNIT": "This Year's Consumption {{CATEGORY}} {{VALUE}} {{UNIT}}",
       "This Year's Costs CATEGORY VALUE UNIT": "This Year's Costs {{CATEGORY}} {{VALUE}} {{UNIT}}",
+      "Last Year's Consumption CATEGORY VALUE UNIT": "Last Year's Consumption {{CATEGORY}} {{VALUE}} {{UNIT}}",
+      "Last Year's Costs CATEGORY VALUE UNIT": "Last Year's Costs {{CATEGORY}} {{VALUE}} {{UNIT}}",
       // Entities
       "Space": "Space",
       "Equipment": "Equipment",
@@ -409,6 +411,8 @@ const resources = {
       "Ton of Carbon Dioxide Emissions by Energy Category": "Tonne Kohlendioxidemissionen(TCO2E) nach Energiekategorie",
       "This Year's Consumption CATEGORY VALUE UNIT": "Der Verbrauch Dieses Jahr {{CATEGORY}} {{VALUE}} {{UNIT}}",
       "This Year's Costs CATEGORY VALUE UNIT": "Der Kosten Dieses Jahr {{CATEGORY}} {{VALUE}} {{UNIT}}",
+      "Last Year's Consumption CATEGORY VALUE UNIT": "Der Verbrauch Letztes Jahr {{CATEGORY}} {{VALUE}} {{UNIT}}",
+      "Last Year's Costs CATEGORY VALUE UNIT": "Der Kosten Letztes Jahr {{CATEGORY}} {{VALUE}} {{UNIT}}",
       // Entities
       "Space": "Platz",
       "Equipment": "Ausrüstung",
@@ -753,6 +757,8 @@ const resources = {
       "Ton of Carbon Dioxide Emissions by Energy Category": "吨二氧化碳排放(TCO2E)占比",
       "This Year's Consumption CATEGORY VALUE UNIT": "本年消耗 {{CATEGORY}} {{VALUE}} {{UNIT}}",
       "This Year's Costs CATEGORY VALUE UNIT": "本年成本 {{CATEGORY}} {{VALUE}} {{UNIT}}",
+      "Last Year's Consumption CATEGORY VALUE UNIT": "去年消耗 {{CATEGORY}} {{VALUE}} {{UNIT}}",
+      "Last Year's Costs CATEGORY VALUE UNIT": "去年成本 {{CATEGORY}} {{VALUE}} {{UNIT}}",
       // Entities
       "Space": "空间",
       "Equipment": "设备",

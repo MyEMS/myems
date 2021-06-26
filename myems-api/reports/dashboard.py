@@ -601,6 +601,7 @@ class Reporting:
         result['base_period_input']['subtotals'] = list()
         result['base_period_input']['subtotals_in_kgce'] = list()
         result['base_period_input']['subtotals_in_kgco2e'] = list()
+        result['base_period_input']['subtotals_per_unit_area'] = list()
         result['base_period_input']['total_in_kgce'] = Decimal(0.0)
         result['base_period_input']['total_in_kgco2e'] = Decimal(0.0)
         if energy_category_set is not None and len(energy_category_set) > 0:
@@ -619,6 +620,9 @@ class Reporting:
                     base_input[energy_category_id]['subtotal_in_kgce'])
                 result['base_period_input']['subtotals_in_kgco2e'].append(
                     base_input[energy_category_id]['subtotal_in_kgco2e'])
+                result['base_period_input']['subtotals_per_unit_area'].append(
+                    base_input[energy_category_id]['subtotal'] / space['area']
+                    if space['area'] > 0.0 else None)
                 result['base_period_input']['total_in_kgce'] += \
                     base_input[energy_category_id]['subtotal_in_kgce']
                 result['base_period_input']['total_in_kgco2e'] += \
@@ -630,6 +634,7 @@ class Reporting:
         result['base_period_cost']['timestamps'] = list()
         result['base_period_cost']['values'] = list()
         result['base_period_cost']['subtotals'] = list()
+        result['base_period_cost']['subtotals_per_unit_area'] = list()
         result['base_period_cost']['total'] = Decimal(0.0)
         if energy_category_set is not None and len(energy_category_set) > 0:
             for energy_category_id in energy_category_set:
@@ -643,6 +648,9 @@ class Reporting:
                     base_cost[energy_category_id]['values'])
                 result['base_period_cost']['subtotals'].append(
                     base_cost[energy_category_id]['subtotal'])
+                result['base_period_cost']['subtotals_per_unit_area'].append(
+                    base_cost[energy_category_id]['subtotal'] / space['area']
+                    if space['area'] > 0.0 else None)
                 result['base_period_cost']['total'] += base_cost[energy_category_id]['subtotal']
 
         result['reporting_period_input'] = dict()
