@@ -86,6 +86,8 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
   const [cardSummaryList, setCardSummaryList] = useState([]);
   const [totalInTCE, setTotalInTCE] = useState({});
   const [totalInTCO2E, setTotalInTCO2E] = useState({});
+  const [childSpaceProportionList, setChildSpaceProportionList] = useState([]);
+
   const [spaceLineChartLabels, setSpaceLineChartLabels] = useState([]);
   const [spaceLineChartData, setSpaceLineChartData] = useState({});
   const [spaceLineChartOptions, setSpaceLineChartOptions] = useState([]);
@@ -341,6 +343,28 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
           TCO2EDataArray.push(TCO2EDataItem);
         });
         setTCO2EShareData(TCO2EDataArray);
+
+        let childSpaceProportionArray = [];
+        json['child_space']['energy_category_names'].forEach((currentValue, energyCategoryIndex) => {
+          if (json['child_space']['child_space_names_array'][energyCategoryIndex].length > 0) {
+            let childSpaceProportionItem = {}
+            childSpaceProportionItem['data'] = []
+            json['child_space']['child_space_names_array'][energyCategoryIndex].forEach((currentSpaceName, spaceIndex) => {
+              let childSpaceProportionItemDataItem = {}
+              childSpaceProportionItemDataItem['id'] = spaceIndex;
+              childSpaceProportionItemDataItem['name'] = currentSpaceName;
+              childSpaceProportionItemDataItem['value'] = json['child_space']['subtotals_array'][energyCategoryIndex][spaceIndex];
+              childSpaceProportionItemDataItem['color'] = "#"+((1<<24)*Math.random()|0).toString(16);
+              childSpaceProportionItem['data'].push(childSpaceProportionItemDataItem);
+            });
+
+            childSpaceProportionItem['name'] = json['child_space']['energy_category_names'][energyCategoryIndex];
+            childSpaceProportionItem['unit'] = json['child_space']['units'][energyCategoryIndex]; 
+            childSpaceProportionArray.push(childSpaceProportionItem);
+          };
+        });
+        setChildSpaceProportionList(childSpaceProportionArray);
+          
 
         let timestamps = {}
         json['reporting_period']['timestamps'].forEach((currentValue, index) => {
@@ -663,6 +687,17 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
         <Col className="mb-3 pr-lg-2 mb-3">
           <SharePie data={TCO2EShareData} title={t('Ton of Carbon Dioxide Emissions by Energy Category')} />
         </Col>
+        {childSpaceProportionList.map(childSpaceProportionItem => (
+          <Col className="mb-3 pr-lg-2 mb-3">
+            <SharePie 
+              data={childSpaceProportionItem['data']} 
+              title={t('Child Space Proportion CATEGORY UNIT', 
+                      {'CATEGORY': childSpaceProportionItem['name'], 
+                       'UNIT': '(' + childSpaceProportionItem['unit'] + ')' 
+                      })} 
+            />
+          </Col>
+        ))}
       </Row>
       <LineChart reportingTitle={t('Reporting Period Consumption CATEGORY VALUE UNIT', { 'CATEGORY': null, 'VALUE': null, 'UNIT': null })}
          baseTitle=''
