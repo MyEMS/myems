@@ -524,7 +524,8 @@ class Reporting:
                 query = (" SELECT utc_date_time, actual_value "
                          " FROM tbl_digital_value "
                          " WHERE point_id = %s "
-                         "       AND utc_date_time BETWEEN %s AND %s ")
+                         "       AND utc_date_time BETWEEN %s AND %s "
+                         " ORDER BY utc_date_time ")
                 cursor_historical.execute(query, (point['id'],
                                                   reporting_start_datetime_utc,
                                                   reporting_end_datetime_utc))
@@ -736,5 +737,5 @@ class Reporting:
                                                                              reporting_start_datetime_local,
                                                                              reporting_end_datetime_local,
                                                                              period_type)
-        
+
         resp.body = json.dumps(result)
