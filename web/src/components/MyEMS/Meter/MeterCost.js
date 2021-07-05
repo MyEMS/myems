@@ -216,6 +216,15 @@ const MeterCost = ({ setRedirect, setRedirectUrl, t }) => {
       meter => meter.label.toLowerCase().includes(keyword)
     );
     setFilteredMeterList(keyword.length ? filteredResult : meterList);
+    if (filteredResult.length > 0) {
+      setSelectedMeter(filteredResult[0].value);
+      // enable submit button
+      setSubmitButtonDisabled(false);
+    } else {
+      setSelectedMeter(undefined);
+      // disable submit button
+      setSubmitButtonDisabled(true);
+    };
   };
 
   let onComparisonTypeChange = ({ target }) => {
