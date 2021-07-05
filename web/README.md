@@ -14,7 +14,7 @@ nginx-1.18.0 or later
 This project is scaffolded using Create React App.
 
 * Install Node.js (https://nodejs.org/) if you do not already have it installed on your machine.
-* Open the “myems-web” directory with your cmd or terminal
+* Open the “myems/web” directory with your cmd or terminal
 * Run 'sudo npm i --unsafe-perm=true --allow-root'
 This command will download all the necessary dependencies for falcon in the node_modules directory.
 * If you modified any scss files, then you need to compile SCSS
