@@ -346,6 +346,8 @@ const resources = {
       "Bank Name": "Bank Name",
       "Bank Address": "Bank Address",
       "RMB Account": "RMB Account",
+      // button
+      "Toggle Navigation": "Toggle Navigation",
     }
   },
   de: {
@@ -693,6 +695,8 @@ const resources = {
       "Bank Name": "Bank Name",
       "Bank Address": "Bankadresse",
       "RMB Account": "RMB-Konto",
+      // button
+      "Toggle Navigation": "Navigation umschalten",
     }
   },
   zh_cn: {
@@ -1040,6 +1044,8 @@ const resources = {
       "Bank Name": "开户银行",
       "Bank Address": "银行地址",
       "RMB Account": "人民币账户",
+      // button
+      "Toggle Navigation": "切换导航",
     }
   }
 };

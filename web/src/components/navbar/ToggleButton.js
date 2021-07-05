@@ -1,10 +1,11 @@
 import React from 'react';
 import { Button, UncontrolledTooltip } from 'reactstrap';
+import { withTranslation } from 'react-i18next';
 
-const ToggleButton = ({ isNavbarVerticalCollapsed, setIsNavbarVerticalCollapsed }) => (
+const ToggleButton = ({ isNavbarVerticalCollapsed, setIsNavbarVerticalCollapsed, t }) => (
   <>
     <UncontrolledTooltip placement="left" target="toggleNavigationTooltip">
-      Toggle Navigation
+      {t('Toggle Navigation')}
     </UncontrolledTooltip>
     <div className="toggle-icon-wrapper">
       <Button
@@ -24,4 +25,4 @@ const ToggleButton = ({ isNavbarVerticalCollapsed, setIsNavbarVerticalCollapsed 
   </>
 );
 
-export default ToggleButton;
+export default withTranslation()(ToggleButton);
