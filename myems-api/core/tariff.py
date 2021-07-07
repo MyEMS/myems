@@ -151,7 +151,7 @@ class TariffCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.disconnect()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.TARIFF_NAME_IS_ALREADY_IN_USE')
 
         cursor.execute(" SELECT name "
@@ -427,7 +427,7 @@ class TariffItem:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.disconnect()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.TARIFF_NAME_IS_ALREADY_IN_USE')
 
         valid_from = datetime.strptime(new_values['data']['valid_from'], '%Y-%m-%dT%H:%M:%S')

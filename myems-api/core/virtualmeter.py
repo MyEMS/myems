@@ -769,7 +769,7 @@ class VirtualMeterItem:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.disconnect()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.VIRTUAL_METER_NAME_IS_ALREADY_IN_USE')
 
         cursor.execute(" SELECT name "
@@ -808,7 +808,7 @@ class VirtualMeterItem:
                 if row[1] != energy_category_id:
                     cursor.close()
                     cnx.disconnect()
-                    raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
+                    raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                            description='API.ENERGY_ITEM_IS_NOT_BELONG_TO_ENERGY_CATEGORY')
 
         for variable in new_values['data']['expression']['variables']:

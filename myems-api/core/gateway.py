@@ -67,7 +67,7 @@ class GatewayCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.disconnect()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.GATEWAY_NAME_IS_ALREADY_IN_USE')
 
         add_values = (" INSERT INTO tbl_gateways (name, uuid, token) "
@@ -200,7 +200,7 @@ class GatewayItem:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.disconnect()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.GATEWAY_NAME_IS_ALREADY_IN_USE')
 
         update_row = (" UPDATE tbl_gateways "

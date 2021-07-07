@@ -79,7 +79,7 @@ class StoreTypeCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.disconnect()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.STORE_TYPE_NAME_IS_ALREADY_IN_USE')
 
         cursor.execute(" SELECT simplified_code "
@@ -88,7 +88,7 @@ class StoreTypeCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.disconnect()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.STORE_TYPE_SIMPLIFIED_CODE_IS_ALREADY_IN_USE')
 
         add_value = (" INSERT INTO tbl_store_types "
@@ -234,7 +234,7 @@ class StoreTypeItem:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.disconnect()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.STORE_TYPE_NAME_IS_ALREADY_IN_USE')
 
         cursor.execute(" SELECT simplified_code "
