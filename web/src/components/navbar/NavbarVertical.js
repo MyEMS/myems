@@ -12,8 +12,9 @@ import Logo from './Logo';
 import NavbarTopDropDownMenus from './NavbarTopDropDownMenus';
 import NavbarVerticalMenu from './NavbarVerticalMenu';
 import ToggleButton from './ToggleButton';
+import { withTranslation } from 'react-i18next';
 
-const NavbarVertical = ({ navbarStyle }) => {
+const NavbarVertical = ({ navbarStyle, t }) => {
   const navBarRef = useRef(null);
 
   const {
@@ -113,7 +114,7 @@ const NavbarVertical = ({ navbarStyle }) => {
             block
             className="my-3 btn-purchase"
           >
-            Purchase
+            {t('Purchase')}
           </Button>
         </div>
       </Collapse>
@@ -129,4 +130,4 @@ NavbarVertical.defaultProps = {
   navbarStyle: 'transparent'
 };
 
-export default NavbarVertical;
+export default withTranslation()(NavbarVertical);

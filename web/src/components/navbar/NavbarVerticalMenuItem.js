@@ -3,15 +3,16 @@ import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Badge } from 'reactstrap';
 import Flex from '../common/Flex';
+import { withTranslation } from 'react-i18next';
 
-const NavbarVerticalMenuItem = ({ route }) => (
+const NavbarVerticalMenuItem = ({ route, t }) => (
   <Flex align="center">
     {route.icon && (
       <span className="nav-link-icon">
         <FontAwesomeIcon icon={route.icon} />
       </span>
     )}
-    <span className="nav-link-text">{route.name}</span>
+    <span className="nav-link-text">{t(route.name)}</span>
     {!!route.badge && (
       <Badge color={route.badge.color || 'soft-success'} pill className="ml-2">
         {route.badge.text}
@@ -27,4 +28,4 @@ NavbarVerticalMenuItem.propTypes = {
   }).isRequired
 };
 
-export default React.memo(NavbarVerticalMenuItem);
+export default withTranslation()(React.memo(NavbarVerticalMenuItem));
