@@ -237,7 +237,7 @@ const MeterRealtime = ({ setRedirect, setRedirectUrl, t }) => {
         <PaginationItem>
           <PaginationLink href="#">{cursor}</PaginationLink>
         </PaginationItem>
-        )
+        
         <PaginationItem>
           <PaginationLink next href="#" onClick={() => (cursor + 1 <= maxCursor ? setCursor(cursor + 1) : null)} />
         </PaginationItem>
