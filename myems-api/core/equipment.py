@@ -108,7 +108,7 @@ class EquipmentCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.disconnect()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.EQUIPMENT_NAME_IS_ALREADY_IN_USE')
 
         if cost_center_id is not None:

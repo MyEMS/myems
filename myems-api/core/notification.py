@@ -22,7 +22,8 @@ class NotificationCollection:
         if status is not None:
             status = str.strip(status)
             if status not in ['unread', 'read', 'archived']:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_STATUS')
+                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.INVALID_STATUS')
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
