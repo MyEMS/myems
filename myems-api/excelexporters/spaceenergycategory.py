@@ -498,6 +498,90 @@ def generate_excel(report,
             current_row_number = current_row_number - ca_len + 4
 
         current_row_number += 1
+    ###############################################
+    has_child_flag = True
+
+    if "child_space" not in report.keys() or "energy_category_names" not in report['child_space'].keys() or \
+            len(report['child_space']["energy_category_names"]) == 0 \
+            or 'child_space_names_array' not in report['child_space'].keys() \
+            or report['child_space']['energy_category_names'] is None \
+            or len(report['child_space']['child_space_names_array']) == 0 \
+            or len(report['child_space']['child_space_names_array'][0]) == 0:
+        has_child_flag = False
+
+    if has_child_flag:
+        child = report['child_space']
+
+        ws['B' + str(current_row_number)].font = title_font
+        ws['B' + str(current_row_number)] = name + ' 子空间占比'
+
+        current_row_number += 1
+        table_start_row_number = current_row_number
+        chart_start_row_number = current_row_number
+        ws.row_dimensions[current_row_number].height = 60
+        ws['B' + str(current_row_number)].fill = table_fill
+        ws['B' + str(current_row_number)].font = name_font
+        ws['B' + str(current_row_number)].alignment = c_c_alignment
+        ws['B' + str(current_row_number)].border = f_border
+        ws['B' + str(current_row_number)] = '子空间'
+        ca_len = len(child['energy_category_names'])
+
+        col = ''
+
+        for i in range(0, ca_len):
+            col = chr(ord('C') + i)
+            ws[col + str(current_row_number)].fill = table_fill
+            ws[col + str(current_row_number)].font = name_font
+            ws[col + str(current_row_number)].alignment = c_c_alignment
+            ws[col + str(current_row_number)].border = f_border
+            ws[col + str(current_row_number)] = child['energy_category_names'][i] + ' (' + child['units'][i] + ')'
+
+        space_len = len(child['child_space_names_array'][0])
+
+        for i in range(0, space_len):
+            current_row_number += 1
+            row = str(current_row_number)
+
+            ws['B' + row].font = title_font
+            ws['B' + row].alignment = c_c_alignment
+            ws['B' + row] = child['child_space_names_array'][0][i]
+            ws['B' + row].border = f_border
+
+            col = ''
+
+            for j in range(0, ca_len):
+                col = chr(ord('C') + j)
+                ws[col + row].font = name_font
+                ws[col + row].alignment = c_c_alignment
+                ws[col + row] = round(child['subtotals_array'][j][i], 2)
+                ws[col + row].border = f_border
+
+        table_end_row_number = current_row_number
+        current_row_number += 1
+
+        # Pie
+        for i in range(0, ca_len):
+            pie = PieChart()
+            labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1, max_row=table_end_row_number)
+            pie_data = Reference(ws, min_col=3 + i, min_row=table_start_row_number,
+                                 max_row=table_end_row_number)
+            pie.add_data(pie_data, titles_from_data=True)
+            pie.set_categories(labels)
+            pie.height = 6.6
+            pie.width = 8
+            pie.title = ws.cell(column=3 + i, row=table_start_row_number).value
+            s1 = pie.series[0]
+            s1.dLbls = DataLabelList()
+            s1.dLbls.showCatName = False
+            s1.dLbls.showVal = True
+            s1.dLbls.showPercent = True
+            chart_cell = ''
+            char_col = chr(ord('E') + i*2)
+
+            chart_cell = char_col + str(chart_start_row_number)
+            ws.add_chart(pie, chart_cell)
+
+        current_row_number += 1
 
     ###############################################
 
@@ -601,98 +685,7 @@ def generate_excel(report,
 
             current_row_number += 2
 
-    ########################################
 
-    has_child_flag = True
-
-    if "child_space" not in report.keys() or "energy_category_names" not in report['child_space'].keys() or \
-            len(report['child_space']["energy_category_names"]) == 0 \
-            or 'child_space_names_array' not in report['child_space'].keys() \
-            or report['child_space']['energy_category_names'] is None \
-            or len(report['child_space']['child_space_names_array']) == 0 \
-            or len(report['child_space']['child_space_names_array'][0]) == 0:
-        has_child_flag = False
-
-    if has_child_flag:
-        child = report['child_space']
-
-        ws['B' + str(current_row_number)].font = title_font
-        ws['B' + str(current_row_number)] = name + ' 子空间数据'
-
-        current_row_number += 1
-        table_start_row_number = current_row_number
-
-        ws.row_dimensions[current_row_number].height = 60
-        ws['B' + str(current_row_number)].fill = table_fill
-        ws['B' + str(current_row_number)].font = name_font
-        ws['B' + str(current_row_number)].alignment = c_c_alignment
-        ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)] = '子空间'
-        ca_len = len(child['energy_category_names'])
-
-        col = ''
-
-        for i in range(0, ca_len):
-            col = chr(ord('C') + i)
-            ws[col + str(current_row_number)].fill = table_fill
-            ws[col + str(current_row_number)].font = name_font
-            ws[col + str(current_row_number)].alignment = c_c_alignment
-            ws[col + str(current_row_number)].border = f_border
-            ws[col + str(current_row_number)] = child['energy_category_names'][i] + ' (' + child['units'][i] + ')'
-
-        space_len = len(child['child_space_names_array'][0])
-
-        for i in range(0, space_len):
-            current_row_number += 1
-            row = str(current_row_number)
-
-            ws['B' + row].font = title_font
-            ws['B' + row].alignment = c_c_alignment
-            ws['B' + row] = child['child_space_names_array'][0][i]
-            ws['B' + row].border = f_border
-
-            col = ''
-
-            for j in range(0, ca_len):
-                col = chr(ord('C') + j)
-                ws[col + row].font = name_font
-                ws[col + row].alignment = c_c_alignment
-                ws[col + row] = round(child['subtotals_array'][j][i], 2)
-                ws[col + row].border = f_border
-
-        table_end_row_number = current_row_number
-        current_row_number += 1
-        chart_start_row_number = current_row_number
-
-        # Pie
-        for i in range(0, ca_len):
-            pie = PieChart()
-            labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1, max_row=table_end_row_number)
-            pie_data = Reference(ws, min_col=3 + i, min_row=table_start_row_number,
-                                 max_row=table_end_row_number)
-            pie.add_data(pie_data, titles_from_data=True)
-            pie.set_categories(labels)
-            pie.height = 6.6
-            pie.width = 8
-            pie.title = ws.cell(column=3 + i, row=table_start_row_number).value
-            s1 = pie.series[0]
-            s1.dLbls = DataLabelList()
-            s1.dLbls.showCatName = False
-            s1.dLbls.showVal = True
-            s1.dLbls.showPercent = True
-            chart_cell = ''
-            if i % 2 == 0:
-                chart_cell = 'B' + str(chart_start_row_number)
-            else:
-                chart_cell = 'E' + str(chart_start_row_number)
-                chart_start_row_number += 5
-            ws.add_chart(pie, chart_cell)
-
-        current_row_number = chart_start_row_number
-
-        if ca_len % 2 == 1:
-            current_row_number += 5
-        current_row_number += 1
     ##########################################
     current_sheet_parameters_row_number = table_start_draw_flag + ca_len * 6 + 1
     has_parameters_names_and_timestamps_and_values_data = True
