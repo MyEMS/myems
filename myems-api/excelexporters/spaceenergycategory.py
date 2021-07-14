@@ -559,6 +559,7 @@ def generate_excel(report,
         table_end_row_number = current_row_number
         current_row_number += 1
 
+        _col = ord(col) + 1
         # Pie
         for i in range(0, ca_len):
             pie = PieChart()
@@ -576,7 +577,7 @@ def generate_excel(report,
             s1.dLbls.showVal = True
             s1.dLbls.showPercent = True
             chart_cell = ''
-            char_col = chr(ord('E') + i*2)
+            char_col = chr(_col + i*2)
 
             chart_cell = char_col + str(chart_start_row_number)
             ws.add_chart(pie, chart_cell)
