@@ -159,7 +159,7 @@ View in Postman: import the file MyEMS.postman_collection.json with Postman
 
 [Data Source](#Data-Source) | [Point](#Point)
 
-[Tariff](#Tariff) | [Cost Center](#Cost-Center)
+[Tariff](#Tariff) | [Cost Center](#Cost-Center) | [Offline Cost File](#Offline-Cost-File)
 
 [Meter](#Meter) | [Virtual Meter](#Virtual-Meter) | [Offline Meter](#Offline-Meter) | [Offline Meter File](#Offline-Meter-File) 
 
@@ -248,6 +248,37 @@ $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"tariff_id":"
 * DELETE a Cost Center and Tariff Relation by tid
 ```bash
 $ curl -i -X DELETE {{base_url}}/costcenters/{id}/tariffs/{tid}
+```
+
+### Offline Cost File
+* GET an Offline Cost File by ID
+
+```bash
+$ curl -i -X GET {{base_url}}/offlinecostfiles/{id}
+```
+Result
+
+| Name          | Data Type | Description                               |
+|---------------|-----------|-------------------------------------------|
+| id            | integer   | Offline Cost File ID                     |
+| file_name     | string    | Offline Cost File name                   |
+| uuid          | string    | Offline Cost File UUID                   |
+| upload_datetime | float | the number of milliseconds since January 1, 1970, 00:00:00, universal time |
+| status        | string    | Offline Cost File processing status (new, done, error)   |
+| file_object   | BLOB       | Offline Cost File Object                 |
+
+* GET All Offline Cost Files
+```bash
+$ curl -i -X GET {{base_url}}/offlinecostfiles
+```
+* DELETE an Offline Cost File by ID
+```bash
+$ curl -i -X DELETE {{base_url}}/offlinecostfiles/{id}
+```
+* POST Upload an Offline Cost File
+  (user must login first to get cookie)
+```bash
+$ curl -i -H "Content-Type: application/TBD" -X POST -d 'file: (binary)' {{base_url}}/offlinecostfiles
 ```
 
 ### Data Source
@@ -1076,7 +1107,7 @@ $ curl -i -X DELETE {{base_url}}/offlinemeterfiles/{id}
 * POST Upload an Offline Meter File
  (user must login first to get cookie)
 ```bash
-$ curl -i -H "Content-Type: application/TBD" -X POST -d 'file: (binary)' {{base_url}}/offlinemeters
+$ curl -i -H "Content-Type: application/TBD" -X POST -d 'file: (binary)' {{base_url}}/offlinemeterfiles
 ```
 
 ### Point

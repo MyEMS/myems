@@ -3,12 +3,13 @@ from falcon_cors import CORS
 from falcon_multipart.middleware import MultipartMiddleware
 from core import energyflowdiagram, privilege, textmessage, distributioncircuit, virtualmeter, \
     costcenter, point, knowledgefile, meter, gsmmodem, tariff, user, storetype, timezone, \
-    offlinemeterfile, version, contact, emailserver, combinedequipment, datasource, equipment, tenant, shopfloor, \
+    offlinecostfile, offlinemeterfile, version, contact, emailserver, combinedequipment, datasource, equipment, tenant, shopfloor, \
     webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, offlinemeter, \
     rule, energycategory, sensor, energyitem, notification
 from reports import advancedreport
 from reports import distributionsystem as distributionsystemreport
 from reports import energyflowdiagram as energyflowdiagramreport
+from reports import combinedequipmentbatch
 from reports import combinedequipmentcost
 from reports import combinedequipmentefficiency
 from reports import combinedequipmentenergycategory
@@ -18,8 +19,8 @@ from reports import combinedequipmentload
 from reports import combinedequipmentoutput
 from reports import combinedequipmentsaving
 from reports import combinedequipmentstatistics
-from reports import combinedequipmentbatch
 from reports import dashboard
+from reports import equipmentbatch
 from reports import equipmentcost
 from reports import equipmentefficiency
 from reports import equipmentenergycategory
@@ -138,6 +139,11 @@ api.add_route('/costcenters/{id_}/tariffs',
               costcenter.CostCenterTariffCollection())
 api.add_route('/costcenters/{id_}/tariffs/{tid}',
               costcenter.CostCenterTariffItem())
+
+api.add_route('/offlinecostfiles',
+              offlinecostfile.OfflineCostFileCollection())
+api.add_route('/offlinecostfiles/{id_}',
+              offlinecostfile.OfflineCostFileItem())
 
 api.add_route('/datasources',
               datasource.DataSourceCollection())
@@ -483,6 +489,8 @@ api.add_route('/reports/distributionsystem',
               distributionsystemreport.Reporting())
 api.add_route('/reports/energyflowdiagram',
               energyflowdiagramreport.Reporting())
+api.add_route('/reports/combinedequipmentbatch',
+              combinedequipmentbatch.Reporting())
 api.add_route('/reports/combinedequipmentcost',
               combinedequipmentcost.Reporting())
 api.add_route('/reports/combinedequipmentefficiency',
@@ -501,10 +509,10 @@ api.add_route('/reports/combinedequipmentsaving',
               combinedequipmentsaving.Reporting())
 api.add_route('/reports/combinedequipmentstatistics',
               combinedequipmentstatistics.Reporting())
-api.add_route('/reports/combinedequipmentbatch',
-              combinedequipmentbatch.Reporting())
 api.add_route('/reports/dashboard',
               dashboard.Reporting())
+api.add_route('/reports/equipmentbatch',
+              equipmentbatch.Reporting())
 api.add_route('/reports/equipmentcost',
               equipmentcost.Reporting())
 api.add_route('/reports/equipmentefficiency',
