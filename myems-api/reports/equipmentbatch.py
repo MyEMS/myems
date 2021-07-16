@@ -128,12 +128,8 @@ class Reporting:
                                  " FROM tbl_spaces s, tbl_spaces_equipments se, "
                                  " tbl_equipments e, tbl_cost_centers cc "
                                  " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
-                                                                                                "AND se.space_id = "
-                                                                                                "s.id AND "
-                                                                                                "se.equipment_id = "
-                                                                                                "e.id AND "
-                                                                                                "e.cost_center_id = "
-                                                                                                "cc.id  ", )
+                                 "       AND se.space_id = s.id AND se.equipment_id = e.id "
+                                 "       AND e.cost_center_id = cc.id  ", )
         rows_equipments = cursor_system_db.fetchall()
         if rows_equipments is not None and len(rows_equipments) > 0:
             for row in rows_equipments:
