@@ -614,14 +614,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/contacts/2",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"contacts",
-										"2"
-									]
+									"raw": ""
 								}
 							},
 							"response": []
@@ -817,15 +810,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/costcenters/1/tariffs",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"costcenters",
-										"1",
-										"tariffs"
-									]
+									"raw": ""
 								}
 							},
 							"response": []
@@ -1345,14 +1330,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/emailservers/1",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"emailservers",
-										"1"
-									]
+									"raw": ""
 								}
 							},
 							"response": []
@@ -1382,17 +1360,10 @@
 						{
 							"name": "DELETE an Email Server by ID",
 							"request": {
-								"method": "DELETE",
+								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/emailservers/2",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"emailservers",
-										"2"
-									]
+									"raw": ""
 								}
 							},
 							"response": []
@@ -2670,10 +2641,6 @@
 							"request": {
 								"method": "PUT",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\"data\":{\"serial_port\":\"/dev/ttyS0\",\"baud_rate\":9600}}"
-								},
 								"url": {
 									"raw": "{{base_url}}/gsmmodems/1",
 									"host": [
@@ -4648,14 +4615,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/spaces/1/points",
+									"raw": "{{base_url}}/spaces/1/virtualmeters",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"spaces",
 										"1",
-										"points"
+										"virtualmeters"
 									]
 								}
 							},
@@ -5785,17 +5752,10 @@
 						{
 							"name": "DELETE a Tenant by ID",
 							"request": {
-								"method": "DELETE",
+								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/tenants/2",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"tenants",
-										"2"
-									]
+									"raw": ""
 								}
 							},
 							"response": []
@@ -6338,6 +6298,17 @@
 							"response": []
 						},
 						{
+							"name": "GET a Timezone by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": ""
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "PUT Update a Timezone",
 							"request": {
 								"method": "PUT",
@@ -6354,24 +6325,6 @@
 									"path": [
 										"timezones",
 										"3"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "GET a Timezone by ID",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{base_url}}/timezones/1",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"timezones",
-										"1"
 									]
 								}
 							},
@@ -6431,28 +6384,6 @@
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"administrator\", \"password\":\"!MyEMS1\"}}"
-								},
-								"url": {
-									"raw": "{{base_url}}/users/login",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"users",
-										"login"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "PUT User Login by Email",
-							"request": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\"data\":{\"email\":\"administrator@myems.io\", \"password\":\"!MyEMS1\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/users/login",
@@ -6664,6 +6595,28 @@
 									"path": [
 										"users",
 										"resetpassword"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT User Login by Email",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"email\":\"administrator@myems.io\", \"password\":\"!MyEMS1\"}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/users/login",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"login"
 									]
 								}
 							},
@@ -7649,6 +7602,38 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Equipment Batch Analysis Report",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/equipmentbatch?spaceid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"equipmentbatch"
+							],
+							"query": [
+								{
+									"key": "spaceid",
+									"value": "1"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-11-01T00:00:00"
 								}
 							]
 						}

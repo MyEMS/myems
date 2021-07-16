@@ -2092,6 +2092,10 @@ $ curl -i -X GET {{base_url}}/reports/distributionsystem?distributionsystemid=1
 ```
 $ curl -i -X GET {{base_url}}/reports/energyflowdiagram?energyflowdiagramid=1&reportingperiodstartdatetime={reportingperiodstartdatetime}&reportingperiodenddatetime={reportingperiodenddatetime}
 ```
+* GET Equipment Batch Analysis Report
+```
+$ curl -i -X GET {{base_url}}/reports/equipmentbatch?spaceid=1&reportingperiodstartdatetime=2021-05-01T00:00:00&reportingperiodenddatetime=2021-05-20T11:41:09
+```
 * GET Equipment Cost Report
 ```
 $ curl -i -X GET {{base_url}}/reports/equipmentcost?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
