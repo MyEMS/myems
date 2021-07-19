@@ -349,6 +349,7 @@ export const equipmentRoutes = {
     { to: '/equipment/load', name: 'Load' },
     { to: '/equipment/statistics', name: 'Statistics' },
     { to: '/equipment/saving', name: 'Saving' },
+    { to: '/equipment/batch', name: 'Batch Analysis'},
     { to: '/equipment/tracking', name: 'Equipment Tracking' },
   ]
 };
