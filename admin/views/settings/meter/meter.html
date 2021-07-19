@@ -313,6 +313,8 @@
 											{{ offlinemeterfile.upload_datetime | date:'yyyy-MM-dd HH:mm'}}</td>
 
 										<td class="text-center">
+											<a ng-click="restoreOfflineMeterFile(offlinemeterfile)"
+												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.RESTORE' | translate}}</a>
 											<a ng-click="deleteOfflineMeterFile(offlinemeterfile)"
 												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' | translate}}</a>
 										</td>

@@ -37,6 +37,15 @@ app.factory('OfflineMeterFileService', function($http) {
                     callback(e,status);  
                 });  
         },
+        restoreOfflineMeterFile: function (offlinemeterfile, callback) {
+            $http.get(getAPI() + 'offlinemeterfiles/' + offlinemeterfile.id + '/restore')
+                .success(function (response, status, headers, config) {
+                    callback(null, response);
+                })
+                .error(function (e, status) {
+                    callback(e, status);
+                });
+        },
         deleteOfflineMeterFile: function(offlinemeterfile, callback) {  
             $http.delete(getAPI()+'offlinemeterfiles/'+offlinemeterfile.id)  
                 .success(function (response, status, headers, config) {  

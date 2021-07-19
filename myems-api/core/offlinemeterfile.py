@@ -219,3 +219,58 @@ class OfflineMeterFileItem:
         cnx.disconnect()
 
         resp.status = falcon.HTTP_204
+
+
+class OfflineMeterFileRestore:
+    @staticmethod
+    def __init__():
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_get(req, resp, id_):
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_OFFLINE_METER_FILE_ID')
+
+        cnx = mysql.connector.connect(**config.myems_historical_db)
+        cursor = cnx.cursor()
+
+        query = (" SELECT uuid, file_object "
+                 " FROM tbl_offline_meter_files "
+                 " WHERE id = %s ")
+        cursor.execute(query, (id_,))
+        row = cursor.fetchone()
+        cursor.close()
+        cnx.disconnect()
+
+        if row is None:
+            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.OFFLINE_METER_FILE_NOT_FOUND')
+
+        result = {"uuid": row[0],
+                  "file_object": row[1]}
+        try:
+            raw_blob = result["file_object"]
+            file_uuid = result["uuid"]
+
+            # Define file_path
+            file_path = os.path.join(config.upload_path, file_uuid)
+
+            # Write to a temporary file to prevent incomplete files from
+            # being used.
+            temp_file_path = file_path + '~'
+
+            open(temp_file_path, 'wb').write(raw_blob)
+
+            # Now that we know the file has been fully saved to disk
+            # move it into place.
+            os.replace(temp_file_path, file_path)
+        except Exception as ex:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
+                                   description='API.FAILED_TO_RESTORE_OFFLINE_METER_FILE')
+        resp.body = 'success'
+        resp.status = falcon.HTTP_200

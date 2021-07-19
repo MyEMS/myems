@@ -128,39 +128,6 @@ function config($translateProvider) {
 
             },
             MENU: {
-                SPACE: 'Space',
-                TENANT: 'Tenant',
-                STORE: 'Store',
-                MAINEQUIPMENT: 'Main Equipment',
-                EQUIPMENTSTATUS: 'Equipment Status',
-                EQUIPMENT_DETAILS: {
-                    EQUIPMENT_DETAILS: 'Equipment Details',
-                    CHILLER: 'Chiller',
-                    AIR_COMPRESSOR: 'Air Compressor',
-                    AIR_HANDLING_UNIT: 'Air Handling Unit',
-                    CHILLED_WATER_PUMP: 'Chilled Water Pump',
-                    COOLING_TOWER: 'Cooling Tower',
-                    COOLING_WATER_PUMP: 'Cooling Water Pump',
-                    HEAT_PUMP: 'Heat Pump',
-                    GROUND_SOURCE_HEAT_PUMP: 'Ground Source Heat Pump',
-                    STEAM_BOILER: 'Steam Boiler',
-                },
-
-                FDD: {
-                    FDD: 'FDD',
-                    RULE: 'Rule Settings',
-                    MESSAGEALARM: 'SMS Alarm',
-                    EMAILALARM: 'Email Alarm',
-                    WEBALARM: 'Web Alarm',
-                    WECHATALARM: 'WeChat Alarm',
-                },
-                VERIFICATION: {
-                    VERIFICATION: 'Data Verification',
-                    METER_VALIDATE: 'Meter Validation',
-                    METER_ENERGY: 'Meter Energy',
-                    METER_STATUS: 'Meter Status',
-                    GATEWAY: 'Gateway',
-                },
                 SETTINGS: {
                     BASIC: 'Basic Settings',
                     SETTINGS: 'System Settings',
@@ -183,6 +150,14 @@ function config($translateProvider) {
                     GSM_MODEM: 'GSM Modem Settings',
                     CONTACT: 'Contacts',
                     KNOWLEDGEFILE: 'Knowledge Base Settings'
+                },
+                FDD: {
+                    FDD: 'FDD',
+                    RULE: 'Rule Settings',
+                    MESSAGEALARM: 'SMS Alarm',
+                    EMAILALARM: 'Email Alarm',
+                    WEBALARM: 'Web Alarm',
+                    WECHATALARM: 'WeChat Alarm',
                 },
                 USERSETTING: {
                     USERSETTING: 'Users & Privileges',
@@ -384,8 +359,11 @@ function config($translateProvider) {
                 METER_DATA: 'Meter Data',
                 START_ENERGY: 'Start Energy Value',
                 END_ENERGY: 'End Energy Value',
-                // ENERGY_VALUE: 'Energy Value',
                 DIFF_VALUE: 'Diff Value',
+
+                RESTORE: 'Restore',
+                RESTORE_SUCCESS: 'Restore Success',
+                RESTORE_FAILED: 'Restore Failed',
             },
             CONTACT: {
                 EMAIL: 'Email',
@@ -659,10 +637,7 @@ function config($translateProvider) {
                 KNOWLEDGE_FILE_LIST: 'Knowledge File List',
                 UPLOAD_USER: 'Upload User',
                 UPLOAD_TIME: 'Upload Time',
-                RESTORE: 'Restore',
                 DELETE: 'Delete',
-                RESTORE_SUCCESS: 'Restore Success',
-                RESTORE_FAILED: 'Restore Failed'
             },
             TOASTER: {
                 FAILURE_TITLE: 'Error',
@@ -729,12 +704,6 @@ function config($translateProvider) {
 
                 ANALYSIS_DATE: 'Analysis Date',
                 BASELINE_DATE: 'Baseline Date',
-
-                STEAM_OUTPUT: 'Steam Output',
-                STEAM_OUTPUT_VALUE: 'Steam Output Value',
-                TOTAL_STEAM_VALUE: 'Total electricity cost + Total tap water fee + Steam production value',
-
-                ELECTRICITY_MONITORING: 'Electricity Monitoring',
 
                 EQUIPMENT: 'Equipment',
                 ENERGY_WITH_UNIT: 'Energy Consumption-kWh',
@@ -1183,37 +1152,6 @@ function config($translateProvider) {
                 ACKNOWLEDGE_ALARM: '是否确认报警？',
             },
             MENU: {
-                SPACE: '空间能耗',
-                MAINEQUIPMENT: '重点设备能耗',
-                PRODUCT: '单位产品能耗',
-                EQUIPMENTSTATUS: '设备状态能耗',
-                EQUIPMENT_DETAILS: {
-                    EQUIPMENT_DETAILS: '设备详情',
-                    CHILLER: '制冷机组',
-                    AIR_COMPRESSOR: '空压机',
-                    AIR_HANDLING_UNIT: '空气处理机组',
-                    CHILLED_WATER_PUMP: '冷冻水泵',
-                    COOLING_TOWER: '冷却塔',
-                    COOLING_WATER_PUMP: '冷却水泵',
-                    HEAT_PUMP: '热泵',
-                    GROUND_SOURCE_HEAT_PUMP: '地源热泵',
-                    STEAM_BOILER: '蒸汽锅炉',
-                },
-                FDD: {
-                    FDD: '故障检测与诊断',
-                    RULE: '规则管理',
-                    MESSAGEALARM: '短信报警',
-                    EMAILALARM: '邮件报警',
-                    WEBALARM: '网页报警',
-                    WECHATALARM: '微信报警',
-                },
-                VERIFICATION: {
-                    VERIFICATION: '数据校验',
-                    METER_VALIDATE: '表读数',
-                    METER_ENERGY: '表能耗',
-                    METER_STATUS: '表状态',
-                    GATEWAY: '网关',
-                },
                 SETTINGS: {
                     BASIC: '基本设置',
                     SETTINGS: '系统管理',
@@ -1237,6 +1175,14 @@ function config($translateProvider) {
                     GSM_MODEM: '短信模块设置',
                     CONTACT: '联系人管理',
                     KNOWLEDGEFILE: '知识库管理'
+                },
+                FDD: {
+                    FDD: '故障检测与诊断',
+                    RULE: '规则管理',
+                    MESSAGEALARM: '短信报警',
+                    EMAILALARM: '邮件报警',
+                    WEBALARM: '网页报警',
+                    WECHATALARM: '微信报警',
                 },
                 USERSETTING: {
                     USERSETTING: '用户与权限',
@@ -1439,7 +1385,6 @@ function config($translateProvider) {
 
                 USER: '用户',
 
-
                 TEAM: '班组',
                 ADD_TEAM: '添加班组',
                 EDIT_TEAM: '编辑班组',
@@ -1447,8 +1392,11 @@ function config($translateProvider) {
                 METER_DATA: '计量表数据',
                 START_ENERGY: '起始能耗值',
                 END_ENERGY: '结束能耗值',
-                // ENERGY_VALUE: '能耗值',
                 DIFF_VALUE: '差值',
+
+                RESTORE: '恢复',
+                RESTORE_SUCCESS: '恢复成功',
+                RESTORE_FAILED: '恢复失败',
             },
             CONTACT: {
                 EMAIL: '邮箱',
@@ -1729,10 +1677,7 @@ function config($translateProvider) {
                 KNOWLEDGE_FILE_LIST: '知识文件列表',
                 UPLOAD_USER: '上传者',
                 UPLOAD_TIME: '上传时间',
-                RESTORE: '恢复',
                 DELETE: '删除',
-                RESTORE_SUCCESS: '恢复成功',
-                RESTORE_FAILED: '恢复失败'
             },
             TOASTER: {
                 FAILURE: '失败',
@@ -1801,16 +1746,6 @@ function config($translateProvider) {
 
                 ANALYSIS_DATE: '分析日期',
                 BASELINE_DATE: '基准日期',
-
-                STEAM_OUTPUT: '蒸汽产出',
-                STEAM_OUTPUT_VALUE: '蒸汽产值',
-                TOTAL_STEAM_VALUE: '总电费+总自来水费+蒸汽产值',
-
-                ELECTRICITY_MONITORING: '电力监控',
-                ENERGY_UNIT_ONE: '新园区',
-                ENERGY_UNIT_TWO: '化药组团动力中心',
-                ENERGY_UNIT_THREE: '生物组团动力中心',
-                ENERGY_UNIT_FOUR: '化药组团生产车间',
 
                 EQUIPMENT: '设备',
                 ENERGY_WITH_UNIT: '能耗-kWh',
@@ -2235,37 +2170,6 @@ function config($translateProvider) {
                 ACKNOWLEDGE_ALARM: 'Bestätigen Sie den Alarm?',
             },
             MENU: {
-                SPACE: 'Raumenergieverbrauch',
-                MAINEQUIPMENT: 'Energieverbrauch der Schlüsselausrüstung',
-                PRODUCT: 'Energieverbrauch pro Produkteinheit',
-                EQUIPMENTSTATUS: 'Gerätestatus Energieverbrauch',
-                EQUIPMENT_DETAILS: {
-                    EQUIPMENT_DETAILS: 'Gerätedetails',
-                    CHILLER: 'Kühleinheit',
-                    AIR_COMPRESSOR: 'Luftkompressor',
-                    AIR_HANDLING_UNIT: 'Lüftungsgerät',
-                    CHILLED_WATER_PUMP: 'Kühlwasserpumpen',
-                    COOLING_TOWER: 'Kühlturm',
-                    COOLING_WATER_PUMP: 'Kühlwasserpumpe',
-                    HEAT_PUMP: 'Wärmepumpe',
-                    GROUND_SOURCE_HEAT_PUMP: 'Erdwärmepumpe',
-                    STEAM_BOILER: 'Dampfer',
-                },
-                FDD: {
-                    FDD: 'Fehlererkennung und -diagnose',
-                    RULE: 'Regelverwaltung',
-                    MESSAGEALARM: 'SMS-Alarm',
-                    EMAILALARM: 'E-Mail-Alarm',
-                    WEBALARM: 'Webseitenalarm',
-                    WECHATALARM: 'WeChat Alarm',
-                },
-                VERIFICATION: {
-                    VERIFICATION: 'Datenvalidierung',
-                    METER_VALIDATE: 'Zählerstand',
-                    METER_ENERGY: 'Tabelle Energieverbrauch',
-                    METER_STATUS: 'Tabellenstatus',
-                    GATEWAY: 'Tor',
-                },
                 SETTINGS: {
                     BASIC: 'Grundeinstellungen',
                     SETTINGS: 'Systemmanagement',
@@ -2289,6 +2193,14 @@ function config($translateProvider) {
                     GSM_MODEM: 'SMS-Moduleinstellungen',
                     CONTACT: 'Kontaktmanagement',
                     KNOWLEDGEFILE: 'Wissensdatenbankverwaltung'
+                },
+                FDD: {
+                    FDD: 'Fehlererkennung und -diagnose',
+                    RULE: 'Regelverwaltung',
+                    MESSAGEALARM: 'SMS-Alarm',
+                    EMAILALARM: 'E-Mail-Alarm',
+                    WEBALARM: 'Webseitenalarm',
+                    WECHATALARM: 'WeChat Alarm',
                 },
                 USERSETTING: {
                     USERSETTING: 'Benutzer und Berechtigungen',
@@ -2499,8 +2411,11 @@ function config($translateProvider) {
                 METER_DATA: 'Zählerdaten',
                 START_ENERGY: 'Anfangsenergieverbrauchswert',
                 END_ENERGY: 'Ende des Energieverbrauchs',
-                // ENERGY_VALUE: 'Energieverbrauchswert',
                 DIFF_VALUE: 'Unterschied',
+
+                RESTORE: 'wiederherstellen',
+                RESTORE_SUCCESS: 'Erfolgreiche Genesung',
+                RESTORE_FAILED: 'Wiederherstellung fehlgeschlagen',
             },
             CONTACT: {
                 EMAIL: 'Briefkasten',
@@ -2780,10 +2695,7 @@ function config($translateProvider) {
                 KNOWLEDGE_FILE_LIST: 'Liste der Wissensdateien',
                 UPLOAD_USER: 'hochgeladen von',
                 UPLOAD_TIME: 'Upload-Zeit',
-                RESTORE: 'wiederherstellen',
                 DELETE: 'löschen',
-                RESTORE_SUCCESS: 'Erfolgreiche Genesung',
-                RESTORE_FAILED: 'Wiederherstellung fehlgeschlagen'
             },
             TOASTER: {
                 FAILURE: 'Fehler',
@@ -2852,16 +2764,6 @@ function config($translateProvider) {
 
                 ANALYSIS_DATE: 'Analysedatum',
                 BASELINE_DATE: 'Basisdatum',
-
-                STEAM_OUTPUT: 'Dampferzeugung',
-                STEAM_OUTPUT_VALUE: 'Dampfproduktionswert',
-                TOTAL_STEAM_VALUE: 'Gesamtstromrechnung + Gesamtleitungswasserrechnung + Dampfproduktionswert',
-
-                ELECTRICITY_MONITORING: 'Leistungsüberwachung',
-                ENERGY_UNIT_ONE: 'Neuer Park',
-                ENERGY_UNIT_TWO: 'Power Center der Chemical and Pharmaceutical Group',
-                ENERGY_UNIT_THREE: 'Power Center der Biologischen Gruppe',
-                ENERGY_UNIT_FOUR: 'Produktionswerkstatt für chemische Arzneimittelgruppen',
 
                 EQUIPMENT: 'Ausrüstung',
                 ENERGY_WITH_UNIT: 'Energieverbrauch-kWh',
