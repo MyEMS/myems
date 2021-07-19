@@ -515,7 +515,8 @@ def generate_excel(report,
         parameters_data = report['parameters']
         parameters_names_len = len(parameters_data['names'])
 
-        parameters_ws = wb.create_sheet('相关参数')
+        file_name = __file__.split('/')[-1].replace(".py", "")
+        parameters_ws = wb.create_sheet(file_name + 'Parameters')
 
         parameters_timestamps_data_max_len = \
             get_parameters_timestamps_lists_max_len(list(parameters_data['timestamps']))
@@ -574,7 +575,7 @@ def generate_excel(report,
         parameters_ws_current_row_number = 6
 
         parameters_ws['B' + str(parameters_ws_current_row_number)].font = title_font
-        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' 相关参数'
+        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' Parameters'
 
         parameters_ws_current_row_number += 1
 
@@ -630,7 +631,7 @@ def generate_excel(report,
         ########################################################
 
         ws['B' + str(current_sheet_parameters_row_number)].font = title_font
-        ws['B' + str(current_sheet_parameters_row_number)] = name + ' 相关参数'
+        ws['B' + str(current_sheet_parameters_row_number)] = name + ' Parameters'
 
         current_sheet_parameters_row_number += 1
 
@@ -647,7 +648,7 @@ def generate_excel(report,
             data_col = 3+col_index*3
             labels_col = 2+col_index*3
             col_index += 1
-            line.title = '相关参数 - ' + \
+            line.title = 'Parameters - ' + \
                          parameters_ws.cell(row=parameters_table_start_row_number, column=data_col).value
             labels = Reference(parameters_ws, min_col=labels_col, min_row=parameters_table_start_row_number + 1,
                                max_row=(len(parameters_data['timestamps'][i])+parameters_table_start_row_number))
