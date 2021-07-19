@@ -1109,6 +1109,10 @@ $ curl -i -X DELETE {{base_url}}/offlinemeterfiles/{id}
 ```bash
 $ curl -i -H "Content-Type: application/TBD" -X POST -d 'file: (binary)' {{base_url}}/offlinemeterfiles
 ```
+* GET Restore an Offline Meter File by ID from database to disk
+```bash
+$ curl -i -X GET {{base_url}}/offlinemeterfiles/{id}/restore
+```
 
 ### Point
 

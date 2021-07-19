@@ -266,6 +266,8 @@ api.add_route('/offlinemeterfiles',
               offlinemeterfile.OfflineMeterFileCollection())
 api.add_route('/offlinemeterfiles/{id_}',
               offlinemeterfile.OfflineMeterFileItem())
+api.add_route('/offlinemeterfiles/{id_}/restore',
+              offlinemeterfile.OfflineMeterFileRestore())
 
 api.add_route('/points',
               point.PointCollection())

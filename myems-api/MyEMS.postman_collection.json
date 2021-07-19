@@ -2713,17 +2713,17 @@
 							"response": []
 						},
 						{
-							"name": "GET Rstore a Knowledge File by ID",
+							"name": "GET Rstore an Offline Meter File by ID",
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/knowledgefiles/1/restore",
+									"raw": "{{base_url}}/offlinemeterfiles/1/restore",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"knowledgefiles",
+										"offlinemeterfiles",
 										"1",
 										"restore"
 									]
@@ -3259,6 +3259,25 @@
 									"path": [
 										"offlinemeterfiles",
 										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Rstore a Knowledge File by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/knowledgefiles/1/restore",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"knowledgefiles",
+										"1",
+										"restore"
 									]
 								}
 							},
