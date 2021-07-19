@@ -56,8 +56,6 @@ app.controller('KnowledgeFileController', function (
             $scope.getAllKnowledgeFiles();
         },
         'error': function (file, xhr) {
-            //console.warn('File failed to upload from dropzone', file, xhr);
-
             var popType = 'TOASTER.ERROR';
             var popTitle = $common.toaster.error_title;
             var popBody = $common.toaster.error_add_body.format(file.name);

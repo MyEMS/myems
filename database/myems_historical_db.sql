@@ -37,6 +37,20 @@ CREATE INDEX `tbl_analog_value_latest_index_1` ON  `myems_historical_db`.`tbl_an
 CREATE INDEX `tbl_analog_value_latest_index_2` ON  `myems_historical_db`.`tbl_analog_value_latest`  (`utc_date_time`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_historical_db`.`tbl_cost_files`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_historical_db`.`tbl_cost_files` ;
+
+CREATE TABLE IF NOT EXISTS `myems_historical_db`.`tbl_cost_files` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `file_name` VARCHAR(255) NOT NULL,
+  `uuid` CHAR(36) NOT NULL,
+  `upload_datetime_utc` DATETIME NOT NULL,
+  `status` VARCHAR(45) NOT NULL COMMENT 'new, done, error',
+  `file_object` LONGBLOB NOT NULL,
+  PRIMARY KEY (`id`));
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_historical_db`.`tbl_digital_value`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_historical_db`.`tbl_digital_value` ;
@@ -108,19 +122,5 @@ CREATE TABLE IF NOT EXISTS `myems_historical_db`.`tbl_offline_meter_files` (
   `file_object` LONGBLOB NOT NULL,
   PRIMARY KEY (`id`));
 
-
--- ---------------------------------------------------------------------------------------------------------------------
--- Table `myems_historical_db`.`tbl_offline_cost_files`
--- ---------------------------------------------------------------------------------------------------------------------
-DROP TABLE IF EXISTS `myems_historical_db`.`tbl_offline_cost_files` ;
-
-CREATE TABLE IF NOT EXISTS `myems_historical_db`.`tbl_offline_cost_files` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `file_name` VARCHAR(255) NOT NULL,
-  `uuid` CHAR(36) NOT NULL,
-  `upload_datetime_utc` DATETIME NOT NULL,
-  `status` VARCHAR(45) NOT NULL COMMENT 'new, done, error',
-  `file_object` LONGBLOB NOT NULL,
-  PRIMARY KEY (`id`));
 
 COMMIT;

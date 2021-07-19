@@ -159,7 +159,7 @@ View in Postman: import the file MyEMS.postman_collection.json with Postman
 
 [Data Source](#Data-Source) | [Point](#Point)
 
-[Tariff](#Tariff) | [Cost Center](#Cost-Center) | [Offline Cost File](#Offline-Cost-File)
+[Tariff](#Tariff) | [Cost Center](#Cost-Center) | [Cost File](#Offline-Cost-File)
 
 [Meter](#Meter) | [Virtual Meter](#Virtual-Meter) | [Offline Meter](#Offline-Meter) | [Offline Meter File](#Offline-Meter-File) 
 
@@ -250,35 +250,39 @@ $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"tariff_id":"
 $ curl -i -X DELETE {{base_url}}/costcenters/{id}/tariffs/{tid}
 ```
 
-### Offline Cost File
-* GET an Offline Cost File by ID
+### Cost File
+* GET an Cost File by ID
 
 ```bash
-$ curl -i -X GET {{base_url}}/offlinecostfiles/{id}
+$ curl -i -X GET {{base_url}}/costfiles/{id}
 ```
 Result
 
 | Name          | Data Type | Description                               |
 |---------------|-----------|-------------------------------------------|
-| id            | integer   | Offline Cost File ID                     |
-| file_name     | string    | Offline Cost File name                   |
-| uuid          | string    | Offline Cost File UUID                   |
+| id            | integer   | Cost File ID                     |
+| file_name     | string    | Cost File name                   |
+| uuid          | string    | Cost File UUID                   |
 | upload_datetime | float | the number of milliseconds since January 1, 1970, 00:00:00, universal time |
-| status        | string    | Offline Cost File processing status (new, done, error)   |
-| file_object   | BLOB       | Offline Cost File Object                 |
+| status        | string    | Cost File processing status (new, done, error)   |
+| file_object   | BLOB       | Cost File Object                 |
 
-* GET All Offline Cost Files
+* GET All Cost Files
 ```bash
-$ curl -i -X GET {{base_url}}/offlinecostfiles
+$ curl -i -X GET {{base_url}}/costfiles
 ```
-* DELETE an Offline Cost File by ID
+* DELETE a Cost File by ID
 ```bash
-$ curl -i -X DELETE {{base_url}}/offlinecostfiles/{id}
+$ curl -i -X DELETE {{base_url}}/costfiles/{id}
 ```
-* POST Upload an Offline Cost File
+* POST Upload a Cost File
   (user must login first to get cookie)
 ```bash
-$ curl -i -H "Content-Type: application/TBD" -X POST -d 'file: (binary)' {{base_url}}/offlinecostfiles
+$ curl -i -H "Content-Type: application/TBD" -X POST -d 'file: (binary)' {{base_url}}/costfiles
+```
+* GET Restore a Cost File by ID from database to disk
+```bash
+$ curl -i -X GET {{base_url}}/costfiles/{id}/restore
 ```
 
 ### Data Source
