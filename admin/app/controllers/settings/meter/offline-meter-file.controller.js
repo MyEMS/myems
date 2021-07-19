@@ -84,7 +84,26 @@ app.controller('OfflineMeterFileController', function(
         }
     };
 
-
+    $scope.restoreOfflineMeterFile = function (offlinemeterfile) {
+        OfflineMeterFileService.restoreOfflineMeterFile(offlinemeterfile, function (error, data) {
+            if (!error) {
+                toaster.pop({
+                    type: $translate.instant('TOASTER.SUCCESS'),
+                    title: $translate.instant('TOASTER.SUCCESS_TITLE'),
+                    body: $translate.instant('SETTING.RESTORE_SUCCESS'),
+                    showCloseButton: true,
+                });
+                $scope.getAllOfflineMeterFiles();
+            } else {
+                toaster.pop({
+                    type: $translate.instant('TOASTER.ERROR'),
+                    title: $translate.instant(error.title),
+                    body: $translate.instant(error.description),
+                    showCloseButton: true,
+                });
+            }
+        });
+    };
 
 	$scope.deleteOfflineMeterFile = function(offlinemeterfile) {
 		SweetAlert.swal({

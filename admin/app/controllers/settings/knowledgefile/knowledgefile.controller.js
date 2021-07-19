@@ -80,7 +80,7 @@ app.controller('KnowledgeFileController', function (
                 toaster.pop({
                     type: $translate.instant('TOASTER.SUCCESS'),
                     title: $translate.instant('TOASTER.SUCCESS_TITLE'),
-                    body: $translate.instant('KNOWLEDGEFILE.RESTORE_SUCCESS'),
+                    body: $translate.instant('SETTING.RESTORE_SUCCESS'),
                     showCloseButton: true,
                 });
                 $scope.getAllKnowledgeFiles();

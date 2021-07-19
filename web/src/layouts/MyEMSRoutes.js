@@ -113,15 +113,16 @@ import SpaceLoad from '../components/MyEMS/Space/SpaceLoad';
 import SpaceStatistics from '../components/MyEMS/Space/SpaceStatistics';
 import SpaceSaving from '../components/MyEMS/Space/SpaceSaving';
 // Equipment
+import EquipmentBatch from '../components/MyEMS/Equipment/EquipmentBatch';
+import EquipmentCost from '../components/MyEMS/Equipment/EquipmentCost';
+import EquipmentEfficiency from '../components/MyEMS/Equipment/EquipmentEfficiency';
 import EquipmentEnergyCategory from '../components/MyEMS/Equipment/EquipmentEnergyCategory';
 import EquipmentEnergyItem from '../components/MyEMS/Equipment/EquipmentEnergyItem';
-import EquipmentCost from '../components/MyEMS/Equipment/EquipmentCost';
-import EquipmentOutput from '../components/MyEMS/Equipment/EquipmentOutput';
 import EquipmentIncome from '../components/MyEMS/Equipment/EquipmentIncome';
-import EquipmentEfficiency from '../components/MyEMS/Equipment/EquipmentEfficiency';
 import EquipmentLoad from '../components/MyEMS/Equipment/EquipmentLoad';
-import EquipmentStatistics from '../components/MyEMS/Equipment/EquipmentStatistics';
+import EquipmentOutput from '../components/MyEMS/Equipment/EquipmentOutput';
 import EquipmentSaving from '../components/MyEMS/Equipment/EquipmentSaving';
+import EquipmentStatistics from '../components/MyEMS/Equipment/EquipmentStatistics';
 import EquipmentTracking from '../components/MyEMS/Equipment/EquipmentTracking';
 // Meter
 import MeterEnergy from '../components/MyEMS/Meter/MeterEnergy';
@@ -160,16 +161,16 @@ import ShopfloorStatistics from '../components/MyEMS/Shopfloor/ShopfloorStatisti
 import ShopfloorSaving from '../components/MyEMS/Shopfloor/ShopfloorSaving';
 import ShopfloorBatch from '../components/MyEMS/Shopfloor/ShopfloorBatch';
 // CombinedEquipment
+import CombinedEquipmentBatch from '../components/MyEMS/CombinedEquipment/CombinedEquipmentBatch'
+import CombinedEquipmentCost from '../components/MyEMS/CombinedEquipment/CombinedEquipmentCost';
+import CombinedEquipmentEfficiency from '../components/MyEMS/CombinedEquipment/CombinedEquipmentEfficiency';
 import CombinedEquipmentEnergyCategory from '../components/MyEMS/CombinedEquipment/CombinedEquipmentEnergyCategory';
 import CombinedEquipmentEnergyItem from '../components/MyEMS/CombinedEquipment/CombinedEquipmentEnergyItem';
-import CombinedEquipmentCost from '../components/MyEMS/CombinedEquipment/CombinedEquipmentCost';
-import CombinedEquipmentOutput from '../components/MyEMS/CombinedEquipment/CombinedEquipmentOutput';
-import CombinedEquipmentIncome from '../components/MyEMS/CombinedEquipment/CombinedEquipmentIncome';
-import CombinedEquipmentEfficiency from '../components/MyEMS/CombinedEquipment/CombinedEquipmentEfficiency';
 import CombinedEquipmentLoad from '../components/MyEMS/CombinedEquipment/CombinedEquipmentLoad';
-import CombinedEquipmentStatistics from '../components/MyEMS/CombinedEquipment/CombinedEquipmentStatistics';
+import CombinedEquipmentIncome from '../components/MyEMS/CombinedEquipment/CombinedEquipmentIncome';
+import CombinedEquipmentOutput from '../components/MyEMS/CombinedEquipment/CombinedEquipmentOutput';
 import CombinedEquipmentSaving from '../components/MyEMS/CombinedEquipment/CombinedEquipmentSaving';
-import CombinedEquipmentBatch from '../components/MyEMS/CombinedEquipment/CombinedEquipmentBatch'
+import CombinedEquipmentStatistics from '../components/MyEMS/CombinedEquipment/CombinedEquipmentStatistics';
 // Auxiliary System
 import EnergyFlowDiagram from '../components/MyEMS/AuxiliarySystem/EnergyFlowDiagram';
 import DistributionSystem from '../components/MyEMS/AuxiliarySystem/DistributionSystem';
@@ -348,15 +349,16 @@ const MyEMSRoutes = () => (
     <Route path="/space/saving" exact component={SpaceSaving} />
 
     {/*Equipment*/}
+    <Route path="/equipment/batch" exact component={EquipmentBatch} />
+    <Route path="/equipment/cost" exact component={EquipmentCost} />
+    <Route path="/equipment/efficiency" exact component={EquipmentEfficiency} />
     <Route path="/equipment/energycategory" exact component={EquipmentEnergyCategory} />
     <Route path="/equipment/energyitem" exact component={EquipmentEnergyItem} />
-    <Route path="/equipment/cost" exact component={EquipmentCost} />
-    <Route path="/equipment/output" exact component={EquipmentOutput} />
     <Route path="/equipment/income" exact component={EquipmentIncome} />
-    <Route path="/equipment/efficiency" exact component={EquipmentEfficiency} />
     <Route path="/equipment/load" exact component={EquipmentLoad} />
-    <Route path="/equipment/statistics" exact component={EquipmentStatistics} />
+    <Route path="/equipment/output" exact component={EquipmentOutput} />
     <Route path="/equipment/saving" exact component={EquipmentSaving} />
+    <Route path="/equipment/statistics" exact component={EquipmentStatistics} />
     <Route path="/equipment/tracking" exact component={EquipmentTracking} />
 
     {/*Meter*/}
@@ -400,16 +402,16 @@ const MyEMSRoutes = () => (
     <Route path="/shopfloor/batch" exact component={ShopfloorBatch} />
 
     {/*CombinedEquipment*/}
+    <Route path="/combinedequipment/batch" exact component={CombinedEquipmentBatch} />
+    <Route path="/combinedequipment/cost" exact component={CombinedEquipmentCost} />
+    <Route path="/combinedequipment/efficiency" exact component={CombinedEquipmentEfficiency} />
     <Route path="/combinedequipment/energycategory" exact component={CombinedEquipmentEnergyCategory} />
     <Route path="/combinedequipment/energyitem" exact component={CombinedEquipmentEnergyItem} />
-    <Route path="/combinedequipment/cost" exact component={CombinedEquipmentCost} />
-    <Route path="/combinedequipment/output" exact component={CombinedEquipmentOutput} />
     <Route path="/combinedequipment/income" exact component={CombinedEquipmentIncome} />
-    <Route path="/combinedequipment/efficiency" exact component={CombinedEquipmentEfficiency} />
     <Route path="/combinedequipment/load" exact component={CombinedEquipmentLoad} />
-    <Route path="/combinedequipment/statistics" exact component={CombinedEquipmentStatistics} />
+    <Route path="/combinedequipment/output" exact component={CombinedEquipmentOutput} />
     <Route path="/combinedequipment/saving" exact component={CombinedEquipmentSaving} />
-    <Route path="/combinedequipment/batch" exact component={CombinedEquipmentBatch} />
+    <Route path="/combinedequipment/statistics" exact component={CombinedEquipmentStatistics} />
 
     {/*Auxiliary System*/}
     <Route path="/auxiliarysystem/energyflowdiagram" exact component={EnergyFlowDiagram} />
