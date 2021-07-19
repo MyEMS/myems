@@ -2250,6 +2250,30 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '1.1.3', '2021-05-25');
+(1, '1.1.4', '2021-07-19');
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_web_menus`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_web_menus` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_web_menus` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `version` VARCHAR(256) NOT NULL,
+  `release_date` DATE NOT NULL,
+  PRIMARY KEY (`id`));
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Example Data for table `myems_system_db`.`tbl_versions`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+USE `myems_system_db`;
+
+INSERT INTO `myems_system_db`.`tbl_versions`
+(`id`, `version`, `release_date`)
+VALUES
+(1, '1.1.4', '2021-07-19');
 
 COMMIT;

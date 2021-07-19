@@ -16,6 +16,41 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None.
 
+## [v1.1.4] - 2021-07-19
+### Added
+- added tbl_email_messages to myems_reporting_db
+- added data sort to FDD messages in Admin UI
+- added new category to FDD rule in API & Admin UI
+- added Search Input for meters in Web UI
+- added last year data to dashboard
+- added ChildSpaceProportion SharePies to Space Energy Category report of Web UI
+- added ORDER BY utc_date_time to all digital parameters data in API
+- added the pagination for meter realtime page
+- added pagination to MeterRealtime in Web UI
+- added internationalization of Vertical Navigation Bar in Web UI
+- added Equipment Batch Analysis report API
+- added Cost File to API and Admin UI
+- added restore button to offline meter file in API and Admin UI
+
+### Changed
+- changed GET Data Source Point Collection to order by ID
+- changed equipment and combined equipment associated points name to parameters name in reports API
+- updated validate expression of rule in API
+- updated i18n in Web UI
+- upgraded Web UI library to 2.10.2
+
+### Fixed
+- fixed typo for deleting email messages in Admin UI
+- fixed issues of deleting text message and wechat message in Admin UI
+- fixed base period cost units issue of Dashboard API
+- fixed selected meter issues in onSearchMeter of Web UI
+- fixed wrong HTTP Status Code issues in API
+- fixed Child Space Share Pie issue in excel exporter of spaceenergycategory
+
+### Removed
+- Drop table tbl_sms_recipients from myems_fdd_db
+- deleted parameters data from Dashboard
+
 ## [v1.1.3] - 2021-05-25
 ### Added
 - added Combined Equipment Batch Analysis Report
@@ -256,7 +291,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v1.1.3...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v1.1.4...HEAD
+[v1.1.4]: https://github.com/MyEMS/myems/compare/v1.1.3...v1.1.4
 [v1.1.3]: https://github.com/MyEMS/myems/compare/v1.1.2...v1.1.3
 [v1.1.2]: https://github.com/MyEMS/myems/compare/v1.1.1...v1.1.2
 [v1.1.1]: https://github.com/MyEMS/myems/compare/v1.1.0...v1.1.1

@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 import os
 
 
-class OfflineCostFileCollection:
+class CostFileCollection:
     @staticmethod
     def __init__():
         pass
@@ -22,7 +22,7 @@ class OfflineCostFileCollection:
         cursor = cnx.cursor()
 
         query = (" SELECT id, file_name, uuid, upload_datetime_utc, status "
-                 " FROM tbl_offline_cost_files "
+                 " FROM tbl_cost_files "
                  " ORDER BY upload_datetime_utc desc ")
         cursor.execute(query)
         rows = cursor.fetchall()
@@ -68,7 +68,7 @@ class OfflineCostFileCollection:
             os.rename(temp_file_path, file_path)
         except Exception as ex:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.FAILED_TO_UPLOAD_OFFLINE_COST_FILE')
+                                   description='API.FAILED_TO_UPLOAD_COST_FILE')
 
         # Verify User Session
         token = req.headers.get('TOKEN')
@@ -124,7 +124,7 @@ class OfflineCostFileCollection:
         cnx = mysql.connector.connect(**config.myems_historical_db)
         cursor = cnx.cursor()
 
-        add_values = (" INSERT INTO tbl_offline_cost_files "
+        add_values = (" INSERT INTO tbl_cost_files "
                       " (file_name, uuid, upload_datetime_utc, status, file_object ) "
                       " VALUES (%s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (filename,
@@ -138,10 +138,10 @@ class OfflineCostFileCollection:
         cnx.disconnect()
 
         resp.status = falcon.HTTP_201
-        resp.location = '/offlinecostfiles/' + str(new_id)
+        resp.location = '/costfiles/' + str(new_id)
 
 
-class OfflineCostFileItem:
+class CostFileItem:
     @staticmethod
     def __init__():
         pass
@@ -155,13 +155,13 @@ class OfflineCostFileItem:
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
-                                   description='API.INVALID_OFFLINE_COST_FILE_ID')
+                                   description='API.INVALID_COST_FILE_ID')
 
         cnx = mysql.connector.connect(**config.myems_historical_db)
         cursor = cnx.cursor()
 
         query = (" SELECT id, file_name, uuid, upload_datetime_utc, status "
-                 " FROM tbl_offline_cost_files "
+                 " FROM tbl_cost_files "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
@@ -169,7 +169,7 @@ class OfflineCostFileItem:
         cnx.disconnect()
         if row is None:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.OFFLINE_COST_FILE_NOT_FOUND')
+                                   description='API.COST_FILE_NOT_FOUND')
 
         upload_datetime = row[3]
         upload_datetime = upload_datetime.replace(tzinfo=timezone.utc)
@@ -185,20 +185,20 @@ class OfflineCostFileItem:
     def on_delete(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_OFFLINE_COST_FILE_ID')
+                                   description='API.INVALID_COST_FILE_ID')
 
         cnx = mysql.connector.connect(**config.myems_historical_db)
         cursor = cnx.cursor()
 
         cursor.execute(" SELECT uuid "
-                       " FROM tbl_offline_cost_files "
+                       " FROM tbl_cost_files "
                        " WHERE id = %s ", (id_,))
         row = cursor.fetchone()
         if row is None:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.OFFLINE_COST_FILE_NOT_FOUND')
+                                   description='API.COST_FILE_NOT_FOUND')
 
         try:
             file_uuid = row[0]
@@ -208,14 +208,69 @@ class OfflineCostFileItem:
             # remove the file from disk
             os.remove(file_path)
         except Exception as ex:
-            # ignore exception and don't return API.OFFLINE_COST_FILE_NOT_FOUND error
+            # ignore exception and don't return API.COST_FILE_NOT_FOUND error
             pass
 
         # Note: the energy data imported from the deleted file will not be deleted
-        cursor.execute(" DELETE FROM tbl_offline_cost_files WHERE id = %s ", (id_,))
+        cursor.execute(" DELETE FROM tbl_cost_files WHERE id = %s ", (id_,))
         cnx.commit()
 
         cursor.close()
         cnx.disconnect()
 
         resp.status = falcon.HTTP_204
+
+
+class CostFileRestore:
+    @staticmethod
+    def __init__():
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_get(req, resp, id_):
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_COST_FILE_ID')
+
+        cnx = mysql.connector.connect(**config.myems_historical_db)
+        cursor = cnx.cursor()
+
+        query = (" SELECT uuid, file_object "
+                 " FROM tbl_cost_files "
+                 " WHERE id = %s ")
+        cursor.execute(query, (id_,))
+        row = cursor.fetchone()
+        cursor.close()
+        cnx.disconnect()
+
+        if row is None:
+            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.COST_FILE_NOT_FOUND')
+
+        result = {"uuid": row[0],
+                  "file_object": row[1]}
+        try:
+            raw_blob = result["file_object"]
+            file_uuid = result["uuid"]
+
+            # Define file_path
+            file_path = os.path.join(config.upload_path, file_uuid)
+
+            # Write to a temporary file to prevent incomplete files from
+            # being used.
+            temp_file_path = file_path + '~'
+
+            open(temp_file_path, 'wb').write(raw_blob)
+
+            # Now that we know the file has been fully saved to disk
+            # move it into place.
+            os.replace(temp_file_path, file_path)
+        except Exception as ex:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
+                                   description='API.FAILED_TO_RESTORE_COST_FILE')
+        resp.body = 'success'
+        resp.status = falcon.HTTP_200

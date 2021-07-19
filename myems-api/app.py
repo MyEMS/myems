@@ -3,7 +3,7 @@ from falcon_cors import CORS
 from falcon_multipart.middleware import MultipartMiddleware
 from core import energyflowdiagram, privilege, textmessage, distributioncircuit, virtualmeter, \
     costcenter, point, knowledgefile, meter, gsmmodem, tariff, user, storetype, timezone, \
-    offlinecostfile, offlinemeterfile, version, contact, emailserver, combinedequipment, datasource, equipment, tenant, shopfloor, \
+    costfile, offlinemeterfile, version, contact, emailserver, combinedequipment, datasource, equipment, tenant, shopfloor, \
     webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, offlinemeter, \
     rule, energycategory, sensor, energyitem, notification
 from reports import advancedreport
@@ -140,10 +140,12 @@ api.add_route('/costcenters/{id_}/tariffs',
 api.add_route('/costcenters/{id_}/tariffs/{tid}',
               costcenter.CostCenterTariffItem())
 
-api.add_route('/offlinecostfiles',
-              offlinecostfile.OfflineCostFileCollection())
-api.add_route('/offlinecostfiles/{id_}',
-              offlinecostfile.OfflineCostFileItem())
+api.add_route('/costfiles',
+              costfile.CostFileCollection())
+api.add_route('/costfiles/{id_}',
+              costfile.CostFileItem())
+api.add_route('/costfiles/{id_}/restore',
+              costfile.CostFileRestore())
 
 api.add_route('/datasources',
               datasource.DataSourceCollection())
