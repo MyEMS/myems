@@ -55,6 +55,7 @@ def generate_excel(report, space_name):
 
     wb = Workbook()
     ws = wb.active
+    ws.title = "123"
 
     # Row height
     ws.row_dimensions[1].height = 118

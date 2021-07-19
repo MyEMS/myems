@@ -61,7 +61,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
     wb = Workbook()
     # todo
     ws = wb.active
-
+    ws.title = "VirtualMeterEnergy"
     # Row height
     ws.row_dimensions[1].height = 102
     for i in range(2, 2000 + 1):

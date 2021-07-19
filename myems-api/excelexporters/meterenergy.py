@@ -60,6 +60,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
     wb = Workbook()
     ws = wb.active
+    ws.title = "123"
 
     # Row height
     ws.row_dimensions[1].height = 102
