@@ -70,7 +70,7 @@ def generate_excel(report,
                    period_type):
     wb = Workbook()
     ws = wb.active
-    ws.title = "123"
+    ws.title = "TenantBill"
 
     # Row height
     for i in range(1, 11 + 1):

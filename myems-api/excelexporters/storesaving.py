@@ -69,7 +69,7 @@ def generate_excel(report,
                    period_type):
     wb = Workbook()
     ws = wb.active
-    ws.title = "123"
+    ws.title = "StoreSaving"
 
     # Row height
     ws.row_dimensions[1].height = 102

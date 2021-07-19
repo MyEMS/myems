@@ -52,7 +52,7 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
 
     wb = Workbook()
     ws = wb.active
-    ws.title = "123"
+    ws.title = "ShopFloorBatch"
 
     # Row height
     ws.row_dimensions[1].height = 102
