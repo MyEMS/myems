@@ -12,12 +12,12 @@ from openpyxl import Workbook
 import openpyxl.utils.cell as format_cell
 
 
-####################################################################################################################
+########################################################################################################################
 # PROCEDURES
 # Step 1: Validate the report data
 # Step 2: Generate excel file
 # Step 3: Encode the excel file bytes to Base64
-####################################################################################################################
+########################################################################################################################
 
 
 def export(report,
@@ -85,7 +85,6 @@ def generate_excel(report,
     # Font
     name_font = Font(name='Constantia', size=15, bold=True)
     title_font = Font(name='宋体', size=15, bold=True)
-    # data_font = Font(name='Franklin Gothic Book', size=11)
 
     table_fill = PatternFill(fill_type='solid', fgColor='1F497D')
     f_border = Border(left=Side(border_style='medium', color='00000000'),
@@ -115,16 +114,9 @@ def generate_excel(report,
                               wrap_text=False,
                               shrink_to_fit=False,
                               indent=0)
-    # c_r_alignment = Alignment(vertical='bottom',
-    #                           horizontal='center',
-    #                           text_rotation=0,
-    #                           wrap_text=False,
-    #                           shrink_to_fit=False,
-    #                           indent=0)
 
     # Img
     img = Image("excelexporters/myems.png")
-    # img = Image("myems.png")
     img.width = img.width * 1.06
     img.height = img.height * 1.06
     ws.add_image(img, 'B1')
@@ -161,12 +153,12 @@ def generate_excel(report,
         wb.save(filename)
 
         return filename
-    #################################################
+    ####################################################################################################################
     # First: 统计分析
     # 6: title
     # 7: table title
     # 8~2*ca_len table_data
-    #################################################
+    ####################################################################################################################
     reporting_period_data = report['reporting_period']
 
     has_energy_data_flag = True
@@ -262,12 +254,12 @@ def generate_excel(report,
                 if reporting_period_data['factors_increment_rate'][i] is not None else '0.00%'
             ws['E' + str(row + 1)].border = f_border
 
-    ########################################################
+    ####################################################################################################################
     # Third: 详细数据
     # row_sat~ row_sat + 6*cal_len: line
     # row_da: table title
     # row_da + 1~: table_data
-    ########################################################
+    ####################################################################################################################
     has_timestamps_flag = True
     if "timestamps" not in reporting_period_data.keys() or \
             reporting_period_data['timestamps'] is None or \
@@ -339,18 +331,8 @@ def generate_excel(report,
                 ws[col_maximum + str(rows)].border = f_border
         current_row_number = row_da + 1 + time_len
 
-        # ws['B' + str(current_row_number)].font = title_font
-        # ws['B' + str(current_row_number)].alignment = c_c_alignment
-        # ws['B' + str(current_row_number)].border = f_border
-        # ws['B' + str(current_row_number)] = '小计'
         # LineChart
         for i in range(0, ca_len):
-            # col = chr(ord('C') + i)
-            # ws[col + str(current_row_number)].font = title_font
-            # ws[col + str(current_row_number)].alignment = c_c_alignment
-            # ws[col + str(current_row_number)].border = f_border
-            # ws[col + str(current_row_number)] = round(reporting_period_data['subtotals'][i], 2)
-
             lc = LineChart()
             lc.title = "报告期 最大负荷"
             lc.style = 10
@@ -376,7 +358,7 @@ def generate_excel(report,
             chart_cell = str(row_sat + 6 * i)
             ws.add_chart(lc, chart_col + chart_cell)
 
-    ###########################################
+    ####################################################################################################################
     current_sheet_parameters_row_number = row_sat + 1 + 6 * ca_len
     has_parameters_names_and_timestamps_and_values_data = True
     if 'parameters' not in report.keys() or \
@@ -394,9 +376,9 @@ def generate_excel(report,
         has_parameters_names_and_timestamps_and_values_data = False
     if has_parameters_names_and_timestamps_and_values_data:
 
-        ###############################
+        ################################################################################################################
         # new worksheet
-        ###############################
+        ################################################################################################################
 
         parameters_data = report['parameters']
         parameters_names_len = len(parameters_data['names'])
@@ -427,7 +409,6 @@ def generate_excel(report,
         img = Image("excelexporters/myems.png")
         img.width = img.width * 0.85
         img.height = img.height * 0.85
-        # img = Image("myems.png")
         parameters_ws.add_image(img, 'B1')
 
         # Title
@@ -512,9 +493,9 @@ def generate_excel(report,
 
             table_current_col_number = table_current_col_number + 3
 
-        ########################################################
+        ################################################################################################################
         # parameters chart and parameters table
-        ########################################################
+        ################################################################################################################
 
         ws['B' + str(current_sheet_parameters_row_number)].font = title_font
         ws['B' + str(current_sheet_parameters_row_number)] = name + ' Parameters'
@@ -560,7 +541,7 @@ def generate_excel(report,
         current_sheet_parameters_row_number = chart_start_row_number
 
         current_sheet_parameters_row_number += 1
-    ###########################################
+    ####################################################################################################################
     filename = str(uuid.uuid4()) + '.xlsx'
     wb.save(filename)
 

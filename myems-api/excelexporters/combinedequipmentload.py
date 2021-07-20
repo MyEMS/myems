@@ -118,7 +118,6 @@ def generate_excel(report,
 
     # Img
     img = Image("excelexporters/myems.png")
-    # img = Image("myems.png")
     img.width = img.width * 0.85
     img.height = img.height * 0.85
     ws.add_image(img, 'B1')
@@ -329,11 +328,11 @@ def generate_excel(report,
                 ws[col_maximum + str(rows)].number_format = '0.00'
                 ws[col_maximum + str(rows)].border = f_border
 
-    ########################################################
-    # third: LineChart
-    # LineChart requires data from the detailed data table in the Excel file
-    # so print the detailed data table first and then print LineChart
-    ########################################################
+        ################################################################################################################
+        # third: LineChart
+        # LineChart requires data from the detailed data table in the Excel file
+        # so print the detailed data table first and then print LineChart
+        ################################################################################################################
         for i in range(0, ca_len):
             line = LineChart()
             line.title = "报告期 最大负荷 - " + names[i] + "(" + reporting_period_data['units'][i] + ")"
@@ -360,7 +359,7 @@ def generate_excel(report,
             chart_cell = str(analysis_end_row_number + 6 * i)
             ws.add_chart(line, chart_col + chart_cell)
 
-        #####################################
+        ################################################################################################################
 
         has_associated_equipment_flag = True
 
@@ -490,7 +489,6 @@ def generate_excel(report,
         img = Image("excelexporters/myems.png")
         img.width = img.width * 0.85
         img.height = img.height * 0.85
-        # img = Image("myems.png")
         parameters_ws.add_image(img, 'B1')
 
         # Title
@@ -623,7 +621,7 @@ def generate_excel(report,
         current_sheet_parameters_row_number = chart_start_row_number
 
         current_sheet_parameters_row_number += 1
-    ##########################################
+    ####################################################################################################################
     filename = str(uuid.uuid4()) + '.xlsx'
     wb.save(filename)
 

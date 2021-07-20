@@ -14,12 +14,12 @@ from openpyxl.chart.label import DataLabelList
 import openpyxl.utils.cell as format_cell
 
 
-####################################################################################################################
+########################################################################################################################
 # PROCEDURES
 # Step 1: Validate the report data
 # Step 2: Generate excel file
 # Step 3: Encode the excel file bytes to Base64
-####################################################################################################################
+########################################################################################################################
 
 
 def export(report,
@@ -168,7 +168,7 @@ def generate_excel(report,
 
         return filename
 
-    #################################################
+    ####################################################################################################################
 
     reporting_period_data = report['reporting_period']
 
@@ -282,7 +282,7 @@ def generate_excel(report,
         for i in range(6, 10 + 1):
             ws.row_dimensions[i].height = 0.1
 
-    #################################################
+    ####################################################################################################################
 
     has_ele_peak_flag = True
     if "toppeaks" not in reporting_period_data.keys() or \
@@ -364,7 +364,7 @@ def generate_excel(report,
         for i in range(12, 18 + 1):
             ws.row_dimensions[i].height = 0.1
 
-    ################################################
+    ####################################################################################################################
 
     current_row_number = 19
 
@@ -433,7 +433,7 @@ def generate_excel(report,
 
         current_row_number += 1
 
-    #####################################################
+    ####################################################################################################################
 
     has_kgco2e_data_flag = True
 
@@ -577,7 +577,6 @@ def generate_excel(report,
             s1.dLbls.showCatName = False
             s1.dLbls.showVal = True
             s1.dLbls.showPercent = True
-            chart_cell = ''
             char_col = chr(_col + i*2)
 
             chart_cell = char_col + str(chart_start_row_number)
@@ -585,7 +584,7 @@ def generate_excel(report,
 
         current_row_number += 1
 
-    ###############################################
+    ####################################################################################################################
 
     has_detail_data_flag = True
 
@@ -687,8 +686,7 @@ def generate_excel(report,
 
             current_row_number += 2
 
-
-    ##########################################
+    ####################################################################################################################
     current_sheet_parameters_row_number = table_start_draw_flag + ca_len * 6 + 1
     has_parameters_names_and_timestamps_and_values_data = True
     if 'parameters' not in report.keys() or \
@@ -824,9 +822,9 @@ def generate_excel(report,
 
             table_current_col_number = table_current_col_number + 3
 
-        ########################################################
+        ################################################################################################################
         # parameters chart and parameters table
-        ########################################################
+        ################################################################################################################
 
         ws['B' + str(current_sheet_parameters_row_number)].font = title_font
         ws['B' + str(current_sheet_parameters_row_number)] = name + ' Parameters'
@@ -872,7 +870,7 @@ def generate_excel(report,
         current_sheet_parameters_row_number = chart_start_row_number
 
         current_sheet_parameters_row_number += 1
-    ##########################################
+    ####################################################################################################################
     filename = str(uuid.uuid4()) + '.xlsx'
     wb.save(filename)
 

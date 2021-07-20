@@ -14,12 +14,12 @@ from openpyxl.chart.label import DataLabelList
 import openpyxl.utils.cell as format_cell
 
 
-####################################################################################################################
+########################################################################################################################
 # PROCEDURES
 # Step 1: Validate the report data
 # Step 2: Generate excel file
 # Step 3: Encode the excel file bytes to Base64
-####################################################################################################################
+########################################################################################################################
 
 
 def export(report,
@@ -120,16 +120,9 @@ def generate_excel(report,
                               wrap_text=True,
                               shrink_to_fit=False,
                               indent=0)
-    c_r_alignment = Alignment(vertical='bottom',
-                              horizontal='center',
-                              text_rotation=0,
-                              wrap_text=True,
-                              shrink_to_fit=False,
-                              indent=0)
 
     # Img
     img = Image("excelexporters/myems.png")
-    # img = Image("myems.png")
     img.width = img.width * 1.06
     img.height = img.height * 1.06
     ws.add_image(img, 'B1')
@@ -168,14 +161,14 @@ def generate_excel(report,
         wb.save(filename)
 
         return filename
-    #################################################
+    ####################################################################################################################
     # First: 能耗分析
     # 6: title
     # 7: table title
     # 8~10 table_data
     # Total: 5 rows
     # if has not energy data: set low height for rows
-    #################################################
+    ####################################################################################################################
     reporting_period_data = report['reporting_period']
 
     has_energy_data_flag = True
@@ -270,13 +263,13 @@ def generate_excel(report,
     else:
         for i in range(6, 9 + 1):
             ws.row_dimensions[i].height = 0.1
-    #################################################
+    ####################################################################################################################
     # Second: 分时电耗
     # 12: title
     # 13: table title
     # 14~17 table_data
     # Total: 6 rows
-    ################################################
+    ####################################################################################################################
     has_ele_peak_flag = True
     if "toppeaks" not in reporting_period_data.keys() or \
             reporting_period_data['toppeaks'] is None or \
@@ -345,15 +338,13 @@ def generate_excel(report,
         pie_data = Reference(ws, min_col=3, min_row=13, max_row=17)
         pie.add_data(pie_data, titles_from_data=True)
         pie.set_categories(labels)
-        pie.height = 7.25  # cm 1.05*5 1.05cm = 30 pt
+        pie.height = 7.25
         pie.width = 9
-        # pie.title = "Pies sold by category"
         s1 = pie.series[0]
         s1.dLbls = DataLabelList()
         s1.dLbls.showCatName = False  # 标签显示
         s1.dLbls.showVal = True  # 数量显示
         s1.dLbls.showPercent = True  # 百分比显示
-        # s1 = CharacterProperties(sz=1800)     # 图表中字体大小 *100
 
         ws.add_chart(pie, "D13")
 
@@ -362,13 +353,13 @@ def generate_excel(report,
             ws.row_dimensions[i].height = 0.1
         # end_row 10
         # start_row 12
-    ################################################
+    ####################################################################################################################
     # Third: 子空间能耗
     # 19: title
     # 20: table title
     # 21~24 table_data
     # Total: 6 rows
-    ################################################
+    ####################################################################################################################
     has_child_flag = True
     # Judge if the space has child space, if not, delete it.
     if "child_space" not in report.keys() or "energy_category_names" not in report['child_space'].keys() or \
@@ -434,24 +425,18 @@ def generate_excel(report,
             pie_data = Reference(ws, min_col=3 + i, min_row=table_start_row_number, max_row=table_end_row_number)
             pie.add_data(pie_data, titles_from_data=True)
             pie.set_categories(labels)
-            pie.height = 6.6  # cm 1.05*5 1.05cm = 30 pt
+            pie.height = 6.6
             pie.width = 8
-            # pie.title = "Pies sold by category"
             s1 = pie.series[0]
             s1.dLbls = DataLabelList()
             s1.dLbls.showCatName = False  # 标签显示
             s1.dLbls.showVal = True  # 数量显示
             s1.dLbls.showPercent = True  # 百分比显示
-            # s1 = CharacterProperties(sz=1800)     # 图表中字体大小 *100
-            chart_cell = ''
             if i % 2 == 0:
                 chart_cell = 'B' + str(chart_start_row_number)
             else:
                 chart_cell = 'E' + str(chart_start_row_number)
                 chart_start_row_number += 5
-            # ws.add_chart(pie, chart_cell)
-            # chart_col = chr(ord('B') + 2 * j)
-            # chart_cell = chart_col + '25'
             ws.add_chart(pie, chart_cell)
 
         current_row_number = chart_start_row_number
@@ -461,13 +446,13 @@ def generate_excel(report,
 
         current_row_number += 1
 
-    ################################################
+    ####################################################################################################################
     # Fourth: 能耗详情
     # current_row_number: title
     # current_row_number+1 ~ current_row_number+1+ca_len*6-1: line
     # current_row_number+1+ca_len*6: table title
     # current_row_number+1+ca_len*6~: table_data
-    ################################################
+    ####################################################################################################################
     reporting_period_data = report['reporting_period']
     times = reporting_period_data['timestamps']
     has_detail_data_flag = True
@@ -525,7 +510,6 @@ def generate_excel(report,
 
                 for j in range(0, time_len):
                     row = str(table_row+1 + j)
-                    # col = chr(ord('B') + i)
                     ws[col + row].font = title_font
                     ws[col + row].alignment = c_c_alignment
                     ws[col + row] = round(reporting_period_data['values'][i][j], 2)
@@ -557,21 +541,18 @@ def generate_excel(report,
                 line_data.marker.symbol = "circle"
                 line_data.smooth = True
                 line.x_axis.crosses = 'min'
-                line.height = 8.25  # cm 1.05*5 1.05cm = 30 pt
+                line.height = 8.25
                 line.width = 24
-                # pie.title = "Pies sold by category"
                 line.dLbls = DataLabelList()
                 line.dLbls.dLblPos = 't'
-                # line.dLbls.showCatName = True  # label show
                 line.dLbls.showVal = True  # val show
                 line.dLbls.showPercent = True  # percent show
-                # s1 = CharacterProperties(sz=1800)     # font size *100
                 chart_col = 'B'
                 chart_cell = chart_col + str(chart_start_row_number + 6*i)
                 ws.add_chart(line, chart_cell)
 
     current_sheet_parameters_row_number = chart_start_row_number + ca_len * 6
-    ##########################################
+    ####################################################################################################################
     has_parameters_names_and_timestamps_and_values_data = True
     if 'parameters' not in report.keys() or \
             report['parameters'] is None or \
@@ -589,9 +570,9 @@ def generate_excel(report,
         has_parameters_names_and_timestamps_and_values_data = False
     if has_parameters_names_and_timestamps_and_values_data:
 
-        ###############################
+        ################################################################################################################
         # new worksheet
-        ###############################
+        ################################################################################################################
 
         parameters_data = report['parameters']
         parameters_names_len = len(parameters_data['names'])
@@ -622,7 +603,6 @@ def generate_excel(report,
         img = Image("excelexporters/myems.png")
         img.width = img.width * 0.85
         img.height = img.height * 0.85
-        # img = Image("myems.png")
         parameters_ws.add_image(img, 'B1')
 
         # Title
@@ -707,9 +687,9 @@ def generate_excel(report,
 
             table_current_col_number = table_current_col_number + 3
 
-        ########################################################
+        ################################################################################################################
         # parameters chart and parameters table
-        ########################################################
+        ################################################################################################################
 
         ws['B' + str(current_sheet_parameters_row_number)].font = title_font
         ws['B' + str(current_sheet_parameters_row_number)] = name + ' Parameters'
@@ -755,7 +735,7 @@ def generate_excel(report,
         current_sheet_parameters_row_number = chart_start_row_number
 
         current_sheet_parameters_row_number += 1
-    ##########################################
+    ####################################################################################################################
     filename = str(uuid.uuid4()) + '.xlsx'
     wb.save(filename)
 

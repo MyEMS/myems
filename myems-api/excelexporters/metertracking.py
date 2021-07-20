@@ -11,12 +11,12 @@ from openpyxl import Workbook
 from openpyxl.chart.label import DataLabelList
 
 
-####################################################################################################################
+########################################################################################################################
 # PROCEDURES
 # Step 1: Validate the report data
 # Step 2: Generate excelexporters file
 # Step 3: Encode the excelexporters file to Base64
-####################################################################################################################
+########################################################################################################################
 
 def export(result, space_name, reporting_start_datetime_local, reporting_end_datetime_local):
     ####################################################################################################################
@@ -78,7 +78,6 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
     # Font
     name_font = Font(name='Constantia', size=15, bold=True)
     title_font = Font(name='宋体', size=15, bold=True)
-    data_font = Font(name='Franklin Gothic Book', size=11)
 
     table_fill = PatternFill(fill_type='solid', fgColor='1F497D')
     f_border = Border(left=Side(border_style='medium', color='00000000'),
@@ -104,12 +103,6 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
                               indent=0)
     b_r_alignment = Alignment(vertical='bottom',
                               horizontal='right',
-                              text_rotation=0,
-                              wrap_text=True,
-                              shrink_to_fit=False,
-                              indent=0)
-    c_r_alignment = Alignment(vertical='bottom',
-                              horizontal='center',
                               text_rotation=0,
                               wrap_text=True,
                               shrink_to_fit=False,

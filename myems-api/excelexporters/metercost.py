@@ -14,12 +14,12 @@ from openpyxl.chart.label import DataLabelList
 import openpyxl.utils.cell as format_cell
 
 
-####################################################################################################################
+########################################################################################################################
 # PROCEDURES
 # Step 1: Validate the report data
 # Step 2: Generate excelexporters file
 # Step 3: Encode the excelexporters file to Base64
-####################################################################################################################
+########################################################################################################################
 
 def export(report, name, reporting_start_datetime_local, reporting_end_datetime_local, period_type):
     ####################################################################################################################
@@ -70,11 +70,6 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
     ws.row_dimensions[1].height = 102
     for i in range(2, 2000 + 1):
         ws.row_dimensions[i].height = 42
-    # for i in range(2, 11 + 1):
-    #     ws.row_dimensions[i].height = 30
-    #
-    # for i in range(12, 43 + 1):
-    #     ws.row_dimensions[i].height = 30
 
     # Col width
     ws.column_dimensions['A'].width = 1.5
@@ -87,7 +82,6 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
     # Font
     name_font = Font(name='Constantia', size=15, bold=True)
     title_font = Font(name='宋体', size=15, bold=True)
-    data_font = Font(name='Franklin Gothic Book', size=11)
 
     table_fill = PatternFill(fill_type='solid', fgColor='1F497D')
     f_border = Border(left=Side(border_style='medium', color='00000000'),
@@ -117,18 +111,11 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                               wrap_text=True,
                               shrink_to_fit=False,
                               indent=0)
-    c_r_alignment = Alignment(vertical='bottom',
-                              horizontal='center',
-                              text_rotation=0,
-                              wrap_text=True,
-                              shrink_to_fit=False,
-                              indent=0)
 
     # Img
     img = Image("excelexporters/myems.png")
     img.width = img.width * 0.85
     img.height = img.height * 0.85
-    # img = Image("myems.png")
     ws.add_image(img, 'B1')
 
     # Title
@@ -166,7 +153,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
         return filename
 
-    ###############################
+    ####################################################################################################################
 
     has_cost_data_flag = True
 
@@ -261,7 +248,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         for i in range(6, 9 + 1):
             ws.rows_dimensions[i].height = 0.1
 
-    ######################################
+    ####################################################################################################################
 
     has_cost_datail_flag = True
     reporting_period_data = report['reporting_period']
@@ -365,7 +352,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         for i in range(11, 43 + 1):
             ws.row_dimensions[i].height = 0.0
 
-    ##########################################
+    ####################################################################################################################
     has_parameters_names_and_timestamps_and_values_data = True
     # 12 is the starting line number of the last line chart in the report period
     time_len = len(reporting_period_data['timestamps'])
@@ -385,9 +372,9 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         has_parameters_names_and_timestamps_and_values_data = False
     if has_parameters_names_and_timestamps_and_values_data:
 
-        ###############################
+        ################################################################################################################
         # new worksheet
-        ###############################
+        ################################################################################################################
 
         parameters_data = report['parameters']
 
@@ -419,7 +406,6 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         img = Image("excelexporters/myems.png")
         img.width = img.width * 0.85
         img.height = img.height * 0.85
-        # img = Image("myems.png")
         parameters_ws.add_image(img, 'B1')
 
         # Title
@@ -504,9 +490,9 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
             table_current_col_number = table_current_col_number + 3
 
-        ########################################################
+        ################################################################################################################
         # parameters chart and parameters table
-        ########################################################
+        ################################################################################################################
 
         ws['B' + str(current_sheet_parameters_row_number)].font = title_font
         ws['B' + str(current_sheet_parameters_row_number)] = name + ' Parameters'

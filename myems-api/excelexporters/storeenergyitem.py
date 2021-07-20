@@ -12,12 +12,12 @@ from openpyxl import Workbook
 from openpyxl.chart.label import DataLabelList
 import openpyxl.utils.cell as format_cell
 
-####################################################################################################################
+########################################################################################################################
 # PROCEDURES
 # Step 1: Validate the report data
 # Step 2: Generate excel file
 # Step 3: Encode the excel file bytes to Base64
-####################################################################################################################
+########################################################################################################################
 
 
 def export(report,
@@ -86,7 +86,6 @@ def generate_excel(report,
     # Font
     name_font = Font(name='Constantia', size=15, bold=True)
     title_font = Font(name='宋体', size=15, bold=True)
-    data_font = Font(name='Franklin Gothic Book', size=11)
 
     table_fill = PatternFill(fill_type='solid', fgColor='1F497D')
     f_border = Border(left=Side(border_style='medium', color='00000000'),
@@ -116,17 +115,10 @@ def generate_excel(report,
                               wrap_text=True,
                               shrink_to_fit=False,
                               indent=0)
-    c_r_alignment = Alignment(vertical='bottom',
-                              horizontal='center',
-                              text_rotation=0,
-                              wrap_text=True,
-                              shrink_to_fit=False,
-                              indent=0)
     # Img
     img = Image("excelexporters/myems.png")
     img.width = img.width * 0.85
     img.height = img.height * 0.85
-    # img = Image("myems.png")
     ws.add_image(img, 'B1')
 
     # Title
@@ -164,7 +156,7 @@ def generate_excel(report,
 
         return filename
 
-    ##################################
+    ####################################################################################################################
 
     current_row_number = 6
 
@@ -318,7 +310,7 @@ def generate_excel(report,
 
             current_row_number += 1
 
-    #######################
+    ####################################################################################################################
 
     has_values_data = True
     has_timestamps_data = True
@@ -409,7 +401,7 @@ def generate_excel(report,
 
         format_time_width_number = 1.0
         min_len_number = 1.0
-        min_width_number = 11.0  # format_time_width_number * min_len_number + 4 and min_width_number > 11.0
+        min_width_number = 11.0
 
         if period_type == 'hourly':
             format_time_width_number = 4.0
@@ -454,7 +446,7 @@ def generate_excel(report,
             chart_cell = chart_col + str(chart_start_row_number + 6 * i)
             ws.add_chart(line, chart_cell)
 
-    ##########################################
+    ####################################################################################################################
     has_parameters_names_and_timestamps_and_values_data = True
 
     ca_len = len(report['reporting_period']['names'])
@@ -474,9 +466,9 @@ def generate_excel(report,
         has_parameters_names_and_timestamps_and_values_data = False
     if has_parameters_names_and_timestamps_and_values_data:
 
-        ###############################
+        ################################################################################################################
         # new worksheet
-        ###############################
+        ################################################################################################################
 
         parameters_data = report['parameters']
 
@@ -508,7 +500,6 @@ def generate_excel(report,
         img = Image("excelexporters/myems.png")
         img.width = img.width * 0.85
         img.height = img.height * 0.85
-        # img = Image("myems.png")
         parameters_ws.add_image(img, 'B1')
 
         # Title
@@ -593,9 +584,9 @@ def generate_excel(report,
 
             table_current_col_number = table_current_col_number + 3
 
-        ########################################################
+        ################################################################################################################
         # parameters chart and parameters table
-        ########################################################
+        ################################################################################################################
 
         ws['B' + str(current_sheet_parameters_row_number)].font = title_font
         ws['B' + str(current_sheet_parameters_row_number)] = name + ' Parameters'

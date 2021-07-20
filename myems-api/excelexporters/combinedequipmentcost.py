@@ -16,12 +16,12 @@ from openpyxl.chart.label import DataLabelList
 import openpyxl.utils.cell as format_cell
 
 
-####################################################################################################################
+########################################################################################################################
 # PROCEDURES
 # Step 1: Validate the report data
 # Step 2: Generate excel file
 # Step 3: Encode the excel file bytes to Base64
-####################################################################################################################
+########################################################################################################################
 
 
 def export(report,
@@ -79,12 +79,6 @@ def generate_excel(report,
     for i in range(2, 2000 + 1):
         ws.row_dimensions[i].height = 42
 
-    # for i in range(2, 37 + 1):
-    #     ws.row_dimensions[i].height = 30
-    #
-    # for i in range(38, 90 + 1):
-    #     ws.row_dimensions[i].height = 30
-
     # Col width
     ws.column_dimensions['A'].width = 1.5
 
@@ -96,7 +90,6 @@ def generate_excel(report,
     # Font
     name_font = Font(name='Constantia', size=15, bold=True)
     title_font = Font(name='宋体', size=15, bold=True)
-    data_font = Font(name='Franklin Gothic Book', size=11)
 
     table_fill = PatternFill(fill_type='solid', fgColor='1F497D')
     f_border = Border(left=Side(border_style='medium', color='00000000'),
