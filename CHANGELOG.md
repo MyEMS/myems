@@ -16,6 +16,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None.
 
+## [v1.1.5] - 2021-07-20
+### Added
+- None.
+
+### Changed
+- changed all worksheet names of Excel exporters in API
+
+### Fixed
+- updated upgrade1.1.4 sql
+- fixed issue of gitignore in Admin UI
+
+### Removed
+- None.
+
 ## [v1.1.4] - 2021-07-19
 ### Added
 - added tbl_email_messages to myems_reporting_db
@@ -291,7 +305,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v1.1.4...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v1.1.5...HEAD
+[v1.1.4]: https://github.com/MyEMS/myems/compare/v1.1.4...v1.1.5
 [v1.1.4]: https://github.com/MyEMS/myems/compare/v1.1.3...v1.1.4
 [v1.1.3]: https://github.com/MyEMS/myems/compare/v1.1.2...v1.1.3
 [v1.1.2]: https://github.com/MyEMS/myems/compare/v1.1.1...v1.1.2
