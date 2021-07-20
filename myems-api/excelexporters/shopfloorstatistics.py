@@ -11,12 +11,12 @@ from openpyxl.drawing.image import Image
 from openpyxl import Workbook
 import openpyxl.utils.cell as format_cell
 
-####################################################################################################################
+########################################################################################################################
 # PROCEDURES
 # Step 1: Validate the report data
 # Step 2: Generate excel file
 # Step 3: Encode the excel file bytes to Base64
-####################################################################################################################
+########################################################################################################################
 
 
 def export(report,
@@ -67,6 +67,7 @@ def generate_excel(report,
                    period_type):
     wb = Workbook()
     ws = wb.active
+    ws.title = "ShopFloorStatistics"
 
     # Row height
     ws.row_dimensions[1].height = 102
@@ -117,7 +118,6 @@ def generate_excel(report,
 
     # Img
     img = Image("excelexporters/myems.png")
-    # img = Image("myems.png")
     ws.add_image(img, 'B1')
 
     # Title
@@ -152,12 +152,12 @@ def generate_excel(report,
         wb.save(filename)
 
         return filename
-    #################################################
+    ####################################################################################################################
     # First: 统计分析
     # 6: title
     # 7: table title
     # 8~ca_len table_data
-    #################################################
+    ####################################################################################################################
     reporting_period_data = report['reporting_period']
 
     has_energy_data_flag = True
@@ -306,12 +306,12 @@ def generate_excel(report,
             ws['H' + str(row + 1)] = str(round(reporting_period_data['variances_increment_rate'][i] * 100, 2)) + "%" \
                 if reporting_period_data['variances_increment_rate'][i] is not None else '0.00%'
             ws['H' + str(row + 1)].border = f_border
-    #################################################
+    ####################################################################################################################
     # Second: 报告期消耗
     # 9 + ca_len * 2: title
     # 10 + ca_len * 2: table title
     # per_unit_area_start_row_number + 2 ~ per_unit_area_start_row_number + 2 + ca_len :  table_data
-    #################################################
+    ####################################################################################################################
 
     if has_energy_data_flag:
         names = reporting_period_data['names']
@@ -419,12 +419,12 @@ def generate_excel(report,
             ws['H' + str(row_data)].border = f_border
             ws['H' + str(row_data)].number_format = '0.00'
 
-    ########################################################
+    ####################################################################################################################
     # Third: 详细数据
     # detailed_start_row_number~ detailed_start_row_number+time_len: line
     # detailed_start_row_number+1: table title
     # i + analysis_end_row_number + 2 + 6 * ca_len~: table_data
-    ########################################################
+    ####################################################################################################################
     has_timestamps_flag = True
     if "timestamps" not in reporting_period_data.keys() or \
             reporting_period_data['timestamps'] is None or \
@@ -498,11 +498,11 @@ def generate_excel(report,
             ws[col + str(row_subtotals)].border = f_border
             ws[col + str(row_subtotals)].number_format = '0.00'
 
-    ########################################################
+    ####################################################################################################################
     # third: LineChart
     # LineChart requires data from the detailed data table in the Excel file
     # so print the detailed data table first and then print LineChart
-    ########################################################
+    ####################################################################################################################
         for i in range(0, ca_len):
 
             line = LineChart()
@@ -529,7 +529,7 @@ def generate_excel(report,
             chart_cell = str(analysis_end_row_number + 6 * i)
             ws.add_chart(line, chart_col + chart_cell)
 
-    ##########################################
+    ####################################################################################################################
     has_parameters_names_and_timestamps_and_values_data = True
 
     ca_len = len(report['reporting_period']['names'])
@@ -549,15 +549,16 @@ def generate_excel(report,
         has_parameters_names_and_timestamps_and_values_data = False
     if has_parameters_names_and_timestamps_and_values_data:
 
-        ###############################
+        ################################################################################################################
         # new worksheet
-        ###############################
+        ################################################################################################################
 
         parameters_data = report['parameters']
 
         parameters_names_len = len(parameters_data['names'])
 
-        parameters_ws = wb.create_sheet('相关参数')
+        file_name = __file__.split('/')[-1].replace(".py", "")
+        parameters_ws = wb.create_sheet(file_name + 'Parameters')
 
         parameters_timestamps_data_max_len = \
             get_parameters_timestamps_lists_max_len(list(parameters_data['timestamps']))
@@ -582,7 +583,6 @@ def generate_excel(report,
         img = Image("excelexporters/myems.png")
         img.width = img.width * 0.85
         img.height = img.height * 0.85
-        # img = Image("myems.png")
         parameters_ws.add_image(img, 'B1')
 
         # Title
@@ -616,7 +616,7 @@ def generate_excel(report,
         parameters_ws_current_row_number = 6
 
         parameters_ws['B' + str(parameters_ws_current_row_number)].font = title_font
-        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' 相关参数'
+        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' Parameters'
 
         parameters_ws_current_row_number += 1
 
@@ -667,12 +667,12 @@ def generate_excel(report,
 
             table_current_col_number = table_current_col_number + 3
 
-        ########################################################
+        ################################################################################################################
         # parameters chart and parameters table
-        ########################################################
+        ################################################################################################################
 
         ws['B' + str(current_sheet_parameters_row_number)].font = title_font
-        ws['B' + str(current_sheet_parameters_row_number)] = name + ' 相关参数'
+        ws['B' + str(current_sheet_parameters_row_number)] = name + ' Parameters'
 
         current_sheet_parameters_row_number += 1
 
@@ -689,7 +689,7 @@ def generate_excel(report,
             data_col = 3 + col_index * 3
             labels_col = 2 + col_index * 3
             col_index += 1
-            line.title = '相关参数 - ' + \
+            line.title = 'Parameters - ' + \
                          parameters_ws.cell(row=parameters_table_start_row_number, column=data_col).value
             labels = Reference(parameters_ws, min_col=labels_col, min_row=parameters_table_start_row_number + 1,
                                max_row=(len(parameters_data['timestamps'][i]) + parameters_table_start_row_number))

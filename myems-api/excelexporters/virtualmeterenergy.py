@@ -14,12 +14,12 @@ from openpyxl.drawing.image import Image
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 
 
-####################################################################################################################
+########################################################################################################################
 # PROCEDURES
 # Step 1: Validate the report data
 # Step 2: Generate excelexporters file
 # Step 3: Encode the excelexporters file to Base64
-####################################################################################################################
+########################################################################################################################
 
 def export(result, name, reporting_start_datetime_local, reporting_end_datetime_local, period_type):
     ####################################################################################################################
@@ -61,7 +61,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
     wb = Workbook()
     # todo
     ws = wb.active
-
+    ws.title = "VirtualMeterEnergy"
     # Row height
     ws.row_dimensions[1].height = 102
     for i in range(2, 2000 + 1):
@@ -78,7 +78,6 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
     # Font
     name_font = Font(name='Constantia', size=15, bold=True)
     title_font = Font(name='宋体', size=15, bold=True)
-    data_font = Font(name='Franklin Gothic Book', size=11)
 
     table_fill = PatternFill(fill_type='solid', fgColor='1F497D')
     f_border = Border(left=Side(border_style='medium', color='00000000'),
@@ -108,18 +107,11 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                               wrap_text=True,
                               shrink_to_fit=False,
                               indent=0)
-    c_r_alignment = Alignment(vertical='bottom',
-                              horizontal='center',
-                              text_rotation=0,
-                              wrap_text=True,
-                              shrink_to_fit=False,
-                              indent=0)
 
     # Img
     img = Image("excelexporters/myems.png")
     img.width = img.width * 0.85
     img.height = img.height * 0.85
-    # img = Image("myems.png")
     ws.add_image(img, 'B1')
 
     # Title
@@ -157,7 +149,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
         return filename
 
-    ###############################
+    ####################################################################################################################
 
     has_cost_data_flag = True
 
@@ -253,7 +245,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         for i in range(6, 9 + 1):
             ws.rows_dimensions[i].height = 0.1
 
-    ######################################
+    ####################################################################################################################
 
     has_cost_detail_flag = True
     reporting_period_data = report['reporting_period']
