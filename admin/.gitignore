@@ -6,7 +6,6 @@
 ## Angular ##
 # compiled output
 tmp/
-app/**/*.js
 app/**/*.js.map
 
 # dependencies
