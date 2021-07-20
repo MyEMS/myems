@@ -15,7 +15,11 @@ CREATE TABLE IF NOT EXISTS `myems_reporting_db`.`tbl_email_messages` (
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_email_messages_index_1` ON  `myems_reporting_db`.`tbl_email_messages`  (`status`,   `scheduled_datetime_utc`);
 
+
+-- Rename table in MySQL Server
 RENAME TABLE myems_historical_db.tbl_offline_cost_files TO myems_historical_db.tbl_cost_files;
+-- Rename table in SingleStore Server
+ALTER TABLE myems_historical_db.tbl_offline_cost_files TO myems_historical_db.tbl_cost_files;
 
 -- UPDATE VERSION NUMBER
 UPDATE myems_system_db.tbl_versions SET version='1.1.4', release_date='2021-07-19' WHERE id=1;
