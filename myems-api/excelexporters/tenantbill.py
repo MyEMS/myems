@@ -14,12 +14,12 @@ from openpyxl import Workbook
 from openpyxl.chart.label import DataLabelList
 
 
-####################################################################################################################
+########################################################################################################################
 # PROCEDURES
 # Step 1: Validate the report data
 # Step 2: Generate excel file
 # Step 3: Encode the excel file bytes to Base64
-####################################################################################################################
+########################################################################################################################
 
 
 def export(report,
@@ -70,6 +70,7 @@ def generate_excel(report,
                    period_type):
     wb = Workbook()
     ws = wb.active
+    ws.title = "TenantBill"
 
     # Row height
     for i in range(1, 11 + 1):
@@ -118,12 +119,6 @@ def generate_excel(report,
         bottom=Side(border_style='medium', color='00000000'),
     )
 
-    b_c_alignment = Alignment(vertical='bottom',
-                              horizontal='center',
-                              text_rotation=0,
-                              wrap_text=False,
-                              shrink_to_fit=False,
-                              indent=0)
     c_c_alignment = Alignment(vertical='center',
                               horizontal='center',
                               text_rotation=0,
@@ -132,12 +127,6 @@ def generate_excel(report,
                               indent=0)
     b_r_alignment = Alignment(vertical='bottom',
                               horizontal='right',
-                              text_rotation=0,
-                              wrap_text=False,
-                              shrink_to_fit=False,
-                              indent=0)
-    c_r_alignment = Alignment(vertical='bottom',
-                              horizontal='center',
                               text_rotation=0,
                               wrap_text=False,
                               shrink_to_fit=False,

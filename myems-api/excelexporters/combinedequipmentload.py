@@ -67,6 +67,7 @@ def generate_excel(report,
                    period_type):
     wb = Workbook()
     ws = wb.active
+    ws.title = "CombinedEquipmentLoad"
 
     # Row height
     ws.row_dimensions[1].height = 102
@@ -117,7 +118,6 @@ def generate_excel(report,
 
     # Img
     img = Image("excelexporters/myems.png")
-    # img = Image("myems.png")
     img.width = img.width * 0.85
     img.height = img.height * 0.85
     ws.add_image(img, 'B1')
@@ -328,11 +328,11 @@ def generate_excel(report,
                 ws[col_maximum + str(rows)].number_format = '0.00'
                 ws[col_maximum + str(rows)].border = f_border
 
-    ########################################################
-    # third: LineChart
-    # LineChart requires data from the detailed data table in the Excel file
-    # so print the detailed data table first and then print LineChart
-    ########################################################
+        ################################################################################################################
+        # third: LineChart
+        # LineChart requires data from the detailed data table in the Excel file
+        # so print the detailed data table first and then print LineChart
+        ################################################################################################################
         for i in range(0, ca_len):
             line = LineChart()
             line.title = "报告期 最大负荷 - " + names[i] + "(" + reporting_period_data['units'][i] + ")"
@@ -359,7 +359,7 @@ def generate_excel(report,
             chart_cell = str(analysis_end_row_number + 6 * i)
             ws.add_chart(line, chart_col + chart_cell)
 
-        #####################################
+        ################################################################################################################
 
         has_associated_equipment_flag = True
 
@@ -463,7 +463,8 @@ def generate_excel(report,
         parameters_data = report['parameters']
         parameters_names_len = len(parameters_data['names'])
 
-        parameters_ws = wb.create_sheet('相关参数')
+        file_name = __file__.split('/')[-1].replace(".py", "")
+        parameters_ws = wb.create_sheet(file_name + 'Parameters')
 
         parameters_timestamps_data_max_len = \
             get_parameters_timestamps_lists_max_len(list(parameters_data['timestamps']))
@@ -488,7 +489,6 @@ def generate_excel(report,
         img = Image("excelexporters/myems.png")
         img.width = img.width * 0.85
         img.height = img.height * 0.85
-        # img = Image("myems.png")
         parameters_ws.add_image(img, 'B1')
 
         # Title
@@ -522,7 +522,7 @@ def generate_excel(report,
         parameters_ws_current_row_number = 6
 
         parameters_ws['B' + str(parameters_ws_current_row_number)].font = title_font
-        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' 相关参数'
+        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' Parameters'
 
         parameters_ws_current_row_number += 1
 
@@ -578,7 +578,7 @@ def generate_excel(report,
         ################################################################################################################
 
         ws['B' + str(current_sheet_parameters_row_number)].font = title_font
-        ws['B' + str(current_sheet_parameters_row_number)] = name + ' 相关参数'
+        ws['B' + str(current_sheet_parameters_row_number)] = name + ' Parameters'
 
         current_sheet_parameters_row_number += 1
 
@@ -595,7 +595,7 @@ def generate_excel(report,
             data_col = 3+col_index*3
             labels_col = 2+col_index*3
             col_index += 1
-            line.title = '相关参数 - ' + \
+            line.title = 'Parameters - ' + \
                          parameters_ws.cell(row=parameters_table_start_row_number, column=data_col).value
             labels = Reference(parameters_ws, min_col=labels_col, min_row=parameters_table_start_row_number + 1,
                                max_row=(len(parameters_data['timestamps'][i])+parameters_table_start_row_number))
@@ -621,7 +621,7 @@ def generate_excel(report,
         current_sheet_parameters_row_number = chart_start_row_number
 
         current_sheet_parameters_row_number += 1
-    ##########################################
+    ####################################################################################################################
     filename = str(uuid.uuid4()) + '.xlsx'
     wb.save(filename)
 

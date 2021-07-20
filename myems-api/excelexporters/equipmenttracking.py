@@ -11,12 +11,12 @@ from openpyxl import Workbook
 from openpyxl.chart.label import DataLabelList
 
 
-####################################################################################################################
+########################################################################################################################
 # PROCEDURES
 # Step 1: Validate the report data
 # Step 2: Generate excelexporters file
 # Step 3: Encode the excelexporters file to Base64
-####################################################################################################################
+########################################################################################################################
 
 def export(result, space_name):
     ####################################################################################################################
@@ -55,6 +55,7 @@ def generate_excel(report, space_name):
 
     wb = Workbook()
     ws = wb.active
+    ws.title = "EquipmentTracking"
 
     # Row height
     ws.row_dimensions[1].height = 118
@@ -66,17 +67,12 @@ def generate_excel(report, space_name):
     # Font
     name_font = Font(name='Constantia', size=15, bold=True)
     title_font = Font(name='宋体', size=15, bold=True)
-    data_font = Font(name='Franklin Gothic Book', size=11)
 
-    table_fill = PatternFill(fill_type='solid', fgColor='1F497D')
     f_border = Border(left=Side(border_style='medium', color='00000000'),
                       right=Side(border_style='medium', color='00000000'),
                       bottom=Side(border_style='medium', color='00000000'),
                       top=Side(border_style='medium', color='00000000')
                       )
-    b_border = Border(
-        bottom=Side(border_style='medium', color='00000000'),
-    )
 
     b_c_alignment = Alignment(vertical='bottom',
                               horizontal='center',
@@ -85,18 +81,6 @@ def generate_excel(report, space_name):
                               shrink_to_fit=False,
                               indent=0)
     c_c_alignment = Alignment(vertical='center',
-                              horizontal='center',
-                              text_rotation=0,
-                              wrap_text=False,
-                              shrink_to_fit=False,
-                              indent=0)
-    b_r_alignment = Alignment(vertical='bottom',
-                              horizontal='right',
-                              text_rotation=0,
-                              wrap_text=False,
-                              shrink_to_fit=False,
-                              indent=0)
-    c_r_alignment = Alignment(vertical='bottom',
                               horizontal='center',
                               text_rotation=0,
                               wrap_text=False,
