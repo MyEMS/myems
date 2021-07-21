@@ -122,7 +122,8 @@ Dieses Projekt besteht aus folgenden Komponenten:
 | Equipment/Efficiency Data        | ✔️             | ✔️        |                      |
 | Equipment/Load Data              | ✔️             | ✔️        |                      |
 | Equipment/Statistics             | ✔️             | ✔️        |                      |
-| Equipment/Saving Data            | ❌             | ✔️        | Erfordert eine Komponente zur Vorhersage des Energieverbrauchs |
+| Equipment/Saving Data            | ❌            | ✔️        | Erfordert eine Komponente zur Vorhersage des Energieverbrauchs |
+| Equipment/Batch Analysis         | ✔️             | ✔️        |                      |
 | Equipment/Equipment Tracking     | ✔️             | ✔️        |                      |
 | Tenant/Energy Category Data      | ✔️             | ✔️        |                      |
 | Tenant/Energy Item Data          | ✔️             | ✔️        |                      |

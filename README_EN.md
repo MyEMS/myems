@@ -123,6 +123,7 @@ This project is compose of  following components:
 | Equipment/Load Data              | ✔️             | ✔️        |                      |
 | Equipment/Statistics             | ✔️             | ✔️        |                      |
 | Equipment/Saving Data            | ❌            | ✔️        | Requires Energy consumption prediction component |
+| Equipment/Batch Analysis         | ✔️             | ✔️        |                      |
 | Equipment/Equipment Tracking     | ✔️             | ✔️        |                      |
 | Tenant/Energy Category Data      | ✔️             | ✔️        |                      |
 | Tenant/Energy Item Data          | ✔️             | ✔️        |                      |
