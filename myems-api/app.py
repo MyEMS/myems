@@ -43,6 +43,7 @@ from reports import meterrealtime
 from reports import metersubmetersbalance
 from reports import metertrend
 from reports import metertracking
+from reports import meterbatch
 from reports import offlinemeterenergy
 from reports import offlinemetercost
 from reports import shopfloorcost
@@ -549,6 +550,8 @@ api.add_route('/reports/fddstorefault',
               fddstorefault.Reporting())
 api.add_route('/reports/fddtenantfault',
               fddtenantfault.Reporting())
+api.add_route('/reports/meterbatch',
+              meterbatch.Reporting())
 api.add_route('/reports/metercost',
               metercost.Reporting())
 api.add_route('/reports/meterenergy',

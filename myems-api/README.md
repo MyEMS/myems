@@ -2175,6 +2175,10 @@ $ curl -i -X GET {{base_url}}/reports/equipmentstatistics?equipmentid=1&periodty
 ```
 $ curl -i -X GET {{base_url}}/reports/meterenergy?meterid=6&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+* GET Equipment Batch Analysis Report
+```
+$ curl -i -X GET {{base_url}}/reports/equipmentbatch?spaceid=1&reportingperiodstartdatetime=2021-05-01T00:00:00&reportingperiodenddatetime=2021-05-20T11:41:09
+```
 * GET Meter Cost Report
 ```
 $ curl -i -X GET {{base_url}}/reports/metercost?meterid=6&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
