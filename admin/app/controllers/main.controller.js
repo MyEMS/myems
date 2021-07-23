@@ -53,8 +53,6 @@ app.controller('MainController', [
         };
 
         $rootScope.isAdminCookie=function(){
-            // var admin_uuid="dfa793a3-1a1d-49be-ad46-99f4196079de";
-            // var cur_cookie="dfa793a3-1a1d-49be-ad46-99f4196079de";
             var currentUser = undefined;
             if ($window.localStorage.getItem("currentUser")){
                 currentUser = JSON.parse($window.localStorage.getItem("currentUser"));
@@ -64,11 +62,6 @@ app.controller('MainController', [
             }else{
                 return false;
             }
-            // if(cur_cookie==admin_uuid){
-            //     return true;
-            // }else{
-            //     return false;
-            // }
         }
     }
 ]);
