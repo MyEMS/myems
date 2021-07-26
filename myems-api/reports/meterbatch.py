@@ -194,7 +194,7 @@ class Reporting:
                                       reporting_end_datetime_utc))
             rows_meter_energy = cursor_energy_db.fetchall()
             for energy_category in energy_category_list:
-                subtotal = Decimal(0.0)
+                subtotal = None
                 for row_meter_energy in rows_meter_energy:
                     if energy_category['id'] == meter_dict[meter_id]['energy_category_id']:
                         subtotal = row_meter_energy[0]

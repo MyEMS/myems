@@ -368,6 +368,7 @@ export const meterRoutes = {
     { to: '/meter/virtualmetercost', name: 'Virtual Meter Cost' },
     { to: '/meter/offlinemeterenergy', name: 'Offline Meter Energy' },
     { to: '/meter/offlinemetercost', name: 'Offline Meter Cost' },
+    { to: '/meter/batch', name: 'Batch Analysis'},
     { to: '/meter/tracking', name: 'Meter Tracking' },
   ]
 };
