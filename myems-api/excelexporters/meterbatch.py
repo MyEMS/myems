@@ -179,7 +179,7 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
             ws[col + str(current_row_number)].font = data_font
             ws[col + str(current_row_number)].border = f_border
             ws[col + str(current_row_number)].alignment = c_c_alignment
-            ws[col + str(current_row_number)] = round(report['meters'][i]['values'][j], 2)
+            ws[col + str(current_row_number)] = report['meters'][i]['values'][j]
 
         current_row_number += 1
 

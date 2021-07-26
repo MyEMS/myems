@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "deab54cf-5883-4be6-acf1-942f75847c1c",
+		"_postman_id": "6678a44a-20bd-4ef2-9a9f-3c47421936c2",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -8171,18 +8171,50 @@
 					"response": []
 				},
 				{
-					"name": "GET Meter Energy Report",
+					"name": "GET Meter Batch Analysis Report",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/reports/meterenergy?meterid=6&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
+							"raw": "{{base_url}}/reports/meterbatch?spaceid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"reports",
-								"meterenergy"
+								"meterbatch"
+							],
+							"query": [
+								{
+									"key": "spaceid",
+									"value": "1"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-11-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Meter Cost Report",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/metercost?meterid=6&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"metercost"
 							],
 							"query": [
 								{
@@ -8215,18 +8247,18 @@
 					"response": []
 				},
 				{
-					"name": "GET Meter Cost Report",
+					"name": "GET Meter Energy Report",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/reports/metercost?meterid=6&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
+							"raw": "{{base_url}}/reports/meterenergy?meterid=6&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"reports",
-								"metercost"
+								"meterenergy"
 							],
 							"query": [
 								{
@@ -8347,7 +8379,7 @@
 								},
 								{
 									"key": "",
-									"value": null,
+									"value": "",
 									"disabled": true
 								}
 							]
@@ -9901,38 +9933,6 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-10-01T00:00:00"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GET Meter Batch Analysis Report",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/reports/meterbatch?spaceid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"reports",
-								"meterbatch"
-							],
-							"query": [
-								{
-									"key": "spaceid",
-									"value": "1"
-								},
-								{
-									"key": "reportingperiodstartdatetime",
-									"value": "2020-10-01T00:00:00"
-								},
-								{
-									"key": "reportingperiodenddatetime",
-									"value": "2020-11-01T00:00:00"
 								}
 							]
 						}

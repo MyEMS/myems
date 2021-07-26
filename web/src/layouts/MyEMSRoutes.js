@@ -125,16 +125,17 @@ import EquipmentSaving from '../components/MyEMS/Equipment/EquipmentSaving';
 import EquipmentStatistics from '../components/MyEMS/Equipment/EquipmentStatistics';
 import EquipmentTracking from '../components/MyEMS/Equipment/EquipmentTracking';
 // Meter
-import MeterEnergy from '../components/MyEMS/Meter/MeterEnergy';
+import MeterBatch from '../components/MyEMS/Meter/MeterBatch';
 import MeterCost from '../components/MyEMS/Meter/MeterCost';
-import MeterTrend from '../components/MyEMS/Meter/MeterTrend';
+import MeterEnergy from '../components/MyEMS/Meter/MeterEnergy';
 import MeterRealtime from '../components/MyEMS/Meter/MeterRealtime';
 import MeterSubmetersBalance from '../components/MyEMS/Meter/MeterSubmetersBalance';
-import OfflineMeterEnergy from '../components/MyEMS/Meter/OfflineMeterEnergy';
-import OfflineMeterCost from '../components/MyEMS/Meter/OfflineMeterCost';
-import VirtualMeterEnergy from '../components/MyEMS/Meter/VirtualMeterEnergy';
-import VirtualMeterCost from '../components/MyEMS/Meter/VirtualMeterCost';
 import MeterTracking from '../components/MyEMS/Meter/MeterTracking';
+import MeterTrend from '../components/MyEMS/Meter/MeterTrend';
+import OfflineMeterCost from '../components/MyEMS/Meter/OfflineMeterCost';
+import OfflineMeterEnergy from '../components/MyEMS/Meter/OfflineMeterEnergy';
+import VirtualMeterCost from '../components/MyEMS/Meter/VirtualMeterCost';
+import VirtualMeterEnergy from '../components/MyEMS/Meter/VirtualMeterEnergy';
 // Tenant
 import TenantEnergyCategory from '../components/MyEMS/Tenant/TenantEnergyCategory';
 import TenantEnergyItem from '../components/MyEMS/Tenant/TenantEnergyItem';
@@ -362,6 +363,7 @@ const MyEMSRoutes = () => (
     <Route path="/equipment/tracking" exact component={EquipmentTracking} />
 
     {/*Meter*/}
+    <Route path="/meter/batch" exact component={MeterBatch} />
     <Route path="/meter/meterenergy" exact component={MeterEnergy} />
     <Route path="/meter/metercost" exact component={MeterCost} />
     <Route path="/meter/metertrend" exact component={MeterTrend} />
