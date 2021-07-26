@@ -123,10 +123,11 @@ class Reporting:
         for node in LevelOrderIter(node_dict[space_id]):
             space_dict[node.id] = node.name
 
-        cursor_system_db.execute(" SELECT m.id, m.name AS meter_name, s.name AS space_name, "
-                                 "        cc.name AS cost_center_name, m.description "
+        cursor_system_db.execute(" SELECT m.id, m.name AS meter_name, m.energy_category_id, "
+                                 "        s.name AS space_name, "
+                                 "        cc.name AS cost_center_name"
                                  " FROM tbl_spaces s, tbl_spaces_meters sm, "
-                                 " tbl_meters m, tbl_cost_centers cc "
+                                 "      tbl_meters m, tbl_cost_centers cc "
                                  " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
                                  " AND sm.space_id = s.id AND sm.meter_id = m.id "
                                  " AND m.cost_center_id = cc.id  ", )
@@ -134,9 +135,9 @@ class Reporting:
         if rows_meters is not None and len(rows_meters) > 0:
             for row in rows_meters:
                 meter_dict[row['id']] = {"meter_name": row['meter_name'],
+                                         "energy_category_id": row['energy_category_id'],
                                          "space_name": row['space_name'],
                                          "cost_center_name": row['cost_center_name'],
-                                         "description": row['description'],
                                          "values": list()}
 
         ################################################################################################################
@@ -147,14 +148,10 @@ class Reporting:
 
         # query energy categories in reporting period
         energy_category_set = set()
-        cursor_energy_db.execute(" SELECT DISTINCT(energy_category_id) "
-                                 " FROM tbl_meter_input_category_hourly "
-                                 " WHERE start_datetime_utc >= %s AND start_datetime_utc < %s ",
-                                 (reporting_start_datetime_utc, reporting_end_datetime_utc))
-        rows_energy_categories = cursor_energy_db.fetchall()
-        if rows_energy_categories is not None or len(rows_energy_categories) > 0:
-            for row_energy_category in rows_energy_categories:
-                energy_category_set.add(row_energy_category[0])
+
+        if rows_meters is not None or len(rows_meters) > 0:
+            for row_meter in rows_meters:
+                energy_category_set.add(row_meter['energy_category_id'])
 
         # query all energy categories
         cursor_system_db.execute(" SELECT id, name, unit_of_measure "
@@ -187,12 +184,11 @@ class Reporting:
         ################################################################################################################
         for meter_id in meter_dict:
 
-            cursor_energy_db.execute(" SELECT energy_category_id, SUM(actual_value) "
-                                     " FROM tbl_meter_input_category_hourly "
+            cursor_energy_db.execute(" SELECT SUM(actual_value) "
+                                     " FROM tbl_meter_hourly "
                                      " WHERE meter_id = %s "
                                      "     AND start_datetime_utc >= %s "
-                                     "     AND start_datetime_utc < %s "
-                                     " GROUP BY energy_category_id ",
+                                     "     AND start_datetime_utc < %s ",
                                      (meter_id,
                                       reporting_start_datetime_utc,
                                       reporting_end_datetime_utc))
@@ -200,8 +196,8 @@ class Reporting:
             for energy_category in energy_category_list:
                 subtotal = Decimal(0.0)
                 for row_meter_energy in rows_meter_energy:
-                    if energy_category['id'] == row_meter_energy[0]:
-                        subtotal = row_meter_energy[1]
+                    if energy_category['id'] == meter_dict[meter_id]['energy_category_id']:
+                        subtotal = row_meter_energy[0]
                         break
                 meter_dict[meter_id]['values'].append(subtotal)
 
@@ -225,7 +221,6 @@ class Reporting:
                 "meter_name": meter['meter_name'],
                 "space_name": meter['space_name'],
                 "cost_center_name": meter['cost_center_name'],
-                "description": meter['description'],
                 "values": meter['values'],
             })
 
