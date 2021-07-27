@@ -84,7 +84,7 @@ const SpaceCost = ({ setRedirect, setRedirectUrl, t }) => {
   const [spaceLineChartData, setSpaceLineChartData] = useState({});
   const [spaceLineChartOptions, setSpaceLineChartOptions] = useState([]);
   const [childSpaceProportionList, setChildSpaceProportionList] = useState([]);
-  const [childSpacesProportionList, setChildSpacesProportionList] = useState([]);
+  const [childSpacetotalProportion, setChildSpacetotalProportion] = useState([]);
 
   const [parameterLineChartLabels, setParameterLineChartLabels] = useState([]);
   const [parameterLineChartData, setParameterLineChartData] = useState({});
@@ -344,26 +344,21 @@ const SpaceCost = ({ setRedirect, setRedirectUrl, t }) => {
 
         let childSpacesProportionArray = [];
         if (json['child_space']['child_space_names_array'].length > 0) {
-          let childSpacesProportionItem = {}
-          childSpacesProportionItem['data'] = []
           json['child_space']['child_space_names_array'][0].forEach((currentSpaceName, spaceIndex) => {
             let total = 0.0;
             json['child_space']['energy_category_names'].forEach((currentValue, energyCategoryIndex) => {
               total += json['child_space']['subtotals_array'][energyCategoryIndex][spaceIndex]
-              // total = total.toFixed()
+              total = total.toFixed()
             });
             let childSpacesProportionItemDataItem = {};
             childSpacesProportionItemDataItem['id'] = spaceIndex;
             childSpacesProportionItemDataItem['name'] = currentSpaceName;
             childSpacesProportionItemDataItem['value'] = total;
             childSpacesProportionItemDataItem['color'] = "#"+((1<<24)*Math.random()|0).toString(16);
-            childSpacesProportionItem['data'].push(childSpacesProportionItemDataItem);
+           childSpacesProportionArray.push(childSpacesProportionItemDataItem);
           });
-          childSpacesProportionItem['name'] = "";
-          childSpacesProportionItem['unit'] = "";
-          childSpacesProportionArray.push(childSpacesProportionItem);
         };
-        setChildSpacesProportionList(childSpacesProportionArray);
+        setChildSpacetotalProportion(childSpacesProportionArray);
 
         let timestamps = {}
         json['reporting_period']['timestamps'].forEach((currentValue, index) => {
@@ -694,17 +689,13 @@ const SpaceCost = ({ setRedirect, setRedirectUrl, t }) => {
             />
           </Col>
         ))}
-        {childSpacesProportionList.map(childSpacesProportionItem => (
           <Col className="mb-3 pr-lg-2 mb-3">
             <SharePie
-              data={childSpacesProportionItem['data']}
-              title={t('总成本占比',
-                      {'CATEGORY': childSpacesProportionItem['name'],
-                       'UNIT':  childSpacesProportionItem['unit']
-                      })}
+              data={childSpacetotalProportion}
+              title={t('Child Space total Proportion CATEGORY UNIT')}
             />
           </Col>
-        ))}
+
       </Row>
       <LineChart reportingTitle={t('Reporting Period Costs CATEGORY VALUE UNIT', { 'CATEGORY': null, 'VALUE': null, 'UNIT': null })}
          baseTitle=''

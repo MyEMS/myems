@@ -838,6 +838,7 @@ const resources = {
       "Incomes by Energy Category": "收入占比",
       "Electricity Consumption by Time-Of-Use": "分时消耗电量",
       "Electricity Cost by Time-Of-Use": "分时用电成本",
+      "Child Space total Proportion CATEGORY UNIT": "子空间总成本占比",
       "CATEGORY UNIT Consumption by Energy Items": "{{CATEGORY}} {{UNIT}} 分项消耗占比",
       "Ton of Standard Coal by Energy Category": "吨标准煤(TCE)占比",
       "Ton of Carbon Dioxide Emissions by Energy Category": "吨二氧化碳排放(TCO2E)占比",
