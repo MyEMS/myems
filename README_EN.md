@@ -76,14 +76,14 @@ This project is compose of  following components:
 | Pricing                          | Free            | Pay for Projects |               |
 | Change Name and Logo             | ❌️             | ✔️        |                      |
 | Modbus TCP                       | ✔️             | ✔️        |                      |
-| Data Points Number               | Unlimited       | Unlimited | Limited only by hardware performance |
-| Meters Number                    | Unlimited       | Unlimited | Limited only by hardware performance |
-| Spaces Number                    | Unlimited       | Unlimited | Limited only by hardware performance |
-| Equipments Number                | Unlimited       | Unlimited | Limited only by hardware performance |
-| Tenants Number                   | Unlimited       | Unlimited | Limited only by hardware performance |
-| Stores Number                    | Unlimited       | Unlimited | Limited only by hardware performance |
-| Shopfloors Number                | Unlimited       | Unlimited | Limited only by hardware performance |
-| Combined Equipments Number       | Unlimited       | Unlimited | Limited only by hardware performance |
+| Data Points Number               | Unlimited       | Unlimited | The actual number is limited by the upper limit of server resources |
+| Meters Number                    | Unlimited       | Unlimited | The actual number is limited by the upper limit of server resources |
+| Spaces Number                    | Unlimited       | Unlimited | The actual number is limited by the upper limit of server resources |
+| Equipments Number                | Unlimited       | Unlimited | The actual number is limited by the upper limit of server resources |
+| Tenants Number                   | Unlimited       | Unlimited | The actual number is limited by the upper limit of server resources |
+| Stores Number                    | Unlimited       | Unlimited | The actual number is limited by the upper limit of server resources |
+| Shopfloors Number                | Unlimited       | Unlimited | The actual number is limited by the upper limit of server resources |
+| Combined Equipments Number       | Unlimited       | Unlimited | The actual number is limited by the upper limit of server resources |
 | Docker                           | ❌             | ✔️        | https://www.docker.com/ |
 | Kubernetes                       | ❌             | ✔️        | https://kubernetes.io/ |
 | MySQL                            | ✔️             | ✔️        | http://mysql.com/    |

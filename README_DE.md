@@ -76,14 +76,14 @@ Dieses Projekt besteht aus folgenden Komponenten:
 | Pricing                          | Free            | Pay for Projects |              |
 | Change Name and Logo             | ️❌             | ✔️        |                      |
 | Modbus TCP                       | ✔️             | ✔️        |                      |
-| Data Points Number               | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
-| Meters Number                    | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
-| Spaces Number                    | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
-| Equipments Number                | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
-| Tenants Number                   | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
-| Stores Number                    | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
-| Shopfloors Number                | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
-| Combined Equipments Number       | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
+| Data Points Number               | Unbegrenzt     | Unbegrenzt | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
+| Meters Number                    | Unbegrenzt     | Unbegrenzt | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
+| Spaces Number                    | Unbegrenzt     | Unbegrenzt | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
+| Equipments Number                | Unbegrenzt     | Unbegrenzt | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
+| Tenants Number                   | Unbegrenzt     | Unbegrenzt | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
+| Stores Number                    | Unbegrenzt     | Unbegrenzt | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
+| Shopfloors Number                | Unbegrenzt     | Unbegrenzt | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
+| Combined Equipments Number       | Unbegrenzt     | Unbegrenzt | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
 | Docker                           | ❌             | ✔️        | https://www.docker.com/ |
 | Kubernetes                       | ❌             | ✔️        | https://kubernetes.io/ |
 | MySQL                            | ✔️             | ✔️        | http://mysql.com/    |
