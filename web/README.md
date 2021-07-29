@@ -104,3 +104,54 @@ $ sudo systemctl restart nginx
   $ sudo rm -r /var/www/html/web
   $ sudo mv build  /var/www/html/web
 ```
+
+## Install Apache2 Server
+sudo apt-get install apache2
+
+* Configure Apache2
+```
+$ sudo vi /etc/apache2/ports.conf
+```
+add a Listen
+```
+Listen 8002
+```
+$ sudo vi /etc/apache2/sites-available/000-default.conf
+```
+Add a new 'VirtualHost' as below
+```
+<VirtualHost 127.0.0.1:8002>
+        ServerAdmin MyEMS-web
+        DocumentRoot /var/www/web
+        
+        <Directory "var/www/web">
+                Options FollowSymLinks
+                AllowOverride All
+                Require all granted
+        </Directory>
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+* Download myems-web
+```
+$ cd ~
+$ git clone https://github.com/MyEMS/myems.git
+```
+Build and Compress
+```
+$ cd ~/myems/web/
+$ sudo npm run build
+$ tar czvf myems-web.tar.gz build
+```
+Install Upload the file myems-web.tar.gz to you web server. Note that the following path should be same as that was configured in nginx.conf.
+```
+$ tar xzf myems-web.tar.gz
+$ sudo rm -r /var/www/web
+$ sudo mv build  /var/www/web
+
+```
+Restart Apache2
+```
+$ sudo service apache2 restart
+```

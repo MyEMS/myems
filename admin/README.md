@@ -75,3 +75,54 @@ The 'upload' folder is for user uploaded files. DO NOT delete/move/overwrite the
 ```
  /var/www/html/admin/upload
 ```
+
+
+## Install Apache2 Server
+sudo apt-get install apache2
+
+* Configure Apache2
+```
+$ sudo vi /etc/apache2/ports.conf
+```
+add a Listen
+```
+Listen 8001
+```
+$ sudo vi /etc/apache2/sites-available/000-default.conf
+```
+Add a new 'VirtualHost' as below
+```
+<VirtualHost 127.0.0.1:8001>
+        ServerAdmin MyEMS-admin
+        DocumentRoot /var/www/admin
+        
+        <Directory "var/www/admin">
+                Options FollowSymLinks
+                AllowOverride All
+                Require all granted
+        </Directory>
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+```
+* Download myems-admin
+```
+$ cd ~
+$ git clone https://github.com/MyEMS/myems.git
+```
+Build and Compress
+```
+$ cd ~/myems/admin/
+$ sudo npm run build
+$ tar czvf myems-admin.tar.gz build
+```
+Install Upload the file myems-admin.tar.gz to you admin server. Note that the following path should be same as that was configured in nginx.conf.
+```
+$ tar xzf myems-admin.tar.gz
+$ sudo rm -r /var/www/admin
+$ sudo mv build  /var/www/admin
+```
+Restart Apache2
+```
+$ sudo service apache2 restart
+```
