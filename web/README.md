@@ -30,7 +30,7 @@ This will create an optimized production build by compililing, merging and minif
 
 You can run 'node server.js' to run the production build locally at http://localhost:5000.
 
-## Install Production Build on NGINX Server
+## Option 1: Install Production Build on NGINX Server
 
 * Install NGINX  Server
 
@@ -105,22 +105,25 @@ $ sudo systemctl restart nginx
   $ sudo mv build  /var/www/html/web
 ```
 
-## Install Apache2 Server
-sudo apt-get install apache2
+## Option 2: Install Production Build on Apache2 Server
+* Install Apache2 Server
+
+refer to https://httpd.apache.org/docs/2.4/install.html
 
 * Configure Apache2
 ```
-$ sudo vi /etc/apache2/ports.conf
+  $ sudo vi /etc/apache2/ports.conf
 ```
-add a Listen
+Add a Listen
 ```
-Listen 8002
+Listen 80
 ```
-$ sudo vi /etc/apache2/sites-available/000-default.conf
+```
+  $ sudo vi /etc/apache2/sites-available/000-default.conf
 ```
 Add a new 'VirtualHost' as below
 ```
-<VirtualHost 127.0.0.1:8002>
+<VirtualHost 127.0.0.1:80>
         ServerAdmin MyEMS-web
         DocumentRoot /var/www/web
         
@@ -132,26 +135,31 @@ Add a new 'VirtualHost' as below
         ErrorLog ${APACHE_LOG_DIR}/error.log
         CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
+```
 
-* Download myems-web
+* Download myems:
 ```
-$ cd ~
-$ git clone https://github.com/MyEMS/myems.git
+  $ cd ~
+  $ git clone https://github.com/MyEMS/myems.git
 ```
-Build and Compress
-```
-$ cd ~/myems/web/
-$ sudo npm run build
-$ tar czvf myems-web.tar.gz build
-```
-Install Upload the file myems-web.tar.gz to you web server. Note that the following path should be same as that was configured in nginx.conf.
-```
-$ tar xzf myems-web.tar.gz
-$ sudo rm -r /var/www/web
-$ sudo mv build  /var/www/web
+* Install myems-web :
 
+  Check and change the config file if necessary:
 ```
-Restart Apache2
+  $ cd ~/myems/web
+  $ sudo nano src/config.js
 ```
-$ sudo service apache2 restart
+  Build and Compress
+```
+  $ cd ~/myems/web/
+  $ sudo npm run build
+  $ tar czvf myems-web.tar.gz build
+```
+  Install 
+  Upload the file myems-web.tar.gz to you web server. 
+  Note that the following path should be same as that was configured in 000-default.conf
+```
+  $ tar xzf myems-web.tar.gz
+  $ sudo rm -r /var/www/web
+  $ sudo mv build  /var/www/web
 ```

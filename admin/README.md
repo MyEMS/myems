@@ -8,9 +8,9 @@ Providing admin panel  for MyEMS system administration and configuration
 nginx-1.18.0 or later
 
 
-## Installation
+## Option 1: Install on NGINX Server
 
-* Install NGINX  Server
+* Install NGINX Server
 
 refer to http://nginx.org/en/docs/install.html
 
@@ -53,7 +53,7 @@ Add a new 'server' section with direstives as below:
   }
 ```
 
-* Download myems-admin
+* Download myems
 ```
 $ cd ~
 $ git clone https://github.com/MyEMS/myems.git
@@ -77,16 +77,19 @@ The 'upload' folder is for user uploaded files. DO NOT delete/move/overwrite the
 ```
 
 
-## Install Apache2 Server
-sudo apt-get install apache2
+## Option 2: Install on Apache2 Server
+* Install Apache2 Server
+
+refer to https://httpd.apache.org/docs/2.4/install.html
 
 * Configure Apache2
 ```
-$ sudo vi /etc/apache2/ports.conf
+  $ sudo vi /etc/apache2/ports.conf
 ```
-add a Listen
+Add a Listen
 ```
 Listen 8001
+```
 ```
 $ sudo vi /etc/apache2/sites-available/000-default.conf
 ```
@@ -105,24 +108,20 @@ Add a new 'VirtualHost' as below
         CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
 ```
+
 * Download myems-admin
 ```
 $ cd ~
 $ git clone https://github.com/MyEMS/myems.git
 ```
-Build and Compress
+
+* Install myems-admin :
+  If the server can not connect to the internet, please compress the myems/admin folder and upload it to the server and extract it to ~/myems/admin
 ```
-$ cd ~/myems/admin/
-$ sudo npm run build
-$ tar czvf myems-admin.tar.gz build
+$ sudo cp -r ~/myems/admin  /var/www/html/admin
+$ sudo chmod 0755 -R /var/www/html/admin
 ```
-Install Upload the file myems-admin.tar.gz to you admin server. Note that the following path should be same as that was configured in nginx.conf.
+  Check the config file and change it if necessary:
 ```
-$ tar xzf myems-admin.tar.gz
-$ sudo rm -r /var/www/admin
-$ sudo mv build  /var/www/admin
-```
-Restart Apache2
-```
-$ sudo service apache2 restart
+$ sudo nano /var/www/html/admin/app/api.js
 ```
