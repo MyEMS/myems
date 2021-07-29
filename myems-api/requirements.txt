@@ -6,3 +6,4 @@ falcon_cors
 falcon-multipart
 gunicorn
 openpyxl
+pillow
