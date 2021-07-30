@@ -953,6 +953,35 @@ $ curl -i -H "Content-Type: application/TBD" -X POST -d 'file: (binary)' {{base_
 $ curl -i -X GET {{base_url}}/knowledgefiles/{id}/restore
 ```
 
+### Menu
+* GET Menu by ID
+```bash
+$ curl -i -X GET {{base_url}}/menus/{id}
+```
+Result
+
+| Name          | Data Type | Description                               |
+|---------------|-----------|-------------------------------------------|
+| id            | integer   | Menu ID                                  |
+| name          | string    | Menu name                                |
+| path          | string    | Menu path                               |
+| parent_menu_id| integer  | Parent Menu ID                           |
+| is_hidden | boolean  | The menu status|                        |
+
+* GET All Menus
+```bash
+$ curl -i -X GET {{base_url}}/menus
+```
+* PUT Update a Menu
+```bash
+$ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"is_hidden": false}}' {{base_url}}/menus/{id}
+```
+* Get All Menus for web
+```bash
+$ curl -i -X GET {{base_url}}/web/menus
+```
+
+
 ### Meter
 * GET Meter by ID
 

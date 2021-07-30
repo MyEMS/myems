@@ -94,11 +94,10 @@ class MenuItem:
         new_values = json.loads(raw_json)
 
         if 'is_hidden' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['is_hidden'], str) or \
-                len(str.strip(new_values['data']['is_hidden'])) == 0:
+                not isinstance(new_values['data']['is_hidden'], bool):
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_HIDDEN')
-        is_hidden = str.strip(new_values['data']['is_hidden'])
+        is_hidden = new_values['data']['is_hidden']
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()

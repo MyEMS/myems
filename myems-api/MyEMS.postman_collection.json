@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "6678a44a-20bd-4ef2-9a9f-3c47421936c2",
+		"_postman_id": "8f6cf459-2545-4a7d-973e-509a235ab01c",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -7094,6 +7094,1050 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "Space Copy",
+					"item": [
+						{
+							"name": "GET All Spaces",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/spaces",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET a Space by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/spaces/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Create New Space",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"MyEMSSpace\", \"parent_space_id\":1, \"area\":999.99, \"timezone_id\":56, \"is_input_counted\":true, \"is_output_counted\":false, \"contact_id\":1, \"cost_center_id\":1, \"description\":\"Space description\"}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/spaces",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Update a Space",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"MyEMSSpace\", \"parent_space_id\":2, \"area\":999.99, \"timezone_id\":56, \"is_input_counted\":true, \"is_output_counted\":true, \"contact_id\":1, \"cost_center_id\":1, \"description\":\"Space description\"}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/spaces/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Space by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/spaces/57",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"57"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Children of a Space",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/spaces/1/children",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"children"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Combined Equipments of a Space",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/spaces/1/combinedequipments",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"combinedequipments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Bind a Combined Equipment to a Space",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"combined_equipment_id\":1}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/spaces/1/combinedequipments",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"combinedequipments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Combined Equipment from Space",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/spaces/1/combinedequipments/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"combinedequipments",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Equipments of a Space",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/spaces/1/equipments",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"equipments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Bind an Equipment to a Space",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"equipment_id\":1}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/spaces/1/equipments",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"equipments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE an Equipment from Space",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/spaces/1/equipments/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"equipments",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Meters of a Space",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/spaces/1/meters",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"meters"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Bind a Meter to a Space",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"meter_id\":1}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/spaces/1/meters",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"meters"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Meter from Space",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/spaces/1/meters/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"meters",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All OfflineMeters of a Space",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/spaces/1/offlinemeters",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"offlinemeters"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Bind an OfflineMeter to a Space",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"offline_meter_id\":1}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/spaces/1/offlinemeters",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"offlinemeters"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE an Offline Meter from Space",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/spaces/1/offlinemeters/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"offlinemeters",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Points of a Space",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/spaces/1/virtualmeters",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"virtualmeters"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Bind a Point to a Space",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"point_id\":1}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/spaces/1/points",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"points"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Point from Space",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/spaces/1/points/3",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"points",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Sensors of a Space",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/spaces/1/sensors",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"sensors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Bind a Sensor to a Space",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"sensor_id\":1}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/spaces/1/sensors",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"sensors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Sensor from Space",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/spaces/1/sensors/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"sensors",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Shopfloors of a Space",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/spaces/1/shopfloors",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"shopfloors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Bind a Shopfloor to a Space",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"shopfloor_id\":1}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/spaces/1/shopfloors",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"shopfloors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Shopfloor from a Space",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/spaces/1/shopfloors/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"shopfloors",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Stores of a Space",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/spaces/1/stores",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"stores"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Bind a Store to a Space",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"store_id\":1}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/spaces/1/stores",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"stores"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Store from Space",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/spaces/1/stores/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"stores",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Tenants of a Space",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/spaces/1/tenants",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"tenants"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Bind a Tenant to a Space",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"tenant_id\":1}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/spaces/1/tenants",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"tenants"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Tenant from Space",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/spaces/1/tenants/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"tenants",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Virtual Meters of a Space",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/spaces/1/virtualmeters",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"virtualmeters"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Bind a Virtual Meter to a Space",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"virtual_meter_id\":1}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/spaces/1/virtualmeters",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"virtualmeters"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Virtual Meter from Space",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/spaces/1/virtualmeters/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"virtualmeters",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Space Tree",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "e1879592cb12e4cbf0e1762ed42edde699499cd9",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/spaces/tree",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"tree"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Menu",
+					"item": [
+						{
+							"name": "GET All Menus",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/menus",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"menus"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "GET All Menus",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/menus",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"menus"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Server",
+											"value": "gunicorn/20.0.4"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 30 Jul 2021 10:45:21 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										},
+										{
+											"key": "content-length",
+											"value": "9497"
+										},
+										{
+											"key": "content-type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"id\": 1,\n        \"path\": \"/dashboard\",\n        \"name\": \"Dashboard\",\n        \"parent_menu_id\": null,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 100,\n        \"path\": \"/space\",\n        \"name\": \"Space Data\",\n        \"parent_menu_id\": null,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 101,\n        \"path\": \"/space/energycategory\",\n        \"name\": \"Energy Category Data\",\n        \"parent_menu_id\": 100,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 102,\n        \"path\": \"/space/energyitem\",\n        \"name\": \"Energy Item Data\",\n        \"parent_menu_id\": 100,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 103,\n        \"path\": \"/space/cost\",\n        \"name\": \"Cost\",\n        \"parent_menu_id\": 100,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 104,\n        \"path\": \"/space/output\",\n        \"name\": \"Output\",\n        \"parent_menu_id\": 100,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 105,\n        \"path\": \"/space/income\",\n        \"name\": \"Income\",\n        \"parent_menu_id\": 100,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 106,\n        \"path\": \"/space/efficiency\",\n        \"name\": \"Efficiency\",\n        \"parent_menu_id\": 100,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 107,\n        \"path\": \"/space/load\",\n        \"name\": \"Load\",\n        \"parent_menu_id\": 100,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 108,\n        \"path\": \"/space/statistics\",\n        \"name\": \"Statistics\",\n        \"parent_menu_id\": 100,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 109,\n        \"path\": \"/space/saving\",\n        \"name\": \"Saving\",\n        \"parent_menu_id\": 100,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 200,\n        \"path\": \"/equipment\",\n        \"name\": \"Equipment Data\",\n        \"parent_menu_id\": null,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 201,\n        \"path\": \"/equipment/energycategory\",\n        \"name\": \"Energy Category Data\",\n        \"parent_menu_id\": 200,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 202,\n        \"path\": \"/equipment/energyitem\",\n        \"name\": \"Energy Item Data\",\n        \"parent_menu_id\": 200,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 203,\n        \"path\": \"/equipment/cost\",\n        \"name\": \"Cost\",\n        \"parent_menu_id\": 200,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 204,\n        \"path\": \"/equipment/output\",\n        \"name\": \"Output\",\n        \"parent_menu_id\": 200,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 205,\n        \"path\": \"/equipment/income\",\n        \"name\": \"Income\",\n        \"parent_menu_id\": 200,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 206,\n        \"path\": \"/equipment/efficiency\",\n        \"name\": \"Efficiency\",\n        \"parent_menu_id\": 200,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 207,\n        \"path\": \"/equipment/load\",\n        \"name\": \"Load\",\n        \"parent_menu_id\": 200,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 208,\n        \"path\": \"/equipment/statistics\",\n        \"name\": \"Statistics\",\n        \"parent_menu_id\": 200,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 209,\n        \"path\": \"/equipment/saving\",\n        \"name\": \"Saving\",\n        \"parent_menu_id\": 200,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 210,\n        \"path\": \"/equipment/batch\",\n        \"name\": \"Batch Analysis\",\n        \"parent_menu_id\": 200,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 211,\n        \"path\": \"/equipment/tracking\",\n        \"name\": \"Equipment Tracking\",\n        \"parent_menu_id\": 200,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 300,\n        \"path\": \"/meter\",\n        \"name\": \"Meter Data\",\n        \"parent_menu_id\": null,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 301,\n        \"path\": \"/meter/meterenergy\",\n        \"name\": \"Meter Energy\",\n        \"parent_menu_id\": 300,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 302,\n        \"path\": \"/meter/metercost\",\n        \"name\": \"Meter Cost\",\n        \"parent_menu_id\": 300,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 303,\n        \"path\": \"/meter/metertrend\",\n        \"name\": \"Meter Trend\",\n        \"parent_menu_id\": 300,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 304,\n        \"path\": \"/meter/meterrealtime\",\n        \"name\": \"Meter Realtime\",\n        \"parent_menu_id\": 300,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 305,\n        \"path\": \"/meter/metersubmetersbalance\",\n        \"name\": \"Master Meter Submeters Balance\",\n        \"parent_menu_id\": 300,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 306,\n        \"path\": \"/meter/virtualmeterenergy\",\n        \"name\": \"Virtual Meter Energy\",\n        \"parent_menu_id\": 300,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 307,\n        \"path\": \"/meter/virtualmetercost\",\n        \"name\": \"Virtual Meter Cost\",\n        \"parent_menu_id\": 300,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 308,\n        \"path\": \"/meter/offlinemeterenergy\",\n        \"name\": \"Offline Meter Energy\",\n        \"parent_menu_id\": 300,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 309,\n        \"path\": \"/meter/offlinemetercost\",\n        \"name\": \"Offline Meter Cost\",\n        \"parent_menu_id\": 300,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 310,\n        \"path\": \"/meter/batch\",\n        \"name\": \"Batch Analysis\",\n        \"parent_menu_id\": 300,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 311,\n        \"path\": \"/meter/tracking\",\n        \"name\": \"Meter Tracking\",\n        \"parent_menu_id\": 300,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 400,\n        \"path\": \"/tenant\",\n        \"name\": \"Tenant Data\",\n        \"parent_menu_id\": null,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 401,\n        \"path\": \"/tenant/energycategory\",\n        \"name\": \"Energy Category Data\",\n        \"parent_menu_id\": 400,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 402,\n        \"path\": \"/tenant/energyitem\",\n        \"name\": \"Energy Item Data\",\n        \"parent_menu_id\": 400,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 403,\n        \"path\": \"/tenant/cost\",\n        \"name\": \"Cost\",\n        \"parent_menu_id\": 400,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 404,\n        \"path\": \"/tenant/load\",\n        \"name\": \"Load\",\n        \"parent_menu_id\": 400,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 405,\n        \"path\": \"/tenant/statistics\",\n        \"name\": \"Statistics\",\n        \"parent_menu_id\": 400,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 406,\n        \"path\": \"/tenant/saving\",\n        \"name\": \"Saving\",\n        \"parent_menu_id\": 400,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 407,\n        \"path\": \"/tenant/bill\",\n        \"name\": \"Tenant Bill\",\n        \"parent_menu_id\": 400,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 408,\n        \"path\": \"/tenant/batch\",\n        \"name\": \"Batch Analysis\",\n        \"parent_menu_id\": 400,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 500,\n        \"path\": \"/store\",\n        \"name\": \"Store Data\",\n        \"parent_menu_id\": null,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 501,\n        \"path\": \"/store/energycategory\",\n        \"name\": \"Energy Category Data\",\n        \"parent_menu_id\": 500,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 502,\n        \"path\": \"/store/energyitem\",\n        \"name\": \"Energy Item Data\",\n        \"parent_menu_id\": 500,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 503,\n        \"path\": \"/store/cost\",\n        \"name\": \"Cost\",\n        \"parent_menu_id\": 500,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 504,\n        \"path\": \"/store/load\",\n        \"name\": \"Load\",\n        \"parent_menu_id\": 500,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 505,\n        \"path\": \"/store/statistics\",\n        \"name\": \"Statistics\",\n        \"parent_menu_id\": 500,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 506,\n        \"path\": \"/store/saving\",\n        \"name\": \"Saving\",\n        \"parent_menu_id\": 500,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 507,\n        \"path\": \"/store/batch\",\n        \"name\": \"Batch Analysis\",\n        \"parent_menu_id\": 500,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 600,\n        \"path\": \"/shopfloor\",\n        \"name\": \"Shopfloor Data\",\n        \"parent_menu_id\": null,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 601,\n        \"path\": \"/shopfloor/energycategory\",\n        \"name\": \"Energy Category Data\",\n        \"parent_menu_id\": 600,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 602,\n        \"path\": \"/shopfloor/energyitem\",\n        \"name\": \"Energy Item Data\",\n        \"parent_menu_id\": 600,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 603,\n        \"path\": \"/shopfloor/cost\",\n        \"name\": \"Cost\",\n        \"parent_menu_id\": 600,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 604,\n        \"path\": \"/shopfloor/load\",\n        \"name\": \"Load\",\n        \"parent_menu_id\": 600,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 605,\n        \"path\": \"/shopfloor/statistics\",\n        \"name\": \"Statistics\",\n        \"parent_menu_id\": 600,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 606,\n        \"path\": \"/shopfloor/saving\",\n        \"name\": \"Saving\",\n        \"parent_menu_id\": 600,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 607,\n        \"path\": \"/shopfloor/batch\",\n        \"name\": \"Batch Analysis\",\n        \"parent_menu_id\": 600,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 700,\n        \"path\": \"/combinedequipment\",\n        \"name\": \"Combined Equipment Data\",\n        \"parent_menu_id\": null,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 701,\n        \"path\": \"/combinedequipment/energycategory\",\n        \"name\": \"Energy Category Data\",\n        \"parent_menu_id\": 700,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 702,\n        \"path\": \"/combinedequipment/energyitem\",\n        \"name\": \"Energy Item Data\",\n        \"parent_menu_id\": 700,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 703,\n        \"path\": \"/combinedequipment/cost\",\n        \"name\": \"Cost\",\n        \"parent_menu_id\": 700,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 704,\n        \"path\": \"/combinedequipment/output\",\n        \"name\": \"Output\",\n        \"parent_menu_id\": 700,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 705,\n        \"path\": \"/combinedequipment/income\",\n        \"name\": \"Income\",\n        \"parent_menu_id\": 700,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 706,\n        \"path\": \"/combinedequipment/efficiency\",\n        \"name\": \"Efficiency\",\n        \"parent_menu_id\": 700,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 707,\n        \"path\": \"/combinedequipment/load\",\n        \"name\": \"Load\",\n        \"parent_menu_id\": 700,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 708,\n        \"path\": \"/combinedequipment/statistics\",\n        \"name\": \"Statistics\",\n        \"parent_menu_id\": 700,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 709,\n        \"path\": \"/combinedequipment/saving\",\n        \"name\": \"Saving\",\n        \"parent_menu_id\": 700,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 710,\n        \"path\": \"/combinedequipment/batch\",\n        \"name\": \"Batch Analysis\",\n        \"parent_menu_id\": 700,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 800,\n        \"path\": \"/auxiliarysystem\",\n        \"name\": \"Auxiliary System\",\n        \"parent_menu_id\": null,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 801,\n        \"path\": \"/auxiliarysystem/energyflowdiagram\",\n        \"name\": \"Energy Flow Diagram\",\n        \"parent_menu_id\": 800,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 802,\n        \"path\": \"/auxiliarysystem/distributionsystem\",\n        \"name\": \"Distribution System\",\n        \"parent_menu_id\": 800,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 900,\n        \"path\": \"/fdd\",\n        \"name\": \"Fault Detection & Diagnostics\",\n        \"parent_menu_id\": null,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 901,\n        \"path\": \"/fdd/space\",\n        \"name\": \"Space Faults Data\",\n        \"parent_menu_id\": 900,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 902,\n        \"path\": \"/fdd/equipment\",\n        \"name\": \"Equipment Faults Data\",\n        \"parent_menu_id\": 900,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 903,\n        \"path\": \"/fdd/combinedequipment\",\n        \"name\": \"Combined Equipment Faults Data\",\n        \"parent_menu_id\": 900,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 904,\n        \"path\": \"/fdd/tenant\",\n        \"name\": \"Tenant Faults Data\",\n        \"parent_menu_id\": 900,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 905,\n        \"path\": \"/fdd/store\",\n        \"name\": \"Store Faults Data\",\n        \"parent_menu_id\": 900,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 906,\n        \"path\": \"/fdd/shopfloor\",\n        \"name\": \"Shopfloor Faults Data\",\n        \"parent_menu_id\": 900,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 1000,\n        \"path\": \"/monitoring\",\n        \"name\": \"Monitoring\",\n        \"parent_menu_id\": null,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 1001,\n        \"path\": \"/monitoring/space\",\n        \"name\": \"Space Equipments\",\n        \"parent_menu_id\": 1000,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 1002,\n        \"path\": \"/monitoring/equipment\",\n        \"name\": \"Combined Equipments\",\n        \"parent_menu_id\": 1000,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 1003,\n        \"path\": \"/monitoring/combinedequipment\",\n        \"name\": \"Tenant Equipments\",\n        \"parent_menu_id\": 1000,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 1004,\n        \"path\": \"/monitoring/tenant\",\n        \"name\": \"Store Equipments\",\n        \"parent_menu_id\": 1000,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 1005,\n        \"path\": \"/monitoring/store\",\n        \"name\": \"Shopfloor Equipments\",\n        \"parent_menu_id\": 1000,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 1100,\n        \"path\": \"/advancedreporting\",\n        \"name\": \"Advanced Reporting\",\n        \"parent_menu_id\": null,\n        \"is_hidden\": 0\n    },\n    {\n        \"id\": 1200,\n        \"path\": \"/knowledgebase\",\n        \"name\": \"Knowledge Base\",\n        \"parent_menu_id\": null,\n        \"is_hidden\": 0\n    }\n]"
+								}
+							]
+						},
+						{
+							"name": "GET a Menu by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/menus/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"menus",
+										"1"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "GET a Menu by ID",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/menus/1",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"menus",
+												"1"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Server",
+											"value": "gunicorn/20.0.4"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 30 Jul 2021 10:45:44 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										},
+										{
+											"key": "content-length",
+											"value": "92"
+										},
+										{
+											"key": "content-type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"id\": 1,\n    \"path\": \"/dashboard\",\n    \"name\": \"Dashboard\",\n    \"parent_menu_id\": null,\n    \"is_hidden\": 0\n}"
+								}
+							]
+						},
+						{
+							"name": "PUT Update a Menu",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"data\": {\n        \"is_hidden\": false\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/menus/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"menus",
+										"1"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "PUT Update a Menu",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"data\": {\n        \"is_hidden\": false\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/menus/1",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"menus",
+												"1"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Server",
+											"value": "gunicorn/20.0.4"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 30 Jul 2021 10:49:20 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										},
+										{
+											"key": "content-length",
+											"value": "0"
+										},
+										{
+											"key": "content-type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "GET All Children of a Menu",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/menus/1/children",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"menus",
+										"1",
+										"children"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "GET All Children of a Space",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/menus/1/children",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"menus",
+												"1",
+												"children"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Server",
+											"value": "gunicorn/20.0.4"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 30 Jul 2021 10:50:23 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										},
+										{
+											"key": "content-length",
+											"value": "121"
+										},
+										{
+											"key": "content-type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"current\": {\n        \"id\": 1,\n        \"path\": \"/dashboard\",\n        \"name\": \"Dashboard\",\n        \"parent_menu_id\": null,\n        \"is_hidden\": 0\n    },\n    \"children\": []\n}"
+								}
+							]
+						}
+					]
 				}
 			]
 		},
@@ -9957,6 +11001,32 @@
 				}
 			},
 			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "127.0.0.1:8000"
 		}
 	]
 }
