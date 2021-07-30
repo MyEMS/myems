@@ -84,7 +84,7 @@ Dieses Projekt besteht aus folgenden Komponenten:
 | Stores Number                    | Unbegrenzt     | Unbegrenzt | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
 | Shopfloors Number                | Unbegrenzt     | Unbegrenzt | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
 | Combined Equipments Number       | Unbegrenzt     | Unbegrenzt | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
-| Docker                           | ❌             | ✔️        | https://www.docker.com/ |
+| Docker                           | ✔️             | ✔️        | https://www.docker.com/ |
 | Kubernetes                       | ❌             | ✔️        | https://kubernetes.io/ |
 | MySQL                            | ✔️             | ✔️        | http://mysql.com/    |
 | MariaDB                          | ✔️             | ✔️        | https://mariadb.org/ |
