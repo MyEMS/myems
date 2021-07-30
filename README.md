@@ -70,6 +70,11 @@ MyEMS项目由下列组件构成:
 ### Docker Docker-compose 安装
 ```
 git clone https://gitee.com/myems/myems.git 
+
+# for generate the static direction: 'build'
+cd myems/web
+npm run build
+
 cd myems
 docker-compose up -d 
 ```

@@ -1,5 +1,13 @@
 FROM nginx
-WORKDIR /code
 
-COPY ./build/ /usr/share/nginx/html
-#CMD ['nginx', '-c /etc/nginx/nginx.conf', '-g "daemon off;"']
+# remove the config
+RUN rm /etc/nginx/conf.d/default.conf && \
+    rm /etc/nginx/nginx.conf && \
+    mkdir -p /usr/share/nginx/web
+
+# copy the config and web codes
+# Attention:
+# You should run 'npm run build' in the web direction to generate the build direction because this's a react projection.
+COPY nginx.conf /etc/nginx/
+COPY . /usr/share/nginx/web
+CMD ['nginx', '-c /etc/nginx/nginx.conf', '-g "daemon off;"']
