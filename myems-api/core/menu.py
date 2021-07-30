@@ -146,13 +146,12 @@ class MenuChildrenCollection:
         current_menu = None
         current_menu_id = None
         if row_current_menu is not None and len(row_current_menu) > 0:
-            for row in row_current_menu:
-                current_menu = {"id": row['id'],
-                                "path": row['path'],
-                                "name": row['name'],
-                                "parent_menu_id": row['parent_menu_id'],
-                                "is_hidden": row['is_hidden']}
-                current_menu_id = row['id']
+            current_menu = {"id": row_current_menu['id'],
+                            "path": row_current_menu['path'],
+                            "name": row_current_menu['name'],
+                            "parent_menu_id": row_current_menu['parent_menu_id'],
+                            "is_hidden": row_current_menu['is_hidden']}
+            current_menu_id = row_current_menu['id']
 
         query = (" SELECT id, path, name, parent_menu_id, is_hidden"
                  " FROM tbl_menus "
