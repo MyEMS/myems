@@ -1,0 +1,9 @@
+anytree
+simplejson
+mysql.connector
+falcon
+falcon_cors
+falcon-multipart
+gunicorn
+openpyxl
+pillow
