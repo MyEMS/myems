@@ -2905,6 +2905,105 @@
 					]
 				},
 				{
+					"name": "Menu",
+					"item": [
+						{
+							"name": "GET All Menus",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/menus",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"menus"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Menu by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/menus/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"menus",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Update a Menu",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"is_hidden\":true}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/menus/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"menus",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Children of Menu by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/menus/100/children",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"menus",
+										"100",
+										"children"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Menus for Web UI",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/menus/web",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"menus",
+										"web"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "Meter",
 					"item": [
 						{

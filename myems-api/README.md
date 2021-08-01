@@ -159,7 +159,7 @@ View in Postman: import the file MyEMS.postman_collection.json with Postman
 
 [Data Source](#Data-Source) | [Point](#Point)
 
-[Tariff](#Tariff) | [Cost Center](#Cost-Center) | [Cost File](#Offline-Cost-File)
+[Tariff](#Tariff) | [Cost Center](#Cost-Center) | [Cost File](#Cost-File)
 
 [Meter](#Meter) | [Virtual Meter](#Virtual-Meter) | [Offline Meter](#Offline-Meter) | [Offline Meter File](#Offline-Meter-File) 
 
@@ -178,6 +178,8 @@ View in Postman: import the file MyEMS.postman_collection.json with Postman
 [User](#User) | [Privilege](#Privilege) | [Contact](#Contact)  | [Notification](#Notification)
 
 [Timezone](#Timezone)
+
+[Menu](#Menu)
 
 [Knowledge File](#Knowledge-File)
 
@@ -952,6 +954,39 @@ $ curl -i -H "Content-Type: application/TBD" -X POST -d 'file: (binary)' {{base_
 ```bash
 $ curl -i -X GET {{base_url}}/knowledgefiles/{id}/restore
 ```
+
+### Menu
+* GET Menu by ID
+```bash
+$ curl -i -X GET {{base_url}}/menus/{id}
+```
+Result
+
+| Name          | Data Type | Description                               |
+|---------------|-----------|-------------------------------------------|
+| id            | integer   | Menu ID                                  |
+| name          | string    | Menu name                                |
+| path          | string    | Menu path                               |
+| parent_menu_id| integer  | Parent Menu ID                           |
+| is_hidden | boolean  | The menu status|                        |
+
+* GET All Menus
+```bash
+$ curl -i -X GET {{base_url}}/menus
+```
+* PUT Update a Menu
+```bash
+$ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"is_hidden": false}}' {{base_url}}/menus/{id}
+```
+* Get All Menus for Web UI
+```bash
+$ curl -i -X GET {{base_url}}/menus/web
+```
+* GET All Children of Menu by ID
+```bash
+$ curl -i -X GET {{base_url}}/menus/{id}/children
+```
+
 
 ### Meter
 * GET Meter by ID

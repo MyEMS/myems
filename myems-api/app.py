@@ -5,7 +5,7 @@ from core import energyflowdiagram, privilege, textmessage, distributioncircuit,
     costcenter, point, knowledgefile, meter, gsmmodem, tariff, user, storetype, timezone, \
     costfile, offlinemeterfile, version, contact, emailserver, combinedequipment, datasource, equipment, tenant, shopfloor, \
     webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, offlinemeter, \
-    rule, energycategory, sensor, energyitem, notification
+    rule, energycategory, sensor, energyitem, notification, menu
 from reports import advancedreport
 from reports import distributionsystem as distributionsystemreport
 from reports import energyflowdiagram as energyflowdiagramreport
@@ -243,6 +243,15 @@ api.add_route('/knowledgefiles/{id_}',
               knowledgefile.KnowledgeFileItem())
 api.add_route('/knowledgefiles/{id_}/restore',
               knowledgefile.KnowledgeFileRestore())
+
+api.add_route('/menus',
+              menu.MenuCollection())
+api.add_route('/menus/{id_}',
+              menu.MenuItem())
+api.add_route('/menus/{id_}/children',
+              menu.MenuChildrenCollection())
+api.add_route('/menus/web',
+              menu.MenuWebCollection())
 
 api.add_route('/meters',
               meter.MeterCollection())
