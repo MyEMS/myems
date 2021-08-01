@@ -24,32 +24,6 @@ app
                 $urlRouterProvider.otherwise("login/login");
 
                 $stateProvider
-                    .state('feed', {
-                        abstract: true,
-                        url: "/feed",
-                        templateUrl: "views/common/content.html",
-                        resolve: {
-                            deps: [
-                                '$ocLazyLoad',
-                                function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load(['toaster']).then(
-                                        function () {
-                                            return $ocLazyLoad.load([{
-                                                serie: true,
-                                                files: [
-                                                    'app/services/login/login.service.js',
-                                                    'app/services/fdd/webmessageanalysis.service.js',
-                                                    'app/services/users/user/user.service.js',
-                                                    'app/controllers/users/user/user.controller.js',
-                                                    'app/controllers/login/login.controller.js'
-                                                ]
-                                            }]);
-                                        }
-                                    );
-                                }
-                            ]
-                        }
-                    })
                     .state('fdd', {
                         abstract: true,
                         url: "/fdd",
@@ -300,84 +274,6 @@ app
                             ]
                         }
                     })
-                    .state('equipment', {
-                        abstract: true,
-                        url: "/equipment",
-                        templateUrl: "views/common/content.html",
-                        resolve: {
-                            deps: [
-                                '$ocLazyLoad',
-                                function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load(['toaster']).then(
-                                        function () {
-                                            return $ocLazyLoad.load([{
-                                                serie: true,
-                                                files: [
-                                                    'app/services/login/login.service.js',
-                                                    'app/services/fdd/webmessageanalysis.service.js',
-                                                    'app/services/users/user/user.service.js',
-                                                    'app/controllers/users/user/user.controller.js',
-                                                    'app/controllers/login/login.controller.js'
-                                                ]
-                                            }]);
-                                        }
-                                    );
-                                }
-                            ]
-                        }
-                    })
-                    .state('combinedequipment', {
-                        abstract: true,
-                        url: "/combinedequipment",
-                        templateUrl: "views/common/content.html",
-                        resolve: {
-                            deps: [
-                                '$ocLazyLoad',
-                                function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load(['toaster']).then(
-                                        function () {
-                                            return $ocLazyLoad.load([{
-                                                serie: true,
-                                                files: [
-                                                    'app/services/login/login.service.js',
-                                                    'app/services/fdd/webmessageanalysis.service.js',
-                                                    'app/services/users/user/user.service.js',
-                                                    'app/controllers/users/user/user.controller.js',
-                                                    'app/controllers/login/login.controller.js'
-                                                ]
-                                            }]);
-                                        }
-                                    );
-                                }
-                            ]
-                        }
-                    })
-                    .state('verification', {
-                        abstract: true,
-                        url: "/verification",
-                        templateUrl: "views/common/content.html",
-                        resolve: {
-                            deps: [
-                                '$ocLazyLoad',
-                                function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load(['toaster']).then(
-                                        function () {
-                                            return $ocLazyLoad.load([{
-                                                serie: true,
-                                                files: [
-                                                    'app/services/login/login.service.js',
-                                                    'app/services/fdd/webmessageanalysis.service.js',
-                                                    'app/services/users/user/user.service.js',
-                                                    'app/controllers/users/user/user.controller.js',
-                                                    'app/controllers/login/login.controller.js'
-                                                ]
-                                            }]);
-                                        }
-                                    );
-                                }
-                            ]
-                        }
-                    })
                     .state('settings', {
                         abstract: true,
                         url: "/settings",
@@ -396,6 +292,392 @@ app
                                                     'app/services/users/user/user.service.js',
                                                     'app/controllers/users/user/user.controller.js',
                                                     'app/controllers/login/login.controller.js'
+                                                ]
+                                            }]);
+                                        }
+                                    );
+                                }
+                            ]
+                        }
+                    })
+                    .state('settings.category', {
+                        url: "/category",
+                        templateUrl: "views/settings/category/category.html",
+                        data: {
+                            pageTitle: 'MENU.SETTINGS.CATEGORY'
+                        },
+                        resolve: {
+                            deps: [
+                                '$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'toaster']).then(
+                                        function () {
+                                            return $ocLazyLoad.load([{
+                                                files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
+                                            }, {
+                                                name: 'oitozero.ngSweetAlert',
+                                                files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
+                                            }, {
+                                                serie: true,
+                                                files: [
+                                                    'app/services/settings/category/category.service.js',
+                                                    'app/controllers/settings/category/energycategory.master.controller.js',
+                                                    'app/controllers/settings/category/energycategory.controller.js',
+                                                    'app/services/settings/category/energyitem.service.js',
+                                                    'app/controllers/settings/category/energyitem.controller.js'
+                                                ]
+                                            }]);
+                                        }
+                                    );
+                                }
+                            ]
+                        }
+                    })
+                    .state('settings.costcenter', {
+                        url: "/costcenter",
+                        templateUrl: "views/settings/costcenter/costcenter.html",
+                        data: {
+                            pageTitle: 'MENU.SETTINGS.COSTCENTER',
+                        },
+                        resolve: {
+                            deps: [
+                                '$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'toaster']).then(
+                                        function () {
+                                            return $ocLazyLoad.load([{
+                                                files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
+                                            }, {
+                                                name: 'oitozero.ngSweetAlert',
+                                                files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
+                                            }, {
+                                                serie: true,
+                                                files: [
+                                                    'app/services/settings/costcenter/costcenter.service.js',
+                                                    'app/services/settings/costcenter/costcentertariff.service.js',
+                                                    'app/services/settings/tariff/tariff.service.js',
+                                                    'app/services/settings/costcenter/costfile.service.js',
+                                                    'app/controllers/settings/costcenter/costcenter.master.controller.js',
+                                                    'app/controllers/settings/costcenter/costcenter.controller.js',
+                                                    'app/controllers/settings/costcenter/costcentertariff.controller.js',
+                                                    'app/controllers/settings/costcenter/costfile.controller.js'
+                                                ]
+                                            }]);
+                                        }
+                                    );
+                                }
+                            ]
+                        }
+                    })
+                    .state('settings.tariff', {
+                        url: "/tariff",
+                        templateUrl: "views/settings/tariff/tariff.html",
+                        data: {
+                            pageTitle: 'MENU.SETTINGS.TARIFF'
+                        },
+                        resolve: {
+                            deps: [
+                                '$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['ui.select', 'toaster']).then(
+                                        function () {
+                                            return $ocLazyLoad.load([{
+                                                serie: true,
+                                                files: ['js/daterangepicker/daterangepicker.min.js', 'js/daterangepicker/daterangepicker.min.css']
+                                            }, {
+                                                name: 'daterangepicker',
+                                                files: ['js/daterangepicker/angular-daterangepicker.min.js']
+                                            }, {
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
+                                            }, {
+                                                files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
+                                            }, {
+                                                name: 'oitozero.ngSweetAlert',
+                                                files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
+                                            }, {
+                                                serie: true,
+                                                files: [
+                                                    'app/services/settings/tariff/tariff.service.js',
+                                                    'app/services/settings/tariff/tariff.const.js',
+                                                    'app/services/settings/category/category.service.js',
+                                                    'app/controllers/settings/tariff/tariff.controller.js'
+                                                ]
+                                            }]);
+                                        }
+                                    );
+                                }
+                            ]
+                        }
+                    })
+                    .state('settings.contact', {
+                        url: "/contact",
+                        templateUrl: "views/settings/contact/contact.html",
+                        data: {
+                            pageTitle: 'MENU.SETTINGS.CONTACT'
+                        },
+                        resolve: {
+                            deps: [
+                                '$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'toaster']).then(
+                                        function () {
+                                            return $ocLazyLoad.load([{
+                                                files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
+                                            }, {
+                                                name: 'oitozero.ngSweetAlert',
+                                                files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
+                                            }, {
+                                                serie: true,
+                                                files: [
+                                                    'app/services/settings/contact/contact.service.js',
+                                                    'app/controllers/settings/contact/contact.controller.js'
+                                                ]
+                                            }]);
+                                        }
+                                    );
+                                }
+                            ]
+                        }
+                    })
+                    .state('settings.gateway', {
+                        url: "/gateway",
+                        templateUrl: "views/settings/gateway/gateway.html",
+                        data: {
+                            pageTitle: 'MENU.SETTINGS.GATEWAY',
+                        },
+                        resolve: {
+                            deps: [
+                                '$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'toaster']).then(
+                                        function () {
+                                            return $ocLazyLoad.load([{
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
+                                            }, {
+                                                files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
+                                            }, {
+                                                name: 'oitozero.ngSweetAlert',
+                                                files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
+                                            }, {
+                                                serie: true,
+                                                files: [
+                                                    'app/services/settings/gateway/gateway.service.js',
+                                                    'app/controllers/settings/gateway/gateway.master.controller.js',
+                                                    'app/controllers/settings/gateway/gateway.controller.js',
+                                                ]
+                                            }]);
+                                        }
+                                    );
+                                }
+                            ]
+                        }
+                    })
+                    .state('settings.datasource', {
+                        url: "/data-source",
+                        templateUrl: "views/settings/datasource/datasource.html",
+                        data: {
+                            pageTitle: 'MENU.SETTINGS.DATASOURCE'
+                        },
+                        resolve: {
+                            deps: [
+                                '$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'toaster']).then(
+                                        function () {
+                                            return $ocLazyLoad.load([{
+                                                files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
+                                            }, {
+                                                name: 'oitozero.ngSweetAlert',
+                                                files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
+                                            }, {
+
+                                                files: [
+                                                    'app/services/settings/datasource/datasource.service.js',
+                                                    'app/services/settings/datasource/point.service.js',
+                                                    'app/services/settings/gateway/gateway.service.js',
+                                                    'app/controllers/settings/datasource/datasource.master.controller.js',
+                                                    'app/controllers/settings/datasource/datasource.controller.js',
+                                                    'app/controllers/settings/datasource/point.controller.js'
+                                                ]
+                                            }]);
+                                        }
+                                    );
+                                }
+                            ]
+                        }
+                    })
+                    .state('settings.meter', {
+                        url: "/meter",
+                        templateUrl: "views/settings/meter/meter.html",
+                        data: {
+                            pageTitle: 'MENU.SETTINGS.METER',
+                        },
+                        resolve: {
+                            deps: [
+                                '$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'toaster']).then(
+                                        function () {
+                                            return $ocLazyLoad.load([{
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
+                                            }, {
+                                                files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
+                                            }, {
+                                                name: 'oitozero.ngSweetAlert',
+                                                files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
+                                            }, {
+                                                serie: true,
+                                                files: [
+                                                    'app/services/settings/costcenter/costcenter.service.js',
+                                                    'app/services/settings/category/category.service.js',
+                                                    'app/services/settings/category/energyitem.service.js',
+                                                    'app/services/settings/meter/meter.service.js',
+                                                    'app/services/settings/meter/offlinemeter.service.js',
+                                                    'app/services/settings/meter/offlinemeterfile.service.js',
+                                                    'app/services/settings/meter/virtualmeter.service.js',
+                                                    'app/services/settings/meter/meterpoint.service.js',
+                                                    'app/services/settings/datasource/datasource.service.js',
+                                                    'app/services/settings/datasource/point.service.js',
+                                                    'app/controllers/settings/meter/meter.master.controller.js',
+                                                    'app/controllers/settings/meter/meter.controller.js',
+                                                    'app/controllers/settings/meter/offlinemeter.controller.js',
+                                                    'app/controllers/settings/meter/offlinemeterfile.controller.js',
+                                                    'app/controllers/settings/meter/virtualmeter.controller.js',
+                                                    'app/controllers/settings/meter/meterpoint.controller.js'
+                                                ]
+                                            }]);
+                                        }
+                                    );
+                                }
+                            ]
+                        }
+                    })
+                    .state('settings.sensor', {
+                        url: "/sensor",
+                        templateUrl: "views/settings/sensor/sensor.html",
+                        data: {
+                            pageTitle: 'MENU.SETTINGS.SENSOR',
+                        },
+                        resolve: {
+                            deps: [
+                                '$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'toaster']).then(
+                                        function () {
+                                            return $ocLazyLoad.load([{
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
+                                            }, {
+                                                files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
+                                            }, {
+                                                name: 'oitozero.ngSweetAlert',
+                                                files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
+                                            }, {
+                                                serie: true,
+                                                files: [
+                                                    'app/services/settings/sensor/sensor.service.js',
+                                                    'app/services/settings/sensor/sensorpoint.service.js',
+                                                    'app/services/settings/datasource/datasource.service.js',
+                                                    'app/services/settings/datasource/point.service.js',
+                                                    'app/controllers/settings/sensor/sensor.master.controller.js',
+                                                    'app/controllers/settings/sensor/sensor.controller.js',
+                                                    'app/controllers/settings/sensor/sensorpoint.controller.js'
+                                                ]
+                                            }]);
+                                        }
+                                    );
+                                }
+                            ]
+                        }
+                    })
+                    .state('settings.equipment', {
+                        url: "/equipment",
+                        templateUrl: "views/settings/equipment/equipment.html",
+                        data: {
+                            pageTitle: 'MENU.SETTINGS.EQUIPMENT'
+                        },
+                        resolve: {
+                            deps: [
+                                '$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['ui.checkbox', 'ui.select', 'toaster']).then(
+                                        function () {
+                                            return $ocLazyLoad.load([{
+                                                files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
+                                            }, {
+                                                name: 'oitozero.ngSweetAlert',
+                                                files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
+                                            }, {
+                                                serie: true,
+                                                files: [
+                                                    'app/services/settings/space/space.service.js',
+                                                    'app/services/settings/equipment/equipment.service.js',
+                                                    'app/services/settings/costcenter/costcenter.service.js',
+                                                    'app/services/settings/datasource/point.service.js',
+                                                    'app/services/settings/meter/meter.service.js',
+                                                    'app/services/settings/meter/offlinemeter.service.js',
+                                                    'app/services/settings/meter/virtualmeter.service.js',
+                                                    'app/services/settings/equipment/equipmentmeter.service.js',
+                                                    'app/services/settings/equipment/equipmentparameter.service.js',
+                                                    'app/controllers/settings/equipment/equipment.master.controller.js',
+                                                    'app/controllers/settings/equipment/equipment.controller.js',
+                                                    'app/controllers/settings/equipment/equipmentmeter.controller.js',
+                                                    'app/controllers/settings/equipment/equipmentparameter.controller.js'
+                                                ]
+                                            }]);
+                                        }
+                                    );
+                                }
+                            ]
+                        }
+                    })
+                    .state('settings.combinedequipment', {
+                        url: "/combinedequipment",
+                        templateUrl: "views/settings/combinedequipment/combinedequipment.html",
+                        data: {
+                            pageTitle: 'MENU.SETTINGS.COMBINED_EQUIPMENT'
+                        },
+                        resolve: {
+                            deps: [
+                                '$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['ui.checkbox', 'ui.select', 'toaster']).then(
+                                        function () {
+                                            return $ocLazyLoad.load([{
+                                                files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
+                                            }, {
+                                                name: 'oitozero.ngSweetAlert',
+                                                files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
+                                            }, {
+                                                serie: true,
+                                                files: [
+                                                    'app/services/settings/space/space.service.js',
+                                                    'app/services/settings/combinedequipment/combinedequipment.service.js',
+                                                    'app/services/settings/costcenter/costcenter.service.js',
+                                                    'app/services/settings/datasource/point.service.js',
+                                                    'app/services/settings/equipment/equipment.service.js',
+                                                    'app/services/settings/meter/meter.service.js',
+                                                    'app/services/settings/meter/offlinemeter.service.js',
+                                                    'app/services/settings/meter/virtualmeter.service.js',
+                                                    'app/services/settings/combinedequipment/combinedequipmentequipment.service.js',
+                                                    'app/services/settings/combinedequipment/combinedequipmentmeter.service.js',
+                                                    'app/services/settings/combinedequipment/combinedequipmentparameter.service.js',
+                                                    'app/controllers/settings/combinedequipment/combinedequipment.master.controller.js',
+                                                    'app/controllers/settings/combinedequipment/combinedequipment.controller.js',
+                                                    'app/controllers/settings/combinedequipment/combinedequipmentequipment.controller.js',
+                                                    'app/controllers/settings/combinedequipment/combinedequipmentmeter.controller.js',
+                                                    'app/controllers/settings/combinedequipment/combinedequipmentparameter.controller.js'
                                                 ]
                                             }]);
                                         }
@@ -635,283 +917,6 @@ app
                         }
 
                     })
-                    .state('settings.equipment', {
-                        url: "/equipment",
-                        templateUrl: "views/settings/equipment/equipment.html",
-                        data: {
-                            pageTitle: 'MENU.SETTINGS.EQUIPMENT'
-                        },
-                        resolve: {
-                            deps: [
-                                '$ocLazyLoad',
-                                function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load(['ui.checkbox', 'ui.select', 'toaster']).then(
-                                        function () {
-                                            return $ocLazyLoad.load([{
-                                                files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
-                                            }, {
-                                                name: 'oitozero.ngSweetAlert',
-                                                files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
-                                            }, {
-                                                serie: true,
-                                                files: [
-                                                    'app/services/settings/space/space.service.js',
-                                                    'app/services/settings/equipment/equipment.service.js',
-                                                    'app/services/settings/costcenter/costcenter.service.js',
-                                                    'app/services/settings/datasource/point.service.js',
-                                                    'app/services/settings/meter/meter.service.js',
-                                                    'app/services/settings/meter/offlinemeter.service.js',
-                                                    'app/services/settings/meter/virtualmeter.service.js',
-                                                    'app/services/settings/equipment/equipmentmeter.service.js',
-                                                    'app/services/settings/equipment/equipmentparameter.service.js',
-                                                    'app/controllers/settings/equipment/equipment.master.controller.js',
-                                                    'app/controllers/settings/equipment/equipment.controller.js',
-                                                    'app/controllers/settings/equipment/equipmentmeter.controller.js',
-                                                    'app/controllers/settings/equipment/equipmentparameter.controller.js'
-                                                ]
-                                            }]);
-                                        }
-                                    );
-                                }
-                            ]
-                        }
-                    })
-                    .state('settings.combinedequipment', {
-                        url: "/combinedequipment",
-                        templateUrl: "views/settings/combinedequipment/combinedequipment.html",
-                        data: {
-                            pageTitle: 'MENU.SETTINGS.COMBINED_EQUIPMENT'
-                        },
-                        resolve: {
-                            deps: [
-                                '$ocLazyLoad',
-                                function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load(['ui.checkbox', 'ui.select', 'toaster']).then(
-                                        function () {
-                                            return $ocLazyLoad.load([{
-                                                files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
-                                            }, {
-                                                name: 'oitozero.ngSweetAlert',
-                                                files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
-                                            }, {
-                                                serie: true,
-                                                files: [
-                                                    'app/services/settings/space/space.service.js',
-                                                    'app/services/settings/combinedequipment/combinedequipment.service.js',
-                                                    'app/services/settings/costcenter/costcenter.service.js',
-                                                    'app/services/settings/datasource/point.service.js',
-                                                    'app/services/settings/equipment/equipment.service.js',
-                                                    'app/services/settings/meter/meter.service.js',
-                                                    'app/services/settings/meter/offlinemeter.service.js',
-                                                    'app/services/settings/meter/virtualmeter.service.js',
-                                                    'app/services/settings/combinedequipment/combinedequipmentequipment.service.js',
-                                                    'app/services/settings/combinedequipment/combinedequipmentmeter.service.js',
-                                                    'app/services/settings/combinedequipment/combinedequipmentparameter.service.js',
-                                                    'app/controllers/settings/combinedequipment/combinedequipment.master.controller.js',
-                                                    'app/controllers/settings/combinedequipment/combinedequipment.controller.js',
-                                                    'app/controllers/settings/combinedequipment/combinedequipmentequipment.controller.js',
-                                                    'app/controllers/settings/combinedequipment/combinedequipmentmeter.controller.js',
-                                                    'app/controllers/settings/combinedequipment/combinedequipmentparameter.controller.js'
-                                                ]
-                                            }]);
-                                        }
-                                    );
-                                }
-                            ]
-                        }
-                    })
-                    .state('settings.meter', {
-                        url: "/meter",
-                        templateUrl: "views/settings/meter/meter.html",
-                        data: {
-                            pageTitle: 'MENU.SETTINGS.METER',
-                        },
-                        resolve: {
-                            deps: [
-                                '$ocLazyLoad',
-                                function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'toaster']).then(
-                                        function () {
-                                            return $ocLazyLoad.load([{
-                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
-                                            }, {
-                                                name: 'ui.footable',
-                                                files: ['js/plugins/footable/angular-footable.js']
-                                            }, {
-                                                files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
-                                            }, {
-                                                name: 'oitozero.ngSweetAlert',
-                                                files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
-                                            }, {
-                                                serie: true,
-                                                files: [
-                                                    'app/services/settings/costcenter/costcenter.service.js',
-                                                    'app/services/settings/category/category.service.js',
-                                                    'app/services/settings/category/energyitem.service.js',
-                                                    'app/services/settings/meter/meter.service.js',
-                                                    'app/services/settings/meter/offlinemeter.service.js',
-                                                    'app/services/settings/meter/offlinemeterfile.service.js',
-                                                    'app/services/settings/meter/virtualmeter.service.js',
-                                                    'app/services/settings/meter/meterpoint.service.js',
-                                                    'app/services/settings/datasource/datasource.service.js',
-                                                    'app/services/settings/datasource/point.service.js',
-                                                    'app/controllers/settings/meter/meter.master.controller.js',
-                                                    'app/controllers/settings/meter/meter.controller.js',
-                                                    'app/controllers/settings/meter/offlinemeter.controller.js',
-                                                    'app/controllers/settings/meter/offlinemeterfile.controller.js',
-                                                    'app/controllers/settings/meter/virtualmeter.controller.js',
-                                                    'app/controllers/settings/meter/meterpoint.controller.js'
-                                                ]
-                                            }]);
-                                        }
-                                    );
-                                }
-                            ]
-                        }
-                    })
-                    .state('settings.sensor', {
-                        url: "/sensor",
-                        templateUrl: "views/settings/sensor/sensor.html",
-                        data: {
-                            pageTitle: 'MENU.SETTINGS.SENSOR',
-                        },
-                        resolve: {
-                            deps: [
-                                '$ocLazyLoad',
-                                function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'toaster']).then(
-                                        function () {
-                                            return $ocLazyLoad.load([{
-                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
-                                            }, {
-                                                name: 'ui.footable',
-                                                files: ['js/plugins/footable/angular-footable.js']
-                                            }, {
-                                                files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
-                                            }, {
-                                                name: 'oitozero.ngSweetAlert',
-                                                files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
-                                            }, {
-                                                serie: true,
-                                                files: [
-                                                    'app/services/settings/sensor/sensor.service.js',
-                                                    'app/services/settings/sensor/sensorpoint.service.js',
-                                                    'app/services/settings/datasource/datasource.service.js',
-                                                    'app/services/settings/datasource/point.service.js',
-                                                    'app/controllers/settings/sensor/sensor.master.controller.js',
-                                                    'app/controllers/settings/sensor/sensor.controller.js',
-                                                    'app/controllers/settings/sensor/sensorpoint.controller.js'
-                                                ]
-                                            }]);
-                                        }
-                                    );
-                                }
-                            ]
-                        }
-                    })
-                    .state('settings.costcenter', {
-                        url: "/costcenter",
-                        templateUrl: "views/settings/costcenter/costcenter.html",
-                        data: {
-                            pageTitle: 'MENU.SETTINGS.COSTCENTER',
-                        },
-                        resolve: {
-                            deps: [
-                                '$ocLazyLoad',
-                                function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'toaster']).then(
-                                        function () {
-                                            return $ocLazyLoad.load([{
-                                                files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
-                                            }, {
-                                                name: 'oitozero.ngSweetAlert',
-                                                files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
-                                            }, {
-                                                serie: true,
-                                                files: [
-                                                    'app/services/settings/costcenter/costcenter.service.js',
-                                                    'app/services/settings/costcenter/costcentertariff.service.js',
-                                                    'app/services/settings/tariff/tariff.service.js',
-                                                    'app/services/settings/costcenter/costfile.service.js',
-                                                    'app/controllers/settings/costcenter/costcenter.master.controller.js',
-                                                    'app/controllers/settings/costcenter/costcenter.controller.js',
-                                                    'app/controllers/settings/costcenter/costcentertariff.controller.js',
-                                                    'app/controllers/settings/costcenter/costfile.controller.js'
-                                                ]
-                                            }]);
-                                        }
-                                    );
-                                }
-                            ]
-                        }
-                    })
-                    .state('settings.datasource', {
-                        url: "/data-source",
-                        templateUrl: "views/settings/datasource/datasource.html",
-                        data: {
-                            pageTitle: 'MENU.SETTINGS.DATASOURCE'
-                        },
-                        resolve: {
-                            deps: [
-                                '$ocLazyLoad',
-                                function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'toaster']).then(
-                                        function () {
-                                            return $ocLazyLoad.load([{
-                                                files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
-                                            }, {
-                                                name: 'oitozero.ngSweetAlert',
-                                                files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
-                                            }, {
-
-                                                files: [
-                                                    'app/services/settings/datasource/datasource.service.js',
-                                                    'app/services/settings/datasource/point.service.js',
-                                                    'app/services/settings/gateway/gateway.service.js',
-                                                    'app/controllers/settings/datasource/datasource.master.controller.js',
-                                                    'app/controllers/settings/datasource/datasource.controller.js',
-                                                    'app/controllers/settings/datasource/point.controller.js'
-                                                ]
-                                            }]);
-                                        }
-                                    );
-                                }
-                            ]
-                        }
-                    })
-                    .state('settings.category', {
-                        url: "/category",
-                        templateUrl: "views/settings/category/category.html",
-                        data: {
-                            pageTitle: 'MENU.SETTINGS.CATEGORY'
-                        },
-                        resolve: {
-                            deps: [
-                                '$ocLazyLoad',
-                                function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'toaster']).then(
-                                        function () {
-                                            return $ocLazyLoad.load([{
-                                                files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
-                                            }, {
-                                                name: 'oitozero.ngSweetAlert',
-                                                files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
-                                            }, {
-                                                serie: true,
-                                                files: [
-                                                    'app/services/settings/category/category.service.js',
-                                                    'app/controllers/settings/category/energycategory.master.controller.js',
-                                                    'app/controllers/settings/category/energycategory.controller.js',
-                                                    'app/services/settings/category/energyitem.service.js',
-                                                    'app/controllers/settings/category/energyitem.controller.js'
-                                                ]
-                                            }]);
-                                        }
-                                    );
-                                }
-                            ]
-                        }
-                    })
                     .state('settings.energyflowdiagram', {
                         url: "/energyflowdiagram",
                         templateUrl: "views/settings/energyflowdiagram/energyflowdiagram.html",
@@ -989,11 +994,11 @@ app
                             ]
                         }
                     })
-                    .state('settings.contact', {
-                        url: "/contact",
-                        templateUrl: "views/settings/contact/contact.html",
+                    .state('settings.menu', {
+                        url: "/menu",
+                        templateUrl: "views/settings/menu/menu.html",
                         data: {
-                            pageTitle: 'MENU.SETTINGS.CONTACT'
+                            pageTitle: 'MENU.SETTINGS.MENU',
                         },
                         resolve: {
                             deps: [
@@ -1009,8 +1014,9 @@ app
                                             }, {
                                                 serie: true,
                                                 files: [
-                                                    'app/services/settings/contact/contact.service.js',
-                                                    'app/controllers/settings/contact/contact.controller.js'
+                                                    'app/services/settings/menu/menu.service.js',
+                                                    'app/controllers/settings/menu/menu.controller.js',
+                                                    'app/controllers/settings/menu/menu.master.controller.js'
                                                 ]
                                             }]);
                                         }
@@ -1018,6 +1024,7 @@ app
                                 }
                             ]
                         }
+
                     })
                     .state('settings.emailserver', {
                         url: "/emailserver",
@@ -1041,43 +1048,6 @@ app
                                                 files: [
                                                     'app/services/settings/emailserver/emailserver.service.js',
                                                     'app/controllers/settings/emailserver/emailserver.controller.js'
-                                                ]
-                                            }]);
-                                        }
-                                    );
-                                }
-                            ]
-                        }
-                    })
-
-                    .state('settings.gateway', {
-                        url: "/gateway",
-                        templateUrl: "views/settings/gateway/gateway.html",
-                        data: {
-                            pageTitle: 'MENU.SETTINGS.GATEWAY',
-                        },
-                        resolve: {
-                            deps: [
-                                '$ocLazyLoad',
-                                function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'toaster']).then(
-                                        function () {
-                                            return $ocLazyLoad.load([{
-                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
-                                            }, {
-                                                name: 'ui.footable',
-                                                files: ['js/plugins/footable/angular-footable.js']
-                                            }, {
-                                                files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
-                                            }, {
-                                                name: 'oitozero.ngSweetAlert',
-                                                files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
-                                            }, {
-                                                serie: true,
-                                                files: [
-                                                    'app/services/settings/gateway/gateway.service.js',
-                                                    'app/controllers/settings/gateway/gateway.master.controller.js',
-                                                    'app/controllers/settings/gateway/gateway.controller.js',
                                                 ]
                                             }]);
                                         }
@@ -1151,49 +1121,6 @@ app
                             ]
                         }
 
-                    })
-                    .state('settings.tariff', {
-                        url: "/tariff",
-                        templateUrl: "views/settings/tariff/tariff.html",
-                        data: {
-                            pageTitle: 'MENU.SETTINGS.TARIFF'
-                        },
-                        resolve: {
-                            deps: [
-                                '$ocLazyLoad',
-                                function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load(['ui.select', 'toaster']).then(
-                                        function () {
-                                            return $ocLazyLoad.load([{
-                                                serie: true,
-                                                files: ['js/daterangepicker/daterangepicker.min.js', 'js/daterangepicker/daterangepicker.min.css']
-                                            }, {
-                                                name: 'daterangepicker',
-                                                files: ['js/daterangepicker/angular-daterangepicker.min.js']
-                                            }, {
-                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
-                                            }, {
-                                                name: 'ui.footable',
-                                                files: ['js/plugins/footable/angular-footable.js']
-                                            }, {
-                                                files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
-                                            }, {
-                                                name: 'oitozero.ngSweetAlert',
-                                                files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
-                                            }, {
-                                                serie: true,
-                                                files: [
-                                                    'app/services/settings/tariff/tariff.service.js',
-                                                    'app/services/settings/tariff/tariff.const.js',
-                                                    'app/services/settings/category/category.service.js',
-                                                    'app/controllers/settings/tariff/tariff.controller.js'
-                                                ]
-                                            }]);
-                                        }
-                                    );
-                                }
-                            ]
-                        }
                     })
                     .state('users', {
                         abstract: true,
