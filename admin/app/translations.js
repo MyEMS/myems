@@ -24,7 +24,7 @@ function config($translateProvider) {
                 DATA_SOURCE: 'Data Source',
                 SENSOR: 'Sensor',
                 ENERGY_FLOW_DIAGRAM: 'Energy Flow Diagram',
-
+                MENU: 'Menu',
                 PERIOD: {
                     LABEL: 'Date period',
                     YEAR: 'Year',
@@ -33,8 +33,6 @@ function config($translateProvider) {
                     HOUR: 'Hour',
                 },
                 DATE: 'Date Range',
-                BASEMETER: 'Base Meter',
-                ANALYSISMETER: 'Analysis Meter',
                 ANALYSIS: {
                     LABEL: 'Analysis Type',
                     ENERGY: 'Energy',
@@ -144,6 +142,7 @@ function config($translateProvider) {
                     CATEGORY: 'Energy Categories',
                     ENERGY_FLOW_DIAGRAM: 'Energy Flow Diagram',
                     DISTRIBUTION_SYSTEM: 'Distribution System',
+                    MENU: 'Menu Settings',
                     TARIFF: 'Tariff Settings',
                     EMAIL_SERVER: 'Email Server Settings',
                     GSM_MODEM: 'GSM Modem Settings',
@@ -351,6 +350,13 @@ function config($translateProvider) {
                 RESTORE: 'Restore',
                 RESTORE_SUCCESS: 'Restore Success',
                 RESTORE_FAILED: 'Restore Failed',
+
+                SELECT_MENU: 'Select Menu',
+                CURRENT_SELECTED_MENU: 'Current Selected Menu',
+                PARENT_MENU: 'Parent Menu',
+                IS_HIDDEN: 'Is Hidden',
+                CHILD_MENUS: 'Child Menus',
+                EDIT_MENU: 'Edit Menu'
             },
             CONTACT: {
                 EMAIL: 'Email',
@@ -894,8 +900,7 @@ function config($translateProvider) {
                 DATA_SOURCE: '数据源',
                 SENSOR: '传感器',
                 ENERGY_FLOW_DIAGRAM: '能流图',
-
-                UTILITY: '效用',
+                MENU: '菜单',
                 PERIOD: {
                     LABEL: '选择范围',
                     YEAR: '年',
@@ -904,8 +909,6 @@ function config($translateProvider) {
                     HOUR: '时',
                 },
                 DATE: '日期',
-                BASEMETER: '基准表',
-                ANALYSISMETER: '分析表',
                 ANALYSIS: {
                     LABEL: '显示方式',
                     ENERGY: '能耗',
@@ -1015,6 +1018,7 @@ function config($translateProvider) {
                     CATEGORY: '能源分类管理',
                     ENERGY_FLOW_DIAGRAM: '能流图管理',
                     DISTRIBUTION_SYSTEM: '配电系统管理',
+                    MENU: '菜单管理',
                     TARIFF: '能源费率管理',
                     EMAIL_SERVER: '邮件服务器设置',
                     GSM_MODEM: '短信模块设置',
@@ -1230,6 +1234,13 @@ function config($translateProvider) {
                 RESTORE: '恢复',
                 RESTORE_SUCCESS: '恢复成功',
                 RESTORE_FAILED: '恢复失败',
+
+                SELECT_MENU: '选择菜单',
+                CURRENT_SELECTED_MENU: '当前选定菜单',
+                PARENT_MENU: '上级菜单',
+                IS_HIDDEN: '是否隐藏',
+                CHILD_MENUS: '下级菜单',
+                EDIT_MENU: '编辑菜单'
             },
             CONTACT: {
                 EMAIL: '邮箱',
@@ -1758,8 +1769,7 @@ function config($translateProvider) {
                 DATA_SOURCE: 'Datenquelle',
                 SENSOR: 'Sensor',
                 ENERGY_FLOW_DIAGRAM: 'Energieflussdiagramm',
-
-                UTILITY: 'Nützlichkeit',
+                MENU: 'Menü',
                 PERIOD: {
                     LABEL: 'Bereich auswählen',
                     YEAR: 'Jahr',
@@ -1768,8 +1778,6 @@ function config($translateProvider) {
                     HOUR: 'Zeit',
                 },
                 DATE: 'Datum',
-                BASEMETER: 'Benchmark-Tabelle',
-                ANALYSISMETER: 'Analysetabelle',
                 ANALYSIS: {
                     LABEL: 'Anzeigemethode',
                     ENERGY: 'Energieverbrauch',
@@ -1879,6 +1887,7 @@ function config($translateProvider) {
                     CATEGORY: 'Energieklassifizierungsmanagement',
                     ENERGY_FLOW_DIAGRAM: 'Energieflussdiagramm-Management',
                     DISTRIBUTION_SYSTEM: 'Verwaltung des Verteilungssystems',
+                    MENU: 'Verwaltung des Menüs',
                     TARIFF: 'Energieratenmanagement',
                     EMAIL_SERVER: 'Mailserver-Einstellungen',
                     GSM_MODEM: 'SMS-Moduleinstellungen',
@@ -2095,6 +2104,13 @@ function config($translateProvider) {
                 RESTORE: 'wiederherstellen',
                 RESTORE_SUCCESS: 'Erfolgreiche Genesung',
                 RESTORE_FAILED: 'Wiederherstellung fehlgeschlagen',
+
+                SELECT_MENU: 'Menü auswählen',
+                CURRENT_SELECTED_MENU: 'Aktuelles Menü',
+                PARENT_MENU: 'Superior Menü',
+                IS_HIDDEN: 'Ist versteckt',
+                CHILD_MENUS: 'Unteres Menü',
+                EDIT_MENU: 'Menü bearbeiten'
             },
             CONTACT: {
                 EMAIL: 'Briefkasten',

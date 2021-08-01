@@ -1,0 +1,97 @@
+<div class="wrapper wrapper-content" ng-controller="MenuMasterController">
+
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="tabs-container">
+
+				<uib-tabset>
+					<uib-tab heading="{{'COMMON.MENU' | translate}}">
+						<div class="panel-body" ng-controller="MenuController">
+							<div class="row">
+								<div class="col-lg-3">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'SETTING.SELECT_MENU' | translate}}
+										</div>
+										<div class="panel-body" style="overflow: auto; max-height: 700px;">
+											<div id="menutree"></div>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-9">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'SETTING.CURRENT_SELECTED_MENU' | translate}}
+										</div>
+										<div class="panel-body">
+											<table class="table table-bordered table-hover">
+												<thead>
+													<tr>
+														<th class="text-center">{{'SETTING.ID' | translate}}</th>
+														<th class="text-center">{{'SETTING.NAME' | translate}}</th>
+														<th class="text-center">{{'SETTING.PARENT_MENU' | translate}}</th>
+														<th class="text-center">
+															{{'SETTING.IS_HIDDEN' | translate}}
+														</th>
+														<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr >
+														<td class="text-center">{{ currentMenu.id }}</td>
+														<td class="text-center">{{ currentMenu.name }}</td>
+														<td class="text-center">{{ currentMenu.parent_menu.name }}</td>
+														<td class="text-center">{{ currentMenu.is_hidden }}</td>
+															{{ currentMenu.is_hidden==false?'SETTING.NO':'SETTING.YES' | translate }}
+														</td>
+														<td class="text-center">
+															<a class="btn btn-primary btn-rounded btn-xs"
+																ng-click="editMenu(currentMenu)">{{'SETTING.EDIT' | translate}}</a>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'SETTING.CHILD_MENUS' | translate}}
+										</div>
+										<div class="panel-body">
+											<table class="table table-bordered table-hover">
+												<thead>
+													<tr >
+														<th class="text-center">{{'SETTING.ID' | translate}}</th>
+														<th class="text-center">{{'SETTING.NAME' | translate}}</th>
+														<th class="text-center">{{'SETTING.PARENT_MENU' | translate}}</th>
+														<th class="text-center">{{'SETTING.IS_HIDDEN' | translate}}</th>
+														<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr ng-repeat="menu in currentMenuChildren">
+														<td class="text-center">{{ menu.id }}</td>
+														<td class="text-center">{{ menu.name }}</td>
+														<td class="text-center">{{ menu.parent_menu.name }}</td>
+														<td class="text-center">
+															{{ menu.is_hidden==false?'SETTING.NO':'SETTING.YES' | translate }}
+														</td>
+														<td class="text-center">
+															<a class="btn btn-primary btn-rounded btn-xs"
+																ng-click="editMenu(menu)">{{'SETTING.EDIT' | translate}}
+															</a>															
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</uib-tab>
+				</uib-tabset>
+			</div>
+		</div>
+	</div>
+</div>

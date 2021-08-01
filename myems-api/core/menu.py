@@ -34,7 +34,7 @@ class MenuCollection:
                         "path": row['path'],
                         "name": row['name'],
                         "parent_menu_id": row['parent_menu_id'],
-                        "is_hidden": row['is_hidden']}
+                        "is_hidden": bool(row['is_hidden'])}
 
                 result.append(temp)
 
@@ -73,7 +73,7 @@ class MenuItem:
                       "path": rows_menu['path'],
                       "name": rows_menu['name'],
                       "parent_menu_id": rows_menu['parent_menu_id'],
-                      "is_hidden": rows_menu['is_hidden']}
+                      "is_hidden": bool(rows_menu['is_hidden'])}
 
         cursor.close()
         cnx.disconnect()
@@ -149,7 +149,7 @@ class MenuChildrenCollection:
                             "path": row_current_menu['path'],
                             "name": row_current_menu['name'],
                             "parent_menu_id": row_current_menu['parent_menu_id'],
-                            "is_hidden": row_current_menu['is_hidden']}
+                            "is_hidden": bool(row_current_menu['is_hidden'])}
             current_menu_id = row_current_menu['id']
 
         query = (" SELECT id, path, name, parent_menu_id, is_hidden"
@@ -167,7 +167,7 @@ class MenuChildrenCollection:
                         "path": row['path'],
                         "name": row['name'],
                         "parent_menu": current_menu,
-                        "is_hidden": row['is_hidden']
+                        "is_hidden": bool(row['is_hidden'])
                     }
                 )
 
@@ -195,43 +195,34 @@ class MenuWebCollection:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor(dictionary=True)
 
-        query = (" SELECT id, path,  parent_menu_id, is_hidden "
+        query = (" SELECT id, path, parent_menu_id, is_hidden "
                  " FROM tbl_menus "
-                 " WHERE parent_menu_id is NULL "
-                 " AND is_hidden=0 ")
+                 " WHERE parent_menu_id is NULL AND is_hidden == false ")
         cursor.execute(query)
         rows_menus = cursor.fetchall()
 
         first_paths = {}
         if rows_menus is not None and len(rows_menus) > 0:
             for row in rows_menus:
-                _id = row['id']
-                path = row['path']
-                first_paths[_id] = {
-                    'path': path,
+                first_paths[row['id']] = {
+                    'path': row['path'],
                     'children': []
                 }
 
-        query = (" SELECT id, path,  parent_menu_id, is_hidden "
+        query = (" SELECT id, path, parent_menu_id, is_hidden "
                  " FROM tbl_menus "
-                 " WHERE parent_menu_id is not NULL "
-                 " AND is_hidden=0 ")
+                 " WHERE parent_menu_id is not NULL AND is_hidden == false ")
         cursor.execute(query)
         rows_menus = cursor.fetchall()
 
         if rows_menus is not None and len(rows_menus) > 0:
             for row in rows_menus:
-                _id = row['id']
-                parent_menu_id = row['parent_menu_id']
-                path = row['path']
-                if parent_menu_id in first_paths.keys():
-                    first_paths[parent_menu_id]['children'].append(path)
+                if row['parent_menu_id'] in first_paths.keys():
+                    first_paths[row['parent_menu_id']]['children'].append(row['path'])
 
         result = dict()
         for _id, item in first_paths.items():
-            first_path = item['path']
-            children = item['children']
-            result[first_path] = children
+            result[item['path']] = item['children']
 
         cursor.close()
         cnx.disconnect()
