@@ -159,7 +159,7 @@ View in Postman: import the file MyEMS.postman_collection.json with Postman
 
 [Data Source](#Data-Source) | [Point](#Point)
 
-[Tariff](#Tariff) | [Cost Center](#Cost-Center) | [Cost File](#Offline-Cost-File)
+[Tariff](#Tariff) | [Cost Center](#Cost-Center) | [Cost File](#Cost-File)
 
 [Meter](#Meter) | [Virtual Meter](#Virtual-Meter) | [Offline Meter](#Offline-Meter) | [Offline Meter File](#Offline-Meter-File) 
 
@@ -178,6 +178,8 @@ View in Postman: import the file MyEMS.postman_collection.json with Postman
 [User](#User) | [Privilege](#Privilege) | [Contact](#Contact)  | [Notification](#Notification)
 
 [Timezone](#Timezone)
+
+[Menu](#Menu)
 
 [Knowledge File](#Knowledge-File)
 
@@ -976,9 +978,13 @@ $ curl -i -X GET {{base_url}}/menus
 ```bash
 $ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"is_hidden": false}}' {{base_url}}/menus/{id}
 ```
-* Get All Menus for web
+* Get All Menus for Web UI
 ```bash
-$ curl -i -X GET {{base_url}}/web/menus
+$ curl -i -X GET {{base_url}}/menus/web
+```
+* GET All Children of Menu by ID
+```bash
+$ curl -i -X GET {{base_url}}/menus/{id}/children
 ```
 
 
