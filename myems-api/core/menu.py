@@ -2,10 +2,6 @@ import falcon
 import simplejson as json
 import mysql.connector
 import config
-import uuid
-from datetime import datetime
-from anytree import AnyNode
-from anytree.exporter import JsonExporter
 
 
 class MenuCollection:
@@ -22,7 +18,7 @@ class MenuCollection:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor(dictionary=True)
 
-        query = (" SELECT id, path, name, parent_menu_id, is_hidden "
+        query = (" SELECT id, name, route, parent_menu_id, is_hidden "
                  " FROM tbl_menus ")
         cursor.execute(query)
         rows_menus = cursor.fetchall()
@@ -31,8 +27,8 @@ class MenuCollection:
         if rows_menus is not None and len(rows_menus) > 0:
             for row in rows_menus:
                 temp = {"id": row['id'],
-                        "path": row['path'],
                         "name": row['name'],
+                        "route": row['route'],
                         "parent_menu_id": row['parent_menu_id'],
                         "is_hidden": bool(row['is_hidden'])}
 
@@ -61,7 +57,7 @@ class MenuItem:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor(dictionary=True)
 
-        query = (" SELECT id, path, name, parent_menu_id, is_hidden "
+        query = (" SELECT id, name, route, parent_menu_id, is_hidden "
                  " FROM tbl_menus "
                  " WHERE id=%s ")
         cursor.execute(query, (id_,))
@@ -70,8 +66,8 @@ class MenuItem:
         result = None
         if rows_menu is not None and len(rows_menu) > 0:
             result = {"id": rows_menu['id'],
-                      "path": rows_menu['path'],
                       "name": rows_menu['name'],
+                      "route": rows_menu['route'],
                       "parent_menu_id": rows_menu['parent_menu_id'],
                       "is_hidden": bool(rows_menu['is_hidden'])}
 
@@ -132,7 +128,7 @@ class MenuChildrenCollection:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor(dictionary=True)
 
-        query = (" SELECT id, path, name, parent_menu_id, is_hidden  "
+        query = (" SELECT id, name, route, parent_menu_id, is_hidden "
                  " FROM tbl_menus "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -142,39 +138,42 @@ class MenuChildrenCollection:
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.MENU_NOT_FOUND')
-        current_menu = None
-        current_menu_id = None
-        if row_current_menu is not None and len(row_current_menu) > 0:
-            current_menu = {"id": row_current_menu['id'],
-                            "path": row_current_menu['path'],
-                            "name": row_current_menu['name'],
-                            "parent_menu_id": row_current_menu['parent_menu_id'],
-                            "is_hidden": bool(row_current_menu['is_hidden'])}
-            current_menu_id = row_current_menu['id']
 
-        query = (" SELECT id, path, name, parent_menu_id, is_hidden"
-                 " FROM tbl_menus "
-                 " WHERE parent_menu_id = %s")
-        cursor.execute(query, (current_menu_id,))
+        query = (" SELECT id, name "
+                 " FROM tbl_menus ")
+        cursor.execute(query)
         rows_menus = cursor.fetchall()
 
-        children_menus = []
+        menu_dict = dict()
         if rows_menus is not None and len(rows_menus) > 0:
             for row in rows_menus:
-                children_menus.append(
-                    {
-                        "id": row['id'],
-                        "path": row['path'],
-                        "name": row['name'],
-                        "parent_menu": current_menu,
-                        "is_hidden": bool(row['is_hidden'])
-                    }
-                )
+                menu_dict[row['id']] = {"id": row['id'],
+                                        "name": row['name']}
 
-        result = {
-            "current": current_menu,
-            "children": children_menus,
-        }
+        result = dict()
+        result['current'] = dict()
+        result['current']['id'] = row_current_menu['id']
+        result['current']['name'] = row_current_menu['name']
+        result['current']['parent_menu'] = menu_dict.get(row_current_menu['parent_menu_id'], None)
+        result['current']['is_hidden'] = bool(row_current_menu['is_hidden'])
+
+        result['children'] = list()
+
+        query = (" SELECT id, name, route, parent_menu_id, is_hidden "
+                 " FROM tbl_menus "
+                 " WHERE parent_menu_id = %s "
+                 " ORDER BY id ")
+        cursor.execute(query, (id_, ))
+        rows_menus = cursor.fetchall()
+
+        if rows_menus is not None and len(rows_menus) > 0:
+            for row in rows_menus:
+                parent_menu = menu_dict.get(row['parent_menu_id'], None)
+                meta_result = {"id": row['id'],
+                               "name": row['name'],
+                               "parent_menu": parent_menu,
+                               "is_hidden": bool(row['is_hidden'])}
+                result['children'].append(meta_result)
 
         cursor.close()
         cnx.disconnect()
