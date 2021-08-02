@@ -122,7 +122,7 @@ const NavbarTopDropDownMenus = ({ setRedirectUrl, setRedirect, setNavbarCollapse
 
   return (
     <>
-      {viewComponentArr.length !== 0 && viewComponentArr.map(arr =>
+      {viewComponentArr != null && viewComponentArr.map(arr =>
         {
           if ('children' in arr) {
             return(
