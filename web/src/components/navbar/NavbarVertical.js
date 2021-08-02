@@ -1,10 +1,10 @@
 import classNames from 'classnames';
 import is from 'is_js';
 import PropTypes from 'prop-types';
-import React, { useContext, useEffect, useRef } from 'react';
-import { Button, Collapse, Nav, Navbar } from 'reactstrap';
+import React, {useContext, useEffect, useRef, useState} from 'react';
+import {Button, Collapse, Nav, Navbar, NavItem} from 'reactstrap';
 import bgNavbarImg from '../../assets/img/generic/bg-navbar.png';
-import { navbarBreakPoint, topNavbarBreakpoint } from '../../config';
+import {APIBaseURL, navbarBreakPoint, topNavbarBreakpoint} from '../../config';
 import AppContext from '../../context/Context';
 import routes from '../../routes';
 import Flex from '../common/Flex';
@@ -13,8 +13,31 @@ import NavbarTopDropDownMenus from './NavbarTopDropDownMenus';
 import NavbarVerticalMenu from './NavbarVerticalMenu';
 import ToggleButton from './ToggleButton';
 import { withTranslation } from 'react-i18next';
+import {createCookie, getCookieValue} from "../../helpers/utils";
+import {toast} from "react-toastify";
+import withRedirect from "../../hoc/withRedirect";
 
-const NavbarVertical = ({ navbarStyle, t }) => {
+const NavbarVertical = ({ setRedirectUrl, setRedirect, navbarStyle, t }) => {
+
+  useEffect(() => {
+    let is_logged_in = getCookieValue('is_logged_in');
+    let user_name = getCookieValue('user_name');
+    let user_display_name = getCookieValue('user_display_name');
+    let user_uuid = getCookieValue('user_uuid');
+    let token = getCookieValue('token');
+    if (is_logged_in === null || !is_logged_in) {
+      setRedirectUrl(`/authentication/basic/login`);
+      setRedirect(true);
+    } else {
+      //update expires time of cookies
+      createCookie('is_logged_in', true, 1000 * 60 * 60 * 8);
+      createCookie('user_name', user_name, 1000 * 60 * 60 * 8);
+      createCookie('user_display_name', user_display_name, 1000 * 60 * 60 * 8);
+      createCookie('user_uuid', user_uuid, 1000 * 60 * 60 * 8);
+      createCookie('token', token, 1000 * 60 * 60 * 8);
+    }
+  });
+
   const navBarRef = useRef(null);
 
   const {
@@ -31,6 +54,8 @@ const NavbarVertical = ({ navbarStyle, t }) => {
   if (isNavbarVerticalCollapsed) {
     HTMLClassList.add('navbar-vertical-collapsed');
   }
+
+  const [ showRoutes, setShowRoutes] = useState([routes[0]]);
 
   useEffect(() => {
     if (is.windows()) {
@@ -56,6 +81,56 @@ const NavbarVertical = ({ navbarStyle, t }) => {
       }, 100);
     }
   };
+
+  useEffect(() => {
+    let isResponseOK = false;
+    fetch(APIBaseURL + '/menus/web', {
+      method: 'GET',
+      headers: {
+        "Content-type": "application/json",
+        "User-UUID": getCookieValue('user_uuid'),
+        "Token": getCookieValue('token')
+      },
+      body: null,
+
+    }).then(response => {
+      //console.log(response);
+      if (response.ok) {
+        isResponseOK = true;
+      }
+      return response.json();
+    }).then(json => {
+      //console.log(json);
+      if (isResponseOK) {
+        let showRoutes = [routes[0]];
+        for (let i = 0; i < routes.length; i++) {
+          let route = routes[i];
+          if(route.to in json && 'children' in route) {
+            let showChildren = [];
+            for (let j = 0; j < route.children.length; j++) {
+              const child = route.children[j];
+              if(json[route.to].indexOf(child.to) !== -1) {
+                showChildren.push(child);
+              }
+            }
+            route.children = showChildren;
+
+            showRoutes.push(route)
+
+          }else if(route.to in json) {
+            showRoutes.push(route)
+          }
+        }
+
+        setShowRoutes(showRoutes);
+      } else {
+        toast.error(json.description);
+      }
+    }).catch(err => {
+      console.log(err);
+    });
+  }, [ ]);
+
   return (
     <Navbar
       expand={navbarBreakPoint}
@@ -89,7 +164,7 @@ const NavbarVertical = ({ navbarStyle, t }) => {
         }
       >
         <Nav navbar vertical>
-          <NavbarVerticalMenu routes={routes} />
+          <NavbarVerticalMenu routes={showRoutes} />
         </Nav>
         <div className="settings px-3 px-xl-0">
           {isCombo && (
@@ -130,4 +205,4 @@ NavbarVertical.defaultProps = {
   navbarStyle: 'transparent'
 };
 
-export default withTranslation()(NavbarVertical);
+export default withTranslation()(withRedirect(NavbarVertical));
