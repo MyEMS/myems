@@ -194,34 +194,34 @@ class MenuWebCollection:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor(dictionary=True)
 
-        query = (" SELECT id, path, parent_menu_id, is_hidden "
+        query = (" SELECT id, route, parent_menu_id "
                  " FROM tbl_menus "
-                 " WHERE parent_menu_id is NULL AND is_hidden == false ")
+                 " WHERE parent_menu_id IS NULL AND is_hidden = false ")
         cursor.execute(query)
         rows_menus = cursor.fetchall()
 
-        first_paths = {}
+        first_level_routes = {}
         if rows_menus is not None and len(rows_menus) > 0:
             for row in rows_menus:
-                first_paths[row['id']] = {
-                    'path': row['path'],
+                first_level_routes[row['id']] = {
+                    'route': row['route'],
                     'children': []
                 }
 
-        query = (" SELECT id, path, parent_menu_id, is_hidden "
+        query = (" SELECT id, route, parent_menu_id "
                  " FROM tbl_menus "
-                 " WHERE parent_menu_id is not NULL AND is_hidden == false ")
+                 " WHERE parent_menu_id IS NOT NULL AND is_hidden = false ")
         cursor.execute(query)
         rows_menus = cursor.fetchall()
 
         if rows_menus is not None and len(rows_menus) > 0:
             for row in rows_menus:
-                if row['parent_menu_id'] in first_paths.keys():
-                    first_paths[row['parent_menu_id']]['children'].append(row['path'])
+                if row['parent_menu_id'] in first_level_routes.keys():
+                    first_level_routes[row['parent_menu_id']]['children'].append(row['route'])
 
         result = dict()
-        for _id, item in first_paths.items():
-            result[item['path']] = item['children']
+        for _id, item in first_level_routes.items():
+            result[item['route']] = item['children']
 
         cursor.close()
         cnx.disconnect()
