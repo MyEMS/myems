@@ -19,7 +19,8 @@ class MenuCollection:
         cursor = cnx.cursor(dictionary=True)
 
         query = (" SELECT id, name, route, parent_menu_id, is_hidden "
-                 " FROM tbl_menus ")
+                 " FROM tbl_menus "
+                 " ORDER BY id ")
         cursor.execute(query)
         rows_menus = cursor.fetchall()
 
@@ -140,7 +141,8 @@ class MenuChildrenCollection:
                                    description='API.MENU_NOT_FOUND')
 
         query = (" SELECT id, name "
-                 " FROM tbl_menus ")
+                 " FROM tbl_menus "
+                 " ORDER BY id ")
         cursor.execute(query)
         rows_menus = cursor.fetchall()
 
