@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('MenuController', function ($scope, $common, $uibModal, MenuService, CostCenterService, ContactService, toaster, $translate, SweetAlert) {
+app.controller('MenuController', function ($scope, $common, $uibModal, MenuService, toaster, $translate, SweetAlert) {
 	$scope.menus = [];
 	$scope.currentMenuID = null;
 	$scope.currentMenu = {};
@@ -98,9 +98,6 @@ app.controller('MenuController', function ($scope, $common, $uibModal, MenuServi
 					return {
 						menu: angular.copy(menu),
 						menus: angular.copy($scope.menus),
-						timezones: angular.copy($scope.timezones),
-						costcenters: angular.copy($scope.costcenters),
-						contacts: angular.copy($scope.contacts),
 					};
 				}
 			}
