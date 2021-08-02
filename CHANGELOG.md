@@ -16,6 +16,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None.
 
+## [v1.1.6] - 2021-08-02
+### Added
+- Added Meter Batch Analysis Report
+- Added Child Space Share Pies for SpaceCost in Web UI
+- Added Web UI & Admin UI Installation Guide on Apache Web Server
+- Added Docerfiles
+- Added Customized Menus in Web UI, API and Admin UI
+
+### Changed
+- None.
+
+### Fixed
+- Upgraded jquery to v2.2.4 in Admin UI
+
+### Removed
+- None.
+
 ## [v1.1.5] - 2021-07-20
 ### Added
 - None.
@@ -305,7 +322,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v1.1.5...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v1.1.6...HEAD
+[v1.1.4]: https://github.com/MyEMS/myems/compare/v1.1.5...v1.1.6
 [v1.1.4]: https://github.com/MyEMS/myems/compare/v1.1.4...v1.1.5
 [v1.1.4]: https://github.com/MyEMS/myems/compare/v1.1.3...v1.1.4
 [v1.1.3]: https://github.com/MyEMS/myems/compare/v1.1.2...v1.1.3
