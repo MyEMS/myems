@@ -2,7 +2,7 @@
 
 app.controller('MenuController', function ($scope, $common, $uibModal, MenuService, CostCenterService, ContactService, toaster, $translate, SweetAlert) {
 	$scope.menus = [];
-	$scope.currentMenuID = 1;
+	$scope.currentMenuID = null;
 	$scope.currentMenu = {};
 	$scope.currentMenuChildren = [];
 

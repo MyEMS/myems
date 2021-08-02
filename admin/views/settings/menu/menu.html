@@ -30,9 +30,7 @@
 														<th class="text-center">{{'SETTING.ID' | translate}}</th>
 														<th class="text-center">{{'SETTING.NAME' | translate}}</th>
 														<th class="text-center">{{'SETTING.PARENT_MENU' | translate}}</th>
-														<th class="text-center">
-															{{'SETTING.IS_HIDDEN' | translate}}
-														</th>
+														<th class="text-center">{{'SETTING.IS_HIDDEN' | translate}}</th>
 														<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 													</tr>
 												</thead>
@@ -41,9 +39,7 @@
 														<td class="text-center">{{ currentMenu.id }}</td>
 														<td class="text-center">{{ currentMenu.name }}</td>
 														<td class="text-center">{{ currentMenu.parent_menu.name }}</td>
-														<td class="text-center">{{ currentMenu.is_hidden }}</td>
-															{{ currentMenu.is_hidden==false?'SETTING.NO':'SETTING.YES' | translate }}
-														</td>
+														<td class="text-center">{{ currentMenu.is_hidden==false?'SETTING.NO':'SETTING.YES' | translate }}</td>
 														<td class="text-center">
 															<a class="btn btn-primary btn-rounded btn-xs"
 																ng-click="editMenu(currentMenu)">{{'SETTING.EDIT' | translate}}</a>
@@ -73,9 +69,7 @@
 														<td class="text-center">{{ menu.id }}</td>
 														<td class="text-center">{{ menu.name }}</td>
 														<td class="text-center">{{ menu.parent_menu.name }}</td>
-														<td class="text-center">
-															{{ menu.is_hidden==false?'SETTING.NO':'SETTING.YES' | translate }}
-														</td>
+														<td class="text-center">{{ menu.is_hidden==false?'SETTING.NO':'SETTING.YES' | translate }}</td>
 														<td class="text-center">
 															<a class="btn btn-primary btn-rounded btn-xs"
 																ng-click="editMenu(menu)">{{'SETTING.EDIT' | translate}}
