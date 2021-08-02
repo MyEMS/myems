@@ -14,19 +14,6 @@ import NavbarDropdownComponents from './NavbarDropdownComponents';
 //   // utilityRoutes,
 //   // widgetsRoutes,
 //   // kanbanRoutes,
-//   dashboardRoutes,
-//   spaceRoutes,
-//   equipmentRoutes,
-//   meterRoutes,
-//   tenantRoutes,
-//   storeRoutes,
-//   shopfloorRoutes,
-//   combinedEquipmentRoutes,
-//   auxiliarySystemRoutes,
-//   fddRoutes,
-//   monitoringRoutes,
-//   advancedReportingRoutes,
-//   knowledgeBaseRoutes
 // } from '../../routes';
 import routes from '../../routes';
 import { NavItem } from 'reactstrap';
@@ -69,7 +56,7 @@ const NavbarTopDropDownMenus = ({ setRedirectUrl, setRedirect, setNavbarCollapse
     isCombo && windowWidth < breakpoints[navbarBreakPoint] && setShowBurgerMenu(false);
   };
   const isLanding = getPageName('landing');
-  const [ viewComponentArr, setViewComponentArr] = useState([routes[0]]);
+  const [ showRoutes, setShowRoutes] = useState([routes[0]]);
 
   useEffect(() => {
     let isResponseOK = false;
@@ -91,27 +78,25 @@ const NavbarTopDropDownMenus = ({ setRedirectUrl, setRedirect, setNavbarCollapse
     }).then(json => {
       //console.log(json);
       if (isResponseOK) {
-        const selectJson = {...json}
-        let newViewComponentArr = [routes[0]];
+        let showRoutes = [routes[0]];
         for (let i = 0; i < routes.length; i++) {
-          const route = routes[i];
-          let tempComponent = {... route};
-          if(route.to in selectJson && 'children' in route) {
-            let tempChild = [];
+          let route = routes[i];
+          if(route.to in json && 'children' in route) {
+            let showChildren = [];
             for (let j = 0; j < route.children.length; j++) {
               const child = route.children[j];
-              if(selectJson[route.to].indexOf(child.to) !== -1) {
-                tempChild.push(child);
+              if(json[route.to].indexOf(child.to) !== -1) {
+                showChildren.push(child);
               }
             }
-            tempComponent.children = tempChild;
+            route.children = showChildren;
 
-            newViewComponentArr.push(tempComponent)
-          }else if(route.to in selectJson) {
-            newViewComponentArr.push(tempComponent)
+            showRoutes.push(route)
+          }else if(route.to in json) {
+            showRoutes.push(route)
           }
         }
-        setViewComponentArr(newViewComponentArr);
+        setShowRoutes(showRoutes);
       } else {
         toast.error(json.description);
       }
@@ -122,21 +107,22 @@ const NavbarTopDropDownMenus = ({ setRedirectUrl, setRedirect, setNavbarCollapse
 
   return (
     <>
-      {viewComponentArr.map(arr =>
+      {showRoutes.map(route =>
         {
-          if ('children' in arr) {
+          if ('children' in route) {
             return(
                 <NavbarDropdownComponents
-                  title={t(arr.name)}
-                  items={[arr]}
+                  key={route.name}
+                  title={t(route.name)}
+                  items={[route]}
                   handleSetNavbarCollapsed={handleSetNavbarCollapsed}
                 />
             )
-          }else {
+          } else {
             return (
-              <NavItem onClick={handleSetNavbarCollapsed}>
-                <NavLink className="nav-link" to={arr.to}>
-                  {t(arr.name)}
+              <NavItem onClick={handleSetNavbarCollapsed} key={route.name}>
+                <NavLink className="nav-link" to={route.to}>
+                  {t(route.name)}
                 </NavLink>
               </NavItem>
             )
@@ -165,71 +151,6 @@ const NavbarTopDropDownMenus = ({ setRedirectUrl, setRedirect, setNavbarCollapse
           Documentation
         </NavLink>
       </NavItem> */}
-      {/*<NavItem onClick={handleSetNavbarCollapsed}>
-        <NavLink className="nav-link" to={dashboardRoutes.to}>
-          {t(dashboardRoutes.name)}
-        </NavLink>
-      </NavItem>
-      <NavbarDropdownComponents
-        title={t(spaceRoutes.name)}
-        items={[spaceRoutes]}
-        handleSetNavbarCollapsed={handleSetNavbarCollapsed}
-      />
-      <NavbarDropdownComponents
-        title={t(equipmentRoutes.name)}
-        items={[equipmentRoutes]}
-        handleSetNavbarCollapsed={handleSetNavbarCollapsed}
-      />
-      <NavbarDropdownComponents
-        title={t(meterRoutes.name)}
-        items={[meterRoutes]}
-        handleSetNavbarCollapsed={handleSetNavbarCollapsed}
-      />
-      <NavbarDropdownComponents
-        title={t(tenantRoutes.name)}
-        items={[tenantRoutes]}
-        handleSetNavbarCollapsed={handleSetNavbarCollapsed}
-      />
-      <NavbarDropdownComponents
-        title={t(storeRoutes.name)}
-        items={[storeRoutes]}
-        handleSetNavbarCollapsed={handleSetNavbarCollapsed}
-      />
-      <NavbarDropdownComponents
-        title={t(shopfloorRoutes.name)}
-        items={[shopfloorRoutes]}
-        handleSetNavbarCollapsed={handleSetNavbarCollapsed}
-      />
-      <NavbarDropdownComponents
-        title={t(combinedEquipmentRoutes.name)}
-        items={[combinedEquipmentRoutes]}
-        handleSetNavbarCollapsed={handleSetNavbarCollapsed}
-      />
-      <NavbarDropdownComponents
-        title={t(auxiliarySystemRoutes.name)}
-        items={[auxiliarySystemRoutes]}
-        handleSetNavbarCollapsed={handleSetNavbarCollapsed}
-      />
-      <NavbarDropdownComponents
-        title={t(fddRoutes.name)}
-        items={[fddRoutes]}
-        handleSetNavbarCollapsed={handleSetNavbarCollapsed}
-      />
-      <NavbarDropdownComponents
-        title={t(monitoringRoutes.name)}
-        items={[monitoringRoutes]}
-        handleSetNavbarCollapsed={handleSetNavbarCollapsed}
-      />
-      <NavItem onClick={handleSetNavbarCollapsed}>
-        <NavLink className="nav-link" to={advancedReportingRoutes.to}>
-          {t(advancedReportingRoutes.name)}
-        </NavLink>
-      </NavItem>
-      <NavItem onClick={handleSetNavbarCollapsed}>
-        <NavLink className="nav-link" to={knowledgeBaseRoutes.to}>
-          {t(knowledgeBaseRoutes.name)}
-        </NavLink>
-      </NavItem>*/}
     </>
   );
 };

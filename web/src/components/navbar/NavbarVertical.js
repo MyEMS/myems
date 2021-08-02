@@ -55,7 +55,7 @@ const NavbarVertical = ({ setRedirectUrl, setRedirect, navbarStyle, t }) => {
     HTMLClassList.add('navbar-vertical-collapsed');
   }
 
-  const [ viewComponentArr, setViewComponentArr] = useState([routes[0]]);
+  const [ showRoutes, setShowRoutes] = useState([routes[0]]);
 
   useEffect(() => {
     if (is.windows()) {
@@ -102,29 +102,27 @@ const NavbarVertical = ({ setRedirectUrl, setRedirect, navbarStyle, t }) => {
     }).then(json => {
       //console.log(json);
       if (isResponseOK) {
-        const selectJson = {...json}
-        let newViewComponentArr = [routes[0]];
+        let showRoutes = [routes[0]];
         for (let i = 0; i < routes.length; i++) {
-          const route = routes[i];
-          let tempComponent = {... route};
-          if(route.to in selectJson && 'children' in route) {
-            let tempChild = [];
+          let route = routes[i];
+          if(route.to in json && 'children' in route) {
+            let showChildren = [];
             for (let j = 0; j < route.children.length; j++) {
               const child = route.children[j];
-              if(selectJson[route.to].indexOf(child.to) !== -1) {
-                tempChild.push(child);
+              if(json[route.to].indexOf(child.to) !== -1) {
+                showChildren.push(child);
               }
             }
-            tempComponent.children = tempChild;
+            route.children = showChildren;
 
-            newViewComponentArr.push(tempComponent)
+            showRoutes.push(route)
 
-          }else if(route.to in selectJson) {
-            newViewComponentArr.push(tempComponent)
+          }else if(route.to in json) {
+            showRoutes.push(route)
           }
         }
 
-        setViewComponentArr(newViewComponentArr);
+        setShowRoutes(showRoutes);
       } else {
         toast.error(json.description);
       }
@@ -166,7 +164,7 @@ const NavbarVertical = ({ setRedirectUrl, setRedirect, navbarStyle, t }) => {
         }
       >
         <Nav navbar vertical>
-          <NavbarVerticalMenu routes={viewComponentArr} />
+          <NavbarVerticalMenu routes={showRoutes} />
         </Nav>
         <div className="settings px-3 px-xl-0">
           {isCombo && (
