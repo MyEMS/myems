@@ -861,11 +861,11 @@ VALUES
 (905,'Store Faults Data','/fdd/store',900,0),
 (906,'Shopfloor Faults Data','/fdd/shopfloor',900,0),
 (1000,'Monitoring','/monitoring',NULL,0),
-(1001,'Space Equipments','/monitoring/space',1000,0),
-(1002,'Combined Equipments','/monitoring/equipment',1000,0),
-(1003,'Tenant Equipments','/monitoring/combinedequipment',1000,0),
-(1004,'Store Equipments','/monitoring/tenant',1000,0),
-(1005,'Shopfloor Equipments','/monitoring/store',1000,0),
+(1001,'Space Equipments','/monitoring/spaceequipments',1000,0),
+(1002,'Combined Equipments','/monitoring/combinedequipments',1000,0),
+(1003,'Tenant Equipments','/monitoring/tenantequipments',1000,0),
+(1004,'Store Equipments','/monitoring/storeequipments',1000,0),
+(1005,'Shopfloor Equipments','/monitoring/shopfloorequipments',1000,0),
 (1100,'Advanced Reporting','/advancedreporting',NULL,0),
 (1200,'Knowledge Base','/knowledgebase',NULL,0);
 
@@ -2358,6 +2358,6 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '1.1.6', '2021-08-02');
+(1, '1.2.0', '2021-08-08');
 
 COMMIT;
