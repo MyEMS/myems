@@ -73,6 +73,7 @@ git clone https://gitee.com/myems/myems.git
 
 # for generate the static direction: 'build'
 cd myems/web
+npm install
 npm run build
 
 cd myems
