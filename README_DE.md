@@ -206,6 +206,12 @@ Dieses Projekt besteht aus folgenden Komponenten:
 ![MyEMS Space EnergyCategory3](/docs/images/myems-space-energycategory3.gif)
 ![MyEMS Großbild-Dashboard](/docs/images/myems-large-screen-dashboard.gif)
 
+
+## MyEMS Straßenkarte
+
+Community Edition [Straßenkarte](https://github.com/orgs/MyEMS/projects)
+
+
 ## MyEMS Spiegel
 
 [1]. http://github.com/MyEMS/myems

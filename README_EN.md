@@ -209,6 +209,11 @@ This project is compose of  following components:
 ![MyEMS Large Screen Dashboard](/docs/images/myems-large-screen-dashboard.gif)
 
 
+## MyEMS Roadmap
+
+Community Edition [Roadmap](https://github.com/orgs/MyEMS/projects)
+
+
 ## MyEMS Mirrors
 
 [1]. http://github.com/MyEMS/myems
