@@ -8,4 +8,5 @@ RUN rm /etc/nginx/conf.d/default.conf && \
 # copy the config and web codes
 COPY nginx.conf /etc/nginx/
 COPY . /usr/share/nginx/admin
+EXPOSE 8001
 CMD ['nginx', '-c /etc/nginx/nginx.conf', '-g "daemon off;"']
