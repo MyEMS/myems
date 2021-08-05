@@ -1,7 +1,7 @@
 import base64
 import uuid
 import os
-from openpyxl.styles import PatternFill, Border, Side, Alignment, Protection, Font
+from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 from openpyxl.drawing.image import Image
 from openpyxl import Workbook
 
@@ -99,12 +99,6 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
                               indent=0)
     b_r_alignment = Alignment(vertical='bottom',
                               horizontal='right',
-                              text_rotation=0,
-                              wrap_text=True,
-                              shrink_to_fit=False,
-                              indent=0)
-    c_r_alignment = Alignment(vertical='bottom',
-                              horizontal='center',
                               text_rotation=0,
                               wrap_text=True,
                               shrink_to_fit=False,

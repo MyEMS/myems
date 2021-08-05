@@ -1,12 +1,7 @@
 import base64
 import uuid
 import os
-from openpyxl.chart import (
-    LineChart,
-    BarChart,
-    Reference,
-    Series
-)
+from openpyxl.chart import LineChart, Reference, Series
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 from openpyxl.drawing.image import Image
 from openpyxl import Workbook

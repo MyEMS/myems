@@ -1,12 +1,8 @@
 import base64
 import uuid
 import os
-from openpyxl.chart import (
-    LineChart,
-    PieChart,
-    BarChart,
-    Reference,
-)
+from decimal import Decimal
+from openpyxl.chart import LineChart, PieChart, Reference
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 from openpyxl.drawing.image import Image
 from openpyxl import Workbook
@@ -776,7 +772,7 @@ def generate_excel(report,
 
 
 def sum_list(lists):
-    total = 0
+    total = Decimal(0)
 
     for i in range(0, len(lists)):
         total += lists[i]
