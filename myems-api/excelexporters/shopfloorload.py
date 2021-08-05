@@ -1,10 +1,7 @@
 import base64
 import uuid
 import os
-from openpyxl.chart import (
-    LineChart,
-    Reference,
-)
+from openpyxl.chart import LineChart, Reference
 from openpyxl.chart.label import DataLabelList
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 from openpyxl.drawing.image import Image
@@ -161,98 +158,92 @@ def generate_excel(report,
     ####################################################################################################################
     reporting_period_data = report['reporting_period']
 
-    has_energy_data_flag = True
-
     if "names" not in reporting_period_data.keys() or \
             reporting_period_data['names'] is None or \
             len(reporting_period_data['names']) == 0:
-        has_energy_data_flag = False
-
         filename = str(uuid.uuid4()) + '.xlsx'
         wb.save(filename)
-
         return filename
 
-    if has_energy_data_flag:
-        ws['B6'].font = title_font
-        ws['B6'] = name + ' 统计分析'
+    ws['B6'].font = title_font
+    ws['B6'] = name + ' 统计分析'
 
-        category = reporting_period_data['names']
+    category = reporting_period_data['names']
 
-        # table_title
-        ws['B7'].fill = table_fill
-        ws['B7'].font = title_font
-        ws['B7'].alignment = c_c_alignment
-        ws['B7'] = '报告期'
-        ws['B7'].border = f_border
+    # table_title
+    ws['B7'].fill = table_fill
+    ws['B7'].font = title_font
+    ws['B7'].alignment = c_c_alignment
+    ws['B7'] = '报告期'
+    ws['B7'].border = f_border
 
-        ws['C7'].font = title_font
-        ws['C7'].alignment = c_c_alignment
-        ws['C7'] = '平均负荷'
-        ws['C7'].border = f_border
+    ws['C7'].font = title_font
+    ws['C7'].alignment = c_c_alignment
+    ws['C7'] = '平均负荷'
+    ws['C7'].border = f_border
 
-        ws['D7'].font = title_font
-        ws['D7'].alignment = c_c_alignment
-        ws['D7'] = '最大负荷'
-        ws['D7'].border = f_border
+    ws['D7'].font = title_font
+    ws['D7'].alignment = c_c_alignment
+    ws['D7'] = '最大负荷'
+    ws['D7'].border = f_border
 
-        ws['E7'].font = title_font
-        ws['E7'].alignment = c_c_alignment
-        ws['E7'] = '负荷系数'
-        ws['E7'].border = f_border
+    ws['E7'].font = title_font
+    ws['E7'].alignment = c_c_alignment
+    ws['E7'] = '负荷系数'
+    ws['E7'].border = f_border
 
-        # table_data
+    # table_data
 
-        for i, value in enumerate(category):
-            row = i * 2 + 8
-            ws['B' + str(row)].font = name_font
-            ws['B' + str(row)].alignment = c_c_alignment
-            ws['B' + str(row)] = reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + "/H )"
-            ws['B' + str(row)].border = f_border
+    for i, value in enumerate(category):
+        row = i * 2 + 8
+        ws['B' + str(row)].font = name_font
+        ws['B' + str(row)].alignment = c_c_alignment
+        ws['B' + str(row)] = reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + "/H )"
+        ws['B' + str(row)].border = f_border
 
-            ws['B' + str(row + 1)].font = name_font
-            ws['B' + str(row + 1)].alignment = c_c_alignment
-            ws['B' + str(row + 1)] = "环比"
-            ws['B' + str(row + 1)].border = f_border
+        ws['B' + str(row + 1)].font = name_font
+        ws['B' + str(row + 1)].alignment = c_c_alignment
+        ws['B' + str(row + 1)] = "环比"
+        ws['B' + str(row + 1)].border = f_border
 
-            ws['C' + str(row)].font = name_font
-            ws['C' + str(row)].alignment = c_c_alignment
-            ws['C' + str(row)] = round(reporting_period_data['averages'][i], 2) \
-                if reporting_period_data['averages'][i] is not None else ''
-            ws['C' + str(row)].border = f_border
-            ws['C' + str(row)].number_format = '0.00'
+        ws['C' + str(row)].font = name_font
+        ws['C' + str(row)].alignment = c_c_alignment
+        ws['C' + str(row)] = round(reporting_period_data['averages'][i], 2) \
+            if reporting_period_data['averages'][i] is not None else ''
+        ws['C' + str(row)].border = f_border
+        ws['C' + str(row)].number_format = '0.00'
 
-            ws['C' + str(row + 1)].font = name_font
-            ws['C' + str(row + 1)].alignment = c_c_alignment
-            ws['C' + str(row + 1)] = str(round(reporting_period_data['averages_increment_rate'][i] * 100, 2)) + "%" \
-                if reporting_period_data['averages_increment_rate'][i] is not None else '0.00%'
-            ws['C' + str(row + 1)].border = f_border
+        ws['C' + str(row + 1)].font = name_font
+        ws['C' + str(row + 1)].alignment = c_c_alignment
+        ws['C' + str(row + 1)] = str(round(reporting_period_data['averages_increment_rate'][i] * 100, 2)) + "%" \
+            if reporting_period_data['averages_increment_rate'][i] is not None else '0.00%'
+        ws['C' + str(row + 1)].border = f_border
 
-            ws['D' + str(row)].font = name_font
-            ws['D' + str(row)].alignment = c_c_alignment
-            ws['D' + str(row)] = round(reporting_period_data['maximums'][i], 2) \
-                if reporting_period_data['maximums'][i] is not None else ''
-            ws['D' + str(row)].border = f_border
-            ws['D' + str(row)].number_format = '0.00'
+        ws['D' + str(row)].font = name_font
+        ws['D' + str(row)].alignment = c_c_alignment
+        ws['D' + str(row)] = round(reporting_period_data['maximums'][i], 2) \
+            if reporting_period_data['maximums'][i] is not None else ''
+        ws['D' + str(row)].border = f_border
+        ws['D' + str(row)].number_format = '0.00'
 
-            ws['D' + str(row + 1)].font = name_font
-            ws['D' + str(row + 1)].alignment = c_c_alignment
-            ws['D' + str(row + 1)] = str(round(reporting_period_data['maximums_increment_rate'][i] * 100, 2)) + "%" \
-                if reporting_period_data['maximums_increment_rate'][i] is not None else '0.00%'
-            ws['D' + str(row + 1)].border = f_border
+        ws['D' + str(row + 1)].font = name_font
+        ws['D' + str(row + 1)].alignment = c_c_alignment
+        ws['D' + str(row + 1)] = str(round(reporting_period_data['maximums_increment_rate'][i] * 100, 2)) + "%" \
+            if reporting_period_data['maximums_increment_rate'][i] is not None else '0.00%'
+        ws['D' + str(row + 1)].border = f_border
 
-            ws['E' + str(row)].font = name_font
-            ws['E' + str(row)].alignment = c_c_alignment
-            ws['E' + str(row)] = round(reporting_period_data['factors'][i], 2) \
-                if reporting_period_data['factors'][i] is not None else ''
-            ws['E' + str(row)].border = f_border
-            ws['E' + str(row)].number_format = '0.00'
+        ws['E' + str(row)].font = name_font
+        ws['E' + str(row)].alignment = c_c_alignment
+        ws['E' + str(row)] = round(reporting_period_data['factors'][i], 2) \
+            if reporting_period_data['factors'][i] is not None else ''
+        ws['E' + str(row)].border = f_border
+        ws['E' + str(row)].number_format = '0.00'
 
-            ws['E' + str(row + 1)].font = name_font
-            ws['E' + str(row + 1)].alignment = c_c_alignment
-            ws['E' + str(row + 1)] = str(round(reporting_period_data['factors_increment_rate'][i] * 100, 2)) + "%" \
-                if reporting_period_data['factors_increment_rate'][i] is not None else '0.00%'
-            ws['E' + str(row + 1)].border = f_border
+        ws['E' + str(row + 1)].font = name_font
+        ws['E' + str(row + 1)].alignment = c_c_alignment
+        ws['E' + str(row + 1)] = str(round(reporting_period_data['factors_increment_rate'][i] * 100, 2)) + "%" \
+            if reporting_period_data['factors_increment_rate'][i] is not None else '0.00%'
+        ws['E' + str(row + 1)].border = f_border
 
     ####################################################################################################################
     # Second: 报告期单位面积消耗
@@ -261,58 +252,57 @@ def generate_excel(report,
     # per_unit_area_start_row_number + 2 ~ per_unit_area_start_row_number + 2 + ca_len :  table_data
     ####################################################################################################################
 
-    if has_energy_data_flag:
-        names = reporting_period_data['names']
-        ca_len = len(names)
-        per_unit_area_start_row_number = 9 + ca_len * 2
+    names = reporting_period_data['names']
+    ca_len = len(names)
+    per_unit_area_start_row_number = 9 + ca_len * 2
 
-        ws['B' + str(per_unit_area_start_row_number)].font = title_font
-        ws['B' + str(per_unit_area_start_row_number)] = name + ' 单位面积值' + str(report['shopfloor']['area']) + 'M²'
+    ws['B' + str(per_unit_area_start_row_number)].font = title_font
+    ws['B' + str(per_unit_area_start_row_number)] = name + ' 单位面积值' + str(report['shopfloor']['area']) + 'M²'
 
-        category = reporting_period_data['names']
+    category = reporting_period_data['names']
 
-        # table_title
-        ws['B' + str(per_unit_area_start_row_number + 1)].fill = table_fill
-        ws['B' + str(per_unit_area_start_row_number + 1)].font = title_font
-        ws['B' + str(per_unit_area_start_row_number + 1)].alignment = c_c_alignment
-        ws['B' + str(per_unit_area_start_row_number + 1)] = '报告期'
-        ws['B' + str(per_unit_area_start_row_number + 1)].border = f_border
+    # table_title
+    ws['B' + str(per_unit_area_start_row_number + 1)].fill = table_fill
+    ws['B' + str(per_unit_area_start_row_number + 1)].font = title_font
+    ws['B' + str(per_unit_area_start_row_number + 1)].alignment = c_c_alignment
+    ws['B' + str(per_unit_area_start_row_number + 1)] = '报告期'
+    ws['B' + str(per_unit_area_start_row_number + 1)].border = f_border
 
-        ws['C' + str(per_unit_area_start_row_number + 1)].font = title_font
-        ws['C' + str(per_unit_area_start_row_number + 1)].alignment = c_c_alignment
-        ws['C' + str(per_unit_area_start_row_number + 1)] = '平均负荷'
-        ws['C' + str(per_unit_area_start_row_number + 1)].border = f_border
+    ws['C' + str(per_unit_area_start_row_number + 1)].font = title_font
+    ws['C' + str(per_unit_area_start_row_number + 1)].alignment = c_c_alignment
+    ws['C' + str(per_unit_area_start_row_number + 1)] = '平均负荷'
+    ws['C' + str(per_unit_area_start_row_number + 1)].border = f_border
 
-        ws['D' + str(per_unit_area_start_row_number + 1)].font = title_font
-        ws['D' + str(per_unit_area_start_row_number + 1)].alignment = c_c_alignment
-        ws['D' + str(per_unit_area_start_row_number + 1)] = '最大负荷'
-        ws['D' + str(per_unit_area_start_row_number + 1)].border = f_border
+    ws['D' + str(per_unit_area_start_row_number + 1)].font = title_font
+    ws['D' + str(per_unit_area_start_row_number + 1)].alignment = c_c_alignment
+    ws['D' + str(per_unit_area_start_row_number + 1)] = '最大负荷'
+    ws['D' + str(per_unit_area_start_row_number + 1)].border = f_border
 
-        # table_data
+    # table_data
 
-        for i, value in enumerate(category):
-            row_data = per_unit_area_start_row_number + 2 + i
-            ws['B' + str(row_data)].font = name_font
-            ws['B' + str(row_data)].alignment = c_c_alignment
-            ws['B' + str(row_data)] = reporting_period_data['names'][i] + " (" + reporting_period_data['units'][
-                i] + "/H/M²)"
-            ws['B' + str(row_data)].border = f_border
+    for i, value in enumerate(category):
+        row_data = per_unit_area_start_row_number + 2 + i
+        ws['B' + str(row_data)].font = name_font
+        ws['B' + str(row_data)].alignment = c_c_alignment
+        ws['B' + str(row_data)] = reporting_period_data['names'][i] + " (" + reporting_period_data['units'][
+            i] + "/H/M²)"
+        ws['B' + str(row_data)].border = f_border
 
-            ws['C' + str(row_data)].font = name_font
-            ws['C' + str(row_data)].alignment = c_c_alignment
-            if reporting_period_data['averages_per_unit_area'][i] \
-                    or reporting_period_data['averages_per_unit_area'][i] == 0:
-                ws['C' + str(row_data)] = round(reporting_period_data['averages_per_unit_area'][i], 2)
-            ws['C' + str(row_data)].border = f_border
-            ws['C' + str(row_data)].number_format = '0.00'
+        ws['C' + str(row_data)].font = name_font
+        ws['C' + str(row_data)].alignment = c_c_alignment
+        if reporting_period_data['averages_per_unit_area'][i] \
+                or reporting_period_data['averages_per_unit_area'][i] == 0:
+            ws['C' + str(row_data)] = round(reporting_period_data['averages_per_unit_area'][i], 2)
+        ws['C' + str(row_data)].border = f_border
+        ws['C' + str(row_data)].number_format = '0.00'
 
-            ws['D' + str(row_data)].font = name_font
-            ws['D' + str(row_data)].alignment = c_c_alignment
-            if reporting_period_data['maximums_per_unit_area'][i] \
-                    or reporting_period_data['maximums_per_unit_area'][i] == 0:
-                ws['D' + str(row_data)] = round(reporting_period_data['maximums_per_unit_area'][i], 2)
-            ws['D' + str(row_data)].border = f_border
-            ws['D' + str(row_data)].number_format = '0.00'
+        ws['D' + str(row_data)].font = name_font
+        ws['D' + str(row_data)].alignment = c_c_alignment
+        if reporting_period_data['maximums_per_unit_area'][i] \
+                or reporting_period_data['maximums_per_unit_area'][i] == 0:
+            ws['D' + str(row_data)] = round(reporting_period_data['maximums_per_unit_area'][i], 2)
+        ws['D' + str(row_data)].border = f_border
+        ws['D' + str(row_data)].number_format = '0.00'
 
     ####################################################################################################################
     # Third: 详细数据

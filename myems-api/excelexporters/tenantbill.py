@@ -2,16 +2,10 @@ import base64
 import uuid
 import os
 import datetime
-from openpyxl.chart import (
-    PieChart,
-    BarChart,
-    Reference,
-)
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 from decimal import Decimal
 from openpyxl.drawing.image import Image
 from openpyxl import Workbook
-from openpyxl.chart.label import DataLabelList
 
 
 ########################################################################################################################
@@ -115,9 +109,6 @@ def generate_excel(report,
                       bottom=Side(border_style='medium', color='00000000'),
                       top=Side(border_style='medium', color='00000000')
                       )
-    b_border = Border(
-        bottom=Side(border_style='medium', color='00000000'),
-    )
 
     c_c_alignment = Alignment(vertical='center',
                               horizontal='center',
