@@ -6,7 +6,6 @@ from decimal import Decimal
 from openpyxl.chart import (
     PieChart,
     LineChart,
-    BarChart,
     Reference,
 )
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
