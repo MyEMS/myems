@@ -29,14 +29,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Fixed data issues of tbl_menus in database
 
 ### Removed
-- Deleted unnecessary words in translantions of Admin UI
+- Deleted unnecessary words in translations of Admin UI
 
 ## [v1.1.6] - 2021-08-02
 ### Added
 - Added Meter Batch Analysis Report
 - Added Child Space Share Pies for SpaceCost in Web UI
 - Added Web UI & Admin UI Installation Guide on Apache Web Server
-- Added Docerfiles
+- Added Dockerfiles
 - Added Customized Menus in Web UI, API and Admin UI
 
 ### Changed
