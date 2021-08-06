@@ -64,16 +64,52 @@ This project is compose of  following components:
 [Install web UI](./web/README.md)
 
 
-### Docker Docker-compose Installation 
+### Docker Docker-compose Install
 ```
+# Supposed that your local ip is: 192.168.2.3 and mysql ip is: 192.168.2.2
+
+
+# Step 01: Clone 
+
 git clone https://gitee.com/myems/myems.git 
 
-# for generate the static direction: 'build'
+
+# Step 02: Modify the ip (use mysql_ip:  192.168.2.2)
+
+# You should modify the host of config.py in these directions: 
+sudo nano myems-api/config.py 
+sudo nano myems-aggregation/config.py 
+sudo nano myems-cleaning/config.py 
+sudo nano myems-modbus-tcp/config.py 
+sudo nano myems-normalization/config.py 
+# host: '127.0.0.1' => 'host': '192.168.2.2', (127.0.0.1 => mysql_ip)
+
+# You should modify the proxy_pass of nginx.conf in these directions: 
+sudo nano admin/nginx.conf
+sudo nano web/nginx.conf
+# proxy_pass http://127.0.0.1:8000/;  => proxy_pass http://192.168.2.3:8000/;  (127.0.0.1 => local_ip)
+
+
+# Step 03: Generate the static direction: 'build' for web (react)
+
 cd myems/web
+npm install
 npm run build
+
+
+# Step 04: Install 
 
 cd myems
 docker-compose up -d 
+
+
+# Step 05: Test (use local_ip: 192.168.2.3)
+
+# open with the google browser
+web page:   http://192.168.2.3:8001        - user：administrator@myems.io  password： !MyEMS1   
+admin page: http://192.168.2.3:8002        - user：administrator           password： !MyEMS1 
+rest api:   http://192.168.2.3:8000/spaces    
+
 ```
 ## Compare Editions
 
