@@ -64,6 +64,19 @@ Dieses Projekt besteht aus folgenden Komponenten:
 [Installieren web UI](./web/README.md)
 
 
+### Docker Docker-compose
+```
+git clone https://gitee.com/myems/myems.git 
+
+# for generate the static direction: 'build'
+cd myems/web
+npm install
+npm run build
+
+cd myems
+docker-compose up -d 
+```
+
 ## Editionen vergleichen
 
 | Eigenschaften                    | Gemeinschaftsausgabe | Enterprise Edition | Erläuterung   |
