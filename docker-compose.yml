@@ -3,31 +3,28 @@ services:
   api:
     build: ./myems-api
     command: gunicorn app:api -b 0.0.0.0:8000
-    network_mode: "host"
     restart: always
+    ports:
+      - "8000:8000"
 
   aggregation:
     build: ./myems-aggregation
     command: python main.py
-    network_mode: "host"
     restart: always
 
   cleaning:
     build: ./myems-cleaning
     command: python main.py
-    network_mode: "host"
     restart: always
 
   modbus_tcp:
     build: ./myems-modbus-tcp
     command: python main.py
-    network_mode: "host"
     restart: always
 
   normalization:
     build: ./myems-normalization
     command: python main.py
-    network_mode: "host"
     restart: always
 
   admin:
@@ -35,13 +32,14 @@ services:
     command: nginx -c /etc/nginx/nginx.conf -g "daemon off;"
     healthcheck:
       test: [ "CMD","nginx","-t" ]
-    network_mode: "host"
     restart: always
-
+    ports:
+      - "8001:80"
   web:
     build: ./web
     command: nginx -c /etc/nginx/nginx.conf -g "daemon off;"
     healthcheck:
       test: [ "CMD","nginx","-t" ]
-    network_mode: "host"
     restart: always
+    ports:
+      - "8002:80"

@@ -65,15 +65,49 @@ MyEMS项目由下列组件构成:
 
 ### Docker Docker-compose 安装
 ```
+# 假定你的本机IP为: 192.168.2.3， MySQL所在IP为: 192.168.2.2
+
+# 步骤一： 克隆仓库
+
 git clone https://gitee.com/myems/myems.git 
 
-# for generate the static direction: 'build'
+
+# 步骤二: 修改IP地址
+
+# 你应该修改所有文件夹下中config.py的host为你的本机IP
+sudo nano myems-api/config.py 
+sudo nano myems-aggregation/config.py 
+sudo nano myems-cleaning/config.py 
+sudo nano myems-modbus-tcp/config.py 
+sudo nano myems-normalization/config.py 
+# host: '127.0.0.1' => 'host': '192.168.2.2', (127.0.0.1 => mysql_ip)
+
+# 你应该修改web,admin下中nginx.conf的127.0.0.1为你的本机IP
+sudo nano admin/nginx.conf
+sudo nano web/nginx.conf
+# proxy_pass http://127.0.0.1:8000/;  => proxy_pass http://192.168.2.3:8000/;  (127.0.0.1 => local_ip)
+
+
+# 步骤三： 将'web'打包生成静态文件 (React)
+
 cd myems/web
 npm install
 npm run build
 
+
+# 步骤四： 使用docker-compose安装
+
 cd myems
 docker-compose up -d 
+
+
+# 步骤五： 测试是否成功 (use local_ip:192.168.2.3)
+
+谷歌浏览器打开：
+web page:   http://192.168.2.3:8001        - 用户：administrator@myems.io 密码： !MyEMS1   
+admin page: http://192.168.2.3:8002        - 用户：administrator          密码： !MyEMS1 
+rest api:   http://192.168.2.3:8000/spaces    
+
 ```
 
 ## 功能版本对比
