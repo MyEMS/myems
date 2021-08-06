@@ -15,7 +15,7 @@ Providing database schema and scripts for MyEMS.
 
 ### Installation
 
-Execute the scripts in MySQL commandline as below, or execute in orther MySQL client tools such as MySQL Workbench, Navicat, DBaver, phpMyAdmin, etc.
+Execute the following scripts in MySQL commandline, or execute in other MySQL client tools such as MySQL Workbench, Navicat, DBaver, phpMyAdmin, etc.
 ```
 mysql -u root -p < myems_billing_baseline_db.sql
 mysql -u root -p < myems_billing_db.sql
@@ -27,7 +27,10 @@ mysql -u root -p < myems_reporting_db.sql
 mysql -u root -p < myems_system_db.sql
 mysql -u root -p < myems_user_db.sql
 ```
-
+To insert demo data execute the following scripts,
+```
+mysql -u root -p < demo/myems_system_db.sql
+```
 #### Change COLLATE for MySQL server before version 8.0
 ```
 sudo nano /etc/mysql/my.cnf
