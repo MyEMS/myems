@@ -42,10 +42,6 @@ MyEMS项目由下列组件构成:
 
 [安装 myems-modbus-tcp](./myems-modbus-tcp/README.md)
 
-### MyEMS MQTT数据转发服务 (Python)
-
-[安装 myems-mqtt-publisher](./myems-mqtt-publisher/README.md)
-
 ### MyEMS 数据清洗服务 (Python)
 
 [安装 myems-cleaning](./myems-cleaning/README.md)
@@ -64,14 +60,39 @@ MyEMS项目由下列组件构成:
 
 
 ### Docker Docker-compose 安装
+
 ```
 git clone https://gitee.com/myems/myems.git 
+```
 
-# for generate the static direction: 'build'
+修改以下文件中的数据库IP
+假定数据库IP为: 192.168.2.2
+```
+sudo nano myems-api/config.py 
+sudo nano myems-aggregation/config.py 
+sudo nano myems-cleaning/config.py 
+sudo nano myems-modbus-tcp/config.py 
+sudo nano myems-normalization/config.py 
+
+# host: '127.0.0.1' => 'host': '192.168.2.2'
+```
+
+修改web和admin文件夹下nginx.conf中的location '/api'
+假定本机IP为: 192.168.2.3
+```
+sudo nano admin/nginx.conf
+sudo nano web/nginx.conf
+# proxy_pass http://127.0.0.1:8000/;  => proxy_pass http://192.168.2.3:8000/; 
+```
+
+将Web打包生成产品文件
+```
 cd myems/web
 npm install
 npm run build
-
+```
+使用docker-compose安装
+```
 cd myems
 docker-compose up -d 
 ```

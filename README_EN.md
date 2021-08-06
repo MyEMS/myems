@@ -43,10 +43,6 @@ This project is compose of  following components:
 
 [Install myems-modbus-tcp](./myems-modbus-tcp/README.md)
 
-### MyEMS MQTT Data Forwarding Service (Python)
-
-[Install myems-mqtt-publisher](./myems-mqtt-publisher/README.md)
-
 ### MyEMS Cleaning Service (Python)
 
 [Install myems-cleaning](./myems-cleaning/README.md)
@@ -64,14 +60,39 @@ This project is compose of  following components:
 [Install web UI](./web/README.md)
 
 ### Docker Docker-compose
+
 ```
 git clone https://gitee.com/myems/myems.git 
+```
 
-# for generate the static direction: 'build'
+修改文件夹下config.py中的host为数据库IP
+假定数据库IP为: 192.168.2.2
+```
+sudo nano myems-api/config.py 
+sudo nano myems-aggregation/config.py 
+sudo nano myems-cleaning/config.py 
+sudo nano myems-modbus-tcp/config.py 
+sudo nano myems-normalization/config.py 
+
+# host: '127.0.0.1' => 'host': '192.168.2.2'
+```
+
+修改web,admin下中nginx.conf的127.0.0.1为本机IP
+假定本机IP为: 192.168.2.3
+```
+sudo nano admin/nginx.conf
+sudo nano web/nginx.conf
+# proxy_pass http://127.0.0.1:8000/;  => proxy_pass http://192.168.2.3:8000/; 
+```
+
+将Web打包生成产品文件
+```
 cd myems/web
 npm install
 npm run build
-
+```
+使用docker-compose安装
+```
 cd myems
 docker-compose up -d 
 ```
