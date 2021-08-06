@@ -65,8 +65,8 @@ This project is compose of  following components:
 git clone https://gitee.com/myems/myems.git 
 ```
 
-修改文件夹下config.py中的host为数据库IP
-假定数据库IP为: 192.168.2.2
+Modify Database IP in the following files
+Assume the Database IP is 192.168.2.2
 ```
 sudo nano myems-api/config.py 
 sudo nano myems-aggregation/config.py 
@@ -76,22 +76,21 @@ sudo nano myems-normalization/config.py
 
 # host: '127.0.0.1' => 'host': '192.168.2.2'
 ```
-
-修改web,admin下中nginx.conf的127.0.0.1为本机IP
-假定本机IP为: 192.168.2.3
+Modify location '/api' in nginx.conf of web and admin
+Assume the Host IP is 192.168.2.3
 ```
 sudo nano admin/nginx.conf
 sudo nano web/nginx.conf
 # proxy_pass http://127.0.0.1:8000/;  => proxy_pass http://192.168.2.3:8000/; 
 ```
 
-将Web打包生成产品文件
+Build web for production 
 ```
 cd myems/web
 npm install
 npm run build
 ```
-使用docker-compose安装
+Install with docker-compose
 ```
 cd myems
 docker-compose up -d 
