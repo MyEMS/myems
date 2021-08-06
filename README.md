@@ -42,10 +42,6 @@ MyEMS项目由下列组件构成:
 
 [安装 myems-modbus-tcp](./myems-modbus-tcp/README.md)
 
-### MyEMS MQTT数据转发服务 (Python)
-
-[安装 myems-mqtt-publisher](./myems-mqtt-publisher/README.md)
-
 ### MyEMS 数据清洗服务 (Python)
 
 [安装 myems-cleaning](./myems-cleaning/README.md)
@@ -64,50 +60,41 @@ MyEMS项目由下列组件构成:
 
 
 ### Docker Docker-compose 安装
+
 ```
-# 假定你的本机IP为: 192.168.2.3， MySQL所在IP为: 192.168.2.2
-
-# 步骤一： 克隆仓库
-
 git clone https://gitee.com/myems/myems.git 
+```
 
-
-# 步骤二: 修改IP地址
-
-# 你应该修改所有文件夹下中config.py的host为你的本机IP
+修改以下文件中的数据库IP
+假定数据库IP为: 192.168.2.2
+```
 sudo nano myems-api/config.py 
 sudo nano myems-aggregation/config.py 
 sudo nano myems-cleaning/config.py 
 sudo nano myems-modbus-tcp/config.py 
 sudo nano myems-normalization/config.py 
-# host: '127.0.0.1' => 'host': '192.168.2.2', (127.0.0.1 => mysql_ip)
 
-# 你应该修改web,admin下中nginx.conf的127.0.0.1为你的本机IP
+# host: '127.0.0.1' => 'host': '192.168.2.2'
+```
+
+修改web和admin文件夹下nginx.conf中的location '/api'
+假定本机IP为: 192.168.2.3
+```
 sudo nano admin/nginx.conf
 sudo nano web/nginx.conf
-# proxy_pass http://127.0.0.1:8000/;  => proxy_pass http://192.168.2.3:8000/;  (127.0.0.1 => local_ip)
+# proxy_pass http://127.0.0.1:8000/;  => proxy_pass http://192.168.2.3:8000/; 
+```
 
-
-# 步骤三： 将'web'打包生成静态文件 (React)
-
+将Web打包生成产品文件
+```
 cd myems/web
 npm install
 npm run build
-
-
-# 步骤四： 使用docker-compose安装
-
+```
+使用docker-compose安装
+```
 cd myems
 docker-compose up -d 
-
-
-# 步骤五： 测试是否成功 (use local_ip:192.168.2.3)
-
-谷歌浏览器打开：
-web page:   http://192.168.2.3:8001        - 用户：administrator@myems.io 密码： !MyEMS1   
-admin page: http://192.168.2.3:8002        - 用户：administrator          密码： !MyEMS1 
-rest api:   http://192.168.2.3:8000/spaces    
-
 ```
 
 ## 功能版本对比

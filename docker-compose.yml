@@ -34,7 +34,7 @@ services:
       test: [ "CMD","nginx","-t" ]
     restart: always
     ports:
-      - "8001:80"
+      - "8001:8001"
   web:
     build: ./web
     command: nginx -c /etc/nginx/nginx.conf -g "daemon off;"
@@ -42,4 +42,4 @@ services:
       test: [ "CMD","nginx","-t" ]
     restart: always
     ports:
-      - "8002:80"
+      - "80:80"
