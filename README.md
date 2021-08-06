@@ -38,10 +38,6 @@ MyEMS项目由下列组件构成:
 
 [安装 admin UI](./admin/README.md)
 
-### MyEMS BACnet/IP 数据采集服务 (Python)
-
-[安装 myems-bacnet](../myems-bacnet/README.md)
-
 ### MyEMS Modbus TCP 数据采集服务 (Python)
 
 [安装 myems-modbus-tcp](./myems-modbus-tcp/README.md)

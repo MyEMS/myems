@@ -39,10 +39,6 @@ This project is compose of  following components:
 
 [Install admin UI](./admin/README.md)
 
-### MyEMS BACnet/IP Acquisition Service (Python)
-
-[Install myems-bacnet](../myems-bacnet/README.md)
-
 ### MyEMS Modbus TCP Acquisition Service (Python)
 
 [Install myems-modbus-tcp](./myems-modbus-tcp/README.md)
