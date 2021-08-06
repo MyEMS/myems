@@ -128,7 +128,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [v1.1.2] - 2021-04-23
 ### Added
-- added assoicated parameters data to excel exporter of shopfloorstatistics in API
+- added associated parameters data to excel exporter of shopfloorstatistics in API
 - added associated parameters data to excel exporter of shopfloorsaving in API
 - added associated parameters data to excel exporter of shopfloorload in API
 - added associated parameters data to excel exporter of shopfloorenergyitem in API
@@ -153,13 +153,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added associated parameters data to excel exporter of metersubmetersbalance in API
 - added parameters data to excel exporter of metercost in API
 - added associated parameters data to excel exporter of tenantstatistics in API
-- added associated paramters data to excel exporter of tenantsaving in API
-- added associated paramters data to excel exporter of tenantload in API
-- added associated paramters data to excel exporter of tenantenergyitem in API
+- added associated parameters data to excel exporter of tenantsaving in API
+- added associated parameters data to excel exporter of tenantload in API
+- added associated parameters data to excel exporter of tenantenergyitem in API
 - added associated parameters data to excel exporter of tenantenergycategory in API
 - added associated parameters data to excel exporter of tenantcost in API
 - added associated parameters data to excel exporter of combinedequipmentstatistics in API
-- added associated paramters data to combinedequipmentsaving in API
+- added associated parameters data to combinedequipmentsaving in API
 - added associated parameters data to combinedequipmentload in API
 - added associated parameters data to combinedequipmentoutput in API
 - added associated parameters data to combinedequipmentincome in API
@@ -167,11 +167,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added associated parameters data to combinedequipmentenergycategory in API
 - added associated parameters data to combinedequipmentcost in API
 - added quickmode to HTTP request parameters of MeterTrend report in API
-- added paramter data to excel exporter of EquipmentStatistics in API
+- added parameter data to excel exporter of EquipmentStatistics in API
 - added parameter data to excel exporter of EquipmentSaving in API
-- added paramter data to excel exporter of EquipmentOutput in API
+- added parameter data to excel exporter of EquipmentOutput in API
 - added parameter data to excel exporter of EquipmentLoad in API
-- added paramters data to excel exporter of EquipmentEnergyItem in API
+- added parameters data to excel exporter of EquipmentEnergyItem in API
 - added parameters data to excel exporter of EquipmentEnergyCategory in API
 
 ### Changed
@@ -206,7 +206,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added associated equipment data to CombinedEquipmentIncome report in API
 - added associated equipment data to CombinedEquipmentEnergyItem report in API
 - added associated equipment data to CombinedEquipmentEnergyCategory report in API
-- added quickmode paramter to combinedequipmentefficiency report in API
+- added quickmode parameter to combinedequipmentefficiency report in API
 - added associated equipment data to CombinedEquipmentStatistics in Web UI
 - added associated equipment data to CombinedEquipmentLoad in Web UI
 - added excel exporter of equipmentcost reporter in API
@@ -228,7 +228,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 - fixed omission mistakes in myems-cleaning
 - fixed error for large number of parameters in combinedequipmentefficiency and equipmentefficiency in API
-- fixed error of None Comparision in API
+- fixed error of None Comparison in API
 - fixed NoneType error in all Load reports API.
 
 ### Removed
