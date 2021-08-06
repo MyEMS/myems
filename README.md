@@ -38,10 +38,6 @@ MyEMS项目由下列组件构成:
 
 [安装 admin UI](./admin/README.md)
 
-### MyEMS BACnet/IP 数据采集服务 (Python)
-
-[安装 myems-bacnet](../myems-bacnet/README.md)
-
 ### MyEMS Modbus TCP 数据采集服务 (Python)
 
 [安装 myems-modbus-tcp](./myems-modbus-tcp/README.md)
@@ -73,6 +69,7 @@ git clone https://gitee.com/myems/myems.git
 
 # for generate the static direction: 'build'
 cd myems/web
+npm install
 npm run build
 
 cd myems
@@ -217,6 +214,11 @@ docker-compose up -d
 ![MyEMS Space EnergyCategory2](/docs/images/myems-space-energycategory2.gif)
 ![MyEMS Space EnergyCategory3](/docs/images/myems-space-energycategory3.gif)
 ![MyEMS Large Screen Dashboard](/docs/images/myems-large-screen-dashboard.gif)
+
+
+## MyEMS路线图
+
+社区版[路线图](https://github.com/orgs/MyEMS/projects)
 
 ## MyEMS镜像
 

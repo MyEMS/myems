@@ -2,12 +2,7 @@ import base64
 import uuid
 import os
 from decimal import Decimal
-from openpyxl.chart import (
-    PieChart,
-    LineChart,
-    BarChart,
-    Reference,
-)
+from openpyxl.chart import PieChart, LineChart, Reference
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 from openpyxl.drawing.image import Image
 from openpyxl import Workbook
@@ -449,9 +444,9 @@ def generate_excel(report,
                 row = str(table_row + 1 + j)
                 ws[col + row].font = title_font
                 ws[col + row].alignment = c_c_alignment
-                every_day_sum = reporting_period_values_every_day_sum(reporting_period_data, j, ca_len)
-                total_sum += every_day_sum
-                ws[col + row] = round(every_day_sum, 2)
+                periodic_sum = reporting_period_values_periodic_sum(reporting_period_data, j, ca_len)
+                total_sum += periodic_sum
+                ws[col + row] = round(periodic_sum, 2)
                 ws[col + row].border = f_border
 
             row = str(table_row + 1 + len(time))
@@ -520,20 +515,20 @@ def generate_excel(report,
             ws['B' + row].border = f_border
 
             col = ''
-            every_day_sum = Decimal(0.0)
+            periodic_sum = Decimal(0.0)
 
             for j in range(0, ca_len):
                 col = chr(ord('C') + j)
                 ws[col + row].font = name_font
                 ws[col + row].alignment = c_c_alignment
-                every_day_sum += child['subtotals_array'][j][i]
+                periodic_sum += child['subtotals_array'][j][i]
                 ws[col + row] = round(child['subtotals_array'][j][i], 2)
                 ws[col + row].border = f_border
 
             col = chr(ord(col) + 1)
             ws[col + row].font = name_font
             ws[col + row].alignment = c_c_alignment
-            ws[col + row] = round(every_day_sum, 2)
+            ws[col + row] = round(periodic_sum, 2)
             ws[col + row].border = f_border
 
         table_end_row_number = current_row_number
@@ -763,12 +758,12 @@ def generate_excel(report,
     return filename
 
 
-def reporting_period_values_every_day_sum(reporting_period_data, every_day_index, ca_len):
-    every_day_sum = Decimal(0.0)
+def reporting_period_values_periodic_sum(reporting_period_data, periodic_index, ca_len):
+    periodic_sum = Decimal(0.0)
     for i in range(0, ca_len):
-        every_day_sum += reporting_period_data['values'][i][every_day_index]
+        periodic_sum += reporting_period_data['values'][i][periodic_index]
 
-    return every_day_sum
+    return periodic_sum
 
 
 def timestamps_data_all_equal_0(lists):

@@ -1,12 +1,7 @@
 import base64
 import uuid
 import os
-from openpyxl.chart import (
-    PieChart,
-    LineChart,
-    BarChart,
-    Reference,
-)
+from openpyxl.chart import LineChart, Reference
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 from openpyxl.drawing.image import Image
 from openpyxl import Workbook
@@ -88,7 +83,6 @@ def generate_excel(report,
     # Font
     name_font = Font(name='Constantia', size=15, bold=True)
     title_font = Font(name='宋体', size=15, bold=True)
-    data_font = Font(name='Franklin Gothic Book', size=11)
 
     table_fill = PatternFill(fill_type='solid', fgColor='1F497D')
     f_border = Border(left=Side(border_style='medium', color='00000000'),
@@ -96,9 +90,7 @@ def generate_excel(report,
                       bottom=Side(border_style='medium', color='00000000'),
                       top=Side(border_style='medium', color='00000000')
                       )
-    b_border = Border(
-        bottom=Side(border_style='medium', color='00000000'),
-    )
+    b_border = Border(bottom=Side(border_style='medium', color='00000000'),)
 
     b_c_alignment = Alignment(vertical='bottom',
                               horizontal='center',
@@ -114,12 +106,6 @@ def generate_excel(report,
                               indent=0)
     b_r_alignment = Alignment(vertical='bottom',
                               horizontal='right',
-                              text_rotation=0,
-                              wrap_text=True,
-                              shrink_to_fit=False,
-                              indent=0)
-    c_r_alignment = Alignment(vertical='bottom',
-                              horizontal='center',
                               text_rotation=0,
                               wrap_text=True,
                               shrink_to_fit=False,

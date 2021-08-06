@@ -1,12 +1,7 @@
 import base64
 import uuid
 import os
-from openpyxl.chart import (
-        PieChart,
-        BarChart,
-        Reference,
-        LineChart,
-    )
+from openpyxl.chart import PieChart, Reference, LineChart
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 from openpyxl.drawing.image import Image
 from openpyxl import Workbook
@@ -153,7 +148,6 @@ def generate_excel(report,
             "names" not in report['reporting_period'].keys() or len(report['reporting_period']['names']) == 0:
         filename = str(uuid.uuid4()) + '.xlsx'
         wb.save(filename)
-
         return filename
 
     ####################################################################################################################
@@ -467,7 +461,7 @@ def generate_excel(report,
 
                 col = 'B'
 
-                every_day_total = 0
+                periodic_sum = 0.0
 
                 for j in range(0, ca_len):
                     col = chr(ord('C') + j)
@@ -475,14 +469,14 @@ def generate_excel(report,
                     ws[col + str(current_row_number)].font = title_font
                     ws[col + str(current_row_number)].alignment = c_c_alignment
                     value = round(reporting_period_data['values'][j][i], 2)
-                    every_day_total += value
+                    periodic_sum += value
                     ws[col + str(current_row_number)] = value
                     ws[col + str(current_row_number)].border = f_border
 
                 end_col = chr(ord(col) + 1)
                 ws[end_col + str(current_row_number)].font = title_font
                 ws[end_col + str(current_row_number)].alignment = c_c_alignment
-                ws[end_col + str(current_row_number)] = round(every_day_total, 2)
+                ws[end_col + str(current_row_number)] = round(periodic_sum, 2)
                 ws[end_col + str(current_row_number)].border = f_border
 
                 current_row_number += 1

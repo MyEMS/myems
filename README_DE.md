@@ -39,10 +39,6 @@ Dieses Projekt besteht aus folgenden Komponenten:
 
 [Installieren admin UI](./admin/README.md)
 
-### MyEMS BACnet/IP Acquisition Service (Python)
-
-[Installieren myems-bacnet](../myems-bacnet/README.md)
-
 ### MyEMS Modbus TCP Acquisition Service (Python)
 
 [Installieren myems-modbus-tcp](./myems-modbus-tcp/README.md)
@@ -216,6 +212,12 @@ docker-compose up -d
 ![MyEMS Space EnergyCategory2](/docs/images/myems-space-energycategory2.gif)
 ![MyEMS Space EnergyCategory3](/docs/images/myems-space-energycategory3.gif)
 ![MyEMS Großbild-Dashboard](/docs/images/myems-large-screen-dashboard.gif)
+
+
+## MyEMS Straßenkarte
+
+Community Edition [Straßenkarte](https://github.com/orgs/MyEMS/projects)
+
 
 ## MyEMS Spiegel
 

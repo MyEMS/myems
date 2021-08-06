@@ -2,13 +2,7 @@ import base64
 import uuid
 import os
 from decimal import Decimal
-
-from openpyxl.chart import (
-    PieChart,
-    LineChart,
-    BarChart,
-    Reference,
-)
+from openpyxl.chart import PieChart, LineChart, Reference
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 from openpyxl.drawing.image import Image
 from openpyxl import Workbook
@@ -119,18 +113,11 @@ def generate_excel(report,
                               wrap_text=True,
                               shrink_to_fit=False,
                               indent=0)
-    c_r_alignment = Alignment(vertical='bottom',
-                              horizontal='center',
-                              text_rotation=0,
-                              wrap_text=True,
-                              shrink_to_fit=False,
-                              indent=0)
 
     # Img
     img = Image("excelexporters/myems.png")
     img.width = img.width * 0.85
     img.height = img.height * 0.85
-    # img = Image("myems.png")
     ws.add_image(img, 'B1')
 
     # Title
@@ -166,8 +153,6 @@ def generate_excel(report,
         wb.save(filename)
 
         return filename
-
-    #################################################
 
     reporting_period_data = report['reporting_period']
 
@@ -240,8 +225,6 @@ def generate_excel(report,
     else:
         for i in range(6, 9 + 1):
             ws.row_dimensions[i].height = 0.1
-
-    #################################################
 
     has_ele_peak_flag = True
     if "toppeaks" not in reporting_period_data.keys() or \
@@ -511,7 +494,7 @@ def generate_excel(report,
 
                 col = 'B'
 
-                every_day_total = Decimal(0.0)
+                periodic_sum = Decimal(0.0)
 
                 for j in range(0, ca_len):
                     col = chr(ord('C') + j)
@@ -519,14 +502,14 @@ def generate_excel(report,
                     ws[col + str(current_row_number)].font = title_font
                     ws[col + str(current_row_number)].alignment = c_c_alignment
                     value = round(reporting_period_data['values'][j][i], 2)
-                    every_day_total += value
+                    periodic_sum += value
                     ws[col + str(current_row_number)] = value
                     ws[col + str(current_row_number)].border = f_border
 
                 end_col = chr(ord(col) + 1)
                 ws[end_col + str(current_row_number)].font = title_font
                 ws[end_col + str(current_row_number)].alignment = c_c_alignment
-                ws[end_col + str(current_row_number)] = round(every_day_total, 2)
+                ws[end_col + str(current_row_number)] = round(periodic_sum, 2)
                 ws[end_col + str(current_row_number)].border = f_border
 
                 current_row_number += 1
