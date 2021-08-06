@@ -16,6 +16,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None.
 
+## [v1.2.0] - 2021-08-08
+### Added
+- Added demo data to database 
+
+### Changed
+- Replaced every_day_* to periodic_* in excelexporters of API
+- Updated Dockerfiles
+
+### Fixed
+- Replaced every_day_* to periodic_* in excelexporters of API
+- Fixed data issues of tbl_menus in database
+
+### Removed
+- Deleted unnecessary words in translantions of Admin UI
+
 ## [v1.1.6] - 2021-08-02
 ### Added
 - Added Meter Batch Analysis Report
@@ -322,9 +337,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v1.1.6...HEAD
-[v1.1.4]: https://github.com/MyEMS/myems/compare/v1.1.5...v1.1.6
-[v1.1.4]: https://github.com/MyEMS/myems/compare/v1.1.4...v1.1.5
+[Unreleased]: https://github.com/MyEMS/myems/compare/v1.2.0...HEAD
+[v1.2.0]: https://github.com/MyEMS/myems/compare/v1.1.6...v1.2.0
+[v1.1.6]: https://github.com/MyEMS/myems/compare/v1.1.5...v1.1.6
+[v1.1.5]: https://github.com/MyEMS/myems/compare/v1.1.4...v1.1.5
 [v1.1.4]: https://github.com/MyEMS/myems/compare/v1.1.3...v1.1.4
 [v1.1.3]: https://github.com/MyEMS/myems/compare/v1.1.2...v1.1.3
 [v1.1.2]: https://github.com/MyEMS/myems/compare/v1.1.1...v1.1.2
