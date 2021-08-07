@@ -13,7 +13,8 @@
  [![Codacy Badge](https://app.codacy.com/project/badge/Grade/b2cd6049727240e2aaeb8fc7b4086166)](https://www.codacy.com/gh/MyEMS/myems/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=MyEMS/myems&amp;utm_campaign=Badge_Grade)
 
 ## MyEMS Introduction
- MyEMS is an industry leading open source Energy Management System that is built on cloud computing, IOT, Big Data and AI technologies. MyEMS can be used for a standard and powerful integrated energy management service platform.
+
+MyEMS is an industry-leading open source Energy Management System that is built on cloud computing, IOT, Big Data and AI technologies. MyEMS can be used for a standard and powerful integrated energy management service platform.
 MyEMS is being developed and maintained by an experienced development team, and the system's source code is published under MIT license.
 
 ## MyEMS Architecture
@@ -59,7 +60,7 @@ This project is compose of  following components:
 
 [Install web UI](./web/README.md)
 
-### Docker Docker-compose
+### Docker-compose Installation
 
 ```
 git clone https://gitee.com/myems/myems.git 
