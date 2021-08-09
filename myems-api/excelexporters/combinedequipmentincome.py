@@ -2,13 +2,7 @@ import base64
 import uuid
 import os
 from decimal import Decimal
-
-from openpyxl.chart import (
-    PieChart,
-    LineChart,
-    BarChart,
-    Reference,
-)
+from openpyxl.chart import PieChart, LineChart, Reference
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 from openpyxl.drawing.image import Image
 from openpyxl import Workbook
@@ -16,12 +10,12 @@ from openpyxl.chart.label import DataLabelList
 import openpyxl.utils.cell as format_cell
 
 
-####################################################################################################################
+########################################################################################################################
 # PROCEDURES
 # Step 1: Validate the report data
 # Step 2: Generate excel file
 # Step 3: Encode the excel file bytes to Base64
-####################################################################################################################
+########################################################################################################################
 
 
 def export(report,
@@ -72,6 +66,7 @@ def generate_excel(report,
                    period_type):
     wb = Workbook()
     ws = wb.active
+    ws.title = "CombinedEquipmentIncome"
 
     # Row height
     ws.row_dimensions[1].height = 102
@@ -89,7 +84,6 @@ def generate_excel(report,
     # Font
     name_font = Font(name='Constantia', size=15, bold=True)
     title_font = Font(name='宋体', size=15, bold=True)
-    data_font = Font(name='Franklin Gothic Book', size=11)
 
     table_fill = PatternFill(fill_type='solid', fgColor='1F497D')
     f_border = Border(left=Side(border_style='medium', color='00000000'),
@@ -119,18 +113,11 @@ def generate_excel(report,
                               wrap_text=True,
                               shrink_to_fit=False,
                               indent=0)
-    c_r_alignment = Alignment(vertical='bottom',
-                              horizontal='center',
-                              text_rotation=0,
-                              wrap_text=True,
-                              shrink_to_fit=False,
-                              indent=0)
 
     # Img
     img = Image("excelexporters/myems.png")
     img.width = img.width * 0.85
     img.height = img.height * 0.85
-    # img = Image("myems.png")
     ws.add_image(img, 'B1')
 
     # Title
@@ -168,7 +155,7 @@ def generate_excel(report,
 
         return filename
 
-    ##################################
+    ####################################################################################################################
 
     reporting_period_data = report['reporting_period']
 
@@ -243,7 +230,7 @@ def generate_excel(report,
     else:
         for i in range(6, 8 + 1):
             ws.row_dimensions[i].height = 0.1
-    ##################################
+    ####################################################################################################################
     current_row_number = 10
     has_subtotals_data_flag = True
     if "subtotals" not in reporting_period_data.keys() or \
@@ -327,7 +314,7 @@ def generate_excel(report,
         for i in range(13, 22 + 1):
             ws.row_dimensions[i].height = 0.1
 
-    #############################################
+    ####################################################################################################################
     current_row_number = 14
     reporting_period_data = report['reporting_period']
     times = reporting_period_data['timestamps']
@@ -441,9 +428,9 @@ def generate_excel(report,
                 row = str(table_row + 1 + j)
                 ws[col + row].font = title_font
                 ws[col + row].alignment = c_c_alignment
-                every_day_sum = reporting_period_values_every_day_sum(reporting_period_data, j, ca_len)
-                total_sum += every_day_sum
-                ws[col + row] = round(every_day_sum, 2)
+                periodic_sum = reporting_period_values_periodic_sum(reporting_period_data, j, ca_len)
+                total_sum += periodic_sum
+                ws[col + row] = round(periodic_sum, 2)
                 ws[col + row].border = f_border
 
             row = str(table_row + 1 + len(time))
@@ -456,7 +443,7 @@ def generate_excel(report,
         for i in range(37, 69 + 1):
             ws.row_dimensions[i].height = 0.1
 
-    #####################################
+    ####################################################################################################################
 
     has_associated_equipment_flag = True
 
@@ -529,7 +516,7 @@ def generate_excel(report,
             ws[col_subtotal + row] = round(subtotal, 2)
             ws[col_subtotal + row].border = f_border
             print(subtotal)
-    ##########################################
+    ####################################################################################################################
     current_sheet_parameters_row_number = chart_start_row_number + ca_len * 6 + 1
     has_parameters_names_and_timestamps_and_values_data = True
     if 'parameters' not in report.keys() or \
@@ -548,14 +535,15 @@ def generate_excel(report,
         has_parameters_names_and_timestamps_and_values_data = False
     if has_parameters_names_and_timestamps_and_values_data:
 
-        ###############################
+        ################################################################################################################
         # new worksheet
-        ###############################
+        ################################################################################################################
 
         parameters_data = report['parameters']
         parameters_names_len = len(parameters_data['names'])
 
-        parameters_ws = wb.create_sheet('相关参数')
+        file_name = __file__.split('/')[-1].replace(".py", "")
+        parameters_ws = wb.create_sheet(file_name + 'Parameters')
 
         parameters_timestamps_data_max_len = \
             get_parameters_timestamps_lists_max_len(list(parameters_data['timestamps']))
@@ -580,7 +568,6 @@ def generate_excel(report,
         img = Image("excelexporters/myems.png")
         img.width = img.width * 0.85
         img.height = img.height * 0.85
-        # img = Image("myems.png")
         parameters_ws.add_image(img, 'B1')
 
         # Title
@@ -614,7 +601,7 @@ def generate_excel(report,
         parameters_ws_current_row_number = 6
 
         parameters_ws['B' + str(parameters_ws_current_row_number)].font = title_font
-        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' 相关参数'
+        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' Parameters'
 
         parameters_ws_current_row_number += 1
 
@@ -665,12 +652,12 @@ def generate_excel(report,
 
             table_current_col_number = table_current_col_number + 3
 
-        ########################################################
+        ################################################################################################################
         # parameters chart and parameters table
-        ########################################################
+        ################################################################################################################
 
         ws['B' + str(current_sheet_parameters_row_number)].font = title_font
-        ws['B' + str(current_sheet_parameters_row_number)] = name + ' 相关参数'
+        ws['B' + str(current_sheet_parameters_row_number)] = name + ' Parameters'
 
         current_sheet_parameters_row_number += 1
 
@@ -687,7 +674,7 @@ def generate_excel(report,
             data_col = 3+col_index*3
             labels_col = 2+col_index*3
             col_index += 1
-            line.title = '相关参数 - ' + \
+            line.title = 'Parameters - ' + \
                          parameters_ws.cell(row=parameters_table_start_row_number, column=data_col).value
             labels = Reference(parameters_ws, min_col=labels_col, min_row=parameters_table_start_row_number + 1,
                                max_row=(len(parameters_data['timestamps'][i])+parameters_table_start_row_number))
@@ -713,19 +700,19 @@ def generate_excel(report,
         current_sheet_parameters_row_number = chart_start_row_number
 
         current_sheet_parameters_row_number += 1
-    ##########################################
+    ####################################################################################################################
     filename = str(uuid.uuid4()) + '.xlsx'
     wb.save(filename)
 
     return filename
 
 
-def reporting_period_values_every_day_sum(reporting_period_data, every_day_index, ca_len):
-    every_day_sum = 0
+def reporting_period_values_periodic_sum(reporting_period_data, periodic_index, ca_len):
+    periodic_sum = 0
     for i in range(0, ca_len):
-        every_day_sum += reporting_period_data['values'][i][every_day_index]
+        periodic_sum += reporting_period_data['values'][i][periodic_index]
 
-    return every_day_sum
+    return periodic_sum
 
 
 def get_parameters_timestamps_lists_max_len(parameters_timestamps_lists):

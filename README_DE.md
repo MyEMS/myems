@@ -13,7 +13,8 @@
  [![Codacy Badge](https://app.codacy.com/project/badge/Grade/b2cd6049727240e2aaeb8fc7b4086166)](https://www.codacy.com/gh/MyEMS/myems/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=MyEMS/myems&amp;utm_campaign=Badge_Grade)
 
 ## MyEMS-Einführung
-MyEMS ist ein branchenführendes Open-Source-Energiemanagementsystem, das auf Cloud-Computing-, IOT-, Big Data- und AI-Technologien basiert. MyEMS kann für eine standardmäßige und leistungsstarke integrierte Energiemanagement-Serviceplattform verwendet werden.
+
+MyEMS ist ein industrie führend Open Source Energiemanagementsystem, das auf Cloud-Computing-, IOT-, Big Data- und AI-Technologien basiert. MyEMS kann für eine standardmäßige und leistungsstarke integrierte Energiemanagement-Serviceplattform verwendet werden.
 MyEMS wird von einem erfahrenen Entwicklungsteam entwickelt und gewartet, und der Quellcode des Systems wird unter MIT-Lizenz veröffentlicht.
 
 ## MyEMS Architektur
@@ -39,17 +40,9 @@ Dieses Projekt besteht aus folgenden Komponenten:
 
 [Installieren admin UI](./admin/README.md)
 
-### MyEMS BACnet/IP Acquisition Service (Python)
-
-[Installieren myems-bacnet](../myems-bacnet/README.md)
-
 ### MyEMS Modbus TCP Acquisition Service (Python)
 
 [Installieren myems-modbus-tcp](./myems-modbus-tcp/README.md)
-
-### MyEMS MQTT Data vorwärts Service (Python)
-
-[Installieren myems-mqtt-publisher](./myems-mqtt-publisher/README.md)
 
 ### MyEMS Cleaning Service (Python)
 
@@ -67,6 +60,43 @@ Dieses Projekt besteht aus folgenden Komponenten:
 
 [Installieren web UI](./web/README.md)
 
+### Docker Docker-compose Installieren 
+
+```
+git clone https://gitee.com/myems/myems.git 
+```
+
+Ändern Sie die Datenbankkonfiguration in den folgenden Dateien
+Angenommen, die Datenbank-IP lautet 192.168.2.2
+```
+sudo nano myems-api/config.py 
+sudo nano myems-aggregation/config.py 
+sudo nano myems-cleaning/config.py 
+sudo nano myems-modbus-tcp/config.py 
+sudo nano myems-normalization/config.py 
+
+# host: '127.0.0.1' => 'host': '192.168.2.2'
+```
+
+Ändern Sie den location '/api' von nginx.conf in web und admin
+Angenommen, die Host-IP lautet 192.168.2.3
+```
+sudo nano admin/nginx.conf
+sudo nano web/nginx.conf
+# proxy_pass http://127.0.0.1:8000/;  => proxy_pass http://192.168.2.3:8000/; 
+```
+
+Verpacken Sie das web, um Produktdateien zu generieren
+```
+cd myems/web
+npm install
+npm run build
+```
+Mit docker-compose installieren
+```
+cd myems
+docker-compose up -d 
+```
 
 ## Editionen vergleichen
 
@@ -76,15 +106,15 @@ Dieses Projekt besteht aus folgenden Komponenten:
 | Pricing                          | Free            | Pay for Projects |              |
 | Change Name and Logo             | ️❌             | ✔️        |                      |
 | Modbus TCP                       | ✔️             | ✔️        |                      |
-| Data Points Number               | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
-| Meters Number                    | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
-| Spaces Number                    | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
-| Equipments Number                | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
-| Tenants Number                   | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
-| Stores Number                    | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
-| Shopfloors Number                | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
-| Combined Equipments Number       | Unbegrenzt     | Unbegrenzt | Nur durch die Hardwareleistung begrenzt |
-| Docker                           | ❌             | ✔️        | https://www.docker.com/ |
+| Data Points Number               | Unbegrenzt     | Unbegrenzt | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
+| Meters Number                    | Unbegrenzt     | Unbegrenzt | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
+| Spaces Number                    | Unbegrenzt     | Unbegrenzt | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
+| Equipments Number                | Unbegrenzt     | Unbegrenzt | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
+| Tenants Number                   | Unbegrenzt     | Unbegrenzt | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
+| Stores Number                    | Unbegrenzt     | Unbegrenzt | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
+| Shopfloors Number                | Unbegrenzt     | Unbegrenzt | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
+| Combined Equipments Number       | Unbegrenzt     | Unbegrenzt | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
+| Docker                           | ✔️             | ✔️        | https://www.docker.com/ |
 | Kubernetes                       | ❌             | ✔️        | https://kubernetes.io/ |
 | MySQL                            | ✔️             | ✔️        | http://mysql.com/    |
 | MariaDB                          | ✔️             | ✔️        | https://mariadb.org/ |
@@ -122,7 +152,8 @@ Dieses Projekt besteht aus folgenden Komponenten:
 | Equipment/Efficiency Data        | ✔️             | ✔️        |                      |
 | Equipment/Load Data              | ✔️             | ✔️        |                      |
 | Equipment/Statistics             | ✔️             | ✔️        |                      |
-| Equipment/Saving Data            | ❌             | ✔️        | Erfordert eine Komponente zur Vorhersage des Energieverbrauchs |
+| Equipment/Saving Data            | ❌            | ✔️        | Erfordert eine Komponente zur Vorhersage des Energieverbrauchs |
+| Equipment/Batch Analysis         | ✔️             | ✔️        |                      |
 | Equipment/Equipment Tracking     | ✔️             | ✔️        |                      |
 | Tenant/Energy Category Data      | ✔️             | ✔️        |                      |
 | Tenant/Energy Item Data          | ✔️             | ✔️        |                      |
@@ -205,12 +236,19 @@ Dieses Projekt besteht aus folgenden Komponenten:
 ![MyEMS Space EnergyCategory3](/docs/images/myems-space-energycategory3.gif)
 ![MyEMS Großbild-Dashboard](/docs/images/myems-large-screen-dashboard.gif)
 
+
+## MyEMS Straßenkarte
+
+[Community Edition Straßenkarte](https://github.com/orgs/MyEMS/projects)
+
+
 ## MyEMS Spiegel
 
-[1]. http://github.com/MyEMS/myems
+[1]. [http://github.com/MyEMS/myems](http://github.com/MyEMS/myems)
+  
+[2]. [http://gitee.com/myems/myems](http://gitee.com/myems/myems)
 
-[2]. http://gitee.com/myems/myems
+[3]. [http://bitbucket.org/myems/myems](http://bitbucket.org/myems/myems)
 
-[3]. http://bitbucket.org/myems/myems
+[4]. [https://gitlab.com/myems/myems](https://gitlab.com/myems/myems)
 
-[4]. https://gitlab.com/myems/myems

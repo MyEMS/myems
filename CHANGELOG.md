@@ -16,6 +16,87 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None.
 
+## [v1.2.0] - 2021-08-08
+### Added
+- Added demo data to database 
+
+### Changed
+- Replaced every_day_* to periodic_* in excelexporters of API
+- Updated Dockerfiles
+
+### Fixed
+- Replaced every_day_* to periodic_* in excelexporters of API
+- Fixed data issues of tbl_menus in database
+
+### Removed
+- Deleted unnecessary words in translations of Admin UI
+
+## [v1.1.6] - 2021-08-02
+### Added
+- Added Meter Batch Analysis Report
+- Added Child Space Share Pies for SpaceCost in Web UI
+- Added Web UI & Admin UI Installation Guide on Apache Web Server
+- Added Dockerfiles
+- Added Customized Menus in Web UI, API and Admin UI
+
+### Changed
+- None.
+
+### Fixed
+- Upgraded jquery to v2.2.4 in Admin UI
+
+### Removed
+- None.
+
+## [v1.1.5] - 2021-07-20
+### Added
+- None.
+
+### Changed
+- changed all worksheet names of Excel exporters in API
+
+### Fixed
+- updated upgrade1.1.4 sql
+- fixed issue of gitignore in Admin UI
+
+### Removed
+- None.
+
+## [v1.1.4] - 2021-07-19
+### Added
+- added tbl_email_messages to myems_reporting_db
+- added data sort to FDD messages in Admin UI
+- added new category to FDD rule in API & Admin UI
+- added Search Input for meters in Web UI
+- added last year data to dashboard
+- added ChildSpaceProportion SharePies to Space Energy Category report of Web UI
+- added ORDER BY utc_date_time to all digital parameters data in API
+- added the pagination for meter realtime page
+- added pagination to MeterRealtime in Web UI
+- added internationalization of Vertical Navigation Bar in Web UI
+- added Equipment Batch Analysis report API
+- added Cost File to API and Admin UI
+- added restore button to offline meter file in API and Admin UI
+
+### Changed
+- changed GET Data Source Point Collection to order by ID
+- changed equipment and combined equipment associated points name to parameters name in reports API
+- updated validate expression of rule in API
+- updated i18n in Web UI
+- upgraded Web UI library to 2.10.2
+
+### Fixed
+- fixed typo for deleting email messages in Admin UI
+- fixed issues of deleting text message and wechat message in Admin UI
+- fixed base period cost units issue of Dashboard API
+- fixed selected meter issues in onSearchMeter of Web UI
+- fixed wrong HTTP Status Code issues in API
+- fixed Child Space Share Pie issue in excel exporter of spaceenergycategory
+
+### Removed
+- Drop table tbl_sms_recipients from myems_fdd_db
+- deleted parameters data from Dashboard
+
 ## [v1.1.3] - 2021-05-25
 ### Added
 - added Combined Equipment Batch Analysis Report
@@ -47,7 +128,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [v1.1.2] - 2021-04-23
 ### Added
-- added assoicated parameters data to excel exporter of shopfloorstatistics in API
+- added associated parameters data to excel exporter of shopfloorstatistics in API
 - added associated parameters data to excel exporter of shopfloorsaving in API
 - added associated parameters data to excel exporter of shopfloorload in API
 - added associated parameters data to excel exporter of shopfloorenergyitem in API
@@ -72,13 +153,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added associated parameters data to excel exporter of metersubmetersbalance in API
 - added parameters data to excel exporter of metercost in API
 - added associated parameters data to excel exporter of tenantstatistics in API
-- added associated paramters data to excel exporter of tenantsaving in API
-- added associated paramters data to excel exporter of tenantload in API
-- added associated paramters data to excel exporter of tenantenergyitem in API
+- added associated parameters data to excel exporter of tenantsaving in API
+- added associated parameters data to excel exporter of tenantload in API
+- added associated parameters data to excel exporter of tenantenergyitem in API
 - added associated parameters data to excel exporter of tenantenergycategory in API
 - added associated parameters data to excel exporter of tenantcost in API
 - added associated parameters data to excel exporter of combinedequipmentstatistics in API
-- added associated paramters data to combinedequipmentsaving in API
+- added associated parameters data to combinedequipmentsaving in API
 - added associated parameters data to combinedequipmentload in API
 - added associated parameters data to combinedequipmentoutput in API
 - added associated parameters data to combinedequipmentincome in API
@@ -86,11 +167,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added associated parameters data to combinedequipmentenergycategory in API
 - added associated parameters data to combinedequipmentcost in API
 - added quickmode to HTTP request parameters of MeterTrend report in API
-- added paramter data to excel exporter of EquipmentStatistics in API
+- added parameter data to excel exporter of EquipmentStatistics in API
 - added parameter data to excel exporter of EquipmentSaving in API
-- added paramter data to excel exporter of EquipmentOutput in API
+- added parameter data to excel exporter of EquipmentOutput in API
 - added parameter data to excel exporter of EquipmentLoad in API
-- added paramters data to excel exporter of EquipmentEnergyItem in API
+- added parameters data to excel exporter of EquipmentEnergyItem in API
 - added parameters data to excel exporter of EquipmentEnergyCategory in API
 
 ### Changed
@@ -125,7 +206,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added associated equipment data to CombinedEquipmentIncome report in API
 - added associated equipment data to CombinedEquipmentEnergyItem report in API
 - added associated equipment data to CombinedEquipmentEnergyCategory report in API
-- added quickmode paramter to combinedequipmentefficiency report in API
+- added quickmode parameter to combinedequipmentefficiency report in API
 - added associated equipment data to CombinedEquipmentStatistics in Web UI
 - added associated equipment data to CombinedEquipmentLoad in Web UI
 - added excel exporter of equipmentcost reporter in API
@@ -147,7 +228,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 - fixed omission mistakes in myems-cleaning
 - fixed error for large number of parameters in combinedequipmentefficiency and equipmentefficiency in API
-- fixed error of None Comparision in API
+- fixed error of None Comparison in API
 - fixed NoneType error in all Load reports API.
 
 ### Removed
@@ -256,7 +337,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v1.1.3...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v1.2.0...HEAD
+[v1.2.0]: https://github.com/MyEMS/myems/compare/v1.1.6...v1.2.0
+[v1.1.6]: https://github.com/MyEMS/myems/compare/v1.1.5...v1.1.6
+[v1.1.5]: https://github.com/MyEMS/myems/compare/v1.1.4...v1.1.5
+[v1.1.4]: https://github.com/MyEMS/myems/compare/v1.1.3...v1.1.4
 [v1.1.3]: https://github.com/MyEMS/myems/compare/v1.1.2...v1.1.3
 [v1.1.2]: https://github.com/MyEMS/myems/compare/v1.1.1...v1.1.2
 [v1.1.1]: https://github.com/MyEMS/myems/compare/v1.1.0...v1.1.1

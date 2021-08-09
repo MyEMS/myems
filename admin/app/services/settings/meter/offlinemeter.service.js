@@ -9,7 +9,7 @@ app.factory('OfflineMeterService', function($http) {
                 .error(function (e,status) {  
                     callback(e,status);  
                 });
-        },
+        },  
         searchOfflineMeters: function(query, callback) {  
             $http.get(getAPI()+'offlinemeters', { params: { q: query } })  
                 .success(function (response, status, headers, config) {  
@@ -28,7 +28,7 @@ app.factory('OfflineMeterService', function($http) {
                     callback(e,status);  
                 });  
         },
-        editOfflineMeter: function(offlinemeter, callback) {  
+        editdOfflineMeter: function(offlinemeter, callback) {  
             $http.put(getAPI()+'offlinemeters/'+offlinemeter.id,{data:offlinemeter})  
                 .success(function (response, status, headers, config) {  
                     callback(null, status);  

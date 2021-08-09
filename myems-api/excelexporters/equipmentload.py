@@ -1,10 +1,7 @@
 import base64
 import uuid
 import os
-from openpyxl.chart import (
-    LineChart,
-    Reference,
-)
+from openpyxl.chart import LineChart, Reference
 from openpyxl.chart.label import DataLabelList
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 from openpyxl.drawing.image import Image
@@ -12,12 +9,12 @@ from openpyxl import Workbook
 import openpyxl.utils.cell as format_cell
 
 
-####################################################################################################################
+########################################################################################################################
 # PROCEDURES
 # Step 1: Validate the report data
 # Step 2: Generate excel file
 # Step 3: Encode the excel file bytes to Base64
-####################################################################################################################
+########################################################################################################################
 
 
 def export(report,
@@ -67,6 +64,7 @@ def generate_excel(report,
                    period_type):
     wb = Workbook()
     ws = wb.active
+    ws.title = "EquipmentLoad"
 
     # Row height
     ws.row_dimensions[1].height = 102
@@ -84,7 +82,6 @@ def generate_excel(report,
     # Font
     name_font = Font(name='Constantia', size=15, bold=True)
     title_font = Font(name='宋体', size=15, bold=True)
-    # data_font = Font(name='Franklin Gothic Book', size=11)
 
     table_fill = PatternFill(fill_type='solid', fgColor='1F497D')
     f_border = Border(left=Side(border_style='medium', color='00000000'),
@@ -92,9 +89,7 @@ def generate_excel(report,
                       bottom=Side(border_style='medium', color='00000000'),
                       top=Side(border_style='medium', color='00000000')
                       )
-    b_border = Border(
-        bottom=Side(border_style='medium', color='00000000'),
-    )
+    b_border = Border(bottom=Side(border_style='medium', color='00000000'), )
 
     b_c_alignment = Alignment(vertical='bottom',
                               horizontal='center',
@@ -114,16 +109,9 @@ def generate_excel(report,
                               wrap_text=False,
                               shrink_to_fit=False,
                               indent=0)
-    # c_r_alignment = Alignment(vertical='bottom',
-    #                           horizontal='center',
-    #                           text_rotation=0,
-    #                           wrap_text=False,
-    #                           shrink_to_fit=False,
-    #                           indent=0)
 
     # Img
     img = Image("excelexporters/myems.png")
-    # img = Image("myems.png")
     img.width = img.width * 1.06
     img.height = img.height * 1.06
     ws.add_image(img, 'B1')
@@ -160,113 +148,107 @@ def generate_excel(report,
         wb.save(filename)
 
         return filename
-    #################################################
+    ####################################################################################################################
     # First: 统计分析
     # 6: title
     # 7: table title
     # 8~2*ca_len table_data
-    #################################################
+    ####################################################################################################################
     reporting_period_data = report['reporting_period']
-
-    has_energy_data_flag = True
 
     if "names" not in reporting_period_data.keys() or \
             reporting_period_data['names'] is None or \
             len(reporting_period_data['names']) == 0:
-        has_energy_data_flag = False
-
         filename = str(uuid.uuid4()) + '.xlsx'
         wb.save(filename)
-
         return filename
 
-    if has_energy_data_flag:
-        ws['B6'].font = title_font
-        ws['B6'] = name + ' 统计分析'
+    ws['B6'].font = title_font
+    ws['B6'] = name + ' 统计分析'
 
-        category = reporting_period_data['names']
+    category = reporting_period_data['names']
 
-        # table_title
-        ws['B7'].fill = table_fill
-        ws['B7'].font = title_font
-        ws['B7'].alignment = c_c_alignment
-        ws['B7'] = '报告期'
-        ws['B7'].border = f_border
+    # table_title
+    ws['B7'].fill = table_fill
+    ws['B7'].font = title_font
+    ws['B7'].alignment = c_c_alignment
+    ws['B7'] = '报告期'
+    ws['B7'].border = f_border
 
-        ws['C7'].font = title_font
-        ws['C7'].alignment = c_c_alignment
-        ws['C7'] = '平均负荷'
-        ws['C7'].border = f_border
+    ws['C7'].font = title_font
+    ws['C7'].alignment = c_c_alignment
+    ws['C7'] = '平均负荷'
+    ws['C7'].border = f_border
 
-        ws['D7'].font = title_font
-        ws['D7'].alignment = c_c_alignment
-        ws['D7'] = '最大负荷'
-        ws['D7'].border = f_border
+    ws['D7'].font = title_font
+    ws['D7'].alignment = c_c_alignment
+    ws['D7'] = '最大负荷'
+    ws['D7'].border = f_border
 
-        ws['E7'].font = title_font
-        ws['E7'].alignment = c_c_alignment
-        ws['E7'] = '负荷系数'
-        ws['E7'].border = f_border
+    ws['E7'].font = title_font
+    ws['E7'].alignment = c_c_alignment
+    ws['E7'] = '负荷系数'
+    ws['E7'].border = f_border
 
-        # table_data
+    # table_data
 
-        for i, value in enumerate(category):
-            row = i * 2 + 8
-            ws['B' + str(row)].font = name_font
-            ws['B' + str(row)].alignment = c_c_alignment
-            ws['B' + str(row)] = reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + "/H )"
-            ws['B' + str(row)].border = f_border
+    for i, value in enumerate(category):
+        row = i * 2 + 8
+        ws['B' + str(row)].font = name_font
+        ws['B' + str(row)].alignment = c_c_alignment
+        ws['B' + str(row)] = reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + "/H )"
+        ws['B' + str(row)].border = f_border
 
-            ws['B' + str(row + 1)].font = name_font
-            ws['B' + str(row + 1)].alignment = c_c_alignment
-            ws['B' + str(row + 1)] = "环比"
-            ws['B' + str(row + 1)].border = f_border
+        ws['B' + str(row + 1)].font = name_font
+        ws['B' + str(row + 1)].alignment = c_c_alignment
+        ws['B' + str(row + 1)] = "环比"
+        ws['B' + str(row + 1)].border = f_border
 
-            ws['C' + str(row)].font = name_font
-            ws['C' + str(row)].alignment = c_c_alignment
-            ws['C' + str(row)] = round(reporting_period_data['averages'][i], 2) \
-                if reporting_period_data['averages'][i] is not None else ''
-            ws['C' + str(row)].border = f_border
-            ws['C' + str(row)].number_format = '0.00'
+        ws['C' + str(row)].font = name_font
+        ws['C' + str(row)].alignment = c_c_alignment
+        ws['C' + str(row)] = round(reporting_period_data['averages'][i], 2) \
+            if reporting_period_data['averages'][i] is not None else ''
+        ws['C' + str(row)].border = f_border
+        ws['C' + str(row)].number_format = '0.00'
 
-            ws['C' + str(row + 1)].font = name_font
-            ws['C' + str(row + 1)].alignment = c_c_alignment
-            ws['C' + str(row + 1)] = str(round(reporting_period_data['averages_increment_rate'][i] * 100, 2)) + "%" \
-                if reporting_period_data['averages_increment_rate'][i] is not None else '0.00%'
-            ws['C' + str(row + 1)].border = f_border
+        ws['C' + str(row + 1)].font = name_font
+        ws['C' + str(row + 1)].alignment = c_c_alignment
+        ws['C' + str(row + 1)] = str(round(reporting_period_data['averages_increment_rate'][i] * 100, 2)) + "%" \
+            if reporting_period_data['averages_increment_rate'][i] is not None else '0.00%'
+        ws['C' + str(row + 1)].border = f_border
 
-            ws['D' + str(row)].font = name_font
-            ws['D' + str(row)].alignment = c_c_alignment
-            ws['D' + str(row)] = round(reporting_period_data['maximums'][i], 2) \
-                if reporting_period_data['maximums'][i] is not None else ''
-            ws['D' + str(row)].border = f_border
-            ws['D' + str(row)].number_format = '0.00'
+        ws['D' + str(row)].font = name_font
+        ws['D' + str(row)].alignment = c_c_alignment
+        ws['D' + str(row)] = round(reporting_period_data['maximums'][i], 2) \
+            if reporting_period_data['maximums'][i] is not None else ''
+        ws['D' + str(row)].border = f_border
+        ws['D' + str(row)].number_format = '0.00'
 
-            ws['D' + str(row + 1)].font = name_font
-            ws['D' + str(row + 1)].alignment = c_c_alignment
-            ws['D' + str(row + 1)] = str(round(reporting_period_data['maximums_increment_rate'][i] * 100, 2)) + "%" \
-                if reporting_period_data['maximums_increment_rate'][i] is not None else '0.00%'
-            ws['D' + str(row + 1)].border = f_border
+        ws['D' + str(row + 1)].font = name_font
+        ws['D' + str(row + 1)].alignment = c_c_alignment
+        ws['D' + str(row + 1)] = str(round(reporting_period_data['maximums_increment_rate'][i] * 100, 2)) + "%" \
+            if reporting_period_data['maximums_increment_rate'][i] is not None else '0.00%'
+        ws['D' + str(row + 1)].border = f_border
 
-            ws['E' + str(row)].font = name_font
-            ws['E' + str(row)].alignment = c_c_alignment
-            ws['E' + str(row)] = round(reporting_period_data['factors'][i], 2) \
-                if reporting_period_data['factors'][i] is not None else ''
-            ws['E' + str(row)].border = f_border
-            ws['E' + str(row)].number_format = '0.00'
+        ws['E' + str(row)].font = name_font
+        ws['E' + str(row)].alignment = c_c_alignment
+        ws['E' + str(row)] = round(reporting_period_data['factors'][i], 2) \
+            if reporting_period_data['factors'][i] is not None else ''
+        ws['E' + str(row)].border = f_border
+        ws['E' + str(row)].number_format = '0.00'
 
-            ws['E' + str(row + 1)].font = name_font
-            ws['E' + str(row + 1)].alignment = c_c_alignment
-            ws['E' + str(row + 1)] = str(round(reporting_period_data['factors_increment_rate'][i] * 100, 2)) + "%" \
-                if reporting_period_data['factors_increment_rate'][i] is not None else '0.00%'
-            ws['E' + str(row + 1)].border = f_border
+        ws['E' + str(row + 1)].font = name_font
+        ws['E' + str(row + 1)].alignment = c_c_alignment
+        ws['E' + str(row + 1)] = str(round(reporting_period_data['factors_increment_rate'][i] * 100, 2)) + "%" \
+            if reporting_period_data['factors_increment_rate'][i] is not None else '0.00%'
+        ws['E' + str(row + 1)].border = f_border
 
-    ########################################################
+    ####################################################################################################################
     # Third: 详细数据
     # row_sat~ row_sat + 6*cal_len: line
     # row_da: table title
     # row_da + 1~: table_data
-    ########################################################
+    ####################################################################################################################
     has_timestamps_flag = True
     if "timestamps" not in reporting_period_data.keys() or \
             reporting_period_data['timestamps'] is None or \
@@ -338,18 +320,8 @@ def generate_excel(report,
                 ws[col_maximum + str(rows)].border = f_border
         current_row_number = row_da + 1 + time_len
 
-        # ws['B' + str(current_row_number)].font = title_font
-        # ws['B' + str(current_row_number)].alignment = c_c_alignment
-        # ws['B' + str(current_row_number)].border = f_border
-        # ws['B' + str(current_row_number)] = '小计'
         # LineChart
         for i in range(0, ca_len):
-            # col = chr(ord('C') + i)
-            # ws[col + str(current_row_number)].font = title_font
-            # ws[col + str(current_row_number)].alignment = c_c_alignment
-            # ws[col + str(current_row_number)].border = f_border
-            # ws[col + str(current_row_number)] = round(reporting_period_data['subtotals'][i], 2)
-
             lc = LineChart()
             lc.title = "报告期 最大负荷"
             lc.style = 10
@@ -375,7 +347,7 @@ def generate_excel(report,
             chart_cell = str(row_sat + 6 * i)
             ws.add_chart(lc, chart_col + chart_cell)
 
-    ###########################################
+    ####################################################################################################################
     current_sheet_parameters_row_number = row_sat + 1 + 6 * ca_len
     has_parameters_names_and_timestamps_and_values_data = True
     if 'parameters' not in report.keys() or \
@@ -393,14 +365,15 @@ def generate_excel(report,
         has_parameters_names_and_timestamps_and_values_data = False
     if has_parameters_names_and_timestamps_and_values_data:
 
-        ###############################
+        ################################################################################################################
         # new worksheet
-        ###############################
+        ################################################################################################################
 
         parameters_data = report['parameters']
         parameters_names_len = len(parameters_data['names'])
 
-        parameters_ws = wb.create_sheet('相关参数')
+        file_name = __file__.split('/')[-1].replace(".py", "")
+        parameters_ws = wb.create_sheet(file_name + 'Parameters')
 
         parameters_timestamps_data_max_len = \
             get_parameters_timestamps_lists_max_len(list(parameters_data['timestamps']))
@@ -425,7 +398,6 @@ def generate_excel(report,
         img = Image("excelexporters/myems.png")
         img.width = img.width * 0.85
         img.height = img.height * 0.85
-        # img = Image("myems.png")
         parameters_ws.add_image(img, 'B1')
 
         # Title
@@ -459,7 +431,7 @@ def generate_excel(report,
         parameters_ws_current_row_number = 6
 
         parameters_ws['B' + str(parameters_ws_current_row_number)].font = title_font
-        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' 相关参数'
+        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' Parameters'
 
         parameters_ws_current_row_number += 1
 
@@ -510,12 +482,12 @@ def generate_excel(report,
 
             table_current_col_number = table_current_col_number + 3
 
-        ########################################################
+        ################################################################################################################
         # parameters chart and parameters table
-        ########################################################
+        ################################################################################################################
 
         ws['B' + str(current_sheet_parameters_row_number)].font = title_font
-        ws['B' + str(current_sheet_parameters_row_number)] = name + ' 相关参数'
+        ws['B' + str(current_sheet_parameters_row_number)] = name + ' Parameters'
 
         current_sheet_parameters_row_number += 1
 
@@ -532,7 +504,7 @@ def generate_excel(report,
             data_col = 3 + col_index * 3
             labels_col = 2 + col_index * 3
             col_index += 1
-            line.title = '相关参数 - ' + \
+            line.title = 'Parameters - ' + \
                          parameters_ws.cell(row=parameters_table_start_row_number, column=data_col).value
             labels = Reference(parameters_ws, min_col=labels_col, min_row=parameters_table_start_row_number + 1,
                                max_row=(len(parameters_data['timestamps'][i]) + parameters_table_start_row_number))
@@ -558,7 +530,7 @@ def generate_excel(report,
         current_sheet_parameters_row_number = chart_start_row_number
 
         current_sheet_parameters_row_number += 1
-    ###########################################
+    ####################################################################################################################
     filename = str(uuid.uuid4()) + '.xlsx'
     wb.save(filename)
 

@@ -21,11 +21,10 @@ app.controller('CostFileController', function (
                 $scope.costfiles = [];
             }
         });
-
     };
 
     $scope.dzOptions = {
-        url: getAPI() + 'offlinecostfiles',
+        url: getAPI() + 'costfiles',
         acceptedFiles: '.xlsx',
         dictDefaultMessage: 'Click(or Drop) to add files',
         maxFilesize: '100',
@@ -37,7 +36,6 @@ app.controller('CostFileController', function (
             console.info('File added.', file);
         },
         'success': function (file, xhr) {
-            //console.log('File success to upload from dropzone', file, xhr);
             var popType = 'TOASTER.SUCCESS';
             var popTitle = $common.toaster.success_title;
             var popBody = $common.toaster.success_add_body.format(file.name);
@@ -52,19 +50,9 @@ app.controller('CostFileController', function (
                 body: popBody,
                 showCloseButton: true,
             });
-
-            // toaster.pop({
-            //     type: 'success',
-            //     title: $common.toaster.success_title,
-            //     body: $common.toaster.success_add_body.format(file.name),
-            //     showCloseButton: true,
-            // });
             $scope.getAllCostFiles();
         },
         'error': function (file, xhr) {
-            //console.warn('File failed to upload from dropzone', file, xhr);
-
-
             var popType = 'TOASTER.ERROR';
             var popTitle = $common.toaster.error_title;
             var popBody = $common.toaster.error_add_body.format(file.name);
@@ -79,16 +67,29 @@ app.controller('CostFileController', function (
                 body: popBody,
                 showCloseButton: true,
             });
-
-            // toaster.pop({
-            //     type: 'error',
-            //     title: $common.toaster.error_title,
-            //     body: $common.toaster.error_add_body.format(file.name),
-            //     showCloseButton: true,
-            // });
         }
     };
 
+    $scope.restoreCostFile = function (costfile) {
+        CostFileService.restoreCostFile(costfile, function (error, data) {
+            if (!error) {
+                toaster.pop({
+                    type: $translate.instant('TOASTER.SUCCESS'),
+                    title: $translate.instant('TOASTER.SUCCESS_TITLE'),
+                    body: $translate.instant('SETTING.RESTORE_SUCCESS'),
+                    showCloseButton: true,
+                });
+                $scope.getAllCostFiles();
+            } else {
+                toaster.pop({
+                    type: $translate.instant('TOASTER.ERROR'),
+                    title: $translate.instant(error.title),
+                    body: $translate.instant(error.description),
+                    showCloseButton: true,
+                });
+            }
+        });
+    };
 
     $scope.deleteCostFile = function (costfile) {
         SweetAlert.swal({
@@ -106,7 +107,7 @@ app.controller('CostFileController', function (
                 if (isConfirm) {
                     CostFileService.deleteCostFile(costfile, function (error, status) {
                         if (angular.isDefined(status) && status == 204) {
-                            var templateName = "TOASTER.COST_FILE";
+                            var templateName = "SETTING.COST_FILE";
                             templateName = $translate.instant(templateName);
 
                             var popType = 'TOASTER.SUCCESS';

@@ -3,9 +3,9 @@ from falcon_cors import CORS
 from falcon_multipart.middleware import MultipartMiddleware
 from core import energyflowdiagram, privilege, textmessage, distributioncircuit, virtualmeter, \
     costcenter, point, knowledgefile, meter, gsmmodem, tariff, user, storetype, timezone, \
-    offlinecostfile, offlinemeterfile, version, contact, emailserver, combinedequipment, datasource, equipment, tenant, shopfloor, \
+    costfile, offlinemeterfile, version, contact, emailserver, combinedequipment, datasource, equipment, tenant, shopfloor, \
     webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, offlinemeter, \
-    rule, energycategory, sensor, energyitem, notification
+    rule, energycategory, sensor, energyitem, notification, menu
 from reports import advancedreport
 from reports import distributionsystem as distributionsystemreport
 from reports import energyflowdiagram as energyflowdiagramreport
@@ -43,6 +43,7 @@ from reports import meterrealtime
 from reports import metersubmetersbalance
 from reports import metertrend
 from reports import metertracking
+from reports import meterbatch
 from reports import offlinemeterenergy
 from reports import offlinemetercost
 from reports import shopfloorcost
@@ -140,10 +141,12 @@ api.add_route('/costcenters/{id_}/tariffs',
 api.add_route('/costcenters/{id_}/tariffs/{tid}',
               costcenter.CostCenterTariffItem())
 
-api.add_route('/offlinecostfiles',
-              offlinecostfile.OfflineCostFileCollection())
-api.add_route('/offlinecostfiles/{id_}',
-              offlinecostfile.OfflineCostFileItem())
+api.add_route('/costfiles',
+              costfile.CostFileCollection())
+api.add_route('/costfiles/{id_}',
+              costfile.CostFileItem())
+api.add_route('/costfiles/{id_}/restore',
+              costfile.CostFileRestore())
 
 api.add_route('/datasources',
               datasource.DataSourceCollection())
@@ -240,6 +243,15 @@ api.add_route('/knowledgefiles/{id_}',
               knowledgefile.KnowledgeFileItem())
 api.add_route('/knowledgefiles/{id_}/restore',
               knowledgefile.KnowledgeFileRestore())
+
+api.add_route('/menus',
+              menu.MenuCollection())
+api.add_route('/menus/{id_}',
+              menu.MenuItem())
+api.add_route('/menus/{id_}/children',
+              menu.MenuChildrenCollection())
+api.add_route('/menus/web',
+              menu.MenuWebCollection())
 
 api.add_route('/meters',
               meter.MeterCollection())
@@ -547,6 +559,8 @@ api.add_route('/reports/fddstorefault',
               fddstorefault.Reporting())
 api.add_route('/reports/fddtenantfault',
               fddtenantfault.Reporting())
+api.add_route('/reports/meterbatch',
+              meterbatch.Reporting())
 api.add_route('/reports/metercost',
               metercost.Reporting())
 api.add_route('/reports/meterenergy',

@@ -13,7 +13,8 @@
  [![Codacy Badge](https://app.codacy.com/project/badge/Grade/b2cd6049727240e2aaeb8fc7b4086166)](https://www.codacy.com/gh/MyEMS/myems/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=MyEMS/myems&amp;utm_campaign=Badge_Grade)
 
 ## MyEMS Introduction
- MyEMS is an industry leading open source Energy Management System that is built on cloud computing, IOT, Big Data and AI technologies. MyEMS can be used for a standard and powerful integrated energy management service platform.
+
+MyEMS is an industry-leading open source Energy Management System that is built on cloud computing, IOT, Big Data and AI technologies. MyEMS can be used for a standard and powerful integrated energy management service platform.
 MyEMS is being developed and maintained by an experienced development team, and the system's source code is published under MIT license.
 
 ## MyEMS Architecture
@@ -39,17 +40,9 @@ This project is compose of  following components:
 
 [Install admin UI](./admin/README.md)
 
-### MyEMS BACnet/IP Acquisition Service (Python)
-
-[Install myems-bacnet](../myems-bacnet/README.md)
-
 ### MyEMS Modbus TCP Acquisition Service (Python)
 
 [Install myems-modbus-tcp](./myems-modbus-tcp/README.md)
-
-### MyEMS MQTT Data Forwarding Service (Python)
-
-[Install myems-mqtt-publisher](./myems-mqtt-publisher/README.md)
 
 ### MyEMS Cleaning Service (Python)
 
@@ -67,6 +60,42 @@ This project is compose of  following components:
 
 [Install web UI](./web/README.md)
 
+### Docker-compose Installation
+
+```
+git clone https://gitee.com/myems/myems.git 
+```
+
+Modify Database IP in the following files
+Assume the Database IP is 192.168.2.2
+```
+sudo nano myems-api/config.py 
+sudo nano myems-aggregation/config.py 
+sudo nano myems-cleaning/config.py 
+sudo nano myems-modbus-tcp/config.py 
+sudo nano myems-normalization/config.py 
+
+# host: '127.0.0.1' => 'host': '192.168.2.2'
+```
+Modify location '/api' in nginx.conf of web and admin
+Assume the Host IP is 192.168.2.3
+```
+sudo nano admin/nginx.conf
+sudo nano web/nginx.conf
+# proxy_pass http://127.0.0.1:8000/;  => proxy_pass http://192.168.2.3:8000/; 
+```
+
+Build web for production 
+```
+cd myems/web
+npm install
+npm run build
+```
+Install with docker-compose
+```
+cd myems
+docker-compose up -d 
+```
 
 ## Compare Editions
 
@@ -76,15 +105,15 @@ This project is compose of  following components:
 | Pricing                          | Free            | Pay for Projects |               |
 | Change Name and Logo             | ❌️             | ✔️        |                      |
 | Modbus TCP                       | ✔️             | ✔️        |                      |
-| Data Points Number               | Unlimited       | Unlimited | Limited only by hardware performance |
-| Meters Number                    | Unlimited       | Unlimited | Limited only by hardware performance |
-| Spaces Number                    | Unlimited       | Unlimited | Limited only by hardware performance |
-| Equipments Number                | Unlimited       | Unlimited | Limited only by hardware performance |
-| Tenants Number                   | Unlimited       | Unlimited | Limited only by hardware performance |
-| Stores Number                    | Unlimited       | Unlimited | Limited only by hardware performance |
-| Shopfloors Number                | Unlimited       | Unlimited | Limited only by hardware performance |
-| Combined Equipments Number       | Unlimited       | Unlimited | Limited only by hardware performance |
-| Docker                           | ❌             | ✔️        | https://www.docker.com/ |
+| Data Points Number               | Unlimited       | Unlimited | The actual number is limited by the upper limit of server resources |
+| Meters Number                    | Unlimited       | Unlimited | The actual number is limited by the upper limit of server resources |
+| Spaces Number                    | Unlimited       | Unlimited | The actual number is limited by the upper limit of server resources |
+| Equipments Number                | Unlimited       | Unlimited | The actual number is limited by the upper limit of server resources |
+| Tenants Number                   | Unlimited       | Unlimited | The actual number is limited by the upper limit of server resources |
+| Stores Number                    | Unlimited       | Unlimited | The actual number is limited by the upper limit of server resources |
+| Shopfloors Number                | Unlimited       | Unlimited | The actual number is limited by the upper limit of server resources |
+| Combined Equipments Number       | Unlimited       | Unlimited | The actual number is limited by the upper limit of server resources |
+| Docker                           | ✔️             | ✔️        | https://www.docker.com/ |
 | Kubernetes                       | ❌             | ✔️        | https://kubernetes.io/ |
 | MySQL                            | ✔️             | ✔️        | http://mysql.com/    |
 | MariaDB                          | ✔️             | ✔️        | https://mariadb.org/ |
@@ -123,6 +152,7 @@ This project is compose of  following components:
 | Equipment/Load Data              | ✔️             | ✔️        |                      |
 | Equipment/Statistics             | ✔️             | ✔️        |                      |
 | Equipment/Saving Data            | ❌            | ✔️        | Requires Energy consumption prediction component |
+| Equipment/Batch Analysis         | ✔️             | ✔️        |                      |
 | Equipment/Equipment Tracking     | ✔️             | ✔️        |                      |
 | Tenant/Energy Category Data      | ✔️             | ✔️        |                      |
 | Tenant/Energy Item Data          | ✔️             | ✔️        |                      |
@@ -208,13 +238,19 @@ This project is compose of  following components:
 ![MyEMS Large Screen Dashboard](/docs/images/myems-large-screen-dashboard.gif)
 
 
+## MyEMS Roadmap
+
+[Community Edition Roadmap](https://github.com/orgs/MyEMS/projects)
+
+
 ## MyEMS Mirrors
 
-[1]. http://github.com/MyEMS/myems
+[1]. [http://github.com/MyEMS/myems](http://github.com/MyEMS/myems)
+  
+[2]. [http://gitee.com/myems/myems](http://gitee.com/myems/myems)
 
-[2]. http://gitee.com/myems/myems
+[3]. [http://bitbucket.org/myems/myems](http://bitbucket.org/myems/myems)
 
-[3]. http://bitbucket.org/myems/myems
+[4]. [https://gitlab.com/myems/myems](https://gitlab.com/myems/myems)
 
-[4]. https://gitlab.com/myems/myems
 

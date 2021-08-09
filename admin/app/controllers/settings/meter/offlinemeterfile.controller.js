@@ -54,17 +54,9 @@ app.controller('OfflineMeterFileController', function(
 				body: popBody,
 				showCloseButton: true,
 			});
-
-			// toaster.pop({
-			// 	type: 'success',
-			// 	title: $common.toaster.success_title,
-			// 	body: $common.toaster.success_add_body.format(file.name),
-			// 	showCloseButton: true,
-			// });
 			$scope.getAllOfflineMeterFiles();
 		},
         'error': function (file, xhr) {
-            //console.warn('File failed to upload from dropzone', file, xhr);
             var templateName = file.name;
 
             var popType = 'TOASTER.ERROR';

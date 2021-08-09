@@ -14,7 +14,7 @@
 
 ## MyEMS 介绍
 
-MyEMS是行业领先的开源能源管理系统，利用云计算、物联网、大数据、人工智能等信息化技术构建而成。MyEMS可用于构建统一规范、功能强大的综合能源管理服务平台。MyEMS由资深专业团队开发维护，系统代码基于MIT开源软件许可协议发布。
+MyEMS是行业领先的开源能源管理系统，利用云计算、物联网、大数据、人工智能等信息化技术构建而成。MyEMS可用于构建统一规范、功能强大的综合能源管理服务平台。MyEMS由资深专业团队开发维护，系统代码基于MIT开源软件许可协议发布。用开源助力实现碳达峰碳中和。
 
 ## MyEMS架构
 
@@ -38,17 +38,9 @@ MyEMS项目由下列组件构成:
 
 [安装 admin UI](./admin/README.md)
 
-### MyEMS BACnet/IP 数据采集服务 (Python)
-
-[安装 myems-bacnet](../myems-bacnet/README.md)
-
 ### MyEMS Modbus TCP 数据采集服务 (Python)
 
 [安装 myems-modbus-tcp](./myems-modbus-tcp/README.md)
-
-### MyEMS MQTT数据转发服务 (Python)
-
-[安装 myems-mqtt-publisher](./myems-mqtt-publisher/README.md)
 
 ### MyEMS 数据清洗服务 (Python)
 
@@ -66,22 +58,62 @@ MyEMS项目由下列组件构成:
 
 [安装 web UI](./web/README.md)
 
+
+### Docker Docker-compose 安装
+
+```
+git clone https://gitee.com/myems/myems.git 
+```
+
+修改以下文件中的数据库IP
+假定数据库IP为: 192.168.2.2
+```
+sudo nano myems-api/config.py 
+sudo nano myems-aggregation/config.py 
+sudo nano myems-cleaning/config.py 
+sudo nano myems-modbus-tcp/config.py 
+sudo nano myems-normalization/config.py 
+
+# host: '127.0.0.1' => 'host': '192.168.2.2'
+```
+
+修改web和admin文件夹下nginx.conf中的location '/api'
+假定本机IP为: 192.168.2.3
+```
+sudo nano admin/nginx.conf
+sudo nano web/nginx.conf
+# proxy_pass http://127.0.0.1:8000/;  => proxy_pass http://192.168.2.3:8000/; 
+```
+
+将Web打包生成产品文件
+```
+cd myems/web
+npm install
+npm run build
+```
+使用docker-compose安装
+```
+cd myems
+docker-compose up -d 
+```
+
 ## 功能版本对比
+
 | 功能                              |社区版         |企业版    |       说明              |
 | :---                              |      :----:   |  :----:  |  :----:               |
 | 开源                              | ✔️             | ❌      |                      |                   
 | 价格                              | 免费           | 收费      | 标准组件授权费；定制组件开发费； |
 | 更换品牌名称与标志LOGO              | ❌             | ✔️       |                     |
 | Modbus TCP 协议                   | ✔️             | ✔️        | 采集数据 https://modbus.org/ |
-| 数据点数量                         | 无限制         |无限制      | 仅受硬件性能限制       |
-| 计量表数量                         | 无限制         |无限制      | 仅受硬件性能限制       |
-| 空间数量                           | 无限制         |无限制      | 仅受硬件性能限制       |
-| 设备数量                           | 无限制         |无限制      | 仅受硬件性能限制       |
-| 租户数量                           | 无限制         |无限制      | 仅受硬件性能限制       |
-| 门店数量                           | 无限制         |无限制      | 仅受硬件性能限制       |
-| 车间数量                           | 无限制         |无限制      | 仅受硬件性能限制       |
-| 组合设备数量                       | 无限制         |无限制      | 仅受硬件性能限制       |
-| Docker容器化部署                   | ❌️             | ✔️        | https://www.docker.com/ |
+| 数据点数量                         | 无限制         |无限制      | 实际数量受限于服务器资源上限|
+| 计量表数量                         | 无限制         |无限制      | 实际数量受限于服务器资源上限|
+| 空间数量                           | 无限制         |无限制      | 实际数量受限于服务器资源上限|
+| 设备数量                           | 无限制         |无限制      | 实际数量受限于服务器资源上限|
+| 租户数量                           | 无限制         |无限制      | 实际数量受限于服务器资源上限|
+| 门店数量                           | 无限制         |无限制      | 实际数量受限于服务器资源上限|
+| 车间数量                           | 无限制         |无限制      | 实际数量受限于服务器资源上限|
+| 组合设备数量                       | 无限制         |无限制      | 实际数量受限于服务器资源上限|
+| Docker容器化部署                   | ✔️            | ✔️        | https://www.docker.com/ |
 | Kubernetes部署                    | ❌             | ✔️        | https://kubernetes.io/ |
 | MySQL                             | ✔️             | ✔️        | http://mysql.com/    |
 | MariaDB                           | ✔️             | ✔️        | https://mariadb.org/ |
@@ -121,6 +153,7 @@ MyEMS项目由下列组件构成:
 | 设备数据/负荷分析                   | ✔️             | ✔️        | 按空间层级筛选、多种比较类型、多种时间尺度、报告期分类平均负荷、报告期分类最大负荷、报告期分类负荷系数、报告期分类平均负荷趋势、报告期分类最大负荷趋势、报告期分类负荷系数趋势、单位面积值、相关参数、详细数据、导出Excel |
 | 设备数据/统计分析                   | ✔️             | ✔️        | 按空间层级筛选、多种比较类型、多种时间尺度、报告期分类消耗算术平均数、报告期分类消耗中位数、报告期分类消耗最小值、报告期分类消耗最大值、报告期分类消耗样本标准差、报告期分类消耗样本方差、相关参数、详细数据、导出Excel |
 | 设备数据/节能分析                   | ❌             | ✔️        | 按空间层级筛选、多种比较类型、多种时间尺度、报告期分类总节约(基线-实际)、报告期吨标准煤总节约(基线-实际)、报告期减少吨二氧化碳排放(基线-实际)、节约吨标准煤占比、减少吨二氧化碳排放占比、报告期分类节约趋势、相关参数、详细数据、导出Excel、需要能耗预测组件 |
+| 设备数据/批量分析                   | ✔️             | ✔️        | 按空间层级筛选、空间向下递归查询、按报告期查询全部能耗分类数据、导出Excel |
 | 设备数据/设备台账                   | ✔️             | ✔️        | 按空间层级筛选、设备列表包括名称、空间、成本中心、描述等、导出Excel |
 | 租户数据/能耗分类分析                | ✔️             | ✔️        | 按空间层级筛选、多种比较类型、多种时间尺度、报告期分类总能耗、基准期分类总能耗、报告期消耗吨标准煤、报告期吨二氧化碳排放、报告期分类能耗趋势、单位面积值、相关参数、详细数据、导出Excel |
 | 租户数据/能耗分项分析                | ✔️             | ✔️        | 按空间层级筛选、多种比较类型、多种时间尺度、报告期分项总能耗、基准期分项总能耗、报告期消耗吨标准煤、报告期吨二氧化碳排放、报告期分项能耗趋势、单位面积值、相关参数、详细数据、导出Excel |
@@ -153,7 +186,7 @@ MyEMS项目由下列组件构成:
 | 组合设备数据/负荷分析                | ✔️             | ✔️        | 按空间层级筛选、多种比较类型、多种时间尺度、报告期分类平均负荷、报告期分类最大负荷、报告期分类负荷系数、报告期分类平均负荷趋势、报告期分类最大负荷趋势、报告期分类负荷系数趋势、相关参数、详细数据、相关设备数据、导出Excel |
 | 组合设备数据/统计分析                | ✔️             | ✔️        | 按空间层级筛选、多种比较类型、多种时间尺度、报告期分类消耗算术平均数、报告期分类消耗中位数、报告期分类消耗最小值、报告期分类消耗最大值、报告期分类消耗样本标准差、报告期分类消耗样本方差、相关参数、详细数据、相关设备数据、导出Excel |
 | 组合设备数据/节能分析                | ❌            | ✔️        | 按空间层级筛选、多种比较类型、多种时间尺度、报告期分类总节约(基线-实际)、报告期吨标准煤总节约(基线-实际)、报告期减少吨二氧化碳排放(基线-实际)、节约吨标准煤占比、减少吨二氧化碳排放占比、报告期分类节约趋势、相关参数、详细数据、相关设备数据、导出Excel、需要能耗预测组件 |
-| 组合设备数据/批量分析                   | ✔️             | ✔️        | 按空间层级筛选、空间向下递归查询、按报告期查询全部能耗分类数据、导出Excel |
+| 组合设备数据/批量分析                | ✔️             | ✔️        | 按空间层级筛选、空间向下递归查询、按报告期查询全部能耗分类数据、导出Excel |
 | 能流图分析                         | ✔️             | ✔️        | 表示能源流动状况、节点显示用能单位、链接显示本月能源总量 |
 | 配电系统分析                       | ✔️             | ✔️        | 高中低压配电系统、实时数据、配电系统图 |
 | REST API                          | ✔️             | ✔️        | 基于Python开发，提供系统配置、能源报告、Excel导出接口 |
@@ -204,13 +237,18 @@ MyEMS项目由下列组件构成:
 ![MyEMS Space EnergyCategory3](/docs/images/myems-space-energycategory3.gif)
 ![MyEMS Large Screen Dashboard](/docs/images/myems-large-screen-dashboard.gif)
 
+
+## MyEMS路线图
+
+[社区版路线图](https://github.com/orgs/MyEMS/projects)
+
 ## MyEMS镜像
 
-[1]. http://github.com/MyEMS/myems
+[1]. [http://github.com/MyEMS/myems](http://github.com/MyEMS/myems)
   
-[2]. http://gitee.com/myems/myems
+[2]. [http://gitee.com/myems/myems](http://gitee.com/myems/myems)
 
-[3]. http://bitbucket.org/myems/myems
+[3]. [http://bitbucket.org/myems/myems](http://bitbucket.org/myems/myems)
 
-[4]. https://gitlab.com/myems/myems
+[4]. [https://gitlab.com/myems/myems](https://gitlab.com/myems/myems)
 

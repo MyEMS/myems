@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "b9748a00-fb95-4c71-9c23-04f31982a7ff",
+		"_postman_id": "6678a44a-20bd-4ef2-9a9f-3c47421936c2",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -830,6 +830,121 @@
 										"1",
 										"tariffs",
 										"3"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Cost File",
+					"item": [
+						{
+							"name": "GET All Cost Files",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/costfiles",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"costfiles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET a Cost File by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/costfiles/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"costfiles",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Upload a Cost File",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User_UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "6b0622f8974b2e6f2d7a7470baf073b78bddffd4",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/zh/myems/myems-doc/offlinemeters.xlsx"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/costfiles",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"costfiles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Cost File by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/costfiles/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"costfiles",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Rstore a Cost File by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/costfiles/1/restore",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"costfiles",
+										"1",
+										"restore"
 									]
 								}
 							},
@@ -2713,25 +2828,6 @@
 							"response": []
 						},
 						{
-							"name": "GET Rstore an Offline Meter File by ID",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{base_url}}/offlinemeterfiles/1/restore",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"offlinemeterfiles",
-										"1",
-										"restore"
-									]
-								}
-							},
-							"response": []
-						},
-						{
 							"name": "POST Upload a Knowledge File",
 							"request": {
 								"method": "POST",
@@ -2782,6 +2878,124 @@
 									"path": [
 										"helpfiles",
 										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Rstore a Knowledge File by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/knowledgefiles/1/restore",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"knowledgefiles",
+										"1",
+										"restore"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Menu",
+					"item": [
+						{
+							"name": "GET All Menus",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/menus",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"menus"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Menu by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/menus/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"menus",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Update a Menu",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"is_hidden\":true}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/menus/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"menus",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Children of Menu by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/menus/100/children",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"menus",
+										"100",
+										"children"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Menus for Web UI",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/menus/web",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"menus",
+										"web"
 									]
 								}
 							},
@@ -3265,25 +3479,6 @@
 							"response": []
 						},
 						{
-							"name": "GET Rstore a Knowledge File by ID",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{base_url}}/knowledgefiles/1/restore",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"knowledgefiles",
-										"1",
-										"restore"
-									]
-								}
-							},
-							"response": []
-						},
-						{
 							"name": "POST Upload a Offline Meter File",
 							"request": {
 								"method": "POST",
@@ -3338,98 +3533,21 @@
 								}
 							},
 							"response": []
-						}
-					]
-				},
-				{
-					"name": "Offline Cost File",
-					"item": [
+						},
 						{
-							"name": "GET All Offline Cost Files",
+							"name": "Rstore an Offline Meter File by ID",
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/offlinecostfiles",
+									"raw": "{{base_url}}/offlinemeterfiles/1/restore",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"offlinecostfiles"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "GET a Offline Cost File by ID",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{base_url}}/offlinecostfiles/1",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"offlinecostfiles",
-										"1"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "POST Upload a Offline Cost File",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "User_UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
-									},
-									{
-										"key": "Token",
-										"value": "6b0622f8974b2e6f2d7a7470baf073b78bddffd4",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "file",
-											"type": "file",
-											"src": "/zh/myems/myems-doc/offlinemeters.xlsx"
-										}
-									]
-								},
-								"url": {
-									"raw": "{{base_url}}/offlinecostfiles",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"offlinecostfiles"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "DELETE a Offline Cost File by ID",
-							"request": {
-								"method": "DELETE",
-								"header": [],
-								"url": {
-									"raw": "{{base_url}}/offlinecostfiles/1",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"offlinecostfiles",
-										"1"
+										"offlinemeterfiles",
+										"1",
+										"restore"
 									]
 								}
 							},
@@ -6645,7 +6763,7 @@
 										}
 									],
 									"cookie": [],
-									"body": null
+									"body": ""
 								}
 							]
 						},
@@ -8152,18 +8270,50 @@
 					"response": []
 				},
 				{
-					"name": "GET Meter Energy Report",
+					"name": "GET Meter Batch Analysis Report",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/reports/meterenergy?meterid=6&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
+							"raw": "{{base_url}}/reports/meterbatch?spaceid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"reports",
-								"meterenergy"
+								"meterbatch"
+							],
+							"query": [
+								{
+									"key": "spaceid",
+									"value": "1"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-11-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Meter Cost Report",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/metercost?meterid=6&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"metercost"
 							],
 							"query": [
 								{
@@ -8196,18 +8346,18 @@
 					"response": []
 				},
 				{
-					"name": "GET Meter Cost Report",
+					"name": "GET Meter Energy Report",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/reports/metercost?meterid=6&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
+							"raw": "{{base_url}}/reports/meterenergy?meterid=6&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"reports",
-								"metercost"
+								"meterenergy"
 							],
 							"query": [
 								{
@@ -8328,7 +8478,7 @@
 								},
 								{
 									"key": "",
-									"value": null,
+									"value": "",
 									"disabled": true
 								}
 							]

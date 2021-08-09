@@ -44,7 +44,7 @@ app.controller('OfflineMeterController', function($scope, $common, $translate, $
 
 	$scope.addOfflineMeter = function() {
 		var modalInstance = $uibModal.open({
-			templateUrl: 'views/settings/meter/offline-meter.model.html',
+			templateUrl: 'views/settings/meter/offlinemeter.model.html',
 			controller: 'ModalAddOfflineMeterCtrl',
 			windowClass: "animated fadeIn",
 			resolve: {
@@ -116,7 +116,7 @@ app.controller('OfflineMeterController', function($scope, $common, $translate, $
 	$scope.editOfflineMeter = function(offlinemeter) {
 		var modalInstance = $uibModal.open({
 			windowClass: "animated fadeIn",
-			templateUrl: 'views/settings/meter/offline-meter.model.html',
+			templateUrl: 'views/settings/meter/offlinemeter.model.html',
 			controller: 'ModalEditOfflineMeterCtrl',
 			resolve: {
 				params: function() {

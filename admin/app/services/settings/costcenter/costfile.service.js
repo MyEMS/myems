@@ -2,7 +2,7 @@
 app.factory('CostFileService', function($http) {  
     return {  
         getAllCostFiles:function(callback){
-            $http.get(getAPI()+'offlinecostfiles')  
+            $http.get(getAPI()+'costfiles')  
                 .success(function (response, status, headers, config) {  
                     callback(null, response);  
                 })  
@@ -12,7 +12,7 @@ app.factory('CostFileService', function($http) {
         },
         
         addCostFile: function(costfile, callback) {  
-            $http.post(getAPI()+'offlinecostfiles',{data:costfile})  
+            $http.post(getAPI()+'costfiles',{data:costfile})  
                 .success(function (response, status, headers, config) {  
                     callback(null, status);  
                 })  
@@ -20,9 +20,17 @@ app.factory('CostFileService', function($http) {
                     callback(e,status);  
                 });  
         },
-        
+        restoreCostFile: function (costfile, callback) {
+            $http.get(getAPI() + 'costfiles/' + costfile.id + '/restore')
+                .success(function (response, status, headers, config) {
+                    callback(null, response);
+                })
+                .error(function (e, status) {
+                    callback(e, status);
+                });
+        },
         deleteCostFile: function(costfile, callback) {  
-            $http.delete(getAPI()+'offlinecostfiles/'+costfile.id)  
+            $http.delete(getAPI()+'costfiles/'+costfile.id)  
                 .success(function (response, status, headers, config) {  
                     callback(null, status);  
                 })  

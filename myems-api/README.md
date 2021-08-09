@@ -159,7 +159,7 @@ View in Postman: import the file MyEMS.postman_collection.json with Postman
 
 [Data Source](#Data-Source) | [Point](#Point)
 
-[Tariff](#Tariff) | [Cost Center](#Cost-Center) | [Offline Cost File](#Offline-Cost-File)
+[Tariff](#Tariff) | [Cost Center](#Cost-Center) | [Cost File](#Cost-File)
 
 [Meter](#Meter) | [Virtual Meter](#Virtual-Meter) | [Offline Meter](#Offline-Meter) | [Offline Meter File](#Offline-Meter-File) 
 
@@ -178,6 +178,8 @@ View in Postman: import the file MyEMS.postman_collection.json with Postman
 [User](#User) | [Privilege](#Privilege) | [Contact](#Contact)  | [Notification](#Notification)
 
 [Timezone](#Timezone)
+
+[Menu](#Menu)
 
 [Knowledge File](#Knowledge-File)
 
@@ -250,35 +252,39 @@ $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"tariff_id":"
 $ curl -i -X DELETE {{base_url}}/costcenters/{id}/tariffs/{tid}
 ```
 
-### Offline Cost File
-* GET an Offline Cost File by ID
+### Cost File
+* GET an Cost File by ID
 
 ```bash
-$ curl -i -X GET {{base_url}}/offlinecostfiles/{id}
+$ curl -i -X GET {{base_url}}/costfiles/{id}
 ```
 Result
 
 | Name          | Data Type | Description                               |
 |---------------|-----------|-------------------------------------------|
-| id            | integer   | Offline Cost File ID                     |
-| file_name     | string    | Offline Cost File name                   |
-| uuid          | string    | Offline Cost File UUID                   |
+| id            | integer   | Cost File ID                     |
+| file_name     | string    | Cost File name                   |
+| uuid          | string    | Cost File UUID                   |
 | upload_datetime | float | the number of milliseconds since January 1, 1970, 00:00:00, universal time |
-| status        | string    | Offline Cost File processing status (new, done, error)   |
-| file_object   | BLOB       | Offline Cost File Object                 |
+| status        | string    | Cost File processing status (new, done, error)   |
+| file_object   | BLOB       | Cost File Object                 |
 
-* GET All Offline Cost Files
+* GET All Cost Files
 ```bash
-$ curl -i -X GET {{base_url}}/offlinecostfiles
+$ curl -i -X GET {{base_url}}/costfiles
 ```
-* DELETE an Offline Cost File by ID
+* DELETE a Cost File by ID
 ```bash
-$ curl -i -X DELETE {{base_url}}/offlinecostfiles/{id}
+$ curl -i -X DELETE {{base_url}}/costfiles/{id}
 ```
-* POST Upload an Offline Cost File
+* POST Upload a Cost File
   (user must login first to get cookie)
 ```bash
-$ curl -i -H "Content-Type: application/TBD" -X POST -d 'file: (binary)' {{base_url}}/offlinecostfiles
+$ curl -i -H "Content-Type: application/TBD" -X POST -d 'file: (binary)' {{base_url}}/costfiles
+```
+* GET Restore a Cost File by ID from database to disk
+```bash
+$ curl -i -X GET {{base_url}}/costfiles/{id}/restore
 ```
 
 ### Data Source
@@ -948,6 +954,39 @@ $ curl -i -H "Content-Type: application/TBD" -X POST -d 'file: (binary)' {{base_
 ```bash
 $ curl -i -X GET {{base_url}}/knowledgefiles/{id}/restore
 ```
+
+### Menu
+* GET Menu by ID
+```bash
+$ curl -i -X GET {{base_url}}/menus/{id}
+```
+Result
+
+| Name          | Data Type | Description                               |
+|---------------|-----------|-------------------------------------------|
+| id            | integer   | Menu ID                                  |
+| name          | string    | Menu name                                |
+| path          | string    | Menu path                               |
+| parent_menu_id| integer  | Parent Menu ID                           |
+| is_hidden | boolean  | The menu status|                        |
+
+* GET All Menus
+```bash
+$ curl -i -X GET {{base_url}}/menus
+```
+* PUT Update a Menu
+```bash
+$ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"is_hidden": false}}' {{base_url}}/menus/{id}
+```
+* Get All Menus for Web UI
+```bash
+$ curl -i -X GET {{base_url}}/menus/web
+```
+* GET All Children of Menu by ID
+```bash
+$ curl -i -X GET {{base_url}}/menus/{id}/children
+```
+
 
 ### Meter
 * GET Meter by ID
@@ -2167,13 +2206,17 @@ $ curl -i -X GET {{base_url}}/reports/equipmentsaving?equipmentid=1&periodtype=d
 ```
 $ curl -i -X GET {{base_url}}/reports/equipmentstatistics?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Meter Energy Report
+* GET Meter Batch Analysis Report
 ```
-$ curl -i -X GET {{base_url}}/reports/meterenergy?meterid=6&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+$ curl -i -X GET {{base_url}}/reports/meterbatch?spaceid=1&reportingperiodstartdatetime=2021-05-01T00:00:00&reportingperiodenddatetime=2021-05-20T11:41:09
 ```
 * GET Meter Cost Report
 ```
 $ curl -i -X GET {{base_url}}/reports/metercost?meterid=6&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
+* GET Meter Energy Report
+```
+$ curl -i -X GET {{base_url}}/reports/meterenergy?meterid=6&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
 * GET Meter Realtime Report
 ```

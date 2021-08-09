@@ -1,12 +1,7 @@
 import base64
 import uuid
 import os
-from openpyxl.chart import (
-    PieChart,
-    LineChart,
-    BarChart,
-    Reference,
-)
+from openpyxl.chart import LineChart, Reference
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 from openpyxl.drawing.image import Image
 from openpyxl import Workbook
@@ -14,12 +9,12 @@ from openpyxl.chart.label import DataLabelList
 import openpyxl.utils.cell as format_cell
 
 
-####################################################################################################################
+########################################################################################################################
 # PROCEDURES
 # Step 1: Validate the report data
 # Step 2: Generate excel file
 # Step 3: Encode the excel file bytes to Base64
-####################################################################################################################
+########################################################################################################################
 
 
 def export(result,
@@ -70,14 +65,12 @@ def generate_excel(report,
                    period_type):
     wb = Workbook()
     ws = wb.active
+    ws.title = "MeterTrend"
 
     # Row height
     ws.row_dimensions[1].height = 102
     for i in range(2, 8):
         ws.row_dimensions[i].height = 42
-
-    # for i in range(2, 6 + 1):
-    #     ws.row_dimensions[i].height = 30
 
     # Col width
     ws.column_dimensions['A'].width = 1.5
@@ -120,18 +113,11 @@ def generate_excel(report,
                               wrap_text=True,
                               shrink_to_fit=False,
                               indent=0)
-    c_r_alignment = Alignment(vertical='bottom',
-                              horizontal='center',
-                              text_rotation=0,
-                              wrap_text=True,
-                              shrink_to_fit=False,
-                              indent=0)
 
     # Img
     img = Image("excelexporters/myems.png")
     img.width = img.width * 0.85
     img.height = img.height * 0.85
-    # img = Image("myems.png")
     ws.add_image(img, 'B1')
 
     # Title
@@ -159,12 +145,12 @@ def generate_excel(report,
         wb.save(filename)
 
         return filename
-    ################################################
+    ####################################################################################################################
     # First: 趋势
     # 6: title
     # 7: table title
     # 8~ table_data
-    ################################################
+    ####################################################################################################################
     has_data_flag = True
     reporting_period_data = report['reporting_period']
     if "names" not in reporting_period_data.keys() or \
@@ -211,7 +197,6 @@ def generate_excel(report,
         if has_data:
 
             max_row = start_detail_data_row_num + len(time)
-            # print("max_row", max_row)
             ws['B6'].font = title_font
             ws['B6'] = name + ' 趋势'
 
@@ -225,7 +210,6 @@ def generate_excel(report,
             for i in range(0, len(time)):
                 col = 'B'
                 row = str(start_detail_data_row_num + i)
-                # col = chr(ord('B') + i)
                 ws[col + row].font = title_font
                 ws[col + row].alignment = c_c_alignment
                 ws[col + row] = time[i]
@@ -244,7 +228,6 @@ def generate_excel(report,
                 for j in range(0, len(time)):
 
                     row = str(start_detail_data_row_num + j)
-                    # col = chr(ord('B') + i)
                     ws[col + row].font = title_font
                     ws[col + row].alignment = c_c_alignment
                     ws[col + row] = round(reporting_period_data['values'][i][j], 3) if \
@@ -259,19 +242,14 @@ def generate_excel(report,
                 line_data = Reference(ws, min_col=3 + i, min_row=start_detail_data_row_num+1, max_row=max_row-1)
                 line.add_data(line_data, titles_from_data=True)
                 line.set_categories(labels)
-                # line_data = line.series[0]
-                # line_data.marker.symbol = "circle"
                 line_data.smooth = True
                 line.x_axis.crosses = 'min'
-                line.height = 8.25  # cm 1.05*5 1.05cm = 30 pt
+                line.height = 8.25
                 line.width = 36
-                # pie.title = "Pies sold by category"
                 line.dLbls = DataLabelList()
-                # line.dLbls.showCatName = True  # label show
                 line.dLbls.dLblPos = 't'
                 line.dLbls.showVal = False  # val show
                 line.dLbls.showPercent = False  # percent show
-                # s1 = CharacterProperties(sz=1800)     # font size *100
                 chart_col = chr(ord('B'))
                 chart_cell = chart_col + str(7 + 6*i)
 
@@ -279,7 +257,7 @@ def generate_excel(report,
     else:
         pass
 
-    ##########################################
+    ####################################################################################################################
     has_parameters_names_and_timestamps_and_values_data = True
     # 12 is the starting line number of the last line chart in the report period
 
@@ -298,15 +276,16 @@ def generate_excel(report,
         has_parameters_names_and_timestamps_and_values_data = False
     if has_parameters_names_and_timestamps_and_values_data:
 
-        ###############################
+        ################################################################################################################
         # new worksheet
-        ###############################
+        ################################################################################################################
 
         parameters_data = report['parameters']
 
         parameters_names_len = len(parameters_data['names'])
 
-        parameters_ws = wb.create_sheet('相关参数')
+        file_name = __file__.split('/')[-1].replace(".py", "")
+        parameters_ws = wb.create_sheet(file_name + 'Parameters')
 
         parameters_timestamps_data_max_len = \
             get_parameters_timestamps_lists_max_len(list(parameters_data['timestamps']))
@@ -331,7 +310,6 @@ def generate_excel(report,
         img = Image("excelexporters/myems.png")
         img.width = img.width * 0.85
         img.height = img.height * 0.85
-        # img = Image("myems.png")
         parameters_ws.add_image(img, 'B1')
 
         # Title
@@ -357,7 +335,7 @@ def generate_excel(report,
         parameters_ws_current_row_number = 6
 
         parameters_ws['B' + str(parameters_ws_current_row_number)].font = title_font
-        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' 相关参数'
+        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' Parameters'
 
         parameters_ws_current_row_number += 1
 
@@ -408,12 +386,12 @@ def generate_excel(report,
 
             table_current_col_number = table_current_col_number + 3
 
-        ########################################################
+        ################################################################################################################
         # parameters chart and parameters table
-        ########################################################
+        ################################################################################################################
 
         ws['B' + str(current_sheet_parameters_row_number)].font = title_font
-        ws['B' + str(current_sheet_parameters_row_number)] = name + ' 相关参数'
+        ws['B' + str(current_sheet_parameters_row_number)] = name + ' Parameters'
 
         current_sheet_parameters_row_number += 1
 
@@ -430,7 +408,7 @@ def generate_excel(report,
             data_col = 3 + col_index * 3
             labels_col = 2 + col_index * 3
             col_index += 1
-            line.title = '相关参数 - ' + \
+            line.title = 'Parameters - ' + \
                          parameters_ws.cell(row=parameters_table_start_row_number, column=data_col).value
             labels = Reference(parameters_ws, min_col=labels_col, min_row=parameters_table_start_row_number + 1,
                                max_row=(len(parameters_data['timestamps'][i]) + parameters_table_start_row_number))

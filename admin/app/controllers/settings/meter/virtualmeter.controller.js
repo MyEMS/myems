@@ -65,7 +65,7 @@ $scope.getAllEnergyItems = function() {
 
 	$scope.addVirtualMeter = function() {
 		var modalInstance = $uibModal.open({
-			templateUrl: 'views/settings/meter/virtual-meter.model.html',
+			templateUrl: 'views/settings/meter/virtualmeter.model.html',
 			controller: 'ModalAddVirtualMeterCtrl',
 			windowClass: 'animated fadeIn',
 			size: 'lg',
@@ -139,7 +139,7 @@ $scope.getAllEnergyItems = function() {
 	$scope.editVirtualMeter = function(virtualmeter) {
 		var modalInstance = $uibModal.open({
 			windowClass: "animated fadeIn",
-			templateUrl: 'views/settings/meter/virtual-meter.model.html',
+			templateUrl: 'views/settings/meter/virtualmeter.model.html',
 			controller: 'ModalEditVirtualMeterCtrl',
 			size: 'lg',
 			resolve: {

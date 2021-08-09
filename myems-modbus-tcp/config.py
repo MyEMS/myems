@@ -15,7 +15,7 @@ myems_historical_db = {
 }
 
 # Indicates how long the process waits between readings
-interval_in_seconds = 180
+interval_in_seconds = 600
 
 # Get the gateway ID and token from MyEMS Admin
 # This is used for getting data sources associated with the gateway
