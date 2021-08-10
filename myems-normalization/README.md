@@ -6,6 +6,8 @@
 
 This service is a component of MyEMS and it normalizes energy data in historical database.
 
+![MyEMS Meter Normalization](../docs/images/meter-normalization.png)
+
 
 ### Prerequisites
 
