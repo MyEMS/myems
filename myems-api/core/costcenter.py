@@ -252,7 +252,7 @@ class CostCenterItem:
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATIONSHIP_WITH_SPACES')
+                                   description='API.THERE_IS_RELATION_WITH_SPACES')
 
         # check relation with shopfloors
         cursor.execute(" SELECT id "
@@ -442,7 +442,7 @@ class CostCenterTariffCollection:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.TARIFF_ALREADY_ASSOCIATED_WITH_COST_CENTER')
+                                   description='API.TARIFF_IS_ALREADY_ASSOCIATED_WITH_COST_CENTER')
 
         add_row = (" INSERT INTO tbl_cost_centers_tariffs "
                    "             (cost_center_id, tariff_id) "

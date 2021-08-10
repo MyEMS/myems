@@ -103,7 +103,7 @@ class PrivilegeItem:
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
 
-        # check relationship with users
+        # check relation with users
         cursor.execute(" SELECT id "
                        " FROM tbl_users "
                        " WHERE privilege_id = %s ", (id_,))
@@ -113,7 +113,7 @@ class PrivilegeItem:
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATIONSHIP_WITH_USERS')
+                                   description='API.THERE_IS_RELATION_WITH_USERS')
 
         cursor.execute(" SELECT name "
                        " FROM tbl_privileges "
@@ -144,7 +144,7 @@ class PrivilegeItem:
 
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_PRIVILEGE_ID_')
+                                   description='API.INVALID_PRIVILEGE_ID')
         if 'name' not in new_values['data'] or \
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:

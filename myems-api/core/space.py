@@ -360,7 +360,7 @@ class SpaceItem:
                                    description='API.INVALID_SPACE_ID')
         if int(id_) == 1:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.THIS_SPACE_CAN_NOT_BE_DELETED')
+                                   description='API.THIS_SPACE_CANNOT_BE_DELETED')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -899,7 +899,7 @@ class SpaceCombinedEquipmentCollection:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.SPACE_COMBINED_EQUIPMENT_RELATION_EXISTED')
+                                   description='API.SPACE_COMBINED_EQUIPMENT_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_spaces_combined_equipments (space_id, combined_equipment_id) "
                    " VALUES (%s, %s) ")
@@ -1064,7 +1064,7 @@ class SpaceEquipmentCollection:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.SPACE_EQUIPMENT_RELATION_EXISTED')
+                                   description='API.SPACE_EQUIPMENT_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_spaces_equipments (space_id, equipment_id) "
                    " VALUES (%s, %s) ")
@@ -1242,7 +1242,7 @@ class SpaceMeterCollection:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.SPACE_METER_RELATION_EXISTED')
+                                   description='API.SPACE_METER_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_spaces_meters (space_id, meter_id) "
                    " VALUES (%s, %s) ")
@@ -1422,7 +1422,7 @@ class SpaceOfflineMeterCollection:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.SPACE_OFFLINE_METER_RELATION_EXISTED')
+                                   description='API.SPACE_OFFLINE_METER_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_spaces_offline_meters (space_id, offline_meter_id) "
                    " VALUES (%s, %s) ")
@@ -1600,7 +1600,7 @@ class SpacePointCollection:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.SPACE_POINT_RELATION_EXISTED')
+                                   description='API.SPACE_POINT_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_spaces_points (space_id, point_id) "
                    " VALUES (%s, %s) ")
@@ -1765,7 +1765,7 @@ class SpaceSensorCollection:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.SPACE_SENSOR_RELATION_EXISTED')
+                                   description='API.SPACE_SENSOR_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_spaces_sensors (space_id, sensor_id) "
                    " VALUES (%s, %s) ")
@@ -1929,7 +1929,7 @@ class SpaceShopfloorCollection:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.SPACE_SHOPFLOOR_RELATION_EXISTED')
+                                   description='API.SPACE_SHOPFLOOR_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_spaces_shopfloors (space_id, shopfloor_id) "
                    " VALUES (%s, %s) ")
@@ -2093,7 +2093,7 @@ class SpaceStoreCollection:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.SPACE_STORE_RELATION_EXISTED')
+                                   description='API.SPACE_STORE_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_spaces_stores (space_id, store_id) "
                    " VALUES (%s, %s) ")
@@ -2257,7 +2257,7 @@ class SpaceTenantCollection:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.SPACE_TENANT_RELATION_EXISTED')
+                                   description='API.SPACE_TENANT_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_spaces_tenants (space_id, tenant_id) "
                    " VALUES (%s, %s) ")
@@ -2435,7 +2435,7 @@ class SpaceVirtualMeterCollection:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.SPACE_VIRTUAL_METER_RELATION_EXISTED')
+                                   description='API.SPACE_VIRTUAL_METER_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_spaces_virtual_meters (space_id, virtual_meter_id) "
                    " VALUES (%s, %s) ")

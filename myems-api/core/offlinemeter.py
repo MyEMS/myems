@@ -346,7 +346,7 @@ class OfflineMeterItem:
                                    title='API.BAD_REQUEST',
                                    description='API.THIS_OFFLINE_METER_IS_BEING_USED_BY_A_VIRTUAL_METER')
 
-        # check relationship with spaces
+        # check relation with spaces
         cursor.execute(" SELECT id "
                        " FROM tbl_spaces_offline_meters "
                        " WHERE offline_meter_id = %s ", (id_,))
@@ -430,7 +430,7 @@ class OfflineMeterItem:
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATIONSHIP_WITH_EQUIPMENTS')
+                                   description='API.THERE_IS_RELATION_WITH_EQUIPMENTS')
 
         # check relation with equipment parameters
         cursor.execute(" SELECT equipment_id "

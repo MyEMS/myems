@@ -460,7 +460,7 @@ class TenantItem:
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_SENSOR')
+                                   description='API.THERE_IS_RELATION_WITH_SENSORS')
 
         # check relation with virtual meter
         cursor.execute(" SELECT virtual_meter_id "
@@ -790,7 +790,7 @@ class TenantMeterCollection:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.TENANT_METER_RELATION_EXISTED')
+                                   description='API.TENANT_METER_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_tenants_meters (tenant_id, meter_id) "
                    " VALUES (%s, %s) ")
@@ -968,7 +968,7 @@ class TenantOfflineMeterCollection:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.TENANT_OFFLINE_METER_RELATION_EXISTED')
+                                   description='API.TENANT_OFFLINE_METER_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_tenants_offline_meters (tenant_id, offline_meter_id) "
                    " VALUES (%s, %s) ")
@@ -1146,7 +1146,7 @@ class TenantPointCollection:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.TENANT_POINT_RELATION_EXISTED')
+                                   description='API.TENANT_POINT_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_tenants_points (tenant_id, point_id) "
                    " VALUES (%s, %s) ")
@@ -1311,7 +1311,7 @@ class TenantSensorCollection:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.TENANT_SENSOR_RELATION_EXISTED')
+                                   description='API.TENANT_SENSOR_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_tenants_sensors (tenant_id, sensor_id) "
                    " VALUES (%s, %s) ")
@@ -1489,7 +1489,7 @@ class TenantVirtualMeterCollection:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.TENANT_VIRTUAL_METER_RELATION_EXISTED')
+                                   description='API.TENANT_VIRTUAL_METER_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_tenants_virtual_meters (tenant_id, virtual_meter_id) "
                    " VALUES (%s, %s) ")
