@@ -278,7 +278,7 @@ class ShopfloorItem:
                                    description='API.INVALID_SHOPFLOOR_ID')
         if int(id_) == 1:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.THIS_SHOPFLOOR_CAN_NOT_BE_DELETED')
+                                   description='API.THIS_SHOPFLOOR_CANNOT_BE_DELETED')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -603,7 +603,7 @@ class ShopfloorEquipmentCollection:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.SHOPFLOOR_EQUIPMENT_RELATION_EXISTED')
+                                   description='API.SHOPFLOOR_EQUIPMENT_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_shopfloors_equipments (shopfloor_id, equipment_id) "
                    " VALUES (%s, %s) ")
@@ -782,7 +782,7 @@ class ShopfloorMeterCollection:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.SHOPFLOOR_METER_RELATION_EXISTED')
+                                   description='API.SHOPFLOOR_METER_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_shopfloors_meters (shopfloor_id, meter_id) "
                    " VALUES (%s, %s) ")
@@ -960,7 +960,7 @@ class ShopfloorOfflineMeterCollection:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.SHOPFLOOR_OFFLINE_METER_RELATION_EXISTED')
+                                   description='API.SHOPFLOOR_OFFLINE_METER_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_shopfloors_offline_meters (shopfloor_id, offline_meter_id) "
                    " VALUES (%s, %s) ")
@@ -1138,7 +1138,7 @@ class ShopfloorPointCollection:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.SHOPFLOOR_POINT_RELATION_EXISTED')
+                                   description='API.SHOPFLOOR_POINT_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_shopfloors_points (shopfloor_id, point_id) "
                    " VALUES (%s, %s) ")
@@ -1303,7 +1303,7 @@ class ShopfloorSensorCollection:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.SHOPFLOOR_SENSOR_RELATION_EXISTED')
+                                   description='API.SHOPFLOOR_SENSOR_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_shopfloors_sensors (shopfloor_id, sensor_id) "
                    " VALUES (%s, %s) ")
@@ -1481,7 +1481,7 @@ class ShopfloorVirtualMeterCollection:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.SHOPFLOOR_VIRTUAL_METER_RELATION_EXISTED')
+                                   description='API.SHOPFLOOR_VIRTUAL_METER_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_shopfloors_virtual_meters (shopfloor_id, virtual_meter_id) "
                    " VALUES (%s, %s) ")

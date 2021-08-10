@@ -43,7 +43,7 @@ class WebMessageCollection:
         if start_datetime_utc >= end_datetime_utc:
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
-                                   description='API.START_DATETIME_SHOULD_BE_EARLY_THAN_END_DATETIME')
+                                   description='API.START_DATETIME_MUST_BE_EARLIER_THAN_END_DATETIME')
         # get user dict
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor(dictionary=True)

@@ -472,7 +472,7 @@ class DistributionCircuitPointCollection:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.DISTRIBUTION_CIRCUIT_POINT_RELATION_EXISTED')
+                                   description='API.DISTRIBUTION_CIRCUIT_POINT_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_distribution_circuits_points (distribution_circuit_id, point_id) "
                    " VALUES (%s, %s) ")

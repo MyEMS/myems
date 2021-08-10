@@ -929,7 +929,7 @@ class MeterPointCollection:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.METER_POINT_RELATION_EXISTED')
+                                   description='API.METER_POINT_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_meters_points (meter_id, point_id) "
                    " VALUES (%s, %s) ")
