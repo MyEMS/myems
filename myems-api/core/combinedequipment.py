@@ -217,7 +217,7 @@ class CombinedEquipmentItem:
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_SPACE')
+                                   description='API.THERE_IS_RELATION_WITH_SPACES')
 
         # check relation with meter
         cursor.execute(" SELECT meter_id "
@@ -604,7 +604,7 @@ class CombinedEquipmentEquipmentCollection:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.COMBINED_EQUIPMENT_EQUIPMENT_RELATION_EXISTED')
+                                   description='API.COMBINED_EQUIPMENT_EQUIPMENT_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_combined_equipments_equipments (combined_equipment_id, equipment_id) "
                    " VALUES (%s, %s) ")
@@ -1474,7 +1474,7 @@ class CombinedEquipmentMeterCollection:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.COMBINED_EQUIPMENT_METER_RELATION_EXISTED')
+                                   description='API.COMBINED_EQUIPMENT_METER_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_combined_equipments_meters (combined_equipment_id, meter_id, is_output ) "
                    " VALUES (%s, %s, %s) ")
@@ -1660,7 +1660,7 @@ class CombinedEquipmentOfflineMeterCollection:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.COMBINED_EQUIPMENT_OFFLINE_METER_RELATION_EXISTED')
+                                   description='API.COMBINED_EQUIPMENT_OFFLINE_METER_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_combined_equipments_offline_meters "
                    " (combined_equipment_id, offline_meter_id, is_output ) "
@@ -1847,7 +1847,7 @@ class CombinedEquipmentVirtualMeterCollection:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.COMBINED_EQUIPMENT_VIRTUAL_METER_RELATION_EXISTED')
+                                   description='API.COMBINED_EQUIPMENT_VIRTUAL_METER_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_combined_equipments_virtual_meters "
                    " (combined_equipment_id, virtual_meter_id, is_output ) "

@@ -352,7 +352,7 @@ class SensorPointCollection:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.SENSOR_POINT_RELATION_EXISTED')
+                                   description='API.SENSOR_POINT_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_sensors_points (sensor_id, point_id) "
                    " VALUES (%s, %s) ")

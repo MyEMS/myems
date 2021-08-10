@@ -693,7 +693,7 @@ class StoreMeterCollection:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.STORE_METER_RELATION_EXISTED')
+                                   description='API.STORE_METER_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_stores_meters (store_id, meter_id) "
                    " VALUES (%s, %s) ")
@@ -871,7 +871,7 @@ class StoreOfflineMeterCollection:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.STORE_OFFLINE_METER_RELATION_EXISTED')
+                                   description='API.STORE_OFFLINE_METER_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_stores_offline_meters (store_id, offline_meter_id) "
                    " VALUES (%s, %s) ")
@@ -1049,7 +1049,7 @@ class StorePointCollection:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.STORE_POINT_RELATION_EXISTED')
+                                   description='API.STORE_POINT_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_stores_points (store_id, point_id) "
                    " VALUES (%s, %s) ")
@@ -1214,7 +1214,7 @@ class StoreSensorCollection:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.STORE_SENSOR_RELATION_EXISTED')
+                                   description='API.STORE_SENSOR_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_stores_sensors (store_id, sensor_id) "
                    " VALUES (%s, %s) ")
@@ -1392,7 +1392,7 @@ class StoreVirtualMeterCollection:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.STORE_VIRTUAL_METER_RELATION_EXISTED')
+                                   description='API.STORE_VIRTUAL_METER_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_stores_virtual_meters (store_id, virtual_meter_id) "
                    " VALUES (%s, %s) ")
