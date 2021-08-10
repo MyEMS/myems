@@ -237,7 +237,7 @@ class ContactItem:
 
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_')
+                                   description='API.INVALID_CONTACT_ID')
 
         new_values = json.loads(raw_json)
 
