@@ -143,12 +143,12 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_data_sources`
 (`id`, `name`, `uuid`,`gateway_id`, `protocol`,  `connection`)
 VALUES
-(1, '示例ModbusTCP数据源', 'b3ace9d4-b63b-419b-818f-0f6d1d0603a4', 1, 'modbus-tcp', '{"host":"10.111.212.191", "port":502}'),
+(1, '示例ModbusTCP数据源', 'b3ace9d4-b63b-419b-818f-0f6d1d0603a4', 1, 'modbus-tcp', '{"host":"192.168.0.1", "port":502}'),
 (2, '示例ModbusRTU数据源', 'b903f0af-9115-448c-9d46-8caf5f9995f3', 1, 'modbus-tru', '{"port": "/dev/ttyUSB0","slaveaddress": 1, "baudrate": 9600,"bytesize": 8,"parity": "N","stopbits": 1,"timeout": 0.05,"mode": "rtu"}'),
-(3, '示例Bacnet/IP数据源', 'e2d5b30b-b554-4ebe-8ce7-f377ab380d19', 1, 'bacnet-ip', '{"host":"10.111.212.200", "port":47808}'),
-(4, '示例S7数据源', '9eb0d705-d02a-43f8-9c62-7e5ef508b255', 1, 's7', '{"host":"10.111.212.202", "port":102, "rack": 0, "slot": 2}'),
-(5, '示例ControlLogix数据源', 'd1dc9792-7861-4dd3-9b01-07511dae16c1', 1, 'control-logix', '{"host":"10.111.212.203","port":44818,"processorslot":3}');
-(6, '示例OPU UA数据源', '56e1c642-8032-495b-af2e-18a77ca75e0f', 1, 'opc-ua', '{"url":"opc.tcp://10.111.212.5:49320/OPCUA/SimulationServer/"}');
+(3, '示例Bacnet/IP数据源', 'e2d5b30b-b554-4ebe-8ce7-f377ab380d19', 1, 'bacnet-ip', '{"host":"192.168.0.3", "port":47808}'),
+(4, '示例S7数据源', '9eb0d705-d02a-43f8-9c62-7e5ef508b255', 1, 's7', '{"host":"192.168.0.4", "port":102, "rack": 0, "slot": 2}'),
+(5, '示例ControlLogix数据源', 'd1dc9792-7861-4dd3-9b01-07511dae16c1', 1, 'control-logix', '{"host":"192.168.0.5","port":44818,"processorslot":3}'),
+(6, '示例OPU UA数据源', '56e1c642-8032-495b-af2e-18a77ca75e0f', 1, 'opc-ua', '{"url":"opc.tcp://192.168.0.6:49320/OPCUA/SimulationServer/"}'),
 (7, '示例天气数据源', '9bff8e95-c7c9-4002-b040-08a96ae196b5', 1, 'weather', '{"base_url":"WEATHER_API_URL", "location":"beijing", "key":"APPKEY"}');
 COMMIT;
 
@@ -971,7 +971,7 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_stores_points`
-(`id`, store_id`, `point_id`)
+(`id`, `store_id`, `point_id`)
 VALUES
 (1, 3, 2000001),
 (2, 3, 2000002),
