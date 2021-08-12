@@ -183,6 +183,21 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_distribution_circuits_points` 
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_distribution_circuits_points_index_1` ON  `myems_system_db`.`tbl_distribution_circuits_points`   (`distribution_circuit_id`);
 
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_distribution_systems`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_distribution_systems` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_distribution_systems` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `uuid` CHAR(36) NOT NULL,
+  `svg` LONGTEXT NOT NULL,
+  `description` VARCHAR(255),
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_distribution_systems_index_1` ON  `myems_system_db`.`tbl_distribution_systems`   (`name`);
+
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_energy_categories`
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -514,8 +529,8 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_offline_meters` (
   `uuid` CHAR(36) NOT NULL,
   `energy_category_id` BIGINT NOT NULL,
   `is_counted` BOOL NOT NULL,
-  `hourly_low_limit` DECIMAL(18, 3)  NOT NULL COMMENT 'Inclusive. Default is 0. If the meter has accuracy problems, set the value to a small positive value, such as 0.100',
-  `hourly_high_limit` DECIMAL(18, 3)  NOT NULL COMMENT 'Inclusive. Maximum energy consumption per hour, Rated total active Power, Rated Flow, etc.',
+  `hourly_low_limit` DECIMAL(18, 3)  NOT NULL COMMENT 'Inclusive. Default is 0.',
+  `hourly_high_limit` DECIMAL(18, 3)  NOT NULL COMMENT 'Inclusive. Maximum energy consumption per hour.',
   `cost_center_id` BIGINT NOT NULL,
   `energy_item_id` BIGINT,
   `description` VARCHAR(255),
