@@ -143,13 +143,13 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_data_sources`
 (`id`, `name`, `uuid`,`gateway_id`, `protocol`,  `connection`)
 VALUES
-(1, '示例ModbusTCP数据源', 1, 'b3ace9d4-b63b-419b-818f-0f6d1d0603a4', 'modbus-tcp', '{"host":"10.111.212.191", "port":502}'),
-(2, '示例ModbusRTU数据源', 1, 'b903f0af-9115-448c-9d46-8caf5f9995f3', 'modbus-tru', '{"port": "/dev/ttyUSB0","slaveaddress": 1, "baudrate": 9600,"bytesize": 8,"parity": "N","stopbits": 1,"timeout": 0.05,"mode": "rtu"}'),
-(3, '示例Bacnet/IP数据源', 1, 'e2d5b30b-b554-4ebe-8ce7-f377ab380d19', 'bacnet-ip', '{"host":"10.111.212.200", "port":47808}'),
-(4, '示例S7数据源', 1, '9eb0d705-d02a-43f8-9c62-7e5ef508b255', 's7', '{"host":"10.111.212.202", "port":102, "rack": 0, "slot": 2}'),
-(5, '示例ControlLogix数据源', 1, 'd1dc9792-7861-4dd3-9b01-07511dae16c1', 'control-logix', '{"host":"10.111.212.203","port":44818,"processorslot":3}');
-(6, '示例OPU UA数据源', 1, '56e1c642-8032-495b-af2e-18a77ca75e0f', 'opc-ua', '{"url":"opc.tcp://10.111.212.5:49320/OPCUA/SimulationServer/"}');
-(7, '示例天气数据源', 1, '9bff8e95-c7c9-4002-b040-08a96ae196b5', 'weather', '{"base_url":"WEATHER_API_URL", "location":"beijing", "key":"APPKEY"}');
+(1, '示例ModbusTCP数据源', 'b3ace9d4-b63b-419b-818f-0f6d1d0603a4', 1, 'modbus-tcp', '{"host":"10.111.212.191", "port":502}'),
+(2, '示例ModbusRTU数据源', 'b903f0af-9115-448c-9d46-8caf5f9995f3', 1, 'modbus-tru', '{"port": "/dev/ttyUSB0","slaveaddress": 1, "baudrate": 9600,"bytesize": 8,"parity": "N","stopbits": 1,"timeout": 0.05,"mode": "rtu"}'),
+(3, '示例Bacnet/IP数据源', 'e2d5b30b-b554-4ebe-8ce7-f377ab380d19', 1, 'bacnet-ip', '{"host":"10.111.212.200", "port":47808}'),
+(4, '示例S7数据源', '9eb0d705-d02a-43f8-9c62-7e5ef508b255', 1, 's7', '{"host":"10.111.212.202", "port":102, "rack": 0, "slot": 2}'),
+(5, '示例ControlLogix数据源', 'd1dc9792-7861-4dd3-9b01-07511dae16c1', 1, 'control-logix', '{"host":"10.111.212.203","port":44818,"processorslot":3}');
+(6, '示例OPU UA数据源', '56e1c642-8032-495b-af2e-18a77ca75e0f', 1, 'opc-ua', '{"url":"opc.tcp://10.111.212.5:49320/OPCUA/SimulationServer/"}');
+(7, '示例天气数据源', '9bff8e95-c7c9-4002-b040-08a96ae196b5', 1, 'weather', '{"base_url":"WEATHER_API_URL", "location":"beijing", "key":"APPKEY"}');
 COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -246,7 +246,7 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_energy_flow_diagrams_links`
-(`id`, `energy_flow_diagram_id`, `name`)
+(`id`, `energy_flow_diagram_id`, `source_node_id`, `target_node_id`, `meter_uuid`)
 VALUES
 (1, 1, 1, 3, '5ca47bc5-22c2-47fc-b906-33222191ea40'),
 (2, 1, 2, 4, '5d4d2f06-6200-4671-b182-4cf32cd9228f'),
@@ -428,9 +428,9 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_offline_meters`
-(`id`, `name`, `uuid`, `energy_category_id`, `is_counted`, `max_hourly_value`, `cost_center_id`, `energy_item_id`, `description`)
+(`id`, `name`, `uuid`, `energy_category_id`, `is_counted`, `hourly_low_limit`, `hourly_high_limit`, `cost_center_id`, `energy_item_id`, `description`)
 VALUES
-(1, '示例离线表', '62f473e0-1a35-41f3-9c30-8110d75d65bb', 1, true, 999.99, 1, 1, 'offlinemeter1');
+(1, '示例离线表', '62f473e0-1a35-41f3-9c30-8110d75d65bb', 1, true, 0.0, 999.999, 1, 1, 'offlinemeter1');
 
 COMMIT;
 
@@ -475,7 +475,7 @@ VALUES
 -- analogValue, analogInput, analogOutput, binaryValue, binaryInput, binaryOutput
 
 (9, 'S7示例数据点1', 4, 'ANALOG_VALUE',  'kWh', 99999999999, 0, 1.000, true,
-  '{\"area\":\"DB\", \"db_number\":700, \"start\":8, \"size\":4', null);
+  '{\"area\":\"DB\", \"db_number\":700, \"start\":8, \"size\":4}', null);
 -- # S7 Area
 -- 'PE', 'PA', 'MK', 'DB', 'CT', 'TM'
 
@@ -1074,7 +1074,7 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_tenants_points`
-(`id`, tenant_id`, `point_id`)
+(`id`, `tenant_id`, `point_id`)
 VALUES
 (1, 3, 2000001),
 (2, 3, 2000002),
@@ -1118,7 +1118,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_virtual_meters`
 (`id`, `name`, `uuid`, `energy_category_id`, `is_counted`, `cost_center_id`, `energy_item_id`, `description`)
 VALUES
-(1, '示例虚拟表', '3fff2cfb-f755-44c8-a919-6135205a8573', 1, true, 1, 1, `virtual description`);
+(1, '示例虚拟表', '3fff2cfb-f755-44c8-a919-6135205a8573', 1, true, 1, 1, 'virtual description');
 
 COMMIT;
 
