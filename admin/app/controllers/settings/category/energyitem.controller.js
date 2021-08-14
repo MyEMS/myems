@@ -79,7 +79,7 @@ app.controller('EnergyItemController', function($scope, $translate,$uibModal, Ca
 
 		modalInstance.result.then(function (modifiedEnergyItem) {
 	        EnergyItemService.editEnergyItem(modifiedEnergyItem, function (response){
-	            if(angular.isDefined(response.status) && response.status == 200){
+	            if(angular.isDefined(response.status) && response.status === 200){
 					toaster.pop({
 						type: "success",
 						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
