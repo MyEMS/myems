@@ -1,18 +1,15 @@
 'use strict';
 
 app.controller('PrivilegeController', function ($scope,
-	$common,
 	$uibModal,
 	PrivilegeService,
-	UserService,
-	SpaceService,
 	toaster,
 	$translate,
 	SweetAlert) {
 	$scope.getAllPrivileges = function () {
-		PrivilegeService.getAllPrivileges(function (error, data) {
-			if (!error) {
-				$scope.privileges = data;
+		PrivilegeService.getAllPrivileges(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.privileges = response.data;
 			} else {
 				$scope.privileges = [];
 			}
@@ -34,42 +31,20 @@ app.controller('PrivilegeController', function ($scope,
 			}
 		});
 		modalInstance.result.then(function (privilege) {
-			PrivilegeService.addPrivilege(privilege, function (error, status) {
-				if (angular.isDefined(status) && status == 201) {
-					var templateName = "USER.PRIVILEGE";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.SUCCESS';
-					var popTitle = $common.toaster.success_title;
-					var popBody = $common.toaster.success_add_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody, { template: templateName });
-
+			PrivilegeService.addPrivilege(privilege, function (response) {
+				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "success",
+						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", { template: $translate.instant("USER.PRIVILEGE") }),
 						showCloseButton: true,
 					});
 					$scope.getAllPrivileges();
 				} else {
-					var templateName = "USER.PRIVILEGE";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.ERROR';
-					var popTitle = $common.toaster.error_title;
-					var popBody = $common.toaster.error_add_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody, { template: templateName });
-
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "error",
+						title: $translate.instant("TOASTER.FAILURE_TITLE"),
+						body: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("USER.PRIVILEGE") }),
 						showCloseButton: true,
 					});
 				}
@@ -95,42 +70,20 @@ app.controller('PrivilegeController', function ($scope,
 		});
 
 		modalInstance.result.then(function (modifiedPrivilege) {
-			PrivilegeService.editPrivilege(modifiedPrivilege, function (error, status) {
-				if (angular.isDefined(status) && status == 200) {
-					var templateName = "USER.PRIVILEGE";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.SUCCESS';
-					var popTitle = $common.toaster.success_title;
-					var popBody = $common.toaster.success_update_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody, { template: templateName });
-
+			PrivilegeService.editPrivilege(modifiedPrivilege, function (response) {
+				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "success",
+						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", { template: $translate.instant("USER.PRIVILEGE") }),
 						showCloseButton: true,
 					});
 					$scope.getAllPrivileges();
 				} else {
-					var templateName = "USER.PRIVILEGE";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.ERROR';
-					var popTitle = $common.toaster.error_title;
-					var popBody = $common.toaster.error_update_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody, { template: templateName });
-
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "error",
+						title: $translate.instant("TOASTER.FAILURE_TITLE"),
+						body: $translate.instant("TOASTER.ERROR_UPDATE_BODY", { template: $translate.instant("USER.PRIVILEGE") }),
 						showCloseButton: true,
 					});
 				}
@@ -142,75 +95,45 @@ app.controller('PrivilegeController', function ($scope,
 
 	$scope.deletePrivilege = function (privilege) {
 		SweetAlert.swal({
-			title: $translate.instant($common.sweet.title),
-			text: $translate.instant($common.sweet.text),
+			title: $translate.instant("SWEET.TITLE"),
+			text: $translate.instant("SWEET.TEXT"),
 			type: "warning",
 			showCancelButton: true,
 			confirmButtonColor: "#DD6B55",
-			confirmButtonText: $translate.instant($common.sweet.confirmButtonText),
-			cancelButtonText: $translate.instant($common.sweet.cancelButtonText),
+			confirmButtonText: $translate.instant("SWEET.CONFIRM_BUTTON_TEXT"),
+			cancelButtonText: $translate.instant("SWEET.CANCEL_BUTTON_TEXT"),
 			closeOnConfirm: true,
 			closeOnCancel: true
 		},
-			function (isConfirm) {
-				if (isConfirm) {
-					PrivilegeService.deletePrivilege(privilege, function (error, status) {
-						if (angular.isDefined(status) && status == 204) {
-							var templateName = "USER.PRIVILEGE";
-							templateName = $translate.instant(templateName);
-
-							var popType = 'TOASTER.SUCCESS';
-							var popTitle = $common.toaster.success_title;
-							var popBody = $common.toaster.success_delete_body;
-
-							popType = $translate.instant(popType);
-							popTitle = $translate.instant(popTitle);
-							popBody = $translate.instant(popBody, { template: templateName });
-
-							toaster.pop({
-								type: popType,
-								title: popTitle,
-								body: popBody,
-								showCloseButton: true,
-							});
-							$scope.getAllPrivileges();
-						} else if (angular.isDefined(status) && status == 400) {
-							var popType = 'TOASTER.ERROR';
-							var popTitle = error.title;
-							var popBody = error.description;
-
-							popType = $translate.instant(popType);
-							popTitle = $translate.instant(popTitle);
-							popBody = $translate.instant(popBody);
-
-							toaster.pop({
-								type: popType,
-								title: popTitle,
-								body: popBody,
-								showCloseButton: true,
-							});
-						} else {
-							var templateName = "USER.PRIVILEGE";
-							templateName = $translate.instant(templateName);
-
-							var popType = 'TOASTER.ERROR';
-							var popTitle = $common.toaster.error_title;
-							var popBody = $common.toaster.error_delete_body;
-
-							popType = $translate.instant(popType);
-							popTitle = $translate.instant(popTitle);
-							popBody = $translate.instant(popBody, { template: templateName });
-
-							toaster.pop({
-								type: popType,
-								title: popTitle,
-								body: popBody,
-								showCloseButton: true,
-							});
-						}
-					});
-				}
-			});
+		function (isConfirm) {
+			if (isConfirm) {
+				PrivilegeService.deletePrivilege(privilege, function (response) {
+					if (angular.isDefined(response.status) && response.status === 204) {
+						toaster.pop({
+							type: "success",
+							title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+							body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", { template: $translate.instant("USER.PRIVILEGE") }),
+							showCloseButton: true,
+						});
+						$scope.getAllPrivileges();
+					} else if (angular.isDefined(response.status) && response.status === 400) {
+						toaster.pop({
+							type: "error",
+							title: $translate.instant(response.data.title),
+							body: $translate.instant(response.data.description),
+							showCloseButton: true,
+						});
+					} else {
+						toaster.pop({
+							type: "error",
+							title: $translate.instant("TOASTER.FAILURE_TITLE"),
+							body: $translate.instant("TOASTER.ERROR_DELETE_BODY", { template: $translate.instant("USER.PRIVILEGE") }),
+							showCloseButton: true,
+						});
+					}
+				});
+			}
+		});
 	};
 
 	$scope.getAllPrivileges();
@@ -230,9 +153,9 @@ app.controller('ModalAddPrivilegeCtrl', function ($scope,
 	$scope.privilege = {};
 
 	$scope.getAllSpaces = function () {
-		SpaceService.getAllSpaces(function (error, data) {
-			if (!error) {
-				$scope.spaces = data;
+		SpaceService.getAllSpaces(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.spaces = response.data;
 			} else {
 				$scope.spaces = [];
 			}
@@ -289,9 +212,9 @@ app.controller('ModalEditPrivilegeCtrl', function ($scope,
 	console.log($scope.currentSpaceID)
 	
 	$scope.getAllSpaces = function () {
-		SpaceService.getAllSpaces(function (error, data) {
-			if (!error) {
-				$scope.spaces = data;
+		SpaceService.getAllSpaces(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.spaces = response.data;
 			} else {
 				$scope.spaces = [];
 			}

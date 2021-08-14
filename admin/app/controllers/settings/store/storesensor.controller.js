@@ -1,12 +1,12 @@
 'use strict';
 
-app.controller('StoreSensorController', function ($scope, $common, $uibModal, $timeout, $translate, StoreService, SensorService, StoreSensorService,  toaster, SweetAlert) {
+app.controller('StoreSensorController', function ($scope, $translate, StoreService, SensorService, StoreSensorService,  toaster, SweetAlert) {
     $scope.currentStore = {selected:undefined};
 
     $scope.getAllSensors = function () {
-      SensorService.getAllSensors(function (error, data) {
-          if (!error) {
-              $scope.sensors = data;
+      SensorService.getAllSensors(function (response) {
+          if (angular.isDefined(response.status) && response.status === 200) {
+              $scope.sensors = response.data;
           } else {
               $scope.sensors = [];
           }
@@ -14,66 +14,48 @@ app.controller('StoreSensorController', function ($scope, $common, $uibModal, $t
     };
 
     $scope.getSensorsByStoreID = function (id) {
-        StoreSensorService.getSensorsByStoreID(id, function (error, data) {
-            if (!error) {
-                $scope.storesensors = data;
+        StoreSensorService.getSensorsByStoreID(id, function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.storesensors = response.data;
             } else {
                 $scope.storesensors = [];
             }
         });
     };
 
-  $scope.changeStore=function(item,model){
-  	$scope.currentStore=item;
-  	$scope.currentStore.selected=model;
-  	$scope.getSensorsByStoreID($scope.currentStore.id);
-  };
+    $scope.changeStore=function(item,model){
+        $scope.currentStore=item;
+        $scope.currentStore.selected=model;
+        $scope.getSensorsByStoreID($scope.currentStore.id);
+    };
 
-  $scope.getAllStores = function () {
-    StoreService.getAllStores(function (error, data) {
-        if (!error) {
-            $scope.stores = data;
-        } else {
-            $scope.stores = [];
-        }
-    });
-  };
+    $scope.getAllStores = function () {
+        StoreService.getAllStores(function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.stores = response.data;
+            } else {
+                $scope.stores = [];
+            }
+        });
+    };
 
     $scope.pairSensor = function (dragEl, dropEl) {
         var sensorid = angular.element('#' + dragEl).scope().sensor.id;
         var storeid = $scope.currentStore.id;
-        StoreSensorService.addPair(storeid, sensorid, function (error, status) {
-            if (angular.isDefined(status) && status == 201) {
-
-                var popType = 'TOASTER.SUCCESS';
-                var popTitle = $common.toaster.success_title;
-                var popBody = 'TOASTER.BIND_SENSOR_SUCCESS';
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
+        StoreSensorService.addPair(storeid, sensorid, function (response) {
+            if (angular.isDefined(response.status) && response.status === 201) {
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "success",
+                    title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                    body: $translate.instant("TOASTER.BIND_SENSOR_SUCCESS"),
                     showCloseButton: true,
                 });
-
                 $scope.getSensorsByStoreID($scope.currentStore.id);
             } else {
-                var popType = 'TOASTER.ERROR';
-                var popTitle = error.title;
-                var popBody = error.description;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
                     showCloseButton: true,
                 });
             }
@@ -86,38 +68,20 @@ app.controller('StoreSensorController', function ($scope, $common, $uibModal, $t
         }
         var storesensorid = angular.element('#' + dragEl).scope().storesensor.id;
         var storeid = $scope.currentStore.id;
-        StoreSensorService.deletePair(storeid, storesensorid, function (error, status) {
-            if (angular.isDefined(status) && status == 204) {
-
-                var popType = 'TOASTER.SUCCESS';
-                var popTitle = $common.toaster.success_title;
-                var popBody = 'TOASTER.UNBIND_SENSOR_SUCCESS';
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
+        StoreSensorService.deletePair(storeid, storesensorid, function (response) {
+            if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "success",
+                    title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                    body: $translate.instant("TOASTER.UNBIND_SENSOR_SUCCESS"),
                     showCloseButton: true,
                 });
-
                 $scope.getSensorsByStoreID($scope.currentStore.id);
             } else {
-                var popType = 'TOASTER.ERROR';
-                var popTitle = error.title;
-                var popBody = error.description;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
                     showCloseButton: true,
                 });
             }

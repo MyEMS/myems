@@ -553,8 +553,6 @@ function config($translateProvider) {
             },
             TOASTER: {
                 FAILURE_TITLE: 'Error',
-                ERROR: 'error',
-                SUCCESS: 'success',
                 SUCCESS_TITLE: 'Success',
                 LOGIN_SUCCESS: 'Login Success',
                 LOGIN_FAILURE: 'Login Failure',
@@ -1540,8 +1538,6 @@ function config($translateProvider) {
             },
             TOASTER: {
                 FAILURE_TITLE: '错误',
-                ERROR: 'error',
-                SUCCESS: 'success',
                 SUCCESS_TITLE: '成功',
                 LOGIN_SUCCESS: '登录成功。',
                 LOGIN_FAILURE: '登录失败。',
@@ -1583,7 +1579,7 @@ function config($translateProvider) {
                 ADMINISTRATOR_SESSION_NOT_FOUND: 'Administrator Session Not Found',
                 ADMINISTRATOR_SESSION_TIMEOUT: 'Administrator Session Timeout',
                 ADVANCED_REPORT_NOT_FOUND: 'Advanced Report Not Found',
-                BAD_REQUEST: 'Bad Request',
+                BAD_REQUEST: '错误的请求',
                 CANNOT_SET_EXISTING_SUBMETER_AS_MASTER_METER: 'Cannot Set Existing Submeter As Master Meter',
                 COMBINED_EQUIPMENT_EQUIPMENT_RELATION_EXISTS: 'Combined Equipment Equipment Relation Exists',
                 COMBINED_EQUIPMENT_EQUIPMENT_RELATION_NOT_FOUND: 'Combined Equipment Equipment Relation Not Found',
@@ -2224,7 +2220,7 @@ function config($translateProvider) {
                 PRICE: 'Preis',
                 BLOCK: 'Staffelpreis',
                 TIMEOFUSE: 'Timesharing-Rate',
-                PEAK_TYPE: 'Feng Guping',
+                PEAK_TYPE: 'Peaktyp',
                 START_AMOUNT: 'Startbetrag',
                 END_AMOUNT: 'Endbetrag',
 
@@ -2528,8 +2524,6 @@ function config($translateProvider) {
             },
             TOASTER: {
                 FAILURE_TITLE: 'Error',
-                ERROR: 'Error',
-                SUCCESS: 'Erfolg',
                 SUCCESS_TITLE: 'Erfolg',
                 LOGIN_SUCCESS: 'Anmeldung erfolgreich',
                 LOGIN_FAILURE: 'Login fehlgeschlagen',

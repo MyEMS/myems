@@ -1,15 +1,15 @@
 'use strict';
 
-app.controller('SpaceSensorController', function ($scope, $common, $uibModal, $timeout, $translate, SpaceService, SensorService, SpaceSensorService,  toaster, SweetAlert) {
+app.controller('SpaceSensorController', function ($scope, $translate, SpaceService, SensorService, SpaceSensorService,  toaster, SweetAlert) {
     $scope.spaces = [];
     $scope.currentSpaceID = 1;
     $scope.sensors = [];
     $scope.spacesensors = [];
 
     $scope.getAllSensors = function () {
-      SensorService.getAllSensors(function (error, data) {
-          if (!error) {
-              $scope.sensors = data;
+      SensorService.getAllSensors(function (response) {
+          if (angular.isDefined(response.status) && response.status === 200) {
+              $scope.sensors = response.data;
           } else {
               $scope.sensors = [];
           }
@@ -17,9 +17,9 @@ app.controller('SpaceSensorController', function ($scope, $common, $uibModal, $t
     };
 
     $scope.getAllSpaces = function() {
-      SpaceService.getAllSpaces(function(error, data) {
-        if (!error) {
-          $scope.spaces = data;
+      SpaceService.getAllSpaces(function (response) {
+        if (angular.isDefined(response.status) && response.status === 200) {
+          $scope.spaces = response.data;
         } else {
           $scope.spaces = [];
         }
@@ -51,9 +51,9 @@ app.controller('SpaceSensorController', function ($scope, $common, $uibModal, $t
     };
 
     $scope.getSensorsBySpaceID = function (id) {
-        SpaceSensorService.getSensorsBySpaceID(id, function (error, data) {
-            if (!error) {
-                $scope.spacesensors = data;
+        SpaceSensorService.getSensorsBySpaceID(id, function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.spacesensors = response.data;
             } else {
                 $scope.spacesensors = [];
             }
@@ -63,38 +63,20 @@ app.controller('SpaceSensorController', function ($scope, $common, $uibModal, $t
     $scope.pairSensor = function (dragEl, dropEl) {
         var sensorid = angular.element('#' + dragEl).scope().sensor.id;
         var spaceid = $scope.currentSpaceID;
-        SpaceSensorService.addPair(spaceid, sensorid, function (error, status) {
-            if (angular.isDefined(status) && status == 201) {
-
-                var popType = 'TOASTER.SUCCESS';
-                var popTitle = $common.toaster.success_title;
-                var popBody = 'TOASTER.BIND_SENSOR_SUCCESS';
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
+        SpaceSensorService.addPair(spaceid, sensorid, function (response) {
+            if (angular.isDefined(response.status) && response.status === 201) {
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "success",
+                    title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                    body: $translate.instant("TOASTER.BIND_SENSOR_SUCCESS"),
                     showCloseButton: true,
                 });
-
                 $scope.getSensorsBySpaceID($scope.currentSpaceID);
             } else {
-                var popType = 'TOASTER.ERROR';
-                var popTitle = error.title;
-                var popBody = error.description;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
                     showCloseButton: true,
                 });
             }
@@ -107,38 +89,19 @@ app.controller('SpaceSensorController', function ($scope, $common, $uibModal, $t
         }
         var spacesensorid = angular.element('#' + dragEl).scope().spacesensor.id;
         var spaceid = $scope.currentSpaceID;
-        SpaceSensorService.deletePair(spaceid, spacesensorid, function (error, status) {
-            if (angular.isDefined(status) && status == 204) {
-
-                var popType = 'TOASTER.SUCCESS';
-                var popTitle = $common.toaster.success_title;
-                var popBody = 'TOASTER.UNBIND_SENSOR_SUCCESS';
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
+        SpaceSensorService.deletePair(spaceid, spacesensorid, function (response) {
+            if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "success",
+                    title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                    body: $translate.instant("TOASTER.UNBIND_SENSOR_SUCCESS"),
                     showCloseButton: true,
                 });
-
                 $scope.getSensorsBySpaceID($scope.currentSpaceID);
-            } else {
-                var popType = 'TOASTER.ERROR';
-                var popTitle = error.title;
-                var popBody = error.description;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
                     showCloseButton: true,
                 });
             }
@@ -149,9 +112,9 @@ app.controller('SpaceSensorController', function ($scope, $common, $uibModal, $t
     $scope.getAllSpaces();
 
     $scope.refreshSpaceTree = function() {
-      SpaceService.getAllSpaces(function(error, data) {
-        if (!error) {
-          $scope.spaces = data;
+      SpaceService.getAllSpaces(function (response) {
+        if (angular.isDefined(response.status) && response.status === 200) {
+          $scope.spaces = response.data;
         } else {
           $scope.spaces = [];
         }

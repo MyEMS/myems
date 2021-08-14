@@ -272,5 +272,4 @@ class OfflineMeterFileRestore:
         except Exception as ex:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_RESTORE_OFFLINE_METER_FILE')
-        resp.body = 'success'
-        resp.status = falcon.HTTP_200
+        resp.body = json.dumps('success')

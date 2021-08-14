@@ -1,28 +1,27 @@
 'use strict';
 
-app.controller('DistributionSystemPreviewController', function($scope,$common, $translate,  DistributionSystemService, DistributionCircuitService) {
+app.controller('DistributionSystemPreviewController', function($scope, DistributionSystemService, DistributionCircuitService) {
       $scope.distributionsystems = [];
       $scope.currentDistributionSystem = null;
 
       $scope.getAllDistributionSystems = function() {
-      DistributionSystemService.getAllDistributionSystems(function(error, data) {
-        if (!error) {
-          $scope.distributionsystems = data;
+      DistributionSystemService.getAllDistributionSystems(function(response) {
+          if (angular.isDefined(response.status) && response.status === 200) {
+              $scope.distributionsystems = response.data;
           } else {
-          $scope.distributionsystems = [];
-         }
+              $scope.distributionsystems = [];
+          }
       });
     };
 
     $scope.getDistributionCircuitsByDistributionSystemID = function(id) {
-
-  			DistributionCircuitService.getDistributionCircuitsByDistributionSystemID(id, function(error, data) {
-  				if (!error) {
-  				 return data;
-  				} else {
-            	return [];
-          }
-  			});
+        DistributionCircuitService.getDistributionCircuitsByDistributionSystemID(id, function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                return response.data;
+            } else {
+                return [];
+            }
+        });
   	};
 
     $scope.changeDistributionSystem=function(item,model){

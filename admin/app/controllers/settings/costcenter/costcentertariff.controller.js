@@ -1,15 +1,15 @@
 'use strict';
 
-app.controller('CostCenterTariffController', function ($scope,  $translate,$common, $uibModal, $timeout,
+app.controller('CostCenterTariffController', function ($scope,  $translate,
                                                        CostCenterService,
                                                        TariffService,
                                                        CostCenterTariffService,
-                                                       toaster, SweetAlert) {
+                                                       toaster) {
 
     $scope.getAllCostCenters = function () {
-        CostCenterService.getAllCostCenters(function (error, data) {
-            if (!error) {
-                $scope.costcenters = data;
+        CostCenterService.getAllCostCenters(function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.costcenters = response.data;
                 if ($scope.costcenters.length > 0) {
                     $scope.currentCostCenter = $scope.costcenters[0];
                     $scope.getTariffsByCostCenterID($scope.currentCostCenter.id);
@@ -22,9 +22,9 @@ app.controller('CostCenterTariffController', function ($scope,  $translate,$comm
     };
 
     $scope.getTariffsByCostCenterID = function (id) {
-        CostCenterTariffService.getTariffsByCostCenterID(id, function (error, data) {
-            if (!error) {
-                $scope.costcentertariffs = data;
+        CostCenterTariffService.getTariffsByCostCenterID(id, function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.costcentertariffs = response.data;
             } else {
                 $scope.costcentertariffs = [];
             }
@@ -38,9 +38,9 @@ app.controller('CostCenterTariffController', function ($scope,  $translate,$comm
 
 
     $scope.getAllTariffs = function () {
-        TariffService.getAllTariffs(function (error, data) {
-            if (!error) {
-                $scope.tariffs = data;
+        TariffService.getAllTariffs(function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.tariffs = response.data;
             } else {
                 $scope.tariffs = [];
             }
@@ -51,41 +51,20 @@ app.controller('CostCenterTariffController', function ($scope,  $translate,$comm
     $scope.pairTariff = function (dragEl, dropEl) {
         var tariffid = angular.element('#' + dragEl).scope().tariff.id;
         var costcenterid = $scope.currentCostCenter.id;
-        CostCenterTariffService.addPair(costcenterid, tariffid, function (error, status) {
-            if (angular.isDefined(status) && status == 201) {
-                var templateName = "TOASTER.BIND_TARIFF_SUCCESS";
-                templateName = $translate.instant(templateName);
-
-                var popType = 'TOASTER.SUCCESS';
-                var popTitle = $common.toaster.success_title;
-                var popBody = $common.toaster.success_add_body;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody, {template: templateName});
-
+        CostCenterTariffService.addPair(costcenterid, tariffid, function (response) {
+            if (angular.isDefined(response.status) && response.status === 201) {
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "success",
+                    title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                    body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("TOASTER.BIND_TARIFF_SUCCESS")}),
                     showCloseButton: true,
                 });
-
                 $scope.getTariffsByCostCenterID($scope.currentCostCenter.id);
             } else {
-                var popType = 'TOASTER.ERROR';
-                var popTitle = error.title;
-                var popBody = error.description;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
-
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
                     showCloseButton: true,
                 });
             }
@@ -98,41 +77,21 @@ app.controller('CostCenterTariffController', function ($scope,  $translate,$comm
         }
         var costcentertariffid = angular.element('#' + dragEl).scope().costcentertariff.id;
         var costcenterid = $scope.currentCostCenter.id;
-        CostCenterTariffService.deletePair(costcenterid, costcentertariffid, function (error, status) {
-            if (angular.isDefined(status) && status == 204) {
-                var templateName = "TOASTER.UNBIND_TARIFF_SUCCESS";
-                templateName = $translate.instant(templateName);
-
-                var popType = 'TOASTER.SUCCESS';
-                var popTitle = $common.toaster.success_title;
-                var popBody = $common.toaster.success_delete_body;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody, {template: templateName});
-
+        CostCenterTariffService.deletePair(costcenterid, costcentertariffid, function (response) {
+            if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "success",
+                    title: popTi$translate.instant("TOASTER.SUCCESS_TITLE"),
+                    body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", {template: $translate.instant("TOASTER.UNBIND_TARIFF_SUCCESS")}),
                     showCloseButton: true,
                 });
 
                 $scope.getTariffsByCostCenterID($scope.currentCostCenter.id);
             } else {
-                var popType = 'TOASTER.ERROR';
-                var popTitle = error.title;
-                var popBody = error.description;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
-
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
                     showCloseButton: true,
                 });
             }

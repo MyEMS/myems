@@ -1,18 +1,18 @@
 'use strict';
 
-app.controller('ShopfloorMeterController', function($scope,$common ,$timeout,$uibModal, $translate,
+app.controller('ShopfloorMeterController', function($scope,$timeout, $translate,
 													MeterService,
 													VirtualMeterService,
 													OfflineMeterService,
 													ShopfloorMeterService,
 													ShopfloorService,
-													toaster,SweetAlert) {
+													toaster) {
     $scope.currentShopfloor = {selected:undefined};
 
 	  $scope.getAllShopfloors = function(id) {
-		ShopfloorService.getAllShopfloors(function(error, data) {
-			if (!error) {
-				$scope.shopfloors = data;
+		ShopfloorService.getAllShopfloors(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.shopfloors = response.data;
 				} else {
 				$scope.shopfloors = [];
 			 }
@@ -29,12 +29,12 @@ app.controller('ShopfloorMeterController', function($scope,$common ,$timeout,$ui
 		var metertypes=['meters','virtualmeters','offlinemeters'];
 		$scope.shopfloormeters=[];
 		angular.forEach(metertypes,function(value,index){
-			ShopfloorMeterService.getMetersByShopfloorID(id, value,function(error, data) {
-				if (!error) {
-					angular.forEach(data,function(item,indx){
-						data[indx].metertype=value;
+			ShopfloorMeterService.getMetersByShopfloorID(id, value, function (response) {
+				if (angular.isDefined(response.status) && response.status === 200) {
+					angular.forEach(response.data, function (item, indx){
+						response.data[indx].metertype = value;
 					});
-					$scope.shopfloormeters=$scope.shopfloormeters.concat(data);
+					$scope.shopfloormeters = $scope.shopfloormeters.concat(response.data);
 				}
 			});
 		});
@@ -66,9 +66,9 @@ app.controller('ShopfloorMeterController', function($scope,$common ,$timeout,$ui
 
 
 	$scope.getAllMeters = function() {
-		MeterService.getAllMeters(function(error, data) {
-			if (!error) {
-				$scope.meters = data;
+		MeterService.getAllMeters(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.meters = response.data;
 				$scope.currentMeterType="meters";
 				$timeout(function(){
 					$scope.changeMeterType();
@@ -82,9 +82,9 @@ app.controller('ShopfloorMeterController', function($scope,$common ,$timeout,$ui
 
 
 	$scope.getAllOfflineMeters = function() {
-		OfflineMeterService.getAllOfflineMeters(function(error, data) {
-			if (!error) {
-				$scope.offlinemeters = data;
+		OfflineMeterService.getAllOfflineMeters(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.offlinemeters = response.data;
 			} else {
 				$scope.offlinemeters = [];
 			}
@@ -93,9 +93,9 @@ app.controller('ShopfloorMeterController', function($scope,$common ,$timeout,$ui
 	};
 
 	$scope.getAllVirtualMeters = function() {
-		VirtualMeterService.getAllVirtualMeters(function(error, data) {
-			if (!error) {
-				$scope.virtualmeters = data;
+		VirtualMeterService.getAllVirtualMeters(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.virtualmeters = response.data;
 			} else {
 				$scope.virtualmeters = [];
 			}
@@ -106,39 +106,20 @@ app.controller('ShopfloorMeterController', function($scope,$common ,$timeout,$ui
 	$scope.pairMeter=function(dragEl,dropEl){
 		var meterid=angular.element('#'+dragEl).scope().meter.id;
 		var shopfloorid=$scope.currentShopfloor.id;
-		ShopfloorMeterService.addPair(shopfloorid, meterid, $scope.currentMeterType, function (error, status) {
-            if (angular.isDefined(status) && status == 201) {
-
-                var popType = 'TOASTER.SUCCESS';
-                var popTitle = $common.toaster.success_title;
-                var popBody = 'TOASTER.BIND_METER_SUCCESS';
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
+		ShopfloorMeterService.addPair(shopfloorid, meterid, $scope.currentMeterType, function (response) {
+            if (angular.isDefined(response.status) && response.status === 201) {
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "success",
+                    title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                    body: $translate.instant("TOASTER.BIND_METER_SUCCESS"),
                     showCloseButton: true,
                 });
-
                 $scope.getMetersByShopfloorID($scope.currentShopfloor.id);
             } else {
-
-                var popType = 'TOASTER.ERROR';
-                var popTitle = error.title;
-                var popBody = error.description;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
                     showCloseButton: true,
                 });
             }
@@ -152,38 +133,20 @@ app.controller('ShopfloorMeterController', function($scope,$common ,$timeout,$ui
         var shopfloormeterid = angular.element('#' + dragEl).scope().shopfloormeter.id;
         var shopfloorid = $scope.currentShopfloor.id;
         var metertype = angular.element('#' + dragEl).scope().shopfloormeter.metertype;
-        ShopfloorMeterService.deletePair(shopfloorid, shopfloormeterid, metertype, function (error, status) {
-            if (angular.isDefined(status) && status == 204) {
-
-                var popType = 'TOASTER.SUCCESS';
-                var popTitle = $common.toaster.success_title;
-                var popBody = 'TOASTER.UNBIND_METER_SUCCESS';
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
+        ShopfloorMeterService.deletePair(shopfloorid, shopfloormeterid, metertype, function (response) {
+            if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "success",
+                    title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                    body: $translate.instant("TOASTER.UNBIND_METER_SUCCESS"),
                     showCloseButton: true,
                 });
-
                 $scope.getMetersByShopfloorID($scope.currentShopfloor.id);
             } else {
-                var popType = 'TOASTER.ERROR';
-                var popTitle = error.title;
-                var popBody = error.description;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
                     showCloseButton: true,
                 });
             }

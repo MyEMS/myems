@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('SpaceEquipmentController', function($scope,$common ,$timeout, $translate,	SpaceService, EquipmentService, SpaceEquipmentService, toaster,SweetAlert) {
+app.controller('SpaceEquipmentController', function($scope, $translate,	SpaceService, EquipmentService, SpaceEquipmentService, toaster,SweetAlert) {
   $scope.spaces = [];
   $scope.currentSpaceID = 1;
   $scope.equipments = [];
@@ -8,9 +8,9 @@ app.controller('SpaceEquipmentController', function($scope,$common ,$timeout, $t
 
 
   $scope.getAllSpaces = function() {
-    SpaceService.getAllSpaces(function(error, data) {
-      if (!error) {
-        $scope.spaces = data;
+    SpaceService.getAllSpaces(function (response) {
+      if (angular.isDefined(response.status) && response.status === 200) {
+        $scope.spaces = response.data;
       } else {
         $scope.spaces = [];
       }
@@ -43,19 +43,19 @@ app.controller('SpaceEquipmentController', function($scope,$common ,$timeout, $t
 
 	$scope.getEquipmentsBySpaceID = function(id) {
     $scope.spaceequipments=[];
-    SpaceEquipmentService.getEquipmentsBySpaceID(id,function(error, data) {
-      				if (!error) {
-      					$scope.spaceequipments=$scope.spaceequipments.concat(data);
-      				} else {
-                $scope.spaceequipments=[];
-              }
-    			});
+    SpaceEquipmentService.getEquipmentsBySpaceID(id, function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+              $scope.spaceequipments = $scope.spaceequipments.concat(response.data);
+            } else {
+              $scope.spaceequipments=[];
+            }
+        });
 		};
 
 	$scope.getAllEquipments = function() {
-		EquipmentService.getAllEquipments(function(error, data) {
-			if (!error) {
-				$scope.equipments = data;
+		EquipmentService.getAllEquipments(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.equipments = response.data;
 			} else {
 				$scope.equipments = [];
 			}
@@ -65,37 +65,20 @@ app.controller('SpaceEquipmentController', function($scope,$common ,$timeout, $t
 	$scope.pairEquipment=function(dragEl,dropEl){
 		var equipmentid=angular.element('#'+dragEl).scope().equipment.id;
 		var spaceid=angular.element(spacetreewithequipment).jstree(true).get_top_selected();
-		SpaceEquipmentService.addPair(spaceid,equipmentid,function(error,status){
-			if (angular.isDefined(status) && status == 201) {
-					var popType = 'TOASTER.SUCCESS';
-					var popTitle = $common.toaster.success_title;
-					var popBody = "TOASTER.BIND_EQUIPMENT_SUCCESS";
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody);
-
+		SpaceEquipmentService.addPair(spaceid,equipmentid, function (response) {
+			if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "success",
+						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+						body: $translate.instant("TOASTER.BIND_EQUIPMENT_SUCCESS"),
 						showCloseButton: true,
 					});
-
 					$scope.getEquipmentsBySpaceID(spaceid);
 				} else {
-					var popType = 'TOASTER.ERROR';
-          var popTitle = error.title;
-          var popBody = error.description;
-
-          popType = $translate.instant(popType);
-          popTitle = $translate.instant(popTitle);
-          popBody = $translate.instant(popBody);
-
           toaster.pop({
-              type: popType,
-              title: popTitle,
-              body: popBody,
+              type: "error",
+              title: $translate.instant(response.data.title),
+              body: $translate.instant(response.data.description),
               showCloseButton: true,
           });
 				}
@@ -109,37 +92,20 @@ app.controller('SpaceEquipmentController', function($scope,$common ,$timeout, $t
         var spaceequipmentid = angular.element('#' + dragEl).scope().spaceequipment.id;
         var spaceid = angular.element(spacetreewithequipment).jstree(true).get_top_selected();
 
-        SpaceEquipmentService.deletePair(spaceid, spaceequipmentid, function (error, status) {
-            if (angular.isDefined(status) && status == 204) {
-                var popType = 'TOASTER.SUCCESS';
-                var popTitle = $common.toaster.success_title;
-                var popBody = "TOASTER.UNBIND_EQUIPMENT_SUCCESS";
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
+        SpaceEquipmentService.deletePair(spaceid, spaceequipmentid, function (response) {
+            if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "success",
+                    title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                    body: $translate.instant("TOASTER.UNBIND_EQUIPMENT_SUCCESS"),
                     showCloseButton: true,
                 });
                 $scope.getEquipmentsBySpaceID(spaceid);
             } else {
-                var popType = 'TOASTER.ERROR';
-                var popTitle = error.title;
-                var popBody = error.description;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
-
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
                     showCloseButton: true,
                 });
             }
@@ -150,9 +116,9 @@ app.controller('SpaceEquipmentController', function($scope,$common ,$timeout, $t
 	$scope.getAllEquipments();
 
   $scope.refreshSpaceTree = function() {
-    SpaceService.getAllSpaces(function(error, data) {
-      if (!error) {
-        $scope.spaces = data;
+    SpaceService.getAllSpaces(function (response) {
+      if (angular.isDefined(response.status) && response.status === 200) {
+        $scope.spaces = response.data;
       } else {
         $scope.spaces = [];
       }

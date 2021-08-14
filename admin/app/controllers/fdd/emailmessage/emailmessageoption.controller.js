@@ -38,9 +38,9 @@ app.controller('EmailMessageOptionController', function($scope, $timeout,
 			period:$scope.currentPeriod
 		});
 		
-		EmailMessageAnalysisService.getAnalysisResult(query, function(error, data) {
-			if (!error) {
-				$scope.$emit('handleEmitEmailMessageOptionChanged', data);
+		EmailMessageAnalysisService.getAnalysisResult(query, function(response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.$emit('handleEmitEmailMessageOptionChanged', response.data);
 			}
 		});
 		

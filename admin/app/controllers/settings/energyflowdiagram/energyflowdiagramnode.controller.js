@@ -1,14 +1,14 @@
 'use strict';
 
-app.controller('EnergyFlowDiagramNodeController', function($scope,$common, $translate, $uibModal, EnergyFlowDiagramService, EnergyFlowDiagramNodeService, toaster,SweetAlert) {
+app.controller('EnergyFlowDiagramNodeController', function($scope, $translate, $uibModal, EnergyFlowDiagramService, EnergyFlowDiagramNodeService, toaster,SweetAlert) {
       $scope.energyflowdiagrams = [];
       $scope.energyflowdiagramnodes = [];
       $scope.currentEnergyFlowDiagram = null;
 
       $scope.getAllEnergyFlowDiagrams = function() {
-  		EnergyFlowDiagramService.getAllEnergyFlowDiagrams(function(error, data) {
-  			if (!error) {
-  				$scope.energyflowdiagrams = data;
+  		EnergyFlowDiagramService.getAllEnergyFlowDiagrams(function (response) {
+  			if (angular.isDefined(response.status) && response.status === 200) {
+  				$scope.energyflowdiagrams = response.data;
   				} else {
   				$scope.energyflowdiagrams = [];
   			 }
@@ -17,9 +17,9 @@ app.controller('EnergyFlowDiagramNodeController', function($scope,$common, $tran
 
   	$scope.getNodesByEnergyFlowDiagramID = function(id) {
 
-  		EnergyFlowDiagramNodeService.getNodesByEnergyFlowDiagramID(id, function(error, data) {
-				if (!error) {
-					$scope.energyflowdiagramnodes=data;
+  		EnergyFlowDiagramNodeService.getNodesByEnergyFlowDiagramID(id, function (response) {
+				if (angular.isDefined(response.status) && response.status === 200) {
+					$scope.energyflowdiagramnodes = response.data;
 				} else {
           $scope.energyflowdiagramnodes=[];
         }
@@ -49,43 +49,21 @@ app.controller('EnergyFlowDiagramNodeController', function($scope,$common, $tran
   		modalInstance.result.then(function(energyflowdiagramnode) {
           var energyflowdiagramid = $scope.currentEnergyFlowDiagram.id;
 
-  			EnergyFlowDiagramNodeService.addEnergyFlowDiagramNode(energyflowdiagramid, energyflowdiagramnode, function(error, status) {
-  				if (angular.isDefined(status) && status == 201) {
-  					var templateName = "ENERGY_FLOW_DIAGRAM.NODE";
-  					templateName = $translate.instant(templateName);
-
-  					var popType = 'TOASTER.SUCCESS';
-  					var popTitle = $common.toaster.success_title;
-  					var popBody = $common.toaster.success_add_body;
-
-  					popType = $translate.instant(popType);
-  					popTitle = $translate.instant(popTitle);
-  					popBody = $translate.instant(popBody,{template: templateName});
-
+  			EnergyFlowDiagramNodeService.addEnergyFlowDiagramNode(energyflowdiagramid, energyflowdiagramnode, function (response) {
+  				if (angular.isDefined(response.status) && response.status === 201) {
   					toaster.pop({
-  						type: popType,
-  						title: popTitle,
-  						body: popBody,
+  						type: "success",
+  						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+  						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("ENERGY_FLOW_DIAGRAM.NODE")}),
   						showCloseButton: true,
   					});
   					$scope.getNodesByEnergyFlowDiagramID($scope.currentEnergyFlowDiagram.id);
   					$scope.$emit('handleEmitEnergyFlowDiagramNodeChanged');
   				} else {
-  					var templateName = "ENERGY_FLOW_DIAGRAM.NODE";
-  					templateName = $translate.instant(templateName);
-
-  					var popType = 'TOASTER.ERROR';
-  					var popTitle = $common.toaster.error_title;
-  					var popBody = $common.toaster.error_add_body;
-
-  					popType = $translate.instant(popType);
-  					popTitle = $translate.instant(popTitle);
-  					popBody = $translate.instant(popBody,{template: templateName});
-
   					toaster.pop({
-  						type: popType,
-  						title: popTitle,
-  						body: popBody,
+  						type: "error",
+  						title: $translate.instant("TOASTER.FAILURE_TITLE"),
+  						body: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("ENERGY_FLOW_DIAGRAM.NODE")}),
   						showCloseButton: true,
   					});
   				}
@@ -110,43 +88,21 @@ app.controller('EnergyFlowDiagramNodeController', function($scope,$common, $tran
   		});
 
   		modalInstance.result.then(function(modifiedEnergyFlowDiagramNode) {
-  			EnergyFlowDiagramNodeService.editEnergyFlowDiagramNode($scope.currentEnergyFlowDiagram.id, modifiedEnergyFlowDiagramNode, function(error, status) {
-  				if (angular.isDefined(status) && status == 200) {
-  					var templateName = "ENERGY_FLOW_DIAGRAM.NODE";
-  					templateName = $translate.instant(templateName);
-
-  					var popType = 'TOASTER.SUCCESS';
-  					var popTitle = $common.toaster.success_title;
-  					var popBody = $common.toaster.success_update_body;
-
-  					popType = $translate.instant(popType);
-  					popTitle = $translate.instant(popTitle);
-  					popBody = $translate.instant(popBody,{template: templateName});
-
+  			EnergyFlowDiagramNodeService.editEnergyFlowDiagramNode($scope.currentEnergyFlowDiagram.id, modifiedEnergyFlowDiagramNode, function (response) {
+  				if (angular.isDefined(response.status) && response.status === 200) {
   					toaster.pop({
-  						type: popType,
-  						title: popTitle,
-  						body: popBody,
+  						type: "success",
+  						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+  						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", {template: $translate.instant("ENERGY_FLOW_DIAGRAM.NODE")}),
   						showCloseButton: true,
   					});
   					$scope.getNodesByEnergyFlowDiagramID($scope.currentEnergyFlowDiagram.id);
   					$scope.$emit('handleEmitEnergyFlowDiagramNodeChanged');
   				} else {
-  					var templateName = "ENERGY_FLOW_DIAGRAM.NODE";
-  					templateName = $translate.instant(templateName);
-
-  					var popType = 'TOASTER.ERROR';
-  					var popTitle = $common.toaster.error_title;
-  					var popBody = $common.toaster.error_update_body;
-
-  					popType = $translate.instant(popType);
-  					popTitle = $translate.instant(popTitle);
-  					popBody = $translate.instant(popBody,{template: templateName});
-
   					toaster.pop({
-  						type: popType,
-  						title: popTitle,
-  						body: popBody,
+  						type: "error",
+  						title: $translate.instant("TOASTER.FAILURE_TITLE"),
+  						body: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("ENERGY_FLOW_DIAGRAM.NODE")}),
   						showCloseButton: true,
   					});
   				}
@@ -158,73 +114,43 @@ app.controller('EnergyFlowDiagramNodeController', function($scope,$common, $tran
 
   	$scope.deleteEnergyFlowDiagramNode = function(energyflowdiagramnode) {
   		SweetAlert.swal({
-  				title: $translate.instant($common.sweet.title),
-  				text: $translate.instant($common.sweet.text),
+  				title: $translate.instant("SWEET.TITLE"),
+  				text: $translate.instant("SWEET.TEXT"),
   				type: "warning",
   				showCancelButton: true,
   				confirmButtonColor: "#DD6B55",
-  				confirmButtonText: $translate.instant($common.sweet.confirmButtonText),
-  				cancelButtonText: $translate.instant($common.sweet.cancelButtonText),
+  				confirmButtonText: $translate.instant("SWEET.CONFIRM_BUTTON_TEXT"),
+  				cancelButtonText: $translate.instant("SWEET.CANCEL_BUTTON_TEXT"),
   				closeOnConfirm: true,
   				closeOnCancel: true
   			},
   			function(isConfirm) {
   				if (isConfirm) {
-  					EnergyFlowDiagramNodeService.deleteEnergyFlowDiagramNode($scope.currentEnergyFlowDiagram.id, energyflowdiagramnode.id, function(error, status) {
-  						if (angular.isDefined(status) && status == 204) {
-  							var templateName = "ENERGY_FLOW_DIAGRAM.NODE";
-                templateName = $translate.instant(templateName);
-
-                var popType = 'TOASTER.SUCCESS';
-                var popTitle = $common.toaster.success_title;
-                var popBody = $common.toaster.success_delete_body;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody, {template: templateName});
-
-                toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
-                    showCloseButton: true,
-                });
+  					EnergyFlowDiagramNodeService.deleteEnergyFlowDiagramNode($scope.currentEnergyFlowDiagram.id, energyflowdiagramnode.id, function (response) {
+  						if (angular.isDefined(response.status) && response.status === 204) {
+							toaster.pop({
+								type: "success",
+								title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+								body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", {template: $translate.instant("ENERGY_FLOW_DIAGRAM.NODE")}),
+								showCloseButton: true,
+							});
   							$scope.getNodesByEnergyFlowDiagramID($scope.currentEnergyFlowDiagram.id);
-      					$scope.$emit('handleEmitEnergyFlowDiagramNodeChanged');
-  						} else if (angular.isDefined(status) && status == 400) {
-  							var popType = 'TOASTER.ERROR';
-                var popTitle = error.title;
-                var popBody = error.description;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
-                toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
-                    showCloseButton: true,
-                });
+      						$scope.$emit('handleEmitEnergyFlowDiagramNodeChanged');
+  						} else if (angular.isDefined(response.status) && response.status === 400) {
+							toaster.pop({
+								type: "error",
+								title: $translate.instant(response.data.title),
+								body: $translate.instant(response.data.description),
+								showCloseButton: true,
+							});
   						} else {
-  							var templateName = "ENERGY_FLOW_DIAGRAM.NODE";
-                templateName = $translate.instant(templateName);
-
-                var popType = 'TOASTER.ERROR';
-                var popTitle = $common.toaster.error_title;
-                var popBody = $common.toaster.error_delete_body;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody, {template: templateName});
-
-                toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
-                    showCloseButton: true,
-                });
-  				   }
+							toaster.pop({
+								type: "error",
+								title: $translate.instant("TOASTER.FAILURE_TITLE"),
+								body: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("ENERGY_FLOW_DIAGRAM.NODE")}),
+								showCloseButton: true,
+							});
+  				   		}
   					});
   				}
   			});

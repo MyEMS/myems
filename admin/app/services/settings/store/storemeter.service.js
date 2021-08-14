@@ -12,31 +12,28 @@ app.factory('StoreMeterService', function($http) {
             }
 
             $http.post(getAPI()+'stores/'+storeID+'/'+metertype,{data:meter})
-                .success(function (response, status, headers, config) {
-                    callback(null, status);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
 
         deletePair: function(storeID, meterID, metertype, callback) {
             $http.delete(getAPI()+'stores/'+storeID+'/'+metertype+'/'+meterID)
-                .success(function (response, status, headers, config) {
-                    callback(null, status);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
         getMetersByStoreID: function(id, metertype, callback) {
             $http.get(getAPI()+'stores/'+id+'/'+metertype)
-                .success(function (response, status, headers, config) {
-                    callback(null, response);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         }
     };
 });

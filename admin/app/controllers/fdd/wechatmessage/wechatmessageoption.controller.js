@@ -36,10 +36,10 @@ app.controller('WechatMessageOptionController', function($scope, $timeout,
 			load: true,
 			period:$scope.currentPeriod
 		});
-		WechatMessageAnalysisService.getAnalysisResult(query, function(error, data) {
-				if (!error) {
-					$scope.$emit('handleEmitWechatMessageOptionChanged', data);
-				}
+		WechatMessageAnalysisService.getAnalysisResult(query, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.$emit('handleEmitWechatMessageOptionChanged', response.data);
+			}
 		});
 
 	};

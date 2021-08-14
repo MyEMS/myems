@@ -3,57 +3,51 @@ app.factory('GatewayService', function($http) {
     return {  
         getAllGateways:function(callback){
             $http.get(getAPI()+'gateways')  
-                .success(function (response, status, headers, config) {  
-                    callback(null, response);  
-                })  
-                .error(function (e,status) {  
-                    callback(e,status);  
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
         searchGateways: function(query, callback) {  
             $http.get(getAPI()+'gateways', { params: { q: query } })  
-                .success(function (response, status, headers, config) {  
-                    callback(null, response);  
-                })  
-                .error(function (e,status) {  
-                    callback(e,status);  
-                });  
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });  
         },
         addGateway: function(gateway, callback) {  
             $http.post(getAPI()+'gateways',{data:gateway})  
-                .success(function (response, status, headers, config) {  
-                    callback(null, status);  
-                })  
-                .error(function (e,status) {  
-                    callback(e,status);  
-                });  
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            }); 
         },
         editGateway: function(gateway, callback) {  
             $http.put(getAPI()+'gateways/'+gateway.id,{data:gateway})  
-                .success(function (response, status, headers, config) {  
-                    callback(null, status);  
-                })  
-                .error(function (e,status) {  
-                    callback(e,status);  
-                });  
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });  
         },
         deleteGateway: function(gateway, callback) {  
             $http.delete(getAPI()+'gateways/'+gateway.id)  
-                .success(function (response, status, headers, config) {  
-                    callback(null, status);  
-                })  
-                .error(function (e,status) {  
-                    callback(e,status);  
-                });  
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });  
         },
         getGateway: function(id, callback) {  
             $http.get(getAPI()+'gateways/'+id)  
-                .success(function (response, status, headers, config) {  
-                    callback(null, response);  
-                })  
-                .error(function (e,status) {  
-                    callback(e,status);  
-                });  
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            }); 
         }
     };
 });  

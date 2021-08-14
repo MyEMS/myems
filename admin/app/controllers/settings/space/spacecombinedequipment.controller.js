@@ -1,6 +1,10 @@
 'use strict';
 
-app.controller('SpaceCombinedEquipmentController', function($scope,$common ,$timeout, $translate,	SpaceService, CombinedEquipmentService, SpaceCombinedEquipmentService, toaster,SweetAlert) {
+app.controller('SpaceCombinedEquipmentController', function($scope, $translate,
+  SpaceService,
+  CombinedEquipmentService,
+  SpaceCombinedEquipmentService,
+  toaster) {
   $scope.spaces = [];
   $scope.currentSpaceID = 1;
   $scope.combinedequipments = [];
@@ -8,11 +12,11 @@ app.controller('SpaceCombinedEquipmentController', function($scope,$common ,$tim
 
 
   $scope.getAllSpaces = function() {
-    SpaceService.getAllSpaces(function(error, data) {
-      if (!error) {
-        $scope.spaces = data;
+    SpaceService.getAllSpaces(function (response) {
+      if (angular.isDefined(response.status) && response.status === 200) {
+          $scope.spaces = response.data;
       } else {
-        $scope.spaces = [];
+          $scope.spaces = [];
       }
       //create space tree
       var treedata = {'core': {'data': [], "multiple" : false,}, "plugins" : [ "wholerow" ]};
@@ -43,59 +47,42 @@ app.controller('SpaceCombinedEquipmentController', function($scope,$common ,$tim
 
 	$scope.getCombinedEquipmentsBySpaceID = function(id) {
     $scope.spacecombinedequipments=[];
-    SpaceCombinedEquipmentService.getCombinedEquipmentsBySpaceID(id,function(error, data) {
-      				if (!error) {
-      					$scope.spacecombinedequipments=$scope.spacecombinedequipments.concat(data);
-      				} else {
-                $scope.spacecombinedequipments=[];
-              }
-    			});
+    SpaceCombinedEquipmentService.getCombinedEquipmentsBySpaceID(id, function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+              $scope.spacecombinedequipments = $scope.spacecombinedequipments.concat(response.data);
+            } else {
+              $scope.spacecombinedequipments=[];
+            }
+        });
 		};
 
 	$scope.getAllCombinedEquipments = function() {
-		CombinedEquipmentService.getAllCombinedEquipments(function(error, data) {
-			if (!error) {
-				$scope.combinedequipments = data;
-			} else {
-				$scope.combinedequipments = [];
-			}
-		});
+		CombinedEquipmentService.getAllCombinedEquipments(function (response) {
+          if (angular.isDefined(response.status) && response.status === 200) {
+            $scope.combinedequipments = response.data;
+          } else {
+            $scope.combinedequipments = [];
+          }
+      });
 	};
 
 	$scope.pairCombinedEquipment=function(dragEl,dropEl){
 		var combinedequipmentid=angular.element('#'+dragEl).scope().combinedequipment.id;
 		var spaceid=angular.element(spacetreewithcombinedequipment).jstree(true).get_top_selected();
-		SpaceCombinedEquipmentService.addPair(spaceid,combinedequipmentid,function(error,status){
-			if (angular.isDefined(status) && status == 201) {
-					var popType = 'TOASTER.SUCCESS';
-					var popTitle = $common.toaster.success_title;
-					var popBody = "TOASTER.BIND_COMBINED_EQUIPMENT_SUCCESS";
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody);
-
+		SpaceCombinedEquipmentService.addPair(spaceid,combinedequipmentid, function (response){
+			if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "success",
+						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+						body: $translate.instant("TOASTER.BIND_COMBINED_EQUIPMENT_SUCCESS"),
 						showCloseButton: true,
 					});
-
 					$scope.getCombinedEquipmentsBySpaceID(spaceid);
 				} else {
-					var popType = 'TOASTER.ERROR';
-          var popTitle = error.title;
-          var popBody = error.description;
-
-          popType = $translate.instant(popType);
-          popTitle = $translate.instant(popTitle);
-          popBody = $translate.instant(popBody);
-
           toaster.pop({
-              type: popType,
-              title: popTitle,
-              body: popBody,
+              type: "error",
+              title: $translate.instant(response.data.title),
+              body: $translate.instant(response.data.description),
               showCloseButton: true,
           });
 				}
@@ -109,37 +96,20 @@ app.controller('SpaceCombinedEquipmentController', function($scope,$common ,$tim
         var spacecombinedequipmentid = angular.element('#' + dragEl).scope().spacecombinedequipment.id;
         var spaceid = angular.element(spacetreewithcombinedequipment).jstree(true).get_top_selected();
 
-        SpaceCombinedEquipmentService.deletePair(spaceid, spacecombinedequipmentid, function (error, status) {
-            if (angular.isDefined(status) && status == 204) {
-                var popType = 'TOASTER.SUCCESS';
-                var popTitle = $common.toaster.success_title;
-                var popBody = "TOASTER.UNBIND_COMBINED_EQUIPMENT_SUCCESS";
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
+        SpaceCombinedEquipmentService.deletePair(spaceid, spacecombinedequipmentid, function (response) {
+            if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "success",
+                    title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                    body: $translate.instant("TOASTER.UNBIND_COMBINED_EQUIPMENT_SUCCESS"),
                     showCloseButton: true,
                 });
                 $scope.getCombinedEquipmentsBySpaceID(spaceid);
             } else {
-                var popType = 'TOASTER.ERROR';
-                var popTitle = error.title;
-                var popBody = error.description;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
-
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
                     showCloseButton: true,
                 });
             }
@@ -150,9 +120,9 @@ app.controller('SpaceCombinedEquipmentController', function($scope,$common ,$tim
 	$scope.getAllCombinedEquipments();
 
   $scope.refreshSpaceTree = function() {
-    SpaceService.getAllSpaces(function(error, data) {
-      if (!error) {
-        $scope.spaces = data;
+    SpaceService.getAllSpaces(function (response) {
+      if (angular.isDefined(response.status) && response.status === 200) {
+        $scope.spaces = response.data;
       } else {
         $scope.spaces = [];
       }

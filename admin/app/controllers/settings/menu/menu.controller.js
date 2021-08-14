@@ -1,15 +1,15 @@
 'use strict';
 
-app.controller('MenuController', function ($scope, $common, $uibModal, MenuService, toaster, $translate, SweetAlert) {
+app.controller('MenuController', function ($scope, $uibModal, MenuService, toaster, $translate) {
 	$scope.menus = [];
 	$scope.currentMenuID = null;
 	$scope.currentMenu = {};
 	$scope.currentMenuChildren = [];
 
 	$scope.getAllMenus = function () {
-		MenuService.getAllMenus(function (error, data) {
-			if (!error) {
-				$scope.menus = data;
+		MenuService.getAllMenus(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.menus = response.data;
 			} else {
 				$scope.menus = [];
 			}
@@ -44,9 +44,9 @@ app.controller('MenuController', function ($scope, $common, $uibModal, MenuServi
 	};
 
 	$scope.refreshMenuTree = function () {
-		MenuService.getAllMenus(function (error, data) {
-			if (!error) {
-				$scope.menus = data;
+		MenuService.getAllMenus(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.menus = response.data;
 			} else {
 				$scope.menus = [];
 			}
@@ -77,10 +77,10 @@ app.controller('MenuController', function ($scope, $common, $uibModal, MenuServi
 	};
 
 	$scope.getMenuChildren = function (menuid) {
-		MenuService.getMenuChildren(menuid, function (error, data) {
-			if (!error) {
-				$scope.currentMenu = data["current"];
-				$scope.currentMenuChildren = data["children"];
+		MenuService.getMenuChildren(menuid, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.currentMenu = response.data["current"];
+				$scope.currentMenuChildren = response.data["children"];
 			} else {
 				$scope.currentMenu = {};
 				$scope.currentMenuChildren = [];
@@ -110,42 +110,20 @@ app.controller('MenuController', function ($scope, $common, $uibModal, MenuServi
 				modifiedMenu.parent_menu_id = null;
 			}
 			
-			MenuService.editMenu(modifiedMenu, function (error, status) {
-				if (angular.isDefined(status) && status == 200) {
-					var templateName = "COMMON.MENU";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.SUCCESS';
-					var popTitle = $common.toaster.success_title;
-					var popBody = $common.toaster.success_update_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody, { template: templateName });
-
+			MenuService.editMenu(modifiedMenu, function (response) {
+				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "success",
+						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", { template: $translate.instant("COMMON.MENU") }),
 						showCloseButton: true,
 					});
 					$scope.$emit('handleEmitMenuChanged');
 				} else {
-					var templateName = "COMMON.MENU";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.ERROR';
-					var popTitle = $common.toaster.error_title;
-					var popBody = $common.toaster.error_update_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody, { template: templateName });
-
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "error",
+						title: $translate.instant("TOASTER.FAILURE_TITLE"),
+						body: $translate.instant("TOASTER.ERROR_UPDATE_BODY", { template: $translate.instant("COMMON.MENU") }),
 						showCloseButton: true,
 					});
 				}

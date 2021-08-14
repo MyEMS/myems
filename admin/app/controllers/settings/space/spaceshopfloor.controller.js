@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('SpaceShopfloorController', function($scope,$common ,$timeout, $translate,	SpaceService, ShopfloorService, SpaceShopfloorService, toaster,SweetAlert) {
+app.controller('SpaceShopfloorController', function($scope, $translate,	SpaceService, ShopfloorService, SpaceShopfloorService, toaster,SweetAlert) {
   $scope.spaces = [];
   $scope.currentSpaceID = 1;
   $scope.shopfloors = [];
@@ -8,9 +8,9 @@ app.controller('SpaceShopfloorController', function($scope,$common ,$timeout, $t
 
 
   $scope.getAllSpaces = function() {
-    SpaceService.getAllSpaces(function(error, data) {
-      if (!error) {
-        $scope.spaces = data;
+    SpaceService.getAllSpaces(function (response) {
+      if (angular.isDefined(response.status) && response.status === 200) {
+        $scope.spaces = response.data;
       } else {
         $scope.spaces = [];
       }
@@ -43,9 +43,9 @@ app.controller('SpaceShopfloorController', function($scope,$common ,$timeout, $t
 
 	$scope.getShopfloorsBySpaceID = function(id) {
     $scope.spaceshopfloors=[];
-    SpaceShopfloorService.getShopfloorsBySpaceID(id,function(error, data) {
-      				if (!error) {
-      					$scope.spaceshopfloors=$scope.spaceshopfloors.concat(data);
+    SpaceShopfloorService.getShopfloorsBySpaceID(id, function (response) {
+      				if (angular.isDefined(response.status) && response.status === 200) {
+      					$scope.spaceshopfloors = $scope.spaceshopfloors.concat(response.data);
       				} else {
                 $scope.spaceshopfloors=[];
               }
@@ -53,9 +53,9 @@ app.controller('SpaceShopfloorController', function($scope,$common ,$timeout, $t
 		};
 
 	$scope.getAllShopfloors = function() {
-		ShopfloorService.getAllShopfloors(function(error, data) {
-			if (!error) {
-				$scope.shopfloors = data;
+		ShopfloorService.getAllShopfloors(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.shopfloors = response.data;
 			} else {
 				$scope.shopfloors = [];
 			}
@@ -65,37 +65,20 @@ app.controller('SpaceShopfloorController', function($scope,$common ,$timeout, $t
 	$scope.pairShopfloor=function(dragEl,dropEl){
 		var shopfloorid=angular.element('#'+dragEl).scope().shopfloor.id;
 		var spaceid=angular.element(spacetreewithshopfloor).jstree(true).get_top_selected();
-		SpaceShopfloorService.addPair(spaceid,shopfloorid,function(error,status){
-			if (angular.isDefined(status) && status == 201) {
-					var popType = 'TOASTER.SUCCESS';
-					var popTitle = $common.toaster.success_title;
-					var popBody = "TOASTER.BIND_SHOPFLOOR_SUCCESS";
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody);
-
+		SpaceShopfloorService.addPair(spaceid,shopfloorid, function (response){
+			if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "success",
+						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+						body: $translate.instant("TOASTER.BIND_SHOPFLOOR_SUCCESS"),
 						showCloseButton: true,
 					});
-
 					$scope.getShopfloorsBySpaceID(spaceid);
 				} else {
-					var popType = 'TOASTER.ERROR';
-          var popTitle = error.title;
-          var popBody = error.description;
-
-          popType = $translate.instant(popType);
-          popTitle = $translate.instant(popTitle);
-          popBody = $translate.instant(popBody);
-
           toaster.pop({
-              type: popType,
-              title: popTitle,
-              body: popBody,
+              type: "error",
+              title: $translate.instant(response.data.title),
+              body: $translate.instant(response.data.description),
               showCloseButton: true,
           });
 				}
@@ -109,37 +92,20 @@ app.controller('SpaceShopfloorController', function($scope,$common ,$timeout, $t
         var spaceshopfloorid = angular.element('#' + dragEl).scope().spaceshopfloor.id;
         var spaceid = angular.element(spacetreewithshopfloor).jstree(true).get_top_selected();
 
-        SpaceShopfloorService.deletePair(spaceid, spaceshopfloorid, function (error, status) {
-            if (angular.isDefined(status) && status == 204) {
-                var popType = 'TOASTER.SUCCESS';
-                var popTitle = $common.toaster.success_title;
-                var popBody = "TOASTER.UNBIND_SHOPFLOOR_SUCCESS";
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
+        SpaceShopfloorService.deletePair(spaceid, spaceshopfloorid, function (response) {
+            if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "success",
+                    title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                    body: $translate.instant("TOASTER.UNBIND_SHOPFLOOR_SUCCESS"),
                     showCloseButton: true,
                 });
                 $scope.getShopfloorsBySpaceID(spaceid);
             } else {
-                var popType = 'TOASTER.ERROR';
-                var popTitle = error.title;
-                var popBody = error.description;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
-
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
                     showCloseButton: true,
                 });
             }
@@ -150,9 +116,9 @@ app.controller('SpaceShopfloorController', function($scope,$common ,$timeout, $t
 	$scope.getAllShopfloors();
 
   $scope.refreshSpaceTree = function() {
-    SpaceService.getAllSpaces(function(error, data) {
-      if (!error) {
-        $scope.spaces = data;
+    SpaceService.getAllSpaces(function (response) {
+      if (angular.isDefined(response.status) && response.status === 200) {
+        $scope.spaces = response.data;
       } else {
         $scope.spaces = [];
       }

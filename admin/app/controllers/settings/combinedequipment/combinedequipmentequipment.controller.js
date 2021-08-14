@@ -1,12 +1,12 @@
 'use strict';
 
-app.controller('CombinedEquipmentEquipmentController', function ($scope, $common, $uibModal, $timeout, $translate, CombinedEquipmentService, EquipmentService, CombinedEquipmentEquipmentService,  toaster, SweetAlert) {
+app.controller('CombinedEquipmentEquipmentController', function ($scope, $translate, CombinedEquipmentService, EquipmentService, CombinedEquipmentEquipmentService,  toaster, SweetAlert) {
     $scope.currentCombinedEquipment = {selected:undefined};
 
     $scope.getAllEquipments = function () {
-      EquipmentService.getAllEquipments(function (error, data) {
-          if (!error) {
-              $scope.equipments = data;
+      EquipmentService.getAllEquipments(function (response) {
+          if (angular.isDefined(response.status) && response.status === 200) {
+              $scope.equipments = response.data;
           } else {
               $scope.equipments = [];
           }
@@ -14,9 +14,9 @@ app.controller('CombinedEquipmentEquipmentController', function ($scope, $common
     };
 
     $scope.getEquipmentsByCombinedEquipmentID = function (id) {
-        CombinedEquipmentEquipmentService.getEquipmentsByCombinedEquipmentID(id, function (error, data) {
-            if (!error) {
-                $scope.combinedequipmentequipments = data;
+        CombinedEquipmentEquipmentService.getEquipmentsByCombinedEquipmentID(id, function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.combinedequipmentequipments = response.data;
             } else {
                 $scope.combinedequipmentequipments = [];
             }
@@ -30,9 +30,9 @@ app.controller('CombinedEquipmentEquipmentController', function ($scope, $common
   };
 
   $scope.getAllCombinedEquipments = function () {
-    CombinedEquipmentService.getAllCombinedEquipments(function (error, data) {
-        if (!error) {
-            $scope.combinedequipments = data;
+    CombinedEquipmentService.getAllCombinedEquipments(function (response) {
+        if (angular.isDefined(response.status) && response.status === 200) {
+            $scope.combinedequipments = response.data;
         } else {
             $scope.combinedequipments = [];
         }
@@ -42,38 +42,21 @@ app.controller('CombinedEquipmentEquipmentController', function ($scope, $common
     $scope.pairEquipment = function (dragEl, dropEl) {
         var equipmentid = angular.element('#' + dragEl).scope().equipment.id;
         var combinedequipmentid = $scope.currentCombinedEquipment.id;
-        CombinedEquipmentEquipmentService.addPair(combinedequipmentid, equipmentid, function (error, status) {
-            if (angular.isDefined(status) && status == 201) {
-
-                var popType = 'TOASTER.SUCCESS';
-                var popTitle = $common.toaster.success_title;
-                var popBody = 'TOASTER.BIND_EQUIPMENT_SUCCESS';
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
+        CombinedEquipmentEquipmentService.addPair(combinedequipmentid, equipmentid, function (response) {
+            if (angular.isDefined(response.status) && response.status === 201) {
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "success",
+                    title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                    body: $translate.instant('TOASTER.BIND_EQUIPMENT_SUCCESS'),
                     showCloseButton: true,
                 });
 
                 $scope.getEquipmentsByCombinedEquipmentID($scope.currentCombinedEquipment.id);
             } else {
-                var popType = 'TOASTER.ERROR';
-                var popTitle = error.title;
-                var popBody = error.description;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
                     showCloseButton: true,
                 });
             }
@@ -86,38 +69,21 @@ app.controller('CombinedEquipmentEquipmentController', function ($scope, $common
         }
         var combinedequipmentequipmentid = angular.element('#' + dragEl).scope().combinedequipmentequipment.id;
         var combinedequipmentid = $scope.currentCombinedEquipment.id;
-        CombinedEquipmentEquipmentService.deletePair(combinedequipmentid, combinedequipmentequipmentid, function (error, status) {
-            if (angular.isDefined(status) && status == 204) {
-
-                var popType = 'TOASTER.SUCCESS';
-                var popTitle = $common.toaster.success_title;
-                var popBody = 'TOASTER.UNBIND_EQUIPMENT_SUCCESS';
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
+        CombinedEquipmentEquipmentService.deletePair(combinedequipmentid, combinedequipmentequipmentid, function (response) {
+            if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "success",
+                    title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                    body: $translate.instant('TOASTER.UNBIND_EQUIPMENT_SUCCESS'),
                     showCloseButton: true,
                 });
 
                 $scope.getEquipmentsByCombinedEquipmentID($scope.currentCombinedEquipment.id);
             } else {
-                var popType = 'TOASTER.ERROR';
-                var popTitle = error.title;
-                var popBody = error.description;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
                     showCloseButton: true,
                 });
             }

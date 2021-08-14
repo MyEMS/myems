@@ -4,40 +4,36 @@ app.factory('CombinedEquipmentParameterService', function($http) {
 
         getParametersByCombinedEquipmentID: function(id, callback) {
             $http.get(getAPI()+'combinedequipments/'+id+'/parameters')
-                .success(function (response, status, headers, config) {
-                    callback(null, response);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
         addCombinedEquipmentParameter: function(combinedequipmentID, combinedequipmentparameter,callback) {
             $http.post(getAPI()+'combinedequipments/'+combinedequipmentID+'/parameters',{data:combinedequipmentparameter})
-                .success(function (response, status, headers, config) {
-                    callback(null, status);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
         editCombinedEquipmentParameter: function(combinedequipmentID,combinedequipmentparameter,callback) {
             $http.put(getAPI()+'combinedequipments/'+combinedequipmentID+'/parameters/'+combinedequipmentparameter.id,{data:combinedequipmentparameter})
-                .success(function (response, status, headers, config) {
-                    callback(null, status);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
 
         deleteCombinedEquipmentParameter: function(combinedequipmentID, parameterID, callback) {
             $http.delete(getAPI()+'combinedequipments/'+combinedequipmentID+'/parameters/'+parameterID)
-                .success(function (response, status, headers, config) {
-                    callback(null, status);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
     };
 });

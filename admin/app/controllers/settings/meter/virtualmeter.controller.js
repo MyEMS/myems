@@ -1,10 +1,18 @@
 'use strict';
 
-app.controller('VirtualMeterController', function($scope, $common, $uibModal, $translate,	MeterService,	VirtualMeterService,	OfflineMeterService,	CategoryService,	EnergyItemService, CostCenterService,	toaster, SweetAlert) {
+app.controller('VirtualMeterController', function($scope, $uibModal, $translate, 
+	MeterService,
+	VirtualMeterService,
+	OfflineMeterService,
+	CategoryService,
+	EnergyItemService,
+	CostCenterService,
+	toaster,
+	SweetAlert) {
 	$scope.getAllCostCenters = function() {
-		CostCenterService.getAllCostCenters(function(error, data) {
-			if (!error) {
-				$scope.costcenters = data;
+		CostCenterService.getAllCostCenters(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.costcenters = response.data;
 			} else {
 				$scope.costcenters = [];
 			}
@@ -12,9 +20,9 @@ app.controller('VirtualMeterController', function($scope, $common, $uibModal, $t
 	};
 
 	$scope.getAllCategories = function() {
-		CategoryService.getAllCategories(function(error, data) {
-			if (!error) {
-				$scope.categories = data;
+		CategoryService.getAllCategories(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.categories = response.data;
 			} else {
 				$scope.categories = [];
 			}
@@ -22,9 +30,9 @@ app.controller('VirtualMeterController', function($scope, $common, $uibModal, $t
 	};
 
 $scope.getAllEnergyItems = function() {
-	EnergyItemService.getAllEnergyItems(function(error, data) {
-		if (!error) {
-			$scope.energyitems = data;
+	EnergyItemService.getAllEnergyItems(function (response) {
+		if (angular.isDefined(response.status) && response.status === 200) {
+			$scope.energyitems = response.data;
 		} else {
 			$scope.energyitems = [];
 		}
@@ -32,9 +40,9 @@ $scope.getAllEnergyItems = function() {
 };
 
 	$scope.getAllVirtualMeters = function() {
-		VirtualMeterService.getAllVirtualMeters(function(error, data) {
-			if (!error) {
-				$scope.virtualmeters = data;
+		VirtualMeterService.getAllVirtualMeters(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.virtualmeters = response.data;
 			} else {
 				$scope.virtualmeters = [];
 			}
@@ -42,9 +50,9 @@ $scope.getAllEnergyItems = function() {
 
 	};
 	$scope.getAllMeters = function() {
-		MeterService.getAllMeters(function(error, data) {
-			if (!error) {
-				$scope.meters = data;
+		MeterService.getAllMeters(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.meters = response.data;
 			} else {
 				$scope.meters = [];
 			}
@@ -52,16 +60,14 @@ $scope.getAllEnergyItems = function() {
 	};
 
 	$scope.getAllOfflineMeters = function() {
-		OfflineMeterService.getAllOfflineMeters(function(error, data) {
-			if (!error) {
-				$scope.offlinemeters = data;
+		OfflineMeterService.getAllOfflineMeters(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.offlinemeters = response.data;
 			} else {
 				$scope.offlinemeters = [];
 			}
 		});
 	};
-
-
 
 	$scope.addVirtualMeter = function() {
 		var modalInstance = $uibModal.open({
@@ -90,43 +96,21 @@ $scope.getAllEnergyItems = function() {
 				virtualmeter.energy_item_id = undefined;
 			}
 			virtualmeter.cost_center_id = virtualmeter.cost_center.id;
-			VirtualMeterService.addVirtualMeter(virtualmeter, function(error, status) {
-				if (angular.isDefined(status) && status == 201) {
-					var templateName = "SETTING.VIRTUAL_METER";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.SUCCESS';
-					var popTitle = $common.toaster.success_title;
-					var popBody = $common.toaster.success_add_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody,{template: templateName});
-
+			VirtualMeterService.addVirtualMeter(virtualmeter, function (response) {
+				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "success",
+						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("SETTING.VIRTUAL_METER")}),
 						showCloseButton: true,
 					});
 					$scope.getAllVirtualMeters();
 					$scope.$emit('handleEmitVirtualMeterChanged');
 				} else {
-					var templateName = "SETTING.VIRTUAL_METER";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.ERROR';
-					var popTitle = $common.toaster.error_title;
-					var popBody = $common.toaster.error_add_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody,{template: templateName});
-
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "error",
+						title: $translate.instant("TOASTER.FAILURE_TITLE"),
+						body: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("SETTING.VIRTUAL_METER")}),
 						showCloseButton: true,
 					});
 				}
@@ -165,43 +149,21 @@ $scope.getAllEnergyItems = function() {
 				modifiedVirtualMeter.energy_item_id = undefined;
 			}
 			modifiedVirtualMeter.cost_center_id = modifiedVirtualMeter.cost_center.id;
-			VirtualMeterService.editVirtualMeter(modifiedVirtualMeter, function(error, status) {
-				if (angular.isDefined(status) && status == 200) {
-					var templateName = "SETTING.VIRTUAL_METER";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.SUCCESS';
-					var popTitle = $common.toaster.success_title;
-					var popBody = $common.toaster.success_update_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody,{template: templateName});
-
+			VirtualMeterService.editVirtualMeter(modifiedVirtualMeter, function (response) {
+				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "success",
+						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", {template: $translate.instant("SETTING.VIRTUAL_METER")}),
 						showCloseButton: true,
 					});
 					$scope.getAllVirtualMeters();
 					$scope.$emit('handleEmitVirtualMeterChanged');
 				} else {
-					var templateName = "SETTING.VIRTUAL_METER";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.ERROR';
-					var popTitle = $common.toaster.error_title;
-					var popBody = $common.toaster.error_update_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody,{template: templateName});
-
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "error",
+						title: $translate.instant("TOASTER.FAILURE_TITLE"),
+						body: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("SETTING.VIRTUAL_METER")}),
 						showCloseButton: true,
 					});
 				}
@@ -213,72 +175,42 @@ $scope.getAllEnergyItems = function() {
 
 	$scope.deleteVirtualMeter = function(virtualmeter) {
 		SweetAlert.swal({
-				title: $translate.instant($common.sweet.title),
-				text: $translate.instant($common.sweet.text),
+				title: $translate.instant("SWEET.TITLE"),
+				text: $translate.instant("SWEET.TEXT"),
 				type: "warning",
 				showCancelButton: true,
 				confirmButtonColor: "#DD6B55",
-				confirmButtonText: $translate.instant($common.sweet.confirmButtonText),
-				cancelButtonText: $translate.instant($common.sweet.cancelButtonText),
+				confirmButtonText: $translate.instant("SWEET.CONFIRM_BUTTON_TEXT"),
+				cancelButtonText: $translate.instant("SWEET.CANCEL_BUTTON_TEXT"),
 				closeOnConfirm: true,
 				closeOnCancel: true
 			},
 			function(isConfirm) {
 				if (isConfirm) {
-					VirtualMeterService.deleteVirtualMeter(virtualmeter, function(error, status) {
-						if (angular.isDefined(status) && status == 204) {
-							var templateName = "SETTING.VIRTUAL_METER";
-              templateName = $translate.instant(templateName);
-
-              var popType = 'TOASTER.SUCCESS';
-              var popTitle = $common.toaster.success_title;
-              var popBody = $common.toaster.success_delete_body;
-
-              popType = $translate.instant(popType);
-              popTitle = $translate.instant(popTitle);
-              popBody = $translate.instant(popBody, {template: templateName});
-
-              toaster.pop({
-                  type: popType,
-                  title: popTitle,
-                  body: popBody,
-                  showCloseButton: true,
-              });
+					VirtualMeterService.deleteVirtualMeter(virtualmeter, function (response) {
+						if (angular.isDefined(response.status) && response.status === 204) {
+							toaster.pop({
+								type: "success",
+								title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+								body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", {template: $translate.instant("SETTING.VIRTUAL_METER")}),
+								showCloseButton: true,
+							});
 							$scope.getAllVirtualMeters();
 							$scope.$emit('handleEmitVirtualMeterChanged');
-						} else if (angular.isDefined(status) && status == 400) {
-							var popType = 'TOASTER.ERROR';
-              var popTitle = error.title;
-              var popBody = error.description;
-
-              popType = $translate.instant(popType);
-              popTitle = $translate.instant(popTitle);
-              popBody = $translate.instant(popBody);
-
-              toaster.pop({
-                  type: popType,
-                  title: popTitle,
-                  body: popBody,
-                  showCloseButton: true,
-              });
+						} else if (angular.isDefined(response.status) && response.status === 400) {
+							toaster.pop({
+								type: "error",
+								title: popTit$translate.instant(response.data.title),
+								body: $translate.instant(response.data.description),
+								showCloseButton: true,
+							});
 						} else {
-							var templateName = "SETTING.VIRTUAL_METER";
-              templateName = $translate.instant(templateName);
-
-              var popType = 'TOASTER.ERROR';
-              var popTitle = $common.toaster.error_title;
-              var popBody = $common.toaster.error_delete_body;
-
-              popType = $translate.instant(popType);
-              popTitle = $translate.instant(popTitle);
-              popBody = $translate.instant(popBody, {template: templateName});
-
-              toaster.pop({
-                  type: popType,
-                  title: popTitle,
-                  body: popBody,
-                  showCloseButton: true,
-              });
+							toaster.pop({
+								type: "error",
+								title: $translate.instant("TOASTER.FAILURE_TITLE"),
+								body: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("SETTING.VIRTUAL_METER")}),
+								showCloseButton: true,
+							});
 						}
 					});
 				}

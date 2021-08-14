@@ -1,12 +1,12 @@
 'use strict';
 
-app.controller('ShopfloorEquipmentController', function ($scope, $common, $uibModal, $timeout, $translate, ShopfloorService, EquipmentService, ShopfloorEquipmentService,  toaster, SweetAlert) {
+app.controller('ShopfloorEquipmentController', function ($scope, $translate, ShopfloorService, EquipmentService, ShopfloorEquipmentService,  toaster, SweetAlert) {
     $scope.currentShopfloor = {selected:undefined};
 
     $scope.getAllEquipments = function () {
-        EquipmentService.getAllEquipments(function (error, data) {
-          if (!error) {
-              $scope.equipments = data;
+        EquipmentService.getAllEquipments(function (response) {
+          if (angular.isDefined(response.status) && response.status === 200) {
+              $scope.equipments = response.data;
           } else {
               $scope.equipments = [];
           }
@@ -14,9 +14,9 @@ app.controller('ShopfloorEquipmentController', function ($scope, $common, $uibMo
     };
 
     $scope.getEquipmentsByShopfloorID = function (id) {
-        ShopfloorEquipmentService.getEquipmentsByShopfloorID(id, function (error, data) {
-            if (!error) {
-                $scope.shopfloorequipments = data;
+        ShopfloorEquipmentService.getEquipmentsByShopfloorID(id, function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.shopfloorequipments = response.data;
             } else {
                 $scope.shopfloorequipments = [];
             }
@@ -30,9 +30,9 @@ app.controller('ShopfloorEquipmentController', function ($scope, $common, $uibMo
   };
 
   $scope.getAllShopfloors = function () {
-    ShopfloorService.getAllShopfloors(function (error, data) {
-        if (!error) {
-            $scope.shopfloors = data;
+    ShopfloorService.getAllShopfloors(function (response) {
+        if (angular.isDefined(response.status) && response.status === 200) {
+            $scope.shopfloors = response.data;
         } else {
             $scope.shopfloors = [];
         }
@@ -42,38 +42,20 @@ app.controller('ShopfloorEquipmentController', function ($scope, $common, $uibMo
     $scope.pairEquipment = function (dragEl, dropEl) {
         var equipmentid = angular.element('#' + dragEl).scope().equipment.id;
         var shopfloorid = $scope.currentShopfloor.id;
-        ShopfloorEquipmentService.addPair(shopfloorid, equipmentid, function (error, status) {
-            if (angular.isDefined(status) && status == 201) {
-
-                var popType = 'TOASTER.SUCCESS';
-                var popTitle = $common.toaster.success_title;
-                var popBody = 'TOASTER.BIND_EQUIPMENT_SUCCESS';
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
+        ShopfloorEquipmentService.addPair(shopfloorid, equipmentid, function (response) {
+            if (angular.isDefined(response.status) && response.status === 201) {
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "success",
+                    title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                    body: $translate.instant("TOASTER.BIND_EQUIPMENT_SUCCESS"),
                     showCloseButton: true,
                 });
-
                 $scope.getEquipmentsByShopfloorID($scope.currentShopfloor.id);
             } else {
-                var popType = 'TOASTER.ERROR';
-                var popTitle = error.title;
-                var popBody = error.description;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
                     showCloseButton: true,
                 });
             }
@@ -86,38 +68,20 @@ app.controller('ShopfloorEquipmentController', function ($scope, $common, $uibMo
         }
         var shopfloorequipmentid = angular.element('#' + dragEl).scope().shopfloorequipment.id;
         var shopfloorid = $scope.currentShopfloor.id;
-        ShopfloorEquipmentService.deletePair(shopfloorid, shopfloorequipmentid, function (error, status) {
-            if (angular.isDefined(status) && status == 204) {
-
-                var popType = 'TOASTER.SUCCESS';
-                var popTitle = $common.toaster.success_title;
-                var popBody = 'TOASTER.UNBIND_EQUIPMENT_SUCCESS';
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
+        ShopfloorEquipmentService.deletePair(shopfloorid, shopfloorequipmentid, function (response) {
+            if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "success",
+                    title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                    body: $translate.instant("TOASTER.UNBIND_EQUIPMENT_SUCCESS"),
                     showCloseButton: true,
                 });
-
                 $scope.getEquipmentsByShopfloorID($scope.currentShopfloor.id);
             } else {
-                var popType = 'TOASTER.ERROR';
-                var popTitle = error.title;
-                var popBody = error.description;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
                     showCloseButton: true,
                 });
             }

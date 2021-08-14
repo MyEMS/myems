@@ -3,57 +3,51 @@ app.factory('EquipmentService', function($http) {
     return {
         getAllEquipments:function(callback){
             $http.get(getAPI()+'equipments')
-                .success(function (response, status, headers, config) {
-                    callback(null, response);
-                })
-                .error(function (e,status) {
-                    callback(e,status);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
         searchEquipments: function(query, callback) {
             $http.get(getAPI()+'equipments', { params: { q: query } })
-                .success(function (response, status, headers, config) {
-                    callback(null, response);
-                })
-                .error(function (e,status) {
-                    callback(e,status);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
         addEquipment: function(equipment, callback) {
             $http.post(getAPI()+'equipments',{data:equipment})
-                .success(function (response, status, headers, config) {
-                    callback(null, status);
-                })
-                .error(function (e,status) {
-                    callback(e,status);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
         editEquipment: function(equipment, callback) {
             $http.put(getAPI()+'equipments/'+equipment.id,{data:equipment})
-                .success(function (response, status, headers, config) {
-                    callback(null, status);
-                })
-                .error(function (e,status) {
-                    callback(e,status);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
         deleteEquipment: function(equipment, callback) {
             $http.delete(getAPI()+'equipments/'+equipment.id)
-                .success(function (response, status, headers, config) {
-                    callback(null, status);
-                })
-                .error(function (e,status) {
-                    callback(e,status);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
         getEquipment: function(id, callback) {
             $http.get(getAPI()+'equipments/'+id)
-                .success(function (response, status, headers, config) {
-                    callback(null, response);
-                })
-                .error(function (e,status) {
-                    callback(e,status);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         }
     };
 });

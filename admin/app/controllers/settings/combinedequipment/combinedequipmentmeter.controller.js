@@ -1,12 +1,12 @@
 'use strict';
 
-app.controller('CombinedEquipmentMeterController', function ($scope, $common, $timeout, $uibModal, $translate, MeterService, VirtualMeterService, OfflineMeterService, CombinedEquipmentMeterService, CombinedEquipmentService, toaster, SweetAlert) {
+app.controller('CombinedEquipmentMeterController', function ($scope, $timeout, $uibModal, $translate, MeterService, VirtualMeterService, OfflineMeterService, CombinedEquipmentMeterService, CombinedEquipmentService, toaster, SweetAlert) {
     $scope.currentCombinedEquipment = { selected: undefined };
 
     $scope.getAllCombinedEquipments = function (id) {
-        CombinedEquipmentService.getAllCombinedEquipments(function (error, data) {
-            if (!error) {
-                $scope.combinedequipments = data;
+        CombinedEquipmentService.getAllCombinedEquipments(function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.combinedequipments = response.data;
             } else {
                 $scope.combinedequipments = [];
             }
@@ -23,12 +23,12 @@ app.controller('CombinedEquipmentMeterController', function ($scope, $common, $t
         var metertypes = ['meters', 'virtualmeters', 'offlinemeters'];
         $scope.combinedequipmentmeters = [];
         angular.forEach(metertypes, function (value, index) {
-            CombinedEquipmentMeterService.getMetersByCombinedEquipmentID(id, value, function (error, data) {
-                if (!error) {
-                    angular.forEach(data, function (item, indx) {
+            CombinedEquipmentMeterService.getMetersByCombinedEquipmentID(id, value, function (response) {
+                if (angular.isDefined(response.status) && response.status === 200) {
+                    angular.forEach(response.data, function (item, indx) {
                         data[indx].metertype = value;
                     });
-                    $scope.combinedequipmentmeters = $scope.combinedequipmentmeters.concat(data);
+                    $scope.combinedequipmentmeters = $scope.combinedequipmentmeters.concat(response.data);
                 }
             });
         });
@@ -60,9 +60,9 @@ app.controller('CombinedEquipmentMeterController', function ($scope, $common, $t
 
 
     $scope.getAllMeters = function () {
-        MeterService.getAllMeters(function (error, data) {
-            if (!error) {
-                $scope.meters = data;
+        MeterService.getAllMeters(function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.meters = response.data;
                 $scope.currentMeterType = "meters";
                 $timeout(function () {
                     $scope.changeMeterType();
@@ -76,9 +76,9 @@ app.controller('CombinedEquipmentMeterController', function ($scope, $common, $t
 
 
     $scope.getAllOfflineMeters = function () {
-        OfflineMeterService.getAllOfflineMeters(function (error, data) {
-            if (!error) {
-                $scope.offlinemeters = data;
+        OfflineMeterService.getAllOfflineMeters(function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.offlinemeters = response.data;
             } else {
                 $scope.offlinemeters = [];
             }
@@ -87,9 +87,9 @@ app.controller('CombinedEquipmentMeterController', function ($scope, $common, $t
     };
 
     $scope.getAllVirtualMeters = function () {
-        VirtualMeterService.getAllVirtualMeters(function (error, data) {
-            if (!error) {
-                $scope.virtualmeters = data;
+        VirtualMeterService.getAllVirtualMeters(function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.virtualmeters = response.data;
             } else {
                 $scope.virtualmeters = [];
             }
@@ -112,39 +112,21 @@ app.controller('CombinedEquipmentMeterController', function ($scope, $common, $t
         modalInstance.result.then(function (is_output) {
             var meterid = angular.element('#' + dragEl).scope().meter.id;
             var combinedequipmentid = $scope.currentCombinedEquipment.id;
-            CombinedEquipmentMeterService.addPair(combinedequipmentid, meterid, $scope.currentMeterType, is_output, function (error, status) {
-                if (angular.isDefined(status) && status == 201) {
-
-                    var popType = 'TOASTER.SUCCESS';
-                    var popTitle = $common.toaster.success_title;
-                    var popBody = 'TOASTER.BIND_METER_SUCCESS';
-
-                    popType = $translate.instant(popType);
-                    popTitle = $translate.instant(popTitle);
-                    popBody = $translate.instant(popBody);
-
+            CombinedEquipmentMeterService.addPair(combinedequipmentid, meterid, $scope.currentMeterType, is_output, function (response) {
+                if (angular.isDefined(response.status) && response.status === 201) {
                     toaster.pop({
-                        type: popType,
-                        title: popTitle,
-                        body: popBody,
+                        type: "success",
+                        title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                        body: $translate.instant("TOASTER.BIND_METER_SUCCESS"),
                         showCloseButton: true,
                     });
 
                     $scope.getMetersByCombinedEquipmentID($scope.currentCombinedEquipment.id);
                 } else {
-
-                    var popType = 'TOASTER.ERROR';
-                    var popTitle = error.title;
-                    var popBody = error.description;
-
-                    popType = $translate.instant(popType);
-                    popTitle = $translate.instant(popTitle);
-                    popBody = $translate.instant(popBody);
-
                     toaster.pop({
-                        type: popType,
-                        title: popTitle,
-                        body: popBody,
+                        type: "error",
+                        title: $translate.instant(response.data.title),
+                        body: $translate.instant(response.data.description),
                         showCloseButton: true,
                     });
                 }
@@ -160,38 +142,21 @@ app.controller('CombinedEquipmentMeterController', function ($scope, $common, $t
         var combinedequipmentmeterid = angular.element('#' + dragEl).scope().combinedequipmentmeter.id;
         var combinedequipmentid = $scope.currentCombinedEquipment.id;
         var metertype = angular.element('#' + dragEl).scope().combinedequipmentmeter.metertype;
-        CombinedEquipmentMeterService.deletePair(combinedequipmentid, combinedequipmentmeterid, metertype, function (error, status) {
-            if (angular.isDefined(status) && status == 204) {
-
-                var popType = 'TOASTER.SUCCESS';
-                var popTitle = $common.toaster.success_title;
-                var popBody = 'TOASTER.UNBIND_METER_SUCCESS';
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
+        CombinedEquipmentMeterService.deletePair(combinedequipmentid, combinedequipmentmeterid, metertype, function (response) {
+            if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "success",
+                    title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                    body: $translate.instant("TOASTER.UNBIND_METER_SUCCESS"),
                     showCloseButton: true,
                 });
 
                 $scope.getMetersByCombinedEquipmentID($scope.currentCombinedEquipment.id);
             } else {
-                var popType = 'TOASTER.ERROR';
-                var popTitle = error.title;
-                var popBody = error.description;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
                     showCloseButton: true,
                 });
             }

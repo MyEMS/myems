@@ -3,57 +3,51 @@ app.factory('GSMModemService', function($http) {
     return {
         getAllGSMModems:function(callback){
             $http.get(getAPI()+'gsmmodems')
-                .success(function (response, status, headers, config) {
-                    callback(null, response);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
         searchGSMModems: function(query, callback) {
             $http.get(getAPI()+'gsmmodems', { params: { q: query } })
-                .success(function (response, status, headers, config) {
-                    callback(null, response);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
         addGSMModem: function(gsmmodem, callback) {
             $http.post(getAPI()+'gsmmodems',{data:gsmmodem})
-                .success(function (response, status, headers, config) {
-                    callback(null, status);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
         editGSMModem: function(gsmmodem, callback) {
             $http.put(getAPI()+'gsmmodems/'+gsmmodem.id,{data:gsmmodem})
-                .success(function (response, status, headers, config) {
-                    callback(null, status);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
         deleteGSMModem: function(gsmmodem, callback) {
             $http.delete(getAPI()+'gsmmodems/'+gsmmodem.id)
-                .success(function (response, status, headers, config) {
-                    callback(null, status);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
         getGSMModem: function(id, callback) {
             $http.get(getAPI()+'gsmmodems/'+id)
-                .success(function (response, status, headers, config) {
-                    callback(null, response);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         }
     };
 });

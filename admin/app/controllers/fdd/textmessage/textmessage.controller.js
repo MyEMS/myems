@@ -1,7 +1,7 @@
 'use strict';
 
-app.controller('TextMessageController', function($scope, $common,$timeout,$translate,
-	$interval,TextMessageAnalysisService,SweetAlert,toaster) {
+app.controller('TextMessageController', function($scope,$timeout,$translate,
+	TextMessageAnalysisService,SweetAlert,toaster) {
 
     $scope.$on('handleBroadcastTextMessageOptionChanged', function (event, data) {
         if (angular.isDefined(data.load)) {
@@ -20,55 +20,33 @@ app.controller('TextMessageController', function($scope, $common,$timeout,$trans
 
 	$scope.deleteTextMessage = function(textmessage) {
 		SweetAlert.swal({
-				title: $translate.instant($common.sweet.title),
-				text: $translate.instant($common.sweet.text),
+				title: $translate.instant("SWEET.TITLE"),
+				text: $translate.instant("SWEET.TEXT"),
 				type: "warning",
 				showCancelButton: true,
 				confirmButtonColor: "#DD6B55",
-				confirmButtonText: $translate.instant($common.sweet.confirmButtonText),
-				cancelButtonText: $translate.instant($common.sweet.cancelButtonText),
+				confirmButtonText: $translate.instant("SWEET.CONFIRM_BUTTON_TEXT"),
+				cancelButtonText: $translate.instant("SWEET.CANCEL_BUTTON_TEXT"),
 				closeOnConfirm: true,
 				closeOnCancel: true
 			},
 			function(isConfirm) {
 				if (isConfirm) {
-					TextMessageAnalysisService.deleteTextMessage(textmessage, function(error, status) {
-						if (angular.isDefined(status) && status == 204) {
-							var templateName = "FDD.TEXT_MESSAGE";
-                            templateName = $translate.instant(templateName);
-
-                            var popType = 'TOASTER.SUCCESS';
-                            var popTitle = $common.toaster.success_title;
-                            var popBody = $common.toaster.success_delete_body;
-
-                            popType = $translate.instant(popType);
-                            popTitle = $translate.instant(popTitle);
-                            popBody = $translate.instant(popBody, {template: templateName});
-
+					TextMessageAnalysisService.deleteTextMessage(textmessage, function (response) {
+						if (angular.isDefined(response.status) && response.status === 204) {
                             toaster.pop({
-                                type: popType,
-                                title: popTitle,
-                                body: popBody,
+                                type: "success",
+                                title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                                body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", {template: $translate.instant("FDD.TEXT_MESSAGE")}),
                                 showCloseButton: true,
                             });
 
 							$scope.$emit('handleEmitTextMessageTableChanged');
 						} else {
-							var templateName = "FDD.TEXT_MESSAGE";
-                            templateName = $translate.instant(templateName);
-
-                            var popType = 'TOASTER.ERROR';
-                            var popTitle = $common.toaster.error_title;
-                            var popBody = $common.toaster.error_delete_body;
-
-                            popType = $translate.instant(popType);
-                            popTitle = $translate.instant(popTitle);
-                            popBody = $translate.instant(popBody, {template: templateName});
-
                             toaster.pop({
-                                type: popType,
-                                title: popTitle,
-                                body: popBody,
+                                type: "error",
+                                title: $translate.instant("TOASTER.FAILURE_TITLE"),
+                                body: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("FDD.TEXT_MESSAGE")}),
                                 showCloseButton: true,
                             });
 						}

@@ -1,14 +1,14 @@
 'use strict';
 
-app.controller('SpaceMeterController', function($scope,$common ,$timeout, $translate,	SpaceService, MeterService, VirtualMeterService, OfflineMeterService, SpaceMeterService, toaster,SweetAlert) {
+app.controller('SpaceMeterController', function($scope ,$timeout, $translate,	SpaceService, MeterService, VirtualMeterService, OfflineMeterService, SpaceMeterService, toaster,SweetAlert) {
   $scope.spaces = [];
   $scope.currentSpaceID = 1;
 	$scope.spacemeters = [];
 
   $scope.getAllSpaces = function() {
-    SpaceService.getAllSpaces(function(error, data) {
-      if (!error) {
-        $scope.spaces = data;
+    SpaceService.getAllSpaces(function (response) {
+      if (angular.isDefined(response.status) && response.status === 200) {
+        $scope.spaces = response.data;
       } else {
         $scope.spaces = [];
       }
@@ -44,12 +44,12 @@ app.controller('SpaceMeterController', function($scope,$common ,$timeout, $trans
 		var metertypes=['meters','virtualmeters','offlinemeters'];
 		$scope.spacemeters=[];
 		angular.forEach(metertypes,function(value,index){
-          console.log(id, value, index);
-    			SpaceMeterService.getMetersBySpaceID(id,value,function(error, data) {
-        				if (!error) {
-        					angular.forEach(data, function(item,indx) {data[indx].metertype=value;});
-        					$scope.spacemeters=$scope.spacemeters.concat(data);
-                  console.log($scope.spacemeters);
+    			SpaceMeterService.getMetersBySpaceID(id,value, function (response) {
+        				if (angular.isDefined(response.status) && response.status === 200) {
+        					angular.forEach(response.data, function(item,indx) {
+                      response.data[indx].metertype = value;
+                  });
+        					$scope.spacemeters = $scope.spacemeters.concat(response.data);
         				}
     			});
 		});
@@ -80,9 +80,9 @@ app.controller('SpaceMeterController', function($scope,$common ,$timeout, $trans
 	};
 
 	$scope.getAllMeters = function() {
-		MeterService.getAllMeters(function(error, data) {
-			if (!error) {
-				$scope.meters = data;
+		MeterService.getAllMeters(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.meters = response.data;
 				$scope.currentMeterType="meters";
 				$timeout(function(){
 					$scope.changeMeterType();
@@ -95,9 +95,9 @@ app.controller('SpaceMeterController', function($scope,$common ,$timeout, $trans
 	};
 
 	$scope.getAllOfflineMeters = function() {
-		OfflineMeterService.getAllOfflineMeters(function(error, data) {
-			if (!error) {
-				$scope.offlinemeters = data;
+		OfflineMeterService.getAllOfflineMeters(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.offlinemeters = response.data;
 			} else {
 				$scope.offlinemeters = [];
 			}
@@ -106,9 +106,9 @@ app.controller('SpaceMeterController', function($scope,$common ,$timeout, $trans
 	};
 
 	$scope.getAllVirtualMeters = function() {
-		VirtualMeterService.getAllVirtualMeters(function(error, data) {
-			if (!error) {
-				$scope.virtualmeters = data;
+		VirtualMeterService.getAllVirtualMeters(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.virtualmeters = response.data;
 			} else {
 				$scope.virtualmeters = [];
 			}
@@ -119,37 +119,20 @@ app.controller('SpaceMeterController', function($scope,$common ,$timeout, $trans
 	$scope.pairMeter=function(dragEl,dropEl){
 		var meterid=angular.element('#'+dragEl).scope().meter.id;
 		var spaceid=angular.element(spacetreewithmeter).jstree(true).get_top_selected();
-		SpaceMeterService.addPair(spaceid,meterid, $scope.currentMeterType,function(error,status){
-			if (angular.isDefined(status) && status == 201) {
-					var popType = 'TOASTER.SUCCESS';
-					var popTitle = $common.toaster.success_title;
-					var popBody = "TOASTER.BIND_METER_SUCCESS";
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody);
-
+		SpaceMeterService.addPair(spaceid,meterid, $scope.currentMeterType, function (response) {
+			if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "success",
+						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+						body: $translate.instant("TOASTER.BIND_METER_SUCCESS"),
 						showCloseButton: true,
 					});
-
 					$scope.getMetersBySpaceID(spaceid);
 				} else {
-					var popType = 'TOASTER.ERROR';
-          var popTitle = error.title;
-          var popBody = error.description;
-
-          popType = $translate.instant(popType);
-          popTitle = $translate.instant(popTitle);
-          popBody = $translate.instant(popBody);
-
           toaster.pop({
-              type: popType,
-              title: popTitle,
-              body: popBody,
+              type: "error",
+              title: $translate.instant(response.data.title),
+              body: $translate.instant(response.data.description),
               showCloseButton: true,
           });
 				}
@@ -163,37 +146,20 @@ app.controller('SpaceMeterController', function($scope,$common ,$timeout, $trans
         var spacemeterid = angular.element('#' + dragEl).scope().spacemeter.id;
         var spaceid = angular.element(spacetreewithmeter).jstree(true).get_top_selected();
         var metertype = angular.element('#' + dragEl).scope().spacemeter.metertype;
-        SpaceMeterService.deletePair(spaceid, spacemeterid, metertype, function (error, status) {
-            if (angular.isDefined(status) && status == 204) {
-                var popType = 'TOASTER.SUCCESS';
-                var popTitle = $common.toaster.success_title;
-                var popBody = "TOASTER.UNBIND_METER_SUCCESS";
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
+        SpaceMeterService.deletePair(spaceid, spacemeterid, metertype, function (response) {
+            if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "success",
+                    title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                    body: $translate.instant("TOASTER.UNBIND_METER_SUCCESS"),
                     showCloseButton: true,
                 });
                 $scope.getMetersBySpaceID(spaceid);
             } else {
-                var popType = 'TOASTER.ERROR';
-                var popTitle = error.title;
-                var popBody = error.description;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
-
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
                     showCloseButton: true,
                 });
             }
@@ -206,9 +172,9 @@ app.controller('SpaceMeterController', function($scope,$common ,$timeout, $trans
 	$scope.getAllOfflineMeters();
 
   $scope.refreshSpaceTree = function() {
-    SpaceService.getAllSpaces(function(error, data) {
-      if (!error) {
-        $scope.spaces = data;
+    SpaceService.getAllSpaces(function (response) {
+      if (angular.isDefined(response.status) && response.status === 200) {
+        $scope.spaces = response.data;
       } else {
         $scope.spaces = [];
       }

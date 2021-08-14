@@ -4,40 +4,36 @@ app.factory('EnergyFlowDiagramLinkService', function($http) {
 
         getLinksByEnergyFlowDiagramID: function(id, callback) {
             $http.get(getAPI()+'energyflowdiagrams/'+id+'/links')
-                .success(function (response, status, headers, config) {
-                    callback(null, response);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
         addEnergyFlowDiagramLink: function(energyflowdiagramID, energyflowdiagramlink, callback) {
             $http.post(getAPI()+'energyflowdiagrams/'+energyflowdiagramID+'/links',{data:energyflowdiagramlink})
-                .success(function (response, status, headers, config) {
-                    callback(null, status);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
         editEnergyFlowDiagramLink: function(energyflowdiagramID,energyflowdiagramlink,callback) {
             $http.put(getAPI()+'energyflowdiagrams/'+energyflowdiagramID+'/links/'+energyflowdiagramlink.id,{data:energyflowdiagramlink})
-                .success(function (response, status, headers, config) {
-                    callback(null, status);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
 
         deleteEnergyFlowDiagramLink: function(energyflowdiagramID, linkID, callback) {
             $http.delete(getAPI()+'energyflowdiagrams/'+energyflowdiagramID+'/links/'+linkID)
-                .success(function (response, status, headers, config) {
-                    callback(null, status);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
     };
 });

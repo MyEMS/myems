@@ -1,11 +1,11 @@
 'use strict';
 
-app.controller('SensorPointController', function ($scope, $common, $uibModal, $timeout, $translate, SensorService, DataSourceService, PointService, SensorPointService, toaster, SweetAlert) {
+app.controller('SensorPointController', function ($scope, $timeout, $translate, SensorService, DataSourceService, PointService, SensorPointService, toaster, SweetAlert) {
     $scope.currentSensor = {selected:undefined};
     $scope.getAllDataSources = function () {
-        DataSourceService.getAllDataSources(function (error, data) {
-            if (!error) {
-                $scope.datasources = data;
+        DataSourceService.getAllDataSources(function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.datasources = response.data;
                 if ($scope.datasources.length > 0) {
                     $scope.currentDataSource = $scope.datasources[0].id;
                     $scope.getPointsByDataSourceID($scope.currentDataSource);
@@ -18,9 +18,9 @@ app.controller('SensorPointController', function ($scope, $common, $uibModal, $t
     };
 
     $scope.getPointsByDataSourceID = function (id) {
-        PointService.getPointsByDataSourceID(id, function (error, data) {
-            if (!error) {
-                $scope.points = data;
+        PointService.getPointsByDataSourceID(id, function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.points = response.data;
             } else {
                 $scope.points = [];
             }
@@ -29,9 +29,9 @@ app.controller('SensorPointController', function ($scope, $common, $uibModal, $t
     };
 
     $scope.getPointsBySensorID = function (id) {
-        SensorPointService.getPointsBySensorID(id, function (error, data) {
-            if (!error) {
-                $scope.sensorpoints = data;
+        SensorPointService.getPointsBySensorID(id, function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.sensorpoints = response.data;
             } else {
                 $scope.sensorpoints = [];
             }
@@ -51,9 +51,9 @@ app.controller('SensorPointController', function ($scope, $common, $uibModal, $t
     };
 
     $scope.getAllSensors = function () {
-        SensorService.getAllSensors(function (error, data) {
-            if (!error) {
-                $scope.sensors = data;
+        SensorService.getAllSensors(function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.sensors = response.data;
                 $timeout(function () {
                     $scope.getPointsBySensorID($scope.currentSensor.id);
                 }, 1000);
@@ -67,39 +67,20 @@ app.controller('SensorPointController', function ($scope, $common, $uibModal, $t
     $scope.pairPoint = function (dragEl, dropEl) {
         var pointid = angular.element('#' + dragEl).scope().point.id;
         var sensorid = $scope.currentSensor.id;
-        SensorPointService.addPair(sensorid, pointid, function (error, status) {
-            if (angular.isDefined(status) && status == 201) {
-
-                var popType = 'TOASTER.SUCCESS';
-                var popTitle = $common.toaster.success_title;
-                var popBody = 'TOASTER.BIND_POINT_SUCCESS';
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
+        SensorPointService.addPair(sensorid, pointid, function (response) {
+            if (angular.isDefined(response.status) && response.status === 201) {
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "success",
+                    title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                    body: $translate.instant('TOASTER.BIND_POINT_SUCCESS'),
                     showCloseButton: true,
                 });
-
                 $scope.getPointsBySensorID($scope.currentSensor.id);
             } else {
-                var popType = 'TOASTER.ERROR';
-                var popTitle = error.title;
-                var popBody = error.description;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
-
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
                     showCloseButton: true,
                 });
             }
@@ -112,37 +93,20 @@ app.controller('SensorPointController', function ($scope, $common, $uibModal, $t
         }
         var sensorpointid = angular.element('#' + dragEl).scope().sensorpoint.id;
         var sensorid = $scope.currentSensor.id;
-        SensorPointService.deletePair(sensorid, sensorpointid, function (error, status) {
-            if (angular.isDefined(status) && status == 204) {
-
-                var popType = 'TOASTER.SUCCESS';
-                var popTitle = $common.toaster.success_title;
-                var popBody = 'TOASTER.UNBIND_POINT_SUCCESS';
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
+        SensorPointService.deletePair(sensorid, sensorpointid, function (response) {
+            if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "success",
+                    title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                    body: $translate.instant("TOASTER.UNBIND_POINT_SUCCESS"),
                     showCloseButton: true,
                 });
                 $scope.getPointsBySensorID($scope.currentSensor.id);
             } else {
-                var popType = 'TOASTER.ERROR';
-                var popTitle = error.title;
-                var popBody = error.description;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
                     showCloseButton: true,
                 });
             }

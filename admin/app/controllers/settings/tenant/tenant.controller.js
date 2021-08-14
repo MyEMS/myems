@@ -1,11 +1,11 @@
 'use strict';
 
-app.controller('TenantController', function ($scope, $common, $translate, $uibModal, CostCenterService, ContactService, TenantService, TenantTypeService, toaster, SweetAlert) {
+app.controller('TenantController', function ($scope, $translate, $uibModal, CostCenterService, ContactService, TenantService, TenantTypeService, toaster, SweetAlert) {
 
 	$scope.getAllCostCenters = function () {
-		CostCenterService.getAllCostCenters(function (error, data) {
-			if (!error) {
-				$scope.costcenters = data;
+		CostCenterService.getAllCostCenters(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.costcenters = response.data;
 			} else {
 				$scope.costcenters = [];
 			}
@@ -13,9 +13,9 @@ app.controller('TenantController', function ($scope, $common, $translate, $uibMo
 	};
 
 	$scope.getAllContacts = function () {
-		ContactService.getAllContacts(function (error, data) {
-			if (!error) {
-				$scope.contacts = data;
+		ContactService.getAllContacts(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.contacts = response.data;
 			} else {
 				$scope.contacts = [];
 			}
@@ -23,9 +23,9 @@ app.controller('TenantController', function ($scope, $common, $translate, $uibMo
 	};
 
 	$scope.getAllTenants = function () {
-		TenantService.getAllTenants(function (error, data) {
-			if (!error) {
-				$scope.tenants = data;
+		TenantService.getAllTenants(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.tenants = response.data;
 			} else {
 				$scope.tenants = [];
 			}
@@ -33,9 +33,9 @@ app.controller('TenantController', function ($scope, $common, $translate, $uibMo
 	};
 
 	$scope.getAllTenantTypes = function () {
-		TenantTypeService.getAllTenantTypes(function (error, data) {
-			if (!error) {
-				$scope.tenanttypes = data;
+		TenantTypeService.getAllTenantTypes(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.tenanttypes = response.data;
 			} else {
 				$scope.tenanttypes = [];
 			}
@@ -70,43 +70,20 @@ app.controller('TenantController', function ($scope, $common, $translate, $uibMo
 			if (angular.isDefined(tenant.is_in_lease) == false) {
 				tenant.is_in_lease = false;
 			}
-			TenantService.addTenant(tenant, function (error, status) {
-				if (angular.isDefined(status) && status == 201) {
-
-					var templateName = "COMMON.TENANT";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.SUCCESS';
-					var popTitle = $common.toaster.success_title;
-					var popBody = $common.toaster.success_add_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody, { template: templateName });
+			TenantService.addTenant(tenant, function (response) {
+				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "success",
+						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", { template: $translate.instant("COMMON.TENANT") }),
 						showCloseButton: true,
 					});
-
 					$scope.$emit('handleEmitTenantChanged');
 				} else {
-					var templateName = "COMMON.TENANT";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.ERROR';
-					var popTitle = $common.toaster.error_title;
-					var popBody = $common.toaster.error_add_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody, { template: templateName });
-
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "error",
+						title: $translate.instant("TOASTER.FAILURE_TITLE"),
+						body: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("COMMON.TENANT") }),
 						showCloseButton: true,
 					});
 				}
@@ -146,42 +123,20 @@ app.controller('TenantController', function ($scope, $common, $translate, $uibMo
 			if (angular.isDefined(tenant.is_in_lease) == false) {
 				tenant.is_in_lease = false;
 			}
-			TenantService.editTenant(modifiedTenant, function (error, status) {
-				if (angular.isDefined(status) && status == 200) {
-					var templateName = "COMMON.TENANT";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.SUCCESS';
-					var popTitle = $common.toaster.success_title;
-					var popBody = $common.toaster.success_update_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody, { template: templateName });
-
+			TenantService.editTenant(modifiedTenant, function (response) {
+				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "success",
+						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", { template: $translate.instant("COMMON.TENANT") }),
 						showCloseButton: true,
 					});
 					$scope.$emit('handleEmitTenantChanged');
 				} else {
-					var templateName = "COMMON.TENANT";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.ERROR';
-					var popTitle = $common.toaster.error_title;
-					var popBody = $common.toaster.error_update_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody, { template: templateName });
-
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "error",
+						title: $translate.instant("TOASTER.FAILURE_TITLE"),
+						body: $translate.instant("TOASTER.ERROR_UPDATE_BODY", { template: $translate.instant("COMMON.TENANT") }),
 						showCloseButton: true,
 					});
 				}
@@ -193,69 +148,39 @@ app.controller('TenantController', function ($scope, $common, $translate, $uibMo
 
 	$scope.deleteTenant = function (tenant) {
 		SweetAlert.swal({
-			title: $translate.instant($common.sweet.title),
-			text: $translate.instant($common.sweet.text),
+			title: $translate.instant("SWEET.TITLE"),
+			text: $translate.instant("SWEET.TEXT"),
 			type: "warning",
 			showCancelButton: true,
 			confirmButtonColor: "#DD6B55",
-			confirmButtonText: $translate.instant($common.sweet.confirmButtonText),
-			cancelButtonText: $translate.instant($common.sweet.cancelButtonText),
+			confirmButtonText: $translate.instant("SWEET.CONFIRM_BUTTON_TEXT"),
+			cancelButtonText: $translate.instant("SWEET.CANCEL_BUTTON_TEXT"),
 			closeOnConfirm: true,
 			closeOnCancel: true
 		},
 			function (isConfirm) {
 				if (isConfirm) {
-					TenantService.deleteTenant(tenant, function (error, status) {
-						if (angular.isDefined(status) && status == 204) {
-							var templateName = "COMMON.TENANT";
-							templateName = $translate.instant(templateName);
-
-							var popType = 'TOASTER.SUCCESS';
-							var popTitle = $common.toaster.success_title;
-							var popBody = $common.toaster.success_delete_body;
-
-							popType = $translate.instant(popType);
-							popTitle = $translate.instant(popTitle);
-							popBody = $translate.instant(popBody, { template: templateName });
-
+					TenantService.deleteTenant(tenant, function (response) {
+						if (angular.isDefined(response.status) && response.status === 204) {
 							toaster.pop({
-								type: popType,
-								title: popTitle,
-								body: popBody,
+								type: "success",
+								title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+								body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", { template: $translate.instant("COMMON.TENANT") }),
 								showCloseButton: true,
 							});
 							$scope.$emit('handleEmitTenantChanged');
-						} else if (angular.isDefined(status) && status == 400) {
-							var popType = 'TOASTER.ERROR';
-							var popTitle = error.title;
-							var popBody = error.description;
-
-							popType = $translate.instant(popType);
-							popTitle = $translate.instant(popTitle);
-							popBody = $translate.instant(popBody);
-
+						} else if (angular.isDefined(response.status) && response.status === 400) {
 							toaster.pop({
-								type: popType,
-								title: popTitle,
-								body: popBody,
+								type: "error",
+								title: $translate.instant(response.data.title),
+								body: $translate.instant(response.data.description),
 								showCloseButton: true,
 							});
 						} else {
-							var templateName = "COMMON.TENANT";
-							templateName = $translate.instant(templateName);
-
-							var popType = 'TOASTER.ERROR';
-							var popTitle = $common.toaster.error_title;
-							var popBody = $common.toaster.error_delete_body;
-
-							popType = $translate.instant(popType);
-							popTitle = $translate.instant(popTitle);
-							popBody = $translate.instant(popBody, { template: templateName });
-
 							toaster.pop({
-								type: popType,
-								title: popTitle,
-								body: popBody,
+								type: "error",
+								title: $translate.instant("TOASTER.FAILURE_TITLE"),
+								body: $translate.instant("TOASTER.ERROR_DELETE_BODY", { template: $translate.instant("COMMON.TENANT") }),
 								showCloseButton: true,
 							});
 						}

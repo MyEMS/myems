@@ -1,12 +1,12 @@
 'use strict';
 
-app.controller('TenantSensorController', function ($scope, $common, $uibModal, $timeout, $translate, TenantService, SensorService, TenantSensorService,  toaster, SweetAlert) {
+app.controller('TenantSensorController', function ($scope, $translate, TenantService, SensorService, TenantSensorService,  toaster, SweetAlert) {
     $scope.currentTenant = {selected:undefined};
 
     $scope.getAllSensors = function () {
-      SensorService.getAllSensors(function (error, data) {
-          if (!error) {
-              $scope.sensors = data;
+      SensorService.getAllSensors(function (response) {
+          if (angular.isDefined(response.status) && response.status === 200) {
+              $scope.sensors = response.data;
           } else {
               $scope.sensors = [];
           }
@@ -14,9 +14,9 @@ app.controller('TenantSensorController', function ($scope, $common, $uibModal, $
     };
 
     $scope.getSensorsByTenantID = function (id) {
-        TenantSensorService.getSensorsByTenantID(id, function (error, data) {
-            if (!error) {
-                $scope.tenantsensors = data;
+        TenantSensorService.getSensorsByTenantID(id, function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.tenantsensors = response.data;
             } else {
                 $scope.tenantsensors = [];
             }
@@ -30,9 +30,9 @@ app.controller('TenantSensorController', function ($scope, $common, $uibModal, $
   };
 
   $scope.getAllTenants = function () {
-    TenantService.getAllTenants(function (error, data) {
-        if (!error) {
-            $scope.tenants = data;
+    TenantService.getAllTenants(function (response) {
+        if (angular.isDefined(response.status) && response.status === 200) {
+            $scope.tenants = response.data;
         } else {
             $scope.tenants = [];
         }
@@ -42,38 +42,20 @@ app.controller('TenantSensorController', function ($scope, $common, $uibModal, $
     $scope.pairSensor = function (dragEl, dropEl) {
         var sensorid = angular.element('#' + dragEl).scope().sensor.id;
         var tenantid = $scope.currentTenant.id;
-        TenantSensorService.addPair(tenantid, sensorid, function (error, status) {
-            if (angular.isDefined(status) && status == 201) {
-
-                var popType = 'TOASTER.SUCCESS';
-                var popTitle = $common.toaster.success_title;
-                var popBody = 'TOASTER.BIND_SENSOR_SUCCESS';
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
+        TenantSensorService.addPair(tenantid, sensorid, function (response) {
+            if (angular.isDefined(response.status) && response.status === 201) {
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "success",
+                    title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                    body: $translate.instant("TOASTER.BIND_SENSOR_SUCCESS"),
                     showCloseButton: true,
                 });
-
                 $scope.getSensorsByTenantID($scope.currentTenant.id);
             } else {
-                var popType = 'TOASTER.ERROR';
-                var popTitle = error.title;
-                var popBody = error.description;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
                     showCloseButton: true,
                 });
             }
@@ -86,38 +68,20 @@ app.controller('TenantSensorController', function ($scope, $common, $uibModal, $
         }
         var tenantsensorid = angular.element('#' + dragEl).scope().tenantsensor.id;
         var tenantid = $scope.currentTenant.id;
-        TenantSensorService.deletePair(tenantid, tenantsensorid, function (error, status) {
-            if (angular.isDefined(status) && status == 204) {
-
-                var popType = 'TOASTER.SUCCESS';
-                var popTitle = $common.toaster.success_title;
-                var popBody = 'TOASTER.UNBIND_SENSOR_SUCCESS';
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
+        TenantSensorService.deletePair(tenantid, tenantsensorid, function (response) {
+            if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "success",
+                    title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                    body: $translate.instant("TOASTER.UNBIND_SENSOR_SUCCESS"),
                     showCloseButton: true,
                 });
-
                 $scope.getSensorsByTenantID($scope.currentTenant.id);
             } else {
-                var popType = 'TOASTER.ERROR';
-                var popTitle = error.title;
-                var popBody = error.description;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
                     showCloseButton: true,
                 });
             }

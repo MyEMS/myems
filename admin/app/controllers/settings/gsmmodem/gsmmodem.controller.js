@@ -1,12 +1,11 @@
 'use strict';
 
-app.controller('GSMModemController', function($scope,$common, $translate,$uibModal, GSMModemService,toaster,SweetAlert) {
-
+app.controller('GSMModemController', function($scope, $translate,$uibModal, GSMModemService,toaster,SweetAlert) {
 
 	$scope.getAllGSMModems = function() {
-		GSMModemService.getAllGSMModems(function(error, data) {
-			if (!error) {
-				$scope.gsmmodems = data;
+		GSMModemService.getAllGSMModems(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.gsmmodems = response.data;
 			} else {
 				$scope.gsmmodems = [];
 			}
@@ -28,45 +27,20 @@ app.controller('GSMModemController', function($scope,$common, $translate,$uibMod
 		    }
 		});
 		modalInstance.result.then(function(gsmmodem) {
-			GSMModemService.addGSMModem(gsmmodem, function(error, status) {
-				if (angular.isDefined(status) && status == 201) {
-
-					var templateName = "SETTING.GSM_MODEM";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.SUCCESS';
-					var popTitle = $common.toaster.success_title;
-					var popBody = $common.toaster.success_add_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody,{template: templateName});
-
+			GSMModemService.addGSMModem(gsmmodem, function(response) {
+				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "success",
+						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("SETTING.GSM_MODEM")}),
 						showCloseButton: true,
 					});
-
-
 					$scope.getAllGSMModems();
 				} else {
-					var templateName = "SETTING.GSM_MODEM";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.ERROR';
-					var popTitle = $common.toaster.error_title;
-					var popBody = $common.toaster.error_add_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody,{template: templateName});
-
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "error",
+						title: $translate.instant("TOASTER.FAILURE_TITLE"),
+						body: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("SETTING.GSM_MODEM")}),
 						showCloseButton: true,
 					});
 				}
@@ -92,44 +66,20 @@ app.controller('GSMModemController', function($scope,$common, $translate,$uibMod
 		});
 
 		modalInstance.result.then(function (modifiedGSMModem) {
-	        GSMModemService.editGSMModem(modifiedGSMModem,function(error,status){
-	            if(angular.isDefined(status) && status==200){
-	            	var templateName = "SETTING.GSM_MODEM";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.SUCCESS';
-					var popTitle = $common.toaster.success_title;
-					var popBody = $common.toaster.success_update_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody,{template: templateName});
-
+	        GSMModemService.editGSMModem(modifiedGSMModem,function (response){
+	            if(angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "success",
+						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", {template: $translate.instant("SETTING.GSM_MODEM")}),
 						showCloseButton: true,
 					});
-
-
-	            $scope.getAllGSMModems();
+	            	$scope.getAllGSMModems();
 	            }else{
-	                var templateName = "SETTING.GSM_MODEM";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.ERROR';
-					var popTitle = $common.toaster.error_title;
-					var popBody = $common.toaster.error_update_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody,{template: templateName});
-
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "error",
+						title: $translate.instant("TOASTER.FAILURE_TITLE"),
+						body: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("SETTING.GSM_MODEM")}),
 						showCloseButton: true,
 					});
 	            }
@@ -141,53 +91,31 @@ app.controller('GSMModemController', function($scope,$common, $translate,$uibMod
 
 	$scope.deleteGSMModem=function(gsmmodem){
 		SweetAlert.swal({
-		        title: $translate.instant($common.sweet.title),
-		        text: $translate.instant($common.sweet.text),
+		        title: $translate.instant("SWEET.TITLE"),
+		        text: $translate.instant("SWEET.TEXT"),
 		        type: "warning",
 		        showCancelButton: true,
 		        confirmButtonColor: "#DD6B55",
-		        confirmButtonText: $translate.instant($common.sweet.confirmButtonText),
-		        cancelButtonText: $translate.instant($common.sweet.cancelButtonText),
+		        confirmButtonText: $translate.instant("SWEET.CONFIRM_BUTTON_TEXT"),
+		        cancelButtonText: $translate.instant("SWEET.CANCEL_BUTTON_TEXT"),
 		        closeOnConfirm: true,
 		        closeOnCancel: true },
 		    function (isConfirm) {
 		        if (isConfirm) {
-		            GSMModemService.deleteGSMModem(gsmmodem, function(error, status) {
-		            	if (angular.isDefined(status) && status == 204) {
-		            		var templateName = "SETTING.GSM_MODEM";
-                            templateName = $translate.instant(templateName);
-
-                            var popType = 'TOASTER.SUCCESS';
-                            var popTitle = $common.toaster.success_title;
-                            var popBody = $common.toaster.success_delete_body;
-
-                            popType = $translate.instant(popType);
-                            popTitle = $translate.instant(popTitle);
-                            popBody = $translate.instant(popBody, {template: templateName});
-
+		            GSMModemService.deleteGSMModem(gsmmodem, function(response) {
+		            	if (angular.isDefined(response.status) && response.status === 204) {
                             toaster.pop({
-                                type: popType,
-                                title: popTitle,
-                                body: popBody,
+                                type: "success",
+                                title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                                body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", {template: $translate.instant("SETTING.GSM_MODEM")}),
                                 showCloseButton: true,
                             });
 		            		$scope.getAllGSMModems();
 		            	} else {
-		            		var templateName = "SETTING.GSM_MODEM";
-                            templateName = $translate.instant(templateName);
-
-                            var popType = 'TOASTER.ERROR';
-                            var popTitle = $common.toaster.error_title;
-                            var popBody = $common.toaster.error_delete_body;
-
-                            popType = $translate.instant(popType);
-                            popTitle = $translate.instant(popTitle);
-                            popBody = $translate.instant(popBody, {template: templateName});
-
                             toaster.pop({
-                                type: popType,
-                                title: popTitle,
-                                body: popBody,
+                                type: "error",
+                                title: $translate.instant("TOASTER.FAILURE_TITLE"),
+                                body: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("SETTING.GSM_MODEM")}),
                                 showCloseButton: true,
                             });
 		            	}

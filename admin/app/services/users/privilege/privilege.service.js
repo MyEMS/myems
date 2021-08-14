@@ -3,48 +3,43 @@ app.factory('PrivilegeService', function($http) {
     return {
         getAllPrivileges:function(callback){
             $http.get(getAPI()+'privileges')
-                .success(function (response, status, headers, config) {
-                    callback(null, response);
-                })
-                .error(function (e, status) {
-                    callback(e, status);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
         addPrivilege: function(privilege, callback) {
             $http.post(getAPI()+'privileges',{data:privilege})
-                .success(function (response, status, headers, config) {
-                    callback(null, status);
-                })
-                .error(function (e, status) {
-                    callback(e, status);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
         editPrivilege: function(privilege, callback) {
             $http.put(getAPI()+'privileges/'+privilege.id,{data:privilege})
-                .success(function (response, status, headers, config) {
-                    callback(null, status);
-                })
-                .error(function (e, status) {
-                    callback(e, status);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
         deletePrivilege: function(privilege, callback) {
             $http.delete(getAPI()+'privileges/'+privilege.id)
-                .success(function (response, status, headers, config) {
-                    callback(null, status);
-                })
-                .error(function (e, status) {
-                    callback(e, status);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
         getPrivilege: function(id, callback) {
             $http.get(getAPI()+'privileges/'+id)
-                .success(function (response, status, headers, config) {
-                    callback(null, response);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         }
     };
 });
