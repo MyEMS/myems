@@ -1,11 +1,11 @@
 'use strict';
 
-app.controller('EquipmentController', function($scope,$common, $translate, $uibModal, EquipmentService, CostCenterService, toaster,SweetAlert) {
+app.controller('EquipmentController', function($scope, $translate, $uibModal, EquipmentService, CostCenterService, toaster,SweetAlert) {
 
 	$scope.getAllEquipments = function() {
-		EquipmentService.getAllEquipments(function(error, data) {
-			if (!error) {
-				$scope.equipments = data;
+		EquipmentService.getAllEquipments(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.equipments = response.data;
 			} else {
 				$scope.equipments = [];
 			}
@@ -13,9 +13,9 @@ app.controller('EquipmentController', function($scope,$common, $translate, $uibM
 	};
 
 	$scope.getAllCostCenters = function() {
-		CostCenterService.getAllCostCenters(function(error, data) {
-			if (!error) {
-				$scope.costcenters = data;
+		CostCenterService.getAllCostCenters(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.costcenters = response.data;
 			} else {
 				$scope.costcenters = [];
 			}
@@ -36,43 +36,21 @@ app.controller('EquipmentController', function($scope,$common, $translate, $uibM
 		});
 		modalInstance.result.then(function(equipment) {
 		  equipment.cost_center_id = equipment.cost_center.id;
-			EquipmentService.addEquipment(equipment, function(error, status) {
-				if (angular.isDefined(status) && status == 201) {
-					var templateName = "COMMON.EQUIPMENT";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.SUCCESS';
-					var popTitle = $common.toaster.success_title;
-					var popBody = $common.toaster.success_add_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody,{template: templateName});
-
+			EquipmentService.addEquipment(equipment, function (response) {
+				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "success",
+						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.EQUIPMENT")}),
 						showCloseButton: true,
 					});
 					$scope.getAllEquipments();
 					$scope.$emit('handleEmitEquipmentChanged');
 				} else {
-					var templateName = "COMMON.EQUIPMENT";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.ERROR';
-					var popTitle = $common.toaster.error_title;
-					var popBody = $common.toaster.error_add_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody,{template: templateName});
-
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "error",
+						title: $translate.instant("TOASTER.FAILURE_TITLE"),
+						body: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("COMMON.EQUIPMENT")}),
 						showCloseButton: true,
 					});
 				}
@@ -99,43 +77,21 @@ app.controller('EquipmentController', function($scope,$common, $translate, $uibM
 
 		modalInstance.result.then(function(modifiedEquipment) {
 		  modifiedEquipment.cost_center_id = modifiedEquipment.cost_center.id;
-			EquipmentService.editEquipment(modifiedEquipment, function(error, status) {
-				if (angular.isDefined(status) && status == 200) {
-					var templateName = "COMMON.EQUIPMENT";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.SUCCESS';
-					var popTitle = $common.toaster.success_title;
-					var popBody = $common.toaster.success_update_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody,{template: templateName});
-
+			EquipmentService.editEquipment(modifiedEquipment, function (response) {
+				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "success",
+						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", {template: $translate.instant("COMMON.EQUIPMENT")}),
 						showCloseButton: true,
 					});
 					$scope.getAllEquipments();
 					$scope.$emit('handleEmitEquipmentChanged');
 				} else {
-					var templateName = "COMMON.EQUIPMENT";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.ERROR';
-					var popTitle = $common.toaster.error_title;
-					var popBody = $common.toaster.error_update_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody,{template: templateName});
-
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "error",
+						title: $translate.instant("TOASTER.FAILURE_TITLE"),
+						body: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("COMMON.EQUIPMENT")}),
 						showCloseButton: true,
 					});
 				}
@@ -147,56 +103,34 @@ app.controller('EquipmentController', function($scope,$common, $translate, $uibM
 
 	$scope.deleteEquipment=function(equipment){
 		SweetAlert.swal({
-		        title: $translate.instant($common.sweet.title),
-		        text: $translate.instant($common.sweet.text),
+		        title: $translate.instant("SWEET.TITLE"),
+		        text: $translate.instant("SWEET.TEXT"),
 		        type: "warning",
 		        showCancelButton: true,
 		        confirmButtonColor: "#DD6B55",
-		        confirmButtonText: $translate.instant($common.sweet.confirmButtonText),
-		        cancelButtonText: $translate.instant($common.sweet.cancelButtonText),
+		        confirmButtonText: $translate.instant("SWEET.CONFIRM_BUTTON_TEXT"),
+		        cancelButtonText: $translate.instant("SWEET.CANCEL_BUTTON_TEXT"),
 		        closeOnConfirm: true,
 		        closeOnCancel: true },
 		    function (isConfirm) {
 		        if (isConfirm) {
-		            EquipmentService.deleteEquipment(equipment, function(error, status) {
-		            	if (angular.isDefined(status) && status == 204) {
-		            		var templateName = "COMMON.EQUIPMENT";
-                    templateName = $translate.instant(templateName);
-
-                    var popType = 'TOASTER.SUCCESS';
-                    var popTitle = $common.toaster.success_title;
-                    var popBody = $common.toaster.success_delete_body;
-
-                    popType = $translate.instant(popType);
-                    popTitle = $translate.instant(popTitle);
-                    popBody = $translate.instant(popBody, {template: templateName});
-
-                    toaster.pop({
-                        type: popType,
-                        title: popTitle,
-                        body: popBody,
-                        showCloseButton: true,
-                    });
-							      $scope.getAllEquipments();
-										$scope.$emit('handleEmitEquipmentChanged');
+		            EquipmentService.deleteEquipment(equipment, function (response) {
+		            	if (angular.isDefined(response.status) && response.status === 204) {
+							toaster.pop({
+								type: "success",
+								title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+								body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", {template: $translate.instant("COMMON.EQUIPMENT")}),
+								showCloseButton: true,
+							});
+							$scope.getAllEquipments();
+							$scope.$emit('handleEmitEquipmentChanged');
 		            	} else {
-		            		var templateName = "COMMON.EQUIPMENT";
-                    templateName = $translate.instant(templateName);
-
-                    var popType = 'TOASTER.ERROR';
-                    var popTitle = $common.toaster.error_title;
-                    var popBody = $common.toaster.error_delete_body;
-
-                    popType = $translate.instant(popType);
-                    popTitle = $translate.instant(popTitle);
-                    popBody = $translate.instant(popBody, {template: templateName});
-
-                    toaster.pop({
-                        type: popType,
-                        title: popTitle,
-                        body: popBody,
-                        showCloseButton: true,
-                    });
+							toaster.pop({
+								type: "error",
+								title: $translate.instant("TOASTER.FAILURE_TITLE"),
+								body: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("COMMON.EQUIPMENT")}),
+								showCloseButton: true,
+							});
 		            	}
 		            });
 		        }

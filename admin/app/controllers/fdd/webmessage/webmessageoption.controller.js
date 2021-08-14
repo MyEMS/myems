@@ -36,9 +36,9 @@ app.controller('WebMessageOptionController', function($scope, $timeout,
 			load: true,
 			period:$scope.currentPeriod
 		});
-		WebMessageAnalysisService.getAnalysisResult(query, function(error, data) {
-				if (!error) {
-					$scope.$emit('handleEmitWebMessageOptionChanged', data);
+		WebMessageAnalysisService.getAnalysisResult(query, function (response) {
+				if (angular.isDefined(response.status) && response.status === 200) {
+					$scope.$emit('handleEmitWebMessageOptionChanged', response.data);
 				}
 		});
 

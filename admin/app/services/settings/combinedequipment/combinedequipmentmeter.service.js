@@ -11,31 +11,28 @@ app.factory('CombinedEquipmentMeterService', function ($http) {
                 meter = { 'offline_meter_id': meterID, is_output: is_output };
             }
             $http.post(getAPI() + 'combinedequipments/' + combinedequipmentID + '/' + metertype, { data: meter })
-                .success(function (response, status, headers, config) {
-                    callback(null, status);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
 
         deletePair: function (combinedequipmentID, meterID, metertype, callback) {
             $http.delete(getAPI() + 'combinedequipments/' + combinedequipmentID + '/' + metertype + '/' + meterID)
-                .success(function (response, status, headers, config) {
-                    callback(null, status);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
         getMetersByCombinedEquipmentID: function (id, metertype, callback) {
             $http.get(getAPI() + 'combinedequipments/' + id + '/' + metertype)
-                .success(function (response, status, headers, config) {
-                    callback(null, response);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         }
     };
 });  

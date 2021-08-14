@@ -1,11 +1,11 @@
 'use strict';
 
-app.controller('DistributionCircuitPointController', function ($scope, $common, $uibModal, $timeout, $translate, DistributionCircuitService, DataSourceService, PointService, DistributionCircuitPointService, toaster, SweetAlert) {
+app.controller('DistributionCircuitPointController', function ($scope, $timeout, $translate, DistributionCircuitService, DataSourceService, PointService, DistributionCircuitPointService, toaster, SweetAlert) {
     $scope.currentDistributionCircuit = {selected:undefined};
     $scope.getAllDataSources = function () {
-        DataSourceService.getAllDataSources(function (error, data) {
-            if (!error) {
-                $scope.datasources = data;
+        DataSourceService.getAllDataSources(function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.datasources = response.data;
                 if ($scope.datasources.length > 0) {
                     $scope.currentDataSource = $scope.datasources[0].id;
                     $scope.getPointsByDataSourceID($scope.currentDataSource);
@@ -17,9 +17,9 @@ app.controller('DistributionCircuitPointController', function ($scope, $common, 
     };
 
     $scope.getPointsByDataSourceID = function (id) {
-        PointService.getPointsByDataSourceID(id, function (error, data) {
-            if (!error) {
-                $scope.points = data;
+        PointService.getPointsByDataSourceID(id, function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.points = response.data;
             } else {
                 $scope.points = [];
             }
@@ -27,9 +27,9 @@ app.controller('DistributionCircuitPointController', function ($scope, $common, 
     };
 
     $scope.getPointsByDistributionCircuitID = function (id) {
-        DistributionCircuitPointService.getPointsByDistributionCircuitID(id, function (error, data) {
-            if (!error) {
-                $scope.distributioncircuitpoints = data;
+        DistributionCircuitPointService.getPointsByDistributionCircuitID(id, function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.distributioncircuitpoints = response.data;
             } else {
                 $scope.distributioncircuitpoints = [];
             }
@@ -48,9 +48,9 @@ app.controller('DistributionCircuitPointController', function ($scope, $common, 
     };
 
     $scope.getAllDistributionCircuits = function () {
-        DistributionCircuitService.getAllDistributionCircuits(function (error, data) {
-            if (!error) {
-                $scope.distributioncircuits = data;
+        DistributionCircuitService.getAllDistributionCircuits(function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.distributioncircuits = response.data;
                 for(var i = 0; i < $scope.distributioncircuits.length; i++) {
                   $scope.distributioncircuits[i].name = $scope.distributioncircuits[i].distribution_system.name + '/' + $scope.distributioncircuits[i].name;
                }
@@ -67,38 +67,20 @@ app.controller('DistributionCircuitPointController', function ($scope, $common, 
     $scope.pairPoint = function (dragEl, dropEl) {
         var pointid = angular.element('#' + dragEl).scope().point.id;
         var distributioncircuitid = $scope.currentDistributionCircuit.id;
-        DistributionCircuitPointService.addPair(distributioncircuitid, pointid, function (error, status) {
-            if (angular.isDefined(status) && status == 201) {
-
-                var popType = 'TOASTER.SUCCESS';
-                var popTitle = $common.toaster.success_title;
-                var popBody = 'TOASTER.BIND_POINT_SUCCESS';
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
+        DistributionCircuitPointService.addPair(distributioncircuitid, pointid, function (response) {
+            if (angular.isDefined(response.status) && response.status === 201) {
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "success",
+                    title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                    body: $translate.instant('TOASTER.BIND_POINT_SUCCESS'),
                     showCloseButton: true,
                 });
-
                 $scope.getPointsByDistributionCircuitID($scope.currentDistributionCircuit.id);
             } else {
-                var popType = 'TOASTER.ERROR';
-                var popTitle = error.title;
-                var popBody = error.description;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
                     showCloseButton: true,
                 });
             }
@@ -111,38 +93,20 @@ app.controller('DistributionCircuitPointController', function ($scope, $common, 
         }
         var distributioncircuitpointid = angular.element('#' + dragEl).scope().distributioncircuitpoint.id;
         var distributioncircuitid = $scope.currentDistributionCircuit.id;
-        DistributionCircuitPointService.deletePair(distributioncircuitid, distributioncircuitpointid, function (error, status) {
-            if (angular.isDefined(status) && status == 204) {
-
-                var popType = 'TOASTER.SUCCESS';
-                var popTitle = $common.toaster.success_title;
-                var popBody = 'TOASTER.UNBIND_POINT_SUCCESS';
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
+        DistributionCircuitPointService.deletePair(distributioncircuitid, distributioncircuitpointid, function (response) {
+            if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "success",
+                    title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                    body: $translate.instant('TOASTER.UNBIND_POINT_SUCCESS'),
                     showCloseButton: true,
                 });
-
                 $scope.getPointsByDistributionCircuitID($scope.currentDistributionCircuit.id);
             } else {
-                var popType = 'TOASTER.ERROR';
-                var popTitle = error.title;
-                var popBody = error.description;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
                     showCloseButton: true,
                 });
             }

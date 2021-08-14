@@ -3,48 +3,43 @@ app.factory('StoreTypeService', function($http) {
     return {
         getAllStoreTypes:function(callback){
             $http.get(getAPI()+'storetypes')
-                .success(function (response, status, headers, config) {
-                    callback(null, response);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
         searchStoreTypes: function(query, callback) {
             $http.get(getAPI()+'storetypes', { params: { q: query } })
-                .success(function (response, status, headers, config) {
-                    callback(null, response);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
         addStoreType: function(store_type, callback) {
             $http.post(getAPI()+'storetypes',{data:store})
-                .success(function (response, status, headers, config) {
-                    callback(null, status);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
         editStoreType: function(store_type, callback) {
             $http.put(getAPI()+'storetypes/'+store_type.id,{data:store_type})
-                .success(function (response, status, headers, config) {
-                    callback(null, status);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
         deleteStoreType: function(store_type, callback) {
             $http.delete(getAPI()+'storetypes/'+store_type.id)
-                .success(function (response, status, headers, config) {
-                    callback(null, status);
-                })
-                .error(function (e,status) {
-                    callback(e,status);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
     };
 });

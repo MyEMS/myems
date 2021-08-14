@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('CombinedEquipmentParameterController', function ($scope, $common, $timeout, $uibModal, $translate, MeterService, VirtualMeterService, OfflineMeterService, CombinedEquipmentParameterService, CombinedEquipmentService, PointService, toaster, SweetAlert) {
+app.controller('CombinedEquipmentParameterController', function ($scope, $uibModal, $translate, MeterService, VirtualMeterService, OfflineMeterService, CombinedEquipmentParameterService, CombinedEquipmentService, PointService, toaster, SweetAlert) {
 	$scope.currentCombinedEquipment = { selected: undefined };
 	$scope.is_show_add_parameter = false;
 	$scope.combinedequipments = [];
@@ -10,9 +10,9 @@ app.controller('CombinedEquipmentParameterController', function ($scope, $common
 	$scope.mergedMeters = [];
 
 	$scope.getAllCombinedEquipments = function () {
-		CombinedEquipmentService.getAllCombinedEquipments(function (error, data) {
-			if (!error) {
-				$scope.combinedequipments = data;
+		CombinedEquipmentService.getAllCombinedEquipments(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.combinedequipments = response.data;
 			} else {
 				$scope.combinedequipments = [];
 			}
@@ -28,9 +28,9 @@ app.controller('CombinedEquipmentParameterController', function ($scope, $common
 
 	$scope.getParametersByCombinedEquipmentID = function (id) {
 		$scope.combinedequipmentparameters = [];
-		CombinedEquipmentParameterService.getParametersByCombinedEquipmentID(id, function (error, data) {
-			if (!error) {
-				$scope.combinedequipmentparameters = data;
+		CombinedEquipmentParameterService.getParametersByCombinedEquipmentID(id, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.combinedequipmentparameters = response.data;
 			}
 		});
 	};
@@ -62,42 +62,20 @@ app.controller('CombinedEquipmentParameterController', function ($scope, $common
 				combinedequipmentparameter.denominator_meter_uuid = combinedequipmentparameter.denominator_meter.uuid;
 			}
 
-			CombinedEquipmentParameterService.addCombinedEquipmentParameter(combinedequipmentid, combinedequipmentparameter, function (error, status) {
-				if (angular.isDefined(status) && status == 201) {
-					var templateName = "COMBINED_EQUIPMENT.PARAMETER";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.SUCCESS';
-					var popTitle = $common.toaster.success_title;
-					var popBody = $common.toaster.success_add_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody, { template: templateName });
-
+			CombinedEquipmentParameterService.addCombinedEquipmentParameter(combinedequipmentid, combinedequipmentparameter, function (response) {
+				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "success",
+						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", { template: $translate.instant("COMBINED_EQUIPMENT.PARAMETER") }),
 						showCloseButton: true,
 					});
 					$scope.getParametersByCombinedEquipmentID($scope.currentCombinedEquipment.id);
 				} else {
-					var templateName = "COMBINED_EQUIPMENT.PARAMETER";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.ERROR';
-					var popTitle = $common.toaster.error_title;
-					var popBody = $common.toaster.error_add_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody, { template: templateName });
-
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "error",
+						title: $translate.instant("TOASTER.FAILURE_TITLE"),
+						body: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("COMBINED_EQUIPMENT.PARAMETER") }),
 						showCloseButton: true,
 					});
 				}
@@ -133,42 +111,20 @@ app.controller('CombinedEquipmentParameterController', function ($scope, $common
 			if (modifiedCombinedEquipmentParameter.denominator_meter != null) {
 				modifiedCombinedEquipmentParameter.denominator_meter_uuid = modifiedCombinedEquipmentParameter.denominator_meter.uuid;
 			}
-			CombinedEquipmentParameterService.editCombinedEquipmentParameter($scope.currentCombinedEquipment.id, modifiedCombinedEquipmentParameter, function (error, status) {
-				if (angular.isDefined(status) && status == 200) {
-					var templateName = "COMBINED_EQUIPMENT.PARAMETER";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.SUCCESS';
-					var popTitle = $common.toaster.success_title;
-					var popBody = $common.toaster.success_update_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody, { template: templateName });
-
+			CombinedEquipmentParameterService.editCombinedEquipmentParameter($scope.currentCombinedEquipment.id, modifiedCombinedEquipmentParameter, function (response) {
+				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "success",
+						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", { template: $translate.instant("COMBINED_EQUIPMENT.PARAMETER") }),
 						showCloseButton: true,
 					});
 					$scope.getParametersByCombinedEquipmentID($scope.currentCombinedEquipment.id);
 				} else {
-					var templateName = "COMBINED_EQUIPMENT.PARAMETER";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.ERROR';
-					var popTitle = $common.toaster.error_title;
-					var popBody = $common.toaster.error_update_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody, { template: templateName });
-
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "error",
+						title: $translate.instant("TOASTER.FAILURE_TITLE"),
+						body: $translate.instant("TOASTER.ERROR_UPDATE_BODY", { template: $translate.instant("COMBINED_EQUIPMENT.PARAMETER") }),
 						showCloseButton: true,
 					});
 				}
@@ -180,69 +136,39 @@ app.controller('CombinedEquipmentParameterController', function ($scope, $common
 
 	$scope.deleteCombinedEquipmentParameter = function (combinedequipmentparameter) {
 		SweetAlert.swal({
-			title: $translate.instant($common.sweet.title),
-			text: $translate.instant($common.sweet.text),
+			title: $translate.instant("SWEET.TITLE"),
+			text: $translate.instant("SWEET.TEXT"),
 			type: "warning",
 			showCancelButton: true,
 			confirmButtonColor: "#DD6B55",
-			confirmButtonText: $translate.instant($common.sweet.confirmButtonText),
-			cancelButtonText: $translate.instant($common.sweet.cancelButtonText),
+			confirmButtonText: $translate.instant("SWEET.CONFIRM_BUTTON_TEXT"),
+			cancelButtonText: $translate.instant("SWEET.CANCEL_BUTTON_TEXT"),
 			closeOnConfirm: true,
 			closeOnCancel: true
 		},
 			function (isConfirm) {
 				if (isConfirm) {
-					CombinedEquipmentParameterService.deleteCombinedEquipmentParameter($scope.currentCombinedEquipment.id, combinedequipmentparameter.id, function (error, status) {
-						if (angular.isDefined(status) && status == 204) {
-							var templateName = "COMBINED_EQUIPMENT.PARAMETER";
-							templateName = $translate.instant(templateName);
-
-							var popType = 'TOASTER.SUCCESS';
-							var popTitle = $common.toaster.success_title;
-							var popBody = $common.toaster.success_delete_body;
-
-							popType = $translate.instant(popType);
-							popTitle = $translate.instant(popTitle);
-							popBody = $translate.instant(popBody, { template: templateName });
-
+					CombinedEquipmentParameterService.deleteCombinedEquipmentParameter($scope.currentCombinedEquipment.id, combinedequipmentparameter.id, function (response) {
+						if (angular.isDefined(response.status) && response.status === 204) {
 							toaster.pop({
-								type: popType,
-								title: popTitle,
-								body: popBody,
+								type: "success",
+								title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+								body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", { template: $translate.instant("COMBINED_EQUIPMENT.PARAMETER") }),
 								showCloseButton: true,
 							});
 							$scope.getParametersByCombinedEquipmentID($scope.currentCombinedEquipment.id);
-						} else if (angular.isDefined(status) && status == 400) {
-							var popType = 'TOASTER.ERROR';
-							var popTitle = error.title;
-							var popBody = error.description;
-
-							popType = $translate.instant(popType);
-							popTitle = $translate.instant(popTitle);
-							popBody = $translate.instant(popBody);
-
+						} else if (angular.isDefined(response.status) && response.status === 400) {
 							toaster.pop({
-								type: popType,
-								title: popTitle,
-								body: popBody,
+								type: "error",
+								title: $translate.instant(response.data.title),
+								body: $translate.instant(response.data.description),
 								showCloseButton: true,
 							});
 						} else {
-							var templateName = "COMBINED_EQUIPMENT.PARAMETER";
-							templateName = $translate.instant(templateName);
-
-							var popType = 'TOASTER.ERROR';
-							var popTitle = $common.toaster.error_title;
-							var popBody = $common.toaster.error_delete_body;
-
-							popType = $translate.instant(popType);
-							popTitle = $translate.instant(popTitle);
-							popBody = $translate.instant(popBody, { template: templateName });
-
 							toaster.pop({
-								type: popType,
-								title: popTitle,
-								body: popBody,
+								type: "error",
+								title: $translate.instant("TOASTER.FAILURE_TITLE"),
+								body: $translate.instant(popBody, { template: $translate.instant("COMBINED_EQUIPMENT.PARAMETER") }),
 								showCloseButton: true,
 							});
 						}
@@ -293,25 +219,21 @@ app.controller('CombinedEquipmentParameterController', function ($scope, $common
 		$scope.meters = [];
 		$scope.offlinemeters = [];
 		$scope.virtualmeters = [];
-		MeterService.getAllMeters(function (error, data) {
-			if (!error) {
-				$scope.meters = data;
+		MeterService.getAllMeters(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.meters = response.data;
 				for (var i = 0; i < $scope.meters.length; i++) {
 					var mergedmeter = { "uuid": $scope.meters[i].uuid, "name": "meter/" + $scope.meters[i].name };
 					$scope.mergedmeters.push(mergedmeter);
 				}
-				// $scope.currentMeterType="meters";
-				// $timeout(function(){
-				// 	$scope.changeMeterType();
-				// },1000);
 			} else {
 				$scope.meters = [];
 			}
 		});
 
-		OfflineMeterService.getAllOfflineMeters(function (error, data) {
-			if (!error) {
-				$scope.offlinemeters = data;
+		OfflineMeterService.getAllOfflineMeters(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.offlinemeters = response.data;
 				for (var i = 0; i < $scope.offlinemeters.length; i++) {
 					var mergedmeter = { "uuid": $scope.offlinemeters[i].uuid, "name": "offlinemeter/" + $scope.offlinemeters[i].name };
 					$scope.mergedmeters.push(mergedmeter);
@@ -321,9 +243,9 @@ app.controller('CombinedEquipmentParameterController', function ($scope, $common
 			}
 		});
 
-		VirtualMeterService.getAllVirtualMeters(function (error, data) {
-			if (!error) {
-				$scope.virtualmeters = data;
+		VirtualMeterService.getAllVirtualMeters(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.virtualmeters = response.data;
 				for (var i = 0; i < $scope.virtualmeters.length; i++) {
 					var mergedmeter = { "uuid": $scope.virtualmeters[i].uuid, "name": "virtualmeter/" + $scope.virtualmeters[i].name };
 					$scope.mergedmeters.push(mergedmeter);
@@ -337,14 +259,9 @@ app.controller('CombinedEquipmentParameterController', function ($scope, $common
 	};
 
 	$scope.getAllPoints = function () {
-		PointService.getAllPoints(function (error, data) {
-			if (!error) {
-				// if (data.length > 0) {
-				//   for (var i = 0; i < data.length; i++) {
-				//     data[i].name = data[i].data_source.name + "/" + data[i].name ;
-				//   }
-				// }
-				$scope.points = data;
+		PointService.getAllPoints(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.points = response.data;
 			} else {
 				$scope.points = [];
 			}

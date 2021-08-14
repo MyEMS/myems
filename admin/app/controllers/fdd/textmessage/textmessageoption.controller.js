@@ -38,9 +38,9 @@ app.controller('TextMessageOptionController', function($scope, $timeout,
 			period:$scope.currentPeriod
 		});
 		
-		TextMessageAnalysisService.getAnalysisResult(query, function(error, data) {
-			if (!error) {
-				$scope.$emit('handleEmitTextMessageOptionChanged', data);
+		TextMessageAnalysisService.getAnalysisResult(query, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.$emit('handleEmitTextMessageOptionChanged', response.data);
 			}
 		});
 		

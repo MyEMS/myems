@@ -1,11 +1,11 @@
 'use strict';
 
-app.controller('ShopfloorPointController', function ($scope, $common, $uibModal, $timeout, $translate, ShopfloorService, DataSourceService, PointService, ShopfloorPointService,  toaster, SweetAlert) {
+app.controller('ShopfloorPointController', function ($scope, $translate, ShopfloorService, DataSourceService, PointService, ShopfloorPointService,  toaster, SweetAlert) {
     $scope.currentShopfloor = {selected:undefined};
     $scope.getAllDataSources = function () {
-        DataSourceService.getAllDataSources(function (error, data) {
-            if (!error) {
-                $scope.datasources = data;
+        DataSourceService.getAllDataSources(function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.datasources = response.data;
                 if ($scope.datasources.length > 0) {
                     $scope.currentDataSource = $scope.datasources[0].id;
                     $scope.getPointsByDataSourceID($scope.currentDataSource);
@@ -17,9 +17,9 @@ app.controller('ShopfloorPointController', function ($scope, $common, $uibModal,
     };
 
     $scope.getPointsByDataSourceID = function (id) {
-        PointService.getPointsByDataSourceID(id, function (error, data) {
-            if (!error) {
-                $scope.points = data;
+        PointService.getPointsByDataSourceID(id, function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.points = response.data;
             } else {
                 $scope.points = [];
             }
@@ -27,9 +27,9 @@ app.controller('ShopfloorPointController', function ($scope, $common, $uibModal,
     };
 
     $scope.getPointsByShopfloorID = function (id) {
-        ShopfloorPointService.getPointsByShopfloorID(id, function (error, data) {
-            if (!error) {
-                $scope.shopfloorpoints = data;
+        ShopfloorPointService.getPointsByShopfloorID(id, function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.shopfloorpoints = response.data;
             } else {
                 $scope.shopfloorpoints = [];
             }
@@ -49,9 +49,9 @@ app.controller('ShopfloorPointController', function ($scope, $common, $uibModal,
     };
 
     $scope.getAllShopfloors = function () {
-        ShopfloorService.getAllShopfloors(function (error, data) {
-            if (!error) {
-                $scope.shopfloors = data;
+        ShopfloorService.getAllShopfloors(function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.shopfloors = response.data;
             } else {
                 $scope.shopfloors = [];
             }
@@ -62,38 +62,20 @@ app.controller('ShopfloorPointController', function ($scope, $common, $uibModal,
     $scope.pairPoint = function (dragEl, dropEl) {
         var pointid = angular.element('#' + dragEl).scope().point.id;
         var shopfloorid = $scope.currentShopfloor.id;
-        ShopfloorPointService.addPair(shopfloorid, pointid, function (error, status) {
-            if (angular.isDefined(status) && status == 201) {
-
-                var popType = 'TOASTER.SUCCESS';
-                var popTitle = $common.toaster.success_title;
-                var popBody = 'TOASTER.BIND_POINT_SUCCESS';
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
+        ShopfloorPointService.addPair(shopfloorid, pointid, function (response) {
+            if (angular.isDefined(response.status) && response.status === 201) {
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "success",
+                    title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                    body: $translate.instant("TOASTER.BIND_POINT_SUCCESS"),
                     showCloseButton: true,
                 });
-
                 $scope.getPointsByShopfloorID($scope.currentShopfloor.id);
             } else {
-                var popType = 'TOASTER.ERROR';
-                var popTitle = error.title;
-                var popBody = error.description;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
                     showCloseButton: true,
                 });
             }
@@ -106,39 +88,20 @@ app.controller('ShopfloorPointController', function ($scope, $common, $uibModal,
         }
         var shopfloorpointid = angular.element('#' + dragEl).scope().shopfloorpoint.id;
         var shopfloorid = $scope.currentShopfloor.id;
-        ShopfloorPointService.deletePair(shopfloorid, shopfloorpointid, function (error, status) {
-            if (angular.isDefined(status) && status == 204) {
-
-                var popType = 'TOASTER.SUCCESS';
-                var popTitle = $common.toaster.success_title;
-                var popBody = 'TOASTER.UNBIND_POINT_SUCCESS';
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
+        ShopfloorPointService.deletePair(shopfloorid, shopfloorpointid, function (response) {
+            if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "error",
+                    title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                    body: $translate.instant("TOASTER.UNBIND_POINT_SUCCESS"),
                     showCloseButton: true,
                 });
-
                 $scope.getPointsByShopfloorID($scope.currentShopfloor.id);
             } else {
-                var popType = 'TOASTER.ERROR';
-                var popTitle = error.title;
-                var popBody = error.description;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
-
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
                     showCloseButton: true,
                 });
             }

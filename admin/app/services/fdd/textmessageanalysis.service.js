@@ -6,22 +6,20 @@ app.factory('TextMessageAnalysisService', function($http) {
             var base="textmessages";
             var url=base+"/from/"+query.datestart+"/to/"+query.dateend;
             $http.get(getAPI()+url)
-                .success(function (response, status, headers, config) {
-                    callback(null, response);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
 
         deleteTextMessage: function(textmessage, callback) {
             $http.delete(getAPI()+'textmessages/'+textmessage.id)
-                .success(function (response, status, headers, config) {
-                    callback(null, status);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         }
 
     };

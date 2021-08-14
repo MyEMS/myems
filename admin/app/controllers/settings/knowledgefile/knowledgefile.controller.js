@@ -3,9 +3,7 @@
 app.controller('KnowledgeFileController', function (
     $scope, 
 	$window,
-    $common, 
     $translate, 
-    $uibModal, 
     KnowledgeFileService, 
     toaster, 
     SweetAlert) {
@@ -13,9 +11,9 @@ app.controller('KnowledgeFileController', function (
     $scope.cur_user = JSON.parse($window.localStorage.getItem("currentUser"));
 
     $scope.getAllKnowledgeFiles = function () {
-        KnowledgeFileService.getAllKnowledgeFiles(function (error, data) {
-            if (!error) {
-                $scope.knowledgefiles = data;
+        KnowledgeFileService.getAllKnowledgeFiles(function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.knowledgefiles = response.data;
             } else {
                 $scope.knowledgefiles = [];
             }
@@ -36,47 +34,28 @@ app.controller('KnowledgeFileController', function (
             console.info('File added.', file);
         },
         'success': function (file, xhr) {
-            //console.log('File success to upload from dropzone', file, xhr);
-
-            var popType = 'TOASTER.SUCCESS';
-            var popTitle = $common.toaster.success_title;
-            var popBody = $common.toaster.success_add_body.format(file.name);
-
-            popType = $translate.instant(popType);
-            popTitle = $translate.instant(popTitle);
-            popBody = $translate.instant(popBody);
-
             toaster.pop({
-                type: popType,
-                title: popTitle,
-                body: popBody,
+                type: "success",
+                title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                body: $translate.instant("TOASTER.SUCCESS_ADD_BODY".format(file.name)),
                 showCloseButton: true,
             });
-
             $scope.getAllKnowledgeFiles();
         },
         'error': function (file, xhr) {
-            var popType = 'TOASTER.ERROR';
-            var popTitle = $common.toaster.error_title;
-            var popBody = $common.toaster.error_add_body.format(file.name);
-
-            popType = $translate.instant(popType);
-            popTitle = $translate.instant(popTitle);
-            popBody = $translate.instant(popBody);
-
             toaster.pop({
-                type: popType,
-                title: popTitle,
-                body: popBody,
+                type: "error",
+                title: $translate.instant("TOASTER.FAILURE_TITLE"),
+                body: $translate.instant("TOASTER.ERROR_ADD_BODY".format(file.name)),
                 showCloseButton: true,
             });
         }
     };
     $scope.restoreKnowledgeFile = function (knowledgefile) {
-        KnowledgeFileService.restoreKnowledgeFile(knowledgefile, function (error, data) {
-            if (!error) {
+        KnowledgeFileService.restoreKnowledgeFile(knowledgefile, function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
                 toaster.pop({
-                    type: $translate.instant('TOASTER.SUCCESS'),
+                    type: "success",
                     title: $translate.instant('TOASTER.SUCCESS_TITLE'),
                     body: $translate.instant('SETTING.RESTORE_SUCCESS'),
                     showCloseButton: true,
@@ -84,9 +63,9 @@ app.controller('KnowledgeFileController', function (
                 $scope.getAllKnowledgeFiles();
             } else {
                 toaster.pop({
-                    type: $translate.instant('TOASTER.ERROR'),
-                    title: $translate.instant(error.title),
-                    body: $translate.instant(error.description),
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
                     showCloseButton: true,
                 });
             }
@@ -95,76 +74,45 @@ app.controller('KnowledgeFileController', function (
 
     $scope.deleteKnowledgeFile = function (knowledgefile) {
         SweetAlert.swal({
-            title: $translate.instant($common.sweet.title),
-            text: $translate.instant($common.sweet.text),
+            title: $translate.instant("SWEET.TITLE"),
+            text: $translate.instant("SWEET.TEXT"),
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
-            confirmButtonText: $translate.instant($common.sweet.confirmButtonText),
-            cancelButtonText: $translate.instant($common.sweet.cancelButtonText),
+            confirmButtonText: $translate.instant("SWEET.CONFIRM_BUTTON_TEXT"),
+            cancelButtonText: $translate.instant("SWEET.CANCEL_BUTTON_TEXT"),
             closeOnConfirm: true,
             closeOnCancel: true
         },
-            function (isConfirm) {
-                if (isConfirm) {
-                    KnowledgeFileService.deleteKnowledgeFile(knowledgefile, function (error, status) {
-                        if (angular.isDefined(status) && status == 204) {
-                            var templateName = "SETTING.KNOWLEDGEFILE";
-                            templateName = $translate.instant(templateName);
-
-                            var popType = 'TOASTER.SUCCESS';
-                            var popTitle = $common.toaster.success_title;
-                            var popBody = $common.toaster.success_delete_body;
-
-                            popType = $translate.instant(popType);
-                            popTitle = $translate.instant(popTitle);
-                            popBody = $translate.instant(popBody, { template: templateName });
-
-                            toaster.pop({
-                                type: popType,
-                                title: popTitle,
-                                body: popBody,
-                                showCloseButton: true,
-                            });
-                            $scope.getAllKnowledgeFiles();
-                        } else if (angular.isDefined(status) && status == 400) {
-                            var popType = 'TOASTER.ERROR';
-                            var popTitle = error.title;
-                            var popBody = error.description;
-
-                            popType = $translate.instant(popType);
-                            popTitle = $translate.instant(popTitle);
-                            popBody = $translate.instant(popBody);
-
-
-                            toaster.pop({
-                                type: popType,
-                                title: popTitle,
-                                body: popBody,
-                                showCloseButton: true,
-                            });
-                        } else {
-                            var templateName = "SETTING.KNOWLEDGEFILE";
-                            templateName = $translate.instant(templateName);
-
-                            var popType = 'TOASTER.ERROR';
-                            var popTitle = $common.toaster.error_title;
-                            var popBody = $common.toaster.error_delete_body;
-
-                            popType = $translate.instant(popType);
-                            popTitle = $translate.instant(popTitle);
-                            popBody = $translate.instant(popBody, { template: templateName });
-
-                            toaster.pop({
-                                type: popType,
-                                title: popTitle,
-                                body: popBody,
-                                showCloseButton: true,
-                            });
-                        }
-                    });
-                }
-            });
+        function (isConfirm) {
+            if (isConfirm) {
+                KnowledgeFileService.deleteKnowledgeFile(knowledgefile, function (response) {
+                    if (angular.isDefined(response.status) && response.status === 204) {
+                        toaster.pop({
+                            type: "success",
+                            title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                            body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", { template: $translate.instant("SETTING.KNOWLEDGEFILE") }),
+                            showCloseButton: true,
+                        });
+                        $scope.getAllKnowledgeFiles();
+                    } else if (angular.isDefined(response.status) && response.status === 400) {
+                        toaster.pop({
+                            type: "error",
+                            title: $translate.instant(response.data.title),
+                            body: $translate.instant(response.data.description),
+                            showCloseButton: true,
+                        });
+                    } else {
+                        toaster.pop({
+                            type: "error",
+                            title: $translate.instant("TOASTER.FAILURE_TITLE"),
+                            body: $translate.instant("TOASTER.ERROR_DELETE_BODY", { template: $translate.instant("SETTING.KNOWLEDGEFILE") }),
+                            showCloseButton: true,
+                        });
+                    }
+                });
+            }
+        });
     };
     $scope.getAllKnowledgeFiles();
 

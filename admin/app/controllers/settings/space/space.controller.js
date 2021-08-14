@@ -1,15 +1,15 @@
 'use strict';
 
-app.controller('SpaceController', function ($scope, $common, $uibModal, SpaceService, CostCenterService, ContactService, toaster, $translate, SweetAlert) {
+app.controller('SpaceController', function ($scope, $uibModal, SpaceService, CostCenterService, ContactService, toaster, $translate, SweetAlert) {
 	$scope.spaces = [];
 	$scope.currentSpaceID = 1;
 	$scope.currentSpace = {};
 	$scope.currentSpaceChildren = [];
 
 	$scope.getAllCostCenters = function () {
-		CostCenterService.getAllCostCenters(function (error, data) {
-			if (!error) {
-				$scope.costcenters = data;
+		CostCenterService.getAllCostCenters(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.costcenters = response.data;
 			} else {
 				$scope.costcenters = [];
 			}
@@ -17,9 +17,9 @@ app.controller('SpaceController', function ($scope, $common, $uibModal, SpaceSer
 	};
 
 	$scope.getAllContacts = function () {
-		ContactService.getAllContacts(function (error, data) {
-			if (!error) {
-				$scope.contacts = data;
+		ContactService.getAllContacts(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.contacts = response.data;
 			} else {
 				$scope.contacts = [];
 			}
@@ -27,9 +27,9 @@ app.controller('SpaceController', function ($scope, $common, $uibModal, SpaceSer
 	};
 
 	$scope.getAllSpaces = function () {
-		SpaceService.getAllSpaces(function (error, data) {
-			if (!error) {
-				$scope.spaces = data;
+		SpaceService.getAllSpaces(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.spaces = response.data;
 			} else {
 				$scope.spaces = [];
 			}
@@ -63,9 +63,9 @@ app.controller('SpaceController', function ($scope, $common, $uibModal, SpaceSer
 	};
 
 	$scope.refreshSpaceTree = function () {
-		SpaceService.getAllSpaces(function (error, data) {
-			if (!error) {
-				$scope.spaces = data;
+		SpaceService.getAllSpaces(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.spaces = response.data;
 			} else {
 				$scope.spaces = [];
 			}
@@ -95,10 +95,10 @@ app.controller('SpaceController', function ($scope, $common, $uibModal, SpaceSer
 	};
 
 	$scope.getSpaceChildren = function (spaceid) {
-		SpaceService.getSpaceChildren(spaceid, function (error, data) {
-			if (!error) {
-				$scope.currentSpace = data["current"];
-				$scope.currentSpaceChildren = data["children"];
+		SpaceService.getSpaceChildren(spaceid, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.currentSpace = response.data["current"];
+				$scope.currentSpaceChildren = response.data["children"];
 			} else {
 				$scope.currentSpace = {};
 				$scope.currentSpaceChildren = [];
@@ -107,9 +107,9 @@ app.controller('SpaceController', function ($scope, $common, $uibModal, SpaceSer
 	};
 
 	$scope.getAllTimezones = function () {
-		SpaceService.getAllTimezones(function (error, data) {
-			if (!error) {
-				$scope.timezones = data;
+		SpaceService.getAllTimezones(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.timezones = response.data;
 			} else {
 				$scope.timezones = [];
 			}
@@ -139,42 +139,20 @@ app.controller('SpaceController', function ($scope, $common, $uibModal, SpaceSer
 			if (space.contact != null) {
 				space.contact_id = space.contact.id;
 			}
-			SpaceService.addSpace(space, function (error, status) {
-				if (angular.isDefined(status) && status == 201) {
-					var templateName = "COMMON.SPACE";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.SUCCESS';
-					var popTitle = $common.toaster.success_title;
-					var popBody = $common.toaster.success_add_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody, { template: templateName });
-
+			SpaceService.addSpace(space, function (response) {
+				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "success",
+						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", { template: $translate.instant("COMMON.SPACE") }),
 						showCloseButton: true,
 					});
 					$scope.$emit('handleEmitSpaceChanged');
 				} else {
-					var templateName = "COMMON.SPACE";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.ERROR';
-					var popTitle = $common.toaster.error_title;
-					var popBody = $common.toaster.error_add_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody, { template: templateName });
-
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "error",
+						title: $translate.instant("TOASTER.FAILURE_TITLE"),
+						body: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("COMMON.SPACE") }),
 						showCloseButton: true,
 					});
 				}
@@ -214,42 +192,20 @@ app.controller('SpaceController', function ($scope, $common, $uibModal, SpaceSer
 			}
 			 
 			modifiedSpace.cost_center_id = modifiedSpace.cost_center.id;
-			SpaceService.editSpace(modifiedSpace, function (error, status) {
-				if (angular.isDefined(status) && status == 200) {
-					var templateName = "COMMON.SPACE";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.SUCCESS';
-					var popTitle = $common.toaster.success_title;
-					var popBody = $common.toaster.success_update_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody, { template: templateName });
-
+			SpaceService.editSpace(modifiedSpace, function (response) {
+				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "success",
+						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", { template: $translate.instant("COMMON.SPACE") }),
 						showCloseButton: true,
 					});
 					$scope.$emit('handleEmitSpaceChanged');
 				} else {
-					var templateName = "COMMON.SPACE";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.ERROR';
-					var popTitle = $common.toaster.error_title;
-					var popBody = $common.toaster.error_update_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody, { template: templateName });
-
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "error",
+						title: $translate.instant("TOASTER.FAILURE_TITLE"),
+						body: $translate.instant("TOASTER.ERROR_UPDATE_BODY", { template: $translate.instant("COMMON.SPACE") }),
 						showCloseButton: true,
 					});
 				}
@@ -261,69 +217,39 @@ app.controller('SpaceController', function ($scope, $common, $uibModal, SpaceSer
 
 	$scope.deleteSpace = function (space) {
 		SweetAlert.swal({
-			title: $translate.instant($common.sweet.title),
-			text: $translate.instant($common.sweet.text),
+			title: $translate.instant("SWEET.TITLE"),
+			text: $translate.instant("SWEET.TEXT"),
 			type: "warning",
 			showCancelButton: true,
 			confirmButtonColor: "#DD6B55",
-			confirmButtonText: $translate.instant($common.sweet.confirmButtonText),
-			cancelButtonText: $translate.instant($common.sweet.cancelButtonText),
+			confirmButtonText: $translate.instant("SWEET.CONFIRM_BUTTON_TEXT"),
+			cancelButtonText: $translate.instant("SWEET.CANCEL_BUTTON_TEXT"),
 			closeOnConfirm: true,
 			closeOnCancel: true
 		},
 			function (isConfirm) {
 				if (isConfirm) {
-					SpaceService.deleteSpace(space, function (error, status) {
-						if (angular.isDefined(status) && status == 204) {
-							var templateName = "COMMON.SPACE";
-							templateName = $translate.instant(templateName);
-
-							var popType = 'TOASTER.SUCCESS';
-							var popTitle = $common.toaster.success_title;
-							var popBody = $common.toaster.success_delete_body;
-
-							popType = $translate.instant(popType);
-							popTitle = $translate.instant(popTitle);
-							popBody = $translate.instant(popBody, { template: templateName });
-
+					SpaceService.deleteSpace(space, function (response) {
+						if (angular.isDefined(response.status) && response.status === 204) {
 							toaster.pop({
-								type: popType,
-								title: popTitle,
-								body: popBody,
+								type: "success",
+								title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+								body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", { template: $translate.instant("COMMON.SPACE") }),
 								showCloseButton: true,
 							});
 							$scope.$emit('handleEmitSpaceChanged');
-						} else if (angular.isDefined(status) && status == 400) {
-							var popType = 'TOASTER.ERROR';
-							var popTitle = error.title;
-							var popBody = error.description;
-
-							popType = $translate.instant(popType);
-							popTitle = $translate.instant(popTitle);
-							popBody = $translate.instant(popBody);
-
+						} else if (angular.isDefined(response.status) && response.status === 400) {
 							toaster.pop({
-								type: popType,
-								title: popTitle,
-								body: popBody,
+								type: "success",
+								title: $translate.instant(response.data.title),
+								body: $translate.instant(response.data.description),
 								showCloseButton: true,
 							});
 						} else {
-							var templateName = "COMMON.SPACE";
-							templateName = $translate.instant(templateName);
-
-							var popType = 'TOASTER.ERROR';
-							var popTitle = $common.toaster.error_title;
-							var popBody = $common.toaster.error_delete_body;
-
-							popType = $translate.instant(popType);
-							popTitle = $translate.instant(popTitle);
-							popBody = $translate.instant(popBody, { template: templateName });
-
 							toaster.pop({
-								type: popType,
-								title: popTitle,
-								body: popBody,
+								type: "error",
+								title: $translate.instant("TOASTER.FAILURE_TITLE"),
+								body: $translate.instant("TOASTER.ERROR_DELETE_BODY", { template: $translate.instant("COMMON.SPACE") }),
 								showCloseButton: true,
 							});
 						}

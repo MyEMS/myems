@@ -6,22 +6,20 @@ app.factory('EmailMessageAnalysisService', function($http) {
             var base="emailmessages";
             var url=base+"/from/"+query.datestart+"/to/"+query.dateend;
             $http.get(getAPI()+url)
-                .success(function (response, status, headers, config) {
-                    callback(null, response);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
 
         deleteEmailMessage: function(emailmessage, callback) {
             $http.delete(getAPI()+'emailmessages/'+emailmessage.id)
-                .success(function (response, status, headers, config) {
-                    callback(null, status);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         }
 
     };

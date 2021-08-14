@@ -3,48 +3,43 @@ app.factory('StoreService', function($http) {
     return {
         getAllStores:function(callback){
             $http.get(getAPI()+'stores')
-                .success(function (response, status, headers, config) {
-                    callback(null, response);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
         searchStores: function(query, callback) {
             $http.get(getAPI()+'stores', { params: { q: query } })
-                .success(function (response, status, headers, config) {
-                    callback(null, response);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
         addStore: function(store, callback) {
             $http.post(getAPI()+'stores',{data:store})
-                .success(function (response, status, headers, config) {
-                    callback(null, status);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
         editStore: function(store, callback) {
             $http.put(getAPI()+'stores/'+store.id,{data:store})
-                .success(function (response, status, headers, config) {
-                    callback(null, status);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
         deleteStore: function(store, callback) {
             $http.delete(getAPI()+'stores/'+store.id)
-                .success(function (response, status, headers, config) {
-                    callback(null, status);
-                })
-                .error(function (e,status) {
-                    callback(e,status);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
     };
 });

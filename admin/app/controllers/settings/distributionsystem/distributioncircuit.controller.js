@@ -1,27 +1,27 @@
 'use strict';
 
-app.controller('DistributionCircuitController', function($scope,$common, $translate, $uibModal, DistributionSystemService, DistributionCircuitService, toaster,SweetAlert) {
+app.controller('DistributionCircuitController', function($scope, $translate, $uibModal, DistributionSystemService, DistributionCircuitService, toaster,SweetAlert) {
       $scope.distributionsystems = [];
       $scope.distributioncircuits = [];
       $scope.currentDistributionSystem = null;
 
       $scope.getAllDistributionSystems = function() {
-  		DistributionSystemService.getAllDistributionSystems(function(error, data) {
-  			if (!error) {
-  				$scope.distributionsystems = data;
-  				} else {
+  		DistributionSystemService.getAllDistributionSystems(function (response) {
+  			if (angular.isDefined(response.status) && response.status === 200) {
+  				$scope.distributionsystems = response.data;
+  			} else {
   				$scope.distributionsystems = [];
-  			 }
+  			}
   		});
   	};
 
   	$scope.getDistributionCircuitsByDistributionSystemID = function(id) {
 
-  		DistributionCircuitService.getDistributionCircuitsByDistributionSystemID(id, function(error, data) {
-				if (!error) {
-					$scope.distributioncircuits=data;
-				} else {
-          $scope.distributioncircuits=[];
+  		DistributionCircuitService.getDistributionCircuitsByDistributionSystemID(id, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.distributioncircuits = response.data;
+			} else {
+          	$scope.distributioncircuits=[];
         }
 			});
   	};
@@ -48,43 +48,21 @@ app.controller('DistributionCircuitController', function($scope,$common, $transl
   		});
   		modalInstance.result.then(function(distributioncircuit) {
         distributioncircuit.distribution_system_id = $scope.currentDistributionSystem.id;
-  			DistributionCircuitService.addDistributionCircuit(distributioncircuit, function(error, status) {
-  				if (angular.isDefined(status) && status == 201) {
-  					var templateName = "DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT";
-  					templateName = $translate.instant(templateName);
-
-  					var popType = 'TOASTER.SUCCESS';
-  					var popTitle = $common.toaster.success_title;
-  					var popBody = $common.toaster.success_add_body;
-
-  					popType = $translate.instant(popType);
-  					popTitle = $translate.instant(popTitle);
-  					popBody = $translate.instant(popBody,{template: templateName});
-
+  			DistributionCircuitService.addDistributionCircuit(distributioncircuit, function (response) {
+  				if (angular.isDefined(response.status) && response.status === 201) {
   					toaster.pop({
-  						type: popType,
-  						title: popTitle,
-  						body: popBody,
+  						type: "success",
+  						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+  						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT")}),
   						showCloseButton: true,
   					});
   					$scope.getDistributionCircuitsByDistributionSystemID($scope.currentDistributionSystem.id);
-            $scope.$emit('handleEmitDistributionCircuitChanged');
+            		$scope.$emit('handleEmitDistributionCircuitChanged');
   				} else {
-  					var templateName = "DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT";
-  					templateName = $translate.instant(templateName);
-
-  					var popType = 'TOASTER.ERROR';
-  					var popTitle = $common.toaster.error_title;
-  					var popBody = $common.toaster.error_add_body;
-
-  					popType = $translate.instant(popType);
-  					popTitle = $translate.instant(popTitle);
-  					popBody = $translate.instant(popBody,{template: templateName});
-
   					toaster.pop({
-  						type: popType,
-  						title: popTitle,
-  						body: popBody,
+  						type: "error",
+  						title: $translate.instant("TOASTER.FAILURE_TITLE"),
+  						body: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT")}),
   						showCloseButton: true,
   					});
   				}
@@ -110,43 +88,21 @@ app.controller('DistributionCircuitController', function($scope,$common, $transl
 
   		modalInstance.result.then(function(modifiedDistributionCircuit) {
         modifiedDistributionCircuit.distribution_system_id = $scope.currentDistributionSystem.id;
-  			DistributionCircuitService.editDistributionCircuit(modifiedDistributionCircuit, function(error, status) {
-  				if (angular.isDefined(status) && status == 200) {
-  					var templateName = "DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT";
-  					templateName = $translate.instant(templateName);
-
-  					var popType = 'TOASTER.SUCCESS';
-  					var popTitle = $common.toaster.success_title;
-  					var popBody = $common.toaster.success_update_body;
-
-  					popType = $translate.instant(popType);
-  					popTitle = $translate.instant(popTitle);
-  					popBody = $translate.instant(popBody,{template: templateName});
-
+  			DistributionCircuitService.editDistributionCircuit(modifiedDistributionCircuit, function (response) {
+  				if (angular.isDefined(response.status) && response.status === 200) {
   					toaster.pop({
-  						type: popType,
-  						title: popTitle,
-  						body: popBody,
+  						type: "success",
+  						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+  						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", {template: $translate.instant("DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT")}),
   						showCloseButton: true,
   					});
   					$scope.getDistributionCircuitsByDistributionSystemID($scope.currentDistributionSystem.id);
-            $scope.$emit('handleEmitDistributionCircuitChanged');
+            		$scope.$emit('handleEmitDistributionCircuitChanged');
   				} else {
-  					var templateName = "DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT";
-  					templateName = $translate.instant(templateName);
-
-  					var popType = 'TOASTER.ERROR';
-  					var popTitle = $common.toaster.error_title;
-  					var popBody = $common.toaster.error_update_body;
-
-  					popType = $translate.instant(popType);
-  					popTitle = $translate.instant(popTitle);
-  					popBody = $translate.instant(popBody,{template: templateName});
-
   					toaster.pop({
-  						type: popType,
-  						title: popTitle,
-  						body: popBody,
+  						type: "error",
+  						title: $translate.instant("TOASTER.FAILURE_TITLE"),
+  						body: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT")}),
   						showCloseButton: true,
   					});
   				}
@@ -158,73 +114,43 @@ app.controller('DistributionCircuitController', function($scope,$common, $transl
 
   	$scope.deleteDistributionCircuit = function(distributioncircuit) {
   		SweetAlert.swal({
-  				title: $translate.instant($common.sweet.title),
-  				text: $translate.instant($common.sweet.text),
+  				title: $translate.instant("SWEET.TITLE"),
+  				text: $translate.instant("SWEET.TEXT"),
   				type: "warning",
   				showCancelButton: true,
   				confirmButtonColor: "#DD6B55",
-  				confirmButtonText: $translate.instant($common.sweet.confirmButtonText),
-  				cancelButtonText: $translate.instant($common.sweet.cancelButtonText),
+  				confirmButtonText: $translate.instant("SWEET.CONFIRM_BUTTON_TEXT"),
+  				cancelButtonText: $translate.instant("SWEET.CANCEL_BUTTON_TEXT"),
   				closeOnConfirm: true,
   				closeOnCancel: true
   			},
   			function(isConfirm) {
   				if (isConfirm) {
-  					DistributionCircuitService.deleteDistributionCircuit(distributioncircuit.id, function(error, status) {
-  						if (angular.isDefined(status) && status == 204) {
-  							var templateName = "DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT";
-                templateName = $translate.instant(templateName);
-
-                var popType = 'TOASTER.SUCCESS';
-                var popTitle = $common.toaster.success_title;
-                var popBody = $common.toaster.success_delete_body;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody, {template: templateName});
-
-                toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
-                    showCloseButton: true,
-                });
-  							$scope.getDistributionCircuitsByDistributionSystemID($scope.currentDistributionSystem.id);
-                $scope.$emit('handleEmitDistributionCircuitChanged');
-  						} else if (angular.isDefined(status) && status == 400) {
-  							var popType = 'TOASTER.ERROR';
-                var popTitle = error.title;
-                var popBody = error.description;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
-                toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
-                    showCloseButton: true,
-                });
+  					DistributionCircuitService.deleteDistributionCircuit(distributioncircuit.id, function (response) {
+  						if (angular.isDefined(response.status) && response.status === 204) {
+							toaster.pop({
+								type: "success",
+								title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+								body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", {template: $translate.instant("DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT")}),
+								showCloseButton: true,
+							});
+							$scope.getDistributionCircuitsByDistributionSystemID($scope.currentDistributionSystem.id);
+							$scope.$emit('handleEmitDistributionCircuitChanged');
+  						} else if (angular.isDefined(response.status) && response.status === 400) {
+							toaster.pop({
+								type: "error",
+								title: $translate.instant(response.data.title),
+								body: $translate.instant(response.data.description),
+								showCloseButton: true,
+							});
   						} else {
-  							var templateName = "DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT";
-                templateName = $translate.instant(templateName);
-
-                var popType = 'TOASTER.ERROR';
-                var popTitle = $common.toaster.error_title;
-                var popBody = $common.toaster.error_delete_body;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody, {template: templateName});
-
-                toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
-                    showCloseButton: true,
-                });
-  				   }
+							toaster.pop({
+								type: "error",
+								title: $translate.instant("TOASTER.FAILURE_TITLE"),
+								body: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT")}),
+								showCloseButton: true,
+							});
+  				   		}
   					});
   				}
   			});
@@ -244,7 +170,6 @@ app.controller('DistributionCircuitController', function($scope,$common, $transl
   	$scope.operation = "DISTRIBUTION_SYSTEM.ADD_DISTRIBUTION_CIRCUIT";
 
   	$scope.ok = function() {
-
   		$uibModalInstance.close($scope.distributioncircuit);
   	};
 

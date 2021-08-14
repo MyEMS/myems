@@ -3,24 +3,22 @@ app.factory('LoginService', function($http) {
     return {  
         
         login: function(user, callback) {  
-            $http.put(getAPI()+'users/login',{data:user})  
-                .success(function (response, status, headers, config) {  
-                    callback(response,null,status,headers);  
-                })  
-                .error(function (e,status) {  
-                    callback(e,status);  
-                });  
+            $http.put(getAPI()+'users/login',{data:user}) 
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
         logout: function(data, headers, callback) {  
             console.log(data);
             console.log(headers);
             $http.put(getAPI()+'users/logout', {data}, {headers})
-                .success(function (response, status, headers, config) {  
-                    callback(null,status,headers);  
-                })  
-                .error(function (e) {  
-                    callback(e);  
-                });  
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
         
     };

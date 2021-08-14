@@ -6,43 +6,39 @@ app.factory('WebMessageAnalysisService', function($http) {
             var base="webmessages";
             var url=base+"/from/"+query.datestart+"/to/"+query.dateend;
             $http.get(getAPI()+url)
-                .success(function (response, status, headers, config) {
-                    callback(null, response);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
 
         getStatusNewResult: function(callback) {
             var base="webmessagesnew";
             $http.get(getAPI()+base)
-                .success(function (response, status, headers, config) {
-                    callback(null, response);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
 
         editWebMessage: function(webmessage, callback) {
             $http.put(getAPI()+'webmessages/'+webmessage.id, {data:webmessage})
-                .success(function (response, status, headers, config) {
-                    callback(null, status);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
 
         deleteWebMessage: function(webmessage, callback) {
             $http.delete(getAPI()+'webmessages/'+webmessage.id)
-                .success(function (response, status, headers, config) {
-                    callback(null, status);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         }
 
     };

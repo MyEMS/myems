@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('SpacePointController', function ($scope, $common, $uibModal, $timeout, $translate, SpaceService, DataSourceService, PointService, SpacePointService,  toaster, SweetAlert) {
+app.controller('SpacePointController', function ($scope, $translate, SpaceService, DataSourceService, PointService, SpacePointService,  toaster, SweetAlert) {
     $scope.spaces = [];
     $scope.currentSpaceID = 1;
     $scope.spacepoints = [];
@@ -8,9 +8,9 @@ app.controller('SpacePointController', function ($scope, $common, $uibModal, $ti
     $scope.points = [];
 
     $scope.getAllSpaces = function() {
-      SpaceService.getAllSpaces(function(error, data) {
-        if (!error) {
-          $scope.spaces = data;
+      SpaceService.getAllSpaces(function (response) {
+        if (angular.isDefined(response.status) && response.status === 200) {
+          $scope.spaces = response.data;
         } else {
           $scope.spaces = [];
         }
@@ -42,9 +42,9 @@ app.controller('SpacePointController', function ($scope, $common, $uibModal, $ti
     };
 
     $scope.getAllDataSources = function () {
-        DataSourceService.getAllDataSources(function (error, data) {
-            if (!error) {
-                $scope.datasources = data;
+        DataSourceService.getAllDataSources(function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.datasources = response.data;
                 if ($scope.datasources.length > 0) {
                     $scope.currentDataSource = $scope.datasources[0].id;
                     $scope.getPointsByDataSourceID($scope.currentDataSource);
@@ -56,9 +56,9 @@ app.controller('SpacePointController', function ($scope, $common, $uibModal, $ti
     };
 
     $scope.getPointsByDataSourceID = function (id) {
-        PointService.getPointsByDataSourceID(id, function (error, data) {
-            if (!error) {
-                $scope.points = data;
+        PointService.getPointsByDataSourceID(id, function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.points = response.data;
             } else {
                 $scope.points = [];
             }
@@ -66,9 +66,9 @@ app.controller('SpacePointController', function ($scope, $common, $uibModal, $ti
     };
 
     $scope.getPointsBySpaceID = function (id) {
-        SpacePointService.getPointsBySpaceID(id, function (error, data) {
-            if (!error) {
-                $scope.spacepoints = data;
+        SpacePointService.getPointsBySpaceID(id, function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.spacepoints = response.data;
             } else {
                 $scope.spacepoints = [];
             }
@@ -84,38 +84,20 @@ app.controller('SpacePointController', function ($scope, $common, $uibModal, $ti
     $scope.pairPoint = function (dragEl, dropEl) {
         var pointid = angular.element('#' + dragEl).scope().point.id;
         var spaceid = $scope.currentSpaceID;
-        SpacePointService.addPair(spaceid, pointid, function (error, status) {
-            if (angular.isDefined(status) && status == 201) {
-
-                var popType = 'TOASTER.SUCCESS';
-                var popTitle = $common.toaster.success_title;
-                var popBody = 'TOASTER.BIND_POINT_SUCCESS';
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
+        SpacePointService.addPair(spaceid, pointid, function (response) {
+            if (angular.isDefined(response.status) && response.status === 201) {
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "success",
+                    title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                    body: $translate.instant("TOASTER.BIND_POINT_SUCCESS"),
                     showCloseButton: true,
                 });
-
                 $scope.getPointsBySpaceID($scope.currentSpaceID);
             } else {
-                var popType = 'TOASTER.ERROR';
-                var popTitle = error.title;
-                var popBody = error.description;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
                     showCloseButton: true,
                 });
             }
@@ -128,38 +110,20 @@ app.controller('SpacePointController', function ($scope, $common, $uibModal, $ti
         }
         var spacepointid = angular.element('#' + dragEl).scope().spacepoint.id;
         var spaceid = $scope.currentSpaceID;
-        SpacePointService.deletePair(spaceid, spacepointid, function (error, status) {
-            if (angular.isDefined(status) && status == 204) {
-
-                var popType = 'TOASTER.SUCCESS';
-                var popTitle = $common.toaster.success_title;
-                var popBody = 'TOASTER.UNBIND_POINT_SUCCESS';
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
+        SpacePointService.deletePair(spaceid, spacepointid, function (response) {
+            if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "success",
+                    title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                    body: $translate.instant("TOASTER.UNBIND_POINT_SUCCESS"),
                     showCloseButton: true,
                 });
-
                 $scope.getPointsBySpaceID($scope.currentSpaceID);
             } else {
-                var popType = 'TOASTER.ERROR';
-                var popTitle = error.title;
-                var popBody = error.description;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
                     showCloseButton: true,
                 });
             }
@@ -170,9 +134,9 @@ app.controller('SpacePointController', function ($scope, $common, $uibModal, $ti
     $scope.getAllSpaces();
 
     $scope.refreshSpaceTree = function() {
-      SpaceService.getAllSpaces(function(error, data) {
-        if (!error) {
-          $scope.spaces = data;
+      SpaceService.getAllSpaces(function (response) {
+        if (angular.isDefined(response.status) && response.status === 200) {
+          $scope.spaces = response.data;
         } else {
           $scope.spaces = [];
         }

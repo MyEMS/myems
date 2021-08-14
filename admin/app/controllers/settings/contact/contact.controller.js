@@ -1,12 +1,12 @@
 'use strict';
 
-app.controller('ContactController', function($scope,$common, $translate,$uibModal, ContactService,toaster,SweetAlert) {
+app.controller('ContactController', function($scope, $translate,$uibModal, ContactService,toaster,SweetAlert) {
 
 
 	$scope.getAllContacts = function() {
-		ContactService.getAllContacts(function(error, data) {
-			if (!error) {
-				$scope.contacts = data;
+		ContactService.getAllContacts(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.contacts = response.data;
 			} else {
 				$scope.contacts = [];
 			}
@@ -28,45 +28,20 @@ app.controller('ContactController', function($scope,$common, $translate,$uibModa
 		    }
 		});
 		modalInstance.result.then(function(contact) {
-			ContactService.addContact(contact, function(error, status) {
-				if (angular.isDefined(status) && status == 201) {
-
-					var templateName = "SETTING.CONTACT";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.SUCCESS';
-					var popTitle = $common.toaster.success_title;
-					var popBody = $common.toaster.success_add_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody,{template: templateName});
-
+			ContactService.addContact(contact, function(response) {
+				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "success",
+						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("SETTING.CONTACT")}),
 						showCloseButton: true,
 					});
-
-
 					$scope.getAllContacts();
 				} else {
-					var templateName = "SETTING.CONTACT";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.ERROR';
-					var popTitle = $common.toaster.error_title;
-					var popBody = $common.toaster.error_add_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody,{template: templateName});
-
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "error",
+						title: $translate.instant("TOASTER.FAILURE_TITLE"),
+						body: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("SETTING.CONTACT")}),
 						showCloseButton: true,
 					});
 				}
@@ -92,44 +67,20 @@ app.controller('ContactController', function($scope,$common, $translate,$uibModa
 		});
 
 		modalInstance.result.then(function (modifiedContact) {
-	        ContactService.editContact(modifiedContact,function(error,status){
-	            if(angular.isDefined(status) && status==200){
-	            	var templateName = "SETTING.CONTACT";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.SUCCESS';
-					var popTitle = $common.toaster.success_title;
-					var popBody = $common.toaster.success_update_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody,{template: templateName});
-
+	        ContactService.editContact(modifiedContact, function (response) {
+	            if(angular.isDefined(response.status) && response.status === 200200){
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "success",
+						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", {template: $translate.instant("SETTING.CONTACT")}),
 						showCloseButton: true,
 					});
-
-
 	            $scope.getAllContacts();
 	            }else{
-	                var templateName = "SETTING.CONTACT";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.ERROR';
-					var popTitle = $common.toaster.error_title;
-					var popBody = $common.toaster.error_update_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody,{template: templateName});
-
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "error",
+						title: $translate.instant("TOASTER.FAILURE_TITLE"),
+						body: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("SETTING.CONTACT")}),
 						showCloseButton: true,
 					});
 	            }
@@ -141,53 +92,31 @@ app.controller('ContactController', function($scope,$common, $translate,$uibModa
 
 	$scope.deleteContact=function(contact){
 		SweetAlert.swal({
-		        title: $translate.instant($common.sweet.title),
-		        text: $translate.instant($common.sweet.text),
+		        title: $translate.instant("SWEET.TITLE"),
+		        text: $translate.instant("SWEET.TEXT"),
 		        type: "warning",
 		        showCancelButton: true,
 		        confirmButtonColor: "#DD6B55",
-		        confirmButtonText: $translate.instant($common.sweet.confirmButtonText),
-		        cancelButtonText: $translate.instant($common.sweet.cancelButtonText),
+		        confirmButtonText: $translate.instant("SWEET.CONFIRM_BUTTON_TEXT"),
+		        cancelButtonText: $translate.instant("SWEET.CANCEL_BUTTON_TEXT"),
 		        closeOnConfirm: true,
 		        closeOnCancel: true },
 		    function (isConfirm) {
 		        if (isConfirm) {
-		            ContactService.deleteContact(contact, function(error, status) {
-		            	if (angular.isDefined(status) && status == 204) {
-		            		var templateName = "SETTING.CONTACT";
-                            templateName = $translate.instant(templateName);
-
-                            var popType = 'TOASTER.SUCCESS';
-                            var popTitle = $common.toaster.success_title;
-                            var popBody = $common.toaster.success_delete_body;
-
-                            popType = $translate.instant(popType);
-                            popTitle = $translate.instant(popTitle);
-                            popBody = $translate.instant(popBody, {template: templateName});
-
+		            ContactService.deleteContact(contact, function (response) {
+		            	if (angular.isDefined(response.status) && response.status === 204) {
                             toaster.pop({
-                                type: popType,
-                                title: popTitle,
-                                body: popBody,
+                                type: "success",
+                                title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                                body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", {template: $translate.instant("SETTING.CONTACT")}),
                                 showCloseButton: true,
                             });
 		            		$scope.getAllContacts();
 		            	} else {
-		            		var templateName = "SETTING.CONTACT";
-                            templateName = $translate.instant(templateName);
-
-                            var popType = 'TOASTER.ERROR';
-                            var popTitle = $common.toaster.error_title;
-                            var popBody = $common.toaster.error_delete_body;
-
-                            popType = $translate.instant(popType);
-                            popTitle = $translate.instant(popTitle);
-                            popBody = $translate.instant(popBody, {template: templateName});
-
                             toaster.pop({
-                                type: popType,
-                                title: popTitle,
-                                body: popBody,
+                                type: "error",
+                                title: $translate.instant("TOASTER.FAILURE_TITLE"),
+                                body: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("SETTING.CONTACT")}),
                                 showCloseButton: true,
                             });
 		            	}

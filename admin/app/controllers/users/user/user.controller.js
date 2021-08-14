@@ -2,7 +2,6 @@
 
 app.controller('UserController', function ($scope, 
 	$window,
-	$common, 
 	$uibModal, 
 	UserService, 
 	PrivilegeService, 
@@ -12,20 +11,19 @@ app.controller('UserController', function ($scope,
 
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("currentUser"));
 	$scope.getAllUsers = function () {
-		UserService.getAllUsers(function (error, data) {
-			if (!error) {
-				$scope.users = data;
+		UserService.getAllUsers(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.users = response.data;
 			} else {
 				$scope.users = [];
 			}
 		});
-
 	};
 
 	$scope.getAllPrivileges = function () {
-		PrivilegeService.getAllPrivileges(function (error, data) {
-			if (!error) {
-				$scope.privileges = data;
+		PrivilegeService.getAllPrivileges(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.privileges = response.data;
 			} else {
 				$scope.privileges = [];
 			}
@@ -47,42 +45,20 @@ app.controller('UserController', function ($scope,
 			}
 		});
 		modalInstance.result.then(function (user) {
-			UserService.addUser(user, function (error, status) {
-				if (angular.isDefined(status) && status == 201) {
-					var templateName = "SETTING.USER";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.SUCCESS';
-					var popTitle = $common.toaster.success_title;
-					var popBody = $common.toaster.success_add_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody, { template: templateName });
-
+			UserService.addUser(user, function (response) {
+				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "success",
+						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", { template: $translate.instant("SETTING.USER") }),
 						showCloseButton: true,
 					});
 					$scope.getAllUsers();
 				} else {
-					var templateName = "SETTING.USER";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.ERROR';
-					var popTitle = $common.toaster.error_title;
-					var popBody = $common.toaster.error_add_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody, { template: templateName });
-
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "error",
+						title: $translate.instant("TOASTER.FAILURE_TITLE"),
+						body: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("SETTING.USER") }),
 						showCloseButton: true,
 					});
 				}
@@ -108,42 +84,20 @@ app.controller('UserController', function ($scope,
 		});
 
 		modalInstance.result.then(function (modifiedUser) {
-			UserService.editUser(modifiedUser, function (error, status) {
-				if (angular.isDefined(status) && status == 200) {
-					var templateName = "SETTING.USER";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.SUCCESS';
-					var popTitle = $common.toaster.success_title;
-					var popBody = $common.toaster.success_update_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody, { template: templateName });
-
+			UserService.editUser(modifiedUser, function (response) {
+				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "success",
+						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", { template: $translate.instant("SETTING.USER") }),
 						showCloseButton: true,
 					});
 					$scope.getAllUsers();
 				} else {
-					var templateName = "SETTING.USER";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.ERROR';
-					var popTitle = $common.toaster.error_title;
-					var popBody = $common.toaster.error_update_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody, { template: templateName });
-
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "error",
+						title: $translate.instant("TOASTER.FAILURE_TITLE"),
+						body: $translate.instant("TOASTER.ERROR_UPDATE_BODY", { template: $translate.instant("SETTING.USER") }),
 						showCloseButton: true,
 					});
 				}
@@ -174,42 +128,20 @@ app.controller('UserController', function ($scope,
 
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 
-			UserService.resetPassword(data, headers, function (error, status) {
-				if (angular.isDefined(status) && status == 200) {
-					var templateName = "SETTING.USER";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.SUCCESS';
-					var popTitle = $common.toaster.success_title;
-					var popBody = $common.toaster.success_update_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody, { template: templateName });
-
+			UserService.resetPassword(data, headers, function (response) {
+				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "success",
+						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", { template: $translate.instant("SETTING.USER") }),
 						showCloseButton: true,
 					});
 					$scope.getAllUsers();
 				} else {
-					var templateName = "SETTING.USER";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.ERROR';
-					var popTitle = $common.toaster.error_title;
-					var popBody = $common.toaster.error_update_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody, { template: templateName });
-
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "error",
+						title: $translate.instant("TOASTER.FAILURE_TITLE"),
+						body: $translate.instant("TOASTER.ERROR_UPDATE_BODY", { template: $translate.instant("SETTING.USER") }),
 						showCloseButton: true,
 					});
 				}
@@ -221,54 +153,32 @@ app.controller('UserController', function ($scope,
 
 	$scope.deleteUser = function (user) {
 		SweetAlert.swal({
-			title: $translate.instant($common.sweet.title),
-			text: $translate.instant($common.sweet.text),
+			title: $translate.instant("SWEET.TITLE"),
+			text: $translate.instant("SWEET.TEXT"),
 			type: "warning",
 			showCancelButton: true,
 			confirmButtonColor: "#DD6B55",
-			confirmButtonText: $translate.instant($common.sweet.confirmButtonText),
-			cancelButtonText: $translate.instant($common.sweet.cancelButtonText),
+			confirmButtonText: $translate.instant("SWEET.CONFIRM_BUTTON_TEXT"),
+			cancelButtonText: $translate.instant("SWEET.CANCEL_BUTTON_TEXT"),
 			closeOnConfirm: true,
 			closeOnCancel: true
 		},
 			function (isConfirm) {
 				if (isConfirm) {
-					UserService.deleteUser(user, function (error, status) {
-						if (angular.isDefined(status) && status == 204) {
-							var templateName = "SETTING.USER";
-							templateName = $translate.instant(templateName);
-
-							var popType = 'TOASTER.SUCCESS';
-							var popTitle = $common.toaster.success_title;
-							var popBody = $common.toaster.success_delete_body;
-
-							popType = $translate.instant(popType);
-							popTitle = $translate.instant(popTitle);
-							popBody = $translate.instant(popBody, { template: templateName });
-
+					UserService.deleteUser(user, function (response) {
+						if (angular.isDefined(response.status) && response.status === 204) {
 							toaster.pop({
-								type: popType,
-								title: popTitle,
-								body: popBody,
+								type: "success",
+								title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+								body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", { template: $translate.instant("SETTING.USER") }),
 								showCloseButton: true,
 							});
 							$scope.getAllUsers();
 						} else {
-							var templateName = "SETTING.USER";
-							templateName = $translate.instant(templateName);
-
-							var popType = 'TOASTER.ERROR';
-							var popTitle = $common.toaster.error_title;
-							var popBody = $common.toaster.error_delete_body;
-
-							popType = $translate.instant(popType);
-							popTitle = $translate.instant(popTitle);
-							popBody = $translate.instant(popBody, { template: templateName });
-
 							toaster.pop({
-								type: popType,
-								title: popTitle,
-								body: popBody,
+								type: "error",
+								title: $translate.instant("TOASTER.FAILURE_TITLE"),
+								body: $translate.instant("TOASTER.ERROR_DELETE_BODY", { template: $translate.instant("SETTING.USER") }),
 								showCloseButton: true,
 							});
 						}

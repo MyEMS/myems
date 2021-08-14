@@ -1,25 +1,24 @@
 'use strict';
 
-app.controller('EnergyFlowDiagramPreviewController', function($scope,$common, $translate,  EnergyFlowDiagramService, EnergyFlowDiagramLinkService, highchartsNG) {
+app.controller('EnergyFlowDiagramPreviewController', function($scope, EnergyFlowDiagramService, EnergyFlowDiagramLinkService, highchartsNG) {
       $scope.energyflowdiagrams = [];
       $scope.currentEnergyFlowDiagram = null;
 
       $scope.getAllEnergyFlowDiagrams = function() {
-      EnergyFlowDiagramService.getAllEnergyFlowDiagrams(function(error, data) {
-        if (!error) {
-          $scope.energyflowdiagrams = data;
+      EnergyFlowDiagramService.getAllEnergyFlowDiagrams(function (response) {
+        if (angular.isDefined(response.status) && response.status === 200) {
+            $scope.energyflowdiagrams = response.data;
           } else {
-          $scope.energyflowdiagrams = [];
+            $scope.energyflowdiagrams = [];
          }
       });
     };
 
     $scope.getLinksByEnergyFlowDiagramID = function(id) {
 
-  			EnergyFlowDiagramLinkService.getLinksByEnergyFlowDiagramID(id, function(error, data) {
-  				if (!error) {
-            console.log(data);
-  				 return data;
+  			EnergyFlowDiagramLinkService.getLinksByEnergyFlowDiagramID(id, function (response) {
+  				if (angular.isDefined(response.status) && response.status === 200) {
+              return response.data;
   				} else {
             	return [];
           }

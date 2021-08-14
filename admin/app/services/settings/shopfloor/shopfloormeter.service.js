@@ -12,31 +12,28 @@ app.factory('ShopfloorMeterService', function($http) {
             }
 
             $http.post(getAPI()+'shopfloors/'+shopfloorID+'/'+metertype,{data:meter})
-                .success(function (response, status, headers, config) {
-                    callback(null, status);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
 
         deletePair: function(shopfloorID,meterID, metertype, callback) {
             $http.delete(getAPI()+'shopfloors/'+shopfloorID+'/'+metertype+'/'+meterID)
-                .success(function (response, status, headers, config) {
-                    callback(null, status);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
         getMetersByShopfloorID: function(id, metertype, callback) {
             $http.get(getAPI()+'shopfloors/'+id+'/'+metertype)
-                .success(function (response, status, headers, config) {
-                    callback(null, response);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         }
     };
 });

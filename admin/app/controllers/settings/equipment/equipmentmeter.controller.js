@@ -1,12 +1,12 @@
 'use strict';
 
-app.controller('EquipmentMeterController', function($scope,$common ,$timeout,$uibModal, $translate,	MeterService, VirtualMeterService, OfflineMeterService,	EquipmentMeterService, EquipmentService, toaster,SweetAlert) {
+app.controller('EquipmentMeterController', function($scope,$timeout,$uibModal, $translate,	MeterService, VirtualMeterService, OfflineMeterService,	EquipmentMeterService, EquipmentService, toaster,SweetAlert) {
     $scope.currentEquipment = {selected:undefined};
 
 	  $scope.getAllEquipments = function(id) {
-		EquipmentService.getAllEquipments(function(error, data) {
-			if (!error) {
-				$scope.equipments = data;
+		EquipmentService.getAllEquipments(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.equipments = response.data;
 				} else {
 				$scope.equipments = [];
 			 }
@@ -23,12 +23,12 @@ app.controller('EquipmentMeterController', function($scope,$common ,$timeout,$ui
 		var metertypes=['meters','virtualmeters','offlinemeters'];
 		$scope.equipmentmeters=[];
 		angular.forEach(metertypes,function(value,index){
-			EquipmentMeterService.getMetersByEquipmentID(id, value,function(error, data) {
-				if (!error) {
-					angular.forEach(data,function(item,indx){
-						data[indx].metertype=value;
+			EquipmentMeterService.getMetersByEquipmentID(id, value, function (response) {
+				if (angular.isDefined(response.status) && response.status === 200) {
+					angular.forEach(response.data,function(item, indx){
+						response.data[indx].metertype = value;
 					});
-					$scope.equipmentmeters=$scope.equipmentmeters.concat(data);
+					$scope.equipmentmeters = $scope.equipmentmeters.concat(response.data);
 				}
 			});
 		});
@@ -60,9 +60,9 @@ app.controller('EquipmentMeterController', function($scope,$common ,$timeout,$ui
 
 
 	$scope.getAllMeters = function() {
-		MeterService.getAllMeters(function(error, data) {
-			if (!error) {
-				$scope.meters = data;
+		MeterService.getAllMeters(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.meters = response.data;
 				$scope.currentMeterType="meters";
 				$timeout(function(){
 					$scope.changeMeterType();
@@ -76,9 +76,9 @@ app.controller('EquipmentMeterController', function($scope,$common ,$timeout,$ui
 
 
 	$scope.getAllOfflineMeters = function() {
-		OfflineMeterService.getAllOfflineMeters(function(error, data) {
-			if (!error) {
-				$scope.offlinemeters = data;
+		OfflineMeterService.getAllOfflineMeters(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.offlinemeters = response.data;
 			} else {
 				$scope.offlinemeters = [];
 			}
@@ -87,9 +87,9 @@ app.controller('EquipmentMeterController', function($scope,$common ,$timeout,$ui
 	};
 
 	$scope.getAllVirtualMeters = function() {
-		VirtualMeterService.getAllVirtualMeters(function(error, data) {
-			if (!error) {
-				$scope.virtualmeters = data;
+		VirtualMeterService.getAllVirtualMeters(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.virtualmeters = response.data;
 			} else {
 				$scope.virtualmeters = [];
 			}
@@ -110,45 +110,26 @@ app.controller('EquipmentMeterController', function($scope,$common ,$timeout,$ui
             size: 'sm'
         });
         modalInstance.result.then(function (is_output) {
-		        var meterid=angular.element('#'+dragEl).scope().meter.id;
-		        var equipmentid=$scope.currentEquipment.id;
-            EquipmentMeterService.addPair(equipmentid, meterid, $scope.currentMeterType, is_output, function (error, status) {
-            if (angular.isDefined(status) && status == 201) {
-
-                var popType = 'TOASTER.SUCCESS';
-                var popTitle = $common.toaster.success_title;
-                var popBody = 'TOASTER.BIND_METER_SUCCESS';
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
-                toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
-                    showCloseButton: true,
-                });
-
-                $scope.getMetersByEquipmentID($scope.currentEquipment.id);
-            } else {
-
-                var popType = 'TOASTER.ERROR';
-                var popTitle = error.title;
-                var popBody = error.description;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
-                toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
-                    showCloseButton: true,
-                });
-            }
-        });
+		    var meterid=angular.element('#'+dragEl).scope().meter.id;
+		    var equipmentid=$scope.currentEquipment.id;
+            EquipmentMeterService.addPair(equipmentid, meterid, $scope.currentMeterType, is_output, function (response) {
+				if (angular.isDefined(response.status) && response.status === 201) {
+					toaster.pop({
+						type: "success",
+						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+						body: $translate.instant("TOASTER.BIND_METER_SUCCESS"),
+						showCloseButton: true,
+					});
+					$scope.getMetersByEquipmentID($scope.currentEquipment.id);
+				} else {
+					toaster.pop({
+						type: "error",
+						title: $translate.instant(response.data.title),
+						body: $translate.instant(response.data.description),
+						showCloseButton: true,
+					});
+				}
+			});
         },function() {
         });
     };
@@ -160,38 +141,20 @@ app.controller('EquipmentMeterController', function($scope,$common ,$timeout,$ui
         var equipmentmeterid = angular.element('#' + dragEl).scope().equipmentmeter.id;
         var equipmentid = $scope.currentEquipment.id;
         var metertype = angular.element('#' + dragEl).scope().equipmentmeter.metertype;
-        EquipmentMeterService.deletePair(equipmentid, equipmentmeterid, metertype, function (error, status) {
-            if (angular.isDefined(status) && status == 204) {
-
-                var popType = 'TOASTER.SUCCESS';
-                var popTitle = $common.toaster.success_title;
-                var popBody = 'TOASTER.UNBIND_METER_SUCCESS';
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
+        EquipmentMeterService.deletePair(equipmentid, equipmentmeterid, metertype, function (response) {
+            if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "success",
+                    title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                    body: $translate.instant("TOASTER.UNBIND_METER_SUCCESS"),
                     showCloseButton: true,
                 });
-
                 $scope.getMetersByEquipmentID($scope.currentEquipment.id);
             } else {
-                var popType = 'TOASTER.ERROR';
-                var popTitle = error.title;
-                var popBody = error.description;
-
-                popType = $translate.instant(popType);
-                popTitle = $translate.instant(popTitle);
-                popBody = $translate.instant(popBody);
-
                 toaster.pop({
-                    type: popType,
-                    title: popTitle,
-                    body: popBody,
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
                     showCloseButton: true,
                 });
             }
@@ -203,7 +166,7 @@ app.controller('EquipmentMeterController', function($scope,$common ,$timeout,$ui
 	$scope.getAllVirtualMeters();
 	$scope.getAllOfflineMeters();
 
-  $scope.$on('handleBroadcastEquipmentChanged', function(event) {
+  	$scope.$on('handleBroadcastEquipmentChanged', function(event) {
     $scope.getAllEquipments();
   });
 });

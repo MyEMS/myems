@@ -1,11 +1,10 @@
 'use strict';
 
-app.controller('LoginController', function ($rootScope,
+app.controller('LoginController', function (
 	$translate,
 	$timeout,
 	$location,
 	$window,
-	$common,
 	$uibModal,
 	$scope,
 	$interval,
@@ -22,59 +21,32 @@ app.controller('LoginController', function ($rootScope,
 	// login section start
 	$scope.login = function (user) {
 		$scope.dataLoading = true;
-		LoginService.login(user, function (response, error, status, headers) {
-			if (angular.isDefined(status) && status == 200) {
-
-				var popType = 'TOASTER.SUCCESS';
-				var popTitle = $common.toaster.success_title;
-				var popBody = 'TOASTER.LOGIN_SUCCESS';
-
-				popType = $translate.instant(popType);
-				popTitle = $translate.instant(popTitle);
-				popBody = $translate.instant(popBody);
-
+		LoginService.login(user, function (response) {
+			console.log(response);
+			if (angular.isDefined(response.status) && response.status === 200) {
+				// toaster type options: 'error','info','wait','success','warning'
 				toaster.pop({
-					type: popType,
-					title: popTitle,
-					body: popBody,
+					type: "success",
+					title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+					body: $translate.instant('TOASTER.LOGIN_SUCCESS'),
 					showCloseButton: true,
 				});
-
-				$window.localStorage.setItem("currentUser", JSON.stringify(response));
-				// $rootScope.cookie=$cookies.get('user_uuid');
+				$window.localStorage.setItem("currentUser", JSON.stringify(response.data));
+				
 				$location.path('/settings/space');
 				$scope.cur_user = JSON.parse($window.localStorage.getItem("currentUser"));
-			} else if (angular.isDefined(status) && status == 400 || status == 404) {
-
-				var popType = 'TOASTER.ERROR';
-				var popTitle = error.title;
-				var popBody = error.description;
-
-				popType = $translate.instant(popType);
-				popTitle = $translate.instant(popTitle);
-				popBody = $translate.instant(popBody);
-
+			} else if (angular.isDefined(response.status) && response.status === 400 || response.status === 404) {
 				toaster.pop({
-					type: popType,
-					title: popTitle,
-					body: popBody,
+					type: "error",
+					title: $translate.instant(response.data.title),
+					body: $translate.instant(response.data.description),
 					showCloseButton: true,
 				});
-
 			} else {
-
-				var popType = 'TOASTER.ERROR';
-				var popTitle = $common.toaster.error_title;
-				var popBody = 'TOASTER.LOGIN_FAILURE';
-
-				popType = $translate.instant(popType);
-				popTitle = $translate.instant(popTitle);
-				popBody = $translate.instant(popBody);
-
 				toaster.pop({
-					type: popType,
-					title: popTitle,
-					body: popBody,
+					type: "error",
+					title: $translate.instant("TOASTER.FAILURE_TITLE"),
+					body: $translate.instant('TOASTER.LOGIN_FAILURE'),
 					showCloseButton: true,
 				});
 			}
@@ -85,38 +57,21 @@ app.controller('LoginController', function ($rootScope,
 	$scope.logout = function () {
 		let data = null;
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-		LoginService.logout(data, headers, function (error, status, headers) {
-			if (angular.isDefined(status) && status == 200) {
-				var popType = 'TOASTER.SUCCESS';
-				var popTitle = $common.toaster.success_title;
-				var popBody = 'TOASTER.LOGIN_SUCCESS';
-
-				popType = $translate.instant(popType);
-				popTitle = $translate.instant(popTitle);
-				popBody = $translate.instant(popBody);
-
+		LoginService.logout(data, headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
 				toaster.pop({
-					type: popType,
-					title: popTitle,
-					body: popBody,
+					type: "success",
+					title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+					body: $translate.instant('TOASTER.LOGIN_SUCCESS'),
 					showCloseButton: true,
 				});
-
 				$window.localStorage.removeItem("currentUser");
 				$location.path('/login');
 			} else {
-				var popType = 'TOASTER.ERROR';
-				var popTitle = $common.toaster.error_title;
-				var popBody = error.description;
-
-				popType = $translate.instant(popType);
-				popTitle = $translate.instant(popTitle);
-				popBody = $translate.instant(popBody);
-
 				toaster.pop({
-					type: popType,
-					title: popTitle,
-					body: popBody,
+					type: "error",
+					title: $translate.instant("TOASTER.FAILURE_TITLE"),
+					body: $translate.instant(response.data.description),
 					showCloseButton: true,
 				});
 				$window.localStorage.removeItem("currentUser");
@@ -153,60 +108,28 @@ app.controller('LoginController', function ($rootScope,
 		modalInstance.result.then(function (user) {
 			let data = {
 				old_password: user.old_password, 
-				new_password: user.new_password };
+				new_password: user.new_password 
+			};
 
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			
-			UserService.changePassword(data, headers, function (error, status) {
-				if (angular.isDefined(status) && status == 200) {
-					var templateName = "TOASTER.USER_PASSWORD";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.SUCCESS';
-					var popTitle = $common.toaster.success_title;
-					var popBody = $common.toaster.success_update_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody, { template: templateName });
-
+			UserService.changePassword(data, headers, function (response) {
+				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "success",
+						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", { template: $translate.instant("TOASTER.USER_PASSWORD") }),
 						showCloseButton: true,
 					});
 
 					$scope.$emit('handleEmitLineChanged');
 				} else {
-					var templateName = "TOASTER.USER_PASSWORD";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.ERROR';
-					var popTitleOne = error.title;
-					var popTitleTwo = $common.toaster.error_title;
-					var popBodyOne = error.description;
-					var popBodyTwo = $common.toaster.error_update_body;
-
-					popType = $translate.instant(popType);
-					popTitleOne = $translate.instant(popTitleOne);
-					popTitleTwo = $translate.instant(popTitleTwo);
-					popBodyOne = $translate.instant(popBodyOne, { template: templateName });
-					popBodyTwo = $translate.instant(popBodyTwo, { template: templateName });
-
 					toaster.pop({
-						type: popType,
-						title: popTitleOne || popTitleTwo,
-						body: popBodyOne || popBodyTwo,
+						type: "error",
+						title: $translate.instant(response.data.title) || $translate.instant("TOASTER.FAILURE_TITLE"),
+						body: $translate.instant( response.data.description, { template: $translate.instant("TOASTER.USER_PASSWORD") }) || $translate.instant("TOASTER.ERROR_UPDATE_BODY", { template: $translate.instant("TOASTER.USER_PASSWORD") }),
 						showCloseButton: true,
 					});
-
-					// toaster.pop({
-					// 	type: 'error',
-					// 	title: error.title || $common.toaster.error_title,
-					// 	body: error.description || $common.toaster.error_update_body.format('user password'),
-					// 	showCloseButton: true,
-					// });
 				}
 			});
 		}, function () {
@@ -288,9 +211,9 @@ app.controller('LoginController', function ($rootScope,
 	// web message alarm section start
 	$scope.webmessages = [];
 	$scope.getWebMessage = function () {
-		WebMessageAnalysisService.getStatusNewResult(function (error, data) {
-			if (!error) {
-				$scope.webmessages = data;
+		WebMessageAnalysisService.getStatusNewResult(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.webmessages = response.data;
 			}
 		});
 	};

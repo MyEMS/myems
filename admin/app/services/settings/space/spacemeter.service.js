@@ -12,31 +12,28 @@ app.factory('SpaceMeterService', function($http) {
             }
 
             $http.post(getAPI()+'spaces/'+spaceID+'/'+metertype,{data:meter})
-                .success(function (response, status, headers, config) {
-                    callback(null, status);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
 
         deletePair: function(spaceID,meterID, metertype, callback) {
             $http.delete(getAPI()+'spaces/'+spaceID+'/'+metertype+'/'+meterID)
-                .success(function (response, status, headers, config) {
-                    callback(null, status);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
         getMetersBySpaceID: function(id, metertype, callback) {
             $http.get(getAPI()+'spaces/'+id+'/'+metertype)
-                .success(function (response, status, headers, config) {
-                    callback(null, response);
-                })
-                .error(function (e) {
-                    callback(e);
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         }
     };
 });

@@ -3,9 +3,7 @@
 app.controller('CostFileController', function (
     $scope, 
 	$window,
-    $common, 
     $translate, 
-    $uibModal, 
     $interval, 
     CostFileService, 
     toaster, 
@@ -14,9 +12,9 @@ app.controller('CostFileController', function (
     $scope.cur_user = JSON.parse($window.localStorage.getItem("currentUser"));
 
     $scope.getAllCostFiles = function () {
-        CostFileService.getAllCostFiles(function (error, data) {
-            if (!error) {
-                $scope.costfiles = data;
+        CostFileService.getAllCostFiles(function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.costfiles = response.data;
             } else {
                 $scope.costfiles = [];
             }
@@ -36,45 +34,30 @@ app.controller('CostFileController', function (
             console.info('File added.', file);
         },
         'success': function (file, xhr) {
-            var popType = 'TOASTER.SUCCESS';
-            var popTitle = $common.toaster.success_title;
-            var popBody = $common.toaster.success_add_body.format(file.name);
-
-            popType = $translate.instant(popType);
-            popTitle = $translate.instant(popTitle);
-            popBody = $translate.instant(popBody);
-
             toaster.pop({
-                type: popType,
-                title: popTitle,
-                body: popBody,
+                type: "success",
+                title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                body: $translate.instant("TOASTER.SUCCESS_ADD_BODY".format(file.name)),
                 showCloseButton: true,
             });
             $scope.getAllCostFiles();
         },
         'error': function (file, xhr) {
-            var popType = 'TOASTER.ERROR';
-            var popTitle = $common.toaster.error_title;
-            var popBody = $common.toaster.error_add_body.format(file.name);
-
-            popType = $translate.instant(popType);
-            popTitle = $translate.instant(popTitle);
-            popBody = $translate.instant(popBody);
-
             toaster.pop({
-                type: popType,
-                title: popTitle,
-                body: popBody,
+                type: "error",
+                title: $translate.instant("TOASTER.FAILURE_TITLE"),
+                body: $translate.instant("TOASTER.ERROR_ADD_BODY".format(file.name)),
                 showCloseButton: true,
             });
         }
     };
 
     $scope.restoreCostFile = function (costfile) {
-        CostFileService.restoreCostFile(costfile, function (error, data) {
-            if (!error) {
+        CostFileService.restoreCostFile(costfile, function (response) {
+            console.log(response);
+            if (angular.isDefined(response.status) && response.status === 200) {
                 toaster.pop({
-                    type: $translate.instant('TOASTER.SUCCESS'),
+                    type: "success",
                     title: $translate.instant('TOASTER.SUCCESS_TITLE'),
                     body: $translate.instant('SETTING.RESTORE_SUCCESS'),
                     showCloseButton: true,
@@ -83,8 +66,8 @@ app.controller('CostFileController', function (
             } else {
                 toaster.pop({
                     type: $translate.instant('TOASTER.ERROR'),
-                    title: $translate.instant(error.title),
-                    body: $translate.instant(error.description),
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
                     showCloseButton: true,
                 });
             }
@@ -93,72 +76,39 @@ app.controller('CostFileController', function (
 
     $scope.deleteCostFile = function (costfile) {
         SweetAlert.swal({
-                title: $translate.instant($common.sweet.title),
-                text: $translate.instant($common.sweet.text),
+                title: $translate.instant("SWEET.TITLE"),
+                text: $translate.instant("SWEET.TEXT"),
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
-                confirmButtonText: $translate.instant($common.sweet.confirmButtonText),
-                cancelButtonText: $translate.instant($common.sweet.cancelButtonText),
+                confirmButtonText: $translate.instant("SWEET.CONFIRM_BUTTON_TEXT"),
+                cancelButtonText: $translate.instant("SWEET.CANCEL_BUTTON_TEXT"),
                 closeOnConfirm: true,
                 closeOnCancel: true
             },
             function (isConfirm) {
                 if (isConfirm) {
-                    CostFileService.deleteCostFile(costfile, function (error, status) {
-                        if (angular.isDefined(status) && status == 204) {
-                            var templateName = "SETTING.COST_FILE";
-                            templateName = $translate.instant(templateName);
-
-                            var popType = 'TOASTER.SUCCESS';
-                            var popTitle = $common.toaster.success_title;
-                            var popBody = $common.toaster.success_delete_body;
-
-                            popType = $translate.instant(popType);
-                            popTitle = $translate.instant(popTitle);
-                            popBody = $translate.instant(popBody, {template: templateName});
-
+                    CostFileService.deleteCostFile(costfile, function (response) {
+                        if (angular.isDefined(response.status) && response.status === 204) {
                             toaster.pop({
-                                type: popType,
-                                title: popTitle,
-                                body: popBody,
+                                type: "success",
+                                title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                                body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", {template: $translate.instant("SETTING.COST_FILE")}),
                                 showCloseButton: true,
                             });
-
-
                             $scope.getAllCostFiles();
-                        } else if (angular.isDefined(status) && status == 400) {
-                            var popType = 'TOASTER.ERROR';
-                            var popTitle = error.title;
-                            var popBody = error.description;
-
-                            popType = $translate.instant(popType);
-                            popTitle = $translate.instant(popTitle);
-                            popBody = $translate.instant(popBody);
-
-
+                        } else if (angular.isDefined(response.status) && response.status === 400) {
                             toaster.pop({
-                                type: popType,
-                                title: popTitle,
-                                body: popBody,
+                                type: "error",
+                                title: $translate.instant(response.data.title),
+                                body: $translate.instant(response.data.description),
                                 showCloseButton: true,
                             });
                         } else {
-                            var templateName = "TOASTER.COST_FILE";
-                            templateName = $translate.instant(templateName);
-
-                            var popType = 'TOASTER.ERROR';
-                            var popTitle = $common.toaster.error_title;
-                            var popBody = $common.toaster.error_delete_body;
-
-                            popType = $translate.instant(popType);
-                            popTitle = $translate.instant(popTitle);
-                            popBody = $translate.instant(popBody, {template: templateName});
-
                             toaster.pop({
-                                type: popType,
-                                title: popTitle,
-                                body: popBody,
+                                type: "error",
+                                title: $translate.instant("TOASTER.FAILURE_TITLE"),
+                                body: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("TOASTER.COST_FILE")}),
                                 showCloseButton: true,
                             });
                         }

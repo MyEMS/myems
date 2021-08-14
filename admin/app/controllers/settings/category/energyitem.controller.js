@@ -1,12 +1,10 @@
 'use strict';
 
-app.controller('EnergyItemController', function($scope,$common, $translate,$uibModal, CategoryService, EnergyItemService, toaster,SweetAlert) {
-
-
+app.controller('EnergyItemController', function($scope, $translate,$uibModal, CategoryService, EnergyItemService, toaster,SweetAlert) {
 	$scope.getAllCategories = function() {
-		CategoryService.getAllCategories(function(error, data) {
-			if (!error) {
-				$scope.categories = data;
+		CategoryService.getAllCategories(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.categories = response.data;
 			} else {
 				$scope.categories = [];
 			}
@@ -15,9 +13,9 @@ app.controller('EnergyItemController', function($scope,$common, $translate,$uibM
 	};
 
 	$scope.getAllEnergyItems = function() {
-		EnergyItemService.getAllEnergyItems(function(error, data) {
-			if (!error) {
-				$scope.energyItems = data;
+		EnergyItemService.getAllEnergyItems(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.energyItems = response.data;
 			} else {
 				$scope.energyItems = [];
 			}
@@ -40,44 +38,20 @@ app.controller('EnergyItemController', function($scope,$common, $translate,$uibM
 		    }
 		});
 		modalInstance.result.then(function(energyItem) {
-			EnergyItemService.addEnergyItem(energyItem, function(error, status) {
-				if (angular.isDefined(status) && status == 201) {
-
-					var templateName = "SETTING.ENERGY_ITEM";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.SUCCESS';
-					var popTitle = $common.toaster.success_title;
-					var popBody = $common.toaster.success_add_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody,{template: templateName});
-
+			EnergyItemService.addEnergyItem(energyItem, function(response) {
+				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "success",
+						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("SETTING.ENERGY_ITEM")}),
 						showCloseButton: true,
 					});
-
 					$scope.getAllEnergyItems();
 				} else {
-					var templateName = "SETTING.ENERGY_ITEM";
-					templateName = $translate.instant(templateName);
-
-					var popType = 'TOASTER.ERROR';
-					var popTitle = $common.toaster.error_title;
-					var popBody = $common.toaster.error_add_body;
-
-					popType = $translate.instant(popType);
-					popTitle = $translate.instant(popTitle);
-					popBody = $translate.instant(popBody,{template: templateName});
-
 					toaster.pop({
-						type: popType,
-						title: popTitle,
-						body: popBody,
+						type: "error",
+						title: $translate.instant("TOASTER.FAILURE_TITLE"),
+						body: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("SETTING.ENERGY_ITEM")}),
 						showCloseButton: true,
 					});
 				}
@@ -104,44 +78,22 @@ app.controller('EnergyItemController', function($scope,$common, $translate,$uibM
 		});
 
 		modalInstance.result.then(function (modifiedEnergyItem) {
-	        EnergyItemService.editEnergyItem(modifiedEnergyItem,function(error,status){
-	            if(angular.isDefined(status) && status==200){
-	            	var templateName = "SETTING.ENERGY_ITEM";
-								templateName = $translate.instant(templateName);
-
-								var popType = 'TOASTER.SUCCESS';
-								var popTitle = $common.toaster.success_title;
-								var popBody = $common.toaster.success_update_body;
-
-								popType = $translate.instant(popType);
-								popTitle = $translate.instant(popTitle);
-								popBody = $translate.instant(popBody,{template: templateName});
-
-								toaster.pop({
-									type: popType,
-									title: popTitle,
-									body: popBody,
-									showCloseButton: true,
-								});
+	        EnergyItemService.editEnergyItem(modifiedEnergyItem, function (response){
+	            if(angular.isDefined(response.status) && response.status == 200){
+					toaster.pop({
+						type: "success",
+						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", {template: $translate.instant("SETTING.ENERGY_ITEM")}),
+						showCloseButton: true,
+					});
 	                $scope.getAllEnergyItems();
 	            }else{
-	                var templateName = "SETTING.ENERGY_ITEM";
-									templateName = $translate.instant(templateName);
-
-									var popType = 'TOASTER.ERROR';
-									var popTitle = $common.toaster.error_title;
-									var popBody = $common.toaster.error_update_body;
-
-									popType = $translate.instant(popType);
-									popTitle = $translate.instant(popTitle);
-									popBody = $translate.instant(popBody,{template: templateName});
-
-									toaster.pop({
-										type: popType,
-										title: popTitle,
-										body: popBody,
-										showCloseButton: true,
-									});
+					toaster.pop({
+						type: "error",
+						title: $translate.instant("TOASTER.FAILURE_TITLE"),
+						body: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("SETTING.ENERGY_ITEM")}),
+						showCloseButton: true,
+					});
 	            }
 	        });
 		}, function () {
@@ -151,55 +103,33 @@ app.controller('EnergyItemController', function($scope,$common, $translate,$uibM
 
 	$scope.deleteEnergyItem=function(energyItem){
 		SweetAlert.swal({
-		        title: $translate.instant($common.sweet.title),
-		        text: $translate.instant($common.sweet.text),
-		        type: "warning",
-		        showCancelButton: true,
-		        confirmButtonColor: "#DD6B55",
-		        confirmButtonText: $translate.instant($common.sweet.confirmButtonText),
-		        cancelButtonText: $translate.instant($common.sweet.cancelButtonText),
-		        closeOnConfirm: true,
-		        closeOnCancel: true },
+			title: $translate.instant("SWEET.TITLE"),
+			text: $translate.instant("SWEET.TEXT"),
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#DD6B55",
+			confirmButtonText: $translate.instant("SWEET.CONFIRM_BUTTON_TEXT"),
+			cancelButtonText: $translate.instant("SWEET.CANCEL_BUTTON_TEXT"),
+			closeOnConfirm: true,
+			closeOnCancel: true },
 		    function (isConfirm) {
 		        if (isConfirm) {
-		            EnergyItemService.deleteEnergyItem(energyItem, function(error, status) {
-		            	if (angular.isDefined(status) && status == 204) {
-		            		var templateName = "SETTING.ENERGY_ITEM";
-                    templateName = $translate.instant(templateName);
-
-                    var popType = 'TOASTER.SUCCESS';
-                    var popTitle = $common.toaster.success_title;
-                    var popBody = $common.toaster.success_delete_body;
-
-                    popType = $translate.instant(popType);
-                    popTitle = $translate.instant(popTitle);
-                    popBody = $translate.instant(popBody, {template: templateName});
-
-                    toaster.pop({
-                        type: popType,
-                        title: popTitle,
-                        body: popBody,
-                        showCloseButton: true,
-                    });
-		            		$scope.getAllEnergyItems();
-		            	} else {
-		            		var templateName = "SETTING.ENERGY_ITEM";
-                    templateName = $translate.instant(templateName);
-
-                    var popType = 'TOASTER.ERROR';
-                    var popTitle = $common.toaster.error_title;
-                    var popBody = $common.toaster.error_delete_body;
-
-                    popType = $translate.instant(popType);
-                    popTitle = $translate.instant(popTitle);
-                    popBody = $translate.instant(popBody, {template: templateName});
-
-                    toaster.pop({
-                        type: popType,
-                        title: popTitle,
-                        body: popBody,
-                        showCloseButton: true,
-                    });
+		            EnergyItemService.deleteEnergyItem(energyItem, function (response) {
+		            	if (angular.isDefined(response.status) && response.status === 204) {
+							toaster.pop({
+								type: "success",
+								title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+								body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", {template: $translate.instant("SETTING.ENERGY_ITEM")}),
+								showCloseButton: true,
+							});
+							$scope.getAllEnergyItems();
+						} else {
+							toaster.pop({
+								type: "error",
+								title: $translate.instant("TOASTER.FAILURE_TITLE"),
+								body: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("SETTING.ENERGY_ITEM")}),
+								showCloseButton: true,
+							});
 		            	}
 		            });
 		        }
@@ -216,13 +146,12 @@ app.controller('EnergyItemController', function($scope,$common, $translate,$uibM
 
 app.controller('ModalAddEnergyItemCtrl', function ($scope, $uibModalInstance,params) {
 
-	  $scope.operation="SETTING.ADD_ENERGY_ITEM";
+	$scope.operation="SETTING.ADD_ENERGY_ITEM";
     $scope.energyItems=params.energyItems;
-		$scope.categories=params.categories;
+	$scope.categories=params.categories;
     $scope.ok = function () {
         $uibModalInstance.close($scope.energyItem);
     };
-
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
@@ -232,11 +161,11 @@ app.controller('ModalEditEnergyItemCtrl', function ($scope, $uibModalInstance, p
     $scope.operation="SETTING.EDIT_ENERGY_ITEM";
     $scope.energyItem = params.energyItem;
     $scope.energyItems=params.energyItems;
-		$scope.categories=params.categories;
+	$scope.categories=params.categories;
     if($scope.energyItem.energy_category!=null){
-			$scope.energyItem.energy_category_id=$scope.energyItem.energy_category.id ;
+		$scope.energyItem.energy_category_id=$scope.energyItem.energy_category.id ;
 	  }else{
-			$scope.energyItem.energy_category_id=undefined;
+		$scope.energyItem.energy_category_id=undefined;
   	}
 
     $scope.ok = function () {

@@ -3,57 +3,51 @@ app.factory('DataSourceService', function($http) {
     return {  
         getAllDataSources:function(callback){
             $http.get(getAPI()+'datasources')  
-                .success(function (response, status, headers, config) {  
-                    callback(null, response);  
-                })  
-                .error(function (e,status) {  
-                    callback(e,status);  
-                });
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         },
         searchDataSources: function(query, callback) {  
             $http.get(getAPI()+'datasources', { params: { q: query } })  
-                .success(function (response, status, headers, config) {  
-                    callback(null, response);  
-                })  
-                .error(function (e,status) {  
-                    callback(e,status);  
-                });  
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });  
         },
         addDataSource: function(datasource, callback) {  
             $http.post(getAPI()+'datasources',{data:datasource})  
-                .success(function (response, status, headers, config) {  
-                    callback(null, status);  
-                })  
-                .error(function (e,status) {  
-                    callback(e,status);  
-                });  
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            }); 
         },
         editDataSource: function(datasource, callback) {  
             $http.put(getAPI()+'datasources/'+datasource.id,{data:datasource})  
-                .success(function (response, status, headers, config) {  
-                    callback(null, status);  
-                })  
-                .error(function (e,status) {  
-                    callback(e,status);  
-                });  
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            }); 
         },
         deleteDataSource: function(datasource, callback) {  
             $http.delete(getAPI()+'datasources/'+datasource.id)  
-                .success(function (response, status, headers, config) {  
-                    callback(null, status);  
-                })  
-                .error(function (e,status) {  
-                    callback(e,status);  
-                });  
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });  
         },
         getDataSource: function(id, callback) {  
             $http.get(getAPI()+'datasources/'+id)  
-                .success(function (response, status, headers, config) {  
-                    callback(null, response);  
-                })  
-                .error(function (e,status) {  
-                    callback(e,status);  
-                });  
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });  
         }
     };
 });  
