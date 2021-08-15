@@ -80,62 +80,60 @@ class CostFileCollection:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.USER_UUID_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
 
-        cnx = mysql.connector.connect(**config.myems_user_db)
-        cursor = cnx.cursor()
+        cnx_user_db = mysql.connector.connect(**config.myems_user_db)
+        cursor_user_db = cnx_user_db.cursor()
 
         query = (" SELECT utc_expires "
                  " FROM tbl_sessions "
                  " WHERE user_uuid = %s AND token = %s")
-        cursor.execute(query, (user_uuid, token,))
-        row = cursor.fetchone()
+        cursor_user_db.execute(query, (user_uuid, token,))
+        row = cursor_user_db.fetchone()
 
         if row is None:
-            if cursor:
-                cursor.close()
-            if cnx:
-                cnx.disconnect()
+            if cursor_user_db:
+                cursor_user_db.close()
+            if cnx_user_db:
+                cnx_user_db.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
         else:
             utc_expires = row[0]
             if datetime.utcnow() > utc_expires:
-                if cursor:
-                    cursor.close()
-                if cnx:
-                    cnx.disconnect()
+                if cursor_user_db:
+                    cursor_user_db.close()
+                if cnx_user_db:
+                    cnx_user_db.disconnect()
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.USER_SESSION_TIMEOUT')
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_users "
-                       " WHERE uuid = %s ",
-                       (user_uuid,))
-        row = cursor.fetchone()
+        cursor_user_db.execute(" SELECT id "
+                               " FROM tbl_users "
+                               " WHERE uuid = %s ",
+                               (user_uuid,))
+        row = cursor_user_db.fetchone()
         if row is None:
-            if cursor:
-                cursor.close()
-            if cnx:
-                cnx.disconnect()
+            if cursor_user_db:
+                cursor_user_db.close()
+            if cnx_user_db:
+                cnx_user_db.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_PLEASE_RE_LOGIN')
-        else:
-            user_id = row[0]
 
-        cnx = mysql.connector.connect(**config.myems_historical_db)
-        cursor = cnx.cursor()
+        cnx_historical_db = mysql.connector.connect(**config.myems_historical_db)
+        cursor_historical_db = cnx_historical_db.cursor()
 
         add_values = (" INSERT INTO tbl_cost_files "
                       " (file_name, uuid, upload_datetime_utc, status, file_object ) "
                       " VALUES (%s, %s, %s, %s, %s) ")
-        cursor.execute(add_values, (filename,
-                                    file_uuid,
-                                    datetime.utcnow(),
-                                    'new',
-                                    raw_blob))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.disconnect()
+        cursor_historical_db.execute(add_values, (filename,
+                                                  file_uuid,
+                                                  datetime.utcnow(),
+                                                  'new',
+                                                  raw_blob))
+        new_id = cursor_historical_db.lastrowid
+        cnx_historical_db.commit()
+        cursor_historical_db.close()
+        cnx_historical_db.disconnect()
 
         resp.status = falcon.HTTP_201
         resp.location = '/costfiles/' + str(new_id)
