@@ -283,7 +283,6 @@ def process(logger, data_source_id, host, port):
                     except Exception as e:
                         logger.error("Error in step 4.3.1 of acquisition process " + str(e))
                         # ignore this exception
-                        pass
 
                 # update tbl_analog_value_latest
                 delete_values = " DELETE FROM tbl_analog_value_latest WHERE point_id IN ( "
@@ -306,7 +305,6 @@ def process(logger, data_source_id, host, port):
                     except Exception as e:
                         logger.error("Error in step 4.3.2 of acquisition process " + str(e))
                         # ignore this exception
-                        pass
 
                     try:
                         # trim ", " at the end of string and then execute
@@ -315,7 +313,6 @@ def process(logger, data_source_id, host, port):
                     except Exception as e:
                         logger.error("Error in step 4.3.3 of acquisition process " + str(e))
                         # ignore this exception
-                        pass
 
             if len(energy_value_list) > 0:
                 add_values = (" INSERT INTO tbl_energy_value (point_id, utc_date_time, actual_value) "
@@ -337,7 +334,6 @@ def process(logger, data_source_id, host, port):
                     except Exception as e:
                         logger.error("Error in step 4.4.1 of acquisition process: " + str(e))
                         # ignore this exception
-                        pass
 
                 # update tbl_energy_value_latest
                 delete_values = " DELETE FROM tbl_energy_value_latest WHERE point_id IN ( "
@@ -361,7 +357,6 @@ def process(logger, data_source_id, host, port):
                     except Exception as e:
                         logger.error("Error in step 4.4.2 of acquisition process " + str(e))
                         # ignore this exception
-                        pass
 
                     try:
                         # trim ", " at the end of string and then execute
@@ -371,7 +366,6 @@ def process(logger, data_source_id, host, port):
                     except Exception as e:
                         logger.error("Error in step 4.4.3 of acquisition process " + str(e))
                         # ignore this exception
-                        pass
 
             if len(digital_value_list) > 0:
                 add_values = (" INSERT INTO tbl_digital_value (point_id, utc_date_time, actual_value) "
@@ -393,7 +387,6 @@ def process(logger, data_source_id, host, port):
                     except Exception as e:
                         logger.error("Error in step 4.5.1 of acquisition process: " + str(e))
                         # ignore this exception
-                        pass
 
                 # update tbl_digital_value_latest
                 delete_values = " DELETE FROM tbl_digital_value_latest WHERE point_id IN ( "
@@ -415,7 +408,6 @@ def process(logger, data_source_id, host, port):
                     except Exception as e:
                         logger.error("Error in step 4.5.2 of acquisition process " + str(e))
                         # ignore this exception
-                        pass
 
                     try:
                         # trim ", " at the end of string and then execute
@@ -424,7 +416,6 @@ def process(logger, data_source_id, host, port):
                     except Exception as e:
                         logger.error("Error in step 4.5.3 of acquisition process " + str(e))
                         # ignore this exception
-                        pass
 
             # update data source last seen datetime
             update_row = (" UPDATE tbl_data_sources "
@@ -436,7 +427,6 @@ def process(logger, data_source_id, host, port):
             except Exception as e:
                 logger.error("Error in step 4.6 of acquisition process " + str(e))
                 # ignore this exception
-                pass
 
             # sleep and continue the next iteration of the inner while loop
             time.sleep(config.interval_in_seconds)

@@ -2,7 +2,7 @@ import base64
 import uuid
 import os
 from openpyxl.chart import PieChart, LineChart, Reference
-from decimal import *
+from decimal import Decimal
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 from openpyxl.drawing.image import Image
 from openpyxl import Workbook
