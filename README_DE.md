@@ -60,6 +60,15 @@ Dieses Projekt besteht aus folgenden Komponenten:
 
 [Installieren web UI](./web/README.md)
 
+### Standardports
+
+MyEMS API: 8000
+
+MyEMS Web UI: 80
+
+MyEMS Admin UI: 8001
+
+
 ### Docker Docker-compose Installieren 
 
 ```

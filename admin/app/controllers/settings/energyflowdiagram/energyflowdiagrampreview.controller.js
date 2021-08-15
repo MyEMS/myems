@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('EnergyFlowDiagramPreviewController', function($scope, EnergyFlowDiagramService, EnergyFlowDiagramLinkService, highchartsNG) {
+app.controller('EnergyFlowDiagramPreviewController', function($scope, EnergyFlowDiagramService, EnergyFlowDiagramLinkService) {
       $scope.energyflowdiagrams = [];
       $scope.currentEnergyFlowDiagram = null;
 
