@@ -2341,15 +2341,6 @@ div.dt-button-info {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
 }
-/* CodeMirror */
-.CodeMirror {
-  border: 1px solid #eee;
-  height: auto;
-}
-.CodeMirror-scroll {
-  overflow-y: hidden;
-  overflow-x: auto;
-}
 /* Google Maps */
 .google-map {
   height: 300px;
@@ -3396,14 +3387,6 @@ video {
   margin-bottom: 5px;
   /* Only for demo */
   width: 24%;
-}
-/* Summernote text editor  */
-.note-editor {
-  height: auto !important;
-  min-height: 300px;
-}
-.note-editor.fullscreen {
-  z-index: 2050;
 }
 /* MODAL */
 .modal-content {
