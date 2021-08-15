@@ -34,7 +34,7 @@ MyEMS项目由下列组件构成:
 
 [安装 myems-api](./myems-api/README.md)
 
-### MyEMS 管理 UI (AngularJS)
+### MyEMS 管理 UI (AngularJS version 1.x)
 
 [安装 admin UI](./admin/README.md)
 
@@ -58,6 +58,13 @@ MyEMS项目由下列组件构成:
 
 [安装 web UI](./web/README.md)
 
+### 默认端口号
+
+MyEMS API: 8000
+
+MyEMS Web UI: 80
+
+MyEMS Admin UI: 8001
 
 ### Docker Docker-compose 安装
 
