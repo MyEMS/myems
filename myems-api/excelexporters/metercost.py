@@ -37,6 +37,7 @@ def export(report, name, reporting_start_datetime_local, reporting_end_datetime_
     ####################################################################################################################
     # Step 3: Encode the excel file to Base64
     ####################################################################################################################
+    binary_file_data = b''
     try:
         with open(filename, 'rb') as binary_file:
             binary_file_data = binary_file.read()
