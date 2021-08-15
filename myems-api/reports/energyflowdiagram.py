@@ -198,7 +198,6 @@ class Reporting:
                        "nodes": node_list_dict.get(int(energy_flow_diagram_id), None),
                        "links": link_list_dict.get(int(energy_flow_diagram_id), None),
                        }
-        print(meta_result)
         if cursor_system:
             cursor_system.close()
         if cnx_system:
