@@ -2,7 +2,7 @@ import falcon
 import simplejson as json
 import mysql.connector
 import config
-from anytree import Node, AnyNode, LevelOrderIter
+from anytree import AnyNode, LevelOrderIter
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 import excelexporters.storebatch
