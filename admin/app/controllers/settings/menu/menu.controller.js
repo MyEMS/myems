@@ -2,7 +2,6 @@
 
 app.controller('MenuController', function ($scope, $uibModal, MenuService, toaster, $translate) {
 	$scope.menus = [];
-	$scope.currentMenuID = null;
 	$scope.currentMenu = {};
 	$scope.currentMenuChildren = [];
 
@@ -37,8 +36,9 @@ app.controller('MenuController', function ($scope, $uibModal, MenuService, toast
 			angular.element(menutree).jstree(treedata);
 			//menu tree selected changed event handler
 			angular.element(menutree).on("changed.jstree", function (e, data) {
-				$scope.currentMenuID = parseInt(data.selected[0]);
-				$scope.getMenuChildren($scope.currentMenuID);
+				if (data.action === 'select_node') {
+					$scope.getMenuChildren(parseInt(data.selected[0]));
+				};
 			});
 		});
 	};
@@ -104,12 +104,6 @@ app.controller('MenuController', function ($scope, $uibModal, MenuService, toast
 		});
 
 		modalInstance.result.then(function (modifiedMenu) {
-			if (modifiedMenu.parent_menu != null) {
-				modifiedMenu.parent_menu_id = modifiedMenu.parent_menu_id;
-			} else {
-				modifiedMenu.parent_menu_id = null;
-			}
-			
 			MenuService.editMenu(modifiedMenu, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
