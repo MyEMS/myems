@@ -13,7 +13,35 @@ nginx-1.18.0 or later
 ## Running in Local environment
 This project is scaffolded using Create React App.
 
-* Install Node.js (https://nodejs.org/) if you do not already have it installed on your machine.
+* Install Node.js via binary archive on Linux
+Download Current Linux Binaries (x64) from https://nodejs.org/en/download/current/
+
+Unzip the binary archive to /usr/local/bin/nodejs, 
+```
+sudo mkdir -p /usr/local/lib/nodejs
+sudo tar -xJvf node-v1x.x.x-linux-x64.tar.xz -C /usr/local/lib/nodejs 
+```
+Using sudo to symlink node, npm, and npx into /usr/bin/:
+```
+sudo ln -s /usr/local/lib/nodejs/node-v1x.x.x-linux-x64/bin/node /usr/bin/node
+```
+```
+sudo ln -s /usr/local/lib/nodejs/node-v1x.x.x-linux-x64/bin/npm /usr/bin/npm
+```
+```
+sudo ln -s /usr/local/lib/nodejs/node-v1x.x.x-linux-x64/bin/npx /usr/bin/npx
+```
+Test installation using
+```
+node -v
+```
+```
+npm version
+```
+```
+npx -v
+```
+
 * Open the “myems/web” directory with your cmd or terminal
 * Run 'sudo npm i --unsafe-perm=true --allow-root'
 This command will download all the necessary dependencies for falcon in the node_modules directory.
