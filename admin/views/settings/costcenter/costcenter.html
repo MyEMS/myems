@@ -116,7 +116,7 @@
 								<tbody>
 									<tr ng-repeat="costfile in costfiles">
 										<td class="text-center">{{ costfile.id }}</td>
-										<td class="text-center"><a href="./upload/{{costfile.uuid}}"
+										<td class="text-center"><a ng-href="./upload/{{costfile.uuid}}"
 												download="{{costfile.file_name}}">{{ costfile.file_name }}</a>
 										</td>
 										<td class="text-center">{{ costfile.status }}</td>
