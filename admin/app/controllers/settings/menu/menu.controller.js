@@ -36,7 +36,7 @@ app.controller('MenuController', function ($scope, $uibModal, MenuService, toast
 			angular.element(menutree).jstree(treedata);
 			//menu tree selected changed event handler
 			angular.element(menutree).on("changed.jstree", function (e, data) {
-				if (data.action === 'select_node') {
+				if (data.action === 'ready' || data.action === 'select_node') {
 					$scope.getMenuChildren(parseInt(data.selected[0]));
 				};
 			});

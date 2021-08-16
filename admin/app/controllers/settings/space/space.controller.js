@@ -56,8 +56,10 @@ app.controller('SpaceController', function ($scope, $uibModal, SpaceService, Cos
 			angular.element(spacetree).jstree(treedata);
 			//space tree selected changed event handler
 			angular.element(spacetree).on("changed.jstree", function (e, data) {
-				$scope.currentSpaceID = parseInt(data.selected[0]);
-				$scope.getSpaceChildren($scope.currentSpaceID);
+				if (data.action === 'ready' || data.action === 'select_node') {
+					$scope.currentSpaceID = parseInt(data.selected[0]);
+					$scope.getSpaceChildren($scope.currentSpaceID);
+				}
 			});
 		});
 	};
