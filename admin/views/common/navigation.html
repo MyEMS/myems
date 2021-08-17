@@ -11,7 +11,7 @@
                     {{'MY_EMS_NAME' | translate }}
                 </div>
             </li>
-            <li ng-show="isAdminCookie()" ng-class="{active: $state.includes('settings')}">
+            <li ng-class="{active: $state.includes('settings')}">
                 <a href=""><i class="fa fa-gears"></i> <span class="nav-label">{{ 'MENU.SETTINGS.SETTINGS' | translate }}</span>  <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse" ng-class="{in: $state.includes('settings')}">
                     <li ui-sref-active="active"><a ui-sref="settings.category">{{ 'MENU.SETTINGS.CATEGORY' | translate }}</a></li>
@@ -36,7 +36,7 @@
                     <li ui-sref-active="active"><a ui-sref="settings.knowledgefile">{{ 'MENU.SETTINGS.KNOWLEDGEFILE' | translate }}</a></li>
                 </ul>
             </li>
-            <li ng-show="isAdminCookie()" ng-class="{active: $state.includes('fdd')}">
+            <li ng-class="{active: $state.includes('fdd')}">
                 <a href=""><i class="fa fa-bell-o"></i> <span class="nav-label">{{ 'MENU.FDD.FDD' | translate }} </span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse" ng-class="{in: $state.includes('fdd')}">
                     <li ui-sref-active="active"><a ui-sref="fdd.rule">{{ 'MENU.FDD.RULE' | translate }}</a></li>
@@ -46,7 +46,7 @@
                     <li ui-sref-active="active"><a ui-sref="fdd.wechatmessage">{{ 'MENU.FDD.WECHATALARM' | translate }}</a></li>
                 </ul>
             </li>
-            <li ng-show="isAdminCookie()" ng-class="{active: $state.includes('users')}">
+            <li ng-class="{active: $state.includes('users')}">
                 <a href=""><i class="fa fa-user"></i> <span class="nav-label">{{ 'MENU.USERSETTING.USERSETTING' | translate }}</span>  <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse" ng-class="{in: $state.includes('users')}">
                     <li ui-sref-active="active"><a ui-sref="users.user">{{ 'MENU.USERSETTING.USER' | translate }}</a></li>

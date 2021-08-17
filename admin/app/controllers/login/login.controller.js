@@ -22,7 +22,6 @@ app.controller('LoginController', function (
 	$scope.login = function (user) {
 		$scope.dataLoading = true;
 		LoginService.login(user, function (response) {
-			console.log(response);
 			if (angular.isDefined(response.status) && response.status === 200) {
 				// toaster type options: 'error','info','wait','success','warning'
 				toaster.pop({
@@ -83,8 +82,6 @@ app.controller('LoginController', function (
 	$scope.onKeypress = function ($event) {
 		if ($event.charCode == 13) {
 			$scope.login($scope.user);
-		} else {
-			return;
 		}
 	};
 
