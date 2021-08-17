@@ -24,17 +24,5 @@ app.controller('MainController', [
         $rootScope.bufferToStr=function(buffer){
             return String.fromCharCode.apply(null, new Uint8Array(buffer));
         };
-
-        $rootScope.isAdminCookie=function(){
-            var currentUser = undefined;
-            if ($window.localStorage.getItem("currentUser")){
-                currentUser = JSON.parse($window.localStorage.getItem("currentUser"));
-            }
-            if (currentUser != undefined && currentUser.is_admin ==true) {
-                return true;
-            }else{
-                return false;
-            }
-        }
     }
 ]);
