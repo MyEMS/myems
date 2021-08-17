@@ -11,8 +11,6 @@ app.factory('LoginService', function($http) {
             });
         },
         logout: function(data, headers, callback) {  
-            console.log(data);
-            console.log(headers);
             $http.put(getAPI()+'users/logout', {data}, {headers})
             .then(function (response) {
                 callback(response);
