@@ -177,12 +177,12 @@ app.controller('EquipmentParameterController', function($scope, $uibModal, $tran
 			});
 	};
 
-	$scope.colorMeterType=function(type){
-		if(type=='meters'){
+	$scope.colorMeterType = function(type) {
+		if (type === 'meters') {
 			return 'btn-primary'
-		}else if(type=='virtualmeters'){
+		} else if (type === 'virtualmeters') {
 			return 'btn-info'
-		}else{
+		} else {
 			return 'btn-success'
 		}
 	};
@@ -255,7 +255,6 @@ app.controller('EquipmentParameterController', function($scope, $uibModal, $tran
 		}
 	});
 
-    console.log($scope.mergedmeters);
 	};
 
 	$scope.getAllPoints = function() {

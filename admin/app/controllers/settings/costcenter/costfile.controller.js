@@ -54,7 +54,6 @@ app.controller('CostFileController', function (
 
     $scope.restoreCostFile = function (costfile) {
         CostFileService.restoreCostFile(costfile, function (response) {
-            console.log(response);
             if (angular.isDefined(response.status) && response.status === 200) {
                 toaster.pop({
                     type: "success",

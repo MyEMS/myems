@@ -45,7 +45,6 @@ app.controller('EnergyFlowDiagramLinkController', function($scope,$uibModal, $tr
 		EnergyFlowDiagramNodeService.getNodesByEnergyFlowDiagramID(id, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.energyflowdiagramnodes = response.data;
-				console.log($scope.energyflowdiagramnodes);
 			} else {
 				$scope.energyflowdiagramnodes = [];
 			}

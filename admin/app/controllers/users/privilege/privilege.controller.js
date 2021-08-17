@@ -209,7 +209,6 @@ app.controller('ModalEditPrivilegeCtrl', function ($scope,
 	$scope.spaces = [];
 	var privilege_data = JSON.parse(params.privilege.data);
 	$scope.currentSpaceID = privilege_data['spaces'][0];
-	console.log($scope.currentSpaceID)
 	
 	$scope.getAllSpaces = function () {
 		SpaceService.getAllSpaces(function (response) {
