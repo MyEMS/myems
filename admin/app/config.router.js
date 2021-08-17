@@ -8,12 +8,26 @@
  */
 app
     .run([
-        '$rootScope', '$state', '$stateParams',
-        function ($rootScope, $state, $stateParams) {
+        '$rootScope', '$state', '$transitions', '$location', '$window',
+        function ($rootScope, $state, $transitions, $location, $window) {
             $rootScope.$state = $state;
-            $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
-                $rootScope.$emit('handleStateChange', toState.data.pageTitle);
-            });
+            $transitions.onStart( { }, function(trans) {
+                if ($location.$$path.indexOf('login')==-1) {
+                    var currentUser = undefined;
+                    if ($window.localStorage.getItem("currentUser")){
+                        currentUser = JSON.parse($window.localStorage.getItem("currentUser"));
+                    }
+                    console.log(currentUser);
+                    console.log(currentUser == undefined);
+                    console.log(currentUser.is_admin === false);
+                    if (currentUser == undefined || currentUser.is_admin === false) {
+                        $window.localStorage.removeItem("currentUser");
+                        return $state.target("login.login");
+                    } else {
+                        $rootScope.pageTitle = trans.to().data.pageTitle;
+                    }
+                }
+              });
         }
     ])
     .config(
