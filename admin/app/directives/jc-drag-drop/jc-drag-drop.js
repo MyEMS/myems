@@ -4,8 +4,6 @@ module.directive('hjcDraggable', ['$rootScope', 'uuid', function($rootScope, uui
 	return {
 		restrict: 'A',
 		link: function(scope, el, attrs, controller) {
-			//console.log("linking draggable element");
-
 			angular.element(el).attr("draggable", "true");
 			var id = angular.element(el).attr("id");
 			if (!id) {
@@ -14,9 +12,7 @@ module.directive('hjcDraggable', ['$rootScope', 'uuid', function($rootScope, uui
 			}
 			
 			el.bind("dragstart", function(e) {
-				//console.log("The dragstart event handler fired, and evt.target = " + e.target);
 				e.dataTransfer.setData('text', id);
-
 				$rootScope.$emit("HJC-DRAG-START");
 			});
 			

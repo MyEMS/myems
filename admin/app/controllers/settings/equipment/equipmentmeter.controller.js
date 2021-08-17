@@ -100,7 +100,6 @@ app.controller('EquipmentMeterController', function($scope,$timeout,$uibModal, $
 	$scope.pairMeter=function(dragEl,dropEl){
         var tem_uuid = angular.element('#' + dragEl);
         if (angular.isDefined(tem_uuid.scope().equipmentmeter)) {
-            console.log("this is a spacemeter");
             return;
         }
         var modalInstance = $uibModal.open({

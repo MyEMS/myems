@@ -254,8 +254,6 @@ app.controller('CombinedEquipmentParameterController', function ($scope, $uibMod
 				$scope.virtualmeters = [];
 			}
 		});
-
-		console.log($scope.mergedmeters);
 	};
 
 	$scope.getAllPoints = function () {
