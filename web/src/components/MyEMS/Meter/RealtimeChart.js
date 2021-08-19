@@ -6,7 +6,7 @@ import { rgbaColor } from '../../../helpers/utils';
 import { withTranslation } from 'react-i18next';
 import uuid from 'uuid/v1';
 import { APIBaseURL } from '../../../config';
-import { getCookieValue, createCookie } from '../../../helpers/utils';
+import { getCookieValue } from '../../../helpers/utils';
 import { toast } from 'react-toastify';
 
 

@@ -103,7 +103,7 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
 
     setSelectedDistributionSystemID(event.target.value);
     distributionSystemList.forEach((currentItem, index) => {
-      if (currentItem['value'] == event.target.value) {
+      if (currentItem['value'] === event.target.value) {
         setSelectedDistributionSystemName(currentItem['label']);
       }
     });

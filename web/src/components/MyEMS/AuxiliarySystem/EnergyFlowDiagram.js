@@ -123,7 +123,7 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
     }
 
     energyFlowDiagramData.links.forEach(function (item) {
-      if(item.value == null) {
+      if(typeof item.value === 'null') {
           item.value = 0;
       }
       let sourceColor = null;
