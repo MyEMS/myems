@@ -346,7 +346,7 @@ const CombinedEquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
 
         let timeOfUseArray = [];
         json['reporting_period']['energy_category_ids'].forEach((currentValue, index) => {
-          if(currentValue == 1) {
+          if(currentValue === 1) {
             // energy_category_id 1 electricity
             let timeOfUseItem = {}
             timeOfUseItem['id'] = 1;

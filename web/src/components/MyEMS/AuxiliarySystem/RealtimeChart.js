@@ -72,7 +72,7 @@ class RealtimeChart extends Component {
     //fetch realtime data at regular intervals
     this.refreshInterval = setInterval(() => {
       let isResponseOK = false;
-      if (this.props.distributionSystemID != undefined) {
+      if (typeof this.props.distributionSystemID !== 'undefined') {
         fetch(APIBaseURL + '/reports/distributionsystem?distributionsystemid=' + this.props.distributionSystemID, {
           method: 'GET',
           headers: {
