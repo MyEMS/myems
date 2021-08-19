@@ -16,6 +16,50 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None.
 
+## [v1.2.1] - 2021-08-19
+### Added
+- Added Missing Error Messages Words of API to Web UI i18n
+- Added rule_id to messages tables of fdd database
+- added version tags to images in Dockerfile
+
+### Changed
+- renamed virtualmeter.model.html in Admin UI
+- replaced stateChangeStart with transitions.onStart in Admin UI
+- added filters for jstree action types of menu and space in Admin UI
+- updated README of Web UI
+- replaced href with ng-href in Admin UI
+- upgraded Highcharts JS to v9.1.2
+- upgraded jquery-ui to v1.12.1
+- updated Admin UI translations for Error Messages of API
+- upgraded ocLazyLoad to v1.0.10 in Admin UI
+- updated Dockerfiles to add pip mirrors
+- upgraded AngularJS to v1.8.2
+
+### Fixed
+- removed unnecessary jc.jsextend library from Admin UI
+- fixed debugging code issues in Admin UI
+- fixed unused code issues in Admin UI
+- fixed self assignment error in Web UI
+- fixed 'Clear-text logging of sensitive information' in API
+- fixed 'The variable binary_file_data does not seem to be defined for all execution paths' in API
+- replaced == with === to avoid casting in Admin UI
+- fixed response body of Restore actions
+- fixed typos in database
+- fixed typo in API
+- fixed typo in demo data of database
+
+### Removed
+- removed unused logs
+- removed diff-match-patch library from Admin UI
+- removed jeditable library from Admin UI
+- removed js plugins codemirror and summernote from Admin UI
+- removed 'unused import' from API
+- removed uncessary pass from acquisition.py of myems-modbus-tcp
+- removed unused import from meterbatch.py of API
+- removed unnecessary library mathjax from Admin UI
+- removed unnecessary libraries d3, and3, nvd3 and c3 from Admin UI
+- removed unnecessary library nggrid from Admin UI
+
 ## [v1.2.0] - 2021-08-08
 ### Added
 - Added demo data to database 
@@ -337,7 +381,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v1.2.1...HEAD
+[v1.2.1]: https://github.com/MyEMS/myems/compare/v1.2.0...v1.2.1
 [v1.2.0]: https://github.com/MyEMS/myems/compare/v1.1.6...v1.2.0
 [v1.1.6]: https://github.com/MyEMS/myems/compare/v1.1.5...v1.1.6
 [v1.1.5]: https://github.com/MyEMS/myems/compare/v1.1.4...v1.1.5
