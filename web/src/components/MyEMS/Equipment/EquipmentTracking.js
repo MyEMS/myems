@@ -17,7 +17,6 @@ import {
   UncontrolledDropdown,
   Spinner,
 } from 'reactstrap';
-import uuid from 'uuid/v1';
 import Cascader from 'rc-cascader';
 import loadable from '@loadable/component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

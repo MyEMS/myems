@@ -7,7 +7,6 @@ import {
   Row, 
   Col } from 'reactstrap';
 import FalconCardHeader from '../../common/FalconCardHeader';
-import ButtonIcon from '../../common/ButtonIcon';
 import { withTranslation } from 'react-i18next';
 import paginationFactory, { PaginationProvider } from 'react-bootstrap-table2-paginator';
 import { getPaginationArray } from '../../../helpers/utils';

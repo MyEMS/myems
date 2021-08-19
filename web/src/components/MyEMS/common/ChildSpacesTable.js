@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import FalconCardHeader from '../../common/FalconCardHeader';
-import ButtonIcon from '../../common/ButtonIcon';
 import { Card, CardBody, CardHeader, Row, Col } from 'reactstrap';
 import { withTranslation } from 'react-i18next';
 

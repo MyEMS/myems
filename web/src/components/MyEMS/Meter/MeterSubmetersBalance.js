@@ -19,7 +19,6 @@ import CountUp from 'react-countup';
 import Datetime from 'react-datetime';
 import moment from 'moment';
 import loadable from '@loadable/component';
-import Loader from '../../common/Loader';
 import Cascader from 'rc-cascader';
 import CardSummary from '../common/CardSummary';
 import LineChart from '../common/LineChart';

@@ -12,7 +12,6 @@ import {
   FormGroup,
   Input,
   Label,
-  CustomInput,
   Spinner,
 } from 'reactstrap';
 import Datetime from 'react-datetime';
