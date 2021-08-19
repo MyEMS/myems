@@ -1,16 +1,11 @@
 import React, { Component } from 'react';
-import { Line } from 'react-chartjs-2';
-import range from 'lodash/range';
 import { Card, CardHeader, CardBody, ListGroup, ListGroupItem } from 'reactstrap';
-import { rgbaColor } from '../../../helpers/utils';
 import { withTranslation } from 'react-i18next';
 import uuid from 'uuid/v1';
 import { APIBaseURL } from '../../../config';
-import { getCookieValue, createCookie } from '../../../helpers/utils';
+import { getCookieValue } from '../../../helpers/utils';
 import { toast } from 'react-toastify';
 
-
-const dividerBorder = '1px solid rgba(255, 255, 255, 0.15)';
 const listItemBorderColor = 'rgba(255, 255, 255, 0.05)';
 
 class RealtimeChart extends Component {

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Badge, Media } from 'reactstrap';
 import Calendar from '../../common/Calendar';
-import ButtonIcon from '../../common/ButtonIcon';
 
 const ReportBadge = ({ text, ...rest }) => <Badge {...rest}>{text}</Badge>;
 

@@ -9,7 +9,6 @@ import {
   Col,
   Card,
   CardBody,
-  CardFooter,
   Form,
   FormGroup,
   Input,
@@ -18,7 +17,6 @@ import {
   Table,
   Spinner,
 } from 'reactstrap';
-import Loader from '../../common/Loader';
 import createMarkup from '../../../helpers/createMarkup';
 import Datetime from 'react-datetime';
 import moment from 'moment';

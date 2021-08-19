@@ -13,9 +13,7 @@ import {
   Spinner
 } from 'reactstrap';
 import Summary from './Summary';
-import Loader from '../../common/Loader';
 import FalconCardHeader from '../../common/FalconCardHeader';
-import uuid from 'uuid/v1';
 import Datetime from 'react-datetime';
 import moment from 'moment';
 import createMarkup from '../../../helpers/createMarkup';
