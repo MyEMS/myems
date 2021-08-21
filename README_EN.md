@@ -68,6 +68,18 @@ MyEMS Web UI: 80
 
 MyEMS Admin UI: 8001
 
+### Default Passwords
+
+Admin UI:
+```
+administrator
+!MyEMS1
+```
+Web UI:
+```
+administrator@myems.io
+!MyEMS1
+```
 
 ### Docker-compose Installation
 
