@@ -37,7 +37,7 @@ app.controller('CostFileController', function (
             toaster.pop({
                 type: "success",
                 title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-                body: $translate.instant("TOASTER.SUCCESS_ADD_BODY".format(file.name)),
+                body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: file.name}),
                 showCloseButton: true,
             });
             $scope.getAllCostFiles();
@@ -46,7 +46,7 @@ app.controller('CostFileController', function (
             toaster.pop({
                 type: "error",
                 title: $translate.instant("TOASTER.FAILURE_TITLE"),
-                body: $translate.instant("TOASTER.ERROR_ADD_BODY".format(file.name)),
+                body: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: file.name}),
                 showCloseButton: true,
             });
         }
