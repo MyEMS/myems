@@ -38,7 +38,7 @@ app.controller('OfflineMeterFileController', function(
 			toaster.pop({
 				type: "success",
 				title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-				body: $translate.instant("TOASTER.SUCCESS_ADD_BODY",{template: file.name}),
+				body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: file.name}),
 				showCloseButton: true,
 			});
 			$scope.getAllOfflineMeterFiles();
