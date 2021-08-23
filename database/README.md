@@ -4,14 +4,12 @@
 
 Providing database schema and scripts for MyEMS.
 
-
 ### Prerequisites
  [MySQL 8.0 or later](https://www.mysql.com/)
 
  or [MariaDB 10.5 or later](https://mariadb.org/)
  
  or [SingleStore 7.0 or later](https://www.singlestore.com/) (highly recommended)
-
 
 ### Installation
 
