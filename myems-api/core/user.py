@@ -431,7 +431,7 @@ class UserLogin:
                        "             (user_uuid, token, utc_expires) "
                        " VALUES (%s, %s, %s) ")
         user_uuid = result['uuid']
-        token = hashlib.sha1(os.urandom(24)).hexdigest()
+        token = hashlib.sha512(os.urandom(24)).hexdigest()
         utc_expires = datetime.utcnow() + timedelta(seconds=60 * 60 * 8)
         cursor.execute(add_session, (user_uuid, token, utc_expires))
         cnx.commit()
