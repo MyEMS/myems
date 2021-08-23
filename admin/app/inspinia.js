@@ -5,7 +5,7 @@
  * Custom scripts
  */
 
-$(document).ready(function () {
+$(function () {
 
     // Append config box / Only for demo purpose
     //$.get("views/skin-config.html", function (data) {
