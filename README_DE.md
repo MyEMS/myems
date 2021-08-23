@@ -274,11 +274,11 @@ docker-compose up -d
 
 ## MyEMS Spiegel
 
-[1]. [http://github.com/MyEMS/myems](http://github.com/MyEMS/myems)
+[1]. [https://github.com/MyEMS/myems](https://github.com/MyEMS/myems)
   
-[2]. [http://gitee.com/myems/myems](http://gitee.com/myems/myems)
+[2]. [https://gitee.com/myems/myems](https://gitee.com/myems/myems)
 
-[3]. [http://bitbucket.org/myems/myems](http://bitbucket.org/myems/myems)
+[3]. [https://bitbucket.org/myems/myems](https://bitbucket.org/myems/myems)
 
 [4]. [https://gitlab.com/myems/myems](https://gitlab.com/myems/myems)
 

@@ -2,7 +2,7 @@
 
 ## macOS（v11.2.1）
 
-#### 1.Python
+### 1.Python
 
 MyEMS要求Python版本在3.5+，这里用brew来安装最新别的`Python3.9`版本,不过要先安装`Xcode Command Line Tools`，否则安装python会报错。
 ```bash
@@ -21,7 +21,7 @@ $echo 'export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.aliyun.com/homebrew/homebre
 $source ~/.zshrc
 ```
 
-#### 2.MySQL
+### 2.MySQL
 
 MyEMS默认使用MySQL8.0，也是采用brew来安装
 ```shell
@@ -82,7 +82,7 @@ mysql> show databases;  // 查看数据库是否导入OK
 13 rows in set (0.02 sec)
 ```
 
-#### 3.部署mymes-api服务
+### 3.部署mymes-api服务
 安装一堆python依赖库
 ```shell
 # 安装anytree
@@ -133,7 +133,7 @@ export PATH="/usr/local/Cellar/python@3.9/3.9.1_8/Frameworks/Python.framework/Ve
 $ source ~/.zshrc
 ```
 
-#### 4.运行myems-api服务
+### 4.运行myems-api服务
 ```shell
 $ git clone https://github.com/kuuyee/myems-api.git
 $ cd myems-api
@@ -146,7 +146,7 @@ $ gunicorn -b 127.0.0.1:8000 app:api
 //启动成功
 ```
 
-#### 5.验证myems-api服务
+### 5.验证myems-api服务
 
 打开浏览器访问[http://localhost:8000/version](http://localhost:8000/version) 
 如果看到如下输出就表示服务启动正常。

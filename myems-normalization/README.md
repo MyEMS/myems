@@ -1,13 +1,10 @@
 ## MyEMS Normalization Service 数据规范化服务
 
-
-
 ### Introduction
 
 This service is a component of MyEMS and it normalizes energy data in historical database.
 
 ![MyEMS Meter Normalization](../docs/images/meter-normalization.png)
-
 
 ### Prerequisites
 
@@ -16,7 +13,6 @@ mysql.connector
 sympy
 
 openpyxl
-
 
 ### Installation
 
@@ -103,7 +99,7 @@ View the log:
 
 ### References
 
-1. https://myems.io
-2. https://dev.mysql.com/doc/connector-python/en/
-3. https://github.com/sympy/sympy
-4. https://openpyxl.readthedocs.io
+1.  https://myems.io
+2.  https://dev.mysql.com/doc/connector-python/en/
+3.  https://github.com/sympy/sympy
+4.  https://openpyxl.readthedocs.io

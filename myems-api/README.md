@@ -26,7 +26,7 @@ In this step, you will install myems-api on Ubuntu for production or development
 
 For macOS developers, please refer to [Installation on macOS (Chinese)](./installation_macos_zh.md)
 
-* Install anytree
+*   Install anytree
 ```
 $ cd ~/tools
 $ git clone https://github.com/c0fec0de/anytree.git
@@ -34,7 +34,7 @@ $ cd anytree
 $ sudo python3 setup.py install 
 ```
 
-* Install simplejson
+*   Install simplejson
 ```
 $ cd ~/tools
 $ git clone https://github.com/simplejson/simplejson.git
@@ -42,7 +42,7 @@ $ cd simplejson
 $ sudo python3 setup.py install 
 ```
 
-* Install MySQL Connector
+*   Install MySQL Connector
 ```
   $ cd ~/tools
   $ wget https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python-8.0.20.tar.gz
@@ -51,7 +51,7 @@ $ sudo python3 setup.py install
   $ sudo python3 setup.py install
 ```
 
-* Install Falcon,
+*   Install Falcon,
 
   if you are behind proxy, use --proxy parameter
 
@@ -71,14 +71,14 @@ $ sudo python3 setup.py install
   $ sudo pip3 install --upgrade --no-index --find-links ~/tools/falcon cython falcon falcon-cors falcon-multipart
 ```
 
-* Install gunicorn, refer to http://gunicorn.org
+*   Install gunicorn, refer to http://gunicorn.org
 ```
   $ mkdir ~/tools/gunicorn && cd ~/tools/gunicorn
   $ pip3 download gunicorn
   $ sudo pip3 install --no-index --find-links ~/tools/gunicorn gunicorn
 ```
 
-* Install openpyxl, refer to https://foss.heptapod.net/openpyxl/openpyxl
+*   Install openpyxl, refer to https://foss.heptapod.net/openpyxl/openpyxl
 
 Get the latest version of et_xmlfile from https://foss.heptapod.net/openpyxl/et_xmlfile
 
@@ -106,13 +106,13 @@ Get the latest version of openpyxl from https://foss.heptapod.net/openpyxl/openp
   $ sudo python3 setup.py install
 ```
 
-* Download myems:
+*   Download myems:
 ```
   $ cd ~
   $ git clone https://github.com/MyEMS/myems.git
 ```
 
-* Install gunicorn service for myems-api:
+*   Install gunicorn service for myems-api:
 ```
   $ cd ~/myems/myems-api
   $ sudo cp -R ~/myems/myems-api /myems-api
@@ -187,29 +187,29 @@ View in Postman: import the file MyEMS.postman_collection.json with Postman
 
 
 ### Contact
-* GET Contact by ID
+*   GET Contact by ID
 ```bash
 $ curl -i -X GET {{base_url}}/contacts/{id}
 ```
-* GET All Contacts
+*   GET All Contacts
 ```bash
 $ curl -i -X GET {{base_url}}/contacts
 ```
-* DELETE Contact by ID
+*   DELETE Contact by ID
 ```bash
 $ curl -i -X DELETE {{base_url}}/contacts/{id}
 ```
-* POST Create a New Contact
+*   POST Create a New Contact
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"albert", "email":"albert@myems.io", "phone":"+8613888888888", "description":"contact description"}}' {{base_url}}/contacts
 ```
-* PUT Update a Contact
+*   PUT Update a Contact
 ```bash
 $ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"albert", "email":"albert@myems.io", "phone":"+8613888888899", "description":"contact description"}}' {{base_url}}/contacts/{id}
 ```
 
 ### Cost Center
-* GET Cost Center by ID
+*   GET Cost Center by ID
 
 ```bash
 $ curl -i -X GET {{base_url}}/costcenters/{id}
@@ -223,37 +223,37 @@ Result in JSON
 | uuid          | string    | Cost Center UUID                          |
 | external_id   | string    | Cost Center External ID ( For example, ID in SAP, ERP...) |
 
-* GET all Cost Centers
+*   GET all Cost Centers
 ```bash
 $ curl -i -X GET {{base_url}}/costcenters
 ```
-* DELETE Cost Center by ID
+*   DELETE Cost Center by ID
 ```bash
 $ curl -i -X DELETE {{base_url}}/costcenters/{id}
 ```
-* POST Create New Cost Center
+*   POST Create New Cost Center
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"动力中心", "external_id":"21829198980001"}}' {{base_url}}/costcenters
 ```
-* PUT Update a Cost Center
+*   PUT Update a Cost Center
 ```bash
 $ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"动力中心2", "external_id":"21829198980002"}}' {{base_url}}/costcenters/{id}
 ```
-* GET All Tariffs associated with Cost Center ID
+*   GET All Tariffs associated with Cost Center ID
 ```bash
 $ curl -i -X GET {{base_url}}/costcenters/{id}/tariffs
 ```
-* POST Create a Cost Center and Tariff Relation
+*   POST Create a Cost Center and Tariff Relation
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"tariff_id":"3"}}' {{base_url}}/costcenters/{id}/tariffs
 ```
-* DELETE a Cost Center and Tariff Relation by tid
+*   DELETE a Cost Center and Tariff Relation by tid
 ```bash
 $ curl -i -X DELETE {{base_url}}/costcenters/{id}/tariffs/{tid}
 ```
 
 ### Cost File
-* GET an Cost File by ID
+*   GET an Cost File by ID
 
 ```bash
 $ curl -i -X GET {{base_url}}/costfiles/{id}
@@ -269,26 +269,26 @@ Result
 | status        | string    | Cost File processing status (new, done, error)   |
 | file_object   | BLOB       | Cost File Object                 |
 
-* GET All Cost Files
+*   GET All Cost Files
 ```bash
 $ curl -i -X GET {{base_url}}/costfiles
 ```
-* DELETE a Cost File by ID
+*   DELETE a Cost File by ID
 ```bash
 $ curl -i -X DELETE {{base_url}}/costfiles/{id}
 ```
-* POST Upload a Cost File
+*   POST Upload a Cost File
   (user must login first to get cookie)
 ```bash
 $ curl -i -H "Content-Type: application/TBD" -X POST -d 'file: (binary)' {{base_url}}/costfiles
 ```
-* GET Restore a Cost File by ID from database to disk
+*   GET Restore a Cost File by ID from database to disk
 ```bash
 $ curl -i -X GET {{base_url}}/costfiles/{id}/restore
 ```
 
 ### Data Source
-* GET Data Source by ID
+*   GET Data Source by ID
 
 ```bash
 $ curl -i -X GET {{base_url}}/datasources/{id}
@@ -306,29 +306,29 @@ Result in JSON
 | last_seen_datetime| float | Indicates the last time when the data source was seen in a number of milliseconds since January 1, 1970, 00:00:00, universal time |
 | status        | string    | 'online' or 'offline' determined by last seen datetime|
 
-* GET all Data Sources
+*   GET all Data Sources
 ```bash
 $ curl -i -X GET {{base_url}}/datasources
 ```
-* DELETE Data Source by ID
+*   DELETE Data Source by ID
 ```bash
 $ curl -i -X DELETE {{base_url}}/datasources/{id}
 ```
-* POST Data Source
+*   POST Data Source
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"Modbus1", "gateway_id":1, "protocol":"modbus-tcp", "connection":"{\"host\":\"10.1.2.88\", \"port\":502}"}}' {{base_url}}/datasources
 ```
-* PUT Data Source
+*   PUT Data Source
 ```bash
 $ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"Modbus1", "gateway_id":1, "protocol":"modbus-tcp", "connection":"{\"host\":\"10.1.2.99\", \"port\":502}"}}' {{base_url}}/datasources/{id}
 ```
-* GET all points of the Data Source by ID
+*   GET all points of the Data Source by ID
 ```bash
 $ curl -i -X GET {{base_url}}/datasources/{id}/points
 ```
 
 ### Distribution Circuit
-* GET Distribution Circuit by ID
+*   GET Distribution Circuit by ID
 
 ```bash
 $ curl -i -X GET {{base_url}}/distributioncircuits/{id}
@@ -348,37 +348,37 @@ Result in JSON
 | customers     | string    | Customers or users                        |
 | meters        | string    | Meters (output or next level)             |
 
-* GET all Distribution Circuits
+*   GET all Distribution Circuits
 ```bash
 $ curl -i -X GET {{base_url}}/distributioncircuits
 ```
-* DELETE a Distribution Circuit by ID
+*   DELETE a Distribution Circuit by ID
 ```bash
 $ curl -i -X DELETE {{base_url}}/distributioncircuits/{id}
 ```
-* POST Create new Distribution Circuit
+*   POST Create new Distribution Circuit
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"51W91", "distribution_system_id":1, "distribution_room":"EW1", "switchgear":"51AL9", "peak_load": 30, "peak_current": 53.6, "customers": "地下室应急照明", "meters": "ALE-1102, ALE-1082"}}' {{base_url}}/distributioncircuits
 ```
-* PUT Update a Distribution Circuit
+*   PUT Update a Distribution Circuit
 ```bash
 $ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"51W92", "distribution_system_id":1, "distribution_room":"EW1", "switchgear":"51AL9", "peak_load": 30, "peak_current": 53.6, "customers": "地下室应急照明", "meters": "ALE-1102, ALE-1082"}}' {{base_url}}/distributioncircuits/{id}
 ```
-* GET All Points associated with Distribution Circuit ID
+*   GET All Points associated with Distribution Circuit ID
 ```bash
 $ curl -i -X GET {{base_url}}/distributioncircuits/{id}/points
 ```
-* POST Bind Point to Distribution Circuit
+*   POST Bind Point to Distribution Circuit
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"point_id":"3"}}' {{base_url}}/distributioncircuits/{id}/points
 ```
-* DELETE Unbind Point from Distribution Circuit
+*   DELETE Unbind Point from Distribution Circuit
 ```bash
 $ curl -i -X DELETE {{base_url}}/distributioncircuits/{id}/points/{pid}
 ```
 
 ### Distribution System
-* GET Distribution System by ID
+*   GET Distribution System by ID
 
 ```bash
 $ curl -i -X GET {{base_url}}/distributionsystems/{id}
@@ -393,29 +393,29 @@ Result in JSON
 | svg           | string    | SVG file in plain text                    |
 | description   | string    | Description (allow None)                  |
 
-* GET all Distribution Systems
+*   GET all Distribution Systems
 ```bash
 $ curl -i -X GET {{base_url}}/distributionsystems
 ```
-* DELETE a Distribution System by ID
+*   DELETE a Distribution System by ID
 ```bash
 $ curl -i -X DELETE {{base_url}}/distributionsystems/{id}
 ```
-* POST Create new Distribution System
+*   POST Create new Distribution System
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"示例配电系统", "svg":"<?xml version=\"1.0\" encoding=\"UTF-8\"?><svg width=\"5cm\" height=\"4cm\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\"><desc>Four separate rectangles</desc><rect x=\".5cm\" y=\".5cm\" width=\"2cm\" height=\"1cm\"/></svg>", "description":"demo description"}}' {{base_url}}/distributionsystems
 ```
-* PUT Update a Distribution System
+*   PUT Update a Distribution System
 ```bash
 $ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"示例配电系统", "svg":"<?xml version=\"1.0\" encoding=\"UTF-8\"?><svg width=\"5cm\" height=\"4cm\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\"><desc>Four separate rectangles</desc><rect x=\".5cm\" y=\".5cm\" width=\"2cm\" height=\"1cm\"/></svg>", "description":"demo description"}}' {{base_url}}/distributionsystems/{id}
 ```
-* GET All Distribution Circuits associated with Distribution Circuit
+*   GET All Distribution Circuits associated with Distribution Circuit
 ```bash
 $ curl -i -X GET {{base_url}}/distributionsystems/{id}/distributioncircuits
 ```
 
 ### Email Message
-* GET an Email Message by ID
+*   GET an Email Message by ID
 
 Result in JSON
 
@@ -427,25 +427,25 @@ Result in JSON
 | subject       | string    | Email Message Subject                     |
 | message       | string    | Email Message Body                        |
 | attachment_file_name| string| Email Attachment File Name              |
-| create_datetime| float    | Email Message Created Datetime (POSIX timestamp * 1000)|
-| scheduled_datetime| float | Email Message Scheduled Datetime (POSIX timestamp * 1000)|
+| create_datetime| float    | Email Message Created Datetime (POSIX timestamp *   1000)|
+| scheduled_datetime| float | Email Message Scheduled Datetime (POSIX timestamp *   1000)|
 | status        | string    | Status ('new', 'sent', 'timeout'          |
 
 ```bash
 $ curl -i -X GET {{base_url}}/emailmessages/{id}
 ```
-* GET Email Messages from Startdate to Enddate
+*   GET Email Messages from Startdate to Enddate
 ```bash
 $ curl -i -X GET {{base_url}}/emailmessages/from/{startdate}/to/{enddate}
 ```
-* DELETE an Email Message by ID
+*   DELETE an Email Message by ID
 ```bash
 $ curl -i -X DELETE {{base_url}}/emailmessages/{id}
 ```
 
 
 ### Email Server
-* GET an Email Server by ID
+*   GET an Email Server by ID
 
 ```bash
 $ curl -i -X GET {{base_url}}/emailservers/{id}
@@ -462,26 +462,26 @@ Result in JSON
 | password      | string    | Email Server password                 |
 | from_addr     | string    | Indicates from which email address to send emails |
 
-* GET All Email Servers
+*   GET All Email Servers
 ```bash
 $ curl -i -X GET {{base_url}}/emailservers
 ```
-* DELETE an Email Server by ID
+*   DELETE an Email Server by ID
 ```bash
 $ curl -i -X DELETE {{base_url}}/emailservers/{id}
 ```
-* POST Create New Email Server
+*   POST Create New Email Server
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"host":"smtp.163.com","port":25, "requires_authentication":true, "user_name":"myems" , "password":"!MyEMS1" , "from_addr":"myems@163.com"}}' {{base_url}}/emailservers
 ```
-* PUT Update an Email Server
+*   PUT Update an Email Server
 ```bash
 $ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"host":"smtp.myems.io","port":25, "requires_authentication":true, "user_name":"myems" , "password":"!MyEMS1" , "from_addr":"myems@myems.io"}}' {{base_url}}/emailservers/{id}
 ```
 
 
 ### Energy Category
-* GET an Energy Category by ID
+*   GET an Energy Category by ID
 
 ```bash
 $ curl -i -X GET {{base_url}}/energycategories/{id}
@@ -498,26 +498,26 @@ Result in JSON
 | kgco2e        | string    | KG Carbon dioxide equivalent              |
 
 
-* GET All Energy Categories
+*   GET All Energy Categories
 ```bash
 $ curl -i -X GET {{base_url}}/energycategories
 ```
-* DELETE an Energy Category by ID
+*   DELETE an Energy Category by ID
 ```bash
 $ curl -i -X DELETE {{base_url}}/energycategories/{id}
 ```
-* POST Create an Energy Category
+*   POST Create an Energy Category
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"电","unit_of_measure":"kWh", "kgce":0.1229 , "kgco2e":0.8825}}' {{base_url}}/energycategories
 ```
-* PUT Update an Energy Category
+*   PUT Update an Energy Category
 ```bash
 $ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"电","unit_of_measure":"kWh", "kgce":0.1329 , "kgco2e":0.9825}}' {{base_url}}/energycategories/{id}
 ```
 
 
 ### Energy Flow Diagram
-* GET an Energy Flow Diagram by ID
+*   GET an Energy Flow Diagram by ID
 ```bash
 $ curl -i -X GET {{base_url}}/energyflowdiagrams/{id}
 ```
@@ -529,58 +529,58 @@ Result
 | name          | string    | Equipment name                            |
 | uuid          | string    | Equipment UUID                            |
 
-* GET All Energy Flow Diagrams
+*   GET All Energy Flow Diagrams
 ```bash
 $ curl -i -X GET {{base_url}}/energyflowdiagrams
 ```
-* DELETE an Energy Flow Diagram by ID
+*   DELETE an Energy Flow Diagram by ID
 ```bash
 $ curl -i -X DELETE {{base_url}}/energyflowdiagrams/{id}
 ```
-* POST Create an Energy Flow Diagram
+*   POST Create an Energy Flow Diagram
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"MyEMS Energy Flow"}}' {{base_url}}/energyflowdiagrams
 ```
-* PUT Update an Energy Flow Diagram
+*   PUT Update an Energy Flow Diagram
 ```bash
 $ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"MyEMS Energy Flow Diagram"}}' {{base_url}}/energyflowdiagrams/{id}
 ```
-* GET All Nodes of an Energy Flow Diagram by ID
+*   GET All Nodes of an Energy Flow Diagram by ID
 ```bash
 $ curl -i -X GET {{base_url}}/energyflowdiagrams/{id}/nodes
 ```
-* POST Create a Node of an Energy Flow Diagram
+*   POST Create a Node of an Energy Flow Diagram
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"10KV#1"}}' {{base_url}}/energyflowdiagrams/{id}/nodes
 ```
-* PUT Update a Node of an Energy Flow Diagram
+*   PUT Update a Node of an Energy Flow Diagram
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"10KV#2"}}' {{base_url}}/energyflowdiagrams/{id}/nodes/{nid}
 ```
-* DELETE a Node of an Energy Flow Diagram
+*   DELETE a Node of an Energy Flow Diagram
 ```bash
 $ curl -i -X DELETE {{base_url}}/energyflowdiagrams/{id}/nodes/{nid}
 ```
-* GET All Links of an Energy Flow Diagram by ID
+*   GET All Links of an Energy Flow Diagram by ID
 ```bash
 $ curl -i -X GET {{base_url}}/energyflowdiagrams/{id}/links
 ```
-* POST Create a Link of an Energy Flow Diagram
+*   POST Create a Link of an Energy Flow Diagram
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"source_node_id":1, "target_node_id":3, "meter_uuid":"d806a78d-a31e-4833-b5c8-81261cfeb1f2"}}' {{base_url}}/energyflowdiagrams/{id}/links
 ```
-* PUT Update a Link of an Energy Flow Diagram
+*   PUT Update a Link of an Energy Flow Diagram
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"source_node_id":1, "target_node_id":4, "meter_uuid":"d806a78d-a31e-4833-b5c8-81261cfeb1f2"}}' {{base_url}}/energyflowdiagrams/{id}/links/{lid}
 ```
-* DELETE a Link of an Energy Flow Diagram
+*   DELETE a Link of an Energy Flow Diagram
 ```bash
 $ curl -i -X DELETE {{base_url}}/energyflowdiagrams/{id}/links/{lid}
 ```
 
 
 ### Energy Item
-* GET an Energy Item by ID
+*   GET an Energy Item by ID
 
 ```bash
 $ curl -i -X GET {{base_url}}/energyitems/{id}
@@ -595,26 +595,26 @@ Result in JSON
 | Energy Category| object | Energy Category Object                  |
 
 
-* GET All Energy Items
+*   GET All Energy Items
 ```bash
 $ curl -i -X GET {{base_url}}/energyitems
 ```
-* DELETE an Energy Item by ID
+*   DELETE an Energy Item by ID
 ```bash
 $ curl -i -X DELETE {{base_url}}/energyitems/{id}
 ```
-* POST Create an Energy Item
+*   POST Create an Energy Item
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"空调用电","energy_category_id":1}}' {{base_url}}/energyitems
 ```
-* PUT Update an Energy Item
+*   PUT Update an Energy Item
 ```bash
 $ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"动力用电","energy_category_id":1}}' {{base_url}}/energyitems/{id}
 ```
 
 
 ### Equipment
-* GET Equipment by ID
+*   GET Equipment by ID
 ```bash
 $ curl -i -X GET {{base_url}}/equipments/{id}
 ```
@@ -630,43 +630,43 @@ Result
 | cost_center   | Object    | Cost Center Object                        |
 | description   | string    | Equipment description                     |
 
-* GET All Equipments
+*   GET All Equipments
 ```bash
 $ curl -i -X GET {{base_url}}/equipments
 ```
-* DELETE an Equipment by ID
+*   DELETE an Equipment by ID
 ```bash
 $ curl -i -X DELETE {{base_url}}/equipments/{id}
 ```
-* POST Create an Equipment
+*   POST Create an Equipment
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"MyEMS Chiller", "is_input_counted":true, "is_output_counted":false, "cost_center_id":1, "description":"equipment description"}}' {{base_url}}/equipments
 ```
-* PUT Update an Equipment
+*   PUT Update an Equipment
 ```bash
 $ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"MyEMS Chiller", "is_input_counted":true, "is_output_counted":true, "cost_center_id":1, "description":"equipment description"}}' {{base_url}}/equipments/{id}
 ```
-* POST Clone an Equipment
+*   POST Clone an Equipment
 ```bash
 $ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{}}' {{base_url}}/equipments/{id}
 ```
-* GET All Meters of an Equipment by ID
+*   GET All Meters of an Equipment by ID
 ```bash
 $ curl -i -X GET {{base_url}}/equipments/{id}/meters
 ```
-* POST Bind a Meter to an Equipment
+*   POST Bind a Meter to an Equipment
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"meter_id":1}}' {{base_url}}/equipments/{id}/meters
 ```
-* DELETE a Meter from an Equipment
+*   DELETE a Meter from an Equipment
 ```bash
 $ curl -i -X DELETE {{base_url}}/equipments/{id}/meters/{mid}
 ```
-* GET All Parameters of an Equipment by ID
+*   GET All Parameters of an Equipment by ID
 ```bash
 $ curl -i -X GET {{base_url}}/equipments/{id}/parameters
 ```
-* GET a Parameter of an Equipment by ID
+*   GET a Parameter of an Equipment by ID
 ```bash
 $ curl -i -X GET {{base_url}}/equipments/{id}/parameters/{pid}
 ```
@@ -684,49 +684,49 @@ Result
 | numerator_meter     | object    | Parameter numerator meter object    |
 | denominator_meter   | object    | Parameter numerator meter object    |
 
-* POST Create a constant Parameter for an Equipment
+*   POST Create a constant Parameter for an Equipment
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"test parameter", "parameter_type":"constant", "constant":"test constant", "point_id":null, "numerator_meter_uuid":null, "denominator_meter_uuid":null}}' {{base_url}}/equipments/{id}/parameters
 ```
-* POST Create a point Parameter for an Equipment
+*   POST Create a point Parameter for an Equipment
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"test parameter", "parameter_type":"point", "constant":null, "point_id":1, "numerator_meter_uuid":null, "denominator_meter_uuid":null}}' {{base_url}}/equipments/{id}/parameters
 ```
-* POST Create a meter Parameter for an Equipment
+*   POST Create a meter Parameter for an Equipment
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"test parameter", "parameter_type":"fraction", "constant":null, "point_id":null, "numerator_meter_uuid":"89ff5118-d0c2-4dd8-8098-a8698189b2ea", "denominator_meter_uuid":"5ca62d2a-908e-40c5-a6b5-a8e436d60db4"}}' {{base_url}}/equipments/{id}/parameters
 ```
-* DELETE a Parameter from an Equipment
+*   DELETE a Parameter from an Equipment
 ```bash
 $ curl -i -X DELETE {{base_url}}/equipments/{id}/parameters/{pid}
 ```
-* GET All Offline Meters of an Equipment by ID
+*   GET All Offline Meters of an Equipment by ID
 ```bash
 $ curl -i -X GET {{base_url}}/equipments/{id}/offlinemeters
 ```
-* POST Bind an Offline Meter to an Equipment
+*   POST Bind an Offline Meter to an Equipment
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"offline_meter_id":1}}' {{base_url}}/equipments/{id}/offlinemeters
 ```
-* DELETE an Offline Meter from an Equipment
+*   DELETE an Offline Meter from an Equipment
 ```bash
 $ curl -i -X DELETE {{base_url}}/equipments/{id}/offlinemeters/{mid}
 ```
-* GET All Virtual Meters of an Equipment by ID
+*   GET All Virtual Meters of an Equipment by ID
 ```bash
 $ curl -i -X GET {{base_url}}/equipments/{id}/virtualmeters
 ```
-* POST Bind an Virtual Meter to an Equipment
+*   POST Bind an Virtual Meter to an Equipment
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"virtual_meter_id":1}}' {{base_url}}/equipments/{id}/virtualmeters
 ```
-* DELETE an Virtual Meter from an Equipment
+*   DELETE an Virtual Meter from an Equipment
 ```bash
 $ curl -i -X DELETE {{base_url}}/equipments/{id}/virtualmeters/{mid}
 ```
 
 ### Combined Equipment
-* GET a Combined Equipment by ID
+*   GET a Combined Equipment by ID
 ```bash
 $ curl -i -X GET {{base_url}}/combinedequipments/{id}
 ```
@@ -742,55 +742,55 @@ Result
 | cost_center   | Object    | Cost Center Object                        |
 | description   | string    | Combined Equipment description            |
 
-* GET All Equipments
+*   GET All Equipments
 ```bash
 $ curl -i -X GET {{base_url}}/combinedequipments
 ```
-* DELETE a Combined Equipment by ID
+*   DELETE a Combined Equipment by ID
 ```bash
 $ curl -i -X DELETE {{base_url}}/combinedequipments/{id}
 ```
-* POST Create a Combined Equipment
+*   POST Create a Combined Equipment
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"MyEMS Chiller Plant", "is_input_counted":true, "is_output_counted":false, "cost_center_id":1, "description":"equipment description"}}' {{base_url}}/combinedequipments
 ```
-* PUT Update a Combined Equipment
+*   PUT Update a Combined Equipment
 ```bash
 $ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"MyEMS Chiller Plant", "is_input_counted":true, "is_output_counted":true, "cost_center_id":1, "description":"equipment description"}}' {{base_url}}/combinedequipments/{id}
 ```
-* POST Clone a Combined Equipment
+*   POST Clone a Combined Equipment
 ```bash
 $ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{}}' {{base_url}}/combinedequipments/{id}
 ```
-* GET All Equipments of a Combined Equipment by ID
+*   GET All Equipments of a Combined Equipment by ID
 ```bash
 $ curl -i -X GET {{base_url}}/combinedequipments/{id}/equipments
 ```
-* POST Bind an Equipment to a Combined Equipment
+*   POST Bind an Equipment to a Combined Equipment
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"equipment_id":1}}' {{base_url}}/combinedequipments/{id}/equipments
 ```
-* DELETE an Equipment from a Combined Equipment
+*   DELETE an Equipment from a Combined Equipment
 ```bash
 $ curl -i -X DELETE {{base_url}}/combinedequipments/{id}/equipments/{eid}
 ```
-* GET All Meters of a Combined Equipment by ID
+*   GET All Meters of a Combined Equipment by ID
 ```bash
 $ curl -i -X GET {{base_url}}/combinedequipments/{id}/meters
 ```
-* POST Bind a Meter to a Combined Equipment
+*   POST Bind a Meter to a Combined Equipment
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"meter_id":1}}' {{base_url}}/combinedequipments/{id}/meters
 ```
-* DELETE a Meter from a Combined Equipment
+*   DELETE a Meter from a Combined Equipment
 ```bash
 $ curl -i -X DELETE {{base_url}}/combinedequipments/{id}/meters/{mid}
 ```
-* GET All Parameters of a Combined Equipment by ID
+*   GET All Parameters of a Combined Equipment by ID
 ```bash
 $ curl -i -X GET {{base_url}}/combinedequipments/{id}/parameters
 ```
-* GET a Parameter of a Combined Equipment by ID
+*   GET a Parameter of a Combined Equipment by ID
 ```bash
 $ curl -i -X GET {{base_url}}/combinedequipments/{id}/parameters/{pid}
 ```
@@ -808,50 +808,50 @@ Result
 | numerator_meter     | object    | Parameter numerator meter object    |
 | denominator_meter   | object    | Parameter numerator meter object    |
 
-* POST Create a constant Parameter for a Combined Equipment
+*   POST Create a constant Parameter for a Combined Equipment
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"test parameter", "parameter_type":"constant", "constant":"test constant", "point_id":null, "numerator_meter_uuid":null, "denominator_meter_uuid":null}}' {{base_url}}/combinedequipments/{id}/parameters
 ```
-* POST Create a point Parameter for a Combined Equipment
+*   POST Create a point Parameter for a Combined Equipment
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"test parameter", "parameter_type":"point", "constant":null, "point_id":1, "numerator_meter_uuid":null, "denominator_meter_uuid":null}}' {{base_url}}/combinedequipments/{id}/parameters
 ```
-* POST Create a meter Parameter for a Combined Equipment
+*   POST Create a meter Parameter for a Combined Equipment
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"test parameter", "parameter_type":"fraction", "constant":null, "point_id":null, "numerator_meter_uuid":"89ff5118-d0c2-4dd8-8098-a8698189b2ea", "denominator_meter_uuid":"5ca62d2a-908e-40c5-a6b5-a8e436d60db4"}}' {{base_url}}/combinedequipments/{id}/parameters
 ```
-* DELETE a Parameter from a Combined Equipment
+*   DELETE a Parameter from a Combined Equipment
 ```bash
 $ curl -i -X DELETE {{base_url}}/combinedequipments/{id}/parameters/{pid}
 ```
-* GET All Offline Meters of a Combined Equipment by ID
+*   GET All Offline Meters of a Combined Equipment by ID
 ```bash
 $ curl -i -X GET {{base_url}}/combinedequipments/{id}/offlinemeters
 ```
-* POST Bind an Offline Meter to a Combined Equipment
+*   POST Bind an Offline Meter to a Combined Equipment
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"offline_meter_id":1}}' {{base_url}}/combinedequipments/{id}/offlinemeters
 ```
-* DELETE an Offline Meter from a Combined Equipment
+*   DELETE an Offline Meter from a Combined Equipment
 ```bash
 $ curl -i -X DELETE {{base_url}}/combinedequipments/{id}/offlinemeters/{mid}
 ```
-* GET All Virtual Meters of a Combined Equipment by ID
+*   GET All Virtual Meters of a Combined Equipment by ID
 ```bash
 $ curl -i -X GET {{base_url}}/combinedequipments/{id}/virtualmeters
 ```
-* POST Bind an Virtual Meter to a Combined Equipment
+*   POST Bind an Virtual Meter to a Combined Equipment
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"virtual_meter_id":1}}' {{base_url}}/combinedequipments/{id}/virtualmeters
 ```
-* DELETE an Virtual Meter from a Combined Equipment
+*   DELETE an Virtual Meter from a Combined Equipment
 ```bash
 $ curl -i -X DELETE {{base_url}}/combinedequipments/{id}/virtualmeters/{mid}
 ```
 
 
 ### Gateway
-* GET Gateway by ID
+*   GET Gateway by ID
 
 ```bash
 $ curl -i -X GET {{base_url}}/gateways/{id}
@@ -867,29 +867,29 @@ Result in JSON
 | last_seen_datetime| float | Indicates the last time when the gateway was seen in a number of milliseconds since January 1, 1970, 00:00:00, universal time |
 | status        | string    | 'online' or 'offline' determined by last seen datetime|
 
-* GET all Gateways
+*   GET all Gateways
 ```bash
 $ curl -i -X GET {{base_url}}/gateways
 ```
-* DELETE Gateway by ID
+*   DELETE Gateway by ID
 ```bash
 $ curl -i -X DELETE {{base_url}}/gateways/{id}
 ```
-* POST Gateway
+*   POST Gateway
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"MyEMS Gateway 1"}}' {{base_url}}/gateways
 ```
-* PUT Gateway
+*   PUT Gateway
 ```bash
 $ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"MyEMS Gateway #1"}}' {{base_url}}/gateways/{id}
 ```
-* GET all data sources of the Gateway by ID
+*   GET all data sources of the Gateway by ID
 ```bash
 $ curl -i -X GET {{base_url}}/gateways/{id}/datasources
 ```
 
 ### GSM Modem
-* GET a GSM Modem by ID
+*   GET a GSM Modem by ID
 
 ```bash
 $ curl -i -X GET {{base_url}}/gsmmodems/{id}
@@ -902,26 +902,26 @@ Result in JSON
 | serial_port   | string    | GSM Modem serial port                 |
 | baud_rate     | integer   | GSM Modem baud rate                   |
 
-* GET All GSM Modems
+*   GET All GSM Modems
 ```bash
 $ curl -i -X GET {{base_url}}/gsmmodems
 ```
-* DELETE a GSM Modem by ID
+*   DELETE a GSM Modem by ID
 ```bash
 $ curl -i -X DELETE {{base_url}}/gsmmodems/{id}
 ```
-* POST Create New GSM Modem
+*   POST Create New GSM Modem
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"serial_port":"/dev/ttyS0","baud_rate":115200}}' {{base_url}}/gsmmodems
 ```
-* PUT Update a GSM Modem
+*   PUT Update a GSM Modem
 ```bash
 $ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"serial_port":"/dev/ttyS0","baud_rate":115200}}' {{base_url}}/gsmmodems/{id}
 ```
 
 
 ### Knowledge File
-* GET Knowledge File by ID
+*   GET Knowledge File by ID
 
 ```bash
 $ curl -i -X GET {{base_url}}/knowledgefiles/{id}
@@ -937,26 +937,26 @@ Result
 | user_display_name | string| Upload user's display name                |
 | file_object   | BLOB      | Knowledge File Object                     |
 
-* GET All Knowledge Files
+*   GET All Knowledge Files
 ```bash
 $ curl -i -X GET {{base_url}}/knowledgefiles
 ```
-* DELETE a Knowledge File by id
+*   DELETE a Knowledge File by id
 ```bash
 $ curl -i -X DELETE {{base_url}}/knowledgefiles/{id}
 ```
-* POST Upload a Knowledge File
+*   POST Upload a Knowledge File
  (user must login first to get cookie)
 ```bash
 $ curl -i -H "Content-Type: application/TBD" -X POST -d 'file: (binary)' {{base_url}}/knowledgefiles
 ```
-* GET Restore a Knowledge File by id from database to disk
+*   GET Restore a Knowledge File by id from database to disk
 ```bash
 $ curl -i -X GET {{base_url}}/knowledgefiles/{id}/restore
 ```
 
 ### Menu
-* GET Menu by ID
+*   GET Menu by ID
 ```bash
 $ curl -i -X GET {{base_url}}/menus/{id}
 ```
@@ -970,26 +970,26 @@ Result
 | parent_menu_id| integer  | Parent Menu ID                           |
 | is_hidden | boolean  | The menu status|                        |
 
-* GET All Menus
+*   GET All Menus
 ```bash
 $ curl -i -X GET {{base_url}}/menus
 ```
-* PUT Update a Menu
+*   PUT Update a Menu
 ```bash
 $ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"is_hidden": false}}' {{base_url}}/menus/{id}
 ```
-* Get All Menus for Web UI
+*   Get All Menus for Web UI
 ```bash
 $ curl -i -X GET {{base_url}}/menus/web
 ```
-* GET All Children of Menu by ID
+*   GET All Children of Menu by ID
 ```bash
 $ curl -i -X GET {{base_url}}/menus/{id}/children
 ```
 
 
 ### Meter
-* GET Meter by ID
+*   GET Meter by ID
 
 ```bash
 $ curl -i -X GET {{base_url}}/meters/{id}
@@ -1010,35 +1010,35 @@ Result
 | master_meter  | Object    | Master Meter Object                       |
 | description   | string    | Meter description                         |
 
-* GET All Meters
+*   GET All Meters
 ```bash
 $ curl -i -X GET {{base_url}}/meters
 ```
-* DELETE Meter by ID
+*   DELETE Meter by ID
 ```bash
 $ curl -i -X DELETE {{base_url}}/meters/{id}
 ```
-* POST Create a Meter
+*   POST Create a Meter
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"PM20", "energy_category_id":1, "hourly_low_limit":0.000, "hourly_high_limit":999.999, "is_counted":true, "cost_center_id":1, "energy_item_id":1, "master_meter_id":1, "description":"空调用电"}}' {{base_url}}/meters
 ```
-* PUT Update a Meter
+*   PUT Update a Meter
 ```bash
 $ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"PM20", "energy_category_id":1, "hourly_low_limit":0.000, "hourly_high_limit":999.999, "is_counted":true, "cost_center_id":1, "energy_item_id":1, "master_meter_id":1, "description":"空调用电"}}' {{base_url}}/meters/{id}
 ```
-* GET All Submeters of Meter by ID
+*   GET All Submeters of Meter by ID
 ```bash
 $ curl -i -X GET {{base_url}}/meters/{id}/submeters
 ```
-* GET All Points associated with Meter ID
+*   GET All Points associated with Meter ID
 ```bash
 $ curl -i -X GET {{base_url}}/meters/{id}/points
 ```
-* POST Meter Point Relation
+*   POST Meter Point Relation
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"point_id":"3"}}' {{base_url}}/meters/{id}/points
 ```
-* DELETE Meter Point Relation
+*   DELETE Meter Point Relation
 ```bash
 $ curl -i -X DELETE {{base_url}}/meters/{id}/points/{pid}
 ```
@@ -1047,7 +1047,7 @@ $ curl -i -X DELETE {{base_url}}/meters/{id}/points/{pid}
 ### Notification
 NOTE: Login before call these APIs, and then update User-UUID and Token in Headers
 
-* GET a Notification by ID
+*   GET a Notification by ID
 
 ```bash
 $ curl -i -X GET {{base_url}}/notifications/{id}
@@ -1063,25 +1063,25 @@ Result
 | message       | string    | Notification Message                      |
 | url           | string    | Notification URL                          |
 
-* GET All Notifications
+*   GET All Notifications
 ```bash
 $ curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: 02f93023a39c98e1d1bc9f5197a83dfc5ddc0d48" -X GET {{base_url}}/notifications?startdatetime={startdatetime}&enddatetime={enddatetime}&status={status}
 ```
-* DELETE Notification by ID
+*   DELETE Notification by ID
 ```bash
 $ curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: 02f93023a39c98e1d1bc9f5197a83dfc5ddc0d48" -X DELETE {{base_url}}/notifications/{id}
 ```
-* PUT Update a Notification
+*   PUT Update a Notification
 ```bash
 $ curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: 02f93023a39c98e1d1bc9f5197a83dfc5ddc0d48" -H "Content-Type: application/json" -X PUT -d '{"data":{"status":"read"}}' {{base_url}}/notifications/{id}
 ```
-* DELETE Notification
+*   DELETE Notification
 ```bash
 $ curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: 02f93023a39c98e1d1bc9f5197a83dfc5ddc0d48" -X DELETE {{base_url}}/notifications/{id}
 ```
 
 ### Offline Meter
-* GET Offline Meter by ID
+*   GET Offline Meter by ID
 
 ```bash
 $ curl -i -X GET {{base_url}}/offlinemeters/{id}
@@ -1101,25 +1101,25 @@ Result
 | energy_item   | Object    | Energy Item Object                        |
 | description   | string    | Offline Meter description                 |
 
-* GET All Offline Meters
+*   GET All Offline Meters
 ```bash
 $ curl -i -X GET {{base_url}}/offlinemeters
 ```
-* DELETE Offline Meter by ID
+*   DELETE Offline Meter by ID
 ```bash
 $ curl -i -X DELETE {{base_url}}/offlinemeters/{id}
 ```
-* POST Create a Offline Meter
+*   POST Create a Offline Meter
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"OfflinePM20", "energy_category_id":1, "is_counted":true, "hourly_low_limit":0.000, "hourly_high_limit":999.999, "cost_center_id":1, "energy_item_id":1, "description":"空调用电"}}' {{base_url}}/offlinemeters
 ```
-* PUT Update a Offline Meter
+*   PUT Update a Offline Meter
 ```bash
 $ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"OfflinePM20", "energy_category_id":1, "is_counted":true, "hourly_low_limit":0.000, "hourly_high_limit":999.999, "cost_center_id":1, "energy_item_id":1, "description":"空调用电"}}' {{base_url}}/offlinemeters/{id}
 ```
 
 ### Offline Meter File
-* GET an Offline Meter File by ID
+*   GET an Offline Meter File by ID
 
 ```bash
 $ curl -i -X GET {{base_url}}/offlinemeterfiles/{id}
@@ -1135,27 +1135,27 @@ Result
 | status        | string    | Offline Meter File processing status (new, done, error)   |
 | file_object   | BLOB       | Offline Meter File Object                 |
 
-* GET All Offline Meter Files
+*   GET All Offline Meter Files
 ```bash
 $ curl -i -X GET {{base_url}}/offlinemeterfiles
 ```
-* DELETE an Offline Meter File by ID
+*   DELETE an Offline Meter File by ID
 ```bash
 $ curl -i -X DELETE {{base_url}}/offlinemeterfiles/{id}
 ```
-* POST Upload an Offline Meter File
- (user must login first to get cookie)
+*   POST Upload an Offline Meter File
+ (user must log in first to get cookie)
 ```bash
 $ curl -i -H "Content-Type: application/TBD" -X POST -d 'file: (binary)' {{base_url}}/offlinemeterfiles
 ```
-* GET Restore an Offline Meter File by ID from database to disk
+*   GET Restore an Offline Meter File by ID from database to disk
 ```bash
 $ curl -i -X GET {{base_url}}/offlinemeterfiles/{id}/restore
 ```
 
 ### Point
 
-* GET Point by ID
+*   GET Point by ID
 
 ```bash
 $ curl -i -X GET {{base_url}}/points/{id}
@@ -1191,49 +1191,49 @@ Result in JSON
 | └substitutions| string    | Substitutions                             |
 | description   | string    | Point description, allow null             |
 
-* GET all Points
+*   GET all Points
 ```bash
 $ curl -i -X GET {{base_url}}/points
 ```
-* DELETE Point by ID
+*   DELETE Point by ID
 ```bash
 $ curl -i -X DELETE {{base_url}}/points/{id}
 ```
-* POST Point
+*   POST Point
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"ModbusPoint1", "data_source_id":1, "object_type": "ENERGY_VALUE", "units":"kWh", "low_limit":0, "high_limit":999999999, "is_trend":true, "is_virtual":false, "address":"{\"slave_id\":1, \"function_code\":3, \"offset\":1, \"number_of_registers\":2, \"data_format\":\"float\"}", "description":null}}' {{base_url}}/points
 ```
-* PUT Point
+*   PUT Point
 ```bash
 $ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"ModbusPoint1", "data_source_id":1, "object_type": "ENERGY_VALUE", "units":"kWh", "low_limit":0, "high_limit":999999999, "is_trend":true, "is_virtual":false, "address":"{\"slave_id\":1, \"function_code\":3, \"offset\":1, \"number_of_registers\":2, \"data_format\":\"float\"}", "description":null}}' {{base_url}}/points/{id}
 ```
 
 
 ### Privilege
-* GET Privilege by ID
+*   GET Privilege by ID
 ```bash
 $ curl -i -X GET {{base_url}}/privileges/{id}
 ```
-* GET All Privileges
+*   GET All Privileges
 ```bash
 $ curl -i -X GET {{base_url}}/privileges
 ```
-* DELETE Privilege by ID
+*   DELETE Privilege by ID
 ```bash
 $ curl -i -X DELETE {{base_url}}/privileges/{id}
 ```
-* POST New Privilege
+*   POST New Privilege
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"superusers","data":"{\"spaces\":[1,2,3,5]}"}}' {{base_url}}/privileges
 ```
-* PUT Privilege
+*   PUT Privilege
 ```bash
 $ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"superusers", "data":"{\"spaces\":[1, 3]}"}}' {{base_url}}/privileges/{id}
 ```
 
 
 ### Rule
-* GET Rule by ID
+*   GET Rule by ID
 
 Result in JSON
 
@@ -1256,26 +1256,26 @@ Result in JSON
 ```bash
 $ curl -i -X GET {{base_url}}/rules/{id}
 ```
-* GET All Rules
+*   GET All Rules
 ```bash
 $ curl -i -X GET {{base_url}}/rules
 ```
-* DELETE a Rule by ID
+*   DELETE a Rule by ID
 ```bash
 $ curl -i -X DELETE {{base_url}}/rules/{id}
 ```
-* POST Create New Rule
+*   POST Create New Rule
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"Space Energy Consumption Over Limit", "fdd_code":"SPACE01", "category":"SPACE", "priority":"HIGH", "channel":"WEB", "expression":"{\"space_id\":1, \"high_limit\":1000.000}", "message_template":"%s截止到目前电耗%s，超标%s。", "is_enabled":true}}' {{base_url}}/rules
 ```
-* PUT Update a Rule
+*   PUT Update a Rule
 ```bash
 $ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"Space Energy Consumption Over Limit", "fdd_code":"SPACE01", "category":"SPACE", "priority":"HIGH", "channel":"WEB", "expression":"{\"space_id\":1, \"high_limit\":1000.000}", "message_template":"%s截止到目前电耗%s，超标%s。", "is_enabled":true}}' {{base_url}}/rules/{id}
 ```
 
 
 ### Sensor
-* GET a Sensor by ID
+*   GET a Sensor by ID
 
 ```bash
 $ curl -i -X GET {{base_url}}/sensors/{id}
@@ -1289,37 +1289,37 @@ Result
 | uuid          | string    | Sensor UUID                               |
 | description   | string    | Sensor description                        |
 
-* GET All Sensors
+*   GET All Sensors
 ```bash
 $ curl -i -X GET {{base_url}}/sensors
 ```
-* DELETE a Sensor by ID
+*   DELETE a Sensor by ID
 ```bash
 $ curl -i -X DELETE {{base_url}}/sensors/{id}
 ```
-* POST Create New Sensor
+*   POST Create New Sensor
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"Sensor10", "description":"sensor description"}}' {{base_url}}/sensors
 ```
-* PUT Update a Sensor
+*   PUT Update a Sensor
 ```bash
 $ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"Sensor10", "description":"sensor description"}}' {{base_url}}/sensors/{id}
 ```
-* GET All Points associated with Sensor ID
+*   GET All Points associated with Sensor ID
 ```bash
 $ curl -i -X GET {{base_url}}/sensors/{id}/points
 ```
-* POST Sensor Point Relation
+*   POST Sensor Point Relation
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"point_id":"3"}}' {{base_url}}/sensors/{id}/points
 ```
-* DELETE Sensor Point Relation
+*   DELETE Sensor Point Relation
 ```bash
 $ curl -i -X DELETE {{base_url}}/sensors/{id}/points/{pid}
 ```
 
 ### Shopfloor
-* GET Shopfloor by ID
+*   GET Shopfloor by ID
 ```bash
 $ curl -i -X GET {{base_url}}/shopfloors/{id}
 ```
@@ -1336,97 +1336,97 @@ Result
 | cost_center   | Object    | Cost Center Object                        |
 | description   | string    | Shopfloor description                     |
 
-* GET All Shopfloors
+*   GET All Shopfloors
 ```bash
 $ curl -i -X GET {{base_url}}/shopfloors
 ```
-* DELETE a Shopfloor by ID
+*   DELETE a Shopfloor by ID
 ```bash
 $ curl -i -X DELETE {{base_url}}/shopfloors/{id}
 ```
-* POST Create a Shopfloor
+*   POST Create a Shopfloor
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"MyEMS Shopfloor", "area":999.99, "is_input_counted":true, "contact_id":1, "cost_center_id":1, "description":"Shopfloor description"}}' {{base_url}}/shopfloors
 ```
-* PUT Update a Shopfloor
+*   PUT Update a Shopfloor
 ```bash
 $ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"MyEMS Shopfloor", "area":999.99, "is_input_counted":true, "contact_id":1, "cost_center_id":1, "description":"Shopfloor description"}}' {{base_url}}/shopfloors/{id}
 ```
-* GET All Equipments of Shopfloor by ID
+*   GET All Equipments of Shopfloor by ID
 ```bash
 $ curl -i -X GET {{base_url}}/shopfloors/{id}/equipments
 ```
-* POST Bind an Equipment to a Shopfloor
+*   POST Bind an Equipment to a Shopfloor
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"equipment_id":1}}' {{base_url}}/shopfloors/{id}/equipments
 ```
-* DELETE an Equipment from Shopfloor
+*   DELETE an Equipment from Shopfloor
 ```bash
 $ curl -i -X DELETE {{base_url}}/shopfloors/{id}/equipments/{eid}
 ```
-* GET All Meters of Shopfloor by ID
+*   GET All Meters of Shopfloor by ID
 ```bash
 $ curl -i -X GET {{base_url}}/shopfloors/{id}/meters
 ```
-* POST Bind a Meter to a Shopfloor
+*   POST Bind a Meter to a Shopfloor
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"meter_id":1}}' {{base_url}}/shopfloors/{id}/meters
 ```
-* DELETE a Meter from Shopfloor
+*   DELETE a Meter from Shopfloor
 ```bash
 $ curl -i -X DELETE {{base_url}}/shopfloors/{id}/meters/{mid}
 ```
-* GET All Offline Meters of Shopfloor by ID
+*   GET All Offline Meters of Shopfloor by ID
 ```bash
 $ curl -i -X GET {{base_url}}/shopfloors/{id}/offlinemeters
 ```
-* POST Bind an Offline Meter to a Shopfloor
+*   POST Bind an Offline Meter to a Shopfloor
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"offline_meter_id":1}}' {{base_url}}/shopfloors/{id}/offlinemeters
 ```
-* DELETE an Offline Meter from Shopfloor
+*   DELETE an Offline Meter from Shopfloor
 ```bash
 $ curl -i -X DELETE {{base_url}}/shopfloors/{id}/offlinemeters/{mid}
 ```
-* GET All Points of Shopfloor by ID
+*   GET All Points of Shopfloor by ID
 ```bash
 $ curl -i -X GET {{base_url}}/shopfloors/{id}/points
 ```
-* POST Bind a Point to a Shopfloor
+*   POST Bind a Point to a Shopfloor
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"point_id":1}}' {{base_url}}/shopfloors/{id}/points
 ```
-* DELETE a Point from Shopfloor
+*   DELETE a Point from Shopfloor
 ```bash
 $ curl -i -X DELETE {{base_url}}/shopfloors/{id}/points/{pid}
 ```
-* GET All Sensors of Shopfloor by ID
+*   GET All Sensors of Shopfloor by ID
 ```bash
 $ curl -i -X GET {{base_url}}/shopfloors/{id}/sensors
 ```
-* POST Bind a Sensor to a Shopfloor
+*   POST Bind a Sensor to a Shopfloor
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"sensor_id":1}}' {{base_url}}/shopfloors/{id}/sensors
 ```
-* DELETE a Sensor from Shopfloor
+*   DELETE a Sensor from Shopfloor
 ```bash
 $ curl -i -X DELETE {{base_url}}/shopfloors/{id}/sensors/{sid}
 ```
-* GET All Virtual Meters of Shopfloor by ID
+*   GET All Virtual Meters of Shopfloor by ID
 ```bash
 $ curl -i -X GET {{base_url}}/shopfloors/{id}/virtualmeters
 ```
-* POST Bind an Virtual Meter to a Shopfloor
+*   POST Bind an Virtual Meter to a Shopfloor
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"virtual_meter_id":1}}' {{base_url}}/shopfloors/{id}/virtualmeters
 ```
-* DELETE an Virtual Meter from Shopfloor
+*   DELETE an Virtual Meter from Shopfloor
 ```bash
 $ curl -i -X DELETE {{base_url}}/shopfloors/{id}/virtualmeters/{mid}
 ```
 
 ### Space
-* GET Space by ID
+*   GET Space by ID
 ```bash
 $ curl -i -X GET {{base_url}}/spaces/{id}
 ```
@@ -1446,142 +1446,142 @@ Result
 | cost_center   | Object    | Cost Center Object                        |
 | description   | string    | Space description                         |
 
-* GET All Spaces
+*   GET All Spaces
 ```bash
 $ curl -i -X GET {{base_url}}/spaces
 ```
-* DELETE Space by ID
+*   DELETE Space by ID
 ```bash
 $ curl -i -X DELETE {{base_url}}/spaces/{id}
 ```
-* POST Create a Space
+*   POST Create a Space
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"MyEMSSpace", "parent_space_id":1, "area":999.99, "timezone_id":56, "is_input_counted":true, "is_output_counted":false, "contact_id":1, "cost_center_id":1, "description":"Space description"}}' {{base_url}}/spaces
 ```
-* PUT Update a Space
+*   PUT Update a Space
 ```bash
 $ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"MyEMSSpace", "parent_space_id":2, "area":999.99, "timezone_id":56, "is_input_counted":true, "is_output_counted":true, "contact_id":1, "cost_center_id":1, "description":"Space description"}}' {{base_url}}/spaces/{id}
 ```
-* GET All Children of Space by ID
+*   GET All Children of Space by ID
 ```bash
 $ curl -i -X GET {{base_url}}/spaces/{id}/children
 ```
-* GET All Combined Equipments of Space by ID
+*   GET All Combined Equipments of Space by ID
 ```bash
 $ curl -i -X GET {{base_url}}/spaces/{id}/combinedequipments
 ```
-* POST Bind a Combined Equipment to a Space
+*   POST Bind a Combined Equipment to a Space
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"combined_equipment_id":1}}' {{base_url}}/spaces/{id}/equipments
 ```
-* DELETE a Combined Equipment from Space
+*   DELETE a Combined Equipment from Space
 ```bash
 $ curl -i -X DELETE {{base_url}}/spaces/{id}/combinedequipments/{eid}
 ```
-* GET All Equipments of Space by ID
+*   GET All Equipments of Space by ID
 ```bash
 $ curl -i -X GET {{base_url}}/spaces/{id}/equipments
 ```
-* POST Bind an Equipment to a Space
+*   POST Bind an Equipment to a Space
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"equipment_id":1}}' {{base_url}}/spaces/{id}/equipments
 ```
-* DELETE an Equipment from Space
+*   DELETE an Equipment from Space
 ```bash
 $ curl -i -X DELETE {{base_url}}/spaces/{id}/equipments/{eid}
 ```
-* GET All Meters of Space by ID
+*   GET All Meters of Space by ID
 ```bash
 $ curl -i -X GET {{base_url}}/spaces/{id}/meters
 ```
-* POST Bind a Meter to a Space
+*   POST Bind a Meter to a Space
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"meter_id":1}}' {{base_url}}/spaces/{id}/meters
 ```
-* DELETE a Meter from Space
+*   DELETE a Meter from Space
 ```bash
 $ curl -i -X DELETE {{base_url}}/spaces/{id}/meters/{mid}
 ```
-* GET All Offline Meters of Space by ID
+*   GET All Offline Meters of Space by ID
 ```bash
 $ curl -i -X GET {{base_url}}/spaces/{id}/offlinemeters
 ```
-* POST Bind an Offline Meter to a Space
+*   POST Bind an Offline Meter to a Space
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"offline_meter_id":1}}' {{base_url}}/spaces/{id}/offlinemeters
 ```
-* DELETE an Offline Meter from Space
+*   DELETE an Offline Meter from Space
 ```bash
 $ curl -i -X DELETE {{base_url}}/spaces/{id}/offlinemeters/{mid}
 ```
-* GET All Points of Space by ID
+*   GET All Points of Space by ID
 ```bash
 $ curl -i -X GET {{base_url}}/spaces/{id}/points
 ```
-* POST Bind a Point to a Space
+*   POST Bind a Point to a Space
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"point_id":1}}' {{base_url}}/spaces/{id}/points
 ```
-* DELETE a Point from Space
+*   DELETE a Point from Space
 ```bash
 $ curl -i -X DELETE {{base_url}}/spaces/{id}/points/{pid}
 ```
-* GET All Sensors of Space by ID
+*   GET All Sensors of Space by ID
 ```bash
 $ curl -i -X GET {{base_url}}/spaces/{id}/sensors
 ```
-* POST Bind a Sensor to a Space
+*   POST Bind a Sensor to a Space
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"sensor_id":1}}' {{base_url}}/spaces/{id}/sensors
 ```
-* DELETE a Sensor from Space
+*   DELETE a Sensor from Space
 ```bash
 $ curl -i -X DELETE {{base_url}}/spaces/{id}/sensors/{sid}
 ```
-* GET All Stores of Space by ID
+*   GET All Stores of Space by ID
 ```bash
 $ curl -i -X GET {{base_url}}/spaces/{id}/stores
 ```
-* POST Bind a Store to a Space
+*   POST Bind a Store to a Space
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"store_id":1}}' {{base_url}}/spaces/{id}/stores
 ```
-* DELETE a Store from Space
+*   DELETE a Store from Space
 ```bash
 $ curl -i -X DELETE {{base_url}}/spaces/{id}/stores/{tid}
 ```
-* GET All Tenants of Space by ID
+*   GET All Tenants of Space by ID
 ```bash
 $ curl -i -X GET {{base_url}}/spaces/{id}/tenants
 ```
-* POST Bind a Tenant to a Space
+*   POST Bind a Tenant to a Space
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"tenant_id":1}}' {{base_url}}/spaces/{id}/tenants
 ```
-* DELETE a Tenant from Space
+*   DELETE a Tenant from Space
 ```bash
 $ curl -i -X DELETE {{base_url}}/spaces/{id}/tenants/{tid}
 ```
-* GET All Virtual Meters of Space by ID
+*   GET All Virtual Meters of Space by ID
 ```bash
 $ curl -i -X GET {{base_url}}/spaces/{id}/virtualmeters
 ```
-* POST Bind an Virtual Meter to a Space
+*   POST Bind an Virtual Meter to a Space
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"virtual_meter_id":1}}' {{base_url}}/spaces/{id}/virtualmeters
 ```
-* DELETE an Virtual Meter from Space
+*   DELETE an Virtual Meter from Space
 ```bash
 $ curl -i -X DELETE {{base_url}}/spaces/{id}/virtualmeters/{mid}
 ```
-* GET Space Tree of User
+*   GET Space Tree of User
 ```bash
 $ curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: a6e52af82e5b4168ae03b1c5fd8fa31b2ab3a338" -X GET {{base_url}}/spaces/tree
 ```
 
 
 ### Store
-* GET Store by ID
+*   GET Store by ID
 ```bash
 $ curl -i -X GET {{base_url}}/stores/{id}
 ```
@@ -1602,86 +1602,86 @@ Result
 | cost_center   | Object    | Cost Center Object                        |
 | description   | string    | Store description                         |
 
-* GET All Stores
+*   GET All Stores
 ```bash
 $ curl -i -X GET {{base_url}}/stores
 ```
-* POST Create New Store
+*   POST Create New Store
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"麦当劳(新王府井店)", "address":"北京市东城区王府井大街200号工美大厦1层010-65120499", "latitude":39.909429, "longitude":116.416993, "area":418.8, "store_type_id":9, "is_input_counted": true, "contact_id":1, "cost_center_id":1, "description":"my description"}}' {{base_url}}/stores
 ```
-* PUT Update a Store
+*   PUT Update a Store
 ```bash
 $ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"麦当劳(新王府井店)", "address":"北京市东城区王府井大街200号工美大厦1层010-65120499", "latitude":39.909429, "longitude":116.416993, "area":818.8, "store_type_id":9, "is_input_counted": true, "contact_id":1, "cost_center_id":1, "description":"my description"}}' {{base_url}}/stores/{id}
 ```
-* DELETE Store by ID
+*   DELETE Store by ID
 ```bash
 $ curl -i -X DELETE {{base_url}}/stores/{id}
 ```
-* GET All Meters of Store by ID
+*   GET All Meters of Store by ID
 ```bash
 $ curl -i -X GET {{base_url}}/stores/{id}/meters
 ```
-* POST Bind a Meter to a Store
+*   POST Bind a Meter to a Store
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"meter_id":1}}' {{base_url}}/stores/{id}/meters
 ```
-* DELETE a Meter from Store
+*   DELETE a Meter from Store
 ```bash
 $ curl -i -X DELETE {{base_url}}/stores/{id}/meters/{mid}
 ```
-* GET All Offline Meters of Store by ID
+*   GET All Offline Meters of Store by ID
 ```bash
 $ curl -i -X GET {{base_url}}/stores/{id}/offlinemeters
 ```
-* POST Bind an Offline Meter to a Store
+*   POST Bind an Offline Meter to a Store
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"offline_meter_id":1}}' {{base_url}}/stores/{id}/offlinemeters
 ```
-* DELETE an Offline Meter from Store
+*   DELETE an Offline Meter from Store
 ```bash
 $ curl -i -X DELETE {{base_url}}/stores/{id}/offlinemeters/{mid}
 ```
-* GET All Points of Store by ID
+*   GET All Points of Store by ID
 ```bash
 $ curl -i -X GET {{base_url}}/stores/{id}/points
 ```
-* POST Bind a Point to a Store
+*   POST Bind a Point to a Store
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"point_id":1}}' {{base_url}}/stores/{id}/points
 ```
-* DELETE a Point from Store
+*   DELETE a Point from Store
 ```bash
 $ curl -i -X DELETE {{base_url}}/stores/{id}/points/{pid}
 ```
-* GET All Sensors of Store by ID
+*   GET All Sensors of Store by ID
 ```bash
 $ curl -i -X GET {{base_url}}/stores/{id}/sensors
 ```
-* POST Bind a Sensor to a Store
+*   POST Bind a Sensor to a Store
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"sensor_id":1}}' {{base_url}}/stores/{id}/sensors
 ```
-* DELETE a Sensor from Store
+*   DELETE a Sensor from Store
 ```bash
 $ curl -i -X DELETE {{base_url}}/stores/{id}/sensors/{sid}
 ```
-* GET All Virtual Meters of Store by ID
+*   GET All Virtual Meters of Store by ID
 ```bash
 $ curl -i -X GET {{base_url}}/stores/{id}/virtualmeters
 ```
-* POST Bind an Virtual Meter to a Store
+*   POST Bind an Virtual Meter to a Store
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"virtual_meter_id":1}}' {{base_url}}/stores/{id}/virtualmeters
 ```
-* DELETE an Virtual Meter from Store
+*   DELETE an Virtual Meter from Store
 ```bash
 $ curl -i -X DELETE {{base_url}}/stores/{id}/virtualmeters/{mid}
 ```
 
 
 ### Store Type
-* GET a Store Type by ID
+*   GET a Store Type by ID
 
 ```bash
 $ curl -i -X GET {{base_url}}/storetypes/{id}
@@ -1696,26 +1696,26 @@ Result
 | description   | string    | Store Type description                   |
 | simplified_code | string  | Store Type simplified code               |
 
-* GET All Store Types
+*   GET All Store Types
 ```bash
 $ curl -i -X GET {{base_url}}/storetypes
 ```
-* POST Create New Store Types
+*   POST Create New Store Types
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name": "Office", "description":"办公", "simplified_code":"OF"}}' {{base_url}}/storetypes
 ```
-* PUT Update a Store Types
+*   PUT Update a Store Types
 ```bash
 $ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name": "Office1", "description":"办公", "simplified_code":"OF1"}}' {{base_url}}/storetypes/{id}
 ```
-* DELETE a Store Types by ID
+*   DELETE a Store Types by ID
 ```bash
 $ curl -i -X DELETE {{base_url}}/storetypes/{id}
 ```
 
 
 ### Tariff
-* GET Tariff by id
+*   GET Tariff by id
 
 ```bash
 $ curl -i -X GET {{base_url}}/tariffs/{id}
@@ -1728,8 +1728,8 @@ Result in JSON
 | name          | string    | Tariff name                               |
 | uuid          | string    | Tariff UUID                               |
 | unit_of_price | string    | Unit of Price                             |
-| valid_from    | float     | Valid From (POSIX timestamp * 1000)       |
-| valid_through | float     | Valid Through (POSIX timestamp * 1000)    |
+| valid_from    | float     | Valid From (POSIX timestamp *   1000)       |
+| valid_through | float     | Valid Through (POSIX timestamp *   1000)    |
 | tariff_type   | string    | Tariff type (timeofuse or block)          |
 | timeofuse[]   | json array| Time Of Use items                         |
 | ├             | integer   | array index                               |
@@ -1743,15 +1743,15 @@ Result in JSON
 |  ├ end_amount | decimal   | End amount                                |
 |  └ price      | decimal   | Price                                     |
 
-* GET All Tariffs
+*   GET All Tariffs
 ```bash
 $ curl -i -X GET {{base_url}}/tariffs
 ```
-* DELETE Tariff by ID
+*   DELETE Tariff by ID
 ```bash
 $ curl -i -X DELETE {{base_url}}/tariffs/{id}
 ```
-* POST Create a Tariff
+*   POST Create a Tariff
 To POST a block tariff:
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"阶梯电价","energy_category_id":1, "tariff_type":"block", "unit_of_price":"元/千瓦时", "valid_from":"2020-01-01T00:00:00", "valid_through":"2021-01-01T00:00:00", "block":[{"start_amount":"0", "end_amount":"10000", "price":"0.567"}, {"start_amount":"10000", "end_amount":"30000", "price":"0.678"}, {"start_amount":"30000", "end_amount":"100000", "price":"0.789"}]}}' {{base_url}}/tariffs
@@ -1761,7 +1761,7 @@ To POST a time of use tariff:
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"2020分时电价1-6","energy_category_id":1, "tariff_type":"timeofuse", "unit_of_price":"元/千瓦时", "valid_from":"2020-01-01T00:00:00", "valid_through":"2020-07-01T00:00:00", "timeofuse":[{"start_time_of_day":"00:00:00", "end_time_of_day":"05:59:59", "peak_type":"offpeak", "price":0.345}, {"start_time_of_day":"06:00:00", "end_time_of_day":"07:59:59", "peak_type":"midpeak", "price":0.708}, {"start_time_of_day":"08:00:00", "end_time_of_day":"10:59:59", "peak_type":"onpeak", "price":1.159}, {"start_time_of_day":"11:00:00", "end_time_of_day":"17:59:59", "peak_type":"midpeak", "price":0.708}, {"start_time_of_day":"18:00:00", "end_time_of_day":"20:59:59", "peak_type":"onpeak", "price":1.159}, {"start_time_of_day":"21:00:00", "end_time_of_day":"21:59:59", "peak_type":"midpeak", "price":0.708}, {"start_time_of_day":"22:00:00", "end_time_of_day":"23:59:59", "peak_type":"offpeak", "price":0.345}]}}' {{base_url}}/tariffs
 ```
 
-* PUT Update a Tariff
+*   PUT Update a Tariff
 To update a block tariff:
 ```bash
 $ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"阶梯电价","energy_category_id":1, "tariff_type":"block", "unit_of_price":"元/千瓦时", "valid_from":"2020-01-01T00:00:00", "valid_through":"2021-01-01T00:00:00", "block":[{"start_amount":"0", "end_amount":"20000", "price":"0.567"}, {"start_amount":"20000", "end_amount":"30000", "price":"0.678"}, {"start_amount":"30000", "end_amount":"100000", "price":"0.789"}]}}' {{base_url}}/tariffs/{id}
@@ -1773,7 +1773,7 @@ $ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"2020�
 
 
 ### Tenant
-* GET Tenant by ID
+*   GET Tenant by ID
 ```bash
 $ curl -i -X GET {{base_url}}/tenants/{id}
 ```
@@ -1792,93 +1792,93 @@ Result
 | is_input_counted| boolean | Indicates if this tenant's input energy is counted into parent space|
 | is_key_tenant | boolean   | Indicates if this is a key tenant         |
 | lease_number  | string    | Tenant lease number                       |
-| lease_start_datetime_utc | float   | Lease start datetime in utc timezone (POSIX timestamp * 1000)  |
-| lease_end_datetime_utc   | float   | Lease end datetime in utc timezone (POSIX timestamp * 1000)    |
+| lease_start_datetime_utc | float   | Lease start datetime in utc timezone (POSIX timestamp *   1000)  |
+| lease_end_datetime_utc   | float   | Lease end datetime in utc timezone (POSIX timestamp *   1000)    |
 | is_in_lease   | boolean   | Indicates if this tenant is in lease      |
 | contact       | Object    | Contact Object                            |
 | cost_center   | Object    | Cost Center Object                        |
 | description   | string    | Tenant description                        |
 
-* GET All Tenants
+*   GET All Tenants
 ```bash
 $ curl -i -X GET {{base_url}}/tenants
 ```
-* POST Create New Tenant
+*   POST Create New Tenant
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"Starbucks", "buildings":"Building #1", "floors":"L1 L2 L3", "rooms":"1201b+2247+3F", "area":418.8, "tenant_type_id":9, "is_input_counted": true, "is_key_tenant":true, "lease_number":"6b0da806",  "lease_start_datetime_utc":"2019-12-31T16:00:00", "lease_end_datetime_utc":"2022-12-31T16:00:00", "is_in_lease":true, "contact_id":1, "cost_center_id":1, "description":"my description"}}' {{base_url}}/tenants
 ```
-* PUT Update a Tenant
+*   PUT Update a Tenant
 ```bash
 $ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"Hermes 爱马仕", "buildings":"Building #1", "floors":"L1 L2 L3 L4 L5", "rooms":"1201b+2247+3F", "area":818.8, "tenant_type_id":9, "is_input_counted": true, "is_key_tenant":true, "lease_number":"6b0da806",  "lease_start_datetime_utc":"2019-12-31T16:00:00", "lease_end_datetime_utc":"2022-12-31T16:00:00", "is_in_lease":true, "contact_id":1, "cost_center_id":1, "description":"my description"}}' {{base_url}}/tenants/{id}
 ```
-* DELETE Tenant by ID
+*   DELETE Tenant by ID
 ```bash
 $ curl -i -X DELETE {{base_url}}/tenants/{id}
 ```
-* GET All Meters of Tenant by ID
+*   GET All Meters of Tenant by ID
 ```bash
 $ curl -i -X GET {{base_url}}/tenants/{id}/meters
 ```
-* POST Bind a Meter to a Tenant
+*   POST Bind a Meter to a Tenant
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"meter_id":1}}' {{base_url}}/tenants/{id}/meters
 ```
-* DELETE a Meter from Tenant
+*   DELETE a Meter from Tenant
 ```bash
 $ curl -i -X DELETE {{base_url}}/tenants/{id}/meters/{mid}
 ```
-* GET All Offline Meters of Tenant by ID
+*   GET All Offline Meters of Tenant by ID
 ```bash
 $ curl -i -X GET {{base_url}}/tenants/{id}/offlinemeters
 ```
-* POST Bind an Offline Meter to a Tenant
+*   POST Bind an Offline Meter to a Tenant
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"offline_meter_id":1}}' {{base_url}}/tenants/{id}/offlinemeters
 ```
-* DELETE an Offline Meter from Tenant
+*   DELETE an Offline Meter from Tenant
 ```bash
 $ curl -i -X DELETE {{base_url}}/tenants/{id}/offlinemeters/{mid}
 ```
-* GET All Points of Tenant by ID
+*   GET All Points of Tenant by ID
 ```bash
 $ curl -i -X GET {{base_url}}/tenants/{id}/points
 ```
-* POST Bind a Point to a Tenant
+*   POST Bind a Point to a Tenant
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"point_id":1}}' {{base_url}}/tenants/{id}/points
 ```
-* DELETE a Point from Tenant
+*   DELETE a Point from Tenant
 ```bash
 $ curl -i -X DELETE {{base_url}}/tenants/{id}/points/{pid}
 ```
-* GET All Sensors of Tenant by ID
+*   GET All Sensors of Tenant by ID
 ```bash
 $ curl -i -X GET {{base_url}}/tenants/{id}/sensors
 ```
-* POST Bind a Sensor to a Tenant
+*   POST Bind a Sensor to a Tenant
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"sensor_id":1}}' {{base_url}}/tenants/{id}/sensors
 ```
-* DELETE a Sensor from Tenant
+*   DELETE a Sensor from Tenant
 ```bash
 $ curl -i -X DELETE {{base_url}}/tenants/{id}/sensors/{sid}
 ```
-* GET All Virtual Meters of Tenant by ID
+*   GET All Virtual Meters of Tenant by ID
 ```bash
 $ curl -i -X GET {{base_url}}/tenants/{id}/virtualmeters
 ```
-* POST Bind an Virtual Meter to a Tenant
+*   POST Bind an Virtual Meter to a Tenant
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"virtual_meter_id":1}}' {{base_url}}/tenants/{id}/virtualmeters
 ```
-* DELETE an Virtual Meter from Tenant
+*   DELETE an Virtual Meter from Tenant
 ```bash
 $ curl -i -X DELETE {{base_url}}/tenants/{id}/virtualmeters/{mid}
 ```
 
 
 ### Tenant Type
-* GET a Tenant Type by ID
+*   GET a Tenant Type by ID
 
 ```bash
 $ curl -i -X GET {{base_url}}/tenanttypes/{id}
@@ -1893,25 +1893,25 @@ Result
 | description   | string    | Tenant Type description                   |
 | simplified_code | string  | Tenant Type simplified code               |
 
-* GET All Tenant Types
+*   GET All Tenant Types
 ```bash
 $ curl -i -X GET {{base_url}}/tenanttypes
 ```
-* POST Create New Tenant Types
+*   POST Create New Tenant Types
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name": "Office", "description":"办公", "simplified_code":"OF"}}' {{base_url}}/tenanttypes
 ```
-* PUT Update a Tenant Types
+*   PUT Update a Tenant Types
 ```bash
 $ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name": "Office1", "description":"办公", "simplified_code":"OF1"}}' {{base_url}}/tenanttypes/{id}
 ```
-* DELETE a Tenant Types by ID
+*   DELETE a Tenant Types by ID
 ```bash
 $ curl -i -X DELETE {{base_url}}/tenanttypes/{id}
 ```
 
 ### Text Message
-* GET an Text Message by ID
+*   GET an Text Message by ID
 
 Result in JSON
 
@@ -1922,82 +1922,82 @@ Result in JSON
 | recipient_mobile| string  | Recipient Mobile Number                   |
 | message       | string    | Email Message Body                        |
 | attachment_file_name| string| Email Attachment File Name              |
-| create_datetime| float    | Email Message Created Datetime (POSIX timestamp * 1000)|
-| scheduled_datetime| float | Email Message Scheduled Datetime (POSIX timestamp * 1000)|
+| create_datetime| float    | Email Message Created Datetime (POSIX timestamp *   1000)|
+| scheduled_datetime| float | Email Message Scheduled Datetime (POSIX timestamp *   1000)|
 | acknowledge_code| string  | Recipient reply with Acknowledge code to acknowledge |
 | status        | string    | Status ('new', 'sent', 'acknowledged', 'timeout'| 
 ```bash
 $ curl -i -X GET {{base_url}}/textmessages/{id}
 ```
-* GET Text Messages from Startdate to Enddate
+*   GET Text Messages from Startdate to Enddate
 ```bash
 $ curl -i -X GET {{base_url}}/textmessages/from/{startdate}/to/{enddate}
 ```
-* DELETE an Text Message by ID
+*   DELETE an Text Message by ID
 ```bash
 $ curl -i -X DELETE {{base_url}}/textmessages/{id}
 ```
 
 
 ### Timezone
-* GET a Timezone by ID
+*   GET a Timezone by ID
 ```bash
 $ curl -i -X GET {{base_url}}/timezones/{id}
 ```
-* GET all Timezones
+*   GET all Timezones
 ```bash
 $ curl -i -X GET {{base_url}}/timezones
 ```
-* PUT Update a Timezone by ID
+*   PUT Update a Timezone by ID
 ```bash
 $ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"Hawaiian Standard Time","description":"(GMT-10:00) Hawaii", "utc_offset":"-10:00"}}' {{base_url}}/timezones/{id}
 ```
 
 ### User
-* GET User by ID
+*   GET User by ID
 ```bash
 $ curl -i -X GET {{base_url}}/users/{id}
 ```
-* GET All Users
+*   GET All Users
 ```bash
 $ curl -i -X GET {{base_url}}/users
 ```
-* DELETE User by id
+*   DELETE User by id
 ```bash
 $ curl -i -X DELETE {{base_url}}/users/{id}
 ```
-* POST New User
+*   POST New User
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"albert", "display_name":"Mr. Albert", "email":"albert@myems.io", "is_admin":false, "password":"!MyEMS1"}}' {{base_url}}/users
 ```
-* PUT User Profile
+*   PUT User Profile
 ```bash
 $ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"albert", "display_name":"Mr. Albert", "email":"albert@myems.io", "is_admin":false, "privilege_id":1, "password":"!MyEMS1"}}' {{base_url}}/users/{id}
 ```
-* PUT User Login by Username
+*   PUT User Login by Username
 ```bash
 $ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"johnson", "password":"!Password1"}}' {{base_url}}/users/login
 ```
-* PUT User Login by Email
+*   PUT User Login by Email
 ```bash
 $ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"email":"johnson@myems.io", "password":"!Password1"}}' {{base_url}}/users/login
 ```
-* PUT User Logout
+*   PUT User Logout
 ```bash
 $ curl -i -H "Content-Type: application/json" -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: a6e52af82e5b4168ae03b1c5fd8fa31b2ab3a338" -X PUT  {{base_url}}/users/logout
 ```
-* PUT User change password
+*   PUT User change password
 ```bash
 $ curl -i -H "Content-Type: application/json" -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: a6e52af82e5b4168ae03b1c5fd8fa31b2ab3a338" -X PUT -d '{"data":{"old_password":"Password1", "new_password":"Password2"}}' {{base_url}}/users/changepassword
 ```
-* PUT User reset other user's password by administrator
+*   PUT User reset other user's password by administrator
 ```bash
 $ curl -i -H "Content-Type: application/json" -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: a6e52af82e5b4168ae03b1c5fd8fa31b2ab3a338" -X PUT -d '{"data":{"name":"johnson","password":"NewPassword1"}}'  {{base_url}}/users/resetpassword
 ```
 
 
 ### Virtual Meter
-* GET a Virtual Meter by ID
+*   GET a Virtual Meter by ID
 
 ```bash
 $ curl -i -X GET {{base_url}}/virtualmeters/{id}
@@ -2025,25 +2025,25 @@ Result
 |   ├ meter_type| string    | Meter Type ('meter', 'offline_meter', 'virtual_meter' |
 |   ├ meter_name| string    | Meter Name                                |
 
-* GET All Virtual Meters
+*   GET All Virtual Meters
 ```bash
 $ curl -i -X GET {{base_url}}/virtualmeters
 ```
-* DELETE a Virtual Meter by ID
+*   DELETE a Virtual Meter by ID
 ```bash
 $ curl -i -X DELETE {{base_url}}/virtualmeters/{id}
 ```
-* POST Create New Virtual Meter
+*   POST Create New Virtual Meter
 ```bash
 $ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"VM21", "energy_category_id":1, "is_counted": true, "cost_center_id":1, "energy_item_id":1, "description":"virtual description", "expression": {"equation":"x1-x2-x3", "variables":[{"name":"x1", "meter_type":"meter", "meter_id":3},{"name":"x2", "meter_type":"meter", "meter_id":4},{"name":"x3", "meter_type":"meter", "meter_id":5}] } }}' {{base_url}}/virtualmeters
 ```
-* PUT Update a Virtual Meter by ID
+*   PUT Update a Virtual Meter by ID
 ```bash
 $ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"VM21", "energy_category_id":1, "is_counted": true, "cost_center_id":1, "energy_item_id":1, "description":"virtual description", "expression": {"equation":"x1-x2-x3", "variables":[{"name":"x1", "meter_type":"meter", "meter_id":3},{"name":"x2", "meter_type":"meter", "meter_id":4},{"name":"x3", "meter_type":"meter", "meter_id":5}] } }}' {{base_url}}/virtualmeters/{id}
 ```
 
 ### Web Message
-* GET a Web Message by ID
+*   GET a Web Message by ID
 
 Result in JSON
 
@@ -2054,27 +2054,27 @@ Result in JSON
 | user_display_name| string | User Display Name                         |
 | subject       | string    | Web Message Subject                       |
 | message       | string    | Web Message Body                          |
-| created_datetime| float   | Web Message Created Datetime (POSIX timestamp * 1000)|
+| created_datetime| float   | Web Message Created Datetime (POSIX timestamp *   1000)|
 | status        | string    | Status ('new', 'acknowledged', 'timeout') | 
 | reply         | string    | User's Reply text, allow null             |
 ```bash
 $ curl -i -X GET {{base_url}}/webmessages/{id}
 ```
-* GET Web Messages from Startdate to Enddate
+*   GET Web Messages from Startdate to Enddate
 ```bash
 $ curl -i -X GET {{base_url}}/webmessages/from/{startdate}/to/{enddate}
 ```
-* GET New Web Messages
+*   GET New Web Messages
 ```bash
 $ curl -i -X GET {{base_url}}/webmessagesnew
 ```
-* DELETE a Web Message by ID
+*   DELETE a Web Message by ID
 ```bash
 $ curl -i -X DELETE {{base_url}}/webmessages/{id}
 ```
 
 ### Wechat Message
-* GET an Wechat Message by ID
+*   GET an Wechat Message by ID
 
 Result in JSON
 
@@ -2085,292 +2085,292 @@ Result in JSON
 | recipient_openid| string  | Recipient OpenID                          |
 | message_template_id|string| Message Template ID                       |
 | message_data  | json      | Message Data in JSON                      |
-| created_datetime| float   | Message Created Datetime (POSIX timestamp * 1000)|
-| scheduled_datetime| float | Message Scheduled Datetime (POSIX timestamp * 1000)|
+| created_datetime| float   | Message Created Datetime (POSIX timestamp *   1000)|
+| scheduled_datetime| float | Message Scheduled Datetime (POSIX timestamp *   1000)|
 | acknowledge_code| string  | Recipient reply with Acknowledge code to acknowledge |
 | status        | string    | Status ('new', 'sent', 'acknowledged', 'timeout'| 
 ```bash
 $ curl -i -X GET {{base_url}}/wechatmessages/{id}
 ```
-* GET a Wechat Messages from Startdate to Enddate
+*   GET a Wechat Messages from Startdate to Enddate
 ```bash
 $ curl -i -X GET {{base_url}}/wechatmessages/from/{startdate}/to/{enddate}
 ```
-* DELETE a Wechat Message by ID
+*   DELETE a Wechat Message by ID
 ```bash
 $ curl -i -X DELETE {{base_url}}/wechatmessages/{id}
 ```
 
 ### Reports
-* GET AdvancedReports
+*   GET AdvancedReports
 ```
 $ curl -i -X GET {{base_url}}/reports/advancedreports?reportingperiodstartdatetime={reportingperiodstartdatetime}&reportingperiodenddatetime={reportingperiodenddatetime}
 ```
-* GET AdvancedReport by ID
+*   GET AdvancedReport by ID
 ```
 $ curl -i -X GET {{base_url}}/reports/advancedreports/{id}
 ```
-* DELETE AdvancedReport by ID
+*   DELETE AdvancedReport by ID
 ```
 $ curl -i -X GET {{base_url}}/reports/advancedreports/{id}
 ```
-* GET Combined Equipment Batch Analysis Report
+*   GET Combined Equipment Batch Analysis Report
 ```
 $ curl -i -X GET {{base_url}}/reports/combinedequipmentbatch?spaceid=1&reportingperiodstartdatetime=2021-05-01T00:00:00&reportingperiodenddatetime=2021-05-20T11:41:09
 ```
-* GET Combined Equipment Cost Report
+*   GET Combined Equipment Cost Report
 ```
 $ curl -i -X GET {{base_url}}/reports/combinedequipmentcost?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Combined Equipment Efficiency Report
+*   GET Combined Equipment Efficiency Report
 ```
 $ curl -i -X GET {{base_url}}/reports/combinedequipmentefficiency?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Combined Equipment Energy Category Report
+*   GET Combined Equipment Energy Category Report
 ```
 $ curl -i -X GET {{base_url}}/reports/combinedequipmentenergycategory?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Combined Equipment Energy Item Report
+*   GET Combined Equipment Energy Item Report
 ```
 $ curl -i -X GET {{base_url}}/reports/combinedequipmentenergyitem?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Combined Equipment Income Report
+*   GET Combined Equipment Income Report
 ```
 $ curl -i -X GET {{base_url}}/reports/combinedequipmentincome?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Combined Equipment Load Report
+*   GET Combined Equipment Load Report
 ```
 $ curl -i -X GET {{base_url}}/reports/combinedequipmentload?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Combined Equipment Output Report
+*   GET Combined Equipment Output Report
 ```
 $ curl -i -X GET {{base_url}}/reports/combinedequipmentoutput?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Combined Equipment Saving Report
+*   GET Combined Equipment Saving Report
 ```
 $ curl -i -X GET {{base_url}}/reports/combinedequipmentsaving?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Combined Equipment Statistics Report
+*   GET Combined Equipment Statistics Report
 ```
 $ curl -i -X GET {{base_url}}/reports/equipmentstatistics?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Dashboard
+*   GET Dashboard
 ```
 $ curl -i -X GET {{base_url}}/reports/dashboard?useruuid={useruuid}&periodtype={periodtype}&baseperiodstartdatetime={baseperiodstartdatetime}&baseperiodenddatetime={baseperiodenddatetime}&reportingperiodstartdatetime={reportingperiodstartdatetime}&reportingperiodenddatetime={reportingperiodenddatetime}
 ```
-* GET Distribution System Report
+*   GET Distribution System Report
 ```
 $ curl -i -X GET {{base_url}}/reports/distributionsystem?distributionsystemid=1
 ```
-* GET Energy Flow Diagram Report
+*   GET Energy Flow Diagram Report
 ```
 $ curl -i -X GET {{base_url}}/reports/energyflowdiagram?energyflowdiagramid=1&reportingperiodstartdatetime={reportingperiodstartdatetime}&reportingperiodenddatetime={reportingperiodenddatetime}
 ```
-* GET Equipment Batch Analysis Report
+*   GET Equipment Batch Analysis Report
 ```
 $ curl -i -X GET {{base_url}}/reports/equipmentbatch?spaceid=1&reportingperiodstartdatetime=2021-05-01T00:00:00&reportingperiodenddatetime=2021-05-20T11:41:09
 ```
-* GET Equipment Cost Report
+*   GET Equipment Cost Report
 ```
 $ curl -i -X GET {{base_url}}/reports/equipmentcost?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Equipment Efficiency Report
+*   GET Equipment Efficiency Report
 ```
 $ curl -i -X GET {{base_url}}/reports/equipmentefficiency?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Equipment Energy Category Report
+*   GET Equipment Energy Category Report
 ```
 $ curl -i -X GET {{base_url}}/reports/equipmentenergycategory?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Equipment Energy Item Report
+*   GET Equipment Energy Item Report
 ```
 $ curl -i -X GET {{base_url}}/reports/equipmentenergyitem?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Equipment Income Report
+*   GET Equipment Income Report
 ```
 $ curl -i -X GET {{base_url}}/reports/equipmentincome?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Equipment Load Report
+*   GET Equipment Load Report
 ```
 $ curl -i -X GET {{base_url}}/reports/equipmentload?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Equipment Output Report
+*   GET Equipment Output Report
 ```
 $ curl -i -X GET {{base_url}}/reports/equipmentoutput?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Equipment Saving Report
+*   GET Equipment Saving Report
 ```
 $ curl -i -X GET {{base_url}}/reports/equipmentsaving?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Equipment Statistics Report
+*   GET Equipment Statistics Report
 ```
 $ curl -i -X GET {{base_url}}/reports/equipmentstatistics?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Meter Batch Analysis Report
+*   GET Meter Batch Analysis Report
 ```
 $ curl -i -X GET {{base_url}}/reports/meterbatch?spaceid=1&reportingperiodstartdatetime=2021-05-01T00:00:00&reportingperiodenddatetime=2021-05-20T11:41:09
 ```
-* GET Meter Cost Report
+*   GET Meter Cost Report
 ```
 $ curl -i -X GET {{base_url}}/reports/metercost?meterid=6&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Meter Energy Report
+*   GET Meter Energy Report
 ```
 $ curl -i -X GET {{base_url}}/reports/meterenergy?meterid=6&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Meter Realtime Report
+*   GET Meter Realtime Report
 ```
 $ curl -i -X GET {{base_url}}/reports/meterrealtime?meterid=1
 ```
-* GET Meter Submeters Balance Report
+*   GET Meter Submeters Balance Report
 ```
 $ curl -i -X GET {{base_url}}/reports/metersubmetersbalance?meterid=1&periodtype=daily&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Meter Trend Report
+*   GET Meter Trend Report
 ```
 $ curl -i -X GET {{base_url}}/reports/metertrend?meterid=6&reportingperiodstartdatetime=2020-09-10T00:00:00&reportingperiodenddatetime=2020-09-11T00:00:00
 ```
-* GET Meter Tracking Report
+*   GET Meter Tracking Report
 ```
 $ curl -i -X GET {{base_url}}/reports/metertracking?spaceid=1
 ```
-* GET Offline Meter Energy Report
+*   GET Offline Meter Energy Report
 ```
 $ curl -i -X GET {{base_url}}/reports/offlinemeterenergy?offlinemeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Offline Meter Cost Report
+*   GET Offline Meter Cost Report
 ```
 $ curl -i -X GET {{base_url}}/reports/offlinemetercost?offlinemeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Shopfloor Batch Analysis Report
+*   GET Shopfloor Batch Analysis Report
 ```
 $ curl -i -X GET {{base_url}}/reports/shopfloorbatch?spaceid=1&reportingperiodstartdatetime=2021-05-01T00:00:00&reportingperiodenddatetime=2021-05-20T11:41:09
 ```
-* GET Shopfloor Cost Report
+*   GET Shopfloor Cost Report
 ```
 $ curl -i -X GET {{base_url}}/reports/shopfloorcost?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Shopfloor Energy Category Report
+*   GET Shopfloor Energy Category Report
 ```
 $ curl -i -X GET {{base_url}}/reports/shopfloorenergycategory?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Shopfloor Energy Item Report
+*   GET Shopfloor Energy Item Report
 ```
 $ curl -i -X GET {{base_url}}/reports/shopfloorenergyitem?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Shopfloor Load Report
+*   GET Shopfloor Load Report
 ```
 $ curl -i -X GET {{base_url}}/reports/shopfloorload?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Shopfloor Saving Report
+*   GET Shopfloor Saving Report
 ```
 $ curl -i -X GET {{base_url}}/reports/shopfloorsaving?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Shopfloor Statistics Report
+*   GET Shopfloor Statistics Report
 ```
 $ curl -i -X GET {{base_url}}/reports/shopfloorstatistics?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Space Cost Report
+*   GET Space Cost Report
 ```
 $ curl -i -X GET {{base_url}}/reports/spacecost?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Space Efficiency Report
+*   GET Space Efficiency Report
 ```
 $ curl -i -X GET {{base_url}}/reports/spaceefficiency?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Space Energy Category Report
+*   GET Space Energy Category Report
 ```
 $ curl -i -X GET {{base_url}}/reports/spaceenergycategory?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Space Energy Item Report
+*   GET Space Energy Item Report
 ```
 $ curl -i -X GET {{base_url}}/reports/spaceenergyitem?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Space Income Report
+*   GET Space Income Report
 ```
 $ curl -i -X GET {{base_url}}/reports/spaceincome?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Space Load Report
+*   GET Space Load Report
 ```
 $ curl -i -X GET {{base_url}}/reports/spaceload?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Space Output Report
+*   GET Space Output Report
 ```
 $ curl -i -X GET {{base_url}}/reports/spaceoutput?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Space Saving Report
+*   GET Space Saving Report
 ```
 $ curl -i -X GET {{base_url}}/reports/spacesaving?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Space Statistics Report
+*   GET Space Statistics Report
 ```
 $ curl -i -X GET {{base_url}}/reports/spacestatistics?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Store Batch Analysis Report
+*   GET Store Batch Analysis Report
 ```
 $ curl -i -X GET {{base_url}}/reports/storebatch?spaceid=1&reportingperiodstartdatetime=2021-05-01T00:00:00&reportingperiodenddatetime=2021-05-20T11:41:09
 ```
-* GET Store Cost Report
+*   GET Store Cost Report
 ```
 $ curl -i -X GET {{base_url}}/reports/storetcost?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Store Energy Category Report
+*   GET Store Energy Category Report
 ```
 $ curl -i -X GET {{base_url}}/reports/storeenergycategory?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Store Energy Item Report
+*   GET Store Energy Item Report
 ```
 $ curl -i -X GET {{base_url}}/reports/storeenergyitem?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Store Load Report
+*   GET Store Load Report
 ```
 $ curl -i -X GET {{base_url}}/reports/storeload?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Store Saving Report
+*   GET Store Saving Report
 ```
 $ curl -i -X GET {{base_url}}/reports/storesaving?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Store Statistics Report
+*   GET Store Statistics Report
 ```
 $ curl -i -X GET {{base_url}}/reports/storestatistics?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Tenant Batch Analysis Report
+*   GET Tenant Batch Analysis Report
 ```
 $ curl -i -X GET {{base_url}}/reports/tenantbatch?spaceid=1&reportingperiodstartdatetime=2021-05-01T00:00:00&reportingperiodenddatetime=2021-05-20T11:41:09
 ```
-* GET Tenant Bill Report
+*   GET Tenant Bill Report
 ```
 $ curl -i -X GET {{base_url}}/reports/tenantbill?tenantid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00
 ```
-* GET Tenant Cost Report
+*   GET Tenant Cost Report
 ```
 $ curl -i -X GET {{base_url}}/reports/tenantcost?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Tenant Energy Category Report
+*   GET Tenant Energy Category Report
 ```
 $ curl -i -X GET {{base_url}}/reports/tenantenergycategory?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Tenant Energy Item Report
+*   GET Tenant Energy Item Report
 ```
 $ curl -i -X GET {{base_url}}/reports/tenantenergyitem?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Tenant Load Report
+*   GET Tenant Load Report
 ```
 $ curl -i -X GET {{base_url}}/reports/tenantload?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Tenant Saving Report
+*   GET Tenant Saving Report
 ```
 $ curl -i -X GET {{base_url}}/reports/tenantsaving?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Tenant Statistics Report
+*   GET Tenant Statistics Report
 ```
 $ curl -i -X GET {{base_url}}/reports/tenantstatistics?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Virtual Meter Energy Report
+*   GET Virtual Meter Energy Report
 ```
 $ curl -i -X GET {{base_url}}/reports/virtualmeterenergy?virtualmeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Virtual Meter Cost Report
+*   GET Virtual Meter Cost Report
 ```
 $ curl -i -X GET {{base_url}}/reports/virtualmetercost?virtualmeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
