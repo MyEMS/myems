@@ -913,7 +913,7 @@ function (_Emitter) {
           if (file.previewElement) {
             file.previewElement.classList.add("dz-error");
 
-            if (typeof message !== "String" && message.error) {
+            if (typeof message !== "string" && message.error) {
               message = message.error;
             }
 
