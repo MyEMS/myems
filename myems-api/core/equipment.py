@@ -3,18 +3,22 @@ import simplejson as json
 import mysql.connector
 import config
 import uuid
+from log import decorator_record_action_log
 
 
 class EquipmentCollection:
     @staticmethod
+    @decorator_record_action_log
     def __init__():
         pass
 
     @staticmethod
+    @decorator_record_action_log
     def on_options(req, resp):
         resp.status = falcon.HTTP_200
 
     @staticmethod
+    @decorator_record_action_log
     def on_get(req, resp):
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor(dictionary=True)
@@ -57,6 +61,7 @@ class EquipmentCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @decorator_record_action_log
     def on_post(req, resp):
         """Handles POST requests"""
         try:
@@ -144,14 +149,17 @@ class EquipmentCollection:
 
 class EquipmentItem:
     @staticmethod
+    @decorator_record_action_log
     def __init__():
         pass
 
     @staticmethod
+    @decorator_record_action_log
     def on_options(req, resp, id_):
         resp.status = falcon.HTTP_200
 
     @staticmethod
+    @decorator_record_action_log
     def on_get(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -198,6 +206,7 @@ class EquipmentItem:
         resp.body = json.dumps(meta_result)
 
     @staticmethod
+    @decorator_record_action_log
     def on_delete(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -284,6 +293,7 @@ class EquipmentItem:
         resp.status = falcon.HTTP_204
 
     @staticmethod
+    @decorator_record_action_log
     def on_put(req, resp, id_):
         """Handles PUT requests"""
         if not id_.isdigit() or int(id_) <= 0:
@@ -380,6 +390,7 @@ class EquipmentItem:
 
     # Clone an Equipment
     @staticmethod
+    @decorator_record_action_log
     def on_post(req, resp, id_):
         """Handles PUT requests"""
         if not id_.isdigit() or int(id_) <= 0:
@@ -525,14 +536,17 @@ class EquipmentItem:
 
 class EquipmentParameterCollection:
     @staticmethod
+    @decorator_record_action_log
     def __init__():
         pass
 
     @staticmethod
+    @decorator_record_action_log
     def on_options(req, resp, id_):
         resp.status = falcon.HTTP_200
 
     @staticmethod
+    @decorator_record_action_log
     def on_get(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -655,6 +669,7 @@ class EquipmentParameterCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @decorator_record_action_log
     def on_post(req, resp, id_):
         """Handles POST requests"""
         if not id_.isdigit() or int(id_) <= 0:
@@ -838,14 +853,17 @@ class EquipmentParameterCollection:
 
 class EquipmentParameterItem:
     @staticmethod
+    @decorator_record_action_log
     def __init__():
         pass
 
     @staticmethod
+    @decorator_record_action_log
     def on_options(req, resp, id_, pid):
         resp.status = falcon.HTTP_200
 
     @staticmethod
+    @decorator_record_action_log
     def on_get(req, resp, id_, pid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -962,6 +980,7 @@ class EquipmentParameterItem:
         resp.body = json.dumps(meta_result)
 
     @staticmethod
+    @decorator_record_action_log
     def on_delete(req, resp, id_, pid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1008,6 +1027,7 @@ class EquipmentParameterItem:
         resp.status = falcon.HTTP_204
 
     @staticmethod
+    @decorator_record_action_log
     def on_put(req, resp, id_, pid):
         """Handles POST requests"""
         if not id_.isdigit() or int(id_) <= 0:
@@ -1209,14 +1229,17 @@ class EquipmentParameterItem:
 
 class EquipmentMeterCollection:
     @staticmethod
+    @decorator_record_action_log
     def __init__():
         pass
 
     @staticmethod
+    @decorator_record_action_log
     def on_options(req, resp, id_):
         resp.status = falcon.HTTP_200
 
     @staticmethod
+    @decorator_record_action_log
     def on_get(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1265,6 +1288,7 @@ class EquipmentMeterCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @decorator_record_action_log
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -1336,14 +1360,17 @@ class EquipmentMeterCollection:
 
 class EquipmentMeterItem:
     @staticmethod
+    @decorator_record_action_log
     def __init__():
         pass
 
     @staticmethod
+    @decorator_record_action_log
     def on_options(req, resp, id_, mid):
             resp.status = falcon.HTTP_200
 
     @staticmethod
+    @decorator_record_action_log
     def on_delete(req, resp, id_, mid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1394,14 +1421,17 @@ class EquipmentMeterItem:
 
 class EquipmentOfflineMeterCollection:
     @staticmethod
+    @decorator_record_action_log
     def __init__():
         pass
 
     @staticmethod
+    @decorator_record_action_log
     def on_options(req, resp, id_):
         resp.status = falcon.HTTP_200
 
     @staticmethod
+    @decorator_record_action_log
     def on_get(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1450,6 +1480,7 @@ class EquipmentOfflineMeterCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @decorator_record_action_log
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -1521,14 +1552,17 @@ class EquipmentOfflineMeterCollection:
 
 class EquipmentOfflineMeterItem:
     @staticmethod
+    @decorator_record_action_log
     def __init__():
         pass
 
     @staticmethod
+    @decorator_record_action_log
     def on_options(req, resp, id_, mid):
             resp.status = falcon.HTTP_200
 
     @staticmethod
+    @decorator_record_action_log
     def on_delete(req, resp, id_, mid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1580,14 +1614,17 @@ class EquipmentOfflineMeterItem:
 
 class EquipmentVirtualMeterCollection:
     @staticmethod
+    @decorator_record_action_log
     def __init__():
         pass
 
     @staticmethod
+    @decorator_record_action_log
     def on_options(req, resp, id_):
         resp.status = falcon.HTTP_200
 
     @staticmethod
+    @decorator_record_action_log
     def on_get(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1636,6 +1673,7 @@ class EquipmentVirtualMeterCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @decorator_record_action_log
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -1707,14 +1745,17 @@ class EquipmentVirtualMeterCollection:
 
 class EquipmentVirtualMeterItem:
     @staticmethod
+    @decorator_record_action_log
     def __init__():
         pass
 
     @staticmethod
+    @decorator_record_action_log
     def on_options(req, resp, id_, mid):
             resp.status = falcon.HTTP_200
 
     @staticmethod
+    @decorator_record_action_log
     def on_delete(req, resp, id_, mid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
