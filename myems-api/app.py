@@ -3,9 +3,9 @@ from falcon_cors import CORS
 from falcon_multipart.middleware import MultipartMiddleware
 from core import energyflowdiagram, privilege, textmessage, distributioncircuit, virtualmeter, \
     costcenter, point, knowledgefile, meter, gsmmodem, tariff, user, storetype, timezone, \
-    costfile, offlinemeterfile, version, contact, emailserver, combinedequipment, datasource, equipment, tenant, shopfloor, \
-    webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, offlinemeter, \
-    rule, energycategory, sensor, energyitem, notification, menu
+    costfile, offlinemeterfile, version, contact, emailserver, combinedequipment, datasource, equipment, tenant, \
+    shopfloor, webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, \
+    offlinemeter, rule, energycategory, sensor, energyitem, notification, menu
 from reports import advancedreport
 from reports import distributionsystem as distributionsystemreport
 from reports import energyflowdiagram as energyflowdiagramreport

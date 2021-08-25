@@ -554,16 +554,15 @@ class Reporting:
 
         result['reporting_period']['increment_rate_in_kgce'] = \
             (result['reporting_period']['total_in_kgce'] - result['base_period']['total_in_kgce']) / \
-            result['base_period']['total_in_kgce'] \
-                if result['base_period']['total_in_kgce'] > Decimal(0.0) else None
+            result['base_period']['total_in_kgce'] if result['base_period']['total_in_kgce'] > Decimal(0.0) else None
 
         result['reporting_period']['total_in_kgce_per_unit_area'] = \
             result['reporting_period']['total_in_kgco2e'] / tenant['area'] if tenant['area'] > 0.0 else None
 
         result['reporting_period']['increment_rate_in_kgco2e'] = \
             (result['reporting_period']['total_in_kgco2e'] - result['base_period']['total_in_kgco2e']) / \
-            result['base_period']['total_in_kgco2e'] \
-                if result['base_period']['total_in_kgco2e'] > Decimal(0.0) else None
+            result['base_period']['total_in_kgco2e'] if result['base_period']['total_in_kgco2e'] > Decimal(0.0)\
+            else None
 
         result['parameters'] = {
             "names": parameters_data['names'],
