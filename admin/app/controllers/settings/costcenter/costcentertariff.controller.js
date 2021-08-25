@@ -81,7 +81,7 @@ app.controller('CostCenterTariffController', function ($scope,  $translate,
             if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
                     type: "success",
-                    title: popTi$translate.instant("TOASTER.SUCCESS_TITLE"),
+                    title: $translate.instant("TOASTER.SUCCESS_TITLE"),
                     body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", {template: $translate.instant("TOASTER.UNBIND_TARIFF_SUCCESS")}),
                     showCloseButton: true,
                 });
