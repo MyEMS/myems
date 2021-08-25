@@ -377,7 +377,7 @@ class SensorPointItem:
 
     @staticmethod
     def on_options(req, resp, id_, pid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, pid):

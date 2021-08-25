@@ -628,7 +628,7 @@ class ShopfloorEquipmentItem:
 
     @staticmethod
     def on_options(req, resp, id_, eid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, eid):
@@ -809,7 +809,7 @@ class ShopfloorMeterItem:
 
     @staticmethod
     def on_options(req, resp, id_, mid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, mid):
@@ -989,7 +989,7 @@ class ShopfloorOfflineMeterItem:
 
     @staticmethod
     def on_options(req, resp, id_, mid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, mid):
@@ -1169,7 +1169,7 @@ class ShopfloorPointItem:
 
     @staticmethod
     def on_options(req, resp, id_, pid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, pid):
@@ -1336,7 +1336,7 @@ class ShopfloorSensorItem:
 
     @staticmethod
     def on_options(req, resp, id_, sid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, sid):
@@ -1516,7 +1516,7 @@ class ShopfloorVirtualMeterItem:
 
     @staticmethod
     def on_options(req, resp, id_, mid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, mid):

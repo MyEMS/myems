@@ -925,7 +925,7 @@ class SpaceCombinedEquipmentItem:
 
     @staticmethod
     def on_options(req, resp, id_, eid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, eid):
@@ -1092,7 +1092,7 @@ class SpaceEquipmentItem:
 
     @staticmethod
     def on_options(req, resp, id_, eid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, eid):
@@ -1272,7 +1272,7 @@ class SpaceMeterItem:
 
     @staticmethod
     def on_options(req, resp, id_, mid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, mid):
@@ -1454,7 +1454,7 @@ class SpaceOfflineMeterItem:
 
     @staticmethod
     def on_options(req, resp, id_, mid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, mid):
@@ -1634,7 +1634,7 @@ class SpacePointItem:
 
     @staticmethod
     def on_options(req, resp, id_, pid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, pid):
@@ -1801,7 +1801,7 @@ class SpaceSensorItem:
 
     @staticmethod
     def on_options(req, resp, id_, sid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, sid):
@@ -1967,7 +1967,7 @@ class SpaceShopfloorItem:
 
     @staticmethod
     def on_options(req, resp, id_, sid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, sid):
@@ -2133,7 +2133,7 @@ class SpaceStoreItem:
 
     @staticmethod
     def on_options(req, resp, id_, tid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, tid):
@@ -2299,7 +2299,7 @@ class SpaceTenantItem:
 
     @staticmethod
     def on_options(req, resp, id_, tid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, tid):
@@ -2479,7 +2479,7 @@ class SpaceVirtualMeterItem:
 
     @staticmethod
     def on_options(req, resp, id_, mid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, mid):
