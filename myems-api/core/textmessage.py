@@ -8,6 +8,7 @@ from datetime import datetime, timedelta, timezone
 class TextMessageCollection:
     @staticmethod
     def __init__():
+        """"Initializes TextMessageCollection"""
         pass
 
     @staticmethod
@@ -86,6 +87,7 @@ class TextMessageCollection:
 class TextMessageItem:
     @staticmethod
     def __init__():
+        """"Initializes TextMessageItem"""
         pass
 
     @staticmethod

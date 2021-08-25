@@ -11,6 +11,7 @@ import excelexporters.shopfloorcost
 class Reporting:
     @staticmethod
     def __init__():
+        """"Initializes Reporting"""
         pass
 
     @staticmethod

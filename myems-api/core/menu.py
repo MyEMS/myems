@@ -7,6 +7,7 @@ import config
 class MenuCollection:
     @staticmethod
     def __init__():
+        """"Initializes MenuCollection"""
         pass
 
     @staticmethod
@@ -43,6 +44,7 @@ class MenuCollection:
 class MenuItem:
     @staticmethod
     def __init__():
+        """"Initializes MenuItem"""
         pass
 
     @staticmethod
@@ -114,6 +116,7 @@ class MenuItem:
 class MenuChildrenCollection:
     @staticmethod
     def __init__():
+        """"Initializes MenuChildrenCollection"""
         pass
 
     @staticmethod
@@ -185,6 +188,7 @@ class MenuChildrenCollection:
 class MenuWebCollection:
     @staticmethod
     def __init__():
+        """"Initializes MenuWebCollection"""
         pass
 
     @staticmethod

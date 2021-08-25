@@ -11,6 +11,7 @@ from anytree.exporter import JsonExporter
 class SpaceCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -258,6 +259,7 @@ class SpaceCollection:
 class SpaceItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -682,6 +684,7 @@ class SpaceItem:
 class SpaceChildrenCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -810,6 +813,7 @@ class SpaceChildrenCollection:
 class SpaceCombinedEquipmentCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -916,11 +920,12 @@ class SpaceCombinedEquipmentCollection:
 class SpaceCombinedEquipmentItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, eid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, eid):
@@ -975,6 +980,7 @@ class SpaceCombinedEquipmentItem:
 class SpaceEquipmentCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1081,11 +1087,12 @@ class SpaceEquipmentCollection:
 class SpaceEquipmentItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, eid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, eid):
@@ -1139,6 +1146,7 @@ class SpaceEquipmentItem:
 class SpaceMeterCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1259,11 +1267,12 @@ class SpaceMeterCollection:
 class SpaceMeterItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, mid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, mid):
@@ -1319,6 +1328,7 @@ class SpaceMeterItem:
 class SpaceOfflineMeterCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1439,11 +1449,12 @@ class SpaceOfflineMeterCollection:
 class SpaceOfflineMeterItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, mid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, mid):
@@ -1498,6 +1509,7 @@ class SpaceOfflineMeterItem:
 class SpacePointCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1617,11 +1629,12 @@ class SpacePointCollection:
 class SpacePointItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, pid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, pid):
@@ -1676,6 +1689,7 @@ class SpacePointItem:
 class SpaceSensorCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1782,11 +1796,12 @@ class SpaceSensorCollection:
 class SpaceSensorItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, sid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, sid):
@@ -1840,6 +1855,7 @@ class SpaceSensorItem:
 class SpaceShopfloorCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1946,11 +1962,12 @@ class SpaceShopfloorCollection:
 class SpaceShopfloorItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, sid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, sid):
@@ -2004,6 +2021,7 @@ class SpaceShopfloorItem:
 class SpaceStoreCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -2110,11 +2128,12 @@ class SpaceStoreCollection:
 class SpaceStoreItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, tid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, tid):
@@ -2168,6 +2187,7 @@ class SpaceStoreItem:
 class SpaceTenantCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -2274,11 +2294,12 @@ class SpaceTenantCollection:
 class SpaceTenantItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, tid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, tid):
@@ -2332,6 +2353,7 @@ class SpaceTenantItem:
 class SpaceVirtualMeterCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -2452,11 +2474,12 @@ class SpaceVirtualMeterCollection:
 class SpaceVirtualMeterItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, mid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, mid):
@@ -2511,6 +2534,7 @@ class SpaceVirtualMeterItem:
 class SpaceTreeCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod

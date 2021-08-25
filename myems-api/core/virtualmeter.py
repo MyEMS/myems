@@ -8,6 +8,7 @@ import uuid
 class VirtualMeterCollection:
     @staticmethod
     def __init__():
+        """"Initializes VirtualMeterCollection"""
         pass
 
     @staticmethod
@@ -173,8 +174,8 @@ class VirtualMeterCollection:
         if 'cost_center_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['cost_center_id'], int) or \
                 new_values['data']['cost_center_id'] <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_COST_CENTER_ID')
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_COST_CENTER_ID')
 
         cost_center_id = new_values['data']['cost_center_id']
 
@@ -362,6 +363,7 @@ class VirtualMeterCollection:
 class VirtualMeterItem:
     @staticmethod
     def __init__():
+        """"Initializes VirtualMeterItem"""
         pass
 
     @staticmethod
@@ -699,8 +701,8 @@ class VirtualMeterItem:
         if 'cost_center_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['cost_center_id'], int) or \
                 new_values['data']['cost_center_id'] <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_COST_CENTER_ID')
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_COST_CENTER_ID')
 
         cost_center_id = new_values['data']['cost_center_id']
 

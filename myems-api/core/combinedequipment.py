@@ -8,6 +8,7 @@ import uuid
 class CombinedEquipmentCollection:
     @staticmethod
     def __init__():
+        """ Initializes CombinedEquipmentCollection"""
         pass
 
     @staticmethod
@@ -88,8 +89,8 @@ class CombinedEquipmentCollection:
         if 'cost_center_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['cost_center_id'], int) or \
                 new_values['data']['cost_center_id'] <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_COST_CENTER_ID')
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_COST_CENTER_ID')
         cost_center_id = new_values['data']['cost_center_id']
 
         if 'description' in new_values['data'].keys() and \
@@ -145,6 +146,7 @@ class CombinedEquipmentCollection:
 class CombinedEquipmentItem:
     @staticmethod
     def __init__():
+        """Initializes CombinedEquipmentItem"""
         pass
 
     @staticmethod
@@ -305,8 +307,8 @@ class CombinedEquipmentItem:
         if 'cost_center_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['cost_center_id'], int) or \
                 new_values['data']['cost_center_id'] <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_COST_CENTER_ID')
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_COST_CENTER_ID')
         cost_center_id = new_values['data']['cost_center_id']
 
         if 'description' in new_values['data'].keys() and \
@@ -515,6 +517,7 @@ class CombinedEquipmentItem:
 class CombinedEquipmentEquipmentCollection:
     @staticmethod
     def __init__():
+        """Initializes CombinedEquipmentEquipmentCollection"""
         pass
 
     @staticmethod
@@ -621,11 +624,12 @@ class CombinedEquipmentEquipmentCollection:
 class CombinedEquipmentEquipmentItem:
     @staticmethod
     def __init__():
+        """Initializes CombinedEquipmentEquipmentItem"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, eid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, eid):
@@ -680,6 +684,7 @@ class CombinedEquipmentEquipmentItem:
 class CombinedEquipmentParameterCollection:
     @staticmethod
     def __init__():
+        """Initializes CombinedEquipmentParameterCollection"""
         pass
 
     @staticmethod
@@ -993,6 +998,7 @@ class CombinedEquipmentParameterCollection:
 class CombinedEquipmentParameterItem:
     @staticmethod
     def __init__():
+        """"Initializes CombinedEquipmentParameterItem"""
         pass
 
     @staticmethod
@@ -1364,6 +1370,7 @@ class CombinedEquipmentParameterItem:
 class CombinedEquipmentMeterCollection:
     @staticmethod
     def __init__():
+        """"Initializes CombinedEquipmentMeterCollection"""
         pass
 
     @staticmethod
@@ -1491,11 +1498,12 @@ class CombinedEquipmentMeterCollection:
 class CombinedEquipmentMeterItem:
     @staticmethod
     def __init__():
+        """"Initializes CombinedEquipmentMeterItem"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, mid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, mid):
@@ -1550,6 +1558,7 @@ class CombinedEquipmentMeterItem:
 class CombinedEquipmentOfflineMeterCollection:
     @staticmethod
     def __init__():
+        """"Initializes CombinedEquipmentOfflineMeterCollection"""
         pass
 
     @staticmethod
@@ -1678,11 +1687,12 @@ class CombinedEquipmentOfflineMeterCollection:
 class CombinedEquipmentOfflineMeterItem:
     @staticmethod
     def __init__():
+        """"Initializes CombinedEquipmentOfflineMeterItem"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, mid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, mid):
@@ -1737,6 +1747,7 @@ class CombinedEquipmentOfflineMeterItem:
 class CombinedEquipmentVirtualMeterCollection:
     @staticmethod
     def __init__():
+        """"Initializes CombinedEquipmentVirtualMeterCollection"""
         pass
 
     @staticmethod
@@ -1865,11 +1876,12 @@ class CombinedEquipmentVirtualMeterCollection:
 class CombinedEquipmentVirtualMeterItem:
     @staticmethod
     def __init__():
+        """"Initializes CombinedEquipmentVirtualMeterItem"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, mid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, mid):

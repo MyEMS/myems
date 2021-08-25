@@ -5,6 +5,7 @@ import simplejson as json
 class VersionItem:
     @staticmethod
     def __init__():
+        """"Initializes VersionItem"""
         pass
 
     @staticmethod

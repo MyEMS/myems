@@ -10,6 +10,7 @@ import config
 class AdvancedReportCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -110,6 +111,7 @@ class AdvancedReportCollection:
 class AdvancedReportItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod

@@ -11,6 +11,7 @@ import excelexporters.combinedequipmentcost
 class Reporting:
     @staticmethod
     def __init__():
+        """"Initializes Reporting"""
         pass
 
     @staticmethod

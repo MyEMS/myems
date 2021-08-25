@@ -10,6 +10,7 @@ import os
 class CostFileCollection:
     @staticmethod
     def __init__():
+        """"Initializes CostFileCollection"""
         pass
 
     @staticmethod
@@ -142,6 +143,7 @@ class CostFileCollection:
 class CostFileItem:
     @staticmethod
     def __init__():
+        """"Initializes CostFileItem"""
         pass
 
     @staticmethod
@@ -222,6 +224,7 @@ class CostFileItem:
 class CostFileRestore:
     @staticmethod
     def __init__():
+        """"Initializes CostFileRestore"""
         pass
 
     @staticmethod

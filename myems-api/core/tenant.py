@@ -9,6 +9,7 @@ from datetime import datetime, timedelta, timezone
 class TenantCollection:
     @staticmethod
     def __init__():
+        """"Initializes TenantCollection"""
         pass
 
     @staticmethod
@@ -194,15 +195,15 @@ class TenantCollection:
         if 'contact_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['contact_id'], int) or \
                 new_values['data']['contact_id'] <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_CONTACT_ID')
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_CONTACT_ID')
         contact_id = new_values['data']['contact_id']
 
         if 'cost_center_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['cost_center_id'], int) or \
                 new_values['data']['cost_center_id'] <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_COST_CENTER_ID')
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_COST_CENTER_ID')
         cost_center_id = new_values['data']['cost_center_id']
 
         if 'description' in new_values['data'].keys() and \
@@ -290,6 +291,7 @@ class TenantCollection:
 class TenantItem:
     @staticmethod
     def __init__():
+        """"Initializes TenantItem"""
         pass
 
     @staticmethod
@@ -687,6 +689,7 @@ class TenantItem:
 class TenantMeterCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -807,11 +810,12 @@ class TenantMeterCollection:
 class TenantMeterItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, mid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, mid):
@@ -865,6 +869,7 @@ class TenantMeterItem:
 class TenantOfflineMeterCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -985,11 +990,12 @@ class TenantOfflineMeterCollection:
 class TenantOfflineMeterItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, mid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, mid):
@@ -1044,6 +1050,7 @@ class TenantOfflineMeterItem:
 class TenantPointCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1163,11 +1170,12 @@ class TenantPointCollection:
 class TenantPointItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, pid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, pid):
@@ -1222,6 +1230,7 @@ class TenantPointItem:
 class TenantSensorCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1328,11 +1337,12 @@ class TenantSensorCollection:
 class TenantSensorItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, sid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, sid):
@@ -1386,6 +1396,7 @@ class TenantSensorItem:
 class TenantVirtualMeterCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1506,11 +1517,12 @@ class TenantVirtualMeterCollection:
 class TenantVirtualMeterItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, mid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, mid):

@@ -10,6 +10,7 @@ class EquipmentCollection:
     @staticmethod
     @decorator_record_action_log
     def __init__():
+        """Initializes EquipmentCollection"""
         pass
 
     @staticmethod
@@ -93,8 +94,8 @@ class EquipmentCollection:
         if 'cost_center_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['cost_center_id'], int) or \
                 new_values['data']['cost_center_id'] <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_COST_CENTER_ID')
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_COST_CENTER_ID')
         cost_center_id = new_values['data']['cost_center_id']
 
         if 'description' in new_values['data'].keys() and \
@@ -151,6 +152,7 @@ class EquipmentItem:
     @staticmethod
     @decorator_record_action_log
     def __init__():
+        """Initializes EquipmentItem"""
         pass
 
     @staticmethod
@@ -328,8 +330,8 @@ class EquipmentItem:
         if 'cost_center_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['cost_center_id'], int) or \
                 new_values['data']['cost_center_id'] <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_COST_CENTER_ID')
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_COST_CENTER_ID')
         cost_center_id = new_values['data']['cost_center_id']
 
         if 'description' in new_values['data'].keys() and \
@@ -538,6 +540,7 @@ class EquipmentParameterCollection:
     @staticmethod
     @decorator_record_action_log
     def __init__():
+        """Initializes EquipmentParameterCollection"""
         pass
 
     @staticmethod
@@ -855,6 +858,7 @@ class EquipmentParameterItem:
     @staticmethod
     @decorator_record_action_log
     def __init__():
+        """Initializes EquipmentParameterItem"""
         pass
 
     @staticmethod
@@ -1231,6 +1235,7 @@ class EquipmentMeterCollection:
     @staticmethod
     @decorator_record_action_log
     def __init__():
+        """Initializes EquipmentMeterCollection"""
         pass
 
     @staticmethod
@@ -1362,12 +1367,13 @@ class EquipmentMeterItem:
     @staticmethod
     @decorator_record_action_log
     def __init__():
+        """Initializes EquipmentMeterItem"""
         pass
 
     @staticmethod
     @decorator_record_action_log
     def on_options(req, resp, id_, mid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     @decorator_record_action_log
@@ -1423,6 +1429,7 @@ class EquipmentOfflineMeterCollection:
     @staticmethod
     @decorator_record_action_log
     def __init__():
+        """Initializes EquipmentOfflineMeterCollection"""
         pass
 
     @staticmethod
@@ -1554,12 +1561,13 @@ class EquipmentOfflineMeterItem:
     @staticmethod
     @decorator_record_action_log
     def __init__():
+        """Initializes EquipmentOfflineMeterItem"""
         pass
 
     @staticmethod
     @decorator_record_action_log
     def on_options(req, resp, id_, mid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     @decorator_record_action_log
@@ -1616,6 +1624,7 @@ class EquipmentVirtualMeterCollection:
     @staticmethod
     @decorator_record_action_log
     def __init__():
+        """Initializes EquipmentVirtualMeterCollection"""
         pass
 
     @staticmethod
@@ -1747,12 +1756,13 @@ class EquipmentVirtualMeterItem:
     @staticmethod
     @decorator_record_action_log
     def __init__():
+        """Initializes EquipmentVirtualMeterItem"""
         pass
 
     @staticmethod
     @decorator_record_action_log
     def on_options(req, resp, id_, mid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     @decorator_record_action_log

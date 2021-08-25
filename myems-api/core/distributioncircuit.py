@@ -8,6 +8,7 @@ import uuid
 class DistributionCircuitCollection:
     @staticmethod
     def __init__():
+        """Initializes DistributionCircuitCollection"""
         pass
 
     @staticmethod
@@ -171,6 +172,7 @@ class DistributionCircuitCollection:
 class DistributionCircuitItem:
     @staticmethod
     def __init__():
+        """Initializes DistributionCircuitItem"""
         pass
 
     @staticmethod
@@ -372,6 +374,7 @@ class DistributionCircuitItem:
 class DistributionCircuitPointCollection:
     @staticmethod
     def __init__():
+        """Initializes DistributionCircuitPointCollection"""
         pass
 
     @staticmethod
@@ -489,11 +492,12 @@ class DistributionCircuitPointCollection:
 class DistributionCircuitPointItem:
     @staticmethod
     def __init__():
+        """Initializes DistributionCircuitPointItem"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, pid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, pid):

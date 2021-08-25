@@ -10,6 +10,7 @@ import config
 class Reporting:
     @staticmethod
     def __init__():
+        """"Initializes Reporting"""
         pass
 
     @staticmethod

@@ -8,6 +8,7 @@ import uuid
 class StoreTypeCollection:
     @staticmethod
     def __init__():
+        """ Initializes StoreTypeCollection"""
         pass
 
     @staticmethod
@@ -110,6 +111,7 @@ class StoreTypeCollection:
 class StoreTypeItem:
     @staticmethod
     def __init__():
+        """ Initializes StoreTypeItem"""
         pass
 
     @staticmethod

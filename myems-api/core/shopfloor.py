@@ -8,6 +8,7 @@ import uuid
 class ShopfloorCollection:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorCollection"""
         pass
 
     @staticmethod
@@ -194,6 +195,7 @@ class ShopfloorCollection:
 class ShopfloorItem:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorItem"""
         pass
 
     @staticmethod
@@ -514,6 +516,7 @@ class ShopfloorItem:
 class ShopfloorEquipmentCollection:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorEquipmentCollection"""
         pass
 
     @staticmethod
@@ -620,11 +623,12 @@ class ShopfloorEquipmentCollection:
 class ShopfloorEquipmentItem:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorEquipmentItem"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, eid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, eid):
@@ -679,6 +683,7 @@ class ShopfloorEquipmentItem:
 class ShopfloorMeterCollection:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorMeterCollection"""
         pass
 
     @staticmethod
@@ -799,11 +804,12 @@ class ShopfloorMeterCollection:
 class ShopfloorMeterItem:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorMeterItem"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, mid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, mid):
@@ -857,6 +863,7 @@ class ShopfloorMeterItem:
 class ShopfloorOfflineMeterCollection:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorOfflineMeterCollection"""
         pass
 
     @staticmethod
@@ -977,11 +984,12 @@ class ShopfloorOfflineMeterCollection:
 class ShopfloorOfflineMeterItem:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorOfflineMeterItem"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, mid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, mid):
@@ -1036,6 +1044,7 @@ class ShopfloorOfflineMeterItem:
 class ShopfloorPointCollection:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorPointCollection"""
         pass
 
     @staticmethod
@@ -1155,11 +1164,12 @@ class ShopfloorPointCollection:
 class ShopfloorPointItem:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorPointItem"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, pid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, pid):
@@ -1214,6 +1224,7 @@ class ShopfloorPointItem:
 class ShopfloorSensorCollection:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorSensorCollection"""
         pass
 
     @staticmethod
@@ -1320,11 +1331,12 @@ class ShopfloorSensorCollection:
 class ShopfloorSensorItem:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorSensorItem"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, sid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, sid):
@@ -1378,6 +1390,7 @@ class ShopfloorSensorItem:
 class ShopfloorVirtualMeterCollection:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorVirtualMeterCollection"""
         pass
 
     @staticmethod
@@ -1498,11 +1511,12 @@ class ShopfloorVirtualMeterCollection:
 class ShopfloorVirtualMeterItem:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorVirtualMeterItem"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, mid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_delete(req, resp, id_, mid):

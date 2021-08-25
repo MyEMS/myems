@@ -8,6 +8,7 @@ from datetime import datetime, timedelta, timezone
 class NotificationCollection:
     @staticmethod
     def __init__():
+        """"Initializes NotificationCollection"""
         pass
 
     @staticmethod
@@ -149,6 +150,7 @@ class NotificationCollection:
 class NotificationItem:
     @staticmethod
     def __init__():
+        """"Initializes NotificationItem"""
         pass
 
     @staticmethod

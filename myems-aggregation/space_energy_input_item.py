@@ -587,7 +587,8 @@ def worker(space):
                             energy_combined_equipment_hourly[combined_equipment_id][current_datetime_utc] = dict()
                         energy_item_id = row_value[1]
                         actual_value = row_value[2]
-                        energy_combined_equipment_hourly[combined_equipment_id][current_datetime_utc][energy_item_id] = actual_value
+                        energy_combined_equipment_hourly[combined_equipment_id][current_datetime_utc][energy_item_id] \
+                            = actual_value
         except Exception as e:
             error_string = "Error in step 14 of space_energy_input_item.worker " + str(e)
             if cursor_energy_db:

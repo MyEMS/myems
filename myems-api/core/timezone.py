@@ -7,6 +7,7 @@ import config
 class TimezoneCollection:
     @staticmethod
     def __init__():
+        """"Initializes TimezoneCollection"""
         pass
 
     @staticmethod
@@ -37,6 +38,7 @@ class TimezoneCollection:
 class TimezoneItem:
     @staticmethod
     def __init__():
+        """"Initializes TimezoneItem"""
         pass
 
     @staticmethod

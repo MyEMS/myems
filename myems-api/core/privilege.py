@@ -7,6 +7,7 @@ import config
 class PrivilegeCollection:
     @staticmethod
     def __init__():
+        """"Initializes PrivilegeCollection"""
         pass
 
     @staticmethod
@@ -88,6 +89,7 @@ class PrivilegeCollection:
 class PrivilegeItem:
     @staticmethod
     def __init__():
+        """"Initializes PrivilegeItem"""
         pass
 
     @staticmethod
