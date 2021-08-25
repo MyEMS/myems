@@ -26,7 +26,7 @@ app.controller('CombinedEquipmentMeterController', function ($scope, $timeout, $
             CombinedEquipmentMeterService.getMetersByCombinedEquipmentID(id, value, function (response) {
                 if (angular.isDefined(response.status) && response.status === 200) {
                     angular.forEach(response.data, function (item, indx) {
-                        data[indx].metertype = value;
+                        response.data[indx].metertype = value;
                     });
                     $scope.combinedequipmentmeters = $scope.combinedequipmentmeters.concat(response.data);
                 }
