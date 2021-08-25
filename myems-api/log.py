@@ -58,6 +58,37 @@ def write_log(user_uuid, action, _class, record_id, record_text):
             cursor.close()
 
 
+def judge_admin(user_uuid):
+    cnx = None
+    cursor = None
+    try:
+        cnx = mysql.connector.connect(**config.myems_user_db)
+        cursor = cnx.cursor()
+        cursor.execute(" SELECT is_admin "
+                       " FROM tbl_users "
+                       " WHERE uuid = %s ",
+                       (user_uuid,))
+        row = cursor.fetchone()
+        user = dict()
+        if row is not None and len(row) > 0:
+            user["admin"] = True if row[0] == 1 else False
+        else:
+            user["admin"] = False
+        return user["admin"]
+    except Exception as e:
+        print(str(e))
+        if cnx:
+            cnx.disconnect()
+        if cursor:
+            cursor.close()
+        return False
+    finally:
+        if cnx:
+            cnx.disconnect()
+        if cursor:
+            cursor.close()
+
+
 def decorator_record_action_log(func):
     @wraps(func)
     def log_fun(*args, **kwargs):
@@ -70,20 +101,27 @@ def decorator_record_action_log(func):
         func_names = func.__qualname__
         class_name = func_names.split(".")[0]
         fun_name = func_names.split(".")[1]
+
+        # Judge on_post, on_put, on_delete
         if fun_name not in type_dict.keys():
             return func(*args, **kwargs)
 
+        action = type_dict.get(fun_name)
+
+        # Judge is_admin or not
         if len(args) > 1:
             req, resp = args
             cookies = req.cookies
             if cookies is not None and 'user_uuid' in cookies.keys():
                 user_uuid = cookies['user_uuid']
+                is_admin = judge_admin(user_uuid)
             else:
                 user_uuid = None
+                is_admin = False
         else:
             return func(*args, **kwargs)
-
-        action = type_dict.get(fun_name)
+        if not is_admin:
+            return func(*args, **kwargs)
 
         if class_name == "UserLogin":
             action = "login"
