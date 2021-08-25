@@ -12,6 +12,7 @@ import sys
 class KnowledgeFileCollection:
     @staticmethod
     def __init__():
+        """"Initializes KnowledgeFileCollection"""
         pass
 
     @staticmethod
@@ -175,6 +176,7 @@ class KnowledgeFileCollection:
 class KnowledgeFileItem:
     @staticmethod
     def __init__():
+        """"Initializes KnowledgeFileItem"""
         pass
 
     @staticmethod
@@ -271,6 +273,7 @@ class KnowledgeFileItem:
 class KnowledgeFileRestore:
     @staticmethod
     def __init__():
+        """"Initializes KnowledgeFileRestore"""
         pass
 
     @staticmethod

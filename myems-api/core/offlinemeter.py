@@ -8,6 +8,7 @@ import uuid
 class OfflineMeterCollection:
     @staticmethod
     def __init__():
+        """Initializes OfflineMeterCollection"""
         pass
 
     @staticmethod
@@ -230,6 +231,7 @@ class OfflineMeterCollection:
 class OfflineMeterItem:
     @staticmethod
     def __init__():
+        """Initializes OfflineMeterItem"""
         pass
 
     @staticmethod

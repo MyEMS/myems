@@ -8,6 +8,7 @@ import uuid
 class StoreCollection:
     @staticmethod
     def __init__():
+        """"Initializes StoreCollection"""
         pass
 
     @staticmethod
@@ -239,6 +240,7 @@ class StoreCollection:
 class StoreItem:
     @staticmethod
     def __init__():
+        """"Initializes StoreItem"""
         pass
 
     @staticmethod
@@ -590,6 +592,7 @@ class StoreItem:
 class StoreMeterCollection:
     @staticmethod
     def __init__():
+        """"Initializes StoreMeterCollection"""
         pass
 
     @staticmethod
@@ -710,6 +713,7 @@ class StoreMeterCollection:
 class StoreMeterItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -768,6 +772,7 @@ class StoreMeterItem:
 class StoreOfflineMeterCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -888,6 +893,7 @@ class StoreOfflineMeterCollection:
 class StoreOfflineMeterItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -947,6 +953,7 @@ class StoreOfflineMeterItem:
 class StorePointCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1066,6 +1073,7 @@ class StorePointCollection:
 class StorePointItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1125,6 +1133,7 @@ class StorePointItem:
 class StoreSensorCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1231,6 +1240,7 @@ class StoreSensorCollection:
 class StoreSensorItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1289,6 +1299,7 @@ class StoreSensorItem:
 class StoreVirtualMeterCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1409,6 +1420,7 @@ class StoreVirtualMeterCollection:
 class StoreVirtualMeterItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod

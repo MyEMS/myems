@@ -8,6 +8,7 @@ import uuid
 class DistributionSystemCollection:
     @staticmethod
     def __init__():
+        """Initializes DistributionSystemCollection"""
         pass
 
     @staticmethod
@@ -103,6 +104,7 @@ class DistributionSystemCollection:
 class DistributionSystemItem:
     @staticmethod
     def __init__():
+        """Initializes DistributionSystemItem"""
         pass
 
     @staticmethod
@@ -242,6 +244,7 @@ class DistributionSystemItem:
 class DistributionSystemDistributionCircuitCollection:
     @staticmethod
     def __init__():
+        """Initializes DistributionSystemDistributionCircuitCollection"""
         pass
 
     @staticmethod

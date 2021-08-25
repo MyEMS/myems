@@ -8,6 +8,7 @@ import uuid
 class ShopfloorCollection:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorCollection"""
         pass
 
     @staticmethod
@@ -194,6 +195,7 @@ class ShopfloorCollection:
 class ShopfloorItem:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorItem"""
         pass
 
     @staticmethod
@@ -514,6 +516,7 @@ class ShopfloorItem:
 class ShopfloorEquipmentCollection:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorEquipmentCollection"""
         pass
 
     @staticmethod
@@ -620,6 +623,7 @@ class ShopfloorEquipmentCollection:
 class ShopfloorEquipmentItem:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorEquipmentItem"""
         pass
 
     @staticmethod
@@ -679,6 +683,7 @@ class ShopfloorEquipmentItem:
 class ShopfloorMeterCollection:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorMeterCollection"""
         pass
 
     @staticmethod
@@ -799,6 +804,7 @@ class ShopfloorMeterCollection:
 class ShopfloorMeterItem:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorMeterItem"""
         pass
 
     @staticmethod
@@ -857,6 +863,7 @@ class ShopfloorMeterItem:
 class ShopfloorOfflineMeterCollection:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorOfflineMeterCollection"""
         pass
 
     @staticmethod
@@ -977,6 +984,7 @@ class ShopfloorOfflineMeterCollection:
 class ShopfloorOfflineMeterItem:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorOfflineMeterItem"""
         pass
 
     @staticmethod
@@ -1036,6 +1044,7 @@ class ShopfloorOfflineMeterItem:
 class ShopfloorPointCollection:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorPointCollection"""
         pass
 
     @staticmethod
@@ -1155,6 +1164,7 @@ class ShopfloorPointCollection:
 class ShopfloorPointItem:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorPointItem"""
         pass
 
     @staticmethod
@@ -1214,6 +1224,7 @@ class ShopfloorPointItem:
 class ShopfloorSensorCollection:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorSensorCollection"""
         pass
 
     @staticmethod
@@ -1320,6 +1331,7 @@ class ShopfloorSensorCollection:
 class ShopfloorSensorItem:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorSensorItem"""
         pass
 
     @staticmethod
@@ -1378,6 +1390,7 @@ class ShopfloorSensorItem:
 class ShopfloorVirtualMeterCollection:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorVirtualMeterCollection"""
         pass
 
     @staticmethod
@@ -1498,6 +1511,7 @@ class ShopfloorVirtualMeterCollection:
 class ShopfloorVirtualMeterItem:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorVirtualMeterItem"""
         pass
 
     @staticmethod

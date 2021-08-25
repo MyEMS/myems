@@ -11,6 +11,7 @@ import excelexporters.spaceefficiency
 class Reporting:
     @staticmethod
     def __init__():
+        """"Initializes Reporting"""
         pass
 
     @staticmethod

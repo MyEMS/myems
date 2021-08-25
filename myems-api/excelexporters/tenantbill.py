@@ -102,7 +102,6 @@ def generate_excel(report,
     notice_font = Font(name='宋体', size=20, bold=True)
     name_font = Font(name='Constantia', size=12, bold=True)
     title_font = Font(name='宋体', size=11, bold=True)
-    data_font = Font(name='Franklin Gothic Book', size=11)
 
     table_fill = PatternFill(fill_type='solid', fgColor='1F497D')
     f_border = Border(left=Side(border_style='medium', color='00000000'),

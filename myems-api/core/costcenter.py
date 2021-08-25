@@ -8,6 +8,7 @@ import uuid
 class CostCenterCollection:
     @staticmethod
     def __init__():
+        """"Initializes CostCenterCollection"""
         pass
 
     @staticmethod
@@ -98,6 +99,7 @@ class CostCenterCollection:
 class CostCenterItem:
     @staticmethod
     def __init__():
+        """"Initializes CostCenterItem"""
         pass
 
     @staticmethod
@@ -361,6 +363,7 @@ class CostCenterItem:
 class CostCenterTariffCollection:
     @staticmethod
     def __init__():
+        """"Initializes CostCenterTariffCollection"""
         pass
 
     @staticmethod
@@ -460,6 +463,7 @@ class CostCenterTariffCollection:
 class CostCenterTariffItem:
     @staticmethod
     def __init__():
+        """"Initializes CostCenterTariffItem"""
         pass
 
     @staticmethod

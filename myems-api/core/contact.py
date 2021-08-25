@@ -9,6 +9,7 @@ import re
 class ContactCollection:
     @staticmethod
     def __init__():
+        """"Initializes ContactCollection"""
         pass
 
     @staticmethod
@@ -118,6 +119,7 @@ class ContactCollection:
 class ContactItem:
     @staticmethod
     def __init__():
+        """"Initializes ContactItem"""
         pass
 
     @staticmethod

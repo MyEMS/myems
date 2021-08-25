@@ -8,6 +8,7 @@ import uuid
 class CombinedEquipmentCollection:
     @staticmethod
     def __init__():
+        """ Initializes CombinedEquipmentCollection"""
         pass
 
     @staticmethod
@@ -145,6 +146,7 @@ class CombinedEquipmentCollection:
 class CombinedEquipmentItem:
     @staticmethod
     def __init__():
+        """Initializes CombinedEquipmentItem"""
         pass
 
     @staticmethod
@@ -515,6 +517,7 @@ class CombinedEquipmentItem:
 class CombinedEquipmentEquipmentCollection:
     @staticmethod
     def __init__():
+        """Initializes CombinedEquipmentEquipmentCollection"""
         pass
 
     @staticmethod
@@ -621,6 +624,7 @@ class CombinedEquipmentEquipmentCollection:
 class CombinedEquipmentEquipmentItem:
     @staticmethod
     def __init__():
+        """Initializes CombinedEquipmentEquipmentItem"""
         pass
 
     @staticmethod
@@ -680,6 +684,7 @@ class CombinedEquipmentEquipmentItem:
 class CombinedEquipmentParameterCollection:
     @staticmethod
     def __init__():
+        """Initializes CombinedEquipmentParameterCollection"""
         pass
 
     @staticmethod
@@ -993,6 +998,7 @@ class CombinedEquipmentParameterCollection:
 class CombinedEquipmentParameterItem:
     @staticmethod
     def __init__():
+        """"Initializes CombinedEquipmentParameterItem"""
         pass
 
     @staticmethod
@@ -1364,6 +1370,7 @@ class CombinedEquipmentParameterItem:
 class CombinedEquipmentMeterCollection:
     @staticmethod
     def __init__():
+        """"Initializes CombinedEquipmentMeterCollection"""
         pass
 
     @staticmethod
@@ -1491,6 +1498,7 @@ class CombinedEquipmentMeterCollection:
 class CombinedEquipmentMeterItem:
     @staticmethod
     def __init__():
+        """"Initializes CombinedEquipmentMeterItem"""
         pass
 
     @staticmethod
@@ -1550,6 +1558,7 @@ class CombinedEquipmentMeterItem:
 class CombinedEquipmentOfflineMeterCollection:
     @staticmethod
     def __init__():
+        """"Initializes CombinedEquipmentOfflineMeterCollection"""
         pass
 
     @staticmethod
@@ -1678,6 +1687,7 @@ class CombinedEquipmentOfflineMeterCollection:
 class CombinedEquipmentOfflineMeterItem:
     @staticmethod
     def __init__():
+        """"Initializes CombinedEquipmentOfflineMeterItem"""
         pass
 
     @staticmethod
@@ -1737,6 +1747,7 @@ class CombinedEquipmentOfflineMeterItem:
 class CombinedEquipmentVirtualMeterCollection:
     @staticmethod
     def __init__():
+        """"Initializes CombinedEquipmentVirtualMeterCollection"""
         pass
 
     @staticmethod
@@ -1865,6 +1876,7 @@ class CombinedEquipmentVirtualMeterCollection:
 class CombinedEquipmentVirtualMeterItem:
     @staticmethod
     def __init__():
+        """"Initializes CombinedEquipmentVirtualMeterItem"""
         pass
 
     @staticmethod

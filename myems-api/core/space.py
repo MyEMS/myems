@@ -11,6 +11,7 @@ from anytree.exporter import JsonExporter
 class SpaceCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -258,6 +259,7 @@ class SpaceCollection:
 class SpaceItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -682,6 +684,7 @@ class SpaceItem:
 class SpaceChildrenCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -810,6 +813,7 @@ class SpaceChildrenCollection:
 class SpaceCombinedEquipmentCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -916,6 +920,7 @@ class SpaceCombinedEquipmentCollection:
 class SpaceCombinedEquipmentItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -975,6 +980,7 @@ class SpaceCombinedEquipmentItem:
 class SpaceEquipmentCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1081,6 +1087,7 @@ class SpaceEquipmentCollection:
 class SpaceEquipmentItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1139,6 +1146,7 @@ class SpaceEquipmentItem:
 class SpaceMeterCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1259,6 +1267,7 @@ class SpaceMeterCollection:
 class SpaceMeterItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1319,6 +1328,7 @@ class SpaceMeterItem:
 class SpaceOfflineMeterCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1439,6 +1449,7 @@ class SpaceOfflineMeterCollection:
 class SpaceOfflineMeterItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1498,6 +1509,7 @@ class SpaceOfflineMeterItem:
 class SpacePointCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1617,6 +1629,7 @@ class SpacePointCollection:
 class SpacePointItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1676,6 +1689,7 @@ class SpacePointItem:
 class SpaceSensorCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1782,6 +1796,7 @@ class SpaceSensorCollection:
 class SpaceSensorItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1840,6 +1855,7 @@ class SpaceSensorItem:
 class SpaceShopfloorCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1946,6 +1962,7 @@ class SpaceShopfloorCollection:
 class SpaceShopfloorItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -2004,6 +2021,7 @@ class SpaceShopfloorItem:
 class SpaceStoreCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -2110,6 +2128,7 @@ class SpaceStoreCollection:
 class SpaceStoreItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -2168,6 +2187,7 @@ class SpaceStoreItem:
 class SpaceTenantCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -2274,6 +2294,7 @@ class SpaceTenantCollection:
 class SpaceTenantItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -2332,6 +2353,7 @@ class SpaceTenantItem:
 class SpaceVirtualMeterCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -2452,6 +2474,7 @@ class SpaceVirtualMeterCollection:
 class SpaceVirtualMeterItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -2511,6 +2534,7 @@ class SpaceVirtualMeterItem:
 class SpaceTreeCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod

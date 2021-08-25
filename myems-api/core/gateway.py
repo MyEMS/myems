@@ -9,6 +9,7 @@ from datetime import datetime, timezone
 class GatewayCollection:
     @staticmethod
     def __init__():
+        """"Initializes GatewayCollection"""
         pass
 
     @staticmethod
@@ -87,6 +88,7 @@ class GatewayCollection:
 class GatewayItem:
     @staticmethod
     def __init__():
+        """"Initializes GatewayItem"""
         pass
 
     @staticmethod
@@ -219,6 +221,7 @@ class GatewayItem:
 class GatewayDataSourceCollection:
     @staticmethod
     def __init__():
+        """"Initializes GatewayDataSourceCollection"""
         pass
 
     @staticmethod

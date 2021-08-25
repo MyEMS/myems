@@ -8,6 +8,7 @@ import uuid
 class EnergyCategoryCollection:
     @staticmethod
     def __init__():
+        """"Initializes EnergyCategoryCollection"""
         pass
 
     @staticmethod
@@ -108,6 +109,7 @@ class EnergyCategoryCollection:
 class EnergyCategoryItem:
     @staticmethod
     def __init__():
+        """"Initializes EnergyCategoryItem"""
         pass
 
     @staticmethod

@@ -8,6 +8,7 @@ import uuid
 class EquipmentCollection:
     @staticmethod
     def __init__():
+        """Initializes EquipmentCollection"""
         pass
 
     @staticmethod
@@ -145,6 +146,7 @@ class EquipmentCollection:
 class EquipmentItem:
     @staticmethod
     def __init__():
+        """Initializes EquipmentItem"""
         pass
 
     @staticmethod
@@ -526,6 +528,7 @@ class EquipmentItem:
 class EquipmentParameterCollection:
     @staticmethod
     def __init__():
+        """Initializes EquipmentParameterCollection"""
         pass
 
     @staticmethod
@@ -839,6 +842,7 @@ class EquipmentParameterCollection:
 class EquipmentParameterItem:
     @staticmethod
     def __init__():
+        """Initializes EquipmentParameterItem"""
         pass
 
     @staticmethod
@@ -1210,6 +1214,7 @@ class EquipmentParameterItem:
 class EquipmentMeterCollection:
     @staticmethod
     def __init__():
+        """Initializes EquipmentMeterCollection"""
         pass
 
     @staticmethod
@@ -1337,6 +1342,7 @@ class EquipmentMeterCollection:
 class EquipmentMeterItem:
     @staticmethod
     def __init__():
+        """Initializes EquipmentMeterItem"""
         pass
 
     @staticmethod
@@ -1395,6 +1401,7 @@ class EquipmentMeterItem:
 class EquipmentOfflineMeterCollection:
     @staticmethod
     def __init__():
+        """Initializes EquipmentOfflineMeterCollection"""
         pass
 
     @staticmethod
@@ -1522,6 +1529,7 @@ class EquipmentOfflineMeterCollection:
 class EquipmentOfflineMeterItem:
     @staticmethod
     def __init__():
+        """Initializes EquipmentOfflineMeterItem"""
         pass
 
     @staticmethod
@@ -1581,6 +1589,7 @@ class EquipmentOfflineMeterItem:
 class EquipmentVirtualMeterCollection:
     @staticmethod
     def __init__():
+        """Initializes EquipmentVirtualMeterCollection"""
         pass
 
     @staticmethod
@@ -1708,6 +1717,7 @@ class EquipmentVirtualMeterCollection:
 class EquipmentVirtualMeterItem:
     @staticmethod
     def __init__():
+        """Initializes EquipmentVirtualMeterItem"""
         pass
 
     @staticmethod

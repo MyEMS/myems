@@ -8,6 +8,7 @@ import uuid
 class SensorCollection:
     @staticmethod
     def __init__():
+        """"Initializes SensorCollection"""
         pass
 
     @staticmethod
@@ -92,6 +93,7 @@ class SensorCollection:
 class SensorItem:
     @staticmethod
     def __init__():
+        """"Initializes SensorItem"""
         pass
 
     @staticmethod
@@ -266,6 +268,7 @@ class SensorItem:
 class SensorPointCollection:
     @staticmethod
     def __init__():
+        """"Initializes SensorPointCollection"""
         pass
 
     @staticmethod
@@ -369,6 +372,7 @@ class SensorPointCollection:
 class SensorPointItem:
     @staticmethod
     def __init__():
+        """"Initializes SensorPointItem"""
         pass
 
     @staticmethod

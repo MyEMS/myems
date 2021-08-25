@@ -8,6 +8,7 @@ import uuid
 class VirtualMeterCollection:
     @staticmethod
     def __init__():
+        """"Initializes VirtualMeterCollection"""
         pass
 
     @staticmethod
@@ -362,6 +363,7 @@ class VirtualMeterCollection:
 class VirtualMeterItem:
     @staticmethod
     def __init__():
+        """"Initializes VirtualMeterItem"""
         pass
 
     @staticmethod

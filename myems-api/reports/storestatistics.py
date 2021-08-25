@@ -12,6 +12,7 @@ from decimal import Decimal
 class Reporting:
     @staticmethod
     def __init__():
+        """"Initializes Reporting"""
         pass
 
     @staticmethod

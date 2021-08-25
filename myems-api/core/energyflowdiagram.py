@@ -8,6 +8,7 @@ import uuid
 class EnergyFlowDiagramCollection:
     @staticmethod
     def __init__():
+        """"Initializes EnergyFlowDiagramCollection"""
         pass
 
     @staticmethod
@@ -164,6 +165,7 @@ class EnergyFlowDiagramCollection:
 class EnergyFlowDiagramItem:
     @staticmethod
     def __init__():
+        """"Initializes EnergyFlowDiagramItem"""
         pass
 
     @staticmethod
@@ -363,6 +365,7 @@ class EnergyFlowDiagramItem:
 class EnergyFlowDiagramLinkCollection:
     @staticmethod
     def __init__():
+        """"Initializes EnergyFlowDiagramLinkCollection"""
         pass
 
     @staticmethod
@@ -612,6 +615,7 @@ class EnergyFlowDiagramLinkCollection:
 class EnergyFlowDiagramLinkItem:
     @staticmethod
     def __init__():
+        """"Initializes EnergyFlowDiagramLinkItem"""
         pass
 
     @staticmethod
@@ -916,6 +920,7 @@ class EnergyFlowDiagramLinkItem:
 class EnergyFlowDiagramNodeCollection:
     @staticmethod
     def __init__():
+        """"Initializes EnergyFlowDiagramNodeCollection"""
         pass
 
     @staticmethod
@@ -1016,6 +1021,7 @@ class EnergyFlowDiagramNodeCollection:
 class EnergyFlowDiagramNodeItem:
     @staticmethod
     def __init__():
+        """"Initializes EnergyFlowDiagramNodeItem"""
         pass
 
     @staticmethod
