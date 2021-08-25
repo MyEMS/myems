@@ -2,13 +2,12 @@ import falcon
 import json
 import mysql.connector
 import config
-import base64
-import re
 
 
 class GSMModemCollection:
     @staticmethod
     def __init__():
+        """Initializes GSMModemCollection"""
         pass
 
     @staticmethod
@@ -91,6 +90,7 @@ class GSMModemCollection:
 class GSMModemItem:
     @staticmethod
     def __init__():
+        """Initializes GSMModemItem"""
         pass
 
     @staticmethod

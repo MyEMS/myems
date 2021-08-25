@@ -8,6 +8,7 @@ import uuid
 class TenantTypeCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -110,6 +111,7 @@ class TenantTypeCollection:
 class TenantTypeItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod

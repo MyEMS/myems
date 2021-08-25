@@ -8,6 +8,7 @@ from datetime import datetime, timedelta, timezone
 class Reporting:
     @staticmethod
     def __init__():
+        """"Initializes Reporting"""
         pass
 
     @staticmethod

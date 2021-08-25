@@ -78,6 +78,7 @@ class WechatMessageCollection(object):
 class WechatMessageItem:
     @staticmethod
     def __init__():
+        """"Initializes WechatMessageItem"""
         pass
 
     @staticmethod

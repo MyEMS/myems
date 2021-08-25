@@ -9,6 +9,7 @@ import config
 class RuleCollection:
     @staticmethod
     def __init__():
+        """Initializes RuleCollection"""
         pass
 
     @staticmethod
@@ -172,6 +173,7 @@ class RuleCollection:
 class RuleItem:
     @staticmethod
     def __init__():
+        """Initializes RuleItem"""
         pass
 
     @staticmethod

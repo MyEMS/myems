@@ -9,6 +9,7 @@ from datetime import datetime, timezone
 class DataSourceCollection:
     @staticmethod
     def __init__():
+        """"Initializes DataSourceCollection"""
         pass
 
     @staticmethod
@@ -136,6 +137,7 @@ class DataSourceCollection:
 class DataSourceItem:
     @staticmethod
     def __init__():
+        """"Initializes DataSourceItem"""
         pass
 
     @staticmethod
@@ -310,6 +312,7 @@ class DataSourceItem:
 class DataSourcePointCollection:
     @staticmethod
     def __init__():
+        """"Initializes DataSourcePointCollection"""
         pass
 
     @staticmethod

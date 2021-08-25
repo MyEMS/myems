@@ -8,6 +8,7 @@ import uuid
 class MeterCollection:
     @staticmethod
     def __init__():
+        """Initializes MeterCollection"""
         pass
 
     @staticmethod
@@ -271,6 +272,7 @@ class MeterCollection:
 class MeterItem:
     @staticmethod
     def __init__():
+        """Initializes MeterItem"""
         pass
 
     @staticmethod
@@ -742,6 +744,7 @@ class MeterItem:
 class MeterSubmeterCollection:
     @staticmethod
     def __init__():
+        """Initializes MeterSubmeterCollection"""
         pass
 
     @staticmethod
@@ -843,6 +846,7 @@ class MeterSubmeterCollection:
 class MeterPointCollection:
     @staticmethod
     def __init__():
+        """Initializes MeterPointCollection"""
         pass
 
     @staticmethod
@@ -946,6 +950,7 @@ class MeterPointCollection:
 class MeterPointItem:
     @staticmethod
     def __init__():
+        """Initializes MeterPointItem"""
         pass
 
     @staticmethod

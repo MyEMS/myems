@@ -11,6 +11,7 @@ import excelexporters.storeenergycategory
 class Reporting:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod

@@ -9,6 +9,7 @@ import re
 class EmailServerCollection:
     @staticmethod
     def __init__():
+        """"Initializes EmailServerCollection"""
         pass
 
     @staticmethod
@@ -138,6 +139,7 @@ class EmailServerCollection:
 class EmailServerItem:
     @staticmethod
     def __init__():
+        """"Initializes EmailServerItem"""
         pass
 
     @staticmethod

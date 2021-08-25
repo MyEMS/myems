@@ -8,6 +8,7 @@ from datetime import datetime, timedelta, timezone
 class WebMessageCollection:
     @staticmethod
     def __init__():
+        """"Initializes WebMessageCollection"""
         pass
 
     @staticmethod
@@ -99,6 +100,7 @@ class WebMessageCollection:
 class WebMessageStatusNewCollection:
     @staticmethod
     def __init__():
+        """"Initializes WebMessageStatusNewCollection"""
         pass
 
     @staticmethod
@@ -162,6 +164,7 @@ class WebMessageStatusNewCollection:
 class WebMessageItem:
     @staticmethod
     def __init__():
+        """"Initializes WebMessageItem"""
         pass
 
     @staticmethod

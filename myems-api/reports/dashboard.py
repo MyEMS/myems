@@ -10,6 +10,7 @@ from decimal import Decimal
 class Reporting:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod

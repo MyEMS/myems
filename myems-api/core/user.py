@@ -12,6 +12,7 @@ from datetime import datetime, timedelta
 class UserCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -160,6 +161,7 @@ class UserCollection:
 class UserItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -338,6 +340,7 @@ class UserItem:
 class UserLogin:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -452,6 +455,7 @@ class UserLogin:
 class UserLogout:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -500,6 +504,7 @@ class UserLogout:
 class ChangePassword:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -614,6 +619,7 @@ class ChangePassword:
 class ResetPassword:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod

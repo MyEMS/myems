@@ -9,6 +9,7 @@ from datetime import datetime, timedelta, timezone
 class TariffCollection:
     @staticmethod
     def __init__():
+        """"Initializes TariffCollection"""
         pass
 
     @staticmethod
@@ -215,6 +216,7 @@ class TariffCollection:
 class TariffItem:
     @staticmethod
     def __init__():
+        """"Initializes TariffItem"""
         pass
 
     @staticmethod

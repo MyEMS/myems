@@ -9,6 +9,7 @@ from datetime import datetime, timedelta, timezone
 class TenantCollection:
     @staticmethod
     def __init__():
+        """"Initializes TenantCollection"""
         pass
 
     @staticmethod
@@ -290,6 +291,7 @@ class TenantCollection:
 class TenantItem:
     @staticmethod
     def __init__():
+        """"Initializes TenantItem"""
         pass
 
     @staticmethod
@@ -687,6 +689,7 @@ class TenantItem:
 class TenantMeterCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -807,6 +810,7 @@ class TenantMeterCollection:
 class TenantMeterItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -865,6 +869,7 @@ class TenantMeterItem:
 class TenantOfflineMeterCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -985,6 +990,7 @@ class TenantOfflineMeterCollection:
 class TenantOfflineMeterItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1044,6 +1050,7 @@ class TenantOfflineMeterItem:
 class TenantPointCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1163,6 +1170,7 @@ class TenantPointCollection:
 class TenantPointItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1222,6 +1230,7 @@ class TenantPointItem:
 class TenantSensorCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1328,6 +1337,7 @@ class TenantSensorCollection:
 class TenantSensorItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1386,6 +1396,7 @@ class TenantSensorItem:
 class TenantVirtualMeterCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1506,6 +1517,7 @@ class TenantVirtualMeterCollection:
 class TenantVirtualMeterItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod

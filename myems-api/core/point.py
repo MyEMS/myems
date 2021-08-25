@@ -7,6 +7,7 @@ import config
 class PointCollection:
     @staticmethod
     def __init__():
+        """"Initializes PointCollection"""
         pass
 
     @staticmethod
@@ -194,6 +195,7 @@ class PointCollection:
 class PointItem:
     @staticmethod
     def __init__():
+        """"Initializes PointItem"""
         pass
 
     @staticmethod
