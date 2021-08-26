@@ -7,7 +7,6 @@ Providing admin panel  for MyEMS system administration and configuration
 ## Prerequisites
 nginx-1.18.0 or later
 
-
 ## Option 1: Install on NGINX Server
 
 * Install NGINX Server
@@ -15,8 +14,8 @@ nginx-1.18.0 or later
 refer to http://nginx.org/en/docs/install.html
 
 * Configure NGINX
-```
-$ sudo nano /etc/nginx/nginx.conf
+```bash
+sudo nano /etc/nginx/nginx.conf
 ```
 In the 'http' section, add some directives:
 ```
@@ -54,20 +53,20 @@ Add a new 'server' section with direstives as below:
 ```
 
 * Download myems
-```
-$ cd ~
-$ git clone https://github.com/MyEMS/myems.git
+```bash
+cd ~
+git clone https://github.com/MyEMS/myems.git
 ```
 
 * Install myems-admin :
   If the server can not connect to the internet, please compress the myems/admin folder and upload it to the server and extract it to ~/myems/admin
-```
-$ sudo cp -r ~/myems/admin  /var/www/html/admin
-$ sudo chmod 0755 -R /var/www/html/admin
+```bash
+sudo cp -r ~/myems/admin  /var/www/html/admin
+sudo chmod 0755 -R /var/www/html/admin
 ```
   Check the config file and change it if necessary:
-```
-$ sudo nano /var/www/html/admin/app/api.js
+```bash
+sudo nano /var/www/html/admin/app/api.js
 ```
 
 ## NOTE:
@@ -83,15 +82,15 @@ The 'upload' folder is for user uploaded files. DO NOT delete/move/overwrite the
 refer to https://httpd.apache.org/docs/2.4/install.html
 
 * Configure Apache2
-```
-  $ sudo vi /etc/apache2/ports.conf
+```bash
+  sudo vi /etc/apache2/ports.conf
 ```
 Add a Listen
 ```
 Listen 8001
 ```
-```
-$ sudo vi /etc/apache2/sites-available/000-default.conf
+```bash
+sudo vi /etc/apache2/sites-available/000-default.conf
 ```
 Add a new 'VirtualHost' as below
 ```
@@ -110,18 +109,18 @@ Add a new 'VirtualHost' as below
 ```
 
 * Download myems-admin
-```
-$ cd ~
-$ git clone https://github.com/MyEMS/myems.git
+```bash
+cd ~
+git clone https://github.com/MyEMS/myems.git
 ```
 
 * Install myems-admin :
   If the server can not connect to the internet, please compress the myems/admin folder and upload it to the server and extract it to ~/myems/admin
-```
-$ sudo cp -r ~/myems/admin  /var/www/html/admin
-$ sudo chmod 0755 -R /var/www/html/admin
+```bash
+sudo cp -r ~/myems/admin  /var/www/html/admin
+sudo chmod 0755 -R /var/www/html/admin
 ```
   Check the config file and change it if necessary:
-```
-$ sudo nano /var/www/html/admin/app/api.js
+```bash
+sudo nano /var/www/html/admin/app/api.js
 ```

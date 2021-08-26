@@ -3,7 +3,6 @@
 ### Introduction
 This service is a component of MyEMS to acquire data from Modbus TCP devices.
 
-
 ### Prerequisites
 pyserial
 
@@ -16,74 +15,71 @@ Schedule
 ### Installation
 
 Download and install MySQL Connector:
-```
-    $ cd ~/tools
-    $ wget https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python-8.0.20.tar.gz
-    $ tar xzf mysql-connector-python-8.0.20.tar.gz
-    $ cd ~/tools/mysql-connector-python-8.0.20
-    $ sudo python3 setup.py install
+```bash
+cd ~/tools
+wget https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python-8.0.20.tar.gz
+tar xzf mysql-connector-python-8.0.20.tar.gz
+cd ~/tools/mysql-connector-python-8.0.20
+python3 setup.py install
 ```
 
 Download and install Schedule
-```
-    $ cd ~/tools
-    $ git clone https://github.com/dbader/schedule.git
-    $ cd ~/tools/schedule
-    $ sudo python3 setup.py install
+```bash
+cd ~/tools
+git clone https://github.com/dbader/schedule.git
+cd ~/tools/schedule
+python3 setup.py install
 ```
 
 Download and install modbus-tk
-```
-    $ cd ~/tools
-    $ git clone https://github.com/pyserial/pyserial.git
-    $ cd ~/tools/pyserial
-    $ sudo python3 setup.py install
-    $ git clone https://github.com/ljean/modbus-tk.git
-    $ cd ~/tools/modbus-tk
-    $ sudo python3 setup.py install
-
+```bash
+cd ~/tools
+git clone https://github.com/pyserial/pyserial.git
+cd ~/tools/pyserial
+python3 setup.py install
+git clone https://github.com/ljean/modbus-tk.git
+cd ~/tools/modbus-tk
+python3 setup.py install
 ```
 
 Install myems-modbus-tcp service
-```
-    $ cd ~
-    $ git clone https://github.com/MyEMS/myems.git
-    $ cd myems
-    $ sudo git checkout master (or the latest release tag)
-    $ sudo cp -R ~/myems/myems-modbus-tcp /myems-modbus-tcp
+```bash
+cd ~
+git clone https://github.com/MyEMS/myems.git
+cd myems
+git checkout master (or the latest release tag)
+cp -R ~/myems/myems-modbus-tcp /myems-modbus-tcp
 ```
 Edit the config
-```
-    $ sudo nano /myems-modbus-tcp/config.py
+```bash
+nano /myems-modbus-tcp/config.py
 ```
 Setup systemd service:
 ```bash
-    $ sudo cp myems-modbus-tcp.service /lib/systemd/system/
+cp myems-modbus-tcp.service /lib/systemd/system/
 ```
 Enable the service:
 ```bash
-    $ sudo systemctl enable myems-modbus-tcp.service
+systemctl enable myems-modbus-tcp.service
 ```
 Start the service:
 ```bash
-    $ sudo systemctl start myems-modbus-tcp.service
+systemctl start myems-modbus-tcp.service
 ```
 Monitor the service:
 ```bash
-    $ sudo systemctl status myems-modbus-tcp.service
+systemctl status myems-modbus-tcp.service
 ```
 View the log:
 ```bash
-    $ cat /myems-modbus-tcp.log
+cat /myems-modbus-tcp.log
 ```
-
-
 
 ### Add Data Sources and Points in MyEMS Admin 
 
 NOTE: If you modified Modbus TCP datasources and points, please restart this service:
-```
-    $ sudo systemctl restart myems-modbus-tcp.service
+```bash
+systemctl restart myems-modbus-tcp.service
 ```
 
 Input Data source protocol: 
@@ -106,11 +102,13 @@ Point address example:
     The slave ID
 
 #### function_code
+```
     01 (0x01) Read Coils
     02 (0x02) Read Discrete Inputs
     03 (0x03) Read Holding Registers
     04 (0x04) Read Input Registers
     23 (0x17) Read/Write Multiple registers
+```
 
 #### offset
     The starting register address specified in the Request PDU
@@ -154,7 +152,6 @@ Swap adjacent bytes of 32bits(4bytes) or 64bits(8bytes).
 This is not for little-endian and big-endian swapping, and use format for that.
 The option is effective when number_of_registers is ether 2(32bits) or 4(64bits), 
 else it will be ignored.
-
 
 ### References
   [1]. http://myems.io
