@@ -15,7 +15,7 @@ def write_log(user_uuid, action, _class, record_id, record_text):
     :param record_id: int
     :param record_text: str
     """
-    now = datetime.now()
+    now = datetime.utcnow()
     cnx = None
     cursor = None
     try:
@@ -35,7 +35,7 @@ def write_log(user_uuid, action, _class, record_id, record_text):
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
         add_row = (" INSERT INTO tbl_action_logs "
-                   "    (user_name, date_time, action, class, record_id, record_text) "
+                   "    (user_name, date_time_utc, action, class, record_id, record_text) "
                    " VALUES (%s, %s, %s, %s, %s , %s) ")
         cursor.execute(add_row, (user['name'],
                                  now,
@@ -47,10 +47,6 @@ def write_log(user_uuid, action, _class, record_id, record_text):
         cnx.commit()
     except Exception as e:
         print(str(e))
-        if cnx:
-            cnx.disconnect()
-        if cursor:
-            cursor.close()
     finally:
         if cnx:
             cnx.disconnect()
@@ -77,10 +73,6 @@ def judge_admin(user_uuid):
         return user["admin"]
     except Exception as e:
         print(str(e))
-        if cnx:
-            cnx.disconnect()
-        if cursor:
-            cursor.close()
         return False
     finally:
         if cnx:
