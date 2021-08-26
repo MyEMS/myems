@@ -16,28 +16,28 @@ This project is scaffolded using Create React App.
 Download Current Linux Binaries (x64) from https://nodejs.org/en/download/current/
 
 Unzip the binary archive to /usr/local/bin/nodejs, 
-```
+```bash
 sudo mkdir -p /usr/local/lib/nodejs
 sudo tar -xJvf node-v1x.x.x-linux-x64.tar.xz -C /usr/local/lib/nodejs 
 ```
 Using sudo to symlink node, npm, and npx into /usr/bin/:
-```
+```bash
 sudo ln -s /usr/local/lib/nodejs/node-v1x.x.x-linux-x64/bin/node /usr/bin/node
 ```
-```
+```bash
 sudo ln -s /usr/local/lib/nodejs/node-v1x.x.x-linux-x64/bin/npm /usr/bin/npm
 ```
-```
+```bash
 sudo ln -s /usr/local/lib/nodejs/node-v1x.x.x-linux-x64/bin/npx /usr/bin/npx
 ```
 Test installation using
-```
+```bash
 node -v
 ```
-```
+```bash
 npm version
 ```
-```
+```bash
 npx -v
 ```
 
@@ -65,8 +65,8 @@ You can run 'node server.js' to run the production build locally at http://local
 refer to http://nginx.org/en/docs/install.html
 
 *   Configure NGINX
-```
-$ sudo nano /etc/nginx/nginx.conf
+```bash
+sudo nano /etc/nginx/nginx.conf
 ```
 In the 'http' section, add some directives:
 ```
@@ -103,34 +103,34 @@ Add a new 'server' section with direstives as below:
   }
 ```
 Restart NGINX
-```
-$ sudo systemctl restart nginx
+```bash
+sudo systemctl restart nginx
 ```
 
 *   Download myems:
-```
-  $ cd ~
-  $ git clone https://github.com/MyEMS/myems.git
+```bash
+cd ~
+git clone https://github.com/MyEMS/myems.git
 ```
 *   Install myems-web :
 
   Check and change the config file if necessary:
-```
-  $ cd ~/myems/web
-  $ sudo nano src/config.js
+```bash
+cd ~/myems/web
+sudo nano src/config.js
 ```
   Build and Compress
-```
-  $ sudo npm run build
-  $ tar czvf myems-web.tar.gz build
+```bash
+sudo npm run build
+tar czvf myems-web.tar.gz build
 ```
   Install
   Upload the file myems-web.tar.gz to you web server. 
   Note that the following path should be same as that was configured in nginx.conf.
-```
-  $ tar xzf myems-web.tar.gz
-  $ sudo rm -r /var/www/html/web
-  $ sudo mv build  /var/www/html/web
+```bash
+tar xzf myems-web.tar.gz
+sudo rm -r /var/www/html/web
+sudo mv build  /var/www/html/web
 ```
 
 ## Option 2: Install Production Build on Apache2 Server
@@ -139,15 +139,15 @@ $ sudo systemctl restart nginx
 refer to https://httpd.apache.org/docs/2.4/install.html
 
 *   Configure Apache2
-```
-  $ sudo vi /etc/apache2/ports.conf
+```bash
+sudo vi /etc/apache2/ports.conf
 ```
 Add a Listen
 ```
 Listen 80
 ```
-```
-  $ sudo vi /etc/apache2/sites-available/000-default.conf
+```bash
+sudo vi /etc/apache2/sites-available/000-default.conf
 ```
 Add a new 'VirtualHost' as below
 ```
@@ -166,28 +166,28 @@ Add a new 'VirtualHost' as below
 ```
 
 *   Download myems:
-```
-  $ cd ~
-  $ git clone https://github.com/MyEMS/myems.git
+```bash
+cd ~
+git clone https://github.com/MyEMS/myems.git
 ```
 *   Install myems-web :
 
   Check and change the config file if necessary:
-```
-  $ cd ~/myems/web
-  $ sudo nano src/config.js
+```bash
+cd ~/myems/web
+sudo nano src/config.js
 ```
   Build and Compress
-```
-  $ cd ~/myems/web/
-  $ sudo npm run build
-  $ tar czvf myems-web.tar.gz build
+```bash
+cd ~/myems/web/
+sudo npm run build
+tar czvf myems-web.tar.gz build
 ```
   Install 
   Upload the file myems-web.tar.gz to you web server. 
   Note that the following path should be same as that was configured in 000-default.conf
-```
-  $ tar xzf myems-web.tar.gz
-  $ sudo rm -r /var/www/web
-  $ sudo mv build  /var/www/web
+```bash
+tar xzf myems-web.tar.gz
+sudo rm -r /var/www/web
+sudo mv build  /var/www/web
 ```
