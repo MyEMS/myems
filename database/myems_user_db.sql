@@ -97,10 +97,10 @@ DROP TABLE IF EXISTS `myems_user_db`.`tbl_action_logs` ;
 CREATE TABLE IF NOT EXISTS `myems_user_db`.`tbl_action_logs` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `user_name` VARCHAR(256) NOT NULL,
-  `date_time` DATETIME NOT NULL,
+  `date_time_utc` DATETIME NOT NULL,
   `action` VARCHAR(256) NOT NULL,
   `class` VARCHAR(256) NOT NULL,
   `record_id` BIGINT NULL,
   `record_text` JSON NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_action_logs_index_1` ON  `myems_user_db`.`tbl_action_logs`  (`user_name`, `date_time`, `action`);
+CREATE INDEX `tbl_action_logs_index_1` ON  `myems_user_db`.`tbl_action_logs`  (`user_name`, `date_time_utc`, `action`);
