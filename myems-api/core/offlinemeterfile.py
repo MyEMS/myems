@@ -5,6 +5,7 @@ import config
 import uuid
 from datetime import datetime, timezone
 import os
+from core.userlogger import user_logger
 
 
 class OfflineMeterFileCollection:
@@ -45,6 +46,7 @@ class OfflineMeterFileCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
         try:
@@ -184,6 +186,7 @@ class OfflineMeterFileItem:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',

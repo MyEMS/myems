@@ -7,6 +7,7 @@ from datetime import datetime, timezone, timedelta
 import os
 import base64
 import sys
+from core.userlogger import user_logger
 
 
 class KnowledgeFileCollection:
@@ -75,6 +76,7 @@ class KnowledgeFileCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
 
@@ -230,6 +232,7 @@ class KnowledgeFileItem:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400,
