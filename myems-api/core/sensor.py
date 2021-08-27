@@ -3,6 +3,7 @@ import simplejson as json
 import mysql.connector
 import config
 import uuid
+from core.userlogger import user_logger
 
 
 class SensorCollection:
@@ -40,6 +41,7 @@ class SensorCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
         try:
@@ -129,6 +131,7 @@ class SensorItem:
         resp.body = json.dumps(meta_result)
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -203,6 +206,7 @@ class SensorItem:
         resp.status = falcon.HTTP_204
 
     @staticmethod
+    @user_logger
     def on_put(req, resp, id_):
         """Handles PUT requests"""
         try:
@@ -313,6 +317,7 @@ class SensorPointCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -380,6 +385,7 @@ class SensorPointItem:
         resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, pid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',

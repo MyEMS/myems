@@ -3,6 +3,7 @@ import json
 import mysql.connector
 import config
 from datetime import datetime, timedelta, timezone
+from core.userlogger import user_logger
 
 
 class WechatMessageCollection(object):
@@ -124,6 +125,7 @@ class WechatMessageItem:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',

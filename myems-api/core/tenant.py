@@ -4,6 +4,7 @@ import mysql.connector
 import config
 import uuid
 from datetime import datetime, timedelta, timezone
+from core.userlogger import user_logger
 
 
 class TenantCollection:
@@ -101,6 +102,7 @@ class TenantCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
         try:
@@ -383,6 +385,7 @@ class TenantItem:
         resp.body = json.dumps(meta_result)
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -486,6 +489,7 @@ class TenantItem:
         resp.status = falcon.HTTP_204
 
     @staticmethod
+    @user_logger
     def on_put(req, resp, id_):
         """Handles PUT requests"""
         try:
@@ -744,6 +748,7 @@ class TenantMeterCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -818,6 +823,7 @@ class TenantMeterItem:
         resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, mid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -924,6 +930,7 @@ class TenantOfflineMeterCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -998,6 +1005,7 @@ class TenantOfflineMeterItem:
         resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, mid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1104,6 +1112,7 @@ class TenantPointCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -1178,6 +1187,7 @@ class TenantPointItem:
         resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, pid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1271,6 +1281,7 @@ class TenantSensorCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -1345,6 +1356,7 @@ class TenantSensorItem:
         resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, sid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1451,6 +1463,7 @@ class TenantVirtualMeterCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -1525,6 +1538,7 @@ class TenantVirtualMeterItem:
         resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, mid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',

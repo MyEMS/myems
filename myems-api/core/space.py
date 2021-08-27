@@ -6,6 +6,7 @@ import uuid
 from datetime import datetime
 from anytree import AnyNode
 from anytree.exporter import JsonExporter
+from core.userlogger import user_logger
 
 
 class SpaceCollection:
@@ -104,6 +105,7 @@ class SpaceCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
         try:
@@ -356,6 +358,7 @@ class SpaceItem:
         resp.body = json.dumps(meta_result)
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -512,6 +515,7 @@ class SpaceItem:
         resp.status = falcon.HTTP_204
 
     @staticmethod
+    @user_logger
     def on_put(req, resp, id_):
         """Handles PUT requests"""
         try:
@@ -854,6 +858,7 @@ class SpaceCombinedEquipmentCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -928,6 +933,7 @@ class SpaceCombinedEquipmentItem:
         resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, eid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1021,6 +1027,7 @@ class SpaceEquipmentCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -1095,6 +1102,7 @@ class SpaceEquipmentItem:
         resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, eid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1201,6 +1209,7 @@ class SpaceMeterCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -1275,6 +1284,7 @@ class SpaceMeterItem:
         resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, mid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1383,6 +1393,7 @@ class SpaceOfflineMeterCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -1457,6 +1468,7 @@ class SpaceOfflineMeterItem:
         resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, mid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1563,6 +1575,7 @@ class SpacePointCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -1637,6 +1650,7 @@ class SpacePointItem:
         resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, pid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1730,6 +1744,7 @@ class SpaceSensorCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -1804,6 +1819,7 @@ class SpaceSensorItem:
         resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, sid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1896,6 +1912,7 @@ class SpaceShopfloorCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -1970,6 +1987,7 @@ class SpaceShopfloorItem:
         resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, sid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -2062,6 +2080,7 @@ class SpaceStoreCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -2136,6 +2155,7 @@ class SpaceStoreItem:
         resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, tid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -2228,6 +2248,7 @@ class SpaceTenantCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -2302,6 +2323,7 @@ class SpaceTenantItem:
         resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, tid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -2408,6 +2430,7 @@ class SpaceVirtualMeterCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -2482,6 +2505,7 @@ class SpaceVirtualMeterItem:
         resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, mid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
