@@ -89,7 +89,7 @@ def user_logger(func):
                 with open(file_name, "rb") as fr:
                     req.stream = Body(fr)
                     func(*args, **kwargs)
-                    write_log(user_uuid=user_uuid, request_method="POST", resource_type=class_name,
+                    write_log(user_uuid=user_uuid, request_method='PUT', resource_type=class_name,
                               resource_id=kwargs.get('id_'), request_body=raw_json)
                 os.remove(file_name)
             except Exception as e:
