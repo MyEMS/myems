@@ -66,15 +66,18 @@ DROP TABLE IF EXISTS `myems_user_db`.`tbl_logs` ;
 
 CREATE TABLE IF NOT EXISTS `myems_user_db`.`tbl_logs` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `user_id` BIGINT NOT NULL,
-  `utc_date_time` DATETIME NOT NULL,
-  `activity` VARCHAR(256) NOT NULL,
+  `user_uuid` CHAR(36) NOT NULL,
+  `request_datetime_utc` DATETIME NOT NULL,
+  `request_method` VARCHAR(256) NOT NULL,
+  `resource_type` VARCHAR(256) NOT NULL,
+  `resource_id` BIGINT NULL,
+  `request_body` JSON NULL,
   PRIMARY KEY (`id`));
+CREATE INDEX `tbl_logs_index_1` ON  `myems_user_db`.`tbl_logs`  (`user_uuid`, `request_datetime_utc`, `request_method`);
 
-
--- ----------------------------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_user_db`.`tbl_notifications`
--- ----------------------------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_user_db`.`tbl_notifications` ;
 
 CREATE TABLE IF NOT EXISTS `myems_user_db`.`tbl_notifications` (
