@@ -52,7 +52,6 @@ class UserCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
-    @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
         try:
@@ -352,7 +351,6 @@ class UserLogin:
         resp.status = falcon.HTTP_200
 
     @staticmethod
-    @user_logger
     def on_put(req, resp):
         """Handles PUT requests"""
         try:
@@ -518,7 +516,6 @@ class ChangePassword:
         resp.status = falcon.HTTP_200
 
     @staticmethod
-    @user_logger
     def on_put(req, resp):
         """Handles PUT requests"""
         if 'USER-UUID' not in req.headers or \
@@ -634,7 +631,6 @@ class ResetPassword:
         resp.status = falcon.HTTP_200
 
     @staticmethod
-    @user_logger
     def on_put(req, resp):
         """Handles PUT requests"""
         if 'USER-UUID' not in req.headers or \
