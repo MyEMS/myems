@@ -4,6 +4,7 @@ import mysql.connector
 import config
 import uuid
 from datetime import datetime, timedelta, timezone
+from core.userlogger import user_logger
 
 
 class TariffCollection:
@@ -92,6 +93,7 @@ class TariffCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
         try:
@@ -294,6 +296,7 @@ class TariffItem:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -350,6 +353,7 @@ class TariffItem:
         resp.status = falcon.HTTP_204
 
     @staticmethod
+    @user_logger
     def on_put(req, resp, id_):
         """Handles PUT requests"""
         try:

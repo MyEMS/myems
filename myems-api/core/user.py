@@ -7,6 +7,7 @@ import hashlib
 import re
 import os
 from datetime import datetime, timedelta
+from core.userlogger import user_logger
 
 
 class UserCollection:
@@ -51,6 +52,7 @@ class UserCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
         try:
@@ -197,6 +199,7 @@ class UserItem:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -224,6 +227,7 @@ class UserItem:
         resp.status = falcon.HTTP_204
 
     @staticmethod
+    @user_logger
     def on_put(req, resp, id_):
         """Handles PUT requests"""
         try:
@@ -348,6 +352,7 @@ class UserLogin:
         resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_put(req, resp):
         """Handles PUT requests"""
         try:
@@ -463,6 +468,7 @@ class UserLogout:
         resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_put(req, resp):
         """Handles PUT requests"""
 
@@ -512,6 +518,7 @@ class ChangePassword:
         resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_put(req, resp):
         """Handles PUT requests"""
         if 'USER-UUID' not in req.headers or \
@@ -627,6 +634,7 @@ class ResetPassword:
         resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_put(req, resp):
         """Handles PUT requests"""
         if 'USER-UUID' not in req.headers or \
