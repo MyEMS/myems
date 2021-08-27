@@ -767,7 +767,7 @@ class EnergyFlowDiagramLinkItem:
     @staticmethod
     @user_logger
     def on_put(req, resp, id_, lid):
-        """Handles POST requests"""
+        """Handles PUT requests"""
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
@@ -1116,7 +1116,7 @@ class EnergyFlowDiagramNodeItem:
     @staticmethod
     @user_logger
     def on_put(req, resp, id_, nid):
-        """Handles POST requests"""
+        """Handles PUT requests"""
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
