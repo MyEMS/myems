@@ -16,6 +16,32 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
+## [v1.2.2] -   2021-08-28
+### Added
+-   added user log to UserLogin, ChangePassword and ResetPassword in API
+-   implemented user_logger decorators in API
+-   added default passwords to README.
+
+### Changed
+-   updated myems_user_db.tbl_logs in database
+-   updated i18n of WebUI
+-   changed user token hash algorithm from sha1 to sha256 in API
+-   upgraded dropzone js library in Admin UI
+-   moved css files for dropzone from js folder to css folder in Admin UI
+
+### Fixed
+-   fixed code style warnings in README
+-   fixed PEP8 warnings in API
+-   fixed code style warnings in API
+-   fixed translation errors in Admin UI
+-   fixed issues of markdown in README files
+-   fixed typeof issue of dropzone js in Admin UI
+-   fixed issue of 'typeof' expression compared to 'null' in Web UI
+-   fixed toaster issues for uploading file in Admin UI
+
+### Removed
+-   removed unnecessary dropzone-amd-module library from Admin UI
+
 ## [v1.2.1] -   2021-08-19
 ### Added
 -   Added Missing Error Messages Words of API to Web UI i18n
@@ -381,7 +407,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v1.2.1...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v1.2.2...HEAD
+[v1.2.2]: https://github.com/MyEMS/myems/compare/v1.2.1...v1.2.2
 [v1.2.1]: https://github.com/MyEMS/myems/compare/v1.2.0...v1.2.1
 [v1.2.0]: https://github.com/MyEMS/myems/compare/v1.1.6...v1.2.0
 [v1.1.6]: https://github.com/MyEMS/myems/compare/v1.1.5...v1.1.6
