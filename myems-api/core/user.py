@@ -7,7 +7,7 @@ import hashlib
 import re
 import os
 from datetime import datetime, timedelta
-from core.userlogger import user_logger
+from core.userlogger import user_logger, write_log
 
 
 class UserCollection:
@@ -22,6 +22,7 @@ class UserCollection:
 
     @staticmethod
     def on_get(req, resp):
+        # todo: add access control
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
 
@@ -54,6 +55,8 @@ class UserCollection:
     @staticmethod
     def on_post(req, resp):
         """Handles POST requests"""
+        # todo: add access control
+        # todo: add user log
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -171,6 +174,7 @@ class UserItem:
 
     @staticmethod
     def on_get(req, resp, id_):
+        # todo: add access control
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_ID')
@@ -453,6 +457,8 @@ class UserLogin:
 
         resp.body = json.dumps(result)
         resp.status = falcon.HTTP_200
+        write_log(user_uuid=user_uuid, request_method='PUT', resource_type='UserLogin',
+                  resource_id=None, request_body=None)
 
 
 class UserLogout:
@@ -618,6 +624,8 @@ class ChangePassword:
         cnx.disconnect()
         resp.body = json.dumps("OK")
         resp.status = falcon.HTTP_200
+        write_log(user_uuid=user_uuid, request_method='PUT', resource_type='ChangePassword',
+                  resource_id=None, request_body=None)
 
 
 class ResetPassword:
@@ -708,6 +716,18 @@ class ResetPassword:
         cursor.execute(update_user, (salt, hashed_password, user_name,))
         cnx.commit()
 
+        query = (" SELECT id "
+                 " FROM tbl_users "
+                 " WHERE name = %s ")
+        cursor.execute(query, (user_name,))
+        row = cursor.fetchone()
+        if row is None:
+            cursor.close()
+            cnx.disconnect()
+            raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.INVALID_USERNAME')
+
+        user_id = row[0]
+
         # Refresh administrator session
         update_session = (" UPDATE tbl_sessions "
                           " SET utc_expires = %s "
@@ -720,3 +740,5 @@ class ResetPassword:
         cnx.disconnect()
         resp.body = json.dumps("OK")
         resp.status = falcon.HTTP_200
+        write_log(user_uuid=admin_user_uuid, request_method='PUT', resource_type='ResetPassword',
+                  resource_id=user_id, request_body=None)
