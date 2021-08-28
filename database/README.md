@@ -33,7 +33,7 @@ mysql -u root -p < demo/myems_system_db.sql
 ```bash
 sudo nano /etc/mysql/my.cnf
 ```
-```
+```bash
 [client]
 default-character-set = utf8mb4
 [mysql]
