@@ -71,7 +71,7 @@ sudo nano /var/www/html/admin/app/api.js
 
 ## NOTE:
 The 'upload' folder is for user uploaded files. DO NOT delete/move/overwrite the 'upload' folder when you upgraded myems-admin.
-```
+```bash
  /var/www/html/admin/upload
 ```
 
@@ -93,7 +93,7 @@ Listen 8001
 sudo vi /etc/apache2/sites-available/000-default.conf
 ```
 Add a new 'VirtualHost' as below
-```
+```xml
 <VirtualHost 127.0.0.1:8001>
         ServerAdmin MyEMS-admin
         DocumentRoot /var/www/admin

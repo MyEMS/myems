@@ -62,6 +62,7 @@ myems_reporting_db = {
 }
 
 # address for Cookie domain
+# use the actual domain or IP address of Web UI and Admin UI
 myems_api_domain = '127.0.0.1'
 
 # indicated in how many minutes to calculate meter energy consumption
