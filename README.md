@@ -23,6 +23,16 @@ MyEMS是行业领先的开源能源管理系统，利用云计算、物联网、
 ![MyEMS Architecture Site View](/docs/images/architecture-site-view.png)
 
 
+## MyEMS镜像
+
+[1]. [Gitee](https://gitee.com/myems/myems) https://gitee.com/myems/myems
+
+[2]. [Github](https://github.com/MyEMS/myems) https://github.com/MyEMS/myems
+
+[3]. [Bitbucket](https://bitbucket.org/myems/myems) https://bitbucket.org/myems/myems
+
+[4]. [Gitlab](https://gitlab.com/myems/myems) https://gitlab.com/myems/myems
+
 ## MyEMS组件(社区版)
 
 MyEMS项目由下列组件构成:
@@ -269,14 +279,4 @@ docker-compose up -d
 ## MyEMS路线图
 
 [社区版路线图](https://github.com/orgs/MyEMS/projects)
-
-## MyEMS镜像
-
-[1]. [Github](https://github.com/MyEMS/myems) https://github.com/MyEMS/myems
-  
-[2]. [Gitee](https://gitee.com/myems/myems) https://gitee.com/myems/myems
-
-[3]. [Bitbucket](https://bitbucket.org/myems/myems) https://bitbucket.org/myems/myems
-
-[4]. [Gitlab](https://gitlab.com/myems/myems) https://gitlab.com/myems/myems
 
