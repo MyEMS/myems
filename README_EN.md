@@ -23,6 +23,15 @@ MyEMS is being developed and maintained by an experienced development team, and 
 
 ![MyEMS Architecture Site View](/docs/images/architecture-site-view.png)
 
+## MyEMS Mirrors
+
+[1]. [Github](https://github.com/MyEMS/myems) https://github.com/MyEMS/myems
+
+[2]. [Gitee](https://gitee.com/myems/myems) https://gitee.com/myems/myems
+
+[3]. [Bitbucket](https://bitbucket.org/myems/myems) https://bitbucket.org/myems/myems
+
+[4]. [Gitlab](https://gitlab.com/myems/myems) https://gitlab.com/myems/myems
 
 ## MyEMS Components (Community Edition)
 
@@ -266,19 +275,6 @@ docker-compose up -d
 ![MyEMS Space EnergyCategory3](/docs/images/myems-space-energycategory3.gif)
 ![MyEMS Large Screen Dashboard](/docs/images/myems-large-screen-dashboard.gif)
 
-
 ## MyEMS Roadmap
 
 [Community Edition Roadmap](https://github.com/orgs/MyEMS/projects)
-
-
-## MyEMS Mirrors
-
-[1]. [Github](https://github.com/MyEMS/myems) https://github.com/MyEMS/myems
-
-[2]. [Gitee](https://gitee.com/myems/myems) https://gitee.com/myems/myems
-
-[3]. [Bitbucket](https://bitbucket.org/myems/myems) https://bitbucket.org/myems/myems
-
-[4]. [Gitlab](https://gitlab.com/myems/myems) https://gitlab.com/myems/myems
-
