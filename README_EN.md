@@ -14,7 +14,8 @@
 
 ## MyEMS Introduction
 
-MyEMS is an industry-leading open source Energy Management System that is built on cloud computing, IOT, Big Data and AI technologies. MyEMS can be used for a standard and powerful integrated energy management service platform.
+MyEMS is an industry-leading open source Energy Management System.
+MyEMS can be used for device management, data collection, processing, analysis, visualization and reporting for your EMS projects. 
 MyEMS is being developed and maintained by an experienced development team, and the system's source code is published under MIT license.
 
 ## MyEMS Architecture
