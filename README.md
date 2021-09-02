@@ -29,7 +29,7 @@ MyEMS由资深专业团队开发维护，系统代码基于MIT开源软件许可
 
 [1]. [Gitee](https://gitee.com/myems/myems) https://gitee.com/myems/myems
 
-[2]. [Github](https://github.com/MyEMS/myems) https://github.com/MyEMS/myems
+[2]. [Github](https://github.com/myems/myems) https://github.com/myems/myems
 
 [3]. [Bitbucket](https://bitbucket.org/myems/myems) https://bitbucket.org/myems/myems
 
@@ -243,6 +243,11 @@ docker-compose up -d
 | Honeywell EBI                    | ❌             | ✔️        | 采集数据 https://www.honeywell.com/ |
 | SIEMENS Desigo CC                | ❌            | ✔️        |  采集数据 https://siemens.com/ |
 | QWeather API                     | ❌            | ✔️        | 采集数据 https://www.qweather.com/ |
+| Ingest from MySQL                | ❌            | ✔️        | 采集数据 https://www.mysql.com/ |
+| Ingest from Microsoft SQL Server | ❌            | ✔️        | 采集数据 https://www.microsoft.com/en-us/sql-server/ |
+| Ingest from PostgreSQL           | ❌            | ✔️        | 采集数据 https://www.postgresql.org/ |
+| Ingest from Oracle               | ❌            | ✔️        | 采集数据 https://www.oracle.com/database/ |
+| Ingest from MongoDB              | ❌            | ✔️        | 采集数据 https://www.mongodb.com/ |
 | FDD 能效故障诊断系统              | ❌            | ✔️        | 需要企业版组件许可或定制开发 |
 | 高级报表系统                      | ❌            | ✔️        | 需要企业版组件许可或定制开发 |
 | 能耗预测                         | ❌            | ✔️        | 需要企业版组件许可或定制开发 |

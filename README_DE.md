@@ -26,7 +26,7 @@ MyEMS wird von einem erfahrenen Entwicklungsteam entwickelt und gewartet, und de
 
 ## MyEMS Spiegel
 
-[1]. [Github](https://github.com/MyEMS/myems) https://github.com/MyEMS/myems
+[1]. [Github](https://github.com/MyEMS/myems) https://github.com/myems/myems
 
 [2]. [Gitee](https://gitee.com/myems/myems) https://gitee.com/myems/myems
 
@@ -240,7 +240,12 @@ docker-compose up -d
 | Johnson Controls Metasys API     | ❌             | ✔️        | https://www.johnsoncontrols.com/ |
 | Honeywell EBI                    | ❌️             | ✔️        | https://www.honeywell.com/ |
 | SIEMENS Desigo CC                | ❌             | ✔️        | https://siemens.com/ |
-| QWeather API                     | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
+| QWeather API                     | ❌             | ✔️        | https://www.qweather.com/ |
+| Ingest from MySQL                | ❌             | ✔️        | https://www.mysql.com/ |
+| Ingest from Microsoft SQL Server | ❌             | ✔️        | https://www.microsoft.com/en-us/sql-server/ |
+| Ingest from PostgreSQL           | ❌             | ✔️        | https://www.postgresql.org/ |
+| Ingest from Oracle               | ❌             | ✔️        | https://www.oracle.com/database/ |
+| Ingest from MongoDB              | ❌             | ✔️        | https://www.mongodb.com/ |
 | FDD Rule Engine                  | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
 | Advanced Reporting Engine        | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz oder eine benutzerdefinierte Entwicklung |
 | Prognose des Energieverbrauchs   | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz oder eine benutzerdefinierte Entwicklung |
