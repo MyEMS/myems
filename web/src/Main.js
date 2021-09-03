@@ -23,7 +23,7 @@ const Main = props => {
   const [navbarCollapsed, setNavbarCollapsed] = useState(false);
 
   const [navbarStyle, setNavbarStyle] = useState(getItemFromStore('navbarStyle', settings.navbarStyle));
-  const [language, setLanguage] = useState(getItemFromStore('language', settings.language));
+  const [language, setLanguage] = useState(getItemFromStore('myems_web_ui_language', settings.language));
 
   const toggleModal = () => setIsOpenSidePanel(prevIsOpenSidePanel => !prevIsOpenSidePanel);
   const value = {
@@ -100,9 +100,9 @@ const Main = props => {
     setItemToStore('navbarStyle', navbarStyle);
     // eslint-disable-next-line
   }, [navbarStyle]);
-  
+
   useEffect(() => {
-    setItemToStore('language', language);
+    setItemToStore('myems_web_ui_language', language);
     i18n.changeLanguage(language)
     // eslint-disable-next-line
   }, [language]);

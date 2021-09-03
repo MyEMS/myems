@@ -15,9 +15,9 @@ app.controller('LoginController', function (
 
 	$scope.dataLoading = false;
 	$scope.isFullScreen = false;
-	$scope.language = $window.localStorage.getItem("language") || 'zh-cn';
+	$scope.language = $window.localStorage.getItem("myems_admin_ui_language") || "zh_CN";
 	$scope.fullScreenTitle = "FULLSCREEN";
-	$scope.cur_user = JSON.parse($window.localStorage.getItem("currentUser"));
+	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	// login section start
 	$scope.login = function (user) {
 		$scope.dataLoading = true;
@@ -30,10 +30,10 @@ app.controller('LoginController', function (
 					body: $translate.instant('TOASTER.LOGIN_SUCCESS'),
 					showCloseButton: true,
 				});
-				$window.localStorage.setItem("currentUser", JSON.stringify(response.data));
+				$window.localStorage.setItem("myems_admin_ui_current_user", JSON.stringify(response.data));
 				
 				$location.path('/settings/space');
-				$scope.cur_user = JSON.parse($window.localStorage.getItem("currentUser"));
+				$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 			} else if (angular.isDefined(response.status) && response.status === 400 || response.status === 404) {
 				toaster.pop({
 					type: "error",
@@ -64,7 +64,7 @@ app.controller('LoginController', function (
 					body: $translate.instant('TOASTER.LOGIN_SUCCESS'),
 					showCloseButton: true,
 				});
-				$window.localStorage.removeItem("currentUser");
+				$window.localStorage.removeItem("myems_admin_ui_current_user");
 				$location.path('/login');
 			} else {
 				toaster.pop({
@@ -73,7 +73,7 @@ app.controller('LoginController', function (
 					body: $translate.instant(response.data.description),
 					showCloseButton: true,
 				});
-				$window.localStorage.removeItem("currentUser");
+				$window.localStorage.removeItem("myems_admin_ui_current_user");
 				$location.path('/login');
 			}
 		});
@@ -202,7 +202,7 @@ app.controller('LoginController', function (
 	$scope.changeLanguage = function (langKey) {
 		$translate.use(langKey);
 		$scope.language = langKey;
-		$window.localStorage.setItem("language", langKey);
+		$window.localStorage.setItem("myems_admin_ui_language", langKey);
 	};
 
 	// web message alarm section start

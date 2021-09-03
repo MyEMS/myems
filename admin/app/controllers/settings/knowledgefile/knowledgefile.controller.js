@@ -8,7 +8,7 @@ app.controller('KnowledgeFileController', function (
     toaster, 
     SweetAlert) {
     
-    $scope.cur_user = JSON.parse($window.localStorage.getItem("currentUser"));
+    $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 
     $scope.getAllKnowledgeFiles = function () {
         KnowledgeFileService.getAllKnowledgeFiles(function (response) {
