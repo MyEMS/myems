@@ -102,7 +102,7 @@ const resources = {
       "Switch between styles for your vertical navbar": "Switch between styles for your vertical navbar",
       "Language": "Language",
       "Switch between languages": "Switch between languages",
-      "language-zh_cn": "简体中文",
+      "language-zh_CN": "简体中文",
       "language-en": "English",
       "language-de": "Deutsch",
       "Like What You See?": "Like What You See?",
@@ -848,7 +848,7 @@ const resources = {
       "Switch between styles for your vertical navbar": "Wechseln Sie zwischen den Stilen für Ihre vertikale Navigationsleiste",
       "Language": "Sprache",
       "Switch between languages": "Zwischen den Sprachen wechseln",
-      "language-zh_cn": "简体中文",
+      "language-zh_CN": "简体中文",
       "language-en": "English",
       "language-de": "Deutsch",
       "Like What You See?": "Wie was du siehst?",
@@ -1499,7 +1499,7 @@ const resources = {
 
     }
   },
-  zh_cn: {
+  zh_CN: {
     translation: {
       // routes
       "Dashboard": "总览",
@@ -1597,7 +1597,7 @@ const resources = {
       "Switch between styles for your vertical navbar": "切换垂直导航栏的样式",
       "Language": "语言",
       "Switch between languages": "切换语言",
-      "language-zh_cn": "简体中文",
+      "language-zh_CN": "简体中文",
       "language-en": "English",
       "language-de": "Deutsch",
       "Like What You See?": "喜欢这个系统?",
@@ -2254,7 +2254,7 @@ i18n
   .use(initReactI18next) // passes i18n down to react-i18next
   .init({
     resources,
-    lng: "zh_cn",
+    lng: "zh_CN",
 
     keySeparator: false, // we do not use keys in form messages.welcome
 

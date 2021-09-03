@@ -985,7 +985,7 @@ function config($translateProvider) {
                 WECHAT_MESSAGE_NOT_FOUND: 'Wechat Message Not Found',
             },
         })
-        .translations('zh-cn', {
+        .translations('zh_CN', {
             MY_EMS_NAME: 'MyEMS',
             LANGUAGE: '语 言',
             FULLSCREEN: '全屏显示',
@@ -2959,7 +2959,7 @@ function config($translateProvider) {
             },
         })
         ;
-    var lang = window.localStorage.getItem("language") || "zh-cn";
+    var lang = window.localStorage.getItem("admin_ui_language") || "zh_CN";
 
     $translateProvider.preferredLanguage(lang);
 
