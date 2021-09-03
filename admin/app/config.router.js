@@ -13,11 +13,11 @@ app
             $rootScope.$state = $state;
             $transitions.onStart( { }, function(trans) {
                 if ($location.$$path.indexOf('login')==-1) {
-                    if ($window.localStorage.getItem("currentUser")){
-                        currentUser = JSON.parse($window.localStorage.getItem("currentUser"));
+                    if ($window.localStorage.getItem("myems_admin_ui_current_user")){
+                        currentUser = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
                     }
                     if (currentUser == undefined || currentUser.is_admin === false) {
-                        $window.localStorage.removeItem("currentUser");
+                        $window.localStorage.removeItem("myems_admin_ui_current_user");
                         return $state.target("login.login");
                     } else {
                         $rootScope.pageTitle = trans.to().data.pageTitle;
