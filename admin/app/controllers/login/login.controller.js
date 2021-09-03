@@ -15,7 +15,7 @@ app.controller('LoginController', function (
 
 	$scope.dataLoading = false;
 	$scope.isFullScreen = false;
-	$scope.language = $window.localStorage.getItem("language") || 'cn';
+	$scope.language = $window.localStorage.getItem("language") || 'zh-cn';
 	$scope.fullScreenTitle = "FULLSCREEN";
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("currentUser"));
 	// login section start
