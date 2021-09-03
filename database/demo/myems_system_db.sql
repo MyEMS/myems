@@ -144,7 +144,7 @@ INSERT INTO `myems_system_db`.`tbl_data_sources`
 (`id`, `name`, `uuid`,`gateway_id`, `protocol`,  `connection`)
 VALUES
 (1, '示例ModbusTCP数据源', 'b3ace9d4-b63b-419b-818f-0f6d1d0603a4', 1, 'modbus-tcp', '{"host":"192.168.0.1", "port":502}'),
-(2, '示例ModbusRTU数据源', 'b903f0af-9115-448c-9d46-8caf5f9995f3', 1, 'modbus-tru', '{"port": "/dev/ttyUSB0","slaveaddress": 1, "baudrate": 9600,"bytesize": 8,"parity": "N","stopbits": 1,"timeout": 0.05,"mode": "rtu"}'),
+(2, '示例ModbusRTU数据源', 'b903f0af-9115-448c-9d46-8caf5f9995f3', 1, 'modbus-rtu', '{"port": "/dev/ttyUSB0","slaveaddress": 1, "baudrate": 9600,"bytesize": 8,"parity": "N","stopbits": 1,"timeout": 0.05,"mode": "rtu"}'),
 (3, '示例Bacnet/IP数据源', 'e2d5b30b-b554-4ebe-8ce7-f377ab380d19', 1, 'bacnet-ip', '{"host":"192.168.0.3", "port":47808}'),
 (4, '示例S7数据源', '9eb0d705-d02a-43f8-9c62-7e5ef508b255', 1, 's7', '{"host":"192.168.0.4", "port":102, "rack": 0, "slot": 2}'),
 (5, '示例ControlLogix数据源', 'd1dc9792-7861-4dd3-9b01-07511dae16c1', 1, 'control-logix', '{"host":"192.168.0.5","port":44818,"processorslot":3}'),
@@ -449,25 +449,25 @@ INSERT INTO `myems_system_db`.`tbl_points`
 (`id`, `name`, `data_source_id`, `object_type`, `units`, `high_limit`, `low_limit`, `ratio`, `is_trend`, `address`, `description` )
 VALUES
 (1, 'Active Energy Import Tariff 1', 1, 'ENERGY_VALUE', 'kWh', 99999999999, 0, 1.000, true,
-  '{\"slave_id\":1, \"function_code\":3, \"offset\":801, \"number_of_registers\":4, \"format\":\"=d\", \"swap_adjacent_bytes\":false}', null),
+  '{\"slave_id\":1, \"function_code\":3, \"offset\":801, \"number_of_registers\":4, \"format\":\"=d\", \"byte_swap\":false}', null),
 
 (2, 'Working hours counter', 1, 'ANALOG_VALUE',  'S', 999999999, 0, 1.000, true,
-  '{\"slave_id\":1, \"function_code\":3, \"offset\":209, \"number_of_registers\":2, \"format\":\"=L\", \"swap_adjacent_bytes\":true}', null),
+  '{\"slave_id\":1, \"function_code\":3, \"offset\":209, \"number_of_registers\":2, \"format\":\"=L\", \"byte_swap\":true}', null),
 
 (3, 'Current a', 1, 'ANALOG_VALUE',  'A', 5, 0, 1.000, true,
-  '{\"slave_id\":1, \"function_code\":3, \"offset\":13, \"number_of_registers\":2, \"format\":\"=f\", \"swap_adjacent_bytes\":false}', null),
+  '{\"slave_id\":1, \"function_code\":3, \"offset\":13, \"number_of_registers\":2, \"format\":\"=f\", \"byte_swap\":false}', null),
 
 (4, 'Active Power a', 1, 'ANALOG_VALUE',  'W', 3450, 0, 1.000, true,
-  '{\"slave_id\":1, \"function_code\":3, \"offset\":25, \"number_of_registers\":2, \"format\":\"=f\", \"swap_adjacent_bytes\":false}', null),
+  '{\"slave_id\":1, \"function_code\":3, \"offset\":25, \"number_of_registers\":2, \"format\":\"=f\", \"byte_swap\":false}', null),
 
 (5, 'Power Factor a', 1, 'ANALOG_VALUE',  'W', 1, 0, 1.000, true,
-  '{\"slave_id\":1, \"function_code\":3, \"offset\":37, \"number_of_registers\":2, \"format\":\"=f\", \"swap_adjacent_bytes\":false}', null),
+  '{\"slave_id\":1, \"function_code\":3, \"offset\":37, \"number_of_registers\":2, \"format\":\"=f\", \"byte_swap\":false}', null),
 
 (6, '示例ModbusTCP数据点6', 2, 'ENERGY_VALUE',  'Wh', 99999999999, 0, 1.000, true,
-  '{\"slave_id\":1, \"function_code\":3, \"offset\":40001, \"number_of_registers\":2, \"format\":\"=f\", \"swap_adjacent_bytes\":false}', null),
+  '{\"slave_id\":1, \"function_code\":3, \"offset\":40001, \"number_of_registers\":2, \"format\":\"=f\", \"byte_swap\":false}', null),
 
 (7, '示例数据点7', 2, 'ANALOG_VALUE',  'V', 690, 0, 1.000, true,
-  '{\"slave_id\":1, \"function_code\":3, \"offset\":40002, \"number_of_registers\":2, \"format\":\"=f\", \"swap_adjacent_bytes\":false}', null),
+  '{\"slave_id\":1, \"function_code\":3, \"offset\":40002, \"number_of_registers\":2, \"format\":\"=f\", \"byte_swap\":false}', null),
 
 (8, 'BACnet示例数据点1', 3, 'ANALOG_VALUE',  'V', 690, 0, 1.000, true,
   '{\"object_type\":\"analogValue\", \"object_id\":3004860, \"property_name\":\"presentValue\", \"property_array_index\":null}', null),
