@@ -16,6 +16,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
+## [v1.2.3] -   2021-09-04
+### Added
+-   added tbl_reports to myems_reporting_db in database.
+-   added trusted-host to Dockerfiles
+
+### Changed
+-   updated README.
+-   renamed language cn to zh-cn in Admin UI
+
+### Fixed
+-   fixed Local Storage conflicts in Admin UI and Web UI .
+-   fixed issues in database demo script
+
+### Removed
+-   None.
+
 ## [v1.2.2] -   2021-08-28
 ### Added
 -   added user log to UserLogin, ChangePassword and ResetPassword in API
@@ -407,19 +423,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v1.2.2...HEAD
-[v1.2.2]: https://github.com/MyEMS/myems/compare/v1.2.1...v1.2.2
-[v1.2.1]: https://github.com/MyEMS/myems/compare/v1.2.0...v1.2.1
-[v1.2.0]: https://github.com/MyEMS/myems/compare/v1.1.6...v1.2.0
-[v1.1.6]: https://github.com/MyEMS/myems/compare/v1.1.5...v1.1.6
-[v1.1.5]: https://github.com/MyEMS/myems/compare/v1.1.4...v1.1.5
-[v1.1.4]: https://github.com/MyEMS/myems/compare/v1.1.3...v1.1.4
-[v1.1.3]: https://github.com/MyEMS/myems/compare/v1.1.2...v1.1.3
-[v1.1.2]: https://github.com/MyEMS/myems/compare/v1.1.1...v1.1.2
-[v1.1.1]: https://github.com/MyEMS/myems/compare/v1.1.0...v1.1.1
-[v1.0.8]: https://github.com/MyEMS/myems/compare/v1.0.8...v1.1.0
-[v1.0.8]: https://github.com/MyEMS/myems/compare/v1.0.7...v1.0.8
-[v1.0.7]: https://github.com/MyEMS/myems/compare/v1.0.6...v1.0.7
-[v1.0.6]: https://github.com/MyEMS/myems/compare/v1.0.5...v1.0.6
-[v1.0.5]: https://github.com/MyEMS/myems/releases/tag/v1.0.5
+[Unreleased]: https://github.com/MyEMS/MyEMS/compare/v1.2.3...HEAD
+[v1.2.3]: https://github.com/MyEMS/MyEMS/compare/v1.2.2...v1.2.3
+[v1.2.2]: https://github.com/MyEMS/MyEMS/compare/v1.2.1...v1.2.2
+[v1.2.1]: https://github.com/MyEMS/MyEMS/compare/v1.2.0...v1.2.1
+[v1.2.0]: https://github.com/MyEMS/MyEMS/compare/v1.1.6...v1.2.0
+[v1.1.6]: https://github.com/MyEMS/MyEMS/compare/v1.1.5...v1.1.6
+[v1.1.5]: https://github.com/MyEMS/MyEMS/compare/v1.1.4...v1.1.5
+[v1.1.4]: https://github.com/MyEMS/MyEMS/compare/v1.1.3...v1.1.4
+[v1.1.3]: https://github.com/MyEMS/MyEMS/compare/v1.1.2...v1.1.3
+[v1.1.2]: https://github.com/MyEMS/MyEMS/compare/v1.1.1...v1.1.2
+[v1.1.1]: https://github.com/MyEMS/MyEMS/compare/v1.1.0...v1.1.1
+[v1.0.8]: https://github.com/MyEMS/MyEMS/compare/v1.0.8...v1.1.0
+[v1.0.8]: https://github.com/MyEMS/MyEMS/compare/v1.0.7...v1.0.8
+[v1.0.7]: https://github.com/MyEMS/MyEMS/compare/v1.0.6...v1.0.7
+[v1.0.6]: https://github.com/MyEMS/MyEMS/compare/v1.0.5...v1.0.6
+[v1.0.5]: https://github.com/MyEMS/MyEMS/releases/tag/v1.0.5
 
