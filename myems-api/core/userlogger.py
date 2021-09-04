@@ -6,6 +6,7 @@ from datetime import datetime
 import uuid
 from gunicorn.http.body import Body
 import simplejson as json
+import falcon
 
 
 def write_log(user_uuid, request_method, resource_type, resource_id, request_body):
@@ -33,7 +34,7 @@ def write_log(user_uuid, request_method, resource_type, resource_id, request_bod
                                  ))
         cnx.commit()
     except Exception as e:
-        print(str(e))
+        print('write_log:' + str(e))
     finally:
         if cnx:
             cnx.disconnect()
@@ -72,12 +73,15 @@ def user_logger(func):
                 raw_json = reads.decode('utf-8')
                 with open(file_name, "rb") as fr:
                     req.stream = Body(fr)
+                    os.remove(file_name)
                     func(*args, **kwargs)
                     write_log(user_uuid=user_uuid, request_method='POST', resource_type=class_name,
                               resource_id=kwargs.get('id_'), request_body=raw_json)
-                os.remove(file_name)
             except Exception as e:
-                print('user_logger:' + str(e))
+                if isinstance(e, falcon.HTTPError):
+                    raise e
+                else:
+                    print('user_logger:' + str(e))
             return
         elif func_name == "on_put":
             try:
@@ -88,12 +92,16 @@ def user_logger(func):
                 raw_json = reads.decode('utf-8')
                 with open(file_name, "rb") as fr:
                     req.stream = Body(fr)
+                    os.remove(file_name)
                     func(*args, **kwargs)
                     write_log(user_uuid=user_uuid, request_method='PUT', resource_type=class_name,
                               resource_id=kwargs.get('id_'), request_body=raw_json)
-                os.remove(file_name)
             except Exception as e:
-                print('user_logger:' + str(e))
+                if isinstance(e, falcon.HTTPError):
+                    raise e
+                else:
+                    print('user_logger:' + str(e))
+
             return
         elif func_name == "on_delete":
             try:
@@ -101,7 +109,10 @@ def user_logger(func):
                 write_log(user_uuid=user_uuid, request_method="DELETE", resource_type=class_name,
                           resource_id=kwargs.get('id_'), request_body=json.dumps(kwargs))
             except Exception as e:
-                print('user_logger:' + str(e))
+                if isinstance(e, falcon.HTTPError):
+                    raise e
+                else:
+                    print('user_logger:' + str(e))
             return
 
     return logger
