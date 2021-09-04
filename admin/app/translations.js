@@ -2959,7 +2959,7 @@ function config($translateProvider) {
             },
         })
         ;
-    var lang = window.localStorage.getItem("admin_ui_language") || "zh_CN";
+    var lang = window.localStorage.getItem("myems_admin_ui_language") || "zh_CN";
 
     $translateProvider.preferredLanguage(lang);
 
