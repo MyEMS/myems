@@ -8,6 +8,22 @@ CREATE DATABASE IF NOT EXISTS `myems_fdd_db` ;
 USE `myems_fdd_db` ;
 
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_fdd_db`.`tbl_aliyun_sms_api`
+-- refer to https://dysms.console.aliyun.com/
+-- API Version 2017-05-25
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_fdd_db`.`tbl_aliyun_sms_api` ;
+
+CREATE TABLE IF NOT EXISTS `myems_fdd_db`.`tbl_aliyun_sms_api` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `access_key_id` VARCHAR(256) NOT NULL,
+  `access_key_secret` VARCHAR(256) NOT NULL,
+  `endpoint` VARCHAR(256) NOT NULL,
+  `sign_name` VARCHAR(256) NOT NULL,
+  `template_code` VARCHAR(256) NOT NULL,
+  PRIMARY KEY (`id`));
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_fdd_db`.`tbl_email_messages`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_fdd_db`.`tbl_email_messages` ;
