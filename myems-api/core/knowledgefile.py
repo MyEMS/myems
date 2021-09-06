@@ -257,12 +257,11 @@ class KnowledgeFileItem:
             file_uuid = row[0]
             # Define file_path
             file_path = os.path.join(config.upload_path, file_uuid)
-
             # remove the file from disk
             os.remove(file_path)
         except Exception as ex:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.KNOWLEDGE_FILE_NOT_FOUND')
+                                   description='API.KNOWLEDGE_FILE_CANNOT_BE_REMOVED_FROM_DISK')
 
         cursor.execute(" DELETE FROM tbl_knowledge_files WHERE id = %s ", (id_,))
         cnx.commit()
