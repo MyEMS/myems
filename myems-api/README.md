@@ -117,9 +117,7 @@ git clone https://github.com/MyEMS/myems.git
 cd ~/myems/myems-api
 sudo cp -R ~/myems/myems-api /myems-api
 ```
-  Change the config file:
-
-  Note: change cookie domain to the actual domain or IP address of Web UI and Admin UI
+  Change IP address in the config file:
 ```bash
 sudo nano /myems-api/config.py
 ```
@@ -283,9 +281,9 @@ curl -i -X GET {{base_url}}/costfiles
 curl -i -X DELETE {{base_url}}/costfiles/{id}
 ```
 *   POST Upload a Cost File
-  (user must login first to get cookie)
+  (call users login API to get 'User-UUID' and 'Token')
 ```bash
-curl -i -H "Content-Type: application/TBD" -X POST -d 'file: (binary)' {{base_url}}/costfiles
+curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: 02f93023a39c98e1d1bc9f5197a83dfc5ddc0d48"  -H "Content-Type: application/TBD" -X POST -d 'file: (binary)' {{base_url}}/costfiles
 ```
 *   GET Restore a Cost File by ID from database to disk
 ```bash
@@ -944,9 +942,9 @@ curl -i -X GET {{base_url}}/knowledgefiles
 curl -i -X DELETE {{base_url}}/knowledgefiles/{id}
 ```
 *   POST Upload a Knowledge File
- (user must login first to get cookie)
+    (call users login API to get 'User-UUID' and 'Token')
 ```bash
-curl -i -H "Content-Type: application/TBD" -X POST -d 'file: (binary)' {{base_url}}/knowledgefiles
+curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: 02f93023a39c98e1d1bc9f5197a83dfc5ddc0d48" -H "Content-Type: application/TBD" -X POST -d 'file: (binary)' {{base_url}}/knowledgefiles
 ```
 *   GET Restore a Knowledge File by id from database to disk
 ```bash
@@ -1140,9 +1138,9 @@ curl -i -X GET {{base_url}}/offlinemeterfiles
 curl -i -X DELETE {{base_url}}/offlinemeterfiles/{id}
 ```
 *   POST Upload an Offline Meter File
- (user must log in first to get cookie)
+    (call users login API to get 'User-UUID' and 'Token')
 ```bash
-curl -i -H "Content-Type: application/TBD" -X POST -d 'file: (binary)' {{base_url}}/offlinemeterfiles
+curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: 02f93023a39c98e1d1bc9f5197a83dfc5ddc0d48"  -H "Content-Type: application/TBD" -X POST -d 'file: (binary)' {{base_url}}/offlinemeterfiles
 ```
 *   GET Restore an Offline Meter File by ID from database to disk
 ```bash

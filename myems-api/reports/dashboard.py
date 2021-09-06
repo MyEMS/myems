@@ -33,7 +33,6 @@ class Reporting:
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
-        print(req.params)
         user_uuid = req.params.get('useruuid')
         period_type = req.params.get('periodtype')
         base_start_datetime_local = req.params.get('baseperiodstartdatetime')
