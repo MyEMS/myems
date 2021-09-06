@@ -54,12 +54,12 @@ def user_logger(func):
             func(*args, **kwargs)
             return
         req, resp = args
-        cookies = req.cookies
-        if cookies is not None and 'user_uuid' in cookies.keys():
-            user_uuid = cookies['user_uuid']
+        headers = req.headers
+        if headers is not None and 'USER-UUID' in headers.keys():
+            user_uuid = headers['USER-UUID']
         else:
             # todo: deal with requests with NULL user_uuid
-            print('user_logger: user_uuid is NULL')
+            print('user_logger: USER-UUID is NULL')
             # do not log for NULL user_uuid
             func(*args, **kwargs)
             return
