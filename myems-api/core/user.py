@@ -447,10 +447,6 @@ class UserLogin:
         cnx.commit()
         cursor.close()
         cnx.disconnect()
-        resp.set_cookie('user_uuid', user_uuid,
-                        domain=config.myems_api_domain, path='/', secure=False, http_only=False)
-        resp.set_cookie('token', token,
-                        domain=config.myems_api_domain, path='/', secure=False, http_only=False)
         del result['salt']
         del result['password']
         result['token'] = token
@@ -502,11 +498,6 @@ class UserLogout:
         if rowcount is None or rowcount == 0:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.USER_SESSION_NOT_FOUND')
-
-        resp.set_cookie('user_uuid', '',
-                        domain=config.myems_api_domain, path='/', secure=False, http_only=False)
-        resp.set_cookie('token', '',
-                        domain=config.myems_api_domain, path='/', secure=False, http_only=False)
         resp.body = json.dumps("OK")
         resp.status = falcon.HTTP_200
 

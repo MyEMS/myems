@@ -1,67 +1,63 @@
 # MyEMS Web
 
 ## Introduction
-MyEMS Web 用户界面，用于能源数据分析
-Providing Web UI for MyEMS users to analysis energy data
+MyEMS Web 用户界面，用于查询能源报表
+Providing Web UI of MyEMS for viewing energy reports
 
 ## Prerequisites
 Node.js
 
-nginx-1.18.0 or later
-
-## Running in Local environment
-This project is scaffolded using Create React App.
+## Running in Local Environment for Development
 
 *   Install Node.js via binary archive on Linux
 Download Current Linux Binaries (x64) from https://nodejs.org/en/download/current/
 
-Unzip the binary archive to /usr/local/bin/nodejs, 
 ```bash
 sudo mkdir -p /usr/local/lib/nodejs
-sudo tar -xJvf node-v1x.x.x-linux-x64.tar.xz -C /usr/local/lib/nodejs 
+sudo tar -xJvf node-vxx.x.x-linux-x64.tar.xz -C /usr/local/lib/nodejs 
+sudo ln -s /usr/local/lib/nodejs/node-vxx.x.x-linux-x64/bin/node /usr/bin/node
+sudo ln -s /usr/local/lib/nodejs/node-vxx.x.x-linux-x64/bin/npm /usr/bin/npm
+sudo ln -s /usr/local/lib/nodejs/node-vxx.x.x-linux-x64/bin/npx /usr/bin/npx
 ```
-Using sudo to symlink node, npm, and npx into /usr/bin/:
-```bash
-sudo ln -s /usr/local/lib/nodejs/node-v1x.x.x-linux-x64/bin/node /usr/bin/node
-```
-```bash
-sudo ln -s /usr/local/lib/nodejs/node-v1x.x.x-linux-x64/bin/npm /usr/bin/npm
-```
-```bash
-sudo ln -s /usr/local/lib/nodejs/node-v1x.x.x-linux-x64/bin/npx /usr/bin/npx
-```
-Test installation using
+Test installation
 ```bash
 node -v
-```
-```bash
 npm version
-```
-```bash
 npx -v
 ```
 
-*   Open the “myems/web” directory with your cmd or terminal
-*   Run 'sudo npm i --unsafe-perm=true --allow-root'
-  
-This command will download all the necessary dependencies for falcon in the node_modules directory.
-*   If you modified any scss files, then you need to compile SCSS
-Run 'sudo npm run scss' command in your project directory to compile scss. 
-*   Run 'sudo npm start'
+*   Download all the necessary dependencies into the node_modules directory.
+```bash
+cd myems/web
+sudo npm i --unsafe-perm=true --allow-root
+```
+*   If you modified any scss files then you need to compile SCSS, else you can safely ignore this step.
+Run below command in your project directory to compile scss.
+```bash
+sudo npm run scss
+``` 
+*   Starting the Development Server
 A local web server will start at http://localhost:3000.
 We are using webpack and webpack-serve to automatically detect file changes. So, if you edit and save a file, your browser will automatically refresh and preview the change.
+```
+sudo npm start
+```
 
-## Creating a Production Build
-*   Run 'sudo npm run build' command in your project directory to make the Production build.
-
+## Install Production Build Option 1: on Node.js Web Server
+*   Run below command in your project directory to make the Production build.
 This will create an optimized production build by compililing, merging and minifying all the source files as necessary and put them in the build/ folder.
+```bash
+sudo npm run build
+```
+*   Run the production build locally at http://localhost:80.
+If you want to listen on other port, change it in myems/web/server.js
+```
+sudo node server.js
+```
 
-You can run 'node server.js' to run the production build locally at http://localhost:5000.
-
-## Option 1: Install Production Build on NGINX Server
+## Install Production Build Option 2:  on NGINX Server (Highly Recommended)
 
 *   Install NGINX  Server
-
 refer to http://nginx.org/en/docs/install.html
 
 *   Configure NGINX
@@ -107,16 +103,16 @@ Restart NGINX
 sudo systemctl restart nginx
 ```
 
-*   Download myems:
+*   Download MyEMS:
 ```bash
 cd ~
 git clone https://github.com/MyEMS/myems.git
 ```
-*   Install myems-web :
+*   Install MyEMS Web UI:
 
   Check and change the config file if necessary:
 ```bash
-cd ~/myems/web
+cd myems/web
 sudo nano src/config.js
 ```
   Build and Compress
@@ -133,7 +129,7 @@ sudo rm -r /var/www/html/web
 sudo mv build  /var/www/html/web
 ```
 
-## Option 2: Install Production Build on Apache2 Server
+## Install Production Build Option 3: on Apache2 Server
 *   Install Apache2 Server
 
 refer to https://httpd.apache.org/docs/2.4/install.html
@@ -165,21 +161,21 @@ Add a new 'VirtualHost' as below
 </VirtualHost>
 ```
 
-*   Download myems:
+*   Download MyEMS:
 ```bash
 cd ~
 git clone https://github.com/MyEMS/myems.git
 ```
-*   Install myems-web :
+*   Install MyEMS Web UI:
 
   Check and change the config file if necessary:
 ```bash
-cd ~/myems/web
+cd myems/web
 sudo nano src/config.js
 ```
   Build and Compress
 ```bash
-cd ~/myems/web/
+cd myems/web/
 sudo npm run build
 tar czvf myems-web.tar.gz build
 ```
