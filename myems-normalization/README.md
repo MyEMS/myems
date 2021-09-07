@@ -45,28 +45,27 @@ Download and install openpyxl
 ```bash
 cd ~/tools
 ```
-Get the latest version of et_xmlfile from https://bitbucket.org/openpyxl/et_xmlfile/downloads/
+Get the latest version of et_xmlfile from https://foss.heptapod.net/openpyxl/et_xmlfile/
 ```bash
-wget https://bitbucket.org/openpyxl/et_xmlfile/get/50973a6de49c.zip
-7z x 50973a6de49c.zip && mv openpyxl-et_xmlfile-50973a6de49c et_xmlfile
+wget https://foss.heptapod.net/openpyxl/et_xmlfile/-/archive/1.1/et_xmlfile-1.1.tar.gz
+tar xzf et_xmlfile-1.1.tar.gz
 ```
 Get jdcal
 ```bash
 git clone https://github.com/phn/jdcal.git
 ```
-
-Get the latest version of openpyxl from https://bitbucket.org/openpyxl/openpyxl/downloads/
+Get the latest version of openpyxl from https://foss.heptapod.net/openpyxl/openpyxl
 ```bash
-wget https://bitbucket.org/openpyxl/openpyxl/get/8953233f5af2.zip
-7z x 8953233f5af2.zip && mv openpyxl-openpyxl-8953233f5af2 openpyxl
+wget https://foss.heptapod.net/openpyxl/openpyxl/-/archive/3.0.7/openpyxl-3.0.7.tar.gz
+tar xzf openpyxl-3.0.7.tar.gz
 ```
 
 ```bash
-cd ~/tools/et_xmlfile
+cd ~/tools/et_xmlfile-1.1
 sudo python3 setup.py install
 cd ~/tools/jdcal
 sudo python3 setup.py install
-cd ~/tools/openpyxl
+cd ~/tools/openpyxl-3.0.7
 sudo python3 setup.py install
 ```
 
