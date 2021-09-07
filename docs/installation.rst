@@ -68,15 +68,15 @@ Installation
 
 * Install openpyxl, refer to `https://foss.heptapod.net/openpyxl/openpyxl <https://foss.heptapod.net/openpyxl/openpyxl>`_
 
-  | Get the latest version of et_xmlfile from `https://bitbucket.org/openpyxl/et_xmlfile/downloads/ <https://bitbucket.org/openpyxl/et_xmlfile/downloads/>`_
+  | Get the latest version of et_xmlfile from `https://foss.heptapod.net/openpyxl/et_xmlfile/ <https://foss.heptapod.net/openpyxl/et_xmlfile/>`_
   | Get the latest version of jdcal from `https://github.com/phn/jdcal <https://github.com/phn/jdcal>`_
-  | Get the latest version of openpyxl from `https://bitbucket.org/openpyxl/openpyxl/downloads/ <https://bitbucket.org/openpyxl/openpyxl/downloads/>`_
+  | Get the latest version of openpyxl from `https://foss.heptapod.net/openpyxl/openpyxl <https://foss.heptapod.net/openpyxl/openpyxl>`_
   ::
 
     $ cd ~/tools  
-    $ wget https://foss.heptapod.net/openpyxl/et_xmlfile/-/archive/branch/default/et_xmlfile-branch-default.tar.gz
-    $ tar xzf et_xmlfile-branch-default.tar.gz
-    $ cd ~/tools/et_xmlfile-branch-default
+    $ wget https://foss.heptapod.net/openpyxl/et_xmlfile/-/archive/1.1/et_xmlfile-1.1.tar.gz
+    $ tar xzf et_xmlfile-1.1.tar.gz
+    $ cd ~/tools/et_xmlfile-1.1
     $ sudo python3 setup.py install
     $ cd ~/tools
     $ git clone https://github.com/phn/jdcal.git
@@ -86,9 +86,9 @@ Installation
     $ pip3 download Pillow
     $ sudo pip3 install --no-index --find-links ~/tools/pillow Pillow
     $ cd ~/tools
-    $ wget https://foss.heptapod.net/openpyxl/openpyxl/-/archive/branch/3.0/openpyxl-branch-3.0.tar.gz
-    $ tar xzf openpyxl-branch-3.0.tar.gz
-    $ cd openpyxl-branch-3.0
+    $ wget https://foss.heptapod.net/openpyxl/openpyxl/-/archive/3.0.7/openpyxl-3.0.7.tar.gz
+    $ tar xzf openpyxl-3.0.7.tar.gz
+    $ cd openpyxl-3.0.7
     $ sudo python3 setup.py install
 
 * Install gunicorn service for myems-api::
