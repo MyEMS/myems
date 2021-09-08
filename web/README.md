@@ -87,6 +87,8 @@ Add a new 'server' section with direstives as below:
       location / {
           root    /var/www/html/web;
           index index.html index.htm;
+          # add try_files directive to avoid 404 error while refreshing pages
+          try_files $uri  /index.html;
       }
       -- To avoid CORS issue, use Nginx to proxy myems-api to path /api 
       -- Add another location /api in 'server ', replace demo address http://127.0.0.1:8000/ with actual url
