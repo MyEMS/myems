@@ -49,8 +49,8 @@ app.controller('EquipmentController', function($scope, $translate, $uibModal, Eq
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.FAILURE_TITLE"),
-						body: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("COMMON.EQUIPMENT")}),
+						title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("COMMON.EQUIPMENT")}),
+						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
 				}
@@ -90,8 +90,8 @@ app.controller('EquipmentController', function($scope, $translate, $uibModal, Eq
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.FAILURE_TITLE"),
-						body: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("COMMON.EQUIPMENT")}),
+						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("COMMON.EQUIPMENT")}),
+						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
 				}
@@ -127,8 +127,8 @@ app.controller('EquipmentController', function($scope, $translate, $uibModal, Eq
 		            	} else {
 							toaster.pop({
 								type: "error",
-								title: $translate.instant("TOASTER.FAILURE_TITLE"),
-								body: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("COMMON.EQUIPMENT")}),
+								title: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("COMMON.EQUIPMENT")}),
+								body: $translate.instant(response.data.description),
 								showCloseButton: true,
 							});
 		            	}

@@ -27,14 +27,13 @@ app.controller('CostCenterController', function($scope, $translate,$uibModal, Co
 						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("SETTING.COSTCENTER")}),
 						showCloseButton: true,
 					});
-
 					$scope.getAllCostCenters();
 					$scope.$emit('handleEmitCostCenterChanged');
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.FAILURE_TITLE"),
-						body: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("SETTING.COSTCENTER")}),
+						title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("SETTING.COSTCENTER")}),
+						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
 				}
@@ -70,11 +69,11 @@ app.controller('CostCenterController', function($scope, $translate,$uibModal, Co
 					});
 			        $scope.getAllCostCenters();
 					$scope.$emit('handleEmitCostCenterChanged');
-		      }else{
+		      } else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.FAILURE_TITLE"),
-						body: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("SETTING.COSTCENTER")}),
+						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("SETTING.COSTCENTER")}),
+						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
 				}
@@ -107,21 +106,14 @@ app.controller('CostCenterController', function($scope, $translate,$uibModal, Co
 							});
 		            		$scope.getAllCostCenters();
 							$scope.$emit('handleEmitCostCenterChanged');
-		            	} else if (angular.isDefined(response.status) && response.status === 400) {
+		            	} else {
 							toaster.pop({
 			                  type: "error",
-			                  title: $translate.instant(response.data.title),
+			                  title: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("SETTING.COSTCENTER")}),
 			                  body: $translate.instant(response.data.description),
 			                  showCloseButton: true,
 			              });
-				} else {
-                    toaster.pop({
-                        type: "error",
-                        title: $translate.instant("TOASTER.FAILURE_TITLE"),
-                        body: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("SETTING.COSTCENTER")}),
-                        showCloseButton: true,
-                    });
-		            	}
+						} 
 		            });
 		        }
 		    });

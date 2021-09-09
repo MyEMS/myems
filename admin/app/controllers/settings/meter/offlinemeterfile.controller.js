@@ -46,8 +46,8 @@ app.controller('OfflineMeterFileController', function(
         'error': function (file, xhr) {
             toaster.pop({
                 type: "error",
-                title: $translate.instant("TOASTER.FAILURE_TITLE"),
-                body: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: file.name}),
+                title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: file.name}),
+                body: $translate.instant(response.data.description),
                 showCloseButton: true,
             });
         }
@@ -97,18 +97,11 @@ app.controller('OfflineMeterFileController', function(
                                 showCloseButton: true,
                             });
 							$scope.getAllOfflineMeterFiles();
-						} else if (angular.isDefined(response.status) && response.status === 400) {
-                            toaster.pop({
-                                type: "error",
-                                title: $translate.instant(response.data.title),
-                                body: $translate.instant(response.data.description),
-                                showCloseButton: true,
-                            });
 						} else {
                             toaster.pop({
                                 type: "error",
-                                title: $translate.instant("TOASTER.FAILURE_TITLE"),
-                                body: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("SETTING.OFFLINE_METER_FILE")}),
+                                title: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("SETTING.OFFLINE_METER_FILE")}),
+                                body: $translate.instant(response.data.description),
                                 showCloseButton: true,
                             });
 						}

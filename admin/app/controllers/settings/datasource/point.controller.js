@@ -57,8 +57,8 @@ app.controller('PointController', function($scope, $uibModal, $translate, DataSo
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.FAILURE_TITLE"),
-						body: "TOASTER.ERROR_ADD_BODY",
+						title: $translate.instant("TOASTER.ERROR_ADD_BODY",{template: $translate.instant( "SETTING.POINT")}),
+						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
 				}
@@ -99,8 +99,8 @@ app.controller('PointController', function($scope, $uibModal, $translate, DataSo
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.FAILURE_TITLE"),
-						body: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("SETTING.POINT")}),
+						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("SETTING.POINT")}),
+						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
 				}
@@ -133,18 +133,11 @@ app.controller('PointController', function($scope, $uibModal, $translate, DataSo
                                 showCloseButton: true,
                             });
 							$scope.getPointsByDataSourceID($scope.currentDataSource);
-						} else if (angular.isDefined(response.status) && response.status === 400) {
-                            toaster.pop({
-                                type: "error",
-                                title: $translate.instant(response.data.title),
-                                body: $translate.instant(response.data.description),
-                                showCloseButton: true,
-                            });
 						} else {
                             toaster.pop({
                                 type: "error",
-                                title: $translate.instant("TOASTER.FAILURE_TITLE"),
-                                body: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("SETTING.POINT")}),
+                                title: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("SETTING.POINT")}),
+                                body: $translate.instant(response.data.description),
                                 showCloseButton: true,
                             });
 						}

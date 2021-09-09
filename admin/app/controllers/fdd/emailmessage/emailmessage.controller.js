@@ -46,8 +46,8 @@ app.controller('EmailMessageController', function($scope, $timeout,$translate,
 						} else {
                             toaster.pop({
                                 type: "error",
-                                title: $translate.instant("TOASTER.FAILURE_TITLE"),
-                                body: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("FDD.EMAIL_MESSAGE")}),
+                                title: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("FDD.EMAIL_MESSAGE")}),
+                                body: $translate.instant(response.data.description),
                                 showCloseButton: true,
                             });
 
