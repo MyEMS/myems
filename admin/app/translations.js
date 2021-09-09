@@ -552,10 +552,11 @@ function config($translateProvider) {
                 DELETE: 'Delete',
             },
             TOASTER: {
-                FAILURE_TITLE: 'Error',
                 SUCCESS_TITLE: 'Success',
                 LOGIN_SUCCESS: 'Login Success',
                 LOGIN_FAILURE: 'Login Failure',
+                LOGOUT_SUCCESS: 'Logout Success',
+                LOGOUT_FAILURE: 'Logout Failure',
 
                 SUCCESS_ADD_BODY: 'Add {{template}} Success',
                 SUCCESS_UPDATE_BODY: 'Update {{template}} Success',
@@ -1538,10 +1539,11 @@ function config($translateProvider) {
                 DELETE: '删除',
             },
             TOASTER: {
-                FAILURE_TITLE: '错误',
                 SUCCESS_TITLE: '成功',
-                LOGIN_SUCCESS: '登录成功。',
-                LOGIN_FAILURE: '登录失败。',
+                LOGIN_SUCCESS: '登录成功',
+                LOGIN_FAILURE: '登录失败',
+                LOGOUT_SUCCESS: '退出成功',
+                LOGOUT_FAILURE: '退出失败',
 
                 SUCCESS_ADD_BODY: '添加 {{template}} 成功',
                 SUCCESS_UPDATE_BODY: '更新 {{template}} 成功',
@@ -2525,10 +2527,11 @@ function config($translateProvider) {
                 DELETE: 'löschen',
             },
             TOASTER: {
-                FAILURE_TITLE: 'Error',
                 SUCCESS_TITLE: 'Erfolg',
                 LOGIN_SUCCESS: 'Anmeldung erfolgreich',
                 LOGIN_FAILURE: 'Login fehlgeschlagen',
+                LOGOUT_SUCCESS: 'Abmeldung erfolgreich',
+                LOGOUT_FAILURE: 'Abmeldefehler',
 
                 SUCCESS_ADD_BODY: 'Fügen Sie {{template}} erfolgreich hinzu',
                 SUCCESS_UPDATE_BODY: 'Update {{template}} erfolgreich',

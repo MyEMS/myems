@@ -34,18 +34,11 @@ app.controller('LoginController', function (
 				
 				$location.path('/settings/space');
 				$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
-			} else if (angular.isDefined(response.status) && response.status === 400 || response.status === 404) {
-				toaster.pop({
-					type: "error",
-					title: $translate.instant(response.data.title),
-					body: $translate.instant(response.data.description),
-					showCloseButton: true,
-				});
 			} else {
 				toaster.pop({
 					type: "error",
-					title: $translate.instant("TOASTER.FAILURE_TITLE"),
-					body: $translate.instant('TOASTER.LOGIN_FAILURE'),
+					title: $translate.instant('TOASTER.LOGIN_FAILURE'),
+					body: $translate.instant(response.data.description),
 					showCloseButton: true,
 				});
 			}
@@ -61,7 +54,7 @@ app.controller('LoginController', function (
 				toaster.pop({
 					type: "success",
 					title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-					body: $translate.instant('TOASTER.LOGIN_SUCCESS'),
+					body: $translate.instant('TOASTER.LOGOUT_SUCCESS'),
 					showCloseButton: true,
 				});
 				$window.localStorage.removeItem("myems_admin_ui_current_user");
@@ -69,7 +62,7 @@ app.controller('LoginController', function (
 			} else {
 				toaster.pop({
 					type: "error",
-					title: $translate.instant("TOASTER.FAILURE_TITLE"),
+					title: $translate.instant("TOASTER.LOGOUT_FAILURE"),
 					body: $translate.instant(response.data.description),
 					showCloseButton: true,
 				});
@@ -118,13 +111,12 @@ app.controller('LoginController', function (
 						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", { template: $translate.instant("TOASTER.USER_PASSWORD") }),
 						showCloseButton: true,
 					});
-
 					$scope.$emit('handleEmitLineChanged');
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant(response.data.title) || $translate.instant("TOASTER.FAILURE_TITLE"),
-						body: $translate.instant( response.data.description, { template: $translate.instant("TOASTER.USER_PASSWORD") }) || $translate.instant("TOASTER.ERROR_UPDATE_BODY", { template: $translate.instant("TOASTER.USER_PASSWORD") }),
+						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", { template: $translate.instant("TOASTER.USER_PASSWORD") }),
+						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
 				}

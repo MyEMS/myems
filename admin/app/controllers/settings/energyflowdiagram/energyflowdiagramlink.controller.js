@@ -91,8 +91,8 @@ app.controller('EnergyFlowDiagramLinkController', function($scope,$uibModal, $tr
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.FAILURE_TITLE"),
-						body: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("ENERGY_FLOW_DIAGRAM.LINK")}),
+						title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("ENERGY_FLOW_DIAGRAM.LINK")}),
+						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
 				}
@@ -141,8 +141,8 @@ app.controller('EnergyFlowDiagramLinkController', function($scope,$uibModal, $tr
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.FAILURE_TITLE"),
-						body: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("ENERGY_FLOW_DIAGRAM.LINK")}),
+						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("ENERGY_FLOW_DIAGRAM.LINK")}),
+						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
 				}
@@ -176,18 +176,11 @@ app.controller('EnergyFlowDiagramLinkController', function($scope,$uibModal, $tr
 							});
 							$scope.getLinksByEnergyFlowDiagramID($scope.currentEnergyFlowDiagram.id);
               				$scope.$emit('handleEmitEnergyFlowDiagramLinkChanged');
-						} else if (angular.isDefined(response.status) && response.status === 400) {
-							toaster.pop({
-								type: "error",
-								title: $translate.instant(response.data.title),
-								body: $translate.instant(response.data.description),
-								showCloseButton: true,
-							});
 						} else {
 							toaster.pop({
 								type: "error",
-								title: $translate.instant("TOASTER.FAILURE_TITLE"),
-								body: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("ENERGY_FLOW_DIAGRAM.LINK")}),
+								title: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("ENERGY_FLOW_DIAGRAM.LINK")}),
+								body: $translate.instant(response.data.description),
 								showCloseButton: true,
 							});
 				   		}
