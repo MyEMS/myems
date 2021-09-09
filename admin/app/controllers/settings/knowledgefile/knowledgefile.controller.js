@@ -45,8 +45,8 @@ app.controller('KnowledgeFileController', function (
         'error': function (file, xhr) {
             toaster.pop({
                 type: "error",
-                title: $translate.instant("TOASTER.FAILURE_TITLE"),
-                body: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: file.name}),
+                title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: file.name}),
+                body: $translate.instant(response.data.description),
                 showCloseButton: true,
             });
         }
@@ -95,18 +95,11 @@ app.controller('KnowledgeFileController', function (
                             showCloseButton: true,
                         });
                         $scope.getAllKnowledgeFiles();
-                    } else if (angular.isDefined(response.status) && response.status === 400) {
-                        toaster.pop({
-                            type: "error",
-                            title: $translate.instant(response.data.title),
-                            body: $translate.instant(response.data.description),
-                            showCloseButton: true,
-                        });
                     } else {
                         toaster.pop({
                             type: "error",
-                            title: $translate.instant("TOASTER.FAILURE_TITLE"),
-                            body: $translate.instant("TOASTER.ERROR_DELETE_BODY", { template: $translate.instant("SETTING.KNOWLEDGEFILE") }),
+                            title: $translate.instant("TOASTER.ERROR_DELETE_BODY", { template: $translate.instant("SETTING.KNOWLEDGEFILE") }),
+                            body: $translate.instant(response.data.description),
                             showCloseButton: true,
                         });
                     }

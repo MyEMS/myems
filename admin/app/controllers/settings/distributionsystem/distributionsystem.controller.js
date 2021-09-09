@@ -32,8 +32,8 @@ app.controller('DistributionSystemController', function($scope, $translate, $uib
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.FAILURE_TITLE"),
-						body: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("DISTRIBUTION_SYSTEM.DISTRIBUTION_SYSTEM")}),
+						title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("DISTRIBUTION_SYSTEM.DISTRIBUTION_SYSTEM")}),
+						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
 				}
@@ -71,8 +71,8 @@ app.controller('DistributionSystemController', function($scope, $translate, $uib
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.FAILURE_TITLE"),
-						body: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("DISTRIBUTION_SYSTEM.DISTRIBUTION_SYSTEM")}),
+						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("DISTRIBUTION_SYSTEM.DISTRIBUTION_SYSTEM")}),
+						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
 				}
@@ -108,8 +108,8 @@ app.controller('DistributionSystemController', function($scope, $translate, $uib
 		            	} else {
 							toaster.pop({
 								type: "error",
-								title: $translate.instant("TOASTER.FAILURE_TITLE"),
-								body: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("DISTRIBUTION_SYSTEM.DISTRIBUTION_SYSTEM")}),
+								title: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("DISTRIBUTION_SYSTEM.DISTRIBUTION_SYSTEM")}),
+								body: $translate.instant(response.data.description),
 								showCloseButton: true,
 							});
 		            	}

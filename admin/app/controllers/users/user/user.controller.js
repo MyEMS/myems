@@ -57,8 +57,8 @@ app.controller('UserController', function ($scope,
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.FAILURE_TITLE"),
-						body: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("SETTING.USER") }),
+						title: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("SETTING.USER") }),
+						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
 				}
@@ -96,8 +96,8 @@ app.controller('UserController', function ($scope,
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.FAILURE_TITLE"),
-						body: $translate.instant("TOASTER.ERROR_UPDATE_BODY", { template: $translate.instant("SETTING.USER") }),
+						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", { template: $translate.instant("SETTING.USER") }),
+						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
 				}
@@ -140,8 +140,8 @@ app.controller('UserController', function ($scope,
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.FAILURE_TITLE"),
-						body: $translate.instant("TOASTER.ERROR_UPDATE_BODY", { template: $translate.instant("SETTING.USER") }),
+						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", { template: $translate.instant("SETTING.USER") }),
+						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
 				}
@@ -163,28 +163,28 @@ app.controller('UserController', function ($scope,
 			closeOnConfirm: true,
 			closeOnCancel: true
 		},
-			function (isConfirm) {
-				if (isConfirm) {
-					UserService.deleteUser(user, function (response) {
-						if (angular.isDefined(response.status) && response.status === 204) {
-							toaster.pop({
-								type: "success",
-								title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-								body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", { template: $translate.instant("SETTING.USER") }),
-								showCloseButton: true,
-							});
-							$scope.getAllUsers();
-						} else {
-							toaster.pop({
-								type: "error",
-								title: $translate.instant("TOASTER.FAILURE_TITLE"),
-								body: $translate.instant("TOASTER.ERROR_DELETE_BODY", { template: $translate.instant("SETTING.USER") }),
-								showCloseButton: true,
-							});
-						}
-					});
-				}
-			});
+		function (isConfirm) {
+			if (isConfirm) {
+				UserService.deleteUser(user, function (response) {
+					if (angular.isDefined(response.status) && response.status === 204) {
+						toaster.pop({
+							type: "success",
+							title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+							body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", { template: $translate.instant("SETTING.USER") }),
+							showCloseButton: true,
+						});
+						$scope.getAllUsers();
+					} else {
+						toaster.pop({
+							type: "error",
+							title: $translate.instant("TOASTER.ERROR_DELETE_BODY", { template: $translate.instant("SETTING.USER") }),
+							body: $translate.instant(response.data.description),
+							showCloseButton: true,
+						});
+					}
+				});
+			}
+		});
 	};
 
 	$scope.getAllUsers();

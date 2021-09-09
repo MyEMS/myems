@@ -74,8 +74,8 @@ app.controller('CombinedEquipmentParameterController', function ($scope, $uibMod
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.FAILURE_TITLE"),
-						body: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("COMBINED_EQUIPMENT.PARAMETER") }),
+						title: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("COMBINED_EQUIPMENT.PARAMETER") }),
+						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
 				}
@@ -123,8 +123,8 @@ app.controller('CombinedEquipmentParameterController', function ($scope, $uibMod
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.FAILURE_TITLE"),
-						body: $translate.instant("TOASTER.ERROR_UPDATE_BODY", { template: $translate.instant("COMBINED_EQUIPMENT.PARAMETER") }),
+						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", { template: $translate.instant("COMBINED_EQUIPMENT.PARAMETER") }),
+						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
 				}
@@ -157,18 +157,11 @@ app.controller('CombinedEquipmentParameterController', function ($scope, $uibMod
 								showCloseButton: true,
 							});
 							$scope.getParametersByCombinedEquipmentID($scope.currentCombinedEquipment.id);
-						} else if (angular.isDefined(response.status) && response.status === 400) {
-							toaster.pop({
-								type: "error",
-								title: $translate.instant(response.data.title),
-								body: $translate.instant(response.data.description),
-								showCloseButton: true,
-							});
 						} else {
 							toaster.pop({
 								type: "error",
-								title: $translate.instant("TOASTER.FAILURE_TITLE"),
-								body: $translate.instant(popBody, { template: $translate.instant("COMBINED_EQUIPMENT.PARAMETER") }),
+								title: $translate.instant(popBody, { template: $translate.instant("COMBINED_EQUIPMENT.PARAMETER") }),
+								body: $translate.instant(response.data.description),
 								showCloseButton: true,
 							});
 						}

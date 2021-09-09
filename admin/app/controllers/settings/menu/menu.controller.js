@@ -116,8 +116,8 @@ app.controller('MenuController', function ($scope, $uibModal, MenuService, toast
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.FAILURE_TITLE"),
-						body: $translate.instant("TOASTER.ERROR_UPDATE_BODY", { template: $translate.instant("COMMON.MENU") }),
+						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", { template: $translate.instant("COMMON.MENU") }),
+						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
 				}

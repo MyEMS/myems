@@ -40,8 +40,8 @@ app.controller('SensorController', function($scope,  $translate, $uibModal, Sens
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.FAILURE_TITLE"),
-						body: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("COMMON.SENSOR")}),
+						title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("COMMON.SENSOR")}),
+						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
 				}
@@ -80,8 +80,8 @@ app.controller('SensorController', function($scope,  $translate, $uibModal, Sens
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.FAILURE_TITLE"),
-						body: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("COMMON.SENSOR")}),
+						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("COMMON.SENSOR")}),
+						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
 				}
@@ -115,18 +115,11 @@ app.controller('SensorController', function($scope,  $translate, $uibModal, Sens
                             });
 							$scope.getAllSensors();
 							$scope.$emit('handleEmitSensorChanged');
-						} else if (angular.isDefined(response.status) && response.status === 400) {
-							toaster.pop({
-								type: "error",
-								title: $translate.instant(response.data.title),
-								body: $translate.instant(response.data.description),
-								showCloseButton: true,
-							});
 						} else {
 							toaster.pop({
 								type: "error",
-								title: $translate.instant("TOASTER.FAILURE_TITLE"),
-								body: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("COMMON.SENSOR")}),
+								title: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("COMMON.SENSOR")}),
+								body: $translate.instant(response.data.description),
 								showCloseButton: true,
 							});
 						}

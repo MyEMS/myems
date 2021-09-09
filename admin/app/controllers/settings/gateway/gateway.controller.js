@@ -40,8 +40,8 @@ app.controller('GatewayController', function($scope,  $translate, $uibModal, Gat
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.FAILURE_TITLE"),
-						body: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("GATEWAY.GATEWAY")}),
+						title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("GATEWAY.GATEWAY")}),
+						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
 				}
@@ -80,8 +80,8 @@ app.controller('GatewayController', function($scope,  $translate, $uibModal, Gat
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.FAILURE_TITLE"),
-						body: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("GATEWAY.GATEWAY")}),
+						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("GATEWAY.GATEWAY")}),
+						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
 				}
@@ -115,18 +115,11 @@ app.controller('GatewayController', function($scope,  $translate, $uibModal, Gat
 						});
 						$scope.getAllGateways();
 						$scope.$emit('handleEmitGatewayChanged');
-					} else if (angular.isDefined(response.status) && response.status === 400) {
-						toaster.pop({
-							type: "error",
-							title: $translate.instant(response.data.title),
-							body: $translate.instant(response.data.description),
-							showCloseButton: true,
-						});
 					} else {
 						toaster.pop({
 							type: "error",
-							title: $translate.instant("TOASTER.FAILURE_TITLE"),
-							body: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("GATEWAY.GATEWAY")}),
+							title: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("GATEWAY.GATEWAY")}),
+							body: $translate.instant(response.data.description),
 							showCloseButton: true,
 						});
 					}

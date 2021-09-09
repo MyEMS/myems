@@ -109,8 +109,8 @@ $scope.getAllEnergyItems = function() {
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.FAILURE_TITLE"),
-						body: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("SETTING.VIRTUAL_METER")}),
+						title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("SETTING.VIRTUAL_METER")}),
+						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
 				}
@@ -162,8 +162,8 @@ $scope.getAllEnergyItems = function() {
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.FAILURE_TITLE"),
-						body: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("SETTING.VIRTUAL_METER")}),
+						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("SETTING.VIRTUAL_METER")}),
+						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
 				}
@@ -197,18 +197,11 @@ $scope.getAllEnergyItems = function() {
 							});
 							$scope.getAllVirtualMeters();
 							$scope.$emit('handleEmitVirtualMeterChanged');
-						} else if (angular.isDefined(response.status) && response.status === 400) {
-							toaster.pop({
-								type: "error",
-								title: popTit$translate.instant(response.data.title),
-								body: $translate.instant(response.data.description),
-								showCloseButton: true,
-							});
 						} else {
 							toaster.pop({
 								type: "error",
-								title: $translate.instant("TOASTER.FAILURE_TITLE"),
-								body: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("SETTING.VIRTUAL_METER")}),
+								title: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("SETTING.VIRTUAL_METER")}),
+								body: $translate.instant(response.data.description),
 								showCloseButton: true,
 							});
 						}
