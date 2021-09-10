@@ -249,6 +249,7 @@ docker-compose up -d
 | Ingest from Oracle               | ❌            | ✔️        | 采集数据 https://www.oracle.com/database/ |
 | Ingest from MongoDB              | ❌            | ✔️        | 采集数据 https://www.mongodb.com/ |
 | FDD 能效故障诊断系统              | ❌            | ✔️        | 需要企业版组件许可或定制开发 |
+| 阿里云短信服务发送报警              | ❌            | ✔️        | 短信服务 https://www.aliyun.com/product/sms?userCode=8jwn6m8c |
 | 高级报表系统                      | ❌            | ✔️        | 需要企业版组件许可或定制开发 |
 | 能耗预测                         | ❌            | ✔️        | 需要企业版组件许可或定制开发 |
 | 组态图形绘制工具                  | ❌            | ✔️        | 需要企业版组件许可或定制开发 |
