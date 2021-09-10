@@ -247,6 +247,7 @@ docker-compose up -d
 | Ingest from PostgreSQL           | ❌             | ✔️        | https://www.postgresql.org/ |
 | Ingest from Oracle               | ❌             | ✔️        | https://www.oracle.com/database/ |
 | Ingest from MongoDB              | ❌             | ✔️        | https://www.mongodb.com/ |
+| Ingest from InfluxDB             | ❌             | ✔️        | https://www.influxdata.com/products/influxdb/ |
 | FDD Rule Engine                  | ❌             | ✔️        | Requires standard component license or custom development |
 | Alarm via Alibaba Cloud SMS Service| ❌           | ✔️        | https://www.aliyun.com/product/sms?userCode=8jwn6m8c |
 | Advanced Reporting Engine        | ❌             | ✔️        | Requires standard component license or custom development |
