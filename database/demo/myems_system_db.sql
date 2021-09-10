@@ -149,7 +149,13 @@ VALUES
 (4, '示例S7数据源', '9eb0d705-d02a-43f8-9c62-7e5ef508b255', 1, 's7', '{"host":"192.168.0.4", "port":102, "rack": 0, "slot": 2}'),
 (5, '示例ControlLogix数据源', 'd1dc9792-7861-4dd3-9b01-07511dae16c1', 1, 'control-logix', '{"host":"192.168.0.5","port":44818,"processorslot":3}'),
 (6, '示例OPU UA数据源', '56e1c642-8032-495b-af2e-18a77ca75e0f', 1, 'opc-ua', '{"url":"opc.tcp://192.168.0.6:49320/OPCUA/SimulationServer/"}'),
-(7, '示例天气数据源', '9bff8e95-c7c9-4002-b040-08a96ae196b5', 1, 'weather', '{"base_url":"WEATHER_API_URL", "location":"beijing", "key":"APPKEY"}');
+(7, '示例天气数据源', '9bff8e95-c7c9-4002-b040-08a96ae196b5', 1, 'weather', '{"base_url":"WEATHER_API_URL", "location":"beijing", "key":"APPKEY"}'),
+(8, '示例MySQL数据源', '409439d0-3e0a-4ab3-865a-a5c0329925f8', 1, 'mysql', '{"host":"192.168.0.8", "port":3306, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }'),
+(9, '示例SQL Server数据源', '025f0429-5088-4f2a-85a3-dff9b4523692', 1, 'sqlserver', '{"host":"192.168.0.9", "port":1433, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }'),
+(10, '示例PostgreSQL数据源', 'd89b81e6-4917-4a84-b0e9-c2e939599d3a', 1, 'postgresql', '{"host":"192.168.0.10", "port":5432, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }'),
+(11, '示例Oracle数据源', '1bdf4db8-ea71-433e-ad16-b637275073d7', 1, 'oracle', '{"host":"192.168.0.11", "port":1521, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }'),
+(12, '示例MongoDB数据源', 'c211fbad-d1d4-465c-bdf5-242f5593682e', 1, 'mongodb', '{"host":"192.168.0.12", "port":27017, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }'),
+(13, '示例InfluxDB数据源', '79cb60ff-c683-4289-ac69-bd13e1f970d1', 1, 'mongodb', '{"host":"192.168.0.13", "port":8086, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }');
 COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
