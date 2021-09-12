@@ -582,6 +582,15 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "New Request",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": null
+							},
+							"response": []
 						}
 					]
 				},
@@ -2693,37 +2702,37 @@
 					]
 				},
 				{
-					"name": "GSM Modem",
+					"name": "Aliyun SMS API",
 					"item": [
 						{
-							"name": "GET All GSM Modems",
+							"name": "GET All Aliyun SMS APIs",
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/gsmmodems",
+									"raw": "{{base_url}}/aliyunsmsapis",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"gsmmodems"
+										"aliyunsmsapis"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "GET a GSM Modem by ID",
+							"name": "GET an Aliyun SMS API by ID",
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/gsmmodems/1",
+									"raw": "{{base_url}}/aliyunsmsapis/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"gsmmodems",
+										"aliyunsmsapis",
 										"1"
 									]
 								}
@@ -2731,38 +2740,42 @@
 							"response": []
 						},
 						{
-							"name": "POST Create New GSM Modem",
+							"name": "POST Create New Aliyun SMS API",
 							"request": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"serial_port\":\"/dev/ttyS1\",\"baud_rate\":115200}}"
+									"raw": "{\"data\":{\"access_key_id\":\"xTAI5t8KUj8jXXXXXXXXXXXX\",\"access_key_secret\":\"fXXjFLA7GeXXXXXXXXXXXXXXXXXXXX\",\"endpoint\":\"https://dysmsapi.aliyuncs.com\",\"sign_name\":\"MYEMS\",\"template_code\":\"SMS_153055065\"}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/gsmmodems",
+									"raw": "{{base_url}}/aliyunsmsapis",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"gsmmodems"
+										"aliyunsmsapis"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "PUT Update a GSM Modem",
+							"name": "PUT Update an Aliyun SMS API",
 							"request": {
 								"method": "PUT",
 								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"access_key_id\":\"LTAI5t8KUj8jXXXXXXXXXXXX\",\"access_key_secret\":\"fXXjFLA7GeXXXXXXXXXXXXXXXXXXXX\",\"endpoint\":\"https://dysmsapi.aliyuncs.com\",\"sign_name\":\"MYEMS\",\"template_code\":\"SMS_153055065\"}}"
+								},
 								"url": {
-									"raw": "{{base_url}}/gsmmodems/1",
+									"raw": "{{base_url}}/aliyunsmsapis/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"gsmmodems",
+										"aliyunsmsapis",
 										"1"
 									]
 								}
@@ -2770,17 +2783,17 @@
 							"response": []
 						},
 						{
-							"name": "DELETE a GSM Modem by ID",
+							"name": "DELETE an Aliyun SMS API by ID",
 							"request": {
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/gsmmodems/2",
+									"raw": "{{base_url}}/aliyunsmsapis/2",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"gsmmodems",
+										"aliyunsmsapis",
 										"2"
 									]
 								}
