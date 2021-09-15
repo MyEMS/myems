@@ -136,18 +136,24 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
     ws['B6'].font = name_font
     ws['B6'].alignment = c_c_alignment
     ws['B6'].fill = table_fill
-    ws['B6'] = '名称'
+    ws['B6'] = 'ID'
 
     ws['C6'].border = f_border
-    ws['C6'].alignment = c_c_alignment
     ws['C6'].font = name_font
+    ws['C6'].alignment = c_c_alignment
     ws['C6'].fill = table_fill
-    ws['C6'] = '空间'
+    ws['C6'] = 'Name'
+
+    ws['D6'].border = f_border
+    ws['D6'].alignment = c_c_alignment
+    ws['D6'].font = name_font
+    ws['D6'].fill = table_fill
+    ws['D6'] = 'Space'
 
     ca_len = len(report['energycategories'])
 
     for i in range(0, ca_len):
-        col = chr(ord('D') + i)
+        col = chr(ord('E') + i)
         ws[col + '6'].fill = table_fill
         ws[col + '6'].font = name_font
         ws[col + '6'].alignment = c_c_alignment
@@ -157,20 +163,24 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
 
     current_row_number = 7
     for i in range(0, len(report['meters'])):
-
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)].border = f_border
         ws['B' + str(current_row_number)].alignment = c_c_alignment
-        ws['B' + str(current_row_number)] = report['meters'][i]['meter_name']
+        ws['B' + str(current_row_number)] = str(report['meters'][i]['id'])
 
         ws['C' + str(current_row_number)].font = title_font
         ws['C' + str(current_row_number)].border = f_border
         ws['C' + str(current_row_number)].alignment = c_c_alignment
-        ws['C' + str(current_row_number)] = report['meters'][i]['space_name']
+        ws['C' + str(current_row_number)] = report['meters'][i]['meter_name']
+
+        ws['D' + str(current_row_number)].font = title_font
+        ws['D' + str(current_row_number)].border = f_border
+        ws['D' + str(current_row_number)].alignment = c_c_alignment
+        ws['D' + str(current_row_number)] = report['meters'][i]['space_name']
 
         ca_len = len(report['meters'][i]['values'])
         for j in range(0, ca_len):
-            col = chr(ord('D') + j)
+            col = chr(ord('E') + j)
             ws[col + str(current_row_number)].font = data_font
             ws[col + str(current_row_number)].border = f_border
             ws[col + str(current_row_number)].alignment = c_c_alignment
