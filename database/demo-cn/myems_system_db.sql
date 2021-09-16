@@ -104,8 +104,8 @@ START TRANSACTION;
 USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_contacts`(`id`, `name`, `uuid`, `email`, `phone`, `description`)
 VALUES
-(1, 'John', '5c5ce6e8-8d00-46b3-9602-4e1520a8b43f',  'john@myems.io', '+8613888888888', 'Building #1'),
-(2, 'Sample Tenant', '102b654d-e831-4365-bb1e-dbd55e897851',  'sample.tenant@myems.io', '+8613666666666', 'Sample Tenant');
+(1, '江工', '5c5ce6e8-8d00-46b3-9602-4e1520a8b43f',  'john@myems.io', '+8613888888888', '一号楼'),
+(2, '江老板', '102b654d-e831-4365-bb1e-dbd55e897851',  'sample.tenant@myems.io', '+8613666666666', '主力租户');
 COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -391,8 +391,8 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_gateways`
 (`id`, `name`, `uuid`, `token`,  `last_seen_datetime_utc`)
 VALUES
-(1, 'MyEMS Gateway 1', 'dc681934-5053-4660-98ed-266c54227231', '983427af-1c35-42ba-8b4d-288675550225', null),
-(2, 'MyEMS Gateway 2', '8f75c0ab-9296-49c7-9058-8139febd0c31', 'd3860971-e6e0-4c98-9eba-5492869c5b19', null);
+(1, '网关1', 'dc681934-5053-4660-98ed-266c54227231', '983427af-1c35-42ba-8b4d-288675550225', null),
+(2, '网关2', '8f75c0ab-9296-49c7-9058-8139febd0c31', 'd3860971-e6e0-4c98-9eba-5492869c5b19', null);
 
 COMMIT;
 
@@ -409,9 +409,9 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_meters`
 (`id`, `name`, `uuid`, `energy_category_id`, `is_counted`, `hourly_low_limit`, `hourly_high_limit`, `cost_center_id`, `energy_item_id`, `master_meter_id`, `description`)
 VALUES
-(1, '示例表1', '5ca47bc5-22c2-47fc-b906-33222191ea40', 1, true, 0.000, 999.999, 1, 1, null, 'meter1'),
-(2, '示例表2', '5ca47bc5-22c2-47fc-b906-33222191ea40', 1, true, 0.000, 999.999, 1, 1, 1,  'meter2'),
-(3, '示例表3', '6db58cd6-33d3-58ed-a095-22333202fb51', 1, true, 0.000, 999.999, 1, 1, 1,  'meter3');
+(1, '计量表1', '5ca47bc5-22c2-47fc-b906-33222191ea40', 1, true, 0.000, 999.999, 1, 1, null, 'meter1'),
+(2, '计量表2', '719acf65-b932-4176-94e5-e9fe420abc68', 1, true, 0.000, 999.999, 1, 1, 1,  'meter2'),
+(3, '计量表3', '6db58cd6-33d3-58ed-a095-22333202fb51', 1, true, 0.000, 999.999, 1, 1, 1,  'meter3');
 
 COMMIT;
 
@@ -436,7 +436,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_offline_meters`
 (`id`, `name`, `uuid`, `energy_category_id`, `is_counted`, `hourly_low_limit`, `hourly_high_limit`, `cost_center_id`, `energy_item_id`, `description`)
 VALUES
-(1, '示例离线表', '62f473e0-1a35-41f3-9c30-8110d75d65bb', 1, true, 0.0, 999.999, 1, 1, 'offlinemeter1');
+(1, '离线表1', '62f473e0-1a35-41f3-9c30-8110d75d65bb', 1, true, 0.0, 999.999, 1, 1, 'offlinemeter1');
 
 COMMIT;
 
@@ -469,7 +469,7 @@ VALUES
 (5, 'Power Factor a', 1, 'ANALOG_VALUE',  'W', 1, 0, 1.000, true,
   '{\"slave_id\":1, \"function_code\":3, \"offset\":37, \"number_of_registers\":2, \"format\":\"=f\", \"byte_swap\":false}', null),
 
-(6, '示例ModbusTCP数据点6', 2, 'ENERGY_VALUE',  'Wh', 99999999999, 0, 1.000, true,
+(6, 'ModbusTCP示例数据点6', 2, 'ENERGY_VALUE',  'Wh', 99999999999, 0, 1.000, true,
   '{\"slave_id\":1, \"function_code\":3, \"offset\":40001, \"number_of_registers\":2, \"format\":\"=f\", \"byte_swap\":false}', null),
 
 (7, '示例数据点7', 2, 'ANALOG_VALUE',  'V', 690, 0, 1.000, true,
@@ -496,7 +496,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_sensors`
 (`id`, `name`, `uuid`, `description`)
 VALUES
-(1, '示例传感器', 'ba450606-6f39-41e0-8caf-75b528635511', 'sensor description');
+(1, '传感器1', 'ba450606-6f39-41e0-8caf-75b528635511', 'sensor description');
 
 COMMIT;
 
@@ -521,7 +521,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_shopfloors`
 (`id`, `name`, `uuid` , `area`, `contact_id`, `is_input_counted`,  `cost_center_id`, `description`)
 VALUES
-(1, 'MyEMS Shopfloor', 'd03837fd-9d30-44fe-9443-154f7c7e15f1',  99999.999, 1, true, 1,  'MyEMS Project');
+(1, '车间1', 'd03837fd-9d30-44fe-9443-154f7c7e15f1',  99999.999, 1, true, 1,  'MyEMS Project');
 COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -598,10 +598,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_shopfloors_points`
 (`id`, `shopfloor_id`, `point_id`)
 VALUES
-(1, 3, 2000001),
-(2, 3, 2000002),
-(3, 3, 2000003),
-(4, 3, 2000006);
+(1, 1, 1);
 
 COMMIT;
 
@@ -614,8 +611,9 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_spaces`
 (`id`, `name`, `uuid`, `parent_space_id`, `area`, `timezone_id`, `contact_id`, `is_input_counted`, `is_output_counted`, `cost_center_id`, `description`)
 VALUES
-(2, 'MyEMS Building #1', '8f25b33b-db93-49b3-b0f8-b01e0c19df29', 1, 88888.888, 56, 1, true, true, 1,  'MyEMS Project'),
-(3, 'MyEMS Building #2', '195d7ea8-17b4-4e9c-bb37-546428155438', 1, 66666.666, 56, 1, true, true, 1, 'MyEMS Project');
+(2, '1号楼', '8f25b33b-db93-49b3-b0f8-b01e0c19df29', 1, 88888.888, 56, 1, true, true, 1,  'MyEMS Project'),
+(3, '2号楼', '195d7ea8-17b4-4e9c-bb37-546428155438', 1, 66666.666, 56, 1, true, true, 1, 'MyEMS Project'),
+(10000, '调试空间', '2c44a292-eb0c-49a3-a50e-4fc03858dc0c', 1, 88888.888, 56, 1, true, true, 1,  'MyEMS Project');
 COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -627,7 +625,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_spaces_combined_equipments`
 (`id`, `space_id`, `combined_equipment_id`)
 VALUES
-(1, 1, 1);
+(1, 10000, 1);
 
 COMMIT;
 
@@ -640,7 +638,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_spaces_equipments`
 (`id`, `space_id`, `equipment_id`)
 VALUES
-(1, 1, 1);
+(1, 10000, 1);
 
 COMMIT;
 
@@ -653,7 +651,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_spaces_meters`
 (`id`, `space_id`, `meter_id`)
 VALUES
-(1, 1, 1);
+(1, 10000, 1);
 
 COMMIT;
 
@@ -666,7 +664,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_spaces_offline_meters`
 (`id`, `space_id`, `offline_meter_id`)
 VALUES
-(1, 1, 1);
+(1, 10000, 1);
 
 COMMIT;
 
@@ -679,7 +677,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_spaces_sensors`
 (`id`, `space_id`, `sensor_id`)
 VALUES
-(1, 1, 1);
+(1, 10000, 1);
 
 COMMIT;
 
@@ -692,7 +690,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_spaces_shopfloors`
 (`id`, `space_id`, `shopfloor_id`)
 VALUES
-(1, 1, 1);
+(1, 10000, 1);
 
 COMMIT;
 
@@ -705,7 +703,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_spaces_stores`
 (`id`, `space_id`, `store_id`)
 VALUES
-(1, 1, 1);
+(1, 10000, 1);
 
 COMMIT;
 
@@ -718,7 +716,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_spaces_tenants`
 (`id`, `space_id`, `tenant_id`)
 VALUES
-(1, 1, 1);
+(1, 10000, 1);
 
 COMMIT;
 
@@ -731,7 +729,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_spaces_virtual_meters`
 (`id`, `space_id`, `virtual_meter_id`)
 VALUES
-(1, 1, 1);
+(1, 10000, 1);
 
 COMMIT;
 
@@ -744,10 +742,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_spaces_points`
 (`id`, `space_id`, `point_id`)
 VALUES
-(1, 3, 2000001),
-(2, 3, 2000002),
-(3, 3, 2000003),
-(4, 3, 2000006);
+(1, 10000, 1);
 
 COMMIT;
 
@@ -938,9 +933,9 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_store_types`
 (`id`, `name`, `uuid`, `description`, `simplified_code`)
 VALUES
-(1, 'Restaurant', '494d7d5e-e139-4629-b957-99ea4caf0401', '餐饮', 'RS'),
-(2, 'Retail', '1f556579-9d5c-45ce-9bd8-f2dc1d033470', '零售', 'RT'),
-(3, 'Hotel', 'cae697aa-ceca-435d-91bf-492b46607eb0', '酒店', 'HT');
+(1, '餐饮', '494d7d5e-e139-4629-b957-99ea4caf0401', '餐饮', 'RS'),
+(2, '零售', '1f556579-9d5c-45ce-9bd8-f2dc1d033470', '零售', 'RT'),
+(3, '酒店', 'cae697aa-ceca-435d-91bf-492b46607eb0', '酒店', 'HT');
 
 COMMIT;
 
@@ -979,10 +974,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_stores_points`
 (`id`, `store_id`, `point_id`)
 VALUES
-(1, 3, 2000001),
-(2, 3, 2000002),
-(3, 3, 2000003),
-(4, 3, 2000006);
+(1, 1, 1);
 
 COMMIT;
 
@@ -1082,10 +1074,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_tenants_points`
 (`id`, `tenant_id`, `point_id`)
 VALUES
-(1, 3, 2000001),
-(2, 3, 2000002),
-(3, 3, 2000003),
-(4, 3, 2000006);
+(1, 1, 1);
 
 COMMIT;
 
@@ -1124,7 +1113,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_virtual_meters`
 (`id`, `name`, `uuid`, `energy_category_id`, `is_counted`, `cost_center_id`, `energy_item_id`, `description`)
 VALUES
-(1, '示例虚拟表', '3fff2cfb-f755-44c8-a919-6135205a8573', 1, true, 1, 1, 'virtual description');
+(1, '虚拟表1', '3fff2cfb-f755-44c8-a919-6135205a8573', 1, true, 1, 1, 'virtual description');
 
 COMMIT;
 
@@ -1137,9 +1126,8 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_variables`
 (`id`, `name`, `expression_id`, `meter_type`, `meter_id`)
 VALUES
-(1, 'x', 1, 'meter', 1),
-(2, 'y', 1, 'meter', 2),
-(3, 'z', 1, 'meter', 3);
+(1, 'x1', 1, 'meter', 1),
+(2, 'x2', 1, 'meter', 2),
+(3, 'x3', 1, 'meter', 3);
 
 COMMIT;
-
