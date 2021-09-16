@@ -43,6 +43,16 @@ character-set-client-handshake = FALSE
 character-set-server = utf8mb4
 collation-server = utf8mb4_unicode_ci
 ```
+#### Fix MySQL Error: Got a packet bigger than 'max_allowed_packet' bytes
+Change the my.cnf or my.ini file (usually found in /etc/mysql/) under the mysqld section and set:
+```
+max_allowed_packet=100M
+```
+or you could run these commands in a MySQL console connected to that same server:
+```
+set global net_buffer_length=1000000;
+set global max_allowed_packet=1000000000;
+```
 
 ### Database Definition
 
