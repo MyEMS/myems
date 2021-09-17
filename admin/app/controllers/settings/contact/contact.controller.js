@@ -68,7 +68,7 @@ app.controller('ContactController', function($scope, $translate,$uibModal, Conta
 
 		modalInstance.result.then(function (modifiedContact) {
 	        ContactService.editContact(modifiedContact, function (response) {
-	            if(angular.isDefined(response.status) && response.status === 200200){
+	            if(angular.isDefined(response.status) && response.status === 200){
 					toaster.pop({
 						type: "success",
 						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
