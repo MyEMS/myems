@@ -167,7 +167,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_distribution_circuits`
 (`id`, `name`, `uuid`, `distribution_system_id`, `distribution_room`, `switchgear`, `peak_load`, `peak_current`, `customers`, `meters`)
 VALUES
-(1, '51W91', '52f7abe1-ba0e-47a6-a327-4faac42a1d11', 1, 'EW1', '51AL9', 30, 53.6, '地下室应急照明', 'ALE-1102, ALE-1082');
+(1, 'AHa01', '52f7abe1-ba0e-47a6-a327-4faac42a1d11', 1, '1ES', 'AHa01', 5100, 1250, '11#电源进线1WHj2', 'AHa01');
 
 COMMIT;
 
