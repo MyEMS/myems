@@ -1947,13 +1947,13 @@ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"Hawaiian
 ```
 
 ### User
-*   GET User by ID
-```bash
-curl -i -X GET {{base_url}}/users/{id}
-```
 *   GET All Users
 ```bash
 curl -i -X GET {{base_url}}/users
+```
+*   GET a User by ID
+```bash
+curl -i -X GET {{base_url}}/users/{id}
 ```
 *   DELETE User by id
 ```bash
@@ -1961,11 +1961,11 @@ curl -i -X DELETE {{base_url}}/users/{id}
 ```
 *   POST New User
 ```bash
-curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"albert", "display_name":"Mr. Albert", "email":"albert@myems.io", "is_admin":false, "password":"!MyEMS1"}}' {{base_url}}/users
+curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"albert", "display_name":"Mr. Albert", "email":"albert@myems.io", "is_admin":false, "password":"!MyEMS1", "account_expiration_datetime":"2100-01-01T00:00:00", "password_expiration_datetime":"2100-01-01T00:00:00"}}' {{base_url}}/users
 ```
 *   PUT User Profile
 ```bash
-curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"albert", "display_name":"Mr. Albert", "email":"albert@myems.io", "is_admin":false, "privilege_id":1, "password":"!MyEMS1"}}' {{base_url}}/users/{id}
+curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"albert", "display_name":"Mr. Albert", "email":"albert@myems.io", "is_admin":false, "privilege_id":1, "password":"!MyEMS1", "account_expiration_datetime":"2100-01-01T00:00:00", "password_expiration_datetime":"2100-01-01T00:00:00"}}' {{base_url}}/users/{id}
 ```
 *   PUT User Login by Username
 ```bash
