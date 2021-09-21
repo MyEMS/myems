@@ -6602,13 +6602,34 @@
 							"response": []
 						},
 						{
+							"name": "Get a User by ID",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/users/2",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "POST Create New User",
 							"request": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"albert\", \"display_name\":\"Mr. Albert\", \"email\":\"albert@myems.io\", \"is_admin\":false, \"privilege_id\":1, \"password\":\"!MyEMS1\"}}"
+									"raw": "{\"data\":{\"name\":\"albert1\", \"display_name\":\"Mr. Albert\", \"email\":\"albert1@myems.io\", \"is_admin\":false, \"privilege_id\":1, \"password\":\"!MyEMS1\", \"account_expiration_datetime\":\"2100-01-01T00:00:00\",\"password_expiration_datetime\":\"2100-01-01T00:00:00\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/users",
@@ -6669,7 +6690,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"albert\", \"display_name\":\"Mr. Albert\", \"email\":\"albert@myems.io\", \"is_admin\":false, \"privilege_id\":1, \"password\":\"!MyEMS1\"}}"
+									"raw": "{\"data\":{\"name\":\"albert\", \"display_name\":\"Mr. Albert\", \"email\":\"albert@myems.io\", \"is_admin\":false, \"privilege_id\":1, \"password\":\"!MyEMS1\", \"account_expiration_datetime\":\"2100-01-01T00:00:00\",\"password_expiration_datetime\":\"2100-01-01T00:00:00\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/users/2",
@@ -6725,60 +6746,7 @@
 									]
 								}
 							},
-							"response": [
-								{
-									"name": "User Logout",
-									"originalRequest": {
-										"method": "PUT",
-										"header": [],
-										"url": {
-											"raw": "{{base_url}}/users/logout",
-											"host": [
-												"{{base_url}}"
-											],
-											"path": [
-												"users",
-												"logout"
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Server",
-											"value": "gunicorn/19.9.0"
-										},
-										{
-											"key": "Date",
-											"value": "Thu, 19 Mar 2020 01:31:00 GMT"
-										},
-										{
-											"key": "Connection",
-											"value": "close"
-										},
-										{
-											"key": "content-length",
-											"value": "0"
-										},
-										{
-											"key": "content-type",
-											"value": "application/json; charset=UTF-8"
-										},
-										{
-											"key": "set-cookie",
-											"value": "user_uuid=\"\"; Domain=127.0.0.1; Path=/"
-										},
-										{
-											"key": "set-cookie",
-											"value": "token=\"\"; Domain=127.0.0.1; Path=/"
-										}
-									],
-									"cookie": [],
-									"body": ""
-								}
-							]
+							"response": []
 						},
 						{
 							"name": "User Change Password",
