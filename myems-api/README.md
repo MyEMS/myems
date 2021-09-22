@@ -1247,8 +1247,8 @@ Result in JSON
 | expression    | string    | JSON string of diagnosed objects, points, values, and recipients |
 | message_template | string | Plain text template that supports $-substitutions |
 | is_enabled    | boolean   | Indicates if this rule is enabled         |
-| last_run_datetime | float | null, or the number of milliseconds since January 1, 1970, 00:00:00, universal time |
-| next_run_datetime | float | null, or the number of milliseconds since January 1, 1970, 00:00:00, universal time |
+| last_run_datetime | float | null, or the last run datetime string in local timezone |
+| next_run_datetime | float | null, or the next run datetime string in local timezone |
 
 ```bash
 curl -i -X GET {{base_url}}/rules/{id}
