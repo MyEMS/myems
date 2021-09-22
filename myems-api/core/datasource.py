@@ -3,7 +3,7 @@ import simplejson as json
 import mysql.connector
 import config
 import uuid
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from core.userlogger import user_logger
 
 
@@ -41,18 +41,26 @@ class DataSourceCollection:
         cursor.close()
         cnx.disconnect()
 
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
+
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
+                if isinstance(row['last_seen_datetime_utc'], datetime):
+                    last_seen_datetime_local = row['last_seen_datetime_utc'].replace(tzinfo=timezone.utc) + \
+                                               timedelta(minutes=timezone_offset)
+                    last_seen_datetime = last_seen_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                else:
+                    last_seen_datetime = None
                 meta_result = {"id": row['id'],
                                "name": row['name'],
                                "uuid": row['uuid'],
                                "gateway": gateway_dict.get(row['gateway_id']),
                                "protocol": row['protocol'],
                                "connection": row['connection'],
-                               "last_seen_datetime":
-                                   row['last_seen_datetime_utc'].replace(tzinfo=timezone.utc).timestamp()*1000
-                                   if isinstance(row['last_seen_datetime_utc'], datetime) else None
+                               "last_seen_datetime": last_seen_datetime
                                }
 
                 result.append(meta_result)
@@ -192,15 +200,24 @@ class DataSourceItem:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DATA_SOURCE_NOT_FOUND')
 
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
+
+        if isinstance(row['last_seen_datetime_utc'], datetime):
+            last_seen_datetime_local = row['last_seen_datetime_utc'].replace(tzinfo=timezone.utc) + \
+                timedelta(minutes=timezone_offset)
+            last_seen_datetime = last_seen_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+        else:
+            last_seen_datetime = None
+
         result = {"id": row['id'],
                   "name": row['name'],
                   "uuid": row['uuid'],
                   "gateway": gateway_dict.get(row['gateway_id']),
                   "protocol": row['protocol'],
                   "connection": row['connection'],
-                  "last_seen_datetime":
-                      row['last_seen_datetime_utc'].replace(tzinfo=timezone.utc).timestamp()*1000
-                      if isinstance(row['last_seen_datetime_utc'], datetime) else None
+                  "last_seen_datetime": last_seen_datetime
                   }
 
         resp.body = json.dumps(result)
