@@ -120,12 +120,11 @@
 												download="{{costfile.file_name}}">{{ costfile.file_name }}</a>
 										</td>
 										<td class="text-center">{{ costfile.status }}</td>
-										<td class="text-center">{{ costfile.upload_datetime | date:'yyyy-MM-dd HH:mm'}}</td>
-
+										<td class="text-center">{{ costfile.upload_datetime}}</td>
 										<td class="text-center">
 											<a ng-click="restoreCostFile(costfile)"
 												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.RESTORE' | translate}}</a>
-											<a ng-click="deleteCostFile(costfile)" 
+											<a ng-click="deleteCostFile(costfile)"
 												class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
 										</td>
 									</tr>
