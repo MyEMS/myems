@@ -158,9 +158,8 @@ app.controller('ModalAddTariffCtrl', function($scope, $timeout, $uibModalInstanc
 	$scope.dtOptions = {
 		locale:{
 			format: 'YYYY-MM-DD HH:mm:ss',
-			applyLabel: "确定",
-			cancelLabel: "取消",
-			customRangeLabel: "自定义",
+			applyLabel: "OK",
+			cancelLabel: "Cancel",
 		},
 		timePicker: true,
 		timePicker24Hour: true,
@@ -240,9 +239,8 @@ app.controller('ModalEditTariffCtrl', function($scope, $timeout, $uibModalInstan
 	$scope.dtOptions = {
 		locale:{
 			format: 'YYYY-MM-DD HH:mm:ss',
-			applyLabel: "确定",
-			cancelLabel: "取消",
-			customRangeLabel: "自定义",
+			applyLabel: "OK",
+			cancelLabel: "Cancel",
 		},
 		timePicker: true,
 		timePicker24Hour: true,

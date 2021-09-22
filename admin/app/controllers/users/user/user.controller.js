@@ -1,12 +1,12 @@
 'use strict';
 
-app.controller('UserController', function ($scope, 
+app.controller('UserController', function ($scope,
 	$window,
-	$uibModal, 
-	UserService, 
-	PrivilegeService, 
-	toaster, 
-	$translate, 
+	$uibModal,
+	UserService,
+	PrivilegeService,
+	toaster,
+	$translate,
 	SweetAlert) {
 
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
@@ -123,7 +123,7 @@ app.controller('UserController', function ($scope,
 
 		modalInstance.result.then(function (modifiedUser) {
 			let data = {
-				name: modifiedUser.name, 
+				name: modifiedUser.name,
 				password: modifiedUser.password };
 
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -190,7 +190,6 @@ app.controller('UserController', function ($scope,
 	$scope.getAllUsers();
 	$scope.getAllPrivileges();
 
-
 });
 
 app.controller('ModalAddUserCtrl', function ($scope, $uibModalInstance, params) {
@@ -198,12 +197,27 @@ app.controller('ModalAddUserCtrl', function ($scope, $uibModalInstance, params) 
 	$scope.operation = "USER.ADD_USER";
 	$scope.privileges = params.privileges;
 	$scope.user = {
-		is_admin: false
+		is_admin: false,
+		account_expiration_datetime:moment(),
+        password_expiration_datetime:moment()
 	};
+	$scope.dtOptions = {
+        locale:{
+            format: 'YYYY-MM-DD HH:mm:ss',
+            applyLabel: "OK",
+            cancelLabel: "Cancel",
+        },
+        timePicker: true,
+        timePicker24Hour: true,
+        timePickerIncrement: 15,
+        singleDatePicker: true,
+    };
 	$scope.ok = function () {
 		if ($scope.user.is_admin) {
 			$scope.user.privilege_id = undefined;
 		}
+		$scope.user.account_expiration_datetime = $scope.user.account_expiration_datetime.format().slice(0,19);
+        $scope.user.password_expiration_datetime = $scope.user.password_expiration_datetime.format().slice(0,19);
 		$uibModalInstance.close($scope.user);
 	};
 
@@ -213,7 +227,7 @@ app.controller('ModalAddUserCtrl', function ($scope, $uibModalInstance, params) 
 });
 
 app.controller('ModalEditUserCtrl', function ($scope, $uibModalInstance, params) {
-	
+
 	$scope.operation = "USER.EDIT_USER";
 	$scope.user = params.user;
 	$scope.privileges = params.privileges;
@@ -222,11 +236,24 @@ app.controller('ModalEditUserCtrl', function ($scope, $uibModalInstance, params)
 	} else {
 		$scope.user.privilege_id = undefined;
 	}
+	$scope.dtOptions = {
+        locale: {
+            format: 'YYYY-MM-DD HH:mm:ss',
+            applyLabel: "OK",
+            cancelLabel: "Cancel",
+        },
+        timePicker: true,
+        timePicker24Hour: true,
+        timePickerIncrement: 15,
+        singleDatePicker: true,
+    };
 	$scope.ok = function () {
 		if ($scope.user.is_admin) {
 			$scope.user.privilege_id = undefined;
 		}
-		$uibModalInstance.close($scope.user);
+		$scope.user.account_expiration_datetime = moment($scope.user.account_expiration_datetime).format().slice(0,19);
+        $scope.user.password_expiration_datetime = moment($scope.user.password_expiration_datetime).format().slice(0,19);
+        $uibModalInstance.close($scope.user);
 	};
 
 	$scope.cancel = function () {
