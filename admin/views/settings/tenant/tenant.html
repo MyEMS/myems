@@ -48,9 +48,9 @@
 										</td>
 										<td class="text-center">{{ tenant.lease_number }}</td>
 										<td class="text-center">
-											{{ tenant.lease_start_datetime_utc  | date:'yyyy-MM-ddTHH:mm:ss' }}</td>
+											{{ tenant.lease_start_datetime }}</td>
 										<td class="text-center">
-											{{ tenant.lease_end_datetime_utc  | date:'yyyy-MM-ddTHH:mm:ss' }}</td>
+											{{ tenant.lease_end_datetime }}</td>
 										<td class="text-center">
 											{{ tenant.is_in_lease==false?'SETTING.NO':'SETTING.YES' | translate }}</td>
 										<td class="text-center">{{tenant.cost_center.name}}</td>

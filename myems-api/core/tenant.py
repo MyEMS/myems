@@ -68,6 +68,10 @@ class TenantCollection:
         cursor.execute(query)
         rows_spaces = cursor.fetchall()
 
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
+
         result = list()
         if rows_spaces is not None and len(rows_spaces) > 0:
             for row in rows_spaces:
@@ -75,8 +79,10 @@ class TenantCollection:
                 contact = contact_dict.get(row['contact_id'], None)
                 cost_center = cost_center_dict.get(row['cost_center_id'], None)
 
-                lease_start_datetime_utc = row['lease_start_datetime_utc'].replace(tzinfo=timezone.utc)
-                lease_end_datetime_utc = row['lease_end_datetime_utc'].replace(tzinfo=timezone.utc)
+                lease_start_datetime_local = row['lease_start_datetime_utc'].replace(tzinfo=timezone.utc) + \
+                    timedelta(minutes=timezone_offset)
+                lease_end_datetime_local = row['lease_end_datetime_utc'].replace(tzinfo=timezone.utc) + \
+                    timedelta(minutes=timezone_offset)
 
                 meta_result = {"id": row['id'],
                                "name": row['name'],
@@ -89,8 +95,8 @@ class TenantCollection:
                                "is_input_counted": bool(row['is_input_counted']),
                                "is_key_tenant": bool(row['is_key_tenant']),
                                "lease_number": row['lease_number'],
-                               "lease_start_datetime_utc": lease_start_datetime_utc.timestamp() * 1000,
-                               "lease_end_datetime_utc": lease_end_datetime_utc.timestamp() * 1000,
+                               "lease_start_datetime": lease_start_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
+                               "lease_end_datetime": lease_end_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
                                "is_in_lease": bool(row['is_in_lease']),
                                "contact": contact,
                                "cost_center": cost_center,
@@ -184,12 +190,12 @@ class TenantCollection:
             timezone_offset = -timezone_offset
 
         # todo: validate datetime values
-        lease_start_datetime_utc = datetime.strptime(new_values['data']['lease_start_datetime_utc'],
+        lease_start_datetime_utc = datetime.strptime(new_values['data']['lease_start_datetime'],
                                                      '%Y-%m-%dT%H:%M:%S')
         lease_start_datetime_utc = lease_start_datetime_utc.replace(tzinfo=timezone.utc)
         lease_start_datetime_utc -= timedelta(minutes=timezone_offset)
 
-        lease_end_datetime_utc = datetime.strptime(new_values['data']['lease_end_datetime_utc'],
+        lease_end_datetime_utc = datetime.strptime(new_values['data']['lease_end_datetime'],
                                                    '%Y-%m-%dT%H:%M:%S')
         lease_end_datetime_utc = lease_end_datetime_utc.replace(tzinfo=timezone.utc)
         lease_end_datetime_utc -= timedelta(minutes=timezone_offset)
@@ -364,6 +370,14 @@ class TenantItem:
             tenant_type = tenant_type_dict.get(row['tenant_type_id'], None)
             contact = contact_dict.get(row['contact_id'], None)
             cost_center = cost_center_dict.get(row['cost_center_id'], None)
+            timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+            if config.utc_offset[0] == '-':
+                timezone_offset = -timezone_offset
+            lease_start_datetime_local = row['lease_start_datetime_utc'].replace(tzinfo=timezone.utc) + \
+                timedelta(minutes=timezone_offset)
+            lease_end_datetime_local = row['lease_end_datetime_utc'].replace(tzinfo=timezone.utc) + \
+                timedelta(minutes=timezone_offset)
+
             meta_result = {"id": row['id'],
                            "name": row['name'],
                            "uuid": row['uuid'],
@@ -375,8 +389,8 @@ class TenantItem:
                            "is_input_counted": bool(row['is_input_counted']),
                            "is_key_tenant": bool(row['is_key_tenant']),
                            "lease_number": row['lease_number'],
-                           "lease_start_datetime_utc": row['lease_start_datetime_utc'].timestamp() * 1000,
-                           "lease_end_datetime_utc": row['lease_end_datetime_utc'].timestamp() * 1000,
+                           "lease_start_datetime": lease_start_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
+                           "lease_end_datetime": lease_end_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
                            "is_in_lease": bool(row['is_in_lease']),
                            "contact": contact,
                            "cost_center": cost_center,
@@ -575,12 +589,12 @@ class TenantItem:
             timezone_offset = -timezone_offset
 
         # todo: validate datetime values
-        lease_start_datetime_utc = datetime.strptime(new_values['data']['lease_start_datetime_utc'],
+        lease_start_datetime_utc = datetime.strptime(new_values['data']['lease_start_datetime'],
                                                      '%Y-%m-%dT%H:%M:%S')
         lease_start_datetime_utc = lease_start_datetime_utc.replace(tzinfo=timezone.utc)
         lease_start_datetime_utc -= timedelta(minutes=timezone_offset)
 
-        lease_end_datetime_utc = datetime.strptime(new_values['data']['lease_end_datetime_utc'],
+        lease_end_datetime_utc = datetime.strptime(new_values['data']['lease_end_datetime'],
                                                    '%Y-%m-%dT%H:%M:%S')
         lease_end_datetime_utc = lease_end_datetime_utc.replace(tzinfo=timezone.utc)
         lease_end_datetime_utc -= timedelta(minutes=timezone_offset)
