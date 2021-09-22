@@ -60,13 +60,10 @@ class KnowledgeFileCollection:
                 base64_message = base64_encoded_data.decode('utf-8')
                 upload_datetime_local = row['upload_datetime_utc'].replace(tzinfo=None) + \
                     timedelta(minutes=timezone_offset)
-                upload_datetime = row['upload_datetime_utc']
-                upload_datetime = upload_datetime.replace(tzinfo=timezone.utc)
                 meta_result = {"id": row['id'],
                                "file_name": row['file_name'],
                                "uuid": row['uuid'],
-                               "upload_datetime": upload_datetime.timestamp() * 1000,
-                               "upload_datetime_local": upload_datetime_local.isoformat(),
+                               "upload_datetime": upload_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
                                "user_display_name": user_dict.get(row['upload_user_uuid'], None),
                                "file_size_bytes": sys.getsizeof(row['file_object']),
                                "file_bytes_base64": base64_message
@@ -221,13 +218,16 @@ class KnowledgeFileItem:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.KNOWLEDGE_FILE_NOT_FOUND')
 
-        upload_datetime = row[3]
-        upload_datetime = upload_datetime.replace(tzinfo=timezone.utc)
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
+
+        upload_datetime_local = row[3].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
 
         result = {"id": row[0],
                   "file_name": row[1],
                   "uuid": row[2],
-                  "upload_datetime": upload_datetime.timestamp() * 1000,
+                  "upload_datetime": upload_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
                   "user_display_name": user_dict.get(row[4], None)}
         resp.body = json.dumps(result)
 

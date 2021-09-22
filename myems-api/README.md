@@ -274,7 +274,7 @@ Result
 | id            | integer   | Cost File ID                     |
 | file_name     | string    | Cost File name                   |
 | uuid          | string    | Cost File UUID                   |
-| upload_datetime | float | the number of milliseconds since January 1, 1970, 00:00:00, universal time |
+| upload_datetime | string  | Upload Datetime in Local Timezone |
 | status        | string    | Cost File processing status (new, done, error)   |
 | file_object   | BLOB       | Cost File Object                 |
 
@@ -935,7 +935,7 @@ Result
 | id            | integer   | Knowledge File ID                         |
 | file_name     | string    | Knowledge File name                       |
 | uuid          | string    | Knowledge File UUID                       |
-| upload_datetime | float | the number of milliseconds since January 1, 1970, 00:00:00, universal time |
+| upload_datetime | string  | Upload Datetime in Local Timezone         |
 | user_display_name | string| Upload user's display name                |
 | file_object   | BLOB      | Knowledge File Object                     |
 
@@ -1131,7 +1131,7 @@ Result
 | id            | integer   | Offline Meter File ID                     |
 | file_name     | string    | Offline Meter File name                   |
 | uuid          | string    | Offline Meter File UUID                   |
-| upload_datetime | float | the number of milliseconds since January 1, 1970, 00:00:00, universal time |
+| upload_datetime | string  | Upload Datetime in Local Timezone         |
 | status        | string    | Offline Meter File processing status (new, done, error)   |
 | file_object   | BLOB       | Offline Meter File Object                 |
 
