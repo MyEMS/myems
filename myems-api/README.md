@@ -1787,8 +1787,8 @@ Result
 | is_input_counted| boolean | Indicates if this tenant's input energy is counted into parent space|
 | is_key_tenant | boolean   | Indicates if this is a key tenant         |
 | lease_number  | string    | Tenant lease number                       |
-| lease_start_datetime_utc | float   | Lease start datetime in utc timezone (POSIX timestamp *   1000)  |
-| lease_end_datetime_utc   | float   | Lease end datetime in utc timezone (POSIX timestamp *   1000)    |
+| lease_start_datetime | string | Lease start datetime string in local timezone |
+| lease_end_datetime   | string | Lease end datetime string in local timezone |
 | is_in_lease   | boolean   | Indicates if this tenant is in lease      |
 | contact       | Object    | Contact Object                            |
 | cost_center   | Object    | Cost Center Object                        |
@@ -1800,11 +1800,11 @@ curl -i -X GET {{base_url}}/tenants
 ```
 *   POST Create New Tenant
 ```bash
-curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"Starbucks", "buildings":"Building #1", "floors":"L1 L2 L3", "rooms":"1201b+2247+3F", "area":418.8, "tenant_type_id":9, "is_input_counted": true, "is_key_tenant":true, "lease_number":"6b0da806",  "lease_start_datetime_utc":"2019-12-31T16:00:00", "lease_end_datetime_utc":"2022-12-31T16:00:00", "is_in_lease":true, "contact_id":1, "cost_center_id":1, "description":"my description"}}' {{base_url}}/tenants
+curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"Starbucks", "buildings":"Building #1", "floors":"L1 L2 L3", "rooms":"1201b+2247+3F", "area":418.8, "tenant_type_id":9, "is_input_counted": true, "is_key_tenant":true, "lease_number":"6b0da806",  "lease_start_datetime":"2021-01-01T00:00:00", "lease_end_datetime":"2022-01-01T00:00:00", "is_in_lease":true, "contact_id":1, "cost_center_id":1, "description":"my description"}}' {{base_url}}/tenants
 ```
 *   PUT Update a Tenant
 ```bash
-curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"Hermes 爱马仕", "buildings":"Building #1", "floors":"L1 L2 L3 L4 L5", "rooms":"1201b+2247+3F", "area":818.8, "tenant_type_id":9, "is_input_counted": true, "is_key_tenant":true, "lease_number":"6b0da806",  "lease_start_datetime_utc":"2019-12-31T16:00:00", "lease_end_datetime_utc":"2022-12-31T16:00:00", "is_in_lease":true, "contact_id":1, "cost_center_id":1, "description":"my description"}}' {{base_url}}/tenants/{id}
+curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"Hermes 爱马仕", "buildings":"Building #1", "floors":"L1 L2 L3 L4 L5", "rooms":"1201b+2247+3F", "area":818.8, "tenant_type_id":9, "is_input_counted": true, "is_key_tenant":true, "lease_number":"6b0da806",  "lease_start_datetime":"2021-01-01T00:00:00", "lease_end_datetime":"2022-01-01T00:00:00", "is_in_lease":true, "contact_id":1, "cost_center_id":1, "description":"my description"}}' {{base_url}}/tenants/{id}
 ```
 *   DELETE Tenant by ID
 ```bash
