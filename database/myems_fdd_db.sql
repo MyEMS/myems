@@ -8,22 +8,6 @@ CREATE DATABASE IF NOT EXISTS `myems_fdd_db` ;
 USE `myems_fdd_db` ;
 
 -- ---------------------------------------------------------------------------------------------------------------------
--- Table `myems_fdd_db`.`tbl_aliyun_sms_api`
--- refer to https://dysms.console.aliyun.com/
--- API Version 2017-05-25
--- ---------------------------------------------------------------------------------------------------------------------
-DROP TABLE IF EXISTS `myems_fdd_db`.`tbl_aliyun_sms_api` ;
-
-CREATE TABLE IF NOT EXISTS `myems_fdd_db`.`tbl_aliyun_sms_api` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `access_key_id` VARCHAR(256) NOT NULL,
-  `access_key_secret` VARCHAR(256) NOT NULL,
-  `endpoint` VARCHAR(256) NOT NULL,
-  `sign_name` VARCHAR(256) NOT NULL,
-  `template_code` VARCHAR(256) NOT NULL,
-  PRIMARY KEY (`id`));
-
--- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_fdd_db`.`tbl_email_messages`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_fdd_db`.`tbl_email_messages` ;
@@ -41,30 +25,6 @@ CREATE TABLE IF NOT EXISTS `myems_fdd_db`.`tbl_email_messages` (
   `status` VARCHAR(32) NOT NULL COMMENT 'new, sent, timeout',
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_email_messages_index_1` ON  `myems_fdd_db`.`tbl_email_messages`  (`status`,   `scheduled_datetime_utc`);
-
--- ---------------------------------------------------------------------------------------------------------------------
--- Table `myems_fdd_db`.`tbl_gsm_modems`
--- ---------------------------------------------------------------------------------------------------------------------
-DROP TABLE IF EXISTS `myems_fdd_db`.`tbl_gsm_modems` ;
-
-CREATE TABLE IF NOT EXISTS `myems_fdd_db`.`tbl_gsm_modems` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `serial_port` VARCHAR(64) NOT NULL,
-  `baud_rate` INT NOT NULL,
-  PRIMARY KEY (`id`));
-
--- ---------------------------------------------------------------------------------------------------------------------
--- Data for table `myems_fdd_db`.`tbl_gsm_modems`
--- ---------------------------------------------------------------------------------------------------------------------
-START TRANSACTION;
-USE `myems_fdd_db`;
-
-INSERT INTO `myems_fdd_db`.`tbl_gsm_modems`
-(`id`, `serial_port`, `baud_rate`)
-VALUES
-(1, '/dev/ttyS0', 115200);
-
-COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_fdd_db`.`tbl_rules`

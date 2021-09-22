@@ -96,7 +96,6 @@ function config($translateProvider) {
                     MENU: 'Menu Settings',
                     TARIFF: 'Tariff Settings',
                     EMAIL_SERVER: 'Email Server Settings',
-                    GSM_MODEM: 'GSM Modem Settings',
                     CONTACT: 'Contacts',
                     KNOWLEDGEFILE: 'Knowledge Base Settings'
                 },
@@ -155,7 +154,6 @@ function config($translateProvider) {
                 ADD_ENERGY_ITEM: 'Add Energy Item',
                 ADD_CONTACT: 'Add Contact',
                 ADD_EMAIL_SERVER: 'Add Email Server',
-                ADD_GSM_MODEM: 'Add GSM Modem',
 
                 EDIT_SPACE: 'Edit Space',
                 EDIT_TENANT: 'Edit Tenant',
@@ -169,7 +167,6 @@ function config($translateProvider) {
                 EDIT_CATEGORY: 'Edit Energy Category',
                 EDIT_CONTACT: 'Edit Contact',
                 EDIT_EMAIL_SERVER: 'Edit Email Server',
-                EDIT_GSM_MODEM: 'Edit GSM Modem',
 
                 REQUIRES_AUTHENTICATION: 'Requires Authentication',
                 SELECT_DATE: 'Please Select Date',
@@ -1086,7 +1083,6 @@ function config($translateProvider) {
                     MENU: '菜单管理',
                     TARIFF: '能源费率管理',
                     EMAIL_SERVER: '邮件服务器设置',
-                    GSM_MODEM: '短信模块设置',
                     CONTACT: '联系人管理',
                     KNOWLEDGEFILE: '知识库管理'
                 },
@@ -1145,7 +1141,6 @@ function config($translateProvider) {
                 ADD_ENERGY_ITEM: '添加能耗分项',
                 ADD_CONTACT: '添加联系人',
                 ADD_EMAIL_SERVER: '添加邮件服务器',
-                ADD_GSM_MODEM: '添加短信模块',
 
                 EDIT_SPACE: '编辑空间',
                 EDIT_TENANT: '编辑租户',
@@ -1160,7 +1155,6 @@ function config($translateProvider) {
                 EDIT_ENERGY_ITEM: '编辑能耗分项',
                 EDIT_CONTACT: '编辑联系人',
                 EDIT_EMAIL_SERVER: '编辑邮箱服务器',
-                EDIT_GSM_MODEM: '编辑短信模块',
 
                 REQUIRES_AUTHENTICATION: '需要身份验证',
                 SELECT_DATE: '请选择日期',
@@ -1194,7 +1188,6 @@ function config($translateProvider) {
                 INPUT_BAUD_RATE: '请输入波特率',
 
                 EMAIL_SERVER: '邮件服务器',
-                GSM_MODEM: '短信模块',
                 INVALID_FORMAT: '格式不正确',
                 INVALID_FROM_ADDR: '发件人地址不正确',
                 INVALID_BAUD_RATE: '波特率不正确',
@@ -2084,7 +2077,6 @@ function config($translateProvider) {
                     MENU: 'Verwaltung des Menüs',
                     TARIFF: 'Energieratenmanagement',
                     EMAIL_SERVER: 'Mailserver-Einstellungen',
-                    GSM_MODEM: 'SMS-Moduleinstellungen',
                     CONTACT: 'Kontaktmanagement',
                     KNOWLEDGEFILE: 'Wissensdatenbankverwaltung'
                 },
@@ -2143,7 +2135,6 @@ function config($translateProvider) {
                 ADD_ENERGY_ITEM: 'Unterelemente zum Energieverbrauch hinzufügen',
                 ADD_CONTACT: 'Kontakt hinzufügen',
                 ADD_EMAIL_SERVER: 'Mail-Server hinzufügen',
-                ADD_GSM_MODEM: 'SMS-Modul hinzufügen',
 
                 EDIT_SPACE: 'Leerzeichen bearbeiten',
                 EDIT_TENANT: 'Mieter bearbeiten',
@@ -2158,7 +2149,6 @@ function config($translateProvider) {
                 EDIT_ENERGY_ITEM: 'Unterelemente zum Energieverbrauch bearbeiten',
                 EDIT_CONTACT: 'Kontakt bearbeiten',
                 EDIT_EMAIL_SERVER: 'Postfachserver bearbeiten',
-                EDIT_GSM_MODEM: 'SMS-Modul bearbeiten',
 
                 REQUIRES_AUTHENTICATION: 'Authentifizierung erforderlich',
                 SELECT_DATE: 'Bitte wählen Sie ein Datum',
@@ -2192,7 +2182,6 @@ function config($translateProvider) {
                 INPUT_BAUD_RATE: 'Bitte geben Sie die Baudrate ein',
 
                 EMAIL_SERVER: 'Mail-Server',
-                GSM_MODEM: 'SMS-Modul',
                 INVALID_FORMAT: 'Falsches Format',
                 INVALID_FROM_ADDR: 'Falsche Absenderadresse',
                 INVALID_BAUD_RATE: 'Falsche Baudrate',
