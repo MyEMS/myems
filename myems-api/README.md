@@ -274,7 +274,7 @@ Result
 | id            | integer   | Cost File ID                     |
 | file_name     | string    | Cost File name                   |
 | uuid          | string    | Cost File UUID                   |
-| upload_datetime | float | the number of milliseconds since January 1, 1970, 00:00:00, universal time |
+| upload_datetime | string  | Upload Datetime in Local Timezone |
 | status        | string    | Cost File processing status (new, done, error)   |
 | file_object   | BLOB       | Cost File Object                 |
 
