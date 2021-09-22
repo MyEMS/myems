@@ -1,7 +1,7 @@
 import falcon
 from falcon_cors import CORS
 from falcon_multipart.middleware import MultipartMiddleware
-from core import aliyunsmsapi, energyflowdiagram, privilege, textmessage, distributioncircuit, virtualmeter, \
+from core import energyflowdiagram, privilege, textmessage, distributioncircuit, virtualmeter, \
     costcenter, point, knowledgefile, meter, tariff, user, storetype, timezone, \
     costfile, offlinemeterfile, version, contact, emailserver, combinedequipment, datasource, equipment, tenant, \
     shopfloor, webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, \
@@ -102,10 +102,6 @@ api = falcon.API(middleware=[cors.middleware, MultipartMiddleware()])
 # Routes for System Core
 ########################################################################################################################
 
-api.add_route('/aliyunsmsapis',
-              aliyunsmsapi.AliyunSMSAPICollection())
-api.add_route('/aliyunsmsapis/{id_}',
-              aliyunsmsapi.AliyunSMSAPIItem())
 api.add_route('/combinedequipments',
               combinedequipment.CombinedEquipmentCollection())
 api.add_route('/combinedequipments/{id_}',

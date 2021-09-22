@@ -1058,36 +1058,6 @@ app
                             ]
                         }
                     })
-                    .state('settings.gsmmodem', {
-                        url: "/gsmmodem",
-                        templateUrl: "views/settings/gsmmodem/gsmmodem.html",
-                        data: {
-                            pageTitle: 'MENU.SETTINGS.GSM_MODEM'
-                        },
-                        resolve: {
-                            deps: [
-                                '$ocLazyLoad',
-                                function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'toaster']).then(
-                                        function () {
-                                            return $ocLazyLoad.load([{
-                                                files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
-                                            }, {
-                                                name: 'oitozero.ngSweetAlert',
-                                                files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
-                                            }, {
-                                                serie: true,
-                                                files: [
-                                                    'app/services/settings/gsmmodem/gsmmodem.service.js',
-                                                    'app/controllers/settings/gsmmodem/gsmmodem.controller.js'
-                                                ]
-                                            }]);
-                                        }
-                                    );
-                                }
-                            ]
-                        }
-                    })
                     .state('settings.knowledgefile', {
                         url: "/knowledgefile",
                         templateUrl: "views/settings/knowledgefile/knowledgefile.html",
