@@ -203,9 +203,8 @@ app.controller('ModalAddTenantCtrl', function ($scope, $uibModalInstance, params
 	$scope.dtOptions = {
 		locale: {
 			format: 'YYYY-MM-DD HH:mm:ss',
-			applyLabel: "确定",
-			cancelLabel: "取消",
-			customRangeLabel: "自定义",
+			applyLabel: "OK",
+			cancelLabel: "Cancel",
 		},
 		timePicker: true,
 		timePicker24Hour: true,
@@ -232,9 +231,8 @@ app.controller('ModalEditTenantCtrl', function ($scope, $uibModalInstance, param
 	$scope.dtOptions = {
 		locale: {
 			format: 'YYYY-MM-DD HH:mm:ss',
-			applyLabel: "确定",
-			cancelLabel: "取消",
-			customRangeLabel: "自定义",
+			applyLabel: "OK",
+			cancelLabel: "Cancel",
 		},
 		timePicker: true,
 		timePicker24Hour: true,

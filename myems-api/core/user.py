@@ -37,11 +37,17 @@ class UserCollection:
         cursor.close()
         cnx.disconnect()
 
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
+
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                account_expiration_datetime_utc = row[8].replace(tzinfo=timezone.utc)
-                password_expiration_datetime_utc = row[9].replace(tzinfo=timezone.utc)
+                account_expiration_datetime_local = row[8].replace(tzinfo=timezone.utc) + \
+                    timedelta(minutes=timezone_offset)
+                password_expiration_datetime_local = row[9].replace(tzinfo=timezone.utc) + \
+                    timedelta(minutes=timezone_offset)
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "display_name": row[2],
@@ -51,8 +57,10 @@ class UserCollection:
                                "privilege": {
                                    "id": row[6],
                                    "name": row[7]} if row[6] is not None else None,
-                               "account_expiration_datetime": account_expiration_datetime_utc.timestamp() * 1000,
-                               "password_expiration_datetime": password_expiration_datetime_utc.timestamp() * 1000}
+                               "account_expiration_datetime":
+                                   account_expiration_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
+                               "password_expiration_datetime":
+                                   password_expiration_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')}
                 result.append(meta_result)
 
         resp.body = json.dumps(result)
@@ -218,8 +226,13 @@ class UserItem:
         if row is None:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.USER_NOT_FOUND')
-        account_expiration_datetime_utc = row[8].replace(tzinfo=timezone.utc)
-        password_expiration_datetime_utc = row[9].replace(tzinfo=timezone.utc)
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
+
+        account_expiration_datetime_local = row[8].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
+        password_expiration_datetime_local = row[9].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
+
         result = {"id": row[0],
                   "name": row[1],
                   "display_name": row[2],
@@ -229,8 +242,8 @@ class UserItem:
                   "privilege": {
                       "id": row[6],
                       "name": row[7]} if row[6] is not None else None,
-                  "account_expiration_datetime": account_expiration_datetime_utc.timestamp() * 1000,
-                  "password_expiration_datetime": password_expiration_datetime_utc.timestamp() * 1000}
+                  "account_expiration_datetime": account_expiration_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
+                  "password_expiration_datetime": password_expiration_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')}
         resp.body = json.dumps(result)
 
     @staticmethod

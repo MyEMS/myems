@@ -15,8 +15,8 @@ app.controller('WechatMessageOptionController', function($scope, $timeout,
 		autoApply: true,
 		locale:{
 			format: 'YYYY-MM-DD',
-			applyLabel: "确定",
-			cancelLabel: "取消",
+			applyLabel: "OK",
+			cancelLabel: "Cancel",
 		},
 
 		eventHandlers:{

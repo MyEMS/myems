@@ -59,7 +59,20 @@
                     </ui-select>
                 </div>
             </div>
-
+            <div class="hr-line-dashed"></div>
+            <div class="form-group"><label class="col-sm-3 control-label">{{'USER.ACCOUNT_EXPIRATION_DATETIME' | translate}}</label>
+                <div class="col-sm-5">
+                    <input date-range-picker class="form-control date-picker" type="text" ng-model="user.account_expiration_datetime" options="dtOptions"
+                           placeholder="{{'SETTING.SELECT_DATE' | translate}}" readonly="" />
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group"><label class="col-sm-3 control-label">{{'USER.PASSWORD_EXPIRATION_DATETIME' | translate}}</label>
+                <div class="col-sm-5">
+                    <input date-range-picker class="form-control date-picker" type="text" ng-model="user.password_expiration_datetime" options="dtOptions"
+                           placeholder="{{'SETTING.SELECT_DATE' | translate}}" readonly="" />
+                </div>
+            </div>
         </form>
     </div>
     <div class="modal-footer">
