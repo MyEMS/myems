@@ -390,7 +390,7 @@ app
                             deps: [
                                 '$ocLazyLoad',
                                 function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load(['ui.select', 'toaster']).then(
+                                    return $ocLazyLoad.load(['ui.select', 'daterangepicker', 'toaster']).then(
                                         function () {
                                             return $ocLazyLoad.load([{
                                                 serie: true,
@@ -768,7 +768,7 @@ app
                             deps: [
                                 '$ocLazyLoad',
                                 function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'toaster']).then(
+                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'daterangepicker', 'toaster']).then(
                                         function () {
                                             return $ocLazyLoad.load([{
                                                 serie: true,
@@ -781,9 +781,6 @@ app
                                             }, {
                                                 name: 'oitozero.ngSweetAlert',
                                                 files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
-                                            }, {
-                                                name: 'daterangepicker',
-                                                files: ['js/daterangepicker/angular-daterangepicker.min.js']
                                             }, {
                                                 serie: true,
                                                 files: [
@@ -824,7 +821,7 @@ app
                             deps: [
                                 '$ocLazyLoad',
                                 function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'toaster']).then(
+                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'daterangepicker', 'toaster']).then(
                                         function () {
                                             return $ocLazyLoad.load([{
                                                 serie: true,
@@ -837,9 +834,6 @@ app
                                             }, {
                                                 name: 'oitozero.ngSweetAlert',
                                                 files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
-                                            }, {
-                                                name: 'daterangepicker',
-                                                files: ['js/daterangepicker/angular-daterangepicker.min.js']
                                             }, {
                                                 serie: true,
                                                 files: [
@@ -880,7 +874,7 @@ app
                             deps: [
                                 '$ocLazyLoad',
                                 function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'toaster']).then(
+                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'daterangepicker', 'toaster']).then(
                                         function () {
                                             return $ocLazyLoad.load([{
                                                 serie: true,
@@ -893,9 +887,6 @@ app
                                             }, {
                                                 name: 'oitozero.ngSweetAlert',
                                                 files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
-                                            }, {
-                                                name: 'daterangepicker',
-                                                files: ['js/daterangepicker/angular-daterangepicker.min.js']
                                             }, {
                                                 serie: true,
                                                 files: [
@@ -1171,9 +1162,15 @@ app
                             deps: [
                                 '$ocLazyLoad',
                                 function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'toaster']).then(
+                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'daterangepicker','toaster']).then(
                                         function () {
                                             return $ocLazyLoad.load([{
+                                                serie: true,
+                                                files: ['js/daterangepicker/daterangepicker.min.js', 'js/daterangepicker/daterangepicker.min.css']
+                                            }, {
+                                                name: 'daterangepicker',
+                                                files: ['js/daterangepicker/angular-daterangepicker.min.js']
+                                            }, {
                                                 files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
                                             }, {
                                                 name: 'oitozero.ngSweetAlert',

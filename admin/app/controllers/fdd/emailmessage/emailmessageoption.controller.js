@@ -15,10 +15,10 @@ app.controller('EmailMessageOptionController', function($scope, $timeout,
 		autoApply: true,
 		locale:{
 			format: 'YYYY-MM-DD',
-			applyLabel: "确定",
-			cancelLabel: "取消",
+			applyLabel: "OK",
+			cancelLabel: "Cancel",
 		},
-		
+
 		eventHandlers:{
 			'apply.daterangepicker':function(ev,picker){
 				//$scope.execute();
@@ -37,13 +37,13 @@ app.controller('EmailMessageOptionController', function($scope, $timeout,
 			load: true,
 			period:$scope.currentPeriod
 		});
-		
+
 		EmailMessageAnalysisService.getAnalysisResult(query, function(response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.$emit('handleEmitEmailMessageOptionChanged', response.data);
 			}
 		});
-		
+
 	};
 	$timeout(function() {
 		$scope.execute();
