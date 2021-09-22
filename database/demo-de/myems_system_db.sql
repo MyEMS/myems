@@ -246,7 +246,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_energy_flow_diagrams`
 (`id`, `name`, `uuid`)
 VALUES
-(1, '低压配电系统', '3ccbc9c6-9575-4212-a63a-a688d1154302');
+(1, '示例能流图', '3ccbc9c6-9575-4212-a63a-a688d1154302');
 
 COMMIT;
 
