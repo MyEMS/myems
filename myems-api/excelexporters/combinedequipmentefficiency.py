@@ -83,7 +83,7 @@ def generate_excel(report,
 
     # Font
     name_font = Font(name='Constantia', size=15, bold=True)
-    title_font = Font(name='宋体', size=15, bold=True)
+    title_font = Font(name='Arial', size=15, bold=True)
 
     table_fill = PatternFill(fill_type='solid', fgColor='1F497D')
     f_border = Border(left=Side(border_style='medium', color='00000000'),
@@ -170,7 +170,7 @@ def generate_excel(report,
 
     if has_names_data_flag:
         ws['B' + str(current_row_number)].font = title_font
-        ws['B' + str(current_row_number)] = name + ' 报告期累积效率'
+        ws['B' + str(current_row_number)] = name + ' ' + 'Reporting Period Cumulative Efficiency'
 
         current_row_number += 1
 
@@ -198,7 +198,7 @@ def generate_excel(report,
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)].alignment = c_c_alignment
         ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)] = '累积效率'
+        ws['B' + str(current_row_number)] = 'Cumulative Efficiency'
 
         col = 'C'
 
@@ -215,7 +215,7 @@ def generate_excel(report,
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)].alignment = c_c_alignment
         ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)] = '环比'
+        ws['B' + str(current_row_number)] = 'Increment Rate'
 
         col = 'C'
 
@@ -272,7 +272,7 @@ def generate_excel(report,
         time = reporting_period_data['timestamps'][0]
 
         ws['B' + str(current_row_number)].font = title_font
-        ws['B' + str(current_row_number)] = name + ' 报告期累积效率'
+        ws['B' + str(current_row_number)] = name + ' ' + 'Reporting Period Cumulative Efficiency'
 
         current_row_number += 1
 
@@ -286,7 +286,7 @@ def generate_excel(report,
             current_row_number += 6*real_timestamps_len + 2
 
         ws['B' + str(current_row_number)].font = title_font
-        ws['B' + str(current_row_number)] = name + ' 详细数据'
+        ws['B' + str(current_row_number)] = name + ' ' + 'Detailed Data'
 
         current_row_number += 1
 
@@ -297,7 +297,7 @@ def generate_excel(report,
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)].alignment = c_c_alignment
         ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)] = '日期时间'
+        ws['B' + str(current_row_number)] = 'Datetime'
 
         col = 'C'
 
@@ -334,7 +334,7 @@ def generate_excel(report,
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)].alignment = c_c_alignment
         ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)] = '小计'
+        ws['B' + str(current_row_number)] = 'Subtotal'
 
         col = 'C'
 
@@ -370,7 +370,7 @@ def generate_excel(report,
 
         for i in range(0, ca_len):
             line = LineChart()
-            line.title = '报告期累积效率 - ' + \
+            line.title = 'Reporting Period Cumulative Efficiency - ' + \
                          reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
             labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1, max_row=table_end_row_number)
             line_data = Reference(ws, min_col=3 + i, min_row=table_start_row_number, max_row=table_end_row_number)
@@ -463,7 +463,7 @@ def generate_excel(report,
         parameters_ws_current_row_number = 6
 
         parameters_ws['B' + str(parameters_ws_current_row_number)].font = title_font
-        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' Parameters'
+        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' ' + 'Parameters'
 
         parameters_ws_current_row_number += 1
 
@@ -519,7 +519,7 @@ def generate_excel(report,
         ################################################################################################################
 
         ws['B' + str(current_sheet_parameters_row_number)].font = title_font
-        ws['B' + str(current_sheet_parameters_row_number)] = name + ' Parameters'
+        ws['B' + str(current_sheet_parameters_row_number)] = name + ' ' + 'Parameters'
 
         current_sheet_parameters_row_number += 1
 

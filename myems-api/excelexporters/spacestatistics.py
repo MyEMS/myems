@@ -83,7 +83,7 @@ def generate_excel(report,
 
     # Font
     name_font = Font(name='Constantia', size=15, bold=True)
-    title_font = Font(name='宋体', size=15, bold=True)
+    title_font = Font(name='Arial', size=15, bold=True)
 
     table_fill = PatternFill(fill_type='solid', fgColor='1F497D')
     f_border = Border(left=Side(border_style='medium', color='00000000'),
@@ -151,7 +151,7 @@ def generate_excel(report,
 
         return filename
     ####################################################################################################################
-    # First: 统计分析
+    # First: Statistics
     # 6: title
     # 7: table title
     # 8~ca_len table_data
@@ -166,7 +166,7 @@ def generate_excel(report,
         return filename
 
     ws['B6'].font = title_font
-    ws['B6'] = name + ' 统计分析'
+    ws['B6'] = name + ' ' + 'Statistics'
 
     category = reporting_period_data['names']
 
@@ -174,37 +174,37 @@ def generate_excel(report,
     ws['B7'].fill = table_fill
     ws['B7'].font = title_font
     ws['B7'].alignment = c_c_alignment
-    ws['B7'] = '报告期'
+    ws['B7'] = 'Reporting Period'
     ws['B7'].border = f_border
 
     ws['C7'].font = title_font
     ws['C7'].alignment = c_c_alignment
-    ws['C7'] = '算术平均数'
+    ws['C7'] = 'Arithmetic Mean'
     ws['C7'].border = f_border
 
     ws['D7'].font = title_font
     ws['D7'].alignment = c_c_alignment
-    ws['D7'] = '中位数'
+    ws['D7'] = 'Median (Middle Value)'
     ws['D7'].border = f_border
 
     ws['E7'].font = title_font
     ws['E7'].alignment = c_c_alignment
-    ws['E7'] = '最小值'
+    ws['E7'] = 'Minimum Value'
     ws['E7'].border = f_border
 
     ws['F7'].font = title_font
     ws['F7'].alignment = c_c_alignment
-    ws['F7'] = '最大值'
+    ws['F7'] = 'Maximum Value'
     ws['F7'].border = f_border
 
     ws['G7'].font = title_font
     ws['G7'].alignment = c_c_alignment
-    ws['G7'] = '样本标准差'
+    ws['G7'] = 'Sample Standard Deviation'
     ws['G7'].border = f_border
 
     ws['H7'].font = title_font
     ws['H7'].alignment = c_c_alignment
-    ws['H7'] = '样本方差'
+    ws['H7'] = 'Sample Variance'
     ws['H7'].border = f_border
 
     # table_data
@@ -218,7 +218,7 @@ def generate_excel(report,
 
         ws['B' + str(row + 1)].font = name_font
         ws['B' + str(row + 1)].alignment = c_c_alignment
-        ws['B' + str(row + 1)] = "环比"
+        ws['B' + str(row + 1)] = 'Increment Rate'
         ws['B' + str(row + 1)].border = f_border
 
         ws['C' + str(row)].font = name_font
@@ -299,7 +299,7 @@ def generate_excel(report,
             if reporting_period_data['variances_increment_rate'][i] is not None else '0.00%'
         ws['H' + str(row + 1)].border = f_border
     ####################################################################################################################
-    # Second: 报告期消耗
+    # Second: Reporting Period Consumption
     # 9 + ca_len * 2: title
     # 10 + ca_len * 2: table title
     # per_unit_area_start_row_number + 2 ~ per_unit_area_start_row_number + 2 + ca_len :  table_data
@@ -311,7 +311,7 @@ def generate_excel(report,
     per_unit_area_start_row_number = 9 + ca_len * 2
 
     ws['B' + str(per_unit_area_start_row_number)].font = title_font
-    ws['B' + str(per_unit_area_start_row_number)] = name + ' 单位面积值'
+    ws['B' + str(per_unit_area_start_row_number)] = name + ' ' + 'Per Unit Area'
     ws['D' + str(per_unit_area_start_row_number)].font = title_font
     ws['D' + str(per_unit_area_start_row_number)] = str(report['space']['area']) + 'M²'
 
@@ -321,37 +321,37 @@ def generate_excel(report,
     ws['B' + str(per_unit_area_start_row_number + 1)].fill = table_fill
     ws['B' + str(per_unit_area_start_row_number + 1)].font = title_font
     ws['B' + str(per_unit_area_start_row_number + 1)].alignment = c_c_alignment
-    ws['B' + str(per_unit_area_start_row_number + 1)] = '报告期'
+    ws['B' + str(per_unit_area_start_row_number + 1)] = 'Reporting Period'
     ws['B' + str(per_unit_area_start_row_number + 1)].border = f_border
 
     ws['C' + str(per_unit_area_start_row_number + 1)].font = title_font
     ws['C' + str(per_unit_area_start_row_number + 1)].alignment = c_c_alignment
-    ws['C' + str(per_unit_area_start_row_number + 1)] = '算术平均数'
+    ws['C' + str(per_unit_area_start_row_number + 1)] = 'Arithmetic Mean'
     ws['C' + str(per_unit_area_start_row_number + 1)].border = f_border
 
     ws['D' + str(per_unit_area_start_row_number + 1)].font = title_font
     ws['D' + str(per_unit_area_start_row_number + 1)].alignment = c_c_alignment
-    ws['D' + str(per_unit_area_start_row_number + 1)] = '中位数'
+    ws['D' + str(per_unit_area_start_row_number + 1)] = 'Median (Middle Value)'
     ws['D' + str(per_unit_area_start_row_number + 1)].border = f_border
 
     ws['E' + str(per_unit_area_start_row_number + 1)].font = title_font
     ws['E' + str(per_unit_area_start_row_number + 1)].alignment = c_c_alignment
-    ws['E' + str(per_unit_area_start_row_number + 1)] = '最小值'
+    ws['E' + str(per_unit_area_start_row_number + 1)] = 'Minimum Value'
     ws['E' + str(per_unit_area_start_row_number + 1)].border = f_border
 
     ws['F' + str(per_unit_area_start_row_number + 1)].font = title_font
     ws['F' + str(per_unit_area_start_row_number + 1)].alignment = c_c_alignment
-    ws['F' + str(per_unit_area_start_row_number + 1)] = '最大值'
+    ws['F' + str(per_unit_area_start_row_number + 1)] = 'Maximum Value'
     ws['F' + str(per_unit_area_start_row_number + 1)].border = f_border
 
     ws['G' + str(per_unit_area_start_row_number + 1)].font = title_font
     ws['G' + str(per_unit_area_start_row_number + 1)].alignment = c_c_alignment
-    ws['G' + str(per_unit_area_start_row_number + 1)] = '样本标准差'
+    ws['G' + str(per_unit_area_start_row_number + 1)] = 'Sample Standard Deviation'
     ws['G' + str(per_unit_area_start_row_number + 1)].border = f_border
 
     ws['H' + str(per_unit_area_start_row_number + 1)].font = title_font
     ws['H' + str(per_unit_area_start_row_number + 1)].alignment = c_c_alignment
-    ws['H' + str(per_unit_area_start_row_number + 1)] = '样本方差'
+    ws['H' + str(per_unit_area_start_row_number + 1)] = 'Sample Variance'
     ws['H' + str(per_unit_area_start_row_number + 1)].border = f_border
 
     # table_data
@@ -413,7 +413,7 @@ def generate_excel(report,
         ws['H' + str(row_data)].number_format = '0.00'
 
     ####################################################################################################################
-    # Third: 详细数据
+    # Third: Detailed Data
     # analysis_end_row_number~ analysis_end_row_number+time_len: line
     # analysis_end_row_number+1+line_charts_row_number: table title
     # i + analysis_end_row_number + 2 + 10 * ca_len~: table_data
@@ -437,12 +437,12 @@ def generate_excel(report,
         detailed_start_row_number = analysis_end_row_number + line_charts_row_number + 1
 
         ws['B' + str(detailed_start_row_number)].font = title_font
-        ws['B' + str(detailed_start_row_number)] = name + ' 详细数据'
+        ws['B' + str(detailed_start_row_number)] = name + ' ' + 'Detailed Data'
         # table_title
         ws['B' + str(detailed_start_row_number + 1)].fill = table_fill
         ws['B' + str(detailed_start_row_number + 1)].font = name_font
         ws['B' + str(detailed_start_row_number + 1)].alignment = c_c_alignment
-        ws['B' + str(detailed_start_row_number + 1)] = "时间"
+        ws['B' + str(detailed_start_row_number + 1)] = 'Datetime'
         ws['B' + str(detailed_start_row_number + 1)].border = f_border
 
         for i in range(0, ca_len):
@@ -470,11 +470,11 @@ def generate_excel(report,
                 ws[col + str(rows)].number_format = '0.00'
                 ws[col + str(rows)].border = f_border
 
-        # 小计
+        # Subtotal
         row_subtotals = detailed_start_row_number + 2 + time_len
         ws['B' + str(row_subtotals)].font = name_font
         ws['B' + str(row_subtotals)].alignment = c_c_alignment
-        ws['B' + str(row_subtotals)] = "小计"
+        ws['B' + str(row_subtotals)] = 'Subtotal'
         ws['B' + str(row_subtotals)].border = f_border
 
         for i in range(0, ca_len):
@@ -494,7 +494,7 @@ def generate_excel(report,
         for i in range(0, ca_len):
 
             line = LineChart()
-            line.title = "报告期消耗" + " - " + names[i] + "(" + reporting_period_data['units'][i] + ")"
+            line.title = "Reporting Period Consumption" + " - " + names[i] + "(" + reporting_period_data['units'][i] + ")"
             line.style = 10
             line.x_axis.majorTickMark = 'in'
             line.y_axis.majorTickMark = 'in'
@@ -599,7 +599,7 @@ def generate_excel(report,
         parameters_ws_current_row_number = 6
 
         parameters_ws['B' + str(parameters_ws_current_row_number)].font = title_font
-        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' Parameters'
+        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' ' + 'Parameters'
 
         parameters_ws_current_row_number += 1
 
@@ -655,7 +655,7 @@ def generate_excel(report,
         ################################################################################################################
 
         ws['B' + str(current_sheet_parameters_row_number)].font = title_font
-        ws['B' + str(current_sheet_parameters_row_number)] = name + ' Parameters'
+        ws['B' + str(current_sheet_parameters_row_number)] = name + ' ' + 'Parameters'
 
         current_sheet_parameters_row_number += 1
 

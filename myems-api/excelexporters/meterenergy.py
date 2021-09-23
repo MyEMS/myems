@@ -74,7 +74,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
     # Font
     name_font = Font(name='Constantia', size=15, bold=True)
-    title_font = Font(name='宋体', size=15, bold=True)
+    title_font = Font(name='Arial', size=15, bold=True)
 
     table_fill = PatternFill(fill_type='solid', fgColor='1F497D')
     f_border = Border(left=Side(border_style='medium', color='00000000'),
@@ -146,7 +146,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
         return filename
     ####################################################################################################################
-    # First: 能耗分析
+    # First: Consumption
     # 6: title
     # 7: table title
     # 8~9 table_data
@@ -158,7 +158,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
     if has_energy_data_flag:
         ws['B6'].font = title_font
-        ws['B6'] = name + '能耗分析'
+        ws['B6'] = name + 'Consumption'
 
         reporting_period_data = report['reporting_period']
 
@@ -172,12 +172,12 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
         ws['B8'].font = title_font
         ws['B8'].alignment = c_c_alignment
-        ws['B8'] = '能耗'
+        ws['B8'] = 'Consumption'
         ws['B8'].border = f_border
 
         ws['B9'].font = title_font
         ws['B9'].alignment = c_c_alignment
-        ws['B9'] = '环比'
+        ws['B9'] = 'Increment Rate'
         ws['B9'].border = f_border
 
         col = ''
@@ -210,7 +210,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ws[tce_col + '7'].fill = table_fill
         ws[tce_col + '7'].font = name_font
         ws[tce_col + '7'].alignment = c_c_alignment
-        ws[tce_col + '7'] = "吨标准煤 (TCE)"
+        ws[tce_col + '7'] = 'Ton of Standard Coal (TCE)'
         ws[tce_col + '7'].border = f_border
 
         ws[tce_col + '8'].font = name_font
@@ -229,7 +229,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ws[tco2e_col + '7'].fill = table_fill
         ws[tco2e_col + '7'].font = name_font
         ws[tco2e_col + '7'].alignment = c_c_alignment
-        ws[tco2e_col + '7'] = "吨二氧化碳排放 (TCO2E)"
+        ws[tco2e_col + '7'] = 'Ton of Carbon Dioxide Emissions (TCO2E)'
         ws[tco2e_col + '7'].border = f_border
 
         ws[tco2e_col + '8'].font = name_font
@@ -246,7 +246,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         for i in range(6, 9 + 1):
             ws.row_dimensions[i].height = 0.1
     ####################################################################################################################
-    # Second: 能耗详情
+    # Second: Detailed Data
     # 11: title
     # 12 ~ 16: chart
     # 18: table title
@@ -272,7 +272,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             parameters_parameters_datas_len += 1
         start_detail_data_row_num = 13 + (parameters_parameters_datas_len + ca_len) * 6
         ws['B11'].font = title_font
-        ws['B11'] = name + '详细数据'
+        ws['B11'] = name + 'Detailed Data'
 
         ws.row_dimensions[start_detail_data_row_num].height = 60
 
@@ -280,7 +280,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ws['B' + str(start_detail_data_row_num)].font = title_font
         ws['B' + str(start_detail_data_row_num)].border = f_border
         ws['B' + str(start_detail_data_row_num)].alignment = c_c_alignment
-        ws['B' + str(start_detail_data_row_num)] = '日期时间'
+        ws['B' + str(start_detail_data_row_num)] = 'Datetime'
         time = times
         has_data = False
         max_row = 0
@@ -323,7 +323,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             # line
             # 13~: line
             line = LineChart()
-            line.title = '报告期消耗 - ' + report['meter']['energy_category_name'] + \
+            line.title = 'Reporting Period Consumption - ' + report['meter']['energy_category_name'] + \
                 " (" + report['meter']['unit_of_measure'] + ")"
             labels = Reference(ws, min_col=2, min_row=start_detail_data_row_num + 1, max_row=max_row)
             bar_data = Reference(ws, min_col=3, min_row=start_detail_data_row_num, max_row=max_row)
@@ -347,7 +347,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
             ws[col + row].font = title_font
             ws[col + row].alignment = c_c_alignment
-            ws[col + row] = '总计'
+            ws[col + row] = 'Total'
             ws[col + row].border = f_border
 
             for i in range(0, ca_len):
@@ -450,7 +450,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         parameters_ws_current_row_number = 6
 
         parameters_ws['B' + str(parameters_ws_current_row_number)].font = title_font
-        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' Parameters'
+        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' ' + 'Parameters'
 
         parameters_ws_current_row_number += 1
 
@@ -506,7 +506,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ################################################################################################################
 
         ws['B' + str(current_sheet_parameters_row_number)].font = title_font
-        ws['B' + str(current_sheet_parameters_row_number)] = name + ' Parameters'
+        ws['B' + str(current_sheet_parameters_row_number)] = name + ' ' + 'Parameters'
 
         current_sheet_parameters_row_number += 1
 

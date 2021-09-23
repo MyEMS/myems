@@ -76,7 +76,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
     # Font
     name_font = Font(name='Constantia', size=15, bold=True)
-    title_font = Font(name='宋体', size=15, bold=True)
+    title_font = Font(name='Arial', size=15, bold=True)
 
     table_fill = PatternFill(fill_type='solid', fgColor='1F497D')
     f_border = Border(left=Side(border_style='medium', color='00000000'),
@@ -157,7 +157,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
     if has_cost_data_flag:
         ws['B6'].font = title_font
-        ws['B6'] = name + '报告期成本'
+        ws['B6'] = name + 'Reporting Period Costs'
 
         reporting_period_data = report['reporting_period']
         category = report['virtual_meter']['energy_category_name']
@@ -169,12 +169,12 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
         ws['B8'].font = title_font
         ws['B8'].alignment = c_c_alignment
-        ws['B8'] = '成本'
+        ws['B8'] = 'Cost'
         ws['B8'].border = f_border
 
         ws['B9'].font = title_font
         ws['B9'].alignment = c_c_alignment
-        ws['B9'] = '环比'
+        ws['B9'] = 'Increment Rate'
         ws['B9'].border = f_border
 
         col = 'B'
@@ -207,7 +207,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ws[tce_col + '7'].fill = table_fill
         ws[tce_col + '7'].font = name_font
         ws[tce_col + '7'].alignment = c_c_alignment
-        ws[tce_col + '7'] = "吨标准煤 (TCE)"
+        ws[tce_col + '7'] = 'Ton of Standard Coal (TCE)'
         ws[tce_col + '7'].border = f_border
 
         ws[tce_col + '8'].font = name_font
@@ -226,7 +226,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ws[tco2e_col + '7'].fill = table_fill
         ws[tco2e_col + '7'].font = name_font
         ws[tco2e_col + '7'].alignment = c_c_alignment
-        ws[tco2e_col + '7'] = "吨二氧化碳排放 (TCO2E)"
+        ws[tco2e_col + '7'] = 'Ton of Carbon Dioxide Emissions (TCO2E)'
         ws[tco2e_col + '7'].border = f_border
 
         ws[tco2e_col + '8'].font = name_font
@@ -257,14 +257,14 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
     if has_cost_detail_flag:
         ws['B11'].font = title_font
-        ws['B11'] = name + '详细数据'
+        ws['B11'] = name + 'Detailed Data'
 
         ws.row_dimensions[18].height = 60
         ws['B18'].fill = table_fill
         ws['B18'].font = title_font
         ws['B18'].border = f_border
         ws['B18'].alignment = c_c_alignment
-        ws['B18'] = '日期时间'
+        ws['B18'] = 'Datetime'
         time = times
         has_data = False
         max_row = 0
@@ -288,7 +288,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
             ws['B' + str(end_data_row_number + 1)].font = title_font
             ws['B' + str(end_data_row_number + 1)].alignment = c_c_alignment
-            ws['B' + str(end_data_row_number + 1)] = '总计'
+            ws['B' + str(end_data_row_number + 1)] = 'Total'
             ws['B' + str(end_data_row_number + 1)].border = f_border
 
             for i in range(0, ca_len):
@@ -327,7 +327,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             line_data.marker.symbol = "circle"
             line_data.smooth = True
             line.x_axis.crosses = 'min'
-            line.title = '报告期成本 - ' + report['virtual_meter']['energy_category_name'] + \
+            line.title = 'Reporting Period Costs - ' + report['virtual_meter']['energy_category_name'] + \
                          " (" + report['virtual_meter']['unit_of_measure'] + ")"
             line.dLbls = DataLabelList()
             line.dLbls.dLblPos = 't'

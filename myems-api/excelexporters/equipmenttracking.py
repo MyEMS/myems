@@ -62,7 +62,7 @@ def generate_excel(report, space_name):
 
     # Font
     name_font = Font(name='Constantia', size=15, bold=True)
-    title_font = Font(name='宋体', size=15, bold=True)
+    title_font = Font(name='Arial', size=15, bold=True)
 
     f_border = Border(left=Side(border_style='medium', color='00000000'),
                       right=Side(border_style='medium', color='00000000'),
@@ -95,22 +95,22 @@ def generate_excel(report, space_name):
     ws['B3'].border = f_border
     ws['B3'].font = name_font
     ws['B3'].alignment = b_c_alignment
-    ws['B3'] = '名称'
+    ws['B3'] = 'Name'
 
     ws['C3'].border = f_border
     ws['C3'].alignment = b_c_alignment
     ws['C3'].font = name_font
-    ws['C3'] = '空间'
+    ws['C3'] = 'Space'
 
     ws['D3'].border = f_border
     ws['D3'].font = name_font
     ws['D3'].alignment = b_c_alignment
-    ws['D3'] = '成本中心'
+    ws['D3'] = 'Cost Center'
 
     ws['E3'].border = f_border
     ws['E3'].alignment = b_c_alignment
     ws['E3'].font = name_font
-    ws['E3'] = '描述'
+    ws['E3'] = 'Description'
 
     current_row_number = 4
     for i in range(0, len(report['equipments'])):
