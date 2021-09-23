@@ -73,7 +73,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
     # Font
     name_font = Font(name='Constantia', size=15, bold=True)
-    title_font = Font(name='宋体', size=15, bold=True)
+    title_font = Font(name='Arial', size=15, bold=True)
 
     table_fill = PatternFill(fill_type='solid', fgColor='1F497D')
     f_border = Border(left=Side(border_style='medium', color='00000000'),
@@ -158,7 +158,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         category = report['meter']['energy_category_name']
 
         ws['B' + str(current_row_number)].font = title_font
-        ws['B' + str(current_row_number)] = name + ' 报告期'
+        ws['B' + str(current_row_number)] = name + ' ' + 'Reporting Period'
 
         current_row_number += 1
 
@@ -179,7 +179,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             ws['B' + str(current_row_number)].font = title_font
             ws['B' + str(current_row_number)].alignment = c_c_alignment
             ws['B' + str(current_row_number)].border = f_border
-            ws['B' + str(current_row_number)] = '总表消耗'
+            ws['B' + str(current_row_number)] = 'Master Meter Consumption'
 
             ws['C' + str(current_row_number)].font = name_font
             ws['C' + str(current_row_number)].alignment = c_c_alignment
@@ -191,7 +191,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             ws['B' + str(current_row_number)].font = title_font
             ws['B' + str(current_row_number)].alignment = c_c_alignment
             ws['B' + str(current_row_number)].border = f_border
-            ws['B' + str(current_row_number)] = '分表消耗'
+            ws['B' + str(current_row_number)] = 'Submeters Consumption'
 
             ws['C' + str(current_row_number)].font = name_font
             ws['C' + str(current_row_number)].alignment = c_c_alignment
@@ -203,7 +203,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             ws['B' + str(current_row_number)].font = title_font
             ws['B' + str(current_row_number)].alignment = c_c_alignment
             ws['B' + str(current_row_number)].border = f_border
-            ws['B' + str(current_row_number)] = '差值'
+            ws['B' + str(current_row_number)] = 'Difference'
 
             ws['C' + str(current_row_number)].font = name_font
             ws['C' + str(current_row_number)].alignment = c_c_alignment
@@ -215,7 +215,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             ws['B' + str(current_row_number)].font = title_font
             ws['B' + str(current_row_number)].alignment = c_c_alignment
             ws['B' + str(current_row_number)].border = f_border
-            ws['B' + str(current_row_number)] = '差值百分比'
+            ws['B' + str(current_row_number)] = 'Percentage Difference'
 
             ws['C' + str(current_row_number)].font = name_font
             ws['C' + str(current_row_number)].alignment = c_c_alignment
@@ -240,7 +240,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             if has_time_data_flag:
 
                 ws['B' + str(current_row_number)].font = title_font
-                ws['B' + str(current_row_number)] = name + ' 详细数据'
+                ws['B' + str(current_row_number)] = name + ' ' + 'Detailed Data'
 
                 current_row_number += 1
                 chart_start_number = current_row_number
@@ -253,7 +253,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                 ws['B' + str(current_row_number)].font = title_font
                 ws['B' + str(current_row_number)].border = f_border
                 ws['B' + str(current_row_number)].alignment = c_c_alignment
-                ws['B' + str(current_row_number)] = '日期时间'
+                ws['B' + str(current_row_number)] = 'Datetime'
 
                 ws['C' + str(current_row_number)].fill = table_fill
                 ws['C' + str(current_row_number)].font = title_font
@@ -280,7 +280,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                 table_end_number = current_row_number - 1
 
                 line = LineChart()
-                line.title = '报告期差值 - ' + report['meter']['energy_category_name'] + " (" + report['meter'][
+                line.title = 'Difference - ' + report['meter']['energy_category_name'] + " (" + report['meter'][
                     'unit_of_measure'] + ")"
                 labels = Reference(ws, min_col=2, min_row=table_start_number + 1, max_row=table_end_number)
                 line_data = Reference(ws, min_col=3, min_row=table_start_number, max_row=table_end_number)
@@ -294,13 +294,13 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                 line.width = 24
                 line.dLbls = DataLabelList()
                 line.dLbls.dLblPos = 't'
-                line.dLbls.showVal = True  # 数量显示
+                line.dLbls.showVal = True
                 ws.add_chart(line, "B" + str(chart_start_number))
 
                 ws['B' + str(current_row_number)].font = title_font
                 ws['B' + str(current_row_number)].border = f_border
                 ws['B' + str(current_row_number)].alignment = c_c_alignment
-                ws['B' + str(current_row_number)] = '总计'
+                ws['B' + str(current_row_number)] = 'Total'
 
                 ws['C' + str(current_row_number)].font = title_font
                 ws['C' + str(current_row_number)].border = f_border
@@ -400,7 +400,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         parameters_ws_current_row_number = 6
 
         parameters_ws['B' + str(parameters_ws_current_row_number)].font = title_font
-        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' Parameters'
+        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' ' + 'Parameters'
 
         parameters_ws_current_row_number += 1
 
@@ -456,7 +456,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ################################################################################################################
 
         ws['B' + str(current_sheet_parameters_row_number)].font = title_font
-        ws['B' + str(current_sheet_parameters_row_number)] = name + ' Parameters'
+        ws['B' + str(current_sheet_parameters_row_number)] = name + ' ' + 'Parameters'
 
         current_sheet_parameters_row_number += 1
 

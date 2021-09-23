@@ -85,7 +85,7 @@ def generate_excel(report,
 
     # Font
     name_font = Font(name='Constantia', size=15, bold=True)
-    title_font = Font(name='宋体', size=15, bold=True)
+    title_font = Font(name='Arial', size=15, bold=True)
 
     table_fill = PatternFill(fill_type='solid', fgColor='1F497D')
     f_border = Border(left=Side(border_style='medium', color='00000000'),
@@ -155,7 +155,7 @@ def generate_excel(report,
 
         return filename
     ####################################################################################################################
-    # First: 能耗分析
+    # First: Consumption
     # 6: title
     # 7: table title
     # 8~10 table_data
@@ -172,7 +172,7 @@ def generate_excel(report,
 
     if has_energy_data_flag:
         ws['B6'].font = title_font
-        ws['B6'] = name+' 能耗分析'
+        ws['B6'] = name + ' ' + 'Consumption'
 
         category = reporting_period_data['names']
         ca_len = len(category)
@@ -183,12 +183,12 @@ def generate_excel(report,
 
         ws['B8'].font = title_font
         ws['B8'].alignment = c_c_alignment
-        ws['B8'] = '能耗'
+        ws['B8'] = 'Consumption'
         ws['B8'].border = f_border
 
         ws['B9'].font = title_font
         ws['B9'].alignment = c_c_alignment
-        ws['B9'] = '环比'
+        ws['B9'] = 'Increment Rate'
         ws['B9'].border = f_border
 
         col = ''
@@ -221,7 +221,7 @@ def generate_excel(report,
         ws[tce_col + '7'].fill = table_fill
         ws[tce_col + '7'].font = name_font
         ws[tce_col + '7'].alignment = c_c_alignment
-        ws[tce_col + '7'] = "吨标准煤 (TCE)"
+        ws[tce_col + '7'] = 'Ton of Standard Coal (TCE)'
         ws[tce_col + '7'].border = f_border
 
         ws[tce_col + '8'].font = name_font
@@ -240,7 +240,7 @@ def generate_excel(report,
         ws[tco2e_col + '7'].fill = table_fill
         ws[tco2e_col + '7'].font = name_font
         ws[tco2e_col + '7'].alignment = c_c_alignment
-        ws[tco2e_col + '7'] = "吨二氧化碳排放 (TCO2E)"
+        ws[tco2e_col + '7'] = 'Ton of Carbon Dioxide Emissions (TCO2E)'
         ws[tco2e_col + '7'].border = f_border
 
         ws[tco2e_col + '8'].font = name_font
@@ -257,7 +257,7 @@ def generate_excel(report,
         for i in range(6, 9 + 1):
             ws.row_dimensions[i].height = 0.1
     ####################################################################################################################
-    # Second: 分时电耗
+    # Second: Electricity Consumption by Time-Of-Use
     # 12: title
     # 13: table title
     # 14~17 table_data
@@ -271,7 +271,7 @@ def generate_excel(report,
 
     if has_ele_peak_flag:
         ws['B12'].font = title_font
-        ws['B12'] = name+' 分时电耗'
+        ws['B12'] = name + ' ' + 'Electricity Consumption by Time-Of-Use'
 
         ws.row_dimensions[13].height = 60
         ws['B13'].fill = table_fill
@@ -283,11 +283,11 @@ def generate_excel(report,
         ws['C13'].font = name_font
         ws['C13'].alignment = c_c_alignment
         ws['C13'].border = f_border
-        ws['C13'] = '分时电耗'
+        ws['C13'] = 'Electricity Consumption by Time-Of-Use'
 
         ws['B14'].font = title_font
         ws['B14'].alignment = c_c_alignment
-        ws['B14'] = '尖'
+        ws['B14'] = 'TopPeak'
         ws['B14'].border = f_border
 
         ws['C14'].font = title_font
@@ -297,7 +297,7 @@ def generate_excel(report,
 
         ws['B15'].font = title_font
         ws['B15'].alignment = c_c_alignment
-        ws['B15'] = '峰'
+        ws['B15'] = 'OnPeak'
         ws['B15'].border = f_border
 
         ws['C15'].font = title_font
@@ -307,7 +307,7 @@ def generate_excel(report,
 
         ws['B16'].font = title_font
         ws['B16'].alignment = c_c_alignment
-        ws['B16'] = '平'
+        ws['B16'] = 'MidPeak'
         ws['B16'].border = f_border
 
         ws['C16'].font = title_font
@@ -317,7 +317,7 @@ def generate_excel(report,
 
         ws['B17'].font = title_font
         ws['B17'].alignment = c_c_alignment
-        ws['B17'] = '谷'
+        ws['B17'] = 'OffPeak'
         ws['B17'].border = f_border
 
         ws['C17'].font = title_font
@@ -326,7 +326,7 @@ def generate_excel(report,
         ws['C17'] = round(reporting_period_data['offpeaks'][0], 2)
 
         pie = PieChart()
-        pie.title = name+' 分时电耗'
+        pie.title = name + ' ' + 'Electricity Consumption by Time-Of-Use'
         labels = Reference(ws, min_col=2, min_row=14, max_row=17)
         pie_data = Reference(ws, min_col=3, min_row=13, max_row=17)
         pie.add_data(pie_data, titles_from_data=True)
@@ -347,7 +347,7 @@ def generate_excel(report,
         # end_row 10
         # start_row 12
     ####################################################################################################################
-    # Third: 子空间能耗
+    # Third: Child Spaces Data
     # 19: title
     # 20: table title
     # 21~24 table_data
@@ -372,7 +372,7 @@ def generate_excel(report,
         child_subtotals = child['subtotals_array'][0]
 
         ws['B19'].font = title_font
-        ws['B19'] = name+' 子空间能耗'
+        ws['B19'] = name + ' ' + 'Child Spaces Data'
 
         ws.row_dimensions[20].height = 60
         ws['B20'].fill = table_fill
@@ -387,7 +387,7 @@ def generate_excel(report,
             ws[row + '20'].font = title_font
             ws[row + '20'].alignment = c_c_alignment
             ws[row + '20'].border = f_border
-            ws[row + '20'] = child['energy_category_names'][i] + ' (' + child['units'][i] + ')'
+            ws[row + '20'] = child['energy_category_names'][i] + ' ' + '(' + child['units'][i] + ')'
 
         space_len = len(child['child_space_names_array'][0])
 
@@ -440,7 +440,7 @@ def generate_excel(report,
         current_row_number += 1
 
     ####################################################################################################################
-    # Fourth: 能耗详情
+    # Fourth: Detailed Data
     # current_row_number: title
     # current_row_number+1 ~ current_row_number+1+ca_len*6-1: line
     # current_row_number+1+ca_len*6: table title
@@ -460,14 +460,14 @@ def generate_excel(report,
 
     if has_detail_data_flag:
         ws['B' + str(current_row_number)].font = title_font
-        ws['B' + str(current_row_number)] = name+' 详细数据'
+        ws['B' + str(current_row_number)] = name + ' ' + 'Detailed Data'
 
         ws.row_dimensions[table_row].height = 60
         ws['B'+str(table_row)].fill = table_fill
         ws['B' + str(table_row)].font = title_font
         ws['B'+str(table_row)].border = f_border
         ws['B'+str(table_row)].alignment = c_c_alignment
-        ws['B'+str(table_row)] = '日期时间'
+        ws['B'+str(table_row)] = 'Datetime'
         time = times[0]
         has_data = False
         max_row = 0
@@ -513,7 +513,7 @@ def generate_excel(report,
             ws['B' + str(current_row_number)].font = title_font
             ws['B' + str(current_row_number)].alignment = c_c_alignment
             ws['B' + str(current_row_number)].border = f_border
-            ws['B' + str(current_row_number)] = '小计'
+            ws['B' + str(current_row_number)] = 'Subtotal'
 
             for i in range(0, ca_len):
                 col = chr(ord('C') + i)
@@ -525,7 +525,7 @@ def generate_excel(report,
                 # line
                 # 39~: line
                 line = LineChart()
-                line.title = '报告期消耗 - ' + ws.cell(column=3+i, row=table_row).value
+                line.title = 'Reporting Period Consumption - ' + ws.cell(column=3+i, row=table_row).value
                 labels = Reference(ws, min_col=2, min_row=table_row+1, max_row=max_row)
                 line_data = Reference(ws, min_col=3 + i, min_row=table_row, max_row=max_row)  # openpyxl bug
                 line.add_data(line_data, titles_from_data=True)
@@ -629,7 +629,7 @@ def generate_excel(report,
         parameters_ws_current_row_number = 6
 
         parameters_ws['B' + str(parameters_ws_current_row_number)].font = title_font
-        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' Parameters'
+        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' ' + 'Parameters'
 
         parameters_ws_current_row_number += 1
 
@@ -685,7 +685,7 @@ def generate_excel(report,
         ################################################################################################################
 
         ws['B' + str(current_sheet_parameters_row_number)].font = title_font
-        ws['B' + str(current_sheet_parameters_row_number)] = name + ' Parameters'
+        ws['B' + str(current_sheet_parameters_row_number)] = name + ' ' + 'Parameters'
 
         current_sheet_parameters_row_number += 1
 

@@ -84,7 +84,7 @@ def generate_excel(report,
 
     # Font
     name_font = Font(name='Constantia', size=15, bold=True)
-    title_font = Font(name='宋体', size=15, bold=True)
+    title_font = Font(name='Arial', size=15, bold=True)
 
     table_fill = PatternFill(fill_type='solid', fgColor='1F497D')
     f_border = Border(left=Side(border_style='medium', color='00000000'),
@@ -169,7 +169,7 @@ def generate_excel(report,
 
     if has_cost_data_flag:
         ws['B5'].font = title_font
-        ws['B5'] = name + ' 报告期收入'
+        ws['B5'] = name + ' ' + 'Reporting Period Income'
         category = reporting_period_data['names']
         ca_len = len(category)
 
@@ -179,17 +179,17 @@ def generate_excel(report,
 
         ws['B7'].font = title_font
         ws['B7'].alignment = c_c_alignment
-        ws['B7'] = '报告期收入总计'
+        ws['B7'] = 'Total'
         ws['B7'].border = f_border
 
         ws['B8'].font = title_font
         ws['B8'].alignment = c_c_alignment
-        ws['B8'] = '单位面积值'
+        ws['B8'] = 'Per Unit Area'
         ws['B8'].border = f_border
 
         ws['B9'].font = title_font
         ws['B9'].alignment = c_c_alignment
-        ws['B9'] = '环比'
+        ws['B9'] = 'Increment Rate'
         ws['B9'].border = f_border
 
         col = ''
@@ -224,7 +224,7 @@ def generate_excel(report,
         ws[col + '6'].fill = table_fill
         ws[col + '6'].font = name_font
         ws[col + '6'].alignment = c_c_alignment
-        ws[col + '6'] = "总计 (" + reporting_period_data['total_unit'] + ")"
+        ws[col + '6'] = "Total (" + reporting_period_data['total_unit'] + ")"
         ws[col + '6'].border = f_border
 
         ws[col + '7'].font = name_font
@@ -256,7 +256,7 @@ def generate_excel(report,
 
     if has_subtotals_data_flag:
         ws['B' + str(current_row_number)].font = title_font
-        ws['B' + str(current_row_number)] = name + ' 收入占比'
+        ws['B' + str(current_row_number)] = name + ' ' + 'Incomes by Energy Category'
 
         current_row_number += 1
 
@@ -271,13 +271,13 @@ def generate_excel(report,
         ws['C' + str(current_row_number)].font = name_font
         ws['C' + str(current_row_number)].alignment = c_c_alignment
         ws['C' + str(current_row_number)].border = f_border
-        ws['C' + str(current_row_number)] = '收入'
+        ws['C' + str(current_row_number)] = 'Incomes'
 
         ws['D' + str(current_row_number)].fill = table_fill
         ws['D' + str(current_row_number)].font = name_font
         ws['D' + str(current_row_number)].alignment = c_c_alignment
         ws['D' + str(current_row_number)].border = f_border
-        ws['D' + str(current_row_number)] = '收入占比'
+        ws['D' + str(current_row_number)] = 'Proportion'
 
         current_row_number += 1
 
@@ -308,7 +308,7 @@ def generate_excel(report,
         table_end_row_number = current_row_number - 1
 
         pie = PieChart()
-        pie.title = name + ' 收入占比'
+        pie.title = name + ' ' + 'Incomes by Energy Category'
         labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1, max_row=table_end_row_number)
         pie_data = Reference(ws, min_col=3, min_row=table_start_row_number, max_row=table_end_row_number)
         pie.add_data(pie_data, titles_from_data=True)
@@ -345,14 +345,14 @@ def generate_excel(report,
     if has_detail_data_flag:
         current_end_row_number += ca_len * 6 + 1
         ws['B' + str(current_row_number)].font = title_font
-        ws['B' + str(current_row_number)] = name + ' 详细数据'
+        ws['B' + str(current_row_number)] = name + ' ' + 'Detailed Data'
 
         ws.row_dimensions[table_row].height = 60
         ws['B' + str(table_row)].fill = table_fill
         ws['B' + str(table_row)].font = title_font
         ws['B' + str(table_row)].border = f_border
         ws['B' + str(table_row)].alignment = c_c_alignment
-        ws['B' + str(table_row)] = '日期时间'
+        ws['B' + str(table_row)] = 'Datetime'
         time = times[0]
         has_data = False
         max_row = 0
@@ -394,7 +394,7 @@ def generate_excel(report,
 
                 line = LineChart()
                 line.title = \
-                    '报告期收入 - ' + reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
+                    'Reporting Period Income - ' + reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
                 labels = Reference(ws, min_col=2, min_row=table_row + 1, max_row=max_row)
                 line_data = Reference(ws, min_col=3 + i, min_row=table_row, max_row=max_row)
                 line.add_data(line_data, titles_from_data=True)
@@ -418,7 +418,7 @@ def generate_excel(report,
 
             ws['B' + row].font = title_font
             ws['B' + row].alignment = c_c_alignment
-            ws['B' + row] = '小计'
+            ws['B' + row] = 'Subtotal'
             ws['B' + row].border = f_border
 
             col = ''
@@ -436,7 +436,7 @@ def generate_excel(report,
             ws[col + str(table_row)].fill = table_fill
             ws[col + str(table_row)].font = title_font
             ws[col + str(table_row)].alignment = c_c_alignment
-            ws[col + str(table_row)] = '总计 (' + report['reporting_period']['total_unit'] + ')'
+            ws[col + str(table_row)] = 'Total (' + report['reporting_period']['total_unit'] + ')'
             ws[col + str(table_row)].border = f_border
 
             total_sum = Decimal(0.0)
@@ -474,7 +474,7 @@ def generate_excel(report,
         child = report['child_space']
         current_row_number = int(row) + 1
         ws['B' + str(current_row_number)].font = title_font
-        ws['B' + str(current_row_number)] = name + ' 子空间数据'
+        ws['B' + str(current_row_number)] = name + ' ' + 'Child Spaces Data'
 
         current_row_number += 1
         table_start_row_number = current_row_number
@@ -484,7 +484,7 @@ def generate_excel(report,
         ws['B' + str(current_row_number)].font = name_font
         ws['B' + str(current_row_number)].alignment = c_c_alignment
         ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)] = '子空间'
+        ws['B' + str(current_row_number)] = 'Child Space'
         ca_len = len(child['energy_category_names'])
 
         col = ''
@@ -495,14 +495,14 @@ def generate_excel(report,
             ws[col + str(current_row_number)].font = name_font
             ws[col + str(current_row_number)].alignment = c_c_alignment
             ws[col + str(current_row_number)].border = f_border
-            ws[col + str(current_row_number)] = child['energy_category_names'][i] + ' (' + child['units'][i] + ')'
+            ws[col + str(current_row_number)] = child['energy_category_names'][i] + ' ' + '(' + child['units'][i] + ')'
 
         col = chr(ord(col) + 1)
         ws[col + str(current_row_number)].fill = table_fill
         ws[col + str(current_row_number)].font = name_font
         ws[col + str(current_row_number)].alignment = c_c_alignment
         ws[col + str(current_row_number)].border = f_border
-        ws[col + str(current_row_number)] = '总计 (' + report['reporting_period']['total_unit'] + ')'
+        ws[col + str(current_row_number)] = 'Total (' + report['reporting_period']['total_unit'] + ')'
 
         space_len = len(child['child_space_names_array'][0])
 
@@ -653,7 +653,7 @@ def generate_excel(report,
         parameters_ws_current_row_number = 6
 
         parameters_ws['B' + str(parameters_ws_current_row_number)].font = title_font
-        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' Parameters'
+        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' ' + 'Parameters'
 
         parameters_ws_current_row_number += 1
 
@@ -709,7 +709,7 @@ def generate_excel(report,
         ################################################################################################################
 
         ws['B' + str(current_sheet_parameters_row_number)].font = title_font
-        ws['B' + str(current_sheet_parameters_row_number)] = name + ' Parameters'
+        ws['B' + str(current_sheet_parameters_row_number)] = name + ' ' + 'Parameters'
 
         current_sheet_parameters_row_number += 1
 

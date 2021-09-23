@@ -99,9 +99,9 @@ def generate_excel(report,
     ws.merge_cells('C24:I24')
 
     # Font
-    notice_font = Font(name='宋体', size=20, bold=True)
+    notice_font = Font(name='Arial', size=20, bold=True)
     name_font = Font(name='Constantia', size=12, bold=True)
-    title_font = Font(name='宋体', size=11, bold=True)
+    title_font = Font(name='Arial', size=11, bold=True)
 
     table_fill = PatternFill(fill_type='solid', fgColor='1F497D')
     f_border = Border(left=Side(border_style='medium', color='00000000'),
@@ -131,7 +131,7 @@ def generate_excel(report,
 
     ws['C12'].font = notice_font
     ws['C12'].alignment = c_c_alignment
-    ws['C12'] = '付款通知书'
+    ws['C12'] = 'Payment Notice'
 
     # img
     img = Image("excelexporters/myemslogo.png")
@@ -190,11 +190,11 @@ def generate_excel(report,
             ws['H' + str(i)].alignment = b_l_alignment
             ws['H' + str(i)].font = name_font
 
-        ws['E37'] = '账单号码:'
-        ws['E38'] = '租赁合同号码:'
-        ws['E39'] = '账单日期:'
-        ws['E40'] = '付款到期日:'
-        ws['E41'] = '应付款金额:'
+        ws['E37'] = 'Bill Number:'
+        ws['E38'] = 'Lease Contract Number:'
+        ws['E39'] = 'Bill Date:'
+        ws['E40'] = 'Payment Due Date:'
+        ws['E41'] = 'Amount Payable:'
 
         # Simulated data
         ws['H37'] = ''
@@ -222,14 +222,14 @@ def generate_excel(report,
             ws[chr(i) + '53'].alignment = c_c_alignment
             ws[chr(i) + '53'].border = f_border
 
-        ws['B53'] = '能耗分类'
-        ws['C53'] = '结算期开始日期'
-        ws['D53'] = '结算期结束日期'
-        ws['E53'] = '数量'
-        ws['F53'] = '单位'
-        ws['G53'] = '金额'
-        ws['H53'] = '税率'
-        ws['I53'] = '税额'
+        ws['B53'] = 'Energy Category'
+        ws['C53'] = 'Billing Period Start'
+        ws['D53'] = 'Billing Period End'
+        ws['E53'] = 'Quantity'
+        ws['F53'] = 'Unit'
+        ws['G53'] = 'Amount'
+        ws['H53'] = 'Tax Rate'
+        ws['I53'] = 'VAT Output Tax'
 
         reporting_period_data = report['reporting_period']
         names = reporting_period_data['names']
@@ -276,7 +276,7 @@ def generate_excel(report,
             ws.merge_cells('B{}:G{}'.format(i, i))
             ws.merge_cells('H{}:I{}'.format(i, i))
 
-        ws['B' + str(current_row_number)] = '小计:'
+        ws['B' + str(current_row_number)] = 'Subtotal:'
         ws['H' + str(current_row_number)] = report['reporting_period']['currency_unit'] + str(
             round(report['reporting_period']['total_cost']
                   if 'reporting_period' in report.keys()
@@ -289,12 +289,12 @@ def generate_excel(report,
         # Simulated data
         taxes = Decimal(0.00)
 
-        ws['B' + str(current_row_number)] = '增值税销项税金:'
+        ws['B' + str(current_row_number)] = 'VAT Output Tax:'
         ws['H' + str(current_row_number)] = report['reporting_period']['currency_unit'] + str(round(taxes, 2))
 
         current_row_number += 1
 
-        ws['B' + str(current_row_number)] = '应付金额合计:'
+        ws['B' + str(current_row_number)] = 'Total Amount Payable:'
         ws['H' + str(current_row_number)] = report['reporting_period']['currency_unit'] + str(
             round(report['reporting_period']['total_cost'] + taxes
                   if 'reporting_period' in report.keys()
