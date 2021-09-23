@@ -73,7 +73,7 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
 
     # Font
     name_font = Font(name='Constantia', size=15, bold=True)
-    title_font = Font(name='宋体', size=15, bold=True)
+    title_font = Font(name='Arial', size=15, bold=True)
 
     table_fill = PatternFill(fill_type='solid', fgColor='1F497D')
     f_border = Border(left=Side(border_style='medium', color='00000000'),
@@ -135,43 +135,43 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
     ws['B6'].font = name_font
     ws['B6'].alignment = c_c_alignment
     ws['B6'].fill = table_fill
-    ws['B6'] = '名称'
+    ws['B6'] = 'Name'
 
     ws['C6'].border = f_border
     ws['C6'].alignment = c_c_alignment
     ws['C6'].font = name_font
     ws['C6'].fill = table_fill
-    ws['C6'] = '空间'
+    ws['C6'] = 'Space'
 
     ws['D6'].border = f_border
     ws['D6'].font = name_font
     ws['D6'].alignment = c_c_alignment
     ws['D6'].fill = table_fill
-    ws['D6'] = '成本中心'
+    ws['D6'] = 'Cost Center'
 
     ws['E6'].border = f_border
     ws['E6'].alignment = c_c_alignment
     ws['E6'].font = name_font
     ws['E6'].fill = table_fill
-    ws['E6'] = '能耗分类'
+    ws['E6'] = 'Energy Category'
 
     ws['F6'].border = f_border
     ws['F6'].font = name_font
     ws['F6'].alignment = c_c_alignment
     ws['F6'].fill = table_fill
-    ws['F6'] = ' 描述'
+    ws['F6'] = 'Description'
 
     ws['G6'].border = f_border
     ws['G6'].font = name_font
     ws['G6'].alignment = c_c_alignment
     ws['G6'].fill = table_fill
-    ws['G6'] = '开始值'
+    ws['G6'] = 'Start Value'
 
     ws['H6'].border = f_border
     ws['H6'].font = name_font
     ws['H6'].alignment = c_c_alignment
     ws['H6'].fill = table_fill
-    ws['H6'] = ' 结束值'
+    ws['H6'] = 'End Value'
 
     current_row_number = 7
     for i in range(0, len(report['meters'])):

@@ -83,7 +83,7 @@ def generate_excel(report,
 
     # Font
     name_font = Font(name='Constantia', size=15, bold=True)
-    title_font = Font(name='宋体', size=15, bold=True)
+    title_font = Font(name='Arial', size=15, bold=True)
     data_font = Font(name='Franklin Gothic Book', size=11)
 
     table_fill = PatternFill(fill_type='solid', fgColor='1F497D')
@@ -199,14 +199,14 @@ def generate_excel(report,
 
             max_row = start_detail_data_row_num + len(time)
             ws['B6'].font = title_font
-            ws['B6'] = name + ' 趋势'
+            ws['B6'] = name + ' ' + '趋势'
 
             ws.row_dimensions[start_detail_data_row_num - 1].height = 60
             ws['B' + str(start_detail_data_row_num - 1)].fill = table_fill
             ws['B' + str(start_detail_data_row_num - 1)].font = title_font
             ws['B' + str(start_detail_data_row_num - 1)].border = f_border
             ws['B' + str(start_detail_data_row_num - 1)].alignment = c_c_alignment
-            ws['B' + str(start_detail_data_row_num - 1)] = '日期时间'
+            ws['B' + str(start_detail_data_row_num - 1)] = 'Datetime'
 
             for i in range(0, len(time)):
                 col = 'B'
@@ -336,7 +336,7 @@ def generate_excel(report,
         parameters_ws_current_row_number = 6
 
         parameters_ws['B' + str(parameters_ws_current_row_number)].font = title_font
-        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' Parameters'
+        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' ' + 'Parameters'
 
         parameters_ws_current_row_number += 1
 
@@ -392,7 +392,7 @@ def generate_excel(report,
         ################################################################################################################
 
         ws['B' + str(current_sheet_parameters_row_number)].font = title_font
-        ws['B' + str(current_sheet_parameters_row_number)] = name + ' Parameters'
+        ws['B' + str(current_sheet_parameters_row_number)] = name + ' ' + 'Parameters'
 
         current_sheet_parameters_row_number += 1
 

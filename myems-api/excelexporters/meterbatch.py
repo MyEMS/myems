@@ -73,7 +73,7 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
 
     # Font
     name_font = Font(name='Constantia', size=15, bold=True)
-    title_font = Font(name='宋体', size=15, bold=True)
+    title_font = Font(name='Arial', size=15, bold=True)
     data_font = Font(name='Franklin Gothic Book', size=11)
 
     table_fill = PatternFill(fill_type='solid', fgColor='1F497D')
@@ -116,7 +116,7 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
 
     ws['B3'].font = name_font
     ws['B3'].alignment = b_r_alignment
-    ws['B3'] = '空间:'
+    ws['B3'] = 'Space:'
     ws['C3'].border = b_border
     ws['C3'].alignment = b_c_alignment
     ws['C3'].font = name_font
@@ -124,7 +124,7 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
 
     ws['F3'].font = name_font
     ws['F3'].alignment = b_r_alignment
-    ws['F3'] = '日期:'
+    ws['F3'] = 'Datetime:'
     ws['G3'].border = b_border
     ws['G3'].alignment = b_c_alignment
     ws['G3'].font = name_font
