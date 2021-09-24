@@ -16,6 +16,44 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
+
+## [v1.3.0] -   2021-09-04
+### Added
+-   added expiration datetimes to User in Admin UI
+-   added expiration datetimes to user actions in API
+-   added expiration datetimes to user table in database
+-   added column ID to StoreBatch Excel Exporter in API
+-   added meter ID to meterbatch excel exporter in API
+-   added new datasource protocols to API
+-   added API error messages to translations.js and i18n.js
+-   added spinners to Dashboard of Web UI.
+
+### Changed
+-   replaced Chinese with English in Excel Exporters of API
+-   changed start&end datetime formatter for tariff from timestamp to strftime
+-   changed lease start&end datetime formatter for tenant from timestamp to strftime
+-   changed last run datetime and next run datetime formatter for rule from timestamp to strftime
+-   changed last seen datetime formatter for gateway from timestamp to strftime
+-   changed last seen datetime formatter of datasource from timestamp to strftime
+-   changed upload datetime formatter of knowledgefile and offlinemeterfile from timestamp to strftime
+-   changed cost file upload datetime formatter from timestamp to strftime
+-   updated translation of Admin UI
+-   updated database README
+-   updated demo databse for database ingestion service
+-   updated distibutionssystem point value timeout value to 30 minutes
+-   updated Admin UI to make error messages more specific
+-   updated translations of KGCE & KGCO2E in Admin UI
+-   updated userlogger in API to pass HTTPError to client.
+
+### Fixed
+-   fixed PEP8 warnings in API
+-   fixed typo in contact controller of Admin UI
+-   added try_files directive to avoid 404 error while refreshing pages in Web UI
+-   modified API error message for knowledge file cannot be removed from disk.
+
+### Removed
+-   removed cookies usages from API
+
 ## [v1.2.3] -   2021-09-04
 ### Added
 -   added tbl_reports to myems_reporting_db in database.
@@ -423,7 +461,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/MyEMS/compare/v1.2.3...HEAD
+[Unreleased]: https://github.com/MyEMS/MyEMS/compare/v1.3.0...HEAD
+[v1.3.0]: https://github.com/MyEMS/MyEMS/compare/v1.2.3...v1.3.0
 [v1.2.3]: https://github.com/MyEMS/MyEMS/compare/v1.2.2...v1.2.3
 [v1.2.2]: https://github.com/MyEMS/MyEMS/compare/v1.2.1...v1.2.2
 [v1.2.1]: https://github.com/MyEMS/MyEMS/compare/v1.2.0...v1.2.1

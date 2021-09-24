@@ -237,8 +237,8 @@ def generate_excel(report,
 
             ws['B' + str(current_row_number)].font = title_font
             ws['B' + str(current_row_number)] = \
-                name + ' ' + category_dict_name + ' ' + '(' + reporting_period_data['units'][category_dict_values[0]] + \
-                ') by Energy Item'
+                name + ' ' + category_dict_name + ' ' + \
+                '(' + reporting_period_data['units'][category_dict_values[0]] + ') by Energy Item'
 
             current_row_number += 1
             table_start_row_number = current_row_number
@@ -271,8 +271,8 @@ def generate_excel(report,
 
             pie = PieChart()
             pie.title = \
-                name + ' ' + category_dict_name + ' ' + '(' + reporting_period_data['units'][category_dict_values[0]] + \
-                ') by Energy Item'
+                name + ' ' + category_dict_name + ' ' + \
+                '(' + reporting_period_data['units'][category_dict_values[0]] + ') by Energy Item'
             labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1, max_row=table_end_row_number)
             pie_data = Reference(ws, min_col=3, min_row=table_start_row_number, max_row=table_end_row_number)
             pie.add_data(pie_data, titles_from_data=True)
