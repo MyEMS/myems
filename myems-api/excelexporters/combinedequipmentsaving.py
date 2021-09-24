@@ -189,8 +189,8 @@ def generate_excel(report,
             ws[col + str(current_row_number)].font = name_font
             ws[col + str(current_row_number)].alignment = c_c_alignment
             ws[col + str(current_row_number)].border = f_border
-            ws[col + str(current_row_number)] = \
-                reporting_period_data['names'][i] + ' ' + '(Baseline - Actual)(' + reporting_period_data['units'][i] + ")"
+            ws[col + str(current_row_number)] = reporting_period_data['names'][i] + ' ' + \
+                '(Baseline - Actual)(' + reporting_period_data['units'][i] + ")"
 
             col = chr(ord(col) + 1)
 
