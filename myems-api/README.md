@@ -262,7 +262,7 @@ curl -i -X DELETE {{base_url}}/costcenters/{id}/tariffs/{tid}
 ```
 
 ### Cost File
-*   GET an Cost File by ID
+*   GET a Cost File by ID
 
 ```bash
 curl -i -X GET {{base_url}}/costfiles/{id}
@@ -638,7 +638,7 @@ Result
 ```bash
 curl -i -X GET {{base_url}}/equipments
 ```
-*   DELETE an Equipment by ID
+*   DELETE Equipment by ID
 ```bash
 curl -i -X DELETE {{base_url}}/equipments/{id}
 ```
@@ -654,7 +654,7 @@ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"MyEMS Ch
 ```bash
 curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{}}' {{base_url}}/equipments/{id}
 ```
-*   GET All Meters of an Equipment by ID
+*   GET All Meters of Equipment by ID
 ```bash
 curl -i -X GET {{base_url}}/equipments/{id}/meters
 ```
@@ -666,11 +666,11 @@ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"meter_id":1}}'
 ```bash
 curl -i -X DELETE {{base_url}}/equipments/{id}/meters/{mid}
 ```
-*   GET All Parameters of an Equipment by ID
+*   GET All Parameters of Equipment by ID
 ```bash
 curl -i -X GET {{base_url}}/equipments/{id}/parameters
 ```
-*   GET a Parameter of an Equipment by ID
+*   GET a Parameter of Equipment by ID
 ```bash
 curl -i -X GET {{base_url}}/equipments/{id}/parameters/{pid}
 ```
@@ -704,7 +704,7 @@ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"test pa
 ```bash
 curl -i -X DELETE {{base_url}}/equipments/{id}/parameters/{pid}
 ```
-*   GET All Offline Meters of an Equipment by ID
+*   GET All Offline Meters of Equipment by ID
 ```bash
 curl -i -X GET {{base_url}}/equipments/{id}/offlinemeters
 ```
@@ -716,11 +716,11 @@ curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"offline_meter_
 ```bash
 curl -i -X DELETE {{base_url}}/equipments/{id}/offlinemeters/{mid}
 ```
-*   GET All Virtual Meters of an Equipment by ID
+*   GET All Virtual Meters of Equipment by ID
 ```bash
 curl -i -X GET {{base_url}}/equipments/{id}/virtualmeters
 ```
-*   POST Bind an Virtual Meter to an Equipment
+*   POST Bind Virtual Meter to an Equipment
 ```bash
 curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"virtual_meter_id":1}}' {{base_url}}/equipments/{id}/virtualmeters
 ```
@@ -844,7 +844,7 @@ curl -i -X DELETE {{base_url}}/combinedequipments/{id}/offlinemeters/{mid}
 ```bash
 curl -i -X GET {{base_url}}/combinedequipments/{id}/virtualmeters
 ```
-*   POST Bind an Virtual Meter to a Combined Equipment
+*   POST Bind Virtual Meter to a Combined Equipment
 ```bash
 curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"virtual_meter_id":1}}' {{base_url}}/combinedequipments/{id}/virtualmeters
 ```
@@ -1321,11 +1321,11 @@ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"MyEMS Sh
 ```bash
 curl -i -X GET {{base_url}}/shopfloors/{id}/equipments
 ```
-*   POST Bind an Equipment to a Shopfloor
+*   POST Bind Equipment to a Shopfloor
 ```bash
 curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"equipment_id":1}}' {{base_url}}/shopfloors/{id}/equipments
 ```
-*   DELETE an Equipment from Shopfloor
+*   DELETE Equipment from Shopfloor
 ```bash
 curl -i -X DELETE {{base_url}}/shopfloors/{id}/equipments/{eid}
 ```
@@ -1381,11 +1381,11 @@ curl -i -X DELETE {{base_url}}/shopfloors/{id}/sensors/{sid}
 ```bash
 curl -i -X GET {{base_url}}/shopfloors/{id}/virtualmeters
 ```
-*   POST Bind an Virtual Meter to a Shopfloor
+*   POST Bind Virtual Meter to a Shopfloor
 ```bash
 curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"virtual_meter_id":1}}' {{base_url}}/shopfloors/{id}/virtualmeters
 ```
-*   DELETE an Virtual Meter from Shopfloor
+*   DELETE Virtual Meter from Shopfloor
 ```bash
 curl -i -X DELETE {{base_url}}/shopfloors/{id}/virtualmeters/{mid}
 ```
@@ -1447,11 +1447,11 @@ curl -i -X DELETE {{base_url}}/spaces/{id}/combinedequipments/{eid}
 ```bash
 curl -i -X GET {{base_url}}/spaces/{id}/equipments
 ```
-*   POST Bind an Equipment to a Space
+*   POST Bind Equipment to a Space
 ```bash
 curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"equipment_id":1}}' {{base_url}}/spaces/{id}/equipments
 ```
-*   DELETE an Equipment from Space
+*   DELETE Equipment from Space
 ```bash
 curl -i -X DELETE {{base_url}}/spaces/{id}/equipments/{eid}
 ```
@@ -1531,11 +1531,11 @@ curl -i -X DELETE {{base_url}}/spaces/{id}/tenants/{tid}
 ```bash
 curl -i -X GET {{base_url}}/spaces/{id}/virtualmeters
 ```
-*   POST Bind an Virtual Meter to a Space
+*   POST Bind Virtual Meter to a Space
 ```bash
 curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"virtual_meter_id":1}}' {{base_url}}/spaces/{id}/virtualmeters
 ```
-*   DELETE an Virtual Meter from Space
+*   DELETE Virtual Meter from Space
 ```bash
 curl -i -X DELETE {{base_url}}/spaces/{id}/virtualmeters/{mid}
 ```
@@ -1634,11 +1634,11 @@ curl -i -X DELETE {{base_url}}/stores/{id}/sensors/{sid}
 ```bash
 curl -i -X GET {{base_url}}/stores/{id}/virtualmeters
 ```
-*   POST Bind an Virtual Meter to a Store
+*   POST Bind Virtual Meter to a Store
 ```bash
 curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"virtual_meter_id":1}}' {{base_url}}/stores/{id}/virtualmeters
 ```
-*   DELETE an Virtual Meter from Store
+*   DELETE Virtual Meter from Store
 ```bash
 curl -i -X DELETE {{base_url}}/stores/{id}/virtualmeters/{mid}
 ```
@@ -1831,7 +1831,7 @@ curl -i -X DELETE {{base_url}}/tenants/{id}/sensors/{sid}
 ```bash
 curl -i -X GET {{base_url}}/tenants/{id}/virtualmeters
 ```
-*   POST Bind an Virtual Meter to a Tenant
+*   POST Bind Virtual Meter to a Tenant
 ```bash
 curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"virtual_meter_id":1}}' {{base_url}}/tenants/{id}/virtualmeters
 ```
@@ -1874,7 +1874,7 @@ curl -i -X DELETE {{base_url}}/tenanttypes/{id}
 ```
 
 ### Text Message
-*   GET an Text Message by ID
+*   GET Text Message by ID
 
 Result in JSON
 
@@ -1896,7 +1896,7 @@ curl -i -X GET {{base_url}}/textmessages/{id}
 ```bash
 curl -i -X GET {{base_url}}/textmessages/from/{startdate}/to/{enddate}
 ```
-*   DELETE an Text Message by ID
+*   DELETE Text Message by ID
 ```bash
 curl -i -X DELETE {{base_url}}/textmessages/{id}
 ```
@@ -2035,7 +2035,7 @@ curl -i -X DELETE {{base_url}}/webmessages/{id}
 ```
 
 ### Wechat Message
-*   GET an Wechat Message by ID
+*   GET Wechat Message by ID
 
 Result in JSON
 
@@ -2053,11 +2053,11 @@ Result in JSON
 ```bash
 curl -i -X GET {{base_url}}/wechatmessages/{id}
 ```
-*   GET a Wechat Messages from Startdate to Enddate
+*   GET Wechat Messages from Startdate to Enddate
 ```bash
 curl -i -X GET {{base_url}}/wechatmessages/from/{startdate}/to/{enddate}
 ```
-*   DELETE a Wechat Message by ID
+*   DELETE Wechat Message by ID
 ```bash
 curl -i -X DELETE {{base_url}}/wechatmessages/{id}
 ```

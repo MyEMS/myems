@@ -379,7 +379,8 @@ def generate_excel(report,
     ####################################################################################################################
         for i in range(0, ca_len):
             line = LineChart()
-            line.title = "Reporting Period Consumption" + " - " + names[i] + "(" + reporting_period_data['units'][i] + ")"
+            line.title = "Reporting Period Consumption" + " - " + names[i] + \
+                "(" + reporting_period_data['units'][i] + ")"
             line.style = 10
             line.height = 8.40
             line.width = 24

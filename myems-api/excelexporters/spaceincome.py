@@ -393,8 +393,8 @@ def generate_excel(report,
                     ws[col + row].border = f_border
 
                 line = LineChart()
-                line.title = \
-                    'Reporting Period Income - ' + reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
+                line.title = 'Reporting Period Income - ' + reporting_period_data['names'][i] + \
+                    " (" + reporting_period_data['units'][i] + ")"
                 labels = Reference(ws, min_col=2, min_row=table_row + 1, max_row=max_row)
                 line_data = Reference(ws, min_col=3 + i, min_row=table_row, max_row=max_row)
                 line.add_data(line_data, titles_from_data=True)

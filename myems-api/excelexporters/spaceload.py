@@ -461,7 +461,8 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
             if has_sub_maximums_data_flag:
                 line = LineChart()
-                line.title = 'Reporting Period Maximum Load - ' + ws.cell(column=current_chart_col_number, row=table_start_number).value
+                line.title = 'Reporting Period Maximum Load - ' + ws.cell(column=current_chart_col_number,
+                                                                          row=table_start_number).value
                 datas = Reference(ws, min_col=current_chart_col_number, min_row=table_start_number,
                                   max_row=table_end_number)
                 line.add_data(datas, titles_from_data=True)

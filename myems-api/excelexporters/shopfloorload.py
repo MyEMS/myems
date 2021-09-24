@@ -258,7 +258,8 @@ def generate_excel(report,
     per_unit_area_start_row_number = 9 + ca_len * 2
 
     ws['B' + str(per_unit_area_start_row_number)].font = title_font
-    ws['B' + str(per_unit_area_start_row_number)] = name + ' ' + 'Per Unit Area' + str(report['shopfloor']['area']) + 'M²'
+    ws['B' + str(per_unit_area_start_row_number)] = name + ' ' + 'Per Unit Area' + \
+        str(report['shopfloor']['area']) + 'M²'
 
     category = reporting_period_data['names']
 
