@@ -61,7 +61,7 @@ def generate_excel(report, space_name):
     ws.column_dimensions['A'].width = 1
 
     # Font
-    name_font = Font(name='Constantia', size=15, bold=True)
+    name_font = Font(name='Arial', size=15, bold=True)
     title_font = Font(name='Arial', size=15, bold=True)
 
     f_border = Border(left=Side(border_style='medium', color='00000000'),
