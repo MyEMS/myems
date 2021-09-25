@@ -82,7 +82,7 @@ def generate_excel(report,
         ws.column_dimensions[chr(i)].width = 15.0
 
     # Font
-    name_font = Font(name='Constantia', size=15, bold=True)
+    name_font = Font(name='Arial', size=15, bold=True)
     title_font = Font(name='Arial', size=15, bold=True)
     data_font = Font(name='Franklin Gothic Book', size=11)
 
