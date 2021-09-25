@@ -100,7 +100,7 @@ def generate_excel(report,
 
     # Font
     notice_font = Font(name='Arial', size=20, bold=True)
-    name_font = Font(name='Constantia', size=12, bold=True)
+    name_font = Font(name='Arial', size=12, bold=True)
     title_font = Font(name='Arial', size=11, bold=True)
 
     table_fill = PatternFill(fill_type='solid', fgColor='1F497D')
