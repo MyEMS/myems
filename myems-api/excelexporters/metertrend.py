@@ -199,7 +199,7 @@ def generate_excel(report,
 
             max_row = start_detail_data_row_num + len(time)
             ws['B6'].font = title_font
-            ws['B6'] = name + ' ' + '趋势'
+            ws['B6'] = name + ' ' + 'Trend'
 
             ws.row_dimensions[start_detail_data_row_num - 1].height = 60
             ws['B' + str(start_detail_data_row_num - 1)].fill = table_fill
@@ -233,12 +233,13 @@ def generate_excel(report,
                     ws[col + row].alignment = c_c_alignment
                     ws[col + row] = round(reporting_period_data['values'][i][j], 3) if \
                         len(reporting_period_data['values'][i]) > 0 and \
-                        reporting_period_data['values'][i][j] is not None else " "
+                        len(reporting_period_data['values'][i]) > j and \
+                        reporting_period_data['values'][i][j] is not None else ''
                     ws[col + row].border = f_border
             # line
             # 39~: line
                 line = LineChart()
-                line.title = '趋势值 - ' + reporting_period_data['names'][i]
+                line.title = 'Trend Value - ' + reporting_period_data['names'][i]
                 labels = Reference(ws, min_col=2, min_row=start_detail_data_row_num, max_row=max_row-1)
                 line_data = Reference(ws, min_col=3 + i, min_row=start_detail_data_row_num+1, max_row=max_row-1)
                 line.add_data(line_data, titles_from_data=True)
