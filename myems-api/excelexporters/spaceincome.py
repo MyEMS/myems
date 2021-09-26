@@ -210,7 +210,8 @@ def generate_excel(report,
 
             ws[col + '8'].font = name_font
             ws[col + '8'].alignment = c_c_alignment
-            ws[col + '8'] = round(reporting_period_data['subtotals_per_unit_area'][i], 2)
+            ws[col + '8'] = round(reporting_period_data['subtotals_per_unit_area'][i], 2) \
+                if reporting_period_data['subtotals_per_unit_area'][i] is not None else ''
             ws[col + '8'].border = f_border
 
             ws[col + '9'].font = name_font
@@ -234,7 +235,8 @@ def generate_excel(report,
 
         ws[col + '8'].font = name_font
         ws[col + '8'].alignment = c_c_alignment
-        ws[col + '8'] = round(reporting_period_data['total_per_unit_area'], 2)
+        ws[col + '8'] = round(reporting_period_data['total_per_unit_area'], 2) \
+            if reporting_period_data['total_per_unit_area'] is not None else ''
         ws[col + '8'].border = f_border
 
         ws[col + '9'].font = name_font
