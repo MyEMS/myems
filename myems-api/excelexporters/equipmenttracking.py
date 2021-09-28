@@ -86,10 +86,8 @@ def generate_excel(report, space_name):
         ws.column_dimensions[chr(i)].width = 30.0
 
     # Img
-    ws.merge_cells("B1:D1")
-    ws.merge_cells("B2:E2")
     img = Image("excelexporters/myems.png")
-    ws.add_image(img, 'B1')
+    ws.add_image(img, 'A1')
 
     # Title
     ws['B3'].border = f_border

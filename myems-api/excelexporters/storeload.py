@@ -115,9 +115,7 @@ def generate_excel(report,
 
     # Img
     img = Image("excelexporters/myems.png")
-    img.width = img.width * 0.85
-    img.height = img.height * 0.85
-    ws.add_image(img, 'B1')
+    ws.add_image(img, 'A1')
 
     # Title
     ws['B3'].font = name_font
