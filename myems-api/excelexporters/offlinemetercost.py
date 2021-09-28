@@ -109,9 +109,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
     # Img
     img = Image("excelexporters/myems.png")
-    img.width = img.width * 0.85
-    img.height = img.height * 0.85
-    ws.add_image(img, 'B1')
+    ws.add_image(img, 'A1')
 
     # Title
     ws.row_dimensions[3].height = 60
