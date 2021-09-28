@@ -117,9 +117,6 @@ def generate_excel(report,
 
     # Img
     img = Image("excelexporters/myems.png")
-    img.width = img.width
-    img.height = img.height
-    # img = Image("myems.png")
     ws.add_image(img, 'A1')
 
     # Title
@@ -726,10 +723,7 @@ def generate_excel(report,
 
         # Img
         img = Image("excelexporters/myems.png")
-        img.width = img.width * 0.85
-        img.height = img.height * 0.85
-        # img = Image("myems.png")
-        parameters_ws.add_image(img, 'B1')
+        parameters_ws.add_image(img, 'A1')
 
         # Title
         parameters_ws.row_dimensions[3].height = 60
