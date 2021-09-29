@@ -120,8 +120,6 @@ def generate_excel(report,
     ws.add_image(img, 'A1')
 
     # Title
-    ws.row_dimensions[3].height = 60
-
     ws['B3'].alignment = b_r_alignment
     ws['B3'] = 'Name:'
     ws['C3'].border = b_border
