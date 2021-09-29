@@ -118,32 +118,29 @@ def generate_excel(report,
     ws.add_image(img, 'A1')
 
     # Title
-    ws.row_dimensions[3].height = 60
-
-    ws['B3'].font = name_font
     ws['B3'].alignment = b_r_alignment
     ws['B3'] = 'Name:'
     ws['C3'].border = b_border
     ws['C3'].alignment = b_c_alignment
-    ws['C3'].font = name_font
     ws['C3'] = name
 
-    ws['D3'].font = name_font
     ws['D3'].alignment = b_r_alignment
     ws['D3'] = 'Period:'
     ws['E3'].border = b_border
     ws['E3'].alignment = b_c_alignment
-    ws['E3'].font = name_font
     ws['E3'] = period_type
 
-    ws['F3'].font = name_font
-    ws['F3'].alignment = b_r_alignment
-    ws['F3'] = 'Date:'
-    ws['G3'].border = b_border
-    ws['G3'].alignment = b_c_alignment
-    ws['G3'].font = name_font
-    ws['G3'] = reporting_start_datetime_local + "__" + reporting_end_datetime_local
-    ws.merge_cells("G3:H3")
+    ws['B4'].alignment = b_r_alignment
+    ws['B4'] = 'Reporting Start Datetime:'
+    ws['C4'].border = b_border
+    ws['C4'].alignment = b_c_alignment
+    ws['C4'] = reporting_start_datetime_local
+
+    ws['D4'].alignment = b_r_alignment
+    ws['D4'] = 'Reporting End Datetime:'
+    ws['E4'].border = b_border
+    ws['E4'].alignment = b_c_alignment
+    ws['E4'] = reporting_end_datetime_local
 
     if "reporting_period_efficiency" not in report.keys() or \
             "names" not in report['reporting_period_efficiency'].keys() or len(
