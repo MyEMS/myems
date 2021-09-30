@@ -110,24 +110,23 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
     ws.add_image(img, 'A1')
 
     # Title
-    ws.row_dimensions[3].height = 60
-
-    ws['B3'].font = name_font
     ws['B3'].alignment = b_r_alignment
     ws['B3'] = 'Space:'
     ws['C3'].border = b_border
     ws['C3'].alignment = b_c_alignment
-    ws['C3'].font = name_font
     ws['C3'] = space_name
 
-    ws['F3'].font = name_font
-    ws['F3'].alignment = b_r_alignment
-    ws['F3'] = 'Date:'
-    ws['G3'].border = b_border
-    ws['G3'].alignment = b_c_alignment
-    ws['G3'].font = name_font
-    ws['G3'] = reporting_start_datetime_local + "~" + reporting_end_datetime_local
-    ws.merge_cells("G3:H3")
+    ws['B4'].alignment = b_r_alignment
+    ws['B4'] = 'Reporting Start Datetime:'
+    ws['C4'].border = b_border
+    ws['C4'].alignment = b_c_alignment
+    ws['C4'] = reporting_start_datetime_local
+
+    ws['B5'].alignment = b_r_alignment
+    ws['B5'] = 'Reporting End Datetime:'
+    ws['C5'].border = b_border
+    ws['C5'].alignment = b_c_alignment
+    ws['C5'] = reporting_end_datetime_local
 
     # Title
     ws['B6'].border = f_border
