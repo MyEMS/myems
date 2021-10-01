@@ -13,7 +13,7 @@ Providing database schema and scripts for MyEMS.
 
 ### Installation
 
-Execute the following scripts in MySQL commandline, or execute in other MySQL client tools such as MySQL Workbench, Navicat, DBaver, phpMyAdmin, etc.
+Execute the following scripts in MySQL commandline, or execute in other MySQL client tools such as MySQL Workbench, Navicat, DBaver, phpMyAdmin, etc. Here is [an example shell script](create_database_ubuntu.sh) to initiate database in one command on Ubuntu 20.04.
 ```bash
 mysql -u root -p < myems_billing_baseline_db.sql
 mysql -u root -p < myems_billing_db.sql
