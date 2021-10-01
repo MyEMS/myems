@@ -114,7 +114,7 @@ sudo nano myems-cleaning/config.py
 sudo nano myems-modbus-tcp/config.py 
 sudo nano myems-normalization/config.py 
 
-# host: '127.0.0.1' => 'host': '192.168.2.2'
+# host: '127.0.0.1' 将这行代码修改为: 'host': '192.168.2.2'
 ```
 
 修改web和admin文件夹下nginx.conf中的location '/api'
@@ -122,8 +122,9 @@ sudo nano myems-normalization/config.py
 ```
 sudo nano admin/nginx.conf
 sudo nano web/nginx.conf
-# proxy_pass http://127.0.0.1:8000/;  => proxy_pass http://192.168.2.3:8000/; 
+# proxy_pass http://127.0.0.1:8000/; 将这行代码修改为: proxy_pass http://192.168.2.3:8000/; 
 ```
+
 
 将Web打包生成产品文件
 ```
