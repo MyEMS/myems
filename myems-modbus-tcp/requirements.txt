@@ -1,4 +1,5 @@
 mysql-connector
+mysql-connector-python==8.0.20
 modbus_tk
 schedule
 python-decouple

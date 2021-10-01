@@ -1,3 +1,5 @@
 mysql-connector
+mysql-connector-python==8.0.20
 openpyxl
 sympy
+python-decouple
