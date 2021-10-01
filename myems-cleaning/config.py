@@ -1,14 +1,20 @@
+from decouple import config
+
+
+userID = config('userID', default='root')
+password = config('password', default='')
+
 myems_system_db = {
-    'user': 'root',
-    'password': '!MyEMS1',
+    'user': userID,
+    'password': password,
     'host': '127.0.0.1',
     'database': 'myems_system_db',
     'port': 3306,
 }
 
 myems_historical_db = {
-    'user': 'root',
-    'password': '!MyEMS1',
+    'user': userID,
+    'password': password,
     'host': '127.0.0.1',
     'database': 'myems_historical_db',
     'port': 3306,
