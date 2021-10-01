@@ -114,14 +114,14 @@ sudo nano myems-cleaning/config.py
 sudo nano myems-modbus-tcp/config.py 
 sudo nano myems-normalization/config.py 
 
-# host: '127.0.0.1' => 'host': '192.168.2.2'
+# host: '127.0.0.1' modify to:'host': '192.168.2.2'
 ```
 Modify location '/api' in nginx.conf of web and admin
 Assume the Host IP is 192.168.2.3
 ```
 sudo nano admin/nginx.conf
 sudo nano web/nginx.conf
-# proxy_pass http://127.0.0.1:8000/;  => proxy_pass http://192.168.2.3:8000/; 
+# proxy_pass http://127.0.0.1:8000/;  modify to: proxy_pass http://192.168.2.3:8000/; 
 ```
 
 Build web for production 
