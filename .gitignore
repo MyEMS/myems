@@ -34,3 +34,4 @@ Thumbs.db
 
 # Folder config file
 Desktop.ini
+/database/.env

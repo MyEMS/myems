@@ -1,6 +1,8 @@
 #!/bin/sh
 
-mypassword="pAssw0rd@12345"
+e_mypassword="U2FsdGVkX1+VZdIDGQqLkpIvF47w7nq+UyZAetppy2k="
+
+mypassword=`echo $e_mypassword |openssl enc -aes-256-cbc -md sha512 -a -d -pbkdf2 -iter 100000 -salt -pass pass:$mypass`
 
 mysql -uroot -p$mypassword < myems_billing_baseline_db.sql
 mysql -uroot -p$mypassword < myems_billing_db.sql

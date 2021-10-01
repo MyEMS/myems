@@ -10,3 +10,4 @@ et_xmlfile==1.1
 jdcal
 openpyxl==3.0.7
 pillow
+python-decouple

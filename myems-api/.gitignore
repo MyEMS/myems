@@ -50,3 +50,4 @@ doc/_build
 *~
 
 advancereport/
+/.env

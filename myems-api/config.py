@@ -1,62 +1,68 @@
+from decouple import config
+
+
+userID = config('userID', default='root')
+password = config('password', default='')
+
 myems_system_db = {
-    'user': 'root',
-    'password': 'pAssw0rd@12345',
+    'user': userID,
+    'password': password,
     'host': '127.0.0.1',
     'database': 'myems_system_db',
 }
 
 myems_energy_db = {
-    'user': 'root',
-    'password': 'pAssw0rd@12345',
+    'user': userID,
+    'password': password,
     'host': '127.0.0.1',
     'database': 'myems_energy_db',
 }
 
 myems_energy_baseline_db = {
-    'user': 'root',
-    'password': 'pAssw0rd@12345',
+    'user': userID,
+    'password': password,
     'host': '127.0.0.1',
     'database': 'myems_energy_baseline_db',
 }
 
 myems_billing_db = {
-    'user': 'root',
-    'password': 'pAssw0rd@12345',
+    'user': userID,
+    'password': password,
     'host': '127.0.0.1',
     'database': 'myems_billing_db',
 }
 
 myems_billing_baseline_db = {
-    'user': 'root',
-    'password': 'pAssw0rd@12345',
+    'user': userID,
+    'password': password,
     'host': '127.0.0.1',
     'database': 'myems_billing_baseline_db',
 }
 
 myems_historical_db = {
-    'user': 'root',
-    'password': 'pAssw0rd@12345',
+    'user': userID,
+    'password': password,
     'host': '127.0.0.1',
     'database': 'myems_historical_db',
 }
 
 myems_user_db = {
-    'user': 'root',
-    'password': 'pAssw0rd@12345',
+    'user': userID,
+    'password': password,
     'host': '127.0.0.1',
     'database': 'myems_user_db',
 }
 
 myems_fdd_db = {
-    'user': 'root',
-    'password': 'pAssw0rd@12345',
+    'user': userID,
+    'password': password,
     'host': '127.0.0.1',
     'database': 'myems_fdd_db',
 }
 
 myems_reporting_db = {
-    'user': 'root',
-    'password': 'pAssw0rd@12345',
+    'user': userID,
+    'password': password,
     'host': '127.0.0.1',
     'database': 'myems_reporting_db',
 }
