@@ -11,4 +11,4 @@ mysql -uroot -p$mypassword < myems_historical_db.sql
 mysql -uroot -p$mypassword < myems_reporting_db.sql
 mysql -uroot -p$mypassword < myems_system_db.sql
 mysql -uroot -p$mypassword < myems_user_db.sql
-mysql -uroot -p$mypassword < demo/myems_system_db.sql
+mysql -uroot -p$mypassword < demo-en/myems_system_db.sql

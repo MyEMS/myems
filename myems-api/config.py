@@ -1,62 +1,62 @@
 myems_system_db = {
     'user': 'root',
-    'password': '!MyEMS1',
+    'password': 'pAssw0rd@12345',
     'host': '127.0.0.1',
     'database': 'myems_system_db',
 }
 
 myems_energy_db = {
     'user': 'root',
-    'password': '!MyEMS1',
+    'password': 'pAssw0rd@12345',
     'host': '127.0.0.1',
     'database': 'myems_energy_db',
 }
 
 myems_energy_baseline_db = {
     'user': 'root',
-    'password': '!MyEMS1',
+    'password': 'pAssw0rd@12345',
     'host': '127.0.0.1',
     'database': 'myems_energy_baseline_db',
 }
 
 myems_billing_db = {
     'user': 'root',
-    'password': '!MyEMS1',
+    'password': 'pAssw0rd@12345',
     'host': '127.0.0.1',
     'database': 'myems_billing_db',
 }
 
 myems_billing_baseline_db = {
     'user': 'root',
-    'password': '!MyEMS1',
+    'password': 'pAssw0rd@12345',
     'host': '127.0.0.1',
     'database': 'myems_billing_baseline_db',
 }
 
 myems_historical_db = {
     'user': 'root',
-    'password': '!MyEMS1',
+    'password': 'pAssw0rd@12345',
     'host': '127.0.0.1',
     'database': 'myems_historical_db',
 }
 
 myems_user_db = {
     'user': 'root',
-    'password': '!MyEMS1',
+    'password': 'pAssw0rd@12345',
     'host': '127.0.0.1',
     'database': 'myems_user_db',
 }
 
 myems_fdd_db = {
     'user': 'root',
-    'password': '!MyEMS1',
+    'password': 'pAssw0rd@12345',
     'host': '127.0.0.1',
     'database': 'myems_fdd_db',
 }
 
 myems_reporting_db = {
     'user': 'root',
-    'password': '!MyEMS1',
+    'password': 'pAssw0rd@12345',
     'host': '127.0.0.1',
     'database': 'myems_reporting_db',
 }

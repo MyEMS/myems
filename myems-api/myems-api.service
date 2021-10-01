@@ -5,10 +5,10 @@ After=network.target
 
 [Service]
 PIDFile=/run/myems-api/pid
-User=root
-Group=root
-WorkingDirectory=/myems-api
-ExecStart=/usr/local/bin/gunicorn --pid /run/myems-api/pid --timeout 600 --workers=4 app:api
+User=nvidia
+Group=nvidia
+WorkingDirectory=/home/nvidia/PycharmProjects/myems/myems-api
+ExecStart=/home/nvidia/anaconda3/envs/myems/bin/gunicorn --pid /run/myems-api/pid --timeout 600 --workers=4 app:api
 ExecReload=/bin/kill -s HUP $MAINPID
 ExecStop=/bin/kill -s TERM $MAINPID
 PrivateTmp=true

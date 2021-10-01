@@ -19,7 +19,13 @@ gunicorn
 
 openpyxl
 
-
+## Quick Installation on Ubuntu 20.04
+We're using anaconda python and create a virtual environment named "myems".
+```bash
+conda activate myems
+pip install -r requirements.txt
+run.sh
+```
 ## Installation
 
 In this step, you will install myems-api on Ubuntu for production or development.

@@ -1,9 +1,12 @@
 anytree
 simplejson
+mysql-connector-python==8.0.20
 mysql.connector
 falcon
 falcon_cors
 falcon-multipart
 gunicorn
-openpyxl
+et_xmlfile==1.1
+jdcal
+openpyxl==3.0.7
 pillow
