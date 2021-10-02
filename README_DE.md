@@ -107,24 +107,28 @@ git clone https://gitee.com/myems/myems.git
 ```
 
 Ändern Sie die Datenbankkonfiguration in den folgenden Dateien
-Angenommen, die Datenbank-IP lautet 192.168.2.2
+Angenommen, die Datenbank-IP lautet 192.168.0.1
 ```
 sudo nano myems-api/config.py 
 sudo nano myems-aggregation/config.py 
 sudo nano myems-cleaning/config.py 
 sudo nano myems-modbus-tcp/config.py 
 sudo nano myems-normalization/config.py 
-
-# host: '127.0.0.1' => 'host': '192.168.2.2'
 ```
 
+~~'host': '127.0.0.1'~~
+
+'host': '192.168.0.1'
+
 Ändern Sie den location '/api' von nginx.conf in web und admin
-Angenommen, die Host-IP lautet 192.168.2.3
+Angenommen, die Host-IP lautet 192.168.0.2
 ```
 sudo nano admin/nginx.conf
 sudo nano web/nginx.conf
-# proxy_pass http://127.0.0.1:8000/;  => proxy_pass http://192.168.2.3:8000/; 
 ```
+~~proxy_pass http://127.0.0.1:8000/;~~
+
+proxy_pass http://192.168.0.2:8000/;
 
 Verpacken Sie das web, um Produktdateien zu generieren
 ```
