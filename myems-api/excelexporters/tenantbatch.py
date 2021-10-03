@@ -110,14 +110,10 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
     ws.add_image(img, 'A1')
 
     # Title
-    ws.row_dimensions[3].height = 60
-
-    ws['B3'].font = name_font
     ws['B3'].alignment = b_r_alignment
     ws['B3'] = 'Space:'
     ws['C3'].border = b_border
     ws['C3'].alignment = b_c_alignment
-    ws['C3'].font = name_font
     ws['C3'] = space_name
 
     ws['B4'].alignment = b_r_alignment

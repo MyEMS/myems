@@ -128,7 +128,7 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
     ws['C5'].alignment = b_c_alignment
     ws['C5'] = reporting_end_datetime_local
 
-    # Title
+    # Column Title
     ws['B6'].border = f_border
     ws['B6'].font = name_font
     ws['B6'].alignment = c_c_alignment
