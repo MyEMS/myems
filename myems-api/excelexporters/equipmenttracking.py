@@ -73,13 +73,13 @@ def generate_excel(report, space_name):
     b_c_alignment = Alignment(vertical='bottom',
                               horizontal='center',
                               text_rotation=0,
-                              wrap_text=False,
+                              wrap_text=True,
                               shrink_to_fit=False,
                               indent=0)
     c_c_alignment = Alignment(vertical='center',
                               horizontal='center',
                               text_rotation=0,
-                              wrap_text=False,
+                              wrap_text=True,
                               shrink_to_fit=False,
                               indent=0)
     for i in range(ord('B'), ord('F')):
