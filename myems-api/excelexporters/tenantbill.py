@@ -113,19 +113,19 @@ def generate_excel(report,
     c_c_alignment = Alignment(vertical='center',
                               horizontal='center',
                               text_rotation=0,
-                              wrap_text=False,
+                              wrap_text=True,
                               shrink_to_fit=False,
                               indent=0)
     b_r_alignment = Alignment(vertical='bottom',
                               horizontal='right',
                               text_rotation=0,
-                              wrap_text=False,
+                              wrap_text=True,
                               shrink_to_fit=False,
                               indent=0)
     b_l_alignment = Alignment(vertical='bottom',
                               horizontal='left',
                               text_rotation=0,
-                              wrap_text=False,
+                              wrap_text=True,
                               shrink_to_fit=False,
                               indent=0)
 
@@ -150,7 +150,7 @@ def generate_excel(report,
     if has_lease_number_data_flag:
         ws['B24'].font = name_font
         ws['B24'].alignment = b_r_alignment
-        ws['B24'] = '租赁合同号码:'
+        ws['B24'] = 'Lease Number:'
         ws['C24'].alignment = b_l_alignment
         ws['C24'].font = name_font
         ws['C24'] = report['tenant']['lease_number']
