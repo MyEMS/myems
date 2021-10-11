@@ -1,4 +1,4 @@
-export const version = '1.2.1';
+export const version = '1.3.0';
 export const navbarBreakPoint = 'xl'; // Vertical navbar breakpoint
 export const topNavbarBreakpoint = 'lg';
 //export const APIBaseURL = 'http://127.0.0.1:8000';
@@ -16,6 +16,7 @@ export const settings = {
   currency: '$',
   isNavbarVerticalCollapsed: false,
   navbarStyle: 'transparent',
-  language: 'zh_cn'
+  language: 'zh_CN' //en, de, zh_CN
 };
 export default { version, navbarBreakPoint, topNavbarBreakpoint, settings, APIBaseURL };
+

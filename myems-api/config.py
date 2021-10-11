@@ -61,9 +61,6 @@ myems_reporting_db = {
     'database': 'myems_reporting_db',
 }
 
-# address for Cookie domain
-myems_api_domain = '127.0.0.1'
-
 # indicated in how many minutes to calculate meter energy consumption
 # 30 for half hourly period
 # 60 for hourly period
@@ -83,3 +80,4 @@ upload_path = '/var/www/html/admin/upload/'
 
 # main currency unit
 currency_unit = 'CNY'
+
