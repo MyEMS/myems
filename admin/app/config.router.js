@@ -13,11 +13,11 @@ app
             $rootScope.$state = $state;
             $transitions.onStart( { }, function(trans) {
                 if ($location.$$path.indexOf('login')==-1) {
-                    if ($window.localStorage.getItem("currentUser")){
-                        currentUser = JSON.parse($window.localStorage.getItem("currentUser"));
+                    if ($window.localStorage.getItem("myems_admin_ui_current_user")){
+                        currentUser = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
                     }
                     if (currentUser == undefined || currentUser.is_admin === false) {
-                        $window.localStorage.removeItem("currentUser");
+                        $window.localStorage.removeItem("myems_admin_ui_current_user");
                         return $state.target("login.login");
                     } else {
                         $rootScope.pageTitle = trans.to().data.pageTitle;
@@ -390,7 +390,7 @@ app
                             deps: [
                                 '$ocLazyLoad',
                                 function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load(['ui.select', 'toaster']).then(
+                                    return $ocLazyLoad.load(['ui.select', 'daterangepicker', 'toaster']).then(
                                         function () {
                                             return $ocLazyLoad.load([{
                                                 serie: true,
@@ -768,7 +768,7 @@ app
                             deps: [
                                 '$ocLazyLoad',
                                 function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'toaster']).then(
+                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'daterangepicker', 'toaster']).then(
                                         function () {
                                             return $ocLazyLoad.load([{
                                                 serie: true,
@@ -781,9 +781,6 @@ app
                                             }, {
                                                 name: 'oitozero.ngSweetAlert',
                                                 files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
-                                            }, {
-                                                name: 'daterangepicker',
-                                                files: ['js/daterangepicker/angular-daterangepicker.min.js']
                                             }, {
                                                 serie: true,
                                                 files: [
@@ -824,7 +821,7 @@ app
                             deps: [
                                 '$ocLazyLoad',
                                 function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'toaster']).then(
+                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'daterangepicker', 'toaster']).then(
                                         function () {
                                             return $ocLazyLoad.load([{
                                                 serie: true,
@@ -837,9 +834,6 @@ app
                                             }, {
                                                 name: 'oitozero.ngSweetAlert',
                                                 files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
-                                            }, {
-                                                name: 'daterangepicker',
-                                                files: ['js/daterangepicker/angular-daterangepicker.min.js']
                                             }, {
                                                 serie: true,
                                                 files: [
@@ -880,7 +874,7 @@ app
                             deps: [
                                 '$ocLazyLoad',
                                 function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'toaster']).then(
+                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'daterangepicker', 'toaster']).then(
                                         function () {
                                             return $ocLazyLoad.load([{
                                                 serie: true,
@@ -893,9 +887,6 @@ app
                                             }, {
                                                 name: 'oitozero.ngSweetAlert',
                                                 files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
-                                            }, {
-                                                name: 'daterangepicker',
-                                                files: ['js/daterangepicker/angular-daterangepicker.min.js']
                                             }, {
                                                 serie: true,
                                                 files: [
@@ -1067,36 +1058,6 @@ app
                             ]
                         }
                     })
-                    .state('settings.gsmmodem', {
-                        url: "/gsmmodem",
-                        templateUrl: "views/settings/gsmmodem/gsmmodem.html",
-                        data: {
-                            pageTitle: 'MENU.SETTINGS.GSM_MODEM'
-                        },
-                        resolve: {
-                            deps: [
-                                '$ocLazyLoad',
-                                function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'toaster']).then(
-                                        function () {
-                                            return $ocLazyLoad.load([{
-                                                files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
-                                            }, {
-                                                name: 'oitozero.ngSweetAlert',
-                                                files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
-                                            }, {
-                                                serie: true,
-                                                files: [
-                                                    'app/services/settings/gsmmodem/gsmmodem.service.js',
-                                                    'app/controllers/settings/gsmmodem/gsmmodem.controller.js'
-                                                ]
-                                            }]);
-                                        }
-                                    );
-                                }
-                            ]
-                        }
-                    })
                     .state('settings.knowledgefile', {
                         url: "/knowledgefile",
                         templateUrl: "views/settings/knowledgefile/knowledgefile.html",
@@ -1171,9 +1132,15 @@ app
                             deps: [
                                 '$ocLazyLoad',
                                 function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'toaster']).then(
+                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'daterangepicker','toaster']).then(
                                         function () {
                                             return $ocLazyLoad.load([{
+                                                serie: true,
+                                                files: ['js/daterangepicker/daterangepicker.min.js', 'js/daterangepicker/daterangepicker.min.css']
+                                            }, {
+                                                name: 'daterangepicker',
+                                                files: ['js/daterangepicker/angular-daterangepicker.min.js']
+                                            }, {
                                                 files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
                                             }, {
                                                 name: 'oitozero.ngSweetAlert',

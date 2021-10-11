@@ -1,6 +1,9 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import CountUp from 'react-countup';
-import { Col, Row } from 'reactstrap';
+import { 
+  Col, 
+  Row,
+  Spinner, } from 'reactstrap';
 import CardSummary from '../common/CardSummary';
 import LineChart from '../common/LineChart';
 import { toast } from 'react-toastify';
@@ -23,6 +26,9 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
   const [basePeriodEndsDatetime, setBasePeriodEndsDatetime] = useState(current_moment.clone().subtract(1, 'years'));
   const [reportingPeriodBeginsDatetime, setReportingPeriodBeginsDatetime] = useState(current_moment.clone().startOf('year'));
   const [reportingPeriodEndsDatetime, setReportingPeriodEndsDatetime] = useState(current_moment);
+  
+  const [spinnerHidden, setSpinnerHidden] = useState(false);
+
   //Results
   const [costShareData, setCostShareData] = useState([]);
   const [timeOfUseShareData, setTimeOfUseShareData] = useState([]);
@@ -101,6 +107,8 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           if (isResponseOK) {
             console.log(json);
             setFetchSuccess(true);
+            // hide spinner
+            setSpinnerHidden(true);
             let thisYearInputCardSummaryArray = []
             json['reporting_period_input']['names'].forEach((currentValue, index) => {
               let cardSummaryItem = {}
@@ -355,6 +363,13 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
   return (
     <Fragment>
       <div className="card-deck">
+        <Spinner color="primary" hidden={spinnerHidden}  />
+        <Spinner color="secondary" hidden={spinnerHidden}  />
+        <Spinner color="success" hidden={spinnerHidden}  />
+        <Spinner color="danger" hidden={spinnerHidden}  />
+        <Spinner color="warning" hidden={spinnerHidden}  />
+        <Spinner color="info" hidden={spinnerHidden}  />
+        <Spinner color="light" hidden={spinnerHidden}  />
         {thisYearInputCardSummaryList.map(cardSummaryItem => (
           <CardSummary key={uuid()}
             rate={cardSummaryItem['increment_rate']}

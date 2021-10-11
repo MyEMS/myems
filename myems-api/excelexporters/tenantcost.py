@@ -1,6 +1,7 @@
 import base64
 import uuid
 import os
+from decimal import Decimal
 from openpyxl.chart import PieChart, LineChart, Reference
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 from openpyxl.drawing.image import Image
@@ -83,8 +84,8 @@ def generate_excel(report,
         ws.column_dimensions[chr(i)].width = 15.0
 
     # Font
-    name_font = Font(name='Constantia', size=15, bold=True)
-    title_font = Font(name='宋体', size=15, bold=True)
+    name_font = Font(name='Arial', size=15, bold=True)
+    title_font = Font(name='Arial', size=15, bold=True)
 
     table_fill = PatternFill(fill_type='solid', fgColor='1F497D')
     f_border = Border(left=Side(border_style='medium', color='00000000'),
@@ -117,36 +118,32 @@ def generate_excel(report,
 
     # Img
     img = Image("excelexporters/myems.png")
-    img.width = img.width * 0.85
-    img.height = img.height * 0.85
-    ws.add_image(img, 'B1')
+    ws.add_image(img, 'A1')
 
     # Title
-    ws.row_dimensions[3].height = 60
-
-    ws['B3'].font = name_font
     ws['B3'].alignment = b_r_alignment
     ws['B3'] = 'Name:'
     ws['C3'].border = b_border
     ws['C3'].alignment = b_c_alignment
-    ws['C3'].font = name_font
     ws['C3'] = name
 
-    ws['D3'].font = name_font
     ws['D3'].alignment = b_r_alignment
     ws['D3'] = 'Period:'
     ws['E3'].border = b_border
     ws['E3'].alignment = b_c_alignment
-    ws['E3'].font = name_font
     ws['E3'] = period_type
 
-    ws['F3'].font = name_font
-    ws['F3'].alignment = b_r_alignment
-    ws['F3'] = 'Date:'
-    ws['G3'].alignment = b_c_alignment
-    ws['G3'].font = name_font
-    ws['G3'] = reporting_start_datetime_local + "__" + reporting_end_datetime_local
-    ws.merge_cells("G3:H3")
+    ws['B4'].alignment = b_r_alignment
+    ws['B4'] = 'Reporting Start Datetime:'
+    ws['C4'].border = b_border
+    ws['C4'].alignment = b_c_alignment
+    ws['C4'] = reporting_start_datetime_local
+
+    ws['D4'].alignment = b_r_alignment
+    ws['D4'] = 'Reporting End Datetime:'
+    ws['E4'].border = b_border
+    ws['E4'].alignment = b_c_alignment
+    ws['E4'] = reporting_end_datetime_local
 
     if "reporting_period" not in report.keys() or \
             "names" not in report['reporting_period'].keys() or len(report['reporting_period']['names']) == 0:
@@ -167,7 +164,7 @@ def generate_excel(report,
 
     if has_energy_data_flag:
         ws['B6'].font = title_font
-        ws['B6'] = name+' 报告期成本'
+        ws['B6'] = name + ' ' + 'Reporting Period Costs'
 
         category = reporting_period_data['names']
         ca_len = len(category)
@@ -178,17 +175,17 @@ def generate_excel(report,
 
         ws['B8'].font = title_font
         ws['B8'].alignment = c_c_alignment
-        ws['B8'] = '成本'
+        ws['B8'] = 'Cost'
         ws['B8'].border = f_border
 
         ws['B9'].font = title_font
         ws['B9'].alignment = c_c_alignment
-        ws['B9'] = '单位面积能耗'
+        ws['B9'] = 'Per Unit Area'
         ws['B9'].border = f_border
 
         ws['B10'].font = title_font
         ws['B10'].alignment = c_c_alignment
-        ws['B10'] = '环比'
+        ws['B10'] = 'Increment Rate'
         ws['B10'].border = f_border
 
         col = 'B'
@@ -221,7 +218,7 @@ def generate_excel(report,
         ws[end_col + '7'].fill = table_fill
         ws[end_col + '7'].font = name_font
         ws[end_col + '7'].alignment = c_c_alignment
-        ws[end_col + '7'] = "总计 (" + reporting_period_data['total_unit'] + ")"
+        ws[end_col + '7'] = "Total (" + reporting_period_data['total_unit'] + ")"
         ws[end_col + '7'].border = f_border
 
         ws[end_col + '8'].font = name_font
@@ -254,7 +251,7 @@ def generate_excel(report,
 
     if has_ele_peak_flag:
         ws['B12'].font = title_font
-        ws['B12'] = name+' 分时电耗'
+        ws['B12'] = name + ' ' + 'Electricity Consumption by Time-Of-Use'
 
         ws['B13'].fill = table_fill
         ws['B13'].font = name_font
@@ -265,11 +262,11 @@ def generate_excel(report,
         ws['C13'].font = name_font
         ws['C13'].alignment = c_c_alignment
         ws['C13'].border = f_border
-        ws['C13'] = '分时电耗'
+        ws['C13'] = 'Electricity Consumption by Time-Of-Use'
 
         ws['B14'].font = title_font
         ws['B14'].alignment = c_c_alignment
-        ws['B14'] = '尖'
+        ws['B14'] = 'TopPeak'
         ws['B14'].border = f_border
 
         ws['C14'].font = title_font
@@ -279,7 +276,7 @@ def generate_excel(report,
 
         ws['B15'].font = title_font
         ws['B15'].alignment = c_c_alignment
-        ws['B15'] = '峰'
+        ws['B15'] = 'OnPeak'
         ws['B15'].border = f_border
 
         ws['C15'].font = title_font
@@ -289,7 +286,7 @@ def generate_excel(report,
 
         ws['B16'].font = title_font
         ws['B16'].alignment = c_c_alignment
-        ws['B16'] = '平'
+        ws['B16'] = 'MidPeak'
         ws['B16'].border = f_border
 
         ws['C16'].font = title_font
@@ -299,7 +296,7 @@ def generate_excel(report,
 
         ws['B17'].font = title_font
         ws['B17'].alignment = c_c_alignment
-        ws['B17'] = '谷'
+        ws['B17'] = 'OffPeak'
         ws['B17'].border = f_border
 
         ws['C17'].font = title_font
@@ -308,7 +305,7 @@ def generate_excel(report,
         ws['C17'] = round(reporting_period_data['offpeaks'][0], 2)
 
         pie = PieChart()
-        pie.title = name+' 分时电耗'
+        pie.title = name + ' ' + 'Electricity Consumption by Time-Of-Use'
         labels = Reference(ws, min_col=2, min_row=14, max_row=17)
         pie_data = Reference(ws, min_col=3, min_row=13, max_row=17)
         pie.add_data(pie_data, titles_from_data=True)
@@ -338,7 +335,7 @@ def generate_excel(report,
 
     if has_subtotals_data_flag:
         ws['B' + str(current_row_number)].font = title_font
-        ws['B' + str(current_row_number)] = name + ' 成本占比'
+        ws['B' + str(current_row_number)] = name + ' ' + 'Costs Proportion'
 
         current_row_number += 1
 
@@ -353,7 +350,7 @@ def generate_excel(report,
         ws['C' + str(current_row_number)].font = name_font
         ws['C' + str(current_row_number)].alignment = c_c_alignment
         ws['C' + str(current_row_number)].border = f_border
-        ws['C' + str(current_row_number)] = '成本占比'
+        ws['C' + str(current_row_number)] = 'Costs Proportion'
 
         current_row_number += 1
 
@@ -375,7 +372,7 @@ def generate_excel(report,
         table_end_row_number = current_row_number - 1
 
         pie = PieChart()
-        pie.title = name + ' 成本占比'
+        pie.title = name + ' ' + 'Costs Proportion'
         labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1, max_row=table_end_row_number)
         pie_data = Reference(ws, min_col=3, min_row=table_start_row_number, max_row=table_end_row_number)
         pie.add_data(pie_data, titles_from_data=True)
@@ -417,7 +414,7 @@ def generate_excel(report,
         ca_len = len(report['reporting_period']['names'])
         real_timestamps_len = timestamps_data_not_equal_0(report['parameters']['timestamps'])
         ws['B' + str(current_row_number)].font = title_font
-        ws['B' + str(current_row_number)] = name+' 详细数据'
+        ws['B' + str(current_row_number)] = name + ' ' + 'Detailed Data'
 
         table_start_row_number = (current_row_number + 1) + ca_len * 6 + real_timestamps_len * 7
         current_row_number = table_start_row_number
@@ -435,7 +432,7 @@ def generate_excel(report,
             ws['B' + str(current_row_number)].border = f_border
             ws['B' + str(current_row_number)].font = title_font
             ws['B' + str(current_row_number)].alignment = c_c_alignment
-            ws['B' + str(current_row_number)] = '日期时间'
+            ws['B' + str(current_row_number)] = 'Datetime'
 
             col = 'B'
 
@@ -454,7 +451,7 @@ def generate_excel(report,
             ws[end_col + str(current_row_number)].fill = table_fill
             ws[end_col + str(current_row_number)].font = title_font
             ws[end_col + str(current_row_number)].alignment = c_c_alignment
-            ws[end_col + str(current_row_number)] = "总计 (" + reporting_period_data['total_unit'] + ")"
+            ws[end_col + str(current_row_number)] = "Total (" + reporting_period_data['total_unit'] + ")"
             ws[end_col + str(current_row_number)].border = f_border
 
             current_row_number += 1
@@ -467,7 +464,7 @@ def generate_excel(report,
 
                 col = 'B'
 
-                periodic_sum = 0.0
+                periodic_sum = Decimal(0.0)
 
                 for j in range(0, ca_len):
                     col = chr(ord('C') + j)
@@ -491,7 +488,7 @@ def generate_excel(report,
 
             ws['B' + str(current_row_number)].font = title_font
             ws['B' + str(current_row_number)].alignment = c_c_alignment
-            ws['B' + str(current_row_number)] = '小计'
+            ws['B' + str(current_row_number)] = 'Subtotal'
             ws['B' + str(current_row_number)].border = f_border
 
             col = 'B'
@@ -505,7 +502,7 @@ def generate_excel(report,
 
                 # line
                 line = LineChart()
-                line.title = '报告期成本 - ' + ws.cell(column=3+i, row=table_start_row_number).value
+                line.title = 'Reporting Period Costs - ' + ws.cell(column=3+i, row=table_start_row_number).value
                 labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1, max_row=table_end_row_number)
                 line_data = Reference(ws, min_col=3 + i, min_row=table_start_row_number, max_row=table_end_row_number)
                 line.add_data(line_data, titles_from_data=True)
@@ -585,9 +582,7 @@ def generate_excel(report,
 
         # Img
         img = Image("excelexporters/myems.png")
-        img.width = img.width * 0.85
-        img.height = img.height * 0.85
-        parameters_ws.add_image(img, 'B1')
+        parameters_ws.add_image(img, 'A1')
 
         # Title
         parameters_ws.row_dimensions[3].height = 60
@@ -620,7 +615,7 @@ def generate_excel(report,
         parameters_ws_current_row_number = 6
 
         parameters_ws['B' + str(parameters_ws_current_row_number)].font = title_font
-        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' Parameters'
+        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' ' + 'Parameters'
 
         parameters_ws_current_row_number += 1
 
@@ -676,7 +671,7 @@ def generate_excel(report,
         ################################################################################################################
 
         ws['B' + str(current_sheet_parameters_row_number)].font = title_font
-        ws['B' + str(current_sheet_parameters_row_number)] = name + ' Parameters'
+        ws['B' + str(current_sheet_parameters_row_number)] = name + ' ' + 'Parameters'
 
         current_sheet_parameters_row_number += 1
 

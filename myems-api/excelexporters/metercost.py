@@ -76,8 +76,8 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ws.column_dimensions[chr(i)].width = 15.0
 
     # Font
-    name_font = Font(name='Constantia', size=15, bold=True)
-    title_font = Font(name='宋体', size=15, bold=True)
+    name_font = Font(name='Arial', size=15, bold=True)
+    title_font = Font(name='Arial', size=15, bold=True)
 
     table_fill = PatternFill(fill_type='solid', fgColor='1F497D')
     f_border = Border(left=Side(border_style='medium', color='00000000'),
@@ -110,37 +110,32 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
     # Img
     img = Image("excelexporters/myems.png")
-    img.width = img.width * 0.85
-    img.height = img.height * 0.85
-    ws.add_image(img, 'B1')
+    ws.add_image(img, 'A1')
 
     # Title
-    ws.row_dimensions[3].height = 60
-
-    ws['B3'].font = name_font
     ws['B3'].alignment = b_r_alignment
     ws['B3'] = 'Name:'
     ws['C3'].border = b_border
     ws['C3'].alignment = b_c_alignment
-    ws['C3'].font = name_font
     ws['C3'] = name
 
-    ws['D3'].font = name_font
     ws['D3'].alignment = b_r_alignment
     ws['D3'] = 'Period:'
     ws['E3'].border = b_border
     ws['E3'].alignment = b_c_alignment
-    ws['E3'].font = name_font
     ws['E3'] = period_type
 
-    ws['F3'].font = name_font
-    ws['F3'].alignment = b_r_alignment
-    ws['F3'] = 'Date:'
-    ws['G3'].border = b_border
-    ws['G3'].alignment = b_c_alignment
-    ws['G3'].font = name_font
-    ws['G3'] = reporting_start_datetime_local + "__" + reporting_end_datetime_local
-    ws.merge_cells("G3:H3")
+    ws['B4'].alignment = b_r_alignment
+    ws['B4'] = 'Reporting Start Datetime:'
+    ws['C4'].border = b_border
+    ws['C4'].alignment = b_c_alignment
+    ws['C4'] = reporting_start_datetime_local
+
+    ws['D4'].alignment = b_r_alignment
+    ws['D4'] = 'Reporting End Datetime:'
+    ws['E4'].border = b_border
+    ws['E4'].alignment = b_c_alignment
+    ws['E4'] = reporting_end_datetime_local
 
     if "reporting_period" not in report.keys() or \
             "values" not in report['reporting_period'].keys() or len(report['reporting_period']['values']) == 0:
@@ -158,7 +153,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
     if has_cost_data_flag:
         ws['B6'].font = title_font
-        ws['B6'] = name + '报告期成本'
+        ws['B6'] = name + 'Reporting Period Costs'
 
         reporting_period_data = report['reporting_period']
         category = report['meter']['energy_category_name']
@@ -170,12 +165,12 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
         ws['B8'].font = title_font
         ws['B8'].alignment = c_c_alignment
-        ws['B8'] = '成本'
+        ws['B8'] = 'Cost'
         ws['B8'].border = f_border
 
         ws['B9'].font = title_font
         ws['B9'].alignment = c_c_alignment
-        ws['B9'] = '环比'
+        ws['B9'] = 'Increment Rate'
         ws['B9'].border = f_border
 
         col = 'B'
@@ -207,7 +202,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ws[tce_col + '7'].fill = table_fill
         ws[tce_col + '7'].font = name_font
         ws[tce_col + '7'].alignment = c_c_alignment
-        ws[tce_col + '7'] = "吨标准煤 (TCE)"
+        ws[tce_col + '7'] = 'Ton of Standard Coal (TCE)'
         ws[tce_col + '7'].border = f_border
 
         ws[tce_col + '8'].font = name_font
@@ -226,7 +221,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ws[tco2e_col + '7'].fill = table_fill
         ws[tco2e_col + '7'].font = name_font
         ws[tco2e_col + '7'].alignment = c_c_alignment
-        ws[tco2e_col + '7'] = "吨二氧化碳排放 (TCO2E)"
+        ws[tco2e_col + '7'] = 'Ton of Carbon Dioxide Emissions (TCO2E)'
         ws[tco2e_col + '7'].border = f_border
 
         ws[tco2e_col + '8'].font = name_font
@@ -266,14 +261,14 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         start_detail_data_row_number = 13 + (parameters_parameters_datas_len + ca_len) * 6
 
         ws['B11'].font = title_font
-        ws['B11'] = name + '详细数据'
+        ws['B11'] = name + 'Detailed Data'
 
         ws.row_dimensions[start_detail_data_row_number].height = 60
         ws['B' + str(start_detail_data_row_number)].fill = table_fill
         ws['B' + str(start_detail_data_row_number)].font = title_font
         ws['B' + str(start_detail_data_row_number)].border = f_border
         ws['B' + str(start_detail_data_row_number)].alignment = c_c_alignment
-        ws['B' + str(start_detail_data_row_number)] = '日期时间'
+        ws['B' + str(start_detail_data_row_number)] = 'Datetime'
         time = times
         has_data = False
         max_row = 0
@@ -297,7 +292,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
             ws['B' + str(end_data_row_number + 1)].font = title_font
             ws['B' + str(end_data_row_number + 1)].alignment = c_c_alignment
-            ws['B' + str(end_data_row_number + 1)] = '总计'
+            ws['B' + str(end_data_row_number + 1)] = 'Total'
             ws['B' + str(end_data_row_number + 1)].border = f_border
 
             for i in range(0, ca_len):
@@ -328,7 +323,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                 ws[col + str(end_data_row_number + 1)].border = f_border
 
             line = LineChart()
-            line.title = '报告期成本 - ' + report['meter']['energy_category_name'] + \
+            line.title = 'Reporting Period Costs - ' + report['meter']['energy_category_name'] + \
                          " (" + report['meter']['unit_of_measure'] + ")"
             line_data = Reference(ws, min_col=3, min_row=start_detail_data_row_number, max_row=max_row)
             line.series.append(Series(line_data, title_from_data=True))
@@ -400,9 +395,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
         # Img
         img = Image("excelexporters/myems.png")
-        img.width = img.width * 0.85
-        img.height = img.height * 0.85
-        parameters_ws.add_image(img, 'B1')
+        parameters_ws.add_image(img, 'A1')
 
         # Title
         parameters_ws.row_dimensions[3].height = 60
@@ -435,7 +428,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         parameters_ws_current_row_number = 6
 
         parameters_ws['B' + str(parameters_ws_current_row_number)].font = title_font
-        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' Parameters'
+        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' ' + 'Parameters'
 
         parameters_ws_current_row_number += 1
 
@@ -491,7 +484,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ################################################################################################################
 
         ws['B' + str(current_sheet_parameters_row_number)].font = title_font
-        ws['B' + str(current_sheet_parameters_row_number)] = name + ' Parameters'
+        ws['B' + str(current_sheet_parameters_row_number)] = name + ' ' + 'Parameters'
 
         current_sheet_parameters_row_number += 1
 

@@ -82,8 +82,8 @@ app.controller('TenantController', function ($scope, $translate, $uibModal, Cost
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.FAILURE_TITLE"),
-						body: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("COMMON.TENANT") }),
+						title: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("COMMON.TENANT") }),
+						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
 				}
@@ -135,8 +135,8 @@ app.controller('TenantController', function ($scope, $translate, $uibModal, Cost
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.FAILURE_TITLE"),
-						body: $translate.instant("TOASTER.ERROR_UPDATE_BODY", { template: $translate.instant("COMMON.TENANT") }),
+						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", { template: $translate.instant("COMMON.TENANT") }),
+						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
 				}
@@ -169,18 +169,11 @@ app.controller('TenantController', function ($scope, $translate, $uibModal, Cost
 								showCloseButton: true,
 							});
 							$scope.$emit('handleEmitTenantChanged');
-						} else if (angular.isDefined(response.status) && response.status === 400) {
-							toaster.pop({
-								type: "error",
-								title: $translate.instant(response.data.title),
-								body: $translate.instant(response.data.description),
-								showCloseButton: true,
-							});
 						} else {
 							toaster.pop({
 								type: "error",
-								title: $translate.instant("TOASTER.FAILURE_TITLE"),
-								body: $translate.instant("TOASTER.ERROR_DELETE_BODY", { template: $translate.instant("COMMON.TENANT") }),
+								title: $translate.instant("TOASTER.ERROR_DELETE_BODY", { template: $translate.instant("COMMON.TENANT") }),
+								body: $translate.instant(response.data.description),
 								showCloseButton: true,
 							});
 						}
@@ -204,15 +197,14 @@ app.controller('ModalAddTenantCtrl', function ($scope, $uibModalInstance, params
 	$scope.costcenters = params.costcenters;
 	$scope.contacts = params.contacts;
 	$scope.tenant = {
-		lease_start_datetime_utc: moment(),
+		lease_start_datetime: moment(),
 		lease_end_datetime_utc: moment(),
 	};
 	$scope.dtOptions = {
 		locale: {
 			format: 'YYYY-MM-DD HH:mm:ss',
-			applyLabel: "确定",
-			cancelLabel: "取消",
-			customRangeLabel: "自定义",
+			applyLabel: "OK",
+			cancelLabel: "Cancel",
 		},
 		timePicker: true,
 		timePicker24Hour: true,
@@ -220,8 +212,8 @@ app.controller('ModalAddTenantCtrl', function ($scope, $uibModalInstance, params
 		singleDatePicker: true,
 	};
 	$scope.ok = function () {
-		$scope.tenant.lease_start_datetime_utc = moment($scope.tenant.lease_start_datetime_utc).format().slice(0, 19);
-		$scope.tenant.lease_end_datetime_utc = moment($scope.tenant.lease_end_datetime_utc).format().slice(0, 19);
+		$scope.tenant.lease_start_datetime = moment($scope.tenant.lease_start_datetime).format().slice(0, 19);
+		$scope.tenant.lease_end_datetime = moment($scope.tenant.lease_end_datetime).format().slice(0, 19);
 		$uibModalInstance.close($scope.tenant);
 	};
 
@@ -239,9 +231,8 @@ app.controller('ModalEditTenantCtrl', function ($scope, $uibModalInstance, param
 	$scope.dtOptions = {
 		locale: {
 			format: 'YYYY-MM-DD HH:mm:ss',
-			applyLabel: "确定",
-			cancelLabel: "取消",
-			customRangeLabel: "自定义",
+			applyLabel: "OK",
+			cancelLabel: "Cancel",
 		},
 		timePicker: true,
 		timePicker24Hour: true,
@@ -249,8 +240,8 @@ app.controller('ModalEditTenantCtrl', function ($scope, $uibModalInstance, param
 		singleDatePicker: true,
 	};
 	$scope.ok = function () {
-		$scope.tenant.lease_start_datetime_utc = moment($scope.tenant.lease_start_datetime_utc).format().slice(0, 19);
-		$scope.tenant.lease_end_datetime_utc = moment($scope.tenant.lease_end_datetime_utc).format().slice(0, 19);
+		$scope.tenant.lease_start_datetime = moment($scope.tenant.lease_start_datetime).format().slice(0, 19);
+		$scope.tenant.lease_end_datetime = moment($scope.tenant.lease_end_datetime).format().slice(0, 19);
 		$uibModalInstance.close($scope.tenant);
 	};
 

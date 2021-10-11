@@ -3,11 +3,13 @@ import simplejson as json
 import mysql.connector
 import config
 import uuid
+from core.userlogger import user_logger
 
 
 class EquipmentCollection:
     @staticmethod
     def __init__():
+        """Initializes EquipmentCollection"""
         pass
 
     @staticmethod
@@ -57,6 +59,7 @@ class EquipmentCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
         try:
@@ -88,8 +91,8 @@ class EquipmentCollection:
         if 'cost_center_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['cost_center_id'], int) or \
                 new_values['data']['cost_center_id'] <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_COST_CENTER_ID')
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_COST_CENTER_ID')
         cost_center_id = new_values['data']['cost_center_id']
 
         if 'description' in new_values['data'].keys() and \
@@ -145,6 +148,7 @@ class EquipmentCollection:
 class EquipmentItem:
     @staticmethod
     def __init__():
+        """Initializes EquipmentItem"""
         pass
 
     @staticmethod
@@ -198,6 +202,8 @@ class EquipmentItem:
         resp.body = json.dumps(meta_result)
 
     @staticmethod
+    @user_logger
+    @user_logger
     def on_delete(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -284,6 +290,7 @@ class EquipmentItem:
         resp.status = falcon.HTTP_204
 
     @staticmethod
+    @user_logger
     def on_put(req, resp, id_):
         """Handles PUT requests"""
         if not id_.isdigit() or int(id_) <= 0:
@@ -318,8 +325,8 @@ class EquipmentItem:
         if 'cost_center_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['cost_center_id'], int) or \
                 new_values['data']['cost_center_id'] <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_COST_CENTER_ID')
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_COST_CENTER_ID')
         cost_center_id = new_values['data']['cost_center_id']
 
         if 'description' in new_values['data'].keys() and \
@@ -380,6 +387,7 @@ class EquipmentItem:
 
     # Clone an Equipment
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles PUT requests"""
         if not id_.isdigit() or int(id_) <= 0:
@@ -526,6 +534,7 @@ class EquipmentItem:
 class EquipmentParameterCollection:
     @staticmethod
     def __init__():
+        """Initializes EquipmentParameterCollection"""
         pass
 
     @staticmethod
@@ -655,6 +664,7 @@ class EquipmentParameterCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         if not id_.isdigit() or int(id_) <= 0:
@@ -838,7 +848,9 @@ class EquipmentParameterCollection:
 
 class EquipmentParameterItem:
     @staticmethod
+    @user_logger
     def __init__():
+        """Initializes EquipmentParameterItem"""
         pass
 
     @staticmethod
@@ -962,6 +974,7 @@ class EquipmentParameterItem:
         resp.body = json.dumps(meta_result)
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, pid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1008,8 +1021,9 @@ class EquipmentParameterItem:
         resp.status = falcon.HTTP_204
 
     @staticmethod
+    @user_logger
     def on_put(req, resp, id_, pid):
-        """Handles POST requests"""
+        """Handles PUT requests"""
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EQUIPMENT_ID')
@@ -1210,6 +1224,7 @@ class EquipmentParameterItem:
 class EquipmentMeterCollection:
     @staticmethod
     def __init__():
+        """Initializes EquipmentMeterCollection"""
         pass
 
     @staticmethod
@@ -1265,6 +1280,7 @@ class EquipmentMeterCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -1337,13 +1353,15 @@ class EquipmentMeterCollection:
 class EquipmentMeterItem:
     @staticmethod
     def __init__():
+        """Initializes EquipmentMeterItem"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, mid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, mid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1395,6 +1413,7 @@ class EquipmentMeterItem:
 class EquipmentOfflineMeterCollection:
     @staticmethod
     def __init__():
+        """Initializes EquipmentOfflineMeterCollection"""
         pass
 
     @staticmethod
@@ -1450,6 +1469,7 @@ class EquipmentOfflineMeterCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -1522,13 +1542,15 @@ class EquipmentOfflineMeterCollection:
 class EquipmentOfflineMeterItem:
     @staticmethod
     def __init__():
+        """Initializes EquipmentOfflineMeterItem"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, mid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, mid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1581,6 +1603,7 @@ class EquipmentOfflineMeterItem:
 class EquipmentVirtualMeterCollection:
     @staticmethod
     def __init__():
+        """Initializes EquipmentVirtualMeterCollection"""
         pass
 
     @staticmethod
@@ -1636,6 +1659,7 @@ class EquipmentVirtualMeterCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -1708,13 +1732,15 @@ class EquipmentVirtualMeterCollection:
 class EquipmentVirtualMeterItem:
     @staticmethod
     def __init__():
+        """Initializes EquipmentVirtualMeterItem"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, mid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, mid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',

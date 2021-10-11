@@ -2,11 +2,13 @@ import falcon
 import simplejson as json
 import mysql.connector
 import config
+from core.userlogger import user_logger
 
 
 class MenuCollection:
     @staticmethod
     def __init__():
+        """"Initializes MenuCollection"""
         pass
 
     @staticmethod
@@ -43,6 +45,7 @@ class MenuCollection:
 class MenuItem:
     @staticmethod
     def __init__():
+        """"Initializes MenuItem"""
         pass
 
     @staticmethod
@@ -77,6 +80,7 @@ class MenuItem:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_put(req, resp, id_):
         """Handles PUT requests"""
         try:
@@ -114,6 +118,7 @@ class MenuItem:
 class MenuChildrenCollection:
     @staticmethod
     def __init__():
+        """"Initializes MenuChildrenCollection"""
         pass
 
     @staticmethod
@@ -185,6 +190,7 @@ class MenuChildrenCollection:
 class MenuWebCollection:
     @staticmethod
     def __init__():
+        """"Initializes MenuWebCollection"""
         pass
 
     @staticmethod

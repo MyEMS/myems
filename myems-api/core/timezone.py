@@ -2,11 +2,13 @@ import falcon
 import simplejson as json
 import mysql.connector
 import config
+from core.userlogger import user_logger
 
 
 class TimezoneCollection:
     @staticmethod
     def __init__():
+        """"Initializes TimezoneCollection"""
         pass
 
     @staticmethod
@@ -37,6 +39,7 @@ class TimezoneCollection:
 class TimezoneItem:
     @staticmethod
     def __init__():
+        """"Initializes TimezoneItem"""
         pass
 
     @staticmethod
@@ -71,6 +74,7 @@ class TimezoneItem:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_put(req, resp, id_):
         """Handles PUT requests"""
         try:

@@ -14,7 +14,8 @@
 
 ## MyEMS-Einführung
 
-MyEMS ist ein industrie führend Open Source Energiemanagementsystem, das auf Cloud-Computing-, IOT-, Big Data- und AI-Technologien basiert. MyEMS kann für eine standardmäßige und leistungsstarke integrierte Energiemanagement-Serviceplattform verwendet werden.
+MyEMS ist ein industrie führend Open Source Energiemanagementsystem.
+MyEMS kann für Gerätemanagement, Datenerfassung, Verarbeitung, Analyse, Visualisierung und Berichterstellung für Ihre EMS-Projekte verwendet werden.
 MyEMS wird von einem erfahrenen Entwicklungsteam entwickelt und gewartet, und der Quellcode des Systems wird unter MIT-Lizenz veröffentlicht.
 
 ## MyEMS Architektur
@@ -23,6 +24,15 @@ MyEMS wird von einem erfahrenen Entwicklungsteam entwickelt und gewartet, und de
 
 ![MyEMS Architecture Site View](/docs/images/architecture-site-view.png)
 
+## MyEMS Spiegel
+
+[1]. [Github](https://github.com/MyEMS/myems) https://github.com/myems/myems
+
+[2]. [Gitee](https://gitee.com/myems/myems) https://gitee.com/myems/myems
+
+[3]. [Bitbucket](https://bitbucket.org/myems/myems) https://bitbucket.org/myems/myems
+
+[4]. [Gitlab](https://gitlab.com/myems/myems) https://gitlab.com/myems/myems
 
 ## MyEMS Komponenten (GCommunity Edition)
 
@@ -69,6 +79,27 @@ MyEMS Web UI: 80
 MyEMS Admin UI: 8001
 
 
+### Voreingestelltes Passwort
+<details>
+  <summary>Admin UI</summary>
+
+```
+administrator
+
+!MyEMS1
+```
+</details>
+
+<details>
+  <summary>Web UI</summary>
+
+```
+administrator@myems.io
+
+!MyEMS1
+```
+</details>
+
 ### Docker Docker-compose Installieren 
 
 ```
@@ -76,24 +107,28 @@ git clone https://gitee.com/myems/myems.git
 ```
 
 Ändern Sie die Datenbankkonfiguration in den folgenden Dateien
-Angenommen, die Datenbank-IP lautet 192.168.2.2
+Angenommen, die Datenbank-IP lautet 192.168.0.1
 ```
 sudo nano myems-api/config.py 
 sudo nano myems-aggregation/config.py 
 sudo nano myems-cleaning/config.py 
 sudo nano myems-modbus-tcp/config.py 
 sudo nano myems-normalization/config.py 
-
-# host: '127.0.0.1' => 'host': '192.168.2.2'
 ```
 
+~~'host': '127.0.0.1'~~
+
+'host': '192.168.0.1'
+
 Ändern Sie den location '/api' von nginx.conf in web und admin
-Angenommen, die Host-IP lautet 192.168.2.3
+Angenommen, die Host-IP lautet 192.168.0.2
 ```
 sudo nano admin/nginx.conf
 sudo nano web/nginx.conf
-# proxy_pass http://127.0.0.1:8000/;  => proxy_pass http://192.168.2.3:8000/; 
 ```
+~~proxy_pass http://127.0.0.1:8000/;~~
+
+proxy_pass http://192.168.0.2:8000/;
 
 Verpacken Sie das web, um Produktdateien zu generieren
 ```
@@ -209,8 +244,15 @@ docker-compose up -d
 | Johnson Controls Metasys API     | ❌             | ✔️        | https://www.johnsoncontrols.com/ |
 | Honeywell EBI                    | ❌️             | ✔️        | https://www.honeywell.com/ |
 | SIEMENS Desigo CC                | ❌             | ✔️        | https://siemens.com/ |
-| QWeather API                     | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
+| QWeather API                     | ❌             | ✔️        | https://www.qweather.com/ |
+| Ingest from MySQL                | ❌             | ✔️        | https://www.mysql.com/ |
+| Ingest from Microsoft SQL Server | ❌             | ✔️        | https://www.microsoft.com/en-us/sql-server/ |
+| Ingest from PostgreSQL           | ❌             | ✔️        | https://www.postgresql.org/ |
+| Ingest from Oracle               | ❌             | ✔️        | https://www.oracle.com/database/ |
+| Ingest from MongoDB              | ❌             | ✔️        | https://www.mongodb.com/ |
+| Ingest from InfluxDB             | ❌             | ✔️        | https://www.influxdata.com/products/influxdb/ |
 | FDD Rule Engine                  | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
+| Alarm via Alibaba Cloud SMS Service| ❌           | ✔️        | https://www.aliyun.com/product/sms?userCode=8jwn6m8c |
 | Advanced Reporting Engine        | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz oder eine benutzerdefinierte Entwicklung |
 | Prognose des Energieverbrauchs   | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz oder eine benutzerdefinierte Entwicklung |
 | Graphics Drawing Tool            | ❌             | ✔️        | Erfordert eine Standardkomponentenlizenz |
@@ -238,26 +280,12 @@ docker-compose up -d
 | Bidding Support Service          | ❌             | ✔️        |                      |
 | Customize Support Service        | ❌             | ✔️        |                      |
 
-
 ## MyEMS Bildschirmfoto
 ![MyEMS Space EnergyCategory1](/docs/images/myems-space-energycategory1.gif)
 ![MyEMS Space EnergyCategory2](/docs/images/myems-space-energycategory2.gif)
 ![MyEMS Space EnergyCategory3](/docs/images/myems-space-energycategory3.gif)
 ![MyEMS Großbild-Dashboard](/docs/images/myems-large-screen-dashboard.gif)
 
-
 ## MyEMS Straßenkarte
 
 [Community Edition Straßenkarte](https://github.com/orgs/MyEMS/projects)
-
-
-## MyEMS Spiegel
-
-[1]. [http://github.com/MyEMS/myems](http://github.com/MyEMS/myems)
-  
-[2]. [http://gitee.com/myems/myems](http://gitee.com/myems/myems)
-
-[3]. [http://bitbucket.org/myems/myems](http://bitbucket.org/myems/myems)
-
-[4]. [https://gitlab.com/myems/myems](https://gitlab.com/myems/myems)
-

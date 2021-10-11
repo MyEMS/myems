@@ -144,12 +144,18 @@ INSERT INTO `myems_system_db`.`tbl_data_sources`
 (`id`, `name`, `uuid`,`gateway_id`, `protocol`,  `connection`)
 VALUES
 (1, '示例ModbusTCP数据源', 'b3ace9d4-b63b-419b-818f-0f6d1d0603a4', 1, 'modbus-tcp', '{"host":"192.168.0.1", "port":502}'),
-(2, '示例ModbusRTU数据源', 'b903f0af-9115-448c-9d46-8caf5f9995f3', 1, 'modbus-tru', '{"port": "/dev/ttyUSB0","slaveaddress": 1, "baudrate": 9600,"bytesize": 8,"parity": "N","stopbits": 1,"timeout": 0.05,"mode": "rtu"}'),
+(2, '示例ModbusRTU数据源', 'b903f0af-9115-448c-9d46-8caf5f9995f3', 1, 'modbus-rtu', '{"port": "/dev/ttyUSB0","slaveaddress": 1, "baudrate": 9600,"bytesize": 8,"parity": "N","stopbits": 1,"timeout": 0.05,"mode": "rtu"}'),
 (3, '示例Bacnet/IP数据源', 'e2d5b30b-b554-4ebe-8ce7-f377ab380d19', 1, 'bacnet-ip', '{"host":"192.168.0.3", "port":47808}'),
 (4, '示例S7数据源', '9eb0d705-d02a-43f8-9c62-7e5ef508b255', 1, 's7', '{"host":"192.168.0.4", "port":102, "rack": 0, "slot": 2}'),
-(5, '示例ControlLogix数据源', 'd1dc9792-7861-4dd3-9b01-07511dae16c1', 1, 'control-logix', '{"host":"192.168.0.5","port":44818,"processorslot":3}'),
+(5, '示例ControlLogix数据源', 'd1dc9792-7861-4dd3-9b01-07511dae16c1', 1, 'controllogix', '{"host":"192.168.0.5","port":44818,"processorslot":3}'),
 (6, '示例OPU UA数据源', '56e1c642-8032-495b-af2e-18a77ca75e0f', 1, 'opc-ua', '{"url":"opc.tcp://192.168.0.6:49320/OPCUA/SimulationServer/"}'),
-(7, '示例天气数据源', '9bff8e95-c7c9-4002-b040-08a96ae196b5', 1, 'weather', '{"base_url":"WEATHER_API_URL", "location":"beijing", "key":"APPKEY"}');
+(7, '示例天气数据源', '9bff8e95-c7c9-4002-b040-08a96ae196b5', 1, 'weather', '{"base_url":"WEATHER_API_URL", "location":"beijing", "key":"APPKEY"}'),
+(8, '示例MySQL数据源', '409439d0-3e0a-4ab3-865a-a5c0329925f8', 1, 'mysql', '{"host":"192.168.0.8", "port":3306, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }'),
+(9, '示例SQL Server数据源', '025f0429-5088-4f2a-85a3-dff9b4523692', 1, 'sqlserver', '{"host":"192.168.0.9", "port":1433, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }'),
+(10, '示例PostgreSQL数据源', 'd89b81e6-4917-4a84-b0e9-c2e939599d3a', 1, 'postgresql', '{"host":"192.168.0.10", "port":5432, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }'),
+(11, '示例Oracle数据源', '1bdf4db8-ea71-433e-ad16-b637275073d7', 1, 'oracle', '{"host":"192.168.0.11", "port":1521, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }'),
+(12, '示例MongoDB数据源', 'c211fbad-d1d4-465c-bdf5-242f5593682e', 1, 'mongodb', '{"host":"192.168.0.12", "port":27017, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }'),
+(13, '示例InfluxDB数据源', '79cb60ff-c683-4289-ac69-bd13e1f970d1', 1, 'influxdb', '{"host":"192.168.0.13", "port":8086, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }');
 COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -161,7 +167,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_distribution_circuits`
 (`id`, `name`, `uuid`, `distribution_system_id`, `distribution_room`, `switchgear`, `peak_load`, `peak_current`, `customers`, `meters`)
 VALUES
-(1, '51W91', '52f7abe1-ba0e-47a6-a327-4faac42a1d11', 1, 'EW1', '51AL9', 30, 53.6, '地下室应急照明', 'ALE-1102, ALE-1082');
+(1, 'AHa01', '52f7abe1-ba0e-47a6-a327-4faac42a1d11', 1, '1ES', 'AHa01', 5100, 1250, '11#电源进线1WHj2', 'AHa01');
 
 COMMIT;
 
@@ -216,15 +222,20 @@ COMMIT;
 -- ---------------------------------------------------------------------------------------------------------------------
 START TRANSACTION;
 USE `myems_system_db`;
-
-INSERT INTO `myems_system_db`.`tbl_energy_items`
-(`id`, `name`, `uuid`, `energy_category_id`)
+INSERT INTO myems_system_db.tbl_energy_items
+(id, name, uuid, energy_category_id)
 VALUES
-(1, '空调用电', 'c5eac07a-e889-4a56-aa1b-a0b688c4e953', 1),
-(2, '动力用电', '6875e4e0-a2ec-47a5-a88e-becb10e9603a', 1),
-(3, '照明用电', '79918598-6477-4130-a85c-4cb87d0eac23', 1);
-
+(1, '照明和插座用电', 'cade4e78-2b85-4bea-ab6e-0d6accc88d03', 1),
+(2, '走廊和应急照明用电', '7a6dc086-ce08-4d66-ba75-f69af92b32f4', 1),
+(3, '室外景观照明用电', 'abcebbd1-b770-4e7c-ae54-8434d724522c', 1),
+(4, '冷热站用电', '97cdea54-04c7-4a6a-b4c2-df15874b2f49', 1),
+(5, '空调末端用电', '84ab7262-33fb-43a1-9880-9287cc268cc0', 1),
+(6, '电梯用电', '26a5fc62-3da1-41b0-bcb1-0056e25ee121', 1),
+(7, '水泵用电', 'fc6079f5-01a4-434f-9004-9382e8c3dd47', 1),
+(8, '通风机用电', 'a4bf68cd-6ae1-48dd-b281-07c95312921d', 1),
+(9, '特殊用电', '1990d151-02ff-4fd6-b298-2b2edee4e0ea', 1);
 COMMIT;
+
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Demo Data for table `myems_system_db`.`tbl_energy_flow_diagrams`
@@ -235,7 +246,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_energy_flow_diagrams`
 (`id`, `name`, `uuid`)
 VALUES
-(1, '低压配电系统', '3ccbc9c6-9575-4212-a63a-a688d1154302');
+(1, '示例能流图', '3ccbc9c6-9575-4212-a63a-a688d1154302');
 
 COMMIT;
 
@@ -449,25 +460,25 @@ INSERT INTO `myems_system_db`.`tbl_points`
 (`id`, `name`, `data_source_id`, `object_type`, `units`, `high_limit`, `low_limit`, `ratio`, `is_trend`, `address`, `description` )
 VALUES
 (1, 'Active Energy Import Tariff 1', 1, 'ENERGY_VALUE', 'kWh', 99999999999, 0, 1.000, true,
-  '{\"slave_id\":1, \"function_code\":3, \"offset\":801, \"number_of_registers\":4, \"format\":\"=d\", \"swap_adjacent_bytes\":false}', null),
+  '{\"slave_id\":1, \"function_code\":3, \"offset\":801, \"number_of_registers\":4, \"format\":\"=d\", \"byte_swap\":false}', null),
 
 (2, 'Working hours counter', 1, 'ANALOG_VALUE',  'S', 999999999, 0, 1.000, true,
-  '{\"slave_id\":1, \"function_code\":3, \"offset\":209, \"number_of_registers\":2, \"format\":\"=L\", \"swap_adjacent_bytes\":true}', null),
+  '{\"slave_id\":1, \"function_code\":3, \"offset\":209, \"number_of_registers\":2, \"format\":\"=L\", \"byte_swap\":true}', null),
 
 (3, 'Current a', 1, 'ANALOG_VALUE',  'A', 5, 0, 1.000, true,
-  '{\"slave_id\":1, \"function_code\":3, \"offset\":13, \"number_of_registers\":2, \"format\":\"=f\", \"swap_adjacent_bytes\":false}', null),
+  '{\"slave_id\":1, \"function_code\":3, \"offset\":13, \"number_of_registers\":2, \"format\":\"=f\", \"byte_swap\":false}', null),
 
 (4, 'Active Power a', 1, 'ANALOG_VALUE',  'W', 3450, 0, 1.000, true,
-  '{\"slave_id\":1, \"function_code\":3, \"offset\":25, \"number_of_registers\":2, \"format\":\"=f\", \"swap_adjacent_bytes\":false}', null),
+  '{\"slave_id\":1, \"function_code\":3, \"offset\":25, \"number_of_registers\":2, \"format\":\"=f\", \"byte_swap\":false}', null),
 
 (5, 'Power Factor a', 1, 'ANALOG_VALUE',  'W', 1, 0, 1.000, true,
-  '{\"slave_id\":1, \"function_code\":3, \"offset\":37, \"number_of_registers\":2, \"format\":\"=f\", \"swap_adjacent_bytes\":false}', null),
+  '{\"slave_id\":1, \"function_code\":3, \"offset\":37, \"number_of_registers\":2, \"format\":\"=f\", \"byte_swap\":false}', null),
 
 (6, '示例ModbusTCP数据点6', 2, 'ENERGY_VALUE',  'Wh', 99999999999, 0, 1.000, true,
-  '{\"slave_id\":1, \"function_code\":3, \"offset\":40001, \"number_of_registers\":2, \"format\":\"=f\", \"swap_adjacent_bytes\":false}', null),
+  '{\"slave_id\":1, \"function_code\":3, \"offset\":40001, \"number_of_registers\":2, \"format\":\"=f\", \"byte_swap\":false}', null),
 
 (7, '示例数据点7', 2, 'ANALOG_VALUE',  'V', 690, 0, 1.000, true,
-  '{\"slave_id\":1, \"function_code\":3, \"offset\":40002, \"number_of_registers\":2, \"format\":\"=f\", \"swap_adjacent_bytes\":false}', null),
+  '{\"slave_id\":1, \"function_code\":3, \"offset\":40002, \"number_of_registers\":2, \"format\":\"=f\", \"byte_swap\":false}', null),
 
 (8, 'BACnet示例数据点1', 3, 'ANALOG_VALUE',  'V', 690, 0, 1.000, true,
   '{\"object_type\":\"analogValue\", \"object_id\":3004860, \"property_name\":\"presentValue\", \"property_array_index\":null}', null),
@@ -1131,9 +1142,9 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_variables`
 (`id`, `name`, `expression_id`, `meter_type`, `meter_id`)
 VALUES
-(1, 'x', 1, 'meter', 1),
-(2, 'y', 1, 'meter', 2),
-(3, 'z', 1, 'meter', 3);
+(1, 'x1', 1, 'meter', 1),
+(2, 'x2', 1, 'meter', 2),
+(3, 'x3', 1, 'meter', 3);
 
 COMMIT;
 

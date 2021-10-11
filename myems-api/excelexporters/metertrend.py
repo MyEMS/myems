@@ -82,8 +82,8 @@ def generate_excel(report,
         ws.column_dimensions[chr(i)].width = 15.0
 
     # Font
-    name_font = Font(name='Constantia', size=15, bold=True)
-    title_font = Font(name='宋体', size=15, bold=True)
+    name_font = Font(name='Arial', size=15, bold=True)
+    title_font = Font(name='Arial', size=15, bold=True)
     data_font = Font(name='Franklin Gothic Book', size=11)
 
     table_fill = PatternFill(fill_type='solid', fgColor='1F497D')
@@ -117,29 +117,26 @@ def generate_excel(report,
 
     # Img
     img = Image("excelexporters/myems.png")
-    img.width = img.width * 0.85
-    img.height = img.height * 0.85
-    ws.add_image(img, 'B1')
+    ws.add_image(img, 'A1')
 
     # Title
-    ws.row_dimensions[3].height = 60
-
-    ws['B3'].font = name_font
     ws['B3'].alignment = b_r_alignment
     ws['B3'] = 'Name:'
     ws['C3'].border = b_border
     ws['C3'].alignment = b_c_alignment
-    ws['C3'].font = name_font
     ws['C3'] = name
 
-    ws['F3'].font = name_font
-    ws['F3'].alignment = b_r_alignment
-    ws['F3'] = 'Date:'
-    ws['G3'].border = b_border
-    ws['G3'].alignment = b_c_alignment
-    ws['G3'].font = name_font
-    ws['G3'] = reporting_start_datetime_local + "__" + reporting_end_datetime_local
-    ws.merge_cells("G3:H3")
+    ws['B4'].alignment = b_r_alignment
+    ws['B4'] = 'Reporting Start Datetime:'
+    ws['C4'].border = b_border
+    ws['C4'].alignment = b_c_alignment
+    ws['C4'] = reporting_start_datetime_local
+
+    ws['B5'].alignment = b_r_alignment
+    ws['B5'] = 'Reporting End Datetime:'
+    ws['C5'].border = b_border
+    ws['C5'].alignment = b_c_alignment
+    ws['C5'] = reporting_end_datetime_local
     if "reporting_period" not in report.keys() or \
             "names" not in report['reporting_period'].keys() or len(report['reporting_period']['names']) == 0:
         filename = str(uuid.uuid4()) + '.xlsx'
@@ -199,14 +196,14 @@ def generate_excel(report,
 
             max_row = start_detail_data_row_num + len(time)
             ws['B6'].font = title_font
-            ws['B6'] = name + ' 趋势'
+            ws['B6'] = name + ' ' + 'Trend'
 
             ws.row_dimensions[start_detail_data_row_num - 1].height = 60
             ws['B' + str(start_detail_data_row_num - 1)].fill = table_fill
             ws['B' + str(start_detail_data_row_num - 1)].font = title_font
             ws['B' + str(start_detail_data_row_num - 1)].border = f_border
             ws['B' + str(start_detail_data_row_num - 1)].alignment = c_c_alignment
-            ws['B' + str(start_detail_data_row_num - 1)] = '日期时间'
+            ws['B' + str(start_detail_data_row_num - 1)] = 'Datetime'
 
             for i in range(0, len(time)):
                 col = 'B'
@@ -233,12 +230,13 @@ def generate_excel(report,
                     ws[col + row].alignment = c_c_alignment
                     ws[col + row] = round(reporting_period_data['values'][i][j], 3) if \
                         len(reporting_period_data['values'][i]) > 0 and \
-                        reporting_period_data['values'][i][j] is not None else " "
+                        len(reporting_period_data['values'][i]) > j and \
+                        reporting_period_data['values'][i][j] is not None else ''
                     ws[col + row].border = f_border
             # line
             # 39~: line
                 line = LineChart()
-                line.title = '趋势值 - ' + reporting_period_data['names'][i]
+                line.title = 'Trend Value - ' + reporting_period_data['names'][i]
                 labels = Reference(ws, min_col=2, min_row=start_detail_data_row_num, max_row=max_row-1)
                 line_data = Reference(ws, min_col=3 + i, min_row=start_detail_data_row_num+1, max_row=max_row-1)
                 line.add_data(line_data, titles_from_data=True)
@@ -309,9 +307,7 @@ def generate_excel(report,
 
         # Img
         img = Image("excelexporters/myems.png")
-        img.width = img.width * 0.85
-        img.height = img.height * 0.85
-        parameters_ws.add_image(img, 'B1')
+        parameters_ws.add_image(img, 'A1')
 
         # Title
         parameters_ws.row_dimensions[3].height = 60
@@ -336,7 +332,7 @@ def generate_excel(report,
         parameters_ws_current_row_number = 6
 
         parameters_ws['B' + str(parameters_ws_current_row_number)].font = title_font
-        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' Parameters'
+        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' ' + 'Parameters'
 
         parameters_ws_current_row_number += 1
 
@@ -392,7 +388,7 @@ def generate_excel(report,
         ################################################################################################################
 
         ws['B' + str(current_sheet_parameters_row_number)].font = title_font
-        ws['B' + str(current_sheet_parameters_row_number)] = name + ' Parameters'
+        ws['B' + str(current_sheet_parameters_row_number)] = name + ' ' + 'Parameters'
 
         current_sheet_parameters_row_number += 1
 

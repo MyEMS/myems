@@ -3,13 +3,15 @@ import json
 import mysql.connector
 import config
 import uuid
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 import os
+from core.userlogger import user_logger
 
 
 class OfflineMeterFileCollection:
     @staticmethod
     def __init__():
+        """"Initializes OfflineMeterFileCollection"""
         pass
 
     @staticmethod
@@ -29,21 +31,25 @@ class OfflineMeterFileCollection:
         cursor.close()
         cnx.disconnect()
 
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
+
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                upload_datetime = row[3]
-                upload_datetime = upload_datetime.replace(tzinfo=timezone.utc)
+                upload_datetime_local = row[3].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
                 meta_result = {"id": row[0],
                                "file_name": row[1],
                                "uuid": row[2],
-                               "upload_datetime": upload_datetime.timestamp() * 1000,
+                               "upload_datetime": upload_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
                                "status": row[4]}
                 result.append(meta_result)
 
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
         try:
@@ -144,6 +150,7 @@ class OfflineMeterFileCollection:
 class OfflineMeterFileItem:
     @staticmethod
     def __init__():
+        """"Initializes OfflineMeterFileItem"""
         pass
 
     @staticmethod
@@ -171,17 +178,21 @@ class OfflineMeterFileItem:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.OFFLINE_METER_FILE_NOT_FOUND')
 
-        upload_datetime = row[3]
-        upload_datetime = upload_datetime.replace(tzinfo=timezone.utc)
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
+
+        upload_datetime_local = row[3].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
 
         result = {"id": row[0],
                   "file_name": row[1],
                   "uuid": row[2],
-                  "upload_datetime": upload_datetime.timestamp() * 1000,
+                  "upload_datetime": upload_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
                   "status": row[4]}
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -224,6 +235,7 @@ class OfflineMeterFileItem:
 class OfflineMeterFileRestore:
     @staticmethod
     def __init__():
+        """"Initializes OfflineMeterFileRestore"""
         pass
 
     @staticmethod

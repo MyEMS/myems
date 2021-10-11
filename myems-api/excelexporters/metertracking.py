@@ -72,8 +72,8 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
         ws.column_dimensions[chr(i)].width = 15.0
 
     # Font
-    name_font = Font(name='Constantia', size=15, bold=True)
-    title_font = Font(name='宋体', size=15, bold=True)
+    name_font = Font(name='Arial', size=15, bold=True)
+    title_font = Font(name='Arial', size=15, bold=True)
 
     table_fill = PatternFill(fill_type='solid', fgColor='1F497D')
     f_border = Border(left=Side(border_style='medium', color='00000000'),
@@ -106,72 +106,69 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
 
     # Img
     img = Image("excelexporters/myems.png")
-    img.width = img.width * 0.85
-    img.height = img.height * 0.85
-    ws.add_image(img, 'B1')
+    ws.add_image(img, 'A1')
 
     # Title
-    ws.row_dimensions[3].height = 60
-
-    ws['B3'].font = name_font
     ws['B3'].alignment = b_r_alignment
-    ws['B3'] = 'Name:'
+    ws['B3'] = 'Space:'
     ws['C3'].border = b_border
     ws['C3'].alignment = b_c_alignment
-    ws['C3'].font = name_font
     ws['C3'] = space_name
 
-    ws['F3'].font = name_font
-    ws['F3'].alignment = b_r_alignment
-    ws['F3'] = 'Date:'
-    ws['G3'].border = b_border
-    ws['G3'].alignment = b_c_alignment
-    ws['G3'].font = name_font
-    ws['G3'] = reporting_start_datetime_local + "__" + reporting_end_datetime_local
-    ws.merge_cells("G3:H3")
+    ws['B4'].alignment = b_r_alignment
+    ws['B4'] = 'Reporting Start Datetime:'
+    ws['C4'].border = b_border
+    ws['C4'].alignment = b_c_alignment
+    ws['C4'] = reporting_start_datetime_local
+
+    ws['B5'].alignment = b_r_alignment
+    ws['B5'] = 'Reporting End Datetime:'
+    ws['C5'].border = b_border
+    ws['C5'].alignment = b_c_alignment
+    ws['C5'] = reporting_end_datetime_local
 
     # Title
     ws['B6'].border = f_border
     ws['B6'].font = name_font
     ws['B6'].alignment = c_c_alignment
     ws['B6'].fill = table_fill
-    ws['B6'] = '名称'
+    ws['B6'] = 'Name'
 
     ws['C6'].border = f_border
     ws['C6'].alignment = c_c_alignment
     ws['C6'].font = name_font
     ws['C6'].fill = table_fill
-    ws['C6'] = '空间'
+    ws['C6'] = 'Space'
 
     ws['D6'].border = f_border
     ws['D6'].font = name_font
     ws['D6'].alignment = c_c_alignment
     ws['D6'].fill = table_fill
-    ws['D6'] = '成本中心'
+    ws['D6'] = 'Cost Center'
 
     ws['E6'].border = f_border
     ws['E6'].alignment = c_c_alignment
     ws['E6'].font = name_font
     ws['E6'].fill = table_fill
-    ws['E6'] = '能耗分类'
+    ws['E6'] = 'Energy Category'
 
     ws['F6'].border = f_border
     ws['F6'].font = name_font
     ws['F6'].alignment = c_c_alignment
     ws['F6'].fill = table_fill
-    ws['F6'] = ' 描述'
+    ws['F6'] = 'Description'
 
     ws['G6'].border = f_border
     ws['G6'].font = name_font
     ws['G6'].alignment = c_c_alignment
     ws['G6'].fill = table_fill
-    ws['G6'] = '开始值'
+    ws['G6'] = 'Start Value'
 
     ws['H6'].border = f_border
     ws['H6'].font = name_font
     ws['H6'].alignment = c_c_alignment
     ws['H6'].fill = table_fill
-    ws['H6'] = ' 结束值'
+    ws['H6'] = 'End Value'
 
     current_row_number = 7
     for i in range(0, len(report['meters'])):

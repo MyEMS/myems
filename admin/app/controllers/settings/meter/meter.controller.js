@@ -155,8 +155,8 @@ app.controller('MeterController', function($scope,  $translate, $uibModal, Meter
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.FAILURE_TITLE"),
-						body: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("SETTING.METER")}),
+						title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("SETTING.METER")}),
+						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
 				}
@@ -211,8 +211,8 @@ app.controller('MeterController', function($scope,  $translate, $uibModal, Meter
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.FAILURE_TITLE"),
-						body: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("SETTING.METER")}),
+						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("SETTING.METER")}),
+						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
 				}
@@ -246,18 +246,11 @@ app.controller('MeterController', function($scope,  $translate, $uibModal, Meter
 							});
 							$scope.getAllMeters();
 							$scope.$emit('handleEmitMeterChanged');
-						} else if (angular.isDefined(response.status) && response.status === 400) {
-							toaster.pop({
-								type: "error",
-								title: $translate.instant(response.data.title),
-								body: $translate.instant(response.data.description),
-								showCloseButton: true,
-							});
 						} else {
 							toaster.pop({
 								type: "error",
-								title: $translate.instant("TOASTER.FAILURE_TITLE"),
-								body: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("SETTING.METER")}),
+								title: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("SETTING.METER")}),
+								body: $translate.instant(response.data.description),
 								showCloseButton: true,
 							});
 						}

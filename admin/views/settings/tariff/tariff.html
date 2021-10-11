@@ -19,7 +19,6 @@
 											<th class="text-center">{{'SETTING.START_DATETIME' | translate}}</th>
 											<th class="text-center">{{'SETTING.END_DATETIME' | translate}}</th>
 											<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
-
 										</tr>
 									</thead>
 									<tbody>
@@ -29,8 +28,8 @@
 											<td class="text-center">{{ tariff.energy_category.name }}</td>
 											<td class="text-center">{{showTariffType(tariff.tariff_type) | translate}}</td>
 											<td class="text-center">{{ tariff.unit_of_price }}</td>
-											<td class="text-center">{{ tariff.valid_from  | date:'yyyy-MM-ddTHH:mm:ss' }}</td>
-											<td class="text-center">{{ tariff.valid_through  | date:'yyyy-MM-ddTHH:mm:ss' }}</td>
+											<td class="text-center">{{ tariff.valid_from }}</td>
+											<td class="text-center">{{ tariff.valid_through }}</td>
 											<td class="text-center">
 												<a class="btn btn-primary btn-rounded btn-xs" ng-click="editTariff(tariff)" >{{'SETTING.EDIT' | translate}}</a>
 												<a ng-click="deleteTariff(tariff)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>

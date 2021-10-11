@@ -40,8 +40,8 @@ app.controller('ContactController', function($scope, $translate,$uibModal, Conta
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.FAILURE_TITLE"),
-						body: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("SETTING.CONTACT")}),
+						title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("SETTING.CONTACT")}),
+						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
 				}
@@ -68,7 +68,7 @@ app.controller('ContactController', function($scope, $translate,$uibModal, Conta
 
 		modalInstance.result.then(function (modifiedContact) {
 	        ContactService.editContact(modifiedContact, function (response) {
-	            if(angular.isDefined(response.status) && response.status === 200200){
+	            if(angular.isDefined(response.status) && response.status === 200){
 					toaster.pop({
 						type: "success",
 						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
@@ -79,8 +79,8 @@ app.controller('ContactController', function($scope, $translate,$uibModal, Conta
 	            }else{
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.FAILURE_TITLE"),
-						body: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("SETTING.CONTACT")}),
+						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("SETTING.CONTACT")}),
+						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
 	            }
@@ -115,8 +115,8 @@ app.controller('ContactController', function($scope, $translate,$uibModal, Conta
 		            	} else {
                             toaster.pop({
                                 type: "error",
-                                title: $translate.instant("TOASTER.FAILURE_TITLE"),
-                                body: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("SETTING.CONTACT")}),
+                                title: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("SETTING.CONTACT")}),
+                                body: $translate.instant(response.data.description),
                                 showCloseButton: true,
                             });
 		            	}

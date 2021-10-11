@@ -79,8 +79,8 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ws.column_dimensions[chr(i)].width = 15.0
 
     # Font
-    name_font = Font(name='Constantia', size=15, bold=True)
-    title_font = Font(name='宋体', size=15, bold=True)
+    name_font = Font(name='Arial', size=15, bold=True)
+    title_font = Font(name='Arial', size=15, bold=True)
 
     table_fill = PatternFill(fill_type='solid', fgColor='1F497D')
     f_border = Border(left=Side(border_style='medium', color='00000000'),
@@ -113,36 +113,32 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
     # Img
     img = Image("excelexporters/myems.png")
-    img.width = img.width * 0.85
-    img.height = img.height * 0.85
-    ws.add_image(img, 'B1')
+    ws.add_image(img, 'A1')
 
     # Title
-    ws.row_dimensions[3].height = 60
-
-    ws['B3'].font = name_font
     ws['B3'].alignment = b_r_alignment
     ws['B3'] = 'Name:'
     ws['C3'].border = b_border
     ws['C3'].alignment = b_c_alignment
-    ws['C3'].font = name_font
     ws['C3'] = name
 
-    ws['D3'].font = name_font
     ws['D3'].alignment = b_r_alignment
     ws['D3'] = 'Period:'
     ws['E3'].border = b_border
     ws['E3'].alignment = b_c_alignment
-    ws['E3'].font = name_font
     ws['E3'] = period_type
 
-    ws['F3'].font = name_font
-    ws['F3'].alignment = b_r_alignment
-    ws['F3'] = 'Date:'
-    ws['G3'].alignment = b_c_alignment
-    ws['G3'].font = name_font
-    ws['G3'] = reporting_start_datetime_local + "__" + reporting_end_datetime_local
-    ws.merge_cells("G3:H3")
+    ws['B4'].alignment = b_r_alignment
+    ws['B4'] = 'Reporting Start Datetime:'
+    ws['C4'].border = b_border
+    ws['C4'].alignment = b_c_alignment
+    ws['C4'] = reporting_start_datetime_local
+
+    ws['D4'].alignment = b_r_alignment
+    ws['D4'] = 'Reporting End Datetime:'
+    ws['E4'].border = b_border
+    ws['E4'].alignment = b_c_alignment
+    ws['E4'] = reporting_end_datetime_local
 
     if "reporting_period" not in report.keys() or \
             "timestamps" not in report['reporting_period'].keys() or len(report['reporting_period']['timestamps']) == 0:
@@ -165,7 +161,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ca_len = len(category)
 
         ws['B' + str(current_row_number)].font = title_font
-        ws['B' + str(current_row_number)] = name + '报告期平均负荷'
+        ws['B' + str(current_row_number)] = name + 'Reporting Period Average Load'
 
         current_row_number += 1
 
@@ -187,7 +183,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)].alignment = c_c_alignment
         ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)] = '平均负荷'
+        ws['B' + str(current_row_number)] = 'Average Load'
 
         for i in range(0, ca_len):
             col = chr(ord('C') + i)
@@ -202,7 +198,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)].alignment = c_c_alignment
         ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)] = '单位面积值'
+        ws['B' + str(current_row_number)] = 'Per Unit Area'
 
         for i in range(0, ca_len):
             col = chr(ord('C') + i)
@@ -217,7 +213,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)].alignment = c_c_alignment
         ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)] = '环比'
+        ws['B' + str(current_row_number)] = 'Increment Rate'
 
         for i in range(0, ca_len):
             col = chr(ord('C') + i)
@@ -231,7 +227,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         current_row_number += 2
 
         ws['B' + str(current_row_number)].font = title_font
-        ws['B' + str(current_row_number)] = name + '报告期最大负荷'
+        ws['B' + str(current_row_number)] = name + 'Reporting Period Maximum Load'
 
         current_row_number += 1
 
@@ -252,7 +248,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)].alignment = c_c_alignment
         ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)] = '最大负荷'
+        ws['B' + str(current_row_number)] = 'Maximum Load'
 
         for i in range(0, ca_len):
             col = chr(ord('C') + i)
@@ -267,7 +263,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)].alignment = c_c_alignment
         ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)] = '单位面积值'
+        ws['B' + str(current_row_number)] = 'Per Unit Area'
 
         for i in range(0, ca_len):
             col = chr(ord('C') + i)
@@ -282,7 +278,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)].alignment = c_c_alignment
         ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)] = '环比'
+        ws['B' + str(current_row_number)] = 'Increment Rate'
 
         for i in range(0, ca_len):
             col = chr(ord('C') + i)
@@ -296,7 +292,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         current_row_number += 2
 
         ws['B' + str(current_row_number)].font = title_font
-        ws['B' + str(current_row_number)] = name + '报告期负荷系数'
+        ws['B' + str(current_row_number)] = name + 'Reporting Period Load Factor'
 
         current_row_number += 1
 
@@ -316,7 +312,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)].alignment = c_c_alignment
         ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)] = '负荷系数'
+        ws['B' + str(current_row_number)] = 'Load Factor'
 
         for i in range(0, ca_len):
             col = chr(ord('C') + i)
@@ -331,7 +327,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)].alignment = c_c_alignment
         ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)] = '环比'
+        ws['B' + str(current_row_number)] = 'Increment Rate'
 
         for i in range(0, ca_len):
             col = chr(ord('C') + i)
@@ -361,7 +357,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         time = times[0]
         real_timestamps_len = timestamps_data_not_equal_0(report['parameters']['timestamps'])
         ws['B' + str(current_row_number)].font = title_font
-        ws['B' + str(current_row_number)] = name + '详细数据'
+        ws['B' + str(current_row_number)] = name + 'Detailed Data'
 
         current_row_number += 1
         chart_start_number = current_row_number
@@ -379,7 +375,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)].alignment = c_c_alignment
         ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)] = '日期时间'
+        ws['B' + str(current_row_number)] = 'Datetime'
 
         col = 'C'
 
@@ -390,7 +386,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                 ws[col + str(current_row_number)].alignment = c_c_alignment
                 ws[col + str(current_row_number)].border = f_border
                 ws[col + str(current_row_number)] = reporting_period_data['names'][i] + \
-                    " 平均负荷(" + reporting_period_data['units'][i] + "/H)"
+                    " Average Load(" + reporting_period_data['units'][i] + "/H)"
                 col = chr(ord(col) + 1)
 
             if has_sub_maximums_data_flag:
@@ -399,7 +395,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                 ws[col + str(current_row_number)].alignment = c_c_alignment
                 ws[col + str(current_row_number)].border = f_border
                 ws[col + str(current_row_number)] = reporting_period_data['names'][i] + \
-                    " 最大负荷(" + reporting_period_data['units'][i] + "/H)"
+                    " Maximum Load(" + reporting_period_data['units'][i] + "/H)"
                 col = chr(ord(col) + 1)
 
         current_row_number += 1
@@ -441,7 +437,8 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
             if has_sub_averages_data_flag:
                 line = LineChart()
-                line.title = '报告期 平均负荷 - ' + ws.cell(column=current_chart_col_number, row=table_start_number).value
+                line.title = 'Reporting Period Average Load - ' + ws.cell(column=current_chart_col_number,
+                                                                          row=table_start_number).value
                 datas = Reference(ws, min_col=current_chart_col_number, min_row=table_start_number,
                                   max_row=table_end_number)
                 line.add_data(datas, titles_from_data=True)
@@ -461,7 +458,8 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
             if has_sub_maximums_data_flag:
                 line = LineChart()
-                line.title = '报告期 最大负荷 - ' + ws.cell(column=current_chart_col_number, row=table_start_number).value
+                line.title = 'Reporting Period Maximum Load - ' + ws.cell(column=current_chart_col_number,
+                                                                          row=table_start_number).value
                 datas = Reference(ws, min_col=current_chart_col_number, min_row=table_start_number,
                                   max_row=table_end_number)
                 line.add_data(datas, titles_from_data=True)
@@ -527,9 +525,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
         # Img
         img = Image("excelexporters/myems.png")
-        img.width = img.width * 0.85
-        img.height = img.height * 0.85
-        parameters_ws.add_image(img, 'B1')
+        parameters_ws.add_image(img, 'A1')
 
         # Title
         parameters_ws.row_dimensions[3].height = 60
@@ -562,7 +558,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         parameters_ws_current_row_number = 6
 
         parameters_ws['B' + str(parameters_ws_current_row_number)].font = title_font
-        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' Parameters'
+        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' ' + 'Parameters'
 
         parameters_ws_current_row_number += 1
 
@@ -618,7 +614,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ################################################################################################################
 
         ws['B' + str(current_sheet_parameters_row_number)].font = title_font
-        ws['B' + str(current_sheet_parameters_row_number)] = name + ' Parameters'
+        ws['B' + str(current_sheet_parameters_row_number)] = name + ' ' + 'Parameters'
 
         current_sheet_parameters_row_number += 1
 

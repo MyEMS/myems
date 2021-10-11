@@ -15,9 +15,9 @@ app.controller('LoginController', function (
 
 	$scope.dataLoading = false;
 	$scope.isFullScreen = false;
-	$scope.language = $window.localStorage.getItem("language") || 'cn';
+	$scope.language = $window.localStorage.getItem("myems_admin_ui_language") || "zh_CN";
 	$scope.fullScreenTitle = "FULLSCREEN";
-	$scope.cur_user = JSON.parse($window.localStorage.getItem("currentUser"));
+	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	// login section start
 	$scope.login = function (user) {
 		$scope.dataLoading = true;
@@ -30,22 +30,15 @@ app.controller('LoginController', function (
 					body: $translate.instant('TOASTER.LOGIN_SUCCESS'),
 					showCloseButton: true,
 				});
-				$window.localStorage.setItem("currentUser", JSON.stringify(response.data));
+				$window.localStorage.setItem("myems_admin_ui_current_user", JSON.stringify(response.data));
 				
 				$location.path('/settings/space');
-				$scope.cur_user = JSON.parse($window.localStorage.getItem("currentUser"));
-			} else if (angular.isDefined(response.status) && response.status === 400 || response.status === 404) {
-				toaster.pop({
-					type: "error",
-					title: $translate.instant(response.data.title),
-					body: $translate.instant(response.data.description),
-					showCloseButton: true,
-				});
+				$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 			} else {
 				toaster.pop({
 					type: "error",
-					title: $translate.instant("TOASTER.FAILURE_TITLE"),
-					body: $translate.instant('TOASTER.LOGIN_FAILURE'),
+					title: $translate.instant('TOASTER.LOGIN_FAILURE'),
+					body: $translate.instant(response.data.description),
 					showCloseButton: true,
 				});
 			}
@@ -61,19 +54,19 @@ app.controller('LoginController', function (
 				toaster.pop({
 					type: "success",
 					title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-					body: $translate.instant('TOASTER.LOGIN_SUCCESS'),
+					body: $translate.instant('TOASTER.LOGOUT_SUCCESS'),
 					showCloseButton: true,
 				});
-				$window.localStorage.removeItem("currentUser");
+				$window.localStorage.removeItem("myems_admin_ui_current_user");
 				$location.path('/login');
 			} else {
 				toaster.pop({
 					type: "error",
-					title: $translate.instant("TOASTER.FAILURE_TITLE"),
+					title: $translate.instant("TOASTER.LOGOUT_FAILURE"),
 					body: $translate.instant(response.data.description),
 					showCloseButton: true,
 				});
-				$window.localStorage.removeItem("currentUser");
+				$window.localStorage.removeItem("myems_admin_ui_current_user");
 				$location.path('/login');
 			}
 		});
@@ -118,13 +111,12 @@ app.controller('LoginController', function (
 						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", { template: $translate.instant("TOASTER.USER_PASSWORD") }),
 						showCloseButton: true,
 					});
-
 					$scope.$emit('handleEmitLineChanged');
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant(response.data.title) || $translate.instant("TOASTER.FAILURE_TITLE"),
-						body: $translate.instant( response.data.description, { template: $translate.instant("TOASTER.USER_PASSWORD") }) || $translate.instant("TOASTER.ERROR_UPDATE_BODY", { template: $translate.instant("TOASTER.USER_PASSWORD") }),
+						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", { template: $translate.instant("TOASTER.USER_PASSWORD") }),
+						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
 				}
@@ -202,7 +194,7 @@ app.controller('LoginController', function (
 	$scope.changeLanguage = function (langKey) {
 		$translate.use(langKey);
 		$scope.language = langKey;
-		$window.localStorage.setItem("language", langKey);
+		$window.localStorage.setItem("myems_admin_ui_language", langKey);
 	};
 
 	// web message alarm section start

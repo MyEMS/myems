@@ -582,6 +582,15 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "New Request",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": null
+							},
+							"response": []
 						}
 					]
 				},
@@ -2685,103 +2694,6 @@
 										"gateways",
 										"1",
 										"datasources"
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "GSM Modem",
-					"item": [
-						{
-							"name": "GET All GSM Modems",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{base_url}}/gsmmodems",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"gsmmodems"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "GET a GSM Modem by ID",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{base_url}}/gsmmodems/1",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"gsmmodems",
-										"1"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "POST Create New GSM Modem",
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\"data\":{\"serial_port\":\"/dev/ttyS1\",\"baud_rate\":115200}}"
-								},
-								"url": {
-									"raw": "{{base_url}}/gsmmodems",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"gsmmodems"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "PUT Update a GSM Modem",
-							"request": {
-								"method": "PUT",
-								"header": [],
-								"url": {
-									"raw": "{{base_url}}/gsmmodems/1",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"gsmmodems",
-										"1"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "DELETE a GSM Modem by ID",
-							"request": {
-								"method": "DELETE",
-								"header": [],
-								"url": {
-									"raw": "{{base_url}}/gsmmodems/2",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"gsmmodems",
-										"2"
 									]
 								}
 							},
@@ -5946,7 +5858,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Starbucks\", \"buildings\":\"Building #1\", \"floors\":\"L1 L2 L3\", \"rooms\":\"1201b+2247+3F\", \"area\":418.8, \"tenant_type_id\":9, \"is_input_counted\":true, \"is_key_tenant\":true,\n\"lease_number\":\"6b0da806\",  \"lease_start_datetime_utc\":\"2019-12-31T16:00:00\", \"lease_end_datetime_utc\":\"2022-12-31T16:00:00\", \"is_in_lease\":true, \"contact_id\":1, \"cost_center_id\":1, \"description\":\"my description\"}}"
+									"raw": "{\"data\":{\"name\":\"Starbucks\", \"buildings\":\"Building #1\", \"floors\":\"L1 L2 L3\", \"rooms\":\"1201b+2247+3F\", \"area\":418.8, \"tenant_type_id\":9, \"is_input_counted\":true, \"is_key_tenant\":true,\n\"lease_number\":\"6b0da806\",  \"lease_start_datetime\":\"2021-01-01T00:00:00\", \"lease_end_datetime\":\"2022-01-01T00:00:00\", \"is_in_lease\":true, \"contact_id\":1, \"cost_center_id\":1, \"description\":\"my description\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/tenants",
@@ -5967,7 +5879,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Hermes 爱马仕\", \"buildings\":\"Building #1\", \"floors\":\"L1 L2 L3 L4 L5\", \"rooms\":\"1201b+2247+3F\", \"area\":818.8, \"tenant_type_id\":9, \"is_input_counted\":true, \"is_key_tenant\":true,\n\"lease_number\":\"6b0da806\",  \"lease_start_datetime_utc\":\"2019-12-31T16:00:00\", \"lease_end_datetime_utc\":\"2022-12-31T16:00:00\", \"is_in_lease\":true, \"contact_id\":1, \"cost_center_id\":1, \"description\":\"my description\"}}"
+									"raw": "{\"data\":{\"name\":\"Hermes 爱马仕\", \"buildings\":\"Building #1\", \"floors\":\"L1 L2 L3 L4 L5\", \"rooms\":\"1201b+2247+3F\", \"area\":818.8, \"tenant_type_id\":9, \"is_input_counted\":true, \"is_key_tenant\":true,\n\"lease_number\":\"6b0da806\",  \"lease_start_datetime_utc\":\"2021-01-01T00:00:00\", \"lease_end_datetime_utc\":\"2022-01-01T00:00:00\", \"is_in_lease\":true, \"contact_id\":1, \"cost_center_id\":1, \"description\":\"my description\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/tenants/2",
@@ -6589,13 +6501,34 @@
 							"response": []
 						},
 						{
+							"name": "Get a User by ID",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/users/2",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "POST Create New User",
 							"request": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"albert\", \"display_name\":\"Mr. Albert\", \"email\":\"albert@myems.io\", \"is_admin\":false, \"privilege_id\":1, \"password\":\"!MyEMS1\"}}"
+									"raw": "{\"data\":{\"name\":\"albert1\", \"display_name\":\"Mr. Albert\", \"email\":\"albert1@myems.io\", \"is_admin\":false, \"privilege_id\":1, \"password\":\"!MyEMS1\", \"account_expiration_datetime\":\"2100-01-01T00:00:00\",\"password_expiration_datetime\":\"2100-01-01T00:00:00\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/users",
@@ -6656,7 +6589,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"albert\", \"display_name\":\"Mr. Albert\", \"email\":\"albert@myems.io\", \"is_admin\":false, \"privilege_id\":1, \"password\":\"!MyEMS1\"}}"
+									"raw": "{\"data\":{\"name\":\"albert\", \"display_name\":\"Mr. Albert\", \"email\":\"albert@myems.io\", \"is_admin\":false, \"privilege_id\":1, \"password\":\"!MyEMS1\", \"account_expiration_datetime\":\"2100-01-01T00:00:00\",\"password_expiration_datetime\":\"2100-01-01T00:00:00\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/users/2",
@@ -6712,60 +6645,7 @@
 									]
 								}
 							},
-							"response": [
-								{
-									"name": "User Logout",
-									"originalRequest": {
-										"method": "PUT",
-										"header": [],
-										"url": {
-											"raw": "{{base_url}}/users/logout",
-											"host": [
-												"{{base_url}}"
-											],
-											"path": [
-												"users",
-												"logout"
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Server",
-											"value": "gunicorn/19.9.0"
-										},
-										{
-											"key": "Date",
-											"value": "Thu, 19 Mar 2020 01:31:00 GMT"
-										},
-										{
-											"key": "Connection",
-											"value": "close"
-										},
-										{
-											"key": "content-length",
-											"value": "0"
-										},
-										{
-											"key": "content-type",
-											"value": "application/json; charset=UTF-8"
-										},
-										{
-											"key": "set-cookie",
-											"value": "user_uuid=\"\"; Domain=127.0.0.1; Path=/"
-										},
-										{
-											"key": "set-cookie",
-											"value": "token=\"\"; Domain=127.0.0.1; Path=/"
-										}
-									],
-									"cookie": [],
-									"body": ""
-								}
-							]
+							"response": []
 						},
 						{
 							"name": "User Change Password",

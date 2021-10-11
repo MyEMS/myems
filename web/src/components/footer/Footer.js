@@ -9,7 +9,7 @@ const Footer = ({t}) => (
       <Col sm="auto">
         <p className="mb-0 text-600">
           {t('An Industry Leading Open Source Energy Management System')} <span className="d-none d-sm-inline-block">| </span>
-          <br className="d-sm-none" /> {new Date().getFullYear()} &copy; <a href="https://myems.io">MyEMS</a>
+          <br className="d-sm-none" /> {new Date().getFullYear()} &copy; <a href={atob('aHR0cHM6Ly9teWVtcy5pbw==')}>{atob('TXlFTVM=')}</a>
         </p>
       </Col>
       <Col sm="auto">

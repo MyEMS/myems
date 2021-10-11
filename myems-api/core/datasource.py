@@ -3,12 +3,14 @@ import simplejson as json
 import mysql.connector
 import config
 import uuid
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
+from core.userlogger import user_logger
 
 
 class DataSourceCollection:
     @staticmethod
     def __init__():
+        """"Initializes DataSourceCollection"""
         pass
 
     @staticmethod
@@ -39,18 +41,26 @@ class DataSourceCollection:
         cursor.close()
         cnx.disconnect()
 
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
+
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
+                if isinstance(row['last_seen_datetime_utc'], datetime):
+                    last_seen_datetime_local = row['last_seen_datetime_utc'].replace(tzinfo=timezone.utc) + \
+                                               timedelta(minutes=timezone_offset)
+                    last_seen_datetime = last_seen_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                else:
+                    last_seen_datetime = None
                 meta_result = {"id": row['id'],
                                "name": row['name'],
                                "uuid": row['uuid'],
                                "gateway": gateway_dict.get(row['gateway_id']),
                                "protocol": row['protocol'],
                                "connection": row['connection'],
-                               "last_seen_datetime":
-                                   row['last_seen_datetime_utc'].replace(tzinfo=timezone.utc).timestamp()*1000
-                                   if isinstance(row['last_seen_datetime_utc'], datetime) else None
+                               "last_seen_datetime": last_seen_datetime
                                }
 
                 result.append(meta_result)
@@ -58,6 +68,7 @@ class DataSourceCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
         try:
@@ -83,10 +94,25 @@ class DataSourceCollection:
 
         if 'protocol' not in new_values['data'].keys() \
                 or new_values['data']['protocol'] not in \
-                ('modbus-tcp', 'modbus-rtu', 'bacnet-ip', 's7', 'profibus', 'profinet', 'opc-ua', 'lora', 'simulation',
-                 'controllogix', 'weather'):
+                ('modbus-tcp',
+                 'modbus-rtu',
+                 'bacnet-ip',
+                 's7',
+                 'profibus',
+                 'profinet',
+                 'opc-ua',
+                 'lora',
+                 'simulation',
+                 'controllogix',
+                 'weather',
+                 'mysql',
+                 'sqlserver',
+                 'postgresql',
+                 'oracle',
+                 'mongodb',
+                 'influxdb'):
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_DATA_SOURCE_PROTOCOL.')
+                                   description='API.INVALID_DATA_SOURCE_PROTOCOL')
         protocol = new_values['data']['protocol']
 
         if 'connection' not in new_values['data'].keys() or \
@@ -136,6 +162,7 @@ class DataSourceCollection:
 class DataSourceItem:
     @staticmethod
     def __init__():
+        """"Initializes DataSourceItem"""
         pass
 
     @staticmethod
@@ -173,20 +200,30 @@ class DataSourceItem:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DATA_SOURCE_NOT_FOUND')
 
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
+
+        if isinstance(row['last_seen_datetime_utc'], datetime):
+            last_seen_datetime_local = row['last_seen_datetime_utc'].replace(tzinfo=timezone.utc) + \
+                timedelta(minutes=timezone_offset)
+            last_seen_datetime = last_seen_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+        else:
+            last_seen_datetime = None
+
         result = {"id": row['id'],
                   "name": row['name'],
                   "uuid": row['uuid'],
                   "gateway": gateway_dict.get(row['gateway_id']),
                   "protocol": row['protocol'],
                   "connection": row['connection'],
-                  "last_seen_datetime":
-                      row['last_seen_datetime_utc'].replace(tzinfo=timezone.utc).timestamp()*1000
-                      if isinstance(row['last_seen_datetime_utc'], datetime) else None
+                  "last_seen_datetime": last_seen_datetime
                   }
 
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -228,6 +265,7 @@ class DataSourceItem:
         resp.status = falcon.HTTP_204
 
     @staticmethod
+    @user_logger
     def on_put(req, resp, id_):
         """Handles PUT requests"""
         try:
@@ -257,10 +295,25 @@ class DataSourceItem:
 
         if 'protocol' not in new_values['data'].keys() \
                 or new_values['data']['protocol'] not in \
-                ('modbus-tcp', 'modbus-rtu', 'bacnet-ip', 's7', 'profibus', 'profinet', 'opc-ua', 'lora', 'simulation',
-                 'controllogix', 'weather'):
+                ('modbus-tcp',
+                 'modbus-rtu',
+                 'bacnet-ip',
+                 's7',
+                 'profibus',
+                 'profinet',
+                 'opc-ua',
+                 'lora',
+                 'simulation',
+                 'controllogix',
+                 'weather',
+                 'mysql',
+                 'sqlserver',
+                 'postgresql',
+                 'oracle',
+                 'mongodb',
+                 'influxdb'):
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_DATA_SOURCE_PROTOCOL.')
+                                   description='API.INVALID_DATA_SOURCE_PROTOCOL')
         protocol = new_values['data']['protocol']
 
         if 'connection' not in new_values['data'].keys() or \
@@ -310,6 +363,7 @@ class DataSourceItem:
 class DataSourcePointCollection:
     @staticmethod
     def __init__():
+        """"Initializes DataSourcePointCollection"""
         pass
 
     @staticmethod

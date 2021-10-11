@@ -2,10 +2,10 @@ import falcon
 from falcon_cors import CORS
 from falcon_multipart.middleware import MultipartMiddleware
 from core import energyflowdiagram, privilege, textmessage, distributioncircuit, virtualmeter, \
-    costcenter, point, knowledgefile, meter, gsmmodem, tariff, user, storetype, timezone, \
-    costfile, offlinemeterfile, version, contact, emailserver, combinedequipment, datasource, equipment, tenant, shopfloor, \
-    webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, offlinemeter, \
-    rule, energycategory, sensor, energyitem, notification, menu
+    costcenter, point, knowledgefile, meter, tariff, user, storetype, timezone, \
+    costfile, offlinemeterfile, version, contact, emailserver, combinedequipment, datasource, equipment, tenant, \
+    shopfloor, webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, \
+    offlinemeter, rule, energycategory, sensor, energyitem, notification, menu
 from reports import advancedreport
 from reports import distributionsystem as distributionsystemreport
 from reports import energyflowdiagram as energyflowdiagramreport
@@ -99,7 +99,7 @@ api = falcon.API(middleware=[cors.middleware, MultipartMiddleware()])
 
 
 ########################################################################################################################
-# Routes for System Configuration
+# Routes for System Core
 ########################################################################################################################
 
 api.add_route('/combinedequipments',
@@ -231,11 +231,6 @@ api.add_route('/gateways/{id_}',
               gateway.GatewayItem())
 api.add_route('/gateways/{id_}/datasources',
               gateway.GatewayDataSourceCollection())
-
-api.add_route('/gsmmodems',
-              gsmmodem.GSMModemCollection())
-api.add_route('/gsmmodems/{id_}',
-              gsmmodem.GSMModemItem())
 
 api.add_route('/knowledgefiles',
               knowledgefile.KnowledgeFileCollection())

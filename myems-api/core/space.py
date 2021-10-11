@@ -6,11 +6,13 @@ import uuid
 from datetime import datetime
 from anytree import AnyNode
 from anytree.exporter import JsonExporter
+from core.userlogger import user_logger
 
 
 class SpaceCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -103,6 +105,7 @@ class SpaceCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
         try:
@@ -258,6 +261,7 @@ class SpaceCollection:
 class SpaceItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -354,6 +358,7 @@ class SpaceItem:
         resp.body = json.dumps(meta_result)
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -510,6 +515,7 @@ class SpaceItem:
         resp.status = falcon.HTTP_204
 
     @staticmethod
+    @user_logger
     def on_put(req, resp, id_):
         """Handles PUT requests"""
         try:
@@ -682,6 +688,7 @@ class SpaceItem:
 class SpaceChildrenCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -810,6 +817,7 @@ class SpaceChildrenCollection:
 class SpaceCombinedEquipmentCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -850,6 +858,7 @@ class SpaceCombinedEquipmentCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -916,13 +925,15 @@ class SpaceCombinedEquipmentCollection:
 class SpaceCombinedEquipmentItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, eid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, eid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -975,6 +986,7 @@ class SpaceCombinedEquipmentItem:
 class SpaceEquipmentCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1015,6 +1027,7 @@ class SpaceEquipmentCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -1081,13 +1094,15 @@ class SpaceEquipmentCollection:
 class SpaceEquipmentItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, eid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, eid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1139,6 +1154,7 @@ class SpaceEquipmentItem:
 class SpaceMeterCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1193,6 +1209,7 @@ class SpaceMeterCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -1259,13 +1276,15 @@ class SpaceMeterCollection:
 class SpaceMeterItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, mid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, mid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1319,6 +1338,7 @@ class SpaceMeterItem:
 class SpaceOfflineMeterCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1373,6 +1393,7 @@ class SpaceOfflineMeterCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -1439,13 +1460,15 @@ class SpaceOfflineMeterCollection:
 class SpaceOfflineMeterItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, mid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, mid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1498,6 +1521,7 @@ class SpaceOfflineMeterItem:
 class SpacePointCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1551,6 +1575,7 @@ class SpacePointCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -1617,13 +1642,15 @@ class SpacePointCollection:
 class SpacePointItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, pid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, pid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1676,6 +1703,7 @@ class SpacePointItem:
 class SpaceSensorCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1716,6 +1744,7 @@ class SpaceSensorCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -1782,13 +1811,15 @@ class SpaceSensorCollection:
 class SpaceSensorItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, sid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, sid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1840,6 +1871,7 @@ class SpaceSensorItem:
 class SpaceShopfloorCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1880,6 +1912,7 @@ class SpaceShopfloorCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -1946,13 +1979,15 @@ class SpaceShopfloorCollection:
 class SpaceShopfloorItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, sid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, sid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -2004,6 +2039,7 @@ class SpaceShopfloorItem:
 class SpaceStoreCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -2044,6 +2080,7 @@ class SpaceStoreCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -2110,13 +2147,15 @@ class SpaceStoreCollection:
 class SpaceStoreItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, tid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, tid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -2168,6 +2207,7 @@ class SpaceStoreItem:
 class SpaceTenantCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -2208,6 +2248,7 @@ class SpaceTenantCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -2274,13 +2315,15 @@ class SpaceTenantCollection:
 class SpaceTenantItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, tid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, tid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -2332,6 +2375,7 @@ class SpaceTenantItem:
 class SpaceVirtualMeterCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -2386,6 +2430,7 @@ class SpaceVirtualMeterCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -2452,13 +2497,15 @@ class SpaceVirtualMeterCollection:
 class SpaceVirtualMeterItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, mid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, mid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -2511,6 +2558,7 @@ class SpaceVirtualMeterItem:
 class SpaceTreeCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod

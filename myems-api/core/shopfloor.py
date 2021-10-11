@@ -3,11 +3,13 @@ import simplejson as json
 import mysql.connector
 import config
 import uuid
+from core.userlogger import user_logger
 
 
 class ShopfloorCollection:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorCollection"""
         pass
 
     @staticmethod
@@ -83,6 +85,7 @@ class ShopfloorCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
         try:
@@ -194,6 +197,7 @@ class ShopfloorCollection:
 class ShopfloorItem:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorItem"""
         pass
 
     @staticmethod
@@ -272,6 +276,7 @@ class ShopfloorItem:
         resp.body = json.dumps(meta_result)
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -391,6 +396,7 @@ class ShopfloorItem:
         resp.status = falcon.HTTP_204
 
     @staticmethod
+    @user_logger
     def on_put(req, resp, id_):
         """Handles PUT requests"""
         try:
@@ -514,6 +520,7 @@ class ShopfloorItem:
 class ShopfloorEquipmentCollection:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorEquipmentCollection"""
         pass
 
     @staticmethod
@@ -554,6 +561,7 @@ class ShopfloorEquipmentCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -620,13 +628,15 @@ class ShopfloorEquipmentCollection:
 class ShopfloorEquipmentItem:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorEquipmentItem"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, eid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, eid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -679,6 +689,7 @@ class ShopfloorEquipmentItem:
 class ShopfloorMeterCollection:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorMeterCollection"""
         pass
 
     @staticmethod
@@ -733,6 +744,7 @@ class ShopfloorMeterCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -799,13 +811,15 @@ class ShopfloorMeterCollection:
 class ShopfloorMeterItem:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorMeterItem"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, mid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, mid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -857,6 +871,7 @@ class ShopfloorMeterItem:
 class ShopfloorOfflineMeterCollection:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorOfflineMeterCollection"""
         pass
 
     @staticmethod
@@ -911,6 +926,7 @@ class ShopfloorOfflineMeterCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -977,13 +993,15 @@ class ShopfloorOfflineMeterCollection:
 class ShopfloorOfflineMeterItem:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorOfflineMeterItem"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, mid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, mid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1036,6 +1054,7 @@ class ShopfloorOfflineMeterItem:
 class ShopfloorPointCollection:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorPointCollection"""
         pass
 
     @staticmethod
@@ -1089,6 +1108,7 @@ class ShopfloorPointCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -1155,13 +1175,15 @@ class ShopfloorPointCollection:
 class ShopfloorPointItem:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorPointItem"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, pid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, pid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1214,6 +1236,7 @@ class ShopfloorPointItem:
 class ShopfloorSensorCollection:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorSensorCollection"""
         pass
 
     @staticmethod
@@ -1254,6 +1277,7 @@ class ShopfloorSensorCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -1320,13 +1344,15 @@ class ShopfloorSensorCollection:
 class ShopfloorSensorItem:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorSensorItem"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, sid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, sid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1378,6 +1404,7 @@ class ShopfloorSensorItem:
 class ShopfloorVirtualMeterCollection:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorVirtualMeterCollection"""
         pass
 
     @staticmethod
@@ -1432,6 +1459,7 @@ class ShopfloorVirtualMeterCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -1498,13 +1526,15 @@ class ShopfloorVirtualMeterCollection:
 class ShopfloorVirtualMeterItem:
     @staticmethod
     def __init__():
+        """Initializes ShopfloorVirtualMeterItem"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, mid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, mid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',

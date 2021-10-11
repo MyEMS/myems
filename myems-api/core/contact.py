@@ -4,11 +4,13 @@ import mysql.connector
 import config
 import uuid
 import re
+from core.userlogger import user_logger
 
 
 class ContactCollection:
     @staticmethod
     def __init__():
+        """"Initializes ContactCollection"""
         pass
 
     @staticmethod
@@ -43,6 +45,7 @@ class ContactCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
         try:
@@ -118,6 +121,7 @@ class ContactCollection:
 class ContactItem:
     @staticmethod
     def __init__():
+        """"Initializes ContactItem"""
         pass
 
     @staticmethod
@@ -154,6 +158,7 @@ class ContactItem:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -228,6 +233,7 @@ class ContactItem:
         resp.status = falcon.HTTP_204
 
     @staticmethod
+    @user_logger
     def on_put(req, resp, id_):
         """Handles PUT requests"""
         try:

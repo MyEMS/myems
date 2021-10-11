@@ -342,7 +342,6 @@ function dropZone() {
         link: function(scope, element, attrs) {
 
             var config = {
-                url: 'http://localhost:8080/upload',
                 maxFilesize: 100,
                 paramName: "uploadfile",
                 maxThumbnailFilesize: 10,

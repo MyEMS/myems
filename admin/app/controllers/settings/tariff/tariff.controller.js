@@ -54,8 +54,8 @@ app.controller('TariffController', function($scope,$uibModal,$translate, TARIFF_
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.FAILURE_TITLE"),
-						body: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("SETTING.TARIFF")}),
+						title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("SETTING.TARIFF")}),
+						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
 				}
@@ -94,8 +94,8 @@ app.controller('TariffController', function($scope,$uibModal,$translate, TARIFF_
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.FAILURE_TITLE"),
-						body: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("SETTING.TARIFF")}),
+						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("SETTING.TARIFF")}),
+						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
 				}
@@ -131,8 +131,8 @@ app.controller('TariffController', function($scope,$uibModal,$translate, TARIFF_
 						} else {
                             toaster.pop({
                                 type: "error",
-                                title: $translate.instant("TOASTER.FAILURE_TITLE"),
-                                body: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("SETTING.TARIFF")}),
+                                title: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("SETTING.TARIFF")}),
+                                body: $translate.instant(response.data.description),
                                 showCloseButton: true,
                             });
 						}
@@ -158,13 +158,12 @@ app.controller('ModalAddTariffCtrl', function($scope, $timeout, $uibModalInstanc
 	$scope.dtOptions = {
 		locale:{
 			format: 'YYYY-MM-DD HH:mm:ss',
-			applyLabel: "确定",
-			cancelLabel: "取消",
-			customRangeLabel: "自定义",
+			applyLabel: "OK",
+			cancelLabel: "Cancel",
 		},
 		timePicker: true,
 		timePicker24Hour: true,
-		timePickerIncrement: 15,
+		timePickerIncrement: 1,
 		singleDatePicker: true,
 	};
 	$scope.showPeakType = function(type) {
@@ -240,13 +239,12 @@ app.controller('ModalEditTariffCtrl', function($scope, $timeout, $uibModalInstan
 	$scope.dtOptions = {
 		locale:{
 			format: 'YYYY-MM-DD HH:mm:ss',
-			applyLabel: "确定",
-			cancelLabel: "取消",
-			customRangeLabel: "自定义",
+			applyLabel: "OK",
+			cancelLabel: "Cancel",
 		},
 		timePicker: true,
 		timePicker24Hour: true,
-		timePickerIncrement: 15,
+		timePickerIncrement: 1,
 		singleDatePicker: true,
 	};
 	$scope.showPeakType = function(type) {

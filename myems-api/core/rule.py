@@ -4,11 +4,13 @@ import mysql.connector
 import uuid
 from datetime import datetime, timezone, timedelta
 import config
+from core.userlogger import user_logger
 
 
 class RuleCollection:
     @staticmethod
     def __init__():
+        """Initializes RuleCollection"""
         pass
 
     @staticmethod
@@ -31,16 +33,26 @@ class RuleCollection:
         cursor.close()
         cnx.disconnect()
 
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
+
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                last_run_datetime = None
-                if row['last_run_datetime_utc'] is not None:
-                    last_run_datetime = row['last_run_datetime_utc'].replace(tzinfo=timezone.utc).timestamp() * 1000
+                if isinstance(row['last_run_datetime_utc'], datetime):
+                    last_run_datetime_local = row['last_run_datetime_utc'].replace(tzinfo=timezone.utc) + \
+                                              timedelta(minutes=timezone_offset)
+                    last_run_datetime = last_run_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                else:
+                    last_run_datetime = None
 
-                next_run_datetime = None
-                if row['next_run_datetime_utc'] is not None:
-                    next_run_datetime = row['next_run_datetime_utc'].replace(tzinfo=timezone.utc).timestamp() * 1000
+                if isinstance(row['next_run_datetime_utc'], datetime):
+                    next_run_datetime_local = row['next_run_datetime_utc'].replace(tzinfo=timezone.utc) + \
+                                              timedelta(minutes=timezone_offset)
+                    next_run_datetime = next_run_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                else:
+                    next_run_datetime = None
 
                 meta_result = {"id": row['id'], "name": row['name'], "uuid": row['uuid'],
                                "category": row['category'], "fdd_code": row['fdd_code'], "priority": row['priority'],
@@ -55,6 +67,7 @@ class RuleCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
         try:
@@ -172,6 +185,7 @@ class RuleCollection:
 class RuleItem:
     @staticmethod
     def __init__():
+        """Initializes RuleItem"""
         pass
 
     @staticmethod
@@ -200,13 +214,23 @@ class RuleItem:
         if row is None:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.RULE_NOT_FOUND')
-        last_run_datetime = None
-        if row['last_run_datetime_utc'] is not None:
-            last_run_datetime = row['last_run_datetime_utc'].replace(tzinfo=timezone.utc).timestamp() * 1000
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
 
-        next_run_datetime = None
-        if row['next_run_datetime_utc'] is not None:
-            next_run_datetime = row['next_run_datetime_utc'].replace(tzinfo=timezone.utc).timestamp() * 1000
+        if isinstance(row['last_run_datetime_utc'], datetime):
+            last_run_datetime_local = row['last_run_datetime_utc'].replace(tzinfo=timezone.utc) + \
+                                      timedelta(minutes=timezone_offset)
+            last_run_datetime = last_run_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+        else:
+            last_run_datetime = None
+
+        if isinstance(row['next_run_datetime_utc'], datetime):
+            next_run_datetime_local = row['next_run_datetime_utc'].replace(tzinfo=timezone.utc) + \
+                                      timedelta(minutes=timezone_offset)
+            next_run_datetime = next_run_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+        else:
+            next_run_datetime = None
 
         result = {"id": row['id'], "name": row['name'], "uuid": row['uuid'],
                   "category": row['category'], "fdd_code": row['fdd_code'], "priority": row['priority'],
@@ -219,6 +243,7 @@ class RuleItem:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -246,6 +271,7 @@ class RuleItem:
         resp.status = falcon.HTTP_204
 
     @staticmethod
+    @user_logger
     def on_put(req, resp, id_):
         """Handles PUT requests"""
         try:

@@ -4,11 +4,13 @@ import mysql.connector
 import config
 import uuid
 from datetime import datetime, timedelta, timezone
+from core.userlogger import user_logger
 
 
 class TenantCollection:
     @staticmethod
     def __init__():
+        """"Initializes TenantCollection"""
         pass
 
     @staticmethod
@@ -66,6 +68,10 @@ class TenantCollection:
         cursor.execute(query)
         rows_spaces = cursor.fetchall()
 
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
+
         result = list()
         if rows_spaces is not None and len(rows_spaces) > 0:
             for row in rows_spaces:
@@ -73,8 +79,10 @@ class TenantCollection:
                 contact = contact_dict.get(row['contact_id'], None)
                 cost_center = cost_center_dict.get(row['cost_center_id'], None)
 
-                lease_start_datetime_utc = row['lease_start_datetime_utc'].replace(tzinfo=timezone.utc)
-                lease_end_datetime_utc = row['lease_end_datetime_utc'].replace(tzinfo=timezone.utc)
+                lease_start_datetime_local = row['lease_start_datetime_utc'].replace(tzinfo=timezone.utc) + \
+                    timedelta(minutes=timezone_offset)
+                lease_end_datetime_local = row['lease_end_datetime_utc'].replace(tzinfo=timezone.utc) + \
+                    timedelta(minutes=timezone_offset)
 
                 meta_result = {"id": row['id'],
                                "name": row['name'],
@@ -87,8 +95,8 @@ class TenantCollection:
                                "is_input_counted": bool(row['is_input_counted']),
                                "is_key_tenant": bool(row['is_key_tenant']),
                                "lease_number": row['lease_number'],
-                               "lease_start_datetime_utc": lease_start_datetime_utc.timestamp() * 1000,
-                               "lease_end_datetime_utc": lease_end_datetime_utc.timestamp() * 1000,
+                               "lease_start_datetime": lease_start_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
+                               "lease_end_datetime": lease_end_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
                                "is_in_lease": bool(row['is_in_lease']),
                                "contact": contact,
                                "cost_center": cost_center,
@@ -100,6 +108,7 @@ class TenantCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
         try:
@@ -181,12 +190,12 @@ class TenantCollection:
             timezone_offset = -timezone_offset
 
         # todo: validate datetime values
-        lease_start_datetime_utc = datetime.strptime(new_values['data']['lease_start_datetime_utc'],
+        lease_start_datetime_utc = datetime.strptime(new_values['data']['lease_start_datetime'],
                                                      '%Y-%m-%dT%H:%M:%S')
         lease_start_datetime_utc = lease_start_datetime_utc.replace(tzinfo=timezone.utc)
         lease_start_datetime_utc -= timedelta(minutes=timezone_offset)
 
-        lease_end_datetime_utc = datetime.strptime(new_values['data']['lease_end_datetime_utc'],
+        lease_end_datetime_utc = datetime.strptime(new_values['data']['lease_end_datetime'],
                                                    '%Y-%m-%dT%H:%M:%S')
         lease_end_datetime_utc = lease_end_datetime_utc.replace(tzinfo=timezone.utc)
         lease_end_datetime_utc -= timedelta(minutes=timezone_offset)
@@ -194,15 +203,15 @@ class TenantCollection:
         if 'contact_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['contact_id'], int) or \
                 new_values['data']['contact_id'] <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_CONTACT_ID')
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_CONTACT_ID')
         contact_id = new_values['data']['contact_id']
 
         if 'cost_center_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['cost_center_id'], int) or \
                 new_values['data']['cost_center_id'] <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_COST_CENTER_ID')
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_COST_CENTER_ID')
         cost_center_id = new_values['data']['cost_center_id']
 
         if 'description' in new_values['data'].keys() and \
@@ -290,6 +299,7 @@ class TenantCollection:
 class TenantItem:
     @staticmethod
     def __init__():
+        """"Initializes TenantItem"""
         pass
 
     @staticmethod
@@ -360,6 +370,14 @@ class TenantItem:
             tenant_type = tenant_type_dict.get(row['tenant_type_id'], None)
             contact = contact_dict.get(row['contact_id'], None)
             cost_center = cost_center_dict.get(row['cost_center_id'], None)
+            timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+            if config.utc_offset[0] == '-':
+                timezone_offset = -timezone_offset
+            lease_start_datetime_local = row['lease_start_datetime_utc'].replace(tzinfo=timezone.utc) + \
+                timedelta(minutes=timezone_offset)
+            lease_end_datetime_local = row['lease_end_datetime_utc'].replace(tzinfo=timezone.utc) + \
+                timedelta(minutes=timezone_offset)
+
             meta_result = {"id": row['id'],
                            "name": row['name'],
                            "uuid": row['uuid'],
@@ -371,8 +389,8 @@ class TenantItem:
                            "is_input_counted": bool(row['is_input_counted']),
                            "is_key_tenant": bool(row['is_key_tenant']),
                            "lease_number": row['lease_number'],
-                           "lease_start_datetime_utc": row['lease_start_datetime_utc'].timestamp() * 1000,
-                           "lease_end_datetime_utc": row['lease_end_datetime_utc'].timestamp() * 1000,
+                           "lease_start_datetime": lease_start_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
+                           "lease_end_datetime": lease_end_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
                            "is_in_lease": bool(row['is_in_lease']),
                            "contact": contact,
                            "cost_center": cost_center,
@@ -381,6 +399,7 @@ class TenantItem:
         resp.body = json.dumps(meta_result)
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -484,6 +503,7 @@ class TenantItem:
         resp.status = falcon.HTTP_204
 
     @staticmethod
+    @user_logger
     def on_put(req, resp, id_):
         """Handles PUT requests"""
         try:
@@ -569,12 +589,12 @@ class TenantItem:
             timezone_offset = -timezone_offset
 
         # todo: validate datetime values
-        lease_start_datetime_utc = datetime.strptime(new_values['data']['lease_start_datetime_utc'],
+        lease_start_datetime_utc = datetime.strptime(new_values['data']['lease_start_datetime'],
                                                      '%Y-%m-%dT%H:%M:%S')
         lease_start_datetime_utc = lease_start_datetime_utc.replace(tzinfo=timezone.utc)
         lease_start_datetime_utc -= timedelta(minutes=timezone_offset)
 
-        lease_end_datetime_utc = datetime.strptime(new_values['data']['lease_end_datetime_utc'],
+        lease_end_datetime_utc = datetime.strptime(new_values['data']['lease_end_datetime'],
                                                    '%Y-%m-%dT%H:%M:%S')
         lease_end_datetime_utc = lease_end_datetime_utc.replace(tzinfo=timezone.utc)
         lease_end_datetime_utc -= timedelta(minutes=timezone_offset)
@@ -687,6 +707,7 @@ class TenantItem:
 class TenantMeterCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -741,6 +762,7 @@ class TenantMeterCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -807,13 +829,15 @@ class TenantMeterCollection:
 class TenantMeterItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, mid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, mid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -865,6 +889,7 @@ class TenantMeterItem:
 class TenantOfflineMeterCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -919,6 +944,7 @@ class TenantOfflineMeterCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -985,13 +1011,15 @@ class TenantOfflineMeterCollection:
 class TenantOfflineMeterItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, mid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, mid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1044,6 +1072,7 @@ class TenantOfflineMeterItem:
 class TenantPointCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1097,6 +1126,7 @@ class TenantPointCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -1163,13 +1193,15 @@ class TenantPointCollection:
 class TenantPointItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, pid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, pid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1222,6 +1254,7 @@ class TenantPointItem:
 class TenantSensorCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1262,6 +1295,7 @@ class TenantSensorCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -1328,13 +1362,15 @@ class TenantSensorCollection:
 class TenantSensorItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, sid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, sid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1386,6 +1422,7 @@ class TenantSensorItem:
 class TenantVirtualMeterCollection:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1440,6 +1477,7 @@ class TenantVirtualMeterCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -1506,13 +1544,15 @@ class TenantVirtualMeterCollection:
 class TenantVirtualMeterItem:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, mid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, mid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',

@@ -11,6 +11,7 @@ import excelexporters.metersubmetersbalance
 class Reporting:
     @staticmethod
     def __init__():
+        """"Initializes Reporting"""
         pass
 
     @staticmethod
@@ -333,10 +334,11 @@ class Reporting:
         }
 
         # export result to Excel file and then encode the file to base64 string
-        result['excel_bytes_base64'] = excelexporters.metersubmetersbalance.export(result,
-                                              master_meter['name'],
-                                              reporting_period_start_datetime_local,
-                                              reporting_period_end_datetime_local,
-                                              period_type)
+        result['excel_bytes_base64'] = \
+            excelexporters.metersubmetersbalance.export(result,
+                                                        master_meter['name'],
+                                                        reporting_period_start_datetime_local,
+                                                        reporting_period_end_datetime_local,
+                                                        period_type)
 
         resp.body = json.dumps(result)

@@ -72,8 +72,8 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
         ws.column_dimensions[chr(i)].width = 15.0
 
     # Font
-    name_font = Font(name='Constantia', size=15, bold=True)
-    title_font = Font(name='宋体', size=15, bold=True)
+    name_font = Font(name='Arial', size=15, bold=True)
+    title_font = Font(name='Arial', size=15, bold=True)
     data_font = Font(name='Franklin Gothic Book', size=11)
 
     table_fill = PatternFill(fill_type='solid', fgColor='1F497D')
@@ -107,47 +107,50 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
 
     # Img
     img = Image("excelexporters/myems.png")
-    img.width = img.width * 0.85
-    img.height = img.height * 0.85
-    ws.add_image(img, 'B1')
+    ws.add_image(img, 'A1')
 
     # Title
-    ws.row_dimensions[3].height = 60
-
-    ws['B3'].font = name_font
     ws['B3'].alignment = b_r_alignment
-    ws['B3'] = '空间:'
+    ws['B3'] = 'Space:'
     ws['C3'].border = b_border
     ws['C3'].alignment = b_c_alignment
-    ws['C3'].font = name_font
     ws['C3'] = space_name
 
-    ws['F3'].font = name_font
-    ws['F3'].alignment = b_r_alignment
-    ws['F3'] = '日期:'
-    ws['G3'].border = b_border
-    ws['G3'].alignment = b_c_alignment
-    ws['G3'].font = name_font
-    ws['G3'] = reporting_start_datetime_local + "~" + reporting_end_datetime_local
-    ws.merge_cells("G3:H3")
+    ws['B4'].alignment = b_r_alignment
+    ws['B4'] = 'Reporting Start Datetime:'
+    ws['C4'].border = b_border
+    ws['C4'].alignment = b_c_alignment
+    ws['C4'] = reporting_start_datetime_local
 
-    # Title
+    ws['B5'].alignment = b_r_alignment
+    ws['B5'] = 'Reporting End Datetime:'
+    ws['C5'].border = b_border
+    ws['C5'].alignment = b_c_alignment
+    ws['C5'] = reporting_end_datetime_local
+
+    # Column Title
     ws['B6'].border = f_border
     ws['B6'].font = name_font
     ws['B6'].alignment = c_c_alignment
     ws['B6'].fill = table_fill
-    ws['B6'] = '名称'
+    ws['B6'] = 'ID'
 
     ws['C6'].border = f_border
-    ws['C6'].alignment = c_c_alignment
     ws['C6'].font = name_font
+    ws['C6'].alignment = c_c_alignment
     ws['C6'].fill = table_fill
-    ws['C6'] = '空间'
+    ws['C6'] = 'Name'
+
+    ws['D6'].border = f_border
+    ws['D6'].alignment = c_c_alignment
+    ws['D6'].font = name_font
+    ws['D6'].fill = table_fill
+    ws['D6'] = 'Space'
 
     ca_len = len(report['energycategories'])
 
     for i in range(0, ca_len):
-        col = chr(ord('D') + i)
+        col = chr(ord('E') + i)
         ws[col + '6'].fill = table_fill
         ws[col + '6'].font = name_font
         ws[col + '6'].alignment = c_c_alignment
@@ -157,20 +160,24 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
 
     current_row_number = 7
     for i in range(0, len(report['meters'])):
-
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)].border = f_border
         ws['B' + str(current_row_number)].alignment = c_c_alignment
-        ws['B' + str(current_row_number)] = report['meters'][i]['meter_name']
+        ws['B' + str(current_row_number)] = str(report['meters'][i]['id'])
 
         ws['C' + str(current_row_number)].font = title_font
         ws['C' + str(current_row_number)].border = f_border
         ws['C' + str(current_row_number)].alignment = c_c_alignment
-        ws['C' + str(current_row_number)] = report['meters'][i]['space_name']
+        ws['C' + str(current_row_number)] = report['meters'][i]['meter_name']
+
+        ws['D' + str(current_row_number)].font = title_font
+        ws['D' + str(current_row_number)].border = f_border
+        ws['D' + str(current_row_number)].alignment = c_c_alignment
+        ws['D' + str(current_row_number)] = report['meters'][i]['space_name']
 
         ca_len = len(report['meters'][i]['values'])
         for j in range(0, ca_len):
-            col = chr(ord('D') + j)
+            col = chr(ord('E') + j)
             ws[col + str(current_row_number)].font = data_font
             ws[col + str(current_row_number)].border = f_border
             ws[col + str(current_row_number)].alignment = c_c_alignment

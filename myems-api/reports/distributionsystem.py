@@ -8,6 +8,7 @@ from datetime import datetime, timedelta, timezone
 class Reporting:
     @staticmethod
     def __init__():
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -41,7 +42,7 @@ class Reporting:
                                        description='API.INVALID_DISTRIBUTION_SYSTEM_ID')
         # set the earliest datetime of valid actual value
         # if the utc_date_time is less than reporting_start_datetime_utc, then the value is None because of timeout
-        reporting_start_datetime_utc = datetime.utcnow() - timedelta(minutes=5)
+        reporting_start_datetime_utc = datetime.utcnow() - timedelta(minutes=30)
 
         ################################################################################################################
         # Step 2: Step 2: query the distribution system

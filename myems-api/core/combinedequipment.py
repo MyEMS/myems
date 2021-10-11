@@ -3,11 +3,13 @@ import simplejson as json
 import mysql.connector
 import config
 import uuid
+from core.userlogger import user_logger
 
 
 class CombinedEquipmentCollection:
     @staticmethod
     def __init__():
+        """ Initializes CombinedEquipmentCollection"""
         pass
 
     @staticmethod
@@ -57,6 +59,7 @@ class CombinedEquipmentCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
         try:
@@ -88,8 +91,8 @@ class CombinedEquipmentCollection:
         if 'cost_center_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['cost_center_id'], int) or \
                 new_values['data']['cost_center_id'] <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_COST_CENTER_ID')
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_COST_CENTER_ID')
         cost_center_id = new_values['data']['cost_center_id']
 
         if 'description' in new_values['data'].keys() and \
@@ -145,6 +148,7 @@ class CombinedEquipmentCollection:
 class CombinedEquipmentItem:
     @staticmethod
     def __init__():
+        """Initializes CombinedEquipmentItem"""
         pass
 
     @staticmethod
@@ -198,6 +202,7 @@ class CombinedEquipmentItem:
         resp.body = json.dumps(meta_result)
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -271,6 +276,7 @@ class CombinedEquipmentItem:
         resp.status = falcon.HTTP_204
 
     @staticmethod
+    @user_logger
     def on_put(req, resp, id_):
         """Handles PUT requests"""
         if not id_.isdigit() or int(id_) <= 0:
@@ -305,8 +311,8 @@ class CombinedEquipmentItem:
         if 'cost_center_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['cost_center_id'], int) or \
                 new_values['data']['cost_center_id'] <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_COST_CENTER_ID')
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_COST_CENTER_ID')
         cost_center_id = new_values['data']['cost_center_id']
 
         if 'description' in new_values['data'].keys() and \
@@ -367,6 +373,7 @@ class CombinedEquipmentItem:
 
     # Clone a Combined Equipment
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles PUT requests"""
         if not id_.isdigit() or int(id_) <= 0:
@@ -515,6 +522,7 @@ class CombinedEquipmentItem:
 class CombinedEquipmentEquipmentCollection:
     @staticmethod
     def __init__():
+        """Initializes CombinedEquipmentEquipmentCollection"""
         pass
 
     @staticmethod
@@ -555,6 +563,7 @@ class CombinedEquipmentEquipmentCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -621,13 +630,15 @@ class CombinedEquipmentEquipmentCollection:
 class CombinedEquipmentEquipmentItem:
     @staticmethod
     def __init__():
+        """Initializes CombinedEquipmentEquipmentItem"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, eid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, eid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -680,6 +691,7 @@ class CombinedEquipmentEquipmentItem:
 class CombinedEquipmentParameterCollection:
     @staticmethod
     def __init__():
+        """Initializes CombinedEquipmentParameterCollection"""
         pass
 
     @staticmethod
@@ -809,6 +821,7 @@ class CombinedEquipmentParameterCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         if not id_.isdigit() or int(id_) <= 0:
@@ -993,6 +1006,7 @@ class CombinedEquipmentParameterCollection:
 class CombinedEquipmentParameterItem:
     @staticmethod
     def __init__():
+        """"Initializes CombinedEquipmentParameterItem"""
         pass
 
     @staticmethod
@@ -1116,6 +1130,7 @@ class CombinedEquipmentParameterItem:
         resp.body = json.dumps(meta_result)
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, pid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1162,8 +1177,9 @@ class CombinedEquipmentParameterItem:
         resp.status = falcon.HTTP_204
 
     @staticmethod
+    @user_logger
     def on_put(req, resp, id_, pid):
-        """Handles POST requests"""
+        """Handles PUT requests"""
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
@@ -1364,6 +1380,7 @@ class CombinedEquipmentParameterItem:
 class CombinedEquipmentMeterCollection:
     @staticmethod
     def __init__():
+        """"Initializes CombinedEquipmentMeterCollection"""
         pass
 
     @staticmethod
@@ -1419,6 +1436,7 @@ class CombinedEquipmentMeterCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -1491,13 +1509,15 @@ class CombinedEquipmentMeterCollection:
 class CombinedEquipmentMeterItem:
     @staticmethod
     def __init__():
+        """"Initializes CombinedEquipmentMeterItem"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, mid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, mid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1550,6 +1570,7 @@ class CombinedEquipmentMeterItem:
 class CombinedEquipmentOfflineMeterCollection:
     @staticmethod
     def __init__():
+        """"Initializes CombinedEquipmentOfflineMeterCollection"""
         pass
 
     @staticmethod
@@ -1605,6 +1626,7 @@ class CombinedEquipmentOfflineMeterCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -1678,13 +1700,15 @@ class CombinedEquipmentOfflineMeterCollection:
 class CombinedEquipmentOfflineMeterItem:
     @staticmethod
     def __init__():
+        """"Initializes CombinedEquipmentOfflineMeterItem"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, mid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, mid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1737,6 +1761,7 @@ class CombinedEquipmentOfflineMeterItem:
 class CombinedEquipmentVirtualMeterCollection:
     @staticmethod
     def __init__():
+        """"Initializes CombinedEquipmentVirtualMeterCollection"""
         pass
 
     @staticmethod
@@ -1792,6 +1817,7 @@ class CombinedEquipmentVirtualMeterCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -1865,13 +1891,15 @@ class CombinedEquipmentVirtualMeterCollection:
 class CombinedEquipmentVirtualMeterItem:
     @staticmethod
     def __init__():
+        """"Initializes CombinedEquipmentVirtualMeterItem"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, mid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, mid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',

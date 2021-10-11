@@ -3,11 +3,13 @@ import simplejson as json
 import mysql.connector
 import config
 import uuid
+from core.userlogger import user_logger
 
 
 class VirtualMeterCollection:
     @staticmethod
     def __init__():
+        """"Initializes VirtualMeterCollection"""
         pass
 
     @staticmethod
@@ -144,6 +146,7 @@ class VirtualMeterCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
         try:
@@ -173,8 +176,8 @@ class VirtualMeterCollection:
         if 'cost_center_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['cost_center_id'], int) or \
                 new_values['data']['cost_center_id'] <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_COST_CENTER_ID')
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_COST_CENTER_ID')
 
         cost_center_id = new_values['data']['cost_center_id']
 
@@ -362,6 +365,7 @@ class VirtualMeterCollection:
 class VirtualMeterItem:
     @staticmethod
     def __init__():
+        """"Initializes VirtualMeterItem"""
         pass
 
     @staticmethod
@@ -501,6 +505,7 @@ class VirtualMeterItem:
         resp.body = json.dumps(meta_result)
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -666,6 +671,7 @@ class VirtualMeterItem:
         resp.status = falcon.HTTP_204
 
     @staticmethod
+    @user_logger
     def on_put(req, resp, id_):
         """Handles PUT requests"""
         try:
@@ -699,8 +705,8 @@ class VirtualMeterItem:
         if 'cost_center_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['cost_center_id'], int) or \
                 new_values['data']['cost_center_id'] <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_COST_CENTER_ID')
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_COST_CENTER_ID')
 
         cost_center_id = new_values['data']['cost_center_id']
 

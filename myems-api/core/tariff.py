@@ -4,11 +4,13 @@ import mysql.connector
 import config
 import uuid
 from datetime import datetime, timedelta, timezone
+from core.userlogger import user_logger
 
 
 class TariffCollection:
     @staticmethod
     def __init__():
+        """"Initializes TariffCollection"""
         pass
 
     @staticmethod
@@ -18,7 +20,7 @@ class TariffCollection:
     @staticmethod
     def on_get(req, resp):
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cursor = cnx.cursor(dictionary=True)
 
         query = (" SELECT t.id, t.name, t.uuid, "
                  "        ec.id AS energy_category_id, ec.name AS energy_category_name, "
@@ -30,21 +32,26 @@ class TariffCollection:
         cursor.execute(query)
         rows = cursor.fetchall()
 
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
+
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                valid_from = row[7].replace(tzinfo=timezone.utc)
-                valid_through = row[8].replace(tzinfo=timezone.utc)
-
-                meta_result = {"id": row[0],
-                               "name": row[1],
-                               "uuid": row[2],
-                               "energy_category": {"id": row[3],
-                                                   "name": row[4]},
-                               "tariff_type": row[5],
-                               "unit_of_price": row[6],
-                               "valid_from": valid_from.timestamp() * 1000,
-                               "valid_through": valid_through.timestamp() * 1000}
+                valid_from = row['valid_from_datetime_utc'].replace(tzinfo=timezone.utc) + \
+                    timedelta(minutes=timezone_offset)
+                valid_through = row['valid_through_datetime_utc'].replace(tzinfo=timezone.utc) + \
+                    timedelta(minutes=timezone_offset)
+                meta_result = {"id": row['id'],
+                               "name": row['name'],
+                               "uuid": row['uuid'],
+                               "energy_category": {"id": row['energy_category_id'],
+                                                   "name": row['energy_category_name']},
+                               "tariff_type": row['tariff_type'],
+                               "unit_of_price": row['unit_of_price'],
+                               "valid_from": valid_from.strftime('%Y-%m-%dT%H:%M:%S'),
+                               "valid_through": valid_through.strftime('%Y-%m-%dT%H:%M:%S')}
 
                 if meta_result['tariff_type'] == 'block':
                     meta_result['block'] = list()
@@ -56,9 +63,9 @@ class TariffCollection:
                     rows_block = cursor.fetchall()
                     if rows_block is not None and len(rows_block) > 0:
                         for row_block in rows_block:
-                            meta_data = {"start_amount": row_block[0],
-                                         "end_amount": row_block[1],
-                                         "price": row_block[2]}
+                            meta_data = {"start_amount": row_block['start_amount'],
+                                         "end_amount": row_block['end_amount'],
+                                         "price": row_block['price']}
                             meta_result['block'].append(meta_data)
 
                 elif meta_result['tariff_type'] == 'timeofuse':
@@ -71,10 +78,10 @@ class TariffCollection:
                     rows_timeofuses = cursor.fetchall()
                     if rows_timeofuses is not None and len(rows_timeofuses) > 0:
                         for row_timeofuse in rows_timeofuses:
-                            meta_data = {"start_time_of_day": str(row_timeofuse[0]),
-                                         "end_time_of_day": str(row_timeofuse[1]),
-                                         "peak_type": row_timeofuse[2],
-                                         "price": row_timeofuse[3]}
+                            meta_data = {"start_time_of_day": str(row_timeofuse['start_time_of_day']),
+                                         "end_time_of_day": str(row_timeofuse['end_time_of_day']),
+                                         "peak_type": row_timeofuse['peak_type'],
+                                         "price": row_timeofuse['price']}
                             meta_result['timeofuse'].append(meta_data)
                 else:
                     cursor.close()
@@ -91,6 +98,7 @@ class TariffCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
         try:
@@ -215,6 +223,7 @@ class TariffCollection:
 class TariffItem:
     @staticmethod
     def __init__():
+        """"Initializes TariffItem"""
         pass
 
     @staticmethod
@@ -228,7 +237,7 @@ class TariffItem:
                                    description='API.INVALID_TARIFF_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cursor = cnx.cursor(dictionary=True)
 
         query = (" SELECT t.id, t.name, t.uuid, "
                  "        ec.id AS energy_category_id, ec.name AS energy_category_name, "
@@ -245,18 +254,24 @@ class TariffItem:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TARIFF_NOT_FOUND')
 
-        valid_from = row[7].replace(tzinfo=timezone.utc)
-        valid_through = row[8].replace(tzinfo=timezone.utc)
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
 
-        result = {"id": row[0],
-                  "name": row[1],
-                  "uuid": row[2],
-                  "energy_category": {"id": row[3],
-                                      "name": row[4]},
-                  "tariff_type": row[5],
-                  "unit_of_price": row[6],
-                  "valid_from": valid_from.timestamp() * 1000,
-                  "valid_through": valid_through.timestamp() * 1000}
+        valid_from = row['valid_from_datetime_utc'].replace(tzinfo=timezone.utc) + \
+            timedelta(minutes=timezone_offset)
+        valid_through = row['valid_through_datetime_utc'].replace(tzinfo=timezone.utc) + \
+            timedelta(minutes=timezone_offset)
+
+        result = {"id": row['id'],
+                  "name": row['name'],
+                  "uuid": row['uuid'],
+                  "energy_category": {"id": row['energy_category_id'],
+                                      "name": row['energy_category_name']},
+                  "tariff_type": row['tariff_type'],
+                  "unit_of_price": row['unit_of_price'],
+                  "valid_from": valid_from.strftime('%Y-%m-%dT%H:%M:%S'),
+                  "valid_through": valid_through.strftime('%Y-%m-%dT%H:%M:%S')}
 
         if result['tariff_type'] == 'block':
             result['block'] = list()
@@ -268,7 +283,9 @@ class TariffItem:
             rows_block = cursor.fetchall()
             if rows_block is not None and len(rows_block) > 0:
                 for row_block in rows_block:
-                    meta_data = {"start_amount": row_block[0], "end_amount": row_block[1], "price": row_block[2]}
+                    meta_data = {"start_amount": row_block['start_amount'],
+                                 "end_amount": row_block['end_amount'],
+                                 "price": row_block['price']}
                     result['block'].append(meta_data)
 
         elif result['tariff_type'] == 'timeofuse':
@@ -280,10 +297,10 @@ class TariffItem:
             rows_timeofuses = cursor.fetchall()
             if rows_timeofuses is not None and len(rows_timeofuses) > 0:
                 for row_timeofuse in rows_timeofuses:
-                    meta_data = {"start_time_of_day": str(row_timeofuse[0]),
-                                 "end_time_of_day": str(row_timeofuse[1]),
-                                 "peak_type": row_timeofuse[2],
-                                 "price": row_timeofuse[3]}
+                    meta_data = {"start_time_of_day": str(row_timeofuse['start_time_of_day']),
+                                 "end_time_of_day": str(row_timeofuse['end_time_of_day']),
+                                 "peak_type": row_timeofuse['peak_type'],
+                                 "price": row_timeofuse['price']}
                     result['timeofuse'].append(meta_data)
 
         cursor.close()
@@ -292,6 +309,7 @@ class TariffItem:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -348,6 +366,7 @@ class TariffItem:
         resp.status = falcon.HTTP_204
 
     @staticmethod
+    @user_logger
     def on_put(req, resp, id_):
         """Handles PUT requests"""
         try:

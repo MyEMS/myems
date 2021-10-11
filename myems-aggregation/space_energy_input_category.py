@@ -584,7 +584,8 @@ def worker(space):
                             energy_combined_equipment_hourly[combined_equipment_id][current_datetime_utc] = dict()
                         energy_category_id = row_value[1]
                         actual_value = row_value[2]
-                        energy_combined_equipment_hourly[combined_equipment_id][current_datetime_utc][energy_category_id] = actual_value
+                        energy_combined_equipment_hourly[combined_equipment_id][current_datetime_utc][
+                            energy_category_id] = actual_value
         except Exception as e:
             error_string = "Error in step 14 of space_energy_input_category.worker " + str(e)
             if cursor_energy_db:
@@ -769,7 +770,8 @@ def worker(space):
                             energy_child_space_hourly[child_space_id][current_datetime_utc] = dict()
                         energy_category_id = row_energy_value[1]
                         actual_value = row_energy_value[2]
-                        energy_child_space_hourly[child_space_id][current_datetime_utc][energy_category_id] = actual_value
+                        energy_child_space_hourly[child_space_id][current_datetime_utc][energy_category_id] \
+                            = actual_value
         except Exception as e:
             error_string = "Error in step 19 of space_energy_input_category.worker " + str(e)
             if cursor_energy_db:

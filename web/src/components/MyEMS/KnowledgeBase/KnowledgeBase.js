@@ -64,10 +64,10 @@ const KnowledgeBase = ({ setRedirect, setRedirectUrl, t }) => {
               json.forEach((currentValue, index) => {
                 let report = {}
                 report['id'] = json[index]['id'];
-                report['calendar'] = { month: json[index]['upload_datetime_local'].substring(5, 7), 
-                day: json[index]['upload_datetime_local'].substring(8, 10) };
+                report['calendar'] = { month: json[index]['upload_datetime'].substring(5, 7), 
+                day: json[index]['upload_datetime'].substring(8, 10) };
                 report['title'] = json[index]['file_name'];
-                report['additional'] = t('Created Datetime') + ': ' + json[index]['upload_datetime_local']  + '<br/>' +
+                report['additional'] = t('Created Datetime') + ': ' + json[index]['upload_datetime']  + '<br/>' +
                 t('File Size') + ': ' + (json[index]['file_size_bytes']/(1024*1024)).toFixed(2) + ' MB';
                 report['to'] = '#';
                 report['file_bytes_base64'] = json[index]['file_bytes_base64'];

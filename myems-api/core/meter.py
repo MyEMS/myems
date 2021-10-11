@@ -3,11 +3,13 @@ import simplejson as json
 import mysql.connector
 import config
 import uuid
+from core.userlogger import user_logger
 
 
 class MeterCollection:
     @staticmethod
     def __init__():
+        """Initializes MeterCollection"""
         pass
 
     @staticmethod
@@ -100,6 +102,7 @@ class MeterCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
         try:
@@ -146,8 +149,8 @@ class MeterCollection:
         if 'cost_center_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['cost_center_id'], int) or \
                 new_values['data']['cost_center_id'] <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_COST_CENTER_ID')
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_COST_CENTER_ID')
         cost_center_id = new_values['data']['cost_center_id']
 
         if 'energy_item_id' in new_values['data'].keys() and \
@@ -271,6 +274,7 @@ class MeterCollection:
 class MeterItem:
     @staticmethod
     def __init__():
+        """Initializes MeterItem"""
         pass
 
     @staticmethod
@@ -367,6 +371,7 @@ class MeterItem:
         resp.body = json.dumps(meta_result)
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -543,6 +548,7 @@ class MeterItem:
         resp.status = falcon.HTTP_204
 
     @staticmethod
+    @user_logger
     def on_put(req, resp, id_):
         """Handles PUT requests"""
         try:
@@ -593,8 +599,8 @@ class MeterItem:
         if 'cost_center_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['cost_center_id'], int) or \
                 new_values['data']['cost_center_id'] <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_COST_CENTER_ID')
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_COST_CENTER_ID')
 
         cost_center_id = new_values['data']['cost_center_id']
 
@@ -742,6 +748,7 @@ class MeterItem:
 class MeterSubmeterCollection:
     @staticmethod
     def __init__():
+        """Initializes MeterSubmeterCollection"""
         pass
 
     @staticmethod
@@ -843,6 +850,7 @@ class MeterSubmeterCollection:
 class MeterPointCollection:
     @staticmethod
     def __init__():
+        """Initializes MeterPointCollection"""
         pass
 
     @staticmethod
@@ -887,6 +895,7 @@ class MeterPointCollection:
         resp.body = json.dumps(result)
 
     @staticmethod
+    @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
         try:
@@ -946,13 +955,15 @@ class MeterPointCollection:
 class MeterPointItem:
     @staticmethod
     def __init__():
+        """Initializes MeterPointItem"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_, pid):
-            resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     @staticmethod
+    @user_logger
     def on_delete(req, resp, id_, pid):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
