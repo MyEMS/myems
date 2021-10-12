@@ -1,6 +1,7 @@
 import base64
 import uuid
 import os
+import re
 from openpyxl.chart import LineChart, Reference
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 from openpyxl.drawing.image import Image
@@ -399,7 +400,7 @@ def generate_excel(report,
         parameters_data = report['parameters']
         parameters_names_len = len(parameters_data['names'])
 
-        file_name = __file__.split('/')[-1].replace(".py", "")
+        file_name = (re.sub(r'[^A-Z]', '', ws.title))+'_'
         parameters_ws = wb.create_sheet(file_name + 'Parameters')
 
         parameters_timestamps_data_max_len = \
