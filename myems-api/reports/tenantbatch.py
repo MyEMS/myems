@@ -137,7 +137,8 @@ class Reporting:
                                           "space_name": row['space_name'],
                                           "cost_center_name": row['cost_center_name'],
                                           "description": row['description'],
-                                          "values": list()}
+                                          "values": list(),
+                                          "maximum": list()}
 
         ################################################################################################################
         # Step 4: query energy categories
@@ -187,7 +188,7 @@ class Reporting:
         ################################################################################################################
         for tenant_id in tenant_dict:
 
-            cursor_energy_db.execute(" SELECT energy_category_id, SUM(actual_value) "
+            cursor_energy_db.execute(" SELECT energy_category_id, SUM(actual_value), max(actual_value)"
                                      " FROM tbl_tenant_input_category_hourly "
                                      " WHERE tenant_id = %s "
                                      "     AND start_datetime_utc >= %s "
@@ -199,11 +200,14 @@ class Reporting:
             rows_tenant_energy = cursor_energy_db.fetchall()
             for energy_category in energy_category_list:
                 subtotal = Decimal(0.0)
+                maximum = Decimal(0.0)
                 for row_tenant_energy in rows_tenant_energy:
                     if energy_category['id'] == row_tenant_energy[0]:
                         subtotal = row_tenant_energy[1]
+                        maximum = row_tenant_energy[2]
                         break
                 tenant_dict[tenant_id]['values'].append(subtotal)
+                tenant_dict[tenant_id]['maximum'].append(maximum)
 
         if cursor_system_db:
             cursor_system_db.close()
@@ -227,6 +231,7 @@ class Reporting:
                 "cost_center_name": tenant['cost_center_name'],
                 "description": tenant['description'],
                 "values": tenant['values'],
+                "maximum": tenant['maximum'],
             })
 
         result = {'tenants': tenant_list,

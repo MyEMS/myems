@@ -1,8 +1,11 @@
 import base64
 import uuid
 import os
+
+
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 from openpyxl.drawing.image import Image
+from openpyxl.utils import column_index_from_string, get_column_letter
 from openpyxl import Workbook
 
 
@@ -129,30 +132,38 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
     ws['C5'] = reporting_end_datetime_local
 
     # Title
-    ws['B6'].border = f_border
-    ws['B6'].font = name_font
-    ws['B6'].alignment = c_c_alignment
-    ws['B6'].fill = table_fill
-    ws['B6'] = 'Name'
+    ws['B7'].border = f_border
+    ws['B7'].font = name_font
+    ws['B7'].alignment = c_c_alignment
+    ws['B7'].fill = table_fill
+    ws['B7'] = 'Name'
 
-    ws['C6'].border = f_border
-    ws['C6'].alignment = c_c_alignment
-    ws['C6'].font = name_font
-    ws['C6'].fill = table_fill
-    ws['C6'] = 'Space'
+    ws['C7'].border = f_border
+    ws['C7'].alignment = c_c_alignment
+    ws['C7'].font = name_font
+    ws['C7'].fill = table_fill
+    ws['C7'] = 'Space'
 
     ca_len = len(report['energycategories'])
 
     for i in range(0, ca_len):
-        col = chr(ord('D') + i)
-        ws[col + '6'].fill = table_fill
-        ws[col + '6'].font = name_font
-        ws[col + '6'].alignment = c_c_alignment
-        ws[col + '6'] = report['energycategories'][i]['name'] + \
+        col = get_column_letter(column_index_from_string('D') + i * 2)
+        ws[col + '7'].fill = table_fill
+        ws[col + '7'].font = name_font
+        ws[col + '7'].alignment = c_c_alignment
+        ws[col + '7'] = report['energycategories'][i]['name'] + \
             " (" + report['energycategories'][i]['unit_of_measure'] + ")"
-        ws[col + '6'].border = f_border
+        ws[col + '7'].border = f_border
 
-    current_row_number = 7
+        col = get_column_letter(column_index_from_string(col) + 1)
+        ws[col + '7'].fill = table_fill
+        ws[col + '7'].font = name_font
+        ws[col + '7'].alignment = c_c_alignment
+        ws[col + '7'] = report['energycategories'][i]['name'] + \
+            " Maximum Load (" + report['energycategories'][i]['unit_of_measure'] + ")"
+        ws[col + '7'].border = f_border
+
+    current_row_number = 8
     for i in range(0, len(report['tenants'])):
 
         ws['B' + str(current_row_number)].font = title_font
@@ -167,12 +178,17 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
 
         ca_len = len(report['tenants'][i]['values'])
         for j in range(0, ca_len):
-            col = chr(ord('D') + j)
-            ws[col + str(current_row_number)].font = data_font
+            col = get_column_letter(column_index_from_string('D') + j * 2)
+            ws[col + str(current_row_number)].font = title_font
             ws[col + str(current_row_number)].border = f_border
             ws[col + str(current_row_number)].alignment = c_c_alignment
             ws[col + str(current_row_number)] = report['tenants'][i]['values'][j]
 
+            col = get_column_letter(column_index_from_string(col) + 1)
+            ws[col + str(current_row_number)].font = title_font
+            ws[col + str(current_row_number)].border = f_border
+            ws[col + str(current_row_number)].alignment = c_c_alignment
+            ws[col + str(current_row_number)] = report['tenants'][i]['maximum'][j]
         current_row_number += 1
 
     filename = str(uuid.uuid4()) + '.xlsx'
