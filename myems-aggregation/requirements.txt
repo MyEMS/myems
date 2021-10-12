@@ -1,1 +1,2 @@
-mysql-connector
+mysql-connector-python
+python-decouple

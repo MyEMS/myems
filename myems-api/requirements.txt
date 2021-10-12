@@ -1,13 +1,12 @@
 anytree
 simplejson
-mysql-connector-python==8.0.20
-mysql.connector
+mysql-connector-python
 falcon
 falcon_cors
 falcon-multipart
 gunicorn
-et_xmlfile==1.1
+et_xmlfile
 jdcal
-openpyxl==3.0.7
+openpyxl
 pillow
 python-decouple

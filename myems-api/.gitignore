@@ -50,4 +50,13 @@ doc/_build
 *~
 
 advancereport/
-/.env
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+pythonenv*

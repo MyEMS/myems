@@ -4,13 +4,23 @@
 This service is a component of MyEMS to acquire data from Modbus TCP devices.
 
 ### Prerequisites
-pyserial
 
-modbus-tk
+mysql-connector-python
 
-mysql.connector
+modbus_tk
 
-Schedule
+schedule
+
+python-decouple
+
+
+### Quick Run for Development
+
+```bash
+pip install -r requirements.txt
+chmod +x run.sh
+run.sh
+```
 
 ### Installation
 
@@ -50,9 +60,10 @@ cd myems
 git checkout master (or the latest release tag)
 cp -R ~/myems/myems-modbus-tcp /myems-modbus-tcp
 ```
-Edit the config
+Create .env file based on .env.example and edit the .env file if needed:
 ```bash
-nano /myems-modbus-tcp/config.py
+cp /myems-modbus-tcp/.env.example /myems-cleaning/.env
+nano /myems-modbus-tcp/.env
 ```
 Setup systemd service:
 ```bash
