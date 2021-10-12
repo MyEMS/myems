@@ -9,7 +9,18 @@ This service is a component of MyEMS and it cleans the historical data.
 
 ### Prerequisites
 
-mysql.connector
+mysql-connector-python
+
+schedule
+
+python-decouple
+
+### Quick Run for Development
+```bash
+pip install -r requirements.txt
+chmod +x run.sh
+run.sh
+```
 
 ### Installation
     
@@ -19,7 +30,7 @@ cd ~/tools
 wget https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python-8.0.20.tar.gz
 tar xzf mysql-connector-python-8.0.20.tar.gz
 cd ~/tools/mysql-connector-python-8.0.20
-sudo python3 setup.py install
+python3 setup.py install
 ```
 
 Install myems-cleaning service
@@ -27,28 +38,29 @@ Install myems-cleaning service
 cd ~
 git clone https://github.com/MyEMS/myems.git
 cd myems
-sudo git checkout master (or the latest release tag)
-sudo cp -R ~/myems/myems-cleaning /myems-cleaning
+git checkout master (or the latest release tag)
+cp -R ~/myems/myems-cleaning /myems-cleaning
 ```
-Open config file and edit database configuration
+Create .env file based on .env.example and edit the .env file if needed:
 ```bash
-sudo nano /myems-cleaning/config.py
+cp /myems-cleaning/.env.example /myems-cleaning/.env
+nano /myems-cleaning/.env
 ```
 Setup systemd service:
 ```bash
-sudo cp myems-cleaning.service /lib/systemd/system/
+cp myems-cleaning.service /lib/systemd/system/
 ```
 Enable the service:
 ```bash
-sudo systemctl enable myems-cleaning.service
+systemctl enable myems-cleaning.service
 ```
 Start the service:
 ```bash
-sudo systemctl start myems-cleaning.service
+systemctl start myems-cleaning.service
 ```
 Monitor the service:
 ```bash
-sudo systemctl status myems-cleaning.service
+systemctl status myems-cleaning.service
 ```
 View the log:
 ```bash

@@ -1,3 +1,4 @@
-mysql-connector
+mysql-connector-python
 modbus_tk
 schedule
+python-decouple
