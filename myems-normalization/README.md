@@ -8,11 +8,22 @@ This service is a component of MyEMS and it normalizes energy data in historical
 
 ### Prerequisites
 
-mysql.connector
+mysql-connector-python
+
+openpyxl
 
 sympy
 
-openpyxl
+python-decouple
+
+
+### Quick Run for Development
+
+```bash
+pip install -r requirements.txt
+chmod +x run.sh
+run.sh
+```
 
 ### Installation
 
@@ -22,7 +33,7 @@ cd ~/tools
 wget https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python-8.0.20.tar.gz
 tar xzf mysql-connector-python-8.0.20.tar.gz
 cd ~/tools/mysql-connector-python-8.0.20
-sudo python3 setup.py install
+python3 setup.py install
 ```
 
 Download and install mpmath
@@ -30,7 +41,7 @@ Download and install mpmath
 cd ~/tools
 git clone https://github.com/fredrik-johansson/mpmath.git
 cd ~/tools/mpmath
-sudo python3 setup.py install
+python3 setup.py install
 ```
 
 Download and install SymPy
@@ -38,7 +49,7 @@ Download and install SymPy
 cd ~/tools
 git clone https://github.com/sympy/sympy.git
 cd ~/tools/sympy
-sudo python3 setupegg.py develop
+python3 setupegg.py develop
 ```
 
 Download and install openpyxl
@@ -62,11 +73,11 @@ tar xzf openpyxl-3.0.7.tar.gz
 
 ```bash
 cd ~/tools/et_xmlfile-1.1
-sudo python3 setup.py install
+python3 setup.py install
 cd ~/tools/jdcal
-sudo python3 setup.py install
+python3 setup.py install
 cd ~/tools/openpyxl-3.0.7
-sudo python3 setup.py install
+python3 setup.py install
 ```
 
 Install myems-normalization service:
@@ -74,29 +85,29 @@ Install myems-normalization service:
 cd ~
 git clone https://github.com/MyEMS/myems.git
 cd myems
-sudo git checkout master (or the latest release tag)
-sudo cp -r ~/myems/myems-normalization /myems-normalization
+git checkout master (or the latest release tag)
+cp -r ~/myems/myems-normalization /myems-normalization
 ```
-
-Edit config.py
-```
-sudo nano /myems-normalization/config.py
+Create .env file based on .env.example and edit the .env file if needed:
+```bash
+cp /myems-normalization/.env.example /myems-cleaning/.env
+nano /myems-normalization/.env
 ```
 Setup systemd service:
 ```
-sudo cp myems-normalization.service /lib/systemd/system/
+cp myems-normalization.service /lib/systemd/system/
 ```
 Enable the service:
 ```
-sudo systemctl enable myems-normalization.service
+systemctl enable myems-normalization.service
 ```
 Start the service:
 ```
-sudo systemctl start myems-normalization.service
+systemctl start myems-normalization.service
 ```
 Monitor the service:
 ```bash
-sudo systemctl status myems-normalization.service
+systemctl status myems-normalization.service
 ```
 View the log:
 ```bash
