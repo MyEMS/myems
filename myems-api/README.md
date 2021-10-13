@@ -19,6 +19,13 @@ gunicorn
 
 openpyxl
 
+## Quick Run for Development
+
+```bash
+pip install -r requirements.txt
+chmod +x run.sh
+run.sh
+```
 
 ## Installation
 
@@ -31,7 +38,7 @@ For macOS developers, please refer to [Installation on macOS (Chinese)](./instal
 cd ~/tools
 git clone https://github.com/c0fec0de/anytree.git
 cd anytree
-sudo python3 setup.py install 
+python3 setup.py install 
 ```
 
 *   Install simplejson
@@ -39,7 +46,7 @@ sudo python3 setup.py install
 cd ~/tools
 git clone https://github.com/simplejson/simplejson.git
 cd simplejson
-sudo python3 setup.py install 
+python3 setup.py install 
 ```
 
 *   Install MySQL Connector
@@ -48,7 +55,7 @@ sudo python3 setup.py install
  wget https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python-8.0.20.tar.gz
  tar xzf mysql-connector-python-8.0.20.tar.gz
  cd ~/tools/mysql-connector-python-8.0.20
- sudo python3 setup.py install
+ python3 setup.py install
 ```
 
 *   Install Falcon,
@@ -67,15 +74,15 @@ sudo python3 setup.py install
  pip3 download cython falcon falcon-cors falcon-multipart
  export LC_ALL="en_US.UTF-8"
  export LC_CTYPE="en_US.UTF-8"
- sudo dpkg-reconfigure locales
- sudo pip3 install --upgrade --no-index --find-links ~/tools/falcon cython falcon falcon-cors falcon-multipart
+ dpkg-reconfigure locales
+ pip3 install --upgrade --no-index --find-links ~/tools/falcon cython falcon falcon-cors falcon-multipart
 ```
 
 *   Install gunicorn, refer to http://gunicorn.org
 ```bash
  mkdir ~/tools/gunicorn && cd ~/tools/gunicorn
  pip3 download gunicorn
- sudo pip3 install --no-index --find-links ~/tools/gunicorn gunicorn
+ pip3 install --no-index --find-links ~/tools/gunicorn gunicorn
 ```
 
 *   Install openpyxl, refer to https://foss.heptapod.net/openpyxl/openpyxl
@@ -104,12 +111,12 @@ tar xzf openpyxl-3.0.7.tar.gz
 
 ```bash
 cd ~/tools/et_xmlfile-1.1
-sudo python3 setup.py install
+python3 setup.py install
 cd ~/tools/jdcal
-sudo python3 setup.py install
-sudo pip3 install --no-index --find-links ~/tools/pillow Pillow
+python3 setup.py install
+pip3 install --no-index --find-links ~/tools/pillow Pillow
 cd ~/tools/openpyxl-3.0.7
-sudo python3 setup.py install
+python3 setup.py install
 ```
 
 *   Download myems:
@@ -121,43 +128,38 @@ git clone https://github.com/MyEMS/myems.git
 *   Install gunicorn service for myems-api:
 ```bash
 cd ~/myems/myems-api
-sudo cp -R ~/myems/myems-api /myems-api
+cp -R ~/myems/myems-api /myems-api
 ```
-  Change IP address in the config file:
+Create .env file based on .env.example and edit the .env file if needed:
 ```bash
-sudo nano /myems-api/config.py
+cp /myems-api/.env.example /myems-api/.env
+nano /myems-api/.env
 ```
-   Change the listening port (default is 8000) in gunicorn.socket:
+Change the listening port (default is 8000) in gunicorn.socket:
 ```bash
-sudo nano /myems-api/myems-api.socket
+nano /myems-api/myems-api.socket
 ```
 ```bash
 ListenStream=0.0.0.0:8000
 ```
 ```bash
-sudo ufw allow 8000
+ufw allow 8000
 ```
-   Setup systemd configure files:
+Setup systemd configure files:
 ```bash
-  sudo cp /myems-api/myems-api.service /lib/systemd/system/
-  sudo cp /myems-api/myems-api.socket /lib/systemd/system/
-  sudo cp /myems-api/myems-api.conf /usr/lib/tmpfiles.d/
+cp /myems-api/myems-api.service /lib/systemd/system/
+cp /myems-api/myems-api.socket /lib/systemd/system/
+cp /myems-api/myems-api.conf /usr/lib/tmpfiles.d/
 ```
    Next enable the services so that they autostart at boot:
 ```bash
-  sudo systemctl enable myems-api.socket
-  sudo systemctl enable myems-api.service
+  systemctl enable myems-api.socket
+  systemctl enable myems-api.service
 ```
-   Start the services :
+Start the services :
 ```bash
-  sudo systemctl start myems-api.socket
-  sudo systemctl start myems-api.service
-```
-
-## Run for debugging and testing
-```bash
-cd myems-api
-sudo gunicorn -b 127.0.0.1:8000 app:api
+systemctl start myems-api.socket
+systemctl start myems-api.service
 ```
 
 ## API List
