@@ -189,3 +189,28 @@ tar xzf myems-web.tar.gz
 sudo rm -r /var/www/web
 sudo mv build  /var/www/web
 ```
+*   avoid 404 error while refreshing pages
+```bash
+cd /var/www/web
+sudo vi .htaccess
+```
+  Add a IfModule as below:
+```bash
+IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>
+```
+  Configure rewrite.load
+```bash
+cd /etc/apache2/mods-enabled/
+sudo vi rewrite.load
+```
+  Add content as below
+```bash
+LoadModule rewrite_module /usr/lib/apache2/modules/mod_rewrite.so
+```
