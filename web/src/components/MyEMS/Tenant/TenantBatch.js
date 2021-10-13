@@ -179,7 +179,10 @@ const TenantBatch = ({ setRedirect, setRedirectUrl, t }) => {
             detailed_value['space'] = currentTenant['space_name'];
             detailed_value['costcenter'] = currentTenant['cost_center_name'];
             currentTenant['values'].forEach((currentValue, energyCategoryIndex) => {
-              detailed_value['a' + energyCategoryIndex] = currentValue.toFixed(2);
+              detailed_value['a' + 2 * energyCategoryIndex] = currentValue.toFixed(2);
+            });
+            currentTenant['maximum'].forEach((currentValue, energyCategoryIndex) => {
+              detailed_value['a' + (2 * energyCategoryIndex + 1)] = currentValue.toFixed(2);
             });
             tenants.push(detailed_value);
           });
@@ -200,13 +203,18 @@ const TenantBatch = ({ setRedirect, setRedirectUrl, t }) => {
         });
         json['energycategories'].forEach((currentValue, index) => {
           detailed_column_list.push({
-            dataField: 'a' + index,
+            dataField: 'a' + 2 * index,
             text: currentValue['name'] + ' (' + currentValue['unit_of_measure'] + ')',
+            sort: true
+          },{
+            dataField: 'a' + (2 * index + 1),
+            text: currentValue['name'] + ' ' + t('Maximum Load') + ' (' + currentValue['unit_of_measure'] + ')',
             sort: true
           })
         });
-        setDetailedDataTableColumns(detailed_column_list);
 
+        setDetailedDataTableColumns(detailed_column_list);
+        console.log(detailed_column_list);
         setExcelBytesBase64(json['excel_bytes_base64']);
 
         // enable submit button
