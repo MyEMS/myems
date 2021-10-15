@@ -33,6 +33,22 @@ cd ~/tools/mysql-connector-python-8.0.20
 python3 setup.py install
 ```
 
+Download and install Schedule
+```bash
+cd ~/tools
+git clone https://github.com/dbader/schedule.git
+cd ~/tools/schedule
+python3 setup.py install
+```
+
+Download and install Python Decouple
+```bash
+cd ~/tools
+git clone https://github.com/henriquebastos/python-decouple.git
+cd ~/tools/python-decouple
+python3 setup.py  install
+```
+
 Install myems-cleaning service
 ```bash
 cd ~

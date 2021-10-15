@@ -19,6 +19,8 @@ gunicorn
 
 openpyxl
 
+python-decouple
+
 ## Quick Run for Development
 
 ```bash
@@ -117,6 +119,14 @@ python3 setup.py install
 pip3 install --no-index --find-links ~/tools/pillow Pillow
 cd ~/tools/openpyxl-3.0.7
 python3 setup.py install
+```
+
+Download and install Python Decouple
+```bash
+cd ~/tools
+git clone https://github.com/henriquebastos/python-decouple.git
+cd ~/tools/python-decouple
+python3 setup.py  install
 ```
 
 *   Download myems:
