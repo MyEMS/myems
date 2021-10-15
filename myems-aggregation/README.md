@@ -23,9 +23,9 @@ run.sh
 Download and install MySQL Connector:
 ```bash
 cd ~/tools
-wget https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python-8.0.20.tar.gz
-tar xzf mysql-connector-python-8.0.20.tar.gz
-cd ~/tools/mysql-connector-python-8.0.20
+wget https://cdn.mysql.com/archives/mysql-connector-python-8.0/mysql-connector-python-8.0.23.tar.gz
+tar xzf mysql-connector-python-8.0.23.tar.gz
+cd ~/tools/mysql-connector-python-8.0.23
 python3 setup.py install
 ```
 
@@ -45,7 +45,7 @@ cd myems
 git checkout master (or the latest release tag)
 cp -R ~/myems/myems-aggregation /myems-aggregation
 ```
-Create .env file based on .env.example and edit the .env file if needed:
+Create .env file based on example.env and edit the .env file if needed:
 ```bash
 cp /myems-aggregation/example.env /myems-aggregation/.env
 nano /myems-aggregation/.env

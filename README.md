@@ -72,9 +72,9 @@ MyEMS项目由下列组件构成:
 
 ### 默认端口号
 
-MyEMS API: 8000
-
 MyEMS Web UI: 80
+
+MyEMS API: 8000
 
 MyEMS Admin UI: 8001
 

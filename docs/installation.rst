@@ -39,9 +39,9 @@ Installation
 * Install MySQL Connector::
 
     $ cd ~/tools
-    $ wget https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python-8.0.20.tar.gz
-    $ tar xzf mysql-connector-python-8.0.20.tar.gz
-    $ cd ~/tools/mysql-connector-python-8.0.20
+    $ wget wget https://cdn.mysql.com/archives/mysql-connector-python-8.0/mysql-connector-python-8.0.23.tar.gz
+    $ tar xzf mysql-connector-python-8.0.23.tar.gz
+    $ cd ~/tools/mysql-connector-python-8.0.23
     $ sudo python3 setup.py install
 
 * Install Falcon
@@ -73,7 +73,7 @@ Installation
   | Get the latest version of openpyxl from `https://foss.heptapod.net/openpyxl/openpyxl <https://foss.heptapod.net/openpyxl/openpyxl>`_
   ::
 
-    $ cd ~/tools  
+    $ cd ~/tools
     $ wget https://foss.heptapod.net/openpyxl/et_xmlfile/-/archive/1.1/et_xmlfile-1.1.tar.gz
     $ tar xzf et_xmlfile-1.1.tar.gz
     $ cd ~/tools/et_xmlfile-1.1
@@ -82,7 +82,7 @@ Installation
     $ git clone https://github.com/phn/jdcal.git
     $ cd ~/tools/jdcal
     $ sudo python3 setup.py install
-    $ mkdir ~/tools/pillow && cd ~/tools/pillow 
+    $ mkdir ~/tools/pillow && cd ~/tools/pillow
     $ pip3 download Pillow
     $ sudo pip3 install --no-index --find-links ~/tools/pillow Pillow
     $ cd ~/tools
@@ -100,11 +100,11 @@ Installation
 
     $ sudo nano /myems-api/config.py
 
-  Change the listening port (8080 as an example) in gunicorn.socket::
+  Change the listening port (8000 as an example) in gunicorn.socket::
 
     $ sudo nano /myems-api/gunicorn.socket
-    ListenStream=0.0.0.0:8080
-    $ sudo ufw allow 8080
+    ListenStream=0.0.0.0:8000
+    $ sudo ufw allow 8000
 
   Setup systemd configure files::
 
@@ -125,5 +125,5 @@ Installation
   **Run for debugging and testing**::
 
     $ cd myems-api
-    $ sudo gunicorn -b 127.0.0.1:8080 app:api
+    $ sudo gunicorn -b 127.0.0.1:8000 app:api
 
