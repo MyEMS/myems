@@ -39,7 +39,7 @@ cp -R ~/myems/myems-aggregation /myems-aggregation
 ```
 Create .env file based on .env.example and edit the .env file if needed:
 ```bash
-cp /myems-aggregation/.env.example /myems-aggregation/.env
+cp /myems-aggregation/example.env /myems-aggregation/.env
 nano /myems-aggregation/.env
 ```
 Setup systemd service:

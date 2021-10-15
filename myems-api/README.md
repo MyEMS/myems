@@ -132,7 +132,7 @@ cp -R ~/myems/myems-api /myems-api
 ```
 Create .env file based on .env.example and edit the .env file if needed:
 ```bash
-cp /myems-api/.env.example /myems-api/.env
+cp /myems-api/example.env /myems-api/.env
 nano /myems-api/.env
 ```
 Change the listening port (default is 8000) in gunicorn.socket:

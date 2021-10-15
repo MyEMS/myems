@@ -62,7 +62,7 @@ cp -R ~/myems/myems-modbus-tcp /myems-modbus-tcp
 ```
 Create .env file based on .env.example and edit the .env file if needed:
 ```bash
-cp /myems-modbus-tcp/.env.example /myems-cleaning/.env
+cp /myems-modbus-tcp/example.env /myems-cleaning/.env
 nano /myems-modbus-tcp/.env
 ```
 Setup systemd service:

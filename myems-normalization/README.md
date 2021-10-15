@@ -90,7 +90,7 @@ cp -r ~/myems/myems-normalization /myems-normalization
 ```
 Create .env file based on .env.example and edit the .env file if needed:
 ```bash
-cp /myems-normalization/.env.example /myems-cleaning/.env
+cp /myems-normalization/example.env /myems-cleaning/.env
 nano /myems-normalization/.env
 ```
 Setup systemd service:
