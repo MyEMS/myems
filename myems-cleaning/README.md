@@ -43,7 +43,7 @@ cp -R ~/myems/myems-cleaning /myems-cleaning
 ```
 Create .env file based on .env.example and edit the .env file if needed:
 ```bash
-cp /myems-cleaning/.env.example /myems-cleaning/.env
+cp /myems-cleaning/example.env /myems-cleaning/.env
 nano /myems-cleaning/.env
 ```
 Setup systemd service:
