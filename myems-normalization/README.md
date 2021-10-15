@@ -80,6 +80,14 @@ cd ~/tools/openpyxl-3.0.7
 python3 setup.py install
 ```
 
+Download and install Python Decouple
+```bash
+cd ~/tools
+git clone https://github.com/henriquebastos/python-decouple.git
+cd ~/tools/python-decouple
+python3 setup.py  install
+```
+
 Install myems-normalization service:
 ```
 cd ~

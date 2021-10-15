@@ -52,6 +52,14 @@ cd ~/tools/modbus-tk
 python3 setup.py install
 ```
 
+Download and install Python Decouple
+```bash
+cd ~/tools
+git clone https://github.com/henriquebastos/python-decouple.git
+cd ~/tools/python-decouple
+python3 setup.py  install
+```
+
 Install myems-modbus-tcp service
 ```bash
 cd ~
@@ -60,7 +68,7 @@ cd myems
 git checkout master (or the latest release tag)
 cp -R ~/myems/myems-modbus-tcp /myems-modbus-tcp
 ```
-Create .env file based on .env.example and edit the .env file if needed:
+Create .env file based on example.env and edit the .env file if needed:
 ```bash
 cp /myems-modbus-tcp/example.env /myems-cleaning/.env
 nano /myems-modbus-tcp/.env
