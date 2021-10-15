@@ -72,9 +72,9 @@ Dieses Projekt besteht aus folgenden Komponenten:
 
 ### Standardports
 
-MyEMS API: 8000
-
 MyEMS Web UI: 80
+
+MyEMS API: 8000
 
 MyEMS Admin UI: 8001
 

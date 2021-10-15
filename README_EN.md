@@ -72,9 +72,9 @@ This project is compose of  following components:
 
 ### Default Ports
 
-MyEMS API: 8000
-
 MyEMS Web UI: 80
+
+MyEMS API: 8000
 
 MyEMS Admin UI: 8001
 
