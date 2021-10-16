@@ -9,8 +9,8 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_combined_equipments`
 (`id`, `name`, `uuid`,  `is_input_counted`, `is_output_counted`, `cost_center_id`, `description` )
 VALUES
-(1, '组合式设备1', '48aab70f-2e32-4518-9986-a6b7395acf58', true, false, 1, 'description'),
-(2, '组合式设备2', 'c235e68c-e1be-4d7a-84e7-976c83ff6e44', true, false, 1,  'description');
+(1, 'CombinedEquipment1', '48aab70f-2e32-4518-9986-a6b7395acf58', true, false, 1, 'description'),
+(2, 'CombinedEquipment2', 'c235e68c-e1be-4d7a-84e7-976c83ff6e44', true, false, 1,  'description');
 
 COMMIT;
 
@@ -117,7 +117,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_cost_centers`
 (`id`, `name`, `uuid`, `external_id`)
 VALUES
-(1, '成本中心', 'd97b9736-c4f9-4005-a534-6af3487303ad', NULL);
+(1, 'Cost Center 1', 'd97b9736-c4f9-4005-a534-6af3487303ad', NULL);
 COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -143,19 +143,19 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_data_sources`
 (`id`, `name`, `uuid`,`gateway_id`, `protocol`,  `connection`)
 VALUES
-(1, '示例ModbusTCP数据源', 'b3ace9d4-b63b-419b-818f-0f6d1d0603a4', 1, 'modbus-tcp', '{"host":"192.168.0.1", "port":502}'),
-(2, '示例ModbusRTU数据源', 'b903f0af-9115-448c-9d46-8caf5f9995f3', 1, 'modbus-rtu', '{"port": "/dev/ttyUSB0","slaveaddress": 1, "baudrate": 9600,"bytesize": 8,"parity": "N","stopbits": 1,"timeout": 0.05,"mode": "rtu"}'),
-(3, '示例Bacnet/IP数据源', 'e2d5b30b-b554-4ebe-8ce7-f377ab380d19', 1, 'bacnet-ip', '{"host":"192.168.0.3", "port":47808}'),
-(4, '示例S7数据源', '9eb0d705-d02a-43f8-9c62-7e5ef508b255', 1, 's7', '{"host":"192.168.0.4", "port":102, "rack": 0, "slot": 2}'),
-(5, '示例ControlLogix数据源', 'd1dc9792-7861-4dd3-9b01-07511dae16c1', 1, 'controllogix', '{"host":"192.168.0.5","port":44818,"processorslot":3}'),
-(6, '示例OPU UA数据源', '56e1c642-8032-495b-af2e-18a77ca75e0f', 1, 'opc-ua', '{"url":"opc.tcp://192.168.0.6:49320/OPCUA/SimulationServer/"}'),
-(7, '示例天气数据源', '9bff8e95-c7c9-4002-b040-08a96ae196b5', 1, 'weather', '{"base_url":"WEATHER_API_URL", "location":"beijing", "key":"APPKEY"}'),
-(8, '示例MySQL数据源', '409439d0-3e0a-4ab3-865a-a5c0329925f8', 1, 'mysql', '{"host":"192.168.0.8", "port":3306, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }'),
-(9, '示例SQL Server数据源', '025f0429-5088-4f2a-85a3-dff9b4523692', 1, 'sqlserver', '{"host":"192.168.0.9", "port":1433, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }'),
-(10, '示例PostgreSQL数据源', 'd89b81e6-4917-4a84-b0e9-c2e939599d3a', 1, 'postgresql', '{"host":"192.168.0.10", "port":5432, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }'),
-(11, '示例Oracle数据源', '1bdf4db8-ea71-433e-ad16-b637275073d7', 1, 'oracle', '{"host":"192.168.0.11", "port":1521, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }'),
-(12, '示例MongoDB数据源', 'c211fbad-d1d4-465c-bdf5-242f5593682e', 1, 'mongodb', '{"host":"192.168.0.12", "port":27017, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }'),
-(13, '示例InfluxDB数据源', '79cb60ff-c683-4289-ac69-bd13e1f970d1', 1, 'influxdb', '{"host":"192.168.0.13", "port":8086, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }');
+(1, 'Example ModbusTCP Data Source', 'b3ace9d4-b63b-419b-818f-0f6d1d0603a4', 1, 'modbus-tcp', '{"host":"192.168.0.1", "port":502}'),
+(2, 'Example ModbusRTU Data Source', 'b903f0af-9115-448c-9d46-8caf5f9995f3', 1, 'modbus-rtu', '{"port": "/dev/ttyUSB0","slaveaddress": 1, "baudrate": 9600,"bytesize": 8,"parity": "N","stopbits": 1,"timeout": 0.05,"mode": "rtu"}'),
+(3, 'Example Bacnet/IP Data Source', 'e2d5b30b-b554-4ebe-8ce7-f377ab380d19', 1, 'bacnet-ip', '{"host":"192.168.0.3", "port":47808}'),
+(4, 'Example S7 Data Source', '9eb0d705-d02a-43f8-9c62-7e5ef508b255', 1, 's7', '{"host":"192.168.0.4", "port":102, "rack": 0, "slot": 2}'),
+(5, 'Example ControlLogix Data Source', 'd1dc9792-7861-4dd3-9b01-07511dae16c1', 1, 'controllogix', '{"host":"192.168.0.5","port":44818,"processorslot":3}'),
+(6, 'Example OPU UA Data Source', '56e1c642-8032-495b-af2e-18a77ca75e0f', 1, 'opc-ua', '{"url":"opc.tcp://192.168.0.6:49320/OPCUA/SimulationServer/"}'),
+(7, 'Example Weather Data Source', '9bff8e95-c7c9-4002-b040-08a96ae196b5', 1, 'weather', '{"base_url":"WEATHER_API_URL", "location":"beijing", "key":"APPKEY"}'),
+(8, 'Example MySQL Data Source', '409439d0-3e0a-4ab3-865a-a5c0329925f8', 1, 'mysql', '{"host":"192.168.0.8", "port":3306, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }'),
+(9, 'Example SQL Server Data Source', '025f0429-5088-4f2a-85a3-dff9b4523692', 1, 'sqlserver', '{"host":"192.168.0.9", "port":1433, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }'),
+(10, 'Example PostgreSQL Data Source', 'd89b81e6-4917-4a84-b0e9-c2e939599d3a', 1, 'postgresql', '{"host":"192.168.0.10", "port":5432, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }'),
+(11, 'Example Oracle Data Source', '1bdf4db8-ea71-433e-ad16-b637275073d7', 1, 'oracle', '{"host":"192.168.0.11", "port":1521, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }'),
+(12, 'Example MongoDB Data Source', 'c211fbad-d1d4-465c-bdf5-242f5593682e', 1, 'mongodb', '{"host":"192.168.0.12", "port":27017, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }'),
+(13, 'Example InfluxDB Data Source', '79cb60ff-c683-4289-ac69-bd13e1f970d1', 1, 'influxdb', '{"host":"192.168.0.13", "port":8086, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }');
 COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -191,7 +191,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_distribution_systems`
 (`id`, `name`, `uuid`, `svg`,  `description`)
 VALUES
-(1, '示例配电系统', '95652719-56fa-44cc-9bef-7aa47664d4ff', '<?xml version="1.0" encoding="UTF-8"?><svg width="5cm" height="4cm" version="1.1" xmlns="http://www.w3.org/2000/svg"><desc>Four separate rectangles</desc><rect x=".5cm" y=".5cm" width="2cm" height="1cm"/></svg>', 'demo distribution system');
+(1, 'Example Distribution System', '95652719-56fa-44cc-9bef-7aa47664d4ff', '<?xml version="1.0" encoding="UTF-8"?><svg width="5cm" height="4cm" version="1.1" xmlns="http://www.w3.org/2000/svg"><desc>Four separate rectangles</desc><rect x=".5cm" y=".5cm" width="2cm" height="1cm"/></svg>', 'demo distribution system');
 
 COMMIT;
 
@@ -204,17 +204,17 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_energy_categories`
 (`id`, `name`, `uuid`, `unit_of_measure`, `kgce`, `kgco2e`)
 VALUES
-(1, '电', '6d0753ed-8b43-4332-b6fd-d2f5813831d3', 'kWh', 0.1229, 0.928),
-(2, '自来水', '3dbfa598-fccc-4d60-bf11-14bd55540c66', 'm³', 0.0857, 0.910),
-(3, '天然气', '6d0753ed-8b43-4332-b6fd-d2f5813831d3', 'm³', 1.3300, 2.1622),
-(4,'4℃冷冻水','d2a3021a-4911-4611-856e-80133000f1d5','m³',1.000,1.000),
-(5,'7℃冷冻水','c1ad0696-e1ab-4e0c-a342-b194c0bc27e0','m³',1.000,1.000),
-(6,'蒸汽','ac91a5c4-4ae5-4a73-8e3f-044591f42eef','T',1.000,1.000),
-(7,'压缩空气','ff238e98-cd35-47c5-88a3-00617587775d','m³',1.000,1.000),
-(8,'循环水','7e159a34-b2e6-4fd3-ba76-897d134abe06','m³',1.000,1.000),
-(9, '热量','549f9cad-8db7-49d2-9473-95e37a3fc46a','KJ',1.000,1.000),
-(10, '冷量','05aa257b-3cf6-4f19-808d-92e7dbf52b16','KJ',1.000,1.000),
-(11, '中水','df6161b6-4a1b-46e7-b7c8-337b5b52d717','m³',1.000,1.000);
+(1, 'Electricity', '6d0753ed-8b43-4332-b6fd-d2f5813831d3', 'kWh', 0.1229, 0.928),
+(2, 'Water', '3dbfa598-fccc-4d60-bf11-14bd55540c66', 'm³', 0.0857, 0.910),
+(3, 'Natural Gas', '6d0753ed-8b43-4332-b6fd-d2f5813831d3', 'm³', 1.3300, 2.1622),
+(4,'4℃ Chilled Water','d2a3021a-4911-4611-856e-80133000f1d5','m³',1.000,1.000),
+(5,'7℃ Chilled Water','c1ad0696-e1ab-4e0c-a342-b194c0bc27e0','m³',1.000,1.000),
+(6,'Steam','ac91a5c4-4ae5-4a73-8e3f-044591f42eef','T',1.000,1.000),
+(7,'Compressed Air','ff238e98-cd35-47c5-88a3-00617587775d','m³',1.000,1.000),
+(8,'Circulating Water','7e159a34-b2e6-4fd3-ba76-897d134abe06','m³',1.000,1.000),
+(9, 'Heat','549f9cad-8db7-49d2-9473-95e37a3fc46a','KJ',1.000,1.000),
+(10, 'Cold','05aa257b-3cf6-4f19-808d-92e7dbf52b16','KJ',1.000,1.000),
+(11, 'Recycled Water','df6161b6-4a1b-46e7-b7c8-337b5b52d717','m³',1.000,1.000);
 COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -225,15 +225,15 @@ USE `myems_system_db`;
 INSERT INTO myems_system_db.tbl_energy_items
 (id, name, uuid, energy_category_id)
 VALUES
-(1, '照明和插座用电', 'cade4e78-2b85-4bea-ab6e-0d6accc88d03', 1),
-(2, '走廊和应急照明用电', '7a6dc086-ce08-4d66-ba75-f69af92b32f4', 1),
-(3, '室外景观照明用电', 'abcebbd1-b770-4e7c-ae54-8434d724522c', 1),
-(4, '冷热站用电', '97cdea54-04c7-4a6a-b4c2-df15874b2f49', 1),
-(5, '空调末端用电', '84ab7262-33fb-43a1-9880-9287cc268cc0', 1),
-(6, '电梯用电', '26a5fc62-3da1-41b0-bcb1-0056e25ee121', 1),
-(7, '水泵用电', 'fc6079f5-01a4-434f-9004-9382e8c3dd47', 1),
-(8, '通风机用电', 'a4bf68cd-6ae1-48dd-b281-07c95312921d', 1),
-(9, '特殊用电', '1990d151-02ff-4fd6-b298-2b2edee4e0ea', 1);
+(1, 'Power for lighting and sockets', 'cade4e78-2b85-4bea-ab6e-0d6accc88d03', 1),
+(2, 'Power for corridor and emergency lighting', '7a6dc086-ce08-4d66-ba75-f69af92b32f4', 1),
+(3, 'Power for outdoor landscape lighting', 'abcebbd1-b770-4e7c-ae54-8434d724522c', 1),
+(4, 'Power for cooling and heating station', '97cdea54-04c7-4a6a-b4c2-df15874b2f49', 1),
+(5, 'Power for air conditioning terminal', '84ab7262-33fb-43a1-9880-9287cc268cc0', 1),
+(6, 'Power for Elevator', '26a5fc62-3da1-41b0-bcb1-0056e25ee121', 1),
+(7, 'Power for Water pump', 'fc6079f5-01a4-434f-9004-9382e8c3dd47', 1),
+(8, 'Power for Fan', 'a4bf68cd-6ae1-48dd-b281-07c95312921d', 1),
+(9, 'Special Usage Electricity', '1990d151-02ff-4fd6-b298-2b2edee4e0ea', 1);
 COMMIT;
 
 
@@ -246,7 +246,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_energy_flow_diagrams`
 (`id`, `name`, `uuid`)
 VALUES
-(1, '示例能流图', '3ccbc9c6-9575-4212-a63a-a688d1154302');
+(1, 'Example Energy Flow Diagram', '3ccbc9c6-9575-4212-a63a-a688d1154302');
 
 COMMIT;
 
@@ -279,16 +279,16 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_energy_flow_diagrams_nodes`
 (`id`, `energy_flow_diagram_id`, `name`)
 VALUES
-(1, 1, '10KV进线#1'),
-(2, 1, '10KV进线#2'),
-(3, 1, '租区'),
-(4, 1, '公区'),
-(5, 1, '酒店'),
-(6, 1, '车库'),
-(7, 1, '餐饮'),
-(8, 1, '零售'),
-(9, 1, '照明'),
-(10, 1, '电梯');
+(1, 1, '10KVInput#1'),
+(2, 1, '10KVInput#2'),
+(3, 1, 'Rental Area'),
+(4, 1, 'Public Area'),
+(5, 1, 'Hotel'),
+(6, 1, 'Car Park'),
+(7, 1, 'Food and Beverage'),
+(8, 1, 'Retail'),
+(9, 1, 'Lighting'),
+(10, 1, 'Elevator');
 
 COMMIT;
 
@@ -301,8 +301,8 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_equipments`
 (`id`, `name`, `uuid`,  `is_input_counted`, `is_output_counted`, `cost_center_id`,  `description` )
 VALUES
-(1, '设备1', 'bfa8b106-89a1-49ca-9b2b-a481ac41a873', true, false, 1, 'description'),
-(2, '设备2', 'ad5798ec-d827-43d9-bf08-fc7516f9c4c8', true, false, 1, 'description');
+(1, 'Equipment1', 'bfa8b106-89a1-49ca-9b2b-a481ac41a873', true, false, 1, 'description'),
+(2, 'Equipment2', 'ad5798ec-d827-43d9-bf08-fc7516f9c4c8', true, false, 1, 'description');
 
 COMMIT;
 
@@ -414,9 +414,9 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_meters`
 (`id`, `name`, `uuid`, `energy_category_id`, `is_counted`, `hourly_low_limit`, `hourly_high_limit`, `cost_center_id`, `energy_item_id`, `master_meter_id`, `description`)
 VALUES
-(1, '示例表1', '5ca47bc5-22c2-47fc-b906-33222191ea40', 1, true, 0.000, 999.999, 1, 1, null, 'meter1'),
-(2, '示例表2', '5ca47bc5-22c2-47fc-b906-33222191ea40', 1, true, 0.000, 999.999, 1, 1, 1,  'meter2'),
-(3, '示例表3', '6db58cd6-33d3-58ed-a095-22333202fb51', 1, true, 0.000, 999.999, 1, 1, 1,  'meter3');
+(1, 'Example Meter 1', '5ca47bc5-22c2-47fc-b906-33222191ea40', 1, true, 0.000, 999.999, 1, 1, null, 'meter1'),
+(2, 'Example Meter 2', '5ca47bc5-22c2-47fc-b906-33222191ea40', 1, true, 0.000, 999.999, 1, 1, 1,  'meter2'),
+(3, 'Example Meter 3', '6db58cd6-33d3-58ed-a095-22333202fb51', 1, true, 0.000, 999.999, 1, 1, 1,  'meter3');
 
 COMMIT;
 
@@ -441,7 +441,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_offline_meters`
 (`id`, `name`, `uuid`, `energy_category_id`, `is_counted`, `hourly_low_limit`, `hourly_high_limit`, `cost_center_id`, `energy_item_id`, `description`)
 VALUES
-(1, '示例离线表', '62f473e0-1a35-41f3-9c30-8110d75d65bb', 1, true, 0.0, 999.999, 1, 1, 'offlinemeter1');
+(1, 'Example Offline Meter', '62f473e0-1a35-41f3-9c30-8110d75d65bb', 1, true, 0.0, 999.999, 1, 1, 'offlinemeter1');
 
 COMMIT;
 
@@ -474,18 +474,18 @@ VALUES
 (5, 'Power Factor a', 1, 'ANALOG_VALUE',  'W', 1, 0, 1.000, true,
   '{\"slave_id\":1, \"function_code\":3, \"offset\":37, \"number_of_registers\":2, \"format\":\"=f\", \"byte_swap\":false}', null),
 
-(6, '示例ModbusTCP数据点6', 2, 'ENERGY_VALUE',  'Wh', 99999999999, 0, 1.000, true,
+(6, 'Example ModbusTCP Point 6', 2, 'ENERGY_VALUE',  'Wh', 99999999999, 0, 1.000, true,
   '{\"slave_id\":1, \"function_code\":3, \"offset\":40001, \"number_of_registers\":2, \"format\":\"=f\", \"byte_swap\":false}', null),
 
-(7, '示例数据点7', 2, 'ANALOG_VALUE',  'V', 690, 0, 1.000, true,
+(7, 'Example Point 7', 2, 'ANALOG_VALUE',  'V', 690, 0, 1.000, true,
   '{\"slave_id\":1, \"function_code\":3, \"offset\":40002, \"number_of_registers\":2, \"format\":\"=f\", \"byte_swap\":false}', null),
 
-(8, 'BACnet示例数据点1', 3, 'ANALOG_VALUE',  'V', 690, 0, 1.000, true,
+(8, 'BACnet Example Point 1', 3, 'ANALOG_VALUE',  'V', 690, 0, 1.000, true,
   '{\"object_type\":\"analogValue\", \"object_id\":3004860, \"property_name\":\"presentValue\", \"property_array_index\":null}', null),
 -- BACnet Object Type
 -- analogValue, analogInput, analogOutput, binaryValue, binaryInput, binaryOutput
 
-(9, 'S7示例数据点1', 4, 'ANALOG_VALUE',  'kWh', 99999999999, 0, 1.000, true,
+(9, 'S7 Example Point1', 4, 'ANALOG_VALUE',  'kWh', 99999999999, 0, 1.000, true,
   '{\"area\":\"DB\", \"db_number\":700, \"start\":8, \"size\":4}', null);
 -- # S7 Area
 -- 'PE', 'PA', 'MK', 'DB', 'CT', 'TM'
@@ -501,7 +501,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_sensors`
 (`id`, `name`, `uuid`, `description`)
 VALUES
-(1, '示例传感器', 'ba450606-6f39-41e0-8caf-75b528635511', 'sensor description');
+(1, 'Example 传感器', 'ba450606-6f39-41e0-8caf-75b528635511', 'sensor description');
 
 COMMIT;
 
@@ -765,21 +765,21 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_tariffs`
 (`id`, `name`, `uuid`, `energy_category_id`, `tariff_type`, `unit_of_price`, `valid_from_datetime_utc`, `valid_through_datetime_utc`)
 VALUES
-(1, '2020分时电价1-6',    '590efb36-8587-42a9-ae6f-c715d21496d6', 1, 'timeofuse', '元/千瓦时', '2019-12-31 16:00:00', '2020-06-30 15:59:59'),
-(2, '2020分时电价7-9',    'f5966640-18fc-437a-9efd-cbc0c58b6373', 1, 'timeofuse', '元/千瓦时', '2020-06-30 16:00:00', '2020-09-30 15:59:59'),
-(3, '2020分时电价10-12',  '21727a1b-4b27-4186-b72e-db46e6e2d980', 1, 'timeofuse', '元/千瓦时', '2020-09-30 16:00:00', '2020-12-31 15:59:59'),
-(4, '2021分时电价1-6',    'fe65e443-0ec2-4a16-823e-2365885e2598', 1, 'timeofuse', '元/千瓦时', '2020-12-31 16:00:00', '2021-06-30 15:59:59'),
-(5, '2021分时电价7-9',    'd1285c81-4612-4d7c-9436-ed11b4e7abe4', 1, 'timeofuse', '元/千瓦时', '2021-06-30 16:00:00', '2021-09-30 15:59:59'),
-(6, '2021分时电价10-12',  'e6c275b4-47eb-4f5d-bc59-edbe45c2a407', 1, 'timeofuse', '元/千瓦时', '2021-09-30 16:00:00', '2021-12-31 15:59:59'),
-(7, '2022分时电价1-6',    'ca359f72-48ad-46a7-82af-cecbe98450e8', 1, 'timeofuse', '元/千瓦时', '2021-12-31 16:00:00', '2022-06-30 15:59:59'),
-(8, '2022分时电价7-9',    '9fdda603-0f8f-4452-ad59-c5df54bc35f4', 1, 'timeofuse', '元/千瓦时', '2022-06-30 16:00:00', '2022-09-30 15:59:59'),
-(9, '2022分时电价10-12',  'fb0442e7-4d44-4bfd-8b20-cad3f77a2480', 1, 'timeofuse', '元/千瓦时', '2022-09-30 16:00:00', '2022-12-31 15:59:59'),
-(10, '2023分时电价1-6',   '3fa6e1f2-7d08-4f5a-bcbf-beb041d569c0', 1, 'timeofuse', '元/千瓦时', '2022-12-31 16:00:00', '2023-06-30 15:59:59'),
-(11, '2023分时电价7-9',   '787240fb-1694-403e-a0a7-83d7be1cc0b8', 1, 'timeofuse', '元/千瓦时', '2023-06-30 16:00:00', '2023-09-30 15:59:59'),
-(12, '2023分时电价10-12', 'a07fdf76-edcf-4124-96e7-ab733a5a4b70', 1, 'timeofuse', '元/千瓦时', '2023-09-30 16:00:00', '2023-12-31 15:59:59'),
-(13, '自来水',  '6fcbc77e-effb-4d43-9b30-77b062435d34', 2, 'timeofuse', '元/m³',    '2019-12-31 16:00:00', '2023-12-31 15:59:59'),
-(14, '天然气', '6a4c56ff-b3e1-4555-9b1c-87d05bcfa4d9', 3, 'timeofuse', '元/m³',    '2019-12-31 16:00:00', '2023-12-31 15:59:59'),
-(15, '分量阶梯电价', 'd1b81d2f-d387-43d3-affd-d796b7236b60', 1, 'block',     '元/千瓦时', '2019-12-31 16:00:00', '2023-12-31 15:59:59');
+(1, '2020TimeOfUse1-6',    '590efb36-8587-42a9-ae6f-c715d21496d6', 1, 'timeofuse', 'USD/kWh', '2019-12-31 16:00:00', '2020-06-30 15:59:59'),
+(2, '2020TimeOfUse7-9',    'f5966640-18fc-437a-9efd-cbc0c58b6373', 1, 'timeofuse', 'USD/kWh', '2020-06-30 16:00:00', '2020-09-30 15:59:59'),
+(3, '2020TimeOfUse10-12',  '21727a1b-4b27-4186-b72e-db46e6e2d980', 1, 'timeofuse', 'USD/kWh', '2020-09-30 16:00:00', '2020-12-31 15:59:59'),
+(4, '2021TimeOfUse1-6',    'fe65e443-0ec2-4a16-823e-2365885e2598', 1, 'timeofuse', 'USD/kWh', '2020-12-31 16:00:00', '2021-06-30 15:59:59'),
+(5, '2021TimeOfUse7-9',    'd1285c81-4612-4d7c-9436-ed11b4e7abe4', 1, 'timeofuse', 'USD/kWh', '2021-06-30 16:00:00', '2021-09-30 15:59:59'),
+(6, '2021TimeOfUse10-12',  'e6c275b4-47eb-4f5d-bc59-edbe45c2a407', 1, 'timeofuse', 'USD/kWh', '2021-09-30 16:00:00', '2021-12-31 15:59:59'),
+(7, '2022TimeOfUse1-6',    'ca359f72-48ad-46a7-82af-cecbe98450e8', 1, 'timeofuse', 'USD/kWh', '2021-12-31 16:00:00', '2022-06-30 15:59:59'),
+(8, '2022TimeOfUse7-9',    '9fdda603-0f8f-4452-ad59-c5df54bc35f4', 1, 'timeofuse', 'USD/kWh', '2022-06-30 16:00:00', '2022-09-30 15:59:59'),
+(9, '2022TimeOfUse10-12',  'fb0442e7-4d44-4bfd-8b20-cad3f77a2480', 1, 'timeofuse', 'USD/kWh', '2022-09-30 16:00:00', '2022-12-31 15:59:59'),
+(10, '2023TimeOfUse1-6',   '3fa6e1f2-7d08-4f5a-bcbf-beb041d569c0', 1, 'timeofuse', 'USD/kWh', '2022-12-31 16:00:00', '2023-06-30 15:59:59'),
+(11, '2023TimeOfUse7-9',   '787240fb-1694-403e-a0a7-83d7be1cc0b8', 1, 'timeofuse', 'USD/kWh', '2023-06-30 16:00:00', '2023-09-30 15:59:59'),
+(12, '2023TimeOfUse10-12', 'a07fdf76-edcf-4124-96e7-ab733a5a4b70', 1, 'timeofuse', 'USD/kWh', '2023-09-30 16:00:00', '2023-12-31 15:59:59'),
+(13, 'Water',  '6fcbc77e-effb-4d43-9b30-77b062435d34', 2, 'timeofuse', 'USD/m³',    '2019-12-31 16:00:00', '2023-12-31 15:59:59'),
+(14, 'Natural Gas', '6a4c56ff-b3e1-4555-9b1c-87d05bcfa4d9', 3, 'timeofuse', 'USD/m³',    '2019-12-31 16:00:00', '2023-12-31 15:59:59'),
+(15, 'BlockOfUSEElectricity', 'd1b81d2f-d387-43d3-affd-d796b7236b60', 1, 'block',     'USD/kWh', '2019-12-31 16:00:00', '2023-12-31 15:59:59');
 
 COMMIT;
 
@@ -792,7 +792,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_tariffs_timeofuses`
 (`id`, `tariff_id`, `start_time_of_day`, `end_time_of_day`, `peak_type`, `price`)
 VALUES
--- '2020分时电价1-6'
+-- '2020TimeOfUse1-6'
 (1,  1, '00:00:00', '05:59:59', 'offpeak', 0.345),
 (2,  1, '06:00:00', '07:59:59', 'midpeak', 0.708),
 (3,  1, '08:00:00', '10:59:59', 'onpeak', 1.159),
@@ -800,7 +800,7 @@ VALUES
 (5,  1, '18:00:00', '20:59:59', 'onpeak', 1.159),
 (6,  1, '21:00:00', '21:59:59', 'midpeak', 0.708),
 (7,  1, '22:00:00', '23:59:59', 'offpeak', 0.345),
--- '2020分时电价7-9'
+-- '2020TimeOfUse7-9'
 (8,  2, '00:00:00', '05:59:59', 'offpeak', 0.345),
 (9,  2, '06:00:00', '07:59:59', 'midpeak', 0.708),
 (10, 2, '08:00:00', '10:59:59', 'offpeak', 1.159),
@@ -810,7 +810,7 @@ VALUES
 (14, 2, '18:00:00', '20:59:59', 'onpeak', 1.159),
 (15, 2, '21:00:00', '21:59:59', 'midpeak', 0.708),
 (16, 2, '22:00:00', '23:59:59', 'offpeak', 0.345),
--- '2020分时电价10-12'
+-- '2020TimeOfUse10-12'
 (17, 3, '00:00:00', '05:59:59', 'offpeak', 0.345),
 (18, 3, '06:00:00', '07:59:59', 'midpeak', 0.708),
 (19, 3, '08:00:00', '10:59:59', 'onpeak', 1.159),
@@ -818,7 +818,7 @@ VALUES
 (21, 3, '18:00:00', '20:59:59', 'onpeak', 1.159),
 (22, 3, '21:00:00', '21:59:59', 'midpeak', 0.708),
 (23, 3, '22:00:00', '23:59:59', 'offpeak', 0.345),
--- '2021分时电价1-6'
+-- '2021TimeOfUse1-6'
 (24, 4, '00:00:00', '05:59:59', 'offpeak', 0.345),
 (25, 4, '06:00:00', '07:59:59', 'midpeak', 0.708),
 (26, 4, '08:00:00', '10:59:59', 'onpeak', 1.159),
@@ -826,7 +826,7 @@ VALUES
 (28, 4, '18:00:00', '20:59:59', 'onpeak', 1.159),
 (29, 4, '21:00:00', '21:59:59', 'midpeak', 0.708),
 (30, 4, '22:00:00', '23:59:59', 'offpeak', 0.345),
--- '2021分时电价7-9'
+-- '2021TimeOfUse7-9'
 (31, 5, '00:00:00', '05:59:59', 'offpeak', 0.345),
 (32, 5, '06:00:00', '07:59:59', 'midpeak', 0.708),
 (33, 5, '08:00:00', '10:59:59', 'offpeak', 1.159),
@@ -836,7 +836,7 @@ VALUES
 (37, 5, '18:00:00', '20:59:59', 'onpeak', 1.159),
 (38, 5, '21:00:00', '21:59:59', 'midpeak', 0.708),
 (39, 5, '22:00:00', '23:59:59', 'offpeak', 0.345),
--- '2021分时电价10-12'
+-- '2021TimeOfUse10-12'
 (40, 6, '00:00:00', '05:59:59', 'offpeak', 0.345),
 (41, 6, '06:00:00', '07:59:59', 'midpeak', 0.708),
 (42, 6, '08:00:00', '10:59:59', 'onpeak', 1.159),
@@ -844,7 +844,7 @@ VALUES
 (44, 6, '18:00:00', '20:59:59', 'onpeak', 1.159),
 (45, 6, '21:00:00', '21:59:59', 'midpeak', 0.708),
 (46, 6, '22:00:00', '23:59:59', 'offpeak', 0.345),
--- '2022分时电价1-6'
+-- '2022TimeOfUse1-6'
 (47, 7, '00:00:00', '05:59:59', 'offpeak', 0.345),
 (48, 7, '06:00:00', '07:59:59', 'midpeak', 0.708),
 (49, 7, '08:00:00', '10:59:59', 'onpeak', 1.159),
@@ -852,7 +852,7 @@ VALUES
 (51, 7, '18:00:00', '20:59:59', 'onpeak', 1.159),
 (52, 7, '21:00:00', '21:59:59', 'midpeak', 0.708),
 (53, 7, '22:00:00', '23:59:59', 'offpeak', 0.345),
--- '2022分时电价7-9'
+-- '2022TimeOfUse7-9'
 (54, 8, '00:00:00', '05:59:59', 'offpeak', 0.345),
 (55, 8, '06:00:00', '07:59:59', 'midpeak', 0.708),
 (56, 8, '08:00:00', '10:59:59', 'offpeak', 1.159),
@@ -862,7 +862,7 @@ VALUES
 (60, 8, '18:00:00', '20:59:59', 'onpeak', 1.159),
 (61, 8, '21:00:00', '21:59:59', 'midpeak', 0.708),
 (62, 8, '22:00:00', '23:59:59', 'offpeak', 0.345),
--- '2022分时电价10-12'
+-- '2022TimeOfUse10-12'
 (63, 9, '00:00:00', '05:59:59', 'offpeak', 0.345),
 (64, 9, '06:00:00', '07:59:59', 'midpeak', 0.708),
 (65, 9, '08:00:00', '10:59:59', 'onpeak', 1.159),
@@ -870,7 +870,7 @@ VALUES
 (67, 9, '18:00:00', '20:59:59', 'onpeak', 1.159),
 (68, 9, '21:00:00', '21:59:59', 'midpeak', 0.708),
 (69, 9, '22:00:00', '23:59:59', 'offpeak', 0.345),
--- '2023分时电价1-6'
+-- '2023TimeOfUse1-6'
 (70, 10, '00:00:00', '05:59:59', 'offpeak', 0.345),
 (71, 10, '06:00:00', '07:59:59', 'midpeak', 0.708),
 (72, 10, '08:00:00', '10:59:59', 'onpeak', 1.159),
@@ -878,7 +878,7 @@ VALUES
 (74, 10, '18:00:00', '20:59:59', 'onpeak', 1.159),
 (75, 10, '21:00:00', '21:59:59', 'midpeak', 0.708),
 (76, 10, '22:00:00', '23:59:59', 'offpeak', 0.345),
--- '2023分时电价7-9'
+-- '2023TimeOfUse7-9'
 (77, 11, '00:00:00', '05:59:59', 'offpeak', 0.345),
 (78, 11, '06:00:00', '07:59:59', 'midpeak', 0.708),
 (79, 11, '08:00:00', '10:59:59', 'offpeak', 1.159),
@@ -888,7 +888,7 @@ VALUES
 (83, 11, '18:00:00', '20:59:59', 'onpeak', 1.159),
 (84, 11, '21:00:00', '21:59:59', 'midpeak', 0.708),
 (85, 11, '22:00:00', '23:59:59', 'offpeak', 0.345),
--- '2023分时电价10-12'
+-- '2023TimeOfUse10-12'
 (86, 12, '00:00:00', '05:59:59', 'offpeak', 0.345),
 (87, 12, '06:00:00', '07:59:59', 'midpeak', 0.708),
 (88, 12, '08:00:00', '10:59:59', 'onpeak', 1.159),
@@ -931,7 +931,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_stores`
 (`id`, `name`, `uuid`, `address`, `latitude`, `longitude`, `area`, `store_type_id`, `is_input_counted`, `contact_id`, `cost_center_id`, `description`)
 VALUES
-(1, '麦当劳(祈年大街得来速店)', 'd8a24322-4bab-4ba2-aedc-5d55a84c3db8', '北京市东城区东打磨厂街7号', 39.899493, 116.412041, 500.000, 1, true, 1, 1,  'MacDonalds');
+(1, 'McDonald's (delisu store on Qinian Street)', 'd8a24322-4bab-4ba2-aedc-5d55a84c3db8', 'No. 7, East Damochang Street, Dongcheng District, Beijing', 39.899493, 116.412041, 500.000, 1, true, 1, 1,  'MacDonalds');
 COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -1040,15 +1040,15 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_tenant_types`
 (`id`, `name`, `uuid`, `description`, `simplified_code`)
 VALUES
-(1, '餐饮租户', '83fffba1-9e22-4397-a93a-3742772c3753', 'Food and Beverage', 'FNB'),
-(2, '燃气餐饮租户', 'ad95ed16-1c57-49a9-a85e-71e389393089', 'Food and Beverage (Gas)', 'FNBGas'),
-(3, '电餐饮租户', '1dc21e83-4333-40f8-9e25-ea049becba37', 'Food and Beverage (Electrical)', 'FNBElec'),
-(4, '高照度租户', '4208a60d-d8e6-4fe5-8cea-a55109e9b397', 'High Illuminance Tenant', 'HighIllu'),
-(5, '主力租户', 'fc4ae534-544a-4a22-b83b-9f4aa99494aa', 'Anchor Tenant', 'ANCH'),
-(6, '普通商业租户', '6d1dca30-1cbe-463d-8a78-cdd5e0f8ac8b', 'Normal Tenant', 'Normal'),
-(7, '其他商业租户', '2078e1c0-3936-4ae7-9253-08e0aa1d84b6', 'Other Retail Tenants', 'Other'),
-(8, '整层办公租户', 'b2a580a3-edc9-4838-ae1d-7b7265860a9a', 'Whole Floor Office Tenant', 'WhFlr'),
-(9, '非整层办公租户', '55bbcba7-d8a0-44a0-9a9f-2f085e3cb044', 'None-Whole Floor Office Tenant', 'NonWhFlr');
+(1, 'Food and Beverage', '83fffba1-9e22-4397-a93a-3742772c3753', 'Food and Beverage', 'FNB'),
+(2, 'Food and Beverage (Gas)', 'ad95ed16-1c57-49a9-a85e-71e389393089', 'Food and Beverage (Gas)', 'FNBGas'),
+(3, 'Food and Beverage (Electrical)', '1dc21e83-4333-40f8-9e25-ea049becba37', 'Food and Beverage (Electrical)', 'FNBElec'),
+(4, 'High Illuminance Tenant', '4208a60d-d8e6-4fe5-8cea-a55109e9b397', 'High Illuminance Tenant', 'HighIllu'),
+(5, 'Anchor Tenant', 'fc4ae534-544a-4a22-b83b-9f4aa99494aa', 'Anchor Tenant', 'ANCH'),
+(6, 'Normal Tenant', '6d1dca30-1cbe-463d-8a78-cdd5e0f8ac8b', 'Normal Tenant', 'Normal'),
+(7, 'Other Retail Tenants', '2078e1c0-3936-4ae7-9253-08e0aa1d84b6', 'Other Retail Tenants', 'Other'),
+(8, 'Whole Floor Office Tenant', 'b2a580a3-edc9-4838-ae1d-7b7265860a9a', 'Whole Floor Office Tenant', 'WhFlr'),
+(9, 'None-Whole Floor Office Tenant', '55bbcba7-d8a0-44a0-9a9f-2f085e3cb044', 'None-Whole Floor Office Tenant', 'NonWhFlr');
 
 COMMIT;
 
@@ -1129,7 +1129,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_virtual_meters`
 (`id`, `name`, `uuid`, `energy_category_id`, `is_counted`, `cost_center_id`, `energy_item_id`, `description`)
 VALUES
-(1, '示例虚拟表', '3fff2cfb-f755-44c8-a919-6135205a8573', 1, true, 1, 1, 'virtual description');
+(1, 'Example Virtual Meter', '3fff2cfb-f755-44c8-a919-6135205a8573', 1, true, 1, 1, 'virtual description');
 
 COMMIT;
 

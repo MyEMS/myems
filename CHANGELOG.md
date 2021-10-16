@@ -25,7 +25,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 -   updated config.py files to move all variables to .env files via Python Decouple
 -   modified the doc for docker-compose
 -   updated database installation script and README
--   updated database installation script and README
 -   reformatted excel exporters
 -   changed name font from Constantia to Arial in Excel exporters.
 
