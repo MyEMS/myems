@@ -900,7 +900,7 @@ VALUES
 -- 'Water'
 (93, 13, '00:00:00', '23:59:59', 'midpeak', 5.95),
 -- '天然气'
--- 'Natual Gas'
+-- 'Natural Gas'
 (94, 14, '00:00:00', '23:59:59', 'midpeak', 3.50);
 COMMIT;
 
@@ -931,7 +931,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_stores`
 (`id`, `name`, `uuid`, `address`, `latitude`, `longitude`, `area`, `store_type_id`, `is_input_counted`, `contact_id`, `cost_center_id`, `description`)
 VALUES
-(1, 'McDonald's (delisu store on Qinian Street)', 'd8a24322-4bab-4ba2-aedc-5d55a84c3db8', 'No. 7, East Damochang Street, Dongcheng District, Beijing', 39.899493, 116.412041, 500.000, 1, true, 1, 1,  'MacDonalds');
+(1, 'McDonald\'s (delisu store on Qinian Street)', 'd8a24322-4bab-4ba2-aedc-5d55a84c3db8', 'No. 7, East Damochang Street, Dongcheng District, Beijing', 39.899493, 116.412041, 500.000, 1, true, 1, 1,  'MacDonalds');
 COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
