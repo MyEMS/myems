@@ -1,7 +1,6 @@
 import base64
 import uuid
 import os
-import re
 from decimal import Decimal
 from openpyxl.chart import PieChart, LineChart, Reference
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font

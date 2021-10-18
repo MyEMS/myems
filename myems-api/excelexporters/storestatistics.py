@@ -1,6 +1,5 @@
 import base64
 import os
-import re
 import uuid
 from openpyxl import Workbook
 from openpyxl.chart import LineChart, Reference

@@ -1,7 +1,6 @@
 import base64
 import uuid
 import os
-import re
 from openpyxl.chart import LineChart, Reference
 from openpyxl.chart.label import DataLabelList
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
