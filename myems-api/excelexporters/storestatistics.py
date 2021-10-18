@@ -1,5 +1,6 @@
 import base64
 import os
+import re
 import uuid
 from openpyxl import Workbook
 from openpyxl.chart import LineChart, Reference
@@ -547,7 +548,7 @@ def generate_excel(report,
 
         parameters_names_len = len(parameters_data['names'])
 
-        file_name = __file__.split('/')[-1].replace(".py", "")
+        file_name = ws.title
         parameters_ws = wb.create_sheet(file_name + 'Parameters')
 
         parameters_timestamps_data_max_len = \
