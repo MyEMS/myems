@@ -111,7 +111,7 @@ app.controller('StoreMeterController', function($scope,$timeout, $translate,
                 toaster.pop({
                     type: "success",
                     title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-                    body: $translate.instant(popBody),
+					body: $translate.instant("TOASTER.BIND_METER_SUCCESS"),
                     showCloseButton: true,
                 });
                 $scope.getMetersByStoreID($scope.currentStore.id);

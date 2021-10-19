@@ -76,7 +76,7 @@ $scope.getAllStoreTypes = function() {
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant(popBody,{"TOASTER.ERROR_ADD_BODY": $translate.instant("COMMON.STORE")}),
+						title: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("COMMON.STORE") }),
 						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
@@ -105,7 +105,7 @@ $scope.getAllStoreTypes = function() {
 		});
 
 		modalInstance.result.then(function(modifiedStore) {
-	    modifiedStore.store_type_id=modifiedStore.store_type.id;
+	    	modifiedStore.store_type_id=modifiedStore.store_type.id;
 			modifiedStore.cost_center_id=modifiedStore.cost_center.id;
 			modifiedStore.contact_id=modifiedStore.contact.id;
 			if (angular.isDefined(store.is_input_counted) == false) {

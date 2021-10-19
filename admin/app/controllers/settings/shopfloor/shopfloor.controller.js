@@ -76,7 +76,7 @@ app.controller('ShopfloorController', function ($scope, $translate, $uibModal, C
 		});
 	};
 
-	$scope.editShopfloor = function (shopfloor) {
+	$scope.editShopfloor = function(shopfloor) {
 		var modalInstance = $uibModal.open({
 			windowClass: "animated fadeIn",
 			templateUrl: 'views/settings/shopfloor/shopfloor.model.html',
@@ -92,7 +92,8 @@ app.controller('ShopfloorController', function ($scope, $translate, $uibModal, C
 			}
 		});
 
-		modalInstance.result.then(function (modifiedShopfloor) {
+		modalInstance.result.then(function(modifiedShopfloor) {
+			console.log(modifiedShopfloor);
 			modifiedShopfloor.cost_center_id = modifiedShopfloor.cost_center.id;
 			modifiedShopfloor.contact_id = modifiedShopfloor.contact.id;
 			if (angular.isDefined(shopfloor.is_input_counted) == false) {
@@ -185,7 +186,7 @@ app.controller('ModalEditShopfloorCtrl', function ($scope, $uibModalInstance, pa
 	$scope.contacts = params.contacts;
 	
 	$scope.ok = function () {
-		$uibModalInstance.close($scope.tenant);
+		$uibModalInstance.close($scope.shopfloor);
 	};
 
 	$scope.cancel = function () {
