@@ -160,7 +160,7 @@ app.controller('CombinedEquipmentParameterController', function ($scope, $uibMod
 						} else {
 							toaster.pop({
 								type: "error",
-								title: $translate.instant(popBody, { template: $translate.instant("COMBINED_EQUIPMENT.PARAMETER") }),
+								title: $translate.instant("TOASTER.ERROR_DELETE_BODY", { template: $translate.instant("COMBINED_EQUIPMENT.PARAMETER") }),
 								body: $translate.instant(response.data.description),
 								showCloseButton: true,
 							});

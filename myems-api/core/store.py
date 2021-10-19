@@ -117,21 +117,26 @@ class StoreCollection:
 
         if 'latitude' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['latitude'], float) or
-                     isinstance(new_values['data']['latitude'], int)):
+                     isinstance(new_values['data']['latitude'], int)) or \
+                new_values['data']['latitude'] < -90.0 or \
+                new_values['data']['latitude'] > 90.0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_LATITUDE_VALUE')
         latitude = new_values['data']['latitude']
 
         if 'longitude' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['longitude'], float) or
-                     isinstance(new_values['data']['longitude'], int)):
+                     isinstance(new_values['data']['longitude'], int)) or \
+                new_values['data']['longitude'] < -180.0 or \
+                new_values['data']['longitude'] > 180.0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_LONGITUDE_VALUE')
         longitude = new_values['data']['longitude']
 
         if 'area' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['area'], float) or
-                     isinstance(new_values['data']['area'], int)):
+                     isinstance(new_values['data']['area'], int)) or \
+                new_values['data']['area'] <= 0.0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_AREA_VALUE')
         area = new_values['data']['area']
@@ -462,21 +467,26 @@ class StoreItem:
 
         if 'latitude' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['latitude'], float) or
-                     isinstance(new_values['data']['latitude'], int)):
+                     isinstance(new_values['data']['latitude'], int)) or \
+                new_values['data']['latitude'] < -90.0 or \
+                new_values['data']['latitude'] > 90.0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_LATITUDE_VALUE')
-        latitude = new_values['data']['area']
+        latitude = new_values['data']['latitude']
 
         if 'longitude' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['longitude'], float) or
-                     isinstance(new_values['data']['longitude'], int)):
+                     isinstance(new_values['data']['longitude'], int)) or \
+                new_values['data']['longitude'] < -180.0 or \
+                new_values['data']['longitude'] > 180.0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_LONGITUDE_VALUE')
         longitude = new_values['data']['longitude']
 
         if 'area' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['area'], float) or
-                     isinstance(new_values['data']['area'], int)):
+                     isinstance(new_values['data']['area'], int)) or \
+                new_values['data']['area'] <= 0.0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_AREA_VALUE')
         area = new_values['data']['area']

@@ -131,7 +131,8 @@ class SpaceCollection:
 
         if 'area' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['area'], float) or
-                     isinstance(new_values['data']['area'], int)):
+                     isinstance(new_values['data']['area'], int)) or \
+                new_values['data']['area'] <= 0.0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_AREA_VALUE')
         area = new_values['data']['area']
@@ -549,7 +550,8 @@ class SpaceItem:
 
         if 'area' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['area'], float) or
-                     isinstance(new_values['data']['area'], int)):
+                     isinstance(new_values['data']['area'], int)) or \
+                new_values['data']['area'] <= 0.0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_AREA_VALUE')
         area = new_values['data']['area']

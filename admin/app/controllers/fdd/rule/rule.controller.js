@@ -122,7 +122,7 @@ app.controller('RuleController', function($scope, $uibModal, $translate, RuleSer
                             toaster.pop({
                                 type: "success",
                                 title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-                                body: $translate.instant(popBody, {template: $translate.instant("FDD.RULE")}),
+                                body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", { template: $translate.instant("FDD.RULE") }),
                                 showCloseButton: true,
                             });
                             $scope.getAllRules();
