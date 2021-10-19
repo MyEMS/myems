@@ -27,7 +27,6 @@ def export(report,
     ####################################################################################################################
     if report is None:
         return None
-    print(report)
 
     ####################################################################################################################
     # Step 2: Generate excel file from the report data
@@ -547,13 +546,11 @@ def generate_excel(report,
         if len(time) > 0:
             has_data = True
             max_row = table_row + len(time)
-            print("max_row", max_row)
 
         if has_data:
             for i in range(0, len(time)):
                 col = 'B'
                 row = str(table_row+1 + i)
-                # col = chr(ord('B') + i)
                 ws[col + row].font = title_font
                 ws[col + row].alignment = c_c_alignment
                 ws[col + row] = time[i]
@@ -576,7 +573,6 @@ def generate_excel(report,
 
                 for j in range(0, time_len):
                     row = str(table_row+1 + j)
-                    # col = chr(ord('B') + i)
                     ws[col + row].font = title_font
                     ws[col + row].alignment = c_c_alignment
                     ws[col + row] = round(reporting_period_data['values'][i][j], 2)
