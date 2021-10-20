@@ -2,7 +2,6 @@ import base64
 import uuid
 import os
 import re
-
 import openpyxl.utils
 from openpyxl.chart import PieChart, LineChart, Reference
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
@@ -30,7 +29,6 @@ def export(report,
     ####################################################################################################################
     if report is None:
         return None
-    print(report)
 
     ####################################################################################################################
     # Step 2: Generate excel file from the report data
@@ -595,8 +593,7 @@ def generate_excel(report,
     ca_len = len(report['reporting_period']['names'])
     real_timestamps_len = timestamps_data_not_equal_0(report['parameters']['timestamps'])
     table_row = current_row_number + ca_len * 6 + real_timestamps_len * 6 + 2
-    # ca_len * 6 ：The total length of linear tables of tailed data
-    # real_timestamps_len * 6 ：The total length of linear tables of related parameters
+
     chart_start_row_number = current_row_number + 1
     if "timestamps" not in reporting_period_data.keys() or \
             reporting_period_data['timestamps'] is None or \
@@ -619,13 +616,11 @@ def generate_excel(report,
         if len(time) > 0:
             has_data = True
             max_row = table_row + len(time)
-            print("max_row", max_row)
 
         if has_data:
             for i in range(0, len(time)):
                 col = 'B'
                 row = str(table_row+1 + i)
-                # col = chr(ord('B') + i)
                 ws[col + row].font = title_font
                 ws[col + row].alignment = c_c_alignment
                 ws[col + row] = time[i]
