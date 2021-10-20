@@ -22,13 +22,16 @@ class Reporting:
     # PROCEDURES
     # Step 1: valid parameters
     # Step 2: query the combined equipment
-    # Step 3: query associated points
-    # Step 4: query associated fractions
-    # Step 5: query fractions' numerator and denominator
-    # Step 6: calculate base period fractions
-    # Step 7: calculate reporting period fractions
-    # Step 8: query associated points data
-    # Step 9: construct the report
+    # Step 3: query energy categories
+    # Step 4: query associated points
+    # Step 5: query associated equipments
+    # Step 6: query associated fractions
+    # Step 7: query fractions' numerator and denominator
+    # Step 8: calculate base period fractions
+    # Step 9: calculate reporting period fractions
+    # Step 10: query associated points data
+    # Step 11: query associated equipments energy input
+    # Step 12: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
@@ -167,7 +170,66 @@ class Reporting:
         combined_equipment['cost_center_id'] = row_combined_equipment[2]
 
         ################################################################################################################
-        # Step 3: query associated points
+        # Step 3: query energy categories
+        ################################################################################################################
+        energy_category_set = set()
+        # query energy categories in base period
+        cursor_energy.execute(" SELECT DISTINCT(energy_category_id) "
+                              " FROM tbl_combined_equipment_input_category_hourly "
+                              " WHERE combined_equipment_id = %s "
+                              "     AND start_datetime_utc >= %s "
+                              "     AND start_datetime_utc < %s ",
+                              (combined_equipment['id'], base_start_datetime_utc, base_end_datetime_utc))
+        rows_energy_categories = cursor_energy.fetchall()
+        if rows_energy_categories is not None or len(rows_energy_categories) > 0:
+            for row_energy_category in rows_energy_categories:
+                energy_category_set.add(row_energy_category[0])
+
+        # query energy categories in reporting period
+        cursor_energy.execute(" SELECT DISTINCT(energy_category_id) "
+                              " FROM tbl_combined_equipment_input_category_hourly "
+                              " WHERE combined_equipment_id = %s "
+                              "     AND start_datetime_utc >= %s "
+                              "     AND start_datetime_utc < %s ",
+                              (combined_equipment['id'], reporting_start_datetime_utc, reporting_end_datetime_utc))
+        rows_energy_categories = cursor_energy.fetchall()
+        if rows_energy_categories is not None or len(rows_energy_categories) > 0:
+            for row_energy_category in rows_energy_categories:
+                energy_category_set.add(row_energy_category[0])
+
+        # query all energy categories in base period and reporting period
+        cursor_system.execute(" SELECT id, name, unit_of_measure, kgce, kgco2e "
+                              " FROM tbl_energy_categories "
+                              " ORDER BY id ", )
+        rows_energy_categories = cursor_system.fetchall()
+        if rows_energy_categories is None or len(rows_energy_categories) == 0:
+            if cursor_system:
+                cursor_system.close()
+            if cnx_system:
+                cnx_system.disconnect()
+
+            if cursor_energy:
+                cursor_energy.close()
+            if cnx_energy:
+                cnx_energy.disconnect()
+
+            if cursor_historical:
+                cursor_historical.close()
+            if cnx_historical:
+                cnx_historical.disconnect()
+            raise falcon.HTTPError(falcon.HTTP_404,
+                                   title='API.NOT_FOUND',
+                                   description='API.ENERGY_CATEGORY_NOT_FOUND')
+        energy_category_dict = dict()
+        for row_energy_category in rows_energy_categories:
+            if row_energy_category[0] in energy_category_set:
+                energy_category_dict[row_energy_category[0]] = {"name": row_energy_category[1],
+                                                                "unit_of_measure": row_energy_category[2],
+                                                                "kgce": row_energy_category[3],
+                                                                "kgco2e": row_energy_category[4]}
+
+        ################################################################################################################
+        # Step 4: query associated points
         ################################################################################################################
         point_list = list()
         cursor_system.execute(" SELECT p.id, ep.name, p.units, p.object_type  "
@@ -181,8 +243,22 @@ class Reporting:
                 point_list.append({"id": row[0], "name": row[1], "units": row[2], "object_type": row[3]})
 
         print(point_list)
+
         ################################################################################################################
-        # Step 4: query associated fractions
+        # Step 5: query associated equipments
+        ################################################################################################################
+        associated_equipment_list = list()
+        cursor_system.execute(" SELECT e.id, e.name "
+                              " FROM tbl_equipments e,tbl_combined_equipments_equipments ee"
+                              " WHERE ee.combined_equipment_id = %s AND e.id = ee.equipment_id"
+                              " ORDER BY id ", (combined_equipment['id'],))
+        rows_associated_equipments = cursor_system.fetchall()
+        if rows_associated_equipments is not None and len(rows_associated_equipments) > 0:
+            for row in rows_associated_equipments:
+                associated_equipment_list.append({"id": row[0], "name": row[1]})
+
+        ################################################################################################################
+        # Step 6: query associated fractions
         ################################################################################################################
         fraction_list = list()
         cursor_system.execute(" SELECT id, name, numerator_meter_uuid, denominator_meter_uuid  "
@@ -201,7 +277,7 @@ class Reporting:
         print(fraction_list)
 
         ################################################################################################################
-        # Step 5: query fractions' numerator and denominator
+        # Step 7: query fractions' numerator and denominator
         ################################################################################################################
         # get all meters
         meter_dict = dict()
@@ -268,7 +344,7 @@ class Reporting:
         print(fraction_list)
 
         ################################################################################################################
-        # Step 5: calculate base period fractions
+        # Step 8: calculate base period fractions
         ################################################################################################################
         base = dict()
         if fraction_list is not None and len(fraction_list) > 0:
@@ -405,7 +481,7 @@ class Reporting:
                 base[fraction['id']]['cumulation'] = cumulation
 
         ################################################################################################################
-        # Step 6: calculate reporting period fractions
+        # Step 9: calculate reporting period fractions
         ################################################################################################################
         reporting = dict()
         if fraction_list is not None and len(fraction_list) > 0:
@@ -542,7 +618,7 @@ class Reporting:
                 reporting[fraction['id']]['cumulation'] = cumulation
 
         ################################################################################################################
-        # Step 7: query associated points data
+        # Step 10: query associated points data
         ################################################################################################################
         parameters_data = dict()
         parameters_data['names'] = list()
@@ -613,7 +689,38 @@ class Reporting:
                 parameters_data['values'].append(point_values)
 
         ################################################################################################################
-        # Step 8: construct the report
+        # Step 11: query associated equipments energy input
+        ################################################################################################################
+        associated_equipment_data = dict()
+
+        if energy_category_set is not None and len(energy_category_set) > 0:
+            for energy_category_id in energy_category_set:
+
+                associated_equipment_data[energy_category_id] = dict()
+                associated_equipment_data[energy_category_id]['associated_equipment_names'] = list()
+                associated_equipment_data[energy_category_id]['subtotals'] = list()
+                for associated_equipment in associated_equipment_list:
+                    associated_equipment_data[energy_category_id]['associated_equipment_names'].append(
+                        associated_equipment['name'])
+
+                    cursor_energy.execute(" SELECT SUM(actual_value) "
+                                          " FROM tbl_equipment_input_category_hourly "
+                                          " WHERE equipment_id = %s "
+                                          "     AND energy_category_id = %s "
+                                          "     AND start_datetime_utc >= %s "
+                                          "     AND start_datetime_utc < %s "
+                                          " ORDER BY start_datetime_utc ",
+                                          (associated_equipment['id'],
+                                           energy_category_id,
+                                           reporting_start_datetime_utc,
+                                           reporting_end_datetime_utc))
+                    row_subtotal = cursor_energy.fetchone()
+
+                    subtotal = Decimal(0.0) if (row_subtotal is None or row_subtotal[0] is None) else row_subtotal[0]
+                    associated_equipment_data[energy_category_id]['subtotals'].append(subtotal)
+
+        ################################################################################################################
+        # Step 12: construct the report
         ################################################################################################################
         if cursor_system:
             cursor_system.close()
@@ -661,6 +768,21 @@ class Reporting:
             "timestamps": parameters_data['timestamps'],
             "values": parameters_data['values']
         }
+        result['associated_equipment'] = dict()
+        result['associated_equipment']['energy_category_names'] = list()
+        result['associated_equipment']['units'] = list()
+        result['associated_equipment']['associated_equipment_names_array'] = list()
+        result['associated_equipment']['subtotals_array'] = list()
+        if energy_category_set is not None and len(energy_category_set) > 0:
+            for energy_category_id in energy_category_set:
+                result['associated_equipment']['energy_category_names'].append(
+                    energy_category_dict[energy_category_id]['name'])
+                result['associated_equipment']['units'].append(
+                    energy_category_dict[energy_category_id]['unit_of_measure'])
+                result['associated_equipment']['associated_equipment_names_array'].append(
+                    associated_equipment_data[energy_category_id]['associated_equipment_names'])
+                result['associated_equipment']['subtotals_array'].append(
+                    associated_equipment_data[energy_category_id]['subtotals'])
 
         # export result to Excel file and then encode the file to base64 string
         result['excel_bytes_base64'] = None
