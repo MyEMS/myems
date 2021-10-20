@@ -695,7 +695,6 @@ class Reporting:
 
         if energy_category_set is not None and len(energy_category_set) > 0:
             for energy_category_id in energy_category_set:
-
                 associated_equipment_data[energy_category_id] = dict()
                 associated_equipment_data[energy_category_id]['associated_equipment_names'] = list()
                 associated_equipment_data[energy_category_id]['subtotals'] = list()

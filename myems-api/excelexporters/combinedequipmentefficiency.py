@@ -28,7 +28,6 @@ def export(report,
     ####################################################################################################################
     if report is None:
         return None
-    print(report)
 
     ####################################################################################################################
     # Step 2: Generate excel file from the report data
@@ -389,7 +388,7 @@ def generate_excel(report,
             chart_start_row_number += 6
             ws.add_chart(line, chart_cell)
 
-        ####################################################################################################################
+        ################################################################################################################
 
         has_associated_equipment_flag = True
 
@@ -446,8 +445,6 @@ def generate_excel(report,
                     ws[col + row].alignment = c_c_alignment
                     ws[col + row] = round(associated_equipment['subtotals_array'][j][i], 2)
                     ws[col + row].border = f_border
-            ##########################################
-
     ####################################################################################################################
 
     if has_parameters_names_and_timestamps_and_values_data:
