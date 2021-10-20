@@ -345,19 +345,166 @@ def generate_excel(report,
             ws.row_dimensions[i].height = 0.1
 
     ####################################################################################################################
-    # Fourth: Detailed Data
+    # Third: Ton of Standard Coal(TCE) by Energy Category
+    # current_row_number: title
+    # current_row_number + 1: table title
+    # current_row_number + 1 + ca_len table_data
+    # Total: 2 + ca_len rows
+    ####################################################################################################################
+    current_row_number = 19
+    has_kgce_data_flag = True
+
+    if "subtotals_in_kgce" not in reporting_period_data.keys() or \
+            reporting_period_data['subtotals_in_kgce'] is None or \
+            len(reporting_period_data['subtotals_in_kgce']) == 0:
+        has_kgce_data_flag = False
+
+    if has_kgce_data_flag:
+        ws['B' + str(current_row_number)].font = title_font
+        ws['B' + str(current_row_number)] = name + ' ' + 'Ton of Standard Coal(TCE) by Energy Category'
+
+        current_row_number += 1
+        table_start_row_number = current_row_number
+
+        ws.row_dimensions[current_row_number].height = 60
+        ws['B' + str(current_row_number)].fill = table_fill
+        ws['B' + str(current_row_number)].font = name_font
+        ws['B' + str(current_row_number)].alignment = c_c_alignment
+        ws['B' + str(current_row_number)].border = f_border
+
+        ws['C' + str(current_row_number)].fill = table_fill
+        ws['C' + str(current_row_number)].font = name_font
+        ws['C' + str(current_row_number)].alignment = c_c_alignment
+        ws['C' + str(current_row_number)].border = f_border
+        ws['C' + str(current_row_number)] = 'Ton of Standard Coal(TCE) by Energy Category'
+
+        current_row_number += 1
+
+        ca_len = len(reporting_period_data['names'])
+
+        for i in range(0, ca_len):
+            ws['B' + str(current_row_number)].font = title_font
+            ws['B' + str(current_row_number)].alignment = c_c_alignment
+            ws['B' + str(current_row_number)] = reporting_period_data['names'][i]
+            ws['B' + str(current_row_number)].border = f_border
+
+            ws['C' + str(current_row_number)].font = title_font
+            ws['C' + str(current_row_number)].alignment = c_c_alignment
+            ws['C' + str(current_row_number)].border = f_border
+            ws['C' + str(current_row_number)] = round(reporting_period_data['subtotals_in_kgce'][i] / 1000, 3)
+
+            current_row_number += 1
+
+        table_end_row_number = current_row_number - 1
+
+        pie = PieChart()
+        pie.title = name + ' ' + ws.cell(column=3, row=table_start_row_number).value
+        labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1, max_row=table_end_row_number)
+        pie_data = Reference(ws, min_col=3, min_row=table_start_row_number, max_row=table_end_row_number)
+        pie.add_data(pie_data, titles_from_data=True)
+        pie.set_categories(labels)
+        pie.height = 7.25
+        pie.width = 9
+        s1 = pie.series[0]
+        s1.dLbls = DataLabelList()
+        s1.dLbls.showCatName = False
+        s1.dLbls.showVal = True
+        s1.dLbls.showPercent = True
+        table_cell = 'D' + str(table_start_row_number)
+        ws.add_chart(pie, table_cell)
+
+        if ca_len < 4:
+            current_row_number = current_row_number - ca_len + 4
+
+        current_row_number += 1
+
+    ####################################################################################################################
+    # Fourth: Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category
+    # current_row_number: title
+    # current_row_number + 1: table title
+    # current_row_number + 1 + ca_len table_data
+    # Total: 2 + ca_len rows
+    ####################################################################################################################
+    has_kgco2e_data_flag = True
+
+    if "subtotals_in_kgco2e" not in reporting_period_data.keys() or \
+            reporting_period_data['subtotals_in_kgco2e'] is None or \
+            len(reporting_period_data['subtotals_in_kgco2e']) == 0:
+        has_kgco2e_data_flag = False
+
+    if has_kgco2e_data_flag:
+        ws['B' + str(current_row_number)].font = title_font
+        ws['B' + str(current_row_number)] = name + ' ' + 'Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category'
+
+        current_row_number += 1
+        table_start_row_number = current_row_number
+
+        ws.row_dimensions[current_row_number].height = 75
+        ws['B' + str(current_row_number)].fill = table_fill
+        ws['B' + str(current_row_number)].font = name_font
+        ws['B' + str(current_row_number)].alignment = c_c_alignment
+        ws['B' + str(current_row_number)].border = f_border
+
+        ws['C' + str(current_row_number)].fill = table_fill
+        ws['C' + str(current_row_number)].font = name_font
+        ws['C' + str(current_row_number)].alignment = c_c_alignment
+        ws['C' + str(current_row_number)].border = f_border
+        ws['C' + str(current_row_number)] = 'Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category'
+
+        current_row_number += 1
+
+        ca_len = len(reporting_period_data['names'])
+
+        for i in range(0, ca_len):
+            ws['B' + str(current_row_number)].font = title_font
+            ws['B' + str(current_row_number)].alignment = c_c_alignment
+            ws['B' + str(current_row_number)] = reporting_period_data['names'][i]
+            ws['B' + str(current_row_number)].border = f_border
+
+            ws['C' + str(current_row_number)].font = title_font
+            ws['C' + str(current_row_number)].alignment = c_c_alignment
+            ws['C' + str(current_row_number)].border = f_border
+            ws['C' + str(current_row_number)] = round(reporting_period_data['subtotals_in_kgco2e'][i] / 1000, 3)
+            current_row_number += 1
+
+        table_end_row_number = current_row_number - 1
+
+        pie = PieChart()
+        pie.title = name + ' ' + ws.cell(column=3, row=table_start_row_number).value
+        labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1, max_row=table_end_row_number)
+        pie_data = Reference(ws, min_col=3, min_row=table_start_row_number, max_row=table_end_row_number)
+        pie.add_data(pie_data, titles_from_data=True)
+        pie.set_categories(labels)
+        pie.height = 7.75
+        pie.width = 9
+        s1 = pie.series[0]
+        s1.dLbls = DataLabelList()
+        s1.dLbls.showCatName = False
+        s1.dLbls.showVal = True
+        s1.dLbls.showPercent = True
+        table_cell = 'D' + str(table_start_row_number)
+        ws.add_chart(pie, table_cell)
+
+        if ca_len < 4:
+            current_row_number = current_row_number - ca_len + 4
+
+        current_row_number += 1
+
+    ####################################################################################################################
+    # Fifth: Detailed Data
     # current_row_number: title
     # current_row_number+1 ~ current_row_number+1+ca_len*6-1: line
     # current_row_number+1+ca_len*6: table title
     # current_row_number+1+ca_len*6~: table_data
     ####################################################################################################################
-    current_row_number = 19
     reporting_period_data = report['reporting_period']
     times = reporting_period_data['timestamps']
     has_detail_data_flag = True
     ca_len = len(report['reporting_period']['names'])
     real_timestamps_len = timestamps_data_not_equal_0(report['parameters']['timestamps'])
-    table_row = current_row_number + 1 + ca_len*6 + real_timestamps_len * 7
+    table_row = current_row_number + 2 + ca_len * 6 + real_timestamps_len * 6
+    # ca_len * 6 ：The total length of linear tables of tailed data
+    # real_timestamps_len * 6 ：The total length of linear tables of related parameters
     chart_start_row_number = current_row_number + 1
     if "timestamps" not in reporting_period_data.keys() or \
             reporting_period_data['timestamps'] is None or \
@@ -430,7 +577,6 @@ def generate_excel(report,
                 ws[col + str(current_row_number)] = round(reporting_period_data['subtotals'][i], 2)
 
                 # line
-                # 39~: line
                 line = LineChart()
                 line.title = 'Reporting Period Consumption - ' + ws.cell(column=3+i, row=table_row).value
                 labels = Reference(ws, min_col=2, min_row=table_row+1, max_row=max_row)
@@ -509,7 +655,7 @@ def generate_excel(report,
                 ws[col + row] = round(associated_equipment['subtotals_array'][j][i], 2)
                 ws[col + row].border = f_border
     ##########################################
-    current_sheet_parameters_row_number = chart_start_row_number + ca_len * 6 + 1
+    current_sheet_parameters_row_number = chart_start_row_number + ca_len * 6
     has_parameters_names_and_timestamps_and_values_data = True
     if 'parameters' not in report.keys() or \
             report['parameters'] is None or \
