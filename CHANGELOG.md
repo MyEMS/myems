@@ -16,6 +16,30 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
+## [v1.3.2] -   2021-10-22
+### Added
+-   added associated equipments data to combinedequipmentefficiency report.
+-   added Pie Charts of TCE/TCO2E to excelexporters of equipmentenergycategory, combinedequipmentenergycategory and storeenergycategory.
+-   added Pie charts of TCE and TCO2E to excel exporter of shopfloorenergycategory report.
+-   added validation for area of shopfloor, space, store and tenant in API.
+
+### Changed
+-   reformatted excel exporters of shopfloor reports.
+-   reformatted excel exporters of store reports.
+-   reformatted excel exporters of tenant reports
+-   reformatted excel exporters of equipment reports
+-   renamed parameter worksheet names in excel exporters.
+-   updated database demo data in German.
+-   updated Database Demo in English.
+
+### Fixed
+-   fixed PEP8 warnings.
+-   fixed warnings in Excel exporters.
+
+### Removed
+-   Remove Child Space Data Section from EquipmentEnergyCategory Excel Exporter.
+-   deleted unused comments from excelexporters.
+
 
 ## [v1.3.1] -   2021-10-15
 ### Added
@@ -480,7 +504,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v1.3.1...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v1.3.2...HEAD
+[v1.3.2]: https://github.com/MyEMS/myems/compare/v1.3.1...v1.3.2
 [v1.3.1]: https://github.com/MyEMS/myems/compare/v1.3.0...v1.3.1
 [v1.3.0]: https://github.com/MyEMS/myems/compare/v1.2.3...v1.3.0
 [v1.2.3]: https://github.com/MyEMS/myems/compare/v1.2.2...v1.2.3
