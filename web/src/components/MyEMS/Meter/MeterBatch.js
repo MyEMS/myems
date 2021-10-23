@@ -180,7 +180,7 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
             detailed_value['costcenter'] = currentMeter['cost_center_name'];
             currentMeter['values'].forEach((currentValue, energyCategoryIndex) => {
               if (currentValue !== null) {
-                detailed_value['a' + energyCategoryIndex] = currentValue.toFixed(2);
+                detailed_value['a' + energyCategoryIndex] = currentValue;
               } else {
                 detailed_value['a' + energyCategoryIndex] = null;
               }
@@ -207,7 +207,14 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
           detailed_column_list.push({
             dataField: 'a' + index,
             text: currentValue['name'] + ' (' + currentValue['unit_of_measure'] + ')',
-            sort: true
+            sort: true,
+            formatter: function (decimalValue) {
+              if (decimalValue !== null) {
+                return decimalValue.toFixed(2);
+              } else {
+                return null;
+              }
+            }
           })
         });
         setDetailedDataTableColumns(detailed_column_list);

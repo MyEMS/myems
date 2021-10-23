@@ -179,7 +179,7 @@ const CombinedEquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
             detailed_value['space'] = currentCombinedEquipment['space_name'];
             detailed_value['costcenter'] = currentCombinedEquipment['cost_center_name'];
             currentCombinedEquipment['values'].forEach((currentValue, energyCategoryIndex) => {
-              detailed_value['a' + energyCategoryIndex] = currentValue.toFixed(2);
+              detailed_value['a' + energyCategoryIndex] = currentValue
             });
             combined_equipments.push(detailed_value);
           });
@@ -202,7 +202,10 @@ const CombinedEquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
           detailed_column_list.push({
             dataField: 'a' + index,
             text: currentValue['name'] + ' (' + currentValue['unit_of_measure'] + ')',
-            sort: true
+            sort: true,
+            formatter: function (decimalValue) {
+              return decimalValue.toFixed(2);
+            }
           })
         });
         setDetailedDataTableColumns(detailed_column_list);

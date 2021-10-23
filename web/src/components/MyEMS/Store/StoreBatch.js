@@ -203,11 +203,12 @@ const StoreBatch = ({ setRedirect, setRedirectUrl, t }) => {
             dataField: 'a' + index,
             text: currentValue['name'] + ' (' + currentValue['unit_of_measure'] + ')',
             sort: true,
-            formatter: function (currentValue) {
-              return currentValue.toFixed(2);
+            formatter: function (decimalValue) {
+              return decimalValue.toFixed(2);
             }
           })
         });
+        console.log(detailed_column_list);
         setDetailedDataTableColumns(detailed_column_list);
 
         setExcelBytesBase64(json['excel_bytes_base64']);
