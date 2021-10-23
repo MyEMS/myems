@@ -179,7 +179,7 @@ const StoreBatch = ({ setRedirect, setRedirectUrl, t }) => {
             detailed_value['space'] = currentStore['space_name'];
             detailed_value['costcenter'] = currentStore['cost_center_name'];
             currentStore['values'].forEach((currentValue, energyCategoryIndex) => {
-              detailed_value['a' + energyCategoryIndex] = currentValue.toFixed(2);
+              detailed_value['a' + energyCategoryIndex] = currentValue;
             });
             stores.push(detailed_value);
           });
@@ -202,7 +202,10 @@ const StoreBatch = ({ setRedirect, setRedirectUrl, t }) => {
           detailed_column_list.push({
             dataField: 'a' + index,
             text: currentValue['name'] + ' (' + currentValue['unit_of_measure'] + ')',
-            sort: true
+            sort: true,
+            formatter: function (currentValue) {
+              return currentValue.toFixed(2);
+            }
           })
         });
         setDetailedDataTableColumns(detailed_column_list);
