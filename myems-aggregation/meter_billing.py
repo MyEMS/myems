@@ -42,6 +42,7 @@ def main(logger):
 
         print("Connected to MyEMS System Database")
 
+        meter_list = list()
         try:
             cursor_system_db.execute(" SELECT id, name, energy_category_id, cost_center_id "
                                      " FROM tbl_meters "
@@ -58,7 +59,6 @@ def main(logger):
                 time.sleep(60)
                 continue
 
-            meter_list = list()
             for row in rows_meters:
                 meter_list.append({"id": row[0],
                                    "name": row[1],

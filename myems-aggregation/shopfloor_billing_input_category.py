@@ -42,6 +42,7 @@ def main(logger):
 
         print("Connected to MyEMS System Database")
 
+        shopfloor_list = list()
         try:
             cursor_system_db.execute(" SELECT id, name, cost_center_id "
                                      " FROM tbl_shopfloors "
@@ -58,7 +59,6 @@ def main(logger):
                 time.sleep(60)
                 continue
 
-            shopfloor_list = list()
             for row in rows_shopfloors:
                 shopfloor_list.append({"id": row[0], "name": row[1], "cost_center_id": row[2]})
 
