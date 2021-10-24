@@ -37,6 +37,7 @@ def main(logger):
             continue
         print("Connected to MyEMS System Database")
 
+        tenant_list = list()
         try:
             cursor_system_db.execute(" SELECT id, name "
                                      " FROM tbl_tenants "
@@ -49,7 +50,6 @@ def main(logger):
                 time.sleep(60)
                 continue
 
-            tenant_list = list()
             for row in rows_tenants:
                 tenant_list.append({"id": row[0], "name": row[1]})
 
@@ -66,7 +66,7 @@ def main(logger):
 
         print("Got all tenants in MyEMS System Database")
 
-        # shuffle the tenant list for randomly calculating the meter hourly value
+        # shuffle the tenant list for randomly calculating the hourly values
         random.shuffle(tenant_list)
 
         ################################################################################################################

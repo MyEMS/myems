@@ -42,6 +42,7 @@ def main(logger):
 
         print("Connected to MyEMS System Database")
 
+        tenant_list = list()
         try:
             cursor_system_db.execute(" SELECT id, name, cost_center_id "
                                      " FROM tbl_tenants "
@@ -58,7 +59,6 @@ def main(logger):
                 time.sleep(60)
                 continue
 
-            tenant_list = list()
             for row in rows_tenants:
                 tenant_list.append({"id": row[0], "name": row[1], "cost_center_id": row[2]})
 
@@ -124,7 +124,6 @@ def main(logger):
         print("Connected to MyEMS Billing Database")
 
         for tenant in tenant_list:
-
             ############################################################################################################
             # Step 2: get the latest start_datetime_utc
             ############################################################################################################
