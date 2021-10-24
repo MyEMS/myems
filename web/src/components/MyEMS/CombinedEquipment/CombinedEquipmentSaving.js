@@ -420,7 +420,7 @@ const CombinedEquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
             detailed_value['id'] = timestampIndex;
             detailed_value['startdatetime'] = currentTimestamp;
             json['reporting_period']['values_saving'].forEach((currentValue, energyCategoryIndex) => {
-              detailed_value['a' + energyCategoryIndex] = json['reporting_period']['values_saving'][energyCategoryIndex][timestampIndex].toFixed(2);
+              detailed_value['a' + energyCategoryIndex] = json['reporting_period']['values_saving'][energyCategoryIndex][timestampIndex];
             });
             detailed_value_list.push(detailed_value);
           });
@@ -430,7 +430,7 @@ const CombinedEquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
         detailed_value['id'] = detailed_value_list.length;
         detailed_value['startdatetime'] = t('Subtotal');
         json['reporting_period']['subtotals_saving'].forEach((currentValue, index) => {
-            detailed_value['a' + index] = currentValue.toFixed(2);
+            detailed_value['a' + index] = currentValue;
           });
         detailed_value_list.push(detailed_value);
         setDetailedDataTableData(detailed_value_list);
@@ -446,7 +446,10 @@ const CombinedEquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
           detailed_column_list.push({
             dataField: 'a' + index,
             text: currentValue + ' (' + unit + ')',
-            sort: true
+            sort: true,
+            formatter: function (decimalValue) {
+              return decimalValue.toFixed(2);
+            }
           })
         });
         setDetailedDataTableColumns(detailed_column_list);
@@ -458,7 +461,7 @@ const CombinedEquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
             associated_equipment_value['id'] = spaceIndex;
             associated_equipment_value['name'] = currentEquipmentName;
             json['associated_equipment']['energy_category_names'].forEach((currentValue, energyCategoryIndex) => {
-              associated_equipment_value['a' + energyCategoryIndex] = json['associated_equipment']['subtotals_saving_array'][energyCategoryIndex][spaceIndex].toFixed(2);
+              associated_equipment_value['a' + energyCategoryIndex] = json['associated_equipment']['subtotals_saving_array'][energyCategoryIndex][spaceIndex];
             });
             associated_equipment_value_list.push(associated_equipment_value);
           });
@@ -477,7 +480,10 @@ const CombinedEquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
           associated_equipment_column_list.push({
             dataField: 'a' + index,
             text: currentValue + ' (' + unit + ')',
-            sort: true
+            sort: true,
+            formatter: function (decimalValue) {
+              return decimalValue.toFixed(2);
+            }
           });
         });
 

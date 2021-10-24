@@ -417,7 +417,7 @@ const ShopfloorSaving = ({ setRedirect, setRedirectUrl, t }) => {
             detailed_value['id'] = timestampIndex;
             detailed_value['startdatetime'] = currentTimestamp;
             json['reporting_period']['values_saving'].forEach((currentValue, energyCategoryIndex) => {
-              detailed_value['a' + energyCategoryIndex] = json['reporting_period']['values_saving'][energyCategoryIndex][timestampIndex].toFixed(2);
+              detailed_value['a' + energyCategoryIndex] = json['reporting_period']['values_saving'][energyCategoryIndex][timestampIndex];
             });
             detailed_value_list.push(detailed_value);
           });
@@ -427,7 +427,7 @@ const ShopfloorSaving = ({ setRedirect, setRedirectUrl, t }) => {
         detailed_value['id'] = detailed_value_list.length;
         detailed_value['startdatetime'] = t('Subtotal');
         json['reporting_period']['subtotals_saving'].forEach((currentValue, index) => {
-            detailed_value['a' + index] = currentValue.toFixed(2);
+            detailed_value['a' + index] = currentValue;
           });
         detailed_value_list.push(detailed_value);
         setDetailedDataTableData(detailed_value_list);
@@ -443,7 +443,10 @@ const ShopfloorSaving = ({ setRedirect, setRedirectUrl, t }) => {
           detailed_column_list.push({
             dataField: 'a' + index,
             text: currentValue + ' (' + unit + ')',
-            sort: true
+            sort: true,
+            formatter: function (decimalValue) {
+              return decimalValue.toFixed(2);
+            }
           })
         });
         setDetailedDataTableColumns(detailed_column_list);

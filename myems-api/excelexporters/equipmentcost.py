@@ -427,7 +427,6 @@ def generate_excel(report,
         if len(time) > 0:
             has_data = True
             max_row = table_row + len(time)
-            print("max_row", max_row)
 
         if has_data:
             for i in range(0, len(time)):

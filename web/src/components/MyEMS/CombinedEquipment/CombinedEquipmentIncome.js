@@ -403,10 +403,10 @@ const CombinedEquipmentIncome = ({ setRedirect, setRedirectUrl, t }) => {
             detailed_value['startdatetime'] = currentTimestamp;
             let total_current_timstamp = 0.0;
             json['reporting_period']['values'].forEach((currentValue, energyCategoryIndex) => {
-              detailed_value['a' + energyCategoryIndex] = json['reporting_period']['values'][energyCategoryIndex][timestampIndex].toFixed(2);
+              detailed_value['a' + energyCategoryIndex] = json['reporting_period']['values'][energyCategoryIndex][timestampIndex];
               total_current_timstamp += json['reporting_period']['values'][energyCategoryIndex][timestampIndex];
             });
-            detailed_value['total'] = total_current_timstamp.toFixed(2);
+            detailed_value['total'] = total_current_timstamp;
             detailed_value_list.push(detailed_value);
           });
         }
@@ -416,10 +416,10 @@ const CombinedEquipmentIncome = ({ setRedirect, setRedirectUrl, t }) => {
         detailed_value['startdatetime'] = t('Subtotal');
         let total_of_subtotals = 0.0;
         json['reporting_period']['subtotals'].forEach((currentValue, index) => {
-            detailed_value['a' + index] = currentValue.toFixed(2);
+            detailed_value['a' + index] = currentValue;
             total_of_subtotals += currentValue
           });
-        detailed_value['total'] = total_of_subtotals.toFixed(2);
+        detailed_value['total'] = total_of_subtotals;
         detailed_value_list.push(detailed_value);
         setDetailedDataTableData(detailed_value_list);
         
@@ -434,13 +434,19 @@ const CombinedEquipmentIncome = ({ setRedirect, setRedirectUrl, t }) => {
           detailed_column_list.push({
             dataField: 'a' + index,
             text: currentValue + ' (' + unit + ')',
-            sort: true
+            sort: true,
+            formatter: function (decimalValue) {
+              return decimalValue.toFixed(2);
+            }
           });
         });
         detailed_column_list.push({
           dataField: 'total',
           text: t('Total') + ' (' + json['reporting_period']['total_unit'] + ')',
-          sort: true
+          sort: true,
+          formatter: function (decimalValue) {
+            return decimalValue.toFixed(2);
+          }
         });
         setDetailedDataTableColumns(detailed_column_list);
         
@@ -452,10 +458,10 @@ const CombinedEquipmentIncome = ({ setRedirect, setRedirectUrl, t }) => {
             associated_equipment_value['name'] = currentEquipmentName;
             let total = 0.0;
             json['associated_equipment']['energy_category_names'].forEach((currentValue, energyCategoryIndex) => {
-              associated_equipment_value['a' + energyCategoryIndex] = json['associated_equipment']['subtotals_array'][energyCategoryIndex][equipmentIndex].toFixed(2);
+              associated_equipment_value['a' + energyCategoryIndex] = json['associated_equipment']['subtotals_array'][energyCategoryIndex][equipmentIndex];
               total += json['associated_equipment']['subtotals_array'][energyCategoryIndex][equipmentIndex]
             });
-            associated_equipment_value['total'] = total.toFixed(2);
+            associated_equipment_value['total'] = total;
             associated_equipment_value_list.push(associated_equipment_value);
           });
         };
@@ -473,13 +479,19 @@ const CombinedEquipmentIncome = ({ setRedirect, setRedirectUrl, t }) => {
           associated_equipment_column_list.push({
             dataField: 'a' + index,
             text: currentValue + ' (' + unit + ')',
-            sort: true
+            sort: true,
+            formatter: function (decimalValue) {
+              return decimalValue.toFixed(2);
+            }
           });
         });
         associated_equipment_column_list.push({
           dataField: 'total',
           text: t('Total') + ' (' + json['associated_equipment']['total_unit'] + ')',
-          sort: true
+          sort: true,
+          formatter: function (decimalValue) {
+            return decimalValue.toFixed(2);
+          }
         });
 
         setAssociatedEquipmentTableColumns(associated_equipment_column_list);
