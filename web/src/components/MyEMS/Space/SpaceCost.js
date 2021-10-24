@@ -408,10 +408,10 @@ const SpaceCost = ({ setRedirect, setRedirectUrl, t }) => {
             detailed_value['startdatetime'] = currentTimestamp;
             let total_current_timstamp = 0.0;
             json['reporting_period']['values'].forEach((currentValue, energyCategoryIndex) => {
-              detailed_value['a' + energyCategoryIndex] = json['reporting_period']['values'][energyCategoryIndex][timestampIndex].toFixed(2);
+              detailed_value['a' + energyCategoryIndex] = json['reporting_period']['values'][energyCategoryIndex][timestampIndex];
               total_current_timstamp += json['reporting_period']['values'][energyCategoryIndex][timestampIndex];
             });
-            detailed_value['total'] = total_current_timstamp.toFixed(2);
+            detailed_value['total'] = total_current_timstamp;
             detailed_value_list.push(detailed_value);
           });
         };
@@ -421,10 +421,10 @@ const SpaceCost = ({ setRedirect, setRedirectUrl, t }) => {
         detailed_value['startdatetime'] = t('Subtotal');
         let total_of_subtotals = 0.0;
         json['reporting_period']['subtotals'].forEach((currentValue, index) => {
-            detailed_value['a' + index] = currentValue.toFixed(2);
+            detailed_value['a' + index] = currentValue;
             total_of_subtotals += currentValue
           });
-        detailed_value['total'] = total_of_subtotals.toFixed(2);
+        detailed_value['total'] = total_of_subtotals;
         detailed_value_list.push(detailed_value);
         setDetailedDataTableData(detailed_value_list);
         
@@ -439,13 +439,19 @@ const SpaceCost = ({ setRedirect, setRedirectUrl, t }) => {
           detailed_column_list.push({
             dataField: 'a' + index,
             text: currentValue + ' (' + unit + ')',
-            sort: true
+            sort: true,
+            formatter: function (decimalValue) {
+              return decimalValue.toFixed(2);
+            }
           });
         });
         detailed_column_list.push({
           dataField: 'total',
           text: t('Total') + ' (' + json['reporting_period']['total_unit'] + ')',
-          sort: true
+          sort: true,
+          formatter: function (decimalValue) {
+            return decimalValue.toFixed(2);
+          }
         });
         setDetailedDataTableColumns(detailed_column_list);
 
@@ -457,10 +463,10 @@ const SpaceCost = ({ setRedirect, setRedirectUrl, t }) => {
             child_space_value['name'] = currentSpaceName;
             let total = 0.0;
             json['child_space']['energy_category_names'].forEach((currentValue, energyCategoryIndex) => {
-              child_space_value['a' + energyCategoryIndex] = json['child_space']['subtotals_array'][energyCategoryIndex][spaceIndex].toFixed(2);
+              child_space_value['a' + energyCategoryIndex] = json['child_space']['subtotals_array'][energyCategoryIndex][spaceIndex];
               total += json['child_space']['subtotals_array'][energyCategoryIndex][spaceIndex]
             });
-            child_space_value['total'] = total.toFixed(2);
+            child_space_value['total'] = total;
             child_space_value_list.push(child_space_value);
           });
         };
@@ -478,13 +484,19 @@ const SpaceCost = ({ setRedirect, setRedirectUrl, t }) => {
           child_space_column_list.push({
             dataField: 'a' + index,
             text: currentValue + ' (' + unit + ')',
-            sort: true
+            sort: true,
+            formatter: function (decimalValue) {
+              return decimalValue.toFixed(2);
+            }
           });
         });
         child_space_column_list.push({
           dataField: 'total',
           text: t('Total') + ' (' + json['child_space']['total_unit'] + ')',
-          sort: true
+          sort: true,
+          formatter: function (decimalValue) {
+            return decimalValue.toFixed(2);
+          }
         });
 
         setChildSpacesTableColumns(child_space_column_list);

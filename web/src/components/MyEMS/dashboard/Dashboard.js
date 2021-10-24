@@ -50,10 +50,12 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
   const [spaceCostLineChartOptions, setSpaceCostLineChartOptions] = useState([]);
 
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
-  const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([{dataField: 'startdatetime', text: t('Datetime'), sort: true}]);
+  const [detailedDataTableColumns, setDetailedDataTableColumns] = useState(
+    [{dataField: 'startdatetime', text: t('Datetime'), sort: true}]);
 
   const [childSpacesTableData, setChildSpacesTableData] = useState([]);
-  const [childSpacesTableColumns, setChildSpacesTableColumns] = useState([{dataField: 'name', text: t('Child Spaces'), sort: true }]);
+  const [childSpacesTableColumns, setChildSpacesTableColumns] = useState(
+    [{dataField: 'name', text: t('Child Spaces'), sort: true }]);
 
 
   useEffect(() => {
@@ -319,8 +321,8 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 child_space_value['id'] = spaceIndex;
                 child_space_value['name'] = currentSpaceName;
                 json['child_space_input']['energy_category_names'].forEach((currentValue, energyCategoryIndex) => {
-                  child_space_value['a' + energyCategoryIndex] = json['child_space_input']['subtotals_array'][energyCategoryIndex][spaceIndex].toFixed(2);
-                  child_space_value['b' + energyCategoryIndex] = json['child_space_cost']['subtotals_array'][energyCategoryIndex][spaceIndex].toFixed(2);
+                  child_space_value['a' + energyCategoryIndex] = json['child_space_input']['subtotals_array'][energyCategoryIndex][spaceIndex];
+                  child_space_value['b' + energyCategoryIndex] = json['child_space_cost']['subtotals_array'][energyCategoryIndex][spaceIndex];
                 });
                 child_space_value_list.push(child_space_value);
               });
@@ -339,7 +341,10 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               child_space_column_list.push({
                 dataField: 'a' + index,
                 text: currentValue + ' (' + unit + ')',
-                sort: true
+                sort: true,
+                formatter: function (decimalValue) {
+                  return decimalValue.toFixed(2);
+                }
               });
             });
             json['child_space_cost']['energy_category_names'].forEach((currentValue, index) => {
@@ -347,7 +352,10 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               child_space_column_list.push({
                 dataField: 'b' + index,
                 text: currentValue + ' (' + unit + ')',
-                sort: true
+                sort: true,
+                formatter: function (decimalValue) {
+                  return decimalValue.toFixed(2);
+                }
               });
             });
 

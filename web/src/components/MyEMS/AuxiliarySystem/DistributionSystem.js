@@ -98,9 +98,6 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
   let onDistributionSystemChange = (event) => {
-    // console.log('onDistributionSystemChange');
-    // console.log(event.target.value);
-
     setSelectedDistributionSystemID(event.target.value);
     distributionSystemList.forEach((currentItem, index) => {
       if (currentItem['value'] === event.target.value) {

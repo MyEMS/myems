@@ -387,15 +387,15 @@ const CombinedEquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
             detailed_value['startdatetime'] = currentTimestamp;
             json['reporting_period']['sub_averages'].forEach((currentValue, energyCategoryIndex) => {
               if (json['reporting_period']['sub_averages'][energyCategoryIndex][timestampIndex] != null) {
-                detailed_value['a' + 2 * energyCategoryIndex] = json['reporting_period']['sub_averages'][energyCategoryIndex][timestampIndex].toFixed(2);
+                detailed_value['a' + 2 * energyCategoryIndex] = json['reporting_period']['sub_averages'][energyCategoryIndex][timestampIndex];
               } else {
-                detailed_value['a' + 2 * energyCategoryIndex] = '';
+                detailed_value['a' + 2 * energyCategoryIndex] = null;
               };  
             
               if (json['reporting_period']['sub_maximums'][energyCategoryIndex][timestampIndex] != null) {
-                detailed_value['a' + (2 * energyCategoryIndex + 1)] = json['reporting_period']['sub_maximums'][energyCategoryIndex][timestampIndex].toFixed(2);
+                detailed_value['a' + (2 * energyCategoryIndex + 1)] = json['reporting_period']['sub_maximums'][energyCategoryIndex][timestampIndex];
               } else {
-                detailed_value['a' + (2 * energyCategoryIndex + 1)] = '';
+                detailed_value['a' + (2 * energyCategoryIndex + 1)] = null;
               };            
             });
             detailed_value_list.push(detailed_value);
@@ -415,12 +415,26 @@ const CombinedEquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
           detailed_column_list.push({
             dataField: 'a' + 2 * index,
             text: currentValue + ' ' + t('Average Load') + ' (' + unit + '/H)',
-            sort: true
+            sort: true,
+            formatter: function (decimalValue) {
+              if (decimalValue !== null) {
+                return decimalValue.toFixed(2);
+              } else {
+                return null;
+              }
+            }
           });
           detailed_column_list.push({
             dataField: 'a' + (2 * index + 1),
             text: currentValue + ' ' + t('Maximum Load') + ' (' + unit + '/H)',
-            sort: true
+            sort: true,
+            formatter: function (decimalValue) {
+              if (decimalValue !== null) {
+                return decimalValue.toFixed(2);
+              } else {
+                return null;
+              }
+            }
           });
         });
         setDetailedDataTableColumns(detailed_column_list);
@@ -433,14 +447,14 @@ const CombinedEquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
             associated_equipment_value['name'] = currentEquipmentName;
             json['associated_equipment']['energy_category_names'].forEach((currentValue, energyCategoryIndex) => {
               if (json['associated_equipment']['sub_averages_array'][energyCategoryIndex][equipmentIndex] != null) {
-                associated_equipment_value['a' + 2 * energyCategoryIndex] = json['associated_equipment']['sub_averages_array'][energyCategoryIndex][equipmentIndex].toFixed(2);
+                associated_equipment_value['a' + 2 * energyCategoryIndex] = json['associated_equipment']['sub_averages_array'][energyCategoryIndex][equipmentIndex];
               } else {
-                associated_equipment_value['a' + 2 * energyCategoryIndex] = '';
+                associated_equipment_value['a' + 2 * energyCategoryIndex] = null
               };  
               if (json['associated_equipment']['sub_maximums_array'][energyCategoryIndex][equipmentIndex] != null) {
-                associated_equipment_value['a' + (2 * energyCategoryIndex + 1)] = json['associated_equipment']['sub_maximums_array'][energyCategoryIndex][equipmentIndex].toFixed(2);
+                associated_equipment_value['a' + (2 * energyCategoryIndex + 1)] = json['associated_equipment']['sub_maximums_array'][energyCategoryIndex][equipmentIndex];
               } else {
-                associated_equipment_value['a' + (2 * energyCategoryIndex + 1)] = '';
+                associated_equipment_value['a' + (2 * energyCategoryIndex + 1)] = null;
               };       
               
             });
@@ -461,12 +475,26 @@ const CombinedEquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
           associated_equipment_column_list.push({
             dataField: 'a' + 2 * index,
             text: currentValue + ' ' + t('Average Load') + ' (' + unit + '/H)',
-            sort: true
+            sort: true,
+            formatter: function (decimalValue) {
+              if (decimalValue !== null) {
+                return decimalValue.toFixed(2);
+              } else {
+                return null;
+              }
+            }
           });
           associated_equipment_column_list.push({
             dataField: 'a' + (2 * index + 1),
             text: currentValue + ' ' + t('Maximum Load') + ' (' + unit + '/H)',
-            sort: true
+            sort: true,
+            formatter: function (decimalValue) {
+              if (decimalValue !== null) {
+                return decimalValue.toFixed(2);
+              } else {
+                return null;
+              }
+            }
           });
         });
 

@@ -304,9 +304,9 @@ const SpaceEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
             detailed_value['startdatetime'] = currentTimestamp;
             json['reporting_period_efficiency']['values'].forEach((currentValue, energyCategoryIndex) => {
               if (json['reporting_period_efficiency']['values'][energyCategoryIndex][timestampIndex] != null) {
-                detailed_value['a' + energyCategoryIndex] = json['reporting_period_efficiency']['values'][energyCategoryIndex][timestampIndex].toFixed(2);
+                detailed_value['a' + energyCategoryIndex] = json['reporting_period_efficiency']['values'][energyCategoryIndex][timestampIndex];
               } else {
-                detailed_value['a' + energyCategoryIndex] = '';
+                detailed_value['a' + energyCategoryIndex] = null;
               };
             });
             
@@ -319,9 +319,9 @@ const SpaceEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
         detailed_value['startdatetime'] = t('Subtotal');
         json['reporting_period_efficiency']['cumulations'].forEach((currentValue, index) => {
             if (currentValue != null) {
-              detailed_value['a' + index] = currentValue.toFixed(2);
+              detailed_value['a' + index] = currentValue;
             }else {
-              detailed_value['a' + index] = '';
+              detailed_value['a' + index] = null;
             }
           });
         detailed_value_list.push(detailed_value);
@@ -338,7 +338,14 @@ const SpaceEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
           detailed_column_list.push({
             dataField: 'a' + index,
             text: currentValue + ' (' + unit + ')',
-            sort: true
+            sort: true,
+            formatter: function (decimalValue) {
+              if (decimalValue !== null) {
+                return decimalValue.toFixed(2);
+              } else {
+                return null;
+              }
+            }
           })
         });
         setDetailedDataTableColumns(detailed_column_list);

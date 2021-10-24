@@ -311,15 +311,15 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
             detailed_value['startdatetime'] = currentTimestamp;
             json['reporting_period']['sub_averages'].forEach((currentValue, energyCategoryIndex) => {
               if (json['reporting_period']['sub_averages'][energyCategoryIndex][timestampIndex] != null) {
-                detailed_value['a' + 2 * energyCategoryIndex] = json['reporting_period']['sub_averages'][energyCategoryIndex][timestampIndex].toFixed(2);
+                detailed_value['a' + 2 * energyCategoryIndex] = json['reporting_period']['sub_averages'][energyCategoryIndex][timestampIndex];
               } else {
-                detailed_value['a' + 2 * energyCategoryIndex] = '';
+                detailed_value['a' + 2 * energyCategoryIndex] = null;
               };  
             
               if (json['reporting_period']['sub_maximums'][energyCategoryIndex][timestampIndex] != null) {
-                detailed_value['a' + (2 * energyCategoryIndex + 1)] = json['reporting_period']['sub_maximums'][energyCategoryIndex][timestampIndex].toFixed(2);
+                detailed_value['a' + (2 * energyCategoryIndex + 1)] = json['reporting_period']['sub_maximums'][energyCategoryIndex][timestampIndex];
               } else {
-                detailed_value['a' + (2 * energyCategoryIndex + 1)] = '';
+                detailed_value['a' + (2 * energyCategoryIndex + 1)] = null;
               };            
             });
             detailed_value_list.push(detailed_value);
@@ -339,12 +339,26 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
           detailed_column_list.push({
             dataField: 'a' + 2 * index,
             text: currentValue + ' ' + t('Average Load') + ' (' + unit + '/H)',
-            sort: true
+            sort: true,
+            formatter: function (decimalValue) {
+              if (decimalValue !== null) {
+                return decimalValue.toFixed(2);
+              } else {
+                return null;
+              }
+            }
           });
           detailed_column_list.push({
             dataField: 'a' + (2 * index + 1),
             text: currentValue + ' ' + t('Maximum Load') + ' (' + unit + '/H)',
-            sort: true
+            sort: true,
+            formatter: function (decimalValue) {
+              if (decimalValue !== null) {
+                return decimalValue.toFixed(2);
+              } else {
+                return null;
+              }
+            }
           });
         });
         setDetailedDataTableColumns(detailed_column_list);

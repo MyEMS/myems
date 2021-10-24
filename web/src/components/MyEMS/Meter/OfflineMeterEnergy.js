@@ -369,7 +369,10 @@ const OfflineMeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
         }, {
           dataField: 'a0',
           text: json['offline_meter']['energy_category_name'] + ' (' + json['offline_meter']['unit_of_measure'] + ')',
-          sort: true
+          sort: true,
+          formatter: function (decimalValue) {
+            return decimalValue.toFixed(2);
+          }
         }]);
 
         let detailed_value_list = [];
@@ -377,14 +380,14 @@ const OfflineMeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
           let detailed_value = {};
           detailed_value['id'] = timestampIndex;
           detailed_value['startdatetime'] = currentTimestamp;
-          detailed_value['a0'] = json['reporting_period']['values'][timestampIndex].toFixed(2);
+          detailed_value['a0'] = json['reporting_period']['values'][timestampIndex];
           detailed_value_list.push(detailed_value);
         });
         
         let detailed_value = {};
         detailed_value['id'] = detailed_value_list.length;
         detailed_value['startdatetime'] = t('Total');
-        detailed_value['a0'] = json['reporting_period']['total_in_category'].toFixed(2);
+        detailed_value['a0'] = json['reporting_period']['total_in_category'];
         detailed_value_list.push(detailed_value);
         setDetailedDataTableData(detailed_value_list);
         

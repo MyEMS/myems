@@ -389,9 +389,9 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
             detailed_value['startdatetime'] = currentTimestamp;
             json['reporting_period_efficiency']['values'].forEach((currentValue, parameterIndex) => {
               if (json['reporting_period_efficiency']['values'][parameterIndex][timestampIndex] != null) {
-                detailed_value['a' + parameterIndex] = json['reporting_period_efficiency']['values'][parameterIndex][timestampIndex].toFixed(2);
+                detailed_value['a' + parameterIndex] = json['reporting_period_efficiency']['values'][parameterIndex][timestampIndex];
               } else {
-                detailed_value['a' + parameterIndex] = '';
+                detailed_value['a' + parameterIndex] = null;
               };
             });
             
@@ -403,7 +403,7 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
         detailed_value['id'] = detailed_value_list.length;
         detailed_value['startdatetime'] = t('Subtotal');
         json['reporting_period_efficiency']['cumulations'].forEach((currentValue, index) => {
-            detailed_value['a' + index] = currentValue.toFixed(2);
+            detailed_value['a' + index] = currentValue;
           });
         detailed_value_list.push(detailed_value);
         setDetailedDataTableData(detailed_value_list);
@@ -419,7 +419,14 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
           detailed_column_list.push({
             dataField: 'a' + index,
             text: currentValue + ' (' + unit + ')',
-            sort: true
+            sort: true,
+            formatter: function (decimalValue) {
+              if (decimalValue !== null) {
+                return decimalValue.toFixed(2);
+              } else {
+                return null;
+              }
+            }
           })
         });
         setDetailedDataTableColumns(detailed_column_list);
