@@ -2,7 +2,6 @@ import base64
 import uuid
 import os
 import re
-import openpyxl.utils
 from openpyxl.chart import PieChart, LineChart, Reference
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 from openpyxl.drawing.image import Image
