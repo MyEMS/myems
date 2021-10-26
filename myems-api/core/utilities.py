@@ -19,7 +19,7 @@ def aggregate_hourly_data_by_period(rows_hourly, start_datetime_utc, end_datetim
     if start_datetime_utc is None or \
             end_datetime_utc is None or \
             start_datetime_utc >= end_datetime_utc or \
-            period_type not in ('hourly', 'daily', 'monthly', 'yearly'):
+            period_type not in ('hourly', 'daily', 'weekly', 'monthly', 'yearly'):
         return list()
 
     start_datetime_utc = start_datetime_utc.replace(tzinfo=None)
@@ -45,7 +45,7 @@ def aggregate_hourly_data_by_period(rows_hourly, start_datetime_utc, end_datetim
         result_rows_daily = list()
         # todo: add config.working_day_start_time_local
         # todo: add config.minutes_to_count
-        # calculate the start datetime in utc of the first day in local
+        # calculate the start datetime in utc of the first day in the first month in local
         start_datetime_local = start_datetime_utc + timedelta(hours=int(config.utc_offset[1:3]))
         current_datetime_utc = start_datetime_local.replace(hour=0) - timedelta(hours=int(config.utc_offset[1:3]))
         while current_datetime_utc <= end_datetime_utc:
@@ -57,6 +57,70 @@ def aggregate_hourly_data_by_period(rows_hourly, start_datetime_utc, end_datetim
             current_datetime_utc += timedelta(days=1)
 
         return result_rows_daily
+
+    elif period_type == 'weekly':
+        result_rows_weekly = list()
+        # todo: add config.working_day_start_time_local
+        # todo: add config.minutes_to_count
+        # calculate the start datetime in utc of the first day in the first month in local
+        start_datetime_local = start_datetime_utc + timedelta(hours=int(config.utc_offset[1:3]))
+        weekday = start_datetime_local.weekday()
+        current_datetime_utc = \
+            start_datetime_local.replace(hour=0) - timedelta(days=weekday, hours=int(config.utc_offset[1:3]))
+        while current_datetime_utc <= end_datetime_utc:
+            # calculate the next datetime in utc
+            current_year = 0
+            current_month = 0
+            current_day = 0
+            if current_datetime_utc.day <= 21:
+                current_day = current_datetime_utc.day + 7
+            else:
+                if current_datetime_utc.month in [1, 3, 5, 7, 8, 10]:
+                    if current_datetime_utc.day <= 24:
+                        current_day = current_datetime_utc.day + 7
+                    else:
+                        current_month = current_datetime_utc.month + 1
+                        current_day = 7 - (31 - current_datetime_utc.day)
+                elif current_datetime_utc.month == 2:
+                    temp_day = 28
+                    ny = current_datetime_utc.year
+                    if (ny % 100 != 0 and ny % 4 == 0) or (ny % 100 == 0 and ny % 400 == 0):
+                        temp_day = 29
+                    if current_datetime_utc.day <= (temp_day - 7):
+                        current_day = current_datetime_utc.day + 7
+                    else:
+                        current_month = current_datetime_utc.month + 1
+                        current_day = 7 - (30 - current_datetime_utc.day)
+                elif current_datetime_utc.month in [4, 6, 9, 11]:
+                    if current_datetime_utc.day <= 23:
+                        current_day = current_datetime_utc.day + 7
+                    else:
+                        current_month = current_datetime_utc.month + 1
+                        current_day = 7 - (30 - current_datetime_utc.day)
+                elif current_datetime_utc.month == 12:
+                    if current_datetime_utc.day <= 24:
+                        current_day = current_datetime_utc.day + 7
+                    else:
+                        current_year = current_datetime_utc.year + 1
+                        current_month = 1
+                        current_day = 7 - (31 - current_datetime_utc.day)
+
+            next_datetime_utc = datetime(year=current_year if current_year != 0 else current_datetime_utc.year,
+                                         month=current_month if current_month != 0 else current_datetime_utc.month,
+                                         day=current_day if current_day != 0 else current_datetime_utc.day,
+                                         hour=current_datetime_utc.hour,
+                                         minute=current_datetime_utc.minute,
+                                         second=0,
+                                         microsecond=0,
+                                         tzinfo=None)
+            subtotal = Decimal(0.0)
+            for row in rows_hourly:
+                if current_datetime_utc <= row[0] < next_datetime_utc:
+                    subtotal += row[1]
+            result_rows_weekly.append((current_datetime_utc, subtotal))
+            current_datetime_utc = next_datetime_utc
+
+        return result_rows_weekly
 
     elif period_type == "monthly":
         result_rows_monthly = list()
