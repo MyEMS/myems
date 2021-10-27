@@ -1,3 +1,4 @@
+import calendar
 from datetime import datetime, timedelta
 import mysql.connector
 import collections
@@ -71,27 +72,9 @@ def aggregate_hourly_data_by_period(rows_hourly, start_datetime_utc, end_datetim
             # calculate the next datetime in utc
             current_year = 0
             current_month = 0
-            current_day = 0
 
             # Calculate the number of days per month
-            if current_datetime_utc.month in [1, 3, 5, 7, 8, 10, 12]:
-                temp_day = 31
-            elif current_datetime_utc.month in [4, 6, 9, 11]:
-                temp_day = 30
-            elif current_datetime_utc.month == 2:
-                temp_day = 28
-                ny = current_datetime_utc.year
-                if (ny % 100 != 0 and ny % 4 == 0) or (ny % 100 == 0 and ny % 400 == 0):
-                    temp_day = 29
-            else:
-                temp_day = 0
-
-            # Avoid incorrect month parameter
-            try:
-                if temp_day == 0:
-                    raise ValueError("wrong month")
-            except ValueError:
-                print("current_datetime_utc is incorrect")
+            temp_day = calendar.monthrange(current_datetime_utc.year, current_datetime_utc.month)[1]
 
             # Calculate year, month and day parameters
             if current_datetime_utc.day <= temp_day - 7:
@@ -106,7 +89,7 @@ def aggregate_hourly_data_by_period(rows_hourly, start_datetime_utc, end_datetim
 
             next_datetime_utc = datetime(year=current_year if current_year != 0 else current_datetime_utc.year,
                                          month=current_month if current_month != 0 else current_datetime_utc.month,
-                                         day=current_day if current_day != 0 else current_datetime_utc.day,
+                                         day=current_day,
                                          hour=current_datetime_utc.hour,
                                          minute=current_datetime_utc.minute,
                                          second=0,
