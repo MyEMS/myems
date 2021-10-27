@@ -46,7 +46,7 @@ def aggregate_hourly_data_by_period(rows_hourly, start_datetime_utc, end_datetim
         result_rows_daily = list()
         # todo: add config.working_day_start_time_local
         # todo: add config.minutes_to_count
-        # calculate the start datetime in utc of the first day in the first month in local
+        # calculate the start datetime in utc of the first day in local
         start_datetime_local = start_datetime_utc + timedelta(hours=int(config.utc_offset[1:3]))
         current_datetime_utc = start_datetime_local.replace(hour=0) - timedelta(hours=int(config.utc_offset[1:3]))
         while current_datetime_utc <= end_datetime_utc:
