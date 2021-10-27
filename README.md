@@ -157,24 +157,27 @@ sed -i 's/127.0.0.1:8000/192.168.0.1:8000/g' admin/nginx.conf
 sed -i 's/127.0.0.1:8000/192.168.0.1:8000/g' web/nginx.conf
 ```
 
-**3.2** 修改config.py里的数据库IP，账号，密码
+**3.2** 复制example.env为.env并修改.env里的数据库IP，账号，密码
 ```
-# 这里以修改数据库IP为例，如果数据库账号密码也不同，请根据自己需求替换config.py里的账号密码
+# 这里以修改数据库IP为例，如果数据库账号密码也不同，请根据自己需求替换.env里的账号密码
 cd myems
-sed -i 's/127.0.0.1/192.168.0.2/g' myems-api/config.py 
-sed -i 's/127.0.0.1/192.168.0.2/g' myems-aggregation/config.py 
-sed -i 's/127.0.0.1/192.168.0.2/g' myems-cleaning/config.py 
-sed -i 's/127.0.0.1/192.168.0.2/g' myems-modbus-tcp/config.py 
-sed -i 's/127.0.0.1/192.168.0.2/g' myems-normalization/config.py 
+cp myems-api/example.env myems-api/.env
+sed -i 's/127.0.0.1/192.168.0.2/g' myems-api/.env
+cp myems-aggregation/example.env myems-aggregation/.env
+sed -i 's/127.0.0.1/192.168.0.2/g' myems-aggregation/.env
+cp myems-cleaning/example.env myems-cleaning/.env
+sed -i 's/127.0.0.1/192.168.0.2/g' myems-cleaning/.env
+cp myems-modbus-tcp/example.env myems-modbus-tcp/.env
+sed -i 's/127.0.0.1/192.168.0.2/g' myems-modbus-tcp/.env
+cp myems-normalization/example.env myems-normalization/.env
+sed -i 's/127.0.0.1/192.168.0.2/g' myems-normalization/.env 
 ```
 
 **3.3** 测试数据库是否可以正确连接
 ```
 python3 myems/database/test_mysql.py
 ```
-注：如果测试通过，继续下一步操作，否则请修改config.py配置，确保数据库可以通过Python3正常连接访问。
-
-
+注：如果测试通过，继续下一步操作，否则请修改.env配置，确保数据库可以通过Python3正常连接访问。
 
 
 - 4.web打包 (myems/web为React项目，需要打包为产品文件)
@@ -184,12 +187,6 @@ cd myems/web
 npm install
 npm run build
 ```
-
-
-
-
-
-
 
 
 - 5.docker-compose一键安装
@@ -209,7 +206,7 @@ docker-compose up -d
 | web   | 192.168.0.1:80          | 输入账号密码登陆成功 |
 | admin | 192.168.0.1:8001        | 输入账号密码登录成功 |
 | api   | 192.168.0.1:8000/spaces | 返回Json数据无报错     |
-注：如果api测试报错，请确认config.py里的数据库IP，数据库账号，数据库密码是否正确，如果不正确，请修改config.py后执行：
+注：如果api测试报错，请确认.env里的数据库IP，数据库账号，数据库密码是否正确，如果不正确，请修改.env后执行：
 ```
 docker-compose up --build -d
 ```
