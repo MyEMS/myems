@@ -72,38 +72,37 @@ def aggregate_hourly_data_by_period(rows_hourly, start_datetime_utc, end_datetim
             current_year = 0
             current_month = 0
             current_day = 0
-            if current_datetime_utc.day <= 21:
-                current_day = current_datetime_utc.day + 7
+
+            # Calculate the number of days per month
+            if current_datetime_utc.month in [1, 3, 5, 7, 8, 10, 12]:
+                temp_day = 31
+            elif current_datetime_utc.month in [4, 6, 9, 11]:
+                temp_day = 30
+            elif current_datetime_utc.month == 2:
+                temp_day = 28
+                ny = current_datetime_utc.year
+                if (ny % 100 != 0 and ny % 4 == 0) or (ny % 100 == 0 and ny % 400 == 0):
+                    temp_day = 29
             else:
-                if current_datetime_utc.month in [1, 3, 5, 7, 8, 10]:
-                    if current_datetime_utc.day <= 24:
-                        current_day = current_datetime_utc.day + 7
-                    else:
-                        current_month = current_datetime_utc.month + 1
-                        current_day = 7 - (31 - current_datetime_utc.day)
-                elif current_datetime_utc.month == 2:
-                    temp_day = 28
-                    ny = current_datetime_utc.year
-                    if (ny % 100 != 0 and ny % 4 == 0) or (ny % 100 == 0 and ny % 400 == 0):
-                        temp_day = 29
-                    if current_datetime_utc.day <= (temp_day - 7):
-                        current_day = current_datetime_utc.day + 7
-                    else:
-                        current_month = current_datetime_utc.month + 1
-                        current_day = 7 - (30 - current_datetime_utc.day)
-                elif current_datetime_utc.month in [4, 6, 9, 11]:
-                    if current_datetime_utc.day <= 23:
-                        current_day = current_datetime_utc.day + 7
-                    else:
-                        current_month = current_datetime_utc.month + 1
-                        current_day = 7 - (30 - current_datetime_utc.day)
-                elif current_datetime_utc.month == 12:
-                    if current_datetime_utc.day <= 24:
-                        current_day = current_datetime_utc.day + 7
-                    else:
-                        current_year = current_datetime_utc.year + 1
-                        current_month = 1
-                        current_day = 7 - (31 - current_datetime_utc.day)
+                temp_day = 0
+
+            # Avoid incorrect month parameter
+            try:
+                if temp_day == 0:
+                    raise ValueError("wrong month")
+            except ValueError:
+                print("current_datetime_utc is incorrect")
+
+            # Calculate year, month and day parameters
+            if current_datetime_utc.day <= temp_day - 7:
+                current_day = current_datetime_utc.day + 7
+            elif current_datetime_utc.month == 12:
+                current_year = current_datetime_utc.year + 1
+                current_month = 1
+                current_day = 7 - (temp_day - current_datetime_utc.day)
+            else:
+                current_month = current_datetime_utc.month + 1
+                current_day = 7 - (temp_day - current_datetime_utc.day)
 
             next_datetime_utc = datetime(year=current_year if current_year != 0 else current_datetime_utc.year,
                                          month=current_month if current_month != 0 else current_datetime_utc.month,
