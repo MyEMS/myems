@@ -55,6 +55,7 @@ def process(logger):
                 max_datetime = row_datetime[1]
 
         except Exception as e:
+            print("Error in Step 1 of clean_energy_value.process " + str(e))
             logger.error("Error in Step 1 of clean_energy_value.process " + str(e))
             if cursor_historical:
                 cursor_historical.close()
@@ -62,8 +63,18 @@ def process(logger):
                 cnx_historical.disconnect()
             time.sleep(60)
             continue
-        print("min_datetime: " + min_datetime.isoformat()[0:19])
-        print("max_datetime: " + max_datetime.isoformat()[0:19])
+
+        if min_datetime is None or max_datetime is None:
+            print("min_datetime or max_datetime is None")
+            if cursor_historical:
+                cursor_historical.close()
+            if cnx_historical:
+                cnx_historical.disconnect()
+            time.sleep(60)
+            continue
+        else:
+            print("min_datetime: " + min_datetime.isoformat()[0:19])
+            print("max_datetime: " + max_datetime.isoformat()[0:19])
 
         ################################################################################################################
         # Step 2: check bad case class 1 with high limits and low limits.
