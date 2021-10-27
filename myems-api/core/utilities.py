@@ -69,32 +69,9 @@ def aggregate_hourly_data_by_period(rows_hourly, start_datetime_utc, end_datetim
         current_datetime_utc = \
             start_datetime_local.replace(hour=0) - timedelta(days=weekday, hours=int(config.utc_offset[1:3]))
         while current_datetime_utc <= end_datetime_utc:
-            # calculate the next datetime in utc
-            current_year = 0
-            current_month = 0
 
-            # Calculate the number of days per month
-            temp_day = calendar.monthrange(current_datetime_utc.year, current_datetime_utc.month)[1]
+            next_datetime_utc = current_datetime_utc + timedelta(days=7)
 
-            # Calculate year, month and day parameters
-            if current_datetime_utc.day <= temp_day - 7:
-                current_day = current_datetime_utc.day + 7
-            elif current_datetime_utc.month == 12:
-                current_year = current_datetime_utc.year + 1
-                current_month = 1
-                current_day = 7 - (temp_day - current_datetime_utc.day)
-            else:
-                current_month = current_datetime_utc.month + 1
-                current_day = 7 - (temp_day - current_datetime_utc.day)
-
-            next_datetime_utc = datetime(year=current_year if current_year != 0 else current_datetime_utc.year,
-                                         month=current_month if current_month != 0 else current_datetime_utc.month,
-                                         day=current_day,
-                                         hour=current_datetime_utc.hour,
-                                         minute=current_datetime_utc.minute,
-                                         second=0,
-                                         microsecond=0,
-                                         tzinfo=None)
             subtotal = Decimal(0.0)
             for row in rows_hourly:
                 if current_datetime_utc <= row[0] < next_datetime_utc:
