@@ -12,7 +12,7 @@ import statistics
 # rows_hourly: list of (start_datetime_utc, actual_value), should belong to one energy_category_id
 # start_datetime_utc: start datetime in utc
 # end_datetime_utc: end datetime in utc
-# period_type: one of the following period types, 'hourly', 'daily', 'monthly' and 'yearly'
+# period_type: one of the following period types, 'hourly', 'daily', 'weekly', 'monthly' and 'yearly'
 # Note: this procedure doesn't work with multiple energy categories
 ########################################################################################################################
 def aggregate_hourly_data_by_period(rows_hourly, start_datetime_utc, end_datetime_utc, period_type):
@@ -63,7 +63,7 @@ def aggregate_hourly_data_by_period(rows_hourly, start_datetime_utc, end_datetim
         result_rows_weekly = list()
         # todo: add config.working_day_start_time_local
         # todo: add config.minutes_to_count
-        # calculate the start datetime in utc of the first day in the first month in local
+        # calculate the start datetime in utc of the monday in the first week in local
         start_datetime_local = start_datetime_utc + timedelta(hours=int(config.utc_offset[1:3]))
         weekday = start_datetime_local.weekday()
         current_datetime_utc = \
@@ -166,7 +166,7 @@ def aggregate_hourly_data_by_period(rows_hourly, start_datetime_utc, end_datetim
         result_rows_yearly = list()
         # todo: add config.working_day_start_time_local
         # todo: add config.minutes_to_count
-        # calculate the start datetime in utc of the first day in the first month in local
+        # calculate the start datetime in utc of the first day in the first year in local
         start_datetime_local = start_datetime_utc + timedelta(hours=int(config.utc_offset[1:3]))
         current_datetime_utc = start_datetime_local.replace(month=1, day=1, hour=0) - timedelta(
             hours=int(config.utc_offset[1:3]))
