@@ -26,7 +26,7 @@ python-decouple
 ```bash
 pip install -r requirements.txt
 chmod +x run.sh
-run.sh
+./run.sh
 ```
 
 ## Installation
@@ -55,8 +55,8 @@ python3 setup.py install
 ```bash
  cd ~/tools
  wget https://cdn.mysql.com/archives/mysql-connector-python-8.0/mysql-connector-python-8.0.23.tar.gz
- tar xzf mysql-connector-python-8.0.20.tar.gz
- cd ~/tools/mysql-connector-python-8.0.20
+ tar xzf mysql-connector-python-8.0.23.tar.gz
+ cd ~/tools/mysql-connector-python-8.0.23
  python3 setup.py install
 ```
 
@@ -145,13 +145,20 @@ Create .env file based on example.env and edit the .env file if needed:
 cp /myems-api/example.env /myems-api/.env
 nano /myems-api/.env
 ```
-Change the listening port (default is 8000) in gunicorn.socket:
+Check or change the listening port (default is 8000) in myems-api.service and myems-api.socket:
+```bash
+nano /myems-api/myems-api.service
+```
+``` 
+ExecStart=/usr/local/bin/gunicorn -b 0.0.0.0:8000 --pid /run/myems-api/pid --timeout 600 --workers=4 app:api
+```
 ```bash
 nano /myems-api/myems-api.socket
 ```
 ```bash
 ListenStream=0.0.0.0:8000
 ```
+Add port to firewall:
 ```bash
 ufw allow 8000
 ```

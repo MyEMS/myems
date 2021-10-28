@@ -83,7 +83,7 @@ mysql> show databases;  // 查看数据库是否导入OK
 ```
 
 ### 3.部署mymes-api服务
-安装一堆python依赖库
+安装python依赖库
 ```shell
 # 安装anytree
 $ cd ~/tools
@@ -136,10 +136,10 @@ $ source ~/.zshrc
 ### 4.运行myems-api服务
 ```shell
 $ git clone https://github.com/kuuyee/myems-api.git
-$ cd myems-api
-$ gunicorn -b 127.0.0.1:8000 app:api
+$ cd myems/myems-api
+$ gunicorn -b 0.0.0.0:8000 app:api
 [2021-02-16 22:21:46 +0800] [3252] [INFO] Starting gunicorn 20.0.4
-[2021-02-16 22:21:46 +0800] [3252] [INFO] Listening at: http://127.0.0.1:8000 (3252)
+[2021-02-16 22:21:46 +0800] [3252] [INFO] Listening at: http://0.0.0.0:8000 (3252)
 [2021-02-16 22:21:46 +0800] [3252] [INFO] Using worker: sync
 [2021-02-16 22:21:46 +0800] [3253] [INFO] Booting worker with pid: 3253
 
@@ -148,12 +148,12 @@ $ gunicorn -b 127.0.0.1:8000 app:api
 
 ### 5.验证myems-api服务
 
-打开浏览器访问[http://localhost:8000/version](http://localhost:8000/version) 
+打开浏览器访问[http://0.0.0.0:8000/version](http://0.0.0.0:8000/version) 
 如果看到如下输出就表示服务启动正常。
 ```json
 {
-"version": "MyEMS 1.0.3 (Community Edition)",
-"release-date": "20210215",
+"version": "MyEMS 1.3.2",
+"release-date": "2021-10-22",
 "website": "https://myems.io"
 }
 ```
