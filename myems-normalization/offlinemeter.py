@@ -176,7 +176,7 @@ def calculate_hourly(logger):
                     continue
 
                 try:
-                    cursor.execute(" SELECT id, name "
+                    cursor.execute(" SELECT id, name, hourly_low_limit, hourly_high_limit"
                                    " FROM tbl_offline_meters ")
                     rows_offline_meters = cursor.fetchall()
                 except Exception as e:
@@ -203,6 +203,17 @@ def calculate_hourly(logger):
                         if energy_data_item['offline_meter_id'] not in offline_meter_id_set:
                             is_valid_file = False
                             break
+
+                        for row_offline_meter in rows_offline_meters:
+                            if row_offline_meter[0] == energy_data_item['offline_meter_id']:
+                                for key in energy_data_item['data']:
+                                    if row_offline_meter[2] > (energy_data_item['data'][key]/24):
+                                        is_valid_file = False
+                                        break
+                                    elif row_offline_meter[3] < (energy_data_item['data'][key]/24):
+                                        is_valid_file = False
+                                        break
+                                break
 
                 if is_valid_file:
                     ####################################################################################################
