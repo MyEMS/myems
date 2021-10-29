@@ -1614,6 +1614,7 @@ const resources = {
       "Period Types": "时间尺度",
       "Yearly": "年",
       "Monthly": "月",
+      "Weekly": "周",
       "Daily": "日",
       "Hourly": "时",
       "Submit": "提交",
