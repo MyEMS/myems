@@ -7,4 +7,4 @@ ALTER TABLE myems_fdd_db.tbl_wechat_messages_outbox ADD rule_id BIGINT NOT NULL 
 
 
 -- UPDATE VERSION NUMBER
-UPDATE myems_system_db.tbl_versions SET version='1.3.3', release_date='2021-10-29' WHERE id=1;
+UPDATE myems_system_db.tbl_versions SET version='1.3.3', release_date='2021-10-30' WHERE id=1;

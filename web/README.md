@@ -29,7 +29,7 @@ npx -v
 *   Download all the necessary dependencies into the node_modules directory.
 ```bash
 cd myems/web
-sudo npm i --unsafe-perm=true --allow-root
+sudo npm i --unsafe-perm=true --allow-root --legacy-peer-deps
 ```
 *   If you modified any scss files then you need to compile SCSS, else you can safely ignore this step.
 Run below command in your project directory to compile scss.
