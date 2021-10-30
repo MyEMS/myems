@@ -176,8 +176,7 @@ sed -i 's/127.0.0.1/192.168.0.2/g' myems-normalization/.env
 **3.3** 测试数据库是否可以正确连接
 ```
 cd myems
-cp myems-api/.env database/
-python3 database/test_mysql.py
+python3 myems-api/test_mysql.py
 ```
 注：如果测试通过，继续下一步操作，否则请修改.env配置。
 
