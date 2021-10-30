@@ -2,14 +2,18 @@
 
 ### Introduction
 
-Providing database schema and scripts for MyEMS.
+Database schema and scripts for MyEMS.
 
 ### Prerequisites
- [MySQL 8.0 or later](https://www.mysql.com/)
+ [MySQL 8.0 (64bit) or later](https://www.mysql.com/)
 
- or [MariaDB 10.5 or later](https://mariadb.org/)
+ or 
  
- or [SingleStore 7.0 or later](https://www.singlestore.com/) (highly recommended)
+[MariaDB 10.5 (64bit) or later](https://mariadb.org/)
+ 
+ or 
+ 
+[SingleStore 7.0 or later](https://www.singlestore.com/)
 
 ### Installation
 
@@ -55,6 +59,8 @@ or you could run these commands in a MySQL console connected to that same server
 set global net_buffer_length=1000000;
 set global max_allowed_packet=1000000000;
 ```
+
+#### Don't Install Database in Docker
 
 ### Database Definition
 
