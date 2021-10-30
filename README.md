@@ -185,7 +185,7 @@ python3 myems-api/test_mysql.py
 
 ```
 cd myems/web
-npm install
+npm install 
 npm run build
 ```
 

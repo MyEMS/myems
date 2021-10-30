@@ -97,9 +97,9 @@ $ pip3 install simplejson
 
 # 安装mysql-connector-python
 $ cd ~/tools
-$ wget https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python-8.0.20.tar.gz
-$ tar xzf mysql-connector-python-8.0.20.tar.gz
-$ cd ~/tools/mysql-connector-python-8.0.20
+$ wget https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python-8.0.23.tar.gz
+$ tar xzf mysql-connector-python-8.0.23.tar.gz
+$ cd ~/tools/mysql-connector-python-8.0.23
 $ sudo python3 setup.py install
 
 # 安装Falcon
