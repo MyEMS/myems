@@ -16,6 +16,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
+## [v1.3.3] -   2021-10-30
+### Added
+-   added missing rule_id in myems_fdd_db.
+
+### Changed
+-   updated package.json in web ui
+-   updated README and database test procedure
+-   added validation of offline meter hourly values to myems-normalization service
+-   updated offline meter data template file
+-   added new period type 'weekly' to meterenergy and aggregate_hourly_data_by_period in API
+-   updated comments in aggregate_hourly_data_by_period of API
+-   updated myems-api installation.
+
+### Fixed
+-   fixed NoneType error in myems-cleaning service
+-   fixed warnings in myems-aggregation service
+-   fixed detailed data sort issues in Web UI
+
+### Removed
+-   removed duplicate entry in i18n of Web UI
+-   removed unused import from API.
+
 ## [v1.3.2] -   2021-10-22
 ### Added
 -   added associated equipments data to combinedequipmentefficiency report.
@@ -504,7 +526,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v1.3.2...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v1.3.3...HEAD
+[v1.3.3]: https://github.com/MyEMS/myems/compare/v1.3.2...v1.3.3
 [v1.3.2]: https://github.com/MyEMS/myems/compare/v1.3.1...v1.3.2
 [v1.3.1]: https://github.com/MyEMS/myems/compare/v1.3.0...v1.3.1
 [v1.3.0]: https://github.com/MyEMS/myems/compare/v1.2.3...v1.3.0

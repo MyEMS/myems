@@ -1,6 +1,6 @@
 const gulp = require('gulp');
 const plumber = require('gulp-plumber');
-const sass = require('gulp-sass');
+const sass = require('gulp-sass')(require('sass'));
 const autoprefixer = require('gulp-autoprefixer');
 const rtlcss = require('gulp-rtlcss');
 const rename = require('gulp-rename');

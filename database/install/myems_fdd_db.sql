@@ -14,6 +14,7 @@ DROP TABLE IF EXISTS `myems_fdd_db`.`tbl_email_messages` ;
 
 CREATE TABLE IF NOT EXISTS `myems_fdd_db`.`tbl_email_messages` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `rule_id` BIGINT NOT NULL,
   `recipient_name` VARCHAR(128) NOT NULL,
   `recipient_email` VARCHAR(128) NOT NULL,
   `subject` VARCHAR(128) NOT NULL,
@@ -82,6 +83,7 @@ DROP TABLE IF EXISTS `myems_fdd_db`.`tbl_text_messages_outbox` ;
 
 CREATE TABLE IF NOT EXISTS `myems_fdd_db`.`tbl_text_messages_outbox` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `rule_id` BIGINT NOT NULL,
   `recipient_name` VARCHAR(32) NOT NULL,
   `recipient_mobile` VARCHAR(32) NOT NULL,
   `message` LONGTEXT NOT NULL,
@@ -114,6 +116,7 @@ DROP TABLE IF EXISTS `myems_fdd_db`.`tbl_web_messages` ;
 
 CREATE TABLE IF NOT EXISTS `myems_fdd_db`.`tbl_web_messages` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `rule_id` BIGINT NOT NULL,
   `user_id` BIGINT NOT NULL,
   `subject` VARCHAR(128) NOT NULL,
   `category` VARCHAR(128) NOT NULL COMMENT 'SYSTEM, SPACE, METER, TENANT, STORE, SHOPFLOOR, EQUIPMENT, COMBINEDEQUIPMENT',
@@ -147,6 +150,7 @@ DROP TABLE IF EXISTS `myems_fdd_db`.`tbl_wechat_messages_outbox` ;
 
 CREATE TABLE IF NOT EXISTS `myems_fdd_db`.`tbl_wechat_messages_outbox` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `rule_id` BIGINT NOT NULL,
   `recipient_name` VARCHAR(32) NOT NULL,
   `recipient_openid` VARCHAR(32) NOT NULL,
   `message_template_id` VARCHAR(64) NOT NULL,
