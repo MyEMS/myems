@@ -9,4 +9,4 @@ RUN rm /etc/nginx/conf.d/default.conf && \
 COPY nginx.conf /etc/nginx/
 COPY ./build/ /var/www/html/web
 EXPOSE 80
-CMD ['nginx', '-c /etc/nginx/nginx.conf', '-g "daemon off;"']
+CMD ["nginx", "-c /etc/nginx/nginx.conf", "-g 'daemon off;'"]
