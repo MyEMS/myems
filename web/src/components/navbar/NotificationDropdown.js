@@ -1,23 +1,97 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Dropdown, DropdownMenu, DropdownToggle } from 'reactstrap';
 import ListGroup from 'reactstrap/es/ListGroup';
 import ListGroupItem from 'reactstrap/es/ListGroupItem';
-import { rawEarlierNotifications, rawNewNotifications } from '../../data/notification/notification';
-import { isIterableArray } from '../../helpers/utils';
+// import { rawEarlierNotifications, rawNewNotifications } from '../../data/notification/notification';
+import {getCookieValue, isIterableArray} from '../../helpers/utils';
 import useFakeFetch from '../../hooks/useFakeFetch';
 import FalconCardHeader from '../common/FalconCardHeader';
 import Notification from '../notification/Notification';
 import { withTranslation } from 'react-i18next';
+import {APIBaseURL} from "../../config";
+import {createCookie , getPaginationArray} from '../../helpers/utils';
+import moment from 'moment';
+import createMarkup from '../../helpers/createMarkup';
+import {toast} from "react-toastify";
+import {notifications} from "../../data/notification/notification";
 
-const NotificationDropdown = ({ t }) => {
-  // State
-  const { data: newNotifications, setData: setNewNotifications } = useFakeFetch(rawNewNotifications);
-  const { data: earlierNotifications, setData: setEarlierNotifications } = useFakeFetch(rawEarlierNotifications);
+const NotificationDropdown = ({ setRedirect, setRedirectUrl,t }) => {
+  let current_moment = moment();
+  useEffect(() => {
+    let is_logged_in = getCookieValue('is_logged_in');
+    let user_name = getCookieValue('user_name');
+    let user_display_name = getCookieValue('user_display_name');
+    let user_uuid = getCookieValue('user_uuid');
+    let token = getCookieValue('token');
+    if ((is_logged_in === null || !is_logged_in)) {
+      setRedirectUrl(`/authentication/basic/login`);
+      setRedirect(true);
+    } else {
+      // update expires time of cookies
+      createCookie('is_logged_in', true, 1000 * 60 * 60 * 8);
+      createCookie('user_name', user_name, 1000 * 60 * 60 * 8);
+      createCookie('user_display_name', user_display_name, 1000 * 60 * 60 * 8);
+      createCookie('user_uuid', user_uuid, 1000 * 60 * 60 * 8);
+      createCookie('token', token, 1000 * 60 * 60 * 8);
+    }
+  });
+  const [rawNewNotificationschild, setRawNewNotificationschild] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isAllRead, setIsAllRead] = useState(false);
+  useEffect(() => {
+    let isResponseOK = false;
+    fetch(APIBaseURL + '/webmessagesnew', {
+      method: 'GET',
+      headers: {
+        "Content-type": "application/json",
+        "User-UUID": getCookieValue('user_uuid'),
+        "Token": getCookieValue('token')
+      },
+      body: null,
+
+    }).then(response => {
+      console.log(response);
+      if (response.ok) {
+        isResponseOK = true;
+      }
+      return response.json();
+      }).then(json => {
+        console.log(json)
+      if (isResponseOK) {
+        let NewnotificationList = []
+        if (json.length > 0) {
+              json.forEach((currentValue, index) => {
+                let notification = {}
+                notification['id'] = json[index]['id'];
+                notification['status'] = json[index]['status'];
+                notification['subject'] = json[index]['subject']
+                notification['message'] = json[index]['message'];
+                notification['created_datetime'] = moment(parseInt(json[index]['created_datetime']))
+                    .format("YYYY-MM-DD HH:mm:ss");
+                if (NewnotificationList.length > 3 ){
+                    return true
+                }
+                if (notification['message'].length > 40){
+                  notification['message'] = notification['message'].substring(0,30) + "...";
+                }
+                if (notification["status"] === "new"){
+                  NewnotificationList.push(notification);
+                }
+
+              });
+            }
+        setRawNewNotificationschild(NewnotificationList);
+      }
+    }).catch(err => {
+      console.log(err);
+    });
+
+  }, [t,]);
+  console.log("test");
+  console.log(rawNewNotificationschild);
 
   // Handler
   const handleToggle = e => {
@@ -27,28 +101,40 @@ const NotificationDropdown = ({ t }) => {
 
   const markAsRead = e => {
     e.preventDefault();
-    const updatedNewNotifications = newNotifications.map(notification => {
-      if (notification.hasOwnProperty('unread')) {
-        return {
-          ...notification,
-          unread: false
-        };
+    rawNewNotificationschild.map((notification,index) => {
+      console.log('Mark As Read: ', notification["id"])
+      let isResponseOK = false;
+      fetch(APIBaseURL + '/webmessages/' + notification["id"], {
+      method: 'PUT',
+      headers: {
+        "Content-type": "application/json",
+        "User-UUID": getCookieValue('user_uuid'),
+        "Token": getCookieValue('token')
+      },
+      body: JSON.stringify({
+        "data": {
+          "status": 'acknowledged',
+          "reply": 'ok'
+        }
+      }),
+      }).then(response => {
+      if (response.ok) {
+        isResponseOK = true;
+        return null;
+      } else {
+        return response.json();
       }
-      return notification;
-    });
-    const updatedEarlierNotifications = earlierNotifications.map(notification => {
-      if (notification.hasOwnProperty('unread')) {
-        return {
-          ...notification,
-          unread: false
-        };
-      }
-      setIsAllRead(true);
-      return notification;
-    });
+    }).then(json => {
+      console.log(isResponseOK);
+      if (isResponseOK) {
 
-    setNewNotifications(updatedNewNotifications);
-    setEarlierNotifications(updatedEarlierNotifications);
+      } else {
+        toast.error(json.description)
+      }
+    }).catch(err => {
+      console.log(err);
+    });
+  });
   };
 
   return (
@@ -82,20 +168,20 @@ const NotificationDropdown = ({ t }) => {
             </Link>
           </FalconCardHeader>
           <ListGroup flush className="font-weight-normal fs--1">
-            <div className="list-group-title">{t('notification_NEW')}</div>
-            {isIterableArray(newNotifications) &&
-              newNotifications.map((notification, index) => (
-                <ListGroupItem key={index} onClick={handleToggle}>
+            <div className="list-group-title" >{t('notification_NEW')}</div>
+            {isIterableArray(rawNewNotificationschild) &&
+              rawNewNotificationschild.map((notification, index) => (
+                <ListGroupItem to="/notification" key={index} onClick={handleToggle}>
                   <Notification {...notification} flush />
                 </ListGroupItem>
               ))}
-            <div className="list-group-title">{t('notification_EARLIER')}</div>
-            {isIterableArray(earlierNotifications) &&
-              earlierNotifications.map((notification, index) => (
-                <ListGroupItem key={index} onClick={handleToggle}>
-                  <Notification {...notification} flush />
-                </ListGroupItem>
-              ))}
+            {/*<div className="list-group-title">{t('notification_EARLIER')}</div>*/}
+            {/*{isIterableArray(rawNewNotificationschild) &&*/}
+            {/*  rawNewNotificationschild.map((notification, index) => (*/}
+            {/*    <ListGroupItem key={index} onClick={handleToggle}>*/}
+            {/*      <Notification {...notification} flush />*/}
+            {/*    </ListGroupItem>*/}
+            {/*  ))}*/}
           </ListGroup>
           <div className="card-footer text-center border-top-0" onClick={handleToggle}>
             <Link className="card-link d-block" to="/notification">
