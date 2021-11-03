@@ -412,7 +412,7 @@ def averaging_hourly_data_by_period(rows_hourly, start_datetime_utc, end_datetim
     if start_datetime_utc is None or \
             end_datetime_utc is None or \
             start_datetime_utc >= end_datetime_utc or \
-            period_type not in ('hourly', 'daily', 'monthly', 'yearly'):
+            period_type not in ('hourly', 'daily', 'weekly', 'monthly', 'yearly'):
         return list(), None, None
 
     start_datetime_utc = start_datetime_utc.replace(tzinfo=None)
@@ -494,6 +494,47 @@ def averaging_hourly_data_by_period(rows_hourly, start_datetime_utc, end_datetim
 
         average = total / counter if counter > 0 else None
         return result_rows_daily, average, maximum
+
+    elif period_type == 'weekly':
+        result_rows_weekly = list()
+        # todo: add config.working_day_start_time_local
+        # todo: add config.minutes_to_count
+        total = Decimal(0.0)
+        maximum = None
+        counter = 0
+        # calculate the start datetime in utc of the monday in the first week in local
+        start_datetime_local = start_datetime_utc + timedelta(hours=int(config.utc_offset[1:3]))
+        weekday = start_datetime_local.weekday()
+        current_datetime_utc = \
+            start_datetime_local.replace(hour=0) - timedelta(days=weekday, hours=int(config.utc_offset[1:3]))
+        while current_datetime_utc <= end_datetime_utc:
+            while current_datetime_utc <= end_datetime_utc:
+                sub_total = Decimal(0.0)
+                sub_maximum = None
+                sub_counter = 0
+                for row in rows_hourly:
+                    if current_datetime_utc <= row[0] < current_datetime_utc + timedelta(days=7):
+                        sub_total += row[1]
+                        if sub_maximum is None:
+                            sub_maximum = row[1]
+                        elif sub_maximum < row[1]:
+                            sub_maximum = row[1]
+                        sub_counter += 1
+
+                sub_average = (sub_total / sub_counter) if sub_counter > 0 else None
+                result_rows_weekly.append((current_datetime_utc, sub_average, sub_maximum))
+                total += sub_total
+                counter += sub_counter
+                if sub_maximum is None:
+                    pass
+                elif maximum is None:
+                    maximum = sub_maximum
+                elif maximum < sub_maximum:
+                    maximum = sub_maximum
+                current_datetime_utc += timedelta(days=7)
+
+            average = total / counter if counter > 0 else None
+            return result_rows_weekly, average, maximum
 
     elif period_type == "monthly":
         result_rows_monthly = list()
