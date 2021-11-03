@@ -71,7 +71,6 @@ def aggregate_hourly_data_by_period(rows_hourly, start_datetime_utc, end_datetim
         while current_datetime_utc <= end_datetime_utc:
 
             next_datetime_utc = current_datetime_utc + timedelta(days=7)
-
             subtotal = Decimal(0.0)
             for row in rows_hourly:
                 if current_datetime_utc <= row[0] < next_datetime_utc:
