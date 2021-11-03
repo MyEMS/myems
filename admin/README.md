@@ -7,7 +7,18 @@ Providing admin panel  for MyEMS system administration and configuration
 ## Prerequisites
 nginx-1.18.0 or later
 
-## Option 1: Install on NGINX Server
+
+## Option 1: Install on Docker
+
+* Install on Docker
+
+```bash
+cd admin
+docker build -t myems-admin .
+docker run -d --restart always myems-admin 
+```
+
+## Option 2: Install on NGINX Server
 
 * Install NGINX Server
 
@@ -76,7 +87,7 @@ The 'upload' folder is for user uploaded files. DO NOT delete/move/overwrite the
 ```
 
 
-## Option 2: Install on Apache2 Server
+## Option 3: Install on Apache2 Server
 * Install Apache2 Server
 
 refer to https://httpd.apache.org/docs/2.4/install.html
