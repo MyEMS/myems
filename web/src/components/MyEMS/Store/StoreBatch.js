@@ -204,7 +204,11 @@ const StoreBatch = ({ setRedirect, setRedirectUrl, t }) => {
             text: currentValue['name'] + ' (' + currentValue['unit_of_measure'] + ')',
             sort: true,
             formatter: function (decimalValue) {
-              return decimalValue.toFixed(2);
+              if (decimalValue !== null) {
+                return decimalValue.toFixed(2);
+              } else {
+                return null;
+              }
             }
           })
         });

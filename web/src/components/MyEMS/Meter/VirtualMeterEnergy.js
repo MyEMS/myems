@@ -371,7 +371,11 @@ const VirtualMeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
           text: json['virtual_meter']['energy_category_name'] + ' (' + json['virtual_meter']['unit_of_measure'] + ')',
           sort: true,
           formatter: function (decimalValue) {
-            return decimalValue.toFixed(2);
+            if (decimalValue !== null) {
+              return decimalValue.toFixed(2);
+            } else {
+              return null;
+            }
           }
         }]);
 

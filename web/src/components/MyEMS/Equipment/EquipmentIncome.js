@@ -432,7 +432,11 @@ const EquipmentIncome = ({ setRedirect, setRedirectUrl, t }) => {
             text: currentValue + ' (' + unit + ')',
             sort: true,
             formatter: function (decimalValue) {
-              return decimalValue.toFixed(2);
+              if (decimalValue !== null) {
+                return decimalValue.toFixed(2);
+              } else {
+                return null;
+              }
             }
           });
         });
@@ -441,7 +445,11 @@ const EquipmentIncome = ({ setRedirect, setRedirectUrl, t }) => {
           text: t('Total') + ' (' + json['reporting_period']['total_unit'] + ')',
           sort: true,
           formatter: function (decimalValue) {
-            return decimalValue.toFixed(2);
+            if (decimalValue !== null) {
+              return decimalValue.toFixed(2);
+            } else {
+              return null;
+            }
           }
         });
         setDetailedDataTableColumns(detailed_column_list);
