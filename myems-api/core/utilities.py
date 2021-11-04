@@ -701,7 +701,7 @@ def statistics_hourly_data_by_period(rows_hourly, start_datetime_utc, end_dateti
     if start_datetime_utc is None or \
             end_datetime_utc is None or \
             start_datetime_utc >= end_datetime_utc or \
-            period_type not in ('hourly', 'daily', 'monthly', 'yearly'):
+            period_type not in ('hourly', 'daily', 'weekly', 'monthly', 'yearly'):
         return list(), None, None, None, None, None, None
 
     start_datetime_utc = start_datetime_utc.replace(tzinfo=None)
@@ -786,6 +786,50 @@ def statistics_hourly_data_by_period(rows_hourly, start_datetime_utc, end_dateti
             elif maximum < sub_total:
                 maximum = sub_total
             current_datetime_utc += timedelta(days=1)
+
+        if len(sample_data) > 1:
+            mean = statistics.mean(sample_data)
+            median = statistics.median(sample_data)
+            stdev = statistics.stdev(sample_data)
+            variance = statistics.variance(sample_data)
+
+        return result_rows_daily, mean, median, minimum, maximum, stdev, variance
+
+    elif period_type == "weekly":
+        result_rows_daily = list()
+        sample_data = list()
+        # todo: add config.working_day_start_time_local
+        # todo: add config.minutes_to_count
+        counter = 0
+        mean = None
+        median = None
+        minimum = None
+        maximum = None
+        stdev = None
+        variance = None
+        # calculate the start datetime in utc of the monday in the first week in local
+        start_datetime_local = start_datetime_utc + timedelta(hours=int(config.utc_offset[1:3]))
+        current_datetime_utc = start_datetime_local.replace(hour=0) - timedelta(hours=int(config.utc_offset[1:3]))
+        while current_datetime_utc <= end_datetime_utc:
+            sub_total = Decimal(0.0)
+            for row in rows_hourly:
+                if current_datetime_utc <= row[0] < current_datetime_utc + timedelta(days=7):
+                    sub_total += row[1]
+
+            result_rows_daily.append((current_datetime_utc, sub_total))
+            sample_data.append(sub_total)
+
+            counter += 1
+            if minimum is None:
+                minimum = sub_total
+            elif minimum > sub_total:
+                minimum = sub_total
+
+            if maximum is None:
+                maximum = sub_total
+            elif maximum < sub_total:
+                maximum = sub_total
+            current_datetime_utc += timedelta(days=7)
 
         if len(sample_data) > 1:
             mean = statistics.mean(sample_data)
