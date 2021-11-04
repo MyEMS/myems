@@ -12,7 +12,7 @@ import statistics
 # rows_hourly: list of (start_datetime_utc, actual_value), should belong to one energy_category_id
 # start_datetime_utc: start datetime in utc
 # end_datetime_utc: end datetime in utc
-# period_type: one of the following period types, 'hourly', 'daily', 'weekly', 'monthly' and 'yearly'
+# period_type: use one of the period types, 'hourly', 'daily', 'weekly', 'monthly' and 'yearly'
 # Note: this procedure doesn't work with multiple energy categories
 ########################################################################################################################
 def aggregate_hourly_data_by_period(rows_hourly, start_datetime_utc, end_datetime_utc, period_type):
@@ -71,7 +71,6 @@ def aggregate_hourly_data_by_period(rows_hourly, start_datetime_utc, end_datetim
         while current_datetime_utc <= end_datetime_utc:
 
             next_datetime_utc = current_datetime_utc + timedelta(days=7)
-
             subtotal = Decimal(0.0)
             for row in rows_hourly:
                 if current_datetime_utc <= row[0] < next_datetime_utc:
@@ -404,7 +403,7 @@ def get_energy_category_peak_types(cost_center_id, energy_category_id, start_dat
 #   rows_hourly: list of (start_datetime_utc, actual_value), should belong to one energy_category_id
 #   start_datetime_utc: start datetime in utc
 #   end_datetime_utc: end datetime in utc
-#   period_type: one of the following period types, 'hourly', 'daily', 'monthly' and 'yearly'
+#   period_type: use one of the period types, 'hourly', 'daily', 'weekly', 'monthly' and 'yearly'
 # Returns: periodically data of average and maximum
 # Note: this procedure doesn't work with multiple energy categories
 ########################################################################################################################
@@ -413,7 +412,7 @@ def averaging_hourly_data_by_period(rows_hourly, start_datetime_utc, end_datetim
     if start_datetime_utc is None or \
             end_datetime_utc is None or \
             start_datetime_utc >= end_datetime_utc or \
-            period_type not in ('hourly', 'daily', 'monthly', 'yearly'):
+            period_type not in ('hourly', 'daily', 'weekly', 'monthly', 'yearly'):
         return list(), None, None
 
     start_datetime_utc = start_datetime_utc.replace(tzinfo=None)
@@ -495,6 +494,46 @@ def averaging_hourly_data_by_period(rows_hourly, start_datetime_utc, end_datetim
 
         average = total / counter if counter > 0 else None
         return result_rows_daily, average, maximum
+
+    elif period_type == 'weekly':
+        result_rows_weekly = list()
+        # todo: add config.working_day_start_time_local
+        # todo: add config.minutes_to_count
+        total = Decimal(0.0)
+        maximum = None
+        counter = 0
+        # calculate the start datetime in utc of the monday in the first week in local
+        start_datetime_local = start_datetime_utc + timedelta(hours=int(config.utc_offset[1:3]))
+        weekday = start_datetime_local.weekday()
+        current_datetime_utc = \
+            start_datetime_local.replace(hour=0) - timedelta(days=weekday, hours=int(config.utc_offset[1:3]))
+        while current_datetime_utc <= end_datetime_utc:
+            sub_total = Decimal(0.0)
+            sub_maximum = None
+            sub_counter = 0
+            for row in rows_hourly:
+                if current_datetime_utc <= row[0] < current_datetime_utc + timedelta(days=7):
+                    sub_total += row[1]
+                    if sub_maximum is None:
+                        sub_maximum = row[1]
+                    elif sub_maximum < row[1]:
+                        sub_maximum = row[1]
+                    sub_counter += 1
+
+            sub_average = (sub_total / sub_counter) if sub_counter > 0 else None
+            result_rows_weekly.append((current_datetime_utc, sub_average, sub_maximum))
+            total += sub_total
+            counter += sub_counter
+            if sub_maximum is None:
+                pass
+            elif maximum is None:
+                maximum = sub_maximum
+            elif maximum < sub_maximum:
+                maximum = sub_maximum
+            current_datetime_utc += timedelta(days=7)
+
+        average = total / counter if counter > 0 else None
+        return result_rows_weekly, average, maximum
 
     elif period_type == "monthly":
         result_rows_monthly = list()
@@ -653,7 +692,7 @@ def averaging_hourly_data_by_period(rows_hourly, start_datetime_utc, end_datetim
 #   rows_hourly: list of (start_datetime_utc, actual_value), should belong to one energy_category_id
 #   start_datetime_utc: start datetime in utc
 #   end_datetime_utc: end datetime in utc
-#   period_type: one of the following period types, 'hourly', 'daily', 'monthly' and 'yearly'
+#   period_type: use one of the period types, 'hourly', 'daily', 'weekly', 'monthly' and 'yearly'
 # Returns: periodically data of values and statistics of mean, median, minimum, maximum, stdev and variance
 # Note: this procedure doesn't work with multiple energy categories
 ########################################################################################################################
@@ -662,7 +701,7 @@ def statistics_hourly_data_by_period(rows_hourly, start_datetime_utc, end_dateti
     if start_datetime_utc is None or \
             end_datetime_utc is None or \
             start_datetime_utc >= end_datetime_utc or \
-            period_type not in ('hourly', 'daily', 'monthly', 'yearly'):
+            period_type not in ('hourly', 'daily', 'weekly', 'monthly', 'yearly'):
         return list(), None, None, None, None, None, None
 
     start_datetime_utc = start_datetime_utc.replace(tzinfo=None)
@@ -755,6 +794,52 @@ def statistics_hourly_data_by_period(rows_hourly, start_datetime_utc, end_dateti
             variance = statistics.variance(sample_data)
 
         return result_rows_daily, mean, median, minimum, maximum, stdev, variance
+
+    elif period_type == "weekly":
+        result_rows_weekly = list()
+        sample_data = list()
+        # todo: add config.working_day_start_time_local
+        # todo: add config.minutes_to_count
+        counter = 0
+        mean = None
+        median = None
+        minimum = None
+        maximum = None
+        stdev = None
+        variance = None
+        # calculate the start datetime in utc of the monday in the first week in local
+        start_datetime_local = start_datetime_utc + timedelta(hours=int(config.utc_offset[1:3]))
+        weekday = start_datetime_local.weekday()
+        current_datetime_utc = \
+            start_datetime_local.replace(hour=0) - timedelta(days=weekday, hours=int(config.utc_offset[1:3]))
+        while current_datetime_utc <= end_datetime_utc:
+            sub_total = Decimal(0.0)
+            for row in rows_hourly:
+                if current_datetime_utc <= row[0] < current_datetime_utc + timedelta(days=7):
+                    sub_total += row[1]
+
+            result_rows_weekly.append((current_datetime_utc, sub_total))
+            sample_data.append(sub_total)
+
+            counter += 1
+            if minimum is None:
+                minimum = sub_total
+            elif minimum > sub_total:
+                minimum = sub_total
+
+            if maximum is None:
+                maximum = sub_total
+            elif maximum < sub_total:
+                maximum = sub_total
+            current_datetime_utc += timedelta(days=7)
+
+        if len(sample_data) > 1:
+            mean = statistics.mean(sample_data)
+            median = statistics.median(sample_data)
+            stdev = statistics.stdev(sample_data)
+            variance = statistics.variance(sample_data)
+
+        return result_rows_weekly, mean, median, minimum, maximum, stdev, variance
 
     elif period_type == "monthly":
         result_rows_monthly = list()

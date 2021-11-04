@@ -34,7 +34,7 @@ class Reporting:
         tenant_id = req.params.get('tenantid')
         reporting_start_datetime_local = req.params.get('reportingperiodstartdatetime')
         reporting_end_datetime_local = req.params.get('reportingperiodenddatetime')
-
+        # This value is intentionally left daily
         period_type = 'daily'
 
         ################################################################################################################
@@ -211,6 +211,8 @@ class Reporting:
                         current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
                     elif period_type == 'daily':
                         current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    elif period_type == 'weekly':
+                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
                     elif period_type == 'monthly':
                         current_datetime = current_datetime_local.strftime('%Y-%m')
                     elif period_type == 'yearly':
@@ -255,6 +257,8 @@ class Reporting:
                     if period_type == 'hourly':
                         current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
                     elif period_type == 'daily':
+                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    elif period_type == 'weekly':
                         current_datetime = current_datetime_local.strftime('%Y-%m-%d')
                     elif period_type == 'monthly':
                         current_datetime = current_datetime_local.strftime('%Y-%m')
