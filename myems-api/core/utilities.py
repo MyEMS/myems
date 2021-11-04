@@ -12,7 +12,7 @@ import statistics
 # rows_hourly: list of (start_datetime_utc, actual_value), should belong to one energy_category_id
 # start_datetime_utc: start datetime in utc
 # end_datetime_utc: end datetime in utc
-# period_type: one of the following period types, 'hourly', 'daily', 'weekly', 'monthly' and 'yearly'
+# period_type: use one of the period types, 'hourly', 'daily', 'weekly', 'monthly' and 'yearly'
 # Note: this procedure doesn't work with multiple energy categories
 ########################################################################################################################
 def aggregate_hourly_data_by_period(rows_hourly, start_datetime_utc, end_datetime_utc, period_type):
@@ -403,7 +403,7 @@ def get_energy_category_peak_types(cost_center_id, energy_category_id, start_dat
 #   rows_hourly: list of (start_datetime_utc, actual_value), should belong to one energy_category_id
 #   start_datetime_utc: start datetime in utc
 #   end_datetime_utc: end datetime in utc
-#   period_type: one of the following period types, 'hourly', 'daily', 'monthly' and 'yearly'
+#   period_type: use one of the period types, 'hourly', 'daily', 'weekly', 'monthly' and 'yearly'
 # Returns: periodically data of average and maximum
 # Note: this procedure doesn't work with multiple energy categories
 ########################################################################################################################
@@ -692,7 +692,7 @@ def averaging_hourly_data_by_period(rows_hourly, start_datetime_utc, end_datetim
 #   rows_hourly: list of (start_datetime_utc, actual_value), should belong to one energy_category_id
 #   start_datetime_utc: start datetime in utc
 #   end_datetime_utc: end datetime in utc
-#   period_type: one of the following period types, 'hourly', 'daily', 'monthly' and 'yearly'
+#   period_type: use one of the period types, 'hourly', 'daily', 'weekly', 'monthly' and 'yearly'
 # Returns: periodically data of values and statistics of mean, median, minimum, maximum, stdev and variance
 # Note: this procedure doesn't work with multiple energy categories
 ########################################################################################################################

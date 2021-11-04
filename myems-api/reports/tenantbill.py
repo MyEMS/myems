@@ -34,7 +34,7 @@ class Reporting:
         tenant_id = req.params.get('tenantid')
         reporting_start_datetime_local = req.params.get('reportingperiodstartdatetime')
         reporting_end_datetime_local = req.params.get('reportingperiodenddatetime')
-
+        # This value is intentionally left daily
         period_type = 'daily'
 
         ################################################################################################################
