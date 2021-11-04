@@ -796,7 +796,7 @@ def statistics_hourly_data_by_period(rows_hourly, start_datetime_utc, end_dateti
         return result_rows_daily, mean, median, minimum, maximum, stdev, variance
 
     elif period_type == "weekly":
-        result_rows_daily = list()
+        result_rows_weekly = list()
         sample_data = list()
         # todo: add config.working_day_start_time_local
         # todo: add config.minutes_to_count
@@ -818,7 +818,7 @@ def statistics_hourly_data_by_period(rows_hourly, start_datetime_utc, end_dateti
                 if current_datetime_utc <= row[0] < current_datetime_utc + timedelta(days=7):
                     sub_total += row[1]
 
-            result_rows_daily.append((current_datetime_utc, sub_total))
+            result_rows_weekly.append((current_datetime_utc, sub_total))
             sample_data.append(sub_total)
 
             counter += 1
@@ -839,7 +839,7 @@ def statistics_hourly_data_by_period(rows_hourly, start_datetime_utc, end_dateti
             stdev = statistics.stdev(sample_data)
             variance = statistics.variance(sample_data)
 
-        return result_rows_daily, mean, median, minimum, maximum, stdev, variance
+        return result_rows_weekly, mean, median, minimum, maximum, stdev, variance
 
     elif period_type == "monthly":
         result_rows_monthly = list()
