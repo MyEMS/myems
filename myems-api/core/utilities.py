@@ -765,7 +765,9 @@ def statistics_hourly_data_by_period(rows_hourly, start_datetime_utc, end_dateti
         variance = None
         # calculate the start datetime in utc of the first day in local
         start_datetime_local = start_datetime_utc + timedelta(hours=int(config.utc_offset[1:3]))
-        current_datetime_utc = start_datetime_local.replace(hour=0) - timedelta(hours=int(config.utc_offset[1:3]))
+        weekday = start_datetime_local.weekday()
+        current_datetime_utc = \
+            start_datetime_local.replace(hour=0) - timedelta(days=weekday, hours=int(config.utc_offset[1:3]))
         while current_datetime_utc <= end_datetime_utc:
             sub_total = Decimal(0.0)
             for row in rows_hourly:
