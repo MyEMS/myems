@@ -60,7 +60,7 @@ class Reporting:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_PERIOD_TYPE')
         else:
             period_type = str.strip(period_type)
-            if period_type not in ['hourly', 'daily', 'monthly', 'yearly']:
+            if period_type not in ['hourly', 'daily', 'weekly', 'monthly', 'yearly']:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_PERIOD_TYPE')
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
@@ -312,6 +312,8 @@ class Reporting:
                         current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
                     elif period_type == 'daily':
                         current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    elif period_type == 'weekly':
+                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
                     elif period_type == 'monthly':
                         current_datetime = current_datetime_local.strftime('%Y-%m')
                     elif period_type == 'yearly':
@@ -350,6 +352,8 @@ class Reporting:
                     if period_type == 'hourly':
                         current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
                     elif period_type == 'daily':
+                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    elif period_type == 'weekly':
                         current_datetime = current_datetime_local.strftime('%Y-%m-%d')
                     elif period_type == 'monthly':
                         current_datetime = current_datetime_local.strftime('%Y-%m')
@@ -427,6 +431,8 @@ class Reporting:
                         current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
                     elif period_type == 'daily':
                         current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    elif period_type == 'weekly':
+                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
                     elif period_type == 'monthly':
                         current_datetime = current_datetime_local.strftime('%Y-%m')
                     elif period_type == 'yearly':
@@ -465,6 +471,8 @@ class Reporting:
                     if period_type == 'hourly':
                         current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
                     elif period_type == 'daily':
+                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    elif period_type == 'weekly':
                         current_datetime = current_datetime_local.strftime('%Y-%m-%d')
                     elif period_type == 'monthly':
                         current_datetime = current_datetime_local.strftime('%Y-%m')
