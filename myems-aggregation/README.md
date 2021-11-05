@@ -1,24 +1,60 @@
-## MyEMS Aggregation Service 数据汇总服务
+## myems-aggregation
 
-### Introduction
+MyEMS Aggregation Service 
 
-This service is a component of MyEMS and it aggregates normalized data up to multiple dimensions.
+数据汇总服务
 
-### Prerequisites
+## Introduction
+
+This service is a component of MyEMS. It aggregates normalized data up to multiple dimensions.
+
+## Prerequisites
 
 mysql-connector-python
 
 python-decouple
 
-### Quick Run for Development
+
+## Quick Run for Development
 
 ```bash
+cd myems/myems-aggregation
 pip install -r requirements.txt
+cp example.env .env
 chmod +x run.sh
-run.sh
+./run.sh
 ```
 
-### Installation
+## Installation
+
+### Option 1: Install myems-aggregation on Docker
+
+In this section, you will install myems-aggregation on Docker.
+
+*  Copy example.env file to .env file and modify the .env file
+
+```bash
+cd myems/myems-aggregation
+cp example.env .env
+```
+* Build a Docker image
+```bash
+docker build -t myems/myems-aggregation .
+```
+* Run a Docker container
+```bash
+docker run -d --restart always --name myems-aggregation myems/myems-aggregation
+```
+
+-d		Run container in background and print container ID
+
+--restart	Restart policy to apply when a container exits
+
+--name		Assign a name to the container
+
+### Option 2: Install myems-aggregation on Ubuntu Server (bare-metal or virtual machine)
+
+In this section, you will install myems-aggregation on Ubuntu Server.
 
 Download and install MySQL Connector:
 ```bash
@@ -45,7 +81,7 @@ cd myems
 git checkout master (or the latest release tag)
 cp -R ~/myems/myems-aggregation /myems-aggregation
 ```
-Create .env file based on example.env and edit the .env file if needed:
+Copy exmaple.env file to .env and modify the .env file:
 ```bash
 cp /myems-aggregation/example.env /myems-aggregation/.env
 nano /myems-aggregation/.env

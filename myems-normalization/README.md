@@ -1,12 +1,16 @@
-## MyEMS Normalization Service 数据规范化服务
+# myems-normalization
 
-### Introduction
+MyEMS Normalization Service 
 
-This service is a component of MyEMS and it normalizes energy data in historical database.
+数据规范化服务
+
+## Introduction
+
+This service is a component of MyEMS. It normalizes energy data in historical database.
 
 ![MyEMS Meter Normalization](../docs/images/meter-normalization.png)
 
-### Prerequisites
+## Prerequisites
 
 mysql-connector-python
 
@@ -17,15 +21,46 @@ sympy
 python-decouple
 
 
-### Quick Run for Development
+## Quick Run for Development
 
 ```bash
+cd myems/myems-normalization
 pip install -r requirements.txt
+cp example.env .env
 chmod +x run.sh
-run.sh
+./run.sh
 ```
 
-### Installation
+## Installation
+
+### Option 1: Install myems-normalization on Docker
+
+In this section, you will install myems-normalization on Docker.
+
+*  Copy example.env file to .env file and modify the .env file
+
+```bash
+cd myems/myems-normalization
+cp example.env .env
+```
+* Build a Docker image
+```bash
+docker build -t myems/myems-normalization .
+```
+* Run a Docker container
+```bash
+docker run -d --restart always --name myems-normalization myems/myems-normalization
+```
+
+-d		Run container in background and print container ID
+
+--restart	Restart policy to apply when a container exits
+
+--name		Assign a name to the container
+
+### Option 2: Install myems-normalization on Ubuntu Server (bare-metal or virtual machine)
+
+In this section, you will install myems-normalization on Ubuntu Server.
 
 Download and install MySQL Connector:
 ```bash
@@ -96,7 +131,7 @@ cd myems
 git checkout master (or the latest release tag)
 cp -r ~/myems/myems-normalization /myems-normalization
 ```
-Create .env file based on example.env and edit the .env file if needed:
+Copy example.env file to .env file and modify the .env file:
 ```bash
 cp /myems-normalization/example.env /myems-normalization/.env
 nano /myems-normalization/.env

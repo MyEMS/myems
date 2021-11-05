@@ -39,7 +39,9 @@ chmod +x run.sh
 ./run.sh
 ```
 
-## Install myems-api on Docker
+## Installation
+
+### Option 1: Install myems-api on Docker
 
 In this section, you will install myems-api on Docker.
 
@@ -67,7 +69,7 @@ docker run -d -p 8000:8000 --restart always --name myems-api myems/myems-api
 --name		Assign a name to the container
 
 
-## Install myems-api on Ubuntu Server
+### Option 2: Install myems-api on Ubuntu Server (bare-metal or virtual machine)
 
 In this section, you will install myems-api on Ubuntu Server.
 
@@ -208,7 +210,7 @@ systemctl start myems-api.socket
 systemctl start myems-api.service
 ```
 
-## Install myems-api on macOS
+### Option 3: Install myems-api on macOS
 
 Please refer to [Installation on macOS (Chinese)](./installation_macos_zh.md)
 
