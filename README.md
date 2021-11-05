@@ -99,7 +99,9 @@ administrator@myems.io
 ```
 </details>
 
-### Docker-compose 安装
+### Docker-Compose 
+
+除了上面的分步安装方式，也可以使用docker-compose命令一键安装
 
 #### 前提
 
@@ -120,16 +122,14 @@ administrator@myems.io
 | 数据库账号 | root        |
 | 数据库密码 | !MyEMS1        |
 
+#### Docker-Compose安装
 
-
-#### 安装
-
-- 1.克隆仓库
+1.  克隆仓库
 ```
 git clone https://gitee.com/myems/myems.git 
 ```
 
-- 2.数据库导入 (否则数据库没有用户信息，网页无法验证登录)
+2.  数据库导入 (否则数据库没有用户信息，网页无法验证登录)
 
 ```
 cd myems/database/install
@@ -146,18 +146,18 @@ mysql -u root -p < myems_user_db.sql
 注： 如有问题，详情可查看"database/README.md"
 
 
-- 3.修改配置
+3.  修改配置
 
 注：如“配置”所述，这里假定的**主机IP为 192.168.0.1，数据库IP为 192.168.0.2，数据库账号为：root,数据库密码:!MyEMS1,用户应该修改为自己对应的主机IP,数据库IP,数据库账号，数据库密码**
 
-**3.1** 修改nginx.conf里的API配置
+3.1  修改nginx.conf里的API配置
 ```
 cd myems
 sed -i 's/127.0.0.1:8000/192.168.0.1:8000/g' admin/nginx.conf
 sed -i 's/127.0.0.1:8000/192.168.0.1:8000/g' web/nginx.conf
 ```
 
-**3.2** 复制example.env为.env并修改.env里的数据库IP，账号，密码
+3.2  复制example.env为.env并修改.env里的数据库IP，账号，密码
 ```
 # 这里以修改数据库IP为例，如果数据库账号密码也不同，请根据自己需求替换.env里的账号密码
 cd myems
@@ -173,7 +173,7 @@ cp myems-normalization/example.env myems-normalization/.env
 sed -i 's/127.0.0.1/192.168.0.2/g' myems-normalization/.env 
 ```
 
-**3.3** 测试数据库是否可以正确连接
+3.3  测试数据库是否可以正确连接
 ```
 cd myems
 python3 myems-api/test_mysql.py
@@ -181,7 +181,7 @@ python3 myems-api/test_mysql.py
 注：如果测试通过，继续下一步操作，否则请修改.env配置。
 
 
-- 4.web打包 (Web UI 为React项目，需要打包为产品文件)
+4.  Web UI 打包 (Web UI 为React项目，需要打包为产品文件)
 
 ```
 cd myems/web
@@ -189,8 +189,7 @@ npm install
 npm run build
 ```
 
-
-- 5.docker-compose一键安装
+5. 运行docker-compose命令
 
 ```
 cd myems
@@ -198,8 +197,7 @@ docker-compose up -d
 ```
 
 
-- 6.测试
-
+6.  测试
 
 |       | 网址                    | 结果             |
 | ----- | ----------------------- | ---------------- |
