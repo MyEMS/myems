@@ -35,40 +35,42 @@ MyEMS由资深专业团队开发维护，系统代码基于MIT开源软件许可
 
 [4]. [Gitlab](https://gitlab.com/myems/myems) https://gitlab.com/myems/myems
 
+[5]. [CODE CHINA](https://codechina.csdn.net/myems/myems) https://codechina.csdn.net/myems/myems
+
 ## MyEMS组件(社区版)
 
 MyEMS项目由下列组件构成:
 ### MyEMS 数据库 (SQL)
 
-[安装 数据库](./database/README.md)
+详见 [database介绍与安装](./database/README.md) 
 
 ### MyEMS API 应用程序接口 (Python)
 
-[安装 myems-api](./myems-api/README.md)
+详见 [myems-api介绍与安装](./myems-api/README.md)
 
 ### MyEMS 管理 UI (AngularJS version 1.x)
 
-[安装 admin UI](./admin/README.md)
+详见 [myems-admin介绍与安装](./admin/README.md)
 
 ### MyEMS Modbus TCP 数据采集服务 (Python)
 
-[安装 myems-modbus-tcp](./myems-modbus-tcp/README.md)
+详见 [myems-modbus-tcp介绍与安装](./myems-modbus-tcp/README.md)
 
 ### MyEMS 数据清洗服务 (Python)
 
-[安装 myems-cleaning](./myems-cleaning/README.md)
+详见 [myems-cleaning介绍与安装](./myems-cleaning/README.md)
 
 ### MyEMS 数据规范化服务 (Python)
 
-[安装 myems-normalization](./myems-normalization/README.md)
+详见 [myems-normalization介绍与安装](./myems-normalization/README.md)
 
 ### MyEMS 数据汇总服务 (Python)
 
-[安装 myems-aggregation](./myems-aggregation/README.md)
+详见 [myems-aggregation介绍与安装](./myems-aggregation/README.md)
 
 ### MyEMS Web UI (ReactJS)
 
-[安装 web UI](./web/README.md)
+详见 [myems-web介绍与安装](./web/README.md)
 
 ### 默认端口号
 
@@ -99,125 +101,9 @@ administrator@myems.io
 ```
 </details>
 
-### Docker-Compose 
+### Docker-Compose 快速部署
 
-除了上面的分步安装方式，也可以使用docker-compose命令一键安装
-
-#### 前提
-
-- 主机已安装docker、docker-compose、npm
-- MySQL数据库已安装，拥有一个账号为root，密码为!MyEMS1的用户
-- MySQL数据库可正常登陆，可被安装Docker的主机Ping通以及远程访问
-
-#### 配置
-
-注一：这里的主机指的是**安装Docker的主机**, 这里的IP和账号密码都为假定的，用来展示说明，实际情况中用户需要根据自己的配置改为自己的，具体的修改步骤会在“安装”中讲述。
-
-注二：这里如果**安装数据库和安装Docker的主机为同一个主机，那么数据库IP和主机IP修改为一个实际IP**即可，这里是以数据库，和安装Docker的主机不在同一个上举例的。
-
-| --         | --          |
-| ---------- | ----------- |
-| 主机IP     | 192.168.0.1 |
-| 数据库IP   | 192.168.0.2 |
-| 数据库账号 | root        |
-| 数据库密码 | !MyEMS1        |
-
-#### Docker-Compose安装
-
-1.  克隆仓库
-```
-git clone https://gitee.com/myems/myems.git 
-```
-
-2.  数据库导入 (否则数据库没有用户信息，网页无法验证登录)
-
-```
-cd myems/database/install
-mysql -u root -p < myems_billing_baseline_db.sql
-mysql -u root -p < myems_billing_db.sql
-mysql -u root -p < myems_energy_baseline_db.sql
-mysql -u root -p < myems_energy_db.sql
-mysql -u root -p < myems_fdd_db.sql
-mysql -u root -p < myems_historical_db.sql
-mysql -u root -p < myems_reporting_db.sql
-mysql -u root -p < myems_system_db.sql
-mysql -u root -p < myems_user_db.sql
-```
-注： 如有问题，详情可查看"database/README.md"
-
-
-3.  修改配置
-
-注：如“配置”所述，这里假定的**主机IP为 192.168.0.1，数据库IP为 192.168.0.2，数据库账号为：root,数据库密码:!MyEMS1,用户应该修改为自己对应的主机IP,数据库IP,数据库账号，数据库密码**
-
-3.1  修改nginx.conf里的API配置
-```
-cd myems
-sed -i 's/127.0.0.1:8000/192.168.0.1:8000/g' admin/nginx.conf
-sed -i 's/127.0.0.1:8000/192.168.0.1:8000/g' web/nginx.conf
-```
-
-3.2  复制example.env为.env并修改.env里的数据库IP，账号，密码
-```
-# 这里以修改数据库IP为例，如果数据库账号密码也不同，请根据自己需求替换.env里的账号密码
-cd myems
-cp myems-api/example.env myems-api/.env
-sed -i 's/127.0.0.1/192.168.0.2/g' myems-api/.env
-cp myems-aggregation/example.env myems-aggregation/.env
-sed -i 's/127.0.0.1/192.168.0.2/g' myems-aggregation/.env
-cp myems-cleaning/example.env myems-cleaning/.env
-sed -i 's/127.0.0.1/192.168.0.2/g' myems-cleaning/.env
-cp myems-modbus-tcp/example.env myems-modbus-tcp/.env
-sed -i 's/127.0.0.1/192.168.0.2/g' myems-modbus-tcp/.env
-cp myems-normalization/example.env myems-normalization/.env
-sed -i 's/127.0.0.1/192.168.0.2/g' myems-normalization/.env 
-```
-
-3.3  测试数据库是否可以正确连接
-```
-cd myems
-python3 myems-api/test_mysql.py
-```
-注：如果测试通过，继续下一步操作，否则请修改.env配置。
-
-
-4.  Web UI 打包 (Web UI 为React项目，需要打包为产品文件)
-
-```
-cd myems/web
-npm install 
-npm run build
-```
-
-5. 运行docker-compose命令
-
-```
-cd myems
-docker-compose up -d 
-```
-
-
-6.  测试
-
-|       | 网址                    | 结果             |
-| ----- | ----------------------- | ---------------- |
-| web   | 192.168.0.1:80          | 输入账号密码登陆成功 |
-| admin | 192.168.0.1:8001        | 输入账号密码登录成功 |
-| api   | 192.168.0.1:8000/spaces | 返回Json数据无报错     |
-注：如果api测试报错，请确认.env里的数据库IP，数据库账号，数据库密码是否正确，如果不正确，请修改.env后执行：
-```
-docker-compose up --build -d
-```
-
-
-| --         | --          |
-| ---------- | ----------- |
-| web账号 | administrator@myems.io        |
-| web密码 | !MyEMS1        |
-| admin账号 | administrator        |
-| admin密码 | !MyEMS1        |
-
-注：如有问题，欢迎创建Issue
+详见 [Docker Compose 快速部署](docker-compose.md)
 
 
 ## 功能版本对比

@@ -34,41 +34,43 @@ MyEMS is being developed and maintained by an experienced development team, and 
 
 [4]. [Gitlab](https://gitlab.com/myems/myems) https://gitlab.com/myems/myems
 
+[5]. [CODE CHINA](https://codechina.csdn.net/myems/myems) https://codechina.csdn.net/myems/myems
+
 ## MyEMS Components (Community Edition)
 
 This project is compose of  following components:
 
 ### MyEMS Database (SQL)
 
-[Install database](./database/README.md)
+See [database Introduction & Installation](./database/README.md)
 
 ### MyEMS API (Python)
 
-[Install myems-api](./myems-api/README.md)
+See [myems-api Introduction & Installation](./myems-api/README.md)
 
 ### MyEMS Admin UI (ReactJS)
 
-[Install admin UI](./admin/README.md)
+See [myems-admin Introduction & Installation](./admin/README.md)
 
 ### MyEMS Modbus TCP Acquisition Service (Python)
 
-[Install myems-modbus-tcp](./myems-modbus-tcp/README.md)
+See [myems-modbus-tcp Introduction & Installation](./myems-modbus-tcp/README.md)
 
 ### MyEMS Cleaning Service (Python)
 
-[Install myems-cleaning](./myems-cleaning/README.md)
+See [myems-cleaning Introduction & Installation](./myems-cleaning/README.md)
 
 ### MyEMS Normalization Service (Python)
 
-[Install myems-normalization](./myems-normalization/README.md)
+See [myems-normalization Introduction & Installation](./myems-normalization/README.md)
 
 ### MyEMS Aggregation Service (Python)
 
-[Install myems-aggregation](./myems-aggregation/README.md)
+See [myems-aggregation Introduction & Installation](./myems-aggregation/README.md)
 
 ### MyEMS Web UI (AngularJS)
 
-[Install web UI](./web/README.md)
+See [myems-web Introduction & Installation](./web/README.md)
 
 ### Default Ports
 
@@ -99,47 +101,10 @@ administrator@myems.io
 ```
 </details>
 
-### Docker-compose Installation
+### Docker Compose Repaid Deployment
 
-```
-git clone https://gitee.com/myems/myems.git 
-```
+See [Docker Compose Repaid Deployment](docker-compose.md)
 
-Modify Database IP in the following files
-Assume the Database IP is 192.168.0.1
-```
-sudo nano myems-api/config.py 
-sudo nano myems-aggregation/config.py 
-sudo nano myems-cleaning/config.py 
-sudo nano myems-modbus-tcp/config.py 
-sudo nano myems-normalization/config.py 
-```
-
-~~'host': '127.0.0.1'~~
-
-'host': '192.168.0.1'
-
-Modify location '/api' in nginx.conf of web and admin
-Assume the Host IP is 192.168.0.2
-```
-sudo nano admin/nginx.conf
-sudo nano web/nginx.conf
-```
-~~proxy_pass http://127.0.0.1:8000/;~~
-
-proxy_pass http://192.168.0.2:8000/;
-
-Build web for production 
-```
-cd myems/web
-npm install
-npm run build
-```
-Install with docker-compose
-```
-cd myems
-docker-compose up -d 
-```
 
 ## Compare Editions
 

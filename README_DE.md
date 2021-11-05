@@ -34,41 +34,43 @@ MyEMS wird von einem erfahrenen Entwicklungsteam entwickelt und gewartet, und de
 
 [4]. [Gitlab](https://gitlab.com/myems/myems) https://gitlab.com/myems/myems
 
+[5]. [CODE CHINA](https://codechina.csdn.net/myems/myems) https://codechina.csdn.net/myems/myems
+
 ## MyEMS Komponenten (GCommunity Edition)
 
 Dieses Projekt besteht aus folgenden Komponenten:
 
 ### MyEMS Database (SQL)
 
-[Installieren database](./database/README.md)
+Sehen [database Introduction & Installation](./database/README.md)
 
 ### MyEMS API (Python)
 
-[Installieren myems-api](./myems-api/README.md)
+Sehen [myems-api Introduction & Installation](./myems-api/README.md)
 
 ### MyEMS Admin UI (AngularJS)
 
-[Installieren admin UI](./admin/README.md)
+Sehen [myems-admin Introduction & Installation](./admin/README.md)
 
 ### MyEMS Modbus TCP Acquisition Service (Python)
 
-[Installieren myems-modbus-tcp](./myems-modbus-tcp/README.md)
+Sehen [myems-modbus-tcp Introduction & Installation](./myems-modbus-tcp/README.md)
 
 ### MyEMS Cleaning Service (Python)
 
-[Installieren myems-cleaning](./myems-cleaning/README.md)
+Sehen [myems-cleaning Introduction & Installation](./myems-cleaning/README.md)
 
 ### MyEMS Normalization Service (Python)
 
-[Installieren myems-normalization](./myems-normalization/README.md)
+Sehen [myems-normalization Introduction & Installation](./myems-normalization/README.md)
 
 ### MyEMS Aggregation Service (Python)
 
-[Installieren myems-aggregation](./myems-aggregation/README.md)
+Sehen [myems-aggregation Introduction & Installation](./myems-aggregation/README.md)
 
 ### MyEMS Web UI (ReactJS)
 
-[Installieren web UI](./web/README.md)
+Sehen [myems-web Introduction & Installation](./web/README.md)
 
 ### Standardports
 
@@ -100,47 +102,9 @@ administrator@myems.io
 ```
 </details>
 
-### Docker Docker-compose Installieren 
+### Docker Compose Schnelle Bereitstellung 
 
-```
-git clone https://gitee.com/myems/myems.git 
-```
-
-Ändern Sie die Datenbankkonfiguration in den folgenden Dateien
-Angenommen, die Datenbank-IP lautet 192.168.0.1
-```
-sudo nano myems-api/config.py 
-sudo nano myems-aggregation/config.py 
-sudo nano myems-cleaning/config.py 
-sudo nano myems-modbus-tcp/config.py 
-sudo nano myems-normalization/config.py 
-```
-
-~~'host': '127.0.0.1'~~
-
-'host': '192.168.0.1'
-
-Ändern Sie den location '/api' von nginx.conf in web und admin
-Angenommen, die Host-IP lautet 192.168.0.2
-```
-sudo nano admin/nginx.conf
-sudo nano web/nginx.conf
-```
-~~proxy_pass http://127.0.0.1:8000/;~~
-
-proxy_pass http://192.168.0.2:8000/;
-
-Verpacken Sie das web, um Produktdateien zu generieren
-```
-cd myems/web
-npm install
-npm run build
-```
-Mit docker-compose installieren
-```
-cd myems
-docker-compose up -d 
-```
+Sehen [Docker Compose Schnelle Bereitstellung](docker-compose.md)
 
 ## Editionen vergleichen
 
