@@ -1,11 +1,14 @@
-# MyEMS Web
+# myems-web
 
 ## Introduction
 MyEMS Web 用户界面，用于查询能源报表
 Providing Web UI of MyEMS for viewing energy reports
 
 ## Prerequisites
-Node.js
+
+nginx-1.18.0 or later
+
+Node.js 16.0.0 or later
 
 ## Running in Local Environment for Development
 
@@ -43,19 +46,45 @@ We are using webpack and webpack-serve to automatically detect file changes. So,
 sudo npm start
 ```
 
-## Install Production Build Option 1: on Node.js Web Server
-*   Run below command in your project directory to make the Production build.
-This will create an optimized production build by compililing, merging and minifying all the source files as necessary and put them in the build/ folder.
+## Installation
+
+### Option 1: Install myems-web on Docker
+
+In this section, you will install myems-web on Docker.
+
+* Check and change the config file if necessary:
+```bash
+cd myems/web
+sudo nano src/config.js
+```
+* Download all the necessary dependencies into the node_modules directory.
+```bash
+sudo npm i --unsafe-perm=true --allow-root --legacy-peer-deps
+```
+* Build for production with NPM
 ```bash
 sudo npm run build
 ```
-*   Run the production build locally at http://localhost:80.
-If you want to listen on other port, change it in myems/web/server.js
+* Build a Docker image
+```bash
+cd myems/web
+docker build -t myems/myems-web .
 ```
-sudo node server.js
+* Run a Docker container
+```bash
+docker run -d -p 80:80 --restart always --name myems-web myems/myems-web
 ```
 
-## Install Production Build Option 2:  on NGINX Server (Highly Recommended)
+-d		Run container in background and print container ID
+
+-p		Publish a container's port(s) to the host, 8001:8001 (Host:Container) binds port 8001 (right)  of the container to TCP port 8001 (left) of the host machine.
+
+--restart	Restart policy to apply when a container exits
+
+--name		Assign a name to the container
+
+
+### Option 2: Install myems-web on NGINX Server
 
 *   Install NGINX  Server
 refer to http://nginx.org/en/docs/install.html
@@ -105,11 +134,6 @@ Restart NGINX
 sudo systemctl restart nginx
 ```
 
-*   Download MyEMS:
-```bash
-cd ~
-git clone https://github.com/MyEMS/myems.git
-```
 *   Install MyEMS Web UI:
 
   Check and change the config file if necessary:
@@ -131,7 +155,7 @@ sudo rm -r /var/www/html/web
 sudo mv build  /var/www/html/web
 ```
 
-## Install Production Build Option 3: on Apache2 Server
+### Option 3: Install on Apache2 Server
 *   Install Apache2 Server
 
 refer to https://httpd.apache.org/docs/2.4/install.html
@@ -163,11 +187,6 @@ Add a new 'VirtualHost' as below
 </VirtualHost>
 ```
 
-*   Download MyEMS:
-```bash
-cd ~
-git clone https://github.com/MyEMS/myems.git
-```
 *   Install MyEMS Web UI:
 
   Check and change the config file if necessary:
@@ -213,4 +232,16 @@ sudo vi rewrite.load
   Add content as below
 ```bash
 LoadModule rewrite_module /usr/lib/apache2/modules/mod_rewrite.so
+```
+
+### Option 4: Install myems-web on Node.js Web Server
+*   Run below command in your project directory to make the Production build.
+    This will create an optimized production build by compililing, merging and minifying all the source files as necessary and put them in the build/ folder.
+```bash
+sudo npm run build
+```
+*   Run the production build locally at http://localhost:80.
+    If you want to listen on other port, change it in myems/web/server.js
+```
+sudo node server.js
 ```
