@@ -3,11 +3,11 @@ MyEMS Cleaning Service
 
 MyEMS 数据清洗服务
 
-### Introduction
+## Introduction
 
-This service is a component of MyEMS and it cleans the historical data. 
+This service is a component of MyEMS. It cleans the historical data. 
 
-### Prerequisites
+## Prerequisites
 
 mysql-connector-python
 
@@ -15,15 +15,47 @@ schedule
 
 python-decouple
 
-### Quick Run for Development
+## Quick Run for Development
 ```bash
+cd myems/myems-cleaning
 pip install -r requirements.txt
+cp example.env .env
 chmod +x run.sh
-run.sh
+./run.sh
 ```
 
-### Installation
-    
+## Installation
+
+### Option 1: Install myems-cleaning on Docker
+
+In this section, you will install myems-cleaning on Docker.
+
+*  Copy example.env file to .env file and modify the .env file
+
+```bash
+cd myems/myems-cleaning
+cp example.env .env
+```
+* Build a Docker image
+```bash
+docker build -t myems/myems-cleaning .
+```
+* Run a Docker container
+```bash
+docker run -d --restart always --name myems-cleaning myems/myems-cleaning
+```
+
+-d		Run container in background and print container ID
+
+--restart	Restart policy to apply when a container exits
+
+--name		Assign a name to the container
+
+
+### Option 2: Install myems-cleaning on Ubuntu Server (bare-metal or virtual machine)
+
+In this section, you will install myems-cleaning on Ubuntu Server.
+
 Download and install MySQL Connector:
 ```bash
 cd ~/tools
@@ -51,13 +83,9 @@ python3 setup.py  install
 
 Install myems-cleaning service
 ```bash
-cd ~
-git clone https://github.com/MyEMS/myems.git
-cd myems
-git checkout master (or the latest release tag)
-cp -R ~/myems/myems-cleaning /myems-cleaning
+cp -R myems/myems-cleaning /myems-cleaning
 ```
-Create .env file based on example.env and edit the .env file if needed:
+Copy file example.env to .env and edit the .env file:
 ```bash
 cp /myems-cleaning/example.env /myems-cleaning/.env
 nano /myems-cleaning/.env
