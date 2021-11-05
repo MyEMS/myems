@@ -1,7 +1,7 @@
 # MyEMS API Service
 
 ## Introduction
-Providing REST API service for [MyEMS](https://github.com/MyEMS/myems) components and third parties.
+Providing RESTful API service for [MyEMS](https://github.com/MyEMS/myems) components and third party applications.
 
 ## Prerequisites
 
@@ -9,31 +9,67 @@ anytree
 
 simplejson
 
-mysql.connector
+mysql-connector-python
 
 falcon
 
 falcon_cors
 
+falcon-multipart
+
 gunicorn
 
+et_xmlfile
+
+jdcal
+
 openpyxl
+
+pillow
 
 python-decouple
 
 ## Quick Run for Development
 
 ```bash
+cd myems/myems-api
 pip install -r requirements.txt
+cp example.env .env
 chmod +x run.sh
 ./run.sh
 ```
 
-## Installation
+## Install myems-api on Docker
 
-In this step, you will install myems-api on Ubuntu for production or development.
+In this section, you will install myems-api on Docker.
 
-For macOS developers, please refer to [Installation on macOS (Chinese)](./installation_macos_zh.md)
+*  Copy example.env file to .env file and modify the .env file
+
+```bash
+cd myems/myems-api
+cp example.env .env
+```
+* Build a Docker image
+```bash
+docker build -t myems/myems-api .
+```
+* Run a Docker container
+```bash
+docker run -d -p 8000:8000 --restart always --name myems-api myems/myems-api
+```
+
+-d		Run container in background and print container ID
+
+-p		Publish a container's port(s) to the host, 8000:8000 binds port 8000 of the container to TCP port 8000 of the host machine.
+
+--restart	Restart policy to apply when a container exits
+
+--name		Assign a name to the container
+
+
+## Install myems-api on Ubuntu Server
+
+In this section, you will install myems-api on Ubuntu Server.
 
 *   Install anytree
 ```bash
@@ -129,16 +165,9 @@ cd ~/tools/python-decouple
 python3 setup.py  install
 ```
 
-*   Download myems:
-```bash
-cd ~
-git clone https://github.com/MyEMS/myems.git
-```
-
 *   Install gunicorn service for myems-api:
 ```bash
-cd ~/myems/myems-api
-cp -R ~/myems/myems-api /myems-api
+cp -R myems/myems-api /myems-api
 ```
 Create .env file based on example.env and edit the .env file if needed:
 ```bash
@@ -178,6 +207,11 @@ Start the services :
 systemctl start myems-api.socket
 systemctl start myems-api.service
 ```
+
+## Install myems-api on macOS
+
+Please refer to [Installation on macOS (Chinese)](./installation_macos_zh.md)
+
 
 ## API List
 
