@@ -260,8 +260,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
       },
       body: JSON.stringify({
         "data": {
-          "status": '' +
-              '',
+          "status": 'acknowledged',
           "reply": 'ok'
         }
       }),
