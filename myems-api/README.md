@@ -62,7 +62,7 @@ docker run -d -p 8000:8000 --restart always --name myems-api myems/myems-api
 
 -d		Run container in background and print container ID
 
--p		Publish a container's port(s) to the host, 8000:8000 binds port 8000 of the container to TCP port 8000 of the host machine.
+-p		Publish a container's port(s) to the host, 8000:8000 (Host:Container) binds port 8000 (right)  of the container to TCP port 8000 (left) of the host machine.
 
 --restart	Restart policy to apply when a container exits
 

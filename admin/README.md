@@ -1,22 +1,36 @@
-# MyEMS Admin
+# myems-admin
 
 ## Introduction
-MyEMS 系统管理面板，用于项目配置和系统管理
-Providing admin panel  for MyEMS system administration and configuration
+系统管理用户界面，用于MyEMS系统配置
+Providing Admin UI  for MyEMS system settings
 
 ## Prerequisites
 nginx-1.18.0 or later
 
 
-## Option 1: Install on Docker
+## Installation
 
-* Install on Docker
+### Option 1: Install myems-admin on Docker
 
+In this section, you will install myems-admin on Docker.
+
+* Build a Docker image
 ```bash
-cd admin
-docker build -t myems-admin .
-docker run -d --restart always myems-admin 
+cd myems/admin
+docker build -t myems/myems-admin .
 ```
+* Run a Docker container
+```bash
+docker run -d -p 8001:8001 --restart always --name myems-admin myems/myems-admin
+```
+
+-d		Run container in background and print container ID
+
+-p		Publish a container's port(s) to the host, 8001:8001 (Host:Container) binds port 8001 (right)  of the container to TCP port 8001 (left) of the host machine.
+
+--restart	Restart policy to apply when a container exits
+
+--name		Assign a name to the container
 
 ## Option 2: Install on NGINX Server
 
@@ -63,16 +77,10 @@ Add a new 'server' section with direstives as below:
   }
 ```
 
-* Download myems
-```bash
-cd ~
-git clone https://github.com/MyEMS/myems.git
-```
-
 * Install myems-admin :
   If the server can not connect to the internet, please compress the myems/admin folder and upload it to the server and extract it to ~/myems/admin
 ```bash
-sudo cp -r ~/myems/admin  /var/www/html/admin
+sudo cp -r myems/admin  /var/www/html/admin
 sudo chmod 0755 -R /var/www/html/admin
 ```
   Check the config file and change it if necessary:
@@ -119,19 +127,20 @@ Add a new 'VirtualHost' as below
 </VirtualHost>
 ```
 
-* Download myems-admin
-```bash
-cd ~
-git clone https://github.com/MyEMS/myems.git
-```
-
 * Install myems-admin :
   If the server can not connect to the internet, please compress the myems/admin folder and upload it to the server and extract it to ~/myems/admin
 ```bash
-sudo cp -r ~/myems/admin  /var/www/html/admin
+sudo cp -r myems/admin  /var/www/html/admin
 sudo chmod 0755 -R /var/www/html/admin
 ```
   Check the config file and change it if necessary:
 ```bash
 sudo nano /var/www/html/admin/app/api.js
 ```
+
+
+## References
+
+1.  https://myems.io
+2.  https://dev.mysql.com/doc/connector-python/en/
+3.  https://nginx.org/
