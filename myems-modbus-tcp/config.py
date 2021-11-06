@@ -14,8 +14,8 @@ MYEMS_HISTORICAL_DB_USER = config('MYEMS_HISTORICAL_DB_USER', default='root')
 MYEMS_HISTORICAL_DB_PASSWORD = config('MYEMS_HISTORICAL_DB_PASSWORD', default='!MyEMS1')
 
 INTERVAL_IN_SECONDS = config('INTERVAL_IN_SECONDS', default=600, cast=int)
-GATEWAY_ID = config('GATEWAY_ID', cast=int)
-GATEWAY_TOKEN = config('GATEWAY_TOKEN')
+GATEWAY_ID = config('GATEWAY_ID', default=1, cast=int)
+GATEWAY_TOKEN = config('GATEWAY_TOKEN', default='983427af-1c35-42ba-8b4d-288675550225')
 
 myems_system_db = {
     'host': MYEMS_SYSTEM_DB_HOST,

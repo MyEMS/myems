@@ -396,7 +396,6 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_gateways`
 (`id`, `name`, `uuid`, `token`,  `last_seen_datetime_utc`)
 VALUES
-(1, 'MyEMS Gateway 1', 'dc681934-5053-4660-98ed-266c54227231', '983427af-1c35-42ba-8b4d-288675550225', null),
 (2, 'MyEMS Gateway 2', '8f75c0ab-9296-49c7-9058-8139febd0c31', 'd3860971-e6e0-4c98-9eba-5492869c5b19', null);
 
 COMMIT;
