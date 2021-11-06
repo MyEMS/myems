@@ -359,9 +359,24 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_gateways` (
   `name` VARCHAR(255) NOT NULL,
   `uuid` CHAR(36) NOT NULL,
   `token` CHAR(36) NOT NULL,
-  `last_seen_datetime_utc` DATETIME NULL  COMMENT 'The last seen date time in UTC via PING, TELNET or Heatbeat',
+  `last_seen_datetime_utc` DATETIME NULL  COMMENT 'The last seen date time in UTC via PING, TELNET or Heartbeat',
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_gateways_index_1` ON  `myems_system_db`.`tbl_gateways`   (`name`);
+
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Default Data for table `myems_system_db`.`tbl_gateways`
+-- This gateway's token is used by myems-modbus-tcp service
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+USE `myems_system_db`;
+
+INSERT INTO `myems_system_db`.`tbl_gateways`
+(`id`, `name`, `uuid`, `token`,  `last_seen_datetime_utc`)
+VALUES
+(1, 'Gateway1', 'dc681938-5053-8660-98ed-266c58227231', '983427af-1c35-42ba-8b4d-288675550225', null);
+
+COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_knowledge_files`

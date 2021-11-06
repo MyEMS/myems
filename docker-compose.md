@@ -83,7 +83,7 @@ python3 myems-api/test_mysql.py
 
 ```
 cd myems/web
-npm install 
+npm i --unsafe-perm=true --allow-root --legacy-peer-deps
 npm run build
 ```
 
