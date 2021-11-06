@@ -5,38 +5,28 @@ import { Link } from 'react-router-dom';
 import Avatar from '../common/Avatar';
 import createMarkup from '../../helpers/createMarkup';
 
-const Notification = ({ to, avatar, time, className, unread, flush, emoji, children }) => (
-  <Link className={classNames('notification', { 'bg-200': unread, 'notification-flush': flush }, className)} to={to}>
-    {avatar && (
-      <div className="notification-avatar">
-        <Avatar {...avatar} className="mr-3" />
-      </div>
-    )}
+const Notification = ({ created_datetime, id, status, flush, message,subject}) => (
+  <Link className={classNames('notification', { 'bg-200': status, 'notification-flush': flush }, id)}
+        to="/notification">
     <div className="notification-body">
-      <p className={emoji ? 'mb-1' : 'mb-0'} dangerouslySetInnerHTML={createMarkup(children)} />
+      <h5>{subject}</h5><p>{status}</p>
+      <p className={'mb-0'} dangerouslySetInnerHTML={createMarkup(message)} />
       <span className="notification-time">
-        {emoji && (
-          <span className="mr-1" role="img" aria-label="Emoji">
-            {emoji}
-          </span>
-        )}
-        {time}
+        {created_datetime}
       </span>
     </div>
   </Link>
 );
 
 Notification.propTypes = {
-  to: PropTypes.string.isRequired,
-  avatar: PropTypes.shape(Avatar.propTypes),
-  time: PropTypes.string.isRequired,
-  className: PropTypes.string,
-  unread: PropTypes.bool,
+  created_datetime: PropTypes.string.isRequired,
+  id: PropTypes.string,
+  status: PropTypes.string,
+  subject: PropTypes.string,
   flush: PropTypes.bool,
-  emoji: PropTypes.string,
-  children: PropTypes.node
+  message: PropTypes.node
 };
 
-Notification.defaultProps = { unread: false, flush: false };
+Notification.defaultProps = { status: "acknowledged", flush: false };
 
 export default Notification;

@@ -62,7 +62,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
 
       let isResponseOK = false;
       if (!fetchSuccess) { 
-        fetch(APIBaseURL + '/notifications?' + 
+        fetch(APIBaseURL + '/webmessagesnew?' +
         'startdatetime=' + startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
         '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss'), {
           method: 'GET',
@@ -90,7 +90,8 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
                 let notification = {}
                 notification['id'] = json[index]['id'];
                 notification['subject'] = json[index]['subject'];
-                notification['created_datetime'] = json[index]['created_datetime']; 
+                notification['created_datetime'] = moment(parseInt(json[index]['created_datetime']))
+                    .format("YYYY-MM-DD HH:mm:ss");
                 notification['message'] = json[index]['message'];
                 notification['status'] = json[index]['status'];
                 notification['url'] = json[index]['url'];
@@ -250,7 +251,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
   const handleRead = (id, ) => {
     console.log('Mark As Read: ', id)
     let isResponseOK = false;
-    fetch(APIBaseURL + '/notifications/' + id, {
+    fetch(APIBaseURL + '/webmessages/' + id, {
       method: 'PUT',
       headers: {
         "Content-type": "application/json",
@@ -259,7 +260,8 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
       },
       body: JSON.stringify({
         "data": {
-          "status": 'read'
+          "status": 'acknowledged',
+          "reply": 'ok'
         }
       }),
     }).then(response => {
