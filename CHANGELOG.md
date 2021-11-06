@@ -16,6 +16,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
+## [v1.3.4] -   2021-11-06
+### Added
+-   added notification drop down list and notification page.
+-   added new period type 'weekly'.
+-   added installation on docker to README.
+
+### Changed
+-   updated Dockerfiles.
+-   added default gateway token to database and myems_modbus_tcp
+
+### Fixed
+-   fixed NoneType errors in detailed data formatters of Web UI.
+
+### Removed
+-   None.
+
 ## [v1.3.3] -   2021-10-30
 ### Added
 -   added missing rule_id in myems_fdd_db.
@@ -526,7 +542,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v1.3.3...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v1.3.4...HEAD
+[v1.3.3]: https://github.com/MyEMS/myems/compare/v1.3.3...v1.3.4
 [v1.3.3]: https://github.com/MyEMS/myems/compare/v1.3.2...v1.3.3
 [v1.3.2]: https://github.com/MyEMS/myems/compare/v1.3.1...v1.3.2
 [v1.3.1]: https://github.com/MyEMS/myems/compare/v1.3.0...v1.3.1
