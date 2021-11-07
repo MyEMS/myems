@@ -17,12 +17,44 @@ python-decouple
 ### Quick Run for Development
 
 ```bash
+cd myems/myems-modbus-tcp
 pip install -r requirements.txt
+cp example.env .env
 chmod +x run.sh
-run.sh
 ```
 
 ### Installation
+
+### Option 1: Install myems-modbus-tcp on Docker
+
+In this section, you will install myems-modbus-tcp on Docker.
+
+*  Copy example.env file to .env file and modify the .env file
+Note: There is a default Gateway Token in example.env, 
+   if you run more than one myems-modbus-tcp instances, 
+   please create new Gateway and get new token in Admin UI.
+   
+```bash
+cd myems/myems-modbus-tcp
+cp example.env .env
+```
+* Build a Docker image
+```bash
+docker build -t myems/myems-modbus-tcp .
+```
+* Run a Docker container
+```bash
+docker run -d --restart always --name myems-modbus-tcp myems/myems-modbus-tcp
+```
+
+-d		Run container in background and print container ID
+
+--restart	Restart policy to apply when a container exits
+
+--name		Assign a name to the container
+
+
+### Option 2: Install myems-modbus-tcp on Ubuntu Server (bare-metal or virtual machine)
 
 Download and install MySQL Connector:
 ```bash
@@ -62,11 +94,8 @@ python3 setup.py  install
 
 Install myems-modbus-tcp service
 ```bash
-cd ~
-git clone https://github.com/MyEMS/myems.git
 cd myems
-git checkout master (or the latest release tag)
-cp -R ~/myems/myems-modbus-tcp /myems-modbus-tcp
+cp -R myems/myems-modbus-tcp /myems-modbus-tcp
 ```
 Create .env file based on example.env and edit the .env file if needed:
 ```bash
