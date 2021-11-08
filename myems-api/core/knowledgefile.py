@@ -70,7 +70,7 @@ class KnowledgeFileCollection:
                                }
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -229,7 +229,7 @@ class KnowledgeFileItem:
                   "uuid": row[2],
                   "upload_datetime": upload_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
                   "user_display_name": user_dict.get(row[4], None)}
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -324,5 +324,5 @@ class KnowledgeFileRestore:
         except Exception as ex:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_RESTORE_KNOWLEDGE_FILE')
-        resp.body = json.dumps('success')
+        resp.text = json.dumps('success')
 

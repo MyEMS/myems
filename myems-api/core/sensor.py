@@ -38,7 +38,7 @@ class SensorCollection:
 
         cursor.close()
         cnx.disconnect()
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -128,7 +128,7 @@ class SensorItem:
                            "uuid": row['uuid'],
                            "description": row['description']}
 
-        resp.body = json.dumps(meta_result)
+        resp.text = json.dumps(meta_result)
 
     @staticmethod
     @user_logger
@@ -314,7 +314,7 @@ class SensorPointCollection:
                                "address": row[5]}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger

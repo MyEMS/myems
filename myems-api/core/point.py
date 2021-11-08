@@ -58,7 +58,7 @@ class PointCollection:
                                "description": row['description']}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -250,7 +250,7 @@ class PointItem:
                   "is_virtual": bool(row['is_virtual']),
                   "address": row['address'],
                   "description": row['description']}
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger

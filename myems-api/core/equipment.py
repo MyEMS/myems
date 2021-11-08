@@ -56,7 +56,7 @@ class EquipmentCollection:
 
         cursor.close()
         cnx.disconnect()
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -199,7 +199,7 @@ class EquipmentItem:
                            "cost_center": cost_center,
                            "description": row['description']}
 
-        resp.body = json.dumps(meta_result)
+        resp.text = json.dumps(meta_result)
 
     @staticmethod
     @user_logger
@@ -661,7 +661,7 @@ class EquipmentParameterCollection:
 
         cursor.close()
         cnx.disconnect()
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -971,7 +971,7 @@ class EquipmentParameterItem:
                            "numerator_meter": numerator_meter,
                            "denominator_meter": denominator_meter}
 
-        resp.body = json.dumps(meta_result)
+        resp.text = json.dumps(meta_result)
 
     @staticmethod
     @user_logger
@@ -1277,7 +1277,7 @@ class EquipmentMeterCollection:
                                "is_output": bool(row['is_output'])}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -1466,7 +1466,7 @@ class EquipmentOfflineMeterCollection:
                                "is_output": bool(row['is_output'])}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -1656,7 +1656,7 @@ class EquipmentVirtualMeterCollection:
                                "is_output": bool(row['is_output'])}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger

@@ -35,7 +35,7 @@ class CostCenterCollection:
                 meta_result = {"id": row[0], "name": row[1], "uuid": row[2], "external_id": row[3]}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -130,7 +130,7 @@ class CostCenterItem:
                                    description='API.COST_CENTER_NOT_FOUND')
 
         result = {"id": row[0], "name": row[1], "uuid": row[2], "external_id": row[3]}
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -404,7 +404,7 @@ class CostCenterTariffCollection:
                                "unit_of_price": row[4]}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger

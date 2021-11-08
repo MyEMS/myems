@@ -118,7 +118,7 @@ class EnergyFlowDiagramCollection:
 
         cursor.close()
         cnx.disconnect()
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -280,7 +280,7 @@ class EnergyFlowDiagramItem:
                            "links": link_list_dict.get(row['id'], None),
                            }
 
-        resp.body = json.dumps(meta_result)
+        resp.text = json.dumps(meta_result)
 
     @staticmethod
     @user_logger
@@ -471,7 +471,7 @@ class EnergyFlowDiagramLinkCollection:
 
         cursor.close()
         cnx.disconnect()
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -715,7 +715,7 @@ class EnergyFlowDiagramLinkItem:
                            "source_node": source_node,
                            "target_node": target_node,
                            "meter": meter}
-            resp.body = json.dumps(meta_result)
+            resp.text = json.dumps(meta_result)
 
     @staticmethod
     @user_logger
@@ -968,7 +968,7 @@ class EnergyFlowDiagramNodeCollection:
 
         cursor.close()
         cnx.disconnect()
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -1064,7 +1064,7 @@ class EnergyFlowDiagramNodeItem:
             meta_result = {"id": row['id'],
                            "name": row['name']}
 
-        resp.body = json.dumps(meta_result)
+        resp.text = json.dumps(meta_result)
 
     @staticmethod
     @user_logger

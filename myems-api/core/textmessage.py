@@ -82,7 +82,7 @@ class TextMessageCollection:
                                "status": row[7]}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
 
 class TextMessageItem:
@@ -140,7 +140,7 @@ class TextMessageItem:
                   "acknowledge_code": row[6],
                   "status": row[7]}
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger

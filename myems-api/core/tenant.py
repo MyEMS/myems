@@ -105,7 +105,7 @@ class TenantCollection:
 
         cursor.close()
         cnx.disconnect()
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -397,7 +397,7 @@ class TenantItem:
                            "cost_center": cost_center,
                            "description": row['description']}
 
-        resp.body = json.dumps(meta_result)
+        resp.text = json.dumps(meta_result)
 
     @staticmethod
     @user_logger
@@ -761,7 +761,7 @@ class TenantMeterCollection:
                                "energy_category": energy_category}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -943,7 +943,7 @@ class TenantOfflineMeterCollection:
                                "energy_category": energy_category}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -1125,7 +1125,7 @@ class TenantPointCollection:
                 meta_result = {"id": row['id'], "name": row['name'], "data_source": data_source}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -1294,7 +1294,7 @@ class TenantSensorCollection:
                 meta_result = {"id": row[0], "name": row[1], "uuid": row[2]}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -1476,7 +1476,7 @@ class TenantVirtualMeterCollection:
                                "energy_category": energy_category}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger

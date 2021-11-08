@@ -105,7 +105,7 @@ class AdvancedReportCollection:
                                "file_bytes_base64": base64_message}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
 
 class AdvancedReportItem:
@@ -155,7 +155,7 @@ class AdvancedReportItem:
                   row['create_datetime_utc'].replace(tzinfo=timezone.utc).timestamp() * 1000,
                   "file_type": row['file_type'],
                   "file_bytes_base64": base64_message}
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     def on_delete(req, resp, id_):

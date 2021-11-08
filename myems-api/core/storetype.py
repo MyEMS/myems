@@ -36,7 +36,7 @@ class StoreTypeCollection:
                                "description": row[3], "simplified_code": row[4]}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -145,7 +145,7 @@ class StoreTypeItem:
                   "uuid": row[2],
                   "description": row[3],
                   "simplified_code": row[4]}
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger

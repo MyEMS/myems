@@ -64,7 +64,7 @@ class RuleCollection:
                                }
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -240,7 +240,7 @@ class RuleItem:
                   "last_run_datetime": last_run_datetime,
                   "next_run_datetime": next_run_datetime,
                   }
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger

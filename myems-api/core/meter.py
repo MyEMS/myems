@@ -99,7 +99,7 @@ class MeterCollection:
 
         cursor.close()
         cnx.disconnect()
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -368,7 +368,7 @@ class MeterItem:
                            "master_meter": master_meter,
                            "description": row['description']}
 
-        resp.body = json.dumps(meta_result)
+        resp.text = json.dumps(meta_result)
 
     @staticmethod
     @user_logger
@@ -844,7 +844,7 @@ class MeterSubmeterCollection:
 
         cursor.close()
         cnx.disconnect()
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
 
 class MeterPointCollection:
@@ -892,7 +892,7 @@ class MeterPointCollection:
                                "address": row[5]}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger

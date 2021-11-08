@@ -39,7 +39,7 @@ class MenuCollection:
 
         cursor.close()
         cnx.disconnect()
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
 
 class MenuItem:
@@ -77,7 +77,7 @@ class MenuItem:
 
         cursor.close()
         cnx.disconnect()
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -184,7 +184,7 @@ class MenuChildrenCollection:
 
         cursor.close()
         cnx.disconnect()
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
 
 class MenuWebCollection:
@@ -233,4 +233,4 @@ class MenuWebCollection:
 
         cursor.close()
         cnx.disconnect()
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)

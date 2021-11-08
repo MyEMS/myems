@@ -49,7 +49,7 @@ class GatewayCollection:
                                }
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -142,7 +142,7 @@ class GatewayItem:
                   "token": row['token'],
                   "last_seen_datetime": last_seen_datetime}
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -298,5 +298,5 @@ class GatewayDataSourceCollection:
 
         cursor.close()
         cnx.disconnect()
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 

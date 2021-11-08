@@ -82,7 +82,7 @@ class ShopfloorCollection:
 
         cursor.close()
         cnx.disconnect()
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -274,7 +274,7 @@ class ShopfloorItem:
                            "cost_center": cost_center,
                            "description": row['description']}
 
-        resp.body = json.dumps(meta_result)
+        resp.text = json.dumps(meta_result)
 
     @staticmethod
     @user_logger
@@ -560,7 +560,7 @@ class ShopfloorEquipmentCollection:
                 meta_result = {"id": row[0], "name": row[1], "uuid": row[2]}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -743,7 +743,7 @@ class ShopfloorMeterCollection:
                                "energy_category": energy_category}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -925,7 +925,7 @@ class ShopfloorOfflineMeterCollection:
                                "energy_category": energy_category}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -1107,7 +1107,7 @@ class ShopfloorPointCollection:
                 meta_result = {"id": row['id'], "name": row['name'], "data_source": data_source}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -1276,7 +1276,7 @@ class ShopfloorSensorCollection:
                 meta_result = {"id": row[0], "name": row[1], "uuid": row[2]}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -1458,7 +1458,7 @@ class ShopfloorVirtualMeterCollection:
                                "energy_category": energy_category}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger

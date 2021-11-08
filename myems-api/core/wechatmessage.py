@@ -73,7 +73,7 @@ class WechatMessageCollection(object):
                                "acknowledge_code": row[7],
                                "status": row[8]}
                 result.append(meta_result)
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
 
 class WechatMessageItem:
@@ -122,7 +122,7 @@ class WechatMessageItem:
                   "acknowledge_code": row[7],
                   "status": row[8]}
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger

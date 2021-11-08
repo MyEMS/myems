@@ -49,7 +49,7 @@ class EnergyItemCollection:
                                "energy_category": energy_category}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -160,7 +160,7 @@ class EnergyItemItem:
                   "name": row['name'],
                   "uuid": row['uuid'],
                   "energy_category": energy_category}
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
