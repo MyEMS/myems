@@ -1,5 +1,5 @@
-from falcon_cors import CORS
 import falcon
+from falcon_cors import CORS
 from falcon_multipart.middleware import MultipartMiddleware
 from core import energyflowdiagram, privilege, textmessage, distributioncircuit, virtualmeter, \
     costcenter, point, knowledgefile, meter, tariff, user, storetype, timezone, \
@@ -91,34 +91,11 @@ from reports import virtualmetercost
 
 # https://github.com/lwcolton/falcon-cors
 # https://github.com/yohanboniface/falcon-multipart
-class CORSComponent:
-
-    def process_response(self, req, resp, resource, req_succeeded):
-        resp.set_header('Access-Control-Allow-Origin', '*')
-
-        if (req_succeeded
-            and req.method == 'OPTIONS'
-            and req.get_header('Access-Control-Request-Method')
-        ):
-            # NOTE: This is a CORS preflight request. Patch the
-            #   response accordingly.
-
-            allow = req.get_header('Access-Control-Request-Method')
-            # resp.delete_header('Allow')
-
-            allow_headers = req.get_header(
-                'Access-Control-Request-Headers',
-                default='*'
-            )
-
-            resp.set_headers((
-                ('Access-Control-Allow-Methods', allow),
-                ('Access-Control-Allow-Headers', allow_headers),
-                ('Access-Control-Max-Age', '86400'),  # 24 hours
-            ))
-
-
-api = falcon.App(middleware=[CORSComponent(), MultipartMiddleware()])
+cors = CORS(allow_all_origins=True,
+            allow_credentials_all_origins=True,
+            allow_all_headers=True,
+            allow_all_methods=True)
+api = falcon.App(middleware=[cors.middleware, MultipartMiddleware()])
 
 ########################################################################################################################
 # Routes for System Core
