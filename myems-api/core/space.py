@@ -102,7 +102,7 @@ class SpaceCollection:
 
         cursor.close()
         cnx.disconnect()
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -356,7 +356,7 @@ class SpaceItem:
                            "cost_center": cost_center,
                            "description": row['description']}
 
-        resp.body = json.dumps(meta_result)
+        resp.text = json.dumps(meta_result)
 
     @staticmethod
     @user_logger
@@ -813,7 +813,7 @@ class SpaceChildrenCollection:
 
         cursor.close()
         cnx.disconnect()
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
 
 class SpaceCombinedEquipmentCollection:
@@ -857,7 +857,7 @@ class SpaceCombinedEquipmentCollection:
                 meta_result = {"id": row[0], "name": row[1], "uuid": row[2]}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -1026,7 +1026,7 @@ class SpaceEquipmentCollection:
                 meta_result = {"id": row[0], "name": row[1], "uuid": row[2]}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -1208,7 +1208,7 @@ class SpaceMeterCollection:
                                "energy_category": energy_category}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -1392,7 +1392,7 @@ class SpaceOfflineMeterCollection:
                                "energy_category": energy_category}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -1574,7 +1574,7 @@ class SpacePointCollection:
                 meta_result = {"id": row['id'], "name": row['name'], "data_source": data_source}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -1743,7 +1743,7 @@ class SpaceSensorCollection:
                 meta_result = {"id": row[0], "name": row[1], "uuid": row[2]}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -1911,7 +1911,7 @@ class SpaceShopfloorCollection:
                 meta_result = {"id": row[0], "name": row[1], "uuid": row[2]}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -2079,7 +2079,7 @@ class SpaceStoreCollection:
                 meta_result = {"id": row[0], "name": row[1], "uuid": row[2]}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -2247,7 +2247,7 @@ class SpaceTenantCollection:
                 meta_result = {"id": row[0], "name": row[1], "uuid": row[2]}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -2429,7 +2429,7 @@ class SpaceVirtualMeterCollection:
                                "energy_category": energy_category}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -2666,4 +2666,4 @@ class SpaceTreeCollection:
 
         cursor.close()
         cnx.disconnect()
-        resp.body = JsonExporter(sort_keys=True).export(node_dict[space_id], )
+        resp.text = JsonExporter(sort_keys=True).export(node_dict[space_id], )

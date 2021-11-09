@@ -95,7 +95,7 @@ class TariffCollection:
         cursor.close()
         cnx.disconnect()
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -306,7 +306,7 @@ class TariffItem:
         cursor.close()
         cnx.disconnect()
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger

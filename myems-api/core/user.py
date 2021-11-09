@@ -63,7 +63,7 @@ class UserCollection:
                                    password_expiration_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     def on_post(req, resp):
@@ -244,7 +244,7 @@ class UserItem:
                       "name": row[7]} if row[6] is not None else None,
                   "account_expiration_datetime": account_expiration_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
                   "password_expiration_datetime": password_expiration_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')}
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -545,7 +545,7 @@ class UserLogin:
 
         result['token'] = token
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
         resp.status = falcon.HTTP_200
         write_log(user_uuid=user_uuid, request_method='PUT', resource_type='UserLogin',
                   resource_id=None, request_body=None)
@@ -592,7 +592,7 @@ class UserLogout:
         if rowcount is None or rowcount == 0:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.USER_SESSION_NOT_FOUND')
-        resp.body = json.dumps("OK")
+        resp.text = json.dumps("OK")
         resp.status = falcon.HTTP_200
 
 
@@ -707,7 +707,7 @@ class ChangePassword:
 
         cursor.close()
         cnx.disconnect()
-        resp.body = json.dumps("OK")
+        resp.text = json.dumps("OK")
         resp.status = falcon.HTTP_200
         write_log(user_uuid=user_uuid, request_method='PUT', resource_type='ChangePassword',
                   resource_id=None, request_body=None)
@@ -823,7 +823,7 @@ class ResetPassword:
 
         cursor.close()
         cnx.disconnect()
-        resp.body = json.dumps("OK")
+        resp.text = json.dumps("OK")
         resp.status = falcon.HTTP_200
         write_log(user_uuid=admin_user_uuid, request_method='PUT', resource_type='ResetPassword',
                   resource_id=user_id, request_body=None)

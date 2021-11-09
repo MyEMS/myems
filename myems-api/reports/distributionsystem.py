@@ -160,4 +160,4 @@ class Reporting:
 
         result = circuit_list
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)

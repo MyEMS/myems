@@ -143,7 +143,7 @@ class VirtualMeterCollection:
 
         cursor.close()
         cnx.disconnect()
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -502,7 +502,7 @@ class VirtualMeterItem:
 
         cursor.close()
         cnx.disconnect()
-        resp.body = json.dumps(meta_result)
+        resp.text = json.dumps(meta_result)
 
     @staticmethod
     @user_logger

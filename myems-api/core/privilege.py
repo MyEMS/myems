@@ -36,7 +36,7 @@ class PrivilegeCollection:
                                "data": row[2]}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger

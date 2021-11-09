@@ -88,7 +88,7 @@ class StoreCollection:
 
         cursor.close()
         cnx.disconnect()
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -330,7 +330,7 @@ class StoreItem:
                            "cost_center": cost_center,
                            "description": row['description']}
 
-        resp.body = json.dumps(meta_result)
+        resp.text = json.dumps(meta_result)
 
     @staticmethod
     @user_logger
@@ -658,7 +658,7 @@ class StoreMeterCollection:
                                "energy_category": energy_category}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -840,7 +840,7 @@ class StoreOfflineMeterCollection:
                                "energy_category": energy_category}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -1022,7 +1022,7 @@ class StorePointCollection:
                 meta_result = {"id": row['id'], "name": row['name'], "data_source": data_source}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -1191,7 +1191,7 @@ class StoreSensorCollection:
                 meta_result = {"id": row[0], "name": row[1], "uuid": row[2]}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -1373,7 +1373,7 @@ class StoreVirtualMeterCollection:
                                "energy_category": energy_category}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger

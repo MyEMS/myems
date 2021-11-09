@@ -95,7 +95,7 @@ class WebMessageCollection:
                                "reply": row[6]}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
 
 class WebMessageStatusNewCollection:
@@ -159,7 +159,7 @@ class WebMessageStatusNewCollection:
                                "status": row[5]}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
 
 class WebMessageItem:
@@ -227,7 +227,7 @@ class WebMessageItem:
                        "status": row[5],
                        "reply": row[6]}
 
-        resp.body = json.dumps(meta_result)
+        resp.text = json.dumps(meta_result)
 
     @staticmethod
     @user_logger
