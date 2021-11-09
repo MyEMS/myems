@@ -640,4 +640,4 @@ class Reporting:
                                                                                          reporting_end_datetime_local,
                                                                                          period_type)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)

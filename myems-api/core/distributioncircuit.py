@@ -57,7 +57,7 @@ class DistributionCircuitCollection:
 
         cursor.close()
         cnx.disconnect()
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -227,7 +227,7 @@ class DistributionCircuitItem:
                            "customers": row['customers'],
                            "meters": row['meters']}
 
-        resp.body = json.dumps(meta_result)
+        resp.text = json.dumps(meta_result)
 
     @staticmethod
     @user_logger
@@ -434,7 +434,7 @@ class DistributionCircuitPointCollection:
                                                         "uuid": row['distribution_circuit_uuid']}}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger

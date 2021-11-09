@@ -264,4 +264,4 @@ class Reporting:
                 result['links'].append({'source': link['source_node']['name'],
                                         'target': link['target_node']['name'],
                                         'value': link['value']})
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)

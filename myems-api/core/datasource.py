@@ -65,7 +65,7 @@ class DataSourceCollection:
 
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -220,7 +220,7 @@ class DataSourceItem:
                   "last_seen_datetime": last_seen_datetime
                   }
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -416,4 +416,4 @@ class DataSourcePointCollection:
 
         cursor.close()
         cnx.disconnect()
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)

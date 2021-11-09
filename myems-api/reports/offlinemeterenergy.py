@@ -324,4 +324,4 @@ class Reporting:
                                                      reporting_period_end_datetime,
                                                      period_type)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)

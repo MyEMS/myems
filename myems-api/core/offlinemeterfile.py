@@ -46,7 +46,7 @@ class OfflineMeterFileCollection:
                                "status": row[4]}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -189,7 +189,7 @@ class OfflineMeterFileItem:
                   "uuid": row[2],
                   "upload_datetime": upload_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
                   "status": row[4]}
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -284,4 +284,4 @@ class OfflineMeterFileRestore:
         except Exception as ex:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_RESTORE_OFFLINE_METER_FILE')
-        resp.body = json.dumps('success')
+        resp.text = json.dumps('success')

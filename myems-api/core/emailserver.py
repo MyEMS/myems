@@ -42,7 +42,7 @@ class EmailServerCollection:
                                "from_addr": row[6]}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -174,7 +174,7 @@ class EmailServerItem:
                   "password": str(base64.b64decode(bytearray(row[5], 'utf-8')), 'utf-8')
                   if row[5] is not None else None,
                   "from_addr": row[5]}
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger

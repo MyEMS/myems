@@ -15,4 +15,4 @@ class Reporting:
     @staticmethod
     def on_get(req, resp):
         result = {}
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)

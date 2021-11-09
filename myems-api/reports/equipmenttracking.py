@@ -111,4 +111,4 @@ class Reporting:
         result['excel_bytes_base64'] = \
             excelexporters.equipmenttracking.export(result,
                                                     space_name)
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)

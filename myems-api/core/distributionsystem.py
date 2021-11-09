@@ -41,7 +41,7 @@ class DistributionSystemCollection:
 
         cursor.close()
         cnx.disconnect()
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -141,7 +141,7 @@ class DistributionSystemItem:
                            "svg": row['svg'],
                            "description": row['description']}
 
-        resp.body = json.dumps(meta_result)
+        resp.text = json.dumps(meta_result)
 
     @staticmethod
     @user_logger
@@ -290,4 +290,4 @@ class DistributionSystemDistributionCircuitCollection:
                                "customers": row['customers'], "meters": row['meters']}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)

@@ -145,7 +145,7 @@ class NotificationCollection:
                                "url": row[5]}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
 
 class NotificationItem:
@@ -241,7 +241,7 @@ class NotificationItem:
                        "message": row[4],
                        "url": row[5]}
 
-        resp.body = json.dumps(meta_result)
+        resp.text = json.dumps(meta_result)
 
     @staticmethod
     @user_logger

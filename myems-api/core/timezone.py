@@ -33,7 +33,7 @@ class TimezoneCollection:
                 meta_result = {"id": row[0], "name": row[1], "description": row[2], "utc_offset": row[3]}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
 
 class TimezoneItem:
@@ -71,7 +71,7 @@ class TimezoneItem:
         cursor.close()
         cnx.disconnect()
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger

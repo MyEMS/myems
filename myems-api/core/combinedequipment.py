@@ -56,7 +56,7 @@ class CombinedEquipmentCollection:
 
         cursor.close()
         cnx.disconnect()
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -199,7 +199,7 @@ class CombinedEquipmentItem:
                            "cost_center": cost_center,
                            "description": row['description']}
 
-        resp.body = json.dumps(meta_result)
+        resp.text = json.dumps(meta_result)
 
     @staticmethod
     @user_logger
@@ -560,7 +560,7 @@ class CombinedEquipmentEquipmentCollection:
                 meta_result = {"id": row[0], "name": row[1], "uuid": row[2]}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -818,7 +818,7 @@ class CombinedEquipmentParameterCollection:
 
         cursor.close()
         cnx.disconnect()
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -1127,7 +1127,7 @@ class CombinedEquipmentParameterItem:
                            "numerator_meter": numerator_meter,
                            "denominator_meter": denominator_meter}
 
-        resp.body = json.dumps(meta_result)
+        resp.text = json.dumps(meta_result)
 
     @staticmethod
     @user_logger
@@ -1433,7 +1433,7 @@ class CombinedEquipmentMeterCollection:
                                "is_output": bool(row['is_output'])}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -1623,7 +1623,7 @@ class CombinedEquipmentOfflineMeterCollection:
                                "is_output": bool(row['is_output'])}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -1814,7 +1814,7 @@ class CombinedEquipmentVirtualMeterCollection:
                                "is_output": bool(row['is_output'])}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger

@@ -233,4 +233,4 @@ class Reporting:
                                              space_name,
                                              reporting_period_start_datetime_local,
                                              reporting_period_end_datetime_local)
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)

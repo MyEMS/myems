@@ -18,5 +18,5 @@ class VersionItem:
         result = {"version": 'MyEMS v1.3.4',
                   "release-date": '2021-11-06',
                   "website": "https://myems.io"}
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 

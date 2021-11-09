@@ -42,7 +42,7 @@ class ContactCollection:
                                "description": row[5]}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -155,7 +155,7 @@ class ContactItem:
                   "email": row[3],
                   "phone": row[4],
                   "description": row[5]}
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger

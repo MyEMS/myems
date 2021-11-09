@@ -824,4 +824,4 @@ class Reporting:
                 result['child_space_cost']['subtotals_array'].append(
                     child_space_cost[energy_category_id]['subtotals'])
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)

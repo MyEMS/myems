@@ -85,7 +85,7 @@ class EmailMessageCollection:
                                "status": row[8]}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
 
 class EmailMessageItem:
@@ -144,7 +144,7 @@ class EmailMessageItem:
                   "scheduled_datetime": row[7].timestamp() * 1000 if isinstance(row[7], datetime) else None,
                   "status": row[8]}
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger

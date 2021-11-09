@@ -36,7 +36,7 @@ class EnergyCategoryCollection:
                                "kgce": row[4], "kgco2e": row[5]}
                 result.append(meta_result)
 
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
@@ -144,7 +144,7 @@ class EnergyCategoryItem:
                   "unit_of_measure": row[3],
                   "kgce": row[4],
                   "kgco2e": row[5]}
-        resp.body = json.dumps(result)
+        resp.text = json.dumps(result)
 
     @staticmethod
     @user_logger
