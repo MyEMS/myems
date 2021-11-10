@@ -11,7 +11,8 @@ app.controller('UserController', function ($scope,
 
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllUsers = function () {
-		UserService.getAllUsers(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		UserService.getAllUsers(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.users = response.data;
 			} else {

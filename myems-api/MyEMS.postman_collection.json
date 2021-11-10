@@ -6487,7 +6487,18 @@
 									"type": "noauth"
 								},
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "50bc979c9181699bc33927aa04a453fd83e2b8e8280544bfc3807fdedf2645201676fe474787e0ea3024502659a2ab4b1905c6ca4f444ffdba764a603c4eb691",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/users",
 									"host": [
