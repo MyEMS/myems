@@ -3,7 +3,7 @@ import json
 import mysql.connector
 import config
 from datetime import datetime, timedelta, timezone
-from core.userlogger import user_logger
+from core.useractivity import user_logger
 
 
 class WechatMessageCollection(object):

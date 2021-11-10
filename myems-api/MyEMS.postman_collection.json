@@ -6518,15 +6518,26 @@
 									"type": "noauth"
 								},
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "b422ef869a947eb8dd058f5c9464b11769db7be3232b327fb8a4edac28118df876a5d7d3ab1d8175ef81169126d01fbe3b38baa6da62edf4cbf49b2bef0ed9a7",
+										"type": "text"
+									}
+								],
 								"url": {
-									"raw": "{{base_url}}/users/2",
+									"raw": "{{base_url}}/users/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"users",
-										"2"
+										"1"
 									]
 								}
 							},
@@ -6536,7 +6547,18 @@
 							"name": "POST Create New User",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "b422ef869a947eb8dd058f5c9464b11769db7be3232b327fb8a4edac28118df876a5d7d3ab1d8175ef81169126d01fbe3b38baa6da62edf4cbf49b2bef0ed9a7",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"albert1\", \"display_name\":\"Mr. Albert\", \"email\":\"albert1@myems.io\", \"is_admin\":false, \"privilege_id\":1, \"password\":\"!MyEMS1\", \"account_expiration_datetime\":\"2100-01-01T00:00:00\",\"password_expiration_datetime\":\"2100-01-01T00:00:00\"}}"
@@ -6579,7 +6601,18 @@
 							"name": "DELETE User",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "b422ef869a947eb8dd058f5c9464b11769db7be3232b327fb8a4edac28118df876a5d7d3ab1d8175ef81169126d01fbe3b38baa6da62edf4cbf49b2bef0ed9a7",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/users/2",
 									"host": [
@@ -6597,7 +6630,18 @@
 							"name": "PUT Update User Profile",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "b422ef869a947eb8dd058f5c9464b11769db7be3232b327fb8a4edac28118df876a5d7d3ab1d8175ef81169126d01fbe3b38baa6da62edf4cbf49b2bef0ed9a7",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"albert\", \"display_name\":\"Mr. Albert\", \"email\":\"albert@myems.io\", \"is_admin\":false, \"privilege_id\":1, \"password\":\"!MyEMS1\", \"account_expiration_datetime\":\"2100-01-01T00:00:00\",\"password_expiration_datetime\":\"2100-01-01T00:00:00\"}}"
@@ -6637,7 +6681,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "18f212f9fe64adcf34f6e618eb9f72a0e8b4c411",
+										"value": "b422ef869a947eb8dd058f5c9464b11769db7be3232b327fb8a4edac28118df876a5d7d3ab1d8175ef81169126d01fbe3b38baa6da62edf4cbf49b2bef0ed9a7",
 										"type": "text"
 									}
 								],
@@ -6670,7 +6714,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "b3a1b48ff5a9a3f67ec16848c5ddf9a42bf17045",
+										"value": "b422ef869a947eb8dd058f5c9464b11769db7be3232b327fb8a4edac28118df876a5d7d3ab1d8175ef81169126d01fbe3b38baa6da62edf4cbf49b2bef0ed9a7",
 										"type": "text"
 									}
 								],
@@ -6703,7 +6747,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "b3a1b48ff5a9a3f67ec16848c5ddf9a42bf17045",
+										"value": "b422ef869a947eb8dd058f5c9464b11769db7be3232b327fb8a4edac28118df876a5d7d3ab1d8175ef81169126d01fbe3b38baa6da62edf4cbf49b2bef0ed9a7",
 										"type": "text"
 									}
 								],

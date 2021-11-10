@@ -7,7 +7,7 @@ import hashlib
 import re
 import os
 from datetime import datetime, timedelta, timezone
-from core.userlogger import user_logger, write_log
+from core.useractivity import user_logger, write_log, access_control
 
 
 class UserCollection:
@@ -22,52 +22,9 @@ class UserCollection:
 
     @staticmethod
     def on_get(req, resp):
-        if 'USER-UUID' not in req.headers or \
-                not isinstance(req.headers['USER-UUID'], str) or \
-                len(str.strip(req.headers['USER-UUID'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_USER_UUID')
-        admin_user_uuid = str.strip(req.headers['USER-UUID'])
-
-        if 'TOKEN' not in req.headers or \
-                not isinstance(req.headers['TOKEN'], str) or \
-                len(str.strip(req.headers['TOKEN'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_TOKEN')
-        admin_token = str.strip(req.headers['TOKEN'])
-
-        # Check administrator privilege
+        access_control(req)
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
-        query = (" SELECT utc_expires "
-                 " FROM tbl_sessions "
-                 " WHERE user_uuid = %s AND token = %s")
-        cursor.execute(query, (admin_user_uuid, admin_token,))
-        row = cursor.fetchone()
-
-        if row is None:
-            cursor.close()
-            cnx.disconnect()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ADMINISTRATOR_SESSION_NOT_FOUND')
-        else:
-            utc_expires = row[0]
-            if datetime.utcnow() > utc_expires:
-                cursor.close()
-                cnx.disconnect()
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.ADMINISTRATOR_SESSION_TIMEOUT')
-
-        query = (" SELECT name "
-                 " FROM tbl_users "
-                 " WHERE uuid = %s AND is_admin = true ")
-        cursor.execute(query, (admin_user_uuid,))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.disconnect()
-            raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.INVALID_PRIVILEGE')
-
         query = (" SELECT u.id, u.name, u.display_name, u.uuid, "
                  "        u.email, u.is_admin, p.id, p.name, "
                  "        u.account_expiration_datetime_utc, u.password_expiration_datetime_utc "
@@ -110,7 +67,7 @@ class UserCollection:
     @staticmethod
     def on_post(req, resp):
         """Handles POST requests"""
-        # todo: add access control
+        access_control(req)
         # todo: add user log
         try:
             raw_json = req.stream.read().decode('utf-8')
@@ -246,7 +203,7 @@ class UserItem:
 
     @staticmethod
     def on_get(req, resp, id_):
-        # todo: add access control
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_ID')
@@ -291,6 +248,7 @@ class UserItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_ID')
@@ -320,6 +278,7 @@ class UserItem:
     @user_logger
     def on_put(req, resp, id_):
         """Handles PUT requests"""
+        access_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:

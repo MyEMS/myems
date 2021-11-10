@@ -4,7 +4,7 @@ import mysql.connector
 import config
 import base64
 import re
-from core.userlogger import user_logger
+from core.useractivity import user_logger
 
 
 class EmailServerCollection:

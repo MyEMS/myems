@@ -2,7 +2,7 @@ import falcon
 import simplejson as json
 import mysql.connector
 import config
-from core.userlogger import user_logger
+from core.useractivity import user_logger
 
 
 class TimezoneCollection:
