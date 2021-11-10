@@ -166,7 +166,7 @@ class GatewayItem:
         # check if this gateway is being used by any data sources
         cursor.execute(" SELECT name "
                        " FROM tbl_data_sources "
-                       " WHERE gateway_id = %s ",
+                       " WHERE gateway_id = %s "
                        " LIMIT 1 ",
                        (id_,))
         if cursor.fetchone() is not None:
