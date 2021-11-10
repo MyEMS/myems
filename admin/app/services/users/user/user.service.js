@@ -1,8 +1,8 @@
 'use strict';
 app.factory('UserService', function($http) {  
     return {  
-        getAllUsers:function(callback){
-            $http.get(getAPI()+'users')  
+        getAllUsers:function(headers, callback){
+            $http.get(getAPI()+'users', {headers})  
             .then(function (response) {
                 callback(response);
             }, function (response) {
