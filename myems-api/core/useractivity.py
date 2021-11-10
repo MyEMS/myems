@@ -9,6 +9,58 @@ import simplejson as json
 import falcon
 
 
+def access_control(req):
+    """
+    Check administrator privilege in request headers to protect resources from invalid access
+    :param req: HTTP request
+    :return: HTTPError if invalid else None
+    """
+    if 'USER-UUID' not in req.headers or \
+            not isinstance(req.headers['USER-UUID'], str) or \
+            len(str.strip(req.headers['USER-UUID'])) == 0:
+        raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                               description='API.INVALID_USER_UUID')
+    admin_user_uuid = str.strip(req.headers['USER-UUID'])
+
+    if 'TOKEN' not in req.headers or \
+            not isinstance(req.headers['TOKEN'], str) or \
+            len(str.strip(req.headers['TOKEN'])) == 0:
+        raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                               description='API.INVALID_TOKEN')
+    admin_token = str.strip(req.headers['TOKEN'])
+
+    # Check administrator privilege
+    cnx = mysql.connector.connect(**config.myems_user_db)
+    cursor = cnx.cursor()
+    query = (" SELECT utc_expires "
+             " FROM tbl_sessions "
+             " WHERE user_uuid = %s AND token = %s")
+    cursor.execute(query, (admin_user_uuid, admin_token,))
+    row = cursor.fetchone()
+
+    if row is None:
+        cursor.close()
+        cnx.disconnect()
+        raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+                               description='API.ADMINISTRATOR_SESSION_NOT_FOUND')
+    else:
+        utc_expires = row[0]
+        if datetime.utcnow() > utc_expires:
+            cursor.close()
+            cnx.disconnect()
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.ADMINISTRATOR_SESSION_TIMEOUT')
+    query = (" SELECT name "
+             " FROM tbl_users "
+             " WHERE uuid = %s AND is_admin = true ")
+    cursor.execute(query, (admin_user_uuid,))
+    row = cursor.fetchone()
+    cursor.close()
+    cnx.disconnect()
+    if row is None:
+        raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.INVALID_PRIVILEGE')
+
+
 def write_log(user_uuid, request_method, resource_type, resource_id, request_body):
     """
     :param user_uuid: user_uuid
@@ -43,6 +95,11 @@ def write_log(user_uuid, request_method, resource_type, resource_id, request_bod
 
 
 def user_logger(func):
+    """
+    Decorator for logging user activities
+    :param func: the decorated function
+    :return: the decorator
+    """
     @wraps(func)
     def logger(*args, **kwargs):
         qualified_name = func.__qualname__

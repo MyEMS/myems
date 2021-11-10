@@ -46,7 +46,8 @@ app.controller('UserController', function ($scope,
 			}
 		});
 		modalInstance.result.then(function (user) {
-			UserService.addUser(user, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			UserService.addUser(user, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
@@ -85,7 +86,8 @@ app.controller('UserController', function ($scope,
 		});
 
 		modalInstance.result.then(function (modifiedUser) {
-			UserService.editUser(modifiedUser, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			UserService.editUser(modifiedUser, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
 						type: "success",
@@ -123,12 +125,8 @@ app.controller('UserController', function ($scope,
 		});
 
 		modalInstance.result.then(function (modifiedUser) {
-			let data = {
-				name: modifiedUser.name,
-				password: modifiedUser.password };
-
+			let data = {name: modifiedUser.name, password: modifiedUser.password };
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-
 			UserService.resetPassword(data, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
@@ -166,7 +164,8 @@ app.controller('UserController', function ($scope,
 		},
 		function (isConfirm) {
 			if (isConfirm) {
-				UserService.deleteUser(user, function (response) {
+				let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+				UserService.deleteUser(user, headers, function (response) {
 					if (angular.isDefined(response.status) && response.status === 204) {
 						toaster.pop({
 							type: "success",

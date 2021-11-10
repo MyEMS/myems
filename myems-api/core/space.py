@@ -6,7 +6,7 @@ import uuid
 from datetime import datetime
 from anytree import AnyNode
 from anytree.exporter import JsonExporter
-from core.userlogger import user_logger
+from core.useractivity import user_logger
 
 
 class SpaceCollection:

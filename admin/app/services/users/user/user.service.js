@@ -17,16 +17,16 @@ app.factory('UserService', function($http) {
                 callback(response);
             });
         },
-        addUser: function(user, callback) {  
-            $http.post(getAPI()+'users',{data:user})  
+        addUser: function(user, headers, callback) {  
+            $http.post(getAPI()+'users', {data:user}, {headers})  
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        editUser: function(user, callback) {  
-            $http.put(getAPI()+'users/'+user.id,{data:user})  
+        editUser: function(user, headers, callback) {  
+            $http.put(getAPI()+'users/'+user.id, {data:user}, {headers})  
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -49,16 +49,16 @@ app.factory('UserService', function($http) {
                 callback(response);
             }); 
         },
-        deleteUser: function(user, callback) {  
-            $http.delete(getAPI()+'users/'+user.id)  
+        deleteUser: function(user, headers, callback) {  
+            $http.delete(getAPI()+'users/'+user.id, {headers})  
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        getUser: function(id, callback) {  
-            $http.get(getAPI()+'users/'+id)  
+        getUser: function(id, headers, callback) {  
+            $http.get(getAPI()+'users/'+id, {headers})  
             .then(function (response) {
                 callback(response);
             }, function (response) {

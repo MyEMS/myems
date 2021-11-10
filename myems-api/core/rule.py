@@ -4,7 +4,7 @@ import mysql.connector
 import uuid
 from datetime import datetime, timezone, timedelta
 import config
-from core.userlogger import user_logger
+from core.useractivity import user_logger
 
 
 class RuleCollection:

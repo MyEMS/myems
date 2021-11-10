@@ -7,7 +7,7 @@ from datetime import datetime, timezone, timedelta
 import os
 import base64
 import sys
-from core.userlogger import user_logger
+from core.useractivity import user_logger
 
 
 class KnowledgeFileCollection:
