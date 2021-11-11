@@ -138,6 +138,7 @@ def generate_excel(report,
     ws['C5'].border = b_border
     ws['C5'].alignment = b_c_alignment
     ws['C5'] = reporting_end_datetime_local
+
     if "reporting_period" not in report.keys() or \
             "names" not in report['reporting_period'].keys() or len(report['reporting_period']['names']) == 0:
         filename = str(uuid.uuid4()) + '.xlsx'
@@ -311,24 +312,23 @@ def generate_excel(report,
         parameters_ws.add_image(img, 'A1')
 
         # Title
-        parameters_ws.row_dimensions[3].height = 60
-
-        parameters_ws['B3'].font = name_font
         parameters_ws['B3'].alignment = b_r_alignment
         parameters_ws['B3'] = 'Name:'
         parameters_ws['C3'].border = b_border
         parameters_ws['C3'].alignment = b_c_alignment
-        parameters_ws['C3'].font = name_font
         parameters_ws['C3'] = name
 
-        parameters_ws['F3'].font = name_font
-        parameters_ws['F3'].alignment = b_r_alignment
-        parameters_ws['F3'] = 'Date:'
-        parameters_ws['G3'].border = b_border
-        parameters_ws['G3'].alignment = b_c_alignment
-        parameters_ws['G3'].font = name_font
-        parameters_ws['G3'] = reporting_start_datetime_local + "__" + reporting_end_datetime_local
-        parameters_ws.merge_cells("G3:H3")
+        parameters_ws['B4'].alignment = b_r_alignment
+        parameters_ws['B4'] = 'Reporting Start Datetime:'
+        parameters_ws['C4'].border = b_border
+        parameters_ws['C4'].alignment = b_c_alignment
+        parameters_ws['C4'] = reporting_start_datetime_local
+
+        parameters_ws['B5'].alignment = b_r_alignment
+        parameters_ws['B5'] = 'Reporting End Datetime:'
+        parameters_ws['C5'].border = b_border
+        parameters_ws['C5'].alignment = b_c_alignment
+        parameters_ws['C5'] = reporting_end_datetime_local
 
         parameters_ws_current_row_number = 6
 
