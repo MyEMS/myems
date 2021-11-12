@@ -122,7 +122,7 @@ administrator@myems.io
 | 门店数量                           | 无限制         |无限制      | 实际数量受限于服务器资源上限|
 | 车间数量                           | 无限制         |无限制      | 实际数量受限于服务器资源上限|
 | 组合设备数量                       | 无限制         |无限制      | 实际数量受限于服务器资源上限|
-| Docker容器化部署                   | ✔️            | ✔️        | https://www.docker.com/ |
+| Docker容器化部署                   | ✔️            | ✔️        | https://hub.docker.com/u/myems |
 | Kubernetes部署                    | ❌             | ✔️        | https://kubernetes.io/ |
 | MySQL                             | ✔️             | ✔️        | http://mysql.com/    |
 | MariaDB                           | ✔️             | ✔️        | https://mariadb.org/ |
