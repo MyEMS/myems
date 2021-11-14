@@ -16,6 +16,35 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
+## [v1.4.0] -   2021-11-14
+### Added
+-   added installation on docker to myems-modbus-tcp.
+
+### Changed
+-   Merged expression table into virtual meter table in database.
+    NOTE: THIS CHANGE MAY BREAK YOUR SYSTEM.
+    
+    Upgrade procedure for this change:
+    1. Stop the myems-normalization service or container.
+    2. Backup your database.
+    3. Upgrade myems/admin, myems/myems-api, and myems/myems-normalization source code, 
+       and keep previous .env files unchanged.
+    4. Run database/upgrade/upgrade1.4.0.sql to merge expression into virtual meter
+    5. Check the virtual meters in Admin UI.
+    6. Start the myems-normalization service or container.
+
+-   updated virtual meter model view in admin ui
+-   updated docker hub address in README
+-   updated excel exporters to make them print friendly
+-   added access control to actions of user in api
+
+### Fixed
+-   fixed issue in on_delete of gateway in API
+-   upgraded falcon framework to v3.0.1 in API to fix warnings
+
+### Removed
+-   None.
+
 ## [v1.3.4] -   2021-11-06
 ### Added
 -   added notification drop down list and notification page.
