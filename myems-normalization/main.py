@@ -25,11 +25,11 @@ def main():
     logger.addHandler(fh)
 
     # calculate energy consumption in hourly period
-    # Process(target=meter.calculate_hourly, args=(logger,)).start()
-    # Process(target=offlinemeter.calculate_hourly, args=(logger,)).start()
+    Process(target=meter.calculate_hourly, args=(logger,)).start()
+    Process(target=offlinemeter.calculate_hourly, args=(logger,)).start()
     Process(target=virtualmeter.calculate_hourly, args=(logger,)).start()
     # calculate virtual point value
-    # Process(target=virtualpoint.calculate, args=(logger,)).start()
+    Process(target=virtualpoint.calculate, args=(logger,)).start()
 
 
 if __name__ == '__main__':
