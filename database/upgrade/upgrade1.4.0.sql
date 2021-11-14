@@ -55,6 +55,6 @@ CREATE INDEX `tbl_virtual_meters_index_2` ON `myems_system_db`.`tbl_virtual_mete
 CREATE INDEX `tbl_virtual_meters_index_3` ON `myems_system_db`.`tbl_virtual_meters` (`energy_item_id`);
 
 -- UPDATE VERSION NUMBER
-UPDATE myems_system_db.tbl_versions SET version='1.4.0', release_date='2021-11-13' WHERE id=1;
+UPDATE myems_system_db.tbl_versions SET version='1.4.0', release_date='2021-11-14' WHERE id=1;
 
 COMMIT;
