@@ -337,19 +337,6 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_equipments_virtual_meters` (
 CREATE INDEX `tbl_equipments_virtual_meters_index_1` ON  `myems_system_db`.`tbl_equipments_virtual_meters`   (`equipment_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
--- Table `myems_system_db`.`tbl_expressions`
--- ---------------------------------------------------------------------------------------------------------------------
-DROP TABLE IF EXISTS `myems_system_db`.`tbl_expressions` ;
-
-CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_expressions` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `uuid` CHAR(36) NOT NULL,
-  `virtual_meter_id` BIGINT NOT NULL,
-  `equation` LONGTEXT NOT NULL,
-  PRIMARY KEY (`id`));
-CREATE INDEX `tbl_expressions_index_1` ON  `myems_system_db`.`tbl_expressions`   (`virtual_meter_id`);
-
--- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_gateways`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_system_db`.`tbl_gateways` ;
@@ -1213,6 +1200,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_virtual_meters` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
   `uuid` CHAR(36) NOT NULL,
+  `equation` LONGTEXT NOT NULL,
   `energy_category_id` BIGINT NOT NULL,
   `is_counted` BOOL NOT NULL,
   `cost_center_id` BIGINT NOT NULL,
@@ -1231,12 +1219,12 @@ DROP TABLE IF EXISTS `myems_system_db`.`tbl_variables` ;
 CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_variables` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `name` CHAR(36) NOT NULL,
-  `expression_id` BIGINT NOT NULL,
+  `virtual_meter_id` BIGINT NOT NULL,
   `meter_type` VARCHAR(32) NOT NULL COMMENT 'meter, virtual_meter, offline_meter',
   `meter_id` BIGINT NOT NULL,
   PRIMARY KEY (`id`));
-  CREATE INDEX `tbl_variables_index_1` ON  `myems_system_db`.`tbl_variables`   (`expression_id`);
-  CREATE INDEX `tbl_variables_index_2` ON  `myems_system_db`.`tbl_variables`   (`meter_id`, `meter_type`, `expression_id`);
+  CREATE INDEX `tbl_variables_index_1` ON  `myems_system_db`.`tbl_variables`   (`virtual_meter_id`);
+  CREATE INDEX `tbl_variables_index_2` ON  `myems_system_db`.`tbl_variables`   (`meter_id`, `meter_type`, `virtual_meter_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_versions`
@@ -1258,6 +1246,6 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '1.3.3', '2021-10-30');
+(1, '1.4.0', '2021-11-13');
 
 COMMIT;

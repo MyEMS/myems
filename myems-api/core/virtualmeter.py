@@ -57,8 +57,8 @@ class VirtualMeterCollection:
                                                "name": row['name'],
                                                "uuid": row['uuid']}
 
-        query = (" SELECT id, name, uuid, energy_category_id, is_counted, "
-                 "        energy_item_id, cost_center_id, description "
+        query = (" SELECT id, name, uuid, equation, energy_category_id, is_counted, cost_center_id, "
+                 "        energy_item_id, description "
                  " FROM tbl_virtual_meters "
                  " ORDER BY id ")
         cursor.execute(query)
@@ -68,36 +68,29 @@ class VirtualMeterCollection:
         if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
             for row in rows_virtual_meters:
                 energy_category = energy_category_dict.get(row['energy_category_id'], None)
-                energy_item = energy_item_dict.get(row['energy_item_id'], None)
                 cost_center = cost_center_dict.get(row['cost_center_id'], None)
+                energy_item = energy_item_dict.get(row['energy_item_id'], None)
                 meta_result = {"id": row['id'],
                                "name": row['name'],
                                "uuid": row['uuid'],
+                               "equation": row['equation'],
                                "energy_category": energy_category,
                                "is_counted": True if row['is_counted'] else False,
-                               "energy_item": energy_item,
                                "cost_center": cost_center,
+                               "energy_item": energy_item,
                                "description": row['description'],
                                "expression": {}}
 
                 expression = dict()
-                query_expression = (" SELECT e.id, e.uuid, e.equation "
-                                    " FROM tbl_expressions e "
-                                    " WHERE e.virtual_meter_id = %s ")
-                cursor.execute(query_expression, (row['id'],))
-                row_expression = cursor.fetchone()
 
-                if row_expression is not None:
-                    expression = {'id': row_expression['id'],
-                                  'uuid': row_expression['uuid'],
-                                  'equation': row_expression['equation'],
-                                  'variables': []}
+                if meta_result["equation"] is not None:
+                    expression = {'equation': meta_result["equation"], 'variables': []}
 
                     query_variables = (" SELECT v.id, v.name, v.meter_type, v.meter_id "
-                                       " FROM tbl_expressions e, tbl_variables v "
-                                       " WHERE e.id = %s AND v.expression_id = e.id "
+                                       " FROM tbl_virtual_meters vm, tbl_variables v "
+                                       " WHERE vm.id = %s AND v.virtual_meter_id = vm.id "
                                        " ORDER BY v.name ")
-                    cursor.execute(query_variables, (row_expression['id'],))
+                    cursor.execute(query_variables, (meta_result['id'],))
                     rows_variables = cursor.fetchall()
                     if rows_variables is not None:
                         for row_variable in rows_variables:
@@ -312,11 +305,12 @@ class VirtualMeterCollection:
                                            description='API.VIRTUAL_METER_OF_VARIABLE_NOT_FOUND')
 
         add_values = (" INSERT INTO tbl_virtual_meters "
-                      "     (name, uuid, energy_category_id, is_counted, "
+                      "     (name, uuid, equation, energy_category_id, is_counted, "
                       "      cost_center_id, energy_item_id, description) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s) ")
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
+                                    new_values['data']['expression']['equation'].lower(),
                                     energy_category_id,
                                     is_counted,
                                     cost_center_id,
@@ -325,32 +319,12 @@ class VirtualMeterCollection:
         new_id = cursor.lastrowid
         cnx.commit()
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_expressions "
-                       " WHERE virtual_meter_id = %s ", (new_id,))
-        row_expression = cursor.fetchone()
-        if row_expression is not None:
-            # delete variables
-            cursor.execute(" DELETE FROM tbl_variables WHERE expression_id = %s ", (row_expression[0],))
-            # delete expression
-            cursor.execute(" DELETE FROM tbl_expressions WHERE id = %s ", (row_expression[0],))
-            cnx.commit()
-
-        # add expression
-        add_values = (" INSERT INTO tbl_expressions (uuid, virtual_meter_id, equation) "
-                      " VALUES (%s, %s, %s) ")
-        cursor.execute(add_values, (str(uuid.uuid4()),
-                                    new_id,
-                                    new_values['data']['expression']['equation'].lower()))
-        new_expression_id = cursor.lastrowid
-        cnx.commit()
-
         # add variables
         for variable in new_values['data']['expression']['variables']:
-            add_values = (" INSERT INTO tbl_variables (name, expression_id, meter_type, meter_id) "
+            add_values = (" INSERT INTO tbl_variables (name, virtual_meter_id, meter_type, meter_id) "
                           " VALUES (%s, %s, %s, %s) ")
             cursor.execute(add_values, (variable['name'].lower(),
-                                        new_expression_id,
+                                        new_id,
                                         variable['meter_type'],
                                         variable['meter_id'],))
             cnx.commit()
@@ -417,8 +391,8 @@ class VirtualMeterItem:
                                                "name": row['name'],
                                                "uuid": row['uuid']}
 
-        query = (" SELECT id, name, uuid, energy_category_id, is_counted, "
-                 "        energy_item_id, cost_center_id, description "
+        query = (" SELECT id, name, uuid, equation, energy_category_id, is_counted, cost_center_id, "
+                 "        energy_item_id, description "
                  " FROM tbl_virtual_meters "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -428,36 +402,29 @@ class VirtualMeterItem:
                                    description='API.VIRTUAL_METER_NOT_FOUND')
         else:
             energy_category = energy_category_dict.get(row['energy_category_id'], None)
-            energy_item = energy_item_dict.get(row['energy_item_id'], None)
             cost_center = cost_center_dict.get(row['cost_center_id'], None)
+            energy_item = energy_item_dict.get(row['energy_item_id'], None)
             meta_result = {"id": row['id'],
                            "name": row['name'],
                            "uuid": row['uuid'],
+                           "equation": row['equation'],
                            "energy_category": energy_category,
                            "is_counted": True if row['is_counted'] else False,
-                           "energy_item": energy_item,
                            "cost_center": cost_center,
+                           "energy_item": energy_item,
                            "description": row['description'],
                            "expression": {}}
 
         expression = dict()
-        query_expression = (" SELECT e.id, e.uuid, e.equation "
-                            " FROM tbl_expressions e "
-                            " WHERE e.virtual_meter_id = %s ")
-        cursor.execute(query_expression, (id_,))
-        row_expression = cursor.fetchone()
 
-        if row_expression is not None:
-            expression = {'id': row_expression['id'],
-                          'uuid': row_expression['uuid'],
-                          'equation': row_expression['equation'],
-                          'variables': []}
+        if meta_result["equation"] is not None:
+            expression = {'equation': meta_result["equation"], 'variables': []}
 
             query_variables = (" SELECT v.id, v.name, v.meter_type, v.meter_id "
-                               " FROM tbl_expressions e, tbl_variables v "
-                               " WHERE e.id = %s AND v.expression_id = e.id "
+                               " FROM tbl_virtual_meters  vm, tbl_variables v "
+                               " WHERE vm.id = %s AND v.virtual_meter_id = vm.id "
                                " ORDER BY v.name ")
-            cursor.execute(query_variables, (row_expression['id'],))
+            cursor.execute(query_variables, (meta_result["id"],))
             rows_variables = cursor.fetchall()
             if rows_variables is not None:
                 for row_variable in rows_variables:
@@ -528,9 +495,8 @@ class VirtualMeterItem:
 
         # check relations with other virtual meters
         cursor.execute(" SELECT vm.name "
-                       " FROM tbl_variables va, tbl_expressions ex, tbl_virtual_meters vm "
-                       " WHERE va.meter_id = %s AND va.meter_type = 'virtual_meter' AND va.expression_id = ex.id "
-                       " AND ex.virtual_meter_id = vm.id ",
+                       " FROM tbl_variables va, tbl_virtual_meters vm "
+                       " WHERE va.meter_id = %s AND va.meter_type = 'virtual_meter' AND va.virtual_meter_id = vm.id ",
                        (id_,))
         row_virtual_meter = cursor.fetchone()
         if row_virtual_meter is not None:
@@ -639,17 +605,6 @@ class VirtualMeterItem:
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_SHOPFLOORS')
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_expressions "
-                       " WHERE virtual_meter_id = %s ", (id_,))
-        row_expression = cursor.fetchone()
-        if row_expression is not None:
-            # delete variables
-            cursor.execute(" DELETE FROM tbl_variables WHERE expression_id = %s ", (row_expression[0],))
-            # delete expression
-            cursor.execute(" DELETE FROM tbl_expressions WHERE id = %s ", (row_expression[0],))
-            cnx.commit()
-
         # check relation with energy flow diagram links
         cursor.execute(" SELECT id "
                        " FROM tbl_energy_flow_diagrams_links "
@@ -661,6 +616,15 @@ class VirtualMeterItem:
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_ENERGY_FLOW_DIAGRAM_LINKS')
+
+        cursor.execute(" SELECT id "
+                       " FROM tbl_variables "
+                       " WHERE virtual_meter_id = %s ", (id_,))
+        row_variables = cursor.fetchall()
+        if row_variables is not None and len(row_variables) > 0:
+            # delete variables
+            cursor.execute(" DELETE FROM tbl_variables WHERE virtual_meter_id = %s ", (id_,))
+            cnx.commit()
 
         cursor.execute(" DELETE FROM tbl_virtual_meters WHERE id = %s ", (id_,))
         cnx.commit()
@@ -850,10 +814,11 @@ class VirtualMeterItem:
                                            description='API.VIRTUAL_METER_OF_VARIABLE_NOT_FOUND')
 
         update_row = (" UPDATE tbl_virtual_meters "
-                      " SET name = %s, energy_category_id = %s, is_counted = %s, "
+                      " SET name = %s, equation = %s, energy_category_id = %s, is_counted = %s, "
                       "     cost_center_id = %s, energy_item_id = %s, description = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
+                                    new_values['data']['expression']['equation'].lower(),
                                     energy_category_id,
                                     is_counted,
                                     cost_center_id,
@@ -863,31 +828,20 @@ class VirtualMeterItem:
         cnx.commit()
 
         cursor.execute(" SELECT id "
-                       " FROM tbl_expressions "
+                       " FROM tbl_variables "
                        " WHERE virtual_meter_id = %s ", (id_,))
-        row_expression = cursor.fetchone()
-        if row_expression is not None:
+        row_variables = cursor.fetchall()
+        if row_variables is not None and len(row_variables) > 0:
             # delete variables
-            cursor.execute(" DELETE FROM tbl_variables WHERE expression_id = %s ", (row_expression[0],))
-            # delete expression
-            cursor.execute(" DELETE FROM tbl_expressions WHERE id = %s ", (row_expression[0],))
+            cursor.execute(" DELETE FROM tbl_variables WHERE virtual_meter_id = %s ", (id_,))
             cnx.commit()
-
-        # add expression
-        add_values = (" INSERT INTO tbl_expressions (uuid, virtual_meter_id, equation) "
-                      " VALUES (%s, %s, %s) ")
-        cursor.execute(add_values, (str(uuid.uuid4()),
-                                    id_,
-                                    new_values['data']['expression']['equation'].lower()))
-        new_expression_id = cursor.lastrowid
-        cnx.commit()
 
         # add variables
         for variable in new_values['data']['expression']['variables']:
-            add_values = (" INSERT INTO tbl_variables (name, expression_id, meter_type, meter_id) "
+            add_values = (" INSERT INTO tbl_variables (name, virtual_meter_id, meter_type, meter_id) "
                           " VALUES (%s, %s, %s, %s) ")
             cursor.execute(add_values, (variable['name'].lower(),
-                                        new_expression_id,
+                                        id_,
                                         variable['meter_type'],
                                         variable['meter_id'],))
             cnx.commit()

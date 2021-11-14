@@ -376,18 +376,6 @@ VALUES
 COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
--- Demo Data for table `myems_system_db`.`tbl_expressions`
--- ---------------------------------------------------------------------------------------------------------------------
-START TRANSACTION;
-USE `myems_system_db`;
-
-INSERT INTO `myems_system_db`.`tbl_expressions`
-(`id`, `uuid`, `virtual_meter_id`, `equation`)
-VALUES
-(1, '3fff2cfb-f755-44c8-a919-6135205a8573', 1, 'x1+x2-x3');
-COMMIT;
-
--- ---------------------------------------------------------------------------------------------------------------------
 -- Demo Data for table `myems_system_db`.`tbl_gateways`
 -- ---------------------------------------------------------------------------------------------------------------------
 START TRANSACTION;
@@ -1126,9 +1114,9 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_virtual_meters`
-(`id`, `name`, `uuid`, `energy_category_id`, `is_counted`, `cost_center_id`, `energy_item_id`, `description`)
+(`id`, `name`, `uuid`, `equation`, `energy_category_id`, `is_counted`, `cost_center_id`, `energy_item_id`, `description`)
 VALUES
-(1, 'Example Virtual Meter', '3fff2cfb-f755-44c8-a919-6135205a8573', 1, true, 1, 1, 'virtual description');
+(1, 'Example Virtual Meter', '3fff2cfb-f755-44c8-a919-6135205a8573', 'x1+x2+x3', 1, true, 1, 1, 'virtual description');
 
 COMMIT;
 
@@ -1139,7 +1127,7 @@ START TRANSACTION;
 USE `myems_system_db`;
 -- meter_type = {'meter', 'virtual_meter', 'offline_meter'}
 INSERT INTO `myems_system_db`.`tbl_variables`
-(`id`, `name`, `expression_id`, `meter_type`, `meter_id`)
+(`id`, `name`, `virtual_meter_id`, `meter_type`, `meter_id`)
 VALUES
 (1, 'x1', 1, 'meter', 1),
 (2, 'x2', 1, 'meter', 2),

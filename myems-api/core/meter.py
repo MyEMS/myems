@@ -394,9 +394,8 @@ class MeterItem:
 
         # check if this meter is being used by virtual meters
         cursor.execute(" SELECT vm.name "
-                       " FROM tbl_variables va, tbl_expressions ex, tbl_virtual_meters vm "
-                       " WHERE va.meter_id = %s AND va.meter_type = 'meter' AND va.expression_id = ex.id "
-                       "       AND ex.virtual_meter_id = vm.id ",
+                       " FROM tbl_variables va, tbl_virtual_meters vm "
+                       " WHERE va.meter_id = %s AND va.meter_type = 'meter' AND va.virtual_meter_id = vm.id ",
                        (id_,))
         row_virtual_meter = cursor.fetchone()
         if row_virtual_meter is not None:

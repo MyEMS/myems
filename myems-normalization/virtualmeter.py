@@ -36,10 +36,9 @@ def calculate_hourly(logger):
 
         virtual_meter_list = list()
         try:
-            cursor_system_db.execute(" SELECT m.id, m.name, e.equation, e.id as expression_id "
-                                     " FROM tbl_virtual_meters m, tbl_expressions e "
-                                     " WHERE m.id = e.virtual_meter_id "
-                                     " ORDER BY m.id ")
+            cursor_system_db.execute(" SELECT id, name, equation "
+                                     " FROM tbl_virtual_meters "
+                                     " ORDER BY id ")
             rows_virtual_meters = cursor_system_db.fetchall()
 
             if rows_virtual_meters is None or len(rows_virtual_meters) == 0:
@@ -48,7 +47,7 @@ def calculate_hourly(logger):
                 continue
 
             for row in rows_virtual_meters:
-                meta_result = {"id": row[0], "name": row[1], "equation": row[2], "expression_id": row[3]}
+                meta_result = {"id": row[0], "name": row[1], "equation": row[2]}
                 virtual_meter_list.append(meta_result)
 
         except Exception as e:
@@ -196,8 +195,8 @@ def worker(virtual_meter):
                                  " FROM tbl_meters m, tbl_variables v "
                                  " WHERE m.id = v.meter_id "
                                  "       AND v.meter_type = 'meter' "
-                                 "       AND v.expression_id = %s ",
-                                 (virtual_meter['expression_id'], ))
+                                 "       AND v.virtual_meter_id = %s ",
+                                 (virtual_meter['id'], ))
         rows = cursor_system_db.fetchall()
         if rows is not None and len(rows) > 0:
             for row in rows:
@@ -211,8 +210,8 @@ def worker(virtual_meter):
                                  " FROM tbl_virtual_meters m, tbl_variables v "
                                  " WHERE m.id = v.meter_id "
                                  "       AND v.meter_type = 'virtual_meter' "
-                                 "       AND v.expression_id = %s ",
-                                 (virtual_meter['expression_id'],))
+                                 "       AND v.virtual_meter_id = %s ",
+                                 (virtual_meter['id'],))
         rows = cursor_system_db.fetchall()
         if rows is not None and len(rows) > 0:
             for row in rows:
@@ -227,8 +226,8 @@ def worker(virtual_meter):
                                  " FROM tbl_offline_meters m, tbl_variables v "
                                  " WHERE m.id = v.meter_id "
                                  "       AND v.meter_type = 'offline_meter' "
-                                 "       AND v.expression_id = %s ",
-                                 (virtual_meter['expression_id'],))
+                                 "       AND v.virtual_meter_id = %s ",
+                                 (virtual_meter['id'],))
         rows = cursor_system_db.fetchall()
         if rows is not None and len(rows) > 0:
             for row in rows:
