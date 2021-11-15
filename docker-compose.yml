@@ -2,7 +2,7 @@ version: '3'
 services:
   api:
     build: ./myems-api
-    command: gunicorn app:api -b 0.0.0.0:8000
+    command: gunicorn app:api -b 0.0.0.0:8000 --timeout 600 --workers=4
     restart: always
     ports:
       - "8000:8000"
