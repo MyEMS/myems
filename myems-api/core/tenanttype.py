@@ -3,7 +3,7 @@ import simplejson as json
 import mysql.connector
 import config
 import uuid
-from core.useractivity import user_logger
+from core.useractivity import user_logger, access_control
 
 
 class TenantTypeCollection:
@@ -42,6 +42,7 @@ class TenantTypeCollection:
     @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
+        access_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -150,6 +151,8 @@ class TenantTypeItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_):
+        """Handles DELETE requests"""
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_TYPE_ID')
@@ -188,6 +191,7 @@ class TenantTypeItem:
     @user_logger
     def on_put(req, resp, id_):
         """Handles PUT requests"""
+        access_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
