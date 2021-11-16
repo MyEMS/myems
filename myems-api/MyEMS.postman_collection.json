@@ -6259,7 +6259,20 @@
 							"name": "POST Create New Tenant Type",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "361834d2ebe57d4e87c6aeb10dc502e70a970c6703f6e125ad91d59a1870df1add3622c0da57a567e0681664cf8c9ba6c8406483f493dbd9d05011ed8310f6fd",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\": \"Office1\", \"description\":\"办公\", \"simplified_code\":\"OF1\"}}"
@@ -6280,19 +6293,32 @@
 							"name": "PUT Update a Tenant Type",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "361834d2ebe57d4e87c6aeb10dc502e70a970c6703f6e125ad91d59a1870df1add3622c0da57a567e0681664cf8c9ba6c8406483f493dbd9d05011ed8310f6fd",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\": \"Office1\", \"description\":\"办公\", \"simplified_code\":\"OF1\"}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/tenanttypes/1",
+									"raw": "{{base_url}}/tenanttypes/10",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"tenanttypes",
-										"1"
+										"10"
 									]
 								}
 							},
@@ -6302,15 +6328,28 @@
 							"name": "DELETE a Tenant Type by ID",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "361834d2ebe57d4e87c6aeb10dc502e70a970c6703f6e125ad91d59a1870df1add3622c0da57a567e0681664cf8c9ba6c8406483f493dbd9d05011ed8310f6fd",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
 								"url": {
-									"raw": "{{base_url}}/tenanttypes/1",
+									"raw": "{{base_url}}/tenanttypes/10",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"tenanttypes",
-										"1"
+										"10"
 									]
 								}
 							},
