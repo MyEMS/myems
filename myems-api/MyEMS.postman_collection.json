@@ -6457,7 +6457,20 @@
 							"name": "PUT Update a Timezone",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "361834d2ebe57d4e87c6aeb10dc502e70a970c6703f6e125ad91d59a1870df1add3622c0da57a567e0681664cf8c9ba6c8406483f493dbd9d05011ed8310f6fd",
+										"description": "Login to get a token",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"夏威夷标准时间\",\"description\":\"(GMT-10:00) Hawaii\", \"utc_offset\":\"-10:00\"}}"
@@ -6491,11 +6504,13 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
 										"type": "text"
 									},
 									{
 										"key": "Token",
 										"value": "50bc979c9181699bc33927aa04a453fd83e2b8e8280544bfc3807fdedf2645201676fe474787e0ea3024502659a2ab4b1905c6ca4f444ffdba764a603c4eb691",
+										"description": "Login to get a valid token",
 										"type": "text"
 									}
 								],
@@ -6522,11 +6537,13 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
 										"type": "text"
 									},
 									{
 										"key": "Token",
 										"value": "b422ef869a947eb8dd058f5c9464b11769db7be3232b327fb8a4edac28118df876a5d7d3ab1d8175ef81169126d01fbe3b38baa6da62edf4cbf49b2bef0ed9a7",
+										"description": "Login to get a valid token",
 										"type": "text"
 									}
 								],
@@ -6551,11 +6568,13 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
 										"type": "text"
 									},
 									{
 										"key": "Token",
 										"value": "b422ef869a947eb8dd058f5c9464b11769db7be3232b327fb8a4edac28118df876a5d7d3ab1d8175ef81169126d01fbe3b38baa6da62edf4cbf49b2bef0ed9a7",
+										"description": "Login to get a valid token",
 										"type": "text"
 									}
 								],
@@ -6605,11 +6624,13 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
 										"type": "text"
 									},
 									{
 										"key": "Token",
 										"value": "b422ef869a947eb8dd058f5c9464b11769db7be3232b327fb8a4edac28118df876a5d7d3ab1d8175ef81169126d01fbe3b38baa6da62edf4cbf49b2bef0ed9a7",
+										"description": "Login to get a valid token",
 										"type": "text"
 									}
 								],
@@ -6634,11 +6655,13 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
 										"type": "text"
 									},
 									{
 										"key": "Token",
 										"value": "b422ef869a947eb8dd058f5c9464b11769db7be3232b327fb8a4edac28118df876a5d7d3ab1d8175ef81169126d01fbe3b38baa6da62edf4cbf49b2bef0ed9a7",
+										"description": "Login to get a valid token",
 										"type": "text"
 									}
 								],
@@ -6677,12 +6700,14 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
 										"value": "b422ef869a947eb8dd058f5c9464b11769db7be3232b327fb8a4edac28118df876a5d7d3ab1d8175ef81169126d01fbe3b38baa6da62edf4cbf49b2bef0ed9a7",
-										"type": "text"
+										"type": "text",
+										"description": "Login to get a valid token"
 									}
 								],
 								"body": {
@@ -6710,12 +6735,14 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
 										"value": "b422ef869a947eb8dd058f5c9464b11769db7be3232b327fb8a4edac28118df876a5d7d3ab1d8175ef81169126d01fbe3b38baa6da62edf4cbf49b2bef0ed9a7",
-										"type": "text"
+										"type": "text",
+										"description": "Login to get a valid token"
 									}
 								],
 								"body": {
@@ -6743,12 +6770,14 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
 										"value": "b422ef869a947eb8dd058f5c9464b11769db7be3232b327fb8a4edac28118df876a5d7d3ab1d8175ef81169126d01fbe3b38baa6da62edf4cbf49b2bef0ed9a7",
-										"type": "text"
+										"type": "text",
+										"description": "Login to get a valid token"
 									}
 								],
 								"body": {
