@@ -1,8 +1,8 @@
 'use strict';
 app.factory('EmailServerService', function($http) {
     return {
-        getAllEmailServers:function(callback){
-            $http.get(getAPI()+'emailservers')
+        getAllEmailServers:function(headers, callback){
+            $http.get(getAPI()+'emailservers', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -17,32 +17,32 @@ app.factory('EmailServerService', function($http) {
                 callback(response);
             });
         },
-        addEmailServer: function(emailserver, callback) {
-            $http.post(getAPI()+'emailservers',{data:emailserver})
+        addEmailServer: function(emailserver, headers, callback) {
+            $http.post(getAPI()+'emailservers', {data:emailserver}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        editEmailServer: function(emailserver, callback) {
-            $http.put(getAPI()+'emailservers/'+emailserver.id,{data:emailserver})
+        editEmailServer: function(emailserver, headers, callback) {
+            $http.put(getAPI()+'emailservers/' + emailserver.id, {data:emailserver}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        deleteEmailServer: function(emailserver, callback) {
-            $http.delete(getAPI()+'emailservers/'+emailserver.id)
+        deleteEmailServer: function(emailserver, headers, callback) {
+            $http.delete(getAPI()+'emailservers/' + emailserver.id, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        getEmailServer: function(id, callback) {
-            $http.get(getAPI()+'emailservers/'+id)
+        getEmailServer: function(emailserver, headers, callback) {
+            $http.get(getAPI()+'emailservers/' + emailserver.id, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
