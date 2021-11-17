@@ -1414,7 +1414,20 @@
 							"name": "GET All Email Servers",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "985248d7150682a54dbe3a781b87d92d37d26dbc32a77415e49cfc733793e90edf2fa26dec9390cdae388f2b3774894bcc7cfe879eb52fcc2bd24ae2b5e07d06",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/emailservers",
 									"host": [
@@ -1431,10 +1444,23 @@
 							"name": "POST Create New Email Server",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "985248d7150682a54dbe3a781b87d92d37d26dbc32a77415e49cfc733793e90edf2fa26dec9390cdae388f2b3774894bcc7cfe879eb52fcc2bd24ae2b5e07d06",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"host\":\"smtp.163.com\",\"port\":25, \"requires_authentication\":true, \"user_name\":\"myems\" , \"password\":\"!MyEMS1\" , \"from_addr\":\"myems@163.com\"}}"
+									"raw": "{\"data\":{\"host\":\"smtp.126.com\",\"port\":25, \"requires_authentication\":true, \"user_name\":\"myems\" , \"password\":\"!MyEMS1\" , \"from_addr\":\"myems@126.com\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/emailservers",
@@ -1452,9 +1478,29 @@
 							"name": "GET an Email Server by ID",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "985248d7150682a54dbe3a781b87d92d37d26dbc32a77415e49cfc733793e90edf2fa26dec9390cdae388f2b3774894bcc7cfe879eb52fcc2bd24ae2b5e07d06",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
 								"url": {
-									"raw": ""
+									"raw": "{{base_url}}/emailservers/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"emailservers",
+										"1"
+									]
 								}
 							},
 							"response": []
@@ -1463,7 +1509,20 @@
 							"name": "PUT Update an Email Server",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "985248d7150682a54dbe3a781b87d92d37d26dbc32a77415e49cfc733793e90edf2fa26dec9390cdae388f2b3774894bcc7cfe879eb52fcc2bd24ae2b5e07d06",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"host\":\"smtp.myems.io\",\"port\":25, \"requires_authentication\":true, \"user_name\":\"myems\" , \"password\":\"!MyEMS1\" , \"from_addr\":\"myems@myems.io\"}}"
@@ -1484,10 +1543,30 @@
 						{
 							"name": "DELETE an Email Server by ID",
 							"request": {
-								"method": "GET",
-								"header": [],
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": " Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "985248d7150682a54dbe3a781b87d92d37d26dbc32a77415e49cfc733793e90edf2fa26dec9390cdae388f2b3774894bcc7cfe879eb52fcc2bd24ae2b5e07d06",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
 								"url": {
-									"raw": ""
+									"raw": "{{base_url}}/emailservers/2",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"emailservers",
+										"2"
+									]
 								}
 							},
 							"response": []
