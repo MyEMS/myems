@@ -1,10 +1,16 @@
 'use strict';
 
-app.controller('EmailServerController', function($scope, $translate,$uibModal, EmailServerService,toaster,SweetAlert) {
-
-
+app.controller('EmailServerController', function($scope,
+	$window,
+    $translate,
+    $uibModal,
+    EmailServerService,
+    toaster,
+    SweetAlert) {
+    $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllEmailServers = function() {
-		EmailServerService.getAllEmailServers(function (response) {
+	    let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		EmailServerService.getAllEmailServers(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.emailservers = response.data;
 			} else {
@@ -28,7 +34,8 @@ app.controller('EmailServerController', function($scope, $translate,$uibModal, E
 		    }
 		});
 		modalInstance.result.then(function(emailserver) {
-			EmailServerService.addEmailServer(emailserver, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			EmailServerService.addEmailServer(emailserver, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
@@ -67,7 +74,8 @@ app.controller('EmailServerController', function($scope, $translate,$uibModal, E
 		});
 
 		modalInstance.result.then(function (modifiedEmailServer) {
-	        EmailServerService.editEmailServer(modifiedEmailServer,function (response){
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+	        EmailServerService.editEmailServer(modifiedEmailServer, headers, function (response){
 	            if(angular.isDefined(response.status) && response.status === 200){
 					toaster.pop({
 						type: "success",
@@ -103,7 +111,8 @@ app.controller('EmailServerController', function($scope, $translate,$uibModal, E
 		        closeOnCancel: true },
 		    function (isConfirm) {
 		        if (isConfirm) {
-		            EmailServerService.deleteEmailServer(emailserver, function (response) {
+				    let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		            EmailServerService.deleteEmailServer(emailserver, headers, function (response) {
 		            	if (angular.isDefined(response.status) && response.status === 204) {
                             toaster.pop({
                                 type: "success",

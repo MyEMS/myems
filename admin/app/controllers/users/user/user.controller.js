@@ -8,7 +8,6 @@ app.controller('UserController', function ($scope,
 	toaster,
 	$translate,
 	SweetAlert) {
-
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllUsers = function () {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
