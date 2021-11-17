@@ -5610,7 +5610,18 @@
 							"name": "POST Create New Store Type",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "1fa30152c96bac9fca99954f063b6e65bb40bfc602e4b5db3dc243577811d5bc71a5ebd0aeb732b15925d1b76fea32ec069e00ba395ce637a6e6ddc8e75cf882",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\": \"Car\", \"description\":\"汽车\", \"simplified_code\":\"CA\"}}"
@@ -5631,7 +5642,18 @@
 							"name": "PUT Update a Store Type",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "1fa30152c96bac9fca99954f063b6e65bb40bfc602e4b5db3dc243577811d5bc71a5ebd0aeb732b15925d1b76fea32ec069e00ba395ce637a6e6ddc8e75cf882",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\": \"Auto\", \"description\":\"汽车\", \"simplified_code\":\"AT\"}}"
@@ -5653,7 +5675,18 @@
 							"name": "DELETE a Store Type by ID",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "1fa30152c96bac9fca99954f063b6e65bb40bfc602e4b5db3dc243577811d5bc71a5ebd0aeb732b15925d1b76fea32ec069e00ba395ce637a6e6ddc8e75cf882",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/storetypes/4",
 									"host": [
