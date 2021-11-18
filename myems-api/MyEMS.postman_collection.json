@@ -853,7 +853,20 @@
 							"name": "GET All Cost Files",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "6ab593bb7e48f22da551572b444b2095b02f7fd717681215c16866b18846c9e0c7c9a10b612d26e262d2100223197a3804daec0ace179623dcb3d3e0a3213dbe",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/costfiles",
 									"host": [
@@ -870,7 +883,20 @@
 							"name": "GET a Cost File by ID",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "6ab593bb7e48f22da551572b444b2095b02f7fd717681215c16866b18846c9e0c7c9a10b612d26e262d2100223197a3804daec0ace179623dcb3d3e0a3213dbe",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/costfiles/1",
 									"host": [
@@ -926,7 +952,20 @@
 							"name": "DELETE a Cost File by ID",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "6ab593bb7e48f22da551572b444b2095b02f7fd717681215c16866b18846c9e0c7c9a10b612d26e262d2100223197a3804daec0ace179623dcb3d3e0a3213dbe",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/costfiles/1",
 									"host": [
@@ -944,15 +983,28 @@
 							"name": "Rstore a Cost File by ID",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "6ab593bb7e48f22da551572b444b2095b02f7fd717681215c16866b18846c9e0c7c9a10b612d26e262d2100223197a3804daec0ace179623dcb3d3e0a3213dbe",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
 								"url": {
-									"raw": "{{base_url}}/costfiles/1/restore",
+									"raw": "{{base_url}}/costfiles/20/restore",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"costfiles",
-										"1",
+										"20",
 										"restore"
 									]
 								}

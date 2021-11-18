@@ -1,38 +1,38 @@
 'use strict';
-app.factory('CostFileService', function($http) {  
-    return {  
-        getAllCostFiles:function(callback){
-            $http.get(getAPI()+'costfiles')  
+app.factory('CostFileService', function($http) {
+    return {
+        getAllCostFiles:function(headers, callback){
+            $http.get(getAPI()+'costfiles', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        
-        addCostFile: function(costfile, callback) {  
-            $http.post(getAPI()+'costfiles',{data:costfile})  
-            .then(function (response) {
-                callback(response);
-            }, function (response) {
-                callback(response);
-            }); 
-        },
-        restoreCostFile: function (costfile, callback) {
-            $http.get(getAPI() + 'costfiles/' + costfile.id + '/restore')
+
+        addCostFile: function(costfile, headers, callback) {
+            $http.post(getAPI()+'costfiles', {data:costfile}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        deleteCostFile: function(costfile, callback) {  
-            $http.delete(getAPI()+'costfiles/'+costfile.id)  
+        restoreCostFile: function (costfile, headers, callback) {
+            $http.get(getAPI() + 'costfiles/' + costfile.id + '/restore', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
-            }); 
+            });
+        },
+        deleteCostFile: function(costfile, headers, callback) {
+            $http.delete(getAPI()+'costfiles/' + costfile.id, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         }
     };
-});  
+});
