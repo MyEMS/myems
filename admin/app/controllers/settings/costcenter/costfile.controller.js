@@ -1,18 +1,19 @@
 'use strict';
 
 app.controller('CostFileController', function (
-    $scope, 
+    $scope,
 	$window,
-    $translate, 
-    $interval, 
-    CostFileService, 
-    toaster, 
+    $translate,
+    $interval,
+    CostFileService,
+    toaster,
     SweetAlert) {
 
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 
     $scope.getAllCostFiles = function () {
-        CostFileService.getAllCostFiles(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        CostFileService.getAllCostFiles(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.costfiles = response.data;
             } else {
@@ -53,7 +54,8 @@ app.controller('CostFileController', function (
     };
 
     $scope.restoreCostFile = function (costfile) {
-        CostFileService.restoreCostFile(costfile, function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        CostFileService.restoreCostFile(costfile, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 toaster.pop({
                     type: "success",
@@ -87,7 +89,8 @@ app.controller('CostFileController', function (
             },
             function (isConfirm) {
                 if (isConfirm) {
-                    CostFileService.deleteCostFile(costfile, function (response) {
+				    let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+                    CostFileService.deleteCostFile(costfile, headers, function (response) {
                         if (angular.isDefined(response.status) && response.status === 204) {
                             toaster.pop({
                                 type: "success",
