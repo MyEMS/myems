@@ -7,7 +7,7 @@ from datetime import datetime, timezone, timedelta
 import os
 import base64
 import sys
-from core.useractivity import user_logger
+from core.useractivity import user_logger, access_control
 
 
 class KnowledgeFileCollection:
@@ -76,7 +76,7 @@ class KnowledgeFileCollection:
     @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
-
+        access_control(req)
         try:
             upload = req.get_param('file')
             # Read upload file as binary
@@ -234,6 +234,8 @@ class KnowledgeFileItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_):
+        """Handles DELETE requests"""
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
@@ -284,6 +286,7 @@ class KnowledgeFileRestore:
 
     @staticmethod
     def on_get(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_KNOWLEDGE_FILE_ID')

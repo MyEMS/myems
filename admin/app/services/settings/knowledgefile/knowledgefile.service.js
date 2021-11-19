@@ -10,8 +10,8 @@ app.factory('KnowledgeFileService', function ($http) {
             });
         },
 
-        addKnowledgeFile: function (knowledgefile, callback) {
-            $http.post(getAPI() + 'knowledgefiles', { data: knowledgefile })
+        addKnowledgeFile: function (knowledgefile, headers, callback) {
+            $http.post(getAPI() + 'knowledgefiles', {data: knowledgefile}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -19,8 +19,8 @@ app.factory('KnowledgeFileService', function ($http) {
             });
         },
 
-        restoreKnowledgeFile: function (knowledgefile, callback) {
-            $http.get(getAPI() + 'knowledgefiles/' + knowledgefile.id + '/restore')
+        restoreKnowledgeFile: function (knowledgefile, headers, callback) {
+            $http.get(getAPI() + 'knowledgefiles/' + knowledgefile.id + '/restore', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -28,8 +28,8 @@ app.factory('KnowledgeFileService', function ($http) {
             });
         },
 
-        deleteKnowledgeFile: function (knowledgefile, callback) {
-            $http.delete(getAPI() + 'knowledgefiles/' + knowledgefile.id)
+        deleteKnowledgeFile: function (knowledgefile, headers, callback) {
+            $http.delete(getAPI() + 'knowledgefiles/' + knowledgefile.id, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

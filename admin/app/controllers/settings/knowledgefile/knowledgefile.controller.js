@@ -46,13 +46,14 @@ app.controller('KnowledgeFileController', function (
             toaster.pop({
                 type: "error",
                 title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: file.name}),
-                body: $translate.instant(response.data.description),
+                body: $translate.instant(xhr),
                 showCloseButton: true,
             });
         }
     };
     $scope.restoreKnowledgeFile = function (knowledgefile) {
-        KnowledgeFileService.restoreKnowledgeFile(knowledgefile, function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        KnowledgeFileService.restoreKnowledgeFile(knowledgefile, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 toaster.pop({
                     type: "success",
@@ -86,7 +87,8 @@ app.controller('KnowledgeFileController', function (
         },
         function (isConfirm) {
             if (isConfirm) {
-                KnowledgeFileService.deleteKnowledgeFile(knowledgefile, function (response) {
+		        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+                KnowledgeFileService.deleteKnowledgeFile(knowledgefile, headers, function (response) {
                     if (angular.isDefined(response.status) && response.status === 204) {
                         toaster.pop({
                             type: "success",
