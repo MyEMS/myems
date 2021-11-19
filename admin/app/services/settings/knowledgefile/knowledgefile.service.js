@@ -9,7 +9,7 @@ app.factory('KnowledgeFileService', function ($http) {
                 callback(response);
             });
         },
-
+        
         addKnowledgeFile: function (knowledgefile, headers, callback) {
             $http.post(getAPI() + 'knowledgefiles', {data: knowledgefile}, {headers})
             .then(function (response) {

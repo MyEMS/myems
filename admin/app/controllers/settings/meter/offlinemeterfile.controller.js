@@ -12,7 +12,8 @@ app.controller('OfflineMeterFileController', function(
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 
 	$scope.getAllOfflineMeterFiles = function() {
-		OfflineMeterFileService.getAllOfflineMeterFiles(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		OfflineMeterFileService.getAllOfflineMeterFiles(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.offlinemeterfiles = response.data;
 			} else {
@@ -54,7 +55,8 @@ app.controller('OfflineMeterFileController', function(
     };
 
     $scope.restoreOfflineMeterFile = function (offlinemeterfile) {
-        OfflineMeterFileService.restoreOfflineMeterFile(offlinemeterfile, function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        OfflineMeterFileService.restoreOfflineMeterFile(offlinemeterfile, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 toaster.pop({
                     type: "success",
@@ -88,7 +90,8 @@ app.controller('OfflineMeterFileController', function(
 			},
 			function(isConfirm) {
 				if (isConfirm) {
-					OfflineMeterFileService.deleteOfflineMeterFile(offlinemeterfile, function (response) {
+					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+					OfflineMeterFileService.deleteOfflineMeterFile(offlinemeterfile, headers, function (response) {
 						if (angular.isDefined(response.status) && response.status === 204) {
                             toaster.pop({
                                 type: "success",

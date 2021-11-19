@@ -2880,12 +2880,14 @@
 									{
 										"key": "User_UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
 										"value": "d2506282920bd7f1fb5db68605324bd7b8c6c305d84dcd43d43edfba6908136c4e468eca553c72f0211b2ad44fedb71c2f5c901816e5de828fa21cfb88a2552e",
-										"type": "text"
+										"type": "text",
+										"description": "Login to get a valid token"
 									}
 								],
 								"body": {
@@ -3518,7 +3520,20 @@
 							"name": "GET All Offline Meter Files",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "d2506282920bd7f1fb5db68605324bd7b8c6c305d84dcd43d43edfba6908136c4e468eca553c72f0211b2ad44fedb71c2f5c901816e5de828fa21cfb88a2552e",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/offlinemeterfiles",
 									"host": [
@@ -3535,7 +3550,20 @@
 							"name": "GET a Offline Meter File by ID",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "d2506282920bd7f1fb5db68605324bd7b8c6c305d84dcd43d43edfba6908136c4e468eca553c72f0211b2ad44fedb71c2f5c901816e5de828fa21cfb88a2552e",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/offlinemeterfiles/1",
 									"host": [
@@ -3591,7 +3619,20 @@
 							"name": "DELETE a Offline Meter File by ID",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "d2506282920bd7f1fb5db68605324bd7b8c6c305d84dcd43d43edfba6908136c4e468eca553c72f0211b2ad44fedb71c2f5c901816e5de828fa21cfb88a2552e",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/offlinemeterfiles/1",
 									"host": [
@@ -3609,7 +3650,20 @@
 							"name": "Rstore an Offline Meter File by ID",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "d2506282920bd7f1fb5db68605324bd7b8c6c305d84dcd43d43edfba6908136c4e468eca553c72f0211b2ad44fedb71c2f5c901816e5de828fa21cfb88a2552e",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/offlinemeterfiles/1/restore",
 									"host": [

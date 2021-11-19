@@ -9,7 +9,6 @@ app.factory('CostFileService', function($http) {
                 callback(response);
             });
         },
-
         addCostFile: function(costfile, headers, callback) {
             $http.post(getAPI()+'costfiles', {data:costfile}, {headers})
             .then(function (response) {

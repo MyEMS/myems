@@ -5,7 +5,7 @@ import config
 import uuid
 from datetime import datetime, timezone, timedelta
 import os
-from core.useractivity import user_logger
+from core.useractivity import user_logger, access_control
 
 
 class OfflineMeterFileCollection:
@@ -20,6 +20,7 @@ class OfflineMeterFileCollection:
 
     @staticmethod
     def on_get(req, resp):
+        access_control(req)
         cnx = mysql.connector.connect(**config.myems_historical_db)
         cursor = cnx.cursor()
 
@@ -52,6 +53,7 @@ class OfflineMeterFileCollection:
     @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
+        access_control(req)
         try:
             upload = req.get_param('file')
             # Read upload file as binary
@@ -159,6 +161,7 @@ class OfflineMeterFileItem:
 
     @staticmethod
     def on_get(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
@@ -194,6 +197,7 @@ class OfflineMeterFileItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_OFFLINE_METER_FILE_ID')
@@ -244,6 +248,7 @@ class OfflineMeterFileRestore:
 
     @staticmethod
     def on_get(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_OFFLINE_METER_FILE_ID')
