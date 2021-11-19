@@ -26,8 +26,7 @@ app.controller('CostFileController', function (
         url: getAPI() + 'costfiles',
         acceptedFiles: '.xlsx',
         dictDefaultMessage: 'Click(or Drop) to add files',
-        maxFilesize: '100',
-        headers: { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token }
+        maxFilesize: '100'
     };
 
     $scope.dzCallbacks = {
@@ -47,7 +46,7 @@ app.controller('CostFileController', function (
             toaster.pop({
                 type: "error",
                 title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: file.name}),
-                body: $translate.instant(response.data.description),
+                body: $translate.instant(xhr),
                 showCloseButton: true,
             });
         }

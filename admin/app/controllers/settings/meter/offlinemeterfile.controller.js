@@ -47,7 +47,7 @@ app.controller('OfflineMeterFileController', function(
             toaster.pop({
                 type: "error",
                 title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: file.name}),
-                body: $translate.instant(response.data.description),
+                body: $translate.instant(xhr),
                 showCloseButton: true,
             });
         }
