@@ -1,48 +1,48 @@
 'use strict';
 app.factory('GatewayService', function($http) {  
     return {  
-        getAllGateways:function(callback){
-            $http.get(getAPI()+'gateways')  
+        getAllGateways:function(headers, callback){
+            $http.get(getAPI() + 'gateways', {headers})  
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        searchGateways: function(query, callback) {  
-            $http.get(getAPI()+'gateways', { params: { q: query } })  
+        searchGateways: function(query, headers, callback) {  
+            $http.get(getAPI() + 'gateways', {params:{q:query}}, {headers})  
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });  
         },
-        addGateway: function(gateway, callback) {  
-            $http.post(getAPI()+'gateways',{data:gateway})  
+        addGateway: function(gateway, headers, callback) {  
+            $http.post(getAPI() + 'gateways', {data:gateway}, {headers})  
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             }); 
         },
-        editGateway: function(gateway, callback) {  
-            $http.put(getAPI()+'gateways/'+gateway.id,{data:gateway})  
+        editGateway: function(gateway, headers, callback) {  
+            $http.put(getAPI() + 'gateways/' + gateway.id, {data:gateway}, {headers})  
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });  
         },
-        deleteGateway: function(gateway, callback) {  
-            $http.delete(getAPI()+'gateways/'+gateway.id)  
+        deleteGateway: function(gateway, headers, callback) {  
+            $http.delete(getAPI() + 'gateways/' + gateway.id, {headers})  
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });  
         },
-        getGateway: function(id, callback) {  
-            $http.get(getAPI()+'gateways/'+id)  
+        getGateway: function(id, headers, callback) {  
+            $http.get(getAPI() + 'gateways/' + id, {headers})  
             .then(function (response) {
                 callback(response);
             }, function (response) {

@@ -1,9 +1,16 @@
 'use strict';
 
-app.controller('GatewayController', function($scope,  $translate, $uibModal, GatewayService, toaster, SweetAlert) {
-
+app.controller('GatewayController', function($scope,  
+	$window,
+	$translate, 
+	$uibModal, 
+	GatewayService, 
+	toaster, 
+	SweetAlert) {
+	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllGateways = function() {
-		GatewayService.getAllGateways(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		GatewayService.getAllGateways(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.gateways = response.data;
 			} else {
@@ -27,7 +34,8 @@ app.controller('GatewayController', function($scope,  $translate, $uibModal, Gat
 			}
 		});
 		modalInstance.result.then(function(gateway) {
-			GatewayService.addGateway(gateway, function(response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			GatewayService.addGateway(gateway, headers, function(response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
@@ -67,7 +75,8 @@ app.controller('GatewayController', function($scope,  $translate, $uibModal, Gat
 		});
 
 		modalInstance.result.then(function(modifiedGateway) {
-			GatewayService.editGateway(modifiedGateway, function(response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			GatewayService.editGateway(modifiedGateway, headers, function(response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
 						type: "success",
@@ -105,7 +114,8 @@ app.controller('GatewayController', function($scope,  $translate, $uibModal, Gat
 		},
 		function(isConfirm) {
 			if (isConfirm) {
-				GatewayService.deleteGateway(gateway, function(response) {
+				let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+				GatewayService.deleteGateway(gateway, headers, function(response) {
 					if (angular.isDefined(response.status) && response.status === 204) {
 						toaster.pop({
 							type: "success",

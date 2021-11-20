@@ -1022,7 +1022,20 @@
 							"name": "GET All Data Sources",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "ce8adcab80f37322487df375c3e3923e6febbcfb26d2b654a5814db6874f2b072fb40a85199efa725af7f3aa4f490f9cc833422b793fa85266237dc5278dff9f",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/datasources",
 									"host": [
@@ -1039,7 +1052,20 @@
 							"name": "GET Data Source by ID",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "ce8adcab80f37322487df375c3e3923e6febbcfb26d2b654a5814db6874f2b072fb40a85199efa725af7f3aa4f490f9cc833422b793fa85266237dc5278dff9f",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/datasources/1",
 									"host": [
@@ -1057,7 +1083,20 @@
 							"name": "POST Create Data Source",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "ce8adcab80f37322487df375c3e3923e6febbcfb26d2b654a5814db6874f2b072fb40a85199efa725af7f3aa4f490f9cc833422b793fa85266237dc5278dff9f",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"Modbus1\", \"gateway_id\": 1, \"protocol\":\"modbus-tcp\", \"connection\":\"{\\\"host\\\":\\\"10.1.2.88\\\", \\\"port\\\":502}\"}}"
@@ -1078,15 +1117,28 @@
 							"name": "DELETE Data Source by ID",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "ce8adcab80f37322487df375c3e3923e6febbcfb26d2b654a5814db6874f2b072fb40a85199efa725af7f3aa4f490f9cc833422b793fa85266237dc5278dff9f",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
-									"raw": "{{base_url}}/datasources/2",
+									"raw": "{{base_url}}/datasources/14",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"datasources",
-										"2"
+										"14"
 									]
 								}
 							},
@@ -1096,7 +1148,20 @@
 							"name": "PUT Update Data Source by ID",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "ce8adcab80f37322487df375c3e3923e6febbcfb26d2b654a5814db6874f2b072fb40a85199efa725af7f3aa4f490f9cc833422b793fa85266237dc5278dff9f",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"Modbus1\", \"gateway_id\":1, \"protocol\":\"modbus-tcp\", \"connection\":\"{\\\"host\\\":\\\"10.1.2.99\\\", \\\"port\\\":502}\"}}"
@@ -1118,7 +1183,20 @@
 							"name": "GET All Points by Data Source ID",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "ce8adcab80f37322487df375c3e3923e6febbcfb26d2b654a5814db6874f2b072fb40a85199efa725af7f3aa4f490f9cc833422b793fa85266237dc5278dff9f",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/datasources/1/points",
 									"host": [
@@ -2721,7 +2799,20 @@
 							"name": "GET All Gateways",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "ce8adcab80f37322487df375c3e3923e6febbcfb26d2b654a5814db6874f2b072fb40a85199efa725af7f3aa4f490f9cc833422b793fa85266237dc5278dff9f",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/gateways",
 									"host": [
@@ -2738,7 +2829,20 @@
 							"name": "GET Gateway by ID",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "ce8adcab80f37322487df375c3e3923e6febbcfb26d2b654a5814db6874f2b072fb40a85199efa725af7f3aa4f490f9cc833422b793fa85266237dc5278dff9f",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/gateways/1",
 									"host": [
@@ -2756,7 +2860,20 @@
 							"name": "POST Create Gateway",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "ce8adcab80f37322487df375c3e3923e6febbcfb26d2b654a5814db6874f2b072fb40a85199efa725af7f3aa4f490f9cc833422b793fa85266237dc5278dff9f",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"MyEMS Gateway 3\"}}"
@@ -2777,7 +2894,20 @@
 							"name": "DELETE Gateway by ID",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "ce8adcab80f37322487df375c3e3923e6febbcfb26d2b654a5814db6874f2b072fb40a85199efa725af7f3aa4f490f9cc833422b793fa85266237dc5278dff9f",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/gateways/3",
 									"host": [
@@ -2795,7 +2925,20 @@
 							"name": "PUT Update Gateway by ID",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "ce8adcab80f37322487df375c3e3923e6febbcfb26d2b654a5814db6874f2b072fb40a85199efa725af7f3aa4f490f9cc833422b793fa85266237dc5278dff9f",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"MyEMS Gateway #3\"}}"
@@ -2817,7 +2960,20 @@
 							"name": "GET All Data Sources by Gateway ID",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "ce8adcab80f37322487df375c3e3923e6febbcfb26d2b654a5814db6874f2b072fb40a85199efa725af7f3aa4f490f9cc833422b793fa85266237dc5278dff9f",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/gateways/1/datasources",
 									"host": [
@@ -3687,7 +3843,20 @@
 							"name": "GET All Points",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "ce8adcab80f37322487df375c3e3923e6febbcfb26d2b654a5814db6874f2b072fb40a85199efa725af7f3aa4f490f9cc833422b793fa85266237dc5278dff9f",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/points",
 									"host": [
@@ -3704,7 +3873,20 @@
 							"name": "GET Point by ID",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "ce8adcab80f37322487df375c3e3923e6febbcfb26d2b654a5814db6874f2b072fb40a85199efa725af7f3aa4f490f9cc833422b793fa85266237dc5278dff9f",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/points/1",
 									"host": [
@@ -3722,7 +3904,20 @@
 							"name": "POST Create Point",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "ce8adcab80f37322487df375c3e3923e6febbcfb26d2b654a5814db6874f2b072fb40a85199efa725af7f3aa4f490f9cc833422b793fa85266237dc5278dff9f",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"ModbusPoint2\", \"data_source_id\":1, \"object_type\": \"ENERGY_VALUE\", \"units\":\"kWh\", \"high_limit\":999999999, \"low_limit\":0, \"ratio\":1,\"is_trend\":true, \"is_virtual\":false, \"address\":\"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":1, \\\"number_of_registers\\\":2, \\\"data_format\\\":\\\"float\\\"}\", \"description\":null}}"
@@ -3743,7 +3938,20 @@
 							"name": "DELETE Point by ID",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "ce8adcab80f37322487df375c3e3923e6febbcfb26d2b654a5814db6874f2b072fb40a85199efa725af7f3aa4f490f9cc833422b793fa85266237dc5278dff9f",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/points/2",
 									"host": [
@@ -3761,7 +3969,20 @@
 							"name": "PUT Update Point by ID",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "ce8adcab80f37322487df375c3e3923e6febbcfb26d2b654a5814db6874f2b072fb40a85199efa725af7f3aa4f490f9cc833422b793fa85266237dc5278dff9f",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"ModbusPoint1\", \"data_source_id\":1, \"object_type\": \"ENERGY_VALUE\", \"units\":\"kWh\", \"high_limit\":999999999, \"low_limit\":0, \"ratio\":100, \"is_trend\":true, \"is_virtual\":false, \"address\":\"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":1, \\\"number_of_registers\\\":2, \\\"data_format\\\":\\\"float\\\"}\", \"description\":null}}"
