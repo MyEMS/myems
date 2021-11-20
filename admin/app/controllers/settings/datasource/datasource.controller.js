@@ -1,9 +1,17 @@
 'use strict';
 
-app.controller('DataSourceController', function($scope, $uibModal, $translate, DataSourceService, GatewayService, toaster, SweetAlert) {
-
+app.controller('DataSourceController', function($scope, 
+	$window,
+	$uibModal, 
+	$translate, 
+	DataSourceService, 
+	GatewayService, 
+	toaster, 
+	SweetAlert) {
+	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllDataSources = function() {
-		DataSourceService.getAllDataSources(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		DataSourceService.getAllDataSources(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.datasources = response.data;
 			} else {
@@ -13,9 +21,9 @@ app.controller('DataSourceController', function($scope, $uibModal, $translate, D
 
 	};
 
-
 	$scope.getAllGateways = function() {
-		GatewayService.getAllGateways(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		GatewayService.getAllGateways(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.gateways = response.data;
 			} else {
@@ -39,8 +47,9 @@ app.controller('DataSourceController', function($scope, $uibModal, $translate, D
 			}
 		});
 		modalInstance.result.then(function(datasource) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			datasource.gateway_id = datasource.gateway.id;
-			DataSourceService.addDataSource(datasource, function (response) {
+			DataSourceService.addDataSource(datasource, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
@@ -80,8 +89,9 @@ app.controller('DataSourceController', function($scope, $uibModal, $translate, D
 		});
 
 		modalInstance.result.then(function(modifiedDataSource) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			modifiedDataSource.gateway_id = modifiedDataSource.gateway.id;
-			DataSourceService.editDataSource(modifiedDataSource, function (response) {
+			DataSourceService.editDataSource(modifiedDataSource, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
 						type: "success",
@@ -118,7 +128,8 @@ app.controller('DataSourceController', function($scope, $uibModal, $translate, D
 			},
 			function(isConfirm) {
 				if (isConfirm) {
-					DataSourceService.deleteDataSource(datasource, function (response) {
+					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+					DataSourceService.deleteDataSource(datasource, headers, function (response) {
 						if (angular.isDefined(response.status) && response.status === 204) {
                             toaster.pop({
                                 type: "success",
