@@ -21,7 +21,7 @@
 | MariaDB                           | ✔️             | ✔️        | https://mariadb.org/ |
 | SingleStore                       | ✔️            | ✔️        | https://www.singlestore.com/ |
 | AWS 云部署                         | ✔️             | ✔️        | https://aws.amazon.com/ |
-| AZure 云部署                       | ✔️             | ✔️        | https://azure.microsoft.com/ |
+| Azure 云部署                       | ✔️             | ✔️        | https://azure.microsoft.com/ |
 | 阿里云部署                         | ✔️             | ✔️        | https://aliyun.com/ |
 | 私有云部署                         | ✔️             | ✔️        |                      |
 | 总览页                             | ✔️             | ✔️        | 本月总能耗、本月总成本、本月消耗吨标准煤、本月吨二氧化碳排放、分时消耗电量、成本占比、吨标准煤占比、吨二氧化碳排放占比、本月能耗趋势、本月成本趋势、相关参数、本月子空间数据 |

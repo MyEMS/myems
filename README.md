@@ -121,15 +121,15 @@ MyEMS由资深专业团队开发维护，系统代码基于MIT开源软件许可
 | 组合设备数据/批量分析                | ✔️             | 按空间层级筛选、空间向下递归查询、按报告期查询全部能耗分类数据、导出Excel |
 | 能流图分析                         | ✔️             | 表示能源流动状况、节点显示用能单位、链接显示本月能源总量 |
 | 配电系统分析                       | ✔️             | 高中低压配电系统、实时数据、配电系统图 |
-| REST API                         | ✔️             | 基于Python开发，提供系统配置、能源报告、Excel导出接口 |
-| Web UI                           | ✔️             | 基于React开发，用于能源数据分析 |
+| RESTful API                         | ✔️             | 基于Python开发，提供系统配置、能源报告、Excel导出接口 |
+| Web UI                           | ✔️             | 基于ReactJS开发，用于能源数据分析 |
 | Admin UI                         | ✔️             | 基于Angular开发，用于系统配置管理 |
 | 在线社区技术支持                    | ✔️             |         |
 
 
 ## MyEMS企业版功能
 
-[MyEMS企业版功能](./enterprise-edition-cn.md)
+详见 [MyEMS企业版功能](./enterprise-edition-cn.md)
 
 
 ## MyEMS下载(社区版)
