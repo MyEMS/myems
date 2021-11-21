@@ -118,15 +118,15 @@ MyEMS wird von einem erfahrenen Entwicklungsteam entwickelt und gewartet, und de
 | Energy Dashboard                 | ✔️             |                      |
 | Energy Flow Diagram              | ✔️             |                      |
 | Distribution System              | ✔️             |                      |
-| REST API                         | ✔️             |                      |
-| Web UI                           | ✔️             |                      |
-| Admin UI                         | ✔️             |                      |
-| Online Community Customer Support| ✔️              |                      |
+| RESTful API                         | ✔️          | Based on Python. Providing interfaces of system configuration, energy report and excel exporter |
+| Web UI                           | ✔️             | Based on ReactJS. Providing energy data virtualization. |
+| Admin UI                         | ✔️             | Based on AngularJS. Providing system configuration. |
+| Online Community Customer Support| ✔️             |                      |
 
 
 ## Funktionen der MyEMS Enterprise Edition
 
-[Funktionen der MyEMS Enterprise Edition](./enterprise-edition-de.md)
+Sehen [Funktionen der MyEMS Enterprise Edition](./enterprise-edition-de.md)
 
 
 ## MyEMS Downloads (Community Edition)

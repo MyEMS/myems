@@ -21,7 +21,7 @@
 | MariaDB                          | ✔️             | ✔️        | https://mariadb.org/ |
 | SingleStore                      | ✔️            | ✔️        | https://www.singlestore.com/ |
 | AWS Cloud                        | ✔️             | ✔️        | https://aws.amazon.com/ |
-| AZure Cloud                      | ✔️             | ✔️        | https://azure.microsoft.com/ |
+| Azure Cloud                      | ✔️             | ✔️        | https://azure.microsoft.com/ |
 | Alibaba Cloud                    | ✔️             | ✔️        | https://aliyun.com/ |
 | Private Cloud                    | ✔️             | ✔️        |                      |
 | Data Comparison                  | ✔️             | ✔️        | Jahr für Jahr, Monat für Monat, Freier Vergleich, Kein Vergleich |
