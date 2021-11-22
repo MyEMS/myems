@@ -50,18 +50,18 @@ MyEMS is being developed and maintained by an experienced development team, and 
 | Equipments Number                | Unlimited       | The actual number is limited by the upper limit of server resources |
 | Tenants Number                   | Unlimited       | The actual number is limited by the upper limit of server resources |
 | Stores Number                    | Unlimited       | The actual number is limited by the upper limit of server resources |
-| Shopfloors Number                | Unlimited       | The actual number is limited by the upper limit of server resources |
+| Shop Floors Number                | Unlimited       | The actual number is limited by the upper limit of server resources |
 | Combined Equipments Number       | Unlimited       | The actual number is limited by the upper limit of server resources |
 | Docker                           | ✔️             | https://hub.docker.com/u/myems |
 | MySQL                            | ✔️             | http://mysql.com/    |
 | MariaDB                          | ✔️             | https://mariadb.org/ |
 | SingleStore                      | ✔️             | https://www.singlestore.com/ |
 | AWS Cloud                        | ✔️             | https://aws.amazon.com/ |
-| AZure Cloud                      | ✔️             | https://azure.microsoft.com/ |
+| Azure Cloud                      | ✔️             | https://azure.microsoft.com/ |
 | Alibaba Cloud                    | ✔️             | https://aliyun.com/ |
 | Private Cloud                    | ✔️             |                      |
 | Data Comparison                  | ✔️             | Year-on-Year, Month-on-Month, Free Comparison, None Comparison |
-| Excel Exporter                   | ✔️             | Tables, Line Charts, Column Charts, Pie Charts |
+| Excel Exporter                   | ✔️             | Real Excel file, not CSV file. Tables, Line Charts, Column Charts, Pie Charts |
 | Meter/Energy Data                | ✔️             |                      |
 | Meter/Cost Data                  | ✔️             |                      |
 | Meter/Trend Data                 | ✔️             |                      |
@@ -123,7 +123,7 @@ MyEMS is being developed and maintained by an experienced development team, and 
 | Distribution System              | ✔️             |                      |
 | RESTful API                      | ✔️             | Base on Python. Providing interfaces of system configuration, energy report and excel exporter |
 | Web UI                           | ✔️             | Based on ReactJS. Providing energy data virtualization. |
-| Admin UI                         | ✔️             | Based on AngularJS. Providing system configuration. |
+| Admin UI                         | ✔️             | Based on AngularJS (version 1.x). Providing system configuration. |
 | Online Community Customer Support| ✔️             |                      |
 
 
