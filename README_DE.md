@@ -44,24 +44,24 @@ MyEMS wird von einem erfahrenen Entwicklungsteam entwickelt und gewartet, und de
 | Pricing                          | Free            |              |
 | Change Name and Logo             | ️❌             |                      |
 | Modbus TCP                       | ✔️             |                      |
-| Data Points Number               | Unbegrenzt     | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
-| Meters Number                    | Unbegrenzt     | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
-| Spaces Number                    | Unbegrenzt     | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
-| Equipments Number                | Unbegrenzt     | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
-| Tenants Number                   | Unbegrenzt     | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
-| Stores Number                    | Unbegrenzt     | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
-| Shopfloors Number                | Unbegrenzt     | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
+| Number of Data Points            | Unbegrenzt     | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
+| Number of Meters                 | Unbegrenzt     | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
+| Number of Spaces                 | Unbegrenzt     | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
+| Number of Equipments             | Unbegrenzt     | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
+| Number of Tenants                | Unbegrenzt     | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
+| Number of Stores                 | Unbegrenzt     | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
+| Number of Shop Floors            | Unbegrenzt     | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
 | Combined Equipments Number       | Unbegrenzt     | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
 | Docker                           | ✔️             | https://hub.docker.com/u/myems |
 | MySQL                            | ✔️             | http://mysql.com/    |
 | MariaDB                          | ✔️             | https://mariadb.org/ |
 | SingleStore                      | ✔️             | https://www.singlestore.com/ |
 | AWS Cloud                        | ✔️             | https://aws.amazon.com/ |
-| AZure Cloud                      | ✔️             | https://azure.microsoft.com/ |
+| Azure Cloud                      | ✔️             | https://azure.microsoft.com/ |
 | Alibaba Cloud                    | ✔️             | https://aliyun.com/ |
 | Private Cloud                    | ✔️             |                      |
 | Data Comparison                  | ✔️             | Jahr für Jahr, Monat für Monat, Freier Vergleich, Kein Vergleich |
-| Excel Exporter                   | ✔️             | Tabellen, Liniendiagramme, Säulendiagramme, Kreisdiagramme |
+| Excel Exporter                   | ✔️             | Echte Excel-Datei, keine CSV-Datei, Tabellen, Liniendiagramme, Säulendiagramme, Kreisdiagramme |
 | Meter/Energy Data                | ✔️             |                      |
 | Meter/Cost Data                  | ✔️             |                      |
 | Meter/Trend Data                 | ✔️             |                      |
@@ -120,7 +120,7 @@ MyEMS wird von einem erfahrenen Entwicklungsteam entwickelt und gewartet, und de
 | Distribution System              | ✔️             |                      |
 | RESTful API                         | ✔️          | Based on Python. Providing interfaces of system configuration, energy report and excel exporter |
 | Web UI                           | ✔️             | Based on ReactJS. Providing energy data virtualization. |
-| Admin UI                         | ✔️             | Based on AngularJS. Providing system configuration. |
+| Admin UI                         | ✔️             | Based on AngularJS (version 1.x). Providing system configuration. |
 | Online Community Customer Support| ✔️             |                      |
 
 
