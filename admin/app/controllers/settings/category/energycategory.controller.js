@@ -27,7 +27,8 @@ app.controller('EnergyCategoryController', function($scope, $translate,$uibModal
 		    }
 		});
 		modalInstance.result.then(function(category) {
-			CategoryService.addCategory(category, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			CategoryService.addCategory(category, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
@@ -68,7 +69,8 @@ app.controller('EnergyCategoryController', function($scope, $translate,$uibModal
 		});
 
 		modalInstance.result.then(function (modifiedCategory) {
-	        CategoryService.editCategory(modifiedCategory, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+	        CategoryService.editCategory(modifiedCategory, headers, function (response) {
 	            if(angular.isDefined(response.status) && response.status === 200){
 					toaster.pop({
 						type: "success",
@@ -106,7 +108,8 @@ app.controller('EnergyCategoryController', function($scope, $translate,$uibModal
 		        closeOnCancel: true },
 		function (isConfirm) {
 			if (isConfirm) {
-				CategoryService.deleteCategory(category, function (response) {
+				let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+				CategoryService.deleteCategory(category, headers, function (response) {
 					if (angular.isDefined(response.status) && response.status === 204) {
 						toaster.pop({
 							type: "success",
