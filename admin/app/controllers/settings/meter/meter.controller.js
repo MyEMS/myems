@@ -130,6 +130,7 @@ app.controller('MeterController', function($scope,  $translate, $uibModal, Meter
 			}
 		});
 		modalInstance.result.then(function(meter) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			meter.energy_category_id = meter.energy_category.id;
 			meter.cost_center_id = meter.cost_center.id;
 			if(angular.isDefined(meter.energy_item)) {
@@ -142,7 +143,7 @@ app.controller('MeterController', function($scope,  $translate, $uibModal, Meter
 			} else {
 				meter.master_meter_id = undefined;
 			}
-			MeterService.addMeter(meter, function (response) {
+			MeterService.addMeter(meter, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
@@ -186,6 +187,7 @@ app.controller('MeterController', function($scope,  $translate, $uibModal, Meter
 		});
 
 		modalInstance.result.then(function(modifiedMeter) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			modifiedMeter.energy_category_id = modifiedMeter.energy_category.id;
 			modifiedMeter.cost_center_id = modifiedMeter.cost_center.id;
 			if (modifiedMeter.energy_item != null && modifiedMeter.energy_item.id != null ) {
@@ -198,7 +200,7 @@ app.controller('MeterController', function($scope,  $translate, $uibModal, Meter
 			} else {
 				modifiedMeter.master_meter_id = undefined;
 			}
-			MeterService.editMeter(modifiedMeter, function (response) {
+			MeterService.editMeter(modifiedMeter, headers,function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
 						type: "success",
@@ -236,7 +238,8 @@ app.controller('MeterController', function($scope,  $translate, $uibModal, Meter
 			},
 			function(isConfirm) {
 				if (isConfirm) {
-					MeterService.deleteMeter(meter, function (response) {
+					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+					MeterService.deleteMeter(meter, headers, function (response) {
 						if (angular.isDefined(response.status) && response.status === 204) {
 							toaster.pop({
 								type: "success",

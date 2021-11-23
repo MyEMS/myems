@@ -25,24 +25,24 @@ app.factory('MeterService', function($http) {
                 callback(response);
             });
         },
-        addMeter: function(meter, callback) {
-            $http.post(getAPI()+'meters',{data:meter})
+        addMeter: function(meter, headers, callback) {
+            $http.post(getAPI()+'meters',{data:meter}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        editMeter: function(meter, callback) {
-            $http.put(getAPI()+'meters/'+meter.id,{data:meter})
+        editMeter: function(meter, headers, callback) {
+            $http.put(getAPI()+'meters/'+meter.id,{data:meter}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        deleteMeter: function(meter, callback) {
-            $http.delete(getAPI()+'meters/'+meter.id)
+        deleteMeter: function(meter, headers, callback) {
+            $http.delete(getAPI()+'meters/'+meter.id, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
