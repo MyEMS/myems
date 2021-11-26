@@ -1,7 +1,13 @@
 'use strict';
 
-app.controller('EnergyCategoryController', function($scope, $translate,$uibModal, CategoryService,toaster,SweetAlert) {
-
+app.controller('EnergyCategoryController', function($scope,
+	$window,
+	$translate,
+	$uibModal,
+	CategoryService,
+	toaster,
+	SweetAlert) {
+    $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllCategories = function() {
 		CategoryService.getAllCategories(function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
@@ -10,7 +16,6 @@ app.controller('EnergyCategoryController', function($scope, $translate,$uibModal
 				$scope.categories = [];
 			}
 		});
-
 	};
 
 	$scope.addCategory = function() {
