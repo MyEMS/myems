@@ -14,6 +14,16 @@ nginx-1.18.0 or later
 
 In this section, you will install myems-admin on Docker.
 
+* replace ~~127.0.0.1:8000~~ in nginx.conf with actual **HOST** ip and port of myems-api
+```bash
+cd myems/admin
+nano nginx.conf
+```
+
+```bash
+      proxy_pass http://127.0.0.1:8000/;
+```
+
 * Build a Docker image
 ```bash
 cd myems/admin
@@ -141,6 +151,8 @@ sudo nano /var/www/html/admin/app/api.js
 
 ## References
 
-1.  https://myems.io
-2.  https://dev.mysql.com/doc/connector-python/en/
-3.  https://nginx.org/
+[1].  https://myems.io
+
+[2].  https://dev.mysql.com/doc/connector-python/en/ 
+
+[3]. https://nginx.org/
