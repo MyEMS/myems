@@ -33,7 +33,7 @@ python-decouple
 
 ```bash
 cd myems/myems-api
-pip install -r requirements.txt
+pip install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
 cp example.env .env
 chmod +x run.sh
 ./run.sh
@@ -41,7 +41,7 @@ chmod +x run.sh
 
 ## Installation
 
-### Option 1: Install myems-api on Docker
+### Installation Option 1: Install myems-api on Docker
 
 In this section, you will install myems-api on Docker.
 
@@ -69,107 +69,18 @@ docker run -d -p 8000:8000 --restart always --name myems-api myems/myems-api
 --name		Assign a name to the container
 
 
-### Option 2: Install myems-api on Ubuntu Server (bare-metal or virtual machine)
+### Option 2: Online install myems-api on Ubuntu Server with internet access
 
-In this section, you will install myems-api on Ubuntu Server.
-
-*   Install anytree
+In this section, you will online install myems-api on Ubuntu Server with internet access.
+* Copy source code to a production Ubuntu Server and then install tools
 ```bash
-cd ~/tools
-git clone https://github.com/c0fec0de/anytree.git
-cd anytree
-python3 setup.py install 
+cd ~/myems/myems-api
+pip install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
 ```
 
-*   Install simplejson
+* Install  myems-api service:
 ```bash
-cd ~/tools
-git clone https://github.com/simplejson/simplejson.git
-cd simplejson
-python3 setup.py install 
-```
-
-*   Install MySQL Connector
-```bash
- cd ~/tools
- wget https://cdn.mysql.com/archives/mysql-connector-python-8.0/mysql-connector-python-8.0.23.tar.gz
- tar xzf mysql-connector-python-8.0.23.tar.gz
- cd ~/tools/mysql-connector-python-8.0.23
- python3 setup.py install
-```
-
-*   Install Falcon,
-
-  if you are behind proxy, use --proxy parameter
-
-  Refer to 
-  
-  https://falconframework.org/
-
-  https://github.com/lwcolton/falcon-cors
-
-  https://github.com/yohanboniface/falcon-multipart
-```bash
- mkdir ~/tools/falcon && cd ~/tools/falcon
- pip3 download cython falcon falcon-cors falcon-multipart
- export LC_ALL="en_US.UTF-8"
- export LC_CTYPE="en_US.UTF-8"
- dpkg-reconfigure locales
- pip3 install --upgrade --no-index --find-links ~/tools/falcon cython falcon falcon-cors falcon-multipart
-```
-
-*   Install gunicorn, refer to http://gunicorn.org
-```bash
- mkdir ~/tools/gunicorn && cd ~/tools/gunicorn
- pip3 download gunicorn
- pip3 install --no-index --find-links ~/tools/gunicorn gunicorn
-```
-
-*   Install openpyxl, refer to https://foss.heptapod.net/openpyxl/openpyxl
-Get the latest version of et_xmlfile from https://foss.heptapod.net/openpyxl/et_xmlfile/
-```bash
-cd ~/tools
-wget https://foss.heptapod.net/openpyxl/et_xmlfile/-/archive/1.1/et_xmlfile-1.1.tar.gz
-tar xzf et_xmlfile-1.1.tar.gz
-```
-Get jdcal
-```bash
-cd ~/tools
-git clone https://github.com/phn/jdcal.git
-```
-Get Pillow
-```
-mkdir ~/tools/pillow && cd ~/tools/pillow 
-pip3 download Pillow
-```
-Get the latest version of openpyxl from https://foss.heptapod.net/openpyxl/openpyxl
-```bash
-cd ~/tools
-wget https://foss.heptapod.net/openpyxl/openpyxl/-/archive/3.0.7/openpyxl-3.0.7.tar.gz
-tar xzf openpyxl-3.0.7.tar.gz
-```
-
-```bash
-cd ~/tools/et_xmlfile-1.1
-python3 setup.py install
-cd ~/tools/jdcal
-python3 setup.py install
-pip3 install --no-index --find-links ~/tools/pillow Pillow
-cd ~/tools/openpyxl-3.0.7
-python3 setup.py install
-```
-
-Download and install Python Decouple
-```bash
-cd ~/tools
-git clone https://github.com/henriquebastos/python-decouple.git
-cd ~/tools/python-decouple
-python3 setup.py  install
-```
-
-*   Install gunicorn service for myems-api:
-```bash
-cp -R myems/myems-api /myems-api
+cp -r ~/myems/myems-api /myems-api
 ```
 Create .env file based on example.env and edit the .env file if needed:
 ```bash
@@ -180,7 +91,105 @@ Check or change the listening port (default is 8000) in myems-api.service and my
 ```bash
 nano /myems-api/myems-api.service
 ```
-``` 
+```bash
+ExecStart=/usr/local/bin/gunicorn -b 0.0.0.0:8000 --pid /run/myems-api/pid --timeout 600 --workers=4 app:api
+```
+```bash
+nano /myems-api/myems-api.socket
+```
+```bash
+ListenStream=0.0.0.0:8000
+```
+Add port to firewall:
+```bash
+ufw allow 8000
+```
+Setup systemd configure files:
+```bash
+cp /myems-api/myems-api.service /lib/systemd/system/
+cp /myems-api/myems-api.socket /lib/systemd/system/
+cp /myems-api/myems-api.conf /usr/lib/tmpfiles.d/
+```
+Next enable the services so that they autostart at boot:
+```bash
+  systemctl enable myems-api.socket
+  systemctl enable myems-api.service
+```
+Start the services :
+```bash
+systemctl start myems-api.socket
+systemctl start myems-api.service
+```
+
+### Option 3: Offline install myems-api on Ubuntu Server without internet access
+
+In this section, you will offline install myems-api on Ubuntu Server without internet access.
+* Download tools 
+```bash
+mkdir ~tools && cd ~/tools
+git clone https://github.com/c0fec0de/anytree.git
+git clone https://github.com/simplejson/simplejson.git
+wget https://cdn.mysql.com/archives/mysql-connector-python-8.0/mysql-connector-python-8.0.23.tar.gz
+mkdir ~/tools/falcon && cd ~/tools/falcon
+pip download cython falcon falcon-cors falcon-multipart
+cd ~/tools
+mkdir ~/tools/gunicorn && cd ~/tools/gunicorn
+pip download gunicorn
+cd ~/tools
+wget https://foss.heptapod.net/openpyxl/et_xmlfile/-/archive/1.1/et_xmlfile-1.1.tar.gz
+cd ~/tools
+git clone https://github.com/phn/jdcal.git
+mkdir ~/tools/pillow && cd ~/tools/pillow 
+pip download Pillow
+cd ~/tools
+wget https://foss.heptapod.net/openpyxl/openpyxl/-/archive/3.0.7/openpyxl-3.0.7.tar.gz
+cd ~/tools
+git clone https://github.com/henriquebastos/python-decouple.git
+```
+* Copy source code and tools to the production Ubuntu Server and then run:
+```bash
+cd ~/tools/anytree
+python setup.py install 
+cd ~/tools/simplejson
+python setup.py install 
+cd ~/tools
+tar xzf mysql-connector-python-8.0.23.tar.gz
+cd ~/tools/mysql-connector-python-8.0.23
+python setup.py install
+export LC_ALL="en_US.UTF-8"
+export LC_CTYPE="en_US.UTF-8"
+dpkg-reconfigure locales
+pip install --upgrade --no-index --find-links ~/tools/falcon cython falcon falcon-cors falcon-multipart
+pip install --no-index --find-links ~/tools/gunicorn gunicorn
+cd ~/tools
+tar xzf et_xmlfile-1.1.tar.gz
+cd ~/tools/et_xmlfile-1.1
+python setup.py install
+cd ~/tools/jdcal
+python setup.py install
+cd ~/tools
+pip install --no-index --find-links ~/tools/pillow Pillow
+tar xzf openpyxl-3.0.7.tar.gz
+cd ~/tools/openpyxl-3.0.7
+python setup.py install
+cd ~/tools/python-decouple
+python setup.py install
+```
+
+* Install  myems-api service:
+```bash
+cp -r ~/myems/myems-api /myems-api
+```
+Create .env file based on example.env and edit the .env file if needed:
+```bash
+cp /myems-api/example.env /myems-api/.env
+nano /myems-api/.env
+```
+Check or change the listening port (default is 8000) in myems-api.service and myems-api.socket:
+```bash
+nano /myems-api/myems-api.service
+```
+```bash
 ExecStart=/usr/local/bin/gunicorn -b 0.0.0.0:8000 --pid /run/myems-api/pid --timeout 600 --workers=4 app:api
 ```
 ```bash
@@ -210,7 +219,7 @@ systemctl start myems-api.socket
 systemctl start myems-api.service
 ```
 
-### Option 3: Install myems-api on macOS
+### Installation Option 4: Install myems-api on macOS
 
 Please refer to [Installation on macOS (Chinese)](./installation_macos_zh.md)
 
@@ -218,7 +227,6 @@ Please refer to [Installation on macOS (Chinese)](./installation_macos_zh.md)
 ## API List
 
 View in Postman: import the file MyEMS.postman_collection.json with Postman
-
 
 [Energy Category](#Energy-Category) | [Energy Item](#Energy-Item)
 
@@ -2390,3 +2398,26 @@ curl -i -X GET {{base_url}}/reports/virtualmeterenergy?virtualmeterid=1&periodty
 ```bash
 curl -i -X GET {{base_url}}/reports/virtualmetercost?virtualmeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+
+## References
+
+[1]. http://myems.io
+  
+[2]. https://falconframework.org/
+  
+[3]. https://github.com/lwcolton/falcon-cors
+
+[4]. https://github.com/yohanboniface/falcon-multipart
+
+[5]. http://gunicorn.org
+
+[6]. https://github.com/henriquebastos/python-decouple/
+
+[7]. https://foss.heptapod.net/openpyxl/openpyxl
+
+[8]. https://foss.heptapod.net/openpyxl/et_xmlfile/
+
+
+
+
+

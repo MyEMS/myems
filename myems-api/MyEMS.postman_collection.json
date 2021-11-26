@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "188bbc28-1018-45ae-bdc8-c0b465102f5f",
+		"_postman_id": "edda43bf-7618-4cef-a9dc-b5eb90fde85a",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -1844,7 +1844,20 @@
 							"name": "POST Create an Energy Category",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "073b43c05dadd89b833c0595b81c49cb9c1a54ca52b024b301a001720e52c5bf3b95951d5c54766de1028d20301cbd2bb6ec3fb62f9e14d9658cbf3811fe6c93",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"柴油\",\"unit_of_measure\":\"L\", \"kgce\":0.1229 , \"kgco2e\":0.8825}}"
@@ -1865,19 +1878,32 @@
 							"name": "PUT Update an Energy Category",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "073b43c05dadd89b833c0595b81c49cb9c1a54ca52b024b301a001720e52c5bf3b95951d5c54766de1028d20301cbd2bb6ec3fb62f9e14d9658cbf3811fe6c93",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"汽油\",\"unit_of_measure\":\"L\", \"kgce\":0.1229 , \"kgco2e\":0.8825}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/energycategories/9",
+									"raw": "{{base_url}}/energycategories/12",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"energycategories",
-										"9"
+										"12"
 									]
 								}
 							},
@@ -1887,15 +1913,28 @@
 							"name": "DELETE an Energy Category",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "073b43c05dadd89b833c0595b81c49cb9c1a54ca52b024b301a001720e52c5bf3b95951d5c54766de1028d20301cbd2bb6ec3fb62f9e14d9658cbf3811fe6c93",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
-									"raw": "{{base_url}}/energycategories/9",
+									"raw": "{{base_url}}/energycategories/12",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"energycategories",
-										"9"
+										"12"
 									]
 								}
 							},
@@ -3274,7 +3313,20 @@
 							"name": "POST Create New Meter",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "073b43c05dadd89b833c0595b81c49cb9c1a54ca52b024b301a001720e52c5bf3b95951d5c54766de1028d20301cbd2bb6ec3fb62f9e14d9658cbf3811fe6c93",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"PM20\", \"energy_category_id\":1, \"hourly_low_limit\":0.000, \"hourly_high_limit\":999.99, \"is_counted\":true, \"cost_center_id\":1, \"energy_item_id\":1, \"master_meter_id\":1, \"description\":\"空调用电\"}}"
@@ -3295,19 +3347,32 @@
 							"name": "PUT Update a Meter",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "073b43c05dadd89b833c0595b81c49cb9c1a54ca52b024b301a001720e52c5bf3b95951d5c54766de1028d20301cbd2bb6ec3fb62f9e14d9658cbf3811fe6c93",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"PM201\", \"energy_category_id\":1, \"hourly_low_limit\":0.000, \"hourly_high_limit\":999.99, \"is_counted\":true, \"cost_center_id\":1, \"energy_item_id\":1, \"master_meter_id\":7, \"description\":\"空调用电\"}}"
+									"raw": "{\"data\":{\"name\":\"PM201\", \"energy_category_id\":1, \"hourly_low_limit\":0.000, \"hourly_high_limit\":999.99, \"is_counted\":true, \"cost_center_id\":1, \"energy_item_id\":1, \"master_meter_id\":1, \"description\":\"空调用电\"}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/meters/28",
+									"raw": "{{base_url}}/meters/4",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"meters",
-										"28"
+										"4"
 									]
 								}
 							},
@@ -3317,15 +3382,28 @@
 							"name": "DELETE Meter by ID",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "073b43c05dadd89b833c0595b81c49cb9c1a54ca52b024b301a001720e52c5bf3b95951d5c54766de1028d20301cbd2bb6ec3fb62f9e14d9658cbf3811fe6c93",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
-									"raw": "{{base_url}}/meters/2",
+									"raw": "{{base_url}}/meters/4",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"meters",
-										"2"
+										"4"
 									]
 								}
 							},
@@ -3357,7 +3435,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"point_id\":\"1\"}}"
+									"raw": "{\"data\":{\"point_id\":\"3\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/meters/1/points",
