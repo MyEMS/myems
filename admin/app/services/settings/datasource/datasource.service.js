@@ -2,7 +2,7 @@
 app.factory('DataSourceService', function($http) {  
     return {  
         getAllDataSources:function(headers, callback){
-            $http.get(getAPI()+'datasources', {headers})  
+            $http.get(getAPI() + 'datasources', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

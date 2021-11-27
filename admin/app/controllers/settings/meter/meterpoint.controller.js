@@ -1,14 +1,20 @@
 'use strict';
 
-app.controller('MeterPointController', function ($scope, $timeout, $translate,
-                                                 MeterService,
-                                                 DataSourceService,
-                                                 PointService,
-                                                 MeterPointService,
-                                                 toaster) {
+app.controller('MeterPointController', function (
+    $scope,
+	$window,
+    $timeout, 
+    $translate,
+    MeterService,
+    DataSourceService,
+    PointService,
+    MeterPointService,
+    toaster) {
+    $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentMeter = {selected:undefined};
     $scope.getAllDataSources = function () {
-        DataSourceService.getAllDataSources(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        DataSourceService.getAllDataSources(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.datasources = response.data;
                 if ($scope.datasources.length > 0) {
@@ -22,7 +28,8 @@ app.controller('MeterPointController', function ($scope, $timeout, $translate,
     };
 
     $scope.getPointsByDataSourceID = function (id) {
-        PointService.getPointsByDataSourceID(id, function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        PointService.getPointsByDataSourceID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.points = response.data;
             } else {
@@ -69,7 +76,8 @@ app.controller('MeterPointController', function ($scope, $timeout, $translate,
     $scope.pairPoint = function (dragEl, dropEl) {
         var pointid = angular.element('#' + dragEl).scope().point.id;
         var meterid = $scope.currentMeter.id;
-        MeterPointService.addPair(meterid, pointid, function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        MeterPointService.addPair(meterid, pointid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 201) {
                 toaster.pop({
                     type: "success",
@@ -95,7 +103,8 @@ app.controller('MeterPointController', function ($scope, $timeout, $translate,
         }
         var meterpointid = angular.element('#' + dragEl).scope().meterpoint.id;
         var meterid = $scope.currentMeter.id;
-        MeterPointService.deletePair(meterid, meterpointid, function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        MeterPointService.deletePair(meterid, meterpointid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
                     type: "success",
