@@ -1,9 +1,20 @@
 'use strict';
 
-app.controller('TenantPointController', function ($scope, $translate, TenantService, DataSourceService, PointService, TenantPointService,  toaster, SweetAlert) {
+app.controller('TenantPointController', function (
+    $scope, 
+    $window,
+    $translate, 
+    TenantService, 
+    DataSourceService, 
+    PointService, 
+    TenantPointService,  
+    toaster, 
+    SweetAlert) {
+    $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentTenant = {selected:undefined};
     $scope.getAllDataSources = function () {
-        DataSourceService.getAllDataSources(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        DataSourceService.getAllDataSources(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.datasources = response.data;
                 if ($scope.datasources.length > 0) {
@@ -17,7 +28,8 @@ app.controller('TenantPointController', function ($scope, $translate, TenantServ
     };
 
     $scope.getPointsByDataSourceID = function (id) {
-        PointService.getPointsByDataSourceID(id, function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        PointService.getPointsByDataSourceID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.points = response.data;
             } else {

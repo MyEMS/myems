@@ -1,6 +1,7 @@
 'use strict';
 
-app.controller('DataSourceController', function($scope, 
+app.controller('DataSourceController', function(
+	$scope, 
 	$window,
 	$uibModal, 
 	$translate, 

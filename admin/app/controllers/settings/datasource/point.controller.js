@@ -1,6 +1,7 @@
 'use strict';
 
-app.controller('PointController', function($scope, 
+app.controller('PointController', function(
+	$scope, 
 	$window,
 	$uibModal, 
 	$translate, 

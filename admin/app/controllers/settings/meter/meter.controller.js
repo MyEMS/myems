@@ -1,7 +1,16 @@
 'use strict';
 
-app.controller('MeterController', function($scope,  $translate, $uibModal, MeterService, CategoryService, CostCenterService, EnergyItemService,toaster, SweetAlert) {
-
+app.controller('MeterController', function($scope,  
+	$window,
+	$translate, 
+	$uibModal, 
+	MeterService, 
+	CategoryService, 
+	CostCenterService, 
+	EnergyItemService,
+	toaster, 
+	SweetAlert) {
+	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllCostCenters = function() {
 		CostCenterService.getAllCostCenters(function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {

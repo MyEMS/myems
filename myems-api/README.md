@@ -574,15 +574,15 @@ curl -i -X GET {{base_url}}/energycategories
 ```
 *   DELETE an Energy Category by ID
 ```bash
-curl -i -X DELETE {{base_url}}/energycategories/{id}
+curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN" -X DELETE {{base_url}}/energycategories/{id}
 ```
 *   POST Create an Energy Category
 ```bash
-curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"电","unit_of_measure":"kWh", "kgce":0.1229 , "kgco2e":0.8825}}' {{base_url}}/energycategories
+curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN" -H "Content-Type: application/json" -X POST -d '{"data":{"name":"电","unit_of_measure":"kWh", "kgce":0.1229 , "kgco2e":0.8825}}' {{base_url}}/energycategories
 ```
 *   PUT Update an Energy Category
 ```bash
-curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"电","unit_of_measure":"kWh", "kgce":0.1329 , "kgco2e":0.9825}}' {{base_url}}/energycategories/{id}
+curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN" -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"电","unit_of_measure":"kWh", "kgce":0.1329 , "kgco2e":0.9825}}' {{base_url}}/energycategories/{id}
 ```
 
 ### Energy Flow Diagram
@@ -1053,11 +1053,11 @@ curl -i -X DELETE {{base_url}}/meters/{id}
 ```
 *   POST Create a Meter
 ```bash
-curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"PM20", "energy_category_id":1, "hourly_low_limit":0.000, "hourly_high_limit":999.999, "is_counted":true, "cost_center_id":1, "energy_item_id":1, "master_meter_id":1, "description":"空调用电"}}' {{base_url}}/meters
+curl -i -H "Content-Type: application/json" -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: 073b43c05dadd89b833c0595b81c49cb9c1a54ca52b024b301a001720e52c5bf3b95951d5c54766de1028d20301cbd2bb6ec3fb62f9e14d9658cbf3811fe6c93" -X POST -d '{"data":{"name":"PM20", "energy_category_id":1, "hourly_low_limit":0.000, "hourly_high_limit":999.999, "is_counted":true, "cost_center_id":1, "energy_item_id":1, "master_meter_id":1, "description":"空调用电"}}' {{base_url}}/meters
 ```
 *   PUT Update a Meter
 ```bash
-curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"PM20", "energy_category_id":1, "hourly_low_limit":0.000, "hourly_high_limit":999.999, "is_counted":true, "cost_center_id":1, "energy_item_id":1, "master_meter_id":1, "description":"空调用电"}}' {{base_url}}/meters/{id}
+curl -i -H "Content-Type: application/json" -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: 073b43c05dadd89b833c0595b81c49cb9c1a54ca52b024b301a001720e52c5bf3b95951d5c54766de1028d20301cbd2bb6ec3fb62f9e14d9658cbf3811fe6c93" -X PUT -d '{"data":{"name":"PM20", "energy_category_id":1, "hourly_low_limit":0.000, "hourly_high_limit":999.999, "is_counted":true, "cost_center_id":1, "energy_item_id":1, "master_meter_id":1, "description":"空调用电"}}' {{base_url}}/meters/{id}
 ```
 *   GET All Submeters of Meter by ID
 ```bash
@@ -1069,11 +1069,11 @@ curl -i -X GET {{base_url}}/meters/{id}/points
 ```
 *   POST Meter Point Relation
 ```bash
-curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"point_id":"3"}}' {{base_url}}/meters/{id}/points
+curl -i -H "Content-Type: application/json" -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: 073b43c05dadd89b833c0595b81c49cb9c1a54ca52b024b301a001720e52c5bf3b95951d5c54766de1028d20301cbd2bb6ec3fb62f9e14d9658cbf3811fe6c93" -X POST -d '{"data":{"point_id":"3"}}' {{base_url}}/meters/{id}/points
 ```
 *   DELETE Meter Point Relation
 ```bash
-curl -i -X DELETE {{base_url}}/meters/{id}/points/{pid}
+curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: 073b43c05dadd89b833c0595b81c49cb9c1a54ca52b024b301a001720e52c5bf3b95951d5c54766de1028d20301cbd2bb6ec3fb62f9e14d9658cbf3811fe6c93" -X DELETE {{base_url}}/meters/{id}/points/{pid}
 ```
 
 ### Notification

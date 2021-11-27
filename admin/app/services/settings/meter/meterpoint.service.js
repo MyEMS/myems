@@ -1,8 +1,8 @@
 'use strict';
 app.factory('MeterPointService', function($http) {
     return {
-        addPair: function(meterID,pointID,callback) {
-            $http.post(getAPI()+'meters/'+meterID+'/points',{data:{'point_id':pointID}})
+        addPair: function(meterID, pointID, headers, callback) {
+            $http.post(getAPI() + 'meters/' + meterID + '/points', {data:{'point_id':pointID}}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -10,8 +10,8 @@ app.factory('MeterPointService', function($http) {
             });
         },
 
-        deletePair: function(meterID,pointID, callback) {
-            $http.delete(getAPI()+'meters/'+meterID+'/points/'+pointID)
+        deletePair: function(meterID,pointID, headers, callback) {
+            $http.delete(getAPI() + 'meters/' + meterID + '/points/' + pointID, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -19,7 +19,7 @@ app.factory('MeterPointService', function($http) {
             });
         },
         getPointsByMeterID: function(id, callback) {
-            $http.get(getAPI()+'meters/'+id+'/points')
+            $http.get(getAPI() + 'meters/' + id + '/points')
             .then(function (response) {
                 callback(response);
             }, function (response) {

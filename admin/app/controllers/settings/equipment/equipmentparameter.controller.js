@@ -1,6 +1,18 @@
 'use strict';
 
-app.controller('EquipmentParameterController', function($scope, $uibModal, $translate, MeterService, VirtualMeterService, OfflineMeterService,	EquipmentParameterService, EquipmentService, PointService, toaster,SweetAlert) {
+app.controller('EquipmentParameterController', function(
+    $scope,
+    $window,
+    $uibModal,
+    $translate,
+    MeterService,
+    VirtualMeterService,
+    OfflineMeterService,
+    EquipmentParameterService,
+    EquipmentService,
+    PointService,
+    toaster,SweetAlert) {
+    $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentEquipment = {selected:undefined};
     $scope.is_show_add_parameter = false;
     $scope.equipments = [];
@@ -251,7 +263,8 @@ app.controller('EquipmentParameterController', function($scope, $uibModal, $tran
 	};
 
 	$scope.getAllPoints = function() {
-		PointService.getAllPoints(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		PointService.getAllPoints(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.points = response.data;
 			} else {
