@@ -57,6 +57,13 @@ In this section, you will install myems-web on Docker.
 cd myems/web
 sudo nano src/config.js
 ```
+
+* replace ~~127.0.0.1:8000~~ in nginx.conf with actual **HOST** ip and port of myems-api
+```bash
+cd myems/web
+nano nginx.conf
+```
+
 * Download all the necessary dependencies into the node_modules directory.
 ```bash
 sudo npm i --unsafe-perm=true --allow-root --legacy-peer-deps
