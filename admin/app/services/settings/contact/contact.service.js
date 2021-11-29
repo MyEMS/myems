@@ -17,24 +17,24 @@ app.factory('ContactService', function($http) {
                 callback(response);
             });
         },
-        addContact: function(contact, callback) {
-            $http.post(getAPI()+'contacts',{data:contact})
+        addContact: function(contact, headers, callback) {
+            $http.post(getAPI()+'contacts',{data:contact}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        editContact: function(contact, callback) {
-            $http.put(getAPI()+'contacts/'+contact.id,{data:contact})
+        editContact: function(contact, headers, callback) {
+            $http.put(getAPI()+'contacts/'+contact.id,{data:contact}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        deleteContact: function(contact, callback) {
-            $http.delete(getAPI()+'contacts/'+contact.id)
+        deleteContact: function(contact, headers, callback) {
+            $http.delete(getAPI()+'contacts/'+contact.id, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
