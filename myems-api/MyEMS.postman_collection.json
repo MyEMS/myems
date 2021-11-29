@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "edda43bf-7618-4cef-a9dc-b5eb90fde85a",
+		"_postman_id": "27f47263-6e8e-4d74-93a9-0ee9b56eccfc",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -3214,7 +3214,18 @@
 							"name": "PUT Update a Menu",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "816be1f0-cf59-4aa4-bf81-a0e90577d416",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "fc037979da169499d2c84d9ff838ae2599f1934b2e43872a8dc9da033f4d5811a0ca711595a576dcd6b340ffc3d8a8824630cf04b4e67331a6a82e8ec2dfd155",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"is_hidden\":true}}"
@@ -10630,6 +10641,26 @@
 				}
 			},
 			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }

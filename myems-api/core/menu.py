@@ -2,7 +2,7 @@ import falcon
 import simplejson as json
 import mysql.connector
 import config
-from core.useractivity import user_logger
+from core.useractivity import user_logger, access_control
 
 
 class MenuCollection:
@@ -83,6 +83,7 @@ class MenuItem:
     @user_logger
     def on_put(req, resp, id_):
         """Handles PUT requests"""
+        access_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
