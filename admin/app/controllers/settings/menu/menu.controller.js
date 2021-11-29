@@ -1,10 +1,10 @@
 'use strict';
 
-app.controller('MenuController', function ($scope, $uibModal, MenuService, toaster, $translate) {
+app.controller('MenuController', function ($scope, $window, $uibModal, MenuService, toaster, $translate) {
 	$scope.menus = [];
 	$scope.currentMenu = {};
 	$scope.currentMenuChildren = [];
-
+	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllMenus = function () {
 		MenuService.getAllMenus(function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
@@ -104,7 +104,8 @@ app.controller('MenuController', function ($scope, $uibModal, MenuService, toast
 		});
 
 		modalInstance.result.then(function (modifiedMenu) {
-			MenuService.editMenu(modifiedMenu, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			MenuService.editMenu(modifiedMenu, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
 						type: "success",

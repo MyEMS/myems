@@ -17,8 +17,8 @@ app.factory('MenuService', function($http) {
                 callback(response);
             });
         },
-        editMenu: function(menu, callback) {
-            $http.put(getAPI()+'menus/'+menu.id,{data:menu})
+        editMenu: function(menu, headers, callback) {
+            $http.put(getAPI()+'menus/'+menu.id, {data:menu}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
