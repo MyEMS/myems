@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "27f47263-6e8e-4d74-93a9-0ee9b56eccfc",
+		"_postman_id": "1a6c20d8-4d7a-49a1-a5e9-3d4261ba0505",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -3217,13 +3217,15 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "816be1f0-cf59-4aa4-bf81-a0e90577d416",
-										"type": "text"
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "fc037979da169499d2c84d9ff838ae2599f1934b2e43872a8dc9da033f4d5811a0ca711595a576dcd6b340ffc3d8a8824630cf04b4e67331a6a82e8ec2dfd155",
-										"type": "text"
+										"value": "9217343d83a59d87cd7d28949d039cbea8b05c219a40ef1d71fe8db6ceebedf5bb7eadf34792c31bc6dccda27e9d5d932ae6e4da444dddbfe1e1fad14a1f5384",
+										"type": "text",
+										"description": "Login to get a valid token"
 									}
 								],
 								"body": {
@@ -3231,13 +3233,13 @@
 									"raw": "{\"data\":{\"is_hidden\":true}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/menus/1",
+									"raw": "{{base_url}}/menus/100",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"menus",
-										"1"
+										"100"
 									]
 								}
 							},

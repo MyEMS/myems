@@ -1,6 +1,12 @@
 'use strict';
 
-app.controller('MenuController', function ($scope, $window, $uibModal, MenuService, toaster, $translate) {
+app.controller('MenuController', function (
+    $scope,
+    $window,
+    $uibModal,
+    MenuService,
+    toaster,
+    $translate) {
 	$scope.menus = [];
 	$scope.currentMenu = {};
 	$scope.currentMenuChildren = [];

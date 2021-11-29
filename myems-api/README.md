@@ -352,7 +352,7 @@ curl -i -X DELETE {{base_url}}/costfiles/{id}
 *   POST Upload a Cost File
   (call users login API to get 'User-UUID' and 'Token')
 ```bash
-curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: 02f93023a39c98e1d1bc9f5197a83dfc5ddc0d48"  -H "Content-Type: application/TBD" -X POST -d 'file: (binary)' {{base_url}}/costfiles
+curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN"  -H "Content-Type: application/TBD" -X POST -d 'file: (binary)' {{base_url}}/costfiles
 ```
 *   GET Restore a Cost File by ID from database to disk
 ```bash
@@ -982,7 +982,7 @@ curl -i -X DELETE {{base_url}}/knowledgefiles/{id}
 *   POST Upload a Knowledge File
     (call users login API to get 'User-UUID' and 'Token')
 ```bash
-curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: 02f93023a39c98e1d1bc9f5197a83dfc5ddc0d48" -H "Content-Type: application/TBD" -X POST -d 'file: (binary)' {{base_url}}/knowledgefiles
+curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN" -H "Content-Type: application/TBD" -X POST -d 'file: (binary)' {{base_url}}/knowledgefiles
 ```
 *   GET Restore a Knowledge File by id from database to disk
 ```bash
@@ -1010,7 +1010,7 @@ curl -i -X GET {{base_url}}/menus
 ```
 *   PUT Update a Menu
 ```bash
-curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"is_hidden": false}}' {{base_url}}/menus/{id}
+curl -i -H "Content-Type: application/json" -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN" -X PUT -d '{"data":{"is_hidden": false}}' {{base_url}}/menus/{id}
 ```
 *   Get All Menus for Web UI
 ```bash
@@ -1053,11 +1053,11 @@ curl -i -X DELETE {{base_url}}/meters/{id}
 ```
 *   POST Create a Meter
 ```bash
-curl -i -H "Content-Type: application/json" -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: 073b43c05dadd89b833c0595b81c49cb9c1a54ca52b024b301a001720e52c5bf3b95951d5c54766de1028d20301cbd2bb6ec3fb62f9e14d9658cbf3811fe6c93" -X POST -d '{"data":{"name":"PM20", "energy_category_id":1, "hourly_low_limit":0.000, "hourly_high_limit":999.999, "is_counted":true, "cost_center_id":1, "energy_item_id":1, "master_meter_id":1, "description":"空调用电"}}' {{base_url}}/meters
+curl -i -H "Content-Type: application/json" -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN" -X POST -d '{"data":{"name":"PM20", "energy_category_id":1, "hourly_low_limit":0.000, "hourly_high_limit":999.999, "is_counted":true, "cost_center_id":1, "energy_item_id":1, "master_meter_id":1, "description":"空调用电"}}' {{base_url}}/meters
 ```
 *   PUT Update a Meter
 ```bash
-curl -i -H "Content-Type: application/json" -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: 073b43c05dadd89b833c0595b81c49cb9c1a54ca52b024b301a001720e52c5bf3b95951d5c54766de1028d20301cbd2bb6ec3fb62f9e14d9658cbf3811fe6c93" -X PUT -d '{"data":{"name":"PM20", "energy_category_id":1, "hourly_low_limit":0.000, "hourly_high_limit":999.999, "is_counted":true, "cost_center_id":1, "energy_item_id":1, "master_meter_id":1, "description":"空调用电"}}' {{base_url}}/meters/{id}
+curl -i -H "Content-Type: application/json" -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN" -X PUT -d '{"data":{"name":"PM20", "energy_category_id":1, "hourly_low_limit":0.000, "hourly_high_limit":999.999, "is_counted":true, "cost_center_id":1, "energy_item_id":1, "master_meter_id":1, "description":"空调用电"}}' {{base_url}}/meters/{id}
 ```
 *   GET All Submeters of Meter by ID
 ```bash
@@ -1069,11 +1069,11 @@ curl -i -X GET {{base_url}}/meters/{id}/points
 ```
 *   POST Meter Point Relation
 ```bash
-curl -i -H "Content-Type: application/json" -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: 073b43c05dadd89b833c0595b81c49cb9c1a54ca52b024b301a001720e52c5bf3b95951d5c54766de1028d20301cbd2bb6ec3fb62f9e14d9658cbf3811fe6c93" -X POST -d '{"data":{"point_id":"3"}}' {{base_url}}/meters/{id}/points
+curl -i -H "Content-Type: application/json" -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN" -X POST -d '{"data":{"point_id":"3"}}' {{base_url}}/meters/{id}/points
 ```
 *   DELETE Meter Point Relation
 ```bash
-curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: 073b43c05dadd89b833c0595b81c49cb9c1a54ca52b024b301a001720e52c5bf3b95951d5c54766de1028d20301cbd2bb6ec3fb62f9e14d9658cbf3811fe6c93" -X DELETE {{base_url}}/meters/{id}/points/{pid}
+curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN" -X DELETE {{base_url}}/meters/{id}/points/{pid}
 ```
 
 ### Notification
@@ -1097,19 +1097,19 @@ Result
 
 *   GET All Notifications
 ```bash
-curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: 02f93023a39c98e1d1bc9f5197a83dfc5ddc0d48" -X GET {{base_url}}/notifications?startdatetime={startdatetime}&enddatetime={enddatetime}&status={status}
+curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN" -X GET {{base_url}}/notifications?startdatetime={startdatetime}&enddatetime={enddatetime}&status={status}
 ```
 *   DELETE Notification by ID
 ```bash
-curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: 02f93023a39c98e1d1bc9f5197a83dfc5ddc0d48" -X DELETE {{base_url}}/notifications/{id}
+curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN" -X DELETE {{base_url}}/notifications/{id}
 ```
 *   PUT Update a Notification
 ```bash
-curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: 02f93023a39c98e1d1bc9f5197a83dfc5ddc0d48" -H "Content-Type: application/json" -X PUT -d '{"data":{"status":"read"}}' {{base_url}}/notifications/{id}
+curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN" -H "Content-Type: application/json" -X PUT -d '{"data":{"status":"read"}}' {{base_url}}/notifications/{id}
 ```
 *   DELETE Notification
 ```bash
-curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: 02f93023a39c98e1d1bc9f5197a83dfc5ddc0d48" -X DELETE {{base_url}}/notifications/{id}
+curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN" -X DELETE {{base_url}}/notifications/{id}
 ```
 
 ### Offline Meter
@@ -1178,7 +1178,7 @@ curl -i -X DELETE {{base_url}}/offlinemeterfiles/{id}
 *   POST Upload an Offline Meter File
     (call users login API to get 'User-UUID' and 'Token')
 ```bash
-curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: 02f93023a39c98e1d1bc9f5197a83dfc5ddc0d48"  -H "Content-Type: application/TBD" -X POST -d 'file: (binary)' {{base_url}}/offlinemeterfiles
+curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN"  -H "Content-Type: application/TBD" -X POST -d 'file: (binary)' {{base_url}}/offlinemeterfiles
 ```
 *   GET Restore an Offline Meter File by ID from database to disk
 ```bash
@@ -1604,7 +1604,7 @@ curl -i -X DELETE {{base_url}}/spaces/{id}/virtualmeters/{mid}
 ```
 *   GET Space Tree of User
 ```bash
-curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: a6e52af82e5b4168ae03b1c5fd8fa31b2ab3a338" -X GET {{base_url}}/spaces/tree
+curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKEN-AFTER-LOGIN" -X GET {{base_url}}/spaces/tree
 ```
 
 ### Store
@@ -2009,15 +2009,15 @@ curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"email":"johnson
 ```
 *   PUT User Logout
 ```bash
-curl -i -H "Content-Type: application/json" -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: a6e52af82e5b4168ae03b1c5fd8fa31b2ab3a338" -X PUT  {{base_url}}/users/logout
+curl -i -H "Content-Type: application/json" -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKEN-AFTER-LOGIN" -X PUT  {{base_url}}/users/logout
 ```
 *   PUT User change password
 ```bash
-curl -i -H "Content-Type: application/json" -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: a6e52af82e5b4168ae03b1c5fd8fa31b2ab3a338" -X PUT -d '{"data":{"old_password":"Password1", "new_password":"Password2"}}' {{base_url}}/users/changepassword
+curl -i -H "Content-Type: application/json" -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKEN-AFTER-LOGIN" -X PUT -d '{"data":{"old_password":"Password1", "new_password":"Password2"}}' {{base_url}}/users/changepassword
 ```
 *   PUT User reset other user's password by administrator
 ```bash
-curl -i -H "Content-Type: application/json" -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: a6e52af82e5b4168ae03b1c5fd8fa31b2ab3a338" -X PUT -d '{"data":{"name":"johnson","password":"NewPassword1"}}'  {{base_url}}/users/resetpassword
+curl -i -H "Content-Type: application/json" -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKEN-AFTER-LOGIN" -X PUT -d '{"data":{"name":"johnson","password":"NewPassword1"}}'  {{base_url}}/users/resetpassword
 ```
 
 ### Virtual Meter
