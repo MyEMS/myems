@@ -55,7 +55,7 @@ In this section, you will install myems-web on Docker.
 * Check and change the config file if necessary:
 ```bash
 cd myems/web
-sudo nano src/config.js
+nano src/config.js
 ```
 
 * replace ~~127.0.0.1:8000~~ in nginx.conf with actual **HOST** ip and port of myems-api
@@ -66,11 +66,11 @@ nano nginx.conf
 
 * Download all the necessary dependencies into the node_modules directory.
 ```bash
-sudo npm i --unsafe-perm=true --allow-root --legacy-peer-deps
+npm i --unsafe-perm=true --allow-root --legacy-peer-deps
 ```
 * Build for production with NPM
 ```bash
-sudo npm run build
+npm run build
 ```
 * Build a Docker image
 ```bash
@@ -91,14 +91,14 @@ docker run -d -p 80:80 --restart always --name myems-web myems/myems-web
 --name		Assign a name to the container
 
 
-### Option 2: Install myems-web on NGINX Server
+### Option 2: Install myems-web on Server with NGINX
 
 *   Install NGINX  Server
 refer to http://nginx.org/en/docs/install.html
 
 *   Configure NGINX
 ```bash
-sudo nano /etc/nginx/nginx.conf
+nano /etc/nginx/nginx.conf
 ```
 In the 'http' section, add some directives:
 ```

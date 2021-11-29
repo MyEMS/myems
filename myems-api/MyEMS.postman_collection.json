@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "edda43bf-7618-4cef-a9dc-b5eb90fde85a",
+		"_postman_id": "1a6c20d8-4d7a-49a1-a5e9-3d4261ba0505",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -3214,19 +3214,32 @@
 							"name": "PUT Update a Menu",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "9217343d83a59d87cd7d28949d039cbea8b05c219a40ef1d71fe8db6ceebedf5bb7eadf34792c31bc6dccda27e9d5d932ae6e4da444dddbfe1e1fad14a1f5384",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"is_hidden\":true}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/menus/1",
+									"raw": "{{base_url}}/menus/100",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"menus",
-										"1"
+										"100"
 									]
 								}
 							},
@@ -10630,6 +10643,26 @@
 				}
 			},
 			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }
