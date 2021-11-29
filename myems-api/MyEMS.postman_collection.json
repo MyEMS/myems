@@ -7425,7 +7425,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"email\":\"admin1130@kwh-w.com\", \"password\":\"c2c77a39ab28\"}}"
+									"raw": "{\"data\":{\"email\":\"administrator@myems.io\", \"password\":\"!MyEMS1\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/users/login",
@@ -10661,12 +10661,6 @@
 					""
 				]
 			}
-		}
-	],
-	"variable": [
-		{
-			"key": "base_url",
-			"value": "127.0.0.1:8000"
 		}
 	]
 }
