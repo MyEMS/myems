@@ -7463,18 +7463,7 @@
 							"name": "PUT User Login by Email",
 							"request": {
 								"method": "PUT",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "816be1f0-cf59-4aa4-bf81-a0e90577d416",
-										"type": "text"
-									},
-									{
-										"key": "Token",
-										"value": "89d8c1a8e6e2a4fc3b7a7eb3964c4e6fc97b5ae216591a986deb43f8a03babcd72ce5ad0c160e3ed4c9550cea29a9a548a261812484f2c7ac9aa039aa33441e2",
-										"type": "text"
-									}
-								],
+								"header": [],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"email\":\"administrator@myems.io\", \"password\":\"!MyEMS1\"}}"
