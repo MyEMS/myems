@@ -269,15 +269,15 @@ curl -i -X GET {{base_url}}/contacts
 ```
 *   DELETE Contact by ID
 ```bash
-curl -i -X DELETE {{base_url}}/contacts/{id}
+curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN" -X DELETE {{base_url}}/contacts/{id}
 ```
 *   POST Create a New Contact
 ```bash
-curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"albert", "email":"albert@myems.io", "phone":"+8613888888888", "description":"contact description"}}' {{base_url}}/contacts
+curl -i -H "Content-Type: application/json" -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN" -X POST -d '{"data":{"name":"albert", "email":"albert@myems.io", "phone":"+8613888888888", "description":"contact description"}}' {{base_url}}/contacts
 ```
 *   PUT Update a Contact
 ```bash
-curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"albert", "email":"albert@myems.io", "phone":"+8613888888899", "description":"contact description"}}' {{base_url}}/contacts/{id}
+curl -i -H "Content-Type: application/json" -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN" -X PUT -d '{"data":{"name":"albert", "email":"albert@myems.io", "phone":"+8613888888899", "description":"contact description"}}' {{base_url}}/contacts/{id}
 ```
 
 ### Cost Center
@@ -2402,9 +2402,9 @@ curl -i -X GET {{base_url}}/reports/virtualmetercost?virtualmeterid=1&periodtype
 ## References
 
 [1]. http://myems.io
-  
+
 [2]. https://falconframework.org/
-  
+
 [3]. https://github.com/lwcolton/falcon-cors
 
 [4]. https://github.com/yohanboniface/falcon-multipart

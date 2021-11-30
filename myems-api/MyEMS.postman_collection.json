@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "1a6c20d8-4d7a-49a1-a5e9-3d4261ba0505",
+		"_postman_id": "92712647-82fc-4cf2-acae-25fb13badd9e",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -634,7 +634,20 @@
 							"name": "POST Create New Contact",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "e3e753d078585ff791e8a899ad4bf3cc3673912061d5b6ab5119ed3ac713895ae1fc5f90f8d4a7942b1b139774b4db82e6702593b9a453a82982fdae47edac34",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"albert\", \"email\":\"albert@myems.io\", \"phone\":\"+8613888888888\", \"description\":\"contact description\"}}"
@@ -655,7 +668,20 @@
 							"name": "PUT Update a Contact",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "e3e753d078585ff791e8a899ad4bf3cc3673912061d5b6ab5119ed3ac713895ae1fc5f90f8d4a7942b1b139774b4db82e6702593b9a453a82982fdae47edac34",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"albert\", \"email\":\"albert@myems.io\", \"phone\":\"+8613888888899\", \"description\":\"contact description\"}}"
@@ -677,7 +703,20 @@
 							"name": "DELETE a Contact by ID",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "e3e753d078585ff791e8a899ad4bf3cc3673912061d5b6ab5119ed3ac713895ae1fc5f90f8d4a7942b1b139774b4db82e6702593b9a453a82982fdae47edac34",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/contacts/2",
 									"host": [
