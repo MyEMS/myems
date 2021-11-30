@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('EnergyItemController', function($scope, $translate,$uibModal, CategoryService, EnergyItemService, toaster,SweetAlert) {
+app.controller('EnergyItemController', function($scope, $window, $translate,$uibModal, CategoryService, EnergyItemService, toaster,SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllCategories = function() {
 		CategoryService.getAllCategories(function (response) {
