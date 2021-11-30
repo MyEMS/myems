@@ -669,15 +669,15 @@ curl -i -X GET {{base_url}}/energyitems
 ```
 *   DELETE an Energy Item by ID
 ```bash
-curl -i -X DELETE {{base_url}}/energyitems/{id}
+curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN" -X DELETE {{base_url}}/energyitems/{id}
 ```
 *   POST Create an Energy Item
 ```bash
-curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"空调用电","energy_category_id":1}}' {{base_url}}/energyitems
+curl -i -H "Content-Type: application/json" -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN" -X POST -d '{"data":{"name":"空调用电","energy_category_id":1}}' {{base_url}}/energyitems
 ```
 *   PUT Update an Energy Item
 ```bash
-curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"动力用电","energy_category_id":1}}' {{base_url}}/energyitems/{id}
+curl -i -H "Content-Type: application/json" -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN" -X PUT -d '{"data":{"name":"动力用电","energy_category_id":1}}' {{base_url}}/energyitems/{id}
 ```
 
 ### Equipment
