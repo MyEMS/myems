@@ -1,8 +1,15 @@
 'use strict';
 
-app.controller('ContactController', function($scope, $translate,$uibModal, ContactService,toaster,SweetAlert) {
+app.controller('ContactController', function(
+    $scope,
+    $window,
+    $translate,
+    $uibModal,
+    ContactService,
+    toaster,
+    SweetAlert) {
 
-
+	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllContacts = function() {
 		ContactService.getAllContacts(function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
@@ -28,7 +35,8 @@ app.controller('ContactController', function($scope, $translate,$uibModal, Conta
 		    }
 		});
 		modalInstance.result.then(function(contact) {
-			ContactService.addContact(contact, function(response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			ContactService.addContact(contact, headers, function(response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
@@ -67,7 +75,8 @@ app.controller('ContactController', function($scope, $translate,$uibModal, Conta
 		});
 
 		modalInstance.result.then(function (modifiedContact) {
-	        ContactService.editContact(modifiedContact, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+	        ContactService.editContact(modifiedContact, headers, function (response) {
 	            if(angular.isDefined(response.status) && response.status === 200){
 					toaster.pop({
 						type: "success",
@@ -103,7 +112,8 @@ app.controller('ContactController', function($scope, $translate,$uibModal, Conta
 		        closeOnCancel: true },
 		    function (isConfirm) {
 		        if (isConfirm) {
-		            ContactService.deleteContact(contact, function (response) {
+					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		            ContactService.deleteContact(contact, headers, function (response) {
 		            	if (angular.isDefined(response.status) && response.status === 204) {
                             toaster.pop({
                                 type: "success",

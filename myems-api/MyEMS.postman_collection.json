@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "1a6c20d8-4d7a-49a1-a5e9-3d4261ba0505",
+		"_postman_id": "98580f5c-106c-4b86-8262-ec3c918608e1",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -625,7 +625,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": ""
+									"raw": "{{base_url}}/contacts/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"contacts",
+										"1"
+									]
 								}
 							},
 							"response": []
@@ -634,7 +641,20 @@
 							"name": "POST Create New Contact",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "835aa13a4bc4af4ca2f47cac03d186bc49c13a30a025e9d983cc52238027f2eb7bd323784ee53a3833109ce1234acf9c8cb6754ba602b84049bb9244e3df6aeb",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"albert\", \"email\":\"albert@myems.io\", \"phone\":\"+8613888888888\", \"description\":\"contact description\"}}"
@@ -655,19 +675,32 @@
 							"name": "PUT Update a Contact",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "835aa13a4bc4af4ca2f47cac03d186bc49c13a30a025e9d983cc52238027f2eb7bd323784ee53a3833109ce1234acf9c8cb6754ba602b84049bb9244e3df6aeb",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"albert\", \"email\":\"albert@myems.io\", \"phone\":\"+8613888888899\", \"description\":\"contact description\"}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/contacts/2",
+									"raw": "{{base_url}}/contacts/3",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"contacts",
-										"2"
+										"3"
 									]
 								}
 							},
@@ -677,15 +710,28 @@
 							"name": "DELETE a Contact by ID",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "835aa13a4bc4af4ca2f47cac03d186bc49c13a30a025e9d983cc52238027f2eb7bd323784ee53a3833109ce1234acf9c8cb6754ba602b84049bb9244e3df6aeb",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
 								"url": {
-									"raw": "{{base_url}}/contacts/2",
+									"raw": "{{base_url}}/contacts/3",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"contacts",
-										"2"
+										"3"
 									]
 								}
 							},
