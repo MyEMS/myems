@@ -1,6 +1,13 @@
 'use strict';
 
-app.controller('ContactController', function($scope, $window, $translate,$uibModal, ContactService,toaster,SweetAlert) {
+app.controller('ContactController', function(
+    $scope,
+    $window,
+    $translate,
+    $uibModal,
+    ContactService,
+    toaster,
+    SweetAlert) {
 
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllContacts = function() {
