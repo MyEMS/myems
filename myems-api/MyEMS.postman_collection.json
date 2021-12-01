@@ -2303,7 +2303,20 @@
 							"name": "POST Create an Energy Item",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "89d8c1a8e6e2a4fc3b7a7eb3964c4e6fc97b5ae216591a986deb43f8a03babcd72ce5ad0c160e3ed4c9550cea29a9a548a261812484f2c7ac9aa039aa33441e2",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"租户用电\",\"energy_category_id\":1}}"
@@ -2324,7 +2337,20 @@
 							"name": "PUT Update an Energy Item",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "89d8c1a8e6e2a4fc3b7a7eb3964c4e6fc97b5ae216591a986deb43f8a03babcd72ce5ad0c160e3ed4c9550cea29a9a548a261812484f2c7ac9aa039aa33441e2",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"空调用\",\"energy_category_id\":1}}"
@@ -2346,7 +2372,20 @@
 							"name": "DELETE an Energy Item",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "89d8c1a8e6e2a4fc3b7a7eb3964c4e6fc97b5ae216591a986deb43f8a03babcd72ce5ad0c160e3ed4c9550cea29a9a548a261812484f2c7ac9aa039aa33441e2",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/energyitems/4",
 									"host": [
