@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "98580f5c-106c-4b86-8262-ec3c918608e1",
+		"_postman_id": "ab4b1f3e-3892-4a0e-801b-4ec90d4592fe",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -2030,7 +2030,20 @@
 							"name": "POST Create an Energy Flow Diagram",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "073b43c05dadd89b833c0595b81c49cb9c1a54ca52b024b301a001720e52c5bf3b95951d5c54766de1028d20301cbd2bb6ec3fb62f9e14d7254cbf3811fe6c93",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"MyEMS Energy Flow\"}}"
@@ -2051,7 +2064,20 @@
 							"name": "PUT Update an Energy Flow Diagram",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "073b43c05dadd89b833c0595b81c49cb9c1a54ca52b024b301a001720e52c5bf3b95951d5c54766de1028d20301cbd2bb6ec3fb62f9e14d7254cbf3811fe6c93",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"MyEMS Energy Flow Diagram\"}}"
@@ -2073,7 +2099,20 @@
 							"name": "DELETE an Energy Flow Diagram",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "073b43c05dadd89b833c0595b81c49cb9c1a54ca52b024b301a001720e52c5bf3b95951d5c54766de1028d20301cbd2bb6ec3fb62f9e14d7254cbf3811fe6c93",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/energyflowdiagrams/2",
 									"host": [
