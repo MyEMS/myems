@@ -9,24 +9,24 @@ app.factory('PrivilegeService', function($http) {
                 callback(response);
             });
         },
-        addPrivilege: function(privilege, callback) {
-            $http.post(getAPI()+'privileges',{data:privilege})
+        addPrivilege: function(privilege, headers, callback) {
+            $http.post(getAPI()+'privileges', {headers}, {data:privilege})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        editPrivilege: function(privilege, callback) {
-            $http.put(getAPI()+'privileges/'+privilege.id,{data:privilege})
+        editPrivilege: function(privilege, headers, callback) {
+            $http.put(getAPI()+'privileges/'+privilege.id, {headers}, {data:privilege})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        deletePrivilege: function(privilege, callback) {
-            $http.delete(getAPI()+'privileges/'+privilege.id)
+        deletePrivilege: function(privilege, headers, callback) {
+            $http.delete(getAPI()+'privileges/'+privilege.id, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
