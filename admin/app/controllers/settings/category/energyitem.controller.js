@@ -1,6 +1,15 @@
 'use strict';
 
-app.controller('EnergyItemController', function($scope, $translate,$uibModal, CategoryService, EnergyItemService, toaster,SweetAlert) {
+app.controller('EnergyItemController', function(
+    $scope,
+    $window,
+    $translate,
+    $uibModal,
+    CategoryService,
+    EnergyItemService,
+    toaster,
+    SweetAlert) {
+	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllCategories = function() {
 		CategoryService.getAllCategories(function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
@@ -38,7 +47,8 @@ app.controller('EnergyItemController', function($scope, $translate,$uibModal, Ca
 		    }
 		});
 		modalInstance.result.then(function(energyItem) {
-			EnergyItemService.addEnergyItem(energyItem, function(response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			EnergyItemService.addEnergyItem(energyItem, headers, function(response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
@@ -78,7 +88,8 @@ app.controller('EnergyItemController', function($scope, $translate,$uibModal, Ca
 		});
 
 		modalInstance.result.then(function (modifiedEnergyItem) {
-	        EnergyItemService.editEnergyItem(modifiedEnergyItem, function (response){
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+	        EnergyItemService.editEnergyItem(modifiedEnergyItem, headers, function (response){
 	            if(angular.isDefined(response.status) && response.status === 200){
 					toaster.pop({
 						type: "success",
@@ -114,7 +125,8 @@ app.controller('EnergyItemController', function($scope, $translate,$uibModal, Ca
 			closeOnCancel: true },
 		    function (isConfirm) {
 		        if (isConfirm) {
-		            EnergyItemService.deleteEnergyItem(energyItem, function (response) {
+					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		            EnergyItemService.deleteEnergyItem(energyItem, headers, function (response) {
 		            	if (angular.isDefined(response.status) && response.status === 204) {
 							toaster.pop({
 								type: "success",
