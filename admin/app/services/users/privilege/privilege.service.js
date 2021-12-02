@@ -10,7 +10,7 @@ app.factory('PrivilegeService', function($http) {
             });
         },
         addPrivilege: function(privilege, headers, callback) {
-            $http.post(getAPI()+'privileges', {headers}, {data:privilege})
+            $http.post(getAPI()+'privileges', {data:privilege}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -18,7 +18,7 @@ app.factory('PrivilegeService', function($http) {
             });
         },
         editPrivilege: function(privilege, headers, callback) {
-            $http.put(getAPI()+'privileges/'+privilege.id, {headers}, {data:privilege})
+            $http.put(getAPI()+'privileges/'+privilege.id, {data:privilege}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
