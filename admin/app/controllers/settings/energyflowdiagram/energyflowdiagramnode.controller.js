@@ -1,10 +1,18 @@
 'use strict';
 
-app.controller('EnergyFlowDiagramNodeController', function($scope, $translate, $uibModal, EnergyFlowDiagramService, EnergyFlowDiagramNodeService, toaster,SweetAlert) {
+app.controller('EnergyFlowDiagramNodeController', function(
+	$scope,
+	$window,
+	$translate,
+	$uibModal,
+	EnergyFlowDiagramService,
+	EnergyFlowDiagramNodeService,
+	toaster,
+	SweetAlert) {
       $scope.energyflowdiagrams = [];
       $scope.energyflowdiagramnodes = [];
       $scope.currentEnergyFlowDiagram = null;
-
+	  $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
       $scope.getAllEnergyFlowDiagrams = function() {
   		EnergyFlowDiagramService.getAllEnergyFlowDiagrams(function (response) {
   			if (angular.isDefined(response.status) && response.status === 200) {
@@ -48,8 +56,8 @@ app.controller('EnergyFlowDiagramNodeController', function($scope, $translate, $
   		});
   		modalInstance.result.then(function(energyflowdiagramnode) {
           var energyflowdiagramid = $scope.currentEnergyFlowDiagram.id;
-
-  			EnergyFlowDiagramNodeService.addEnergyFlowDiagramNode(energyflowdiagramid, energyflowdiagramnode, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+  			EnergyFlowDiagramNodeService.addEnergyFlowDiagramNode(energyflowdiagramid, energyflowdiagramnode, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 201) {
   					toaster.pop({
   						type: "success",
@@ -88,7 +96,8 @@ app.controller('EnergyFlowDiagramNodeController', function($scope, $translate, $
   		});
 
   		modalInstance.result.then(function(modifiedEnergyFlowDiagramNode) {
-  			EnergyFlowDiagramNodeService.editEnergyFlowDiagramNode($scope.currentEnergyFlowDiagram.id, modifiedEnergyFlowDiagramNode, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+  			EnergyFlowDiagramNodeService.editEnergyFlowDiagramNode($scope.currentEnergyFlowDiagram.id, modifiedEnergyFlowDiagramNode, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 200) {
   					toaster.pop({
   						type: "success",
@@ -126,7 +135,8 @@ app.controller('EnergyFlowDiagramNodeController', function($scope, $translate, $
   			},
   			function(isConfirm) {
   				if (isConfirm) {
-  					EnergyFlowDiagramNodeService.deleteEnergyFlowDiagramNode($scope.currentEnergyFlowDiagram.id, energyflowdiagramnode.id, function (response) {
+					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+  					EnergyFlowDiagramNodeService.deleteEnergyFlowDiagramNode($scope.currentEnergyFlowDiagram.id, energyflowdiagramnode.id, headers, function (response) {
   						if (angular.isDefined(response.status) && response.status === 204) {
 							toaster.pop({
 								type: "success",

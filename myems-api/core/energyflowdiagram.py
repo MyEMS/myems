@@ -480,6 +480,7 @@ class EnergyFlowDiagramLinkCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
@@ -723,6 +724,7 @@ class EnergyFlowDiagramLinkItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, lid):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
@@ -771,6 +773,7 @@ class EnergyFlowDiagramLinkItem:
     @user_logger
     def on_put(req, resp, id_, lid):
         """Handles PUT requests"""
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
@@ -977,6 +980,7 @@ class EnergyFlowDiagramNodeCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
@@ -1072,6 +1076,7 @@ class EnergyFlowDiagramNodeItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, nid):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
@@ -1120,6 +1125,7 @@ class EnergyFlowDiagramNodeItem:
     @user_logger
     def on_put(req, resp, id_, nid):
         """Handles PUT requests"""
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
