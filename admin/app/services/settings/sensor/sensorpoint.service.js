@@ -1,7 +1,7 @@
 'use strict';
 app.factory('SensorPointService', function($http) {
     return {
-        addPair: function(sensorID,pointID,callback) {
+        addPair: function(sensorID,pointID, headers, callback) {
             $http.post(getAPI()+'sensors/'+sensorID+'/points',{data:{'point_id':pointID}})
             .then(function (response) {
                 callback(response);
@@ -10,7 +10,7 @@ app.factory('SensorPointService', function($http) {
             });
         },
 
-        deletePair: function(sensorID,pointID, callback) {
+        deletePair: function(sensorID,pointID, headers, callback) {
             $http.delete(getAPI()+'sensors/'+sensorID+'/points/'+pointID)
             .then(function (response) {
                 callback(response);

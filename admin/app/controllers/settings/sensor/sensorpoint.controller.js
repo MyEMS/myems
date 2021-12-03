@@ -80,7 +80,8 @@ app.controller('SensorPointController', function (
     $scope.pairPoint = function (dragEl, dropEl) {
         var pointid = angular.element('#' + dragEl).scope().point.id;
         var sensorid = $scope.currentSensor.id;
-        SensorPointService.addPair(sensorid, pointid, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        SensorPointService.addPair(sensorid, pointid, {headers}, function (response) {
             if (angular.isDefined(response.status) && response.status === 201) {
                 toaster.pop({
                     type: "success",
@@ -106,7 +107,8 @@ app.controller('SensorPointController', function (
         }
         var sensorpointid = angular.element('#' + dragEl).scope().sensorpoint.id;
         var sensorid = $scope.currentSensor.id;
-        SensorPointService.deletePair(sensorid, sensorpointid, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        SensorPointService.deletePair(sensorid, sensorpointid, {headers}, function (response) {
             if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
                     type: "success",
