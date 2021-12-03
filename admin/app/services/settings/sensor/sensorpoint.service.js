@@ -2,7 +2,7 @@
 app.factory('SensorPointService', function($http) {
     return {
         addPair: function(sensorID,pointID, headers, callback) {
-            $http.post(getAPI()+'sensors/'+sensorID+'/points',{data:{'point_id':pointID}})
+            $http.post(getAPI()+'sensors/'+sensorID+'/points',{data:{'point_id':pointID}}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -11,7 +11,7 @@ app.factory('SensorPointService', function($http) {
         },
 
         deletePair: function(sensorID,pointID, headers, callback) {
-            $http.delete(getAPI()+'sensors/'+sensorID+'/points/'+pointID)
+            $http.delete(getAPI()+'sensors/'+sensorID+'/points/'+pointID, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
