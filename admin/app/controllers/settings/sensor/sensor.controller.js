@@ -1,7 +1,14 @@
 'use strict';
 
-app.controller('SensorController', function($scope,  $translate, $uibModal, SensorService, toaster, SweetAlert) {
-
+app.controller('SensorController', function(
+    $scope,
+    $window,
+    $translate,
+    $uibModal,
+    SensorService,
+    toaster,
+    SweetAlert) {
+	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllSensors = function() {
 		SensorService.getAllSensors(function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
@@ -27,7 +34,8 @@ app.controller('SensorController', function($scope,  $translate, $uibModal, Sens
 			}
 		});
 		modalInstance.result.then(function(sensor) {
-			SensorService.addSensor(sensor, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			SensorService.addSensor(sensor, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
@@ -67,7 +75,8 @@ app.controller('SensorController', function($scope,  $translate, $uibModal, Sens
 		});
 
 		modalInstance.result.then(function(modifiedSensor) {
-			SensorService.editSensor(modifiedSensor, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			SensorService.editSensor(modifiedSensor, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
 						type: "success",
@@ -105,7 +114,8 @@ app.controller('SensorController', function($scope,  $translate, $uibModal, Sens
 			},
 			function(isConfirm) {
 				if (isConfirm) {
-					SensorService.deleteSensor(sensor, function (response) {
+					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+					SensorService.deleteSensor(sensor, headers, function (response) {
 						if (angular.isDefined(response.status) && response.status === 204) {
                             toaster.pop({
                                 type: "success",

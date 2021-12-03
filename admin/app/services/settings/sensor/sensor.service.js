@@ -17,24 +17,24 @@ app.factory('SensorService', function($http) {
                 callback(response);
             });
         },
-        addSensor: function(sensor, callback) {
-            $http.post(getAPI()+'sensors',{data:sensor})
+        addSensor: function(sensor, headers, callback) {
+            $http.post(getAPI()+'sensors',{data:sensor}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        editSensor: function(sensor, callback) {
-            $http.put(getAPI()+'sensors/'+sensor.id,{data:sensor})
+        editSensor: function(sensor, headers, callback) {
+            $http.put(getAPI()+'sensors/'+sensor.id,{data:sensor}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        deleteSensor: function(sensor, callback) {
-            $http.delete(getAPI()+'sensors/'+sensor.id)
+        deleteSensor: function(sensor, headers, callback) {
+            $http.delete(getAPI()+'sensors/'+sensor.id, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

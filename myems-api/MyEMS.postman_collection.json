@@ -4647,7 +4647,18 @@
 							"name": "POST Create New Sensor",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "e713a4845a2f936eef1dca4314e7fad875b898854c56b4c5176d219f5ee19a0831d2ee67c63b17c2f2a49474d090cccb024f98a797d96571bc61027cbe1995af",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"Sensor10\", \"description\":\"sensor description\"}}"
@@ -4668,19 +4679,30 @@
 							"name": "PUT Update a Sensor",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "e713a4845a2f936eef1dca4314e7fad875b898854c56b4c5176d219f5ee19a0831d2ee67c63b17c2f2a49474d090cccb024f98a797d96571bc61027cbe1995af",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"Sensor10\", \"description\":\"sensor description\"}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/sensors/5",
+									"raw": "{{base_url}}/sensors/3",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"sensors",
-										"5"
+										"3"
 									]
 								}
 							},
@@ -4690,28 +4712,50 @@
 							"name": "DELETE Sensor by ID",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "e713a4845a2f936eef1dca4314e7fad875b898854c56b4c5176d219f5ee19a0831d2ee67c63b17c2f2a49474d090cccb024f98a797d96571bc61027cbe1995af",
+										"type": "text"
+									}
+								],
 								"url": {
-									"raw": "{{base_url}}/sensors/2",
+									"raw": "{{base_url}}/sensors/3",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"sensors",
-										"2"
+										"3"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "POST Sensor Point Relation",
+							"name": "POST Bind Point to Sensor",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "e713a4845a2f936eef1dca4314e7fad875b898854c56b4c5176d219f5ee19a0831d2ee67c63b17c2f2a49474d090cccb024f98a797d96571bc61027cbe1995af",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"point_id\":\"2686\"}}"
+									"raw": "{\"data\":{\"point_id\":\"2\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/sensors/1/points",
@@ -4728,7 +4772,7 @@
 							"response": []
 						},
 						{
-							"name": "GET All Points associated with Sensor ID",
+							"name": "GET All Points associated with Sensor by ID",
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -4747,12 +4791,23 @@
 							"response": []
 						},
 						{
-							"name": "DELETE Sensor Point Relation",
+							"name": "DELETE Unbind Point from Sensor",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "e713a4845a2f936eef1dca4314e7fad875b898854c56b4c5176d219f5ee19a0831d2ee67c63b17c2f2a49474d090cccb024f98a797d96571bc61027cbe1995af",
+										"type": "text"
+									}
+								],
 								"url": {
-									"raw": "{{base_url}}/sensors/1/points/2686",
+									"raw": "{{base_url}}/sensors/1/points/2",
 									"host": [
 										"{{base_url}}"
 									],
@@ -4760,7 +4815,7 @@
 										"sensors",
 										"1",
 										"points",
-										"2686"
+										"2"
 									]
 								}
 							},
