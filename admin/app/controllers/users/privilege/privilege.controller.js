@@ -1,11 +1,14 @@
 'use strict';
 
-app.controller('PrivilegeController', function ($scope,
+app.controller('PrivilegeController', function (
+    $scope,
+	$window,
 	$uibModal,
 	PrivilegeService,
 	toaster,
 	$translate,
 	SweetAlert) {
+	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllPrivileges = function () {
 		PrivilegeService.getAllPrivileges(function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
@@ -31,7 +34,8 @@ app.controller('PrivilegeController', function ($scope,
 			}
 		});
 		modalInstance.result.then(function (privilege) {
-			PrivilegeService.addPrivilege(privilege, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			PrivilegeService.addPrivilege(privilege, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
@@ -70,7 +74,8 @@ app.controller('PrivilegeController', function ($scope,
 		});
 
 		modalInstance.result.then(function (modifiedPrivilege) {
-			PrivilegeService.editPrivilege(modifiedPrivilege, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			PrivilegeService.editPrivilege(modifiedPrivilege, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
 						type: "success",
@@ -107,7 +112,8 @@ app.controller('PrivilegeController', function ($scope,
 		},
 		function (isConfirm) {
 			if (isConfirm) {
-				PrivilegeService.deletePrivilege(privilege, function (response) {
+				let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+				PrivilegeService.deletePrivilege(privilege, headers, function (response) {
 					if (angular.isDefined(response.status) && response.status === 204) {
 						toaster.pop({
 							type: "success",
