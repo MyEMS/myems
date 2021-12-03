@@ -3,7 +3,7 @@ import simplejson as json
 import mysql.connector
 import config
 import uuid
-from core.useractivity import user_logger
+from core.useractivity import user_logger, access_control
 
 
 class DistributionCircuitCollection:
@@ -63,6 +63,7 @@ class DistributionCircuitCollection:
     @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
+        access_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -232,6 +233,7 @@ class DistributionCircuitItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DISTRIBUTION_CIRCUIT_ID')
@@ -264,6 +266,7 @@ class DistributionCircuitItem:
     @user_logger
     def on_put(req, resp, id_):
         """Handles PUT requests"""
+        access_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -440,6 +443,7 @@ class DistributionCircuitPointCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
+        access_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -507,6 +511,7 @@ class DistributionCircuitPointItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, pid):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DISTRIBUTION_CIRCUIT_ID')

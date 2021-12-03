@@ -17,16 +17,16 @@ app.factory('DistributionCircuitService', function($http) {
                 callback(response);
             });
         },
-        addDistributionCircuit: function(distributioncircuit,callback) {
-            $http.post(getAPI()+'/distributioncircuits',{data:distributioncircuit})
+        addDistributionCircuit: function(distributioncircuit, headers, callback) {
+            $http.post(getAPI()+'/distributioncircuits',{data:distributioncircuit}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        editDistributionCircuit: function(distributioncircuit,callback) {
-            $http.put(getAPI()+'/distributioncircuits/'+distributioncircuit.id,{data:distributioncircuit})
+        editDistributionCircuit: function(distributioncircuit, headers, callback) {
+            $http.put(getAPI()+'/distributioncircuits/'+distributioncircuit.id,{data:distributioncircuit}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -34,8 +34,8 @@ app.factory('DistributionCircuitService', function($http) {
             });
         },
 
-        deleteDistributionCircuit: function(distributioncircuitID, callback) {
-            $http.delete(getAPI()+'/distributioncircuits/'+distributioncircuitID)
+        deleteDistributionCircuit: function(distributioncircuitID, headers, callback) {
+            $http.delete(getAPI()+'/distributioncircuits/'+distributioncircuitID, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
