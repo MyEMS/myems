@@ -17,24 +17,24 @@ app.factory('DistributionSystemService', function($http) {
                 callback(response);
             });
         },
-        addDistributionSystem: function(distributionsystem, callback) {
-            $http.post(getAPI()+'distributionsystems',{data:distributionsystem})
+        addDistributionSystem: function(distributionsystem, headers, callback) {
+            $http.post(getAPI()+'distributionsystems',{data:distributionsystem}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        editDistributionSystem: function(distributionsystem, callback) {
-            $http.put(getAPI()+'distributionsystems/'+distributionsystem.id,{data:distributionsystem})
+        editDistributionSystem: function(distributionsystem, headers, callback) {
+            $http.put(getAPI()+'distributionsystems/'+distributionsystem.id,{data:distributionsystem}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        deleteDistributionSystem: function(distributionsystem, callback) {
-            $http.delete(getAPI()+'distributionsystems/'+distributionsystem.id)
+        deleteDistributionSystem: function(distributionsystem, headers, callback) {
+            $http.delete(getAPI()+'distributionsystems/'+distributionsystem.id, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

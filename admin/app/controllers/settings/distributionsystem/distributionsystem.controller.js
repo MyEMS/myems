@@ -1,7 +1,14 @@
 'use strict';
 
-app.controller('DistributionSystemController', function($scope, $translate, $uibModal, DistributionSystemService, toaster,SweetAlert) {
-
+app.controller('DistributionSystemController', function(
+	$scope,
+	$window,
+	$translate,
+	$uibModal,
+	DistributionSystemService,
+	toaster,
+	SweetAlert) {
+	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllDistributionSystems = function() {
 		DistributionSystemService.getAllDistributionSystems(function(response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
@@ -19,7 +26,8 @@ app.controller('DistributionSystemController', function($scope, $translate, $uib
 			windowClass: "animated fadeIn",
 		});
 		modalInstance.result.then(function(distributionsystem) {
-			DistributionSystemService.addDistributionSystem(distributionsystem, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			DistributionSystemService.addDistributionSystem(distributionsystem, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
@@ -58,7 +66,8 @@ app.controller('DistributionSystemController', function($scope, $translate, $uib
 		});
 
 		modalInstance.result.then(function(modifiedDistributionSystem) {
-			DistributionSystemService.editDistributionSystem(modifiedDistributionSystem, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			DistributionSystemService.editDistributionSystem(modifiedDistributionSystem, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
 						type: "success",
@@ -95,7 +104,8 @@ app.controller('DistributionSystemController', function($scope, $translate, $uib
 		        closeOnCancel: true },
 		    function (isConfirm) {
 		        if (isConfirm) {
-		            DistributionSystemService.deleteDistributionSystem(distributionsystem, function (response) {
+					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		            DistributionSystemService.deleteDistributionSystem(distributionsystem, headers, function (response) {
 		            	if (angular.isDefined(response.status) && response.status === 204) {
 							toaster.pop({
 								type: "success",

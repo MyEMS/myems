@@ -80,7 +80,8 @@ app.controller('DistributionCircuitPointController', function (
     $scope.pairPoint = function (dragEl, dropEl) {
         var pointid = angular.element('#' + dragEl).scope().point.id;
         var distributioncircuitid = $scope.currentDistributionCircuit.id;
-        DistributionCircuitPointService.addPair(distributioncircuitid, pointid, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        DistributionCircuitPointService.addPair(distributioncircuitid, pointid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 201) {
                 toaster.pop({
                     type: "success",
@@ -106,7 +107,8 @@ app.controller('DistributionCircuitPointController', function (
         }
         var distributioncircuitpointid = angular.element('#' + dragEl).scope().distributioncircuitpoint.id;
         var distributioncircuitid = $scope.currentDistributionCircuit.id;
-        DistributionCircuitPointService.deletePair(distributioncircuitid, distributioncircuitpointid, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        DistributionCircuitPointService.deletePair(distributioncircuitid, distributioncircuitpointid, headers,  function (response) {
             if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
                     type: "success",
