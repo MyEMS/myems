@@ -4345,19 +4345,32 @@
 							"name": "PUT Update Privilege Data",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "46a767c678fc3d1bcacda116c639ebac77dd1a8407956a0f244a7900dc9c9bf88bb0c8be668d4962bb98f0108ebfeda603a4a6cd0c2031c6a9e864d8052e279e",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"privilege 1\", \"data\":\"{\\\"spaces\\\":[1, 3]}\"}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/privileges/2",
+									"raw": "{{base_url}}/privileges/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"privileges",
-										"2"
+										"1"
 									]
 								}
 							},
@@ -4367,25 +4380,51 @@
 							"name": "DELETE Privilege",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "46a767c678fc3d1bcacda116c639ebac77dd1a8407956a0f244a7900dc9c9bf88bb0c8be668d4962bb98f0108ebfeda603a4a6cd0c2031c6a9e864d8052e279e",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
-									"raw": "{{base_url}}/privileges/2",
+									"raw": "{{base_url}}/privileges/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"privileges",
-										"2"
+										"1"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "Create Privilege",
+							"name": "POST Create Privilege",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "46a767c678fc3d1bcacda116c639ebac77dd1a8407956a0f244a7900dc9c9bf88bb0c8be668d4962bb98f0108ebfeda603a4a6cd0c2031c6a9e864d8052e279e",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\": {\"name\": \"privilege 1\", \"data\":\"{\\\"spaces\\\":[1, 3]}\"}}"

@@ -1,6 +1,7 @@
 'use strict';
 
-app.controller('PrivilegeController', function ($scope,
+app.controller('PrivilegeController', function (
+    $scope,
 	$window,
 	$uibModal,
 	PrivilegeService,
