@@ -1,6 +1,18 @@
 'use strict';
 
-app.controller('EnergyFlowDiagramLinkController', function($scope,$uibModal, $translate, MeterService, VirtualMeterService, OfflineMeterService,	EnergyFlowDiagramLinkService, EnergyFlowDiagramService, EnergyFlowDiagramNodeService, toaster,SweetAlert) {
+app.controller('EnergyFlowDiagramLinkController', function(
+	$scope,
+	$window,
+	$uibModal,
+	$translate,
+	MeterService,
+	VirtualMeterService,
+	OfflineMeterService,
+	EnergyFlowDiagramLinkService,
+	EnergyFlowDiagramService,
+	EnergyFlowDiagramNodeService,
+	toaster,
+	SweetAlert) {
     $scope.currentEnergyFlowDiagram = {selected:undefined};
     $scope.is_show_add_link = false;
     $scope.energyflowdiagrams = [];
@@ -10,7 +22,7 @@ app.controller('EnergyFlowDiagramLinkController', function($scope,$uibModal, $tr
     $scope.offlinemeters = [];
     $scope.virtualmeters = [];
     $scope.mergedMeters = [];
-
+	  $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	  $scope.getAllEnergyFlowDiagrams = function() {
 		EnergyFlowDiagramService.getAllEnergyFlowDiagrams(function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
@@ -77,8 +89,8 @@ app.controller('EnergyFlowDiagramLinkController', function($scope,$uibModal, $tr
 			if (energyflowdiagramlink.meter != null) {
 				energyflowdiagramlink.meter_uuid = energyflowdiagramlink.meter.uuid;
 			}
-
-			EnergyFlowDiagramLinkService.addEnergyFlowDiagramLink(energyflowdiagramid, energyflowdiagramlink, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			EnergyFlowDiagramLinkService.addEnergyFlowDiagramLink(energyflowdiagramid, energyflowdiagramlink, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
@@ -128,7 +140,8 @@ app.controller('EnergyFlowDiagramLinkController', function($scope,$uibModal, $tr
 			if (modifiedEnergyFlowDiagramLink.meter != null) {
 					modifiedEnergyFlowDiagramLink.meter_uuid = modifiedEnergyFlowDiagramLink.meter.uuid;
 			}
-			EnergyFlowDiagramLinkService.editEnergyFlowDiagramLink($scope.currentEnergyFlowDiagram.id, modifiedEnergyFlowDiagramLink, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			EnergyFlowDiagramLinkService.editEnergyFlowDiagramLink($scope.currentEnergyFlowDiagram.id, modifiedEnergyFlowDiagramLink, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
 						type: "success",
@@ -166,7 +179,8 @@ app.controller('EnergyFlowDiagramLinkController', function($scope,$uibModal, $tr
 			},
 			function(isConfirm) {
 				if (isConfirm) {
-					EnergyFlowDiagramLinkService.deleteEnergyFlowDiagramLink($scope.currentEnergyFlowDiagram.id, energyflowdiagramlink.id, function (response) {
+					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+					EnergyFlowDiagramLinkService.deleteEnergyFlowDiagramLink($scope.currentEnergyFlowDiagram.id, energyflowdiagramlink.id, headers, function (response) {
 						if (angular.isDefined(response.status) && response.status === 204) {
 							toaster.pop({
 								type: "success",
@@ -265,15 +279,14 @@ app.controller('EnergyFlowDiagramLinkController', function($scope,$uibModal, $tr
 app.controller('ModalAddEnergyFlowDiagramLinkCtrl', function($scope, $uibModalInstance, params) {
 
 	$scope.operation = "ENERGY_FLOW_DIAGRAM.ADD_LINK";
-  $scope.energyflowdiagramlink = {
-    source_node: {id: null, name: null},
-    target_node: {id: null, name: null},
-    meter: {id: null, uuid: null, name: null, type: null},
-  };
-  $scope.energyflowdiagramnodes = params.energyflowdiagramnodes;
-  $scope.mergedmeters = params.mergedmeters;
+    $scope.energyflowdiagramlink = {
+      source_node: {id: null, name: null},
+      target_node: {id: null, name: null},
+      meter: {id: null, uuid: null, name: null, type: null},
+    };
+    $scope.energyflowdiagramnodes = params.energyflowdiagramnodes;
+    $scope.mergedmeters = params.mergedmeters;
 	$scope.ok = function() {
-
 		$uibModalInstance.close($scope.energyflowdiagramlink);
 	};
 
@@ -285,8 +298,8 @@ app.controller('ModalAddEnergyFlowDiagramLinkCtrl', function($scope, $uibModalIn
 app.controller('ModalEditEnergyFlowDiagramLinkCtrl', function($scope, $uibModalInstance, params) {
 	$scope.operation = "ENERGY_FLOW_DIAGRAM.EDIT_LINK";
 	$scope.energyflowdiagramlink = params.energyflowdiagramlink;
-  $scope.energyflowdiagramnodes = params.energyflowdiagramnodes;
-  $scope.mergedmeters = params.mergedmeters;
+    $scope.energyflowdiagramnodes = params.energyflowdiagramnodes;
+    $scope.mergedmeters = params.mergedmeters;
 	$scope.ok = function() {
 		$uibModalInstance.close($scope.energyflowdiagramlink);
 	};

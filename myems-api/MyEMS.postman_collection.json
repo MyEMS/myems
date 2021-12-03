@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "98580f5c-106c-4b86-8262-ec3c918608e1",
+		"_postman_id": "275f5f12-078c-421a-a050-f054e344dc2b",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -2030,7 +2030,20 @@
 							"name": "POST Create an Energy Flow Diagram",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "bd16461ce31dca5c026ee17b1e6e10167d7558230fc6387b4149819a1a2b0d19b87b72687fa488ee41b358b7d229ab44f1011968308c0cf3e9d379e6ae6b2565",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"MyEMS Energy Flow\"}}"
@@ -2051,19 +2064,32 @@
 							"name": "PUT Update an Energy Flow Diagram",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "bd16461ce31dca5c026ee17b1e6e10167d7558230fc6387b4149819a1a2b0d19b87b72687fa488ee41b358b7d229ab44f1011968308c0cf3e9d379e6ae6b2565",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"MyEMS Energy Flow Diagram\"}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/energyflowdiagrams/1",
+									"raw": "{{base_url}}/energyflowdiagrams/2000000",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"energyflowdiagrams",
-										"1"
+										"2000000"
 									]
 								}
 							},
@@ -2073,15 +2099,28 @@
 							"name": "DELETE an Energy Flow Diagram",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "bd16461ce31dca5c026ee17b1e6e10167d7558230fc6387b4149819a1a2b0d19b87b72687fa488ee41b358b7d229ab44f1011968308c0cf3e9d379e6ae6b2565",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
 								"url": {
-									"raw": "{{base_url}}/energyflowdiagrams/2",
+									"raw": "{{base_url}}/energyflowdiagrams/2000000",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"energyflowdiagrams",
-										"2"
+										"2000000"
 									]
 								}
 							},
@@ -2093,13 +2132,13 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/energyflowdiagrams/1/nodes",
+									"raw": "{{base_url}}/energyflowdiagrams/1000000/nodes",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"energyflowdiagrams",
-										"1",
+										"1000000",
 										"nodes"
 									]
 								}
@@ -2110,19 +2149,32 @@
 							"name": "POST Create new Node of an Energy Flow Diagram",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "bd16461ce31dca5c026ee17b1e6e10167d7558230fc6387b4149819a1a2b0d19b87b72687fa488ee41b358b7d229ab44f1011968308c0cf3e9d379e6ae6b2565",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"10KV#3\"}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/energyflowdiagrams/1/nodes",
+									"raw": "{{base_url}}/energyflowdiagrams/1000000/nodes",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"energyflowdiagrams",
-										"1",
+										"1000000",
 										"nodes"
 									]
 								}
@@ -2133,21 +2185,34 @@
 							"name": "PUT Update an Node of an Energy Flow Diagram",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "bd16461ce31dca5c026ee17b1e6e10167d7558230fc6387b4149819a1a2b0d19b87b72687fa488ee41b358b7d229ab44f1011968308c0cf3e9d379e6ae6b2565",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"10KV Input #1\"}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/energyflowdiagrams/1/nodes/1",
+									"raw": "{{base_url}}/energyflowdiagrams/1000000/nodes/3000000",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"energyflowdiagrams",
-										"1",
+										"1000000",
 										"nodes",
-										"1"
+										"3000000"
 									]
 								}
 							},
@@ -2157,17 +2222,30 @@
 							"name": "DELETE an Node of an Energy Flow Diagram",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "bd16461ce31dca5c026ee17b1e6e10167d7558230fc6387b4149819a1a2b0d19b87b72687fa488ee41b358b7d229ab44f1011968308c0cf3e9d379e6ae6b2565",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
-									"raw": "{{base_url}}/energyflowdiagrams/1/nodes/3",
+									"raw": "{{base_url}}/energyflowdiagrams/1000000/nodes/3000000",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"energyflowdiagrams",
-										"1",
+										"1000000",
 										"nodes",
-										"3"
+										"3000000"
 									]
 								}
 							},
@@ -2179,13 +2257,13 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/energyflowdiagrams/1/links",
+									"raw": "{{base_url}}/energyflowdiagrams/1000000/links",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"energyflowdiagrams",
-										"1",
+										"1000000",
 										"links"
 									]
 								}
@@ -2196,19 +2274,32 @@
 							"name": "POST Create new Link of an Energy Flow Diagram",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "bd16461ce31dca5c026ee17b1e6e10167d7558230fc6387b4149819a1a2b0d19b87b72687fa488ee41b358b7d229ab44f1011968308c0cf3e9d379e6ae6b2565",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"source_node_id\":1, \"target_node_id\":2, \"meter_uuid\":\"493cd112-6295-43c6-98aa-e7f801e7b7ba\"}}"
+									"raw": "{\"data\":{\"source_node_id\":1000000, \"target_node_id\":1000008, \"meter_uuid\":\"eb78f7f9-f26f-463b-92fa-d9daf5b3651c\"}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/energyflowdiagrams/1/links",
+									"raw": "{{base_url}}/energyflowdiagrams/1000000/links",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"energyflowdiagrams",
-										"1",
+										"1000000",
 										"links"
 									]
 								}
@@ -2219,21 +2310,34 @@
 							"name": "PUT Update a Link of an Energy Flow Diagram",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "bd16461ce31dca5c026ee17b1e6e10167d7558230fc6387b4149819a1a2b0d19b87b72687fa488ee41b358b7d229ab44f1011968308c0cf3e9d379e6ae6b2565",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"source_node_id\":1, \"target_node_id\":4, \"meter_uuid\":\"493cd112-6295-43c6-98aa-e7f801e7b7ba\"}}"
+									"raw": "{\"data\":{\"source_node_id\":1000000, \"target_node_id\":1000009, \"meter_uuid\":\"eb78f7f9-f26f-463b-92fa-d9daf5b3651c\"}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/energyflowdiagrams/1/links/1",
+									"raw": "{{base_url}}/energyflowdiagrams/1000000/links/3000000",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"energyflowdiagrams",
-										"1",
+										"1000000",
 										"links",
-										"1"
+										"3000000"
 									]
 								}
 							},
@@ -2243,17 +2347,30 @@
 							"name": "DELETE a Link of an Energy Flow Diagram",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "bd16461ce31dca5c026ee17b1e6e10167d7558230fc6387b4149819a1a2b0d19b87b72687fa488ee41b358b7d229ab44f1011968308c0cf3e9d379e6ae6b2565",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
-									"raw": "{{base_url}}/energyflowdiagrams/1/links/2",
+									"raw": "{{base_url}}/energyflowdiagrams/1000000/links/3000000",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"energyflowdiagrams",
-										"1",
+										"1000000",
 										"links",
-										"2"
+										"3000000"
 									]
 								}
 							},
