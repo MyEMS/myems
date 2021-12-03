@@ -279,15 +279,14 @@ app.controller('EnergyFlowDiagramLinkController', function(
 app.controller('ModalAddEnergyFlowDiagramLinkCtrl', function($scope, $uibModalInstance, params) {
 
 	$scope.operation = "ENERGY_FLOW_DIAGRAM.ADD_LINK";
-  $scope.energyflowdiagramlink = {
-    source_node: {id: null, name: null},
-    target_node: {id: null, name: null},
-    meter: {id: null, uuid: null, name: null, type: null},
-  };
-  $scope.energyflowdiagramnodes = params.energyflowdiagramnodes;
-  $scope.mergedmeters = params.mergedmeters;
+    $scope.energyflowdiagramlink = {
+      source_node: {id: null, name: null},
+      target_node: {id: null, name: null},
+      meter: {id: null, uuid: null, name: null, type: null},
+    };
+    $scope.energyflowdiagramnodes = params.energyflowdiagramnodes;
+    $scope.mergedmeters = params.mergedmeters;
 	$scope.ok = function() {
-
 		$uibModalInstance.close($scope.energyflowdiagramlink);
 	};
 
@@ -299,8 +298,8 @@ app.controller('ModalAddEnergyFlowDiagramLinkCtrl', function($scope, $uibModalIn
 app.controller('ModalEditEnergyFlowDiagramLinkCtrl', function($scope, $uibModalInstance, params) {
 	$scope.operation = "ENERGY_FLOW_DIAGRAM.EDIT_LINK";
 	$scope.energyflowdiagramlink = params.energyflowdiagramlink;
-  $scope.energyflowdiagramnodes = params.energyflowdiagramnodes;
-  $scope.mergedmeters = params.mergedmeters;
+    $scope.energyflowdiagramnodes = params.energyflowdiagramnodes;
+    $scope.mergedmeters = params.mergedmeters;
 	$scope.ok = function() {
 		$uibModalInstance.close($scope.energyflowdiagramlink);
 	};

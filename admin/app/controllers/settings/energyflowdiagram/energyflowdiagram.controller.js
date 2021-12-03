@@ -1,6 +1,7 @@
 'use strict';
 
-app.controller('EnergyFlowDiagramController', function($scope,
+app.controller('EnergyFlowDiagramController', function(
+    $scope,
 	$window,
 	$translate,
 	$uibModal,
