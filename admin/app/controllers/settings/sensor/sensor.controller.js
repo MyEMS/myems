@@ -1,6 +1,13 @@
 'use strict';
 
-app.controller('SensorController', function($scope, $window,  $translate, $uibModal, SensorService, toaster, SweetAlert) {
+app.controller('SensorController', function(
+    $scope,
+    $window,
+    $translate,
+    $uibModal,
+    SensorService,
+    toaster,
+    SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllSensors = function() {
 		SensorService.getAllSensors(function (response) {
@@ -28,8 +35,7 @@ app.controller('SensorController', function($scope, $window,  $translate, $uibMo
 		});
 		modalInstance.result.then(function(sensor) {
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-			SensorService.addSensor(sensor, {headers},
-				function (response) {
+			SensorService.addSensor(sensor, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
@@ -70,7 +76,7 @@ app.controller('SensorController', function($scope, $window,  $translate, $uibMo
 
 		modalInstance.result.then(function(modifiedSensor) {
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-			SensorService.editSensor(modifiedSensor, {headers}, function (response) {
+			SensorService.editSensor(modifiedSensor, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
 						type: "success",
@@ -109,7 +115,7 @@ app.controller('SensorController', function($scope, $window,  $translate, $uibMo
 			function(isConfirm) {
 				if (isConfirm) {
 					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-					SensorService.deleteSensor(sensor, {headers}, function (response) {
+					SensorService.deleteSensor(sensor, headers, function (response) {
 						if (angular.isDefined(response.status) && response.status === 204) {
                             toaster.pop({
                                 type: "success",

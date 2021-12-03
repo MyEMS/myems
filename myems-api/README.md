@@ -1321,10 +1321,6 @@ Result
 ```bash
 curl -i -X GET {{base_url}}/sensors
 ```
-*   DELETE a Sensor by ID
-```bash
-curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKEN-AFTER-LOGIN" -X DELETE {{base_url}}/sensors/{id}
-```
 *   POST Create New Sensor
 ```bash
 curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKEN-AFTER-LOGIN" -H "Content-Type: application/json" -X POST -d '{"data":{"name":"Sensor10", "description":"sensor description"}}' {{base_url}}/sensors
@@ -1333,15 +1329,19 @@ curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKE
 ```bash
 curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKEN-AFTER-LOGIN" -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"Sensor10", "description":"sensor description"}}' {{base_url}}/sensors/{id}
 ```
-*   GET All Points associated with Sensor ID
+*   DELETE Sensor by ID
+```bash
+curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKEN-AFTER-LOGIN" -X DELETE {{base_url}}/sensors/{id}
+```
+*   POST Bind Point to Sensor
+```bash
+curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKEN-AFTER-LOGIN" -H "Content-Type: application/json" -X POST -d '{"data":{"point_id":"2"}}' {{base_url}}/sensors/{id}/points
+```
+*   GET All Points associated with Sensor by ID
 ```bash
 curl -i -X GET {{base_url}}/sensors/{id}/points
 ```
-*   POST Sensor Point Relation
-```bash
-curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKEN-AFTER-LOGIN" -H "Content-Type: application/json" -X POST -d '{"data":{"point_id":"3"}}' {{base_url}}/sensors/{id}/points
-```
-*   DELETE Sensor Point Relation
+*   DELETE Unbind Point from Sensor
 ```bash
 curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKEN-AFTER-LOGIN" -X DELETE {{base_url}}/sensors/{id}/points/{pid}
 ```
