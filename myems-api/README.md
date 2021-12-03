@@ -604,15 +604,15 @@ curl -i -X GET {{base_url}}/energyflowdiagrams
 ```
 *   DELETE an Energy Flow Diagram by ID
 ```bash
-curl -i -X DELETE {{base_url}}/energyflowdiagrams/{id}
+curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN" -X DELETE {{base_url}}/energyflowdiagrams/{id}
 ```
 *   POST Create an Energy Flow Diagram
 ```bash
-curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"MyEMS Energy Flow"}}' {{base_url}}/energyflowdiagrams
+curl -i -H "Content-Type: application/json" -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN" -X POST -d '{"data":{"name":"MyEMS Energy Flow"}}' {{base_url}}/energyflowdiagrams
 ```
 *   PUT Update an Energy Flow Diagram
 ```bash
-curl -i -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"MyEMS Energy Flow Diagram"}}' {{base_url}}/energyflowdiagrams/{id}
+curl -i -H "Content-Type: application/json" -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN" -X PUT -d '{"data":{"name":"MyEMS Energy Flow Diagram"}}' {{base_url}}/energyflowdiagrams/{id}
 ```
 *   GET All Nodes of an Energy Flow Diagram by ID
 ```bash
@@ -620,15 +620,15 @@ curl -i -X GET {{base_url}}/energyflowdiagrams/{id}/nodes
 ```
 *   POST Create a Node of an Energy Flow Diagram
 ```bash
-curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"10KV#1"}}' {{base_url}}/energyflowdiagrams/{id}/nodes
+curl -i -H "Content-Type: application/json" -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN" -X POST -d '{"data":{"name":"10KV#1"}}' {{base_url}}/energyflowdiagrams/{id}/nodes
 ```
 *   PUT Update a Node of an Energy Flow Diagram
 ```bash
-curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"name":"10KV#2"}}' {{base_url}}/energyflowdiagrams/{id}/nodes/{nid}
+curl -i -H "Content-Type: application/json" -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN" -X POST -d '{"data":{"name":"10KV#2"}}' {{base_url}}/energyflowdiagrams/{id}/nodes/{nid}
 ```
 *   DELETE a Node of an Energy Flow Diagram
 ```bash
-curl -i -X DELETE {{base_url}}/energyflowdiagrams/{id}/nodes/{nid}
+curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN" -X DELETE {{base_url}}/energyflowdiagrams/{id}/nodes/{nid}
 ```
 *   GET All Links of an Energy Flow Diagram by ID
 ```bash
@@ -636,15 +636,15 @@ curl -i -X GET {{base_url}}/energyflowdiagrams/{id}/links
 ```
 *   POST Create a Link of an Energy Flow Diagram
 ```bash
-curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"source_node_id":1, "target_node_id":3, "meter_uuid":"d806a78d-a31e-4833-b5c8-81261cfeb1f2"}}' {{base_url}}/energyflowdiagrams/{id}/links
+curl -i -H "Content-Type: application/json" -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN" -X POST -d '{"data":{"source_node_id":1, "target_node_id":3, "meter_uuid":"d806a78d-a31e-4833-b5c8-81261cfeb1f2"}}' {{base_url}}/energyflowdiagrams/{id}/links
 ```
 *   PUT Update a Link of an Energy Flow Diagram
 ```bash
-curl -i -H "Content-Type: application/json" -X POST -d '{"data":{"source_node_id":1, "target_node_id":4, "meter_uuid":"d806a78d-a31e-4833-b5c8-81261cfeb1f2"}}' {{base_url}}/energyflowdiagrams/{id}/links/{lid}
+curl -i -H "Content-Type: application/json" -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN" -X POST -d '{"data":{"source_node_id":1, "target_node_id":4, "meter_uuid":"d806a78d-a31e-4833-b5c8-81261cfeb1f2"}}' {{base_url}}/energyflowdiagrams/{id}/links/{lid}
 ```
 *   DELETE a Link of an Energy Flow Diagram
 ```bash
-curl -i -X DELETE {{base_url}}/energyflowdiagrams/{id}/links/{lid}
+curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN" -X DELETE {{base_url}}/energyflowdiagrams/{id}/links/{lid}
 ```
 
 ### Energy Item

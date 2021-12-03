@@ -17,24 +17,24 @@ app.factory('EnergyFlowDiagramService', function($http) {
                 callback(response);
             });
         },
-        addEnergyFlowDiagram: function(energyflowdiagram, callback) {
-            $http.post(getAPI()+'energyflowdiagrams',{data:energyflowdiagram})
+        addEnergyFlowDiagram: function(energyflowdiagram, headers, callback) {
+            $http.post(getAPI()+'energyflowdiagrams',{data:energyflowdiagram}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        editEnergyFlowDiagram: function(energyflowdiagram, callback) {
-            $http.put(getAPI()+'energyflowdiagrams/'+energyflowdiagram.id,{data:energyflowdiagram})
+        editEnergyFlowDiagram: function(energyflowdiagram, headers, callback) {
+            $http.put(getAPI()+'energyflowdiagrams/'+energyflowdiagram.id,{data:energyflowdiagram}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        deleteEnergyFlowDiagram: function(energyflowdiagram, callback) {
-            $http.delete(getAPI()+'energyflowdiagrams/'+energyflowdiagram.id)
+        deleteEnergyFlowDiagram: function(energyflowdiagram, headers, callback) {
+            $http.delete(getAPI()+'energyflowdiagrams/'+energyflowdiagram.id, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

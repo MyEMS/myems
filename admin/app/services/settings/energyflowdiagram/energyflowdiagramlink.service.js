@@ -10,16 +10,16 @@ app.factory('EnergyFlowDiagramLinkService', function($http) {
                 callback(response);
             });
         },
-        addEnergyFlowDiagramLink: function(energyflowdiagramID, energyflowdiagramlink, callback) {
-            $http.post(getAPI()+'energyflowdiagrams/'+energyflowdiagramID+'/links',{data:energyflowdiagramlink})
+        addEnergyFlowDiagramLink: function(energyflowdiagramID, energyflowdiagramlink, headers, callback) {
+            $http.post(getAPI()+'energyflowdiagrams/'+energyflowdiagramID+'/links',{data:energyflowdiagramlink}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        editEnergyFlowDiagramLink: function(energyflowdiagramID,energyflowdiagramlink,callback) {
-            $http.put(getAPI()+'energyflowdiagrams/'+energyflowdiagramID+'/links/'+energyflowdiagramlink.id,{data:energyflowdiagramlink})
+        editEnergyFlowDiagramLink: function(energyflowdiagramID, energyflowdiagramlink, headers, callback) {
+            $http.put(getAPI()+'energyflowdiagrams/'+energyflowdiagramID+'/links/'+energyflowdiagramlink.id,{data:energyflowdiagramlink}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -27,8 +27,8 @@ app.factory('EnergyFlowDiagramLinkService', function($http) {
             });
         },
 
-        deleteEnergyFlowDiagramLink: function(energyflowdiagramID, linkID, callback) {
-            $http.delete(getAPI()+'energyflowdiagrams/'+energyflowdiagramID+'/links/'+linkID)
+        deleteEnergyFlowDiagramLink: function(energyflowdiagramID, linkID, headers, callback) {
+            $http.delete(getAPI()+'energyflowdiagrams/'+energyflowdiagramID+'/links/'+linkID, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
