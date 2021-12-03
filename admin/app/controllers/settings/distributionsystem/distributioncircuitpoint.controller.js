@@ -49,11 +49,11 @@ app.controller('DistributionCircuitPointController', function (
         });
     };
 
-  $scope.changeDistributionCircuit=function(item,model){
-  	$scope.currentDistributionCircuit=item;
-  	$scope.currentDistributionCircuit.selected=model;
-  	$scope.getPointsByDistributionCircuitID($scope.currentDistributionCircuit.id);
-  };
+    $scope.changeDistributionCircuit=function(item,model){
+  	  $scope.currentDistributionCircuit=item;
+  	  $scope.currentDistributionCircuit.selected=model;
+  	  $scope.getPointsByDistributionCircuitID($scope.currentDistributionCircuit.id);
+    };
 
     $scope.changeDataSource = function (item, model) {
         $scope.currentDataSource = model;
