@@ -504,11 +504,11 @@ Result in JSON
 | status        | string    | Status ('new', 'sent', 'timeout'          |
 
 ```bash
-curl -i -X GET {{base_url}}/emailmessages/{id}
+curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKEN-AFTER-LOGIN" -X GET {{base_url}}/emailmessages/{id}
 ```
-*   GET Email Messages from Startdate to Enddate
+*   GET Email Messages by Date Range
 ```bash
-curl -i -X GET {{base_url}}/emailmessages/from/{startdate}/to/{enddate}
+curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKEN-AFTER-LOGIN" -X GET {{base_url}}/emailmessages/from/{startdate}/to/{enddate}
 ```
 *   DELETE an Email Message by ID
 ```bash

@@ -1,9 +1,14 @@
 'use strict';
 
-app.controller('EmailMessageController', function($scope, $timeout,$translate,
+app.controller('EmailMessageController', function(
+    $scope,
+    $window,
+    $timeout,
+    $translate,
 	EmailMessageAnalysisService,
-	toaster, SweetAlert) {
-
+	toaster,
+	SweetAlert) {
+	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.$on('handleBroadcastEmailMessageOptionChanged', function (event, data) {
         if (angular.isDefined(data.load)) {
             $scope.tabledata = [];
@@ -34,7 +39,8 @@ app.controller('EmailMessageController', function($scope, $timeout,$translate,
 			},
 			function(isConfirm) {
 				if (isConfirm) {
-					EmailMessageAnalysisService.deleteEmailMessage(emailmessage, function(response) {
+			        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+					EmailMessageAnalysisService.deleteEmailMessage(emailmessage, headers, function(response) {
 						if (angular.isDefined(response.status) && response.status === 204) {
                             toaster.pop({
                                 type: "success",
@@ -50,11 +56,11 @@ app.controller('EmailMessageController', function($scope, $timeout,$translate,
                                 body: $translate.instant(response.data.description),
                                 showCloseButton: true,
                             });
-
 						}
 					});
 				}
-			});
+			}
+		);
 	};
 
 });

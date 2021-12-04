@@ -1816,21 +1816,34 @@
 					"name": "Email Message",
 					"item": [
 						{
-							"name": "GET Email Messages from Startdate to Enddate",
+							"name": "GET Email Messages by Date Range",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "592641a558bc1724c4b75bd80d7d37b9b6a441b9b2231e3a5b2843b1f1e4f6864608ca97c4db00c94012b3406bf0c45cf231b789d2f551c1d420aa4de09f75cd",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
-									"raw": "{{base_url}}/emailmessages/from/2020-04-01/to/2020-05-01",
+									"raw": "{{base_url}}/emailmessages/from/2021-12-01/to/2021-12-31",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"emailmessages",
 										"from",
-										"2020-04-01",
+										"2021-12-01",
 										"to",
-										"2020-05-01"
+										"2021-12-31"
 									],
 									"query": [
 										{
@@ -1847,7 +1860,20 @@
 							"name": "GET an Email Message by ID",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "592641a558bc1724c4b75bd80d7d37b9b6a441b9b2231e3a5b2843b1f1e4f6864608ca97c4db00c94012b3406bf0c45cf231b789d2f551c1d420aa4de09f75cd",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/emailmessages/1",
 									"host": [
@@ -1865,7 +1891,20 @@
 							"name": "POST Create New Email Message TODO",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "592641a558bc1724c4b75bd80d7d37b9b6a441b9b2231e3a5b2843b1f1e4f6864608ca97c4db00c94012b3406bf0c45cf231b789d2f551c1d420aa4de09f75cd",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/emailmessages",
 									"host": [
@@ -1882,7 +1921,20 @@
 							"name": "PUT Update an Email Message TODO",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "592641a558bc1724c4b75bd80d7d37b9b6a441b9b2231e3a5b2843b1f1e4f6864608ca97c4db00c94012b3406bf0c45cf231b789d2f551c1d420aa4de09f75cd",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": ""
 								}
@@ -1893,7 +1945,20 @@
 							"name": "DELETE an Email Message by ID",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "592641a558bc1724c4b75bd80d7d37b9b6a441b9b2231e3a5b2843b1f1e4f6864608ca97c4db00c94012b3406bf0c45cf231b789d2f551c1d420aa4de09f75cd",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/emailmessages/2",
 									"host": [
@@ -4651,12 +4716,14 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
 										"value": "e713a4845a2f936eef1dca4314e7fad875b898854c56b4c5176d219f5ee19a0831d2ee67c63b17c2f2a49474d090cccb024f98a797d96571bc61027cbe1995af",
-										"type": "text"
+										"type": "text",
+										"description": "Login to get a valid token"
 									}
 								],
 								"body": {
@@ -4683,12 +4750,14 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
 										"value": "e713a4845a2f936eef1dca4314e7fad875b898854c56b4c5176d219f5ee19a0831d2ee67c63b17c2f2a49474d090cccb024f98a797d96571bc61027cbe1995af",
-										"type": "text"
+										"type": "text",
+										"description": "Login to get a valid token"
 									}
 								],
 								"body": {
@@ -4716,12 +4785,14 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
 										"value": "e713a4845a2f936eef1dca4314e7fad875b898854c56b4c5176d219f5ee19a0831d2ee67c63b17c2f2a49474d090cccb024f98a797d96571bc61027cbe1995af",
-										"type": "text"
+										"type": "text",
+										"description": "Login to get a valid token"
 									}
 								],
 								"url": {
@@ -4745,12 +4816,14 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
 										"value": "e713a4845a2f936eef1dca4314e7fad875b898854c56b4c5176d219f5ee19a0831d2ee67c63b17c2f2a49474d090cccb024f98a797d96571bc61027cbe1995af",
-										"type": "text"
+										"type": "text",
+										"description": "Login to get a valid token"
 									}
 								],
 								"body": {
@@ -4798,12 +4871,14 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
 										"value": "e713a4845a2f936eef1dca4314e7fad875b898854c56b4c5176d219f5ee19a0831d2ee67c63b17c2f2a49474d090cccb024f98a797d96571bc61027cbe1995af",
-										"type": "text"
+										"type": "text",
+										"description": "Login to get a valid token"
 									}
 								],
 								"url": {

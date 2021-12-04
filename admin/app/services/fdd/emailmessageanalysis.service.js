@@ -2,10 +2,8 @@
 app.factory('EmailMessageAnalysisService', function($http) {
     return {
 
-        getAnalysisResult: function(query,callback) {
-            var base="emailmessages";
-            var url=base+"/from/"+query.datestart+"/to/"+query.dateend;
-            $http.get(getAPI()+url)
+        getAnalysisResult: function(query, headers, callback) {
+            $http.get(getAPI()+"emailmessages"+"/from/"+query.datestart+"/to/"+query.dateend, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -13,8 +11,8 @@ app.factory('EmailMessageAnalysisService', function($http) {
             });
         },
 
-        deleteEmailMessage: function(emailmessage, callback) {
-            $http.delete(getAPI()+'emailmessages/'+emailmessage.id)
+        deleteEmailMessage: function(emailmessage, headers, callback) {
+            $http.delete(getAPI()+'emailmessages/'+emailmessage.id, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
