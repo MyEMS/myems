@@ -3,7 +3,7 @@ import json
 import mysql.connector
 import config
 from datetime import datetime, timedelta, timezone
-from core.useractivity import user_logger
+from core.useractivity import user_logger, access_control
 
 
 class TextMessageCollection:
@@ -18,6 +18,7 @@ class TextMessageCollection:
 
     @staticmethod
     def on_get(req, resp, startdate, enddate):
+        access_control(req)
         try:
             start_datetime_local = datetime.strptime(startdate, '%Y-%m-%d')
         except Exception:
@@ -97,6 +98,7 @@ class TextMessageItem:
 
     @staticmethod
     def on_get(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TEXT_MESSAGE_ID')
@@ -145,6 +147,7 @@ class TextMessageItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TEXT_MESSAGE_ID')

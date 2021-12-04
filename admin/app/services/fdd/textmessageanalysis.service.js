@@ -2,10 +2,8 @@
 app.factory('TextMessageAnalysisService', function($http) {
     return {
 
-        getAnalysisResult: function(query, callback) {
-            var base="textmessages";
-            var url=base+"/from/"+query.datestart+"/to/"+query.dateend;
-            $http.get(getAPI()+url)
+        getAnalysisResult: function(query, headers, callback) {
+            $http.get(getAPI()+"textmessages"+"/from/"+query.datestart+"/to/"+query.dateend, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -13,8 +11,8 @@ app.factory('TextMessageAnalysisService', function($http) {
             });
         },
 
-        deleteTextMessage: function(textmessage, callback) {
-            $http.delete(getAPI()+'textmessages/'+textmessage.id)
+        deleteTextMessage: function(textmessage, headers, callback) {
+            $http.delete(getAPI()+'textmessages/'+textmessage.id, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

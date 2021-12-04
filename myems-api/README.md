@@ -1953,11 +1953,11 @@ Result in JSON
 | acknowledge_code| string  | Recipient reply with Acknowledge code to acknowledge |
 | status        | string    | Status ('new', 'sent', 'acknowledged', 'timeout'| 
 ```bash
-curl -i -X GET {{base_url}}/textmessages/{id}
+curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKEN-AFTER-LOGIN" -X GET {{base_url}}/textmessages/{id}
 ```
-*   GET Text Messages from Startdate to Enddate
+*   GET Text Messages by Date Range
 ```bash
-curl -i -X GET {{base_url}}/textmessages/from/{startdate}/to/{enddate}
+curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKEN-AFTER-LOGIN" -X GET {{base_url}}/textmessages/from/{startdate}/to/{enddate}
 ```
 *   DELETE Text Message by ID
 ```bash
