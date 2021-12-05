@@ -1,12 +1,16 @@
 import falcon
-import json
+import simplejson as json
 import mysql.connector
 import config
 from datetime import datetime, timedelta, timezone
-from core.useractivity import user_logger
+from core.useractivity import user_logger, access_control
 
 
 class WechatMessageCollection(object):
+    @staticmethod
+    def __init__():
+        """"Initializes WechatMessageCollection"""
+        pass
 
     @staticmethod
     def on_options(req, resp, startdate, enddate):
@@ -14,6 +18,7 @@ class WechatMessageCollection(object):
 
     @staticmethod
     def on_get(req, resp, startdate, enddate):
+        access_control(req)
         try:
             start_datetime_local = datetime.strptime(startdate, '%Y-%m-%d')
         except Exception:
@@ -42,7 +47,6 @@ class WechatMessageCollection(object):
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.START_DATETIME_MUST_BE_EARLIER_THAN_END_DATETIME')
-
         cnx = mysql.connector.connect(**config.myems_fdd_db)
         cursor = cnx.cursor()
 
@@ -51,7 +55,7 @@ class WechatMessageCollection(object):
                  "        acknowledge_code, status "
                  " FROM tbl_wechat_messages_outbox "
                  " WHERE created_datetime_utc >= %s AND created_datetime_utc < %s "
-                 " ORDER BY id DESC ")
+                 " ORDER BY created_datetime_utc DESC ")
         cursor.execute(query, (start_datetime_utc, end_datetime_utc))
         rows = cursor.fetchall()
 
@@ -68,11 +72,12 @@ class WechatMessageCollection(object):
                                "recipient_openid": row[2],
                                "message_template_id": row[3],
                                "message_data": row[4],
-                               "created_datetime_utc": row[5].timestamp() * 1000 if row[5] else None,
-                               "scheduled_datetime_utc": row[6].timestamp() * 1000 if row[6] else None,
+                               "created_datetime_utc": row[5].timestamp() * 1000 if isinstance(row[5], datetime) else None,
+                               "scheduled_datetime_utc": row[6].timestamp() * 1000 if isinstance(row[6], datetime) else None,
                                "acknowledge_code": row[7],
                                "status": row[8]}
                 result.append(meta_result)
+
         resp.text = json.dumps(result)
 
 
@@ -88,6 +93,7 @@ class WechatMessageItem:
 
     @staticmethod
     def on_get(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_WECHAT_MESSAGE_ID')
@@ -117,8 +123,8 @@ class WechatMessageItem:
                   "recipient_openid": row[2],
                   "recipient_template_id": row[3],
                   "message_data": row[4],
-                  "created_datetime_utc": row[5].timestamp() * 1000 if row[5] else None,
-                  "scheduled_datetime_utc": row[6].timestamp() * 1000 if row[6] else None,
+                  "created_datetime_utc": row[5].timestamp() * 1000 if isinstance(row[5], datetime) else None,
+                  "scheduled_datetime_utc": row[6].timestamp() * 1000 if isinstance(row[6], datetime) else None,
                   "acknowledge_code": row[7],
                   "status": row[8]}
 
@@ -127,6 +133,7 @@ class WechatMessageItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_WECHAT_MESSAGE_ID')
@@ -147,16 +154,8 @@ class WechatMessageItem:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.WECHAT_MESSAGE_NOT_FOUND')
 
-        try:
-            cursor.execute(" DELETE FROM tbl_wechat_messages_outbox WHERE id = %s ", (id_,))
-            cnx.commit()
-        except Exception as e:
-            if cursor:
-                cursor.close()
-            if cnx:
-                cnx.disconnect()
-            raise falcon.HTTPError(falcon.HTTP_500, title='API.ERROR',
-                                   description='API.DATABASE_ERROR')
+        cursor.execute(" DELETE FROM tbl_wechat_messages_outbox WHERE id = %s ", (id_,))
+        cnx.commit()
 
         if cursor:
             cursor.close()

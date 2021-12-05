@@ -7389,7 +7389,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c6f5fa938c0e228d06e1f3adb3ef1eac319e1167e6ff0cb7fd5d928e83da5764ddb66e29204e0f4e6aa407ded3702b15be67a435c4825dc722b6047010398714",
+										"value": "14f2bb7378e6926c20b54bd48bd8618e4d78ece1f1658c946a7257eaa97d3149ecd6407a62a39f0f3a6ef6b65f19d63894f297ad5a58d7b597a547f8b8e2898c",
 										"type": "text",
 										"description": "Login to get a valid token"
 									}
@@ -8178,21 +8178,34 @@
 					"name": "Wechat Message",
 					"item": [
 						{
-							"name": "GET Wechat Messages from Startdate to Enddate",
+							"name": "GET Wechat Messages by Date Range",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "14f2bb7378e6926c20b54bd48bd8618e4d78ece1f1658c946a7257eaa97d3149ecd6407a62a39f0f3a6ef6b65f19d63894f297ad5a58d7b597a547f8b8e2898c",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
-									"raw": "{{base_url}}/wechatmessages/from/2020-04-01/to/2020-05-01",
+									"raw": "{{base_url}}/wechatmessages/from/2021-12-01/to/2021-12-31",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"wechatmessages",
 										"from",
-										"2020-04-01",
+										"2021-12-01",
 										"to",
-										"2020-05-01"
+										"2021-12-31"
 									],
 									"query": [
 										{
@@ -8209,7 +8222,20 @@
 							"name": "GET a Wechat Message by ID",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "14f2bb7378e6926c20b54bd48bd8618e4d78ece1f1658c946a7257eaa97d3149ecd6407a62a39f0f3a6ef6b65f19d63894f297ad5a58d7b597a547f8b8e2898c",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/wechatmessages/1",
 									"host": [
@@ -8227,7 +8253,20 @@
 							"name": "POST Create New Wechat Message TODO",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "c6f5fa938c0e228d06e1f3adb3ef1eac319e1167e6ff0cb7fd5d928e83da5764ddb66e29204e0f4e6aa407ded3702b15be67a435c4825dc722b6047010398714",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/wechatmessages",
 									"host": [
@@ -8244,7 +8283,20 @@
 							"name": "PUT Update a Wechat Message TODO",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "c6f5fa938c0e228d06e1f3adb3ef1eac319e1167e6ff0cb7fd5d928e83da5764ddb66e29204e0f4e6aa407ded3702b15be67a435c4825dc722b6047010398714",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/wechatmessages/1",
 									"host": [
@@ -8262,7 +8314,20 @@
 							"name": "DELETE a Wechat Message by ID",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "14f2bb7378e6926c20b54bd48bd8618e4d78ece1f1658c946a7257eaa97d3149ecd6407a62a39f0f3a6ef6b65f19d63894f297ad5a58d7b597a547f8b8e2898c",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/wechatmessages/2",
 									"host": [
