@@ -1,5 +1,5 @@
 import falcon
-import json
+import simplejson as json
 import mysql.connector
 import config
 from datetime import datetime, timedelta, timezone
@@ -47,27 +47,21 @@ class TextMessageCollection:
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.START_DATETIME_MUST_BE_EARLIER_THAN_END_DATETIME')
-        try:
-            cnx = mysql.connector.connect(**config.myems_fdd_db)
-            cursor = cnx.cursor()
-        except Exception as e:
-            raise falcon.HTTPError(falcon.HTTP_500, title='API.DATABASE_ERROR', description=str(e))
+        cnx = mysql.connector.connect(**config.myems_fdd_db)
+        cursor = cnx.cursor()
 
-        try:
-            query = (" SELECT id, recipient_name, recipient_mobile, "
-                     "        message, created_datetime_utc, scheduled_datetime_utc, acknowledge_code, status "
-                     " FROM tbl_text_messages_outbox "
-                     " WHERE created_datetime_utc >= %s AND created_datetime_utc < %s "
-                     " ORDER BY created_datetime_utc ")
-            cursor.execute(query, (start_datetime_utc, end_datetime_utc))
-            rows = cursor.fetchall()
+        query = (" SELECT id, recipient_name, recipient_mobile, "
+                 "        message, created_datetime_utc, scheduled_datetime_utc, acknowledge_code, status "
+                 " FROM tbl_text_messages_outbox "
+                 " WHERE created_datetime_utc >= %s AND created_datetime_utc < %s "
+                 " ORDER BY created_datetime_utc DESC ")
+        cursor.execute(query, (start_datetime_utc, end_datetime_utc))
+        rows = cursor.fetchall()
 
-            if cursor:
-                cursor.close()
-            if cnx:
-                cnx.disconnect()
-        except Exception as e:
-            raise falcon.HTTPError(falcon.HTTP_500, title='API.DATABASE_ERROR', description=str(e))
+        if cursor:
+            cursor.close()
+        if cnx:
+            cnx.disconnect()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -77,8 +71,7 @@ class TextMessageCollection:
                                "recipient_mobile": row[2],
                                "message": row[3],
                                "created_datetime": row[4].timestamp() * 1000 if isinstance(row[4], datetime) else None,
-                               "scheduled_datetime": row[5].timestamp() * 1000 if isinstance(row[5], datetime)
-                               else None,
+                               "scheduled_datetime": row[5].timestamp() * 1000 if isinstance(row[5], datetime) else None,
                                "acknowledge_code": row[6],
                                "status": row[7]}
                 result.append(meta_result)
@@ -103,31 +96,20 @@ class TextMessageItem:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TEXT_MESSAGE_ID')
 
-        try:
-            cnx = mysql.connector.connect(**config.myems_fdd_db)
-            cursor = cnx.cursor()
-        except Exception as e:
-            raise falcon.HTTPError(falcon.HTTP_500, title='API.DATABASE_ERROR', description=str(e))
+        cnx = mysql.connector.connect(**config.myems_fdd_db)
+        cursor = cnx.cursor()
 
-        try:
-            query = (" SELECT id, recipient_name, recipient_mobile, "
-                     "        message, created_datetime_utc, scheduled_datetime_utc, acknowledge_code, status "
-                     " FROM tbl_text_messages_outbox "
-                     " WHERE id = %s ")
-            cursor.execute(query, (id_,))
-            row = cursor.fetchone()
+        query = (" SELECT id, recipient_name, recipient_mobile, "
+                 "        message, created_datetime_utc, scheduled_datetime_utc, acknowledge_code, status "
+                 " FROM tbl_text_messages_outbox "
+                 " WHERE id = %s ")
+        cursor.execute(query, (id_,))
+        row = cursor.fetchone()
 
-            if cursor:
-                cursor.close()
-            if cnx:
-                cnx.disconnect()
-
-        except Exception as e:
-            if cursor:
-                cursor.close()
-            if cnx:
-                cnx.disconnect()
-            raise falcon.HTTPError(falcon.HTTP_500, title='API.DATABASE_ERROR', description=str(e))
+        if cursor:
+            cursor.close()
+        if cnx:
+            cnx.disconnect()
 
         if row is None:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
@@ -152,27 +134,11 @@ class TextMessageItem:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TEXT_MESSAGE_ID')
 
-        cnx = None
-        cursor = None
-        try:
-            cnx = mysql.connector.connect(**config.myems_fdd_db)
-            cursor = cnx.cursor()
-        except Exception as e:
-            if cursor:
-                cursor.close()
-            if cnx:
-                cnx.disconnect()
-            raise falcon.HTTPError(falcon.HTTP_500, title='API.DATABASE_ERROR', description=str(e))
+        cnx = mysql.connector.connect(**config.myems_fdd_db)
+        cursor = cnx.cursor()
 
-        try:
-            cursor.execute(" SELECT id FROM tbl_text_messages_outbox WHERE id = %s ", (id_,))
-            row = cursor.fetchone()
-        except Exception as e:
-            if cursor:
-                cursor.close()
-            if cnx:
-                cnx.disconnect()
-            raise falcon.HTTPError(falcon.HTTP_500, title='API.DATABASE_ERROR', description=str(e))
+        cursor.execute(" SELECT id FROM tbl_text_messages_outbox WHERE id = %s ", (id_,))
+        row = cursor.fetchone()
 
         if row is None:
             if cursor:
@@ -182,15 +148,8 @@ class TextMessageItem:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TEXT_MESSAGE_NOT_FOUND')
 
-        try:
-            cursor.execute(" DELETE FROM tbl_text_messages_outbox WHERE id = %s ", (id_,))
-            cnx.commit()
-        except Exception as e:
-            if cursor:
-                cursor.close()
-            if cnx:
-                cnx.disconnect()
-            raise falcon.HTTPError(falcon.HTTP_500, title='API.DATABASE_ERROR', description=str(e))
+        cursor.execute(" DELETE FROM tbl_text_messages_outbox WHERE id = %s ", (id_,))
+        cnx.commit()
 
         if cursor:
             cursor.close()
@@ -198,4 +157,3 @@ class TextMessageItem:
             cnx.disconnect()
 
         resp.status = falcon.HTTP_204
-

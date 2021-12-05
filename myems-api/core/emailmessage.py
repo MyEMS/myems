@@ -1,5 +1,5 @@
 import falcon
-import json
+import simplejson as json
 import mysql.connector
 import config
 from datetime import datetime, timedelta, timezone
@@ -48,28 +48,22 @@ class EmailMessageCollection:
                                    title='API.BAD_REQUEST',
                                    description='API.START_DATETIME_MUST_BE_EARLIER_THAN_END_DATETIME')
 
-        try:
-            cnx = mysql.connector.connect(**config.myems_fdd_db)
-            cursor = cnx.cursor()
-        except Exception as e:
-            raise falcon.HTTPError(falcon.HTTP_500, title='API.DATABASE_ERROR', description=str(e))
+        cnx = mysql.connector.connect(**config.myems_fdd_db)
+        cursor = cnx.cursor()
 
-        try:
-            query = (" SELECT id, recipient_name, recipient_email, "
-                     "        subject, message, attachment_file_name, "
-                     "        created_datetime_utc, scheduled_datetime_utc, status "
-                     " FROM tbl_email_messages "
-                     " WHERE created_datetime_utc >= %s AND created_datetime_utc < %s "
-                     " ORDER BY created_datetime_utc ")
-            cursor.execute(query, (start_datetime_utc, end_datetime_utc))
-            rows = cursor.fetchall()
+        query = (" SELECT id, recipient_name, recipient_email, "
+                 "        subject, message, attachment_file_name, "
+                 "        created_datetime_utc, scheduled_datetime_utc, status "
+                 " FROM tbl_email_messages "
+                 " WHERE created_datetime_utc >= %s AND created_datetime_utc < %s "
+                 " ORDER BY created_datetime_utc ")
+        cursor.execute(query, (start_datetime_utc, end_datetime_utc))
+        rows = cursor.fetchall()
 
-            if cursor:
-                cursor.close()
-            if cnx:
-                cnx.disconnect()
-        except Exception as e:
-            raise falcon.HTTPError(falcon.HTTP_500, title='API.DATABASE_ERROR', description=str(e))
+        if cursor:
+            cursor.close()
+        if cnx:
+            cnx.disconnect()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -106,31 +100,21 @@ class EmailMessageItem:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EMAIL_MESSAGE_ID')
 
-        try:
-            cnx = mysql.connector.connect(**config.myems_fdd_db)
-            cursor = cnx.cursor()
-        except Exception as e:
-            raise falcon.HTTPError(falcon.HTTP_500, title='API.DATABASE_ERROR', description=str(e))
+        cnx = mysql.connector.connect(**config.myems_fdd_db)
+        cursor = cnx.cursor()
 
-        try:
-            query = (" SELECT id, recipient_name, recipient_email, "
-                     "        subject, message, attachment_file_name, "
-                     "        created_datetime_utc, scheduled_datetime_utc, status "
-                     " FROM tbl_email_messages "
-                     " WHERE id = %s ")
-            cursor.execute(query, (id_,))
-            row = cursor.fetchone()
+        query = (" SELECT id, recipient_name, recipient_email, "
+                 "        subject, message, attachment_file_name, "
+                 "        created_datetime_utc, scheduled_datetime_utc, status "
+                 " FROM tbl_email_messages "
+                 " WHERE id = %s ")
+        cursor.execute(query, (id_,))
+        row = cursor.fetchone()
 
-            if cursor:
-                cursor.close()
-            if cnx:
-                cnx.disconnect()
-        except Exception as e:
-            if cursor:
-                cursor.close()
-            if cnx:
-                cnx.disconnect()
-            raise falcon.HTTPError(falcon.HTTP_500, title='API.DATABASE_ERROR', description=str(e))
+        if cursor:
+            cursor.close()
+        if cnx:
+            cnx.disconnect()
 
         if row is None:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
@@ -156,29 +140,13 @@ class EmailMessageItem:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EMAIL_MESSAGE_ID')
 
-        cnx = None
-        cursor = None
-        try:
-            cnx = mysql.connector.connect(**config.myems_fdd_db)
-            cursor = cnx.cursor()
-        except Exception as e:
-            if cursor:
-                cursor.close()
-            if cnx:
-                cnx.disconnect()
-            raise falcon.HTTPError(falcon.HTTP_500, title='API.DATABASE_ERROR', description=str(e))
+        cnx = mysql.connector.connect(**config.myems_fdd_db)
+        cursor = cnx.cursor()
 
-        try:
-            cursor.execute(" SELECT id "
-                           " FROM tbl_email_messages "
-                           " WHERE id = %s ", (id_,))
-            row = cursor.fetchone()
-        except Exception as e:
-            if cursor:
-                cursor.close()
-            if cnx:
-                cnx.disconnect()
-            raise falcon.HTTPError(falcon.HTTP_500, title='API.DATABASE_ERROR', description=str(e))
+        cursor.execute(" SELECT id "
+                       " FROM tbl_email_messages "
+                       " WHERE id = %s ", (id_,))
+        row = cursor.fetchone()
 
         if row is None:
             if cursor:
@@ -188,19 +156,13 @@ class EmailMessageItem:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.EMAIL_MESSAGE_NOT_FOUND')
 
-        try:
-            cursor.execute(" DELETE FROM tbl_email_messages WHERE id = %s ", (id_,))
-            cnx.commit()
-            if cursor:
-                cursor.close()
-            if cnx:
-                cnx.disconnect()
-        except Exception as e:
-            if cursor:
-                cursor.close()
-            if cnx:
-                cnx.disconnect()
-            raise falcon.HTTPError(falcon.HTTP_500, title='API.DATABASE_ERROR', description=str(e))
+        cursor.execute(" DELETE FROM tbl_email_messages WHERE id = %s ", (id_,))
+        cnx.commit()
+
+        if cursor:
+            cursor.close()
+        if cnx:
+            cnx.disconnect()
 
         resp.status = falcon.HTTP_204
 
