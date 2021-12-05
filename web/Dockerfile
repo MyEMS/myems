@@ -1,9 +1,11 @@
 FROM nginx:1.21.1
 
-# remove the config
+# remove the default config
 RUN rm /etc/nginx/conf.d/default.conf && \
     rm /etc/nginx/nginx.conf && \
-    mkdir -p /var/www/html/web
+
+# create new root folder
+RUN mkdir -p /var/www/html/web
 
 # Note: You should run 'npm run build' in the web direction to generate the production build.
 COPY nginx.conf /etc/nginx/

@@ -1,5 +1,5 @@
 import falcon
-import json
+import simplejson as json
 import mysql.connector
 import config
 from datetime import datetime, timedelta, timezone

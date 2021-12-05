@@ -2,10 +2,8 @@
 app.factory('WebMessageAnalysisService', function($http) {
     return {
 
-        getAnalysisResult: function(query,callback) {
-            var base="webmessages";
-            var url=base+"/from/"+query.datestart+"/to/"+query.dateend;
-            $http.get(getAPI()+url)
+        getAnalysisResult: function(query, headers, callback) {
+            $http.get(getAPI()+"webmessages"+"/from/"+query.datestart+"/to/"+query.dateend, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -13,9 +11,8 @@ app.factory('WebMessageAnalysisService', function($http) {
             });
         },
 
-        getStatusNewResult: function(callback) {
-            var base="webmessagesnew";
-            $http.get(getAPI()+base)
+        getStatusNewResult: function(headers, callback) {
+            $http.get(getAPI()+"webmessagesnew", {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -23,8 +20,8 @@ app.factory('WebMessageAnalysisService', function($http) {
             });
         },
 
-        editWebMessage: function(webmessage, callback) {
-            $http.put(getAPI()+'webmessages/'+webmessage.id, {data:webmessage})
+        editWebMessage: function(webmessage, headers, callback) {
+            $http.put(getAPI()+'webmessages/'+webmessage.id, {data:webmessage}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -32,8 +29,8 @@ app.factory('WebMessageAnalysisService', function($http) {
             });
         },
 
-        deleteWebMessage: function(webmessage, callback) {
-            $http.delete(getAPI()+'webmessages/'+webmessage.id)
+        deleteWebMessage: function(webmessage, headers, callback) {
+            $http.delete(getAPI()+'webmessages/'+webmessage.id, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
