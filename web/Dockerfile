@@ -1,8 +1,7 @@
 FROM nginx:1.21.1
 
 # remove the default config
-RUN rm /etc/nginx/conf.d/default.conf && \
-    rm /etc/nginx/nginx.conf && \
+RUN rm /etc/nginx/conf.d/default.conf && rm /etc/nginx/nginx.conf
 
 # create new root folder
 RUN mkdir -p /var/www/html/web

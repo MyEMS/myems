@@ -127,7 +127,7 @@ class WebMessageCollection:
                 meta_result = {"id": row[0],
                                "subject": row[1],
                                "message": row[2].replace("<br>", ""),
-                               "created_datetime": row[3].timestamp() * 1000 if isinstance(row[4], datetime) else None,
+                               "created_datetime": row[3].timestamp() * 1000 if isinstance(row[3], datetime) else None,
                                "status": row[4],
                                "reply": row[5]}
                 result.append(meta_result)
@@ -228,7 +228,7 @@ class WebMessageStatusNewCollection:
                 meta_result = {"id": row[0],
                                "subject": row[1],
                                "message": row[2].replace("<br>", ""),
-                               "created_datetime": row[3].timestamp() * 1000 if isinstance(row[4], datetime) else None,
+                               "created_datetime": row[3].timestamp() * 1000 if isinstance(row[3], datetime) else None,
                                "status": row[4],
                                "reply": row[5]}
                 result.append(meta_result)
@@ -333,7 +333,7 @@ class WebMessageItem:
         meta_result = {"id": row[0],
                        "subject": row[1],
                        "message": row[2].replace("<br>", ""),
-                       "created_datetime": row[3].timestamp() * 1000 if isinstance(row[4], datetime) else None,
+                       "created_datetime": row[3].timestamp() * 1000 if isinstance(row[3], datetime) else None,
                        "status": row[4],
                        "reply": row[5]}
 
