@@ -200,11 +200,14 @@ app.controller('LoginController', function (
 	// web message alarm section start
 	$scope.webmessages = [];
 	$scope.getWebMessage = function () {
-		WebMessageAnalysisService.getStatusNewResult(function (response) {
-			if (angular.isDefined(response.status) && response.status === 200) {
-				$scope.webmessages = response.data;
-			}
-		});
+		if ($scope.cur_user != null && $scope.cur_user.uuid != null && $scope.cur_user.token != null) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			WebMessageAnalysisService.getStatusNewResult(headers, function (response) {
+				if (angular.isDefined(response.status) && response.status === 200) {
+					$scope.webmessages = response.data;
+				}
+			});
+		}
 	};
 
 	// web message alarm section end

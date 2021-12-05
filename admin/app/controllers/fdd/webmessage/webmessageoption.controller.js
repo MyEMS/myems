@@ -1,7 +1,11 @@
 'use strict';
 
-app.controller('WebMessageOptionController', function($scope, $timeout,
+app.controller('WebMessageOptionController', function(
+	$scope, 
+	$window,
+	$timeout,
 	WebMessageAnalysisService) {
+	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.daterange = {
 		startDate: moment().subtract(7,'days'),
 		endDate: moment()
@@ -36,7 +40,8 @@ app.controller('WebMessageOptionController', function($scope, $timeout,
 			load: true,
 			period:$scope.currentPeriod
 		});
-		WebMessageAnalysisService.getAnalysisResult(query, function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		WebMessageAnalysisService.getAnalysisResult(query, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					$scope.$emit('handleEmitWebMessageOptionChanged', response.data);
 				}

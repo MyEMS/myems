@@ -2082,15 +2082,15 @@ Result in JSON
 | status        | string    | Status ('new', 'acknowledged', 'timeout') | 
 | reply         | string    | User's Reply text, allow null             |
 ```bash
-curl -i -X GET {{base_url}}/webmessages/{id}
+curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKEN-AFTER-LOGIN" -X GET {{base_url}}/webmessages/{id}
 ```
 *   GET Web Messages from Startdate to Enddate
 ```bash
-curl -i -X GET {{base_url}}/webmessages/from/{startdate}/to/{enddate}
+curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKEN-AFTER-LOGIN" -X GET {{base_url}}/webmessages/from/{startdate}/to/{enddate}
 ```
 *   GET New Web Messages
 ```bash
-curl -i -X GET {{base_url}}/webmessagesnew
+curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKEN-AFTER-LOGIN" -X GET {{base_url}}/webmessagesnew
 ```
 *   DELETE a Web Message by ID
 ```bash
