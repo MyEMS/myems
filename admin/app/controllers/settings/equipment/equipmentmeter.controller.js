@@ -1,6 +1,19 @@
 'use strict';
 
-app.controller('EquipmentMeterController', function($scope,$timeout,$uibModal, $translate,	MeterService, VirtualMeterService, OfflineMeterService,	EquipmentMeterService, EquipmentService, toaster,SweetAlert) {
+app.controller('EquipmentMeterController', function(
+	$scope,
+	$window,
+	$timeout,
+	$uibModal,
+	$translate,
+	MeterService,
+	VirtualMeterService,
+	OfflineMeterService,
+	EquipmentMeterService,
+	EquipmentService,
+	toaster,
+	SweetAlert) {
+	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentEquipment = {selected:undefined};
 
 	  $scope.getAllEquipments = function(id) {
@@ -111,7 +124,8 @@ app.controller('EquipmentMeterController', function($scope,$timeout,$uibModal, $
         modalInstance.result.then(function (is_output) {
 		    var meterid=angular.element('#'+dragEl).scope().meter.id;
 		    var equipmentid=$scope.currentEquipment.id;
-            EquipmentMeterService.addPair(equipmentid, meterid, $scope.currentMeterType, is_output, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+            EquipmentMeterService.addPair(equipmentid, meterid, $scope.currentMeterType, is_output, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
@@ -140,7 +154,8 @@ app.controller('EquipmentMeterController', function($scope,$timeout,$uibModal, $
         var equipmentmeterid = angular.element('#' + dragEl).scope().equipmentmeter.id;
         var equipmentid = $scope.currentEquipment.id;
         var metertype = angular.element('#' + dragEl).scope().equipmentmeter.metertype;
-        EquipmentMeterService.deletePair(equipmentid, equipmentmeterid, metertype, function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        EquipmentMeterService.deletePair(equipmentid, equipmentmeterid, metertype, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
                     type: "success",

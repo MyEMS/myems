@@ -1,7 +1,15 @@
 'use strict';
 
-app.controller('EquipmentController', function($scope, $translate, $uibModal, EquipmentService, CostCenterService, toaster,SweetAlert) {
-
+app.controller('EquipmentController', function(
+	$scope,
+	$window,
+	$translate,
+	$uibModal,
+	EquipmentService,
+	CostCenterService,
+	toaster,
+	SweetAlert) {
+	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllEquipments = function() {
 		EquipmentService.getAllEquipments(function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
@@ -36,7 +44,8 @@ app.controller('EquipmentController', function($scope, $translate, $uibModal, Eq
 		});
 		modalInstance.result.then(function(equipment) {
 		  equipment.cost_center_id = equipment.cost_center.id;
-			EquipmentService.addEquipment(equipment, function (response) {
+		  	let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			EquipmentService.addEquipment(equipment, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
@@ -77,7 +86,8 @@ app.controller('EquipmentController', function($scope, $translate, $uibModal, Eq
 
 		modalInstance.result.then(function(modifiedEquipment) {
 		  modifiedEquipment.cost_center_id = modifiedEquipment.cost_center.id;
-			EquipmentService.editEquipment(modifiedEquipment, function (response) {
+		  	let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			EquipmentService.editEquipment(modifiedEquipment, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
 						type: "success",
@@ -114,7 +124,8 @@ app.controller('EquipmentController', function($scope, $translate, $uibModal, Eq
 		        closeOnCancel: true },
 		    function (isConfirm) {
 		        if (isConfirm) {
-		            EquipmentService.deleteEquipment(equipment, function (response) {
+					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		            EquipmentService.deleteEquipment(equipment, headers, function (response) {
 		            	if (angular.isDefined(response.status) && response.status === 204) {
 							toaster.pop({
 								type: "success",
