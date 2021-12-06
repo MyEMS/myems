@@ -73,8 +73,8 @@ app.controller('EquipmentParameterController', function(
         if (equipmentparameter.denominator_meter != null) {
             equipmentparameter.denominator_meter_uuid = equipmentparameter.denominator_meter.uuid;
         }
-
-		EquipmentParameterService.addEquipmentParameter(equipmentid, equipmentparameter, function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		EquipmentParameterService.addEquipmentParameter(equipmentid, equipmentparameter, headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 201) {
 				toaster.pop({
 					type: "success",
@@ -123,7 +123,9 @@ app.controller('EquipmentParameterController', function(
 			if (modifiedEquipmentParameter.denominator_meter != null) {
 					modifiedEquipmentParameter.denominator_meter_uuid = modifiedEquipmentParameter.denominator_meter.uuid;
 			}
-			EquipmentParameterService.editEquipmentParameter($scope.currentEquipment.id, modifiedEquipmentParameter, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			EquipmentParameterService.editEquipmentParameter($scope.currentEquipment.id,
+			    modifiedEquipmentParameter, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
 						type: "success",
@@ -160,7 +162,9 @@ app.controller('EquipmentParameterController', function(
 			},
 			function(isConfirm) {
 				if (isConfirm) {
-					EquipmentParameterService.deleteEquipmentParameter($scope.currentEquipment.id, equipmentparameter.id, function (response) {
+					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+					EquipmentParameterService.deleteEquipmentParameter($scope.currentEquipment.id,
+					    equipmentparameter.id, headers, function (response) {
 						if (angular.isDefined(response.status) && response.status === 204) {
 							toaster.pop({
 								type: "success",
@@ -179,7 +183,8 @@ app.controller('EquipmentParameterController', function(
 				   		}
 					});
 				}
-			});
+			}
+		);
 	};
 
 	$scope.colorMeterType = function(type) {

@@ -17,24 +17,24 @@ app.factory('EquipmentService', function($http) {
                 callback(response);
             });
         },
-        addEquipment: function(equipment, callback) {
-            $http.post(getAPI()+'equipments',{data:equipment})
+        addEquipment: function(equipment, headers, callback) {
+            $http.post(getAPI()+'equipments',{data:equipment}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        editEquipment: function(equipment, callback) {
-            $http.put(getAPI()+'equipments/'+equipment.id,{data:equipment})
+        editEquipment: function(equipment, headers, callback) {
+            $http.put(getAPI()+'equipments/'+equipment.id,{data:equipment}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        deleteEquipment: function(equipment, callback) {
-            $http.delete(getAPI()+'equipments/'+equipment.id)
+        deleteEquipment: function(equipment, headers, callback) {
+            $http.delete(getAPI()+'equipments/'+equipment.id, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
