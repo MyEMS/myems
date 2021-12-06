@@ -219,3 +219,6 @@ administrator@myems.io
 
 [社区版路线图](https://github.com/orgs/MyEMS/projects)
 
+## QQ交流群
+
+![QQ群1](/docs/images/qq-group-1.png)

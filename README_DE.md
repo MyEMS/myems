@@ -214,3 +214,7 @@ Sehen [Docker Compose Schnelle Bereitstellung](docker-compose.md)
 ## MyEMS Straßenkarte
 
 [Community Edition Straßenkarte](https://github.com/orgs/MyEMS/projects)
+
+## QQ Group
+
+![QQ Group 1](/docs/images/qq-group-1.png)

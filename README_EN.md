@@ -216,3 +216,7 @@ See [Docker Compose Repaid Deployment](docker-compose.md)
 ## MyEMS Roadmap
 
 [Community Edition Roadmap](https://github.com/orgs/MyEMS/projects)
+
+## QQ Group
+
+![QQ Group 1](/docs/images/qq-group-1.png)
