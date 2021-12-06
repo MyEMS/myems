@@ -1481,6 +1481,7 @@ class EquipmentOfflineMeterCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
+        access_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -1561,6 +1562,7 @@ class EquipmentOfflineMeterItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, mid):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EQUIPMENT_ID')
@@ -1671,6 +1673,7 @@ class EquipmentVirtualMeterCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
+        access_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -1751,6 +1754,7 @@ class EquipmentVirtualMeterItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, mid):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EQUIPMENT_ID')

@@ -16,7 +16,7 @@ app.controller('EquipmentMeterController', function(
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentEquipment = {selected:undefined};
 
-	  $scope.getAllEquipments = function(id) {
+	$scope.getAllEquipments = function(id) {
 		EquipmentService.getAllEquipments(function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.equipments = response.data;

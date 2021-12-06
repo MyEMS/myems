@@ -124,7 +124,8 @@ app.controller('EquipmentParameterController', function(
 					modifiedEquipmentParameter.denominator_meter_uuid = modifiedEquipmentParameter.denominator_meter.uuid;
 			}
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-			EquipmentParameterService.editEquipmentParameter($scope.currentEquipment.id, modifiedEquipmentParameter, headers, function (response) {
+			EquipmentParameterService.editEquipmentParameter($scope.currentEquipment.id,
+			    modifiedEquipmentParameter, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
 						type: "success",
@@ -162,7 +163,8 @@ app.controller('EquipmentParameterController', function(
 			function(isConfirm) {
 				if (isConfirm) {
 					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-					EquipmentParameterService.deleteEquipmentParameter($scope.currentEquipment.id, equipmentparameter.id, headers, function (response) {
+					EquipmentParameterService.deleteEquipmentParameter($scope.currentEquipment.id,
+					    equipmentparameter.id, headers, function (response) {
 						if (angular.isDefined(response.status) && response.status === 204) {
 							toaster.pop({
 								type: "success",
@@ -181,7 +183,8 @@ app.controller('EquipmentParameterController', function(
 				   		}
 					});
 				}
-			});
+			}
+		);
 	};
 
 	$scope.colorMeterType = function(type) {

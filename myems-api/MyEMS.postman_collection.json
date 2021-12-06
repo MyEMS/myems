@@ -2886,14 +2886,10 @@
 					"name": "Equipment",
 					"item": [
 						{
-							"name": "POST Create New Equipment",
+							"name": "GET All Equipments",
 							"request": {
-								"method": "POST",
+								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"MyEMS Chiller\", \"is_input_counted\":true, \"is_output_counted\":false, \"cost_center_id\":1, \"description\":\"equipment description\"}}"
-								},
 								"url": {
 									"raw": "{{base_url}}/equipments",
 									"host": [
@@ -2907,10 +2903,27 @@
 							"response": []
 						},
 						{
-							"name": "GET All Equipments",
+							"name": "POST Create New Equipment",
 							"request": {
-								"method": "GET",
-								"header": [],
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"MyEMS Chiller\", \"is_input_counted\":true, \"is_output_counted\":false, \"cost_center_id\":1, \"description\":\"equipment description\"}}"
+								},
 								"url": {
 									"raw": "{{base_url}}/equipments",
 									"host": [
@@ -2929,13 +2942,13 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/equipments/3",
+									"raw": "{{base_url}}/equipments/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"equipments",
-										"3"
+										"1"
 									]
 								}
 							},
@@ -2945,19 +2958,32 @@
 							"name": "PUT Update an Equipment by ID",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"MyEMS Chiller\", \"is_input_counted\":true, \"is_output_counted\":true, \"cost_center_id\":1, \"description\":\"equipment description\"}}"
+									"raw": "{\"data\":{\"name\":\"new MyEMS Chiller\", \"is_input_counted\":true, \"is_output_counted\":true, \"cost_center_id\":1, \"description\":\"equipment description\"}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/equipments/3",
+									"raw": "{{base_url}}/equipments/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"equipments",
-										"3"
+										"1"
 									]
 								}
 							},
@@ -2967,7 +2993,20 @@
 							"name": "POST Clone an Equipment by ID",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{}}"
@@ -2989,15 +3028,28 @@
 							"name": "DELETE an Equipment by ID",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
-									"raw": "{{base_url}}/equipments/2",
+									"raw": "{{base_url}}/equipments/4",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"equipments",
-										"2"
+										"4"
 									]
 								}
 							},
@@ -3007,10 +3059,23 @@
 							"name": "POST Bind a Meter to an Equipment",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"meter_id\":1, \"is_output\":false}}"
+									"raw": "{\"data\":{\"meter_id\":3, \"is_output\":false}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/equipments/1/meters",
@@ -3046,10 +3111,56 @@
 							"response": []
 						},
 						{
+							"name": "DELETE a Meter from an Equipment",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/equipments/1/meters/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"equipments",
+										"1",
+										"meters",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "POST Bind a Offline Meter to an Equipment",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"offline_meter_id\":1, \"is_output\":false}}"
@@ -3063,26 +3174,6 @@
 										"equipments",
 										"1",
 										"offlinemeters"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "DELETE a Meter from an Equipment",
-							"request": {
-								"method": "DELETE",
-								"header": [],
-								"url": {
-									"raw": "{{base_url}}/equipments/1/meters/1",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"equipments",
-										"1",
-										"meters",
-										"1"
 									]
 								}
 							},
@@ -3111,7 +3202,20 @@
 							"name": "DELETE an Offline Meter from an Equipment",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/equipments/1/offlinemeters/1",
 									"host": [
@@ -3152,7 +3256,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/equipments/1/parameters/1",
+									"raw": "{{base_url}}/equipments/1/parameters/2",
 									"host": [
 										"{{base_url}}"
 									],
@@ -3160,7 +3264,7 @@
 										"equipments",
 										"1",
 										"parameters",
-										"1"
+										"2"
 									]
 								}
 							},
@@ -3170,7 +3274,20 @@
 							"name": "POST Create a point Parameter for an Equipment",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"test parameter\", \"parameter_type\":\"point\", \"constant\":null, \"point_id\":1, \"numerator_meter_uuid\":null, \"denominator_meter_uuid\":null}}"
@@ -3194,7 +3311,20 @@
 							"name": "PUT Update a point Parameter for an Equipment",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"test parameter\", \"parameter_type\":\"point\", \"constant\":null, \"point_id\":3, \"numerator_meter_uuid\":null, \"denominator_meter_uuid\":null}}"
@@ -3219,7 +3349,20 @@
 							"name": "POST Create a constant Parameter for an Equipment",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"test parameter\", \"parameter_type\":\"constant\", \"constant\":\"test constant\", \"point_id\":null, \"numerator_meter_uuid\":null, \"denominator_meter_uuid\":null}}"
@@ -3243,7 +3386,20 @@
 							"name": "PUT Update a constant Parameter for an Equipment",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"test parameter1\", \"parameter_type\":\"constant\", \"constant\":\"test constant1\", \"point_id\":null, \"numerator_meter_uuid\":null, \"denominator_meter_uuid\":null}}"
@@ -3268,7 +3424,20 @@
 							"name": "POST Create a fraction Parameter for an Equipment",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"test parameter\", \"parameter_type\":\"fraction\", \"constant\":null, \"point_id\":null, \"numerator_meter_uuid\":\"89ff5118-d0c2-4dd8-8098-a8698189b2ea\", \"denominator_meter_uuid\":\"5ca62d2a-908e-40c5-a6b5-a8e436d60db4\"}}"
@@ -3292,7 +3461,20 @@
 							"name": "PUT Update a fraction Parameter for an Equipment",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"test fraction parameter\", \"parameter_type\":\"fraction\", \"constant\":null, \"point_id\":null, \"numerator_meter_uuid\":\"89ff5118-d0c2-4dd8-8098-a8698189b2ea\", \"denominator_meter_uuid\":\"5ca62d2a-908e-40c5-a6b5-a8e436d60db4\"}}"
@@ -3317,7 +3499,20 @@
 							"name": "DELETE a Parameter from an Equipment",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/equipments/1/parameters/16",
 									"host": [
@@ -3337,7 +3532,20 @@
 							"name": "POST Bind a Virtual Meter to an Equipment",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"virtual_meter_id\":1, \"is_output\":false}}"
@@ -3379,7 +3587,20 @@
 							"name": "DELETE a Virtual Meter from an Equipment",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/equipments/1/virtualmeters/1",
 									"host": [
