@@ -1,6 +1,18 @@
 'use strict';
 
-app.controller('CombinedEquipmentMeterController', function ($scope, $window, $timeout, $uibModal, $translate, MeterService, VirtualMeterService, OfflineMeterService, CombinedEquipmentMeterService, CombinedEquipmentService, toaster, SweetAlert) {
+app.controller('CombinedEquipmentMeterController', function (
+    $scope,
+    $window,
+    $timeout,
+    $uibModal,
+    $translate,
+    MeterService,
+    VirtualMeterService,
+    OfflineMeterService,
+    CombinedEquipmentMeterService,
+    CombinedEquipmentService,
+    toaster,
+    SweetAlert) {
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentCombinedEquipment = { selected: undefined };
 

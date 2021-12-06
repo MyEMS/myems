@@ -2,7 +2,7 @@
 app.factory('CombinedEquipmentEquipmentService', function($http) {
     return {
         addPair: function(combinedequipmentID,equipmentID, headers, callback) {
-            $http.post(getAPI()+'combinedequipments/'+combinedequipmentID+'/equipments',{data:{'equipment_id':equipmentID}} ,{headers})
+            $http.post(getAPI()+'combinedequipments/'+combinedequipmentID+'/equipments', {data:{'equipment_id':equipmentID}}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

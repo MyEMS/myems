@@ -1,6 +1,14 @@
 'use strict';
 
-app.controller('CombinedEquipmentController', function ($scope, $window, $translate, $uibModal, CombinedEquipmentService, CostCenterService, toaster, SweetAlert) {
+app.controller('CombinedEquipmentController', function (
+    $scope,
+    $window,
+    $translate,
+    $uibModal,
+    CombinedEquipmentService,
+    CostCenterService,
+    toaster,
+    SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllCombinedEquipments = function () {
 		CombinedEquipmentService.getAllCombinedEquipments(function (response) {

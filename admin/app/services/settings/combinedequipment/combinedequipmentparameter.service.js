@@ -1,7 +1,6 @@
 'use strict';
 app.factory('CombinedEquipmentParameterService', function($http) {
     return {
-
         getParametersByCombinedEquipmentID: function(id, callback) {
             $http.get(getAPI()+'combinedequipments/'+id+'/parameters')
             .then(function (response) {
@@ -19,8 +18,8 @@ app.factory('CombinedEquipmentParameterService', function($http) {
             });
         },
         editCombinedEquipmentParameter: function(combinedequipmentID,combinedequipmentparameter, headers, callback) {
-            $http.put(getAPI()+'combinedequipments/'+combinedequipmentID+'/parameters/'+combinedequipmentparameter.id,{data:combinedequipmentparameter}
-            , {headers})
+            $http.put(getAPI()+'combinedequipments/'+combinedequipmentID+'/parameters/'+combinedequipmentparameter.id,
+                      {data:combinedequipmentparameter}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
