@@ -10,16 +10,17 @@ app.factory('CombinedEquipmentParameterService', function($http) {
                 callback(response);
             });
         },
-        addCombinedEquipmentParameter: function(combinedequipmentID, combinedequipmentparameter,callback) {
-            $http.post(getAPI()+'combinedequipments/'+combinedequipmentID+'/parameters',{data:combinedequipmentparameter})
+        addCombinedEquipmentParameter: function(combinedequipmentID, combinedequipmentparameter, headers, callback) {
+            $http.post(getAPI()+'combinedequipments/'+combinedequipmentID+'/parameters',{data:combinedequipmentparameter}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        editCombinedEquipmentParameter: function(combinedequipmentID,combinedequipmentparameter,callback) {
-            $http.put(getAPI()+'combinedequipments/'+combinedequipmentID+'/parameters/'+combinedequipmentparameter.id,{data:combinedequipmentparameter})
+        editCombinedEquipmentParameter: function(combinedequipmentID,combinedequipmentparameter, headers, callback) {
+            $http.put(getAPI()+'combinedequipments/'+combinedequipmentID+'/parameters/'+combinedequipmentparameter.id,{data:combinedequipmentparameter}
+            , {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -27,8 +28,8 @@ app.factory('CombinedEquipmentParameterService', function($http) {
             });
         },
 
-        deleteCombinedEquipmentParameter: function(combinedequipmentID, parameterID, callback) {
-            $http.delete(getAPI()+'combinedequipments/'+combinedequipmentID+'/parameters/'+parameterID)
+        deleteCombinedEquipmentParameter: function(combinedequipmentID, parameterID, headers, callback) {
+            $http.delete(getAPI()+'combinedequipments/'+combinedequipmentID+'/parameters/'+parameterID, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
