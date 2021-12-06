@@ -1,7 +1,7 @@
 'use strict';
 app.factory('CombinedEquipmentMeterService', function ($http) {
     return {
-        addPair: function (combinedequipmentID, meterID, metertype, is_output, callback) {
+        addPair: function (combinedequipmentID, meterID, metertype, is_output, headers, callback) {
             var meter = {};
             if (metertype == 'meters') {
                 meter = { 'meter_id': meterID, is_output: is_output };
@@ -10,7 +10,7 @@ app.factory('CombinedEquipmentMeterService', function ($http) {
             } else {
                 meter = { 'offline_meter_id': meterID, is_output: is_output };
             }
-            $http.post(getAPI() + 'combinedequipments/' + combinedequipmentID + '/' + metertype, { data: meter })
+            $http.post(getAPI() + 'combinedequipments/' + combinedequipmentID + '/' + metertype, { data: meter }, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -18,8 +18,8 @@ app.factory('CombinedEquipmentMeterService', function ($http) {
             });
         },
 
-        deletePair: function (combinedequipmentID, meterID, metertype, callback) {
-            $http.delete(getAPI() + 'combinedequipments/' + combinedequipmentID + '/' + metertype + '/' + meterID)
+        deletePair: function (combinedequipmentID, meterID, metertype, headers, callback) {
+            $http.delete(getAPI() + 'combinedequipments/' + combinedequipmentID + '/' + metertype + '/' + meterID, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

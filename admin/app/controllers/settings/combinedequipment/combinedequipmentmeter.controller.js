@@ -1,6 +1,7 @@
 'use strict';
 
-app.controller('CombinedEquipmentMeterController', function ($scope, $timeout, $uibModal, $translate, MeterService, VirtualMeterService, OfflineMeterService, CombinedEquipmentMeterService, CombinedEquipmentService, toaster, SweetAlert) {
+app.controller('CombinedEquipmentMeterController', function ($scope, $window, $timeout, $uibModal, $translate, MeterService, VirtualMeterService, OfflineMeterService, CombinedEquipmentMeterService, CombinedEquipmentService, toaster, SweetAlert) {
+    $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentCombinedEquipment = { selected: undefined };
 
     $scope.getAllCombinedEquipments = function (id) {
@@ -111,7 +112,8 @@ app.controller('CombinedEquipmentMeterController', function ($scope, $timeout, $
         modalInstance.result.then(function (is_output) {
             var meterid = angular.element('#' + dragEl).scope().meter.id;
             var combinedequipmentid = $scope.currentCombinedEquipment.id;
-            CombinedEquipmentMeterService.addPair(combinedequipmentid, meterid, $scope.currentMeterType, is_output, function (response) {
+            let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+            CombinedEquipmentMeterService.addPair(combinedequipmentid, meterid, $scope.currentMeterType, is_output, headers, function (response) {
                 if (angular.isDefined(response.status) && response.status === 201) {
                     toaster.pop({
                         type: "success",
@@ -141,7 +143,8 @@ app.controller('CombinedEquipmentMeterController', function ($scope, $timeout, $
         var combinedequipmentmeterid = angular.element('#' + dragEl).scope().combinedequipmentmeter.id;
         var combinedequipmentid = $scope.currentCombinedEquipment.id;
         var metertype = angular.element('#' + dragEl).scope().combinedequipmentmeter.metertype;
-        CombinedEquipmentMeterService.deletePair(combinedequipmentid, combinedequipmentmeterid, metertype, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        CombinedEquipmentMeterService.deletePair(combinedequipmentid, combinedequipmentmeterid, metertype, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
                     type: "success",

@@ -3,7 +3,7 @@ import simplejson as json
 import mysql.connector
 import config
 import uuid
-from core.useractivity import user_logger
+from core.useractivity import user_logger, access_control
 
 
 class CombinedEquipmentCollection:
@@ -62,6 +62,7 @@ class CombinedEquipmentCollection:
     @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
+        access_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -204,6 +205,7 @@ class CombinedEquipmentItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
@@ -279,6 +281,7 @@ class CombinedEquipmentItem:
     @user_logger
     def on_put(req, resp, id_):
         """Handles PUT requests"""
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
@@ -376,6 +379,7 @@ class CombinedEquipmentItem:
     @user_logger
     def on_post(req, resp, id_):
         """Handles PUT requests"""
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
@@ -566,6 +570,7 @@ class CombinedEquipmentEquipmentCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
+        access_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -640,6 +645,7 @@ class CombinedEquipmentEquipmentItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, eid):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
@@ -824,6 +830,7 @@ class CombinedEquipmentParameterCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
@@ -1132,6 +1139,7 @@ class CombinedEquipmentParameterItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, pid):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
@@ -1180,6 +1188,7 @@ class CombinedEquipmentParameterItem:
     @user_logger
     def on_put(req, resp, id_, pid):
         """Handles PUT requests"""
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
@@ -1439,6 +1448,7 @@ class CombinedEquipmentMeterCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
+        access_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -1519,6 +1529,7 @@ class CombinedEquipmentMeterItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, mid):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
@@ -1629,6 +1640,7 @@ class CombinedEquipmentOfflineMeterCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
+        access_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -1710,6 +1722,7 @@ class CombinedEquipmentOfflineMeterItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, mid):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
@@ -1820,6 +1833,7 @@ class CombinedEquipmentVirtualMeterCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
+        access_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -1901,6 +1915,7 @@ class CombinedEquipmentVirtualMeterItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, mid):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
