@@ -1,7 +1,15 @@
 'use strict';
 
-app.controller('CombinedEquipmentController', function ($scope, $translate, $uibModal, CombinedEquipmentService, CostCenterService, toaster, SweetAlert) {
-
+app.controller('CombinedEquipmentController', function (
+    $scope,
+    $window,
+    $translate,
+    $uibModal,
+    CombinedEquipmentService,
+    CostCenterService,
+    toaster,
+    SweetAlert) {
+	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllCombinedEquipments = function () {
 		CombinedEquipmentService.getAllCombinedEquipments(function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
@@ -36,7 +44,8 @@ app.controller('CombinedEquipmentController', function ($scope, $translate, $uib
 		});
 		modalInstance.result.then(function (combinedequipment) {
 			combinedequipment.cost_center_id = combinedequipment.cost_center.id;
-			CombinedEquipmentService.addCombinedEquipment(combinedequipment, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			CombinedEquipmentService.addCombinedEquipment(combinedequipment, headers,function (response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
@@ -76,8 +85,9 @@ app.controller('CombinedEquipmentController', function ($scope, $translate, $uib
 		});
 
 		modalInstance.result.then(function (modifiedCombinedEquipment) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			modifiedCombinedEquipment.cost_center_id = modifiedCombinedEquipment.cost_center.id;
-			CombinedEquipmentService.editCombinedEquipment(modifiedCombinedEquipment, function (response) {
+			CombinedEquipmentService.editCombinedEquipment(modifiedCombinedEquipment, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
 						type: "success",
@@ -115,7 +125,8 @@ app.controller('CombinedEquipmentController', function ($scope, $translate, $uib
 		},
 			function (isConfirm) {
 				if (isConfirm) {
-					CombinedEquipmentService.deleteCombinedEquipment(combinedequipment, function (response) {
+					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+					CombinedEquipmentService.deleteCombinedEquipment(combinedequipment, headers, function (response) {
 						if (angular.isDefined(response.status) && response.status === 204) {
 							toaster.pop({
 								type: "success",

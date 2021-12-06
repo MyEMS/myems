@@ -12,14 +12,10 @@
 					"name": "Combined Equipment",
 					"item": [
 						{
-							"name": "POST Create New Combined Equipment",
+							"name": "GET All Combined Equipments",
 							"request": {
-								"method": "POST",
+								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"MyEMS Chiller Plant\", \"is_input_counted\":true, \"is_output_counted\":false, \"cost_center_id\":1, \"description\":\"equipment description\"}}"
-								},
 								"url": {
 									"raw": "{{base_url}}/combinedequipments",
 									"host": [
@@ -33,10 +29,27 @@
 							"response": []
 						},
 						{
-							"name": "GET All Combined Equipments",
+							"name": "POST Create New Combined Equipment",
 							"request": {
-								"method": "GET",
-								"header": [],
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"MyEMS Chiller Plant\", \"is_input_counted\":true, \"is_output_counted\":false, \"cost_center_id\":1, \"description\":\"equipment description\"}}"
+								},
 								"url": {
 									"raw": "{{base_url}}/combinedequipments",
 									"host": [
@@ -71,7 +84,20 @@
 							"name": "PUT Update a Combined Equipment by ID",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"MyEMS Combined Chiller Plant\", \"is_input_counted\":true, \"is_output_counted\":true, \"cost_center_id\":1, \"description\":\"equipment description\"}}"
@@ -93,7 +119,20 @@
 							"name": "POST Clone a Combined Equipment by ID",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{}}"
@@ -115,7 +154,20 @@
 							"name": "DELETE a Combined Equipment by ID",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/combinedequipments/6",
 									"host": [
@@ -133,7 +185,20 @@
 							"name": "POST Bind an Equipment to a Combined Equipment",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"equipment_id\":1}}"
@@ -175,7 +240,20 @@
 							"name": "DELETE an Equipment from a Combined Equipment",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/combinedequipments/1/equipments/1",
 									"host": [
@@ -186,29 +264,6 @@
 										"1",
 										"equipments",
 										"1"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "POST Bind a Meter to a Combined Equipment",
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\"data\":{\"meter_id\":1, \"is_output\":false}}"
-								},
-								"url": {
-									"raw": "{{base_url}}/combinedequipments/1/meters",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"combinedequipments",
-										"1",
-										"meters"
 									]
 								}
 							},
@@ -234,10 +289,59 @@
 							"response": []
 						},
 						{
+							"name": "POST Bind a Meter to a Combined Equipment",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"meter_id\":1, \"is_output\":false}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/combinedequipments/1/meters",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"combinedequipments",
+										"1",
+										"meters"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "DELETE a Meter from a Combined Equipment",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/combinedequipments/1/meters/1",
 									"host": [
@@ -257,7 +361,20 @@
 							"name": "POST Bind a Offline Meter to a Combined Equipment",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"offline_meter_id\":1, \"is_output\":false}}"
@@ -299,7 +416,20 @@
 							"name": "DELETE an Offline Meter from a Combined Equipment",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/combinedequipments/1/offlinemeters/1",
 									"host": [
@@ -358,7 +488,20 @@
 							"name": "POST Create a point Parameter for a Combined Equipment",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"test parameter\", \"parameter_type\":\"point\", \"constant\":null, \"point_id\":1, \"numerator_meter_uuid\":null, \"denominator_meter_uuid\":null}}"
@@ -382,7 +525,20 @@
 							"name": "PUT Update a point Parameter for a Combined Equipment",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"test parameter\", \"parameter_type\":\"point\", \"constant\":null, \"point_id\":3, \"numerator_meter_uuid\":null, \"denominator_meter_uuid\":null}}"
@@ -407,7 +563,20 @@
 							"name": "POST Create a constant Parameter for a Combined Equipment",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"test constant parameter\", \"parameter_type\":\"constant\", \"constant\":\"test constant\", \"point_id\":null, \"numerator_meter_uuid\":null, \"denominator_meter_uuid\":null}}"
@@ -431,7 +600,20 @@
 							"name": "PUT Update a constant Parameter for a Combined Equipment",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"test parameter1\", \"parameter_type\":\"constant\", \"constant\":\"test constant1\", \"point_id\":null, \"numerator_meter_uuid\":null, \"denominator_meter_uuid\":null}}"
@@ -456,7 +638,20 @@
 							"name": "POST Create a fraction Parameter for a Combined Equipment",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"test fraction parameter\", \"parameter_type\":\"fraction\", \"constant\":null, \"point_id\":null, \"numerator_meter_uuid\":\"8449878f-b368-4ad9-a41c-e2c49189297a\", \"denominator_meter_uuid\":\"3f8a66c4-8fbe-4e6d-8b40-15dee5290afd\"}}"
@@ -480,7 +675,20 @@
 							"name": "PUT Update a fraction Parameter for a Combined Equipment",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"test fraction parameter\", \"parameter_type\":\"fraction\", \"constant\":null, \"point_id\":null, \"numerator_meter_uuid\":\"8449878f-b368-4ad9-a41c-e2c49189297a\", \"denominator_meter_uuid\":\"3f8a66c4-8fbe-4e6d-8b40-15dee5290afd\"}}"
@@ -505,7 +713,20 @@
 							"name": "DELETE a Parameter from a Combined Equipment",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/combinedequipments/1/parameters/16",
 									"host": [
@@ -525,7 +746,20 @@
 							"name": "POST Bind a Virtual Meter to a Combined Equipment",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"virtual_meter_id\":1, \"is_output\":false}}"
@@ -567,7 +801,20 @@
 							"name": "DELETE a Virtual Meter from a Combined Equipment",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/combinedequipments/1/virtualmeters/1",
 									"host": [
@@ -579,17 +826,6 @@
 										"virtualmeters",
 										"1"
 									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "New Request",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": ""
 								}
 							},
 							"response": []

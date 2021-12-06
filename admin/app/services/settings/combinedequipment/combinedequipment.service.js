@@ -17,24 +17,24 @@ app.factory('CombinedEquipmentService', function($http) {
                 callback(response);
             });
         },
-        addCombinedEquipment: function(combinedequipment, callback) {
-            $http.post(getAPI()+'combinedequipments',{data:combinedequipment})
+        addCombinedEquipment: function(combinedequipment, headers, callback) {
+            $http.post(getAPI()+'combinedequipments',{data:combinedequipment}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        editCombinedEquipment: function(combinedequipment, callback) {
-            $http.put(getAPI()+'combinedequipments/'+combinedequipment.id,{data:combinedequipment})
+        editCombinedEquipment: function(combinedequipment, headers, callback) {
+            $http.put(getAPI()+'combinedequipments/'+combinedequipment.id,{data:combinedequipment}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        deleteCombinedEquipment: function(combinedequipment, callback) {
-            $http.delete(getAPI()+'combinedequipments/'+combinedequipment.id)
+        deleteCombinedEquipment: function(combinedequipment, headers, callback) {
+            $http.delete(getAPI()+'combinedequipments/'+combinedequipment.id, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
