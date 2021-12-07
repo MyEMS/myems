@@ -1190,7 +1190,7 @@ curl -i -X GET {{base_url}}/offlinemeterfiles/{id}/restore
 *   GET Point by ID
 
 ```bash
-curl -i -X GET {{base_url}}/points/{id}
+curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN" -X GET {{base_url}}/points/{id}
 ```
 Result in JSON
 
@@ -1225,7 +1225,7 @@ Result in JSON
 
 *   GET all Points
 ```bash
-curl -i -X GET {{base_url}}/points
+curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN" -X GET {{base_url}}/points
 ```
 *   DELETE Point by ID
 ```bash
