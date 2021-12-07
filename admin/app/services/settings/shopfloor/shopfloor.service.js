@@ -25,24 +25,24 @@ app.factory('ShopfloorService', function($http) {
                 callback(response);
             });
         },
-        addShopfloor: function(shopfloor, callback) {
-            $http.post(getAPI()+'shopfloors',{data:shopfloor})
+        addShopfloor: function(shopfloor, headers, callback) {
+            $http.post(getAPI()+'shopfloors',{data:shopfloor}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        editShopfloor: function(shopfloor, callback) {
-            $http.put(getAPI()+'shopfloors/'+shopfloor.id,{data:shopfloor})
+        editShopfloor: function(shopfloor, headers, callback) {
+            $http.put(getAPI()+'shopfloors/'+shopfloor.id,{data:shopfloor}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        deleteShopfloor: function(shopfloor, callback) {
-            $http.delete(getAPI()+'shopfloors/'+shopfloor.id)
+        deleteShopfloor: function(shopfloor, headers, callback) {
+            $http.delete(getAPI()+'shopfloors/'+shopfloor.id, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

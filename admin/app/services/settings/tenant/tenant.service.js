@@ -17,24 +17,24 @@ app.factory('TenantService', function($http) {
                 callback(response);
             });
         },
-        addTenant: function(tenant, callback) {
-            $http.post(getAPI()+'tenants',{data:tenant})
+        addTenant: function(tenant, headers, callback) {
+            $http.post(getAPI()+'tenants',{data:tenant}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        editTenant: function(tenant, callback) {
-            $http.put(getAPI()+'tenants/'+tenant.id,{data:tenant})
+        editTenant: function(tenant, headers, callback) {
+            $http.put(getAPI()+'tenants/'+tenant.id,{data:tenant}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        deleteTenant: function(tenant, callback) {
-            $http.delete(getAPI()+'tenants/'+tenant.id)
+        deleteTenant: function(tenant, headers, callback) {
+            $http.delete(getAPI()+'tenants/'+tenant.id, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

@@ -1,8 +1,8 @@
 'use strict';
 
-app.controller('TenantSensorController', function ($scope, $translate, TenantService, SensorService, TenantSensorService,  toaster, SweetAlert) {
+app.controller('TenantSensorController', function ($scope, $window, $translate, TenantService, SensorService, TenantSensorService,  toaster, SweetAlert) {
     $scope.currentTenant = {selected:undefined};
-
+    $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.getAllSensors = function () {
       SensorService.getAllSensors(function (response) {
           if (angular.isDefined(response.status) && response.status === 200) {
@@ -42,7 +42,8 @@ app.controller('TenantSensorController', function ($scope, $translate, TenantSer
     $scope.pairSensor = function (dragEl, dropEl) {
         var sensorid = angular.element('#' + dragEl).scope().sensor.id;
         var tenantid = $scope.currentTenant.id;
-        TenantSensorService.addPair(tenantid, sensorid, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        TenantSensorService.addPair(tenantid, sensorid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 201) {
                 toaster.pop({
                     type: "success",
@@ -68,7 +69,8 @@ app.controller('TenantSensorController', function ($scope, $translate, TenantSer
         }
         var tenantsensorid = angular.element('#' + dragEl).scope().tenantsensor.id;
         var tenantid = $scope.currentTenant.id;
-        TenantSensorService.deletePair(tenantid, tenantsensorid, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        TenantSensorService.deletePair(tenantid, tenantsensorid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
                     type: "success",

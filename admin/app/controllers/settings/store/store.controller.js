@@ -1,7 +1,7 @@
 'use strict';
 
-app.controller('StoreController', function($scope,$translate,$uibModal, CostCenterService, ContactService, StoreService, StoreTypeService, toaster,SweetAlert) {
-
+app.controller('StoreController', function($scope, $window, $translate,$uibModal, CostCenterService, ContactService, StoreService, StoreTypeService, toaster,SweetAlert) {
+	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllCostCenters = function() {
 		CostCenterService.getAllCostCenters(function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
@@ -64,7 +64,8 @@ $scope.getAllStoreTypes = function() {
 			if (angular.isDefined(store.is_input_counted) == false) {
 				store.is_input_counted = false;
 			}
-			StoreService.addStore(store, function(response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			StoreService.addStore(store, headers, function(response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
@@ -111,7 +112,8 @@ $scope.getAllStoreTypes = function() {
 			if (angular.isDefined(store.is_input_counted) == false) {
 				store.is_input_counted = false;
 			}
-			StoreService.editStore(modifiedStore, function(response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			StoreService.editStore(modifiedStore, headers, function(response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
 						type: "success",
@@ -147,7 +149,8 @@ $scope.getAllStoreTypes = function() {
 		        closeOnCancel: true },
 		    function (isConfirm) {
 		        if (isConfirm) {
-		            StoreService.deleteStore(store, function(response) {
+					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		            StoreService.deleteStore(store, headers, function(response) {
 		            	if (angular.isDefined(response.status) && response.status === 204) {
 							toaster.pop({
 								type: "success",
