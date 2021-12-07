@@ -1315,7 +1315,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "ce8adcab80f37322487df375c3e3923e6febbcfb26d2b654a5814db6874f2b072fb40a85199efa725af7f3aa4f490f9cc833422b793fa85266237dc5278dff9f",
+										"value": "44e05939a3c8a545fef506ca42d51c13fc934af45b57346247697ac0b4797ca30d3d950f54d5e16d51876abc0f48b8b5db4894841b56dbfdb2ac9b8162c4e6d1",
 										"type": "text",
 										"description": "Login to get a valid token"
 									}
@@ -1476,7 +1476,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "ce8adcab80f37322487df375c3e3923e6febbcfb26d2b654a5814db6874f2b072fb40a85199efa725af7f3aa4f490f9cc833422b793fa85266237dc5278dff9f",
+										"value": "44e05939a3c8a545fef506ca42d51c13fc934af45b57346247697ac0b4797ca30d3d950f54d5e16d51876abc0f48b8b5db4894841b56dbfdb2ac9b8162c4e6d1",
 										"type": "text",
 										"description": "Login to get a valid token"
 									}
@@ -4758,7 +4758,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "ce8adcab80f37322487df375c3e3923e6febbcfb26d2b654a5814db6874f2b072fb40a85199efa725af7f3aa4f490f9cc833422b793fa85266237dc5278dff9f",
+										"value": "44e05939a3c8a545fef506ca42d51c13fc934af45b57346247697ac0b4797ca30d3d950f54d5e16d51876abc0f48b8b5db4894841b56dbfdb2ac9b8162c4e6d1",
 										"type": "text",
 										"description": "Login to get a valid token"
 									}
@@ -4788,7 +4788,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "ce8adcab80f37322487df375c3e3923e6febbcfb26d2b654a5814db6874f2b072fb40a85199efa725af7f3aa4f490f9cc833422b793fa85266237dc5278dff9f",
+										"value": "44e05939a3c8a545fef506ca42d51c13fc934af45b57346247697ac0b4797ca30d3d950f54d5e16d51876abc0f48b8b5db4894841b56dbfdb2ac9b8162c4e6d1",
 										"type": "text",
 										"description": "Login to get a valid token"
 									}
@@ -4819,7 +4819,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "ce8adcab80f37322487df375c3e3923e6febbcfb26d2b654a5814db6874f2b072fb40a85199efa725af7f3aa4f490f9cc833422b793fa85266237dc5278dff9f",
+										"value": "44e05939a3c8a545fef506ca42d51c13fc934af45b57346247697ac0b4797ca30d3d950f54d5e16d51876abc0f48b8b5db4894841b56dbfdb2ac9b8162c4e6d1",
 										"type": "text",
 										"description": "Login to get a valid token"
 									}
@@ -4853,19 +4853,19 @@
 									},
 									{
 										"key": "Token",
-										"value": "ce8adcab80f37322487df375c3e3923e6febbcfb26d2b654a5814db6874f2b072fb40a85199efa725af7f3aa4f490f9cc833422b793fa85266237dc5278dff9f",
+										"value": "44e05939a3c8a545fef506ca42d51c13fc934af45b57346247697ac0b4797ca30d3d950f54d5e16d51876abc0f48b8b5db4894841b56dbfdb2ac9b8162c4e6d1",
 										"type": "text",
 										"description": "Login to get a valid token"
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/points/2",
+									"raw": "{{base_url}}/points/11",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"points",
-										"2"
+										"11"
 									]
 								}
 							},
@@ -4884,7 +4884,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "ce8adcab80f37322487df375c3e3923e6febbcfb26d2b654a5814db6874f2b072fb40a85199efa725af7f3aa4f490f9cc833422b793fa85266237dc5278dff9f",
+										"value": "44e05939a3c8a545fef506ca42d51c13fc934af45b57346247697ac0b4797ca30d3d950f54d5e16d51876abc0f48b8b5db4894841b56dbfdb2ac9b8162c4e6d1",
 										"type": "text",
 										"description": "Login to get a valid token"
 									}

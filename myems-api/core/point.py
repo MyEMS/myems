@@ -17,6 +17,8 @@ class PointCollection:
 
     @staticmethod
     def on_get(req, resp):
+        """Handles GET requests"""
+        access_control(req)
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor(dictionary=True)
 
@@ -207,6 +209,8 @@ class PointItem:
 
     @staticmethod
     def on_get(req, resp, id_):
+        """Handles GET requests"""
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_POINT_ID')
