@@ -1,7 +1,7 @@
 'use strict';
 
-app.controller('ShopfloorController', function ($scope, $translate, $uibModal, CostCenterService, ContactService, ShopfloorService, toaster, SweetAlert) {
-
+app.controller('ShopfloorController', function ($scope, $window, $translate, $uibModal, CostCenterService, ContactService, ShopfloorService, toaster, SweetAlert) {
+	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllCostCenters = function () {
 		CostCenterService.getAllCostCenters(function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
@@ -53,7 +53,8 @@ app.controller('ShopfloorController', function ($scope, $translate, $uibModal, C
 			if (angular.isDefined(shopfloor.is_input_counted) == false) {
 				shopfloor.is_input_counted = false;
 			}
-			ShopfloorService.addShopfloor(shopfloor, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			ShopfloorService.addShopfloor(shopfloor, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
@@ -99,7 +100,8 @@ app.controller('ShopfloorController', function ($scope, $translate, $uibModal, C
 			if (angular.isDefined(shopfloor.is_input_counted) == false) {
 				shopfloor.is_input_counted = false;
 			}
-			ShopfloorService.editShopfloor(modifiedShopfloor, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			ShopfloorService.editShopfloor(modifiedShopfloor, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
 						type: "success",
@@ -136,7 +138,8 @@ app.controller('ShopfloorController', function ($scope, $translate, $uibModal, C
 		},
 			function (isConfirm) {
 				if (isConfirm) {
-					ShopfloorService.deleteShopfloor(shopfloor, function (response) {
+					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+					ShopfloorService.deleteShopfloor(shopfloor, headers, function (response) {
 						if (angular.isDefined(response.status) && response.status === 204) {
 							toaster.pop({
 								type: "success",

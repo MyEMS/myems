@@ -74,7 +74,8 @@ app.controller('TenantPointController', function (
     $scope.pairPoint = function (dragEl, dropEl) {
         var pointid = angular.element('#' + dragEl).scope().point.id;
         var tenantid = $scope.currentTenant.id;
-        TenantPointService.addPair(tenantid, pointid, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        TenantPointService.addPair(tenantid, pointid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 201) {
                 toaster.pop({
                     type: "success",
@@ -100,7 +101,8 @@ app.controller('TenantPointController', function (
         }
         var tenantpointid = angular.element('#' + dragEl).scope().tenantpoint.id;
         var tenantid = $scope.currentTenant.id;
-        TenantPointService.deletePair(tenantid, tenantpointid, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        TenantPointService.deletePair(tenantid, tenantpointid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
                     type: "success",

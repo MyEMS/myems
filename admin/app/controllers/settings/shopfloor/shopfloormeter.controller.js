@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('ShopfloorMeterController', function($scope,$timeout, $translate,
+app.controller('ShopfloorMeterController', function($scope, $window, $timeout, $translate,
 													MeterService,
 													VirtualMeterService,
 													OfflineMeterService,
@@ -8,7 +8,7 @@ app.controller('ShopfloorMeterController', function($scope,$timeout, $translate,
 													ShopfloorService,
 													toaster) {
     $scope.currentShopfloor = {selected:undefined};
-
+	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	  $scope.getAllShopfloors = function(id) {
 		ShopfloorService.getAllShopfloors(function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
@@ -106,7 +106,8 @@ app.controller('ShopfloorMeterController', function($scope,$timeout, $translate,
 	$scope.pairMeter=function(dragEl,dropEl){
 		var meterid=angular.element('#'+dragEl).scope().meter.id;
 		var shopfloorid=$scope.currentShopfloor.id;
-		ShopfloorMeterService.addPair(shopfloorid, meterid, $scope.currentMeterType, function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		ShopfloorMeterService.addPair(shopfloorid, meterid, $scope.currentMeterType, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 201) {
                 toaster.pop({
                     type: "success",
@@ -133,7 +134,8 @@ app.controller('ShopfloorMeterController', function($scope,$timeout, $translate,
         var shopfloormeterid = angular.element('#' + dragEl).scope().shopfloormeter.id;
         var shopfloorid = $scope.currentShopfloor.id;
         var metertype = angular.element('#' + dragEl).scope().shopfloormeter.metertype;
-        ShopfloorMeterService.deletePair(shopfloorid, shopfloormeterid, metertype, function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        ShopfloorMeterService.deletePair(shopfloorid, shopfloormeterid, metertype, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
                     type: "success",

@@ -74,7 +74,8 @@ app.controller('ShopfloorPointController', function (
     $scope.pairPoint = function (dragEl, dropEl) {
         var pointid = angular.element('#' + dragEl).scope().point.id;
         var shopfloorid = $scope.currentShopfloor.id;
-        ShopfloorPointService.addPair(shopfloorid, pointid, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        ShopfloorPointService.addPair(shopfloorid, pointid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 201) {
                 toaster.pop({
                     type: "success",
@@ -100,7 +101,8 @@ app.controller('ShopfloorPointController', function (
         }
         var shopfloorpointid = angular.element('#' + dragEl).scope().shopfloorpoint.id;
         var shopfloorid = $scope.currentShopfloor.id;
-        ShopfloorPointService.deletePair(shopfloorid, shopfloorpointid, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        ShopfloorPointService.deletePair(shopfloorid, shopfloorpointid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
                     type: "error",
