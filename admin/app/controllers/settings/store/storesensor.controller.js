@@ -1,8 +1,16 @@
 'use strict';
 
-app.controller('StoreSensorController', function ($scope, $translate, StoreService, SensorService, StoreSensorService,  toaster, SweetAlert) {
+app.controller('StoreSensorController', function (
+    $scope,
+    $window,
+    $translate,
+    StoreService,
+    SensorService,
+    StoreSensorService,
+    toaster,
+    SweetAlert) {
     $scope.currentStore = {selected:undefined};
-
+    $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.getAllSensors = function () {
       SensorService.getAllSensors(function (response) {
           if (angular.isDefined(response.status) && response.status === 200) {
@@ -42,7 +50,8 @@ app.controller('StoreSensorController', function ($scope, $translate, StoreServi
     $scope.pairSensor = function (dragEl, dropEl) {
         var sensorid = angular.element('#' + dragEl).scope().sensor.id;
         var storeid = $scope.currentStore.id;
-        StoreSensorService.addPair(storeid, sensorid, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        StoreSensorService.addPair(storeid, sensorid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 201) {
                 toaster.pop({
                     type: "success",
@@ -68,7 +77,8 @@ app.controller('StoreSensorController', function ($scope, $translate, StoreServi
         }
         var storesensorid = angular.element('#' + dragEl).scope().storesensor.id;
         var storeid = $scope.currentStore.id;
-        StoreSensorService.deletePair(storeid, storesensorid, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        StoreSensorService.deletePair(storeid, storesensorid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
                     type: "success",

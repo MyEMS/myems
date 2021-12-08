@@ -17,24 +17,24 @@ app.factory('StoreService', function($http) {
                 callback(response);
             });
         },
-        addStore: function(store, callback) {
-            $http.post(getAPI()+'stores',{data:store})
+        addStore: function(store, headers, callback) {
+            $http.post(getAPI()+'stores',{data:store}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        editStore: function(store, callback) {
-            $http.put(getAPI()+'stores/'+store.id,{data:store})
+        editStore: function(store, headers, callback) {
+            $http.put(getAPI()+'stores/'+store.id,{data:store}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        deleteStore: function(store, callback) {
-            $http.delete(getAPI()+'stores/'+store.id)
+        deleteStore: function(store, headers, callback) {
+            $http.delete(getAPI()+'stores/'+store.id, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

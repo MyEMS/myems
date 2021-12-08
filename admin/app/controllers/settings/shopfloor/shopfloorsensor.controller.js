@@ -1,8 +1,16 @@
 'use strict';
 
-app.controller('ShopfloorSensorController', function ($scope, $translate, ShopfloorService, SensorService, ShopfloorSensorService,  toaster, SweetAlert) {
+app.controller('ShopfloorSensorController', function (
+    $scope,
+    $window,
+    $translate,
+    ShopfloorService,
+    SensorService,
+    ShopfloorSensorService,
+    toaster,
+    SweetAlert) {
     $scope.currentShopfloor = {selected:undefined};
-
+    $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.getAllSensors = function () {
       SensorService.getAllSensors(function (response) {
           if (angular.isDefined(response.status) && response.status === 200) {
@@ -42,7 +50,8 @@ app.controller('ShopfloorSensorController', function ($scope, $translate, Shopfl
     $scope.pairSensor = function (dragEl, dropEl) {
         var sensorid = angular.element('#' + dragEl).scope().sensor.id;
         var shopfloorid = $scope.currentShopfloor.id;
-        ShopfloorSensorService.addPair(shopfloorid, sensorid, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        ShopfloorSensorService.addPair(shopfloorid, sensorid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 201) {
                 toaster.pop({
                     type: "success",
@@ -68,7 +77,8 @@ app.controller('ShopfloorSensorController', function ($scope, $translate, Shopfl
         }
         var shopfloorsensorid = angular.element('#' + dragEl).scope().shopfloorsensor.id;
         var shopfloorid = $scope.currentShopfloor.id;
-        ShopfloorSensorService.deletePair(shopfloorid, shopfloorsensorid, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        ShopfloorSensorService.deletePair(shopfloorid, shopfloorsensorid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
                     type: "success",

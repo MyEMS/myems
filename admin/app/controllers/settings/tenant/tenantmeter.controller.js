@@ -1,14 +1,18 @@
 'use strict';
 
-app.controller('TenantMeterController', function($scope,$timeout, $translate,
-													MeterService,
-													VirtualMeterService,
-													OfflineMeterService,
-													TenantMeterService,
-													TenantService,
-													toaster) {
+app.controller('TenantMeterController', function(
+    $scope,
+    $window,
+    $timeout,
+    $translate,
+    MeterService,
+    VirtualMeterService,
+    OfflineMeterService,
+    TenantMeterService,
+    TenantService,
+    toaster) {
     $scope.currentTenant = {selected:undefined};
-
+	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	  $scope.getAllTenants = function(id) {
 		TenantService.getAllTenants(function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
@@ -106,7 +110,8 @@ app.controller('TenantMeterController', function($scope,$timeout, $translate,
 	$scope.pairMeter=function(dragEl,dropEl){
 		var meterid=angular.element('#'+dragEl).scope().meter.id;
 		var tenantid=$scope.currentTenant.id;
-		TenantMeterService.addPair(tenantid, meterid, $scope.currentMeterType, function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		TenantMeterService.addPair(tenantid, meterid, $scope.currentMeterType, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 201) {
                 toaster.pop({
                     type: "success",
@@ -133,7 +138,8 @@ app.controller('TenantMeterController', function($scope,$timeout, $translate,
         var tenantmeterid = angular.element('#' + dragEl).scope().tenantmeter.id;
         var tenantid = $scope.currentTenant.id;
         var metertype = angular.element('#' + dragEl).scope().tenantmeter.metertype;
-        TenantMeterService.deletePair(tenantid, tenantmeterid, metertype, function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        TenantMeterService.deletePair(tenantid, tenantmeterid, metertype, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
                     type: "success",

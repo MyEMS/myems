@@ -1,7 +1,7 @@
 'use strict';
 app.factory('StoreMeterService', function($http) {
     return {
-        addPair: function(storeID, meterID, metertype,callback) {
+        addPair: function(storeID, meterID, metertype, headers, callback) {
             var meter={};
             if(metertype=='meters'){
                 meter={'meter_id':meterID};
@@ -11,7 +11,7 @@ app.factory('StoreMeterService', function($http) {
                 meter={'offline_meter_id':meterID};
             }
 
-            $http.post(getAPI()+'stores/'+storeID+'/'+metertype,{data:meter})
+            $http.post(getAPI()+'stores/'+storeID+'/'+metertype,{data:meter}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -19,8 +19,8 @@ app.factory('StoreMeterService', function($http) {
             });
         },
 
-        deletePair: function(storeID, meterID, metertype, callback) {
-            $http.delete(getAPI()+'stores/'+storeID+'/'+metertype+'/'+meterID)
+        deletePair: function(storeID, meterID, metertype, headers, callback) {
+            $http.delete(getAPI()+'stores/'+storeID+'/'+metertype+'/'+meterID, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
