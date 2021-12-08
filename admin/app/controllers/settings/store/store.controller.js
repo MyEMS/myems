@@ -1,6 +1,16 @@
 'use strict';
 
-app.controller('StoreController', function($scope, $window, $translate,$uibModal, CostCenterService, ContactService, StoreService, StoreTypeService, toaster,SweetAlert) {
+app.controller('StoreController', function(
+    $scope,
+    $window,
+    $translate,
+    $uibModal,
+    CostCenterService,
+    ContactService,
+    StoreService,
+    StoreTypeService,
+    toaster,
+    SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllCostCenters = function() {
 		CostCenterService.getAllCostCenters(function (response) {
@@ -32,15 +42,16 @@ app.controller('StoreController', function($scope, $window, $translate,$uibModal
 		});
 	};
 
-$scope.getAllStoreTypes = function() {
-	StoreTypeService.getAllStoreTypes(function (response) {
-		if (angular.isDefined(response.status) && response.status === 200) {
-			$scope.storetypes = response.data;
-		} else {
-			$scope.storetypes = [];
-		}
-	});
-};
+    $scope.getAllStoreTypes = function() {
+        StoreTypeService.getAllStoreTypes(function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.storetypes = response.data;
+            } else {
+                $scope.storetypes = [];
+            }
+        });
+    };
+
 	$scope.addStore = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/store/store.model.html',

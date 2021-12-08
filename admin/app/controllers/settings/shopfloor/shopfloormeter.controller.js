@@ -1,12 +1,16 @@
 'use strict';
 
-app.controller('ShopfloorMeterController', function($scope, $window, $timeout, $translate,
-													MeterService,
-													VirtualMeterService,
-													OfflineMeterService,
-													ShopfloorMeterService,
-													ShopfloorService,
-													toaster) {
+app.controller('ShopfloorMeterController', function(
+    $scope,
+    $window,
+    $timeout,
+    $translate,
+    MeterService,
+	VirtualMeterService,
+	OfflineMeterService,
+	ShopfloorMeterService,
+	ShopfloorService,
+	toaster) {
     $scope.currentShopfloor = {selected:undefined};
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	  $scope.getAllShopfloors = function(id) {
@@ -79,7 +83,6 @@ app.controller('ShopfloorMeterController', function($scope, $window, $timeout, $
 		});
 
 	};
-
 
 	$scope.getAllOfflineMeters = function() {
 		OfflineMeterService.getAllOfflineMeters(function (response) {

@@ -1,6 +1,16 @@
 'use strict';
 
-app.controller('TenantController', function ($scope, $window, $translate, $uibModal, CostCenterService, ContactService, TenantService, TenantTypeService, toaster, SweetAlert) {
+app.controller('TenantController', function (
+    $scope,
+    $window,
+    $translate,
+    $uibModal,
+    CostCenterService,
+    ContactService,
+    TenantService,
+    TenantTypeService,
+    toaster,
+    SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllCostCenters = function () {
 		CostCenterService.getAllCostCenters(function (response) {

@@ -1,6 +1,15 @@
 'use strict';
 
-app.controller('ShopfloorController', function ($scope, $window, $translate, $uibModal, CostCenterService, ContactService, ShopfloorService, toaster, SweetAlert) {
+app.controller('ShopfloorController', function (
+    $scope,
+    $window,
+    $translate,
+    $uibModal,
+    CostCenterService,
+    ContactService,
+    ShopfloorService,
+    toaster,
+    SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllCostCenters = function () {
 		CostCenterService.getAllCostCenters(function (response) {

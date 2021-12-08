@@ -5401,7 +5401,18 @@
 							"name": "POST Create New Shopfloor",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"MyEMS Shopfloor2\", \"area\":999.99, \"is_input_counted\":true, \"contact_id\":1, \"cost_center_id\":1, \"description\":\"Shopfloor description\"}}"
@@ -5422,19 +5433,30 @@
 							"name": "PUT Update a Shopfloor",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"MyEMS Shopfloor2\", \"area\":999.99, \"is_input_counted\":true, \"contact_id\":1, \"cost_center_id\":1, \"description\":\"Shopfloor description\"}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/shopfloors/2",
+									"raw": "{{base_url}}/shopfloors/3",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"shopfloors",
-										"2"
+										"3"
 									]
 								}
 							},
@@ -5444,7 +5466,18 @@
 							"name": "DELETE a Shopfloor by ID",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/shopfloors/2",
 									"host": [
@@ -5481,7 +5514,18 @@
 							"name": "POST Bind an Equipment to a Shopfloor",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"equipment_id\":1}}"
@@ -5504,7 +5548,18 @@
 							"name": "DELETE an Equipment from Shopfloor",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/shopfloors/1/equipments/1",
 									"host": [
@@ -5543,7 +5598,18 @@
 							"name": "POST Bind a Meter to a Shopfloor",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"meter_id\":1}}"
@@ -5566,7 +5632,18 @@
 							"name": "DELETE a Meter from Shopfloor",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/shopfloors/1/meters/1",
 									"host": [
@@ -5605,7 +5682,18 @@
 							"name": "POST Bind an OfflineMeter to a Shopfloor",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"offline_meter_id\":1}}"
@@ -5628,7 +5716,18 @@
 							"name": "DELETE an Offline Meter from Shopfloor",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/shopfloors/1/offlinemeters/1",
 									"host": [
@@ -5667,7 +5766,18 @@
 							"name": "POST Bind a Point to a Shopfloor",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"point_id\":1}}"
@@ -5690,7 +5800,18 @@
 							"name": "DELETE a Point from Shopfloor",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/shopfloors/1/points/1",
 									"host": [
@@ -5729,7 +5850,18 @@
 							"name": "POST Bind a Sensor to a Shopfloor",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"sensor_id\":1}}"
@@ -5752,7 +5884,18 @@
 							"name": "DELETE a Sensor from Shopfloor",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/shopfloors/1/sensors/1",
 									"host": [
@@ -5791,7 +5934,18 @@
 							"name": "POST Bind a Virtual Meter to a Shopfloor",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"virtual_meter_id\":1}}"
@@ -5814,7 +5968,18 @@
 							"name": "DELETE a Virtual Meter from Shopfloor",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/shopfloors/1/virtualmeters/1",
 									"host": [
@@ -6643,7 +6808,18 @@
 							"name": "POST Create New Store",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"麦当劳(新王府井店)\", \"address\":\"北京市东城区王府井大街200号工美大厦1层010-65120499\", \"latitude\":39.909429, \"longitude\":116.416993, \"area\":600.000, \"store_type_id\":1, \"is_input_counted\":true, \"contact_id\":1, \"cost_center_id\":1, \"description\":\"Classic, long-running fast-food chain known for its burgers, fries & shakes.\"}}"
@@ -6664,19 +6840,30 @@
 							"name": "PUT Update a Store",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"麦当劳(新王府井店)\", \"address\":\"北京市东城区王府井大街200号工美大厦1层010-65120499\", \"latitude\":39.909429, \"longitude\":116.416993, \"area\":600.000, \"store_type_id\":1, \"is_input_counted\":true, \"contact_id\":1, \"cost_center_id\":1, \"description\":\"Classic, long-running fast-food chain known for its burgers, fries & shakes.\"}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/stores/2",
+									"raw": "{{base_url}}/stores/3",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"stores",
-										"2"
+										"3"
 									]
 								}
 							},
@@ -6686,15 +6873,26 @@
 							"name": "DELETE a Store by ID",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"url": {
-									"raw": "{{base_url}}/stores/2",
+									"raw": "{{base_url}}/stores/3",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"stores",
-										"2"
+										"3"
 									]
 								}
 							},
@@ -6723,7 +6921,18 @@
 							"name": "POST Bind a Meter to a Store",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"meter_id\":1}}"
@@ -6746,7 +6955,18 @@
 							"name": "DELETE a Meter from Store",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/stores/1/meters/1",
 									"host": [
@@ -6785,7 +7005,18 @@
 							"name": "POST Bind an OfflineMeter to a Store",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"offline_meter_id\":1}}"
@@ -6808,7 +7039,18 @@
 							"name": "DELETE an Offline Meter from Store",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/stores/1/offlinemeters/1",
 									"host": [
@@ -6847,7 +7089,18 @@
 							"name": "POST Bind a Point to a Store",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"point_id\":1}}"
@@ -6870,7 +7123,18 @@
 							"name": "DELETE a Point from Store",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/stores/1/points/1",
 									"host": [
@@ -6909,7 +7173,18 @@
 							"name": "POST Bind a Sensor to a Store",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"sensor_id\":1}}"
@@ -6932,7 +7207,18 @@
 							"name": "DELETE a Sensor from Stores",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/stores/1/sensors/1",
 									"host": [
@@ -6971,7 +7257,18 @@
 							"name": "POST Bind a Virtual Meter to a Store",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"virtual_meter_id\":1}}"
@@ -6994,7 +7291,18 @@
 							"name": "DELETE a Virtual Meter from Store",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/stores/1/virtualmeters/1",
 									"host": [
@@ -7332,7 +7640,18 @@
 							"name": "POST Create New Tenant",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"Starbucks\", \"buildings\":\"Building #1\", \"floors\":\"L1 L2 L3\", \"rooms\":\"1201b+2247+3F\", \"area\":418.8, \"tenant_type_id\":9, \"is_input_counted\":true, \"is_key_tenant\":true,\n\"lease_number\":\"6b0da806\",  \"lease_start_datetime\":\"2021-01-01T00:00:00\", \"lease_end_datetime\":\"2022-01-01T00:00:00\", \"is_in_lease\":true, \"contact_id\":1, \"cost_center_id\":1, \"description\":\"my description\"}}"
@@ -7353,7 +7672,18 @@
 							"name": "PUT Update a Tenant",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"Hermes 爱马仕\", \"buildings\":\"Building #1\", \"floors\":\"L1 L2 L3 L4 L5\", \"rooms\":\"1201b+2247+3F\", \"area\":818.8, \"tenant_type_id\":9, \"is_input_counted\":true, \"is_key_tenant\":true,\n\"lease_number\":\"6b0da806\",  \"lease_start_datetime_utc\":\"2021-01-01T00:00:00\", \"lease_end_datetime_utc\":\"2022-01-01T00:00:00\", \"is_in_lease\":true, \"contact_id\":1, \"cost_center_id\":1, \"description\":\"my description\"}}"
@@ -7375,9 +7705,27 @@
 							"name": "DELETE a Tenant by ID",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"url": {
-									"raw": ""
+									"raw": "{{base_url}}/tenants/2",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tenants",
+										"2"
+									]
 								}
 							},
 							"response": []
@@ -7405,7 +7753,18 @@
 							"name": "POST Bind a Meter to a Tenant",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"meter_id\":1}}"
@@ -7428,7 +7787,18 @@
 							"name": "DELETE a Meter from Tenant",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/tenants/1/meters/1",
 									"host": [
@@ -7467,7 +7837,18 @@
 							"name": "POST Bind an OfflineMeter to a Tenant",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"offline_meter_id\":1}}"
@@ -7490,7 +7871,18 @@
 							"name": "DELETE an Offline Meter from Tenant",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/tenants/1/offlinemeters/1",
 									"host": [
@@ -7529,7 +7921,18 @@
 							"name": "POST Bind a Point to a Tenant",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"point_id\":1}}"
@@ -7552,7 +7955,18 @@
 							"name": "DELETE a Point from Tenant",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/tenants/1/points/1",
 									"host": [
@@ -7591,7 +8005,18 @@
 							"name": "POST Bind a Sensor to a Tenant",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"sensor_id\":1}}"
@@ -7614,7 +8039,18 @@
 							"name": "DELETE a Sensor from Tenant",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/tenants/1/sensors/1",
 									"host": [
@@ -7653,7 +8089,18 @@
 							"name": "POST Bind a Virtual Meter to a Tenant",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"virtual_meter_id\":1}}"
@@ -7676,7 +8123,18 @@
 							"name": "DELETE a Virtual Meter from Tenant",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/tenants/1/virtualmeters/1",
 									"host": [

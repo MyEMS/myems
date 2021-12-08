@@ -1,6 +1,14 @@
 'use strict';
 
-app.controller('StoreSensorController', function ($scope, $window, $translate, StoreService, SensorService, StoreSensorService,  toaster, SweetAlert) {
+app.controller('StoreSensorController', function (
+    $scope,
+    $window,
+    $translate,
+    StoreService,
+    SensorService,
+    StoreSensorService,
+    toaster,
+    SweetAlert) {
     $scope.currentStore = {selected:undefined};
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.getAllSensors = function () {

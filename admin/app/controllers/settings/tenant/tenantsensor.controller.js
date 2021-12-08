@@ -1,6 +1,14 @@
 'use strict';
 
-app.controller('TenantSensorController', function ($scope, $window, $translate, TenantService, SensorService, TenantSensorService,  toaster, SweetAlert) {
+app.controller('TenantSensorController', function (
+    $scope,
+    $window,
+    $translate,
+    TenantService,
+    SensorService,
+    TenantSensorService,
+    toaster,
+    SweetAlert) {
     $scope.currentTenant = {selected:undefined};
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.getAllSensors = function () {
@@ -23,21 +31,21 @@ app.controller('TenantSensorController', function ($scope, $window, $translate, 
         });
     };
 
-  $scope.changeTenant=function(item,model){
-  	$scope.currentTenant=item;
-  	$scope.currentTenant.selected=model;
-  	$scope.getSensorsByTenantID($scope.currentTenant.id);
-  };
+    $scope.changeTenant=function(item,model){
+  	    $scope.currentTenant=item;
+  	    $scope.currentTenant.selected=model;
+  	    $scope.getSensorsByTenantID($scope.currentTenant.id);
+    };
 
-  $scope.getAllTenants = function () {
-    TenantService.getAllTenants(function (response) {
-        if (angular.isDefined(response.status) && response.status === 200) {
-            $scope.tenants = response.data;
-        } else {
-            $scope.tenants = [];
-        }
-    });
-  };
+    $scope.getAllTenants = function () {
+        TenantService.getAllTenants(function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.tenants = response.data;
+            } else {
+                $scope.tenants = [];
+            }
+        });
+    };
 
     $scope.pairSensor = function (dragEl, dropEl) {
         var sensorid = angular.element('#' + dragEl).scope().sensor.id;

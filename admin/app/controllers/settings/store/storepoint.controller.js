@@ -49,11 +49,11 @@ app.controller('StorePointController', function (
 
     };
 
-  $scope.changeStore=function(item,model){
-    	$scope.currentStore=item;
-    	$scope.currentStore.selected=model;
-    	$scope.getPointsByStoreID($scope.currentStore.id);
-  };
+    $scope.changeStore=function(item,model){
+        $scope.currentStore=item;
+        $scope.currentStore.selected=model;
+        $scope.getPointsByStoreID($scope.currentStore.id);
+    };
 
     $scope.changeDataSource = function (item, model) {
         $scope.currentDataSource = model;

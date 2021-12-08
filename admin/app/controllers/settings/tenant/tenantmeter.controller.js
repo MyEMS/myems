@@ -1,12 +1,16 @@
 'use strict';
 
-app.controller('TenantMeterController', function($scope, $window, $timeout, $translate,
-													MeterService,
-													VirtualMeterService,
-													OfflineMeterService,
-													TenantMeterService,
-													TenantService,
-													toaster) {
+app.controller('TenantMeterController', function(
+    $scope,
+    $window,
+    $timeout,
+    $translate,
+    MeterService,
+    VirtualMeterService,
+    OfflineMeterService,
+    TenantMeterService,
+    TenantService,
+    toaster) {
     $scope.currentTenant = {selected:undefined};
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	  $scope.getAllTenants = function(id) {

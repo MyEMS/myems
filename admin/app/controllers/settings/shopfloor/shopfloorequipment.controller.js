@@ -1,6 +1,14 @@
 'use strict';
 
-app.controller('ShopfloorEquipmentController', function ($scope, $window, $translate, ShopfloorService, EquipmentService, ShopfloorEquipmentService,  toaster, SweetAlert) {
+app.controller('ShopfloorEquipmentController', function (
+    $scope,
+    $window,
+    $translate,
+    ShopfloorService,
+    EquipmentService,
+    ShopfloorEquipmentService,
+    toaster,
+    SweetAlert) {
     $scope.currentShopfloor = {selected:undefined};
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.getAllEquipments = function () {

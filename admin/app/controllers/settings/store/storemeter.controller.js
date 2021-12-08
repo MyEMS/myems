@@ -1,21 +1,25 @@
 'use strict';
 
-app.controller('StoreMeterController', function($scope, $window, $timeout, $translate,
-													MeterService,
-													VirtualMeterService,
-													OfflineMeterService,
-													StoreMeterService,
-													StoreService,
-													toaster) {
+app.controller('StoreMeterController', function(
+    $scope,
+    $window,
+    $timeout,
+    $translate,
+    MeterService,
+	VirtualMeterService,
+	OfflineMeterService,
+	StoreMeterService,
+	StoreService,
+	toaster) {
     $scope.currentStore = {selected:undefined};
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	  $scope.getAllStores = function(id) {
 		StoreService.getAllStores(function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.stores = response.data;
-				} else {
+			} else {
 				$scope.stores = [];
-			 }
+			}
 		});
 	};
 
