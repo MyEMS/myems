@@ -1,11 +1,14 @@
 'use strict';
 
-app.controller('CostCenterTariffController', function ($scope,  $translate,
-                                                       CostCenterService,
-                                                       TariffService,
-                                                       CostCenterTariffService,
-                                                       toaster) {
-
+app.controller('CostCenterTariffController', function (
+    $scope,
+    $window,
+    $translate,
+    CostCenterService,
+    TariffService,
+    CostCenterTariffService,
+    toaster) {
+    $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.getAllCostCenters = function () {
         CostCenterService.getAllCostCenters(function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
@@ -51,7 +54,8 @@ app.controller('CostCenterTariffController', function ($scope,  $translate,
     $scope.pairTariff = function (dragEl, dropEl) {
         var tariffid = angular.element('#' + dragEl).scope().tariff.id;
         var costcenterid = $scope.currentCostCenter.id;
-        CostCenterTariffService.addPair(costcenterid, tariffid, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        CostCenterTariffService.addPair(costcenterid, tariffid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 201) {
                 toaster.pop({
                     type: "success",
@@ -77,7 +81,8 @@ app.controller('CostCenterTariffController', function ($scope,  $translate,
         }
         var costcentertariffid = angular.element('#' + dragEl).scope().costcentertariff.id;
         var costcenterid = $scope.currentCostCenter.id;
-        CostCenterTariffService.deletePair(costcenterid, costcentertariffid, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        CostCenterTariffService.deletePair(costcenterid, costcentertariffid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
                     type: "success",
