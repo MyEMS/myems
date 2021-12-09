@@ -1,8 +1,8 @@
 'use strict';
 app.factory('SpaceCombinedEquipmentService', function($http) {
     return {
-        addPair: function(spaceID,combinedequipmentID,callback) {
-            $http.post(getAPI()+'spaces/'+spaceID+'/combinedequipments',{data:{'combined_equipment_id':combinedequipmentID}})
+        addPair: function(spaceID,combinedequipmentID, headers, callback) {
+            $http.post(getAPI()+'spaces/'+spaceID+'/combinedequipments',{data:{'combined_equipment_id':combinedequipmentID}}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -10,8 +10,8 @@ app.factory('SpaceCombinedEquipmentService', function($http) {
             });
         },
 
-        deletePair: function(spaceID, combinedequipmentID, callback) {
-            $http.delete(getAPI()+'spaces/'+spaceID+'/combinedequipments/'+combinedequipmentID)
+        deletePair: function(spaceID, combinedequipmentID, headers, callback) {
+            $http.delete(getAPI()+'spaces/'+spaceID+'/combinedequipments/'+combinedequipmentID, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

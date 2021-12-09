@@ -1,11 +1,16 @@
 'use strict';
 
-app.controller('SpaceStoreController', function($scope, $translate,	SpaceService, StoreService, SpaceStoreService, toaster,SweetAlert) {
+app.controller('SpaceStoreController', function(
+  $scope,
+  $window,
+  $translate,
+  SpaceService,
+  StoreService, SpaceStoreService, toaster,SweetAlert) {
   $scope.spaces = [];
   $scope.currentSpaceID = 1;
   $scope.stores = [];
   $scope.spacestores = [];
-
+  $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 
   $scope.getAllSpaces = function() {
     SpaceService.getAllSpaces(function (response) {
@@ -65,7 +70,8 @@ app.controller('SpaceStoreController', function($scope, $translate,	SpaceService
 	$scope.pairStore=function(dragEl,dropEl){
 		var storeid=angular.element('#'+dragEl).scope().store.id;
 		var spaceid=angular.element(spacetreewithstore).jstree(true).get_top_selected();
-		SpaceStoreService.addPair(spaceid,storeid, function (response){
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		SpaceStoreService.addPair(spaceid,storeid, headers, function (response){
 			if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
@@ -92,8 +98,9 @@ app.controller('SpaceStoreController', function($scope, $translate,	SpaceService
         }
         var spacestoreid = angular.element('#' + dragEl).scope().spacestore.id;
         var spaceid = angular.element(spacetreewithstore).jstree(true).get_top_selected();
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 
-        SpaceStoreService.deletePair(spaceid, spacestoreid, function (response) {
+        SpaceStoreService.deletePair(spaceid, spacestoreid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
                     type: "success",
