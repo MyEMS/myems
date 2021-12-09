@@ -343,20 +343,20 @@ Result
 
 *   GET All Cost Files
 ```bash
-curl -i -X GET {{base_url}}/costfiles
+curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN" -X GET {{base_url}}/costfiles
 ```
 *   DELETE a Cost File by ID
 ```bash
-curl -i -X DELETE {{base_url}}/costfiles/{id}
+curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN" -X DELETE {{base_url}}/costfiles/{id}
 ```
 *   POST Upload a Cost File
   (call users login API to get 'User-UUID' and 'Token')
 ```bash
-curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN"  -H "Content-Type: application/TBD" -X POST -d 'file: (binary)' {{base_url}}/costfiles
+curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN" -H "Content-Type: application/TBD" -X POST -d 'file: (binary)' {{base_url}}/costfiles
 ```
 *   GET Restore a Cost File by ID from database to disk
 ```bash
-curl -i -X GET {{base_url}}/costfiles/{id}/restore
+curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN" -X GET {{base_url}}/costfiles/{id}/restore
 ```
 
 ### Data Source

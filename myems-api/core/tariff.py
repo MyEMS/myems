@@ -233,6 +233,7 @@ class TariffItem:
 
     @staticmethod
     def on_get(req, resp, id_):
+        """Handles GET requests"""
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TARIFF_ID')
@@ -312,6 +313,7 @@ class TariffItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_):
+        """Handles DELETE requests"""
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
