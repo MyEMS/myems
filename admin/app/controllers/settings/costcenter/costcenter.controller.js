@@ -1,7 +1,14 @@
 'use strict';
 
-app.controller('CostCenterController', function($scope, $translate,$uibModal, CostCenterService,toaster,SweetAlert) {
-
+app.controller('CostCenterController', function(
+	$scope,
+	$window,
+	$translate,
+	$uibModal,
+	CostCenterService,
+	toaster,
+	SweetAlert) {
+	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllCostCenters = function() {
 		CostCenterService.getAllCostCenters(function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
@@ -19,7 +26,8 @@ app.controller('CostCenterController', function($scope, $translate,$uibModal, Co
 			windowClass: "animated fadeIn",
 		});
 		modalInstance.result.then(function(costcenter) {
-			CostCenterService.addCostCenter(costcenter, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			CostCenterService.addCostCenter(costcenter, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
@@ -59,7 +67,8 @@ app.controller('CostCenterController', function($scope, $translate,$uibModal, Co
 		});
 
 		modalInstance.result.then(function (modifiedCostCenter) {
-	        CostCenterService.editCostCenter(modifiedCostCenter, function (response){
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+	        CostCenterService.editCostCenter(modifiedCostCenter, headers, function (response){
 	            if(angular.isDefined(response.status) && response.status === 200){
 					toaster.pop({
 						type: "success",
@@ -96,7 +105,8 @@ app.controller('CostCenterController', function($scope, $translate,$uibModal, Co
 		        closeOnCancel: true },
 		    function (isConfirm) {
 		        if (isConfirm) {
-		            CostCenterService.deleteCostCenter(costcenter, function (response) {
+					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		            CostCenterService.deleteCostCenter(costcenter, headers, function (response) {
 		            	if (angular.isDefined(response.status) && response.status === 204) {
 							toaster.pop({
 								type: "success",

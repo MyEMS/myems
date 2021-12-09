@@ -1,7 +1,17 @@
 'use strict';
 
-app.controller('TariffController', function($scope,$uibModal,$translate, TARIFF_TYPE, PEAK_TYPE, TariffService, CategoryService, toaster, SweetAlert) {
-
+app.controller('TariffController', function(
+	$scope,
+	$window,
+	$uibModal,
+	$translate,
+	TARIFF_TYPE,
+	PEAK_TYPE,
+	TariffService,
+	CategoryService,
+	toaster,
+	SweetAlert) {
+	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllCategories = function() {
 		CategoryService.getAllCategories(function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
@@ -42,7 +52,8 @@ app.controller('TariffController', function($scope,$uibModal,$translate, TARIFF_
 			}
 		});
 		modalInstance.result.then(function(tariff) {
-			TariffService.addTariff(tariff, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			TariffService.addTariff(tariff, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
@@ -82,7 +93,8 @@ app.controller('TariffController', function($scope,$uibModal,$translate, TARIFF_
 		});
 
 		modalInstance.result.then(function(modifiedTariff) {
-			TariffService.editTariff(modifiedTariff, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			TariffService.editTariff(modifiedTariff, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
 						type: "success",
@@ -119,7 +131,8 @@ app.controller('TariffController', function($scope,$uibModal,$translate, TARIFF_
 			},
 			function(isConfirm) {
 				if (isConfirm) {
-					TariffService.deleteTariff(tariff, function (response) {
+					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+					TariffService.deleteTariff(tariff, headers, function (response) {
 						if (angular.isDefined(response.status) && response.status === 204) {
                             toaster.pop({
                                 type: "success",

@@ -17,24 +17,24 @@ app.factory('TariffService', function($http) {
                 callback(response);
             }); 
         },
-        addTariff: function(tariff, callback) {  
-            $http.post(getAPI()+'tariffs',{data:tariff})  
+        addTariff: function(tariff, headers, callback) {
+            $http.post(getAPI()+'tariffs',{data:tariff}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        editTariff: function(tariff, callback) {  
-            $http.put(getAPI()+'tariffs/'+tariff.id,{data:tariff})  
+        editTariff: function(tariff, headers, callback) {
+            $http.put(getAPI()+'tariffs/'+tariff.id,{data:tariff}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        deleteTariff: function(tariff, callback) {  
-            $http.delete(getAPI()+'tariffs/'+tariff.id)  
+        deleteTariff: function(tariff, headers, callback) {
+            $http.delete(getAPI()+'tariffs/'+tariff.id, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

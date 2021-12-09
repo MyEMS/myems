@@ -17,24 +17,24 @@ app.factory('CostCenterService', function($http) {
                 callback(response);
             });  
         },
-        addCostCenter: function(costcenter, callback) {  
-            $http.post(getAPI()+'costcenters',{data:costcenter})  
+        addCostCenter: function(costcenter, headers, callback) {
+            $http.post(getAPI()+'costcenters',{data:costcenter}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        editCostCenter: function(costcenter, callback) {  
-            $http.put(getAPI()+'costcenters/'+costcenter.id,{data:costcenter})  
+        editCostCenter: function(costcenter, headers, callback) {
+            $http.put(getAPI()+'costcenters/'+costcenter.id,{data:costcenter}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        deleteCostCenter: function(costcenter, callback) {  
-            $http.delete(getAPI()+'costcenters/'+costcenter.id)  
+        deleteCostCenter: function(costcenter, headers, callback) {
+            $http.delete(getAPI()+'costcenters/'+costcenter.id, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

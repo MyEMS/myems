@@ -20,6 +20,7 @@ class CostFileCollection:
 
     @staticmethod
     def on_get(req, resp):
+        """Handles GET requests"""
         access_control(req)
         cnx = mysql.connector.connect(**config.myems_historical_db)
         cursor = cnx.cursor()
@@ -159,6 +160,7 @@ class CostFileItem:
 
     @staticmethod
     def on_get(req, resp, id_):
+        """Handles GET requests"""
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400,
@@ -194,6 +196,7 @@ class CostFileItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_):
+        """Handles DELETE requests"""
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -245,6 +248,7 @@ class CostFileRestore:
 
     @staticmethod
     def on_get(req, resp, id_):
+        """Handles GET requests"""
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
