@@ -1283,11 +1283,11 @@ Result in JSON
 | next_run_datetime | float | null, or the next run datetime string in local timezone |
 
 ```bash
-curl -i -X GET {{base_url}}/rules/{id}
+curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKEN-AFTER-LOGIN" -X GET {{base_url}}/rules/{id}
 ```
 *   GET All Rules
 ```bash
-curl -i -X GET {{base_url}}/rules
+curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKEN-AFTER-LOGIN" -X GET {{base_url}}/rules
 ```
 *   DELETE a Rule by ID
 ```bash
