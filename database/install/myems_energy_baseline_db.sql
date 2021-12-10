@@ -92,6 +92,32 @@ CREATE TABLE IF NOT EXISTS `myems_energy_baseline_db`.`tbl_equipment_output_cate
 CREATE INDEX `tbl_equipment_output_category_hourly_index_1` ON  `myems_energy_baseline_db`.`tbl_equipment_output_category_hourly`   (`equipment_id`, `energy_category_id`, `start_datetime_utc`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_baseline_db`.`tbl_meter_hourly`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_baseline_db`.`tbl_meter_hourly` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_baseline_db`.`tbl_meter_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `meter_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_meter_hourly_index_1` ON  `myems_energy_baseline_db`.`tbl_meter_hourly`   (`meter_id`, `start_datetime_utc`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_baseline_db`.`tbl_offline_meter_hourly`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_baseline_db`.`tbl_offline_meter_hourly` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_baseline_db`.`tbl_offline_meter_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `offline_meter_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_offline_meter_hourly_index_1` ON  `myems_energy_baseline_db`.`tbl_offline_meter_hourly`   (`offline_meter_id`, `start_datetime_utc`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_energy_baseline_db`.`tbl_shopfloor_input_category_hourly`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_energy_baseline_db`.`tbl_shopfloor_input_category_hourly` ;
@@ -216,3 +242,16 @@ CREATE TABLE IF NOT EXISTS `myems_energy_baseline_db`.`tbl_tenant_input_item_hou
   `actual_value` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_tenant_input_item_hourly_index_1` ON  `myems_energy_baseline_db`.`tbl_tenant_input_item_hourly`   (`tenant_id`, `energy_item_id`, `start_datetime_utc`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_baseline_db`.`tbl_virtual_meter_hourly`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_baseline_db`.`tbl_virtual_meter_hourly` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_baseline_db`.`tbl_virtual_meter_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `virtual_meter_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_virtual_meter_hourly_index_1` ON  `myems_energy_baseline_db`.`tbl_virtual_meter_hourly`   (`virtual_meter_id`, `start_datetime_utc`);
