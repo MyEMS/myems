@@ -1,11 +1,17 @@
 'use strict';
 
-app.controller('SpaceShopfloorController', function($scope, $translate,	SpaceService, ShopfloorService, SpaceShopfloorService, toaster,SweetAlert) {
+app.controller('SpaceShopfloorController', function(
+  $scope,
+  $window,
+  $translate,
+  SpaceService,
+  ShopfloorService,
+  SpaceShopfloorService, toaster,SweetAlert) {
   $scope.spaces = [];
   $scope.currentSpaceID = 1;
   $scope.shopfloors = [];
   $scope.spaceshopfloors = [];
-
+  $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 
   $scope.getAllSpaces = function() {
     SpaceService.getAllSpaces(function (response) {
@@ -65,7 +71,8 @@ app.controller('SpaceShopfloorController', function($scope, $translate,	SpaceSer
 	$scope.pairShopfloor=function(dragEl,dropEl){
 		var shopfloorid=angular.element('#'+dragEl).scope().shopfloor.id;
 		var spaceid=angular.element(spacetreewithshopfloor).jstree(true).get_top_selected();
-		SpaceShopfloorService.addPair(spaceid,shopfloorid, function (response){
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		SpaceShopfloorService.addPair(spaceid,shopfloorid, headers, function (response){
 			if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
@@ -91,8 +98,8 @@ app.controller('SpaceShopfloorController', function($scope, $translate,	SpaceSer
         }
         var spaceshopfloorid = angular.element('#' + dragEl).scope().spaceshopfloor.id;
         var spaceid = angular.element(spacetreewithshopfloor).jstree(true).get_top_selected();
-
-        SpaceShopfloorService.deletePair(spaceid, spaceshopfloorid, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        SpaceShopfloorService.deletePair(spaceid, spaceshopfloorid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
                     type: "success",

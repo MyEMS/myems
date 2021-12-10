@@ -108,6 +108,7 @@ class SpaceCollection:
     @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
+        access_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)
@@ -361,6 +362,7 @@ class SpaceItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SPACE_ID')
@@ -519,6 +521,7 @@ class SpaceItem:
     @user_logger
     def on_put(req, resp, id_):
         """Handles PUT requests"""
+        access_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -863,6 +866,7 @@ class SpaceCombinedEquipmentCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
+        access_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -937,6 +941,7 @@ class SpaceCombinedEquipmentItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, eid):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SPACE_ID')
@@ -1032,6 +1037,7 @@ class SpaceEquipmentCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
+        access_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -1106,6 +1112,7 @@ class SpaceEquipmentItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, eid):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SPACE_ID')
@@ -1214,6 +1221,7 @@ class SpaceMeterCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
+        access_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -1288,6 +1296,7 @@ class SpaceMeterItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, mid):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SPACE_ID')
@@ -1398,6 +1407,7 @@ class SpaceOfflineMeterCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
+        access_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -1472,6 +1482,7 @@ class SpaceOfflineMeterItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, mid):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SPACE_ID')
@@ -1580,6 +1591,7 @@ class SpacePointCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
+        access_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -1654,6 +1666,7 @@ class SpacePointItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, pid):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SPACE_ID')
@@ -1749,6 +1762,7 @@ class SpaceSensorCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
+        access_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -1823,6 +1837,7 @@ class SpaceSensorItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, sid):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SPACE_ID')
@@ -1917,6 +1932,7 @@ class SpaceShopfloorCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
+        access_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -1991,6 +2007,7 @@ class SpaceShopfloorItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, sid):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SPACE_ID')
@@ -2085,6 +2102,7 @@ class SpaceStoreCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
+        access_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -2159,6 +2177,7 @@ class SpaceStoreItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, tid):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SPACE_ID')
@@ -2253,6 +2272,7 @@ class SpaceTenantCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
+        access_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -2327,6 +2347,7 @@ class SpaceTenantItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, tid):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SPACE_ID')
@@ -2435,6 +2456,7 @@ class SpaceVirtualMeterCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
+        access_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -2509,6 +2531,7 @@ class SpaceVirtualMeterItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, mid):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SPACE_ID')

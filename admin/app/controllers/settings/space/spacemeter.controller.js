@@ -1,9 +1,18 @@
 'use strict';
 
-app.controller('SpaceMeterController', function($scope ,$timeout, $translate,	SpaceService, MeterService, VirtualMeterService, OfflineMeterService, SpaceMeterService, toaster,SweetAlert) {
+app.controller('SpaceMeterController', function(
+  $scope ,
+  $window,
+  $timeout,
+  $translate,
+  SpaceService,
+  MeterService,
+  VirtualMeterService,
+  OfflineMeterService, SpaceMeterService, toaster,SweetAlert) {
   $scope.spaces = [];
   $scope.currentSpaceID = 1;
-	$scope.spacemeters = [];
+  $scope.spacemeters = [];
+  $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 
   $scope.getAllSpaces = function() {
     SpaceService.getAllSpaces(function (response) {
@@ -119,7 +128,8 @@ app.controller('SpaceMeterController', function($scope ,$timeout, $translate,	Sp
 	$scope.pairMeter=function(dragEl,dropEl){
 		var meterid=angular.element('#'+dragEl).scope().meter.id;
 		var spaceid=angular.element(spacetreewithmeter).jstree(true).get_top_selected();
-		SpaceMeterService.addPair(spaceid,meterid, $scope.currentMeterType, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		SpaceMeterService.addPair(spaceid,meterid, $scope.currentMeterType, headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
@@ -146,7 +156,8 @@ app.controller('SpaceMeterController', function($scope ,$timeout, $translate,	Sp
         var spacemeterid = angular.element('#' + dragEl).scope().spacemeter.id;
         var spaceid = angular.element(spacetreewithmeter).jstree(true).get_top_selected();
         var metertype = angular.element('#' + dragEl).scope().spacemeter.metertype;
-        SpaceMeterService.deletePair(spaceid, spacemeterid, metertype, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        SpaceMeterService.deletePair(spaceid, spacemeterid, metertype, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
                     type: "success",

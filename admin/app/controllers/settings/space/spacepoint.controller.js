@@ -96,7 +96,8 @@ app.controller('SpacePointController', function (
     $scope.pairPoint = function (dragEl, dropEl) {
         var pointid = angular.element('#' + dragEl).scope().point.id;
         var spaceid = $scope.currentSpaceID;
-        SpacePointService.addPair(spaceid, pointid, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        SpacePointService.addPair(spaceid, pointid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 201) {
                 toaster.pop({
                     type: "success",
@@ -122,7 +123,8 @@ app.controller('SpacePointController', function (
         }
         var spacepointid = angular.element('#' + dragEl).scope().spacepoint.id;
         var spaceid = $scope.currentSpaceID;
-        SpacePointService.deletePair(spaceid, spacepointid, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        SpacePointService.deletePair(spaceid, spacepointid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
                     type: "success",
