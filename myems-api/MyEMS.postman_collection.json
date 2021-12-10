@@ -5100,7 +5100,18 @@
 							"name": "GET All Rules",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/rules",
 									"host": [
@@ -5117,7 +5128,18 @@
 							"name": "GET a Rule by ID ",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/rules/1",
 									"host": [
@@ -5135,7 +5157,18 @@
 							"name": "POST Create New Rule",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"Space Energy Consumption Over Limit\", \"fdd_code\":\"SPACE01\", \"category\":\"SPACE\", \"priority\":\"HIGH\", \"channel\":\"WEB\", \"expression\":\"{\\\"space_id\\\":1, \\\"high_limit\\\":1000.000}\", \"message_template\":\"%s截止到目前电耗%s，超标%s。\", \"is_enabled\":true}}"
@@ -5156,19 +5189,30 @@
 							"name": "PUT Update a Rule",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"Space Energy Consumption Over Limit\", \"fdd_code\":\"SPACE01\", \"category\":\"SPACE\", \"priority\":\"HIGH\", \"channel\":\"WEB\", \"expression\":\"{\\\"space_id\\\":1, \\\"high_limit\\\":1000.000}\", \"message_template\":\"%s截止到目前电耗%s，超标%s。\", \"is_enabled\":true}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/rules/1",
+									"raw": "{{base_url}}/rules/2",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"rules",
-										"1"
+										"2"
 									]
 								}
 							},
@@ -5178,7 +5222,18 @@
 							"name": "DELETE a Rule by ID",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/rules/2",
 									"host": [

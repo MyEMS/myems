@@ -19,6 +19,8 @@ class RuleCollection:
 
     @staticmethod
     def on_get(req, resp):
+        """Handles GET requests"""
+        access_control(req)
         cnx = mysql.connector.connect(**config.myems_fdd_db)
         cursor = cnx.cursor(dictionary=True)
 
@@ -70,6 +72,7 @@ class RuleCollection:
     @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
+        access_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -194,6 +197,8 @@ class RuleItem:
 
     @staticmethod
     def on_get(req, resp, id_):
+        """Handles GET requests"""
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RULE_ID')
@@ -245,6 +250,8 @@ class RuleItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_):
+        """Handles DELETE requests"""
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RULE_ID')
@@ -274,6 +281,7 @@ class RuleItem:
     @user_logger
     def on_put(req, resp, id_):
         """Handles PUT requests"""
+        access_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
