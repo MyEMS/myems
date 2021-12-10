@@ -1,19 +1,19 @@
 'use strict';
 
 app.controller('SpaceShopfloorController', function(
-  $scope,
-  $window,
-  $translate,
-  SpaceService,
-  ShopfloorService,
-  SpaceShopfloorService, toaster,SweetAlert) {
-  $scope.spaces = [];
-  $scope.currentSpaceID = 1;
-  $scope.shopfloors = [];
-  $scope.spaceshopfloors = [];
-  $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+    $scope,
+    $window,
+    $translate,
+    SpaceService,
+    ShopfloorService,
+    SpaceShopfloorService, toaster,SweetAlert) {
+    $scope.spaces = [];
+    $scope.currentSpaceID = 1;
+    $scope.shopfloors = [];
+    $scope.spaceshopfloors = [];
+    $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 
-  $scope.getAllSpaces = function() {
+    $scope.getAllSpaces = function() {
     SpaceService.getAllSpaces(function (response) {
       if (angular.isDefined(response.status) && response.status === 200) {
         $scope.spaces = response.data;
@@ -45,7 +45,7 @@ app.controller('SpaceShopfloorController', function(
           $scope.getShopfloorsBySpaceID($scope.currentSpaceID);
       });
     });
-  };
+    };
 
 	$scope.getShopfloorsBySpaceID = function(id) {
     $scope.spaceshopfloors=[];
@@ -119,7 +119,7 @@ app.controller('SpaceShopfloorController', function(
 		});
 	};
 
-  $scope.getAllSpaces();
+    $scope.getAllSpaces();
 	$scope.getAllShopfloors();
 
   $scope.refreshSpaceTree = function() {

@@ -1,19 +1,19 @@
 'use strict';
 
 app.controller('SpaceCombinedEquipmentController', function($scope,
-  $window,
-  $translate,
-  SpaceService,
-  CombinedEquipmentService,
-  SpaceCombinedEquipmentService,
-  toaster) {
-  $scope.spaces = [];
-  $scope.currentSpaceID = 1;
-  $scope.combinedequipments = [];
-  $scope.spacecombinedequipments = [];
-  $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+    $window,
+    $translate,
+    SpaceService,
+    CombinedEquipmentService,
+    SpaceCombinedEquipmentService,
+    toaster) {
+    $scope.spaces = [];
+    $scope.currentSpaceID = 1;
+    $scope.combinedequipments = [];
+    $scope.spacecombinedequipments = [];
+    $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 
-  $scope.getAllSpaces = function() {
+    $scope.getAllSpaces = function() {
     SpaceService.getAllSpaces(function (response) {
       if (angular.isDefined(response.status) && response.status === 200) {
           $scope.spaces = response.data;
@@ -45,7 +45,7 @@ app.controller('SpaceCombinedEquipmentController', function($scope,
           $scope.getCombinedEquipmentsBySpaceID($scope.currentSpaceID);
       });
     });
-  };
+    };
 
 	$scope.getCombinedEquipmentsBySpaceID = function(id) {
     $scope.spacecombinedequipments=[];
@@ -72,7 +72,6 @@ app.controller('SpaceCombinedEquipmentController', function($scope,
 		var combinedequipmentid=angular.element('#'+dragEl).scope().combinedequipment.id;
 		var spaceid=angular.element(spacetreewithcombinedequipment).jstree(true).get_top_selected();
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-
 		SpaceCombinedEquipmentService.addPair(spaceid,combinedequipmentid, headers, function (response){
 			if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
@@ -100,7 +99,6 @@ app.controller('SpaceCombinedEquipmentController', function($scope,
         var spacecombinedequipmentid = angular.element('#' + dragEl).scope().spacecombinedequipment.id;
         var spaceid = angular.element(spacetreewithcombinedequipment).jstree(true).get_top_selected();
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-
         SpaceCombinedEquipmentService.deletePair(spaceid, spacecombinedequipmentid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({

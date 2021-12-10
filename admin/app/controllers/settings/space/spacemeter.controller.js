@@ -1,20 +1,20 @@
 'use strict';
 
 app.controller('SpaceMeterController', function(
-  $scope ,
-  $window,
-  $timeout,
-  $translate,
-  SpaceService,
-  MeterService,
-  VirtualMeterService,
-  OfflineMeterService, SpaceMeterService, toaster,SweetAlert) {
-  $scope.spaces = [];
-  $scope.currentSpaceID = 1;
-  $scope.spacemeters = [];
-  $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+    $scope ,
+    $window,
+    $timeout,
+    $translate,
+    SpaceService,
+    MeterService,
+    VirtualMeterService,
+    OfflineMeterService, SpaceMeterService, toaster,SweetAlert) {
+    $scope.spaces = [];
+    $scope.currentSpaceID = 1;
+    $scope.spacemeters = [];
+    $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 
-  $scope.getAllSpaces = function() {
+    $scope.getAllSpaces = function() {
     SpaceService.getAllSpaces(function (response) {
       if (angular.isDefined(response.status) && response.status === 200) {
         $scope.spaces = response.data;
@@ -47,7 +47,7 @@ app.controller('SpaceMeterController', function(
           $scope.getMetersBySpaceID($scope.currentSpaceID);
       });
     });
-  };
+    };
 
 	$scope.getMetersBySpaceID = function(id) {
 		var metertypes=['meters','virtualmeters','offlinemeters'];
@@ -177,12 +177,12 @@ app.controller('SpaceMeterController', function(
 		});
 	};
 
-  $scope.getAllSpaces();
-	$scope.getAllMeters();
-	$scope.getAllVirtualMeters();
-	$scope.getAllOfflineMeters();
+    $scope.getAllSpaces();
+    $scope.getAllMeters();
+    $scope.getAllVirtualMeters();
+    $scope.getAllOfflineMeters();
 
-  $scope.refreshSpaceTree = function() {
+    $scope.refreshSpaceTree = function() {
     SpaceService.getAllSpaces(function (response) {
       if (angular.isDefined(response.status) && response.status === 200) {
         $scope.spaces = response.data;
@@ -210,7 +210,7 @@ app.controller('SpaceMeterController', function(
       angular.element(spacetreewithmeter).jstree(true).settings.core.data = treedata['core']['data'];
       angular.element(spacetreewithmeter).jstree(true).refresh();
     });
-  };
+    };
 
 	$scope.$on('handleBroadcastSpaceChanged', function(event) {
     $scope.spacemeters = [];
