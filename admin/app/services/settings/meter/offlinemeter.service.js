@@ -17,24 +17,24 @@ app.factory('OfflineMeterService', function($http) {
                 callback(response);
             });  
         },
-        addOfflineMeter: function(offlinemeter, callback) {  
-            $http.post(getAPI()+'offlinemeters',{data:offlinemeter})  
+        addOfflineMeter: function(offlinemeter, headers, callback) {
+            $http.post(getAPI()+'offlinemeters',{data:offlinemeter}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             }); 
         },
-        editdOfflineMeter: function(offlinemeter, callback) {  
-            $http.put(getAPI()+'offlinemeters/'+offlinemeter.id,{data:offlinemeter})  
+        editOfflineMeter: function(offlinemeter, headers, callback) {
+            $http.put(getAPI()+'offlinemeters/'+offlinemeter.id,{data:offlinemeter}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             }); 
         },
-        deleteOfflineMeter: function(offlinemeter, callback) {  
-            $http.delete(getAPI()+'offlinemeters/'+offlinemeter.id)  
+        deleteOfflineMeter: function(offlinemeter, headers, callback) {
+            $http.delete(getAPI()+'offlinemeters/'+offlinemeter.id, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

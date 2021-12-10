@@ -1,6 +1,18 @@
 'use strict';
 
-app.controller('OfflineMeterController', function($scope, $translate, $uibModal, OfflineMeterService, CategoryService, EnergyItemService, CostCenterService, toaster, SweetAlert) {
+app.controller('OfflineMeterController', function(
+	$scope,
+	$window,
+	$translate,
+	$uibModal,
+	OfflineMeterService,
+	CategoryService,
+	EnergyItemService,
+	CostCenterService,
+	toaster,
+	SweetAlert) {
+
+	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllCostCenters = function() {
 		CostCenterService.getAllCostCenters(function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
@@ -66,7 +78,8 @@ app.controller('OfflineMeterController', function($scope, $translate, $uibModal,
 				offlinemeter.energy_item_id = undefined;
 			}
 			offlinemeter.cost_center_id = offlinemeter.cost_center.id;
-			OfflineMeterService.addOfflineMeter(offlinemeter, function(response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			OfflineMeterService.addOfflineMeter(offlinemeter, headers, function(response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
@@ -116,7 +129,8 @@ app.controller('OfflineMeterController', function($scope, $translate, $uibModal,
 				modifiedOfflineMeter.energy_item_id = undefined;
 			}
 			modifiedOfflineMeter.cost_center_id = modifiedOfflineMeter.cost_center.id;
-			OfflineMeterService.editOfflineMeter(modifiedOfflineMeter, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			OfflineMeterService.editOfflineMeter(modifiedOfflineMeter, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
 						type: "success",
@@ -154,7 +168,8 @@ app.controller('OfflineMeterController', function($scope, $translate, $uibModal,
 			},
 			function(isConfirm) {
 				if (isConfirm) {
-					OfflineMeterService.deleteOfflineMeter(offlinemeter, function (response) {
+					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+					OfflineMeterService.deleteOfflineMeter(offlinemeter, headers, function (response) {
 						if (angular.isDefined(response.status) && response.status === 204) {
 							toaster.pop({
 								type: "success",

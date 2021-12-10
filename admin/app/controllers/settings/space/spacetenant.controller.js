@@ -1,13 +1,19 @@
 'use strict';
 
-app.controller('SpaceTenantController', function($scope, $translate,	SpaceService, TenantService, SpaceTenantService, toaster,SweetAlert) {
-  $scope.spaces = [];
-  $scope.currentSpaceID = 1;
-  $scope.tenants = [];
-  $scope.spacetenants = [];
+app.controller('SpaceTenantController', function(
+    $scope,
+    $window,
+    $translate,
+    SpaceService,
+    TenantService,
+    SpaceTenantService, toaster,SweetAlert) {
+    $scope.spaces = [];
+    $scope.currentSpaceID = 1;
+    $scope.tenants = [];
+    $scope.spacetenants = [];
+    $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 
-
-  $scope.getAllSpaces = function() {
+    $scope.getAllSpaces = function() {
     SpaceService.getAllSpaces(function (response) {
       if (angular.isDefined(response.status) && response.status === 200) {
         $scope.spaces = response.data;
@@ -39,7 +45,7 @@ app.controller('SpaceTenantController', function($scope, $translate,	SpaceServic
           $scope.getTenantsBySpaceID($scope.currentSpaceID);
       });
     });
-  };
+    };
 
 	$scope.getTenantsBySpaceID = function(id) {
     $scope.spacetenants=[];
@@ -65,7 +71,8 @@ app.controller('SpaceTenantController', function($scope, $translate,	SpaceServic
 	$scope.pairTenant=function(dragEl,dropEl){
 		var tenantid=angular.element('#'+dragEl).scope().tenant.id;
 		var spaceid=angular.element(spacetreewithtenant).jstree(true).get_top_selected();
-		SpaceTenantService.addPair(spaceid,tenantid, function (response){
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		SpaceTenantService.addPair(spaceid,tenantid, headers, function (response){
 			if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
@@ -91,8 +98,8 @@ app.controller('SpaceTenantController', function($scope, $translate,	SpaceServic
         }
         var spacetenantid = angular.element('#' + dragEl).scope().spacetenant.id;
         var spaceid = angular.element(spacetreewithtenant).jstree(true).get_top_selected();
-
-        SpaceTenantService.deletePair(spaceid, spacetenantid, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        SpaceTenantService.deletePair(spaceid, spacetenantid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
                     type: "success",
@@ -112,10 +119,10 @@ app.controller('SpaceTenantController', function($scope, $translate,	SpaceServic
 		});
 	};
 
-  $scope.getAllSpaces();
-	$scope.getAllTenants();
+    $scope.getAllSpaces();
+    $scope.getAllTenants();
 
-  $scope.refreshSpaceTree = function() {
+    $scope.refreshSpaceTree = function() {
     SpaceService.getAllSpaces(function (response) {
       if (angular.isDefined(response.status) && response.status === 200) {
         $scope.spaces = response.data;
@@ -143,7 +150,7 @@ app.controller('SpaceTenantController', function($scope, $translate,	SpaceServic
       angular.element(spacetreewithtenant).jstree(true).settings.core.data = treedata['core']['data'];
       angular.element(spacetreewithtenant).jstree(true).refresh();
     });
-  };
+    };
 
 	$scope.$on('handleBroadcastSpaceChanged', function(event) {
     $scope.spacetenants = [];

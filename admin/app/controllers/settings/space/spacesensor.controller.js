@@ -1,10 +1,17 @@
 'use strict';
 
-app.controller('SpaceSensorController', function ($scope, $translate, SpaceService, SensorService, SpaceSensorService,  toaster, SweetAlert) {
+app.controller('SpaceSensorController', function (
+    $scope,
+    $window,
+    $translate,
+    SpaceService,
+    SensorService,
+    SpaceSensorService,  toaster, SweetAlert) {
     $scope.spaces = [];
     $scope.currentSpaceID = 1;
     $scope.sensors = [];
     $scope.spacesensors = [];
+    $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 
     $scope.getAllSensors = function () {
       SensorService.getAllSensors(function (response) {
@@ -63,7 +70,8 @@ app.controller('SpaceSensorController', function ($scope, $translate, SpaceServi
     $scope.pairSensor = function (dragEl, dropEl) {
         var sensorid = angular.element('#' + dragEl).scope().sensor.id;
         var spaceid = $scope.currentSpaceID;
-        SpaceSensorService.addPair(spaceid, sensorid, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        SpaceSensorService.addPair(spaceid, sensorid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 201) {
                 toaster.pop({
                     type: "success",
@@ -89,7 +97,8 @@ app.controller('SpaceSensorController', function ($scope, $translate, SpaceServi
         }
         var spacesensorid = angular.element('#' + dragEl).scope().spacesensor.id;
         var spaceid = $scope.currentSpaceID;
-        SpaceSensorService.deletePair(spaceid, spacesensorid, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        SpaceSensorService.deletePair(spaceid, spacesensorid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
                     type: "success",

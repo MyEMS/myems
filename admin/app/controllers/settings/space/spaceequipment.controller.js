@@ -1,13 +1,20 @@
 'use strict';
 
-app.controller('SpaceEquipmentController', function($scope, $translate,	SpaceService, EquipmentService, SpaceEquipmentService, toaster,SweetAlert) {
-  $scope.spaces = [];
-  $scope.currentSpaceID = 1;
-  $scope.equipments = [];
-  $scope.spaceequipments = [];
+app.controller('SpaceEquipmentController', function(
+    $scope,
+    $window,
+    $translate,
+    SpaceService,
+    EquipmentService,
+    SpaceEquipmentService,
+    toaster,SweetAlert) {
+    $scope.spaces = [];
+    $scope.currentSpaceID = 1;
+    $scope.equipments = [];
+    $scope.spaceequipments = [];
+    $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 
-
-  $scope.getAllSpaces = function() {
+    $scope.getAllSpaces = function() {
     SpaceService.getAllSpaces(function (response) {
       if (angular.isDefined(response.status) && response.status === 200) {
         $scope.spaces = response.data;
@@ -39,7 +46,7 @@ app.controller('SpaceEquipmentController', function($scope, $translate,	SpaceSer
           $scope.getEquipmentsBySpaceID($scope.currentSpaceID);
       });
     });
-  };
+    };
 
 	$scope.getEquipmentsBySpaceID = function(id) {
     $scope.spaceequipments=[];
@@ -65,7 +72,8 @@ app.controller('SpaceEquipmentController', function($scope, $translate,	SpaceSer
 	$scope.pairEquipment=function(dragEl,dropEl){
 		var equipmentid=angular.element('#'+dragEl).scope().equipment.id;
 		var spaceid=angular.element(spacetreewithequipment).jstree(true).get_top_selected();
-		SpaceEquipmentService.addPair(spaceid,equipmentid, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		SpaceEquipmentService.addPair(spaceid,equipmentid, headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
@@ -91,8 +99,8 @@ app.controller('SpaceEquipmentController', function($scope, $translate,	SpaceSer
         }
         var spaceequipmentid = angular.element('#' + dragEl).scope().spaceequipment.id;
         var spaceid = angular.element(spacetreewithequipment).jstree(true).get_top_selected();
-
-        SpaceEquipmentService.deletePair(spaceid, spaceequipmentid, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        SpaceEquipmentService.deletePair(spaceid, spaceequipmentid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
                     type: "success",
