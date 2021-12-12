@@ -311,6 +311,6 @@ CREATE INDEX `tbl_virtual_meter_8760_index_1` ON  `myems_energy_model_db`.`tbl_v
 
 
 -- UPDATE VERSION NUMBER
-UPDATE myems_system_db.tbl_versions SET version='1.4.1', release_date='2021-12-12' WHERE id=1;
+UPDATE myems_system_db.tbl_versions SET version='1.5.0', release_date='2021-12-12' WHERE id=1;
 
 COMMIT;
