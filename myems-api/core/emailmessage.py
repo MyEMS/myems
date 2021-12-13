@@ -18,7 +18,7 @@ class EmailMessageCollection:
 
     @staticmethod
     def on_get(req, resp):
-        # access_control(req)
+        access_control(req)
         print(req.params)
         startdate = req.params.get('startdatetime')
         enddate = req.params.get('enddatetime')
