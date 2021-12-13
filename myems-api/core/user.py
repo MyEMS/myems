@@ -444,7 +444,7 @@ class UserLogin:
                                        description='API.INVALID_USER_NAME')
 
             query = (" SELECT id, name, uuid, display_name, email, salt, password, is_admin, "
-                     "        account_expiration_datetime_utc, password_expiration_datetime_utc "
+                     "        account_expiration_datetime_utc, password_expiration_datetime_utc, login_counter "
                      " FROM tbl_users "
                      " WHERE name = %s ")
             cursor.execute(query, (str.strip(new_values['data']['name']).lower(),))
@@ -463,7 +463,8 @@ class UserLogin:
                       "password": row[6],
                       "is_admin": True if row[7] else False,
                       "account_expiration_datetime_utc": row[8],
-                      "password_expiration_datetime_utc": row[9]}
+                      "password_expiration_datetime_utc": row[9],
+                      "login_counter": row[10]}
 
         elif 'email' in new_values['data']:
             if not isinstance(new_values['data']['email'], str) or \
@@ -472,7 +473,7 @@ class UserLogin:
                                        description='API.INVALID_EMAIL')
 
             query = (" SELECT id, name, uuid, display_name, email, salt, password, is_admin, "
-                     "        account_expiration_datetime_utc, password_expiration_datetime_utc "
+                     "        account_expiration_datetime_utc, password_expiration_datetime_utc,login_counter "
                      " FROM tbl_users "
                      " WHERE email = %s ")
             cursor.execute(query, (str.strip(new_values['data']['email']).lower(),))
@@ -491,18 +492,33 @@ class UserLogin:
                       "password": row[6],
                       "is_admin": True if row[7] else False,
                       "account_expiration_datetime_utc": row[8],
-                      "password_expiration_datetime_utc": row[9]}
+                      "password_expiration_datetime_utc": row[9],
+                      "login_counter": row[10]}
+
         else:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_NAME_OR_EMAIL')
 
+        login_counter = result['login_counter']
+
+        if login_counter >= 3:
+            cursor.close()
+            cnx.disconnect()
+            raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.USER_ACCOUNT_HAS_BEEN_LOCKED')
+
         salt = result['salt']
         password = str.strip(new_values['data']['password'])
         hashed_password = hashlib.sha512(salt.encode() + password.encode()).hexdigest()
 
         if hashed_password != result['password']:
+            update_login_counter = (" UPDATE tbl_users "
+                                    " SET login_counter = %s "
+                                    " WHERE uuid = %s ")
+            user_uuid = result['uuid']
+            cursor.execute(update_login_counter, (login_counter + 1, user_uuid))
+            cnx.commit()
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.INVALID_PASSWORD')
@@ -828,3 +844,72 @@ class ResetPassword:
         resp.status = falcon.HTTP_200
         write_log(user_uuid=admin_user_uuid, request_method='PUT', resource_type='ResetPassword',
                   resource_id=user_id, request_body=None)
+
+
+class Unlock:
+    @staticmethod
+    def __init__():
+        """Initializes Class"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_put(req, resp, id_):
+        """Handles PUT requests"""
+        if 'USER-UUID' not in req.headers or \
+                not isinstance(req.headers['USER-UUID'], str) or \
+                len(str.strip(req.headers['USER-UUID'])) == 0:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_USER_UUID')
+        admin_user_uuid = str.strip(req.headers['USER-UUID'])
+
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_USER_ID')
+
+        Id = id_
+
+        cnx = mysql.connector.connect(**config.myems_user_db)
+        cursor = cnx.cursor()
+
+        query = (" SELECT login_counter "
+                 " FROM tbl_users "
+                 " WHERE id = %s ")
+        cursor.execute(query, (Id,))
+        row = cursor.fetchone()
+        if row is None:
+            cursor.close()
+            cnx.disconnect()
+            raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.INVALID_Id')
+
+        login_counter = row[0]
+        if login_counter < 3:
+            cursor.close()
+            cnx.disconnect()
+            raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.USER_ACCOUNT_IS_NOT_LOCKED')
+
+        update_user = (" UPDATE tbl_users "
+                       " SET login_counter = 0"
+                       " WHERE id = %s ")
+        cursor.execute(update_user, (Id, ))
+        cnx.commit()
+
+        query = (" SELECT login_counter "
+                 " FROM tbl_users "
+                 " WHERE id = %s ")
+        cursor.execute(query, (Id,))
+        row = cursor.fetchone()
+        if row is None or row[0] != 0:
+            cursor.close()
+            cnx.disconnect()
+            raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.ACCOUNT_UNLOCK_FAILED')
+
+        cursor.close()
+        cnx.disconnect()
+        resp.text = json.dumps("OK")
+        resp.status = falcon.HTTP_200
+        write_log(user_uuid=admin_user_uuid, request_method='PUT', resource_type='UnlockUser',
+                  resource_id=Id, request_body=None)
