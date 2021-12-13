@@ -17,8 +17,11 @@ class EmailMessageCollection:
         resp.status = falcon.HTTP_200
 
     @staticmethod
-    def on_get(req, resp, startdate, enddate):
-        access_control(req)
+    def on_get(req, resp):
+        # access_control(req)
+        print(req.params)
+        startdate = req.params.get('startdatetime')
+        enddate = req.params.get('enddatetime')
         try:
             start_datetime_local = datetime.strptime(startdate, '%Y-%m-%d')
         except Exception:

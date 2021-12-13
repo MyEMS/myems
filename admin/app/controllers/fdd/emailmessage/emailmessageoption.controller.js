@@ -30,11 +30,12 @@ app.controller('EmailMessageOptionController', function(
 	};
 
 	$scope.execute = function() {
-		var datestart, dateend;
+		var startdatetime, dateend;
 		var query = {
-			datestart: $scope.daterange.startDate.format().slice(0, 10),
-			dateend: $scope.daterange.endDate.format().slice(0, 10)
+			startdatetime: $scope.daterange.startDate.format().slice(0, 10),
+			enddatetime: $scope.daterange.endDate.format().slice(0, 10)
 		};
+		console.log(query.startdatetime,query.enddatetime)
 		$scope.$emit('handleEmitEmailMessageOptionChanged', {
 			load: true,
 			period:$scope.currentPeriod
