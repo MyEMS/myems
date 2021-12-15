@@ -34,7 +34,7 @@ class EmailMessageCollection:
             start_datetime_local = str.strip(start_datetime_local)
             try:
                 start_datetime_utc = datetime.strptime(start_datetime_local,
-                                                                 '%Y-%m-%d').replace(tzinfo=timezone.utc) - \
+                                                                 '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
                     timedelta(minutes=timezone_offset)
             except ValueError:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -47,9 +47,8 @@ class EmailMessageCollection:
             end_datetime_local = str.strip(end_datetime_local)
             try:
                 end_datetime_utc = datetime.strptime(end_datetime_local,
-                                                               '%Y-%m-%d').replace(tzinfo=timezone.utc) - \
+                                                               '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
                     timedelta(minutes=timezone_offset)
-                end_datetime_utc += timedelta(days=1)
             except ValueError:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_END_DATETIME_FORMAT")
