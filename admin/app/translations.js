@@ -1107,6 +1107,7 @@ function config($translateProvider) {
                 BIND_PROPERTY: '绑定属性',
                 EDIT: '修改',
                 DELETE: '删除',
+                UNLOCK: '解锁',
                 SELECT: '选择',
                 RESET: '重置',
                 SAVE: '保存',
@@ -1544,9 +1545,11 @@ function config($translateProvider) {
                 SUCCESS_ADD_BODY: '添加 {{template}} 成功',
                 SUCCESS_UPDATE_BODY: '更新 {{template}} 成功',
                 SUCCESS_DELETE_BODY: '删除 {{template}} 成功',
+                SUCCESS_UNLOCK_BODY: '解锁 {{template}} 成功',
                 ERROR_ADD_BODY: '添加 {{template}} 失败',
                 ERROR_UPDATE_BODY: '更新 {{template}} 失败',
                 ERROR_DELETE_BODY: '删除 {{template}} 失败',
+                ERROR_UNLOCK_BODY: '解锁 {{template}} 失败',
 
                 USER_PASSWORD: '用户密码',
                 BIND_METER_SUCCESS: '绑定计量表成功',
@@ -1573,6 +1576,8 @@ function config($translateProvider) {
                 TEXT: '删除该条也会删除所有与其相关数据!',
                 CONFIRM_BUTTON_TEXT: '确认删除',
                 CANCEL_BUTTON_TEXT: '取消',
+                UNLOCK_TITLE: '请确认是否解锁该用户登录权限',
+                UNLOCK_CONFIRM_BUTTON_TEXT: '确认解锁'
             },
             API: {
                 ADMINISTRATOR_SESSION_NOT_FOUND: 'Administrator Session Not Found',

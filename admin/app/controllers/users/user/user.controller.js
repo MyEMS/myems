@@ -186,6 +186,41 @@ app.controller('UserController', function ($scope,
 		});
 	};
 
+	$scope.unlockUser = function (user){
+		SweetAlert.swal({
+			title: $translate.instant("SWEET.UNLOCK_TITLE"),
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#DD6B55",
+			confirmButtonText: $translate.instant("SWEET.UNLOCK_CONFIRM_BUTTON_TEXT"),
+			cancelButtonText: $translate.instant("SWEET.CANCEL_BUTTON_TEXT"),
+			closeOnConfirm: true,
+			closeOnCancel: true
+		},function (isConfirm) {
+			if (isConfirm) {
+				let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+				UserService.unlockUser(user, headers, function (response) {
+					if (angular.isDefined(response.status) && response.status === 200) {
+						toaster.pop({
+							type: "success",
+							title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+							body: $translate.instant("TOASTER.SUCCESS_UNLOCK_BODY", { template: $translate.instant("SETTING.USER") }),
+							showCloseButton: true,
+						});
+						$scope.getAllUsers();
+					} else {
+						toaster.pop({
+							type: "error",
+							title: $translate.instant("TOASTER.ERROR_UNLOCK_BODY", { template: $translate.instant("SETTING.USER") }),
+							body: $translate.instant(response.data.description),
+							showCloseButton: true,
+						});
+					}
+				});
+			}
+		});
+	};
+
 	$scope.getAllUsers();
 	$scope.getAllPrivileges();
 
