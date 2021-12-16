@@ -504,7 +504,7 @@ class UserLogin:
 
         failed_login_count = result['failed_login_count']
 
-        if failed_login_count >= 3:
+        if failed_login_count >= config.maximum_failed_login_count:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.USER_ACCOUNT_HAS_BEEN_LOCKED')
@@ -515,8 +515,8 @@ class UserLogin:
 
         if hashed_password != result['password']:
             update_failed_login_count = (" UPDATE tbl_users "
-                                    " SET failed_login_count = %s "
-                                    " WHERE uuid = %s ")
+                                         " SET failed_login_count = %s "
+                                         " WHERE uuid = %s ")
             user_uuid = result['uuid']
             cursor.execute(update_failed_login_count, (failed_login_count + 1, user_uuid))
             cnx.commit()
@@ -895,7 +895,7 @@ class Unlock:
             raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.INVALID_Id')
 
         failed_login_count = row[0]
-        if failed_login_count < 3:
+        if failed_login_count < config.maximum_failed_login_count:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.USER_ACCOUNT_IS_NOT_LOCKED')
