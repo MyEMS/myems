@@ -64,6 +64,14 @@ app.factory('UserService', function($http) {
             }, function (response) {
                 callback(response);
             }); 
+        },
+        unlockUser: function(user, headers, callback){
+            $http.put(getAPI()+'users/unlock/'+ user.id, {user}, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         }
     };
 });  

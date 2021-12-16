@@ -464,6 +464,8 @@ api.add_route('/users/resetpassword',
               user.ResetPassword())
 api.add_route('/users/changepassword',
               user.ChangePassword())
+api.add_route('/users/unlock/{id_}',
+              user.Unlock())
 
 api.add_route('/virtualmeters',
               virtualmeter.VirtualMeterCollection())
