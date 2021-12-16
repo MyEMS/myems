@@ -94,4 +94,4 @@ upload_path = config('UPLOAD_PATH', default='/var/www/html/admin/upload/')
 currency_unit = config('CURRENCY_UNIT', default='CNY')
 
 # maximum failed login count, otherwise the user should be locked
-maximum_failed_login_count = config('MAXIMUM_FAILED_LOGIN_COUNT', default=6, cast=int)
+maximum_failed_login_count = config('MAXIMUM_FAILED_LOGIN_COUNT', default=3, cast=int)

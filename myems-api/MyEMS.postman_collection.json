@@ -4577,7 +4577,19 @@
 							"name": "POST Create New Offline Meter",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"OfflinePM21\", \"energy_category_id\":1, \"hourly_low_limit\":0.000, \"hourly_high_limit\":999.99, \"is_counted\":true, \"cost_center_id\":1, \"energy_item_id\":1, \"description\":\"空调用电\"}}"
@@ -4598,19 +4610,31 @@
 							"name": "PUT Update a Offline Meter",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"OfflinePM201\", \"energy_category_id\":1, \"hourly_low_limit\":0.000, \"hourly_high_limit\":999.99, \"is_counted\":true, \"cost_center_id\":1, \"energy_item_id\":1, \"description\":\"空调用电\"}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/offlinemeters/6",
+									"raw": "{{base_url}}/offlinemeters/3",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"offlinemeters",
-										"6"
+										"3"
 									]
 								}
 							},
@@ -4620,15 +4644,27 @@
 							"name": "DELETE Offline Meter by ID",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
 								"url": {
-									"raw": "{{base_url}}/offlinemeters/2",
+									"raw": "{{base_url}}/offlinemeters/3",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"offlinemeters",
-										"2"
+										"3"
 									]
 								}
 							},
@@ -5161,7 +5197,8 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
+										"type": "text",
+										"description": "Any Admin User's UUID"
 									},
 									{
 										"key": "Token",
@@ -5193,7 +5230,8 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
+										"type": "text",
+										"description": "Any Admin User's UUID"
 									},
 									{
 										"key": "Token",
@@ -5226,7 +5264,8 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
+										"type": "text",
+										"description": "Any Admin User's UUID"
 									},
 									{
 										"key": "Token",
@@ -6157,7 +6196,19 @@
 							"name": "POST Create New Space",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"MyEMSSpace\", \"parent_space_id\":1, \"area\":999.99, \"timezone_id\":56, \"is_input_counted\":true, \"is_output_counted\":false, \"contact_id\":1, \"cost_center_id\":1, \"description\":\"Space description\"}}"
@@ -6178,7 +6229,19 @@
 							"name": "PUT Update a Space",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"name\":\"MyEMSSpace\", \"parent_space_id\":2, \"area\":999.99, \"timezone_id\":56, \"is_input_counted\":true, \"is_output_counted\":true, \"contact_id\":1, \"cost_center_id\":1, \"description\":\"Space description\"}}"
@@ -6200,7 +6263,19 @@
 							"name": "DELETE a Space by ID",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/spaces/57",
 									"host": [
@@ -6256,7 +6331,19 @@
 							"name": "POST Bind a Combined Equipment to a Space",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"combined_equipment_id\":1}}"
@@ -6279,7 +6366,19 @@
 							"name": "DELETE a Combined Equipment from Space",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/spaces/1/combinedequipments/1",
 									"host": [
@@ -6318,7 +6417,19 @@
 							"name": "POST Bind an Equipment to a Space",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"equipment_id\":1}}"
@@ -6341,7 +6452,19 @@
 							"name": "DELETE an Equipment from Space",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/spaces/1/equipments/1",
 									"host": [
@@ -6380,7 +6503,18 @@
 							"name": "POST Bind a Meter to a Space",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"meter_id\":1}}"
@@ -6400,10 +6534,22 @@
 							"response": []
 						},
 						{
-							"name": "DELETE a Meter from Space",
+							"name": "DELETE Unbind a Meter from Space",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/spaces/1/meters/1",
 									"host": [
@@ -6442,7 +6588,19 @@
 							"name": "POST Bind an OfflineMeter to a Space",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"offline_meter_id\":1}}"
@@ -6462,10 +6620,22 @@
 							"response": []
 						},
 						{
-							"name": "DELETE an Offline Meter from Space",
+							"name": "DELETE Unbind an Offline Meter from Space",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/spaces/1/offlinemeters/1",
 									"host": [
@@ -6504,7 +6674,19 @@
 							"name": "POST Bind a Point to a Space",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"point_id\":1}}"
@@ -6524,10 +6706,22 @@
 							"response": []
 						},
 						{
-							"name": "DELETE a Point from Space",
+							"name": "DELETE Unbind a Point from Space",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/spaces/1/points/3",
 									"host": [
@@ -6566,7 +6760,19 @@
 							"name": "POST Bind a Sensor to a Space",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"sensor_id\":1}}"
@@ -6586,10 +6792,22 @@
 							"response": []
 						},
 						{
-							"name": "DELETE a Sensor from Space",
+							"name": "DELETE Unbind a Sensor from Space",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/spaces/1/sensors/1",
 									"host": [
@@ -6628,7 +6846,19 @@
 							"name": "POST Bind a Shopfloor to a Space",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"shopfloor_id\":1}}"
@@ -6648,10 +6878,22 @@
 							"response": []
 						},
 						{
-							"name": "DELETE a Shopfloor from a Space",
+							"name": "DELETE Unbind a Shopfloor from a Space",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/spaces/1/shopfloors/1",
 									"host": [
@@ -6690,7 +6932,19 @@
 							"name": "POST Bind a Store to a Space",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"store_id\":1}}"
@@ -6710,10 +6964,22 @@
 							"response": []
 						},
 						{
-							"name": "DELETE a Store from Space",
+							"name": "DELETE Unbind a Store from Space",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/spaces/1/stores/1",
 									"host": [
@@ -6752,7 +7018,19 @@
 							"name": "POST Bind a Tenant to a Space",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"tenant_id\":1}}"
@@ -6772,10 +7050,22 @@
 							"response": []
 						},
 						{
-							"name": "DELETE a Tenant from Space",
+							"name": "DELETE Unbind a Tenant from Space",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/spaces/1/tenants/1",
 									"host": [
@@ -6814,7 +7104,19 @@
 							"name": "POST Bind a Virtual Meter to a Space",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"virtual_meter_id\":1}}"
@@ -6834,10 +7136,22 @@
 							"response": []
 						},
 						{
-							"name": "DELETE a Virtual Meter from Space",
+							"name": "DELETE Unbind a Virtual Meter from Space",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/spaces/1/virtualmeters/1",
 									"host": [
@@ -6861,11 +7175,12 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
+										"type": "text",
+										"description": "Any User's UUID"
 									},
 									{
 										"key": "Token",
-										"value": "e1879592cb12e4cbf0e1762ed42edde699499cd9",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
 										"type": "text"
 									}
 								],
@@ -8721,7 +9036,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "50bc979c9181699bc33927aa04a453fd83e2b8e8280544bfc3807fdedf2645201676fe474787e0ea3024502659a2ab4b1905c6ca4f444ffdba764a603c4eb691",
+										"value": "6c32302cb46cae4236fe9d04ccb21f950bce593267f33dc169e700bb98ea5c3446521251a1b4078ebcbe51b4ca4ba59ac01b395e0f69ef42fa0bc36d6bd5683c",
 										"description": "Login to get a valid token",
 										"type": "text"
 									}
@@ -9030,6 +9345,38 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "PUT Unlock User",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "6c32302cb46cae4236fe9d04ccb21f950bce593267f33dc169e700bb98ea5c3446521251a1b4078ebcbe51b4ca4ba59ac01b395e0f69ef42fa0bc36d6bd5683c",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/users/unlock/2",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"unlock",
+										"2"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -9075,10 +9422,22 @@
 							"name": "POST Create New Virtual Meter",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"VM10\", \"energy_category_id\":1, \"is_counted\": true, \"cost_center_id\":1, \"energy_item_id\":1, \"description\":\"virtual description\", \"expression\": {\"equation\":\"x1+x2-x3\", \"variables\":[{\"name\":\"x1\", \"meter_type\":\"meter\", \"meter_id\":3},{\"name\":\"x2\", \"meter_type\":\"meter\", \"meter_id\":4},{\"name\":\"x3\", \"meter_type\":\"meter\", \"meter_id\":5}] } }}"
+									"raw": "{\"data\":{\"name\":\"VM10\", \"energy_category_id\":1, \"is_counted\": true, \"cost_center_id\":1, \"energy_item_id\":1, \"description\":\"virtual description\", \"expression\": {\"equation\":\"x1+x2-x3\", \"variables\":[{\"name\":\"x1\", \"meter_type\":\"meter\", \"meter_id\":1},{\"name\":\"x2\", \"meter_type\":\"meter\", \"meter_id\":2},{\"name\":\"x3\", \"meter_type\":\"meter\", \"meter_id\":3}] } }}"
 								},
 								"url": {
 									"raw": "{{base_url}}/virtualmeters",
@@ -9096,10 +9455,22 @@
 							"name": "PUT Update a Virtual Meter by ID",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"VM51\", \"energy_category_id\":1, \"is_counted\": true, \"cost_center_id\":1, \"energy_item_id\":1, \"description\":\"virtual description\", \"expression\": {\"equation\":\"x1-x2-x3\", \"variables\":[{\"name\":\"x1\", \"meter_type\":\"meter\", \"meter_id\":3},{\"name\":\"x2\", \"meter_type\":\"meter\", \"meter_id\":4},{\"name\":\"x3\", \"meter_type\":\"meter\", \"meter_id\":5}] } }}"
+									"raw": "{\"data\":{\"name\":\"VM11\", \"energy_category_id\":1, \"is_counted\": true, \"cost_center_id\":1, \"energy_item_id\":1, \"description\":\"virtual description\", \"expression\": {\"equation\":\"x1+x2-x3\", \"variables\":[{\"name\":\"x1\", \"meter_type\":\"meter\", \"meter_id\":1},{\"name\":\"x2\", \"meter_type\":\"meter\", \"meter_id\":2},{\"name\":\"x3\", \"meter_type\":\"meter\", \"meter_id\":3}] } }}"
 								},
 								"url": {
 									"raw": "{{base_url}}/virtualmeters/3",
@@ -9118,7 +9489,19 @@
 							"name": "DELETE a Virtual Meter by ID",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/virtualmeters/3",
 									"host": [
