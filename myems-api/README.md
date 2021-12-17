@@ -1981,11 +1981,11 @@ curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKE
 ### User
 *   GET All Users
 ```bash
-curl -i -X GET {{base_url}}/users
+curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKEN-AFTER-LOGIN" -X GET {{base_url}}/users
 ```
 *   GET a User by ID
 ```bash
-curl -i -X GET {{base_url}}/users/{id}
+curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKEN-AFTER-LOGIN" -X GET {{base_url}}/users/{id}
 ```
 *   DELETE User by id
 ```bash
@@ -2018,6 +2018,10 @@ curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKE
 *   PUT User reset other user's password by administrator
 ```bash
 curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKEN-AFTER-LOGIN" -H "Content-Type: application/json" -X PUT -d '{"data":{"name":"johnson","password":"NewPassword1"}}'  {{base_url}}/users/resetpassword
+```
+*   PUT User Unlock
+```bash
+curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKEN-AFTER-LOGIN" -H "Content-Type: application/json" -X PUT  {{base_url}}/users/unlock/{id}
 ```
 
 ### Virtual Meter
