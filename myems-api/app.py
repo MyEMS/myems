@@ -170,7 +170,7 @@ api.add_route('/distributionsystems/{id_}',
 api.add_route('/distributionsystems/{id_}/distributioncircuits',
               distributionsystem.DistributionSystemDistributionCircuitCollection())
 
-api.add_route('/emailmessages/from/{startdate}/to/{enddate}',
+api.add_route('/emailmessages',
               emailmessage.EmailMessageCollection())
 api.add_route('/emailmessages/{id_}',
               emailmessage.EmailMessageItem())

@@ -11,14 +11,14 @@ app.controller('EmailMessageOptionController', function(
 		endDate: moment()
 	};
 	$scope.dtOptions = {
-		timePicker: false,
+		timePicker: true,
 		timePicker24Hour: true,
 		timePickerIncrement: 1,
 		timePickerSeconds: true,
 		startView:2,
 		autoApply: true,
 		locale:{
-			format: 'YYYY-MM-DD',
+			format: 'YYYY-MM-DDTHH:mm:ss',
 			applyLabel: "OK",
 			cancelLabel: "Cancel",
 		},
@@ -30,11 +30,12 @@ app.controller('EmailMessageOptionController', function(
 	};
 
 	$scope.execute = function() {
-		var datestart, dateend;
+		var startdatetime, enddatetime;
 		var query = {
-			datestart: $scope.daterange.startDate.format().slice(0, 10),
-			dateend: $scope.daterange.endDate.format().slice(0, 10)
+			startdatetime: $scope.daterange.startDate.format().slice(0, 19),
+			enddatetime: $scope.daterange.endDate.format().slice(0, 19)
 		};
+
 		$scope.$emit('handleEmitEmailMessageOptionChanged', {
 			load: true,
 			period:$scope.currentPeriod
