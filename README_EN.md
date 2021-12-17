@@ -142,7 +142,7 @@ See [Features of MyEMS Enterprise Edition](./enterprise-edition-en.md)
 
 [4]. [Gitlab](https://gitlab.com/myems/myems) https://gitlab.com/myems/myems
 
-[5]. [CODE CHINA](https://codechina.csdn.net/myems/myems) https://codechina.csdn.net/myems/myems
+[5]. [GitCode](https://gitcode.net/myems/myems) https://gitcode.net/myems/myems
 
 ## MyEMS Installation (Community Edition)
 
