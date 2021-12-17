@@ -142,7 +142,7 @@ MyEMS由资深专业团队开发维护，系统代码基于MIT开源软件许可
 
 [4]. [Gitlab](https://gitlab.com/myems/myems) https://gitlab.com/myems/myems
 
-[5]. [CODE CHINA](https://codechina.csdn.net/myems/myems) https://codechina.csdn.net/myems/myems
+[5]. [GitCode](https://gitcode.net/myems/myems) https://gitcode.net/myems/myems
 
 
 ## MyEMS安装(社区版)
