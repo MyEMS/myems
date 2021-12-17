@@ -3,7 +3,7 @@ app.factory('EmailMessageAnalysisService', function($http) {
     return {
 
         getAnalysisResult: function(query, headers, callback) {
-            $http.get(getAPI()+"emailmessages"+"/from/"+query.datestart+"/to/"+query.dateend, {headers})
+            $http.get(getAPI()+"emailmessages?" + 'startdatetime=' + query.startdatetime + '&enddatetime=' + query.enddatetime, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
