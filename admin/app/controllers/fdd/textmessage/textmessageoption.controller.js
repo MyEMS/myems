@@ -11,24 +11,22 @@ app.controller('TextMessageOptionController', function(
 		endDate: moment()
 	};
 	$scope.dtOptions = {
-		timePicker: false,
+		timePicker: true,
 		timePicker24Hour: true,
 		timePickerIncrement: 1,
 		timePickerSeconds: true,
 		startView:2,
 		autoApply: true,
 		locale:{
-			format: 'YYYY-MM-DD',
+			format: 'YYYY-MM-DDTHH:mm:ss',
 			applyLabel: "OK",
 			cancelLabel: "Cancel",
 		},
-
 		eventHandlers:{
 			'apply.daterangepicker':function(ev,picker){
 				//$scope.execute();
 			}
 		}
-
 	};
 
 	$scope.execute = function() {
