@@ -16,6 +16,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
+## [v1.5.1] -   2021-12-18
+### Added
+-   Added lock/unlock user function if user failed login with wrong password.
+
+### Changed
+- Updated email message api and view with start/end datetime parameters.
+- Changed all datatype JSON columns to datatype LONGTEXT in database.
+
+### Fixed
+-   None.
+
+### Removed
+-   None.
+
 ## [v1.5.0] -   2021-12-12
 ### Added
 -   Added energy model database
