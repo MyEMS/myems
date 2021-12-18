@@ -602,7 +602,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v1.5.0...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v1.5.1...HEAD
+[v1.5.0]: https://github.com/MyEMS/myems/compare/v1.5.0...v1.5.1
 [v1.5.0]: https://github.com/MyEMS/myems/compare/v1.4.0...v1.5.0
 [v1.4.0]: https://github.com/MyEMS/myems/compare/v1.3.4...v1.4.0
 [v1.3.4]: https://github.com/MyEMS/myems/compare/v1.3.3...v1.3.4
