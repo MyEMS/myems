@@ -145,7 +145,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_data_sources` (
   `uuid` CHAR(36) NOT NULL,
   `gateway_id` BIGINT NOT NULL,
   `protocol` VARCHAR(16) NOT NULL,
-  `connection` JSON NOT NULL,
+  `connection` LONGTEXT NOT NULL COMMENT 'MUST be in JSON format',
   `last_seen_datetime_utc` DATETIME NULL  COMMENT 'The last seen date time in UTC via PING or TELNET',
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_data_sources_index_1` ON  `myems_system_db`.`tbl_data_sources`   (`name`);
@@ -557,7 +557,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_points` (
   `ratio` DECIMAL(18, 3) DEFAULT 1.000 NOT NULL,
   `is_trend` BOOL NOT NULL,
   `is_virtual` BOOL DEFAULT FALSE NOT NULL,
-  `address` JSON NOT NULL,
+  `address` LONGTEXT NOT NULL COMMENT 'MUST be in JSON format',
   `description` VARCHAR(255),
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_points_index_1` ON  `myems_system_db`.`tbl_points`   (`name`);
@@ -1246,6 +1246,6 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '1.5.0', '2021-12-12');
+(1, '1.5.1', '2021-12-18');
 
 COMMIT;

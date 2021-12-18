@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `myems_reporting_db`.`tbl_reports` (
   `uuid` CHAR(36) NOT NULL,
   `category` VARCHAR(128) NOT NULL COMMENT 'SPACE, METER, VIRTUALMETER, TENANT, STORE, SHOPFLOOR, EQUIPMENT, COMBINEDEQUIPMENT',
   `report_code` VARCHAR(128) NOT NULL COMMENT 'SPACE01, SPACE02, ... METER01, METER02, ... TENANT01, TENANT02, ...',
-  `expression` JSON NOT NULL COMMENT 'JSON string of reporting objects, peroids, date ranges, and recipients',
+  `expression` LONGTEXT NULL COMMENT 'MUST be in JSON format',
   `is_enabled` BOOL NOT NULL,
   `last_run_datetime_utc` DATETIME,
   `next_run_datetime_utc` DATETIME,

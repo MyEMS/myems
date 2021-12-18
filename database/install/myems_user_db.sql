@@ -47,7 +47,7 @@ DROP TABLE IF EXISTS `myems_user_db`.`tbl_privileges` ;
 CREATE TABLE IF NOT EXISTS `myems_user_db`.`tbl_privileges` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
-  `data` JSON NOT NULL,
+  `data` LONGTEXT NOT NULL COMMENT 'MUST be in JSON format',
   PRIMARY KEY (`id`));
 
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `myems_user_db`.`tbl_logs` (
   `request_method` VARCHAR(256) NOT NULL,
   `resource_type` VARCHAR(256) NOT NULL,
   `resource_id` BIGINT NULL,
-  `request_body` JSON NULL,
+  `request_body` LONGTEXT NULL COMMENT 'MUST be in JSON format',
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_logs_index_1` ON  `myems_user_db`.`tbl_logs`  (`user_uuid`, `request_datetime_utc`, `request_method`);
 
