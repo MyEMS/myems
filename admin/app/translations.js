@@ -586,11 +586,11 @@ function config($translateProvider) {
                 UNBIND_STORE_SUCCESS: 'Unbind Store Success',
             },
             SWEET: {
-                TITLE: 'Please confirm whether to delete?',
+                TITLE: 'Please confirm to delete?',
                 TEXT: 'Deleting this bar will also delete all related data!',
                 CONFIRM_BUTTON_TEXT: 'Confirm delete',
                 CANCEL_BUTTON_TEXT: 'Cancel',
-                UNLOCK_TITLE: 'Please confirm whether to unlock',
+                UNLOCK_TITLE: 'Please confirm to unlock',
                 UNLOCK_CONFIRM_BUTTON_TEXT: 'Confirm unlock',
             },
             API: {
@@ -1581,7 +1581,7 @@ function config($translateProvider) {
                 TEXT: '删除该条也会删除所有与其相关数据!',
                 CONFIRM_BUTTON_TEXT: '确认删除',
                 CANCEL_BUTTON_TEXT: '取消',
-                UNLOCK_TITLE: '请确认是否解锁该用户登录权限?',
+                UNLOCK_TITLE: '请确认是否解锁?',
                 UNLOCK_CONFIRM_BUTTON_TEXT: '确认解锁'
             },
             API: {
@@ -2103,7 +2103,7 @@ function config($translateProvider) {
                 BIND_PROPERTY: 'Bindungseigenschaften',
                 EDIT: 'ändern',
                 DELETE: 'löschen',
-                UNLOCK: '',
+                UNLOCK: 'Öffnen',
                 SELECT: 'wählen',
                 RESET: 'Zurücksetzen',
                 SAVE: 'speichern',
@@ -2540,11 +2540,11 @@ function config($translateProvider) {
                 SUCCESS_ADD_BODY: 'Fügen Sie {{template}} erfolgreich hinzu',
                 SUCCESS_UPDATE_BODY: 'Update {{template}} erfolgreich',
                 SUCCESS_DELETE_BODY: '{{Template}} erfolgreich löschen',
-                SUCCESS_UNLOCK_BODY: '',
+                SUCCESS_UNLOCK_BODY: 'Öffnen {{template}} erfolgreich',
                 ERROR_ADD_BODY: 'Das Hinzufügen von {{template}} ist fehlgeschlagen',
                 ERROR_UPDATE_BODY: 'Update {{template}} fehlgeschlagen',
                 ERROR_DELETE_BODY: 'Fehler beim Löschen von {{template}}',
-                ERROR_UNLOCK_BODY: '',
+                ERROR_UNLOCK_BODY: 'Öffnen {{template}} fehlgeschlagen',
 
                 USER_PASSWORD: 'Benutzer-Passwort',
                 BIND_METER_SUCCESS: 'Binden Sie das Messgerät erfolgreich',
@@ -2571,8 +2571,8 @@ function config($translateProvider) {
                 TEXT: 'Durch Löschen dieses Artikels werden auch alle zugehörigen Daten gelöscht!',
                 CONFIRM_BUTTON_TEXT: 'Löschung bestätigen',
                 CANCEL_BUTTON_TEXT: 'stornieren',
-                UNLOCK_TITLE: '',
-                UNLOCK_CONFIRM_BUTTON_TEXT: '',
+                UNLOCK_TITLE: 'Bitte bestätigen, um zu entsperren',
+                UNLOCK_CONFIRM_BUTTON_TEXT: 'Aktivieren bestätigen',
             },
             API: {
                 ADMINISTRATOR_SESSION_NOT_FOUND: 'Administrator Session Not Found',

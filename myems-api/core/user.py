@@ -214,7 +214,8 @@ class UserItem:
 
         query = (" SELECT u.id, u.name, u.display_name, u.uuid, "
                  "        u.email, u.is_admin, p.id, p.name, "
-                 "        u.account_expiration_datetime_utc, u.password_expiration_datetime_utc "
+                 "        u.account_expiration_datetime_utc, u.password_expiration_datetime_utc,"
+                 "        u.failed_login_count "
                  " FROM tbl_users u "
                  " LEFT JOIN tbl_privileges p ON u.privilege_id = p.id "
                  " WHERE u.id =%s ")
@@ -242,8 +243,11 @@ class UserItem:
                   "privilege": {
                       "id": row[6],
                       "name": row[7]} if row[6] is not None else None,
-                  "account_expiration_datetime": account_expiration_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
-                  "password_expiration_datetime": password_expiration_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')}
+                  "account_expiration_datetime":
+                      account_expiration_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
+                  "password_expiration_datetime":
+                      password_expiration_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
+                  "is_locked": True if row[10] >= config.maximum_failed_login_count else False}
         resp.text = json.dumps(result)
 
     @staticmethod
