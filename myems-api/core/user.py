@@ -60,7 +60,7 @@ class UserCollection:
                                    account_expiration_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
                                "password_expiration_datetime":
                                    password_expiration_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
-                               "is_locked": True if row[10] < 3 else False}
+                               "is_locked": True if row[10] >= config.maximum_failed_login_count else False}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
