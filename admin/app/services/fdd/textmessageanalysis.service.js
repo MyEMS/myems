@@ -3,7 +3,7 @@ app.factory('TextMessageAnalysisService', function($http) {
     return {
 
         getAnalysisResult: function(query, headers, callback) {
-            $http.get(getAPI()+"textmessages"+"/from/"+query.datestart+"/to/"+query.dateend, {headers})
+            $http.get(getAPI()+"textmessages?" + 'startdatetime=' + query.startdatetime + '&enddatetime=' + query.enddatetime, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

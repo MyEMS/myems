@@ -2,7 +2,7 @@
 app.factory('WechatMessageAnalysisService', function($http) {
     return {
         getAnalysisResult: function(query, headers, callback) {
-            $http.get(getAPI()+"wechatmessages"+"/from/"+query.datestart+"/to/"+query.dateend, {headers})
+            $http.get(getAPI()+"wechatmessages?" + 'startdatetime=' + query.startdatetime + '&enddatetime=' + query.enddatetime, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

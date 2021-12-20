@@ -30,14 +30,16 @@ app.controller('WebMessageOptionController', function(
 	};
 
 	$scope.execute = function() {
+		var startdatetime, enddatetime;
 		var query = {
-			datestart: $scope.daterange.startDate.format().slice(0, 10),
-			dateend: $scope.daterange.endDate.format().slice(0, 10)
+			startdatetime: $scope.daterange.startDate.format().slice(0, 19),
+			enddatetime: $scope.daterange.endDate.format().slice(0, 19)
 		};
 		$scope.$emit('handleEmitWebMessageOptionChanged', {
 			load: true,
 			period:$scope.currentPeriod
 		});
+		console.log(query)
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		WebMessageAnalysisService.getAnalysisResult(query, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {

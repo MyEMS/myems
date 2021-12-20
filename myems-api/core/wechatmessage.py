@@ -13,35 +13,46 @@ class WechatMessageCollection(object):
         pass
 
     @staticmethod
-    def on_options(req, resp, startdate, enddate):
+    def on_options(req, resp):
         resp.status = falcon.HTTP_200
 
     @staticmethod
-    def on_get(req, resp, startdate, enddate):
+    def on_get(req, resp):
         access_control(req)
-        try:
-            start_datetime_local = datetime.strptime(startdate, '%Y-%m-%d')
-        except Exception:
-            raise falcon.HTTPError(falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.INVALID_START_DATE_FORMAT')
-        try:
-            end_datetime_local = datetime.strptime(enddate, '%Y-%m-%d')
-        except Exception:
-            raise falcon.HTTPError(falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.INVALID_END_DATE_FORMAT')
+
+        print(req.params)
+        start_datetime_local = req.params.get('startdatetime')
+        end_datetime_local = req.params.get('enddatetime')
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
 
-        start_datetime_utc = start_datetime_local.replace(tzinfo=timezone.utc)
-        start_datetime_utc -= timedelta(minutes=timezone_offset)
+        if start_datetime_local is None:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description="API.INVALID_START_DATETIME_FORMAT")
+        else:
+            start_datetime_local = str.strip(start_datetime_local)
+            try:
+                start_datetime_utc = datetime.strptime(start_datetime_local,
+                                                       '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
+                                     timedelta(minutes=timezone_offset)
+            except ValueError:
+                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description="API.INVALID_START_DATETIME_FORMAT")
 
-        end_datetime_utc = end_datetime_local.replace(tzinfo=timezone.utc)
-        end_datetime_utc -= timedelta(minutes=timezone_offset)
-        end_datetime_utc += timedelta(days=1)
+        if end_datetime_local is None:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description="API.INVALID_END_DATETIME_FORMAT")
+        else:
+            end_datetime_local = str.strip(end_datetime_local)
+            try:
+                end_datetime_utc = datetime.strptime(end_datetime_local,
+                                                     '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
+                                   timedelta(minutes=timezone_offset)
+            except ValueError:
+                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description="API.INVALID_END_DATETIME_FORMAT")
 
         if start_datetime_utc >= end_datetime_utc:
             raise falcon.HTTPError(falcon.HTTP_400,
