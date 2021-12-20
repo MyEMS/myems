@@ -4,7 +4,7 @@ app.controller('WechatMessageOptionController', function(
     $scope,
     $window,
     $timeout,
-	WechatMessageAnalysisService) {
+	WechatMessageService) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.daterange = {
 		startDate: moment().subtract(7,'days'),
@@ -30,16 +30,18 @@ app.controller('WechatMessageOptionController', function(
 	};
 
 	$scope.execute = function() {
+		var startdatetime, enddatetime;
 		var query = {
-			datestart: $scope.daterange.startDate.format().slice(0, 10),
-			dateend: $scope.daterange.endDate.format().slice(0, 10)
+			startdatetime: $scope.daterange.startDate.format().slice(0, 19),
+			enddatetime: $scope.daterange.endDate.format().slice(0, 19)
 		};
 		$scope.$emit('handleEmitWechatMessageOptionChanged', {
 			load: true,
 			period:$scope.currentPeriod
 		});
+		console.log(query)
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-		WechatMessageAnalysisService.getAnalysisResult(query, headers, function (response) {
+		WechatMessageService.getResult(query, headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.$emit('handleEmitWechatMessageOptionChanged', response.data);
 			}

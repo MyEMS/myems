@@ -1,9 +1,8 @@
 'use strict';
-app.factory('WebMessageAnalysisService', function($http) {
+app.factory('WebMessageService', function($http) {
     return {
-
-        getAnalysisResult: function(query, headers, callback) {
-            $http.get(getAPI()+"webmessages"+"/from/"+query.datestart+"/to/"+query.dateend, {headers})
+        getResult: function(query, headers, callback) {
+            $http.get(getAPI()+"webmessages?" + "startdatetime=" + query.startdatetime + "&enddatetime=" + query.enddatetime, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

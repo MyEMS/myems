@@ -49,7 +49,7 @@ app
                                                 serie: true,
                                                 files: [
                                                     'app/services/login/login.service.js',
-                                                    'app/services/fdd/webmessageanalysis.service.js',
+                                                    'app/services/fdd/webmessage.service.js',
                                                     'app/services/users/user/user.service.js',
                                                     'app/controllers/users/user/user.controller.js',
                                                     'app/controllers/login/login.controller.js'
@@ -141,7 +141,7 @@ app
                                                 }, {
                                                     serie: true,
                                                     files: [
-                                                        'app/services/fdd/textmessageanalysis.service.js',
+                                                        'app/services/fdd/textmessage.service.js',
                                                         'app/controllers/fdd/textmessage/textmessage.controller.js',
                                                         'app/controllers/fdd/textmessage/textmessagemaster.controller.js',
                                                         'app/controllers/fdd/textmessage/textmessageoption.controller.js'
@@ -185,7 +185,7 @@ app
                                                 }, {
                                                     serie: true,
                                                     files: [
-                                                        'app/services/fdd/emailmessageanalysis.service.js',
+                                                        'app/services/fdd/emailmessage.service.js',
                                                         'app/controllers/fdd/emailmessage/emailmessage.controller.js',
                                                         'app/controllers/fdd/emailmessage/emailmessagemaster.controller.js',
                                                         'app/controllers/fdd/emailmessage/emailmessageoption.controller.js'
@@ -229,7 +229,7 @@ app
                                                 }, {
                                                     serie: true,
                                                     files: [
-                                                        'app/services/fdd/webmessageanalysis.service.js',
+                                                        'app/services/fdd/webmessage.service.js',
                                                         'app/controllers/fdd/webmessage/webmessage.controller.js',
                                                         'app/controllers/fdd/webmessage/webmessagemaster.controller.js',
                                                         'app/controllers/fdd/webmessage/webmessageoption.controller.js'
@@ -273,7 +273,7 @@ app
                                                 }, {
                                                     serie: true,
                                                     files: [
-                                                        'app/services/fdd/wechatmessageanalysis.service.js',
+                                                        'app/services/fdd/wechatmessage.service.js',
                                                         'app/controllers/fdd/wechatmessage/wechatmessage.controller.js',
                                                         'app/controllers/fdd/wechatmessage/wechatmessagemaster.controller.js',
                                                         'app/controllers/fdd/wechatmessage/wechatmessageoption.controller.js'
@@ -299,7 +299,7 @@ app
                                                 serie: true,
                                                 files: [
                                                     'app/services/login/login.service.js',
-                                                    'app/services/fdd/webmessageanalysis.service.js',
+                                                    'app/services/fdd/webmessage.service.js',
                                                     'app/services/users/user/user.service.js',
                                                     'app/controllers/users/user/user.controller.js',
                                                     'app/controllers/login/login.controller.js'
@@ -1108,7 +1108,7 @@ app
                                                 serie: true,
                                                 files: [
                                                     'app/services/login/login.service.js',
-                                                    'app/services/fdd/webmessageanalysis.service.js',
+                                                    'app/services/fdd/webmessage.service.js',
                                                     'app/services/users/user/user.service.js',
                                                     'app/controllers/users/user/user.controller.js',
                                                     'app/controllers/login/login.controller.js'
@@ -1213,7 +1213,7 @@ app
                                                 serie: true,
                                                 files: [
                                                     'app/services/login/login.service.js',
-                                                    'app/services/fdd/webmessageanalysis.service.js',
+                                                    'app/services/fdd/webmessage.service.js',
                                                     'app/services/users/user/user.service.js',
                                                     'app/controllers/users/user/user.controller.js',
                                                     'app/controllers/login/login.controller.js'

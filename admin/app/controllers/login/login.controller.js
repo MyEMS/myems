@@ -10,7 +10,7 @@ app.controller('LoginController', function (
 	$interval,
 	LoginService,
 	UserService,
-	WebMessageAnalysisService,
+	WebMessageService,
 	toaster) {
 
 	$scope.dataLoading = false;
@@ -202,7 +202,7 @@ app.controller('LoginController', function (
 	$scope.getWebMessage = function () {
 		if ($scope.cur_user != null && $scope.cur_user.uuid != null && $scope.cur_user.token != null) {
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-			WebMessageAnalysisService.getStatusNewResult(headers, function (response) {
+			WebMessageService.getStatusNewResult(headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					$scope.webmessages = response.data;
 				}

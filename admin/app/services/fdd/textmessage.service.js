@@ -1,9 +1,8 @@
 'use strict';
-app.factory('TextMessageAnalysisService', function($http) {
+app.factory('TextMessageService', function($http) {
     return {
-
-        getAnalysisResult: function(query, headers, callback) {
-            $http.get(getAPI()+"textmessages"+"/from/"+query.datestart+"/to/"+query.dateend, {headers})
+        getResult: function(query, headers, callback) {
+            $http.get(getAPI()+"textmessages?" + 'startdatetime=' + query.startdatetime + '&enddatetime=' + query.enddatetime, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
