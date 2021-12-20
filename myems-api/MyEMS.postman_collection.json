@@ -2129,28 +2129,27 @@
 									},
 									{
 										"key": "Token",
-										"value": "14f2bb7378e6926c20b54bd48bd8618e4d78ece1f1658c946a7257eaa97d3149ecd6407a62a39f0f3a6ef6b65f19d63894f297ad5a58d7b597a547f8b8e2898c",
+										"value": "0f62b7a53f57c5ad3b8b6c40e816daebfa657ec73ba508e5fe2b9446a72db98a3efa1867ce81830b7e547cb0572007e1083612850151621040ab7ae2579b18c4",
 										"type": "text",
 										"description": "Login to get a valid token"
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/emailmessages/from/2021-12-01/to/2021-12-31",
+									"raw": "{{base_url}}/emailmessages?startdatetime=2021-10-01T00:00:00&enddatetime=2021-10-11T00:00:00",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"emailmessages",
-										"from",
-										"2021-12-01",
-										"to",
-										"2021-12-31"
+										"emailmessages"
 									],
 									"query": [
 										{
-											"key": null,
-											"value": "",
-											"disabled": true
+											"key": "startdatetime",
+											"value": "2021-10-01T00:00:00"
+										},
+										{
+											"key": "enddatetime",
+											"value": "2021-10-11T00:00:00"
 										}
 									]
 								}
