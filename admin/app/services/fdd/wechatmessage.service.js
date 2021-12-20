@@ -1,7 +1,7 @@
 'use strict';
-app.factory('WechatMessageAnalysisService', function($http) {
+app.factory('WechatMessageService', function($http) {
     return {
-        getAnalysisResult: function(query, headers, callback) {
+        getResult: function(query, headers, callback) {
             $http.get(getAPI()+"wechatmessages?" + 'startdatetime=' + query.startdatetime + '&enddatetime=' + query.enddatetime, {headers})
             .then(function (response) {
                 callback(response);

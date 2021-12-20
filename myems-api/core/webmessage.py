@@ -18,7 +18,7 @@ class WebMessageCollection:
 
     @staticmethod
     def on_get(req, resp):
-        print(req.params)
+
         start_datetime_local = req.params.get('startdatetime')
         end_datetime_local = req.params.get('enddatetime')
 

@@ -4,7 +4,7 @@ app.controller('TextMessageOptionController', function(
     $scope,
     $window,
     $timeout,
-	TextMessageAnalysisService) {
+	TextMessageService) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.daterange = {
 		startDate: moment().subtract(7,'days'),
@@ -41,7 +41,7 @@ app.controller('TextMessageOptionController', function(
 		});
 		console.log(query)
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-		TextMessageAnalysisService.getAnalysisResult(query, headers, function (response) {
+		TextMessageService.getResult(query, headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.$emit('handleEmitTextMessageOptionChanged', response.data);
 			}

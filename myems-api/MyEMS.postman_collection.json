@@ -8795,24 +8795,28 @@
 									},
 									{
 										"key": "Token",
-										"value": "24bb236244f26784fb1397344d926b4871e87a90096eae926a0e448396dbd3ff4a2f70f727089f025238cb47bdbccdc877ef4a50fad8f05a4e5100c5d3eb0d3c",
+										"value": "9ac434f394c735092cfeb083612e533ca33ca6db4815ebb0c3ff47896d7eaa610e7dc312c04279253f817d65d1ef379378d4a5d07150faee5f6d899adb8b7ca7",
 										"type": "text",
 										"description": "Login to get a valid token"
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/textmessages/from/2021-12-01/to/2021-12-31",
+									"raw": "{{base_url}}/textmessages?startdatetime=2021-12-11T00:00:00&enddatetime=2021-12-21T00:00:00",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"textmessages",
-										"from",
-										"2021-12-01",
-										"to",
-										"2021-12-31"
+										"textmessages"
 									],
 									"query": [
+										{
+											"key": "startdatetime",
+											"value": "2021-12-11T00:00:00"
+										},
+										{
+											"key": "enddatetime",
+											"value": "2021-12-21T00:00:00"
+										},
 										{
 											"key": null,
 											"value": "",
@@ -9035,7 +9039,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "6c32302cb46cae4236fe9d04ccb21f950bce593267f33dc169e700bb98ea5c3446521251a1b4078ebcbe51b4ca4ba59ac01b395e0f69ef42fa0bc36d6bd5683c",
+										"value": "9ac434f394c735092cfeb083612e533ca33ca6db4815ebb0c3ff47896d7eaa610e7dc312c04279253f817d65d1ef379378d4a5d07150faee5f6d899adb8b7ca7",
 										"description": "Login to get a valid token",
 										"type": "text"
 									}
@@ -9068,7 +9072,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "b422ef869a947eb8dd058f5c9464b11769db7be3232b327fb8a4edac28118df876a5d7d3ab1d8175ef81169126d01fbe3b38baa6da62edf4cbf49b2bef0ed9a7",
+										"value": "9ac434f394c735092cfeb083612e533ca33ca6db4815ebb0c3ff47896d7eaa610e7dc312c04279253f817d65d1ef379378d4a5d07150faee5f6d899adb8b7ca7",
 										"description": "Login to get a valid token",
 										"type": "text"
 									}
@@ -9532,24 +9536,28 @@
 									},
 									{
 										"key": "Token",
-										"value": "24bb236244f26784fb1397344d926b4871e87a90096eae926a0e448396dbd3ff4a2f70f727089f025238cb47bdbccdc877ef4a50fad8f05a4e5100c5d3eb0d3c",
+										"value": "9ac434f394c735092cfeb083612e533ca33ca6db4815ebb0c3ff47896d7eaa610e7dc312c04279253f817d65d1ef379378d4a5d07150faee5f6d899adb8b7ca7",
 										"type": "text",
 										"description": "Login to get a valid token"
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/webmessages/from/2021-12-01/to/2021-12-31",
+									"raw": "{{base_url}}/webmessages?startdatetime=2021-12-11T00:00:00&enddatetime=2021-12-21T00:00:00",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"webmessages",
-										"from",
-										"2021-12-01",
-										"to",
-										"2021-12-31"
+										"webmessages"
 									],
 									"query": [
+										{
+											"key": "startdatetime",
+											"value": "2021-12-11T00:00:00"
+										},
+										{
+											"key": "enddatetime",
+											"value": "2021-12-21T00:00:00"
+										},
 										{
 											"key": null,
 											"value": "",
@@ -9742,28 +9750,32 @@
 									},
 									{
 										"key": "Token",
-										"value": "14f2bb7378e6926c20b54bd48bd8618e4d78ece1f1658c946a7257eaa97d3149ecd6407a62a39f0f3a6ef6b65f19d63894f297ad5a58d7b597a547f8b8e2898c",
+										"value": "9ac434f394c735092cfeb083612e533ca33ca6db4815ebb0c3ff47896d7eaa610e7dc312c04279253f817d65d1ef379378d4a5d07150faee5f6d899adb8b7ca7",
 										"type": "text",
 										"description": "Login to get a valid token"
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/wechatmessages/from/2021-12-01/to/2021-12-31",
+									"raw": "{{base_url}}/wechatmessages?startdatetime=2021-12-11T00:00:00&enddatetime=2021-12-21T00:00:00",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"wechatmessages",
-										"from",
-										"2021-12-01",
-										"to",
-										"2021-12-31"
+										"wechatmessages"
 									],
 									"query": [
 										{
 											"key": null,
 											"value": "",
 											"disabled": true
+										},
+										{
+											"key": "startdatetime",
+											"value": "2021-12-11T00:00:00"
+										},
+										{
+											"key": "enddatetime",
+											"value": "2021-12-21T00:00:00"
 										}
 									]
 								}

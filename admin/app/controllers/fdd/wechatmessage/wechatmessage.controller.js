@@ -5,7 +5,7 @@ app.controller('WechatMessageController', function(
     $window,
     $timeout,
     $translate,
-    WechatMessageAnalysisService,
+    WechatMessageService,
     toaster,
     SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
@@ -39,7 +39,7 @@ app.controller('WechatMessageController', function(
 			function(isConfirm) {
 				if (isConfirm) {
 			        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-					WechatMessageAnalysisService.deleteWechatMessage(wechatmessage, headers, function (response) {
+					WechatMessageService.deleteWechatMessage(wechatmessage, headers, function (response) {
 						if (angular.isDefined(response.status) && response.status === 204) {
                             toaster.pop({
                                 type: "success",

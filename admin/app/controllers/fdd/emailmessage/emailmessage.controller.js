@@ -5,7 +5,7 @@ app.controller('EmailMessageController', function(
     $window,
     $timeout,
     $translate,
-	EmailMessageAnalysisService,
+	EmailMessageService,
 	toaster,
 	SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
@@ -40,7 +40,7 @@ app.controller('EmailMessageController', function(
 			function(isConfirm) {
 				if (isConfirm) {
 			        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-					EmailMessageAnalysisService.deleteEmailMessage(emailmessage, headers, function(response) {
+					EmailMessageService.deleteEmailMessage(emailmessage, headers, function(response) {
 						if (angular.isDefined(response.status) && response.status === 204) {
                             toaster.pop({
                                 type: "success",

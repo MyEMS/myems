@@ -20,7 +20,6 @@ class WechatMessageCollection(object):
     def on_get(req, resp):
         access_control(req)
 
-        print(req.params)
         start_datetime_local = req.params.get('startdatetime')
         end_datetime_local = req.params.get('enddatetime')
 

@@ -6,7 +6,7 @@ app.controller('WebMessageController', function(
 	$timeout, 
 	$translate, 
 	$uibModal, 
-	WebMessageAnalysisService, 
+	WebMessageService,
 	toaster, 
 	SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
@@ -42,7 +42,7 @@ app.controller('WebMessageController', function(
 		modalInstance.result.then(function(modifiedWebmessage) {
 			modifiedWebmessage.status = "acknowledged";
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-			WebMessageAnalysisService.editWebMessage(modifiedWebmessage, headers, function (response) {
+			WebMessageService.editWebMessage(modifiedWebmessage, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
 						type: "success",
@@ -81,7 +81,7 @@ app.controller('WebMessageController', function(
 			function(isConfirm) {
 				if (isConfirm) {
 			        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-					WebMessageAnalysisService.deleteWebMessage(webmessage, headers, function (response) {
+					WebMessageService.deleteWebMessage(webmessage, headers, function (response) {
 						if (angular.isDefined(response.status) && response.status === 204) {
                             toaster.pop({
                                 type: "success",
