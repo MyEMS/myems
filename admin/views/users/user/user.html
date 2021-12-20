@@ -36,7 +36,7 @@
 												<a class="btn btn-primary btn-rounded btn-xs" ng-click="editUser(user)" >{{'SETTING.EDIT' | translate}}</a>
 												<a ng-hide="user.name=='administrator'" class="btn btn-info btn-rounded btn-xs" ng-click="resetPassword(user)" >{{'USER.RESET_PASSWORD' | translate}}</a>
 												<a ng-hide="user.name=='administrator'" ng-click="deleteUser(user)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
-												<a ng-hide="user.failed_login_count" ng-click="unlockUser(user)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.UNLOCK' | translate}}</a>
+												<a ng-hide="user.is_locked" ng-click="unlockUser(user)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.UNLOCK' | translate}}</a>
 											</td>
 										</tr>
 									</tbody>
