@@ -185,6 +185,19 @@ class TextMessageCollection:
 
         cnx = mysql.connector.connect(**config.myems_fdd_db)
         cursor = cnx.cursor()
+
+        if rule_id is not None:
+            cursor.execute(" SELECT name "
+                           " FROM tbl_rules "
+                           " WHERE id = %s ",
+                           (new_values['data']['rule_id'],))
+            row = cursor.fetchone()
+            if row is None:
+                cursor.close()
+                cnx.disconnect()
+                raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+                                       description='API.RULE_NOT_FOUND')
+
         add_row = (" INSERT INTO tbl_text_messages_outbox"
                    "             (rule_id, recipient_name, recipient_mobile, message, "
                    "              acknowledge_code, created_datetime_utc,"
