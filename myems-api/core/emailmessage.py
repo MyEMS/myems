@@ -2,6 +2,7 @@ import falcon
 import simplejson as json
 import mysql.connector
 import config
+import re
 from datetime import datetime, timedelta, timezone
 from core.useractivity import user_logger, access_control
 
@@ -97,9 +98,17 @@ class EmailMessageCollection:
     def on_post(req, resp):
         """Handles POST requests"""
         access_control(req)
-
         try:
-            raw_json = req.stream.read().decode('utf-8')
+            upload = req.get_param('file')
+            # Read upload file as binary
+            attachment_file_object = upload.file.read()
+            # Retrieve filename
+            attachment_file_name = upload.filename
+        except Exception as ex:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
+                                   description='API.FAILED_TO_UPLOAD_ATTACHMENT_FILE')
+        try:
+            raw_json = req.get_param('req')
         except Exception as ex:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=ex)
 
@@ -126,6 +135,10 @@ class EmailMessageCollection:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RECIPIENT_EMAIL')
         recipient_email = str.strip(new_values['data']['recipient_email'])
+        match = re.match(r'^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', recipient_email)
+        if match is None:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_EMAIL')
 
         if 'subject' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['subject'], str) or \
@@ -140,27 +153,6 @@ class EmailMessageCollection:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MESSAGE_VALUE')
         message = str.strip(new_values['data']['message'])
-
-        if 'attachment_file_name' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['attachment_file_name'], str) or \
-                len(str.strip(new_values['data']['attachment_file_name'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_ATTACHMENT_FILE_NAME')
-        attachment_file_name = str.strip(new_values['data']['attachment_file_name'])
-
-        if 'attachment_file_object' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['attachment_file_object'], str) or \
-                len(str.strip(new_values['data']['attachment_file_object'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_ATTACHMENT_FILE_OBJECT')
-        attachment_file_object = str.strip(new_values['data']['attachment_file_object'])
-
-        if 'attachment_file_object' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['attachment_file_object'], str) or \
-                len(str.strip(new_values['data']['attachment_file_object'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_ATTACHMENT_FILE_OBJECT')
-        attachment_file_object = str.strip(new_values['data']['attachment_file_object'])
 
         if 'created_datetime' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['created_datetime'], str) or \
