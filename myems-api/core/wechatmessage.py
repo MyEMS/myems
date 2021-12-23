@@ -1,3 +1,4 @@
+import re
 import falcon
 import simplejson as json
 import mysql.connector
@@ -124,6 +125,11 @@ class WechatMessageCollection(object):
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RECIPIENT_OPENID')
         recipient_openid = str.strip(new_values['data']['recipient_openid'])
+        match = re.match(r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[\da-zA-Z-_]{28}$', recipient_openid)
+        if match is None:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_OPENID')
+
 
         if 'message_template_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['message_template_id'], str) or \
@@ -131,6 +137,10 @@ class WechatMessageCollection(object):
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MESSAGE_TEMPLATE_ID')
         message_template_id = str.strip(new_values['data']['message_template_id'])
+        match = re.match(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[\w-]{43}$', message_template_id)
+        if match is None:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_TEMPLATE_ID')
 
         if 'message_data' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['message_data'], str) or \
