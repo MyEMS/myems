@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "275f5f12-078c-421a-a050-f054e344dc2b",
+		"_postman_id": "10c28155-4a57-4951-b80e-9893a2edb0d0",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -2205,6 +2205,21 @@
 										"description": "Login to get a valid token"
 									}
 								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/home/zhongtianlin/offline_meter_data.xlsx"
+										},
+										{
+											"key": "req",
+											"value": "{\"data\":{\"rule_id\":1, \"recipient_name\":\"Yinghao Huang\", \"recipient_email\":\"yinghao.huang@qq.com\", \"subject\":\"report_01_2021年10月24日\", \"message\":\"report_01_2021年10月24日\", \"created_datetime\":\"2021-11-01T00:00:00\", \"scheduled_datetime\":\"2021-11-01T00:00:00\"}}",
+											"type": "text"
+										}
+									]
+								},
 								"url": {
 									"raw": "{{base_url}}/emailmessages",
 									"host": [
@@ -8876,6 +8891,10 @@
 										"description": "Login to get a valid token"
 									}
 								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"rule_id\":1, \"recipient_name\":\"Yinghao Huang\", \"recipient_mobile\":\"12345678912\", \"message\":\"report_01_2021年10月24日\", \"acknowledge_code\":\"9e52ad6d-3d80-403c-a525-40\", \"created_datetime\":\"2021-11-01T00:00:00\", \"scheduled_datetime\":\"2021-11-01T00:00:00\"}}"
+								},
 								"url": {
 									"raw": "{{base_url}}/textmessages",
 									"host": [
@@ -9831,6 +9850,10 @@
 										"description": "Login to get a valid token"
 									}
 								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"rule_id\":1, \"recipient_name\":\"SPACE01\", \"recipient_openid\":\"oia2TjuEGTNoeX76QEjQNrcURxG8\", \"message_template_id\":\"Doclyl5uP7Aciu-qZ7mJNPtWkbkYnWBWVja26EGbNyk\", \"message_data\":\"{\\\"space_id\\\":1, \\\"high_limit\\\":1000.000}\", \"acknowledge_code\":\"9e52ad6d\", \"created_datetime\":\"2021-11-01T00:00:00\", \"scheduled_datetime\":\"2021-11-01T00:00:00\"}}"
+								},
 								"url": {
 									"raw": "{{base_url}}/wechatmessages",
 									"host": [
@@ -12789,6 +12812,12 @@
 					""
 				]
 			}
+		}
+	],
+	"variable": [
+		{
+			"value": "",
+			"disabled": true
 		}
 	]
 }

@@ -2,6 +2,7 @@ import falcon
 import simplejson as json
 import mysql.connector
 import config
+import re
 from datetime import datetime, timedelta, timezone
 from core.useractivity import user_logger, access_control
 
@@ -34,7 +35,7 @@ class EmailMessageCollection:
             start_datetime_local = str.strip(start_datetime_local)
             try:
                 start_datetime_utc = datetime.strptime(start_datetime_local,
-                                                                 '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
+                                                       '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
                     timedelta(minutes=timezone_offset)
             except ValueError:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -47,7 +48,7 @@ class EmailMessageCollection:
             end_datetime_local = str.strip(end_datetime_local)
             try:
                 end_datetime_utc = datetime.strptime(end_datetime_local,
-                                                               '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
+                                                     '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
                     timedelta(minutes=timezone_offset)
             except ValueError:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -91,6 +92,152 @@ class EmailMessageCollection:
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
+
+    @staticmethod
+    @user_logger
+    def on_post(req, resp):
+        """Handles POST requests"""
+        access_control(req)
+        try:
+            upload = req.get_param('file')
+            # Read upload file as binary
+            attachment_file_object = upload.file.read()
+            # Retrieve filename
+            attachment_file_name = upload.filename
+        except Exception as ex:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
+                                   description='API.FAILED_TO_UPLOAD_ATTACHMENT_FILE')
+        try:
+            raw_json = req.get_param('req')
+        except Exception as ex:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=ex)
+
+        new_values = json.loads(raw_json)
+
+        if 'rule_id' in new_values['data'].keys():
+            if new_values['data']['rule_id'] <= 0:
+                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.INVALID_RULE_ID')
+            rule_id = new_values['data']['rule_id']
+        else:
+            rule_id = None
+
+        if 'recipient_name' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['recipient_name'], str) or \
+                len(str.strip(new_values['data']['recipient_name'])) == 0:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_RECIPIENT_NAME')
+        recipient_name = str.strip(new_values['data']['recipient_name'])
+
+        if 'recipient_email' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['recipient_email'], str) or \
+                len(str.strip(new_values['data']['recipient_email'])) == 0:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_RECIPIENT_EMAIL')
+        recipient_email = str.strip(new_values['data']['recipient_email'])
+        match = re.match(r'^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', recipient_email)
+        if match is None:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_EMAIL')
+
+        if 'subject' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['subject'], str) or \
+                len(str.strip(new_values['data']['subject'])) == 0:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_SUBJECT_VALUE')
+        subject = str.strip(new_values['data']['subject'])
+
+        if 'message' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['message'], str) or \
+                len(str.strip(new_values['data']['message'])) == 0:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_MESSAGE_VALUE')
+        message = str.strip(new_values['data']['message'])
+
+        if 'created_datetime' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['created_datetime'], str) or \
+                len(str.strip(new_values['data']['created_datetime'])) == 0:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_CREATED_DATETIME')
+        created_datetime_local = str.strip(new_values['data']['created_datetime'])
+
+        if 'scheduled_datetime' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['scheduled_datetime'], str) or \
+                len(str.strip(new_values['data']['scheduled_datetime'])) == 0:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_SCHEDULED_DATETIME')
+        scheduled_datetime_local = str.strip(new_values['data']['scheduled_datetime'])
+
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
+
+        if created_datetime_local is None:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description="API.INVALID_CREATED_DATETIME_FORMAT")
+        else:
+            created_datetime_local = str.strip(created_datetime_local)
+            try:
+                created_datetime_utc = datetime.strptime(created_datetime_local,
+                                                         '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
+                                     timedelta(minutes=timezone_offset)
+            except ValueError:
+                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description="API.INVALID_CREATED_DATETIME_FORMAT")
+
+        if scheduled_datetime_local is None:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description="API.INVALID_SCHEDULED_DATETIME_FORMAT")
+        else:
+            scheduled_datetime_local = str.strip(scheduled_datetime_local)
+            try:
+                scheduled_datetime_utc = datetime.strptime(scheduled_datetime_local,
+                                                           '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
+                                     timedelta(minutes=timezone_offset)
+            except ValueError:
+                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description="API.INVALID_SCHEDULED_DATETIME_FORMAT")
+
+        status = 'new'
+
+        cnx = mysql.connector.connect(**config.myems_fdd_db)
+        cursor = cnx.cursor()
+
+        if rule_id is not None:
+            cursor.execute(" SELECT name "
+                           " FROM tbl_rules "
+                           " WHERE id = %s ",
+                           (new_values['data']['rule_id'],))
+            row = cursor.fetchone()
+            if row is None:
+                cursor.close()
+                cnx.disconnect()
+                raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+                                       description='API.RULE_NOT_FOUND')
+
+        add_row = (" INSERT INTO tbl_email_messages "
+                   "             (rule_id, recipient_name, recipient_email, subject, message, "
+                   "              attachment_file_name, attachment_file_object, created_datetime_utc,"
+                   "              scheduled_datetime_utc, status) "
+                   " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+
+        cursor.execute(add_row, (rule_id,
+                                 recipient_name,
+                                 recipient_email,
+                                 subject,
+                                 message,
+                                 attachment_file_name,
+                                 attachment_file_object,
+                                 created_datetime_utc,
+                                 scheduled_datetime_utc,
+                                 status))
+        new_id = cursor.lastrowid
+        cnx.commit()
+        cursor.close()
+        cnx.disconnect()
+
+        resp.status = falcon.HTTP_201
+        resp.location = '/emailmessages/' + str(new_id)
 
 
 class EmailMessageItem:
@@ -175,4 +322,3 @@ class EmailMessageItem:
             cnx.disconnect()
 
         resp.status = falcon.HTTP_204
-
