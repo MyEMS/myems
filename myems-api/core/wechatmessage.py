@@ -1,3 +1,4 @@
+import re
 import falcon
 import simplejson as json
 import mysql.connector
@@ -89,6 +90,159 @@ class WechatMessageCollection(object):
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
+
+    @staticmethod
+    @user_logger
+    def on_post(req, resp):
+        """Handles POST requests"""
+        access_control(req)
+
+        try:
+            raw_json = req.stream.read().decode('utf-8')
+        except Exception as ex:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=ex)
+
+        new_values = json.loads(raw_json)
+
+        if 'rule_id' in new_values['data'].keys():
+            if new_values['data']['rule_id'] <= 0:
+                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.INVALID_RULE_ID')
+            rule_id = new_values['data']['rule_id']
+        else:
+            rule_id = None
+
+        if 'recipient_name' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['recipient_name'], str) or \
+                len(str.strip(new_values['data']['recipient_name'])) == 0:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_RECIPIENT_NAME')
+        recipient_name = str.strip(new_values['data']['recipient_name'])
+
+        if 'recipient_openid' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['recipient_openid'], str) or \
+                len(str.strip(new_values['data']['recipient_openid'])) == 0:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_RECIPIENT_OPENID')
+        recipient_openid = str.strip(new_values['data']['recipient_openid'])
+        match = re.match(r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[\da-zA-Z-_]{28}$', recipient_openid)
+        if match is None:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_OPENID')
+
+        if 'message_template_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['message_template_id'], str) or \
+                len(str.strip(new_values['data']['message_template_id'])) == 0:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_MESSAGE_TEMPLATE_ID')
+        message_template_id = str.strip(new_values['data']['message_template_id'])
+        match = re.match(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[\w-]{43}$', message_template_id)
+        if match is None:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_MESSAGE_TEMPLATE_ID')
+
+        if 'message_data' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['message_data'], str) or \
+                len(str.strip(new_values['data']['message_data'])) == 0:
+            raise falcon.HTTPError(falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_MESSAGE_DATA')
+        message_data = str.strip(new_values['data']['message_data'])
+        # validate expression in json
+        try:
+            json.loads(message_data)
+        except Exception as ex:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description=ex)
+
+        if 'acknowledge_code' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['acknowledge_code'], str) or \
+                len(str.strip(new_values['data']['acknowledge_code'])) == 0:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ACKNOWLEDGE_CODE')
+        acknowledge_code = str.strip(new_values['data']['acknowledge_code'])
+
+        if 'created_datetime' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['created_datetime'], str) or \
+                len(str.strip(new_values['data']['created_datetime'])) == 0:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_CREATED_DATETIME')
+        created_datetime_local = str.strip(new_values['data']['created_datetime'])
+
+        if 'scheduled_datetime' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['scheduled_datetime'], str) or \
+                len(str.strip(new_values['data']['scheduled_datetime'])) == 0:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_SCHEDULED_DATETIME')
+        scheduled_datetime_local = str.strip(new_values['data']['scheduled_datetime'])
+
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
+
+        if created_datetime_local is None:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description="API.INVALID_CREATED_DATETIME")
+        else:
+            created_datetime_local = str.strip(created_datetime_local)
+            try:
+                created_datetime_utc = datetime.strptime(created_datetime_local,
+                                                         '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
+                                     timedelta(minutes=timezone_offset)
+            except ValueError:
+                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description="API.INVALID_CREATED_DATETIME")
+
+        if scheduled_datetime_local is None:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description="API.INVALID_SCHEDULED_DATETIME")
+        else:
+            scheduled_datetime_local = str.strip(scheduled_datetime_local)
+            try:
+                scheduled_datetime_utc = datetime.strptime(scheduled_datetime_local,
+                                                           '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
+                                     timedelta(minutes=timezone_offset)
+            except ValueError:
+                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description="API.INVALID_SCHEDULED_DATETIME")
+
+        status = 'new'
+
+        cnx = mysql.connector.connect(**config.myems_fdd_db)
+        cursor = cnx.cursor()
+
+        if rule_id is not None:
+            cursor.execute(" SELECT name "
+                           " FROM tbl_rules "
+                           " WHERE id = %s ",
+                           (new_values['data']['rule_id'],))
+            row = cursor.fetchone()
+            if row is None:
+                cursor.close()
+                cnx.disconnect()
+                raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+                                       description='API.RULE_NOT_FOUND')
+
+        add_row = (" INSERT INTO tbl_wechat_messages_outbox"
+                   "             (rule_id, recipient_name, recipient_openid, message_template_id, message_data,"
+                   "              acknowledge_code, created_datetime_utc, scheduled_datetime_utc, status) "
+                   " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+
+        cursor.execute(add_row, (rule_id,
+                                 recipient_name,
+                                 recipient_openid,
+                                 message_template_id,
+                                 message_data,
+                                 acknowledge_code,
+                                 created_datetime_utc,
+                                 scheduled_datetime_utc,
+                                 status))
+        new_id = cursor.lastrowid
+        cnx.commit()
+        cursor.close()
+        cnx.disconnect()
+
+        resp.status = falcon.HTTP_201
+        resp.location = '/wechatmessages/' + str(new_id)
 
 
 class WechatMessageItem:
