@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "10c28155-4a57-4951-b80e-9893a2edb0d0",
+		"_postman_id": "5020b7e9-5538-4b05-a649-f881fe5ae637",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -2188,7 +2188,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create New Email Message TODO",
+							"name": "POST Create New Email Message",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -2200,7 +2200,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "aad10e8cd48a3b8719860fed577033098cbc6caeb1454986189b0018bb76c6abc3a0b0600d0bec2fefb2c9cc5147aab23f50c4a4c8a64aaad0b7e4a7054905b8",
+										"value": "cb0c43bc302b478e938395f8a135239dd3a1e14668bbde0efc8f91e3648c55f1321b4ac1abe9fa8572e33544aacb70f1a1102d220d6092c91ced0b87fa4f651c",
 										"type": "text",
 										"description": "Login to get a valid token"
 									}
@@ -2211,11 +2211,11 @@
 										{
 											"key": "file",
 											"type": "file",
-											"src": "/home/zhongtianlin/offline_meter_data.xlsx"
+											"src": "/D:/myems/meterenergy (3).xlsx"
 										},
 										{
 											"key": "req",
-											"value": "{\"data\":{\"rule_id\":1, \"recipient_name\":\"Yinghao Huang\", \"recipient_email\":\"yinghao.huang@qq.com\", \"subject\":\"report_01_2021年10月24日\", \"message\":\"report_01_2021年10月24日\", \"created_datetime\":\"2021-11-01T00:00:00\", \"scheduled_datetime\":\"2021-11-01T00:00:00\"}}",
+											"value": "{\"data\":{\"rule_id\":1, \"recipient_name\":\"myems\", \"recipient_email\":\"myems@163.com\", \"subject\":\"report_01_2021_12_24\", \"message\":\"report_01_2021_12_24\", \"created_datetime\":\"2021-12-24T00:00:00\", \"scheduled_datetime\":\"2021-12-24T00:00:00\"}}",
 											"type": "text"
 										}
 									]
@@ -8874,7 +8874,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create New Text Message TODO",
+							"name": "POST Create New Text Message",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -8886,14 +8886,14 @@
 									},
 									{
 										"key": "Token",
-										"value": "c6f5fa938c0e228d06e1f3adb3ef1eac319e1167e6ff0cb7fd5d928e83da5764ddb66e29204e0f4e6aa407ded3702b15be67a435c4825dc722b6047010398714",
+										"value": "cb0c43bc302b478e938395f8a135239dd3a1e14668bbde0efc8f91e3648c55f1321b4ac1abe9fa8572e33544aacb70f1a1102d220d6092c91ced0b87fa4f651c",
 										"type": "text",
 										"description": "Login to get a valid token"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"rule_id\":1, \"recipient_name\":\"Yinghao Huang\", \"recipient_mobile\":\"12345678912\", \"message\":\"report_01_2021年10月24日\", \"acknowledge_code\":\"9e52ad6d-3d80-403c-a525-40\", \"created_datetime\":\"2021-11-01T00:00:00\", \"scheduled_datetime\":\"2021-11-01T00:00:00\"}}"
+									"raw": "{\"data\":{\"rule_id\":1, \"recipient_name\":\"myems\", \"recipient_mobile\":\"13888888888\", \"message\":\"report_01_2021年12月24日\", \"acknowledge_code\":\"123456\", \"created_datetime\":\"2021-12-24T00:00:00\", \"scheduled_datetime\":\"2021-12-24T00:00:00\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/textmessages",
@@ -9833,7 +9833,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create New Wechat Message TODO",
+							"name": "POST Create New Wechat Message",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -9845,14 +9845,14 @@
 									},
 									{
 										"key": "Token",
-										"value": "c6f5fa938c0e228d06e1f3adb3ef1eac319e1167e6ff0cb7fd5d928e83da5764ddb66e29204e0f4e6aa407ded3702b15be67a435c4825dc722b6047010398714",
+										"value": "cb0c43bc302b478e938395f8a135239dd3a1e14668bbde0efc8f91e3648c55f1321b4ac1abe9fa8572e33544aacb70f1a1102d220d6092c91ced0b87fa4f651c",
 										"type": "text",
 										"description": "Login to get a valid token"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"rule_id\":1, \"recipient_name\":\"SPACE01\", \"recipient_openid\":\"oia2TjuEGTNoeX76QEjQNrcURxG8\", \"message_template_id\":\"Doclyl5uP7Aciu-qZ7mJNPtWkbkYnWBWVja26EGbNyk\", \"message_data\":\"{\\\"space_id\\\":1, \\\"high_limit\\\":1000.000}\", \"acknowledge_code\":\"9e52ad6d\", \"created_datetime\":\"2021-11-01T00:00:00\", \"scheduled_datetime\":\"2021-11-01T00:00:00\"}}"
+									"raw": "{\"data\":{\"rule_id\":1, \"recipient_name\":\"myems\", \"recipient_openid\":\"oia2TjuEGTNoeX76QEjQNrcURxG8\", \"message_template_id\":\"Doclyl5uP7Aciu-qZ7mJNPtWkbkYnWBWVja26EGbNyk\", \"message_data\":\"{\\\"space_id\\\":1, \\\"high_limit\\\":1000.000}\", \"acknowledge_code\":\"9e52ad6d\", \"created_datetime\":\"2021-12-24T00:00:00\", \"scheduled_datetime\":\"2021-12-24T00:00:00\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/wechatmessages",

@@ -174,7 +174,7 @@ class EmailMessageCollection:
 
         if created_datetime_local is None:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description="API.INVALID_CREATED_DATETIME_FORMAT")
+                                   description="API.INVALID_CREATED_DATETIME")
         else:
             created_datetime_local = str.strip(created_datetime_local)
             try:
@@ -183,11 +183,11 @@ class EmailMessageCollection:
                                      timedelta(minutes=timezone_offset)
             except ValueError:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description="API.INVALID_CREATED_DATETIME_FORMAT")
+                                       description="API.INVALID_CREATED_DATETIME")
 
         if scheduled_datetime_local is None:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description="API.INVALID_SCHEDULED_DATETIME_FORMAT")
+                                   description="API.INVALID_SCHEDULED_DATETIME")
         else:
             scheduled_datetime_local = str.strip(scheduled_datetime_local)
             try:
@@ -196,7 +196,7 @@ class EmailMessageCollection:
                                      timedelta(minutes=timezone_offset)
             except ValueError:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description="API.INVALID_SCHEDULED_DATETIME_FORMAT")
+                                       description="API.INVALID_SCHEDULED_DATETIME")
 
         status = 'new'
 

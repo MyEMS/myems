@@ -506,7 +506,15 @@ Result in JSON
 ```bash
 curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKEN-AFTER-LOGIN" -X GET {{base_url}}/emailmessages/{id}
 ```
-*   GET Email Messages by Datetime Range 
+* POST Create New Email Message
+```bash
+curl --location --request POST '{{base_url}}/emailmessages' \
+--header 'User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4' \
+--header 'Token: GET-TOKEN-AFTER-LOGIN' \
+--form 'file=@"/D:/myems/meterenergy.xlsx"' \
+--form 'req="{\"data\":{\"rule_id\":1, \"recipient_name\":\"myems\", \"recipient_email\":\"myems@163.com\", \"subject\":\"report_01_2021_12_24\", \"message\":\"report_01_2021_12_24\", \"created_datetime\":\"2021-12-24T00:00:00\", \"scheduled_datetime\":\"2021-12-24T00:00:00\"}}"'
+```
+* GET Email Messages by Datetime Range 
 ```bash
 curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKEN-AFTER-LOGIN" -X GET {{base_url}}/emailmessages?startdatetime={startdatetime}&enddatetime={enddatetime}
 ```
@@ -1955,7 +1963,15 @@ Result in JSON
 ```bash
 curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKEN-AFTER-LOGIN" -X GET {{base_url}}/textmessages/{id}
 ```
-*   GET Text Messages by Datetime Range
+* POST Create New Text Message
+```bash
+curl --location --request POST '{{base_url}}/textmessages' \
+--header 'User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4' \
+--header 'Token: GET-TOKEN-AFTER-LOGIN' \
+--header 'Content-Type: text/plain' \
+--data-raw '{"data":{"rule_id":1, "recipient_name":"myems", "recipient_mobile":"13888888888", "message":"report_01_2021_12_24", "acknowledge_code":"123456", "created_datetime":"2021-12-24T00:00:00", "scheduled_datetime":"2021-12-24T00:00:00"}}'
+```
+* GET Text Messages by Datetime Range
 ```bash
 curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKEN-AFTER-LOGIN" -X GET {{base_url}}/textmessages?startdatetime={startdatetime}&enddatetime={enddatetime}
 ```
@@ -2120,7 +2136,15 @@ Result in JSON
 ```bash
 curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKEN-AFTER-LOGIN" -X GET {{base_url}}/wechatmessages/{id}
 ```
-*   GET Wechat Messages by Datetime Range
+* POST Create New Wechat Message
+```bash
+curl --location --request POST '{{base_url}}/wechatmessages' \
+--header 'User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4' \
+--header 'Token: GET-TOKEN-AFTER-LOGIN' \
+--header 'Content-Type: text/plain' \
+--data-raw '{"data":{"rule_id":1, "recipient_name":"myems", "recipient_openid":"oia2TjuEGTNoeX76QEjQNrcURxG8", "message_template_id":"Doclyl5uP7Aciu-qZ7mJNPtWkbkYnWBWVja26EGbNyk", "message_data":"{\"space_id\":1, \"high_limit\":1000.000}", "acknowledge_code":"9e52ad6d", "created_datetime":"2021-12-24T00:00:00", "scheduled_datetime":"2021-12-24T00:00:00"}}'
+```
+* GET Wechat Messages by Datetime Range
 ```bash
 curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKEN-AFTER-LOGIN" -X GET {{base_url}}/wechatmessages?startdatetime={startdatetime}&enddatetime={enddatetime}
 ```

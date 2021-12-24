@@ -130,7 +130,6 @@ class WechatMessageCollection(object):
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_OPENID')
 
-
         if 'message_template_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['message_template_id'], str) or \
                 len(str.strip(new_values['data']['message_template_id'])) == 0:
@@ -140,7 +139,7 @@ class WechatMessageCollection(object):
         match = re.match(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[\w-]{43}$', message_template_id)
         if match is None:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_TEMPLATE_ID')
+                                   description='API.INVALID_MESSAGE_TEMPLATE_ID')
 
         if 'message_data' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['message_data'], str) or \
@@ -159,7 +158,7 @@ class WechatMessageCollection(object):
                 not isinstance(new_values['data']['acknowledge_code'], str) or \
                 len(str.strip(new_values['data']['acknowledge_code'])) == 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_MESSAGE_ACKNOWLEDGE_CODE')
+                                   description='API.INVALID_ACKNOWLEDGE_CODE')
         acknowledge_code = str.strip(new_values['data']['acknowledge_code'])
 
         if 'created_datetime' not in new_values['data'].keys() or \
@@ -182,7 +181,7 @@ class WechatMessageCollection(object):
 
         if created_datetime_local is None:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description="API.INVALID_CREATED_DATETIME_FORMAT")
+                                   description="API.INVALID_CREATED_DATETIME")
         else:
             created_datetime_local = str.strip(created_datetime_local)
             try:
@@ -191,11 +190,11 @@ class WechatMessageCollection(object):
                                      timedelta(minutes=timezone_offset)
             except ValueError:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description="API.INVALID_CREATED_DATETIME_FORMAT")
+                                       description="API.INVALID_CREATED_DATETIME")
 
         if scheduled_datetime_local is None:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description="API.INVALID_SCHEDULED_DATETIME_FORMAT")
+                                   description="API.INVALID_SCHEDULED_DATETIME")
         else:
             scheduled_datetime_local = str.strip(scheduled_datetime_local)
             try:
@@ -204,7 +203,7 @@ class WechatMessageCollection(object):
                                      timedelta(minutes=timezone_offset)
             except ValueError:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description="API.INVALID_SCHEDULED_DATETIME_FORMAT")
+                                       description="API.INVALID_SCHEDULED_DATETIME")
 
         status = 'new'
 
