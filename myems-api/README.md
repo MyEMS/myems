@@ -56,13 +56,20 @@ cp example.env .env
 docker build -t myems/myems-api .
 ```
 * Run a Docker container
+If run on Windows host, bind-mount a share upload file folder at c:\upload to the container
 ```bash
-docker run -d -p 8000:8000 --restart always --name myems-api myems/myems-api
+docker run -d -p 8000:8000 -v c:\upload:/var/www/html/admin/upload --restart always --name myems-api myems/myems-api
+```
+If run on Linux host, bind-mount a share upload file folder at /upload to the container
+```bash
+docker run -d -p 8000:8000 -v /upload:/var/www/html/admin/upload --restart always --name myems-api myems/myems-api
 ```
 
 -d		Run container in background and print container ID
 
 -p		Publish a container's port(s) to the host, 8000:8000 (Host:Container) binds port 8000 (right)  of the container to TCP port 8000 (left) of the host machine.
+
+-v      If you use -v or --volume to bind-mount a file or directory that does not yet exist on the Docker host, -v creates the endpoint for you. It is always created as a directory.
 
 --restart	Restart policy to apply when a container exits
 
