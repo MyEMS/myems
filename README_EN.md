@@ -211,7 +211,7 @@ administrator@myems.io
 
 ### Docker Compose Repaid Deployment
 
-See [Docker Compose Repaid Deployment](docker-compose.md)
+See [Docker Compose Repaid Deployment](docker-compose-en.md)
 
 ## MyEMS Roadmap
 

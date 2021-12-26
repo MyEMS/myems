@@ -211,7 +211,7 @@ administrator@myems.io
 
 ### Docker-Compose 快速部署
 
-详见 [Docker Compose 快速部署](docker-compose.md)
+详见 [Docker Compose 快速部署](docker-compose-cn.md)
 
 
 

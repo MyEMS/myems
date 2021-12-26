@@ -1,33 +1,33 @@
-## Docker Compose 快速部署 
-除了上面的分步安装方式，也可以使用docker-compose命令一键安装
+## Docker Compose
+Create and start all the services with a single command 
 
-### 前提
+### Prerequisite
 
-- 主机已安装docker、docker-compose、npm
-- MySQL数据库已安装，拥有一个账号为root，密码为!MyEMS1的用户
-- MySQL数据库可正常登陆，可被安装Docker的主机Ping通以及远程访问
+- Installed docker、docker-compose、npm on a host.
+- Installed MySQL database with username 'root' and password '!MyEMS1'.
+- The MySQL database can be connected from the host where Docker is installed.
 
-### 配置
+### Configuration
 
-注一：这里的主机指的是**安装Docker的主机**, 这里的IP和账号密码都为假定的，用来展示说明，实际情况中用户需要根据自己的配置改为自己的，具体的修改步骤会在“安装”中讲述。
+Note 1: 这里的主机指的是**安装Docker的主机**, 这里的IP和账号密码都为假定的，用来展示说明，实际情况中用户需要根据自己的配置改为自己的，具体的修改步骤会在“安装”中讲述。
 
-注二：这里如果**安装数据库和安装Docker的主机为同一个主机，那么数据库IP和主机IP修改为一个实际IP**即可，这里是以数据库，和安装Docker的主机不在同一个上举例的。
+Note 2: 这里如果**安装数据库和安装Docker的主机为同一个主机，那么数据库IP和主机IP修改为一个实际IP**即可，这里是以数据库，和安装Docker的主机不在同一个上举例的。
 
 | --         | --          |
 | ---------- | ----------- |
-| 主机IP     | 192.168.0.1 |
-| 数据库IP   | 192.168.0.2 |
-| 数据库账号 | root        |
-| 数据库密码 | !MyEMS1        |
+| Host IP     | 192.168.0.1 |
+| Database IP   | 192.168.0.2 |
+| Database User | root        |
+| Database Password | !MyEMS1        |
 
-### Docker-Compose安装
+### Installation
 
-1.  克隆仓库
+1.  Clone repository
 ```
 git clone https://gitee.com/myems/myems.git 
 ```
 
-2.  数据库导入 (否则数据库没有用户信息，网页无法验证登录)
+2.  Import database schema
 
 ```
 cd myems/database/install
@@ -41,23 +41,22 @@ mysql -u root -p < myems_reporting_db.sql
 mysql -u root -p < myems_system_db.sql
 mysql -u root -p < myems_user_db.sql
 ```
-注： 如有问题，详情可查看"database/README.md"
+Note: Refer to [database/README.md](./database/README.md)
 
 
-3.  修改配置
+3.  Modify Config
 
 注：如“配置”所述，这里假定的**主机IP为 192.168.0.1，数据库IP为 192.168.0.2，数据库账号为：root,数据库密码:!MyEMS1,用户应该修改为自己对应的主机IP,数据库IP,数据库账号，数据库密码**
 
-3.1  修改nginx.conf里的API配置
+3.1  Modify api address in nginx.conf
 ```
 cd myems
 sed -i 's/127.0.0.1:8000/192.168.0.1:8000/g' admin/nginx.conf
 sed -i 's/127.0.0.1:8000/192.168.0.1:8000/g' web/nginx.conf
 ```
 
-3.2  复制example.env为.env并修改.env里的数据库IP，账号，密码
+3.2  Copy example.env to .env and modify database IP, username and password in .env
 ```
-# 这里以修改数据库IP为例，如果数据库账号密码也不同，请根据自己需求替换.env里的账号密码
 cd myems
 cp myems-api/example.env myems-api/.env
 sed -i 's/127.0.0.1/192.168.0.2/g' myems-api/.env
@@ -71,18 +70,18 @@ cp myems-normalization/example.env myems-normalization/.env
 sed -i 's/127.0.0.1/192.168.0.2/g' myems-normalization/.env 
 ```
 
-3.3 修改docker-compose.yml中upload文件夹
-如果是Windows主机，在api和admin服务中，volumes/source使用 c:\upload
-如果是Linux主机，在api和admin服务中，volumes/source使用 /upload
-应确保api和admin共享同一主机文件夹。
+3.3 Modify upload folder in docker-compose.yml
+If Windows host, use c:\upload for volumes/source in api and admin services.
+If Linux host, use /upload for volumes/source in api and admin services.
+Make sure the upload folders in api and admin are same folder on host.
 
-3.4  验证数据库连接
+3.4  Validate database connection
 ```
 cd myems
 python3 myems-api/test_mysql.py
 ```
 
-4.  编译Web UI
+4.  Build Web UI
 
 ```
 cd myems/web
@@ -90,16 +89,16 @@ npm i --unsafe-perm=true --allow-root --legacy-peer-deps
 npm run build
 ```
 
-5. 运行docker-compose命令
+5. Run docker-compose command
 
 ```
 cd myems
 docker-compose up -d 
 ```
 
-6. 验证
+6. Verification
 
-|       | 网址                    | 结果             |
+|       | Address                 | Result             |
 | ----- | ----------------------- | ---------------- |
 | web   | 192.168.0.1:80          | 输入账号密码登录成功 |
 | admin | 192.168.0.1:8001        | 输入账号密码登录成功 |
