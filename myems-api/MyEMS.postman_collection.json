@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "5020b7e9-5538-4b05-a649-f881fe5ae637",
+		"_postman_id": "a7452db1-c073-4155-81e6-f64434164125",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -2250,8 +2250,30 @@
 										"description": "Login to get a valid token"
 									}
 								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/home/zhongtianlin/offline_meter_data.xlsx"
+										},
+										{
+											"key": "req",
+											"value": "{\"data\":{\"rule_id\":1, \"recipient_name\":\"myems\", \"recipient_email\":\"myems@163.com\", \"subject\":\"report_01_2021_12_24\", \"message\":\"report_01_2021_12_24\", \"status\":\"timeout\", \"created_datetime\":\"2021-12-24T00:00:00\", \"scheduled_datetime\":\"2021-12-24T00:00:00\"}}",
+											"type": "text"
+										}
+									]
+								},
 								"url": {
-									"raw": ""
+									"raw": "{{base_url}}/emailmessages/1000001",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"emailmessages",
+										"1000001"
+									]
 								}
 							},
 							"response": []
@@ -8925,14 +8947,23 @@
 										"description": "Login to get a valid token"
 									}
 								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"rule_id\":1, \"recipient_name\":\"myems\", \"recipient_mobile\":\"13888888888\", \"message\":\"report_01_2021年12月24日\", \"acknowledge_code\":\"123456\", \"created_datetime\":\"2021-12-24T00:00:00\", \"scheduled_datetime\":\"2021-12-24T00:00:00\", \"status\":\"new\"}}",
+									"options": {
+										"raw": {
+											"language": "text"
+										}
+									}
+								},
 								"url": {
-									"raw": "{{base_url}}/textmessages/1",
+									"raw": "{{base_url}}/textmessages/1000001",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"textmessages",
-										"1"
+										"1000001"
 									]
 								}
 							},
@@ -9884,14 +9915,18 @@
 										"description": "Login to get a valid token"
 									}
 								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"rule_id\":1, \"recipient_name\":\"myems\", \"recipient_openid\":\"oia2TjuEGTNoeX76QEjQNrcURxG8\", \"message_template_id\":\"Doclyl5uP7Aciu-qZ7mJNPtWkbkYnWBWVja26EGbNyk\", \"message_data\":\"{\\\"space_id\\\":1, \\\"high_limit\\\":1000.000}\", \"acknowledge_code\":\"9e52ad6d\", \"created_datetime\":\"2021-12-24T00:00:00\", \"scheduled_datetime\":\"2021-12-24T00:00:00\", \"status\":\"acknowledged\"}}"
+								},
 								"url": {
-									"raw": "{{base_url}}/wechatmessages/1",
+									"raw": "{{base_url}}/wechatmessages/1000001",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"wechatmessages",
-										"1"
+										"1000001"
 									]
 								}
 							},
@@ -12812,12 +12847,6 @@
 					""
 				]
 			}
-		}
-	],
-	"variable": [
-		{
-			"value": "",
-			"disabled": true
 		}
 	]
 }
