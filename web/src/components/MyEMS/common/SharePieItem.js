@@ -9,7 +9,7 @@ const SharePieItem = ({ color, name, value, totalShare }) => (
       <Dot style={{ backgroundColor: color }} />
       <span className="font-weight-semi-bold">{name}</span>
     </Flex>
-    <div className="d-xxl-none">{((value * 100) / totalShare).toFixed(2)}%</div>
+    <div className="d-xxl-flex">{((value * 100) / totalShare).toFixed(2)}%</div>
   </Flex>
 );
 
