@@ -22,6 +22,10 @@ sudo ln -s /usr/local/lib/nodejs/node-vxx.x.x-linux-x64/bin/node /usr/bin/node
 sudo ln -s /usr/local/lib/nodejs/node-vxx.x.x-linux-x64/bin/npm /usr/bin/npm
 sudo ln -s /usr/local/lib/nodejs/node-vxx.x.x-linux-x64/bin/npx /usr/bin/npx
 ```
+Download Latest Current Version Windows Installer (.msi) 64-bit from https://nodejs.org/en/download/current/
+Install Node.js with Setup Wizard
+
+
 Test installation
 ```bash
 node -v
@@ -32,18 +36,18 @@ npx -v
 *   Download all the necessary dependencies into the node_modules directory.
 ```bash
 cd myems/web
-sudo npm i --unsafe-perm=true --allow-root --legacy-peer-deps
+npm i --unsafe-perm=true --allow-root --legacy-peer-deps
 ```
 *   If you modified any scss files then you need to compile SCSS, else you can safely ignore this step.
 Run below command in your project directory to compile scss.
 ```bash
-sudo npm run scss
+npm run scss
 ``` 
 *   Starting the Development Server
 A local web server will start at http://localhost:3000.
 We are using webpack and webpack-serve to automatically detect file changes. So, if you edit and save a file, your browser will automatically refresh and preview the change.
 ```
-sudo npm start
+npm start
 ```
 
 ## Installation
@@ -79,7 +83,7 @@ docker build -t myems/myems-web .
 ```
 * Run a Docker container
 ```bash
-docker run -d -p 80:80 --restart always --name myems-web myems/myems-web
+docker run -dp 80:80 --restart always --name myems-web myems/myems-web
 ```
 
 -d		Run container in background and print container ID
