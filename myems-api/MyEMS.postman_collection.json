@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "5020b7e9-5538-4b05-a649-f881fe5ae637",
+		"_postman_id": "bc59da70-d821-4750-8fde-4efcc1bd66d6",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -2200,7 +2200,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "cb0c43bc302b478e938395f8a135239dd3a1e14668bbde0efc8f91e3648c55f1321b4ac1abe9fa8572e33544aacb70f1a1102d220d6092c91ced0b87fa4f651c",
+										"value": "d6989b2efcb86be0fbc9d0cfe490326e4d1f13c9ffcc322de57ea53889ad3298cc6fb1cfc81f3c44fb5cec1157cfd4d3c8316d5b20d9d21c7b56536819f9c053",
 										"type": "text",
 										"description": "Login to get a valid token"
 									}
@@ -2211,7 +2211,7 @@
 										{
 											"key": "file",
 											"type": "file",
-											"src": "/D:/myems/meterenergy (3).xlsx"
+											"src": "/C:/Users/johnson/Downloads/offlinemeters 2021年3月 (3).xlsx"
 										},
 										{
 											"key": "req",
@@ -2233,7 +2233,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update an Email Message TODO",
+							"name": "PUT Update an Email Message",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -2245,13 +2245,35 @@
 									},
 									{
 										"key": "Token",
-										"value": "592641a558bc1724c4b75bd80d7d37b9b6a441b9b2231e3a5b2843b1f1e4f6864608ca97c4db00c94012b3406bf0c45cf231b789d2f551c1d420aa4de09f75cd",
+										"value": "d6989b2efcb86be0fbc9d0cfe490326e4d1f13c9ffcc322de57ea53889ad3298cc6fb1cfc81f3c44fb5cec1157cfd4d3c8316d5b20d9d21c7b56536819f9c053",
 										"type": "text",
 										"description": "Login to get a valid token"
 									}
 								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/C:/Users/johnson/Downloads/offlinemeters202103.xlsx"
+										},
+										{
+											"key": "req",
+											"value": "{\"data\":{\"rule_id\":1, \"recipient_name\":\"myems\", \"recipient_email\":\"myems@163.com\", \"subject\":\"report_01_2021_12_24\", \"message\":\"report_01_2021_12_24\", \"status\":\"timeout\", \"created_datetime\":\"2021-12-24T00:00:00\", \"scheduled_datetime\":\"2021-12-24T00:00:00\"}}",
+											"type": "text"
+										}
+									]
+								},
 								"url": {
-									"raw": ""
+									"raw": "{{base_url}}/emailmessages/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"emailmessages",
+										"1"
+									]
 								}
 							},
 							"response": []
@@ -8908,7 +8930,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update an Text Message TODO",
+							"name": "PUT Update an Text Message",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -8920,19 +8942,28 @@
 									},
 									{
 										"key": "Token",
-										"value": "c6f5fa938c0e228d06e1f3adb3ef1eac319e1167e6ff0cb7fd5d928e83da5764ddb66e29204e0f4e6aa407ded3702b15be67a435c4825dc722b6047010398714",
+										"value": "d6989b2efcb86be0fbc9d0cfe490326e4d1f13c9ffcc322de57ea53889ad3298cc6fb1cfc81f3c44fb5cec1157cfd4d3c8316d5b20d9d21c7b56536819f9c053",
 										"type": "text",
 										"description": "Login to get a valid token"
 									}
 								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"rule_id\":1, \"recipient_name\":\"myems\", \"recipient_mobile\":\"13888888899\", \"message\":\"report_01_2021年12月24日\", \"acknowledge_code\":\"123456\", \"created_datetime\":\"2021-12-24T00:00:00\", \"scheduled_datetime\":\"2021-12-24T00:00:00\", \"status\":\"new\"}}",
+									"options": {
+										"raw": {
+											"language": "text"
+										}
+									}
+								},
 								"url": {
-									"raw": "{{base_url}}/textmessages/1",
+									"raw": "{{base_url}}/textmessages/1000001",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"textmessages",
-										"1"
+										"1000001"
 									]
 								}
 							},
@@ -9867,7 +9898,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Wechat Message TODO",
+							"name": "PUT Update a Wechat Message",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -9879,19 +9910,23 @@
 									},
 									{
 										"key": "Token",
-										"value": "c6f5fa938c0e228d06e1f3adb3ef1eac319e1167e6ff0cb7fd5d928e83da5764ddb66e29204e0f4e6aa407ded3702b15be67a435c4825dc722b6047010398714",
+										"value": "d6989b2efcb86be0fbc9d0cfe490326e4d1f13c9ffcc322de57ea53889ad3298cc6fb1cfc81f3c44fb5cec1157cfd4d3c8316d5b20d9d21c7b56536819f9c053",
 										"type": "text",
 										"description": "Login to get a valid token"
 									}
 								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"rule_id\":1, \"recipient_name\":\"myems\", \"recipient_openid\":\"1ia2TjuEGTNoeX76QEjQNrcURxG8\", \"message_template_id\":\"Doclyl5uP7Aciu-qZ7mJNPtWkbkYnWBWVja26EGbNyk\", \"message_data\":\"{\\\"space_id\\\":1, \\\"high_limit\\\":1000.000}\", \"acknowledge_code\":\"9e52ad6d\", \"created_datetime\":\"2021-12-24T00:00:00\", \"scheduled_datetime\":\"2021-12-24T00:00:00\", \"status\":\"new\"}}"
+								},
 								"url": {
-									"raw": "{{base_url}}/wechatmessages/1",
+									"raw": "{{base_url}}/wechatmessages/1000001",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"wechatmessages",
-										"1"
+										"1000001"
 									]
 								}
 							},
@@ -12812,12 +12847,6 @@
 					""
 				]
 			}
-		}
-	],
-	"variable": [
-		{
-			"value": "",
-			"disabled": true
 		}
 	]
 }
