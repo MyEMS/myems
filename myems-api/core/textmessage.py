@@ -270,6 +270,158 @@ class TextMessageItem:
 
     @staticmethod
     @user_logger
+    def on_put(req, resp, id_):
+        """Handles PUT requests"""
+        access_control(req)
+
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_TEXT_MESSAGE_ID')
+
+        try:
+            raw_json = req.stream.read().decode('utf-8')
+        except Exception as ex:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=ex)
+
+        new_values = json.loads(raw_json)
+
+        if 'rule_id' in new_values['data'].keys():
+            if new_values['data']['rule_id'] <= 0:
+                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.INVALID_RULE_ID')
+            rule_id = new_values['data']['rule_id']
+        else:
+            rule_id = None
+
+        if 'recipient_name' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['recipient_name'], str) or \
+                len(str.strip(new_values['data']['recipient_name'])) == 0:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_RECIPIENT_NAME')
+        recipient_name = str.strip(new_values['data']['recipient_name'])
+
+        if 'recipient_mobile' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['recipient_mobile'], str) or \
+                len(str.strip(new_values['data']['recipient_mobile'])) == 0:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_RECIPIENT_MOBILE')
+        recipient_mobile = str.strip(new_values['data']['recipient_mobile'])
+
+        if 'message' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['message'], str) or \
+                len(str.strip(new_values['data']['message'])) == 0:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_MESSAGE_VALUE')
+        message = str.strip(new_values['data']['message'])
+
+        if 'acknowledge_code' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['acknowledge_code'], str) or \
+                len(str.strip(new_values['data']['acknowledge_code'])) == 0:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ACKNOWLEDGE_CODE')
+        acknowledge_code = str.strip(new_values['data']['acknowledge_code'])
+
+        if 'status' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['status'], str) or \
+                len(str.strip(new_values['data']['status'])) == 0 or \
+                str.strip(new_values['data']['status']) not in ('new', 'acknowledged', 'timeout'):
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_STATUS')
+        status = str.strip(new_values['data']['status'])
+
+        if 'created_datetime' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['created_datetime'], str) or \
+                len(str.strip(new_values['data']['created_datetime'])) == 0:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_CREATED_DATETIME')
+        created_datetime_local = str.strip(new_values['data']['created_datetime'])
+
+        if 'scheduled_datetime' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['scheduled_datetime'], str) or \
+                len(str.strip(new_values['data']['scheduled_datetime'])) == 0:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_SCHEDULED_DATETIME')
+        scheduled_datetime_local = str.strip(new_values['data']['scheduled_datetime'])
+
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
+
+        if created_datetime_local is None:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description="API.INVALID_CREATED_DATETIME")
+        else:
+            created_datetime_local = str.strip(created_datetime_local)
+            try:
+                created_datetime_utc = datetime.strptime(created_datetime_local,
+                                                         '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
+                                     timedelta(minutes=timezone_offset)
+            except ValueError:
+                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description="API.INVALID_CREATED_DATETIME")
+
+        if scheduled_datetime_local is None:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description="API.INVALID_SCHEDULED_DATETIME")
+        else:
+            scheduled_datetime_local = str.strip(scheduled_datetime_local)
+            try:
+                scheduled_datetime_utc = datetime.strptime(scheduled_datetime_local,
+                                                           '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
+                                     timedelta(minutes=timezone_offset)
+            except ValueError:
+                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description="API.INVALID_SCHEDULED_DATETIME")
+
+        cnx = mysql.connector.connect(**config.myems_fdd_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT recipient_name "
+                       " FROM tbl_text_messages_outbox "
+                       " WHERE id = %s ", (id_,))
+
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.disconnect()
+            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.TEXT_MESSAGE_NOT_FOUND')
+
+        if rule_id is not None:
+            cursor.execute(" SELECT name "
+                           " FROM tbl_rules "
+                           " WHERE id = %s ",
+                           (new_values['data']['rule_id'],))
+            row = cursor.fetchone()
+            if row is None:
+                cursor.close()
+                cnx.disconnect()
+                raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+                                       description='API.RULE_NOT_FOUND')
+
+        update_row = (" UPDATE tbl_text_messages_outbox "
+                      " SET rule_id = %s, recipient_name = %s, recipient_mobile = %s, message = %s,"
+                      "     acknowledge_code = %s, created_datetime_utc = %s,"
+                      "     scheduled_datetime_utc = %s, status = %s"
+                      " WHERE id = %s ")
+
+        cursor.execute(update_row, (rule_id,
+                                    recipient_name,
+                                    recipient_mobile,
+                                    message,
+                                    acknowledge_code,
+                                    created_datetime_utc,
+                                    scheduled_datetime_utc,
+                                    status,
+                                    id_))
+
+        cnx.commit()
+        cursor.close()
+        cnx.disconnect()
+
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    @user_logger
     def on_delete(req, resp, id_):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
