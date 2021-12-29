@@ -82,9 +82,13 @@ class RealtimeChart extends Component {
     }).then(json => {
       if (isResponseOK) {
         console.log(json);
-        let trendLog = json['energy_value']['values'];
+        let length = json['energy_value']['values'].length;
+        let trendLog = length > 60 ? json['energy_value']['values'].slice(length - 60, length)
+            : json['energy_value']['values'];
         let currentEnergyValue = undefined;
         let pointList = [];
+        let chartData = Object.assign(this.state.chartData);
+        chartData.labels = trendLog.length  > 60 ? range(1, 61) : range(1, trendLog.length + 1);
         if (trendLog.length > 0) {
           currentEnergyValue = trendLog[trendLog.length - 1];
         }
@@ -99,7 +103,8 @@ class RealtimeChart extends Component {
           pointList.push(pointItem);
         });
         if (this._isMounted) {
-          this.setState({ 
+          this.setState({
+            chartData: chartData,
             trendLog: trendLog, 
             currentEnergyValue: currentEnergyValue,
             pointList: pointList,
