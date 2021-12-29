@@ -31,7 +31,7 @@ import { comparisonTypeOptions } from '../common/ComparisonTypeOptions';
 import { toast } from 'react-toastify';
 import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL } from '../../../config';
-
+import uuid from 'uuid/v1';
 
 const ChildSpacesTable = loadable(() => import('../common/ChildSpacesTable'));
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
@@ -702,7 +702,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
           <SharePie data={TCO2EShareData} title={t('Ton of Carbon Dioxide Emissions by Energy Category')} />
         </Col>
         {childSpaceProportionList.map(childSpaceProportionItem => (
-          <Col className="mb-3 pr-lg-2 mb-3">
+          <Col className="mb-3 pr-lg-2 mb-3" key={uuid()}>
             <SharePie 
               data={childSpaceProportionItem['data']} 
               title={t('Child Space Proportion CATEGORY UNIT', 

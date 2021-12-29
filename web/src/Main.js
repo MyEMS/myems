@@ -4,7 +4,7 @@ import AppContext from './context/Context';
 import { settings } from './config';
 import toggleStylesheet from './helpers/toggleStylesheet';
 import { getItemFromStore, setItemToStore, themeColors } from './helpers/utils';
-import i18n from "i18next";
+import i18n from 'i18next';
 
 const Main = props => {
   const [isFluid, setIsFluid] = useState(getItemFromStore('isFluid', settings.isFluid));
@@ -103,7 +103,7 @@ const Main = props => {
 
   useEffect(() => {
     setItemToStore('myems_web_ui_language', language);
-    i18n.changeLanguage(language)
+    i18n.changeLanguage(language);
     // eslint-disable-next-line
   }, [language]);
 

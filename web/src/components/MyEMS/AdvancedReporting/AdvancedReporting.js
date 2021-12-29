@@ -1,17 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import {
-  Alert,
-  Row,
-  Col,
-  Card,
-  CardBody,
-  Button,
-  ButtonGroup,
-  Form,
-  FormGroup,
-  Label,
-  Spinner
-} from 'reactstrap';
+import { Alert, Row, Col, Card, CardBody, Button, ButtonGroup, Form, FormGroup, Label, Spinner } from 'reactstrap';
 import Summary from './Summary';
 import FalconCardHeader from '../../common/FalconCardHeader';
 import Datetime from 'react-datetime';
@@ -23,7 +11,6 @@ import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { APIBaseURL } from '../../../config';
-
 
 const AdvacnedReporting = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
@@ -59,22 +46,22 @@ const AdvacnedReporting = ({ setRedirect, setRedirectUrl, t }) => {
   const [reports, setReports] = useState([]);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
-  
-  let onReportingPeriodBeginsDatetimeChange = (newDateTime) => {
-    setReportingPeriodBeginsDatetime(newDateTime);
-  }
 
-  let onReportingPeriodEndsDatetimeChange = (newDateTime) => {
+  let onReportingPeriodBeginsDatetimeChange = newDateTime => {
+    setReportingPeriodBeginsDatetime(newDateTime);
+  };
+
+  let onReportingPeriodEndsDatetimeChange = newDateTime => {
     setReportingPeriodEndsDatetime(newDateTime);
-  }
+  };
 
   var getValidReportingPeriodBeginsDatetimes = function (currentDate) {
     return currentDate.isBefore(moment(reportingPeriodEndsDatetime, 'MM/DD/YYYY, hh:mm:ss a'));
-  }
+  };
 
   var getValidReportingPeriodEndsDatetimes = function (currentDate) {
     return currentDate.isAfter(moment(reportingPeriodBeginsDatetime, 'MM/DD/YYYY, hh:mm:ss a'));
-  }
+  };
 
   // Handler
   const handleSubmit = e => {
@@ -87,7 +74,7 @@ const AdvacnedReporting = ({ setRedirect, setRedirectUrl, t }) => {
     setSubmitButtonDisabled(true);
     // show spinner
     setSpinnerHidden(false);
-    
+
     let isResponseOK = false;
     fetch(APIBaseURL + '/reports/advancedreports?' +
       'reportingperiodstartdatetime=' + reportingPeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') +

@@ -1,5 +1,5 @@
 import { version } from './config';
-import { Trans } from 'react-i18next'
+import { Trans } from 'react-i18next';
 
 // export const homeRoutes = {
 //   name: 'Home',
@@ -153,7 +153,6 @@ import { Trans } from 'react-i18next'
 //     { to: '/email/compose', name: 'Compose' }
 //   ]
 // };
-
 
 // export const documentationRoutes = {
 //   name: 'Documentation',
@@ -310,7 +309,6 @@ import { Trans } from 'react-i18next'
 
 //  NOTE: if you changed names below, you must change names in i18n.js
 export const dashboardRoutes = {
- 
   name: 'Dashboard',
   to: '/dashboard',
   exact: true,
@@ -323,7 +321,7 @@ export const spaceRoutes = {
   icon: 'chart-pie',
   exact: true,
   children: [
-    { to: '/space/energycategory', name: 'Energy Category Data'},
+    { to: '/space/energycategory', name: 'Energy Category Data' },
     { to: '/space/energyitem', name: 'Energy Item Data' },
     { to: '/space/cost', name: 'Cost' },
     { to: '/space/output', name: 'Output' },
@@ -331,7 +329,7 @@ export const spaceRoutes = {
     { to: '/space/efficiency', name: 'Efficiency' },
     { to: '/space/load', name: 'Load' },
     { to: '/space/statistics', name: 'Statistics' },
-    { to: '/space/saving', name: 'Saving' },
+    { to: '/space/saving', name: 'Saving' }
   ]
 };
 
@@ -349,8 +347,8 @@ export const equipmentRoutes = {
     { to: '/equipment/load', name: 'Load' },
     { to: '/equipment/statistics', name: 'Statistics' },
     { to: '/equipment/saving', name: 'Saving' },
-    { to: '/equipment/batch', name: 'Batch Analysis'},
-    { to: '/equipment/tracking', name: 'Equipment Tracking' },
+    { to: '/equipment/batch', name: 'Batch Analysis' },
+    { to: '/equipment/tracking', name: 'Equipment Tracking' }
   ]
 };
 
@@ -368,8 +366,8 @@ export const meterRoutes = {
     { to: '/meter/virtualmetercost', name: 'Virtual Meter Cost' },
     { to: '/meter/offlinemeterenergy', name: 'Offline Meter Energy' },
     { to: '/meter/offlinemetercost', name: 'Offline Meter Cost' },
-    { to: '/meter/batch', name: 'Batch Analysis'},
-    { to: '/meter/tracking', name: 'Meter Tracking' },
+    { to: '/meter/batch', name: 'Batch Analysis' },
+    { to: '/meter/tracking', name: 'Meter Tracking' }
   ]
 };
 
@@ -385,7 +383,7 @@ export const tenantRoutes = {
     { to: '/tenant/statistics', name: 'Statistics' },
     { to: '/tenant/saving', name: 'Saving' },
     { to: '/tenant/bill', name: 'Tenant Bill' },
-    { to: '/tenant/batch', name: 'Batch Analysis' },
+    { to: '/tenant/batch', name: 'Batch Analysis' }
   ]
 };
 
@@ -400,7 +398,7 @@ export const storeRoutes = {
     { to: '/store/load', name: 'Load' },
     { to: '/store/statistics', name: 'Statistics' },
     { to: '/store/saving', name: 'Saving' },
-    { to: '/store/batch', name: 'Batch Analysis' },
+    { to: '/store/batch', name: 'Batch Analysis' }
   ]
 };
 
@@ -415,7 +413,7 @@ export const shopfloorRoutes = {
     { to: '/shopfloor/load', name: 'Load' },
     { to: '/shopfloor/statistics', name: 'Statistics' },
     { to: '/shopfloor/saving', name: 'Saving' },
-    { to: '/shopfloor/batch', name: 'Batch Analysis'},
+    { to: '/shopfloor/batch', name: 'Batch Analysis' }
   ]
 };
 
@@ -433,7 +431,7 @@ export const combinedEquipmentRoutes = {
     { to: '/combinedequipment/load', name: 'Load' },
     { to: '/combinedequipment/statistics', name: 'Statistics' },
     { to: '/combinedequipment/saving', name: 'Saving' },
-    { to: '/combinedequipment/batch', name: 'Batch Analysis'},
+    { to: '/combinedequipment/batch', name: 'Batch Analysis' }
   ]
 };
 
@@ -443,7 +441,7 @@ export const auxiliarySystemRoutes = {
   icon: 'chart-pie',
   children: [
     { to: '/auxiliarysystem/energyflowdiagram', name: 'Energy Flow Diagram' },
-    { to: '/auxiliarysystem/distributionsystem', name: 'Distribution System' },
+    { to: '/auxiliarysystem/distributionsystem', name: 'Distribution System' }
   ]
 };
 
@@ -457,7 +455,7 @@ export const fddRoutes = {
     { to: '/fdd/combinedequipment', name: 'Combined Equipment Faults Data' },
     { to: '/fdd/tenant', name: 'Tenant Faults Data' },
     { to: '/fdd/store', name: 'Store Faults Data' },
-    { to: '/fdd/shopfloor', name: 'Shopfloor Faults Data' },
+    { to: '/fdd/shopfloor', name: 'Shopfloor Faults Data' }
   ]
 };
 
@@ -470,7 +468,7 @@ export const monitoringRoutes = {
     { to: '/monitoring/combinedequipments', name: 'Combined Equipments' },
     { to: '/monitoring/tenantequipments', name: 'Tenant Equipments' },
     { to: '/monitoring/storeequipments', name: 'Store Equipments' },
-    { to: '/monitoring/shopfloorequipments', name: 'Shopfloor Equipments' },
+    { to: '/monitoring/shopfloorequipments', name: 'Shopfloor Equipments' }
   ]
 };
 
