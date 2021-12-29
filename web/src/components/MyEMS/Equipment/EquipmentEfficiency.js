@@ -332,8 +332,7 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
           cardSummaryItem['increment_rate'] = parseFloat(json['reporting_period_efficiency']['increment_rates'][index] * 100).toFixed(2) + "%";
           cardSummaryArray.push(cardSummaryItem);
         });
-        console.log("cardSummaryArray")
-        console.log(cardSummaryArray)
+
         setCardSummaryList(cardSummaryArray);
 
         let totalOutput = {}
@@ -458,8 +457,7 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
         json['reporting_period_efficiency']['denominator_cumulation'].forEach((currentValue, index) => {
             detailed_value['c' + index] = currentValue;
           });
-        console.log("detailed_value_list")
-        console.log(detailed_value_list)
+
         detailed_value_list.push(detailed_value);
         setDetailedDataTableData(detailed_value_list);
         
@@ -514,8 +512,7 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
             }
           })
         });
-        console.log("detailed_column_list")
-        console.log(detailed_column_list)
+
         setDetailedDataTableColumns(detailed_column_list);
         
         setExcelBytesBase64(json['excel_bytes_base64']);
