@@ -44,7 +44,7 @@ class RealtimeChart extends Component {
     trendLog: [],
     currentEnergyValue: undefined,
     chartData: {
-      labels: range(1, 60),
+      labels: range(1, 61),
       datasets: [
         {
           label: '',
