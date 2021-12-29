@@ -47,7 +47,7 @@
     "react-bootstrap-table-next": "^3.3.5",
     "react-bootstrap-table2-paginator": "^2.1.2",
     "react-chartjs-2": "^2.10.0",
-    "react-countup": "^4.3.3",
+    "react-countup": "^6.1.0",
     "react-datetime": "^2.16.3",
     "react-dom": "^16.13.1",
     "react-dropzone": "^10.2.2",
