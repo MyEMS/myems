@@ -5,15 +5,13 @@ import { Link } from 'react-router-dom';
 import Avatar from '../common/Avatar';
 import createMarkup from '../../helpers/createMarkup';
 
-const Notification = ({ created_datetime, id, status, flush, message,subject}) => (
-  <Link className={classNames('notification', { 'bg-200': status, 'notification-flush': flush }, id)}
-        to="/notification">
+const Notification = ({ created_datetime, id, status, flush, message, subject}) => (
+    <Link className={classNames('notification', { 'bg-200': status, 'notification-flush': flush }, id)}
+    to="/notification">
     <div className="notification-body">
       <h5>{subject}</h5><p>{status}</p>
       <p className={'mb-0'} dangerouslySetInnerHTML={createMarkup(message)} />
-      <span className="notification-time">
-        {created_datetime}
-      </span>
+      <span className="notification-time">{created_datetime}</span>
     </div>
   </Link>
 );
@@ -27,6 +25,6 @@ Notification.propTypes = {
   message: PropTypes.node
 };
 
-Notification.defaultProps = { status: "acknowledged", flush: false };
+Notification.defaultProps = { status: 'acknowledged', flush: false };
 
 export default Notification;

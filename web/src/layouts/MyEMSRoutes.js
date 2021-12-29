@@ -162,7 +162,7 @@ import ShopfloorStatistics from '../components/MyEMS/Shopfloor/ShopfloorStatisti
 import ShopfloorSaving from '../components/MyEMS/Shopfloor/ShopfloorSaving';
 import ShopfloorBatch from '../components/MyEMS/Shopfloor/ShopfloorBatch';
 // CombinedEquipment
-import CombinedEquipmentBatch from '../components/MyEMS/CombinedEquipment/CombinedEquipmentBatch'
+import CombinedEquipmentBatch from '../components/MyEMS/CombinedEquipment/CombinedEquipmentBatch';
 import CombinedEquipmentCost from '../components/MyEMS/CombinedEquipment/CombinedEquipmentCost';
 import CombinedEquipmentEfficiency from '../components/MyEMS/CombinedEquipment/CombinedEquipmentEfficiency';
 import CombinedEquipmentEnergyCategory from '../components/MyEMS/CombinedEquipment/CombinedEquipmentEnergyCategory';
@@ -384,7 +384,7 @@ const MyEMSRoutes = () => (
     <Route path="/tenant/saving" exact component={TenantSaving} />
     <Route path="/tenant/bill" exact component={TenantBill} />
     <Route path="/tenant/batch" exact component={TenantBatch} />
-    
+
     {/*Sotore*/}
     <Route path="/store/energycategory" exact component={StoreEnergyCategory} />
     <Route path="/store/energyitem" exact component={StoreEnergyItem} />
@@ -393,7 +393,7 @@ const MyEMSRoutes = () => (
     <Route path="/store/statistics" exact component={StoreStatistics} />
     <Route path="/store/saving" exact component={StoreSaving} />
     <Route path="/store/batch" exact component={StoreBatch} />
-    
+
     {/*Shopfloor*/}
     <Route path="/shopfloor/energycategory" exact component={ShopfloorEnergyCategory} />
     <Route path="/shopfloor/energyitem" exact component={ShopfloorEnergyItem} />
@@ -426,20 +426,20 @@ const MyEMSRoutes = () => (
     <Route path="/fdd/tenant" exact component={FDDTenantFault} />
     <Route path="/fdd/store" exact component={FDDStoreFault} />
     <Route path="/fdd/shopfloor" exact component={FDDShopfloorFault} />
-    
+
     {/*Equipment Monitoring*/}
     <Route path="/monitoring/spaceequipments" exact component={SpaceEquipments} />
     <Route path="/monitoring/combinedequipments" exact component={CombinedEquipments} />
     <Route path="/monitoring/tenantequipments" exact component={TenantEquipments} />
     <Route path="/monitoring/storeequipments" exact component={StoreEquipments} />
     <Route path="/monitoring/shopfloorequipments" exact component={ShopfloorEquipments} />
-    
+
     {/*Advanced Reporting*/}
     <Route path="/advancedreporting" exact component={AdvancedReporting} />
-    
+
     {/*Knowledge Base*/}
     <Route path="/knowledgebase" exact component={KnowledgeBase} />
-    
+
     {/* Notification */}
     <Route path="/notification" exact component={Notification} />
 

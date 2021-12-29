@@ -9,8 +9,7 @@ import classNames from 'classnames';
 import ButtonIcon from '../../common/ButtonIcon';
 import AppContext, { ProductContext } from '../../../context/Context';
 import { withTranslation } from 'react-i18next';
-
-
+import uuid from 'uuid/v1';
 
 const EquipmentList = ({
   id,
@@ -60,6 +59,7 @@ const EquipmentList = ({
                 <Slider {...sliderSettings}>
                   {files.map(file => (
                     <img
+                      key={uuid()}
                       className="img-fluid fit-cover w-sm-100 h-sm-100 rounded"
                       src={file['src'] || file['base64']}
                       alt={file.path}
