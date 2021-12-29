@@ -21,6 +21,8 @@ import equipment_billing_output_category
 
 import meter_billing
 
+import offline_meter_billing
+
 import shopfloor_billing_input_category
 import shopfloor_billing_input_item
 
@@ -46,6 +48,8 @@ import tenant_billing_input_item
 
 import tenant_energy_input_category
 import tenant_energy_input_item
+
+import virtual_meter_billing
 
 
 def main():
@@ -96,6 +100,9 @@ def main():
     # meter billing
     Process(target=meter_billing.main, args=(logger,)).start()
 
+    # offline meter billing
+    Process(target=offline_meter_billing.main, args=(logger,)).start()
+
     # shopfloor billing input by energy categories
     Process(target=shopfloor_billing_input_category.main, args=(logger,)).start()
     # shopfloor billing input by energy items
@@ -139,6 +146,9 @@ def main():
     Process(target=tenant_energy_input_category.main, args=(logger,)).start()
     # tenant energy input by energy items
     Process(target=tenant_energy_input_item.main, args=(logger,)).start()
+
+    # virtual meter billing
+    Process(target=virtual_meter_billing.main, args=(logger,)).start()
 
 
 if __name__ == '__main__':

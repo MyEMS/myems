@@ -8,8 +8,8 @@ import config
 
 ########################################################################################################################
 # PROCEDURES
-# Step 1: get all meters
-# for each meter in list:
+# Step 1: get all virtual meters
+# for each virtual meter in list:
 #   Step 2: get the latest start_datetime_utc
 #   Step 3: get all energy data since the latest start_datetime_utc
 #   Step 4: get tariffs
@@ -23,7 +23,7 @@ def main(logger):
     while True:
         # the outermost while loop
         ################################################################################################################
-        # Step 1: get all meters
+        # Step 1: get all virtual meters
         ################################################################################################################
         cnx_system_db = None
         cursor_system_db = None
@@ -42,15 +42,15 @@ def main(logger):
 
         print("Connected to MyEMS System Database")
 
-        meter_list = list()
+        virtual_meter_list = list()
         try:
             cursor_system_db.execute(" SELECT id, name, energy_category_id, cost_center_id "
-                                     " FROM tbl_meters "
+                                     " FROM tbl_virtual_meters "
                                      " ORDER BY id ")
-            rows_meters = cursor_system_db.fetchall()
+            rows_virtual_meters = cursor_system_db.fetchall()
 
-            if rows_meters is None or len(rows_meters) == 0:
-                print("Step 1.2: There isn't any meters. ")
+            if rows_virtual_meters is None or len(rows_virtual_meters) == 0:
+                print("Step 1.2: There isn't any virtual meters ")
                 if cursor_system_db:
                     cursor_system_db.close()
                 if cnx_system_db:
@@ -59,14 +59,14 @@ def main(logger):
                 time.sleep(60)
                 continue
 
-            for row in rows_meters:
-                meter_list.append({"id": row[0],
-                                   "name": row[1],
-                                   "energy_category_id": row[2],
-                                   "cost_center_id": row[3]})
+            for row in rows_virtual_meters:
+                virtual_meter_list.append({"id": row[0],
+                                           "name": row[1],
+                                           "energy_category_id": row[2],
+                                           "cost_center_id": row[3]})
 
         except Exception as e:
-            logger.error("Error in step 1.2 of meter_billing " + str(e))
+            logger.error("Error in step 1.2 of virtual_meter_billing " + str(e))
             if cursor_system_db:
                 cursor_system_db.close()
             if cnx_system_db:
@@ -75,7 +75,7 @@ def main(logger):
             time.sleep(60)
             continue
 
-        print("Step 1.2: Got all meters from MyEMS System Database")
+        print("Step 1.2: Got all virtual meters from MyEMS System Database")
 
         cnx_energy_db = None
         cursor_energy_db = None
@@ -83,7 +83,7 @@ def main(logger):
             cnx_energy_db = mysql.connector.connect(**config.myems_energy_db)
             cursor_energy_db = cnx_energy_db.cursor()
         except Exception as e:
-            logger.error("Error in step 1.3 of meter_billing " + str(e))
+            logger.error("Error in step 1.3 of virtual_meter_billing " + str(e))
             if cursor_energy_db:
                 cursor_energy_db.close()
             if cnx_energy_db:
@@ -105,7 +105,7 @@ def main(logger):
             cnx_billing_db = mysql.connector.connect(**config.myems_billing_db)
             cursor_billing_db = cnx_billing_db.cursor()
         except Exception as e:
-            logger.error("Error in step 1.4 of meter_billing " + str(e))
+            logger.error("Error in step 1.4 of virtual_meter_billing " + str(e))
             if cursor_billing_db:
                 cursor_billing_db.close()
             if cnx_billing_db:
@@ -126,17 +126,17 @@ def main(logger):
 
         print("Connected to MyEMS Billing Database")
 
-        for meter in meter_list:
+        for virtual_meter in virtual_meter_list:
 
             ############################################################################################################
             # Step 2: get the latest start_datetime_utc
             ############################################################################################################
-            print("Step 2: get the latest start_datetime_utc from billing database for " + meter['name'])
+            print("Step 2: get the latest start_datetime_utc from billing database for " + virtual_meter['name'])
             try:
                 cursor_billing_db.execute(" SELECT MAX(start_datetime_utc) "
-                                          " FROM tbl_meter_hourly "
-                                          " WHERE meter_id = %s ",
-                                          (meter['id'], ))
+                                          " FROM tbl_virtual_meter_hourly "
+                                          " WHERE virtual_meter_id = %s ",
+                                          (virtual_meter['id'], ))
                 row_datetime = cursor_billing_db.fetchone()
                 start_datetime_utc = datetime.strptime(config.start_datetime_utc, '%Y-%m-%d %H:%M:%S')
                 start_datetime_utc = start_datetime_utc.replace(minute=0, second=0, microsecond=0, tzinfo=None)
@@ -150,8 +150,8 @@ def main(logger):
 
                 print("start_datetime_utc: " + start_datetime_utc.isoformat()[0:19])
             except Exception as e:
-                logger.error("Error in step 2 of meter_billing " + str(e))
-                # break the for meter loop
+                logger.error("Error in step 2 of virtual_meter_billing " + str(e))
+                # break the for virtual_meter loop
                 break
 
             ############################################################################################################
@@ -160,27 +160,27 @@ def main(logger):
             print("Step 3: get all energy data since the latest start_datetime_utc")
 
             query = (" SELECT start_datetime_utc, actual_value "
-                     " FROM tbl_meter_hourly "
-                     " WHERE meter_id = %s AND start_datetime_utc >= %s "
+                     " FROM tbl_virtual_meter_hourly "
+                     " WHERE virtual_meter_id = %s AND start_datetime_utc >= %s "
                      " ORDER BY id ")
-            cursor_energy_db.execute(query, (meter['id'], start_datetime_utc, ))
+            cursor_energy_db.execute(query, (virtual_meter['id'], start_datetime_utc, ))
             rows_hourly = cursor_energy_db.fetchall()
 
             if rows_hourly is None or len(rows_hourly) == 0:
                 print("Step 3: There isn't any energy input data to calculate. ")
-                # continue the for meter loop
+                # continue the for virtual_meter loop
                 continue
 
             energy_dict = dict()
             energy_category_list = list()
-            energy_category_list.append(meter['energy_category_id'])
+            energy_category_list.append(virtual_meter['energy_category_id'])
             end_datetime_utc = start_datetime_utc
             for row_hourly in rows_hourly:
                 current_datetime_utc = row_hourly[0]
                 actual_value = row_hourly[1]
                 if energy_dict.get(current_datetime_utc) is None:
                     energy_dict[current_datetime_utc] = dict()
-                energy_dict[current_datetime_utc][meter['energy_category_id']] = actual_value
+                energy_dict[current_datetime_utc][virtual_meter['energy_category_id']] = actual_value
                 if current_datetime_utc > end_datetime_utc:
                     end_datetime_utc = current_datetime_utc
 
@@ -190,7 +190,7 @@ def main(logger):
             print("Step 4: get tariffs")
             tariff_dict = dict()
             for energy_category_id in energy_category_list:
-                tariff_dict[energy_category_id] = tariff.get_energy_category_tariffs(meter['cost_center_id'],
+                tariff_dict[energy_category_id] = tariff.get_energy_category_tariffs(virtual_meter['cost_center_id'],
                                                                                      energy_category_id,
                                                                                      start_datetime_utc,
                                                                                      end_datetime_utc)
@@ -223,8 +223,8 @@ def main(logger):
 
             if len(billing_dict) > 0:
                 try:
-                    add_values = (" INSERT INTO tbl_meter_hourly "
-                                  "             (meter_id, "
+                    add_values = (" INSERT INTO tbl_virtual_meter_hourly "
+                                  "             (virtual_meter_id, "
                                   "              start_datetime_utc, "
                                   "              actual_value) "
                                   " VALUES  ")
@@ -233,7 +233,7 @@ def main(logger):
                         for energy_category_id in energy_category_list:
                             current_billing = billing_dict[current_datetime_utc].get(energy_category_id)
                             if current_billing is not None and isinstance(current_billing, Decimal):
-                                add_values += " (" + str(meter['id']) + ","
+                                add_values += " (" + str(virtual_meter['id']) + ","
                                 add_values += "'" + current_datetime_utc.isoformat()[0:19] + "',"
                                 add_values += str(billing_dict[current_datetime_utc][energy_category_id]) + "), "
                     print("add_values:" + add_values)
@@ -241,11 +241,11 @@ def main(logger):
                     cursor_billing_db.execute(add_values[:-2])
                     cnx_billing_db.commit()
                 except Exception as e:
-                    logger.error("Error in step 6 of meter_billing " + str(e))
-                    # break the for meter loop
+                    logger.error("Error in step 6 of virtual_meter_billing " + str(e))
+                    # break the for virtual_meter loop
                     break
 
-        # end of for meter loop
+        # end of for virtual_meter loop
         if cnx_system_db:
             cnx_system_db.close()
         if cursor_system_db:
