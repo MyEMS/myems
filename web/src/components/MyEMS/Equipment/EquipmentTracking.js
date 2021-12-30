@@ -121,7 +121,7 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
             
             // hide spinner
             setSpinnerHidden(true);
-            // show export buttion
+            // show export button
             setExportButtonHidden(false);
           } else {
             toast.error(json.description)
@@ -214,7 +214,7 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
     let selectedSpaceID = value[value.length - 1];
     // show spinner
     setSpinnerHidden(false);
-    // hide export buttion
+    // hide export button
     setExportButtonHidden(true) 
     // begin of getting equipment list
     let isResponseOK = false;
@@ -253,7 +253,7 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
         
         // hide spinner
         setSpinnerHidden(true);
-        // show export buttion
+        // show export button
         setExportButtonHidden(false);
       } else {
         toast.error(json.description)
