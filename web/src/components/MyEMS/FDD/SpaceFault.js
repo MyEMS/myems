@@ -269,7 +269,7 @@ const SpaceFault = ({ setRedirect, setRedirectUrl, t }) => {
     setSubmitButtonDisabled(true);
     // show spinner
     setSpinnerHidden(false);
-    // hide export buttion
+    // hide export button
     setExportButtonHidden(true)
 
     // Reinitialize tables
@@ -297,7 +297,7 @@ const SpaceFault = ({ setRedirect, setRedirectUrl, t }) => {
       setSubmitButtonDisabled(false);
       // hide spinner
       setSpinnerHidden(true);
-      // show export buttion
+      // show export button
       setExportButtonHidden(false)
 
       return response.json();
