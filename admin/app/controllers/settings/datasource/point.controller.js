@@ -183,6 +183,10 @@ app.controller('ModalAddPointCtrl', function($scope, $uibModalInstance) {
 	$scope.cancel = function() {
 		$uibModalInstance.dismiss('cancel');
 	};
+
+	$scope.$watch("point.object_type",function () {
+		$scope.point.is_virtual = false;
+	})
 });
 
 app.controller('ModalEditPointCtrl', function($scope, $uibModalInstance, params) {
