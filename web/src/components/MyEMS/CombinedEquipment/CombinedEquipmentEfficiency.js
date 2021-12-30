@@ -336,6 +336,16 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
           cardSummaryItem['unit'] = json['reporting_period_efficiency']['units'][index];
           cardSummaryItem['cumulation'] = json['reporting_period_efficiency']['cumulations'][index];
           cardSummaryItem['increment_rate'] = parseFloat(json['reporting_period_efficiency']['increment_rates'][index] * 100).toFixed(2) + "%";
+
+          cardSummaryItem['numerator_name'] = json['reporting_period_efficiency']['numerator_names'][index];
+          cardSummaryItem['numerator_unit'] = json['reporting_period_efficiency']['numerator_units'][index];
+          cardSummaryItem['numerator_cumulation'] = json['reporting_period_efficiency']['numerator_cumulations'][index];
+          cardSummaryItem['increment_rates_num'] = parseFloat(json['reporting_period_efficiency']['increment_rates_num'][index] * 100).toFixed(2) + "%";
+
+          cardSummaryItem['denominator_name'] = json['reporting_period_efficiency']['denominator_names'][index];
+          cardSummaryItem['denominator_unit'] = json['reporting_period_efficiency']['denominator_units'][index];
+          cardSummaryItem['denominator_cumulation'] = json['reporting_period_efficiency']['denominator_cumulations'][index];
+          cardSummaryItem['increment_rates_den'] = parseFloat(json['reporting_period_efficiency']['increment_rates_den'][index] * 100).toFixed(2) + "%";
           cardSummaryArray.push(cardSummaryItem);
         });
         setCardSummaryList(cardSummaryArray);
@@ -344,11 +354,23 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
         json['reporting_period_efficiency']['timestamps'].forEach((currentValue, index) => {
           timestamps['a' + index] = currentValue;
         });
+        json['reporting_period_efficiency']['numerator_timestamps'].forEach((currentValue, index) => {
+          timestamps['b' + index] = currentValue;
+        });
+        json['reporting_period_efficiency']['denominator_timestamps'].forEach((currentValue, index) => {
+          timestamps['c' + index] = currentValue;
+        });
         setCombinedEquipmentLineChartLabels(timestamps);
         
         let values = {}
         json['reporting_period_efficiency']['values'].forEach((currentValue, index) => {
           values['a' + index] = currentValue;
+        });
+        json['reporting_period_efficiency']['numerator_values'].forEach((currentValue, index) => {
+          values['b' + index] = currentValue;
+        });
+        json['reporting_period_efficiency']['denominator_values'].forEach((currentValue, index) => {
+          values['c' + index] = currentValue;
         });
         setCombinedEquipmentLineChartData(values);
         
@@ -356,6 +378,16 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
         json['reporting_period_efficiency']['names'].forEach((currentValue, index) => {
           let unit = json['reporting_period_efficiency']['units'][index];
           names.push({ 'value': 'a' + index, 'label': currentValue + ' (' + unit + ')'});
+        });
+        json['reporting_period_efficiency']['numerator_names'].forEach((currentValue, index) => {
+          let unit = json['reporting_period_efficiency']['numerator_units'][index];
+          let name = json['reporting_period_efficiency']['names'][index];
+          names.push({ 'value': 'b' + index, 'label': name + '-' + currentValue + ' (' + unit + ')'});
+        });
+        json['reporting_period_efficiency']['denominator_names'].forEach((currentValue, index) => {
+          let unit = json['reporting_period_efficiency']['denominator_units'][index];
+          let name = json['reporting_period_efficiency']['names'][index];
+          names.push({ 'value': 'c' + index, 'label': name + '-' + currentValue + ' (' + unit + ')'});
         });
         setCombinedEquipmentLineChartOptions(names);
        
@@ -394,6 +426,20 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
                 detailed_value['a' + parameterIndex] = null;
               };
             });
+            json['reporting_period_efficiency']['numerator_values'].forEach((currentValue, parameterIndex) => {
+              if (json['reporting_period_efficiency']['numerator_values'][parameterIndex][timestampIndex] != null) {
+                detailed_value['b' + parameterIndex] = json['reporting_period_efficiency']['numerator_values'][parameterIndex][timestampIndex];
+              } else {
+                detailed_value['b' + parameterIndex] = null;
+              };
+            });
+            json['reporting_period_efficiency']['denominator_values'].forEach((currentValue, parameterIndex) => {
+              if (json['reporting_period_efficiency']['denominator_values'][parameterIndex][timestampIndex] != null) {
+                detailed_value['c' + parameterIndex] = json['reporting_period_efficiency']['denominator_values'][parameterIndex][timestampIndex];
+              } else {
+                detailed_value['c' + parameterIndex] = null;
+              };
+            });
             
             detailed_value_list.push(detailed_value);
           });
@@ -405,6 +451,13 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
         json['reporting_period_efficiency']['cumulations'].forEach((currentValue, index) => {
             detailed_value['a' + index] = currentValue;
           });
+        json['reporting_period_efficiency']['numerator_cumulations'].forEach((currentValue, index) => {
+            detailed_value['b' + index] = currentValue;
+          });
+        json['reporting_period_efficiency']['denominator_cumulations'].forEach((currentValue, index) => {
+            detailed_value['c' + index] = currentValue;
+          });
+
         detailed_value_list.push(detailed_value);
         setDetailedDataTableData(detailed_value_list);
         
@@ -416,9 +469,37 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
         })
         json['reporting_period_efficiency']['names'].forEach((currentValue, index) => {
           let unit = json['reporting_period_efficiency']['units'][index];
+          let numerator_name = json['reporting_period_efficiency']['numerator_names'][index];
+          let numerator_unit = json['reporting_period_efficiency']['numerator_units'][index];
+          let denominator_name = json['reporting_period_efficiency']['denominator_names'][index];
+          let denominator_unit = json['reporting_period_efficiency']['denominator_units'][index];
           detailed_column_list.push({
             dataField: 'a' + index,
             text: currentValue + ' (' + unit + ')',
+            sort: true,
+            formatter: function (decimalValue) {
+              if (decimalValue !== null) {
+                return decimalValue.toFixed(2);
+              } else {
+                return null;
+              }
+            }
+          })
+          detailed_column_list.push({
+            dataField: 'b' + index,
+            text: currentValue + '-' + numerator_name + ' (' + numerator_unit + ')',
+            sort: true,
+            formatter: function (decimalValue) {
+              if (decimalValue !== null) {
+                return decimalValue.toFixed(2);
+              } else {
+                return null;
+              }
+            }
+          })
+          detailed_column_list.push({
+            dataField: 'c' + index,
+            text: currentValue + '-' + denominator_name + ' (' + denominator_unit + ')',
             sort: true,
             formatter: function (decimalValue) {
               if (decimalValue !== null) {
@@ -646,17 +727,28 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div className="card-deck">
-        {cardSummaryList.map(cardSummaryItem => (
+      {cardSummaryList.map(cardSummaryItem => (
+        <div className="card-deck" key={cardSummaryItem['name']}>
           <CardSummary key={cardSummaryItem['name']}
             rate={cardSummaryItem['increment_rate']}
             title={t('Reporting Period Cumulative Efficiency NAME UNIT', { 'NAME': cardSummaryItem['name'], 'UNIT': '(' + cardSummaryItem['unit'] + ')' })}
-            color="success" 
-            >
+            color="success" >
             {cardSummaryItem['cumulation'] && <CountUp end={cardSummaryItem['cumulation']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
           </CardSummary>
-        ))}
-      </div>
+          <CardSummary key={cardSummaryItem['numerator_name']}
+            rate={cardSummaryItem['increment_rates_num']}
+            title={t('Reporting Period Output CATEGORY UNIT', { 'CATEGORY': cardSummaryItem['name'] + '-' + cardSummaryItem['numerator_name'], 'UNIT': '(' + cardSummaryItem['numerator_unit'] + ')' })}
+            color="success" >
+            {cardSummaryItem['numerator_cumulation'] && <CountUp end={cardSummaryItem['numerator_cumulation']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+          </CardSummary>
+          <CardSummary key={cardSummaryItem['denominator_name']}
+            rate={cardSummaryItem['increment_rates_den']}
+            title={t('Reporting Period Consumption CATEGORY UNIT', { 'CATEGORY': cardSummaryItem['name'] + '-' + cardSummaryItem['denominator_name'], 'UNIT': '(' + cardSummaryItem['denominator_unit'] + ')' })}
+            color="success" >
+            {cardSummaryItem['denominator_cumulation'] && <CountUp end={cardSummaryItem['denominator_cumulation']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+          </CardSummary>
+        </div>
+      ))}
       <LineChart reportingTitle={t('Reporting Period Cumulative Efficiency VALUE UNIT', { 'VALUE': null, 'UNIT': null })}
         baseTitle=''
         labels={combinedEquipmentLineChartLabels}
