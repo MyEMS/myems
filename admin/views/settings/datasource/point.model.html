@@ -16,7 +16,7 @@
             <div class="form-group"><label class="col-sm-4 control-label">{{'POINT.OBJECT_TYPE' | translate}}</label>
 
                 <div class="col-sm-8">
-                    <select name="pointobject_type"  ng-model="point.object_type" class="form-control m-b">
+                    <select name="pointobject_type"  ng-model="point.object_type" ng-disabled="is_edit" class="form-control m-b">
                                 <option value="ENERGY_VALUE">ENERGY VALUE</option>
                                 <option value="ANALOG_VALUE">ANALOG VALUE</option>
                                 <option value="DIGITAL_VALUE">DIGITAL VALUE</option>
