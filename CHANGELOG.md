@@ -16,6 +16,32 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
+## [v1.6.0] -   2021-12-31
+### Added
+-   added energy output and input to combined equipment efficiency report
+-   added energy output and input to equipment efficiency report
+-   added offline meter billing procedure to aggregation service
+-   added virtual meter billing procedure to aggregation service
+-   added PUT actions to text/wechat/email messages in api
+-   added POST actions to create new email/wechat/text messages
+-   added locl/unlock user who faied login some times to admin and api
+-   added bind-mount upload file folder to containers of myems-api and admin
+
+### Changed
+-   updated dependencies in web ui
+-   updated react-countup to v6.1.0 in web ui
+-   updated Meter RealtimeChart in web ui
+-   updated web for latest Node.js version
+-   updated get messages by date range in admin and api
+-   updated get emailmessages api in postman and readme
+-   updated config.py in myems-aggregation service
+
+### Fixed
+-   None
+
+### Removed
+-   None.
+
 ## [v1.5.1] -   2021-12-18
 ### Added
 -   Added lock/unlock user function if user failed login with wrong password.
@@ -602,8 +628,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v1.5.1...HEAD
-[v1.5.0]: https://github.com/MyEMS/myems/compare/v1.5.0...v1.5.1
+[Unreleased]: https://github.com/MyEMS/myems/compare/v1.6.0...HEAD
+[v1.6.0]: https://github.com/MyEMS/myems/compare/v1.5.1...v1.6.0
+[v1.5.1]: https://github.com/MyEMS/myems/compare/v1.5.0...v1.5.1
 [v1.5.0]: https://github.com/MyEMS/myems/compare/v1.4.0...v1.5.0
 [v1.4.0]: https://github.com/MyEMS/myems/compare/v1.3.4...v1.4.0
 [v1.3.4]: https://github.com/MyEMS/myems/compare/v1.3.3...v1.3.4
