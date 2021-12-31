@@ -303,7 +303,7 @@ class Reporting:
                 offline_meter_dict[row[1]] = {'id': row[0], 'unit': row[2]}
         # get all virtual meters
         virtual_meter_dict = dict()
-        query = (" SELECT m.id, m.uuid, ec.unit_of_measure "
+        query = (" SELECT m.id, m.uuid, ec.unit_of_measure, ec.name"
                  " FROM tbl_virtual_meters m, tbl_energy_categories ec "
                  " WHERE m.energy_category_id  = ec.id ")
         cursor_system.execute(query)
@@ -311,32 +311,38 @@ class Reporting:
 
         if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
             for row in rows_virtual_meters:
-                virtual_meter_dict[row[1]] = {'id': row[0], 'unit': row[2]}
+                virtual_meter_dict[row[1]] = {'id': row[0], 'unit': row[2], 'name': row[3]}
 
         if fraction_list is not None and len(fraction_list) > 0:
             for fraction in fraction_list:
                 if fraction['numerator_meter_uuid'] in offline_meter_dict:
+                    fraction['numerator_meter_name'] = offline_meter_dict[fraction['numerator_meter_uuid']]['name']
                     fraction['numerator_meter_id'] = offline_meter_dict[fraction['numerator_meter_uuid']]['id']
                     fraction['numerator_meter_unit'] = offline_meter_dict[fraction['numerator_meter_uuid']]['unit']
                     fraction['numerator_meter_type'] = 'offline_meter'
                 elif fraction['numerator_meter_uuid'] in virtual_meter_dict:
+                    fraction['numerator_meter_name'] = virtual_meter_dict[fraction['numerator_meter_uuid']]['name']
                     fraction['numerator_meter_id'] = virtual_meter_dict[fraction['numerator_meter_uuid']]['id']
                     fraction['numerator_meter_unit'] = virtual_meter_dict[fraction['numerator_meter_uuid']]['unit']
                     fraction['numerator_meter_type'] = 'virtual_meter'
                 elif fraction['numerator_meter_uuid'] in meter_dict:
+                    fraction['numerator_meter_name'] = meter_dict[fraction['numerator_meter_uuid']]['name']
                     fraction['numerator_meter_id'] = meter_dict[fraction['numerator_meter_uuid']]['id']
                     fraction['numerator_meter_unit'] = meter_dict[fraction['numerator_meter_uuid']]['unit']
                     fraction['numerator_meter_type'] = 'meter'
 
                 if fraction['denominator_meter_uuid'] in offline_meter_dict:
+                    fraction['denominator_meter_name'] = offline_meter_dict[fraction['denominator_meter_uuid']]['name']
                     fraction['denominator_meter_id'] = offline_meter_dict[fraction['denominator_meter_uuid']]['id']
                     fraction['denominator_meter_unit'] = offline_meter_dict[fraction['denominator_meter_uuid']]['unit']
                     fraction['denominator_meter_type'] = 'offline_meter'
                 elif fraction['denominator_meter_uuid'] in virtual_meter_dict:
+                    fraction['denominator_meter_name'] = virtual_meter_dict[fraction['denominator_meter_uuid']]['name']
                     fraction['denominator_meter_id'] = virtual_meter_dict[fraction['denominator_meter_uuid']]['id']
                     fraction['denominator_meter_unit'] = virtual_meter_dict[fraction['denominator_meter_uuid']]['unit']
                     fraction['denominator_meter_type'] = 'virtual_meter'
                 elif fraction['denominator_meter_uuid'] in meter_dict:
+                    fraction['denominator_meter_name'] = meter_dict[fraction['denominator_meter_uuid']]['name']
                     fraction['denominator_meter_id'] = meter_dict[fraction['denominator_meter_uuid']]['id']
                     fraction['denominator_meter_unit'] = meter_dict[fraction['denominator_meter_uuid']]['unit']
                     fraction['denominator_meter_type'] = 'meter'
@@ -494,6 +500,12 @@ class Reporting:
                 reporting[fraction['id']]['name'] = fraction['name']
                 reporting[fraction['id']]['unit'] = fraction['numerator_meter_unit'] + '/' + \
                     fraction['denominator_meter_unit']
+
+                reporting[fraction['id']]['numerator_name'] = fraction['numerator_meter_name']
+                reporting[fraction['id']]['numerator_unit'] = fraction['numerator_meter_unit']
+                reporting[fraction['id']]['denominator_name'] = fraction['denominator_meter_name']
+                reporting[fraction['id']]['denominator_unit'] = fraction['denominator_meter_unit']
+
                 reporting[fraction['id']]['numerator_timestamps'] = list()
                 reporting[fraction['id']]['numerator_values'] = list()
                 reporting[fraction['id']]['numerator_cumulation'] = Decimal(0.0)
@@ -752,10 +764,30 @@ class Reporting:
         result['reporting_period_efficiency'] = dict()
         result['reporting_period_efficiency']['names'] = list()
         result['reporting_period_efficiency']['units'] = list()
+
+        result['reporting_period_efficiency']['numerator_names'] = list()
+        result['reporting_period_efficiency']['numerator_units'] = list()
+        result['reporting_period_efficiency']['denominator_names'] = list()
+        result['reporting_period_efficiency']['denominator_units'] = list()
+
         result['reporting_period_efficiency']['timestamps'] = list()
         result['reporting_period_efficiency']['values'] = list()
+
+        result['reporting_period_efficiency']['numerator_timestamps'] = list()
+        result['reporting_period_efficiency']['numerator_values'] = list()
+        result['reporting_period_efficiency']['denominator_timestamps'] = list()
+        result['reporting_period_efficiency']['denominator_values'] = list()
+
         result['reporting_period_efficiency']['cumulations'] = list()
+
+        result['reporting_period_efficiency']['numerator_cumulations'] = list()
+        result['reporting_period_efficiency']['denominator_cumulations'] = list()
+
         result['reporting_period_efficiency']['increment_rates'] = list()
+
+        result['reporting_period_efficiency']['increment_rates_num'] = list()
+        result['reporting_period_efficiency']['increment_rates_den'] = list()
+
         if fraction_list is not None and len(fraction_list) > 0:
             for fraction in fraction_list:
                 result['base_period_efficiency']['timestamps'].append(base[fraction['id']]['timestamps'])
@@ -763,12 +795,48 @@ class Reporting:
                 result['base_period_efficiency']['cumulations'].append(base[fraction['id']]['cumulation'])
                 result['reporting_period_efficiency']['names'].append(reporting[fraction['id']]['name'])
                 result['reporting_period_efficiency']['units'].append(reporting[fraction['id']]['unit'])
+
+                result['reporting_period_efficiency']['numerator_names'].append(
+                    reporting[fraction['id']]['numerator_name'])
+                result['reporting_period_efficiency']['numerator_units'].append(
+                    reporting[fraction['id']]['numerator_unit'])
+                result['reporting_period_efficiency']['denominator_names'].append(
+                    reporting[fraction['id']]['denominator_name'])
+                result['reporting_period_efficiency']['denominator_units'].append(
+                    reporting[fraction['id']]['denominator_unit'])
+
                 result['reporting_period_efficiency']['timestamps'].append(reporting[fraction['id']]['timestamps'])
                 result['reporting_period_efficiency']['values'].append(reporting[fraction['id']]['values'])
+
+                result['reporting_period_efficiency']['numerator_timestamps'].append(
+                    reporting[fraction['id']]['numerator_timestamps'])
+                result['reporting_period_efficiency']['numerator_values'].append(
+                    reporting[fraction['id']]['numerator_values'])
+                result['reporting_period_efficiency']['denominator_timestamps'].append(
+                    reporting[fraction['id']]['denominator_timestamps'])
+                result['reporting_period_efficiency']['denominator_values'].append(
+                    reporting[fraction['id']]['denominator_values'])
+
                 result['reporting_period_efficiency']['cumulations'].append(reporting[fraction['id']]['cumulation'])
+
+                result['reporting_period_efficiency']['numerator_cumulations'].append(
+                    reporting[fraction['id']]['numerator_cumulation'])
+                result['reporting_period_efficiency']['denominator_cumulations'].append(
+                    reporting[fraction['id']]['denominator_cumulation'])
+
                 result['reporting_period_efficiency']['increment_rates'].append(
                     (reporting[fraction['id']]['cumulation'] - base[fraction['id']]['cumulation']) /
                     base[fraction['id']]['cumulation'] if base[fraction['id']]['cumulation'] > Decimal(0.0) else None)
+
+                result['reporting_period_efficiency']['increment_rates_num'].append(
+                    (reporting[fraction['id']]['numerator_cumulation'] - base[fraction['id']]['numerator_cumulation']) /
+                    base[fraction['id']]['numerator_cumulation'] if base[fraction['id']]['numerator_cumulation'] >
+                                                                    Decimal(0.0) else None)
+                result['reporting_period_efficiency']['increment_rates_den'].append(
+                    (reporting[fraction['id']]['denominator_cumulation'] -
+                     base[fraction['id']]['denominator_cumulation']) /
+                    base[fraction['id']]['denominator_cumulation'] if base[fraction['id']]['denominator_cumulation'] >
+                                                                      Decimal(0.0) else None)
 
         result['parameters'] = {
             "names": parameters_data['names'],
