@@ -57,12 +57,13 @@ npm start
 In this section, you will install myems-web on Docker.
 
 * Check and change the config file if necessary:
+
 ```bash
 cd myems/web
 nano src/config.js
 ```
 
-* replace ~~127.0.0.1:8000~~ in nginx.conf with actual **HOST** ip and port of myems-api
+* Replace ~~127.0.0.1:8000~~ in nginx.conf with real **HOST** ip and port of myems-api
 ```bash
 cd myems/web
 nano nginx.conf

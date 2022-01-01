@@ -47,6 +47,7 @@ In this section, you will install myems-api on Docker.
 
 *  Copy example.env file to .env file and modify the .env file
 
+Replace ~~127.0.0.1~~ with real **HOST** IP address.
 ```bash
 cd myems/myems-api
 cp example.env .env
