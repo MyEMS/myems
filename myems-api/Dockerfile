@@ -1,4 +1,4 @@
-FROM python:3.9.6
+FROM python:slim
 WORKDIR /code
 
 # todo: share upload folder with admin container on Docker
