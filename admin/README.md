@@ -49,6 +49,16 @@ docker run -d -p 8001:8001 -v /upload:/var/www/html/admin/upload --restart alway
 
 --name		Assign a name to the container
 
+If you want to immigrate the image to another computer,
+* Export image to tarball file
+```bash
+docker save --output myems-admin.tar myems/myems-admin
+```
+* Copy the tarball file to another computer, and then load image from tarball file
+```bash
+docker load --input .\myems-admin.tar
+```
+
 ## Option 2: Install on NGINX Server
 
 * Install NGINX Server

@@ -52,6 +52,15 @@ docker run -d --restart always --name myems-aggregation myems/myems-aggregation
 
 --name		Assign a name to the container
 
+If you want to immigrate the image to another computer,
+* Export image to tarball file
+```bash
+docker save --output myems-aggregation.tar myems/myems-aggregation
+```
+* Copy the tarball file to another computer, and then load image from tarball file
+```bash
+docker load --input .\myems-aggregation.tar
+```
 
 ### Option 2: Online install myems-aggregation on Ubuntu Server with internet access
 
