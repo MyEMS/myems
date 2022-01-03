@@ -95,6 +95,15 @@ docker run -dp 80:80 --restart always --name myems-web myems/myems-web
 
 --name		Assign a name to the container
 
+If you want to immigrate the image to another computer,
+* Export image to tarball file
+```bash
+docker save --output myems-web.tar myems/myems-web
+```
+* Copy the tarball file to another computer, and then load image from tarball file
+```bash
+docker load --input .\myems-web.tar
+```
 
 ### Option 2: Install myems-web on Server with NGINX
 
