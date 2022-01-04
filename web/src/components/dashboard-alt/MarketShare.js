@@ -35,7 +35,9 @@ const getOption = (data, isDark) => {
         type: 'pie',
         radius: ['100%', '87%'],
         avoidLabelOverlap: false,
-        hoverAnimation: false,
+        emphasis: {
+          scale: false
+        },
         itemStyle: {
           borderWidth: 2,
           borderColor: isDark ? '#0E1C2F' : '#fff'

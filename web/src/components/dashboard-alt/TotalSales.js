@@ -95,7 +95,9 @@ const getOption = (month, isDark) => {
         symbol: 'circle',
         symbolSize: 10,
         smooth: false,
-        hoverAnimation: true,
+        emphasis: {
+          scale: true
+        },
         areaStyle: {
           color: {
             type: 'linear',

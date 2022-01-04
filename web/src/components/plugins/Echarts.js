@@ -140,7 +140,9 @@ const lineChartCode = `function linechartExample(){
                 borderColor: themeColors.primary,
                 borderWidth: 2
               },
-              hoverAnimation: true,
+              emphasis: {
+                  scale: true
+              },
               data: totalOrderData,
               connectNulls: true,
               smooth: 0.6,

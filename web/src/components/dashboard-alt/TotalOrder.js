@@ -64,7 +64,9 @@ const getOption = (data, isDark) => {
           borderColor: themeColors.primary,
           borderWidth: 2
         },
-        hoverAnimation: true,
+        emphasis: {
+          scale: true
+        },
         data: data,
         connectNulls: true,
         smooth: 0.6,
