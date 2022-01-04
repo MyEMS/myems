@@ -86,10 +86,10 @@ class VirtualMeterCollection:
                 if meta_result["equation"] is not None:
                     expression = {'equation': meta_result["equation"], 'variables': []}
 
-                    query_variables = (" SELECT v.id, v.name, v.meter_type, v.meter_id "
+                    query_variables = (" SELECT v.id, v.name, v.meter_type, v.meter_id, SUBSTRING(v.name,2) as name2"
                                        " FROM tbl_virtual_meters vm, tbl_variables v "
                                        " WHERE vm.id = %s AND v.virtual_meter_id = vm.id "
-                                       " ORDER BY v.name ")
+                                       " ORDER BY name2+0 ")
                     cursor.execute(query_variables, (meta_result['id'],))
                     rows_variables = cursor.fetchall()
                     if rows_variables is not None:
