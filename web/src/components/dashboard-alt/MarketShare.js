@@ -7,7 +7,9 @@ import * as echarts from 'echarts/lib/echarts';
 import ReactEchartsCore from 'echarts-for-react/lib/core';
 import { useContext } from 'react';
 import AppContext from '../../context/Context';
+import { PieChart } from 'echarts/charts';
 
+echarts.use([PieChart]);
 const getOption = (data, isDark) => {
   const grays = getGrays(isDark);
   return {
