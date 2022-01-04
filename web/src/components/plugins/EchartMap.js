@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { Button, Card, CardBody } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactEchartsCore from 'echarts-for-react/lib/core';
-import echarts from 'echarts/lib/echarts';
+import * as echarts from 'echarts/lib/echarts';
 import PageHeader from '../common/PageHeader';
 import FalconCardHeader from '../common/FalconCardHeader';
 import FalconEditor from '../common/FalconEditor';

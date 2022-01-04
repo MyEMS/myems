@@ -17,7 +17,7 @@ import {
 import Datetime from 'react-datetime';
 import moment from 'moment';
 import ReactEchartsCore from 'echarts-for-react';
-import echarts from 'echarts/lib/echarts';
+import * as echarts from 'echarts/lib/echarts';
 import AppContext from '../../../context/Context';
 import { getCookieValue, createCookie } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Card, CardBody, CustomInput } from 'reactstrap';
 import PropTypes from 'prop-types';
-import echarts from 'echarts/lib/echarts';
+import * as echarts from 'echarts/lib/echarts';
 import ReactEchartsCore from 'echarts-for-react/lib/core';
 import { getPosition, getGrays, themeColors, rgbaColor, isIterableArray, capitalize } from '../../helpers/utils';
 import CardDropdown from './CardDropdown';
@@ -9,12 +9,12 @@ import FalconCardHeader from '../common/FalconCardHeader';
 import Flex from '../common/Flex';
 import AppContext from '../../context/Context';
 
-import 'echarts/lib/chart/bar';
-import 'echarts/lib/component/tooltip';
-import 'echarts/lib/component/legend';
+import { BarChart } from 'echarts/charts';
+import { TooltipComponent, LegendComponent} from 'echarts/components';
 
 import { totalSalesByMonth } from '../../data/dashboard/topProducts';
 
+echarts.use([BarChart, TooltipComponent, LegendComponent]);
 function getFormatter(params) {
   const { name, value } = params[0];
   return `${Object.keys(totalSalesByMonth)[0]} ${name}, ${value}`;
