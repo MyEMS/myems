@@ -4,12 +4,13 @@ import FalconCardHeader from '../common/FalconCardHeader';
 import { Badge, Card, CardBody, Col, Row } from 'reactstrap';
 import Flex from '../common/Flex';
 import ReactEchartsCore from 'echarts-for-react/lib/core';
-import echarts from 'echarts/lib/echarts';
-import 'echarts/lib/chart/line';
+import * as echarts from 'echarts/lib/echarts';
+import { LineChart } from 'echarts/charts';
 import { getGrays, themeColors, rgbaColor, getPosition, numberFormatter } from '../../helpers/utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import AppContext from '../../context/Context';
 
+echarts.use([LineChart]);
 const getOption = (data, isDark) => {
   const grays = getGrays(isDark);
   return {
@@ -63,7 +64,9 @@ const getOption = (data, isDark) => {
           borderColor: themeColors.primary,
           borderWidth: 2
         },
-        hoverAnimation: true,
+        emphasis: {
+          scale: true
+        },
         data: data,
         connectNulls: true,
         smooth: 0.6,

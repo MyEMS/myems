@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import { getGrays, getPosition, isIterableArray, numberFormatter } from '../../../helpers/utils';
 import SharePieItem from './SharePieItem';
 import { Card, CardBody, Col, Row } from 'reactstrap';
-import echarts from 'echarts/lib/echarts';
+import * as echarts from 'echarts/lib/echarts';
 import ReactEchartsCore from 'echarts-for-react/lib/core';
-import 'echarts/lib/chart/pie';
+import { PieChart } from 'echarts/charts';
 import { useContext } from 'react';
 import AppContext from '../../../context/Context';
 
+echarts.use([PieChart]);
 const getOption = (data, isDark) => {
   const grays = getGrays(isDark);
   return {
@@ -34,7 +35,9 @@ const getOption = (data, isDark) => {
         type: 'pie',
         radius: ['100%', '87%'],
         avoidLabelOverlap: false,
-        hoverAnimation: false,
+        emphasis: {
+          scale: false
+        },
         itemStyle: {
           borderWidth: 2,
           borderColor: isDark ? '#0E1C2F' : '#fff'

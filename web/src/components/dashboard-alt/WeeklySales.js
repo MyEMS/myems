@@ -5,13 +5,14 @@ import { Badge, Card, CardBody, Col, Row, UncontrolledTooltip } from 'reactstrap
 import FalconCardHeader from '../common/FalconCardHeader';
 import Flex from '../common/Flex';
 import ReactEchartsCore from 'echarts-for-react/lib/core';
-import echarts from 'echarts/lib/echarts';
+import * as echarts from 'echarts/lib/echarts';
 import { themeColors, getPosition, numberFormatter, getGrays } from '../../helpers/utils';
 
-import 'echarts/lib/chart/bar';
-import 'echarts/lib/component/tooltip';
+import { BarChart } from 'echarts/charts';
+import { TooltipComponent } from 'echarts/components';
 import AppContext from '../../context/Context';
 
+echarts.use([BarChart, TooltipComponent]);
 const getOption = (data, dataBackground, isDark) => {
   const grays = getGrays(isDark);
   return {
