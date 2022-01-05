@@ -170,7 +170,7 @@ api.add_route('/distributionsystems/{id_}',
 api.add_route('/distributionsystems/{id_}/distributioncircuits',
               distributionsystem.DistributionSystemDistributionCircuitCollection())
 
-api.add_route('/emailmessages/from/{startdate}/to/{enddate}',
+api.add_route('/emailmessages',
               emailmessage.EmailMessageCollection())
 api.add_route('/emailmessages/{id_}',
               emailmessage.EmailMessageItem())
@@ -442,7 +442,7 @@ api.add_route('/tenanttypes',
 api.add_route('/tenanttypes/{id_}',
               tenanttype.TenantTypeItem())
 
-api.add_route('/textmessages/from/{startdate}/to/{enddate}',
+api.add_route('/textmessages',
               textmessage.TextMessageCollection())
 api.add_route('/textmessages/{id_}',
               textmessage.TextMessageItem())
@@ -464,20 +464,22 @@ api.add_route('/users/resetpassword',
               user.ResetPassword())
 api.add_route('/users/changepassword',
               user.ChangePassword())
+api.add_route('/users/unlock/{id_}',
+              user.Unlock())
 
 api.add_route('/virtualmeters',
               virtualmeter.VirtualMeterCollection())
 api.add_route('/virtualmeters/{id_}',
               virtualmeter.VirtualMeterItem())
 
-api.add_route('/webmessages/from/{startdate}/to/{enddate}',
+api.add_route('/webmessages',
               webmessage.WebMessageCollection())
 api.add_route('/webmessagesnew',
               webmessage.WebMessageStatusNewCollection())
 api.add_route('/webmessages/{id_}',
               webmessage.WebMessageItem())
 
-api.add_route('/wechatmessages/from/{startdate}/to/{enddate}',
+api.add_route('/wechatmessages',
               wechatmessage.WechatMessageCollection())
 api.add_route('/wechatmessages/{id_}',
               wechatmessage.WechatMessageItem())

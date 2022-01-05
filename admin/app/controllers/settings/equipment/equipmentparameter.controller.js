@@ -1,6 +1,18 @@
 'use strict';
 
-app.controller('EquipmentParameterController', function($scope, $uibModal, $translate, MeterService, VirtualMeterService, OfflineMeterService,	EquipmentParameterService, EquipmentService, PointService, toaster,SweetAlert) {
+app.controller('EquipmentParameterController', function(
+    $scope,
+    $window,
+    $uibModal,
+    $translate,
+    MeterService,
+    VirtualMeterService,
+    OfflineMeterService,
+    EquipmentParameterService,
+    EquipmentService,
+    PointService,
+    toaster,SweetAlert) {
+    $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentEquipment = {selected:undefined};
     $scope.is_show_add_parameter = false;
     $scope.equipments = [];
@@ -61,8 +73,8 @@ app.controller('EquipmentParameterController', function($scope, $uibModal, $tran
         if (equipmentparameter.denominator_meter != null) {
             equipmentparameter.denominator_meter_uuid = equipmentparameter.denominator_meter.uuid;
         }
-
-		EquipmentParameterService.addEquipmentParameter(equipmentid, equipmentparameter, function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		EquipmentParameterService.addEquipmentParameter(equipmentid, equipmentparameter, headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 201) {
 				toaster.pop({
 					type: "success",
@@ -111,7 +123,9 @@ app.controller('EquipmentParameterController', function($scope, $uibModal, $tran
 			if (modifiedEquipmentParameter.denominator_meter != null) {
 					modifiedEquipmentParameter.denominator_meter_uuid = modifiedEquipmentParameter.denominator_meter.uuid;
 			}
-			EquipmentParameterService.editEquipmentParameter($scope.currentEquipment.id, modifiedEquipmentParameter, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			EquipmentParameterService.editEquipmentParameter($scope.currentEquipment.id,
+			    modifiedEquipmentParameter, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
 						type: "success",
@@ -148,7 +162,9 @@ app.controller('EquipmentParameterController', function($scope, $uibModal, $tran
 			},
 			function(isConfirm) {
 				if (isConfirm) {
-					EquipmentParameterService.deleteEquipmentParameter($scope.currentEquipment.id, equipmentparameter.id, function (response) {
+					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+					EquipmentParameterService.deleteEquipmentParameter($scope.currentEquipment.id,
+					    equipmentparameter.id, headers, function (response) {
 						if (angular.isDefined(response.status) && response.status === 204) {
 							toaster.pop({
 								type: "success",
@@ -167,7 +183,8 @@ app.controller('EquipmentParameterController', function($scope, $uibModal, $tran
 				   		}
 					});
 				}
-			});
+			}
+		);
 	};
 
 	$scope.colorMeterType = function(type) {
@@ -251,7 +268,8 @@ app.controller('EquipmentParameterController', function($scope, $uibModal, $tran
 	};
 
 	$scope.getAllPoints = function() {
-		PointService.getAllPoints(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		PointService.getAllPoints(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.points = response.data;
 			} else {

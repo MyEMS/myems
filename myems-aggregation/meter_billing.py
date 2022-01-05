@@ -50,7 +50,7 @@ def main(logger):
             rows_meters = cursor_system_db.fetchall()
 
             if rows_meters is None or len(rows_meters) == 0:
-                print("Step 1.2: There isn't any equipments. ")
+                print("Step 1.2: There isn't any meters. ")
                 if cursor_system_db:
                     cursor_system_db.close()
                 if cnx_system_db:

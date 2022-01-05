@@ -10,16 +10,16 @@ app.factory('EquipmentParameterService', function($http) {
                 callback(response);
             });
         },
-        addEquipmentParameter: function(equipmentID, equipmentparameter,callback) {
-            $http.post(getAPI()+'equipments/'+equipmentID+'/parameters',{data:equipmentparameter})
+        addEquipmentParameter: function(equipmentID, equipmentparameter, headers, callback) {
+            $http.post(getAPI()+'equipments/'+equipmentID+'/parameters',{data:equipmentparameter}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        editEquipmentParameter: function(equipmentID,equipmentparameter,callback) {
-            $http.put(getAPI()+'equipments/'+equipmentID+'/parameters/'+equipmentparameter.id,{data:equipmentparameter})
+        editEquipmentParameter: function(equipmentID, equipmentparameter, headers, callback) {
+            $http.put(getAPI()+'equipments/'+equipmentID+'/parameters/'+equipmentparameter.id,{data:equipmentparameter}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -27,8 +27,8 @@ app.factory('EquipmentParameterService', function($http) {
             });
         },
 
-        deleteEquipmentParameter: function(equipmentID, parameterID, callback) {
-            $http.delete(getAPI()+'equipments/'+equipmentID+'/parameters/'+parameterID)
+        deleteEquipmentParameter: function(equipmentID, parameterID, headers, callback) {
+            $http.delete(getAPI()+'equipments/'+equipmentID+'/parameters/'+parameterID, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

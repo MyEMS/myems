@@ -168,6 +168,8 @@ def generate_excel(report,
         current_row_number += 1
 
         category = reporting_period_data['names']
+        numerator_names = reporting_period_data['numerator_names']
+        denominator_names = reporting_period_data['denominator_names']
         ca_len = len(category)
 
         ws.row_dimensions[current_row_number].height = 80
@@ -186,6 +188,29 @@ def generate_excel(report,
 
             col = chr(ord(col) + 1)
 
+        nu_len = len(numerator_names)
+        for i in range(0, nu_len):
+            ws[col + str(current_row_number)].fill = table_fill
+            ws[col + str(current_row_number)].font = name_font
+            ws[col + str(current_row_number)].alignment = c_c_alignment
+            ws[col + str(current_row_number)].border = f_border
+            ws[col + str(current_row_number)] = \
+                reporting_period_data['numerator_names'][i] + " (" + reporting_period_data['numerator_units'][i] + ")"
+
+            col = chr(ord(col) + 1)
+
+        de_len = len(denominator_names)
+        for i in range(0, de_len):
+            ws[col + str(current_row_number)].fill = table_fill
+            ws[col + str(current_row_number)].font = name_font
+            ws[col + str(current_row_number)].alignment = c_c_alignment
+            ws[col + str(current_row_number)].border = f_border
+            ws[col + str(current_row_number)] = \
+                reporting_period_data['denominator_names'][i] + " (" + \
+                reporting_period_data['denominator_units'][i] + ")"
+
+            col = chr(ord(col) + 1)
+
         current_row_number += 1
 
         ws['B' + str(current_row_number)].font = title_font
@@ -200,6 +225,22 @@ def generate_excel(report,
             ws[col + str(current_row_number)].alignment = c_c_alignment
             ws[col + str(current_row_number)].border = f_border
             ws[col + str(current_row_number)] = round(reporting_period_data['cumulations'][i], 2)
+
+            col = chr(ord(col) + 1)
+
+        for i in range(0, nu_len):
+            ws[col + str(current_row_number)].font = name_font
+            ws[col + str(current_row_number)].alignment = c_c_alignment
+            ws[col + str(current_row_number)].border = f_border
+            ws[col + str(current_row_number)] = round(reporting_period_data['numerator_cumulation'][i], 2)
+
+            col = chr(ord(col) + 1)
+
+        for i in range(0, de_len):
+            ws[col + str(current_row_number)].font = name_font
+            ws[col + str(current_row_number)].alignment = c_c_alignment
+            ws[col + str(current_row_number)].border = f_border
+            ws[col + str(current_row_number)] = round(reporting_period_data['denominator_cumulation'][i], 2)
 
             col = chr(ord(col) + 1)
 
@@ -222,6 +263,25 @@ def generate_excel(report,
 
             col = chr(ord(col) + 1)
 
+        for i in range(0, nu_len):
+            ws[col + str(current_row_number)].font = name_font
+            ws[col + str(current_row_number)].alignment = c_c_alignment
+            ws[col + str(current_row_number)].border = f_border
+            ws[col + str(current_row_number)] = str(
+                round(reporting_period_data['increment_rates_num'][i] * 100, 2)) + '%' \
+                if reporting_period_data['increment_rates_num'][i] is not None else '-'
+
+            col = chr(ord(col) + 1)
+
+        for i in range(0, de_len):
+            ws[col + str(current_row_number)].font = name_font
+            ws[col + str(current_row_number)].alignment = c_c_alignment
+            ws[col + str(current_row_number)].border = f_border
+            ws[col + str(current_row_number)] = str(
+                round(reporting_period_data['increment_rates_den'][i] * 100, 2)) + '%' \
+                if reporting_period_data['increment_rates_den'][i] is not None else '-'
+
+            col = chr(ord(col) + 1)
         current_row_number += 2
 
     ####################################################################################################################
@@ -262,6 +322,8 @@ def generate_excel(report,
 
     if has_values_data and has_timestamps_data:
         ca_len = len(reporting_period_data['names'])
+        de_len = len(reporting_period_data['denominator_names'])
+        nu_len = len(reporting_period_data['numerator_names'])
         time = reporting_period_data['timestamps'][0]
 
         ws['B' + str(current_row_number)].font = title_font
@@ -271,7 +333,7 @@ def generate_excel(report,
 
         chart_start_row_number = current_row_number
 
-        current_row_number += ca_len * 6 + 1
+        current_row_number += ca_len * 6 + de_len * 6 + nu_len * 6 + 1
 
         if has_parameters_names_and_timestamps_and_values_data:
             current_sheet_parameters_row_number = current_row_number
@@ -303,6 +365,26 @@ def generate_excel(report,
                 reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
             col = chr(ord(col) + 1)
 
+        for i in range(0, nu_len):
+            ws[col + str(current_row_number)].fill = table_fill
+            ws[col + str(current_row_number)].font = title_font
+            ws[col + str(current_row_number)].alignment = c_c_alignment
+            ws[col + str(current_row_number)].border = f_border
+            ws[col + str(current_row_number)] = \
+                reporting_period_data['numerator_names'][i] + " (" + reporting_period_data['numerator_units'][i] + ")"
+            col = chr(ord(col) + 1)
+
+        for i in range(0, de_len):
+            ws[col + str(current_row_number)].fill = table_fill
+            ws[col + str(current_row_number)].font = name_font
+            ws[col + str(current_row_number)].alignment = c_c_alignment
+            ws[col + str(current_row_number)].border = f_border
+            ws[col + str(current_row_number)] = \
+                reporting_period_data['denominator_names'][i] + " (" + \
+                reporting_period_data['denominator_units'][i] + ")"
+
+            col = chr(ord(col) + 1)
+
         current_row_number += 1
 
         for i in range(0, len(time)):
@@ -318,6 +400,22 @@ def generate_excel(report,
                 ws[col + str(current_row_number)].border = f_border
                 ws[col + str(current_row_number)] = round(reporting_period_data['values'][j][i], 2) \
                     if reporting_period_data['values'][j][i] is not None else 0.00
+                col = chr(ord(col) + 1)
+
+            for j in range(0, nu_len):
+                ws[col + str(current_row_number)].font = title_font
+                ws[col + str(current_row_number)].alignment = c_c_alignment
+                ws[col + str(current_row_number)].border = f_border
+                ws[col + str(current_row_number)] = round(reporting_period_data['numerator_values'][j][i], 2) \
+                    if reporting_period_data['numerator_values'][j][i] is not None else 0.00
+                col = chr(ord(col) + 1)
+
+            for j in range(0, de_len):
+                ws[col + str(current_row_number)].font = title_font
+                ws[col + str(current_row_number)].alignment = c_c_alignment
+                ws[col + str(current_row_number)].border = f_border
+                ws[col + str(current_row_number)] = round(reporting_period_data['denominator_values'][j][i], 2) \
+                    if reporting_period_data['denominator_values'][j][i] is not None else 0.00
                 col = chr(ord(col) + 1)
 
             current_row_number += 1
@@ -336,6 +434,22 @@ def generate_excel(report,
             ws[col + str(current_row_number)].alignment = c_c_alignment
             ws[col + str(current_row_number)].border = f_border
             ws[col + str(current_row_number)] = round(reporting_period_data['cumulations'][i], 2)
+            col = chr(ord(col) + 1)
+
+        for i in range(0, nu_len):
+            ws[col + str(current_row_number)].font = title_font
+            ws[col + str(current_row_number)].alignment = c_c_alignment
+            ws[col + str(current_row_number)].border = f_border
+            ws[col + str(current_row_number)] = round(reporting_period_data['numerator_cumulation'][i], 2)
+
+            col = chr(ord(col) + 1)
+
+        for i in range(0, de_len):
+            ws[col + str(current_row_number)].font = title_font
+            ws[col + str(current_row_number)].alignment = c_c_alignment
+            ws[col + str(current_row_number)].border = f_border
+            ws[col + str(current_row_number)] = round(reporting_period_data['denominator_cumulation'][i], 2)
+
             col = chr(ord(col) + 1)
 
         current_row_number += 2
@@ -365,6 +479,58 @@ def generate_excel(report,
             line = LineChart()
             line.title = 'Reporting Period Cumulative Efficiency - ' + \
                          reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
+            labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1, max_row=table_end_row_number)
+            line_data = Reference(ws, min_col=3 + i, min_row=table_start_row_number, max_row=table_end_row_number)
+            line.add_data(line_data, titles_from_data=True)
+            line.set_categories(labels)
+            line_data = line.series[0]
+            line_data.marker.symbol = "circle"
+            line_data.smooth = True
+            line.x_axis.crosses = 'min'
+            line.height = 8.25
+            line.width = format_time_width_number * len(time) if len(time) > min_len_number else min_width_number
+            if line.width > 24:
+                line.width = 24
+            line.dLbls = DataLabelList()
+            line.dLbls.dLblPos = 't'
+            line.dLbls.showVal = True
+            line.dLbls.showPercent = False
+            chart_col = 'B'
+            chart_cell = chart_col + str(chart_start_row_number)
+            chart_start_row_number += 6
+            ws.add_chart(line, chart_cell)
+
+        for i in range(0, nu_len):
+            line = LineChart()
+            line.title = 'Reporting Period Cumulative Efficiency - ' + \
+                         reporting_period_data['numerator_names'][i] + " (" + \
+                         reporting_period_data['numerator_units'][i] + ")"
+            labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1, max_row=table_end_row_number)
+            line_data = Reference(ws, min_col=3 + i, min_row=table_start_row_number, max_row=table_end_row_number)
+            line.add_data(line_data, titles_from_data=True)
+            line.set_categories(labels)
+            line_data = line.series[0]
+            line_data.marker.symbol = "circle"
+            line_data.smooth = True
+            line.x_axis.crosses = 'min'
+            line.height = 8.25
+            line.width = format_time_width_number * len(time) if len(time) > min_len_number else min_width_number
+            if line.width > 24:
+                line.width = 24
+            line.dLbls = DataLabelList()
+            line.dLbls.dLblPos = 't'
+            line.dLbls.showVal = True
+            line.dLbls.showPercent = False
+            chart_col = 'B'
+            chart_cell = chart_col + str(chart_start_row_number)
+            chart_start_row_number += 6
+            ws.add_chart(line, chart_cell)
+
+        for i in range(0, de_len):
+            line = LineChart()
+            line.title = 'Reporting Period Cumulative Efficiency - ' + \
+                         reporting_period_data['denominator_names'][i] + " (" + \
+                         reporting_period_data['denominator_units'][i] + ")"
             labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1, max_row=table_end_row_number)
             line_data = Reference(ws, min_col=3 + i, min_row=table_start_row_number, max_row=table_end_row_number)
             line.add_data(line_data, titles_from_data=True)

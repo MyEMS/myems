@@ -1,5 +1,5 @@
-## Docker Compose 快速部署 
-除了上面的分步安装方式，也可以使用docker-compose命令一键安装
+## Docker Compose
+除了分步安装方式，也可以使用docker-compose命令一键安装
 
 ### 前提
 
@@ -20,14 +20,14 @@
 | 数据库账号 | root        |
 | 数据库密码 | !MyEMS1        |
 
-### Docker-Compose安装
+### 安装
 
 1.  克隆仓库
 ```
 git clone https://gitee.com/myems/myems.git 
 ```
 
-2.  数据库导入 (否则数据库没有用户信息，网页无法验证登录)
+2.  导入数据库结构
 
 ```
 cd myems/database/install
@@ -41,7 +41,7 @@ mysql -u root -p < myems_reporting_db.sql
 mysql -u root -p < myems_system_db.sql
 mysql -u root -p < myems_user_db.sql
 ```
-注： 如有问题，详情可查看"database/README.md"
+注： 详情可查看[database/README.md](./database/README.md)
 
 
 3.  修改配置
@@ -71,15 +71,18 @@ cp myems-normalization/example.env myems-normalization/.env
 sed -i 's/127.0.0.1/192.168.0.2/g' myems-normalization/.env 
 ```
 
-3.3  测试数据库是否可以正确连接
+3.3 修改docker-compose.yml中upload文件夹
+如果是Windows主机，在api和admin服务中，volumes/source使用 c:\upload
+如果是Linux主机，在api和admin服务中，volumes/source使用 /upload
+应确保api和admin共享同一主机文件夹。
+
+3.4  验证数据库连接
 ```
 cd myems
 python3 myems-api/test_mysql.py
 ```
-注：如果测试通过，继续下一步操作，否则请修改.env配置。
 
-
-4.  Web UI 打包 (Web UI 为React项目，需要打包为产品文件)
+4.  编译Web UI
 
 ```
 cd myems/web
@@ -94,15 +97,14 @@ cd myems
 docker-compose up -d 
 ```
 
-
-6.  测试
+6. 验证
 
 |       | 网址                    | 结果             |
 | ----- | ----------------------- | ---------------- |
-| web   | 192.168.0.1:80          | 输入账号密码登陆成功 |
+| web   | 192.168.0.1:80          | 输入账号密码登录成功 |
 | admin | 192.168.0.1:8001        | 输入账号密码登录成功 |
 | api   | 192.168.0.1:8000/version| 返回版本信息       |
-注：如果api测试报错，请确认.env里的数据库IP，数据库账号，数据库密码是否正确，如果不正确，请修改.env后执行：
+注：如果api报错，请确认.env里的数据库IP，数据库账号，数据库密码是否正确，如果不正确，请修改.env后执行：
 ```
 docker-compose up --build -d
 ```

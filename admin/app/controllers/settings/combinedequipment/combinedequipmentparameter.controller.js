@@ -1,6 +1,19 @@
 'use strict';
 
-app.controller('CombinedEquipmentParameterController', function ($scope, $uibModal, $translate, MeterService, VirtualMeterService, OfflineMeterService, CombinedEquipmentParameterService, CombinedEquipmentService, PointService, toaster, SweetAlert) {
+app.controller('CombinedEquipmentParameterController', function (
+    $scope,
+    $window,
+    $uibModal,
+    $translate,
+    MeterService,
+    VirtualMeterService,
+    OfflineMeterService,
+    CombinedEquipmentParameterService,
+    CombinedEquipmentService,
+    PointService,
+    toaster,
+    SweetAlert) {
+    $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.currentCombinedEquipment = { selected: undefined };
 	$scope.is_show_add_parameter = false;
 	$scope.combinedequipments = [];
@@ -36,7 +49,6 @@ app.controller('CombinedEquipmentParameterController', function ($scope, $uibMod
 	};
 
 	$scope.addCombinedEquipmentParameter = function () {
-
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/combinedequipment/combinedequipmentparameter.model.html',
 			controller: 'ModalAddCombinedEquipmentParameterCtrl',
@@ -61,8 +73,8 @@ app.controller('CombinedEquipmentParameterController', function ($scope, $uibMod
 			if (combinedequipmentparameter.denominator_meter != null) {
 				combinedequipmentparameter.denominator_meter_uuid = combinedequipmentparameter.denominator_meter.uuid;
 			}
-
-			CombinedEquipmentParameterService.addCombinedEquipmentParameter(combinedequipmentid, combinedequipmentparameter, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			CombinedEquipmentParameterService.addCombinedEquipmentParameter(combinedequipmentid, combinedequipmentparameter, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
@@ -111,7 +123,8 @@ app.controller('CombinedEquipmentParameterController', function ($scope, $uibMod
 			if (modifiedCombinedEquipmentParameter.denominator_meter != null) {
 				modifiedCombinedEquipmentParameter.denominator_meter_uuid = modifiedCombinedEquipmentParameter.denominator_meter.uuid;
 			}
-			CombinedEquipmentParameterService.editCombinedEquipmentParameter($scope.currentCombinedEquipment.id, modifiedCombinedEquipmentParameter, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			CombinedEquipmentParameterService.editCombinedEquipmentParameter($scope.currentCombinedEquipment.id, modifiedCombinedEquipmentParameter, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
 						type: "success",
@@ -148,7 +161,8 @@ app.controller('CombinedEquipmentParameterController', function ($scope, $uibMod
 		},
 			function (isConfirm) {
 				if (isConfirm) {
-					CombinedEquipmentParameterService.deleteCombinedEquipmentParameter($scope.currentCombinedEquipment.id, combinedequipmentparameter.id, function (response) {
+					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+					CombinedEquipmentParameterService.deleteCombinedEquipmentParameter($scope.currentCombinedEquipment.id, combinedequipmentparameter.id, headers, function (response) {
 						if (angular.isDefined(response.status) && response.status === 204) {
 							toaster.pop({
 								type: "success",
@@ -250,7 +264,8 @@ app.controller('CombinedEquipmentParameterController', function ($scope, $uibMod
 	};
 
 	$scope.getAllPoints = function () {
-		PointService.getAllPoints(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		PointService.getAllPoints(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.points = response.data;
 			} else {

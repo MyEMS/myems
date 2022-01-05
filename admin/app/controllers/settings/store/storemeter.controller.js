@@ -1,21 +1,25 @@
 'use strict';
 
-app.controller('StoreMeterController', function($scope,$timeout, $translate,
-													MeterService,
-													VirtualMeterService,
-													OfflineMeterService,
-													StoreMeterService,
-													StoreService,
-													toaster) {
+app.controller('StoreMeterController', function(
+    $scope,
+    $window,
+    $timeout,
+    $translate,
+    MeterService,
+	VirtualMeterService,
+	OfflineMeterService,
+	StoreMeterService,
+	StoreService,
+	toaster) {
     $scope.currentStore = {selected:undefined};
-
+	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	  $scope.getAllStores = function(id) {
 		StoreService.getAllStores(function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.stores = response.data;
-				} else {
+			} else {
 				$scope.stores = [];
-			 }
+			}
 		});
 	};
 
@@ -106,7 +110,8 @@ app.controller('StoreMeterController', function($scope,$timeout, $translate,
 	$scope.pairMeter=function(dragEl,dropEl){
 		var meterid=angular.element('#'+dragEl).scope().meter.id;
 		var storeid=$scope.currentStore.id;
-		StoreMeterService.addPair(storeid, meterid, $scope.currentMeterType, function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		StoreMeterService.addPair(storeid, meterid, $scope.currentMeterType, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 201) {
                 toaster.pop({
                     type: "success",
@@ -133,7 +138,8 @@ app.controller('StoreMeterController', function($scope,$timeout, $translate,
         var storemeterid = angular.element('#' + dragEl).scope().storemeter.id;
         var storeid = $scope.currentStore.id;
         var metertype = angular.element('#' + dragEl).scope().storemeter.metertype;
-        StoreMeterService.deletePair(storeid, storemeterid, metertype, function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        StoreMeterService.deletePair(storeid, storemeterid, metertype, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
                     type: "success",

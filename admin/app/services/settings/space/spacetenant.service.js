@@ -1,8 +1,8 @@
 'use strict';
 app.factory('SpaceTenantService', function($http) {
     return {
-        addPair: function(spaceID,tenantID,callback) {
-            $http.post(getAPI()+'spaces/'+spaceID+'/tenants',{data:{'tenant_id':tenantID}})
+        addPair: function(spaceID,tenantID, headers, callback) {
+            $http.post(getAPI()+'spaces/'+spaceID+'/tenants',{data:{'tenant_id':tenantID}}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -10,8 +10,8 @@ app.factory('SpaceTenantService', function($http) {
             });
         },
 
-        deletePair: function(spaceID, tenantID, callback) {
-            $http.delete(getAPI()+'spaces/'+spaceID+'/tenants/'+tenantID)
+        deletePair: function(spaceID, tenantID, headers, callback) {
+            $http.delete(getAPI()+'spaces/'+spaceID+'/tenants/'+tenantID, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

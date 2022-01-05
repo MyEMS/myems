@@ -5,15 +5,14 @@ import CardDropdown from './CardDropdown';
 import { Button, Card, CardBody } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import Flex from '../common/Flex';
-import echarts from 'echarts/lib/echarts';
+import * as echarts from 'echarts/lib/echarts';
 import ReactEchartsCore from 'echarts-for-react/lib/core';
 import { getPosition, getGrays } from '../../helpers/utils';
 import AppContext from '../../context/Context';
+import { BarChart } from 'echarts/charts';
+import { TooltipComponent, LegendComponent } from 'echarts/components';
 
-import 'echarts/lib/chart/bar';
-import 'echarts/lib/component/tooltip';
-import 'echarts/lib/component/legend';
-
+echarts.use([BarChart, TooltipComponent, LegendComponent]);
 const getOption = (data, colors, isDark) => {
   const grays = getGrays(isDark);
   return {

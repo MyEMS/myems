@@ -40,18 +40,18 @@ MyEMS wird von einem erfahrenen Entwicklungsteam entwickelt und gewartet, und de
 
 | Eigenschaften                    | Gemeinschaftsausgabe | Erläuterung   |
 | :---                             |      :----:          |  :----:       |
-| Open Source                      | ✔️              |                      |
-| Pricing                          | Free            |              |
-| Change Name and Logo             | ️❌             |                      |
-| Modbus TCP                       | ✔️             |                      |
-| Number of Data Points            | Unbegrenzt     | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
-| Number of Meters                 | Unbegrenzt     | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
-| Number of Spaces                 | Unbegrenzt     | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
-| Number of Equipments             | Unbegrenzt     | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
-| Number of Tenants                | Unbegrenzt     | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
-| Number of Stores                 | Unbegrenzt     | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
-| Number of Shop Floors            | Unbegrenzt     | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
-| Combined Equipments Number       | Unbegrenzt     | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
+| Open Source                      | ✔️                 | MIT License      |
+| Pricing                          | Free                 |              |
+| Change Name and Logo             | ️❌                  |                      |
+| Modbus TCP                       | ✔️                 |                      |
+| Number of Data Points            | Unbegrenzt        | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
+| Number of Meters                 | Unbegrenzt        | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
+| Number of Spaces                 | Unbegrenzt        | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
+| Number of Equipments             | Unbegrenzt        | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
+| Number of Tenants                | Unbegrenzt        | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
+| Number of Stores                 | Unbegrenzt        | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
+| Number of Shop Floors            | Unbegrenzt        | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
+| Combined Equipments Number       | Unbegrenzt        | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
 | Docker                           | ✔️             | https://hub.docker.com/u/myems |
 | MySQL                            | ✔️             | http://mysql.com/    |
 | MariaDB                          | ✔️             | https://mariadb.org/ |
@@ -62,7 +62,7 @@ MyEMS wird von einem erfahrenen Entwicklungsteam entwickelt und gewartet, und de
 | Private Cloud                    | ✔️             |                      |
 | Data Comparison                  | ✔️             | Jahr für Jahr, Monat für Monat, Freier Vergleich, Kein Vergleich |
 | Excel Exporter                   | ✔️             | Echte Excel-Datei, keine CSV-Datei, Tabellen, Liniendiagramme, Säulendiagramme, Kreisdiagramme |
-| Meter/Energy Data                | ✔️             |                      |
+| Meter/Energy Data                | ✔️             | Cascade select Space, Multiple Compare Types, Multiple Period Types, Reporting Period Total Consumption, Base Period Total Consumption, Reporting Period Ton of Standard Coal, Reporting Period Ton of Carbon Dioxide Emissions, Reporting Period Trend, Related Parameters Data, Detailed Data, Export to Excel |
 | Meter/Cost Data                  | ✔️             |                      |
 | Meter/Trend Data                 | ✔️             |                      |
 | Meter/Realtime Data              | ✔️             |                      |
@@ -139,7 +139,7 @@ Sehen [Funktionen der MyEMS Enterprise Edition](./enterprise-edition-de.md)
 
 [4]. [Gitlab](https://gitlab.com/myems/myems) https://gitlab.com/myems/myems
 
-[5]. [CODE CHINA](https://codechina.csdn.net/myems/myems) https://codechina.csdn.net/myems/myems
+[5]. [GitCode](https://gitcode.net/myems/myems) https://gitcode.net/myems/myems
 
 ## MyEMS Installation (Community Edition)
 
@@ -209,8 +209,12 @@ administrator@myems.io
 
 ### Docker Compose Schnelle Bereitstellung 
 
-Sehen [Docker Compose Schnelle Bereitstellung](docker-compose.md)
+Sehen [Docker Compose Schnelle Bereitstellung](docker-compose-de.md)
 
 ## MyEMS Straßenkarte
 
 [Community Edition Straßenkarte](https://github.com/orgs/MyEMS/projects)
+
+## QQ Group
+
+![QQ Group 1](/docs/images/qq-group-1.png)

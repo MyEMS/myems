@@ -1,5 +1,8 @@
-FROM python:3.9.6
+FROM python:slim
 WORKDIR /code
+
+# todo: share upload folder with admin container on Docker
+RUN mkdir -p /var/www/html/admin/upload
 
 COPY . /code
 RUN pip install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com

@@ -1,10 +1,18 @@
 'use strict';
 
-app.controller('DistributionCircuitController', function($scope, $translate, $uibModal, DistributionSystemService, DistributionCircuitService, toaster,SweetAlert) {
+app.controller('DistributionCircuitController', function(
+	$scope,
+	$window,
+	$translate,
+	$uibModal,
+	DistributionSystemService,
+	DistributionCircuitService,
+	toaster,
+	SweetAlert) {
       $scope.distributionsystems = [];
       $scope.distributioncircuits = [];
       $scope.currentDistributionSystem = null;
-
+	  $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
       $scope.getAllDistributionSystems = function() {
   		DistributionSystemService.getAllDistributionSystems(function (response) {
   			if (angular.isDefined(response.status) && response.status === 200) {
@@ -48,7 +56,8 @@ app.controller('DistributionCircuitController', function($scope, $translate, $ui
   		});
   		modalInstance.result.then(function(distributioncircuit) {
         distributioncircuit.distribution_system_id = $scope.currentDistributionSystem.id;
-  			DistributionCircuitService.addDistributionCircuit(distributioncircuit, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+  			DistributionCircuitService.addDistributionCircuit(distributioncircuit, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 201) {
   					toaster.pop({
   						type: "success",
@@ -88,7 +97,8 @@ app.controller('DistributionCircuitController', function($scope, $translate, $ui
 
   		modalInstance.result.then(function(modifiedDistributionCircuit) {
         modifiedDistributionCircuit.distribution_system_id = $scope.currentDistributionSystem.id;
-  			DistributionCircuitService.editDistributionCircuit(modifiedDistributionCircuit, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+  			DistributionCircuitService.editDistributionCircuit(modifiedDistributionCircuit, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 200) {
   					toaster.pop({
   						type: "success",
@@ -126,7 +136,8 @@ app.controller('DistributionCircuitController', function($scope, $translate, $ui
   			},
   			function(isConfirm) {
   				if (isConfirm) {
-  					DistributionCircuitService.deleteDistributionCircuit(distributioncircuit.id, function (response) {
+					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+  					DistributionCircuitService.deleteDistributionCircuit(distributioncircuit.id, headers, function (response) {
   						if (angular.isDefined(response.status) && response.status === 204) {
 							toaster.pop({
 								type: "success",

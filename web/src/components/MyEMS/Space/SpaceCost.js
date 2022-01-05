@@ -31,7 +31,7 @@ import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL } from '../../../config';
 import { periodTypeOptions } from '../common/PeriodTypeOptions';
 import { comparisonTypeOptions } from '../common/ComparisonTypeOptions';
-
+import uuid from 'uuid/v1';
 
 const ChildSpacesTable = loadable(() => import('../common/ChildSpacesTable'));
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
@@ -224,7 +224,7 @@ const SpaceCost = ({ setRedirect, setRedirectUrl, t }) => {
     setSubmitButtonDisabled(true);
     // show spinner
     setSpinnerHidden(false);
-    // hide export buttion
+    // hide export button
     setExportButtonHidden(true)
 
     // Reinitialize tables
@@ -523,7 +523,7 @@ const SpaceCost = ({ setRedirect, setRedirectUrl, t }) => {
         setSubmitButtonDisabled(false);
         // hide spinner
         setSpinnerHidden(true);
-        // show export buttion
+        // show export button
         setExportButtonHidden(false) 
 
       } else {
@@ -706,7 +706,7 @@ const SpaceCost = ({ setRedirect, setRedirectUrl, t }) => {
           <SharePie data={costShareData} title={t('Costs by Energy Category')} />
         </Col>
         {childSpaceProportionList.map(childSpaceProportionItem => (
-          <Col className="mb-3 pr-lg-2 mb-3">
+          <Col className="mb-3 pr-lg-2 mb-3" key={uuid()}>
             <SharePie
               data={childSpaceProportionItem['data']}
               title={t('Child Space Proportion CATEGORY UNIT',

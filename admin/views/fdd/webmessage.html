@@ -4,7 +4,10 @@
             <form role="form">
                 <div class="form-group no-margin">
                     <label>{{'COMMON.DATE' | translate}}</label>
-                    <textarea rows="1" date-range-picker class="form-control date-picker" type="text" ng-model="daterange" options="dtOptions" readonly="" placeholder="请选择日期" />
+                    <textarea rows="2" date-range-picker class="form-control date-picker" type="text"
+                              ng-model="daterange" options="dtOptions"
+                              placeholder="{{'SETTING.SELECT_DATE' | translate}}"
+                              readonly="" />
                 </div>
             </form>
         </div>
@@ -30,7 +33,6 @@
                                     <thead>
                                     <tr>
                                         <th class="text-center">{{'FDD.ID' | translate}}</th>
-                                        <th class="text-center">{{'FDD.RECIPIENT_NAME' | translate}}</th>
                                         <th class="text-center">{{'FDD.TOPIC' | translate}}</th>
                                         <th data-sort-ignore="true" class="text-center">{{'FDD.ALARM_MESSAGE' | translate}}</th>
                                         <th class="text-center">{{'FDD.ALARM_TIME' | translate}}</th>
@@ -42,7 +44,6 @@
                                     <tbody>
                                     <tr ng-repeat="row in tabledata track by $index">
                                         <td class="text-center sm">{{ row.id }}</td>
-                                        <td class="text-center sm">{{ row.user_display_name }}</td>
                                         <td class="text-center sm">{{ row.subject }}</td>
                                         <td class="text-center sm col-lg-3 col-md-3" title="{{row.message}}">{{ row.message.slice(0,50) }}
                                             <small ng-show="{{row.message.length > 50 }}">...</small>

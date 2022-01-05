@@ -1,45 +1,50 @@
 'use strict';
 
-app.controller('WebMessageOptionController', function($scope, $timeout,
-	WebMessageAnalysisService) {
+app.controller('WebMessageOptionController', function(
+	$scope, 
+	$window,
+	$timeout,
+	WebMessageService) {
+	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.daterange = {
 		startDate: moment().subtract(7,'days'),
 		endDate: moment()
 	};
 	$scope.dtOptions = {
-		timePicker: false,
+		timePicker: true,
 		timePicker24Hour: true,
 		timePickerIncrement: 1,
 		timePickerSeconds: true,
 		startView:2,
 		autoApply: true,
 		locale:{
-			format: 'YYYY-MM-DD',
+			format: 'YYYY-MM-DDTHH:mm:ss',
 			applyLabel: "OK",
 			cancelLabel: "Cancel",
 		},
-
 		eventHandlers:{
 			'apply.daterangepicker':function(ev,picker){
 				//$scope.execute();
 			}
 		}
-
 	};
 
 	$scope.execute = function() {
+		var startdatetime, enddatetime;
 		var query = {
-			datestart: $scope.daterange.startDate.format().slice(0, 10),
-			dateend: $scope.daterange.endDate.format().slice(0, 10)
+			startdatetime: $scope.daterange.startDate.format().slice(0, 19),
+			enddatetime: $scope.daterange.endDate.format().slice(0, 19)
 		};
 		$scope.$emit('handleEmitWebMessageOptionChanged', {
 			load: true,
 			period:$scope.currentPeriod
 		});
-		WebMessageAnalysisService.getAnalysisResult(query, function (response) {
-				if (angular.isDefined(response.status) && response.status === 200) {
-					$scope.$emit('handleEmitWebMessageOptionChanged', response.data);
-				}
+		console.log(query)
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		WebMessageService.getResult(query, headers, function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.$emit('handleEmitWebMessageOptionChanged', response.data);
+            }
 		});
 
 	};

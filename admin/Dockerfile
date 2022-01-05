@@ -1,9 +1,12 @@
-FROM nginx:1.21.1
+FROM nginx:latest
 
-# remove the config
+# remove the default config
 RUN rm /etc/nginx/conf.d/default.conf && \
-    rm /etc/nginx/nginx.conf && \
-    mkdir -p /var/www/html/admin
+    rm /etc/nginx/nginx.conf
+
+# create new root folder
+# todo: share upload folder in admin with myems-api container on Docker
+RUN mkdir -p /var/www/html/admin
 
 # copy the config and web codes
 COPY nginx.conf /etc/nginx/

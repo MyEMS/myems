@@ -1,8 +1,14 @@
 'use strict';
 
-app.controller('TextMessageController', function($scope,$timeout,$translate,
-	TextMessageAnalysisService,SweetAlert,toaster) {
-
+app.controller('TextMessageController', function(
+    $scope,
+    $window,
+    $timeout,
+    $translate,
+	TextMessageService,
+	SweetAlert,
+	toaster) {
+	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.$on('handleBroadcastTextMessageOptionChanged', function (event, data) {
         if (angular.isDefined(data.load)) {
             $scope.tabledata = [];
@@ -32,7 +38,8 @@ app.controller('TextMessageController', function($scope,$timeout,$translate,
 			},
 			function(isConfirm) {
 				if (isConfirm) {
-					TextMessageAnalysisService.deleteTextMessage(textmessage, function (response) {
+			        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+					TextMessageService.deleteTextMessage(textmessage, headers, function (response) {
 						if (angular.isDefined(response.status) && response.status === 204) {
                             toaster.pop({
                                 type: "success",
@@ -52,7 +59,7 @@ app.controller('TextMessageController', function($scope,$timeout,$translate,
 						}
 					});
 				}
-			});
+			}
+		);
 	};
-
 });

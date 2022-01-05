@@ -27,7 +27,7 @@ class UserCollection:
         cursor = cnx.cursor()
         query = (" SELECT u.id, u.name, u.display_name, u.uuid, "
                  "        u.email, u.is_admin, p.id, p.name, "
-                 "        u.account_expiration_datetime_utc, u.password_expiration_datetime_utc "
+                 "        u.account_expiration_datetime_utc, u.password_expiration_datetime_utc, u.failed_login_count "
                  " FROM tbl_users u "
                  " LEFT JOIN tbl_privileges p ON u.privilege_id = p.id "
                  " ORDER BY u.name ")
@@ -59,7 +59,8 @@ class UserCollection:
                                "account_expiration_datetime":
                                    account_expiration_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
                                "password_expiration_datetime":
-                                   password_expiration_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')}
+                                   password_expiration_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
+                               "is_locked": True if row[10] >= config.maximum_failed_login_count else False}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -213,7 +214,8 @@ class UserItem:
 
         query = (" SELECT u.id, u.name, u.display_name, u.uuid, "
                  "        u.email, u.is_admin, p.id, p.name, "
-                 "        u.account_expiration_datetime_utc, u.password_expiration_datetime_utc "
+                 "        u.account_expiration_datetime_utc, u.password_expiration_datetime_utc,"
+                 "        u.failed_login_count "
                  " FROM tbl_users u "
                  " LEFT JOIN tbl_privileges p ON u.privilege_id = p.id "
                  " WHERE u.id =%s ")
@@ -241,8 +243,11 @@ class UserItem:
                   "privilege": {
                       "id": row[6],
                       "name": row[7]} if row[6] is not None else None,
-                  "account_expiration_datetime": account_expiration_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
-                  "password_expiration_datetime": password_expiration_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')}
+                  "account_expiration_datetime":
+                      account_expiration_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
+                  "password_expiration_datetime":
+                      password_expiration_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
+                  "is_locked": True if row[10] >= config.maximum_failed_login_count else False}
         resp.text = json.dumps(result)
 
     @staticmethod
@@ -444,7 +449,7 @@ class UserLogin:
                                        description='API.INVALID_USER_NAME')
 
             query = (" SELECT id, name, uuid, display_name, email, salt, password, is_admin, "
-                     "        account_expiration_datetime_utc, password_expiration_datetime_utc "
+                     "        account_expiration_datetime_utc, password_expiration_datetime_utc, failed_login_count "
                      " FROM tbl_users "
                      " WHERE name = %s ")
             cursor.execute(query, (str.strip(new_values['data']['name']).lower(),))
@@ -463,7 +468,8 @@ class UserLogin:
                       "password": row[6],
                       "is_admin": True if row[7] else False,
                       "account_expiration_datetime_utc": row[8],
-                      "password_expiration_datetime_utc": row[9]}
+                      "password_expiration_datetime_utc": row[9],
+                      "failed_login_count": row[10]}
 
         elif 'email' in new_values['data']:
             if not isinstance(new_values['data']['email'], str) or \
@@ -472,7 +478,7 @@ class UserLogin:
                                        description='API.INVALID_EMAIL')
 
             query = (" SELECT id, name, uuid, display_name, email, salt, password, is_admin, "
-                     "        account_expiration_datetime_utc, password_expiration_datetime_utc "
+                     "        account_expiration_datetime_utc, password_expiration_datetime_utc,failed_login_count "
                      " FROM tbl_users "
                      " WHERE email = %s ")
             cursor.execute(query, (str.strip(new_values['data']['email']).lower(),))
@@ -491,21 +497,44 @@ class UserLogin:
                       "password": row[6],
                       "is_admin": True if row[7] else False,
                       "account_expiration_datetime_utc": row[8],
-                      "password_expiration_datetime_utc": row[9]}
+                      "password_expiration_datetime_utc": row[9],
+                      "failed_login_count": row[10]}
+
         else:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_NAME_OR_EMAIL')
 
+        failed_login_count = result['failed_login_count']
+
+        if failed_login_count >= config.maximum_failed_login_count:
+            cursor.close()
+            cnx.disconnect()
+            raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.USER_ACCOUNT_HAS_BEEN_LOCKED')
+
         salt = result['salt']
         password = str.strip(new_values['data']['password'])
         hashed_password = hashlib.sha512(salt.encode() + password.encode()).hexdigest()
 
         if hashed_password != result['password']:
+            update_failed_login_count = (" UPDATE tbl_users "
+                                         " SET failed_login_count = %s "
+                                         " WHERE uuid = %s ")
+            user_uuid = result['uuid']
+            cursor.execute(update_failed_login_count, (failed_login_count + 1, user_uuid))
+            cnx.commit()
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.INVALID_PASSWORD')
+
+        if failed_login_count != 0:
+            update_failed_login_count = (" UPDATE tbl_users "
+                                         " SET failed_login_count = 0 "
+                                         " WHERE uuid = %s ")
+            user_uuid = result['uuid']
+            cursor.execute(update_failed_login_count, (user_uuid, ))
+            cnx.commit()
 
         if result['account_expiration_datetime_utc'] <= datetime.utcnow():
             cursor.close()
@@ -828,3 +857,72 @@ class ResetPassword:
         resp.status = falcon.HTTP_200
         write_log(user_uuid=admin_user_uuid, request_method='PUT', resource_type='ResetPassword',
                   resource_id=user_id, request_body=None)
+
+
+class Unlock:
+    @staticmethod
+    def __init__():
+        """Initializes Class"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_put(req, resp, id_):
+        """Handles PUT requests"""
+        if 'USER-UUID' not in req.headers or \
+                not isinstance(req.headers['USER-UUID'], str) or \
+                len(str.strip(req.headers['USER-UUID'])) == 0:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_USER_UUID')
+        admin_user_uuid = str.strip(req.headers['USER-UUID'])
+
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_USER_ID')
+
+        Id = id_
+
+        cnx = mysql.connector.connect(**config.myems_user_db)
+        cursor = cnx.cursor()
+
+        query = (" SELECT failed_login_count "
+                 " FROM tbl_users "
+                 " WHERE id = %s ")
+        cursor.execute(query, (Id,))
+        row = cursor.fetchone()
+        if row is None:
+            cursor.close()
+            cnx.disconnect()
+            raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.INVALID_Id')
+
+        failed_login_count = row[0]
+        if failed_login_count < config.maximum_failed_login_count:
+            cursor.close()
+            cnx.disconnect()
+            raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.USER_ACCOUNT_IS_NOT_LOCKED')
+
+        update_user = (" UPDATE tbl_users "
+                       " SET failed_login_count = 0"
+                       " WHERE id = %s ")
+        cursor.execute(update_user, (Id, ))
+        cnx.commit()
+
+        query = (" SELECT failed_login_count "
+                 " FROM tbl_users "
+                 " WHERE id = %s ")
+        cursor.execute(query, (Id,))
+        row = cursor.fetchone()
+        if row is None or row[0] != 0:
+            cursor.close()
+            cnx.disconnect()
+            raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.ACCOUNT_UNLOCK_FAILED')
+
+        cursor.close()
+        cnx.disconnect()
+        resp.text = json.dumps("OK")
+        resp.status = falcon.HTTP_200
+        write_log(user_uuid=admin_user_uuid, request_method='PUT', resource_type='UnlockUser',
+                  resource_id=Id, request_body=None)

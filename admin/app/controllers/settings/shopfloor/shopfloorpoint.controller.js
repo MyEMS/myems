@@ -1,9 +1,20 @@
 'use strict';
 
-app.controller('ShopfloorPointController', function ($scope, $translate, ShopfloorService, DataSourceService, PointService, ShopfloorPointService,  toaster, SweetAlert) {
+app.controller('ShopfloorPointController', function (
+    $scope, 
+    $window,
+    $translate, 
+    ShopfloorService, 
+    DataSourceService, 
+    PointService, 
+    ShopfloorPointService,  
+    toaster, 
+    SweetAlert) {
+    $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentShopfloor = {selected:undefined};
     $scope.getAllDataSources = function () {
-        DataSourceService.getAllDataSources(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        DataSourceService.getAllDataSources(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.datasources = response.data;
                 if ($scope.datasources.length > 0) {
@@ -17,7 +28,8 @@ app.controller('ShopfloorPointController', function ($scope, $translate, Shopflo
     };
 
     $scope.getPointsByDataSourceID = function (id) {
-        PointService.getPointsByDataSourceID(id, function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        PointService.getPointsByDataSourceID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.points = response.data;
             } else {
@@ -62,7 +74,8 @@ app.controller('ShopfloorPointController', function ($scope, $translate, Shopflo
     $scope.pairPoint = function (dragEl, dropEl) {
         var pointid = angular.element('#' + dragEl).scope().point.id;
         var shopfloorid = $scope.currentShopfloor.id;
-        ShopfloorPointService.addPair(shopfloorid, pointid, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        ShopfloorPointService.addPair(shopfloorid, pointid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 201) {
                 toaster.pop({
                     type: "success",
@@ -88,7 +101,8 @@ app.controller('ShopfloorPointController', function ($scope, $translate, Shopflo
         }
         var shopfloorpointid = angular.element('#' + dragEl).scope().shopfloorpoint.id;
         var shopfloorid = $scope.currentShopfloor.id;
-        ShopfloorPointService.deletePair(shopfloorid, shopfloorpointid, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        ShopfloorPointService.deletePair(shopfloorid, shopfloorpointid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
                     type: "error",

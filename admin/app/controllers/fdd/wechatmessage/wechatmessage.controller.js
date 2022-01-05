@@ -1,7 +1,14 @@
 'use strict';
 
-app.controller('WechatMessageController', function($scope, $timeout,$translate, WechatMessageAnalysisService, toaster, SweetAlert) {
-
+app.controller('WechatMessageController', function(
+    $scope,
+    $window,
+    $timeout,
+    $translate,
+    WechatMessageService,
+    toaster,
+    SweetAlert) {
+	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.$on('handleBroadcastWechatMessageOptionChanged', function (event, data) {
         if (angular.isDefined(data.load)) {
             $scope.tabledata = [];
@@ -31,7 +38,8 @@ app.controller('WechatMessageController', function($scope, $timeout,$translate, 
 			},
 			function(isConfirm) {
 				if (isConfirm) {
-					WechatMessageAnalysisService.deleteWechatMessage(wechatmessage, function (response) {
+			        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+					WechatMessageService.deleteWechatMessage(wechatmessage, headers, function (response) {
 						if (angular.isDefined(response.status) && response.status === 204) {
                             toaster.pop({
                                 type: "success",
@@ -51,6 +59,7 @@ app.controller('WechatMessageController', function($scope, $timeout,$translate, 
                         }
 					});
 				}
-			});
+			}
+		);
 	};
 });

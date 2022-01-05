@@ -40,10 +40,10 @@ MyEMS由资深专业团队开发维护，系统代码基于MIT开源软件许可
 
 | 功能                              |社区版         |       说明              |
 | :---                              |      :-----   |  :-----               |
-| 开源                              | ✔️             |                       |
+| 开源                              | ✔️         | MIT License            |
 | 价格                              | 免费           |                       |
-| 更换品牌名称与标志LOGO              | ❌             |                  |
-| Modbus TCP 协议                   | ✔️             | 采集数据 https://modbus.org/ |
+| 更换品牌名称与标志LOGO              | ❌             |                        |
+| Modbus TCP 协议                   | ✔️         | 采集数据 https://modbus.org/ |
 | 数据点数量                         | 无限制         | 实际数量受限于服务器资源上限|
 | 计量表数量                         | 无限制         | 实际数量受限于服务器资源上限|
 | 空间数量                           | 无限制         | 实际数量受限于服务器资源上限|
@@ -121,10 +121,10 @@ MyEMS由资深专业团队开发维护，系统代码基于MIT开源软件许可
 | 组合设备数据/批量分析                | ✔️             | 按空间层级筛选、空间向下递归查询、按报告期查询全部能耗分类数据、导出Excel |
 | 能流图分析                         | ✔️             | 表示能源流动状况、节点显示用能单位、链接显示本月能源总量 |
 | 配电系统分析                       | ✔️             | 高中低压配电系统、实时数据、配电系统图 |
-| RESTful API                         | ✔️             | 基于Python开发，提供系统配置、能源报告、Excel导出接口 |
+| RESTful API                      | ✔️             | 基于Python开发，提供系统配置、能源报告、Excel导出接口 |
 | Web UI                           | ✔️             | 基于ReactJS开发，用于能源数据分析 |
 | Admin UI                         | ✔️             | 基于AngularJS (version 1.x)开发，用于系统配置管理 |
-| 在线社区技术支持                    | ✔️             |         |
+| 在线社区技术支持                    | ✔️             |                                               |
 
 
 ## MyEMS企业版功能
@@ -142,7 +142,7 @@ MyEMS由资深专业团队开发维护，系统代码基于MIT开源软件许可
 
 [4]. [Gitlab](https://gitlab.com/myems/myems) https://gitlab.com/myems/myems
 
-[5]. [CODE CHINA](https://codechina.csdn.net/myems/myems) https://codechina.csdn.net/myems/myems
+[5]. [GitCode](https://gitcode.net/myems/myems) https://gitcode.net/myems/myems
 
 
 ## MyEMS安装(社区版)
@@ -211,7 +211,7 @@ administrator@myems.io
 
 ### Docker-Compose 快速部署
 
-详见 [Docker Compose 快速部署](docker-compose.md)
+详见 [Docker Compose 快速部署](docker-compose-cn.md)
 
 
 
@@ -219,3 +219,6 @@ administrator@myems.io
 
 [社区版路线图](https://github.com/orgs/MyEMS/projects)
 
+## QQ交流群
+
+![QQ群1](/docs/images/qq-group-1.png)

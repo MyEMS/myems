@@ -15,8 +15,8 @@ class VersionItem:
     @staticmethod
     def on_get(req, resp):
 
-        result = {"version": 'MyEMS v1.4.0',
-                  "release-date": '2021-11-14',
+        result = {"version": 'MyEMS v1.6.0',
+                  "release-date": '2021-12-31',
                   "website": "https://myems.io"}
         resp.text = json.dumps(result)
 

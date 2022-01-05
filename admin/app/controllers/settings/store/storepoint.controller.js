@@ -1,9 +1,20 @@
 'use strict';
 
-app.controller('StorePointController', function ($scope, $translate, StoreService, DataSourceService, PointService, StorePointService,  toaster, SweetAlert) {
+app.controller('StorePointController', function (
+    $window,
+    $scope, 
+    $translate, 
+    StoreService, 
+    DataSourceService, 
+    PointService, 
+    StorePointService,  
+    toaster, 
+    SweetAlert) {
+    $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentStore = {selected:undefined};
     $scope.getAllDataSources = function () {
-        DataSourceService.getAllDataSources(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        DataSourceService.getAllDataSources(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.datasources = response.data;
                 if ($scope.datasources.length > 0) {
@@ -17,7 +28,8 @@ app.controller('StorePointController', function ($scope, $translate, StoreServic
     };
 
     $scope.getPointsByDataSourceID = function (id) {
-        PointService.getPointsByDataSourceID(id, function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        PointService.getPointsByDataSourceID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.points = response.data;
             } else {
@@ -37,11 +49,11 @@ app.controller('StorePointController', function ($scope, $translate, StoreServic
 
     };
 
-  $scope.changeStore=function(item,model){
-    	$scope.currentStore=item;
-    	$scope.currentStore.selected=model;
-    	$scope.getPointsByStoreID($scope.currentStore.id);
-  };
+    $scope.changeStore=function(item,model){
+        $scope.currentStore=item;
+        $scope.currentStore.selected=model;
+        $scope.getPointsByStoreID($scope.currentStore.id);
+    };
 
     $scope.changeDataSource = function (item, model) {
         $scope.currentDataSource = model;
@@ -62,7 +74,8 @@ app.controller('StorePointController', function ($scope, $translate, StoreServic
     $scope.pairPoint = function (dragEl, dropEl) {
         var pointid = angular.element('#' + dragEl).scope().point.id;
         var storeid = $scope.currentStore.id;
-        StorePointService.addPair(storeid, pointid, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        StorePointService.addPair(storeid, pointid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 201) {
                 toaster.pop({
                     type: "success",
@@ -88,7 +101,8 @@ app.controller('StorePointController', function ($scope, $translate, StoreServic
         }
         var storepointid = angular.element('#' + dragEl).scope().storepoint.id;
         var storeid = $scope.currentStore.id;
-        StorePointService.deletePair(storeid, storepointid, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        StorePointService.deletePair(storeid, storepointid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
                     type: "success",

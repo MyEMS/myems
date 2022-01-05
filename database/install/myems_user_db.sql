@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS `myems_user_db`.`tbl_users` (
   `privilege_id` BIGINT NULL,
   `account_expiration_datetime_utc` DATETIME NOT NULL,
   `password_expiration_datetime_utc` DATETIME NOT NULL,
+  `failed_login_count` INT NOT NULL,
   PRIMARY KEY (`id`));
 
   -- --------------------------------------------------------------------------------------------------------------------
@@ -33,9 +34,9 @@ START TRANSACTION;
 USE `myems_user_db`;
 -- default username: administrator
 -- default password: !MyEMS1
-INSERT INTO `myems_user_db`.`tbl_users`(`id`, `name`, `uuid`, `display_name`, `email`, `salt`, `password`, `is_admin`, `privilege_id`, `account_expiration_datetime_utc`, `password_expiration_datetime_utc`)
+INSERT INTO `myems_user_db`.`tbl_users`(`id`, `name`, `uuid`, `display_name`, `email`, `salt`, `password`, `is_admin`, `privilege_id`, `account_expiration_datetime_utc`, `password_expiration_datetime_utc`, `failed_login_count`)
 VALUES
-(1, 'administrator', 'dcdb67d1-6116-4987-916f-6fc6cf2bc0e4', 'Administrator', 'administrator@myems.io', 'adfd6fb6d78d4e3780ebdd6afdec2c3a', 'bc00df65270b1a72b9ed37136fa95a695896edc8c114391821f5edc6b1bbdbabc3d449962f8d1c7a4ec3f2d0a1a79055623963d88ecb9b778423194ff7b6be42', 1, NULL, '2099-12-31 16:00:00', '2099-12-31 16:00:00');
+(1, 'administrator', 'dcdb67d1-6116-4987-916f-6fc6cf2bc0e4', 'Administrator', 'administrator@myems.io', 'adfd6fb6d78d4e3780ebdd6afdec2c3a', 'bc00df65270b1a72b9ed37136fa95a695896edc8c114391821f5edc6b1bbdbabc3d449962f8d1c7a4ec3f2d0a1a79055623963d88ecb9b778423194ff7b6be42', 1, NULL, '2099-12-31 16:00:00', '2099-12-31 16:00:00', 0);
 COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -46,7 +47,7 @@ DROP TABLE IF EXISTS `myems_user_db`.`tbl_privileges` ;
 CREATE TABLE IF NOT EXISTS `myems_user_db`.`tbl_privileges` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
-  `data` JSON NOT NULL,
+  `data` LONGTEXT NOT NULL COMMENT 'MUST be in JSON format',
   PRIMARY KEY (`id`));
 
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -73,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `myems_user_db`.`tbl_logs` (
   `request_method` VARCHAR(256) NOT NULL,
   `resource_type` VARCHAR(256) NOT NULL,
   `resource_id` BIGINT NULL,
-  `request_body` JSON NULL,
+  `request_body` LONGTEXT NULL COMMENT 'MUST be in JSON format',
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_logs_index_1` ON  `myems_user_db`.`tbl_logs`  (`user_uuid`, `request_datetime_utc`, `request_method`);
 

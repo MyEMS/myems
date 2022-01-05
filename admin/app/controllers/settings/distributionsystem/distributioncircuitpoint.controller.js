@@ -1,9 +1,21 @@
 'use strict';
 
-app.controller('DistributionCircuitPointController', function ($scope, $timeout, $translate, DistributionCircuitService, DataSourceService, PointService, DistributionCircuitPointService, toaster, SweetAlert) {
+app.controller('DistributionCircuitPointController', function (
+    $scope, 
+	$window,
+    $timeout, 
+    $translate, 
+    DistributionCircuitService, 
+    DataSourceService, 
+    PointService, 
+    DistributionCircuitPointService, 
+    toaster, 
+    SweetAlert) {
+    $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentDistributionCircuit = {selected:undefined};
     $scope.getAllDataSources = function () {
-        DataSourceService.getAllDataSources(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        DataSourceService.getAllDataSources(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.datasources = response.data;
                 if ($scope.datasources.length > 0) {
@@ -17,7 +29,8 @@ app.controller('DistributionCircuitPointController', function ($scope, $timeout,
     };
 
     $scope.getPointsByDataSourceID = function (id) {
-        PointService.getPointsByDataSourceID(id, function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        PointService.getPointsByDataSourceID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.points = response.data;
             } else {
@@ -36,11 +49,11 @@ app.controller('DistributionCircuitPointController', function ($scope, $timeout,
         });
     };
 
-  $scope.changeDistributionCircuit=function(item,model){
-  	$scope.currentDistributionCircuit=item;
-  	$scope.currentDistributionCircuit.selected=model;
-  	$scope.getPointsByDistributionCircuitID($scope.currentDistributionCircuit.id);
-  };
+    $scope.changeDistributionCircuit=function(item,model){
+  	  $scope.currentDistributionCircuit=item;
+  	  $scope.currentDistributionCircuit.selected=model;
+  	  $scope.getPointsByDistributionCircuitID($scope.currentDistributionCircuit.id);
+    };
 
     $scope.changeDataSource = function (item, model) {
         $scope.currentDataSource = model;
@@ -67,7 +80,8 @@ app.controller('DistributionCircuitPointController', function ($scope, $timeout,
     $scope.pairPoint = function (dragEl, dropEl) {
         var pointid = angular.element('#' + dragEl).scope().point.id;
         var distributioncircuitid = $scope.currentDistributionCircuit.id;
-        DistributionCircuitPointService.addPair(distributioncircuitid, pointid, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        DistributionCircuitPointService.addPair(distributioncircuitid, pointid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 201) {
                 toaster.pop({
                     type: "success",
@@ -93,7 +107,8 @@ app.controller('DistributionCircuitPointController', function ($scope, $timeout,
         }
         var distributioncircuitpointid = angular.element('#' + dragEl).scope().distributioncircuitpoint.id;
         var distributioncircuitid = $scope.currentDistributionCircuit.id;
-        DistributionCircuitPointService.deletePair(distributioncircuitid, distributioncircuitpointid, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        DistributionCircuitPointService.deletePair(distributioncircuitid, distributioncircuitpointid, headers,  function (response) {
             if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
                     type: "success",

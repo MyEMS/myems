@@ -33,24 +33,24 @@ app.factory('SpaceService', function($http) {
                 callback(response);
             });
         },
-        addSpace: function(space, callback) {
-            $http.post(getAPI()+'spaces',{data:space})
+        addSpace: function(space, headers, callback) {
+            $http.post(getAPI()+'spaces',{data:space}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        editSpace: function(space, callback) {
-            $http.put(getAPI()+'spaces/'+space.id,{data:space})
+        editSpace: function(space, headers, callback) {
+            $http.put(getAPI()+'spaces/'+space.id,{data:space}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        deleteSpace: function(space, callback) {
-            $http.delete(getAPI()+'spaces/'+space.id)
+        deleteSpace: function(space, headers, callback) {
+            $http.delete(getAPI()+'spaces/'+space.id, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

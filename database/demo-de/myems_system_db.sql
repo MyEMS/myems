@@ -204,9 +204,9 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_energy_categories`
 (`id`, `name`, `uuid`, `unit_of_measure`, `kgce`, `kgco2e`)
 VALUES
-(1, 'Elektrizität', '6d0753ed-8b43-4332-b6fd-d2f5813831d3', 'kWh', 0.1229, 0.928),
-(2, 'Leitungswasser', '3dbfa598-fccc-4d60-bf11-14bd55540c66', 'm³', 0.0857, 0.910),
-(3, 'Erdgas', '6d0753ed-8b43-4332-b6fd-d2f5813831d3', 'm³', 1.3300, 2.1622),
+(1, 'Elektrizität', '6d0753ed-8b43-4332-b6fd-d2f5813831d3', 'kWh', 0.122, 0.928),
+(2, 'Leitungswasser', '3dbfa598-fccc-4d60-bf11-14bd55540c66', 'm³', 0.085, 0.910),
+(3, 'Erdgas', '6d0753ed-8b43-4332-b6fd-d2f5813831d3', 'm³', 1.330, 2.162),
 (4,'4℃ gekühltes Wasser','d2a3021a-4911-4611-856e-80133000f1d5','m³',1.000,1.000),
 (5,'7℃ gekühltes Wasser','c1ad0696-e1ab-4e0c-a342-b194c0bc27e0','m³',1.000,1.000),
 (6,'Dampf','ac91a5c4-4ae5-4a73-8e3f-044591f42eef','T',1.000,1.000),

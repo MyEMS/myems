@@ -4,8 +4,10 @@
             <form role="form">
                 <div class="form-group no-margin">
                     <label>{{'COMMON.DATE' | translate}}</label>
-                    <textarea rows="1" date-range-picker class="form-control date-picker" type="text"
-                        ng-model="daterange" options="dtOptions" readonly="" placeholder="请选择日期" />
+                    <textarea rows="2" date-range-picker class="form-control date-picker" type="text"
+                              ng-model="daterange" options="dtOptions"
+                              placeholder="{{'SETTING.SELECT_DATE' | translate}}"
+                              readonly="" />
                     </div>
             </form>
         </div>

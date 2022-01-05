@@ -53,6 +53,15 @@ docker run -d --restart always --name myems-modbus-tcp myems/myems-modbus-tcp
 
 --name		Assign a name to the container
 
+If you want to immigrate the image to another computer,
+* Export image to tarball file
+```bash
+docker save --output myems-modbus-tcp.tar myems/myems-modbus-tcp
+```
+* Copy the tarball file to another computer, and then load image from tarball file
+```bash
+docker load --input .\myems-modbus-tcp.tar
+```
 
 ### Option 2: Install myems-modbus-tcp on Ubuntu Server (bare-metal or virtual machine)
 

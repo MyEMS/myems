@@ -3,7 +3,7 @@ import simplejson as json
 import mysql.connector
 import config
 import uuid
-from core.useractivity import user_logger
+from core.useractivity import user_logger, access_control
 
 
 class VirtualMeterCollection:
@@ -89,7 +89,7 @@ class VirtualMeterCollection:
                     query_variables = (" SELECT v.id, v.name, v.meter_type, v.meter_id "
                                        " FROM tbl_virtual_meters vm, tbl_variables v "
                                        " WHERE vm.id = %s AND v.virtual_meter_id = vm.id "
-                                       " ORDER BY v.name ")
+                                       " ORDER BY SUBSTRING(v.name,2) + 0 ")
                     cursor.execute(query_variables, (meta_result['id'],))
                     rows_variables = cursor.fetchall()
                     if rows_variables is not None:
@@ -142,6 +142,7 @@ class VirtualMeterCollection:
     @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
+        access_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -474,6 +475,7 @@ class VirtualMeterItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_VIRTUAL_METER_ID')
@@ -638,6 +640,7 @@ class VirtualMeterItem:
     @user_logger
     def on_put(req, resp, id_):
         """Handles PUT requests"""
+        access_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:

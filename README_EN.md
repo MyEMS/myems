@@ -40,7 +40,7 @@ MyEMS is being developed and maintained by an experienced development team, and 
 
 | Features                         | Community Edition | Explanation    |
 | :---                             |      :----:       | :----:         |
-| Open Source                      | ✔️              |                      |
+| Open Source                      | ✔️              | MIT License        |
 | Pricing                          | Free            |               |
 | Change Name and Logo             | ❌️             |                      |
 | Modbus TCP                       | ✔️             |                      |
@@ -62,7 +62,7 @@ MyEMS is being developed and maintained by an experienced development team, and 
 | Private Cloud                    | ✔️             |                      |
 | Data Comparison                  | ✔️             | Year-on-Year, Month-on-Month, Free Comparison, None Comparison |
 | Excel Exporter                   | ✔️             | Real Excel file, not CSV file. Tables, Line Charts, Column Charts, Pie Charts |
-| Meter/Energy Data                | ✔️             |                      |
+| Meter/Energy Data                | ✔️             | Cascade select Space, Multiple Compare Types, Multiple Period Types, Reporting Period Total Consumption, Base Period Total Consumption, Reporting Period Ton of Standard Coal, Reporting Period Ton of Carbon Dioxide Emissions, Reporting Period Trend, Related Parameters Data, Detailed Data, Export to Excel |
 | Meter/Cost Data                  | ✔️             |                      |
 | Meter/Trend Data                 | ✔️             |                      |
 | Meter/Realtime Data              | ✔️             |                      |
@@ -142,7 +142,7 @@ See [Features of MyEMS Enterprise Edition](./enterprise-edition-en.md)
 
 [4]. [Gitlab](https://gitlab.com/myems/myems) https://gitlab.com/myems/myems
 
-[5]. [CODE CHINA](https://codechina.csdn.net/myems/myems) https://codechina.csdn.net/myems/myems
+[5]. [GitCode](https://gitcode.net/myems/myems) https://gitcode.net/myems/myems
 
 ## MyEMS Installation (Community Edition)
 
@@ -211,8 +211,12 @@ administrator@myems.io
 
 ### Docker Compose Repaid Deployment
 
-See [Docker Compose Repaid Deployment](docker-compose.md)
+See [Docker Compose Repaid Deployment](docker-compose-en.md)
 
 ## MyEMS Roadmap
 
 [Community Edition Roadmap](https://github.com/orgs/MyEMS/projects)
+
+## QQ Group
+
+![QQ Group 1](/docs/images/qq-group-1.png)

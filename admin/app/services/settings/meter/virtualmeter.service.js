@@ -17,24 +17,24 @@ app.factory('VirtualMeterService', function($http) {
                 callback(response);
             });
         },
-        addVirtualMeter: function(virtualmeter, callback) {
-            $http.post(getAPI()+'virtualmeters',{data:virtualmeter})
+        addVirtualMeter: function(virtualmeter, headers, callback) {
+            $http.post(getAPI()+'virtualmeters',{data:virtualmeter}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        editVirtualMeter: function(virtualmeter, callback) {
-            $http.put(getAPI()+'virtualmeters/'+virtualmeter.id,{data:virtualmeter})
+        editVirtualMeter: function(virtualmeter, headers, callback) {
+            $http.put(getAPI()+'virtualmeters/'+virtualmeter.id,{data:virtualmeter}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        deleteVirtualMeter: function(virtualmeter, callback) {
-            $http.delete(getAPI()+'virtualmeters/'+virtualmeter.id)
+        deleteVirtualMeter: function(virtualmeter, headers, callback) {
+            $http.delete(getAPI()+'virtualmeters/'+virtualmeter.id, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

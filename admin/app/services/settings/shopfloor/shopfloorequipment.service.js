@@ -1,8 +1,8 @@
 'use strict';
 app.factory('ShopfloorEquipmentService', function($http) {
     return {
-        addPair: function(shopfloorID,equipmentID,callback) {
-            $http.post(getAPI()+'shopfloors/'+shopfloorID+'/equipments',{data:{'equipment_id':equipmentID}})
+        addPair: function(shopfloorID,equipmentID, headers, callback) {
+            $http.post(getAPI()+'shopfloors/'+shopfloorID+'/equipments',{data:{'equipment_id':equipmentID}}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -10,8 +10,8 @@ app.factory('ShopfloorEquipmentService', function($http) {
             });
         },
 
-        deletePair: function(shopfloorID, equipmentID, callback) {
-            $http.delete(getAPI()+'shopfloors/'+shopfloorID+'/equipments/'+equipmentID)
+        deletePair: function(shopfloorID, equipmentID, headers, callback) {
+            $http.delete(getAPI()+'shopfloors/'+shopfloorID+'/equipments/'+equipmentID, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

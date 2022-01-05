@@ -2,7 +2,7 @@ import React, { Fragment, useContext } from 'react';
 import { Button, Card, CardBody, Row, Col } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactEchartsCore from 'echarts-for-react/lib/core';
-import echarts from 'echarts/lib/echarts';
+import * as echarts from 'echarts/lib/echarts';
 import PageHeader from '../common/PageHeader';
 import FalconCardHeader from '../common/FalconCardHeader';
 import FalconEditor from '../common/FalconEditor';
@@ -140,7 +140,9 @@ const lineChartCode = `function linechartExample(){
                 borderColor: themeColors.primary,
                 borderWidth: 2
               },
-              hoverAnimation: true,
+              emphasis: {
+                  scale: true
+              },
               data: totalOrderData,
               connectNulls: true,
               smooth: 0.6,

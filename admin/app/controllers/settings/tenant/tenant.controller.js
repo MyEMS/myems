@@ -1,7 +1,17 @@
 'use strict';
 
-app.controller('TenantController', function ($scope, $translate, $uibModal, CostCenterService, ContactService, TenantService, TenantTypeService, toaster, SweetAlert) {
-
+app.controller('TenantController', function (
+    $scope,
+    $window,
+    $translate,
+    $uibModal,
+    CostCenterService,
+    ContactService,
+    TenantService,
+    TenantTypeService,
+    toaster,
+    SweetAlert) {
+	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllCostCenters = function () {
 		CostCenterService.getAllCostCenters(function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
@@ -70,7 +80,8 @@ app.controller('TenantController', function ($scope, $translate, $uibModal, Cost
 			if (angular.isDefined(tenant.is_in_lease) == false) {
 				tenant.is_in_lease = false;
 			}
-			TenantService.addTenant(tenant, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			TenantService.addTenant(tenant, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
@@ -123,7 +134,8 @@ app.controller('TenantController', function ($scope, $translate, $uibModal, Cost
 			if (angular.isDefined(tenant.is_in_lease) == false) {
 				tenant.is_in_lease = false;
 			}
-			TenantService.editTenant(modifiedTenant, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			TenantService.editTenant(modifiedTenant, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
 						type: "success",
@@ -160,7 +172,8 @@ app.controller('TenantController', function ($scope, $translate, $uibModal, Cost
 		},
 			function (isConfirm) {
 				if (isConfirm) {
-					TenantService.deleteTenant(tenant, function (response) {
+					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+					TenantService.deleteTenant(tenant, headers, function (response) {
 						if (angular.isDefined(response.status) && response.status === 204) {
 							toaster.pop({
 								type: "success",

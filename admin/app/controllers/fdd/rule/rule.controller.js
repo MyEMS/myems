@@ -1,6 +1,14 @@
 'use strict';
 
-app.controller('RuleController', function($scope, $uibModal, $translate, RuleService, toaster, SweetAlert) {
+app.controller('RuleController', function(
+    $scope,
+    $window,
+    $uibModal,
+    $translate,
+    RuleService,
+    toaster,
+    SweetAlert) {
+    $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 
 	$scope.initExpression = [{
 		"sample_object_id": 1,
@@ -13,7 +21,8 @@ app.controller('RuleController', function($scope, $uibModal, $translate, RuleSer
 	$scope.initMessageTemplate = 'This a sample template. Use %s for substitution. You can use multiple %s s in the template.';
 
 	$scope.getAllRules = function() {
-		RuleService.getAllRules(function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		RuleService.getAllRules(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.rules = response.data;
 			} else {
@@ -40,7 +49,8 @@ app.controller('RuleController', function($scope, $uibModal, $translate, RuleSer
 			}
 		});
 		modalInstance.result.then(function(rule) {
-			RuleService.addRule(rule, function (response) {
+		    let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			RuleService.addRule(rule, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
@@ -79,7 +89,8 @@ app.controller('RuleController', function($scope, $uibModal, $translate, RuleSer
 		});
 
 		modalInstance.result.then(function(modifiedRule) {
-			RuleService.editRule(modifiedRule, function (response) {
+		    let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			RuleService.editRule(modifiedRule, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
 						type: "success",
@@ -117,7 +128,8 @@ app.controller('RuleController', function($scope, $uibModal, $translate, RuleSer
 			},
 			function(isConfirm) {
                 if (isConfirm) {
-                    RuleService.deleteRule(rule, function (response) {
+                    let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+                    RuleService.deleteRule(rule, headers, function (response) {
                         if (angular.isDefined(response.status) && response.status === 204) {
                             toaster.pop({
                                 type: "success",

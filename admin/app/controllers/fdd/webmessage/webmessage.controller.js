@@ -1,6 +1,15 @@
 'use strict';
 
-app.controller('WebMessageController', function($scope, $timeout, $translate, $uibModal, WebMessageAnalysisService, toaster, SweetAlert) {
+app.controller('WebMessageController', function(
+	$scope, 
+	$window,
+	$timeout, 
+	$translate, 
+	$uibModal, 
+	WebMessageService,
+	toaster, 
+	SweetAlert) {
+	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.$on('handleBroadcastWebMessageOptionChanged', function (event, data) {
         if (angular.isDefined(data.load)) {
             $scope.tabledata = [];
@@ -32,7 +41,8 @@ app.controller('WebMessageController', function($scope, $timeout, $translate, $u
 
 		modalInstance.result.then(function(modifiedWebmessage) {
 			modifiedWebmessage.status = "acknowledged";
-			WebMessageAnalysisService.editWebMessage(modifiedWebmessage, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			WebMessageService.editWebMessage(modifiedWebmessage, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
 						type: "success",
@@ -70,7 +80,8 @@ app.controller('WebMessageController', function($scope, $timeout, $translate, $u
 			},
 			function(isConfirm) {
 				if (isConfirm) {
-					WebMessageAnalysisService.deleteWebMessage(webmessage, function (response) {
+			        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+					WebMessageService.deleteWebMessage(webmessage, headers, function (response) {
 						if (angular.isDefined(response.status) && response.status === 204) {
                             toaster.pop({
                                 type: "success",

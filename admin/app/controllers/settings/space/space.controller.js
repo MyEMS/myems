@@ -1,10 +1,20 @@
 'use strict';
 
-app.controller('SpaceController', function ($scope, $uibModal, SpaceService, CostCenterService, ContactService, toaster, $translate, SweetAlert) {
+app.controller('SpaceController', function (
+	$scope,
+	$window,
+	$uibModal,
+	SpaceService,
+	CostCenterService,
+	ContactService,
+	toaster,
+	$translate,
+	SweetAlert) {
 	$scope.spaces = [];
 	$scope.currentSpaceID = 1;
 	$scope.currentSpace = {};
 	$scope.currentSpaceChildren = [];
+	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 
 	$scope.getAllCostCenters = function () {
 		CostCenterService.getAllCostCenters(function (response) {
@@ -141,7 +151,8 @@ app.controller('SpaceController', function ($scope, $uibModal, SpaceService, Cos
 			if (space.contact != null) {
 				space.contact_id = space.contact.id;
 			}
-			SpaceService.addSpace(space, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			SpaceService.addSpace(space, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
@@ -194,7 +205,8 @@ app.controller('SpaceController', function ($scope, $uibModal, SpaceService, Cos
 			}
 			 
 			modifiedSpace.cost_center_id = modifiedSpace.cost_center.id;
-			SpaceService.editSpace(modifiedSpace, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			SpaceService.editSpace(modifiedSpace, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
 						type: "success",
@@ -231,7 +243,8 @@ app.controller('SpaceController', function ($scope, $uibModal, SpaceService, Cos
 		},
 			function (isConfirm) {
 				if (isConfirm) {
-					SpaceService.deleteSpace(space, function (response) {
+					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+					SpaceService.deleteSpace(space, headers, function (response) {
 						if (angular.isDefined(response.status) && response.status === 204) {
 							toaster.pop({
 								type: "success",

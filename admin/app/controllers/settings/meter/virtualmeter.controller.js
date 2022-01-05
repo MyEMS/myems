@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('VirtualMeterController', function($scope, $uibModal, $translate, 
+app.controller('VirtualMeterController', function($scope, $window, $uibModal, $translate,
 	MeterService,
 	VirtualMeterService,
 	OfflineMeterService,
@@ -9,6 +9,8 @@ app.controller('VirtualMeterController', function($scope, $uibModal, $translate,
 	CostCenterService,
 	toaster,
 	SweetAlert) {
+
+	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllCostCenters = function() {
 		CostCenterService.getAllCostCenters(function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
@@ -96,7 +98,8 @@ $scope.getAllEnergyItems = function() {
 				virtualmeter.energy_item_id = undefined;
 			}
 			virtualmeter.cost_center_id = virtualmeter.cost_center.id;
-			VirtualMeterService.addVirtualMeter(virtualmeter, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			VirtualMeterService.addVirtualMeter(virtualmeter, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
@@ -149,7 +152,8 @@ $scope.getAllEnergyItems = function() {
 				modifiedVirtualMeter.energy_item_id = undefined;
 			}
 			modifiedVirtualMeter.cost_center_id = modifiedVirtualMeter.cost_center.id;
-			VirtualMeterService.editVirtualMeter(modifiedVirtualMeter, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			VirtualMeterService.editVirtualMeter(modifiedVirtualMeter, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
 						type: "success",
@@ -187,7 +191,8 @@ $scope.getAllEnergyItems = function() {
 			},
 			function(isConfirm) {
 				if (isConfirm) {
-					VirtualMeterService.deleteVirtualMeter(virtualmeter, function (response) {
+					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+					VirtualMeterService.deleteVirtualMeter(virtualmeter, headers, function (response) {
 						if (angular.isDefined(response.status) && response.status === 204) {
 							toaster.pop({
 								type: "success",
