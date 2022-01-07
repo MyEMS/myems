@@ -113,11 +113,16 @@
                         </tr>
                         <tr>
                             <td class="text-center sm">
-
-                                <div uib-timepicker ng-model="t.start_time_of_day"  show-meridian="false" show-seconds="true" show-spinners="false"></div>
+                                <div class="col-sm-7">
+                                    <input date-range-picker class="form-control date-picker" type="text" ng-model="t.start_time_of_day" options="dtOptions" style="width: auto"
+                                    placeholder="{{'SETTING.SELECT_DATE' | translate}}" readonly="" />
+                                </div>
                             </td>
                             <td class="text-center sm">
-                                <div uib-timepicker ng-model="t.end_time_of_day"  show-meridian="false" show-seconds="true" show-spinners="false"></div>
+                                <div class="col-sm-7">
+                                    <input date-range-picker class="form-control date-picker" type="text" ng-model="t.end_time_of_day" options="dtOptions" style="width: auto"
+                                    placeholder="{{'SETTING.SELECT_DATE' | translate}}" readonly="" />
+                                </div>
                             </td>
                             <td class="text-center sm">
                                 <select ng-model="t.peak_type" class="form-control  input-sm sm" name="peak">
