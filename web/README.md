@@ -8,7 +8,7 @@ Providing Web UI of MyEMS for viewing energy reports
 
 nginx-1.18.0 or later
 
-Node.js 16.0.0 or later
+Node.js 17.0.0 or later
 
 ## Running in Local Environment for Development
 

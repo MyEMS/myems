@@ -58,6 +58,7 @@ docker build -t myems/myems-api .
 ```
 * Run a Docker container
 If run on Windows host, bind-mount a share upload file folder at c:\upload to the container
+-v parameter must be same with that in admin
 ```bash
 docker run -d -p 8000:8000 -v c:\upload:/var/www/html/admin/upload --restart always --name myems-api myems/myems-api
 ```
