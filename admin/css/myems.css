@@ -103,6 +103,7 @@ td.fontorange{
 }
 select.sm{
 	width:60px;
+	font-size: 12px;
 }
 td.action{
 	width:100px !important;
