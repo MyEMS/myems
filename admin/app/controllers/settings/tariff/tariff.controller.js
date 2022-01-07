@@ -176,6 +176,7 @@ app.controller('ModalAddTariffCtrl', function($scope, $timeout, $uibModalInstanc
 		},
 		timePicker: true,
 		timePicker24Hour: true,
+		timePickerSeconds: true,
 		timePickerIncrement: 1,
 		singleDatePicker: true,
 	};
@@ -257,6 +258,7 @@ app.controller('ModalEditTariffCtrl', function($scope, $timeout, $uibModalInstan
 		},
 		timePicker: true,
 		timePicker24Hour: true,
+		timePickerSeconds: true,
 		timePickerIncrement: 1,
 		singleDatePicker: true,
 	};
