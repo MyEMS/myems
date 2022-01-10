@@ -3,6 +3,7 @@ import simplejson as json
 import mysql.connector
 import config
 import uuid
+
 from core.useractivity import user_logger, access_control
 
 
@@ -94,7 +95,8 @@ class MeterCollection:
                                "cost_center": cost_center,
                                "energy_item": energy_item,
                                "master_meter": master_meter,
-                               "description": row['description']}
+                               "description": row['description'],
+                               "qrcode": "meter" + row['uuid']}
                 result.append(meta_result)
 
         cursor.close()
@@ -346,6 +348,21 @@ class MeterItem:
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_energy_categories ")
+        cursor.execute(query)
+        rows_energy_categories = cursor.fetchall()
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_energy_categories ")
+        cursor.execute(query)
+        rows_energy_categories = cursor.fetchall()
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_energy_categories ")
+        cursor.execute(query)
+        rows_energy_categories = cursor.fetchall()
         cursor.close()
         cnx.disconnect()
 
@@ -367,7 +384,8 @@ class MeterItem:
                            "cost_center": cost_center,
                            "energy_item": energy_item,
                            "master_meter": master_meter,
-                           "description": row['description']}
+                           "description": row['description'],
+                           "qrcode": "meter" + row['uuid']}
 
         resp.text = json.dumps(meta_result)
 
