@@ -348,21 +348,6 @@ class MeterItem:
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
-
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_energy_categories ")
-        cursor.execute(query)
-        rows_energy_categories = cursor.fetchall()
-
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_energy_categories ")
-        cursor.execute(query)
-        rows_energy_categories = cursor.fetchall()
-
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_energy_categories ")
-        cursor.execute(query)
-        rows_energy_categories = cursor.fetchall()
         cursor.close()
         cnx.disconnect()
 
