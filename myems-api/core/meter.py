@@ -1,8 +1,13 @@
+import base64
+import os
+
 import falcon
 import simplejson as json
 import mysql.connector
 import config
 import uuid
+import qrcode
+import qrcode.image.svg
 
 from core.useractivity import user_logger, access_control
 
@@ -81,6 +86,22 @@ class MeterCollection:
         result = list()
         if rows_meters is not None and len(rows_meters) > 0:
             for row in rows_meters:
+                file_path = os.path.join(config.upload_path, row['uuid'] + ".svg")
+                try:
+                    file = open(file_path, "rb")
+                except IOError:
+                    meter_qrcode = qrcode.QRCode(
+                        version=1,
+                        error_correction=qrcode.ERROR_CORRECT_L,
+                        box_size=10,
+                        border=4
+                    )
+                    meter_qrcode.add_data("meter" + row['uuid'])
+                    meter_qrcode.make_image(image_factory=qrcode.image.svg.SvgImage).save(file_path)
+                    file = open(file_path, "rb")
+                finally:
+                    qrcode_base64 = base64.b64encode(file.read())
+                    file.close()
                 energy_category = energy_category_dict.get(row['energy_category_id'], None)
                 cost_center = cost_center_dict.get(row['cost_center_id'], None)
                 energy_item = energy_item_dict.get(row['energy_item_id'], None)
@@ -96,7 +117,7 @@ class MeterCollection:
                                "energy_item": energy_item,
                                "master_meter": master_meter,
                                "description": row['description'],
-                               "qrcode": "meter" + row['uuid']}
+                               "qrcode": qrcode_base64}
                 result.append(meta_result)
 
         cursor.close()
@@ -355,6 +376,22 @@ class MeterItem:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.METER_NOT_FOUND')
         else:
+            file_path = os.path.join(config.upload_path, row['uuid'] + ".svg")
+            try:
+                file = open(file_path, "rb")
+            except IOError:
+                meter_qrcode = qrcode.QRCode(
+                    version=1,
+                    error_correction=qrcode.ERROR_CORRECT_L,
+                    box_size=10,
+                    border=4
+                )
+                meter_qrcode.add_data("meter" + row['uuid'])
+                meter_qrcode.make_image(image_factory=qrcode.image.svg.SvgImage).save(file_path)
+                file = open(file_path, "rb")
+            finally:
+                qrcode_base64 = base64.b64encode(file.read())
+                file.close()
             energy_category = energy_category_dict.get(row['energy_category_id'], None)
             cost_center = cost_center_dict.get(row['cost_center_id'], None)
             energy_item = energy_item_dict.get(row['energy_item_id'], None)
@@ -370,7 +407,7 @@ class MeterItem:
                            "energy_item": energy_item,
                            "master_meter": master_meter,
                            "description": row['description'],
-                           "qrcode": "meter" + row['uuid']}
+                           "qrcode": qrcode_base64}
 
         resp.text = json.dumps(meta_result)
 
