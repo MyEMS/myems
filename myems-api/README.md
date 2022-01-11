@@ -45,37 +45,58 @@ chmod +x run.sh
 
 In this section, you will install myems-api on Docker.
 
-*  Copy example.env file to .env file and modify the .env file
+* Copy source code to root directory
 
+On Windows:
+```bash
+cp -r myems/myems-api c:\
+cd c:\myems-api
+```
+
+On Linux:
+```bash
+cp -r myems/myems-api /
+cd /myems/myems-api
+```
+
+* Duplicate example.env file as .env file and modify the .env file
 Replace ~~127.0.0.1~~ with real **HOST** IP address.
 ```bash
-cd myems/myems-api
 cp example.env .env
 ```
+
 * Build a Docker image
 ```bash
 docker build -t myems/myems-api .
 ```
 * Run a Docker container
-If run on Windows host, bind-mount a share upload file folder at c:\upload to the container
--v parameter must be same with that in admin
+On Windows host, bind-mount a share upload folder at c:\upload to the container, 
+ and also bind-mount the .env to the container. 
 ```bash
-docker run -d -p 8000:8000 -v c:\upload:/var/www/html/admin/upload --restart always --name myems-api myems/myems-api
+mkdir c:\upload
+docker run -d -p 8000:8000 -v c:\upload:/var/www/html/admin/upload -v c:\myems-api\.env:/code/.env --restart always --name myems-api myems/myems-api
 ```
-If run on Linux host, bind-mount a share upload file folder at /upload to the container
+On Linux host, bind-mount a share upload file folder at /upload to the container,
+ and also bind-mount the .env to the container.
 ```bash
-docker run -d -p 8000:8000 -v /upload:/var/www/html/admin/upload --restart always --name myems-api myems/myems-api
+mkdir /upload
+docker run -d -p 8000:8000 -v /upload:/var/www/html/admin/upload -v /myems-api/.env:/.env --restart always --name myems-api myems/myems-api
 ```
 
--d		Run container in background and print container ID
+* -d Run container in background and print container ID
 
--p		Publish a container's port(s) to the host, 8000:8000 (Host:Container) binds port 8000 (right)  of the container to TCP port 8000 (left) of the host machine.
+* -p Publish a container's port(s) to the host, 8000:8000 (Host:Container) binds port 8000 (right)  of the container to TCP port 8000 (left) of the host machine.
 
--v      If you use -v or --volume to bind-mount a file or directory that does not yet exist on the Docker host, -v creates the endpoint for you. It is always created as a directory.
+* -v If you use -v or --volume to bind-mount a file or directory that does not yet exist on the Docker host, -v creates the endpoint for you. It is always created as a directory.
 
---restart	Restart policy to apply when a container exits
+* --restart Restart policy to apply when a container exits
 
---name		Assign a name to the container
+* --name Assign a name to the container
+
+The absolute path before colon is for path on host  and that may vary on your system.
+The absolute path after colon is for path on container and that CANNOT be changed.
+By passing .env as bind-mount parameter, you can change the configuration values later.
+If you changed .env file, restart the container to make the change effective.
 
 If you want to immigrate the image to another computer,
 * Export image to tarball file
