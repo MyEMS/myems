@@ -1,8 +1,13 @@
+import base64
 import calendar
+import io
 from datetime import datetime, timedelta
 import mysql.connector
 import collections
 from decimal import Decimal
+import qrcode.image.svg
+import qrcode
+
 import config
 import statistics
 
@@ -248,7 +253,7 @@ def get_energy_category_tariffs(cost_center_id, energy_category_id, start_dateti
         query_timeofuse_tariffs = (" SELECT tariff_id, start_time_of_day, end_time_of_day, price "
                                    " FROM tbl_tariffs_timeofuses "
                                    " WHERE tariff_id IN ( " + ', '.join(map(str, tariff_dict.keys())) + ")"
-                                   " ORDER BY tariff_id, start_time_of_day ")
+                                                                                                        " ORDER BY tariff_id, start_time_of_day ")
         cursor.execute(query_timeofuse_tariffs, )
         rows_timeofuse_tariffs = cursor.fetchall()
     except Exception as e:
@@ -352,7 +357,7 @@ def get_energy_category_peak_types(cost_center_id, energy_category_id, start_dat
         query_timeofuse_tariffs = (" SELECT tariff_id, start_time_of_day, end_time_of_day, peak_type "
                                    " FROM tbl_tariffs_timeofuses "
                                    " WHERE tariff_id IN ( " + ', '.join(map(str, tariff_dict.keys())) + ")"
-                                   " ORDER BY tariff_id, start_time_of_day ")
+                                                                                                        " ORDER BY tariff_id, start_time_of_day ")
         cursor.execute(query_timeofuse_tariffs, )
         rows_timeofuse_tariffs = cursor.fetchall()
     except Exception as e:
@@ -1001,3 +1006,23 @@ def statistics_hourly_data_by_period(rows_hourly, start_datetime_utc, end_dateti
             variance = statistics.variance(sample_data)
 
         return result_rows_yearly, mean, median, minimum, maximum, stdev, variance
+
+
+def qrcode_to_base64(version=1, error_correction=qrcode.ERROR_CORRECT_L, box_size=10, border=4,
+                     factory=qrcode.image.svg.SvgImage, data=None):
+    if version < 1 or version > 40 or \
+            box_size < 0 or border < 0 or \
+            error_correction not in \
+            (qrcode.ERROR_CORRECT_L, qrcode.ERROR_CORRECT_M, qrcode.ERROR_CORRECT_H, qrcode.ERROR_CORRECT_Q):
+        return " "
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+    )
+    qr.add_data(data)
+    img = qr.make_image(image_factory=factory)
+    f = io.BytesIO()
+    img.save(f)
+    return base64.b64encode(f.getvalue())
