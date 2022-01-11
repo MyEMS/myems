@@ -1,14 +1,8 @@
-import base64
-import io
-import os
-
 import falcon
 import simplejson as json
 import mysql.connector
 import config
 import uuid
-import qrcode
-import qrcode.image.svg
 
 from core.useractivity import user_logger, access_control
 from core.utilities import qrcode_to_base64
