@@ -1,10 +1,9 @@
-import calendar
 from datetime import datetime, timedelta
 import mysql.connector
 import collections
 from decimal import Decimal
-import config
 import statistics
+import config
 
 
 ########################################################################################################################

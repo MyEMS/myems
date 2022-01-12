@@ -1089,6 +1089,7 @@ Result
 | energy_item   | Object    | Energy Item Object                        |
 | master_meter  | Object    | Master Meter Object                       |
 | description   | string    | Meter description                         |
+| qrcode        | string    | Meter QRCode String                       |
 
 *   GET All Meters
 ```bash

@@ -1,9 +1,9 @@
 import falcon
 import simplejson as json
 import mysql.connector
-import config
 import uuid
 from core.useractivity import user_logger, access_control
+import config
 
 
 class MeterCollection:
@@ -94,7 +94,8 @@ class MeterCollection:
                                "cost_center": cost_center,
                                "energy_item": energy_item,
                                "master_meter": master_meter,
-                               "description": row['description']}
+                               "description": row['description'],
+                               "qrcode": "meter:" + row['uuid']}
                 result.append(meta_result)
 
         cursor.close()
@@ -367,7 +368,8 @@ class MeterItem:
                            "cost_center": cost_center,
                            "energy_item": energy_item,
                            "master_meter": master_meter,
-                           "description": row['description']}
+                           "description": row['description'],
+                           "qrcode": "meter:"+row['uuid']}
 
         resp.text = json.dumps(meta_result)
 
