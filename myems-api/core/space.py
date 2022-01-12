@@ -97,7 +97,8 @@ class SpaceCollection:
                                "is_output_counted": bool(row['is_output_counted']),
                                "contact": contact,
                                "cost_center": cost_center,
-                               "description": row['description']}
+                               "description": row['description'],
+                               "qrcode": "space:" + row['uuid']}
                 result.append(meta_result)
 
         cursor.close()
@@ -355,7 +356,8 @@ class SpaceItem:
                            "is_output_counted": bool(row['is_output_counted']),
                            "contact": contact,
                            "cost_center": cost_center,
-                           "description": row['description']}
+                           "description": row['description'],
+                           "qrcode": "space:" + row['uuid']}
 
         resp.text = json.dumps(meta_result)
 
@@ -783,6 +785,7 @@ class SpaceChildrenCollection:
         result['current']['contact'] = contact_dict.get(row_current_space['contact_id'], None)
         result['current']['cost_center'] = cost_center_dict.get(row_current_space['cost_center_id'], None)
         result['current']['description'] = row_current_space['description']
+        result['current']['qrcode'] = 'space:' + row_current_space['uuid']
 
         result['children'] = list()
 
@@ -811,7 +814,8 @@ class SpaceChildrenCollection:
                                "is_output_counted": bool(row['is_output_counted']),
                                "contact": contact,
                                "cost_center": cost_center,
-                               "description": row['description']}
+                               "description": row['description'],
+                               "qrcode": 'space:' + row['uuid']}
                 result['children'].append(meta_result)
 
         cursor.close()

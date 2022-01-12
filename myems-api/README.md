@@ -1522,6 +1522,7 @@ Result
 | contact       | Object    | Contact Object                            |
 | cost_center   | Object    | Cost Center Object                        |
 | description   | string    | Space description                         |
+| qrcode        | string    | QRCode in String                          |
 
 *   GET All Spaces
 ```bash
