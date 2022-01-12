@@ -22,18 +22,6 @@ class ShopfloorCollection:
         cursor = cnx.cursor(dictionary=True)
 
         query = (" SELECT id, name, uuid "
-                 " FROM tbl_shopfloors ")
-        cursor.execute(query)
-        rows_shopfloors = cursor.fetchall()
-
-        shopfloor_dict = dict()
-        if rows_shopfloors is not None and len(rows_shopfloors) > 0:
-            for row in rows_shopfloors:
-                shopfloor_dict[row['id']] = {"id": row['id'],
-                                             "name": row['name'],
-                                             "uuid": row['uuid']}
-
-        query = (" SELECT id, name, uuid "
                  " FROM tbl_contacts ")
         cursor.execute(query)
         rows_contacts = cursor.fetchall()
@@ -77,7 +65,8 @@ class ShopfloorCollection:
                                "is_input_counted": bool(row['is_input_counted']),
                                "contact": contact,
                                "cost_center": cost_center,
-                               "description": row['description']}
+                               "description": row['description'],
+                               "qrcode": "shopfloor:" + row['uuid']}
                 result.append(meta_result)
 
         cursor.close()
@@ -210,22 +199,10 @@ class ShopfloorItem:
     def on_get(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_METER_ID')
+                                   description='API.INVALID_SHOPFLOOR_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor(dictionary=True)
-
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_shopfloors ")
-        cursor.execute(query)
-        rows_shopfloors = cursor.fetchall()
-
-        shopfloor_dict = dict()
-        if rows_shopfloors is not None and len(rows_shopfloors) > 0:
-            for row in rows_shopfloors:
-                shopfloor_dict[row['id']] = {"id": row['id'],
-                                             "name": row['name'],
-                                             "uuid": row['uuid']}
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_contacts ")
@@ -273,7 +250,8 @@ class ShopfloorItem:
                            "is_input_counted": bool(row['is_input_counted']),
                            "contact": contact,
                            "cost_center": cost_center,
-                           "description": row['description']}
+                           "description": row['description'],
+                           "qrcode": "shopfloor:" + row['uuid']}
 
         resp.text = json.dumps(meta_result)
 
