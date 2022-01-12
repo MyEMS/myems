@@ -83,7 +83,8 @@ class StoreCollection:
                                "is_input_counted": bool(row['is_input_counted']),
                                "contact": contact,
                                "cost_center": cost_center,
-                               "description": row['description']}
+                               "description": row['description'],
+                               "qrcode": 'store:' + row['uuid']}
                 result.append(meta_result)
 
         cursor.close()
@@ -329,7 +330,8 @@ class StoreItem:
                            "is_input_counted": bool(row['is_input_counted']),
                            "contact": contact,
                            "cost_center": cost_center,
-                           "description": row['description']}
+                           "description": row['description'],
+                           "qrcode": 'store:' + row['uuid']}
 
         resp.text = json.dumps(meta_result)
 
