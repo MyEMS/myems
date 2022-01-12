@@ -1,11 +1,9 @@
 import falcon
 import simplejson as json
 import mysql.connector
-import config
 import uuid
-
 from core.useractivity import user_logger, access_control
-from core.utilities import qrcode_to_base64
+import config
 
 
 class MeterCollection:
@@ -82,7 +80,6 @@ class MeterCollection:
         result = list()
         if rows_meters is not None and len(rows_meters) > 0:
             for row in rows_meters:
-                meter_qrcode = qrcode_to_base64(data="meter" + row['uuid'])
                 energy_category = energy_category_dict.get(row['energy_category_id'], None)
                 cost_center = cost_center_dict.get(row['cost_center_id'], None)
                 energy_item = energy_item_dict.get(row['energy_item_id'], None)
@@ -98,7 +95,7 @@ class MeterCollection:
                                "energy_item": energy_item,
                                "master_meter": master_meter,
                                "description": row['description'],
-                               "qrcode": meter_qrcode}
+                               "qrcode": "meter:" + row['uuid']}
                 result.append(meta_result)
 
         cursor.close()
@@ -357,7 +354,6 @@ class MeterItem:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.METER_NOT_FOUND')
         else:
-            meter_qrcode = qrcode_to_base64(data="meter"+row['uuid'])
             energy_category = energy_category_dict.get(row['energy_category_id'], None)
             cost_center = cost_center_dict.get(row['cost_center_id'], None)
             energy_item = energy_item_dict.get(row['energy_item_id'], None)
@@ -373,7 +369,7 @@ class MeterItem:
                            "energy_item": energy_item,
                            "master_meter": master_meter,
                            "description": row['description'],
-                           "qrcode": meter_qrcode}
+                           "qrcode": "meter:"+row['uuid']}
 
         resp.text = json.dumps(meta_result)
 
