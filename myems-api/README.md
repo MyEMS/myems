@@ -1411,6 +1411,7 @@ Result
 | contact       | Object    | Contact Object                            |
 | cost_center   | Object    | Cost Center Object                        |
 | description   | string    | Shopfloor description                     |
+| qrcode        | string    | QRCode in String                          |
 
 *   GET All Shopfloors
 ```bash
