@@ -51,7 +51,8 @@ class CombinedEquipmentCollection:
                                "is_input_counted": bool(row['is_input_counted']),
                                "is_output_counted": bool(row['is_output_counted']),
                                "cost_center": cost_center,
-                               "description": row['description']}
+                               "description": row['description'],
+                               "qrcode": 'combinedequipment:' + row['uuid']}
                 result.append(meta_result)
 
         cursor.close()
@@ -198,7 +199,8 @@ class CombinedEquipmentItem:
                            "is_input_counted": bool(row['is_input_counted']),
                            "is_output_counted": bool(row['is_output_counted']),
                            "cost_center": cost_center,
-                           "description": row['description']}
+                           "description": row['description'],
+                           "qrcode": 'combinedequipment:' + row['uuid']}
 
         resp.text = json.dumps(meta_result)
 
