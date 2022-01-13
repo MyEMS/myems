@@ -100,7 +100,8 @@ class TenantCollection:
                                "is_in_lease": bool(row['is_in_lease']),
                                "contact": contact,
                                "cost_center": cost_center,
-                               "description": row['description']}
+                               "description": row['description'],
+                               "qrcode": 'tenant:' + row['uuid']}
                 result.append(meta_result)
 
         cursor.close()
@@ -396,7 +397,8 @@ class TenantItem:
                            "is_in_lease": bool(row['is_in_lease']),
                            "contact": contact,
                            "cost_center": cost_center,
-                           "description": row['description']}
+                           "description": row['description'],
+                           "qrcode": 'tenant:' + row['uuid']}
 
         resp.text = json.dumps(meta_result)
 

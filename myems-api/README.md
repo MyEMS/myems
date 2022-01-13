@@ -741,6 +741,7 @@ Result
 | is_output_counted | boolean | Indicates if the Equipment's energy output is counted for aggregating|                        |
 | cost_center   | Object    | Cost Center Object                        |
 | description   | string    | Equipment description                     |
+| qrcode        | string    | QRCode in String                          |
 
 *   GET All Equipments
 ```bash
@@ -853,6 +854,7 @@ Result
 | is_output_counted | boolean | Indicates if the combined equipment's energy output is counted for aggregating|                        |
 | cost_center   | Object    | Cost Center Object                        |
 | description   | string    | Combined Equipment description            |
+| qrcode        | string    | QRCode in String                          |
 
 *   GET All Equipments
 ```bash
@@ -1874,6 +1876,7 @@ Result
 | contact       | Object    | Contact Object                            |
 | cost_center   | Object    | Cost Center Object                        |
 | description   | string    | Tenant description                        |
+| qrcode        | string    | QRCode in String                          |
 
 *   GET All Tenants
 ```bash

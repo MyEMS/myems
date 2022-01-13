@@ -51,7 +51,8 @@ class EquipmentCollection:
                                "is_input_counted": bool(row['is_input_counted']),
                                "is_output_counted": bool(row['is_output_counted']),
                                "cost_center": cost_center,
-                               "description": row['description']}
+                               "description": row['description'],
+                               "qrcode": 'equipment:' + row['uuid']}
                 result.append(meta_result)
 
         cursor.close()
@@ -198,7 +199,8 @@ class EquipmentItem:
                            "is_input_counted": bool(row['is_input_counted']),
                            "is_output_counted": bool(row['is_output_counted']),
                            "cost_center": cost_center,
-                           "description": row['description']}
+                           "description": row['description'],
+                           "qrcode": 'equipment:' + row['uuid']}
 
         resp.text = json.dumps(meta_result)
 
