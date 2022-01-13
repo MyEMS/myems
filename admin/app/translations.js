@@ -511,6 +511,7 @@ function config($translateProvider) {
                 SELECT_MASTER_METER: 'Select Master Meter',
                 TREE_VIEW: 'Tree View',
                 CHILD_METERS: 'Child Meters',
+                QR_CODE: 'QR Code'
             },
             SENSOR: {
                 ADD_SENSOR: 'Add Sensor',
@@ -1500,6 +1501,7 @@ function config($translateProvider) {
                 SELECT_MASTER_METER: '选择上级计量表',
                 TREE_VIEW: '树视图',
                 CHILD_METERS: '下级计量表',
+                QR_CODE: '二维码'
             },
             SENSOR: {
                 ADD_SENSOR: '添加传感器',
@@ -2490,6 +2492,7 @@ function config($translateProvider) {
                 SELECT_MASTER_METER: 'Wählen Sie das übergeordnete Messgerät aus',
                 TREE_VIEW: 'Baumsicht',
                 CHILD_METERS: 'Unterer Füllstandsmesser',
+                QR_CODE: 'QR Code'
             },
             SENSOR: {
                 ADD_SENSOR: 'Sensor hinzufügen',
