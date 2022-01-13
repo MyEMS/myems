@@ -21,6 +21,7 @@ cd myems/myems-modbus-tcp
 pip install -r requirements.txt
 cp example.env .env
 chmod +x run.sh
+./run.sh
 ```
 
 ### Installation

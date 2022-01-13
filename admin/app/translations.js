@@ -511,7 +511,7 @@ function config($translateProvider) {
                 SELECT_MASTER_METER: 'Select Master Meter',
                 TREE_VIEW: 'Tree View',
                 CHILD_METERS: 'Child Meters',
-                QR_CODE: 'Qr Code'
+                QR_CODE: 'QR Code'
             },
             SENSOR: {
                 ADD_SENSOR: 'Add Sensor',
@@ -2492,7 +2492,7 @@ function config($translateProvider) {
                 SELECT_MASTER_METER: 'Wählen Sie das übergeordnete Messgerät aus',
                 TREE_VIEW: 'Baumsicht',
                 CHILD_METERS: 'Unterer Füllstandsmesser',
-                QR_CODE: ''
+                QR_CODE: 'QR Code'
             },
             SENSOR: {
                 ADD_SENSOR: 'Sensor hinzufügen',
