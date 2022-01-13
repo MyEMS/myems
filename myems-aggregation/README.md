@@ -1,6 +1,6 @@
 ## myems-aggregation
 
-MyEMS Aggregation Service 
+Data Aggregation Service 
 
 数据汇总服务
 
@@ -31,26 +31,51 @@ chmod +x run.sh
 
 In this section, you will install myems-aggregation on Docker.
 
-*  Copy example.env file to .env file and modify the .env file
+* Copy source code to root directory
 
+On Windows:
 ```bash
-cd myems/myems-aggregation
+cp -r myems/myems-aggregation c:\
+cd c:\myems-aggregation
+```
+
+On Linux:
+```bash
+cp -r myems/myems-aggregation /
+cd /myems/myems-aggregation
+```
+
+* Duplicate example.env file as .env file and modify the .env file
+Replace ~~127.0.0.1~~ with real **HOST** IP address.
+```bash
 cp example.env .env
 ```
+
 * Build a Docker image
 ```bash
 docker build -t myems/myems-aggregation .
 ```
 * Run a Docker container
+On Windows host, bind-mount the .env to the container: 
 ```bash
-docker run -d --restart always --name myems-aggregation myems/myems-aggregation
+docker run -d -v c:\myems-aggregation\.env:/code/.env --restart always --name myems-aggregation myems/myems-aggregation
 ```
+On Linux host, bind-mount the .env to the container:
+```bash
+docker run -d -p 8000:8000 -v /myems-aggregation/.env:/.env --restart always --name myems-aggregation myems/myems-aggregation
+```
+* -d Run container in background and print container ID
 
--d		Run container in background and print container ID
+* -v If you use -v or --volume to bind-mount a file or directory that does not yet exist on the Docker host, -v creates the endpoint for you. It is always created as a directory.
 
---restart	Restart policy to apply when a container exits
+* --restart Restart policy to apply when a container exits
 
---name		Assign a name to the container
+* --name Assign a name to the container
+
+The absolute path before colon is for path on host  and that may vary on your system.
+The absolute path after colon is for path on container and that CANNOT be changed.
+By passing .env as bind-mount parameter, you can change the configuration values later.
+If you changed .env file, restart the container to make the change effective.
 
 If you want to immigrate the image to another computer,
 * Export image to tarball file
