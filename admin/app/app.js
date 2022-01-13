@@ -15,7 +15,8 @@
         //'ngDragDrop',
         'hjc.directives.dragdrop',
         'angular-loading-bar',
-        'thatisuday.dropzone'
+        'thatisuday.dropzone',
+        'monospaced.qrcode'
     ])
 })();
 
