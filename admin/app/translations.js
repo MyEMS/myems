@@ -30,7 +30,8 @@ function config($translateProvider) {
                     ONPEAK: 'On-peak',
                     OFFPEAK: 'Off-peak',
                     MIDPEAK: 'Mid-peak'
-                }
+                },
+                QR_CODE: 'QR Code'
             },
             FDD: {
                 ID: 'ID',
@@ -1015,7 +1016,8 @@ function config($translateProvider) {
                     ONPEAK: '峰',
                     OFFPEAK: '谷',
                     MIDPEAK: '平'
-                }
+                },
+                QR_CODE:"二维码"
             },
             FDD: {
                 ID: 'ID',
@@ -2007,7 +2009,8 @@ function config($translateProvider) {
                     ONPEAK: 'Gipfel',
                     OFFPEAK: 'Senke',
                     MIDPEAK: 'Niveau'
-                }
+                },
+                QR_CODE: 'QR Code'
             },
             FDD: {
                 ID: 'ID',
@@ -2491,8 +2494,7 @@ function config($translateProvider) {
                 MASTER_METER: 'Überlegenes Messgerät',
                 SELECT_MASTER_METER: 'Wählen Sie das übergeordnete Messgerät aus',
                 TREE_VIEW: 'Baumsicht',
-                CHILD_METERS: 'Unterer Füllstandsmesser',
-                QR_CODE: 'QR Code'
+                CHILD_METERS: 'Unterer Füllstandsmesser'
             },
             SENSOR: {
                 ADD_SENSOR: 'Sensor hinzufügen',
