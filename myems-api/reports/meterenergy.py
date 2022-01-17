@@ -6,6 +6,7 @@ from datetime import datetime, timedelta, timezone
 from core import utilities
 from decimal import Decimal
 import excelexporters.meterenergy
+import re
 
 
 class Reporting:
@@ -32,6 +33,7 @@ class Reporting:
     @staticmethod
     def on_get(req, resp):
         print(req.params)
+        # this procedure accepts meter id or meter uuid to identify a meter
         meter_id = req.params.get('meterid')
         meter_uuid = req.params.get('meteruuid')
         period_type = req.params.get('periodtype')
@@ -53,6 +55,10 @@ class Reporting:
 
         if meter_uuid is not None:
             meter_uuid = str.strip(meter_uuid)
+            regex = re.compile('^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}\Z', re.I)
+            match = regex.match(meter_uuid)
+            if not bool(match):
+                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_METER_UUID')
 
         if period_type is None:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_PERIOD_TYPE')
@@ -142,7 +148,7 @@ class Reporting:
                                   " FROM tbl_meters m, tbl_energy_categories ec "
                                   " WHERE m.id = %s AND m.energy_category_id = ec.id ", (meter_id,))
             row_meter = cursor_system.fetchone()
-        if meter_uuid is not None:
+        elif meter_uuid is not None:
             cursor_system.execute(" SELECT m.id, m.name, m.cost_center_id, m.energy_category_id, "
                                   "        ec.name, ec.unit_of_measure, ec.kgce, ec.kgco2e "
                                   " FROM tbl_meters m, tbl_energy_categories ec "
