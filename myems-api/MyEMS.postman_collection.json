@@ -11133,7 +11133,14 @@
 							"query": [
 								{
 									"key": "meterid",
-									"value": "6"
+									"value": "6",
+									"description": "use meter id or meteruuid"
+								},
+								{
+									"key": "meteruuid",
+									"value": "5ca47bc5-22c2-47fc-b906-33222191ea40",
+									"description": "use meter id or meteruuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
