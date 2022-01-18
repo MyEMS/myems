@@ -16,6 +16,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
+## [v1.6.1] -   2022-01-18
+### Added
+- added docker image immigration to readme.
+- added QRCode in String to Space/Meter/Store/Tenant/Equipment/CombinedEquipment in API
+
+### Changed
+- added alternative parameter meteruuid to meter reports
+- updated docker installation in README
+- improved virtual meter editor in admin ui.
+- upgraded echarts version to 5.2.2 in web ui.
+
+### Fixed
+-   None.
+
+### Removed
+-   None.
+
+
 ## [v1.6.0] -   2021-12-31
 ### Added
 -   added energy output and input to combined equipment efficiency report
@@ -628,7 +646,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v1.6.0...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v1.6.1...HEAD
+[v1.6.1]: https://github.com/MyEMS/myems/compare/v1.6.0...v1.6.1
 [v1.6.0]: https://github.com/MyEMS/myems/compare/v1.5.1...v1.6.0
 [v1.5.1]: https://github.com/MyEMS/myems/compare/v1.5.0...v1.5.1
 [v1.5.0]: https://github.com/MyEMS/myems/compare/v1.4.0...v1.5.0
