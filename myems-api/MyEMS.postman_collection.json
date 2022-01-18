@@ -11089,7 +11089,14 @@
 							"query": [
 								{
 									"key": "meterid",
-									"value": "6"
+									"value": "6",
+									"description": "use meterid or meteruuid"
+								},
+								{
+									"key": "meteruuid",
+									"value": "eb78f7f9-f26f-463b-92fa-d9daf5b3651c",
+									"description": "use meterid or meteruuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -11185,6 +11192,12 @@
 								{
 									"key": "meterid",
 									"value": "1"
+								},
+								{
+									"key": "meteruuid",
+									"value": "eb78f7f9-f26f-463b-92fa-d9daf5b3651c",
+									"description": "use meterid or meteruuid",
+									"disabled": true
 								}
 							]
 						}
@@ -11208,7 +11221,14 @@
 							"query": [
 								{
 									"key": "meterid",
-									"value": "1"
+									"value": "1",
+									"description": "use meterid or meteruuid"
+								},
+								{
+									"key": "meteruuid",
+									"value": "eb78f7f9-f26f-463b-92fa-d9daf5b3651c",
+									"description": "use meterid or meteruuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -11244,7 +11264,14 @@
 							"query": [
 								{
 									"key": "meterid",
-									"value": "6"
+									"value": "6",
+									"description": "use meterid or meteruuid"
+								},
+								{
+									"key": "meteruuid",
+									"value": "eb78f7f9-f26f-463b-92fa-d9daf5b3651c",
+									"description": "use meterid or meteruuid",
+									"disabled": true
 								},
 								{
 									"key": "reportingperiodstartdatetime",
@@ -11253,11 +11280,6 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-09-11T00:00:00"
-								},
-								{
-									"key": "",
-									"value": "",
-									"disabled": true
 								}
 							]
 						}
@@ -11281,7 +11303,14 @@
 							"query": [
 								{
 									"key": "meterid",
-									"value": "6"
+									"value": "6",
+									"description": "use meterid or meteruuid"
+								},
+								{
+									"key": "meteruuid",
+									"value": "eb78f7f9-f26f-463b-92fa-d9daf5b3651c",
+									"description": "use meterid or meteruuid",
+									"disabled": true
 								},
 								{
 									"key": "reportingperiodstartdatetime",

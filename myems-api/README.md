@@ -2306,23 +2306,38 @@ curl -i -X GET {{base_url}}/reports/equipmentstatistics?equipmentid=1&periodtype
 ```bash
 curl -i -X GET {{base_url}}/reports/meterbatch?spaceid=1&reportingperiodstartdatetime=2021-05-01T00:00:00&reportingperiodenddatetime=2021-05-20T11:41:09
 ```
-*   GET Meter Cost Report
+* GET Meter Cost Report
+
+(use meterid or meteruuid to get meter report)
+
 ```bash
 curl -i -X GET {{base_url}}/reports/metercost?meterid=6&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
 * GET Meter Energy Report
+
+(use meterid or meteruuid to get meter report)
+
 ```bash
 curl -i -X GET {{base_url}}/reports/meterenergy?meterid=6&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-*   GET Meter Realtime Report
+* GET Meter Realtime Report
+
+(use meterid or meteruuid to get meter report)
+
 ```bash
 curl -i -X GET {{base_url}}/reports/meterrealtime?meterid=1
 ```
-*   GET Meter Submeters Balance Report
+* GET Meter Submeters Balance Report
+
+(use meterid or meteruuid to get meter report)
+
 ```bash
 curl -i -X GET {{base_url}}/reports/metersubmetersbalance?meterid=1&periodtype=daily&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-*   GET Meter Trend Report
+* GET Meter Trend Report
+
+(use meterid or meteruuid to get meter report)
+
 ```bash
 curl -i -X GET {{base_url}}/reports/metertrend?meterid=6&reportingperiodstartdatetime=2020-09-10T00:00:00&reportingperiodenddatetime=2020-09-11T00:00:00
 ```
