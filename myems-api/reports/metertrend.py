@@ -1,3 +1,5 @@
+import re
+
 import falcon
 import simplejson as json
 import mysql.connector
@@ -30,6 +32,7 @@ class Reporting:
     def on_get(req, resp):
         print(req.params)
         meter_id = req.params.get('meterid')
+        meter_uuid = req.params.get('meteruuid')
         reporting_period_start_datetime_local = req.params.get('reportingperiodstartdatetime')
         reporting_period_end_datetime_local = req.params.get('reportingperiodenddatetime')
         quick_mode = req.params.get('quickmode')
@@ -37,12 +40,20 @@ class Reporting:
         ################################################################################################################
         # Step 1: valid parameters
         ################################################################################################################
-        if meter_id is None:
+        if meter_id is None and meter_uuid is None:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_METER_ID')
-        else:
+
+        if meter_id is not None:
             meter_id = str.strip(meter_id)
             if not meter_id.isdigit() or int(meter_id) <= 0:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_METER_ID')
+
+        if meter_uuid is not None:
+            meter_uuid = str.strip(meter_uuid)
+            regex = re.compile('^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}\Z', re.I)
+            match = regex.match(meter_uuid)
+            if not bool(match):
+                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_METER_UUID')
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -95,12 +106,18 @@ class Reporting:
 
         cnx_historical = mysql.connector.connect(**config.myems_historical_db)
         cursor_historical = cnx_historical.cursor()
-
-        cursor_system.execute(" SELECT m.id, m.name, m.cost_center_id, m.energy_category_id, "
-                              "        ec.name, ec.unit_of_measure, ec.kgce, ec.kgco2e "
-                              " FROM tbl_meters m, tbl_energy_categories ec "
-                              " WHERE m.id = %s AND m.energy_category_id = ec.id ", (meter_id,))
-        row_meter = cursor_system.fetchone()
+        if meter_id is not None:
+            cursor_system.execute(" SELECT m.id, m.name, m.cost_center_id, m.energy_category_id, "
+                                  "        ec.name, ec.unit_of_measure, ec.kgce, ec.kgco2e "
+                                  " FROM tbl_meters m, tbl_energy_categories ec "
+                                  " WHERE m.id = %s AND m.energy_category_id = ec.id ", (meter_id,))
+            row_meter = cursor_system.fetchone()
+        elif meter_uuid is not None:
+            cursor_system.execute(" SELECT m.id, m.name, m.cost_center_id, m.energy_category_id, "
+                                  "        ec.name, ec.unit_of_measure, ec.kgce, ec.kgco2e "
+                                  " FROM tbl_meters m, tbl_energy_categories ec "
+                                  " WHERE m.uuid = %s AND m.energy_category_id = ec.id ", (meter_uuid,))
+            row_meter = cursor_system.fetchone()
         if row_meter is None:
             if cursor_system:
                 cursor_system.close()
@@ -112,7 +129,8 @@ class Reporting:
             if cnx_historical:
                 cnx_historical.disconnect()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND', description='API.METER_NOT_FOUND')
-
+        if meter_id is not None and int(meter_id) != int(row_meter[0]):
+            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND', description='API.METER_NOT_FOUND')
         meter = dict()
         meter['id'] = row_meter[0]
         meter['name'] = row_meter[1]
