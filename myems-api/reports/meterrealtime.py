@@ -66,13 +66,13 @@ class Reporting:
 
         if meter_id is not None:
             cursor_system.execute(" SELECT m.id, m.name, m.cost_center_id, m.energy_category_id, "
-                                  "        ec.name, ec.unit_of_measure "
+                                  "        ec.name, ec.unit_of_measure, ec.kgce, ec.kgco2e "
                                   " FROM tbl_meters m, tbl_energy_categories ec "
                                   " WHERE m.id = %s AND m.energy_category_id = ec.id ", (meter_id,))
             row_meter = cursor_system.fetchone()
         elif meter_uuid is not None:
             cursor_system.execute(" SELECT m.id, m.name, m.cost_center_id, m.energy_category_id, "
-                                  "        ec.name, ec.unit_of_measure "
+                                  "        ec.name, ec.unit_of_measure, ec.kgce, ec.kgco2e "
                                   " FROM tbl_meters m, tbl_energy_categories ec "
                                   " WHERE m.uuid = %s AND m.energy_category_id = ec.id ", (meter_uuid,))
             row_meter = cursor_system.fetchone()
@@ -86,8 +86,6 @@ class Reporting:
                 cursor_historical.close()
             if cnx_historical:
                 cnx_historical.disconnect()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND', description='API.METER_NOT_FOUND')
-        if meter_id is not None and int(meter_id) != int(row_meter[0]):
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND', description='API.METER_NOT_FOUND')
 
         meter = dict()

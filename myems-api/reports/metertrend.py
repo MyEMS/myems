@@ -129,8 +129,6 @@ class Reporting:
             if cnx_historical:
                 cnx_historical.disconnect()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND', description='API.METER_NOT_FOUND')
-        if meter_id is not None and int(meter_id) != int(row_meter[0]):
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND', description='API.METER_NOT_FOUND')
         meter = dict()
         meter['id'] = row_meter[0]
         meter['name'] = row_meter[1]

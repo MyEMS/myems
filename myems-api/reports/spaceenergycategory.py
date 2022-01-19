@@ -1,3 +1,4 @@
+import re
 import falcon
 import simplejson as json
 import mysql.connector
@@ -37,6 +38,7 @@ class Reporting:
     def on_get(req, resp):
         print(req.params)
         space_id = req.params.get('spaceid')
+        space_uuid = req.params.get('spaceuuid')
         period_type = req.params.get('periodtype')
         base_start_datetime_local = req.params.get('baseperiodstartdatetime')
         base_end_datetime_local = req.params.get('baseperiodenddatetime')
@@ -46,12 +48,26 @@ class Reporting:
         ################################################################################################################
         # Step 1: valid parameters
         ################################################################################################################
-        if space_id is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_SPACE_ID')
-        else:
+        if space_id is None and space_uuid is None:
+            raise falcon.HTTPError(falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_SPACE_ID')
+
+        if space_id is not None:
             space_id = str.strip(space_id)
             if not space_id.isdigit() or int(space_id) <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_SPACE_ID')
+                raise falcon.HTTPError(falcon.HTTP_400,
+                                       title='API.BAD_REQUEST',
+                                       description='API.INVALID_SPACE_ID')
+
+        if space_uuid is not None:
+            space_uuid = str.strip(space_uuid)
+            regex = re.compile('^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}\Z', re.I)
+            match = regex.match(space_uuid)
+            if not bool(match):
+                raise falcon.HTTPError(falcon.HTTP_400,
+                                       title='API.BAD_REQUEST',
+                                       description='API.INVALID_SPACE_UUID')
 
         if period_type is None:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_PERIOD_TYPE')
@@ -133,10 +149,16 @@ class Reporting:
         cnx_historical = mysql.connector.connect(**config.myems_historical_db)
         cursor_historical = cnx_historical.cursor()
 
-        cursor_system.execute(" SELECT id, name, area, cost_center_id "
-                              " FROM tbl_spaces "
-                              " WHERE id = %s ", (space_id,))
-        row_space = cursor_system.fetchone()
+        if space_id is not None:
+            cursor_system.execute(" SELECT id, name, area, cost_center_id "
+                                  " FROM tbl_spaces "
+                                  " WHERE id = %s ", (space_id,))
+            row_space = cursor_system.fetchone()
+        elif space_uuid is not None:
+            cursor_system.execute(" SELECT id, name, area, cost_center_id "
+                                  " FROM tbl_spaces "
+                                  " WHERE uuid = %s ", (space_uuid,))
+            row_space = cursor_system.fetchone()
         if row_space is None:
             if cursor_system:
                 cursor_system.close()
