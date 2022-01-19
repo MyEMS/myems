@@ -22,6 +22,7 @@ Execute the following scripts in MySQL commandline, or execute in other MySQL cl
 cd myems/database/install
 mysql -u root -p < myems_billing_baseline_db.sql
 mysql -u root -p < myems_billing_db.sql
+mysql -u root -p < myems_carbon_db.sql
 mysql -u root -p < myems_energy_baseline_db.sql
 mysql -u root -p < myems_energy_db.sql
 mysql -u root -p < myems_fdd_db.sql
