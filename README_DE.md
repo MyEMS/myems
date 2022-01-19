@@ -14,10 +14,11 @@
 
 ## MyEMS-Einführung
 
-MyEMS ist ein industrie führend Open Source Energiemanagementsystem.
+
+MyEMS ist der Gründer des Open-Source-Energiemanagementsystems.
 MyEMS kann für Gerätemanagement, Datenerfassung, Verarbeitung, Analyse, Visualisierung und Berichterstellung für Ihre EMS-Projekte verwendet werden.
 MyEMS wird von einem erfahrenen Entwicklungsteam entwickelt und gewartet, und der Quellcode des Systems wird unter MIT-Lizenz veröffentlicht.
-
+Verwendung von Open Source, um die Ziele der CO2-Peak-Kohlenstoffneutralität zu erreichen.
 
 ## MyEMS Architektur
 
