@@ -38,6 +38,7 @@ from reports import fddspacefault
 from reports import fddstorefault
 from reports import fddtenantfault
 from reports import meterenergy
+from reports import metercarbon
 from reports import metercost
 from reports import meterrealtime
 from reports import metersubmetersbalance
@@ -557,6 +558,8 @@ api.add_route('/reports/fddtenantfault',
               fddtenantfault.Reporting())
 api.add_route('/reports/meterbatch',
               meterbatch.Reporting())
+api.add_route('/reports/metercarbon',
+              metercarbon.Reporting())
 api.add_route('/reports/metercost',
               metercost.Reporting())
 api.add_route('/reports/meterenergy',
