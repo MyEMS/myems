@@ -10085,7 +10085,14 @@
 							"query": [
 								{
 									"key": "combinedequipmentid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "combinedequipmentuuid",
+									"value": "48aab70f-2e32-4518-9986-a6b7395acf58",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -10118,7 +10125,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/reports/combinedequipmentefficiency?combinedequipmentid=1000001&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
+							"raw": "{{base_url}}/reports/combinedequipmentefficiency?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
 								"{{base_url}}"
 							],
@@ -10129,7 +10136,14 @@
 							"query": [
 								{
 									"key": "combinedequipmentid",
-									"value": "1000001"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "combinedequipmentuuid",
+									"value": "48aab70f-2e32-4518-9986-a6b7395acf58",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -10162,7 +10176,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/reports/combinedequipmentefficiency?combinedequipmentid=1000001&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"raw": "{{base_url}}/reports/combinedequipmentefficiency?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
 								"{{base_url}}"
 							],
@@ -10173,7 +10187,14 @@
 							"query": [
 								{
 									"key": "combinedequipmentid",
-									"value": "1000001"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "combinedequipmentuuid",
+									"value": "48aab70f-2e32-4518-9986-a6b7395acf58",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -10221,7 +10242,14 @@
 							"query": [
 								{
 									"key": "combinedequipmentid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "combinedequipmentuuid",
+									"value": "48aab70f-2e32-4518-9986-a6b7395acf58",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -10265,7 +10293,14 @@
 							"query": [
 								{
 									"key": "combinedequipmentid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "combinedequipmentuuid",
+									"value": "48aab70f-2e32-4518-9986-a6b7395acf58",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -10309,7 +10344,14 @@
 							"query": [
 								{
 									"key": "combinedequipmentid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "combinedequipmentuuid",
+									"value": "48aab70f-2e32-4518-9986-a6b7395acf58",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -10353,7 +10395,14 @@
 							"query": [
 								{
 									"key": "combinedequipmentid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "combinedequipmentuuid",
+									"value": "48aab70f-2e32-4518-9986-a6b7395acf58",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -10397,7 +10446,14 @@
 							"query": [
 								{
 									"key": "combinedequipmentid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "combinedequipmentuuid",
+									"value": "48aab70f-2e32-4518-9986-a6b7395acf58",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -10441,7 +10497,14 @@
 							"query": [
 								{
 									"key": "combinedequipmentid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "combinedequipmentuuid",
+									"value": "48aab70f-2e32-4518-9986-a6b7395acf58",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -10485,7 +10548,14 @@
 							"query": [
 								{
 									"key": "combinedequipmentid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "combinedequipmentuuid",
+									"value": "48aab70f-2e32-4518-9986-a6b7395acf58",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -10661,7 +10731,14 @@
 							"query": [
 								{
 									"key": "equipmentid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "equipmentuuid",
+									"value": "bfa8b106-89a1-49ca-9b2b-a481ac41a873",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -10705,7 +10782,14 @@
 							"query": [
 								{
 									"key": "equipmentid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "equipmentuuid",
+									"value": "bfa8b106-89a1-49ca-9b2b-a481ac41a873",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -10749,7 +10833,14 @@
 							"query": [
 								{
 									"key": "equipmentid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "equipmentuuid",
+									"value": "bfa8b106-89a1-49ca-9b2b-a481ac41a873",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -10793,7 +10884,14 @@
 							"query": [
 								{
 									"key": "equipmentid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "equipmentuuid",
+									"value": "bfa8b106-89a1-49ca-9b2b-a481ac41a873",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -10837,7 +10935,14 @@
 							"query": [
 								{
 									"key": "equipmentid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "equipmentuuid",
+									"value": "bfa8b106-89a1-49ca-9b2b-a481ac41a873",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -10881,7 +10986,14 @@
 							"query": [
 								{
 									"key": "equipmentid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "equipmentuuid",
+									"value": "bfa8b106-89a1-49ca-9b2b-a481ac41a873",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -10925,7 +11037,14 @@
 							"query": [
 								{
 									"key": "equipmentid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "equipmentuuid",
+									"value": "bfa8b106-89a1-49ca-9b2b-a481ac41a873",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -10969,7 +11088,14 @@
 							"query": [
 								{
 									"key": "equipmentid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "equipmentuuid",
+									"value": "bfa8b106-89a1-49ca-9b2b-a481ac41a873",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -11013,7 +11139,14 @@
 							"query": [
 								{
 									"key": "equipmentid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "equipmentuuid",
+									"value": "bfa8b106-89a1-49ca-9b2b-a481ac41a873",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -11129,7 +11262,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/reports/meterenergy?meterid=6&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
+							"raw": "{{base_url}}/reports/meterenergy?meterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
 								"{{base_url}}"
 							],
@@ -11140,13 +11273,13 @@
 							"query": [
 								{
 									"key": "meterid",
-									"value": "6",
-									"description": "use meter id or meteruuid"
+									"value": "1",
+									"description": "use meterid or meteruuid"
 								},
 								{
 									"key": "meteruuid",
 									"value": "5ca47bc5-22c2-47fc-b906-33222191ea40",
-									"description": "use meter id or meteruuid",
+									"description": "use meterid or meteruuid",
 									"disabled": true
 								},
 								{
@@ -11191,7 +11324,8 @@
 							"query": [
 								{
 									"key": "meterid",
-									"value": "1"
+									"value": "1",
+									"description": "use meterid or meteruuid"
 								},
 								{
 									"key": "meteruuid",
@@ -11292,7 +11426,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/reports/metertrend?meterid=6&reportingperiodstartdatetime=2020-09-10T00:00:00&reportingperiodenddatetime=2020-09-11T00:00:00&quickmode=true",
+							"raw": "{{base_url}}/reports/metertrend?meterid=1&reportingperiodstartdatetime=2020-09-10T00:00:00&reportingperiodenddatetime=2020-09-11T00:00:00&quickmode=true",
 							"host": [
 								"{{base_url}}"
 							],
@@ -11303,7 +11437,7 @@
 							"query": [
 								{
 									"key": "meterid",
-									"value": "6",
+									"value": "1",
 									"description": "use meterid or meteruuid"
 								},
 								{
@@ -11490,7 +11624,14 @@
 							"query": [
 								{
 									"key": "shopfloorid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "shopflooruuid",
+									"value": "d03837fd-9d30-44fe-9443-154f7c7e15f1",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -11534,7 +11675,14 @@
 							"query": [
 								{
 									"key": "shopfloorid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "shopflooruuid",
+									"value": "d03837fd-9d30-44fe-9443-154f7c7e15f1",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -11578,7 +11726,14 @@
 							"query": [
 								{
 									"key": "shopfloorid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "shopflooruuid",
+									"value": "d03837fd-9d30-44fe-9443-154f7c7e15f1",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -11622,7 +11777,14 @@
 							"query": [
 								{
 									"key": "shopfloorid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "shopflooruuid",
+									"value": "d03837fd-9d30-44fe-9443-154f7c7e15f1",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -11666,7 +11828,14 @@
 							"query": [
 								{
 									"key": "shopfloorid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "shopflooruuid",
+									"value": "d03837fd-9d30-44fe-9443-154f7c7e15f1",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -11710,7 +11879,14 @@
 							"query": [
 								{
 									"key": "shopfloorid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "shopflooruuid",
+									"value": "d03837fd-9d30-44fe-9443-154f7c7e15f1",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -11754,7 +11930,14 @@
 							"query": [
 								{
 									"key": "spaceid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "spaceuuid",
+									"value": "9dfb7cff-f19f-4a1e-8c79-3adf6425bfd9",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -11798,7 +11981,14 @@
 							"query": [
 								{
 									"key": "spaceid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "spaceuuid",
+									"value": "9dfb7cff-f19f-4a1e-8c79-3adf6425bfd9",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -11842,7 +12032,14 @@
 							"query": [
 								{
 									"key": "spaceid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "spaceuuid",
+									"value": "9dfb7cff-f19f-4a1e-8c79-3adf6425bfd9",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -11886,7 +12083,14 @@
 							"query": [
 								{
 									"key": "spaceid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "spaceuuid",
+									"value": "9dfb7cff-f19f-4a1e-8c79-3adf6425bfd9",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -11930,7 +12134,14 @@
 							"query": [
 								{
 									"key": "spaceid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "spaceuuid",
+									"value": "9dfb7cff-f19f-4a1e-8c79-3adf6425bfd9",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -11974,7 +12185,14 @@
 							"query": [
 								{
 									"key": "spaceid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "spaceuuid",
+									"value": "9dfb7cff-f19f-4a1e-8c79-3adf6425bfd9",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -12018,7 +12236,14 @@
 							"query": [
 								{
 									"key": "spaceid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "spaceuuid",
+									"value": "9dfb7cff-f19f-4a1e-8c79-3adf6425bfd9",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -12062,7 +12287,14 @@
 							"query": [
 								{
 									"key": "spaceid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "spaceuuid",
+									"value": "9dfb7cff-f19f-4a1e-8c79-3adf6425bfd9",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -12106,7 +12338,14 @@
 							"query": [
 								{
 									"key": "spaceid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "spaceuuid",
+									"value": "9dfb7cff-f19f-4a1e-8c79-3adf6425bfd9",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -12182,7 +12421,14 @@
 							"query": [
 								{
 									"key": "storeid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "storeuuid",
+									"value": "d8a24322-4bab-4ba2-aedc-5d55a84c3db8",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -12226,7 +12472,14 @@
 							"query": [
 								{
 									"key": "storeid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "storeuuid",
+									"value": "d8a24322-4bab-4ba2-aedc-5d55a84c3db8",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -12270,7 +12523,14 @@
 							"query": [
 								{
 									"key": "storeid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "storeuuid",
+									"value": "d8a24322-4bab-4ba2-aedc-5d55a84c3db8",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -12314,7 +12574,14 @@
 							"query": [
 								{
 									"key": "storeid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "storeuuid",
+									"value": "d8a24322-4bab-4ba2-aedc-5d55a84c3db8",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -12358,7 +12625,14 @@
 							"query": [
 								{
 									"key": "storeid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "storeuuid",
+									"value": "d8a24322-4bab-4ba2-aedc-5d55a84c3db8",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -12402,7 +12676,14 @@
 							"query": [
 								{
 									"key": "storeid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "storeuuid",
+									"value": "d8a24322-4bab-4ba2-aedc-5d55a84c3db8",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -12478,7 +12759,14 @@
 							"query": [
 								{
 									"key": "tenantid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "tenantuuid",
+									"value": "6b0da806-a4cd-431a-8116-2915e90aaf8b",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "reportingperiodstartdatetime",
@@ -12510,7 +12798,14 @@
 							"query": [
 								{
 									"key": "tenantid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "tenantuuid",
+									"value": "6b0da806-a4cd-431a-8116-2915e90aaf8b",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -12554,7 +12849,14 @@
 							"query": [
 								{
 									"key": "tenantid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "tenantuuid",
+									"value": "6b0da806-a4cd-431a-8116-2915e90aaf8b",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -12598,7 +12900,14 @@
 							"query": [
 								{
 									"key": "tenantid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "tenantuuid",
+									"value": "6b0da806-a4cd-431a-8116-2915e90aaf8b",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -12642,7 +12951,14 @@
 							"query": [
 								{
 									"key": "tenantid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "tenantuuid",
+									"value": "6b0da806-a4cd-431a-8116-2915e90aaf8b",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -12686,7 +13002,14 @@
 							"query": [
 								{
 									"key": "tenantid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "tenantuuid",
+									"value": "6b0da806-a4cd-431a-8116-2915e90aaf8b",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -12730,7 +13053,14 @@
 							"query": [
 								{
 									"key": "tenantid",
-									"value": "1"
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "tenantuuid",
+									"value": "6b0da806-a4cd-431a-8116-2915e90aaf8b",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "periodtype",
