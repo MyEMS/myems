@@ -60,9 +60,8 @@ class Reporting:
                                        description='API.INVALID_COMBINED_EQUIPMENT_ID')
 
         if combined_equipment_uuid is not None:
-            combined_equipment_uuid = str.strip(combined_equipment_uuid)
             regex = re.compile('^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}\Z', re.I)
-            match = regex.match(combined_equipment_uuid)
+            match = regex.match(str.strip(combined_equipment_uuid))
             if not bool(match):
                 raise falcon.HTTPError(falcon.HTTP_400,
                                        title='API.BAD_REQUEST',
@@ -158,6 +157,7 @@ class Reporting:
                                   " FROM tbl_combined_equipments "
                                   " WHERE uuid = %s ", (combined_equipment_uuid,))
             row_combined_equipment = cursor_system.fetchone()
+
         if row_combined_equipment is None:
             if cursor_system:
                 cursor_system.close()

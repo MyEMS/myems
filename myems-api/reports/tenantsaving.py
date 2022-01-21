@@ -59,9 +59,8 @@ class Reporting:
                                        description='API.INVALID_TENANT_ID')
 
         if tenant_uuid is not None:
-            space_uuid = str.strip(tenant_uuid)
             regex = re.compile('^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}\Z', re.I)
-            match = regex.match(space_uuid)
+            match = regex.match(str.strip(tenant_uuid))
             if not bool(match):
                 raise falcon.HTTPError(falcon.HTTP_400,
                                        title='API.BAD_REQUEST',
@@ -162,6 +161,7 @@ class Reporting:
                                   " FROM tbl_tenants t, tbl_contacts c "
                                   " WHERE t.uuid = %s AND t.contact_id = c.id ", (tenant_uuid,))
             row_tenant = cursor_system.fetchone()
+
         if row_tenant is None:
             if cursor_system:
                 cursor_system.close()

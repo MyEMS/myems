@@ -1,5 +1,4 @@
 import re
-
 import falcon
 import simplejson as json
 import mysql.connector
@@ -49,9 +48,8 @@ class Reporting:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_METER_ID')
 
         if meter_uuid is not None:
-            meter_uuid = str.strip(meter_uuid)
             regex = re.compile('^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}\Z', re.I)
-            match = regex.match(meter_uuid)
+            match = regex.match(str.strip(meter_uuid))
             if not bool(match):
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_METER_UUID')
 
@@ -118,6 +116,7 @@ class Reporting:
                                   " FROM tbl_meters m, tbl_energy_categories ec "
                                   " WHERE m.uuid = %s AND m.energy_category_id = ec.id ", (meter_uuid,))
             row_meter = cursor_system.fetchone()
+
         if row_meter is None:
             if cursor_system:
                 cursor_system.close()

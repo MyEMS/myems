@@ -59,9 +59,8 @@ class Reporting:
                                        description='API.INVALID_STORE_ID')
 
         if store_uuid is not None:
-            space_uuid = str.strip(store_uuid)
             regex = re.compile('^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}\Z', re.I)
-            match = regex.match(space_uuid)
+            match = regex.match(str.strip(store_uuid))
             if not bool(match):
                 raise falcon.HTTPError(falcon.HTTP_400,
                                        title='API.BAD_REQUEST',
@@ -160,6 +159,7 @@ class Reporting:
                                   " FROM tbl_stores "
                                   " WHERE uuid = %s ", (store_uuid,))
             row_store = cursor_system.fetchone()
+
         if row_store is None:
             if cursor_system:
                 cursor_system.close()

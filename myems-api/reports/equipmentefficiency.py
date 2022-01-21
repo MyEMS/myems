@@ -58,9 +58,8 @@ class Reporting:
                                        description='API.INVALID_EQUIPMENT_ID')
 
         if equipment_uuid is not None:
-            equipment_uuid = str.strip(equipment_uuid)
             regex = re.compile('^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}\Z', re.I)
-            match = regex.match(equipment_uuid)
+            match = regex.match(str.strip(equipment_uuid))
             if not bool(match):
                 raise falcon.HTTPError(falcon.HTTP_400,
                                        title='API.BAD_REQUEST',
@@ -156,6 +155,7 @@ class Reporting:
                                   " FROM tbl_equipments "
                                   " WHERE uuid = %s ", (equipment_uuid,))
             row_equipment = cursor_system.fetchone()
+
         if row_equipment is None:
             if cursor_system:
                 cursor_system.close()
@@ -722,13 +722,12 @@ class Reporting:
                     base[fraction['id']]['cumulation'] if base[fraction['id']]['cumulation'] > Decimal(0.0) else None)
                 result['reporting_period_efficiency']['increment_rates_num'].append(
                     (reporting[fraction['id']]['numerator_cumulation'] - base[fraction['id']]['numerator_cumulation']) /
-                    base[fraction['id']]['numerator_cumulation'] if base[fraction['id']]['numerator_cumulation'] >
-                                                                    Decimal(0.0) else None)
+                    base[fraction['id']]['numerator_cumulation']
+                    if base[fraction['id']]['numerator_cumulation'] > Decimal(0.0) else None)
                 result['reporting_period_efficiency']['increment_rates_den'].append(
                     (reporting[fraction['id']]['denominator_cumulation'] -
-                     base[fraction['id']]['denominator_cumulation']) /
-                    base[fraction['id']]['denominator_cumulation'] if base[fraction['id']]['denominator_cumulation'] >
-                                                                      Decimal(0.0) else None)
+                     base[fraction['id']]['denominator_cumulation']) / base[fraction['id']]['denominator_cumulation']
+                    if base[fraction['id']]['denominator_cumulation'] > Decimal(0.0) else None)
 
         result['parameters'] = {
             "names": parameters_data['names'],
