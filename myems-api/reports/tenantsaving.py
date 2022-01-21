@@ -150,16 +150,14 @@ class Reporting:
         cursor_historical = cnx_historical.cursor()
 
         if tenant_id is not None:
-            cursor_system.execute(" SELECT t.id, t.name, t.buildings, t.floors, t.rooms, t.lease_number, "
-                                  "        c.email, c.phone, cost_center_id "
-                                  " FROM tbl_tenants t, tbl_contacts c "
-                                  " WHERE t.id = %s AND t.contact_id = c.id ", (tenant_id,))
+            cursor_system.execute(" SELECT id, name, area, cost_center_id "
+                                  " FROM tbl_tenants "
+                                  " WHERE id = %s ", (tenant_id,))
             row_tenant = cursor_system.fetchone()
         elif tenant_uuid is not None:
-            cursor_system.execute(" SELECT t.id, t.name, t.buildings, t.floors, t.rooms, t.lease_number, "
-                                  "        c.email, c.phone, cost_center_id "
-                                  " FROM tbl_tenants t, tbl_contacts c "
-                                  " WHERE t.uuid = %s AND t.contact_id = c.id ", (tenant_uuid,))
+            cursor_system.execute(" SELECT id, name, area, cost_center_id "
+                                  " FROM tbl_tenants "
+                                  " WHERE uuid = %s ", (tenant_uuid,))
             row_tenant = cursor_system.fetchone()
 
         if row_tenant is None:
