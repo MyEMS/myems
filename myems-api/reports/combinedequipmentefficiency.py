@@ -1,3 +1,4 @@
+import re
 import falcon
 import simplejson as json
 import mysql.connector
@@ -37,6 +38,7 @@ class Reporting:
     def on_get(req, resp):
         print(req.params)
         combined_equipment_id = req.params.get('combinedequipmentid')
+        combined_equipment_uuid = req.params.get('combinedequipmentuuid')
         period_type = req.params.get('periodtype')
         base_start_datetime_local = req.params.get('baseperiodstartdatetime')
         base_end_datetime_local = req.params.get('baseperiodenddatetime')
@@ -47,14 +49,25 @@ class Reporting:
         ################################################################################################################
         # Step 1: valid parameters
         ################################################################################################################
-        if combined_equipment_id is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+        if combined_equipment_id is None and combined_equipment_uuid is None:
+            raise falcon.HTTPError(falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
-        else:
+
+        if combined_equipment_id is not None:
             combined_equipment_id = str.strip(combined_equipment_id)
             if not combined_equipment_id.isdigit() or int(combined_equipment_id) <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(falcon.HTTP_400,
+                                       title='API.BAD_REQUEST',
                                        description='API.INVALID_COMBINED_EQUIPMENT_ID')
+
+        if combined_equipment_uuid is not None:
+            regex = re.compile('^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}\Z', re.I)
+            match = regex.match(str.strip(combined_equipment_uuid))
+            if not bool(match):
+                raise falcon.HTTPError(falcon.HTTP_400,
+                                       title='API.BAD_REQUEST',
+                                       description='API.INVALID_COMBINED_EQUIPMENT_UUID')
 
         if period_type is None:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_PERIOD_TYPE')
@@ -142,10 +155,17 @@ class Reporting:
         cnx_historical = mysql.connector.connect(**config.myems_historical_db)
         cursor_historical = cnx_historical.cursor()
 
-        cursor_system.execute(" SELECT id, name, cost_center_id "
-                              " FROM tbl_combined_equipments "
-                              " WHERE id = %s ", (combined_equipment_id,))
-        row_combined_equipment = cursor_system.fetchone()
+        if combined_equipment_id is not None:
+            cursor_system.execute(" SELECT id, name, cost_center_id "
+                                  " FROM tbl_combined_equipments "
+                                  " WHERE id = %s ", (combined_equipment_id,))
+            row_combined_equipment = cursor_system.fetchone()
+        elif combined_equipment_uuid is not None:
+            cursor_system.execute(" SELECT id, name, cost_center_id "
+                                  " FROM tbl_combined_equipments "
+                                  " WHERE uuid = %s ", (combined_equipment_uuid,))
+            row_combined_equipment = cursor_system.fetchone()
+
         if row_combined_equipment is None:
             if cursor_system:
                 cursor_system.close()
@@ -830,13 +850,13 @@ class Reporting:
 
                 result['reporting_period_efficiency']['increment_rates_num'].append(
                     (reporting[fraction['id']]['numerator_cumulation'] - base[fraction['id']]['numerator_cumulation']) /
-                    base[fraction['id']]['numerator_cumulation'] if base[fraction['id']]['numerator_cumulation'] >
-                                                                    Decimal(0.0) else None)
+                    base[fraction['id']]['numerator_cumulation']
+                    if base[fraction['id']]['numerator_cumulation'] > Decimal(0.0) else None)
                 result['reporting_period_efficiency']['increment_rates_den'].append(
                     (reporting[fraction['id']]['denominator_cumulation'] -
                      base[fraction['id']]['denominator_cumulation']) /
-                    base[fraction['id']]['denominator_cumulation'] if base[fraction['id']]['denominator_cumulation'] >
-                                                                      Decimal(0.0) else None)
+                    base[fraction['id']]['denominator_cumulation']
+                    if base[fraction['id']]['denominator_cumulation'] > Decimal(0.0) else None)
 
         result['parameters'] = {
             "names": parameters_data['names'],
