@@ -217,7 +217,7 @@ class Reporting:
         ################################################################################################################
         # get all meters
         meter_dict = dict()
-        query = (" SELECT m.id, m.uuid, ec.unit_of_measure, ec.name "
+        query = (" SELECT m.uuid, m.id, m.name, ec.unit_of_measure "
                  " FROM tbl_meters m, tbl_energy_categories ec "
                  " WHERE m.energy_category_id  = ec.id ")
         cursor_system.execute(query)
@@ -225,10 +225,10 @@ class Reporting:
 
         if rows_meters is not None and len(rows_meters) > 0:
             for row in rows_meters:
-                meter_dict[row[1]] = {'id': row[0], 'unit': row[2], 'name': row[3]}
+                meter_dict[row[0]] = {'id': row[1], 'name': row[2], 'unit': row[3]}
         # get all offline meters
         offline_meter_dict = dict()
-        query = (" SELECT m.id, m.uuid, ec.unit_of_measure, ec.name "
+        query = (" SELECT m.uuid, m.id, m.name, ec.unit_of_measure "
                  " FROM tbl_offline_meters m, tbl_energy_categories ec "
                  " WHERE m.energy_category_id  = ec.id ")
         cursor_system.execute(query)
@@ -236,10 +236,10 @@ class Reporting:
 
         if rows_offline_meters is not None and len(rows_offline_meters) > 0:
             for row in rows_offline_meters:
-                offline_meter_dict[row[1]] = {'id': row[0], 'unit': row[2], 'name': row[3]}
+                offline_meter_dict[row[0]] = {'id': row[1], 'name': row[2], 'unit': row[3]}
         # get all virtual meters
         virtual_meter_dict = dict()
-        query = (" SELECT m.id, m.uuid, ec.unit_of_measure, ec.name "
+        query = (" SELECT m.uuid, m.id, m.name, ec.unit_of_measure "
                  " FROM tbl_virtual_meters m, tbl_energy_categories ec "
                  " WHERE m.energy_category_id  = ec.id ")
         cursor_system.execute(query)
@@ -247,7 +247,7 @@ class Reporting:
 
         if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
             for row in rows_virtual_meters:
-                virtual_meter_dict[row[1]] = {'id': row[0], 'unit': row[2], 'name': row[3]}
+                virtual_meter_dict[row[0]] = {'id': row[1], 'name': row[2], 'unit': row[3]}
 
         if fraction_list is not None and len(fraction_list) > 0:
             for fraction in fraction_list:
