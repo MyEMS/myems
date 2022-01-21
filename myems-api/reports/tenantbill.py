@@ -1,3 +1,4 @@
+import re
 import falcon
 import simplejson as json
 import mysql.connector
@@ -32,6 +33,7 @@ class Reporting:
     def on_get(req, resp):
         print(req.params)
         tenant_id = req.params.get('tenantid')
+        tenant_uuid = req.params.get('tenantuuid')
         reporting_start_datetime_local = req.params.get('reportingperiodstartdatetime')
         reporting_end_datetime_local = req.params.get('reportingperiodenddatetime')
         # This value is intentionally left daily
@@ -40,12 +42,25 @@ class Reporting:
         ################################################################################################################
         # Step 1: valid parameters
         ################################################################################################################
-        if tenant_id is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_TENANT_ID')
-        else:
+        if tenant_id is None and tenant_uuid is None:
+            raise falcon.HTTPError(falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_TENANT_ID')
+
+        if tenant_id is not None:
             tenant_id = str.strip(tenant_id)
             if not tenant_id.isdigit() or int(tenant_id) <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_TENANT_ID')
+                raise falcon.HTTPError(falcon.HTTP_400,
+                                       title='API.BAD_REQUEST',
+                                       description='API.INVALID_TENANT_ID')
+
+        if tenant_uuid is not None:
+            regex = re.compile('^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}\Z', re.I)
+            match = regex.match(str.strip(tenant_uuid))
+            if not bool(match):
+                raise falcon.HTTPError(falcon.HTTP_400,
+                                       title='API.BAD_REQUEST',
+                                       description='API.INVALID_TENANT_UUID')
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -93,11 +108,19 @@ class Reporting:
         cnx_billing = mysql.connector.connect(**config.myems_billing_db)
         cursor_billing = cnx_billing.cursor()
 
-        cursor_system.execute(" SELECT t.id, t.name, t.buildings, t.floors, t.rooms, t.lease_number, "
-                              "        c.email, c.phone, cost_center_id "
-                              " FROM tbl_tenants t, tbl_contacts c "
-                              " WHERE t.id = %s AND t.contact_id = c.id ", (tenant_id,))
-        row_tenant = cursor_system.fetchone()
+        if tenant_id is not None:
+            cursor_system.execute(" SELECT t.id, t.name, t.buildings, t.floors, t.rooms, t.lease_number, "
+                                  "        c.email, c.phone, cost_center_id "
+                                  " FROM tbl_tenants t, tbl_contacts c "
+                                  " WHERE t.id = %s AND t.contact_id = c.id ", (tenant_id,))
+            row_tenant = cursor_system.fetchone()
+        elif tenant_uuid is not None:
+            cursor_system.execute(" SELECT t.id, t.name, t.buildings, t.floors, t.rooms, t.lease_number, "
+                                  "        c.email, c.phone, cost_center_id "
+                                  " FROM tbl_tenants t, tbl_contacts c "
+                                  " WHERE t.uuid = %s AND t.contact_id = c.id ", (tenant_uuid,))
+            row_tenant = cursor_system.fetchone()
+
         if row_tenant is None:
             if cursor_system:
                 cursor_system.close()

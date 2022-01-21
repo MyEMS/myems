@@ -1,3 +1,4 @@
+import re
 import falcon
 import simplejson as json
 import mysql.connector
@@ -35,6 +36,7 @@ class Reporting:
     def on_get(req, resp):
         print(req.params)
         shopfloor_id = req.params.get('shopfloorid')
+        shopfloor_uuid = req.params.get('shopflooruuid')
         period_type = req.params.get('periodtype')
         base_start_datetime_local = req.params.get('baseperiodstartdatetime')
         base_end_datetime_local = req.params.get('baseperiodenddatetime')
@@ -44,12 +46,25 @@ class Reporting:
         ################################################################################################################
         # Step 1: valid parameters
         ################################################################################################################
-        if shopfloor_id is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_SHOPFLOOR_ID')
-        else:
+        if shopfloor_id is None and shopfloor_uuid is None:
+            raise falcon.HTTPError(falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_SHOPFLOOR_ID')
+
+        if shopfloor_id is not None:
             shopfloor_id = str.strip(shopfloor_id)
             if not shopfloor_id.isdigit() or int(shopfloor_id) <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_SHOPFLOOR_ID')
+                raise falcon.HTTPError(falcon.HTTP_400,
+                                       title='API.BAD_REQUEST',
+                                       description='API.INVALID_SHOPFLOOR_ID')
+
+        if shopfloor_uuid is not None:
+            regex = re.compile('^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}\Z', re.I)
+            match = regex.match(str.strip(shopfloor_uuid))
+            if not bool(match):
+                raise falcon.HTTPError(falcon.HTTP_400,
+                                       title='API.BAD_REQUEST',
+                                       description='API.INVALID_SHOPFLOOR_UUID')
 
         if period_type is None:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_PERIOD_TYPE')
@@ -131,10 +146,17 @@ class Reporting:
         cnx_historical = mysql.connector.connect(**config.myems_historical_db)
         cursor_historical = cnx_historical.cursor()
 
-        cursor_system.execute(" SELECT id, name, area, cost_center_id "
-                              " FROM tbl_shopfloors "
-                              " WHERE id = %s ", (shopfloor_id,))
-        row_shopfloor = cursor_system.fetchone()
+        if shopfloor_id is not None:
+            cursor_system.execute(" SELECT id, name, area, cost_center_id "
+                                  " FROM tbl_shopfloors "
+                                  " WHERE id = %s ", (shopfloor_id,))
+            row_shopfloor = cursor_system.fetchone()
+        elif shopfloor_uuid is not None:
+            cursor_system.execute(" SELECT id, name, area, cost_center_id "
+                                  " FROM tbl_shopfloors "
+                                  " WHERE uuid = %s ", (shopfloor_uuid,))
+            row_shopfloor = cursor_system.fetchone()
+
         if row_shopfloor is None:
             if cursor_system:
                 cursor_system.close()
