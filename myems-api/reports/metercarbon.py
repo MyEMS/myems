@@ -6,7 +6,7 @@ import config
 from datetime import datetime, timedelta, timezone
 from core import utilities
 from decimal import Decimal
-import excelexporters.metercost
+import excelexporters.metercarbon
 
 
 class Reporting:
@@ -24,10 +24,10 @@ class Reporting:
     # Step 1: valid parameters
     # Step 2: query the meter and carbon
     # Step 3: query associated points
-    # Step 4: query base period carbon consumption
+    # Step 4: query base period energy consumption
     # Step 5: query base period carbon Emission
     # Step 6: query reporting period energy consumption
-    # Step 7: query reporting period energy cost
+    # Step 7: query reporting period carbon emission
     # Step 8: query tariff data
     # Step 9: query associated points data
     # Step 10: construct the report
@@ -140,9 +140,6 @@ class Reporting:
         cnx_carbon = mysql.connector.connect(**config.myems_carbon_db)
         cursor_carbon = cnx_carbon.cursor()
 
-        cnx_billing = mysql.connector.connect(**config.myems_billing_db)
-        cursor_billing = cnx_billing.cursor()
-
         cnx_historical = mysql.connector.connect(**config.myems_historical_db)
         cursor_historical = cnx_historical.cursor()
         if meter_id is not None:
@@ -167,12 +164,6 @@ class Reporting:
                 cursor_carbon.close()
             if cnx_carbon:
                 cnx_carbon.disconnect()
-
-            if cursor_billing:
-                cursor_billing.close()
-            if cnx_billing:
-                cnx_billing.disconnect()
-
             if cursor_historical:
                 cursor_historical.close()
             if cnx_historical:
@@ -204,7 +195,7 @@ class Reporting:
                 point_list.append({"id": row[0], "name": row[1], "units": row[2], "object_type": row[3]})
 
         ################################################################################################################
-        # Step 4: query base period carbon consumption
+        # Step 4: query base period energy consumption
         ################################################################################################################
         query = (" SELECT start_datetime_utc, actual_value "
                  " FROM tbl_meter_hourly "
@@ -255,8 +246,8 @@ class Reporting:
                  " AND start_datetime_utc >= %s "
                  " AND start_datetime_utc < %s "
                  " ORDER BY start_datetime_utc ")
-        cursor_billing.execute(query, (meter['id'], base_start_datetime_utc, base_end_datetime_utc))
-        rows_meter_hourly = cursor_billing.fetchall()
+        cursor_carbon.execute(query, (meter['id'], base_start_datetime_utc, base_end_datetime_utc))
+        rows_meter_hourly = cursor_carbon.fetchall()
 
         rows_meter_periodically = utilities.aggregate_hourly_data_by_period(rows_meter_hourly,
                                                                             base_start_datetime_utc,
@@ -317,7 +308,7 @@ class Reporting:
             reporting['total_in_kgco2e'] += actual_value * meter['kgco2e']
 
         ################################################################################################################
-        # Step 7: query reporting period carbon cost
+        # Step 7: query reporting period carbon emission
         ################################################################################################################
         query = (" SELECT start_datetime_utc, actual_value "
                  " FROM tbl_meter_hourly "
@@ -325,8 +316,8 @@ class Reporting:
                  " AND start_datetime_utc >= %s "
                  " AND start_datetime_utc < %s "
                  " ORDER BY start_datetime_utc ")
-        cursor_billing.execute(query, (meter['id'], reporting_start_datetime_utc, reporting_end_datetime_utc))
-        rows_meter_hourly = cursor_billing.fetchall()
+        cursor_carbon.execute(query, (meter['id'], reporting_start_datetime_utc, reporting_end_datetime_utc))
+        rows_meter_hourly = cursor_carbon.fetchall()
 
         rows_meter_periodically = utilities.aggregate_hourly_data_by_period(rows_meter_hourly,
                                                                             reporting_start_datetime_utc,
@@ -442,12 +433,6 @@ class Reporting:
             cursor_carbon.close()
         if cnx_carbon:
             cnx_carbon.disconnect()
-
-        if cursor_billing:
-            cursor_billing.close()
-        if cnx_billing:
-            cnx_billing.disconnect()
-
         if cursor_historical:
             cursor_historical.close()
         if cnx_historical:
@@ -486,7 +471,7 @@ class Reporting:
         }
         # export result to Excel file and then encode the file to base64 string
         result['excel_bytes_base64'] = \
-            excelexporters.metercost.export(result,
+            excelexporters.metercarbon.export(result,
                                             meter['name'],
                                             reporting_period_start_datetime_local,
                                             reporting_period_end_datetime_local,
