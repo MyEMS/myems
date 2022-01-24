@@ -73,6 +73,14 @@ myems_reporting_db = {
     'password': config('MYEMS_REPORTING_DB_PASSWORD', default='!MyEMS1'),
 }
 
+myems_carbon_db = {
+    'host': config('MYEMS_CARBON_DB_HOST', default='127.0.0.1'),
+    'port': config('MYEMS_CARBON_DB_PORT', default=3306, cast=int),
+    'database': config('MYEMS_CARBON_DB_DATABASE', default='myems_carbon_db'),
+    'user': config('MYEMS_CARBON_DB_USER', default='root'),
+    'password': config('MYEMS_CARBON_DB_PASSWORD', default='!MyEMS1'),
+}
+
 # indicated in how many minutes to calculate meter energy consumption
 # 30 for half hourly period
 # 60 for hourly period
