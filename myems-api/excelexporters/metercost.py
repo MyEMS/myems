@@ -242,7 +242,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
     ####################################################################################################################
 
-    has_cost_datail_flag = True
+    has_cost_detail_flag = True
     reporting_period_data = report['reporting_period']
     category = report['meter']['energy_category_name']
     ca_len = len(category)
@@ -256,9 +256,9 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         parameters_parameters_datas_len += 1
 
     if "values" not in reporting_period_data.keys() or len(reporting_period_data['values']) == 0:
-        has_cost_datail_flag = False
+        has_cost_detail_flag = False
 
-    if has_cost_datail_flag:
+    if has_cost_detail_flag:
         start_detail_data_row_number = 13 + (parameters_parameters_datas_len + ca_len) * 6
 
         ws['B11'].font = title_font

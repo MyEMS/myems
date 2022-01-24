@@ -22,12 +22,12 @@ class Reporting:
     ####################################################################################################################
     # PROCEDURES
     # Step 1: valid parameters
-    # Step 2: query the meter and carbon
+    # Step 2: query the meter and energy category
     # Step 3: query associated points
     # Step 4: query base period energy consumption
-    # Step 5: query base period carbon Emission
+    # Step 5: query base period carbon dioxide emission
     # Step 6: query reporting period energy consumption
-    # Step 7: query reporting period carbon emission
+    # Step 7: query reporting period carbon dioxide emission
     # Step 8: query tariff data
     # Step 9: query associated points data
     # Step 10: construct the report
@@ -132,10 +132,13 @@ class Reporting:
                                    description='API.INVALID_REPORTING_PERIOD_END_DATETIME')
 
         ################################################################################################################
-        # Step 2: query the meter and carbon
+        # Step 2: query the meter and energy category
         ################################################################################################################
         cnx_system = mysql.connector.connect(**config.myems_system_db)
         cursor_system = cnx_system.cursor()
+
+        cnx_energy = mysql.connector.connect(**config.myems_energy_db)
+        cursor_energy = cnx_energy.cursor()
 
         cnx_carbon = mysql.connector.connect(**config.myems_carbon_db)
         cursor_carbon = cnx_carbon.cursor()
@@ -154,16 +157,23 @@ class Reporting:
                                   " FROM tbl_meters m, tbl_energy_categories ec "
                                   " WHERE m.uuid = %s AND m.energy_category_id = ec.id ", (meter_uuid,))
             row_meter = cursor_system.fetchone()
+
         if row_meter is None:
             if cursor_system:
                 cursor_system.close()
             if cnx_system:
                 cnx_system.disconnect()
 
+            if cursor_energy:
+                cursor_energy.close()
+            if cnx_energy:
+                cnx_energy.disconnect()
+
             if cursor_carbon:
                 cursor_carbon.close()
             if cnx_carbon:
                 cnx_carbon.disconnect()
+
             if cursor_historical:
                 cursor_historical.close()
             if cnx_historical:
@@ -203,8 +213,8 @@ class Reporting:
                  " AND start_datetime_utc >= %s "
                  " AND start_datetime_utc < %s "
                  " ORDER BY start_datetime_utc ")
-        cursor_carbon.execute(query, (meter['id'], base_start_datetime_utc, base_end_datetime_utc))
-        rows_meter_hourly = cursor_carbon.fetchall()
+        cursor_energy.execute(query, (meter['id'], base_start_datetime_utc, base_end_datetime_utc))
+        rows_meter_hourly = cursor_energy.fetchall()
 
         rows_meter_periodically = utilities.aggregate_hourly_data_by_period(rows_meter_hourly,
                                                                             base_start_datetime_utc,
@@ -238,7 +248,7 @@ class Reporting:
             base['total_in_kgco2e'] += actual_value * meter['kgco2e']
 
         ################################################################################################################
-        # Step 5: query base period Carbon Emission
+        # Step 5: query base period carbon dioxide emission
         ################################################################################################################
         query = (" SELECT start_datetime_utc, actual_value "
                  " FROM tbl_meter_hourly "
@@ -264,7 +274,7 @@ class Reporting:
             base['total_in_category'] += actual_value
 
         ################################################################################################################
-        # Step 6: query reporting period carbon consumption
+        # Step 6: query reporting period energy consumption
         ################################################################################################################
         query = (" SELECT start_datetime_utc, actual_value "
                  " FROM tbl_meter_hourly "
@@ -272,8 +282,8 @@ class Reporting:
                  " AND start_datetime_utc >= %s "
                  " AND start_datetime_utc < %s "
                  " ORDER BY start_datetime_utc ")
-        cursor_carbon.execute(query, (meter['id'], reporting_start_datetime_utc, reporting_end_datetime_utc))
-        rows_meter_hourly = cursor_carbon.fetchall()
+        cursor_energy.execute(query, (meter['id'], reporting_start_datetime_utc, reporting_end_datetime_utc))
+        rows_meter_hourly = cursor_energy.fetchall()
 
         rows_meter_periodically = utilities.aggregate_hourly_data_by_period(rows_meter_hourly,
                                                                             reporting_start_datetime_utc,
@@ -308,7 +318,7 @@ class Reporting:
             reporting['total_in_kgco2e'] += actual_value * meter['kgco2e']
 
         ################################################################################################################
-        # Step 7: query reporting period carbon emission
+        # Step 7: query reporting period carbon dioxide emission
         ################################################################################################################
         query = (" SELECT start_datetime_utc, actual_value "
                  " FROM tbl_meter_hourly "
@@ -429,10 +439,16 @@ class Reporting:
         if cnx_system:
             cnx_system.disconnect()
 
+        if cursor_energy:
+            cursor_energy.close()
+        if cnx_energy:
+            cnx_energy.disconnect()
+
         if cursor_carbon:
             cursor_carbon.close()
         if cnx_carbon:
             cnx_carbon.disconnect()
+
         if cursor_historical:
             cursor_historical.close()
         if cnx_historical:
@@ -442,7 +458,7 @@ class Reporting:
                 "cost_center_id": meter['cost_center_id'],
                 "energy_category_id": meter['energy_category_id'],
                 "energy_category_name": meter['energy_category_name'],
-                "unit_of_measure": config.currency_unit,
+                "unit_of_measure": 'KG',
                 "kgce": meter['kgce'],
                 "kgco2e": meter['kgco2e'],
             },
@@ -472,9 +488,9 @@ class Reporting:
         # export result to Excel file and then encode the file to base64 string
         result['excel_bytes_base64'] = \
             excelexporters.metercarbon.export(result,
-                                            meter['name'],
-                                            reporting_period_start_datetime_local,
-                                            reporting_period_end_datetime_local,
-                                            period_type)
+                                              meter['name'],
+                                              reporting_period_start_datetime_local,
+                                              reporting_period_end_datetime_local,
+                                              period_type)
 
         resp.text = json.dumps(result)

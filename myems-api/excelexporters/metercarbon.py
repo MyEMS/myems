@@ -62,7 +62,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
     # todo
     ws = wb.active
-    ws.title = "MeterCarbonEmission"
+    ws.title = "MeterCarbon"
     # Row height
     ws.row_dimensions[1].height = 102
     for i in range(2, 2000 + 1):
@@ -147,14 +147,14 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
     ####################################################################################################################
 
-    has_cost_data_flag = True
+    has_carbon_data_flag = True
 
     if "values" not in report['reporting_period'].keys() or len(report['reporting_period']['values']) == 0:
-        has_cost_data_flag = False
+        has_carbon_data_flag = False
 
-    if has_cost_data_flag:
+    if has_carbon_data_flag:
         ws['B6'].font = title_font
-        ws['B6'] = name + 'Reporting Period Carbon Emission'
+        ws['B6'] = name + 'Reporting Period Carbon Dioxide Emissions'
 
         reporting_period_data = report['reporting_period']
         category = report['meter']['energy_category_name']
@@ -166,7 +166,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
         ws['B8'].font = title_font
         ws['B8'].alignment = c_c_alignment
-        ws['B8'] = 'Carbon Emission'
+        ws['B8'] = 'Carbon Dioxide Emission'
         ws['B8'].border = f_border
 
         ws['B9'].font = title_font
@@ -242,7 +242,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
     ####################################################################################################################
 
-    has_cost_datail_flag = True
+    has_carbon_detail_flag = True
     reporting_period_data = report['reporting_period']
     category = report['meter']['energy_category_name']
     ca_len = len(category)
@@ -256,9 +256,9 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         parameters_parameters_datas_len += 1
 
     if "values" not in reporting_period_data.keys() or len(reporting_period_data['values']) == 0:
-        has_cost_datail_flag = False
+        has_carbon_detail_flag = False
 
-    if has_cost_datail_flag:
+    if has_carbon_detail_flag:
         start_detail_data_row_number = 13 + (parameters_parameters_datas_len + ca_len) * 6
 
         ws['B11'].font = title_font
@@ -324,7 +324,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                 ws[col + str(end_data_row_number + 1)].border = f_border
 
             line = LineChart()
-            line.title = 'Reporting Period Costs - ' + report['meter']['energy_category_name'] + \
+            line.title = 'Reporting Period Carbon Dioxide Emissions - ' + report['meter']['energy_category_name'] + \
                          " (" + report['meter']['unit_of_measure'] + ")"
             line_data = Reference(ws, min_col=3, min_row=start_detail_data_row_number, max_row=max_row)
             line.series.append(Series(line_data, title_from_data=True))
