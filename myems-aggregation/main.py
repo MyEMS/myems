@@ -19,6 +19,7 @@ import equipment_billing_input_category
 import equipment_billing_input_item
 import equipment_billing_output_category
 
+import meter_carbon
 import meter_billing
 
 import offline_meter_billing
@@ -97,6 +98,8 @@ def main():
     # equipment energy output by energy categories
     Process(target=equipment_energy_output_category.main, args=(logger,)).start()
 
+    # meter carbon
+    Process(target=meter_carbon.main, args=(logger,)).start()
     # meter billing
     Process(target=meter_billing.main, args=(logger,)).start()
 
