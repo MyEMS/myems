@@ -12,7 +12,7 @@ myems_system_db = {
 myems_historical_db = {
     'host': config('MYEMS_HISTORICAL_DB_HOST', default='127.0.0.1'),
     'port': config('MYEMS_HISTORICAL_DB_PORT', default=3306, cast=int),
-    'database': config('MYEMS_HISTORICAL_DB_DATABASE', default='myems_system_db'),
+    'database': config('MYEMS_HISTORICAL_DB_DATABASE', default='myems_historical_db'),
     'user': config('MYEMS_HISTORICAL_DB_USER', default='root'),
     'password': config('MYEMS_HISTORICAL_DB_PASSWORD', default='!MyEMS1'),
 }
@@ -20,7 +20,7 @@ myems_historical_db = {
 myems_energy_db = {
     'host': config('MYEMS_ENERGY_DB_HOST', default='127.0.0.1'),
     'port': config('MYEMS_ENERGY_DB_PORT', default=3306, cast=int),
-    'database': config('MYEMS_ENERGY_DB_DATABASE', default='myems_system_db'),
+    'database': config('MYEMS_ENERGY_DB_DATABASE', default='myems_energy_db'),
     'user': config('MYEMS_ENERGY_DB_USER', default='root'),
     'password': config('MYEMS_ENERGY_DB_PASSWORD', default='!MyEMS1'),
 }
@@ -28,9 +28,17 @@ myems_energy_db = {
 myems_billing_db = {
     'host': config('MYEMS_BILLING_DB_HOST', default='127.0.0.1'),
     'port': config('MYEMS_BILLING_DB_PORT', default=3306, cast=int),
-    'database': config('MYEMS_BILLING_DB_DATABASE', default='myems_system_db'),
+    'database': config('MYEMS_BILLING_DB_DATABASE', default='myems_billing_db'),
     'user': config('MYEMS_BILLING_DB_USER', default='root'),
     'password': config('MYEMS_BILLING_DB_PASSWORD', default='!MyEMS1'),
+}
+
+myems_carbon_db = {
+    'host': config('MYEMS_CARBON_DB_HOST', default='127.0.0.1'),
+    'port': config('MYEMS_CARBON_DB_PORT', default=3306, cast=int),
+    'database': config('MYEMS_CARBON_DB_DATABASE', default='myems_carbon_db'),
+    'user': config('MYEMS_CARBON_DB_USER', default='root'),
+    'password': config('MYEMS_CARBON_DB_PASSWORD', default='!MyEMS1'),
 }
 
 # indicates how long in minutes energy data will be aggregated
