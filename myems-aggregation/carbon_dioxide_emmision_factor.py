@@ -22,7 +22,7 @@ def get_energy_category_factor(energy_category_id, start_datetime_utc, end_datet
         cursor = cnx.cursor()
         query_factors = (" SELECT kgco2e "
                          " FROM tbl_energy_categories "
-                         " WHERE energy_category_id = %s ")
+                         " WHERE id = %s ")
         cursor.execute(query_factors, (energy_category_id,))
         rows_factor = cursor.fetchone()
     except Exception as e:
