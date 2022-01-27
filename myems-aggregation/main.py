@@ -50,6 +50,7 @@ import tenant_billing_input_item
 import tenant_energy_input_category
 import tenant_energy_input_item
 
+import virtual_meter_carbon
 import virtual_meter_billing
 
 
@@ -150,7 +151,9 @@ def main():
     # tenant energy input by energy items
     Process(target=tenant_energy_input_item.main, args=(logger,)).start()
 
-    # virtual meter billing
+    # virtual meter carbon dioxide emission
+    Process(target=virtual_meter_billing.main, args=(logger,)).start()
+    # virtual meter billing (cost or income)
     Process(target=virtual_meter_billing.main, args=(logger,)).start()
 
 
