@@ -30,14 +30,14 @@ cd myems/admin
 docker build -t myems/myems-admin .
 ```
 * Run a Docker container
-If run on Windows host, bind-mount a share upload file folder at c:\upload to the container
+If run on Windows host, bind-mount a share upload file folder at c:\myems-upload to the container
 -v parameter must be same with that in myems-api
 ```bash
-docker run -d -p 8001:8001 -v c:\upload:/var/www/html/admin/upload --restart always --name myems-admin myems/myems-admin
+docker run -d -p 8001:8001 -v c:\myems-upload:/var/www/html/admin/upload --restart always --name myems-admin myems/myems-admin
 ```
-If run on Linux host, bind-mount a share upload file folder at /upload to the container
+If run on Linux host, bind-mount a share upload file folder at /myems-upload to the container
 ```bash
-docker run -d -p 8001:8001 -v /upload:/var/www/html/admin/upload --restart always --name myems-admin myems/myems-admin
+docker run -d -p 8001:8001 -v /myems-upload:/var/www/html/admin/upload --restart always --name myems-admin myems/myems-admin
 ```
 
 -d		Run container in background and print container ID

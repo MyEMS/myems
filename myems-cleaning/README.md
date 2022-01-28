@@ -61,7 +61,7 @@ docker run -d -v c:\myems-cleaning\.env:/code/.env --restart always --name myems
 ```
 On Linux host, bind-mount the .env to the container:
 ```bash
-docker run -d -p 8000:8000 -v /myems-cleaning/.env:/.env --restart always --name myems-cleaning myems/myems-cleaning
+docker run -d -v /myems-cleaning/.env:/.env --restart always --name myems-cleaning myems/myems-cleaning
 ```
 * -d Run container in background and print container ID
 
