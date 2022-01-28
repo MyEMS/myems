@@ -22,6 +22,7 @@ import equipment_billing_output_category
 import meter_carbon
 import meter_billing
 
+import offline_meter_carbon
 import offline_meter_billing
 
 import shopfloor_billing_input_category
@@ -104,6 +105,8 @@ def main():
     # meter billing
     Process(target=meter_billing.main, args=(logger,)).start()
 
+    # offline meter carbon dioxide emission
+    Process(target=offline_meter_carbon.main, args=(logger,)).start()
     # offline meter billing
     Process(target=offline_meter_billing.main, args=(logger,)).start()
 
