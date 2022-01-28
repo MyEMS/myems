@@ -16,6 +16,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
+## [v1.7.0] -   2022-01-28
+### Added
+- added new database myems_carbon_db
+- added alternative uuid parameter to reports of combined equipment, equipment, meter, shopfloor, store and tenant
+- added meter carbon dioxide emission report to api
+- added meter carbon dioxide emission aggregation procedure
+- added virtual meter carbon dioxide emssion aggregation procedure
+- added offline meter carbon dioxide emission aggregation procedure
+
+### Changed
+- updated architecture images in README
+- updated components images in docs
+
+### Fixed
+- fixed select statements issue in tenant reports.
+- fixed fraction numerator and denominator issue in combinedequipmentefficiency and equipmentefficiency reports
+- fixed issue of config in aggregation service
+- fixed issue of carbon_dioxide_emmision_factor in aggregation serivce
+- fixed isssues in README
+
+### Removed
+-   None.
+
 ## [v1.6.1] -   2022-01-18
 ### Added
 - added docker image immigration to readme.
@@ -646,7 +669,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v1.6.1...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v1.7.0...HEAD
+[v1.7.0]: https://github.com/MyEMS/myems/compare/v1.6.1...v1.7.0
 [v1.6.1]: https://github.com/MyEMS/myems/compare/v1.6.0...v1.6.1
 [v1.6.0]: https://github.com/MyEMS/myems/compare/v1.5.1...v1.6.0
 [v1.5.1]: https://github.com/MyEMS/myems/compare/v1.5.0...v1.5.1
