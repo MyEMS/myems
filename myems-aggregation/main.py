@@ -152,7 +152,7 @@ def main():
     Process(target=tenant_energy_input_item.main, args=(logger,)).start()
 
     # virtual meter carbon dioxide emission
-    Process(target=virtual_meter_billing.main, args=(logger,)).start()
+    Process(target=virtual_meter_carbon.main, args=(logger,)).start()
     # virtual meter billing (cost or income)
     Process(target=virtual_meter_billing.main, args=(logger,)).start()
 

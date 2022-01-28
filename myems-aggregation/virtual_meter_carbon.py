@@ -135,7 +135,7 @@ def main(logger):
             try:
                 cursor_carbon_db.execute(" SELECT MAX(start_datetime_utc) "
                                          " FROM tbl_virtual_meter_hourly "
-                                         " WHERE meter_id = %s ",
+                                         " WHERE virtual_meter_id = %s ",
                                          (virtual_meter['id'], ))
                 row_datetime = cursor_carbon_db.fetchone()
                 start_datetime_utc = datetime.strptime(config.start_datetime_utc, '%Y-%m-%d %H:%M:%S')
