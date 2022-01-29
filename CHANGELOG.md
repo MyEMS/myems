@@ -22,7 +22,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added alternative uuid parameter to reports of combined equipment, equipment, meter, shopfloor, store and tenant
 - added meter carbon dioxide emission report to api
 - added meter carbon dioxide emission aggregation procedure
-- added virtual meter carbon dioxide emssion aggregation procedure
+- added virtual meter carbon dioxide emission aggregation procedure
 - added offline meter carbon dioxide emission aggregation procedure
 
 ### Changed
@@ -33,8 +33,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed select statements issue in tenant reports.
 - fixed fraction numerator and denominator issue in combinedequipmentefficiency and equipmentefficiency reports
 - fixed issue of config in aggregation service
-- fixed issue of carbon_dioxide_emmision_factor in aggregation serivce
-- fixed isssues in README
+- fixed issue of carbon_dioxide_emission_factor in aggregation service
+- fixed issues in README
 
 ### Removed
 -   None.
