@@ -92,13 +92,9 @@ docker load --input .\myems-aggregation.tar
 In this section, you will install myems-aggregation on Ubuntu Server with internet access.
 
 ```bash
-cd ~
-git clone https://github.com/MyEMS/myems.git
-cd myems
-git checkout master (or the latest release tag)
-cd myems-aggregation
+cp -r myems/myems-aggregation /myems-aggregation
+cd /myems-aggregation
 pip install -r requirements.txt
-cp -r ~/myems/myems-aggregation /myems-aggregation
 ```
 Copy exmaple.env file to .env and modify the .env file:
 ```bash
@@ -151,9 +147,8 @@ python3 setup.py  install
 
 Install myems-aggregation service:
 ```bash
-cd ~/myems
-git checkout master (or the latest release tag)
-cp -r ~/myems/myems-aggregation /myems-aggregation
+cp -r myems/myems-aggregation /myems-aggregation
+cd /myems-aggregation
 ```
 Copy exmaple.env file to .env and modify the .env file:
 ```bash

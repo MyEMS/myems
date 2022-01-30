@@ -1,7 +1,7 @@
 ## MyEMS Modbus TCP Service
 
 ### Introduction
-This service is a component of MyEMS to acquire data from Modbus TCP devices.
+This service is a component of MyEMS Community Edition to acquire data from Modbus TCP devices.
 
 ### Prerequisites
 
@@ -86,7 +86,43 @@ docker save --output myems-modbus-tcp.tar myems/myems-modbus-tcp
 docker load --input .\myems-modbus-tcp.tar
 ```
 
-### Option 2: Install myems-modbus-tcp on Ubuntu Server (bare-metal or virtual machine)
+### Installation Option 2: Online install on Ubuntu server with internet access
+
+In this section, you will install myems-modbus-tcp on Ubuntu Server with internet access.
+
+```bash
+cp -r myems/myems-modbus-tcp /myems-modbus-tcp
+cd /myems-modbus-tcp
+pip install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+```
+
+Copy exmaple.env file to .env and modify the .env file:
+```bash
+cp /myems-modbus-tcp/example.env /myems-modbus-tcp/.env
+nano /myems-modbus-tcp/.env
+```
+Setup systemd service:
+```bash
+cp myems-modbus-tcp.service /lib/systemd/system/
+```
+Enable the service:
+```bash
+systemctl enable myems-modbus-tcp.service
+```
+Start the service:
+```bash
+systemctl start myems-modbus-tcp.service
+```
+Monitor the service:
+```bash
+systemctl status myems-modbus-tcp.service
+```
+View the log:
+```bash
+cat /myems-modbus-tcp.log
+```
+
+### Installation Option 3: Offline install on Ubuntu server without internet access
 
 Download and install MySQL Connector:
 ```bash
@@ -126,8 +162,8 @@ python3 setup.py install
 
 Install myems-modbus-tcp service
 ```bash
-cd myems
-cp -R myems/myems-modbus-tcp /myems-modbus-tcp
+cp -r myems/myems-modbus-tcp /myems-modbus-tcp
+cd /myems-modbus-tcp
 ```
 Create .env file based on example.env and edit the .env file if needed:
 ```bash

@@ -111,13 +111,13 @@ docker load --input .\myems-api.tar
 In this section, you will online install myems-api on Ubuntu Server with internet access.
 * Copy source code to a production Ubuntu Server and then install tools
 ```bash
-cd ~/myems/myems-api
+cd myems/myems-api
 pip install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
 ```
 
 * Install  myems-api service:
 ```bash
-cp -r ~/myems/myems-api /myems-api
+cp -r myems/myems-api /myems-api
 ```
 Create .env file based on example.env and edit the .env file if needed:
 ```bash
@@ -215,7 +215,7 @@ python setup.py install
 
 * Install  myems-api service:
 ```bash
-cp -r ~/myems/myems-api /myems-api
+cp -r myems/myems-api /myems-api
 ```
 Create .env file based on example.env and edit the .env file if needed:
 ```bash
