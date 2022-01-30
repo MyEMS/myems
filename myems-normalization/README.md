@@ -93,7 +93,43 @@ docker save --output myems-normalization.tar myems/myems-normalization
 docker load --input .\myems-normalization.tar
 ```
 
-### Option 2: Install myems-normalization on Ubuntu Server (bare-metal or virtual machine)
+### Installation Option 2: Online install on Ubuntu server with internet access
+
+In this section, you will install myems-normalization on Ubuntu Server with internet access.
+
+```bash
+cp -r myems-normalization /myems-normalization
+cd /myems-normalization
+pip install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+```
+
+Copy exmaple.env file to .env and modify the .env file:
+```bash
+cp /myems-normalization/example.env /myems-normalization/.env
+nano /myems-normalization/.env
+```
+Setup systemd service:
+```bash
+cp myems-normalization.service /lib/systemd/system/
+```
+Enable the service:
+```bash
+systemctl enable myems-normalization.service
+```
+Start the service:
+```bash
+systemctl start myems-normalization.service
+```
+Monitor the service:
+```bash
+systemctl status myems-normalization.service
+```
+View the log:
+```bash
+cat /myems-normalization.log
+```
+
+### Installation Option 3: Offline install on Ubuntu server without internet access
 
 In this section, you will install myems-normalization on Ubuntu Server.
 
@@ -159,12 +195,9 @@ python3 setup.py  install
 ```
 
 Install myems-normalization service:
-```
-cd ~
-git clone https://github.com/MyEMS/myems.git
-cd myems
-git checkout master (or the latest release tag)
-cp -r ~/myems/myems-normalization /myems-normalization
+```bash
+cp -r myems/myems-normalization /myems-normalization
+cd /myems-normalization
 ```
 Copy example.env file to .env file and modify the .env file:
 ```bash
@@ -172,15 +205,15 @@ cp /myems-normalization/example.env /myems-normalization/.env
 nano /myems-normalization/.env
 ```
 Setup systemd service:
-```
+```bash
 cp myems-normalization.service /lib/systemd/system/
 ```
 Enable the service:
-```
+```bash
 systemctl enable myems-normalization.service
 ```
 Start the service:
-```
+```bash
 systemctl start myems-normalization.service
 ```
 Monitor the service:

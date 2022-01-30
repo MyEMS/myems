@@ -86,7 +86,43 @@ docker save --output myems-cleaning.tar myems/myems-cleaning
 docker load --input .\myems-cleaning.tar
 ```
 
-### Option 2: Install myems-cleaning on Ubuntu Server (bare-metal or virtual machine)
+### Installation Option 2: Online install on Ubuntu server with internet access
+
+In this section, you will install myems-cleaning on Ubuntu Server with internet access.
+
+```bash
+cp -r myems-cleaning /myems-cleaning
+cd /myems/myems-cleaning
+pip install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+```
+
+Copy exmaple.env file to .env and modify the .env file:
+```bash
+cp /myems-cleaning/example.env /myems-cleaning/.env
+nano /myems-cleaning/.env
+```
+Setup systemd service:
+```bash
+cp myems-cleaning.service /lib/systemd/system/
+```
+Enable the service:
+```bash
+systemctl enable myems-cleaning.service
+```
+Start the service:
+```bash
+systemctl start myems-cleaning.service
+```
+Monitor the service:
+```bash
+systemctl status myems-cleaning.service
+```
+View the log:
+```bash
+cat /myems-cleaning.log
+```
+
+### Installation Option 3: Offline install on Ubuntu server without internet access
 
 In this section, you will install myems-cleaning on Ubuntu Server.
 
@@ -117,7 +153,8 @@ python3 setup.py  install
 
 Install myems-cleaning service
 ```bash
-cp -R myems/myems-cleaning /myems-cleaning
+cp -r myems/myems-cleaning /myems-cleaning
+cd /myems-cleaning
 ```
 Copy file example.env to .env and edit the .env file:
 ```bash
@@ -147,5 +184,5 @@ cat /myems-cleaning.log
 
 ### References
 
-1.  https://myems.io
-2.  https://dev.mysql.com/doc/connector-python/en/
+1. https://myems.io
+2. https://dev.mysql.com/doc/connector-python/en/
