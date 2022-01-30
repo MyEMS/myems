@@ -30,8 +30,6 @@ chmod +x run.sh
 
 In this section, you will install myems-modbus-tcp on Docker.
 
-In this section, you will install myems-modbus-tcp on Docker.
-
 * Copy source code to root directory
 
 On Windows:
@@ -93,9 +91,9 @@ docker load --input .\myems-modbus-tcp.tar
 Download and install MySQL Connector:
 ```bash
 cd ~/tools
-wget https://cdn.mysql.com/archives/mysql-connector-python-8.0/mysql-connector-python-8.0.23.tar.gz
-tar xzf mysql-connector-python-8.0.23.tar.gz
-cd ~/tools/mysql-connector-python-8.0.23
+wget https://cdn.mysql.com//Downloads/Connector-Python/mysql-connector-python-8.0.28.tar.gz
+tar xzf mysql-connector-python-8.0.28.tar.gz
+cd ~/tools/mysql-connector-python-8.0.28
 python3 setup.py install
 ```
 
@@ -107,6 +105,14 @@ cd ~/tools/schedule
 python3 setup.py install
 ```
 
+Download and install Python Decouple
+```bash
+cd ~/tools
+git clone https://github.com/henriquebastos/python-decouple.git
+cd ~/tools/python-decouple
+python3 setup.py  install
+```
+
 Download and install modbus-tk
 ```bash
 cd ~/tools
@@ -116,14 +122,6 @@ python3 setup.py install
 git clone https://github.com/ljean/modbus-tk.git
 cd ~/tools/modbus-tk
 python3 setup.py install
-```
-
-Download and install Python Decouple
-```bash
-cd ~/tools
-git clone https://github.com/henriquebastos/python-decouple.git
-cd ~/tools/python-decouple
-python3 setup.py  install
 ```
 
 Install myems-modbus-tcp service
@@ -157,9 +155,9 @@ View the log:
 cat /myems-modbus-tcp.log
 ```
 
-### Add Data Sources and Points in MyEMS Admin 
+### Add Data Sources and Points in MyEMS Admin UI
 
-NOTE: If you modified Modbus TCP datasources and points, please restart this service:
+NOTE: If you modified Modbus TCP data sources and points, please restart this service:
 ```bash
 systemctl restart myems-modbus-tcp.service
 ```
