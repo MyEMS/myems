@@ -166,7 +166,7 @@ In this section, you will offline install myems-api on Ubuntu Server without int
 mkdir ~tools && cd ~/tools
 git clone https://github.com/c0fec0de/anytree.git
 git clone https://github.com/simplejson/simplejson.git
-wget https://cdn.mysql.com/archives/mysql-connector-python-8.0/mysql-connector-python-8.0.23.tar.gz
+wget https://cdn.mysql.com//Downloads/Connector-Python/mysql-connector-python-8.0.28.tar.gz
 mkdir ~/tools/falcon && cd ~/tools/falcon
 pip download cython falcon falcon-cors falcon-multipart
 cd ~/tools
@@ -190,8 +190,8 @@ python setup.py install
 cd ~/tools/simplejson
 python setup.py install 
 cd ~/tools
-tar xzf mysql-connector-python-8.0.23.tar.gz
-cd ~/tools/mysql-connector-python-8.0.23
+tar xzf mysql-connector-python-8.0.28.tar.gz
+cd ~/tools/mysql-connector-python-8.0.28
 python setup.py install
 export LC_ALL="en_US.UTF-8"
 export LC_CTYPE="en_US.UTF-8"

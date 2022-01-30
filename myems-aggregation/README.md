@@ -133,7 +133,7 @@ In this section, you will install myems-aggregation on Ubuntu Server without int
 Download on any server with internet access:
 ```bash
 cd ~/tools
-wget https://cdn.mysql.com/archives/mysql-connector-python-8.0/mysql-connector-python-8.0.23.tar.gz
+wget https://cdn.mysql.com//Downloads/Connector-Python/mysql-connector-python-8.0.28.tar.gz
 git clone https://github.com/henriquebastos/python-decouple.git
 cd ~
 git clone https://github.com/MyEMS/myems.git
@@ -142,8 +142,8 @@ git clone https://github.com/MyEMS/myems.git
 Copy files to the server without internet access and install prerequisites:
 ```bash
 cd ~/tools
-tar xzf mysql-connector-python-8.0.23.tar.gz
-cd ~/tools/mysql-connector-python-8.0.23
+tar xzf mysql-connector-python-8.0.28.tar.gz
+cd ~/tools/mysql-connector-python-8.0.28
 python3 setup.py install
 cd ~/tools/python-decouple
 python3 setup.py  install

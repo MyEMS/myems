@@ -33,7 +33,7 @@ $ mysql -u root -p密码
 mysql: [Warning] Using a password on the command line interface can be insecure.
 Welcome to the MySQL monitor.  Commands end with ; or \g.
 Your MySQL connection id is 8
-Server version: 8.0.23 Homebrew
+Server version: 8.0.28 Homebrew
 
 Copyright (c) 2000, 2021, Oracle and/or its affiliates.
 
@@ -97,9 +97,9 @@ $ pip3 install simplejson
 
 # 安装mysql-connector-python
 $ cd ~/tools
-$ wget https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python-8.0.23.tar.gz
-$ tar xzf mysql-connector-python-8.0.23.tar.gz
-$ cd ~/tools/mysql-connector-python-8.0.23
+$ wget https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python-8.0.28.tar.gz
+$ tar xzf mysql-connector-python-8.0.28.tar.gz
+$ cd ~/tools/mysql-connector-python-8.0.28
 $ sudo python3 setup.py install
 
 # 安装Falcon

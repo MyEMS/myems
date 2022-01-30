@@ -39,9 +39,9 @@ Installation
 * Install MySQL Connector::
 
     $ cd ~/tools
-    $ wget wget https://cdn.mysql.com/archives/mysql-connector-python-8.0/mysql-connector-python-8.0.23.tar.gz
-    $ tar xzf mysql-connector-python-8.0.23.tar.gz
-    $ cd ~/tools/mysql-connector-python-8.0.23
+    $ wget wget https://cdn.mysql.com//Downloads/Connector-Python/mysql-connector-python-8.0.28.tar.gz
+    $ tar xzf mysql-connector-python-8.0.28.tar.gz
+    $ cd ~/tools/mysql-connector-python-8.0.28
     $ sudo python3 setup.py install
 
 * Install Falcon
