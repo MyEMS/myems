@@ -96,6 +96,7 @@
 | Admin UI                         | ✔️             | ✔️        |                      |
 | BACnet/IP                        | ❌             | ✔️        | http://www.bacnet.org/ |
 | MQTT Subscriber                  | ❌             | ✔️        | https://mqtt.org/ |
+| Kafka Consumer                   | ❌             | ✔️        | https://kafka.apache.org/ |
 | Modbus RTU                       | ❌             | ✔️        | https://modbus.org/ |
 | OPC UA                           | ❌             | ✔️        | https://opcfoundation.org/ |
 | OPC DA                           | ❌             | ✔️        | https://opcfoundation.org/ |
@@ -120,7 +121,8 @@
 | BACnet Server                    | ❌             | ✔️        | http://www.bacnet.org/ |
 | Modbus TCP Server                | ❌             | ✔️        | https://modbus.org/ |
 | OPC UA Server                    | ❌             | ✔️        | https://opcfoundation.org/ |
-| MQTT Publisher                   | ❌️             | ✔️        | https://mqtt.org/ |
+| MQTT Publisher                   | ❌️          | ✔️        | Publish Data https://mqtt.org/ |
+| Kafka Producer                   | ❌             | ✔️        | Produce Data https://kafka.apache.org/ |
 | iOS APP                          | ❌             | ✔️        | Requires standard component license or custom development |
 | Android APP                      | ❌             | ✔️        | Requires standard component license or custom development |
 | WeChat Mini Program              | ❌             | ✔️        | Requires standard component license or custom development |

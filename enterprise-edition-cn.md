@@ -96,6 +96,8 @@
 | Admin UI                          | ✔️             | ✔️        | 基于Angular开发，用于系统配置管理 |
 | BACnet/IP 协议                    | ❌             | ✔️        | 采集数据 http://www.bacnet.org/ |
 | MQTT 订阅                         | ❌            | ✔️        | 采集数据 https://mqtt.org/ |
+| MQTT 订阅                         | ❌            | ✔️        | 采集数据 https://mqtt.org/ |
+| MQTT 订阅                         | ❌            | ✔️        | 采集数据 https://mqtt.org/ |
 | Modbus RTU 协议                   | ❌            | ✔️        | 采集数据 https://modbus.org/ |
 | OPC UA 协议                       | ❌            | ✔️        | 采集数据 https://opcfoundation.org/ |
 | OPC DA 协议                       | ❌            | ✔️        | 采集数据 https://opcfoundation.org/ |
@@ -121,6 +123,7 @@
 | Modbus TCP Server                | ❌            | ✔️        | 发布数据 https://modbus.org/ |
 | OPC UA Server                    | ❌            | ✔️        | 发布数据 https://opcfoundation.org/ |
 | MQTT 发布                         | ❌             | ✔️        | 发布数据 https://mqtt.org/ |
+| Kafka Producer                   | ❌            | ✔️        | 生产数据 https://kafka.apache.org/ |
 | iOS APP                          | ❌            | ✔️        | 需要企业版组件许可或定制开发 |
 | Android APP                      | ❌            | ✔️        | 需要企业版组件许可或定制开发 |
 | 微信小程序                         | ❌           | ✔️        | 需要企业版组件许可或定制开发 |
