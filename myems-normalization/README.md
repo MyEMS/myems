@@ -98,7 +98,7 @@ docker load --input .\myems-normalization.tar
 In this section, you will install myems-normalization on Ubuntu Server with internet access.
 
 ```bash
-cp -r myems-normalization /myems-normalization
+cp -r myems/myems-normalization /myems-normalization
 cd /myems-normalization
 pip install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
 ```
