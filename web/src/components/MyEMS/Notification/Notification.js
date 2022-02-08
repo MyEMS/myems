@@ -62,9 +62,9 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
 
       let isResponseOK = false;
       if (!fetchSuccess) { 
-        fetch(APIBaseURL + '/webmessages' +
-        '/from/' + startDatetime.format('YYYY-MM-DD') +
-        '/to/' + endDatetime.format('YYYY-MM-DD'), {
+        fetch(APIBaseURL + '/webmessages?' +
+            'startdatetime=' + startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+            '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss'), {
           method: 'GET',
           headers: {
             "Content-type": "application/json",
