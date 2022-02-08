@@ -16,8 +16,9 @@ import {
 } from 'reactstrap';
 import Datetime from 'react-datetime';
 import moment from 'moment';
-import ReactEchartsCore from 'echarts-for-react';
+import ReactEchartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/lib/echarts';
+import { SankeyChart } from 'echarts/charts';
 import AppContext from '../../../context/Context';
 import { getCookieValue, createCookie } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
@@ -25,7 +26,7 @@ import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { APIBaseURL } from '../../../config';
 
-
+echarts.use([SankeyChart]);
 const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
   useEffect(() => {
