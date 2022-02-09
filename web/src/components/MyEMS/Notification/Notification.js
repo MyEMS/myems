@@ -34,7 +34,7 @@ import { APIBaseURL } from '../../../config';
 
 const Notification = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
-  const [startDatetime, setStartDatetime] = useState(current_moment.clone().subtract(1, 'months'));
+  const [startDatetime, setStartDatetime] = useState(current_moment.clone().subtract(6, 'months'));
   const [endDatetime, setEndDatetime] = useState(current_moment);
   
   const [fetchSuccess, setFetchSuccess] = useState(false);
@@ -62,9 +62,9 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
 
       let isResponseOK = false;
       if (!fetchSuccess) { 
-        fetch(APIBaseURL + '/webmessages' +
-        '/from/' + startDatetime.format('YYYY-MM-DD') +
-        '/to/' + endDatetime.format('YYYY-MM-DD'), {
+        fetch(APIBaseURL + '/webmessages?' +
+            'startdatetime=' + startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+            '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss'), {
           method: 'GET',
           headers: {
             "Content-type": "application/json",
