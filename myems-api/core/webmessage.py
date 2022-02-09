@@ -367,7 +367,7 @@ class WebMessageItem:
         if 'status' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['status'], str) or \
                 len(str.strip(new_values['data']['status'])) == 0 or \
-                str.strip(new_values['data']['status']) not in ('new', 'acknowledged', 'timeout'):
+                str.strip(new_values['data']['status']) not in ('new', 'acknowledged', 'timeout', 'read'):
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STATUS')
         status = str.strip(new_values['data']['status'])
