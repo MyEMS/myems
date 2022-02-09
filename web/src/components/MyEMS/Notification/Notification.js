@@ -34,7 +34,7 @@ import { APIBaseURL } from '../../../config';
 
 const Notification = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
-  const [startDatetime, setStartDatetime] = useState(current_moment.clone().subtract(1, 'months'));
+  const [startDatetime, setStartDatetime] = useState(current_moment.clone().subtract(6, 'months'));
   const [endDatetime, setEndDatetime] = useState(current_moment);
   
   const [fetchSuccess, setFetchSuccess] = useState(false);
