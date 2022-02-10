@@ -428,6 +428,8 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
         
       } else {
         toast.error(json.description)
+        setSpinnerHidden(true);
+        setSubmitButtonDisabled(false);
       }
     }).catch(err => {
       console.log(err);
@@ -583,7 +585,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
                 <FormGroup>
                   <br></br>
                   <ButtonGroup id="submit">
-                    <Button color="success" disabled={submitButtonDisabled} >{t('Submit')}</Button>
+                      <Button color="success" disabled={submitButtonDisabled} >{t('Submit')}</Button>
                   </ButtonGroup>
                 </FormGroup>
               </Col>
