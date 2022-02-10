@@ -262,6 +262,9 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   let onReportingPeriodBeginsDatetimeChange = (newDateTime) => {
+    if(reportingPeriodEndsDatetime < newDateTime){
+      newDateTime = reportingPeriodBeginsDatetime;
+    }
     setReportingPeriodBeginsDatetime(newDateTime);
     if (comparisonType === 'year-over-year') {
       setBasePeriodBeginsDatetime(newDateTime.clone().subtract(1, 'years'));
@@ -271,6 +274,9 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   let onReportingPeriodEndsDatetimeChange = (newDateTime) => {
+    if(reportingPeriodBeginsDatetime > newDateTime){
+      newDateTime = reportingPeriodEndsDatetime;
+    }
     setReportingPeriodEndsDatetime(newDateTime);
     if (comparisonType === 'year-over-year') {
       setBasePeriodEndsDatetime(newDateTime.clone().subtract(1, 'years'));
@@ -428,8 +434,6 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
         
       } else {
         toast.error(json.description)
-        setSpinnerHidden(true);
-        setSubmitButtonDisabled(false);
       }
     }).catch(err => {
       console.log(err);
