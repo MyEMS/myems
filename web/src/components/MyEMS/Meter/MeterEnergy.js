@@ -428,6 +428,8 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
         
       } else {
         toast.error(json.description)
+        setSpinnerHidden(true);
+        setSubmitButtonDisabled(false);
       }
     }).catch(err => {
       console.log(err);
