@@ -1,3 +1,9 @@
+-- ---------------------------------------------------------------------------------------------------------------------
+-- WARNING: BACKUP YOUR DATABASE BEFORE UPGRADING
+-- THIS SCRIPT IS ONLY FOR UPGRADING 1.6.1 TO 1.7.0
+-- THE CURRENT VERSION CAN BE FOUND AT `myems_system_db`.`tbl_versions`
+-- ---------------------------------------------------------------------------------------------------------------------
+
 START TRANSACTION;
 
 CREATE DATABASE IF NOT EXISTS `myems_carbon_db` ;
@@ -163,6 +169,6 @@ CREATE TABLE IF NOT EXISTS `myems_carbon_db`.`tbl_virtual_meter_hourly` (
 CREATE INDEX `tbl_virtual_meter_hourly_index_1` ON  `myems_carbon_db`.`tbl_virtual_meter_hourly`   (`virtual_meter_id`, `start_datetime_utc`);
 
 -- UPDATE VERSION NUMBER
-UPDATE myems_system_db.tbl_versions SET version='1.7.0', release_date='2022-01-28' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='1.7.0', release_date='2022-01-28' WHERE id=1;
 
 COMMIT;

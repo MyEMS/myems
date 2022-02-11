@@ -1,3 +1,10 @@
+-- ---------------------------------------------------------------------------------------------------------------------
+-- WARNING: BACKUP YOUR DATABASE BEFORE UPGRADING
+-- THIS SCRIPT IS ONLY FOR UPGRADING 1.2.2 TO 1.2.3
+-- THE CURRENT VERSION CAN BE FOUND AT `myems_system_db`.`tbl_versions`
+-- ---------------------------------------------------------------------------------------------------------------------
+
+START TRANSACTION;
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_reporting_db`.`tbl_reports`
@@ -18,4 +25,6 @@ CREATE TABLE IF NOT EXISTS `myems_reporting_db`.`tbl_reports` (
 CREATE INDEX `tbl_reports_index_1` ON  `myems_reporting_db`.`tbl_reports` (`name`);
 
 -- UPDATE VERSION NUMBER
-UPDATE myems_system_db.tbl_versions SET version='1.2.3', release_date='2021-09-04' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='1.2.3', release_date='2021-09-04' WHERE id=1;
+
+COMMIT;
