@@ -123,7 +123,7 @@ CREATE TABLE IF NOT EXISTS `myems_fdd_db`.`tbl_web_messages` (
   `priority` VARCHAR(128) NOT NULL COMMENT 'CRITICAL, HIGH, MEDIUM, LOW',
   `message` LONGTEXT NOT NULL,
   `created_datetime_utc` DATETIME NOT NULL,
-  `status` VARCHAR(32) NOT NULL COMMENT 'new, acknowledged, timeout',
+  `status` VARCHAR(32) NOT NULL COMMENT 'new, acknowledged, read',
   `reply` LONGTEXT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_web_messages_index_1` ON  `myems_fdd_db`.`tbl_web_messages`  (`user_id`, `status`, `created_datetime_utc`);
