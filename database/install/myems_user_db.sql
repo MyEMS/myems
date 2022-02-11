@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `myems_user_db`.`tbl_users` (
   `privilege_id` BIGINT NULL,
   `account_expiration_datetime_utc` DATETIME NOT NULL,
   `password_expiration_datetime_utc` DATETIME NOT NULL,
-  `failed_login_count` INT NOT NULL,
+  `failed_login_count` INT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`));
 
   -- --------------------------------------------------------------------------------------------------------------------
