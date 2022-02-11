@@ -1,6 +1,10 @@
--- 
--- WARNING: BACUP YOUR DATABASE BEFORE UPGRADE
--- 
+-- ---------------------------------------------------------------------------------------------------------------------
+-- WARNING: BACKUP YOUR DATABASE BEFORE UPGRADING
+-- THIS SCRIPT IS ONLY FOR UPGRADING 1.0.0 TO 1.0.1
+-- THE CURRENT VERSION CAN BE FOUND AT `myems_system_db`.`tbl_versions`
+-- ---------------------------------------------------------------------------------------------------------------------
+
+START TRANSACTION;
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_fdd_db`.`tbl_rules`
@@ -41,4 +45,6 @@ CREATE INDEX `tbl_web_messages_index_1` ON  `myems_fdd_db`.`tbl_web_messages`  (
 
 
 -- UPDATE VERSION NUMBER
-UPDATE myems_system_db.tbl_versions SET version='1.0.1', release_date='2021-01-28' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='1.0.1', release_date='2021-01-28' WHERE id=1;
+
+COMMIT;

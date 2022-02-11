@@ -1,3 +1,10 @@
+-- ---------------------------------------------------------------------------------------------------------------------
+-- WARNING: BACKUP YOUR DATABASE BEFORE UPGRADING
+-- THIS SCRIPT IS ONLY FOR UPGRADING 1.1.3 TO 1.1.4
+-- THE CURRENT VERSION CAN BE FOUND AT `myems_system_db`.`tbl_versions`
+-- ---------------------------------------------------------------------------------------------------------------------
+
+START TRANSACTION;
 
 DROP TABLE myems_fdd_db.tbl_sms_recipients;
 
@@ -22,4 +29,6 @@ RENAME TABLE myems_historical_db.tbl_offline_cost_files TO myems_historical_db.t
 ALTER TABLE myems_historical_db.tbl_offline_cost_files TO myems_historical_db.tbl_cost_files;
 
 -- UPDATE VERSION NUMBER
-UPDATE myems_system_db.tbl_versions SET version='1.1.4', release_date='2021-07-19' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='1.1.4', release_date='2021-07-19' WHERE id=1;
+
+COMMIT;
