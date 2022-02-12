@@ -2144,21 +2144,45 @@ Result in JSON
 | message       | string    | Web Message Body                          |
 | created_datetime| float   | Web Message Created Datetime (POSIX timestamp *   1000)|
 | status        | string    | Status ('new', 'acknowledged', 'timeout') | 
-| reply         | string    | User's Reply text, allow null             |
+| reply         | string    | User's Reply text, required for 'acknowledged' status, otherwise allow null |
 ```bash
-curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKEN-AFTER-LOGIN" -X GET {{base_url}}/webmessages/{id}
+curl --location --request GET '{{base_url}}/webmessages/{id}' \
+--header 'User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4' \
+--header 'Token: 24bb236244f26784fb1397344d926b4871e87a90096eae926a0e448396dbd3ff4a2f70f727089f025238cb47bdbccdc877ef4a50fad8f05a4e5100c5d3eb0d3c'
 ```
 *   GET Web Messages by Datetime Range
 ```bash
-curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKEN-AFTER-LOGIN" -X GET {{base_url}}/webmessages?startdatetime={startdatetime}&enddatetime={enddatetime}
+curl --location --request GET '{{base_url}}/webmessages?startdatetime=2021-12-11T00:00:00&enddatetime=2021-12-21T00:00:00' \
+--header 'User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4' \
+--header 'Token: 9ac434f394c735092cfeb083612e533ca33ca6db4815ebb0c3ff47896d7eaa610e7dc312c04279253f817d65d1ef379378d4a5d07150faee5f6d899adb8b7ca7'
 ```
 *   GET New Web Messages
 ```bash
-curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKEN-AFTER-LOGIN" -X GET {{base_url}}/webmessagesnew
+curl --location --request GET '{{base_url}}/webmessagesnew' \
+--header 'User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4' \
+--header 'Token: 9bcd171e4f4169f1f45791aeadc8f90cfe8694be92f21af7bf95673f8cc910ca7a91bfd4a577d48d0720155de497eb02baab614be5c6c83891f1a856f9cf666a'
 ```
-*   DELETE a Web Message by ID
+* PUT Update a Web Message (Acknowledge)
 ```bash
-curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKEN-AFTER-LOGIN" -X DELETE {{base_url}}/webmessages/{id}
+curl --location --request PUT '{{base_url}}/webmessages/{id}' \
+--header 'User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4' \
+--header 'Token: 9bcd171e4f4169f1f45791aeadc8f90cfe8694be92f21af7bf95673f8cc910ca7a91bfd4a577d48d0720155de497eb02baab614be5c6c83891f1a856f9cf666a' \
+--header 'Content-Type: text/plain' \
+--data-raw '{"data":{"status":"acknowledged", "reply":"this is my reply"}}'
+```
+* PUT Update a Web Message (Mark As Read)
+```bash
+curl --location --request PUT '{{base_url}}/webmessages/{id}' \
+--header 'User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4' \
+--header 'Token: 9bcd171e4f4169f1f45791aeadc8f90cfe8694be92f21af7bf95673f8cc910ca7a91bfd4a577d48d0720155de497eb02baab614be5c6c83891f1a856f9cf666a' \
+--header 'Content-Type: text/plain' \
+--data-raw '{"data":{"status":"read"}}'
+```
+* DELETE a Web Message by ID
+```bash
+curl --location --request DELETE '{{base_url}}/webmessages/{id}' \
+--header 'User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4' \
+--header 'Token: 24bb236244f26784fb1397344d926b4871e87a90096eae926a0e448396dbd3ff4a2f70f727089f025238cb47bdbccdc877ef4a50fad8f05a4e5100c5d3eb0d3c'
 ```
 
 ### Wechat Message
