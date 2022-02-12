@@ -16,6 +16,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
+## [v1.7.1] -   2022-02-11
+### Added
+- added myems_carbon_db to recalculating script
+
+### Changed
+- updated mysql-connector-python version in README
+- updated installation guide in README
+- updated docs
+- updated comment of tbl_web_messages in database
+- updated database upgrade scripts
+- Bump node-sass from 6.0.1 to 7.0.0 in Web
+- updated Web Message actions in API and Notification Page in Web UI
+- updated POSTMAN file
+
+### Fixed
+- fixed issue of Notification in Web UI
+- fixed issue of tbl_users in database
+
+### Removed
+-   None.
+
 ## [v1.7.0] -   2022-01-28
 ### Added
 - added new database myems_carbon_db
@@ -65,7 +86,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 -   added virtual meter billing procedure to aggregation service
 -   added PUT actions to text/wechat/email messages in api
 -   added POST actions to create new email/wechat/text messages
--   added locl/unlock user who faied login some times to admin and api
+-   added lock/unlock user who failed login some times to admin and api
 -   added bind-mount upload file folder to containers of myems-api and admin
 
 ### Changed
@@ -247,7 +268,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 -   changed cost file upload datetime formatter from timestamp to strftime
 -   updated translation of Admin UI
 -   updated database README
--   updated demo databse for database ingestion service
+-   updated demo database for database ingestion service
 -   updated distibutionssystem point value timeout value to 30 minutes
 -   updated Admin UI to make error messages more specific
 -   updated translations of KGCE & KGCO2E in Admin UI
@@ -423,7 +444,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 -   fixed base period cost units issue of Dashboard API
 -   fixed selected meter issues in onSearchMeter of Web UI
 -   fixed wrong HTTP Status Code issues in API
--   fixed Child Space Share Pie issue in excel exporter of spaceenergycategory
+-   fixed Child Space Share Pie issue in Excel exporter of spaceenergycategory
 
 ### Removed
 -   Drop table tbl_sms_recipients from myems_fdd_db
@@ -448,7 +469,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 -   updated Dashboard in web to display energy data of this year
 -   updated tbl_expressions in database
 -   added start value and end value to metertracking report
--   updated comments and log messages in myems-modbust-tcp service
+-   updated comments and log messages in myems-modbus-tcp service
 -   improved theme of energyflowdiagram in Web UI
 
 ### Fixed
@@ -520,7 +541,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 -   fixed issues in excel exporters of combinedequipment in API
 -   added parameters validator to statistics_hourly_data_by_period in API
 -   added code to validate parameters of averaging_hourly_data_by_period in API
--   fixed issue in excel exporter of equipmentincome in API
+-   fixed issue in Excel exporter of equipmentincome in API
 -   fixed unit issue in CombinedEquipmentCost report in API
 
 
@@ -669,7 +690,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v1.7.0...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v1.7.1...HEAD
+[v1.7.1]: https://github.com/MyEMS/myems/compare/v1.7.0...v1.7.1
 [v1.7.0]: https://github.com/MyEMS/myems/compare/v1.6.1...v1.7.0
 [v1.6.1]: https://github.com/MyEMS/myems/compare/v1.6.0...v1.6.1
 [v1.6.0]: https://github.com/MyEMS/myems/compare/v1.5.1...v1.6.0
