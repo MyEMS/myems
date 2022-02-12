@@ -95,8 +95,7 @@ const NotificationDropdown = ({ t }) => {
       },
       body: JSON.stringify({
         "data": {
-          "status": 'acknowledged',
-          "reply": 'ok'
+          "status": 'read'
         }
       }),
       }).then(response => {

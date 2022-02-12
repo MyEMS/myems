@@ -367,17 +367,21 @@ class WebMessageItem:
         if 'status' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['status'], str) or \
                 len(str.strip(new_values['data']['status'])) == 0 or \
-                str.strip(new_values['data']['status']) not in ('new', 'acknowledged', 'timeout'):
+                str.strip(new_values['data']['status']) not in ('new', 'acknowledged', 'read'):
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STATUS')
         status = str.strip(new_values['data']['status'])
 
-        if 'reply' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['reply'], str) or \
-                len(str.strip(new_values['data']['reply'])) == 0:
+        # reply is required for 'acknowledged' status
+        if status == 'acknowledged' and \
+            ('reply' not in new_values['data'].keys() or
+                not isinstance(new_values['data']['reply'], str) or
+                len(str.strip(new_values['data']['reply'])) == 0):
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_REPLY')
-        reply = str.strip(new_values['data']['reply'])
+            reply = str.strip(new_values['data']['reply'])
+        else:
+            reply = None
 
         # Verify User Session
         token = req.headers.get('TOKEN')
