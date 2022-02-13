@@ -4,7 +4,7 @@
 -- Schema myems_billing_baseline_db
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP DATABASE IF EXISTS `myems_billing_baseline_db` ;
-CREATE DATABASE IF NOT EXISTS `myems_billing_baseline_db` ;
+CREATE DATABASE IF NOT EXISTS `myems_billing_baseline_db` CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' ;
 USE `myems_billing_baseline_db` ;
 
 -- ---------------------------------------------------------------------------------------------------------------------
