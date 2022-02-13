@@ -4,7 +4,7 @@
 -- Schema myems_user_db
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP DATABASE IF EXISTS `myems_user_db` ;
-CREATE DATABASE IF NOT EXISTS `myems_user_db` ;
+CREATE DATABASE IF NOT EXISTS `myems_user_db` CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' ;
 USE `myems_user_db` ;
 
 -- ---------------------------------------------------------------------------------------------------------------------
