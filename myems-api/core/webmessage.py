@@ -245,6 +245,118 @@ class WebMessageStatusNewCollection:
 
         resp.text = json.dumps(result)
 
+    @staticmethod
+    @user_logger
+    def on_put(req, resp):
+        """Handles PUT requests"""
+        try:
+            raw_json = req.stream.read().decode('utf-8')
+        except Exception as ex:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=ex)
+
+        new_values = json.loads(raw_json)
+
+        if 'status' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['status'], str) or \
+                len(str.strip(new_values['data']['status'])) == 0 or \
+                str.strip(new_values['data']['status']) not in ('new', 'acknowledged', 'read'):
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_STATUS')
+        status = str.strip(new_values['data']['status'])
+
+        # reply is required for 'acknowledged' status
+        if status == 'acknowledged' and \
+                ('reply' not in new_values['data'].keys() or
+                 not isinstance(new_values['data']['reply'], str) or
+                 len(str.strip(new_values['data']['reply'])) == 0):
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_REPLY')
+            reply = str.strip(new_values['data']['reply'])
+        else:
+            reply = None
+
+        # Verify User Session
+        token = req.headers.get('TOKEN')
+        user_uuid = req.headers.get('USER-UUID')
+        if token is None:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.TOKEN_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
+        if user_uuid is None:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.USER_UUID_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
+
+        cnx = mysql.connector.connect(**config.myems_user_db)
+        cursor = cnx.cursor(dictionary=True)
+
+        query = (" SELECT utc_expires "
+                 " FROM tbl_sessions "
+                 " WHERE user_uuid = %s AND token = %s")
+        cursor.execute(query, (user_uuid, token,))
+        row = cursor.fetchone()
+
+        if row is None:
+            if cursor:
+                cursor.close()
+            if cnx:
+                cnx.disconnect()
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
+        else:
+            utc_expires = row['utc_expires']
+            if datetime.utcnow() > utc_expires:
+                if cursor:
+                    cursor.close()
+                if cnx:
+                    cnx.disconnect()
+                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.USER_SESSION_TIMEOUT')
+
+        cursor.execute(" SELECT id "
+                       " FROM tbl_users "
+                       " WHERE uuid = %s ",
+                       (user_uuid,))
+        row = cursor.fetchone()
+        if row is None:
+            if cursor:
+                cursor.close()
+            if cnx:
+                cnx.disconnect()
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_USER_PLEASE_RE_LOGIN')
+        else:
+            user_id = row['id']
+
+        if cursor:
+            cursor.close()
+        if cnx:
+            cnx.disconnect()
+
+        cnx = mysql.connector.connect(**config.myems_fdd_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT user_id "
+                       " FROM tbl_web_messages "
+                       " WHERE status = %s AND user_id = %s ", ('new', user_id))
+        if cursor.fetchall() is None:
+            cursor.close()
+            cnx.disconnect()
+            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.WEB_MESSAGE_NOT_FOUND')
+
+        update_row = (" UPDATE tbl_web_messages "
+                      " SET status = %s, reply = %s "
+                      " WHERE status = %s AND user_id = %s ")
+        cursor.execute(update_row, (status,
+                                    reply,
+                                    'new',
+                                    user_id,))
+        cnx.commit()
+
+        cursor.close()
+        cnx.disconnect()
+
+        resp.status = falcon.HTTP_200
+
 
 class WebMessageItem:
     @staticmethod
