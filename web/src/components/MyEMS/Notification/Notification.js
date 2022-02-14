@@ -128,7 +128,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
 
   const subjectFormatter = (dataField, { url }) => (
     <Fragment>
-      <a href={`${url}`}>{dataField}</a>
+      <span>{dataField}</span>
     </Fragment>
   );
 
@@ -143,15 +143,15 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
     let icon = '';
     let text = '';
     switch (status) {
+      case 'acknowledged':
+        color = 'success';
+        icon = 'envelope-open';
+        text = t('Notification Acknowledged');
+        break;
       case 'read':
         color = 'success';
         icon = 'envelope-open';
         text = t('Notification Read');
-        break;
-      case 'unread':
-        color = 'primary';
-        icon = 'envelope';
-        text = t('Notification Unread');
         break;
       default:
         color = 'primary';
@@ -175,9 +175,9 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
       </DropdownToggle>
       <DropdownMenu right className="border py-2">
         <DropdownItem onClick={() => handleRead(id)}>{t('Notification Mark As Read')}</DropdownItem>
-        <DropdownItem onClick={() => console.log('Archive: ', id)}>{t('Notification Archive')}</DropdownItem>
+        <DropdownItem onClick={() => handleAcknowledged(id)}>{t('Notification Mark As Acknowledged')}</DropdownItem>
         <DropdownItem divider />
-        <DropdownItem onClick={() => console.log('Delete: ', id)} className="text-danger">{t('Notification Delete')}</DropdownItem>
+        <DropdownItem onClick={() => handledelete(id)} className="text-danger">{t('Notification Delete')}</DropdownItem>
       </DropdownMenu>
     </UncontrolledDropdown>
   );
@@ -260,8 +260,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
       },
       body: JSON.stringify({
         "data": {
-          "status": 'acknowledged',
-          "reply": 'ok'
+          "status": 'read'
         }
       }),
     }).then(response => {
@@ -283,6 +282,71 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
     });
   };
 
+  const handleAcknowledged = (id, ) => {
+    console.log('Mark As Acknowledged: ', id)
+    let isResponseOK = false;
+    fetch(APIBaseURL + '/webmessages/' + id, {
+      method: 'PUT',
+      headers: {
+        "Content-type": "application/json",
+        "User-UUID": getCookieValue('user_uuid'),
+        "Token": getCookieValue('token')
+      },
+      body: JSON.stringify({
+        "data": {
+          "status": 'acknowledged',
+          "reply": 'OK'
+        }
+      }),
+    }).then(response => {
+      if (response.ok) {
+        isResponseOK = true;
+        return null;
+      } else {
+        return response.json();
+      }
+    }).then(json => {
+      console.log(isResponseOK);
+      if (isResponseOK) {
+
+      } else {
+        toast.error(json.description)
+      }
+    }).catch(err => {
+      console.log(err);
+    });
+  };
+
+  const handledelete = (id, ) => {
+    console.log('Delete: ', id)
+    let isResponseOK = false;
+    fetch(APIBaseURL + '/webmessages/' + id, {
+      method: 'DELETE',
+      headers: {
+        "Content-type": "application/json",
+        "User-UUID": getCookieValue('user_uuid'),
+        "Token": getCookieValue('token')
+      },
+      body: null,
+    }).then(response => {
+      if (response.ok) {
+        isResponseOK = true;
+        return null;
+      } else {
+        return response.json();
+      }
+    }).then(json => {
+      console.log(isResponseOK);
+      if (isResponseOK) {
+
+      } else {
+        toast.error(json.description)
+      }
+    }).catch(err => {
+      console.log(err);
+    });
+  };
+
 
   return (
     <Fragment>
@@ -294,7 +358,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
               <CustomInput type="select" id="bulk-select">
                 <option>{t('Bulk actions')}</option>
                 <option value="MarkAsRead">{t('Notification Mark As Read')}</option>
-                <option value="Archive">{t('Notification Archive')}</option>
+                <option value="MarkAsAcknowledged">{t('Notification Mark As Acknowledged')}</option>
                 <option value="Delete">{t('Notification Delete')}</option>
               </CustomInput>
               <Button color="falcon-default" size="sm" className="ml-2">

@@ -9574,7 +9574,7 @@
 					"name": "Web Message",
 					"item": [
 						{
-							"name": "GET Web Messages by Date Range",
+							"name": "GET Web Messages by Datetime Range",
 							"request": {
 								"method": "GET",
 								"header": [
@@ -9631,7 +9631,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "24bb236244f26784fb1397344d926b4871e87a90096eae926a0e448396dbd3ff4a2f70f727089f025238cb47bdbccdc877ef4a50fad8f05a4e5100c5d3eb0d3c",
+										"value": "9bcd171e4f4169f1f45791aeadc8f90cfe8694be92f21af7bf95673f8cc910ca7a91bfd4a577d48d0720155de497eb02baab614be5c6c83891f1a856f9cf666a",
 										"type": "text",
 										"description": "Login to get a valid token"
 									}
@@ -9717,7 +9717,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update an Web Message TODO",
+							"name": "PUT Update a Web Message (Acknowledge)",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -9729,7 +9729,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "24bb236244f26784fb1397344d926b4871e87a90096eae926a0e448396dbd3ff4a2f70f727089f025238cb47bdbccdc877ef4a50fad8f05a4e5100c5d3eb0d3c",
+										"value": "9bcd171e4f4169f1f45791aeadc8f90cfe8694be92f21af7bf95673f8cc910ca7a91bfd4a577d48d0720155de497eb02baab614be5c6c83891f1a856f9cf666a",
 										"type": "text",
 										"description": "Login to get a valid token"
 									}
@@ -9737,6 +9737,41 @@
 								"body": {
 									"mode": "raw",
 									"raw": "{\"data\":{\"status\":\"acknowledged\", \"reply\":\"this is my reply\"}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/webmessages/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"webmessages",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Update a Web Message (Mark As Read)",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "9bcd171e4f4169f1f45791aeadc8f90cfe8694be92f21af7bf95673f8cc910ca7a91bfd4a577d48d0720155de497eb02baab614be5c6c83891f1a856f9cf666a",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"status\":\"read\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/webmessages/1",

@@ -1,3 +1,9 @@
+-- ---------------------------------------------------------------------------------------------------------------------
+-- WARNING: BACKUP YOUR DATABASE BEFORE UPGRADING
+-- THIS SCRIPT IS ONLY FOR UPGRADING 1.3.4 TO 1.4.0
+-- THE CURRENT VERSION CAN BE FOUND AT `myems_system_db`.`tbl_versions`
+-- ---------------------------------------------------------------------------------------------------------------------
+
 -- NOTE: BACKUP YOUR DATABASE AND SOURCE CODE FIRST
 -- THIS UPGRADE MAY CAUSE DATA LOSS AND BREAK YOUR MYEMS SYSTEM
 
@@ -55,6 +61,6 @@ CREATE INDEX `tbl_virtual_meters_index_2` ON `myems_system_db`.`tbl_virtual_mete
 CREATE INDEX `tbl_virtual_meters_index_3` ON `myems_system_db`.`tbl_virtual_meters` (`energy_item_id`);
 
 -- UPDATE VERSION NUMBER
-UPDATE myems_system_db.tbl_versions SET version='1.4.0', release_date='2021-11-14' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='1.4.0', release_date='2021-11-14' WHERE id=1;
 
 COMMIT;

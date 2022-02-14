@@ -4,7 +4,7 @@
 -- Schema myems_fdd_db
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP DATABASE IF EXISTS `myems_fdd_db` ;
-CREATE DATABASE IF NOT EXISTS `myems_fdd_db` ;
+CREATE DATABASE IF NOT EXISTS `myems_fdd_db` CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' ;
 USE `myems_fdd_db` ;
 
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -123,7 +123,7 @@ CREATE TABLE IF NOT EXISTS `myems_fdd_db`.`tbl_web_messages` (
   `priority` VARCHAR(128) NOT NULL COMMENT 'CRITICAL, HIGH, MEDIUM, LOW',
   `message` LONGTEXT NOT NULL,
   `created_datetime_utc` DATETIME NOT NULL,
-  `status` VARCHAR(32) NOT NULL COMMENT 'new, acknowledged, timeout',
+  `status` VARCHAR(32) NOT NULL COMMENT 'new, acknowledged, read',
   `reply` LONGTEXT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_web_messages_index_1` ON  `myems_fdd_db`.`tbl_web_messages`  (`user_id`, `status`, `created_datetime_utc`);

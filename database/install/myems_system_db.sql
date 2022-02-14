@@ -4,7 +4,7 @@
 -- Schema myems_system_db
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP DATABASE IF EXISTS `myems_system_db` ;
-CREATE DATABASE IF NOT EXISTS `myems_system_db` ;
+CREATE DATABASE IF NOT EXISTS `myems_system_db` CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' ;
 USE `myems_system_db` ;
 
 
@@ -1246,6 +1246,6 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '1.7.0', '2022-01-28');
+(1, '1.7.1', '2022-02-11');
 
 COMMIT;
