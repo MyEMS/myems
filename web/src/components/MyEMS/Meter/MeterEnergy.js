@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -13,7 +14,7 @@ import {
   Input,
   Label,
   CustomInput,
-  Spinner,
+  Spinner
 } from 'reactstrap';
 import CountUp from 'react-countup';
 import Datetime from 'react-datetime';
@@ -30,10 +31,10 @@ import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL } from '../../../config';
 import { periodTypeOptions } from '../common/PeriodTypeOptions';
 import { comparisonTypeOptions } from '../common/ComparisonTypeOptions';
-
+import DateTimeRangeContainer from 'react-advanced-datetimerange-picker';
+import { FormControl } from 'react-bootstrap';
 
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
-
 const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
   useEffect(() => {
@@ -64,11 +65,18 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
   const [selectedMeter, setSelectedMeter] = useState(undefined);
   const [comparisonType, setComparisonType] = useState('month-on-month');
   const [periodType, setPeriodType] = useState('daily');
-  const [basePeriodBeginsDatetime, setBasePeriodBeginsDatetime] = useState(current_moment.clone().subtract(1, 'months').startOf('month'));
+  const [basePeriodBeginsDatetime, setBasePeriodBeginsDatetime] = useState(
+    current_moment
+      .clone()
+      .subtract(1, 'months')
+      .startOf('month')
+  );
   const [basePeriodEndsDatetime, setBasePeriodEndsDatetime] = useState(current_moment.clone().subtract(1, 'months'));
   const [basePeriodBeginsDatetimeDisabled, setBasePeriodBeginsDatetimeDisabled] = useState(true);
   const [basePeriodEndsDatetimeDisabled, setBasePeriodEndsDatetimeDisabled] = useState(true);
-  const [reportingPeriodBeginsDatetime, setReportingPeriodBeginsDatetime] = useState(current_moment.clone().startOf('month'));
+  const [reportingPeriodBeginsDatetime, setReportingPeriodBeginsDatetime] = useState(
+    current_moment.clone().startOf('month')
+  );
   const [reportingPeriodEndsDatetime, setReportingPeriodEndsDatetime] = useState(current_moment);
   const [cascaderOptions, setCascaderOptions] = useState(undefined);
 
@@ -79,7 +87,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
 
   const [loading, setLoading] = useState(false);
   //Results
-  const [meterEnergyCategory, setMeterEnergyCategory] = useState({ 'name': '', 'unit': '' });
+  const [meterEnergyCategory, setMeterEnergyCategory] = useState({ name: '', unit: '' });
   const [reportingPeriodEnergyConsumptionInCategory, setReportingPeriodEnergyConsumptionInCategory] = useState(0);
   const [reportingPeriodEnergyConsumptionRate, setReportingPeriodEnergyConsumptionRate] = useState('');
   const [reportingPeriodEnergyConsumptionInTCE, setReportingPeriodEnergyConsumptionInTCE] = useState(0);
@@ -91,84 +99,112 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
   const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
   const [parameterLineChartData, setParameterLineChartData] = useState({});
   const [parameterLineChartLabels, setParameterLineChartLabels] = useState([]);
-  const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([{dataField: 'startdatetime', text: t('Datetime'), sort: true}]);
+  const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([
+    { dataField: 'startdatetime', text: t('Datetime'), sort: true }
+  ]);
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
+  const [local, setLocal] = useState({
+    format: 'MM/DD/YYYY HH:mm:ss A',
+    sundayFirst: false
+  });
+  const [ranges, setRanges] = useState({
+    'Today Only': [moment(reportingPeriodEndsDatetime).subtract('1','days'), moment(reportingPeriodEndsDatetime)],
+    'Yesterday Only': [
+      moment().subtract(2, 'days'),
+      moment().subtract(1, 'days')
+    ],
+    'Last 3 Days': [moment().subtract(3, 'days'), moment()],
+  });
 
   useEffect(() => {
     let isResponseOK = false;
     fetch(APIBaseURL + '/spaces/tree', {
       method: 'GET',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        Token: getCookieValue('token')
       },
-      body: null,
-
-    }).then(response => {
-      console.log(response);
-      if (response.ok) {
-        isResponseOK = true;
-      }
-      return response.json();
-    }).then(json => {
-      console.log(json);
-      if (isResponseOK) {
-        // rename keys 
-        json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
-        setCascaderOptions(json);
-        setSelectedSpaceName([json[0]].map(o => o.label));
-        setSelectedSpaceID([json[0]].map(o => o.value));
-        // get Meters by root Space ID
-        let isResponseOK = false;
-        fetch(APIBaseURL + '/spaces/' + [json[0]].map(o => o.value) + '/meters', {
-          method: 'GET',
-          headers: {
-            "Content-type": "application/json",
-            "User-UUID": getCookieValue('user_uuid'),
-            "Token": getCookieValue('token')
-          },
-          body: null,
-
-        }).then(response => {
-          if (response.ok) {
-            isResponseOK = true;
-          }
-          return response.json();
-        }).then(json => {
-          if (isResponseOK) {
-            json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
-            console.log(json);
-            setMeterList(json[0]);
-            setFilteredMeterList(json[0]);
-            if (json[0].length > 0) {
-              setSelectedMeter(json[0][0].value);
-              // enable submit button
-              setSubmitButtonDisabled(false);
-            } else {
-              setSelectedMeter(undefined);
-              // disable submit button
-              setSubmitButtonDisabled(true);
-            }
-          } else {
-            toast.error(json.description)
-          }
-        }).catch(err => {
-          console.log(err);
-        });
-        // end of get Meters by root Space ID
-      } else {
-        toast.error(json.description);
-      }
-    }).catch(err => {
-      console.log(err);
-    });
-
-  }, [t,]);
+      body: null
+    })
+      .then(response => {
+        console.log(response);
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        console.log(json);
+        if (isResponseOK) {
+          // rename keys
+          json = JSON.parse(
+            JSON.stringify([json])
+              .split('"id":')
+              .join('"value":')
+              .split('"name":')
+              .join('"label":')
+          );
+          setCascaderOptions(json);
+          setSelectedSpaceName([json[0]].map(o => o.label));
+          setSelectedSpaceID([json[0]].map(o => o.value));
+          // get Meters by root Space ID
+          let isResponseOK = false;
+          fetch(APIBaseURL + '/spaces/' + [json[0]].map(o => o.value) + '/meters', {
+            method: 'GET',
+            headers: {
+              'Content-type': 'application/json',
+              'User-UUID': getCookieValue('user_uuid'),
+              Token: getCookieValue('token')
+            },
+            body: null
+          })
+            .then(response => {
+              if (response.ok) {
+                isResponseOK = true;
+              }
+              return response.json();
+            })
+            .then(json => {
+              if (isResponseOK) {
+                json = JSON.parse(
+                  JSON.stringify([json])
+                    .split('"id":')
+                    .join('"value":')
+                    .split('"name":')
+                    .join('"label":')
+                );
+                console.log(json);
+                setMeterList(json[0]);
+                setFilteredMeterList(json[0]);
+                if (json[0].length > 0) {
+                  setSelectedMeter(json[0][0].value);
+                  // enable submit button
+                  setSubmitButtonDisabled(false);
+                } else {
+                  setSelectedMeter(undefined);
+                  // disable submit button
+                  setSubmitButtonDisabled(true);
+                }
+              } else {
+                toast.error(json.description);
+              }
+            })
+            .catch(err => {
+              console.log(err);
+            });
+          // end of get Meters by root Space ID
+        } else {
+          toast.error(json.description);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, [t]);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
-
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
@@ -178,39 +214,47 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
     fetch(APIBaseURL + '/spaces/' + value[value.length - 1] + '/meters', {
       method: 'GET',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        Token: getCookieValue('token')
       },
-      body: null,
-
-    }).then(response => {
-      if (response.ok) {
-        isResponseOK = true;
-      }
-      return response.json();
-    }).then(json => {
-      if (isResponseOK) {
-        json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
-        console.log(json)
-        setMeterList(json[0]);
-        setFilteredMeterList(json[0]);
-        if (json[0].length > 0) {
-          setSelectedMeter(json[0][0].value);
-          // enable submit button
-          setSubmitButtonDisabled(false);
-        } else {
-          setSelectedMeter(undefined);
-          // disable submit button
-          setSubmitButtonDisabled(true);
+      body: null
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
         }
-      } else {
-        toast.error(json.description)
-      }
-    }).catch(err => {
-      console.log(err);
-    });
-  }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          json = JSON.parse(
+            JSON.stringify([json])
+              .split('"id":')
+              .join('"value":')
+              .split('"name":')
+              .join('"label":')
+          );
+          console.log(json);
+          setMeterList(json[0]);
+          setFilteredMeterList(json[0]);
+          if (json[0].length > 0) {
+            setSelectedMeter(json[0][0].value);
+            // enable submit button
+            setSubmitButtonDisabled(false);
+          } else {
+            setSelectedMeter(undefined);
+            // disable submit button
+            setSubmitButtonDisabled(true);
+          }
+        } else {
+          toast.error(json.description);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   let onComparisonTypeChange = ({ target }) => {
     console.log(target.value);
@@ -238,9 +282,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
 
   const onSearchMeter = ({ target }) => {
     const keyword = target.value.toLowerCase();
-    const filteredResult = meterList.filter(
-      meter => meter.label.toLowerCase().includes(keyword)
-    );
+    const filteredResult = meterList.filter(meter => meter.label.toLowerCase().includes(keyword));
     setFilteredMeterList(keyword.length ? filteredResult : meterList);
     if (filteredResult.length > 0) {
       setSelectedMeter(filteredResult[0].value);
@@ -250,55 +292,38 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
       setSelectedMeter(undefined);
       // disable submit button
       setSubmitButtonDisabled(true);
-    };
+    }
   };
 
-  let onBasePeriodBeginsDatetimeChange = (newDateTime) => {
+  let onBasePeriodBeginsDatetimeChange = newDateTime => {
     setBasePeriodBeginsDatetime(newDateTime);
   };
 
-  let onBasePeriodEndsDatetimeChange = (newDateTime) => {
+  let onBasePeriodEndsDatetimeChange = newDateTime => {
     setBasePeriodEndsDatetime(newDateTime);
   };
 
-  let onReportingPeriodBeginsDatetimeChange = (newDateTime) => {
-    if(reportingPeriodEndsDatetime < newDateTime){
-      newDateTime = reportingPeriodBeginsDatetime;
-    }
-    setReportingPeriodBeginsDatetime(newDateTime);
+  let applyCallback = (startDate, endDate) => {
+    setReportingPeriodBeginsDatetime(startDate);
     if (comparisonType === 'year-over-year') {
-      setBasePeriodBeginsDatetime(newDateTime.clone().subtract(1, 'years'));
+      setBasePeriodBeginsDatetime(startDate.clone().subtract(1, 'years'));
     } else if (comparisonType === 'month-on-month') {
-      setBasePeriodBeginsDatetime(newDateTime.clone().subtract(1, 'months'));
+      setBasePeriodBeginsDatetime(startDate.clone().subtract(1, 'months'));
+    }
+    setReportingPeriodEndsDatetime(endDate);
+    if (comparisonType === 'year-over-year') {
+      setBasePeriodEndsDatetime(endDate.clone().subtract(1, 'years'));
+    } else if (comparisonType === 'month-on-month') {
+      setBasePeriodEndsDatetime(endDate.clone().subtract(1, 'months'));
     }
   };
 
-  let onReportingPeriodEndsDatetimeChange = (newDateTime) => {
-    if(reportingPeriodBeginsDatetime > newDateTime){
-      newDateTime = reportingPeriodEndsDatetime;
-    }
-    setReportingPeriodEndsDatetime(newDateTime);
-    if (comparisonType === 'year-over-year') {
-      setBasePeriodEndsDatetime(newDateTime.clone().subtract(1, 'years'));
-    } else if (comparisonType === 'month-on-month') {
-      setBasePeriodEndsDatetime(newDateTime.clone().subtract(1, 'months'));
-    }
-  };
-
-  var getValidBasePeriodBeginsDatetimes = function (currentDate) {
+  var getValidBasePeriodBeginsDatetimes = function(currentDate) {
     return currentDate.isBefore(moment(basePeriodEndsDatetime, 'MM/DD/YYYY, hh:mm:ss a'));
   };
 
-  var getValidBasePeriodEndsDatetimes = function (currentDate) {
+  var getValidBasePeriodEndsDatetimes = function(currentDate) {
     return currentDate.isAfter(moment(basePeriodBeginsDatetime, 'MM/DD/YYYY, hh:mm:ss a'));
-  };
-
-  var getValidReportingPeriodBeginsDatetimes = function (currentDate) {
-    return currentDate.isBefore(moment(reportingPeriodEndsDatetime, 'MM/DD/YYYY, hh:mm:ss a'));
-  };
-
-  var getValidReportingPeriodEndsDatetimes = function (currentDate) {
-    return currentDate.isAfter(moment(reportingPeriodBeginsDatetime, 'MM/DD/YYYY, hh:mm:ss a'));
   };
 
   // Handler
@@ -315,170 +340,188 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
     console.log(reportingPeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss'));
 
     // disable submit button
-    setSubmitButtonDisabled(true);  
+    setSubmitButtonDisabled(true);
     // show spinner
     setSpinnerHidden(false);
     // hide export button
-    setExportButtonHidden(true)
+    setExportButtonHidden(true);
 
     // Reinitialize tables
     setDetailedDataTableData([]);
 
     let isResponseOK = false;
-    fetch(APIBaseURL + '/reports/meterenergy?' +
-      'meterid=' + selectedMeter +
-      '&periodtype=' + periodType +
-      '&baseperiodstartdatetime=' + (basePeriodBeginsDatetime != null ? basePeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') : '') +
-      '&baseperiodenddatetime=' + (basePeriodEndsDatetime != null ? basePeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss') : '') +
-      '&reportingperiodstartdatetime=' + reportingPeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' + reportingPeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss'), {
-      method: 'GET',
-      headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
-      },
-      body: null,
-
-    }).then(response => {
-      if (response.ok) {
-        isResponseOK = true;
-      };
-      return response.json();
-    }).then(json => {
-      if (isResponseOK) {
-        console.log(json)
-        setMeterEnergyCategory({
-          'name': json['meter']['energy_category_name'],
-          'unit': json['meter']['unit_of_measure']
-        });
-        setReportingPeriodEnergyConsumptionRate(parseFloat(json['reporting_period']['increment_rate'] * 100).toFixed(2) + "%");
-        setReportingPeriodEnergyConsumptionInCategory(json['reporting_period']['total_in_category']);
-        setReportingPeriodEnergyConsumptionInTCE(json['reporting_period']['total_in_kgce'] / 1000);
-        setReportingPeriodEnergyConsumptionInCO2(json['reporting_period']['total_in_kgco2e'] / 1000);
-        setBasePeriodEnergyConsumptionInCategory(json['base_period']['total_in_category']);
-
-        let names = Array();
-        names.push({ 'value': 'a0', 'label': json['meter']['energy_category_name'] });
-        setMeterLineChartOptions(names);
-        
-        let timestamps = {}
-        timestamps['a0'] = json['reporting_period']['timestamps'];
-        setMeterLineChartLabels(timestamps);
-
-        let values = {'a0':[]}
-        json['reporting_period']['values'].forEach((currentValue, index) => {
-          values['a0'][index] = currentValue.toFixed(2);
-        });
-        setMeterLineChartData(values)
-
-        names = Array();
-        json['parameters']['names'].forEach((currentValue, index) => {
-          names.push({ 'value': 'a' + index, 'label': currentValue });
-        });
-        setParameterLineChartOptions(names);
-        
-        timestamps = {}
-        json['parameters']['timestamps'].forEach((currentValue, index) => {
-          timestamps['a' + index] = currentValue;
-        });
-        setParameterLineChartLabels(timestamps);
-
-        values = {}
-        json['parameters']['values'].forEach((currentValue, index) => {
-          values['a' + index] = currentValue;
-        });
-        setParameterLineChartData(values);
-
-        setDetailedDataTableColumns([{
-          dataField: 'startdatetime',
-          text: t('Datetime'),
-          sort: true
-        }, {
-          dataField: 'a0',
-          text: json['meter']['energy_category_name'] + ' (' + json['meter']['unit_of_measure'] + ')',
-          sort: true,
-          formatter: function (decimalValue) {
-            if (decimalValue !== null) {
-              return decimalValue.toFixed(2);
-            } else {
-              return null;
-            }
-          }
-        }]);
-
-        let detailed_value_list = [];
-        json['reporting_period']['timestamps'].forEach((currentTimestamp, timestampIndex) => {
-          let detailed_value = {};
-          detailed_value['id'] = timestampIndex;
-          detailed_value['startdatetime'] = currentTimestamp;
-          detailed_value['a0'] = json['reporting_period']['values'][timestampIndex];
-          detailed_value_list.push(detailed_value);
-        });
-        
-        let detailed_value = {};
-        detailed_value['id'] = detailed_value_list.length;
-        detailed_value['startdatetime'] = t('Total');
-        detailed_value['a0'] = json['reporting_period']['total_in_category'];
-        detailed_value_list.push(detailed_value);
-        setDetailedDataTableData(detailed_value_list);
-        
-        setExcelBytesBase64(json['excel_bytes_base64']);
-
-        // enable submit button
-        setSubmitButtonDisabled(false);
-        // hide spinner
-        setSpinnerHidden(true);
-        // show export button
-        setExportButtonHidden(false);
-        
-      } else {
-        toast.error(json.description)
+    fetch(
+      APIBaseURL +
+        '/reports/meterenergy?' +
+        'meterid=' +
+        selectedMeter +
+        '&periodtype=' +
+        periodType +
+        '&baseperiodstartdatetime=' +
+        (basePeriodBeginsDatetime != null ? basePeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') : '') +
+        '&baseperiodenddatetime=' +
+        (basePeriodEndsDatetime != null ? basePeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss') : '') +
+        '&reportingperiodstartdatetime=' +
+        reportingPeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+        '&reportingperiodenddatetime=' +
+        reportingPeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss'),
+      {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          Token: getCookieValue('token')
+        },
+        body: null
       }
-    }).catch(err => {
-      console.log(err);
-    });
+    )
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          console.log(json);
+          setMeterEnergyCategory({
+            name: json['meter']['energy_category_name'],
+            unit: json['meter']['unit_of_measure']
+          });
+          setReportingPeriodEnergyConsumptionRate(
+            parseFloat(json['reporting_period']['increment_rate'] * 100).toFixed(2) + '%'
+          );
+          setReportingPeriodEnergyConsumptionInCategory(json['reporting_period']['total_in_category']);
+          setReportingPeriodEnergyConsumptionInTCE(json['reporting_period']['total_in_kgce'] / 1000);
+          setReportingPeriodEnergyConsumptionInCO2(json['reporting_period']['total_in_kgco2e'] / 1000);
+          setBasePeriodEnergyConsumptionInCategory(json['base_period']['total_in_category']);
+
+          let names = Array();
+          names.push({ value: 'a0', label: json['meter']['energy_category_name'] });
+          setMeterLineChartOptions(names);
+
+          let timestamps = {};
+          timestamps['a0'] = json['reporting_period']['timestamps'];
+          setMeterLineChartLabels(timestamps);
+
+          let values = { a0: [] };
+          json['reporting_period']['values'].forEach((currentValue, index) => {
+            values['a0'][index] = currentValue.toFixed(2);
+          });
+          setMeterLineChartData(values);
+
+          names = Array();
+          json['parameters']['names'].forEach((currentValue, index) => {
+            names.push({ value: 'a' + index, label: currentValue });
+          });
+          setParameterLineChartOptions(names);
+
+          timestamps = {};
+          json['parameters']['timestamps'].forEach((currentValue, index) => {
+            timestamps['a' + index] = currentValue;
+          });
+          setParameterLineChartLabels(timestamps);
+
+          values = {};
+          json['parameters']['values'].forEach((currentValue, index) => {
+            values['a' + index] = currentValue;
+          });
+          setParameterLineChartData(values);
+
+          setDetailedDataTableColumns([
+            {
+              dataField: 'startdatetime',
+              text: t('Datetime'),
+              sort: true
+            },
+            {
+              dataField: 'a0',
+              text: json['meter']['energy_category_name'] + ' (' + json['meter']['unit_of_measure'] + ')',
+              sort: true,
+              formatter: function(decimalValue) {
+                if (decimalValue !== null) {
+                  return decimalValue.toFixed(2);
+                } else {
+                  return null;
+                }
+              }
+            }
+          ]);
+
+          let detailed_value_list = [];
+          json['reporting_period']['timestamps'].forEach((currentTimestamp, timestampIndex) => {
+            let detailed_value = {};
+            detailed_value['id'] = timestampIndex;
+            detailed_value['startdatetime'] = currentTimestamp;
+            detailed_value['a0'] = json['reporting_period']['values'][timestampIndex];
+            detailed_value_list.push(detailed_value);
+          });
+
+          let detailed_value = {};
+          detailed_value['id'] = detailed_value_list.length;
+          detailed_value['startdatetime'] = t('Total');
+          detailed_value['a0'] = json['reporting_period']['total_in_category'];
+          detailed_value_list.push(detailed_value);
+          setDetailedDataTableData(detailed_value_list);
+
+          setExcelBytesBase64(json['excel_bytes_base64']);
+
+          // enable submit button
+          setSubmitButtonDisabled(false);
+          // hide spinner
+          setSpinnerHidden(true);
+          // show export button
+          setExportButtonHidden(false);
+        } else {
+          toast.error(json.description);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   const handleExport = e => {
     e.preventDefault();
-    const mimeType='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    const fileName = 'meterenergy.xlsx'
-    var fileUrl = "data:" + mimeType + ";base64," + excelBytesBase64;
+    const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+    const fileName = 'meterenergy.xlsx';
+    var fileUrl = 'data:' + mimeType + ';base64,' + excelBytesBase64;
     fetch(fileUrl)
-        .then(response => response.blob())
-        .then(blob => {
-            var link = window.document.createElement("a");
-            link.href = window.URL.createObjectURL(blob, { type: mimeType });
-            link.download = fileName;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        });
+      .then(response => response.blob())
+      .then(blob => {
+        var link = window.document.createElement('a');
+        link.href = window.URL.createObjectURL(blob, { type: mimeType });
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
   };
-  
 
   return (
     <Fragment>
       <div>
         <Breadcrumb>
-          <BreadcrumbItem>{t('Meter Data')}</BreadcrumbItem><BreadcrumbItem active>{t('Meter Energy')}</BreadcrumbItem>
+          <BreadcrumbItem>{t('Meter Data')}</BreadcrumbItem>
+          <BreadcrumbItem active>{t('Meter Energy')}</BreadcrumbItem>
         </Breadcrumb>
       </div>
       <Card className="bg-light mb-3">
         <CardBody className="p-3">
           <Form onSubmit={handleSubmit}>
-            <Row form >
+            <Row form>
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="space">
                     {t('Space')}
                   </Label>
                   <br />
-                  <Cascader options={cascaderOptions}
+                  <Cascader
+                    options={cascaderOptions}
                     onChange={onSpaceCascaderChange}
                     changeOnSelect
-                    expandTrigger="hover">
+                    expandTrigger="hover"
+                  >
                     <Input value={selectedSpaceName || ''} readOnly />
                   </Cascader>
                 </FormGroup>
@@ -488,19 +531,21 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
                   <Label className={labelClasses} for="meterSelect">
                     {t('Meter')}
                   </Label>
-                  
                   <Form inline>
-                      <Input placeholder={t('Search')} onChange={onSearchMeter} />
-                      <CustomInput type="select" id="meterSelect" name="meterSelect" onChange={({ target }) => setSelectedMeter(target.value)}
-                      >
-                        {filteredMeterList.map((meter, index) => (
-                          <option value={meter.value} key={meter.value}>
-                            {meter.label}
-                          </option>
-                        ))}
-                      </CustomInput>
+                    <Input placeholder={t('Search')} onChange={onSearchMeter} />
+                    <CustomInput
+                      type="select"
+                      id="meterSelect"
+                      name="meterSelect"
+                      onChange={({ target }) => setSelectedMeter(target.value)}
+                    >
+                      {filteredMeterList.map((meter, index) => (
+                        <option value={meter.value} key={meter.value}>
+                          {meter.label}
+                        </option>
+                      ))}
+                    </CustomInput>
                   </Form>
-                  
                 </FormGroup>
               </Col>
               <Col xs="auto">
@@ -508,12 +553,15 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
                   <Label className={labelClasses} for="comparisonType">
                     {t('Comparison Types')}
                   </Label>
-                  <CustomInput type="select" id="comparisonType" name="comparisonType"
+                  <CustomInput
+                    type="select"
+                    id="comparisonType"
+                    name="comparisonType"
                     defaultValue="month-on-month"
                     onChange={onComparisonTypeChange}
                   >
                     {comparisonTypeOptions.map((comparisonType, index) => (
-                      <option value={comparisonType.value} key={comparisonType.value} >
+                      <option value={comparisonType.value} key={comparisonType.value}>
                         {t(comparisonType.label)}
                       </option>
                     ))}
@@ -525,10 +573,15 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
                   <Label className={labelClasses} for="periodType">
                     {t('Period Types')}
                   </Label>
-                  <CustomInput type="select" id="periodType" name="periodType" defaultValue="daily" onChange={({ target }) => setPeriodType(target.value)}
+                  <CustomInput
+                    type="select"
+                    id="periodType"
+                    name="periodType"
+                    defaultValue="daily"
+                    onChange={({ target }) => setPeriodType(target.value)}
                   >
                     {periodTypeOptions.map((periodType, index) => (
-                      <option value={periodType.value} key={periodType.value} >
+                      <option value={periodType.value} key={periodType.value}>
                         {t(periodType.label)}
                       </option>
                     ))}
@@ -538,116 +591,177 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="basePeriodBeginsDatetime">
-                    {t('Base Period Begins')}{t('(Optional)')}
+                    {t('Base Period Begins')}
+                    {t('(Optional)')}
                   </Label>
-                  <Datetime id='basePeriodBeginsDatetime'
+                  <Datetime
+                    id="basePeriodBeginsDatetime"
                     value={basePeriodBeginsDatetime}
                     inputProps={{ disabled: basePeriodBeginsDatetimeDisabled }}
                     onChange={onBasePeriodBeginsDatetimeChange}
                     isValidDate={getValidBasePeriodBeginsDatetimes}
-                    closeOnSelect={true} />
+                    closeOnSelect={true}
+                  />
                 </FormGroup>
               </Col>
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="basePeriodEndsDatetime">
-                    {t('Base Period Ends')}{t('(Optional)')}
+                    {t('Base Period Ends')}
+                    {t('(Optional)')}
                   </Label>
-                  <Datetime id='basePeriodEndsDatetime'
+                  <Datetime
+                    id="basePeriodEndsDatetime"
                     value={basePeriodEndsDatetime}
                     inputProps={{ disabled: basePeriodEndsDatetimeDisabled }}
                     onChange={onBasePeriodEndsDatetimeChange}
                     isValidDate={getValidBasePeriodEndsDatetimes}
-                    closeOnSelect={true} />
+                    closeOnSelect={true}
+                  />
                 </FormGroup>
               </Col>
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
-                  <Label className={labelClasses} for="reportingPeriodBeginsDatetime">
-                    {t('Reporting Period Begins')}
+                  <Label className={labelClasses}>
+                    {t('Reporting Period')}
                   </Label>
-                  <Datetime id='reportingPeriodBeginsDatetime'
-                    value={reportingPeriodBeginsDatetime}
-                    onChange={onReportingPeriodBeginsDatetimeChange}
-                    isValidDate={getValidReportingPeriodBeginsDatetimes}
-                    closeOnSelect={true} />
-                </FormGroup>
-              </Col>
-              <Col xs={6} sm={3}>
-                <FormGroup className="form-group">
-                  <Label className={labelClasses} for="reportingPeriodEndsDatetime">
-                    {t('Reporting Period Ends')}
-                  </Label>
-                  <Datetime id='reportingPeriodEndsDatetime'
-                    value={reportingPeriodEndsDatetime}
-                    onChange={onReportingPeriodEndsDatetimeChange}
-                    isValidDate={getValidReportingPeriodEndsDatetimes}
-                    closeOnSelect={true} />
+                  <DateTimeRangeContainer
+                    start={reportingPeriodBeginsDatetime}
+                    end={reportingPeriodEndsDatetime}
+                    local={local}
+                    twelveHoursClock={true}
+                    applyCallback={applyCallback}
+                    ranges={ranges}
+                  >
+                    <FormControl
+                      id="formControlsTextA"
+                      type="text"
+                      label="Text"
+                      value={reportingPeriodBeginsDatetime.format('DD/MM/YYYY HH:mm:ss A')  + " ~ " +
+                        reportingPeriodEndsDatetime.format('DD/MM/YYYY HH:mm:ss A')
+                      }
+                    />
+                  </DateTimeRangeContainer>
                 </FormGroup>
               </Col>
               <Col xs="auto">
                 <FormGroup>
-                  <br></br>
+                  <br />
                   <ButtonGroup id="submit">
-                    <Button color="success" disabled={submitButtonDisabled} >{t('Submit')}</Button>
+                    <Button color="success" disabled={submitButtonDisabled}>
+                      {t('Submit')}
+                    </Button>
                   </ButtonGroup>
                 </FormGroup>
               </Col>
               <Col xs="auto">
                 <FormGroup>
-                  <br></br>
-                  <Spinner color="primary" hidden={spinnerHidden}  />
+                  <br />
+                  <Spinner color="primary" hidden={spinnerHidden} />
                 </FormGroup>
               </Col>
               <Col xs="auto">
-                  <br></br>
-                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default" 
+                <br />
+                <ButtonIcon
+                  icon="external-link-alt"
+                  transform="shrink-3 down-2"
+                  color="falcon-default"
                   hidden={exportButtonHidden}
-                  onClick={handleExport} >
-                    {t('Export')}
-                  </ButtonIcon>
+                  onClick={handleExport}
+                >
+                  {t('Export')}
+                </ButtonIcon>
               </Col>
             </Row>
           </Form>
         </CardBody>
       </Card>
       <Fragment>
-
         <div className="card-deck">
-
-          <CardSummary rate={reportingPeriodEnergyConsumptionRate} title={t('Reporting Period Consumption CATEGORY UNIT', { 'CATEGORY': meterEnergyCategory['name'], 'UNIT': '(' + meterEnergyCategory['unit'] + ')' })}
-            color="success"  >
-            <CountUp end={reportingPeriodEnergyConsumptionInCategory} duration={2} prefix="" separator="," decimals={2} decimal="." />
+          <CardSummary
+            rate={reportingPeriodEnergyConsumptionRate}
+            title={t('Reporting Period Consumption CATEGORY UNIT', {
+              CATEGORY: meterEnergyCategory['name'],
+              UNIT: '(' + meterEnergyCategory['unit'] + ')'
+            })}
+            color="success"
+          >
+            <CountUp
+              end={reportingPeriodEnergyConsumptionInCategory}
+              duration={2}
+              prefix=""
+              separator=","
+              decimals={2}
+              decimal="."
+            />
           </CardSummary>
 
-          <CardSummary rate={reportingPeriodEnergyConsumptionRate} title={t('Reporting Period Consumption CATEGORY UNIT', { 'CATEGORY': t('Ton of Standard Coal'), 'UNIT': '(TCE)' })}
-            color="warning" >
-            <CountUp end={reportingPeriodEnergyConsumptionInTCE} duration={2} prefix="" separator="," decimal="." decimals={2} />
+          <CardSummary
+            rate={reportingPeriodEnergyConsumptionRate}
+            title={t('Reporting Period Consumption CATEGORY UNIT', {
+              CATEGORY: t('Ton of Standard Coal'),
+              UNIT: '(TCE)'
+            })}
+            color="warning"
+          >
+            <CountUp
+              end={reportingPeriodEnergyConsumptionInTCE}
+              duration={2}
+              prefix=""
+              separator=","
+              decimal="."
+              decimals={2}
+            />
           </CardSummary>
-          <CardSummary rate={reportingPeriodEnergyConsumptionRate} title={t('Reporting Period Consumption CATEGORY UNIT', { 'CATEGORY': t('Ton of Carbon Dioxide Emissions'), 'UNIT': '(T)' })}
-            color="warning" >
-            <CountUp end={reportingPeriodEnergyConsumptionInCO2} duration={2} prefix="" separator="," decimal="." decimals={2} />
+          <CardSummary
+            rate={reportingPeriodEnergyConsumptionRate}
+            title={t('Reporting Period Consumption CATEGORY UNIT', {
+              CATEGORY: t('Ton of Carbon Dioxide Emissions'),
+              UNIT: '(T)'
+            })}
+            color="warning"
+          >
+            <CountUp
+              end={reportingPeriodEnergyConsumptionInCO2}
+              duration={2}
+              prefix=""
+              separator=","
+              decimal="."
+              decimals={2}
+            />
           </CardSummary>
-
         </div>
 
-        <LineChart reportingTitle={t('Reporting Period Consumption CATEGORY VALUE UNIT', { 'CATEGORY': meterEnergyCategory['name'], 'VALUE': reportingPeriodEnergyConsumptionInCategory.toFixed(2), 'UNIT': '(' + meterEnergyCategory['unit'] + ')' })}
-          baseTitle={t('Base Period Consumption CATEGORY VALUE UNIT', { 'CATEGORY': meterEnergyCategory['name'], 'VALUE': basePeriodEnergyConsumptionInCategory.toFixed(2), 'UNIT': '(' + meterEnergyCategory['unit'] + ')' })}
+        <LineChart
+          reportingTitle={t('Reporting Period Consumption CATEGORY VALUE UNIT', {
+            CATEGORY: meterEnergyCategory['name'],
+            VALUE: reportingPeriodEnergyConsumptionInCategory.toFixed(2),
+            UNIT: '(' + meterEnergyCategory['unit'] + ')'
+          })}
+          baseTitle={t('Base Period Consumption CATEGORY VALUE UNIT', {
+            CATEGORY: meterEnergyCategory['name'],
+            VALUE: basePeriodEnergyConsumptionInCategory.toFixed(2),
+            UNIT: '(' + meterEnergyCategory['unit'] + ')'
+          })}
           labels={meterLineChartLabels}
           data={meterLineChartData}
-          options={meterLineChartOptions}>
-        </LineChart>
+          options={meterLineChartOptions}
+        />
 
-        <LineChart reportingTitle={t('Related Parameters')}
-          baseTitle=''
+        <LineChart
+          reportingTitle={t('Related Parameters')}
+          baseTitle=""
           labels={parameterLineChartLabels}
           data={parameterLineChartData}
-          options={parameterLineChartOptions}>
-        </LineChart>
+          options={parameterLineChartOptions}
+        />
         <br />
-        <DetailedDataTable data={detailedDataTableData} title={t('Detailed Data')} columns={detailedDataTableColumns} pagesize={50} >
-        </DetailedDataTable>
-
+        <DetailedDataTable
+          data={detailedDataTableData}
+          title={t('Detailed Data')}
+          columns={detailedDataTableColumns}
+          pagesize={50}
+        />
       </Fragment>
     </Fragment>
   );
