@@ -265,13 +265,13 @@ class WebMessageStatusNewCollection:
         status = str.strip(new_values['data']['status'])
 
         # reply is required for 'acknowledged' status
-        if status == 'acknowledged' and \
-                ('reply' not in new_values['data'].keys() or
-                 not isinstance(new_values['data']['reply'], str) or
-                 len(str.strip(new_values['data']['reply'])) == 0):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_REPLY')
-            reply = str.strip(new_values['data']['reply'])
+        if status == 'acknowledged':
+            if 'reply' not in new_values['data'].keys() or \
+                    not isinstance(new_values['data']['reply'], str) or \
+                    len(str.strip(new_values['data']['reply'])) == 0:
+                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_REPLY')
+            else:
+                reply = str.strip(new_values['data']['reply'])
         else:
             reply = None
 
@@ -485,13 +485,13 @@ class WebMessageItem:
         status = str.strip(new_values['data']['status'])
 
         # reply is required for 'acknowledged' status
-        if status == 'acknowledged' and \
-            ('reply' not in new_values['data'].keys() or
-                not isinstance(new_values['data']['reply'], str) or
-                len(str.strip(new_values['data']['reply'])) == 0):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_REPLY')
-            reply = str.strip(new_values['data']['reply'])
+        if status == 'acknowledged':
+            if 'reply' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['reply'], str) or \
+                    len(str.strip(new_values['data']['reply'])) == 0:
+                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_REPLY')
+            else:
+                reply = str.strip(new_values['data']['reply'])
         else:
             reply = None
 
