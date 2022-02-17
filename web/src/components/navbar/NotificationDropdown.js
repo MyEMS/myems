@@ -42,7 +42,7 @@ const NotificationDropdown = ({ t }) => {
       }).then(json => {
         console.log(json)
       if (isResponseOK) {
-        let NewnotificationList = []
+        let NewNotificationList = []
         if (json.length > 0) {
               json.forEach((currentValue, index) => {
                 let notification = {}
@@ -52,19 +52,19 @@ const NotificationDropdown = ({ t }) => {
                 notification['message'] = json[index]['message'];
                 notification['created_datetime'] = moment(parseInt(json[index]['created_datetime']))
                     .format("YYYY-MM-DD HH:mm:ss");
-                if (NewnotificationList.length > 3 ){
+                if (NewNotificationList.length > 3 ){
                     return true
                 }
                 if (notification['message'].length > 40){
                   notification['message'] = notification['message'].substring(0,30) + "...";
                 }
                 if (notification["status"] === "new"){
-                  NewnotificationList.push(notification);
+                  NewNotificationList.push(notification);
                 }
 
               });
             }
-        setRawNewNotificationschild(NewnotificationList);
+        setRawNewNotificationschild(NewNotificationList);
       }
     }).catch(err => {
       console.log(err);
@@ -126,7 +126,7 @@ const NotificationDropdown = ({ t }) => {
           }).then(json => {
             console.log(json)
           if (isResponseOK) {
-            let NewnotificationList = []
+            let NewNotificationList = []
             if (json.length > 0) {
                   json.forEach((currentValue, index) => {
                     let notification = {}
@@ -136,19 +136,19 @@ const NotificationDropdown = ({ t }) => {
                     notification['message'] = json[index]['message'];
                     notification['created_datetime'] = moment(parseInt(json[index]['created_datetime']))
                         .format("YYYY-MM-DD HH:mm:ss");
-                    if (NewnotificationList.length > 3 ){
+                    if (NewNotificationList.length > 3 ){
                         return true
                     }
                     if (notification['message'].length > 40){
                       notification['message'] = notification['message'].substring(0,30) + "...";
                     }
                     if (notification["status"] === "new"){
-                      NewnotificationList.push(notification);
+                      NewNotificationList.push(notification);
                     }
 
                   });
                 }
-            setRawNewNotificationschild(NewnotificationList);
+            setRawNewNotificationschild(NewNotificationList);
           }
         }).catch(err => {
           console.log(err);
