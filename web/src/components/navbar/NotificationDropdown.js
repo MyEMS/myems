@@ -42,7 +42,7 @@ const NotificationDropdown = ({ t }) => {
       }).then(json => {
         console.log(json)
       if (isResponseOK) {
-        let NewnotificationList = []
+        let NewNotificationList = []
         if (json.length > 0) {
               json.forEach((currentValue, index) => {
                 let notification = {}
@@ -52,19 +52,19 @@ const NotificationDropdown = ({ t }) => {
                 notification['message'] = json[index]['message'];
                 notification['created_datetime'] = moment(parseInt(json[index]['created_datetime']))
                     .format("YYYY-MM-DD HH:mm:ss");
-                if (NewnotificationList.length > 3 ){
+                if (NewNotificationList.length > 3 ){
                     return true
                 }
                 if (notification['message'].length > 40){
                   notification['message'] = notification['message'].substring(0,30) + "...";
                 }
                 if (notification["status"] === "new"){
-                  NewnotificationList.push(notification);
+                  NewNotificationList.push(notification);
                 }
 
               });
             }
-        setRawNewNotificationschild(NewnotificationList);
+        setRawNewNotificationschild(NewNotificationList);
       }
     }).catch(err => {
       console.log(err);
@@ -83,10 +83,9 @@ const NotificationDropdown = ({ t }) => {
 
   const markAsRead = e => {
     e.preventDefault();
-    rawNewNotificationschild.map((notification,index) => {
-      console.log('Mark As Read: ', notification["id"])
-      let isResponseOK = false;
-      fetch(APIBaseURL + '/webmessages/' + notification["id"], {
+
+    let isResponseOK = false;
+    fetch(APIBaseURL + '/webmessagesnew', {
       method: 'PUT',
       headers: {
         "Content-type": "application/json",
@@ -108,14 +107,58 @@ const NotificationDropdown = ({ t }) => {
     }).then(json => {
       console.log(isResponseOK);
       if (isResponseOK) {
+        let isResponseOK = false;
+        fetch(APIBaseURL + '/webmessagesnew', {
+          method: 'GET',
+          headers: {
+            "Content-type": "application/json",
+            "User-UUID": getCookieValue('user_uuid'),
+            "Token": getCookieValue('token')
+          },
+          body: null,
 
+        }).then(response => {
+          console.log(response);
+          if (response.ok) {
+            isResponseOK = true;
+          }
+          return response.json();
+          }).then(json => {
+            console.log(json)
+          if (isResponseOK) {
+            let NewNotificationList = []
+            if (json.length > 0) {
+                  json.forEach((currentValue, index) => {
+                    let notification = {}
+                    notification['id'] = json[index]['id'];
+                    notification['status'] = json[index]['status'];
+                    notification['subject'] = json[index]['subject']
+                    notification['message'] = json[index]['message'];
+                    notification['created_datetime'] = moment(parseInt(json[index]['created_datetime']))
+                        .format("YYYY-MM-DD HH:mm:ss");
+                    if (NewNotificationList.length > 3 ){
+                        return true
+                    }
+                    if (notification['message'].length > 40){
+                      notification['message'] = notification['message'].substring(0,30) + "...";
+                    }
+                    if (notification["status"] === "new"){
+                      NewNotificationList.push(notification);
+                    }
+
+                  });
+                }
+            setRawNewNotificationschild(NewNotificationList);
+          }
+        }).catch(err => {
+          console.log(err);
+        });
       } else {
         toast.error(json.description)
       }
     }).catch(err => {
       console.log(err);
     });
-  });
   };
 
 
