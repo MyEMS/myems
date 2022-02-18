@@ -63,7 +63,9 @@ const NotificationDropdown = ({ t }) => {
                 }
 
               });
-            }
+            }else {
+          setIsAllRead(true);
+        }
         setRawNewNotificationschild(NewNotificationList);
       }
     }).catch(err => {
@@ -147,7 +149,9 @@ const NotificationDropdown = ({ t }) => {
                     }
 
                   });
-                }
+                }else {
+              setIsAllRead(true);
+            }
             setRawNewNotificationschild(NewNotificationList);
           }
         }).catch(err => {
