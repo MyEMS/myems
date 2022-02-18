@@ -31,8 +31,7 @@ import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL } from '../../../config';
 import { periodTypeOptions } from '../common/PeriodTypeOptions';
 import { comparisonTypeOptions } from '../common/ComparisonTypeOptions';
-import DateTimeRangeContainer from 'react-advanced-datetimerange-picker';
-import { FormControl } from 'react-bootstrap';
+import { DateRangePicker } from 'rsuite';
 
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
@@ -104,18 +103,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
   ]);
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
-  const [local, setLocal] = useState({
-    format: 'MM/DD/YYYY HH:mm:ss A',
-    sundayFirst: false
-  });
-  const [ranges, setRanges] = useState({
-    'Today Only': [moment(reportingPeriodEndsDatetime).subtract('1','days'), moment(reportingPeriodEndsDatetime)],
-    'Yesterday Only': [
-      moment().subtract(2, 'days'),
-      moment().subtract(1, 'days')
-    ],
-    'Last 3 Days': [moment().subtract(3, 'days'), moment()],
-  });
+  const [values, setValues] = useState([reportingPeriodBeginsDatetime.toDate(), reportingPeriodEndsDatetime.toDate()]);
 
   useEffect(() => {
     let isResponseOK = false;
@@ -303,7 +291,10 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
     setBasePeriodEndsDatetime(newDateTime);
   };
 
-  let applyCallback = (startDate, endDate) => {
+  let onChange = (DateRange) => {
+    let startDate = moment(DateRange[0]);
+    let endDate = moment(DateRange[1]);
+    setValues([DateRange[0], DateRange[1]]);
     setReportingPeriodBeginsDatetime(startDate);
     if (comparisonType === 'year-over-year') {
       setBasePeriodBeginsDatetime(startDate.clone().subtract(1, 'years'));
@@ -316,6 +307,10 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
     } else if (comparisonType === 'month-on-month') {
       setBasePeriodEndsDatetime(endDate.clone().subtract(1, 'months'));
     }
+  };
+
+  let onClean = event => {
+    setValues([]);
   };
 
   var getValidBasePeriodBeginsDatetimes = function(currentDate) {
@@ -622,26 +617,17 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
-                  <Label className={labelClasses}>
-                    {t('Reporting Period')}
-                  </Label>
-                  <DateTimeRangeContainer
-                    start={reportingPeriodBeginsDatetime}
-                    end={reportingPeriodEndsDatetime}
-                    local={local}
-                    twelveHoursClock={true}
-                    applyCallback={applyCallback}
-                    ranges={ranges}
-                  >
-                    <FormControl
-                      id="formControlsTextA"
-                      type="text"
-                      label="Text"
-                      value={reportingPeriodBeginsDatetime.format('DD/MM/YYYY HH:mm:ss A')  + " ~ " +
-                        reportingPeriodEndsDatetime.format('DD/MM/YYYY HH:mm:ss A')
-                      }
-                    />
-                  </DateTimeRangeContainer>
+                  <Label className={labelClasses}>{t('Reporting Period')}</Label>
+                  <br/>
+                  <DateRangePicker
+                    format="MM/dd/yyyy hh:mm:ss aa"
+                    value={values}
+                    size="sm"
+                    onChange={onChange}
+                    showMeridian
+                    placeholder="Select Date Range"
+                    onClean={onClean}
+                  />
                 </FormGroup>
               </Col>
               <Col xs="auto">
