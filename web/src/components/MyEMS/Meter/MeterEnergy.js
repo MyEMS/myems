@@ -568,7 +568,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
                   <Label className={labelClasses}>{t('Reporting Period')}</Label>
                   <br/>
                   <DateRangePicker
-                    format="MM/dd/yyyy hh:mm:ss aa"
+                    format="MM/dd/yyyy hh:mm aa"
                     value={values}
                     size="sm"
                     onChange={onChange}
