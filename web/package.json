@@ -74,7 +74,8 @@
     "react-typed": "^1.2.0",
     "reactstrap": "^8.6.0",
     "slick-carousel": "^1.8.1",
-    "uuid": "^3.4.0"
+    "uuid": "^3.4.0",
+    "rsuite": "^5.6.1"
   },
   "scripts": {
     "start": "react-scripts --openssl-legacy-provider start",

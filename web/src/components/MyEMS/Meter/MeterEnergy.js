@@ -30,6 +30,7 @@ import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL } from '../../../config';
 import { periodTypeOptions } from '../common/PeriodTypeOptions';
 import { comparisonTypeOptions } from '../common/ComparisonTypeOptions';
+import { DateRangePicker } from 'rsuite';
 
 
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
@@ -94,6 +95,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([{dataField: 'startdatetime', text: t('Datetime'), sort: true}]);
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
+  const [values, setValues] = useState([reportingPeriodBeginsDatetime.toDate(), reportingPeriodEndsDatetime.toDate()]);
 
   useEffect(() => {
     let isResponseOK = false;
@@ -115,7 +117,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       console.log(json);
       if (isResponseOK) {
-        // rename keys 
+        // rename keys
         json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
         setCascaderOptions(json);
         setSelectedSpaceName([json[0]].map(o => o.label));
@@ -261,22 +263,26 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
     setBasePeriodEndsDatetime(newDateTime);
   };
 
-  let onReportingPeriodBeginsDatetimeChange = (newDateTime) => {
-    setReportingPeriodBeginsDatetime(newDateTime);
+  let onChange = (DateRange) => {
+    let startDate = moment(DateRange[0]);
+    let endDate = moment(DateRange[1]);
+    setValues([DateRange[0], DateRange[1]]);
+    setReportingPeriodBeginsDatetime(startDate);
     if (comparisonType === 'year-over-year') {
-      setBasePeriodBeginsDatetime(newDateTime.clone().subtract(1, 'years'));
+      setBasePeriodBeginsDatetime(startDate.clone().subtract(1, 'years'));
     } else if (comparisonType === 'month-on-month') {
-      setBasePeriodBeginsDatetime(newDateTime.clone().subtract(1, 'months'));
+      setBasePeriodBeginsDatetime(startDate.clone().subtract(1, 'months'));
+    }
+    setReportingPeriodEndsDatetime(endDate);
+    if (comparisonType === 'year-over-year') {
+      setBasePeriodEndsDatetime(endDate.clone().subtract(1, 'years'));
+    } else if (comparisonType === 'month-on-month') {
+      setBasePeriodEndsDatetime(endDate.clone().subtract(1, 'months'));
     }
   };
 
-  let onReportingPeriodEndsDatetimeChange = (newDateTime) => {
-    setReportingPeriodEndsDatetime(newDateTime);
-    if (comparisonType === 'year-over-year') {
-      setBasePeriodEndsDatetime(newDateTime.clone().subtract(1, 'years'));
-    } else if (comparisonType === 'month-on-month') {
-      setBasePeriodEndsDatetime(newDateTime.clone().subtract(1, 'months'));
-    }
+  let onClean = event => {
+    setValues([]);
   };
 
   var getValidBasePeriodBeginsDatetimes = function (currentDate) {
@@ -309,7 +315,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
     console.log(reportingPeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss'));
 
     // disable submit button
-    setSubmitButtonDisabled(true);  
+    setSubmitButtonDisabled(true);
     // show spinner
     setSpinnerHidden(false);
     // hide export button
@@ -355,7 +361,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
         let names = Array();
         names.push({ 'value': 'a0', 'label': json['meter']['energy_category_name'] });
         setMeterLineChartOptions(names);
-        
+
         let timestamps = {}
         timestamps['a0'] = json['reporting_period']['timestamps'];
         setMeterLineChartLabels(timestamps);
@@ -371,7 +377,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
           names.push({ 'value': 'a' + index, 'label': currentValue });
         });
         setParameterLineChartOptions(names);
-        
+
         timestamps = {}
         json['parameters']['timestamps'].forEach((currentValue, index) => {
           timestamps['a' + index] = currentValue;
@@ -409,14 +415,14 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
           detailed_value['a0'] = json['reporting_period']['values'][timestampIndex];
           detailed_value_list.push(detailed_value);
         });
-        
+
         let detailed_value = {};
         detailed_value['id'] = detailed_value_list.length;
         detailed_value['startdatetime'] = t('Total');
         detailed_value['a0'] = json['reporting_period']['total_in_category'];
         detailed_value_list.push(detailed_value);
         setDetailedDataTableData(detailed_value_list);
-        
+
         setExcelBytesBase64(json['excel_bytes_base64']);
 
         // enable submit button
@@ -425,7 +431,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
         setSpinnerHidden(true);
         // show export button
         setExportButtonHidden(false);
-        
+
       } else {
         toast.error(json.description)
         setSpinnerHidden(true);
@@ -452,7 +458,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
             document.body.removeChild(link);
         });
   };
-  
+
 
   return (
     <Fragment>
@@ -484,7 +490,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
                   <Label className={labelClasses} for="meterSelect">
                     {t('Meter')}
                   </Label>
-                  
+
                   <Form inline>
                       <Input placeholder={t('Search')} onChange={onSearchMeter} />
                       <CustomInput type="select" id="meterSelect" name="meterSelect" onChange={({ target }) => setSelectedMeter(target.value)}
@@ -496,7 +502,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
                         ))}
                       </CustomInput>
                   </Form>
-                  
+
                 </FormGroup>
               </Col>
               <Col xs="auto">
@@ -559,26 +565,17 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
-                  <Label className={labelClasses} for="reportingPeriodBeginsDatetime">
-                    {t('Reporting Period Begins')}
-                  </Label>
-                  <Datetime id='reportingPeriodBeginsDatetime'
-                    value={reportingPeriodBeginsDatetime}
-                    onChange={onReportingPeriodBeginsDatetimeChange}
-                    isValidDate={getValidReportingPeriodBeginsDatetimes}
-                    closeOnSelect={true} />
-                </FormGroup>
-              </Col>
-              <Col xs={6} sm={3}>
-                <FormGroup className="form-group">
-                  <Label className={labelClasses} for="reportingPeriodEndsDatetime">
-                    {t('Reporting Period Ends')}
-                  </Label>
-                  <Datetime id='reportingPeriodEndsDatetime'
-                    value={reportingPeriodEndsDatetime}
-                    onChange={onReportingPeriodEndsDatetimeChange}
-                    isValidDate={getValidReportingPeriodEndsDatetimes}
-                    closeOnSelect={true} />
+                  <Label className={labelClasses}>{t('Reporting Period')}</Label>
+                  <br/>
+                  <DateRangePicker
+                    format="MM/dd/yyyy hh:mm aa"
+                    value={values}
+                    size="sm"
+                    onChange={onChange}
+                    showMeridian
+                    placeholder="Select Date Range"
+                    onClean={onClean}
+                  />
                 </FormGroup>
               </Col>
               <Col xs="auto">
@@ -597,7 +594,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                   <br></br>
-                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default" 
+                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
                   hidden={exportButtonHidden}
                   onClick={handleExport} >
                     {t('Export')}
