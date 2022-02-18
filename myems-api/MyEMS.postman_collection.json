@@ -9656,6 +9656,74 @@
 							"response": []
 						},
 						{
+							"name": "PUT Update All New Web Messages (Mark All As Read)",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "597881540b33791a032b95aa48e0de098dc95ec0b813edd8a92cee87ee5eed1b8db7856a047ed06324c333bf2c98f0c7613e346ae25d1bcae3994f30b4562dfb",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"status\":\"read\"}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/webmessagesnew",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"webmessagesnew"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Update All New Web Messages (Acknowledge All)",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "597881540b33791a032b95aa48e0de098dc95ec0b813edd8a92cee87ee5eed1b8db7856a047ed06324c333bf2c98f0c7613e346ae25d1bcae3994f30b4562dfb",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"status\":\"acknowledged\", \"reply\":\"OK\"}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/webmessagesnew",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"webmessagesnew"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "GET a Web Message by ID",
 							"request": {
 								"method": "GET",

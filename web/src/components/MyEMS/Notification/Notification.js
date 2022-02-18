@@ -273,7 +273,49 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       console.log(isResponseOK);
       if (isResponseOK) {
-        
+        let isResponseOK = false;
+        fetch(APIBaseURL + '/webmessages?' +
+            'startdatetime=' + startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+            '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss'), {
+          method: 'GET',
+          headers: {
+            "Content-type": "application/json",
+            "User-UUID": getCookieValue('user_uuid'),
+            "Token": getCookieValue('token')
+          },
+          body: null,
+
+        }).then(response => {
+          if (response.ok) {
+            isResponseOK = true;
+          }
+          return response.json();
+        }).then(json => {
+          if (isResponseOK) {
+            console.log(json);
+            setFetchSuccess(true);
+
+            let notificationList = []
+
+            if (json.length > 0) {
+              json.forEach((currentValue, index) => {
+                let notification = {}
+                notification['id'] = json[index]['id'];
+                notification['subject'] = json[index]['subject'];
+                notification['created_datetime'] = moment(parseInt(json[index]['created_datetime']))
+                    .format("YYYY-MM-DD HH:mm:ss");
+                notification['message'] = json[index]['message'];
+                notification['status'] = json[index]['status'];
+                notification['url'] = json[index]['url'];
+
+                notificationList.push(notification);
+              });
+            }
+
+            setNotifications(notificationList);
+            setSpinnerHidden(true);
+          }
+        });
       } else {
         toast.error(json.description)
       }
@@ -308,7 +350,49 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       console.log(isResponseOK);
       if (isResponseOK) {
+        let isResponseOK = false;
+        fetch(APIBaseURL + '/webmessages?' +
+            'startdatetime=' + startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+            '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss'), {
+          method: 'GET',
+          headers: {
+            "Content-type": "application/json",
+            "User-UUID": getCookieValue('user_uuid'),
+            "Token": getCookieValue('token')
+          },
+          body: null,
 
+        }).then(response => {
+          if (response.ok) {
+            isResponseOK = true;
+          }
+          return response.json();
+        }).then(json => {
+          if (isResponseOK) {
+            console.log(json);
+            setFetchSuccess(true);
+
+            let notificationList = []
+
+            if (json.length > 0) {
+              json.forEach((currentValue, index) => {
+                let notification = {}
+                notification['id'] = json[index]['id'];
+                notification['subject'] = json[index]['subject'];
+                notification['created_datetime'] = moment(parseInt(json[index]['created_datetime']))
+                    .format("YYYY-MM-DD HH:mm:ss");
+                notification['message'] = json[index]['message'];
+                notification['status'] = json[index]['status'];
+                notification['url'] = json[index]['url'];
+
+                notificationList.push(notification);
+              });
+            }
+
+            setNotifications(notificationList);
+            setSpinnerHidden(true);
+          }
+        });
       } else {
         toast.error(json.description)
       }
@@ -338,7 +422,49 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       console.log(isResponseOK);
       if (isResponseOK) {
+        let isResponseOK = false;
+        fetch(APIBaseURL + '/webmessages?' +
+            'startdatetime=' + startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+            '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss'), {
+          method: 'GET',
+          headers: {
+            "Content-type": "application/json",
+            "User-UUID": getCookieValue('user_uuid'),
+            "Token": getCookieValue('token')
+          },
+          body: null,
 
+        }).then(response => {
+          if (response.ok) {
+            isResponseOK = true;
+          }
+          return response.json();
+        }).then(json => {
+          if (isResponseOK) {
+            console.log(json);
+            setFetchSuccess(true);
+
+            let notificationList = []
+
+            if (json.length > 0) {
+              json.forEach((currentValue, index) => {
+                let notification = {}
+                notification['id'] = json[index]['id'];
+                notification['subject'] = json[index]['subject'];
+                notification['created_datetime'] = moment(parseInt(json[index]['created_datetime']))
+                    .format("YYYY-MM-DD HH:mm:ss");
+                notification['message'] = json[index]['message'];
+                notification['status'] = json[index]['status'];
+                notification['url'] = json[index]['url'];
+
+                notificationList.push(notification);
+              });
+            }
+
+            setNotifications(notificationList);
+            setSpinnerHidden(true);
+          }
+        });
       } else {
         toast.error(json.description)
       }
