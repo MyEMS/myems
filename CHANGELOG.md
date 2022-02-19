@@ -16,6 +16,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
+## [v1.7.2] -   2022-02-19
+### Added
+- added default character set and collate to database
+- added Mark All As Read action to notification
+
+### Changed
+- updated docker-compose guide
+- added DateRangePicker to MeterEnergy report in Web UI
+
+### Fixed
+- updated Notification of Web UI
+
+### Removed
+-   None.
+
 ## [v1.7.1] -   2022-02-11
 ### Added
 - added myems_carbon_db to recalculating script
@@ -690,7 +705,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v1.7.1...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v1.7.2...HEAD
+[v1.7.2]: https://github.com/MyEMS/myems/compare/v1.7.1...v1.7.2
 [v1.7.1]: https://github.com/MyEMS/myems/compare/v1.7.0...v1.7.1
 [v1.7.0]: https://github.com/MyEMS/myems/compare/v1.6.1...v1.7.0
 [v1.6.1]: https://github.com/MyEMS/myems/compare/v1.6.0...v1.6.1
