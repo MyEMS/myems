@@ -413,7 +413,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
         {lastYearInputCardSummaryList.map(cardSummaryItem => (
           <CardSummary key={uuid()}
             rate={cardSummaryItem['increment_rate']}
-            title={t("Last Year's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': cardSummaryItem['name'], 'VALUE': null, 'UNIT': '(' + cardSummaryItem['unit'] + ')' })}
+            title={t("Consumption CATEGORY VALUE UNIT in The Same Period Last Year", { 'CATEGORY': cardSummaryItem['name'], 'VALUE': null, 'UNIT': '(' + cardSummaryItem['unit'] + ')' })}
             color="success"
             footnote={t('Per Unit Area')}
             footvalue={cardSummaryItem['subtotal_per_unit_area']}
@@ -424,7 +424,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
         {lastYearCostCardSummaryList.map(cardSummaryItem => (
           <CardSummary key={uuid()}
             rate={cardSummaryItem['increment_rate']}
-            title={t("Last Year's Costs CATEGORY VALUE UNIT", { 'CATEGORY': cardSummaryItem['name'], 'VALUE': null, 'UNIT': '(' + cardSummaryItem['unit'] + ')' })}
+            title={t("Costs CATEGORY VALUE UNIT in The Same Period Last Year", { 'CATEGORY': cardSummaryItem['name'], 'VALUE': null, 'UNIT': '(' + cardSummaryItem['unit'] + ')' })}
             color="success"
             footnote={t('Per Unit Area')}
             footvalue={cardSummaryItem['subtotal_per_unit_area']}

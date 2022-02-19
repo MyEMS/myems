@@ -62,8 +62,8 @@ const resources = {
         'An Industry Leading Open Source Energy Management System',
       "This Year's Consumption CATEGORY VALUE UNIT": "This Year's Consumption {{CATEGORY}} {{VALUE}} {{UNIT}}",
       "This Year's Costs CATEGORY VALUE UNIT": "This Year's Costs {{CATEGORY}} {{VALUE}} {{UNIT}}",
-      "Last Year's Consumption CATEGORY VALUE UNIT": "Last Year's Consumption {{CATEGORY}} {{VALUE}} {{UNIT}}",
-      "Last Year's Costs CATEGORY VALUE UNIT": "Last Year's Costs {{CATEGORY}} {{VALUE}} {{UNIT}}",
+      "Consumption CATEGORY VALUE UNIT in The Same Period Last Year": "Consumption {{CATEGORY}} {{VALUE}} {{UNIT}}  in The Same Period Last Year",
+      "Costs CATEGORY VALUE UNIT in The Same Period Last Year": "Costs {{CATEGORY}} {{VALUE}} {{UNIT}} in The Same Period Last Year",
       // Entities
       'Space': 'Space',
       'Equipment': 'Equipment',
@@ -841,8 +841,8 @@ const resources = {
       'An Industry Leading Open Source Energy Management System': 'Ein branchenführendes Open Source Energie Management System',
       "This Year's Consumption CATEGORY VALUE UNIT": 'Der Verbrauch Dieses Jahr {{CATEGORY}} {{VALUE}} {{UNIT}}',
       "This Year's Costs CATEGORY VALUE UNIT": 'Der Kosten Dieses Jahr {{CATEGORY}} {{VALUE}} {{UNIT}}',
-      "Last Year's Consumption CATEGORY VALUE UNIT": 'Der Verbrauch Letztes Jahr {{CATEGORY}} {{VALUE}} {{UNIT}}',
-      "Last Year's Costs CATEGORY VALUE UNIT": 'Der Kosten Letztes Jahr {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      "Consumption CATEGORY VALUE UNIT in The Same Period Last Year": 'Der Verbrauch {{CATEGORY}} {{VALUE}} {{UNIT}} im gleichen Zeitraum im vergangenen Jahr',
+      "Costs CATEGORY VALUE UNIT in The Same Period Last Year": 'Der Kosten {{CATEGORY}} {{VALUE}} {{UNIT}} im gleichen Zeitraum im vergangenen Jahr',
       // Entities
       'Space': 'Platz',
       'Equipment': 'Ausrüstung',
@@ -1631,8 +1631,8 @@ const resources = {
       'An Industry Leading Open Source Energy Management System': '行业领先的开源能源管理系统',
       "This Year's Consumption CATEGORY VALUE UNIT": '本年消耗 {{CATEGORY}} {{VALUE}} {{UNIT}}',
       "This Year's Costs CATEGORY VALUE UNIT": '本年成本 {{CATEGORY}} {{VALUE}} {{UNIT}}',
-      "Last Year's Consumption CATEGORY VALUE UNIT": '去年消耗 {{CATEGORY}} {{VALUE}} {{UNIT}}',
-      "Last Year's Costs CATEGORY VALUE UNIT": '去年成本 {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      "Consumption CATEGORY VALUE UNIT in The Same Period Last Year": '去年同期消耗 {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      "Costs CATEGORY VALUE UNIT in The Same Period Last Year": '去年同期成本 {{CATEGORY}} {{VALUE}} {{UNIT}}',
       // Entities
       'Space': '空间',
       'Equipment': '设备',

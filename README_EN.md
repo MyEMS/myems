@@ -26,7 +26,7 @@ Using open source to help achieve carbon peak carbon neutrality goals.
 ![MyEMS Architecture Site View](/docs/images/architecture-site-view-en.png)
 
 
-## MyEMS Screenshot
+## MyEMS UI Presentation
 
 ![MyEMS Space EnergyCategory1](/docs/images/myems-space-energycategory1.gif)
 
