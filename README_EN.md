@@ -214,9 +214,9 @@ administrator@myems.io
 
 See [Docker Compose Repaid Deployment](docker-compose-en.md)
 
-## MyEMS Roadmap
+## MyEMS Project Management
 
-[Community Edition Roadmap](https://github.com/orgs/MyEMS/projects)
+[Community Edition Roadmap](https://github.com/orgs/MyEMS/projects?type=beta)
 
 ## QQ Group
 
