@@ -46,7 +46,7 @@ npm run scss
 *   Starting the Development Server
 A local web server will start at http://localhost:3000.
 We are using webpack and webpack-serve to automatically detect file changes. So, if you edit and save a file, your browser will automatically refresh and preview the change.
-```
+```bash
 npm start
 ```
 
