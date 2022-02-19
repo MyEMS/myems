@@ -217,9 +217,9 @@ administrator@myems.io
 
 
 
-## MyEMS路线图
+## MyEMS项目管理
 
-[社区版路线图](https://github.com/orgs/MyEMS/projects)
+[社区版路线图](https://github.com/orgs/MyEMS/projects?type=beta)
 
 ## QQ交流群
 

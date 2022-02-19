@@ -212,9 +212,9 @@ administrator@myems.io
 
 Sehen [Docker Compose Schnelle Bereitstellung](docker-compose-de.md)
 
-## MyEMS Straßenkarte
+## MyEMS Projektmanagement
 
-[Community Edition Straßenkarte](https://github.com/orgs/MyEMS/projects)
+[Community Edition Straßenkarte](https://github.com/orgs/MyEMS/projects?type=beta)
 
 ## QQ Group
 
