@@ -64,6 +64,7 @@ Verwendung von Open Source, um die Ziele der CO2-Peak-Kohlenstoffneutralität zu
 | Data Comparison                  | ✔️             | Jahr für Jahr, Monat für Monat, Freier Vergleich, Kein Vergleich |
 | Excel Exporter                   | ✔️             | Echte Excel-Datei, keine CSV-Datei, Tabellen, Liniendiagramme, Säulendiagramme, Kreisdiagramme |
 | Meter/Energy Data                | ✔️             | Cascade select Space, Multiple Compare Types, Multiple Period Types, Reporting Period Total Consumption, Base Period Total Consumption, Reporting Period Ton of Standard Coal, Reporting Period Ton of Carbon Dioxide Emissions, Reporting Period Trend, Related Parameters Data, Detailed Data, Export to Excel |
+| Meter/Carbon Dioxide Emissions Data | ✔️          |                      |
 | Meter/Cost Data                  | ✔️             |                      |
 | Meter/Trend Data                 | ✔️             |                      |
 | Meter/Realtime Data              | ✔️             |                      |
@@ -71,6 +72,7 @@ Verwendung von Open Source, um die Ziele der CO2-Peak-Kohlenstoffneutralität zu
 | Meter/Offline Meter Energy Data  | ✔️             |                      |
 | Meter/Offline Meter Cost Data    | ✔️             |                      |
 | Meter/Virtual Meter Energy Data  | ✔️             |                      |
+| Meter/Virtual Meter Carbon Dioxide Emissions Data | ✔ |                    |
 | Meter/Virtual Meter Cost Data    | ✔️             |                      |
 | Meter/Meter Tracking             | ✔️             |                      |
 | Space/Energy Category Data       | ✔️             |                      |
