@@ -358,6 +358,7 @@ export const meterRoutes = {
   icon: 'chart-pie',
   children: [
     { to: '/meter/meterenergy', name: 'Meter Energy' },
+    { to: '/meter/metercarbon', name: 'Meter Carbon' },
     { to: '/meter/metercost', name: 'Meter Cost' },
     { to: '/meter/metertrend', name: 'Meter Trend' },
     { to: '/meter/meterrealtime', name: 'Meter Realtime' },
@@ -448,7 +449,7 @@ export const auxiliarySystemRoutes = {
 export const fddRoutes = {
   name: 'Fault Detection & Diagnostics',
   to: '/fdd',
-  icon: 'chart-pie',
+  icon: 'bell',
   children: [
     { to: '/fdd/space', name: 'Space Faults Data' },
     { to: '/fdd/equipment', name: 'Equipment Faults Data' },

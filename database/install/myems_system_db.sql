@@ -431,6 +431,7 @@ VALUES
 (309,'Offline Meter Cost','/meter/offlinemetercost',300,0),
 (310,'Batch Analysis','/meter/batch',300,0),
 (311,'Meter Tracking','/meter/tracking',300,0),
+(312,'Meter Carbon','/meter/metercarbon',300,0),
 (400,'Tenant Data','/tenant',NULL,0),
 (401,'Energy Category Data','/tenant/energycategory',400,0),
 (402,'Energy Item Data','/tenant/energyitem',400,0),
