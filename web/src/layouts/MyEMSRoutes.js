@@ -126,6 +126,7 @@ import EquipmentStatistics from '../components/MyEMS/Equipment/EquipmentStatisti
 import EquipmentTracking from '../components/MyEMS/Equipment/EquipmentTracking';
 // Meter
 import MeterBatch from '../components/MyEMS/Meter/MeterBatch';
+import MeterCarbon from '../components/MyEMS/Meter/MeterCarbon';
 import MeterCost from '../components/MyEMS/Meter/MeterCost';
 import MeterEnergy from '../components/MyEMS/Meter/MeterEnergy';
 import MeterRealtime from '../components/MyEMS/Meter/MeterRealtime';
@@ -365,6 +366,7 @@ const MyEMSRoutes = () => (
     {/*Meter*/}
     <Route path="/meter/batch" exact component={MeterBatch} />
     <Route path="/meter/meterenergy" exact component={MeterEnergy} />
+    <Route path="/meter/metercarbon" exact component={MeterCarbon} />
     <Route path="/meter/metercost" exact component={MeterCost} />
     <Route path="/meter/metertrend" exact component={MeterTrend} />
     <Route path="/meter/meterrealtime" exact component={MeterRealtime} />
