@@ -946,12 +946,13 @@ class MeterPointCollection:
             ponit_ids = cursor.fetchall()
 
             if rows is not None:
-                for row1 in rows:
-                    if row1 in ponit_ids:
-                        cursor.close()
-                        cnx.disconnect()
-                        raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
-                                               description='API.POINT_OBJECT_TYPE_IS_ALREADY_IN_USE')
+                if ponit_ids is not None:
+                    for row1 in rows:
+                        if row1 in ponit_ids:
+                            cursor.close()
+                            cnx.disconnect()
+                            raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
+                                                   description='API.POINT_OBJECT_TYPE_IS_ALREADY_IN_USE')
 
         query = (" SELECT id " 
                  " FROM tbl_meters_points "
