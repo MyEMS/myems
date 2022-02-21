@@ -939,18 +939,19 @@ class MeterPointCollection:
                      " WHERE meter_id = %s")
             cursor.execute(query, (id_,))
             rows = cursor.fetchall()
+
+            cursor.execute(" SELECT id "
+                           " FROM tbl_points "
+                           " WHERE object_type = %s ", ('ENERGY_VALUE',))
+            ponit_ids = cursor.fetchall()
+
             if rows is not None:
                 for row1 in rows:
-                    cursor.execute(" SELECT object_type "
-                                   " FROM tbl_points "
-                                   " WHERE id = %s ", (row1[0],))
-                    row = cursor.fetchone()
-                    if row is not None:
-                        if row[0] == 'ENERGY_VALUE':
-                            cursor.close()
-                            cnx.disconnect()
-                            raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
-                                                   description='API.POINT_OBJECT_TYPE_IS_ALREADY_IN_USE')
+                    if row1 in ponit_ids:
+                        cursor.close()
+                        cnx.disconnect()
+                        raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
+                                               description='API.POINT_OBJECT_TYPE_IS_ALREADY_IN_USE')
 
         query = (" SELECT id " 
                  " FROM tbl_meters_points "
