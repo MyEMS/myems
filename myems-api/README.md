@@ -45,20 +45,6 @@ chmod +x run.sh
 
 In this section, you will install myems-api on Docker.
 
-* Copy source code to root directory
-
-On Windows:
-```bash
-cp -r myems/myems-api c:\
-cd c:\myems-api
-```
-
-On Linux:
-```bash
-cp -r myems/myems-api /
-cd /myems-api
-```
-
 * Duplicate example.env file as .env file and modify the .env file
 Replace ~~127.0.0.1~~ with real **HOST** IP address.
 ```bash
@@ -66,9 +52,21 @@ cp example.env .env
 ```
 
 * Build a Docker image
+
+On Windows:
 ```bash
+cp -r myems/myems-api c:\
+cd c:\myems-api
 docker build -t myems/myems-api .
 ```
+
+On Linux:
+```bash
+cp -r myems/myems-api /
+cd /myems-api
+docker build -t myems/myems-api .
+```
+
 * Run a Docker container
 On Windows host, bind-mount a share upload folder at c:\myems-upload to the container, 
  and also bind-mount the .env to the container:

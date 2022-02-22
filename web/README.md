@@ -73,27 +73,45 @@ nano nginx.conf
 ```bash
 npm i --unsafe-perm=true --allow-root --legacy-peer-deps
 ```
+
 * Build for production with NPM
 ```bash
 npm run build
 ```
+
 * Build a Docker image
+
+On Windows:
 ```bash
-cd myems/web
+cp -r myems/web c:\myems-web
+cd c:\myems-web
 docker build -t myems/myems-web .
 ```
-* Run a Docker container
+
+On Linux:
 ```bash
-docker run -dp 80:80 --restart always --name myems-web myems/myems-web
+cp -r myems/web /myems-web
+cd /myems-web
+docker build -t myems/myems-web .
 ```
 
--d		Run container in background and print container ID
+* Run a Docker container
+If run on Windows host, bind-mount nginx.conf to the container
+```bash
+docker run -d -p 80:80 -v c:\myems-web/nginx.conf:/etc/nginx/nginx.conf --restart always --name myems-web myems/myems-web
+```
+If run on Linux host, bind-mount nginx.conf 
+```bash
+docker run -d -p 80:80 -v /myems-web/nginx.conf:/etc/nginx/nginx.conf --restart always --name myems-web myems/myems-web
+```
 
--p		Publish a container's port(s) to the host, 8001:8001 (Host:Container) binds port 8001 (right)  of the container to TCP port 8001 (left) of the host machine.
+-d Run container in background and print container ID
 
---restart	Restart policy to apply when a container exits
+-p Publish a container's port(s) to the host, 80:80 (Host:Container) binds port 80 (right)  of the container to TCP port 80 (left) of the host machine.
 
---name		Assign a name to the container
+--restart Restart policy to apply when a container exits
+
+--name Assign a name to the container
 
 If you want to immigrate the image to another computer,
 * Export image to tarball file
