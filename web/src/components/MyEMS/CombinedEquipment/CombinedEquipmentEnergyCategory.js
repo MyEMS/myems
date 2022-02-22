@@ -485,7 +485,7 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
             text: currentValue + ' (' + unit + ')',
             sort: true,
             formatter: function (decimalValue) {
-              if (decimalValue !== null) {
+              if (typeof decimalValue === 'number') {
                 return decimalValue.toFixed(2);
               } else {
                 return null;
@@ -523,7 +523,7 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
             text: currentValue + ' (' + unit + ')',
             sort: true,
             formatter: function (decimalValue) {
-              if (decimalValue !== null) {
+              if (typeof decimalValue === 'number') {
                 return decimalValue.toFixed(2);
               } else {
                 return null;

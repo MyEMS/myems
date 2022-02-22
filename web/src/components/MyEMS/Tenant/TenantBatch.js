@@ -207,7 +207,7 @@ const TenantBatch = ({ setRedirect, setRedirectUrl, t }) => {
             text: currentValue['name'] + ' (' + currentValue['unit_of_measure'] + ')',
             sort: true,
             formatter: function (decimalValue) {
-              if (decimalValue !== null) {
+              if (typeof decimalValue === 'number') {
                 return decimalValue.toFixed(2);
               } else {
                 return null;
@@ -218,7 +218,7 @@ const TenantBatch = ({ setRedirect, setRedirectUrl, t }) => {
             text: currentValue['name'] + ' ' + t('Maximum Load') + ' (' + currentValue['unit_of_measure'] + ')',
             sort: true,
             formatter: function (decimalValue) {
-              if (decimalValue !== null) {
+              if (typeof decimalValue === 'number') {
                 return decimalValue.toFixed(2);
               } else {
                 return null;

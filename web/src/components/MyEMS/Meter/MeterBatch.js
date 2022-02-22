@@ -179,7 +179,7 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
             detailed_value['space'] = currentMeter['space_name'];
             detailed_value['costcenter'] = currentMeter['cost_center_name'];
             currentMeter['values'].forEach((currentValue, energyCategoryIndex) => {
-              if (currentValue !== null) {
+              if (typeof currentValue === 'number') {
                 detailed_value['a' + energyCategoryIndex] = currentValue;
               } else {
                 detailed_value['a' + energyCategoryIndex] = null;
@@ -209,7 +209,7 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
             text: currentValue['name'] + ' (' + currentValue['unit_of_measure'] + ')',
             sort: true,
             formatter: function (decimalValue) {
-              if (decimalValue !== null) {
+              if (typeof decimalValue === 'number') {
                 return decimalValue.toFixed(2);
               } else {
                 return null;

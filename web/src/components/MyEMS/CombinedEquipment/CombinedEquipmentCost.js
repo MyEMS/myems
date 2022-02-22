@@ -472,7 +472,7 @@ const CombinedEquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
             text: currentValue + ' (' + unit + ')',
             sort: true,
             formatter: function (decimalValue) {
-              if (decimalValue !== null) {
+              if (typeof decimalValue === 'number') {
                 return decimalValue.toFixed(2);
               } else {
                 return null;
@@ -485,7 +485,7 @@ const CombinedEquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
           text: t('Total') + ' (' + json['reporting_period']['total_unit'] + ')',
           sort: true,
           formatter: function (decimalValue) {
-            if (decimalValue !== null) {
+            if (typeof decimalValue === 'number') {
               return decimalValue.toFixed(2);
             } else {
               return null;
@@ -525,7 +525,7 @@ const CombinedEquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
             text: currentValue + ' (' + unit + ')',
             sort: true,
             formatter: function (decimalValue) {
-              if (decimalValue !== null) {
+              if (typeof decimalValue === 'number') {
                 return decimalValue.toFixed(2);
               } else {
                 return null;
@@ -538,7 +538,7 @@ const CombinedEquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
           text: t('Total') + ' (' + json['associated_equipment']['total_unit'] + ')',
           sort: true,
           formatter: function (decimalValue) {
-            if (decimalValue !== null) {
+            if (typeof decimalValue === 'number') {
               return decimalValue.toFixed(2);
             } else {
               return null;
