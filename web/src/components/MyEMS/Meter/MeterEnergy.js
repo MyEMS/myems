@@ -399,7 +399,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
           text: json['meter']['energy_category_name'] + ' (' + json['meter']['unit_of_measure'] + ')',
           sort: true,
           formatter: function (decimalValue) {
-            if (decimalValue !== null) {
+            if (typeof decimalValue === 'number') {
               return decimalValue.toFixed(2);
             } else {
               return null;
