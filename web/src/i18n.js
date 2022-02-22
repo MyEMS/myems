@@ -786,7 +786,21 @@ const resources = {
       'API.VIRTUAL_POINT_SHOULD_BE_ANALOG_VALUE': 'Virtual point should be analog value',
       'API.WEB_MESSAGE_NOT_FOUND': 'Web message not found',
       'API.WECHAT_MESSAGE_NOT_FOUND': 'Wechat message not found',
-
+      //DateRangePicker
+      'sunday': 'Su',
+      'monday': 'Mo',
+      'tuesday': 'Tu',
+      'wednesday': 'We',
+      'thursday': 'Th',
+      'friday': 'Fr',
+      'saturday': 'Sa',
+      'ok': 'OK',
+      'today': 'Today',
+      'yesterday': 'Yesterday',
+      'hours': 'Hours',
+      'minutes': 'Minutes',
+      'seconds': 'Seconds',
+      'last7Days': 'Last 7 Days'
     }
   },
   de: {
@@ -1582,6 +1596,21 @@ const resources = {
       'API.VIRTUAL_POINT_SHOULD_BE_ANALOG_VALUE': 'Virtual point should be analog value',
       'API.WEB_MESSAGE_NOT_FOUND': 'Web message not found',
       'API.WECHAT_MESSAGE_NOT_FOUND': 'Wechat message not found',
+      //DateRangePicker
+      'sunday': 'So',
+      'monday': 'Mo',
+      'tuesday': 'Di',
+      'wednesday': 'Mi',
+      'thursday': 'Do',
+      'friday': 'Fr',
+      'saturday': 'Sa',
+      'ok': 'OKAY',
+      'today': 'Heute',
+      'yesterday': 'Gestern',
+      'hours': 'Stunden',
+      'minutes': 'Protokoll',
+      'seconds': 'Nachschlag',
+      'last7Days': 'Letzte 7 Tage'
     }
   },
   zh_CN: {
@@ -2349,7 +2378,22 @@ const resources = {
       'API.VIRTUAL_METER_OF_VARIABLE_NOT_FOUND': 'Virtual meter of variable not found',
       'API.VIRTUAL_POINT_SHOULD_BE_ANALOG_VALUE': 'Virtual point should be analog value',
       'API.WEB_MESSAGE_NOT_FOUND': 'Web message not found',
-      'API.WECHAT_MESSAGE_NOT_FOUND': 'Wechat message not found'
+      'API.WECHAT_MESSAGE_NOT_FOUND': 'Wechat message not found',
+      //DateRangePicker
+      'sunday': '日',
+      'monday': '一',
+      'tuesday': '二',
+      'wednesday': '三',
+      'thursday': '四',
+      'friday': '五',
+      'saturday': '六',
+      'ok': '确定',
+      'today': '今天',
+      'yesterday': '昨天',
+      'hours': '时',
+      'minutes': '分',
+      'seconds': '秒',
+      'last7Days': '最近七天',
     }
   }
 };

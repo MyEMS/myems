@@ -67,8 +67,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
   const [periodType, setPeriodType] = useState('daily');
   const [basePeriodBeginsDatetime, setBasePeriodBeginsDatetime] = useState(current_moment.clone().subtract(1, 'months').startOf('month'));
   const [basePeriodEndsDatetime, setBasePeriodEndsDatetime] = useState(current_moment.clone().subtract(1, 'months'));
-  const [basePeriodBeginsDatetimeDisabled, setBasePeriodBeginsDatetimeDisabled] = useState(true);
-  const [basePeriodEndsDatetimeDisabled, setBasePeriodEndsDatetimeDisabled] = useState(true);
+  const [basePeriodDatetimeDisabled, setBasePeriodDatetimeDisabled] = useState(true);
   const [reportingPeriodBeginsDatetime, setReportingPeriodBeginsDatetime] = useState(current_moment.clone().startOf('month'));
   const [reportingPeriodEndsDatetime, setReportingPeriodEndsDatetime] = useState(current_moment);
   const [cascaderOptions, setCascaderOptions] = useState(undefined);
@@ -96,6 +95,24 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
   const [values, setValues] = useState([reportingPeriodBeginsDatetime.toDate(), reportingPeriodEndsDatetime.toDate()]);
+  const [baseValues, setBaseValues] = useState([basePeriodBeginsDatetime.toDate(), basePeriodEndsDatetime.toDate()]);
+  const local = {
+    sunday: t('sunday'),
+    monday: t('monday'),
+    tuesday: t('tuesday'),
+    wednesday: t('wednesday'),
+    thursday: t('thursday'),
+    friday: t('friday'),
+    saturday: t('friday'),
+    ok: t('ok'),
+    today: t('today'),
+    yesterday: t('yesterday'),
+    hours: t('hours'),
+    minutes: t('minutes'),
+    seconds: t('seconds'),
+    last7Days: t('last7Days')
+  };
+  const styles = { display: 'block', zIndex: 10};
 
   useEffect(() => {
     let isResponseOK = false;
@@ -218,24 +235,21 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
     console.log(target.value);
     setComparisonType(target.value);
     if (target.value === 'year-over-year') {
-      setBasePeriodBeginsDatetimeDisabled(true);
-      setBasePeriodEndsDatetimeDisabled(true);
+      setBasePeriodDatetimeDisabled(true);
       setBasePeriodBeginsDatetime(moment(reportingPeriodBeginsDatetime).subtract(1, 'years'));
       setBasePeriodEndsDatetime(moment(reportingPeriodEndsDatetime).subtract(1, 'years'));
     } else if (target.value === 'month-on-month') {
-      setBasePeriodBeginsDatetimeDisabled(true);
-      setBasePeriodEndsDatetimeDisabled(true);
+      setBasePeriodDatetimeDisabled(true);
       setBasePeriodBeginsDatetime(moment(reportingPeriodBeginsDatetime).subtract(1, 'months'));
       setBasePeriodEndsDatetime(moment(reportingPeriodEndsDatetime).subtract(1, 'months'));
     } else if (target.value === 'free-comparison') {
-      setBasePeriodBeginsDatetimeDisabled(false);
-      setBasePeriodEndsDatetimeDisabled(false);
+      setBasePeriodDatetimeDisabled(true);
     } else if (target.value === 'none-comparison') {
       setBasePeriodBeginsDatetime(undefined);
       setBasePeriodEndsDatetime(undefined);
-      setBasePeriodBeginsDatetimeDisabled(true);
-      setBasePeriodEndsDatetimeDisabled(true);
+      setBasePeriodDatetimeDisabled(true);
     }
+    setBaseValues([basePeriodBeginsDatetime.toDate(), basePeriodEndsDatetime.toDate()]);
   };
 
   const onSearchMeter = ({ target }) => {
@@ -255,12 +269,12 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
     };
   };
 
-  let onBasePeriodBeginsDatetimeChange = (newDateTime) => {
-    setBasePeriodBeginsDatetime(newDateTime);
-  };
-
-  let onBasePeriodEndsDatetimeChange = (newDateTime) => {
-    setBasePeriodEndsDatetime(newDateTime);
+  let onBasePeriodChange = (DateRange) => {
+    let startDate = moment(DateRange[0]);
+    let endDate = moment(DateRange[1]);
+    setValues([DateRange[0], DateRange[1]]);
+    setReportingPeriodBeginsDatetime(startDate);
+    setReportingPeriodEndsDatetime(endDate);
   };
 
   let onChange = (DateRange) => {
@@ -279,26 +293,15 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
     } else if (comparisonType === 'month-on-month') {
       setBasePeriodEndsDatetime(endDate.clone().subtract(1, 'months'));
     }
+    setBaseValues([basePeriodBeginsDatetime.toDate(), basePeriodEndsDatetime.toDate()]);
   };
 
   let onClean = event => {
     setValues([]);
   };
 
-  var getValidBasePeriodBeginsDatetimes = function (currentDate) {
-    return currentDate.isBefore(moment(basePeriodEndsDatetime, 'MM/DD/YYYY, hh:mm:ss a'));
-  };
-
-  var getValidBasePeriodEndsDatetimes = function (currentDate) {
-    return currentDate.isAfter(moment(basePeriodBeginsDatetime, 'MM/DD/YYYY, hh:mm:ss a'));
-  };
-
-  var getValidReportingPeriodBeginsDatetimes = function (currentDate) {
-    return currentDate.isBefore(moment(reportingPeriodEndsDatetime, 'MM/DD/YYYY, hh:mm:ss a'));
-  };
-
-  var getValidReportingPeriodEndsDatetimes = function (currentDate) {
-    return currentDate.isAfter(moment(reportingPeriodBeginsDatetime, 'MM/DD/YYYY, hh:mm:ss a'));
+  let onBaseClean = event => {
+    setValues([]);
   };
 
   // Handler
@@ -540,27 +543,19 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="basePeriodBeginsDatetime">
-                    {t('Base Period Begins')}{t('(Optional)')}
+                    {t('Base Period')}{t('(Optional)')}
                   </Label>
-                  <Datetime id='basePeriodBeginsDatetime'
-                    value={basePeriodBeginsDatetime}
-                    inputProps={{ disabled: basePeriodBeginsDatetimeDisabled }}
-                    onChange={onBasePeriodBeginsDatetimeChange}
-                    isValidDate={getValidBasePeriodBeginsDatetimes}
-                    closeOnSelect={true} />
-                </FormGroup>
-              </Col>
-              <Col xs={6} sm={3}>
-                <FormGroup className="form-group">
-                  <Label className={labelClasses} for="basePeriodEndsDatetime">
-                    {t('Base Period Ends')}{t('(Optional)')}
-                  </Label>
-                  <Datetime id='basePeriodEndsDatetime'
-                    value={basePeriodEndsDatetime}
-                    inputProps={{ disabled: basePeriodEndsDatetimeDisabled }}
-                    onChange={onBasePeriodEndsDatetimeChange}
-                    isValidDate={getValidBasePeriodEndsDatetimes}
-                    closeOnSelect={true} />
+                  <DateRangePicker
+                    readOnly={basePeriodDatetimeDisabled}
+                    format="MM/dd/yyyy hh:mm aa"
+                    value={baseValues}
+                    onChange={onBasePeriodChange}
+                    size="md"
+                    style={styles}
+                    onClean={onBaseClean}
+                    locale={local}
+                    showMeridian
+                   />
                 </FormGroup>
               </Col>
               <Col xs={6} sm={3}>
@@ -570,17 +565,19 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
                   <DateRangePicker
                     format="MM/dd/yyyy hh:mm aa"
                     value={values}
-                    size="sm"
+                    size="md"
+                    style={styles}
                     onChange={onChange}
                     showMeridian
                     placeholder="Select Date Range"
                     onClean={onClean}
+                    locale={local}
                   />
                 </FormGroup>
               </Col>
               <Col xs="auto">
                 <FormGroup>
-                  <br></br>
+                  <br/>
                   <ButtonGroup id="submit">
                     <Button color="success" disabled={submitButtonDisabled} >{t('Submit')}</Button>
                   </ButtonGroup>
