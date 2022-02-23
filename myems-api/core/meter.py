@@ -933,18 +933,17 @@ class MeterPointCollection:
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
-        if row[1] == 'ENERGY_VALUE':
-            query = (" SELECT tmp.id,tmp.meter_id,tmp.point_id,tp.object_type "
-                     " FROM tbl_meters_points tmp "
-                     " LEFT JOIN tbl_points tp ON tmp.point_id = tp.id"
-                     " WHERE tmp.meter_id = %s AND tp.object_type = %s")
-            cursor.execute(query, (id_, 'ENERGY_VALUE',))
-            rows = cursor.fetchall()
-            if rows is not None:
+        elif row[1] == 'ENERGY_VALUE':
+            query = (" SELECT p.id "
+                     " FROM tbl_meters_points mp, tbl_points p "
+                     " WHERE mp.meter_id = %s AND mp.point_id = p.id AND p.object_type = 'ENERGY_VALUE' ")
+            cursor.execute(query, (id_,))
+            rows_points = cursor.fetchall()
+            if rows_points is not None and len(rows_points) > 0:
                 cursor.close()
                 cnx.disconnect()
                 raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
-                                       description='API.POINT_OBJECT_TYPE_IS_ALREADY_IN_USE')
+                                       description='API.METER_CANNOT_HAVE_MORE_THAN_ONE_ENERGY_VALUE_POINTS')
 
         query = (" SELECT id " 
                  " FROM tbl_meters_points "
