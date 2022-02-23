@@ -942,7 +942,7 @@ class MeterPointCollection:
             if rows_points is not None and len(rows_points) > 0:
                 cursor.close()
                 cnx.disconnect()
-                raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
                                        description='API.METER_CANNOT_HAVE_MORE_THAN_ONE_ENERGY_VALUE_POINTS')
 
         query = (" SELECT id " 
