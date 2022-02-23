@@ -334,38 +334,63 @@ class Reporting:
                 virtual_meter_dict[row[0]] = {'id': row[1], 'name': row[2], 'unit': row[3]}
 
         if fraction_list is not None and len(fraction_list) > 0:
-            for fraction in fraction_list:
-                if fraction['numerator_meter_uuid'] in offline_meter_dict:
-                    fraction['numerator_meter_id'] = offline_meter_dict[fraction['numerator_meter_uuid']]['id']
-                    fraction['numerator_meter_name'] = offline_meter_dict[fraction['numerator_meter_uuid']]['name']
-                    fraction['numerator_meter_unit'] = offline_meter_dict[fraction['numerator_meter_uuid']]['unit']
-                    fraction['numerator_meter_type'] = 'offline_meter'
-                elif fraction['numerator_meter_uuid'] in virtual_meter_dict:
-                    fraction['numerator_meter_id'] = virtual_meter_dict[fraction['numerator_meter_uuid']]['id']
-                    fraction['numerator_meter_name'] = virtual_meter_dict[fraction['numerator_meter_uuid']]['name']
-                    fraction['numerator_meter_unit'] = virtual_meter_dict[fraction['numerator_meter_uuid']]['unit']
-                    fraction['numerator_meter_type'] = 'virtual_meter'
-                elif fraction['numerator_meter_uuid'] in meter_dict:
-                    fraction['numerator_meter_id'] = meter_dict[fraction['numerator_meter_uuid']]['id']
-                    fraction['numerator_meter_name'] = meter_dict[fraction['numerator_meter_uuid']]['name']
-                    fraction['numerator_meter_unit'] = meter_dict[fraction['numerator_meter_uuid']]['unit']
-                    fraction['numerator_meter_type'] = 'meter'
+            for i in range(len(fraction_list)):
+                print(fraction_list[i])
+                if fraction_list[i]['numerator_meter_uuid'] in offline_meter_dict:
+                    fraction_list[i]['numerator_meter_id'] = \
+                        offline_meter_dict[fraction_list[i]['numerator_meter_uuid']]['id']
+                    fraction_list[i]['numerator_meter_name'] = \
+                        offline_meter_dict[fraction_list[i]['numerator_meter_uuid']]['name']
+                    fraction_list[i]['numerator_meter_unit'] = \
+                        offline_meter_dict[fraction_list[i]['numerator_meter_uuid']]['unit']
+                    fraction_list[i]['numerator_meter_type'] = 'offline_meter'
+                elif fraction_list[i]['numerator_meter_uuid'] in virtual_meter_dict:
+                    fraction_list[i]['numerator_meter_id'] = \
+                        virtual_meter_dict[fraction_list[i]['numerator_meter_uuid']]['id']
+                    fraction_list[i]['numerator_meter_name'] = \
+                        virtual_meter_dict[fraction_list[i]['numerator_meter_uuid']]['name']
+                    fraction_list[i]['numerator_meter_unit'] = \
+                        virtual_meter_dict[fraction_list[i]['numerator_meter_uuid']]['unit']
+                    fraction_list[i]['numerator_meter_type'] = 'virtual_meter'
+                elif fraction_list[i]['numerator_meter_uuid'] in meter_dict:
+                    fraction_list[i]['numerator_meter_id'] = \
+                        meter_dict[fraction_list[i]['numerator_meter_uuid']]['id']
+                    fraction_list[i]['numerator_meter_name'] = \
+                        meter_dict[fraction_list[i]['numerator_meter_uuid']]['name']
+                    fraction_list[i]['numerator_meter_unit'] = \
+                        meter_dict[fraction_list[i]['numerator_meter_uuid']]['unit']
+                    fraction_list[i]['numerator_meter_type'] = 'meter'
+                else:
+                    del fraction_list[i]
+                    continue
 
-                if fraction['denominator_meter_uuid'] in offline_meter_dict:
-                    fraction['denominator_meter_id'] = offline_meter_dict[fraction['denominator_meter_uuid']]['id']
-                    fraction['denominator_meter_name'] = offline_meter_dict[fraction['denominator_meter_uuid']]['name']
-                    fraction['denominator_meter_unit'] = offline_meter_dict[fraction['denominator_meter_uuid']]['unit']
-                    fraction['denominator_meter_type'] = 'offline_meter'
-                elif fraction['denominator_meter_uuid'] in virtual_meter_dict:
-                    fraction['denominator_meter_id'] = virtual_meter_dict[fraction['denominator_meter_uuid']]['id']
-                    fraction['denominator_meter_name'] = virtual_meter_dict[fraction['denominator_meter_uuid']]['name']
-                    fraction['denominator_meter_unit'] = virtual_meter_dict[fraction['denominator_meter_uuid']]['unit']
-                    fraction['denominator_meter_type'] = 'virtual_meter'
-                elif fraction['denominator_meter_uuid'] in meter_dict:
-                    fraction['denominator_meter_id'] = meter_dict[fraction['denominator_meter_uuid']]['id']
-                    fraction['denominator_meter_name'] = meter_dict[fraction['denominator_meter_uuid']]['name']
-                    fraction['denominator_meter_unit'] = meter_dict[fraction['denominator_meter_uuid']]['unit']
-                    fraction['denominator_meter_type'] = 'meter'
+                if fraction_list[i]['denominator_meter_uuid'] in offline_meter_dict:
+                    fraction_list[i]['denominator_meter_id'] = \
+                        offline_meter_dict[fraction_list[i]['denominator_meter_uuid']]['id']
+                    fraction_list[i]['denominator_meter_name'] = \
+                        offline_meter_dict[fraction_list[i]['denominator_meter_uuid']]['name']
+                    fraction_list[i]['denominator_meter_unit'] = \
+                        offline_meter_dict[fraction_list[i]['denominator_meter_uuid']]['unit']
+                    fraction_list[i]['denominator_meter_type'] = 'offline_meter'
+                elif fraction_list[i]['denominator_meter_uuid'] in virtual_meter_dict:
+                    fraction_list[i]['denominator_meter_id'] = \
+                        virtual_meter_dict[fraction_list[i]['denominator_meter_uuid']]['id']
+                    fraction_list[i]['denominator_meter_name'] = \
+                        virtual_meter_dict[fraction_list[i]['denominator_meter_uuid']]['name']
+                    fraction_list[i]['denominator_meter_unit'] = \
+                        virtual_meter_dict[fraction_list[i]['denominator_meter_uuid']]['unit']
+                    fraction_list[i]['denominator_meter_type'] = 'virtual_meter'
+                elif fraction_list[i]['denominator_meter_uuid'] in meter_dict:
+                    fraction_list[i]['denominator_meter_id'] = \
+                        meter_dict[fraction_list[i]['denominator_meter_uuid']]['id']
+                    fraction_list[i]['denominator_meter_name'] = \
+                        meter_dict[fraction_list[i]['denominator_meter_uuid']]['name']
+                    fraction_list[i]['denominator_meter_unit'] = \
+                        meter_dict[fraction_list[i]['denominator_meter_uuid']]['unit']
+                    fraction_list[i]['denominator_meter_type'] = 'meter'
+                else:
+                    del fraction_list[i]
+                    continue
 
         print(fraction_list)
 

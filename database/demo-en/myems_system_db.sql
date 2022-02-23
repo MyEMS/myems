@@ -80,7 +80,7 @@ VALUES
 (15, 1, 'inlet chilled water temperature', 'point', NULL, 2, NULL, NULL),
 (16, 1, 'chilled_water instantaneous flow rate', 'point', NULL, 3, NULL, NULL),
 (17, 1, 'instantaneous power', 'point', NULL, 4, NULL, NULL),
-(18, 1, 'COP', 'fraction', NULL, NULL, 'a4e0dbf0-528a-4cbb-88cc-563527900d40', '89ff5118-d0c2-4dd8-8098-a8698189b2ea');
+(18, 1, 'COP', 'fraction', NULL, NULL, '5ca47bc5-22c2-47fc-b906-33222191ea40', '719acf65-b932-4176-94e5-e9fe420abc68');
 
 COMMIT;
 
@@ -358,7 +358,7 @@ VALUES
 (15, 1, 'inlet chilled water temperature', 'point', NULL, 2, NULL, NULL),
 (16, 1, 'chilled_water instantaneous flow rate', 'point', NULL, 3, NULL, NULL),
 (17, 1, 'instantaneous power', 'point', NULL, 4, NULL, NULL),
-(18, 1, 'COP', 'fraction', NULL, NULL, 'a4e0dbf0-528a-4cbb-88cc-563527900d40', '89ff5118-d0c2-4dd8-8098-a8698189b2ea');
+(18, 1, 'COP', 'fraction', NULL, NULL, '5ca47bc5-22c2-47fc-b906-33222191ea40', '719acf65-b932-4176-94e5-e9fe420abc68');
 
 COMMIT;
 
@@ -607,7 +607,8 @@ INSERT INTO `myems_system_db`.`tbl_spaces`
 (`id`, `name`, `uuid`, `parent_space_id`, `area`, `timezone_id`, `contact_id`, `is_input_counted`, `is_output_counted`, `cost_center_id`, `description`)
 VALUES
 (2, 'MyEMS Building #1', '8f25b33b-db93-49b3-b0f8-b01e0c19df29', 1, 88888.888, 56, 1, true, true, 1,  'MyEMS Project'),
-(3, 'MyEMS Building #2', '195d7ea8-17b4-4e9c-bb37-546428155438', 1, 66666.666, 56, 1, true, true, 1, 'MyEMS Project');
+(3, 'MyEMS Building #2', '195d7ea8-17b4-4e9c-bb37-546428155438', 1, 66666.666, 56, 1, true, true, 1, 'MyEMS Project'),
+(10000, 'Debugging Space', '2c44a292-eb0c-49a3-a50e-4fc03858dc0c', 1, 88888.888, 56, 1, true, true, 1,  'MyEMS Project');
 COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -619,7 +620,8 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_spaces_combined_equipments`
 (`id`, `space_id`, `combined_equipment_id`)
 VALUES
-(1, 1, 1);
+(1, 10000, 1),
+(2, 10000, 2);
 
 COMMIT;
 
@@ -632,7 +634,8 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_spaces_equipments`
 (`id`, `space_id`, `equipment_id`)
 VALUES
-(1, 1, 1);
+(1, 10000, 1),
+(2, 10000, 2);
 
 COMMIT;
 
