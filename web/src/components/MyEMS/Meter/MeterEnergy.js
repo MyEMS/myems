@@ -95,7 +95,8 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
   const [values, setValues] = useState([reportingPeriodBeginsDatetime.toDate(), reportingPeriodEndsDatetime.toDate()]);
-  const [baseValues, setBaseValues] = useState([basePeriodBeginsDatetime.toDate(), basePeriodEndsDatetime.toDate()]);
+  const [baseValues, setBaseValues] = useState([current_moment.clone().subtract(1, 'months').startOf('month').toDate(),
+    current_moment.clone().subtract(1, 'months').toDate()]);
   const local = {
     sunday: t('sunday'),
     monday: t('monday'),
@@ -238,18 +239,22 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
       setBasePeriodDatetimeDisabled(true);
       setBasePeriodBeginsDatetime(moment(reportingPeriodBeginsDatetime).subtract(1, 'years'));
       setBasePeriodEndsDatetime(moment(reportingPeriodEndsDatetime).subtract(1, 'years'));
+      setBaseValues([moment(reportingPeriodBeginsDatetime).subtract(1, 'years').toDate(),
+        moment(reportingPeriodEndsDatetime).subtract(1, 'years').toDate()]);
     } else if (target.value === 'month-on-month') {
       setBasePeriodDatetimeDisabled(true);
       setBasePeriodBeginsDatetime(moment(reportingPeriodBeginsDatetime).subtract(1, 'months'));
       setBasePeriodEndsDatetime(moment(reportingPeriodEndsDatetime).subtract(1, 'months'));
+      setBaseValues([moment(reportingPeriodBeginsDatetime).subtract(1, 'months').toDate(),
+        moment(reportingPeriodEndsDatetime).subtract(1, 'months').toDate()]);
     } else if (target.value === 'free-comparison') {
-      setBasePeriodDatetimeDisabled(true);
+      setBasePeriodDatetimeDisabled(false);
     } else if (target.value === 'none-comparison') {
+      setBaseValues([]);
       setBasePeriodBeginsDatetime(undefined);
       setBasePeriodEndsDatetime(undefined);
       setBasePeriodDatetimeDisabled(true);
     }
-    setBaseValues([basePeriodBeginsDatetime.toDate(), basePeriodEndsDatetime.toDate()]);
   };
 
   const onSearchMeter = ({ target }) => {
@@ -270,27 +275,30 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   let onBasePeriodChange = (DateRange) => {
+    if(DateRange == null){
+      setBaseValues([]);
+    }
     let startDate = moment(DateRange[0]);
     let endDate = moment(DateRange[1]);
-    setValues([DateRange[0], DateRange[1]]);
+    setBaseValues([DateRange[0], DateRange[1]]);
     setReportingPeriodBeginsDatetime(startDate);
     setReportingPeriodEndsDatetime(endDate);
   };
 
   let onChange = (DateRange) => {
+    if(DateRange == null){
+      setValues([]);
+    }
     let startDate = moment(DateRange[0]);
     let endDate = moment(DateRange[1]);
     setValues([DateRange[0], DateRange[1]]);
     setReportingPeriodBeginsDatetime(startDate);
-    if (comparisonType === 'year-over-year') {
-      setBasePeriodBeginsDatetime(startDate.clone().subtract(1, 'years'));
-    } else if (comparisonType === 'month-on-month') {
-      setBasePeriodBeginsDatetime(startDate.clone().subtract(1, 'months'));
-    }
     setReportingPeriodEndsDatetime(endDate);
     if (comparisonType === 'year-over-year') {
+      setBasePeriodBeginsDatetime(startDate.clone().subtract(1, 'years'));
       setBasePeriodEndsDatetime(endDate.clone().subtract(1, 'years'));
     } else if (comparisonType === 'month-on-month') {
+      setBasePeriodBeginsDatetime(startDate.clone().subtract(1, 'months'));
       setBasePeriodEndsDatetime(endDate.clone().subtract(1, 'months'));
     }
     setBaseValues([basePeriodBeginsDatetime.toDate(), basePeriodEndsDatetime.toDate()]);
@@ -555,6 +563,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
                     onClean={onBaseClean}
                     locale={local}
                     showMeridian
+                    placeholder={"~"}
                    />
                 </FormGroup>
               </Col>
