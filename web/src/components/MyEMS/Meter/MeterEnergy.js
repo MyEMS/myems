@@ -281,8 +281,8 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
     let startDate = moment(DateRange[0]);
     let endDate = moment(DateRange[1]);
     setBaseValues([DateRange[0], DateRange[1]]);
-    setReportingPeriodBeginsDatetime(startDate);
-    setReportingPeriodEndsDatetime(endDate);
+    setBasePeriodBeginsDatetime(startDate);
+    setBasePeriodEndsDatetime(endDate);
   };
 
   let onChange = (DateRange) => {
@@ -297,11 +297,12 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
     if (comparisonType === 'year-over-year') {
       setBasePeriodBeginsDatetime(startDate.clone().subtract(1, 'years'));
       setBasePeriodEndsDatetime(endDate.clone().subtract(1, 'years'));
+      setBaseValues([basePeriodBeginsDatetime.toDate(), basePeriodEndsDatetime.toDate()]);
     } else if (comparisonType === 'month-on-month') {
       setBasePeriodBeginsDatetime(startDate.clone().subtract(1, 'months'));
       setBasePeriodEndsDatetime(endDate.clone().subtract(1, 'months'));
+      setBaseValues([basePeriodBeginsDatetime.toDate(), basePeriodEndsDatetime.toDate()]);
     }
-    setBaseValues([basePeriodBeginsDatetime.toDate(), basePeriodEndsDatetime.toDate()]);
   };
 
   let onClean = event => {
