@@ -934,25 +934,17 @@ class MeterPointCollection:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
         if row[1] == 'ENERGY_VALUE':
-            query = (" SELECT point_id "
-                     " FROM tbl_meters_points "
-                     " WHERE meter_id = %s")
-            cursor.execute(query, (id_,))
+            query = (" SELECT tmp.id,tmp.meter_id,tmp.point_id,tp.object_type "
+                     " FROM tbl_meters_points tmp "
+                     " LEFT JOIN tbl_points tp ON tmp.point_id = tp.id"
+                     " WHERE tmp.meter_id = %s AND tp.object_type = %s")
+            cursor.execute(query, (id_, 'ENERGY_VALUE',))
             rows = cursor.fetchall()
-
-            cursor.execute(" SELECT id "
-                           " FROM tbl_points "
-                           " WHERE object_type = %s ", ('ENERGY_VALUE',))
-            ponit_ids = cursor.fetchall()
-
             if rows is not None:
-                if ponit_ids is not None:
-                    for row1 in rows:
-                        if row1 in ponit_ids:
-                            cursor.close()
-                            cnx.disconnect()
-                            raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
-                                                   description='API.POINT_OBJECT_TYPE_IS_ALREADY_IN_USE')
+                cursor.close()
+                cnx.disconnect()
+                raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
+                                       description='API.POINT_OBJECT_TYPE_IS_ALREADY_IN_USE')
 
         query = (" SELECT id " 
                  " FROM tbl_meters_points "
