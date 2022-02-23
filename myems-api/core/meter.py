@@ -913,7 +913,6 @@ class MeterPointCollection:
                                    description='API.INVALID_METER_ID')
 
         new_values = json.loads(raw_json)
-
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -925,15 +924,26 @@ class MeterPointCollection:
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.METER_NOT_FOUND')
-
-        cursor.execute(" SELECT name "
+        cursor.execute(" SELECT name, object_type "
                        " FROM tbl_points "
                        " WHERE id = %s ", (new_values['data']['point_id'],))
-        if cursor.fetchone() is None:
+        row = cursor.fetchone()
+        if row is None:
             cursor.close()
             cnx.disconnect()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
+        elif row[1] == 'ENERGY_VALUE':
+            query = (" SELECT p.id "
+                     " FROM tbl_meters_points mp, tbl_points p "
+                     " WHERE mp.meter_id = %s AND mp.point_id = p.id AND p.object_type = 'ENERGY_VALUE' ")
+            cursor.execute(query, (id_,))
+            rows_points = cursor.fetchall()
+            if rows_points is not None and len(rows_points) > 0:
+                cursor.close()
+                cnx.disconnect()
+                raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
+                                       description='API.METER_CANNOT_HAVE_MORE_THAN_ONE_ENERGY_VALUE_POINTS')
 
         query = (" SELECT id " 
                  " FROM tbl_meters_points "
