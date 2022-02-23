@@ -358,7 +358,7 @@ VALUES
 (15, 1, 'inlet chilled water temperature', 'point', NULL, 2, NULL, NULL),
 (16, 1, 'chilled_water instantaneous flow rate', 'point', NULL, 3, NULL, NULL),
 (17, 1, 'instantaneous power', 'point', NULL, 4, NULL, NULL),
-(18, 1, 'COP', 'fraction', NULL, NULL, 'a4e0dbf0-528a-4cbb-88cc-563527900d40', '89ff5118-d0c2-4dd8-8098-a8698189b2ea');
+(18, 1, 'COP', 'fraction', NULL, NULL, '5ca47bc5-22c2-47fc-b906-33222191ea40', '719acf65-b932-4176-94e5-e9fe420abc68');
 
 COMMIT;
 
