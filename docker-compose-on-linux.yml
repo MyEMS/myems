@@ -5,10 +5,7 @@ services:
     command: gunicorn app:api -b 0.0.0.0:8000 --timeout 600 --workers=4
     volumes:
       - type: bind
-        # Linux Host
-        # source: /upload
-        # Windows Host
-        source: c:\upload
+        source: /upload
         target: /var/www/html/admin/upload
     restart: always
     ports:
@@ -41,10 +38,7 @@ services:
       test: [ "CMD","nginx","-t" ]
     volumes:
       - type: bind
-        # Linux Host
-        # source: /upload
-        # Windows Host
-        source: c:\upload
+        source: /upload
         target: /var/www/html/admin/upload
     restart: always
     ports:
