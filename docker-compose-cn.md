@@ -85,9 +85,17 @@ npm run build
 
 5. 运行docker-compose命令
 
+On Windows Host:
 ```
 cd myems
-docker-compose up -d 
+docker-compose -f docker-compose-on-windows.yml up -d 
+```
+
+On Linux Host:
+
+```
+cd myems
+docker-compose -f docker-compose-on-linux.yml up -d 
 ```
 
 6. 验证
