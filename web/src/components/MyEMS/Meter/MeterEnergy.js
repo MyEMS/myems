@@ -104,7 +104,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
     wednesday: t('wednesday'),
     thursday: t('thursday'),
     friday: t('friday'),
-    saturday: t('friday'),
+    saturday: t('saturday'),
     ok: t('ok'),
     today: t('today'),
     yesterday: t('yesterday'),
