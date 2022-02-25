@@ -104,7 +104,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
     wednesday: t('wednesday'),
     thursday: t('thursday'),
     friday: t('friday'),
-    saturday: t('friday'),
+    saturday: t('saturday'),
     ok: t('ok'),
     today: t('today'),
     yesterday: t('yesterday'),
@@ -297,11 +297,13 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
     if (comparisonType === 'year-over-year') {
       setBasePeriodBeginsDatetime(startDate.clone().subtract(1, 'years'));
       setBasePeriodEndsDatetime(endDate.clone().subtract(1, 'years'));
-      setBaseValues([basePeriodBeginsDatetime.toDate(), basePeriodEndsDatetime.toDate()]);
+      setBaseValues([startDate.clone().subtract(1, 'years').toDate(),
+        endDate.clone().subtract(1, 'years').toDate()]);
     } else if (comparisonType === 'month-on-month') {
       setBasePeriodBeginsDatetime(startDate.clone().subtract(1, 'months'));
       setBasePeriodEndsDatetime(endDate.clone().subtract(1, 'months'));
-      setBaseValues([basePeriodBeginsDatetime.toDate(), basePeriodEndsDatetime.toDate()]);
+      setBaseValues([startDate.clone().subtract(1, 'months').toDate(),
+        endDate.clone().subtract(1, 'months').toDate()]);
     }
   };
 
