@@ -16,7 +16,6 @@ import {
   Spinner,
 } from 'reactstrap';
 import CountUp from 'react-countup';
-import Datetime from 'react-datetime';
 import moment from 'moment';
 import loadable from '@loadable/component';
 import Cascader from 'rc-cascader';
@@ -65,19 +64,33 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
   const [selectedMeter, setSelectedMeter] = useState(undefined);
   const [comparisonType, setComparisonType] = useState('month-on-month');
   const [periodType, setPeriodType] = useState('daily');
-  const [basePeriodBeginsDatetime, setBasePeriodBeginsDatetime] = useState(current_moment.clone().subtract(1, 'months').startOf('month'));
-  const [basePeriodEndsDatetime, setBasePeriodEndsDatetime] = useState(current_moment.clone().subtract(1, 'months'));
-  const [basePeriodDatetimeDisabled, setBasePeriodDatetimeDisabled] = useState(true);
-  const [reportingPeriodBeginsDatetime, setReportingPeriodBeginsDatetime] = useState(current_moment.clone().startOf('month'));
-  const [reportingPeriodEndsDatetime, setReportingPeriodEndsDatetime] = useState(current_moment);
   const [cascaderOptions, setCascaderOptions] = useState(undefined);
+  const [basePeriodDateRange, setBasePeriodDateRange] = useState([current_moment.clone().subtract(1, 'months').startOf('month').toDate(), current_moment.clone().subtract(1, 'months').toDate()]);
+  const [basePeriodDateRangePickerDisabled, setBasePeriodDateRangePickerDisabled] = useState(true);
+  const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([current_moment.clone().startOf('month').toDate(), current_moment.toDate()]);
+  const dateRangePickerLocale = {
+    sunday: t('sunday'),
+    monday: t('monday'),
+    tuesday: t('tuesday'),
+    wednesday: t('wednesday'),
+    thursday: t('thursday'),
+    friday: t('friday'),
+    saturday: t('saturday'),
+    ok: t('ok'),
+    today: t('today'),
+    yesterday: t('yesterday'),
+    hours: t('hours'),
+    minutes: t('minutes'),
+    seconds: t('seconds'),
+    last7Days: t('last7Days')
+  };
+  const dateRangePickerStyle = { display: 'block', zIndex: 10};
 
   // buttons
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
 
-  const [loading, setLoading] = useState(false);
   //Results
   const [meterEnergyCategory, setMeterEnergyCategory] = useState({ 'name': '', 'unit': '' });
   const [reportingPeriodEnergyConsumptionInCategory, setReportingPeriodEnergyConsumptionInCategory] = useState(0);
@@ -94,27 +107,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([{dataField: 'startdatetime', text: t('Datetime'), sort: true}]);
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
-  const [values, setValues] = useState([reportingPeriodBeginsDatetime.toDate(), reportingPeriodEndsDatetime.toDate()]);
-  const [baseValues, setBaseValues] = useState([current_moment.clone().subtract(1, 'months').startOf('month').toDate(),
-    current_moment.clone().subtract(1, 'months').toDate()]);
-  const local = {
-    sunday: t('sunday'),
-    monday: t('monday'),
-    tuesday: t('tuesday'),
-    wednesday: t('wednesday'),
-    thursday: t('thursday'),
-    friday: t('friday'),
-    saturday: t('saturday'),
-    ok: t('ok'),
-    today: t('today'),
-    yesterday: t('yesterday'),
-    hours: t('hours'),
-    minutes: t('minutes'),
-    seconds: t('seconds'),
-    last7Days: t('last7Days')
-  };
-  const styles = { display: 'block', zIndex: 10};
-
+  
   useEffect(() => {
     let isResponseOK = false;
     fetch(APIBaseURL + '/spaces/tree', {
@@ -232,31 +225,6 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
     });
   }
 
-  let onComparisonTypeChange = ({ target }) => {
-    console.log(target.value);
-    setComparisonType(target.value);
-    if (target.value === 'year-over-year') {
-      setBasePeriodDatetimeDisabled(true);
-      setBasePeriodBeginsDatetime(moment(reportingPeriodBeginsDatetime).subtract(1, 'years'));
-      setBasePeriodEndsDatetime(moment(reportingPeriodEndsDatetime).subtract(1, 'years'));
-      setBaseValues([moment(reportingPeriodBeginsDatetime).subtract(1, 'years').toDate(),
-        moment(reportingPeriodEndsDatetime).subtract(1, 'years').toDate()]);
-    } else if (target.value === 'month-on-month') {
-      setBasePeriodDatetimeDisabled(true);
-      setBasePeriodBeginsDatetime(moment(reportingPeriodBeginsDatetime).subtract(1, 'months'));
-      setBasePeriodEndsDatetime(moment(reportingPeriodEndsDatetime).subtract(1, 'months'));
-      setBaseValues([moment(reportingPeriodBeginsDatetime).subtract(1, 'months').toDate(),
-        moment(reportingPeriodEndsDatetime).subtract(1, 'months').toDate()]);
-    } else if (target.value === 'free-comparison') {
-      setBasePeriodDatetimeDisabled(false);
-    } else if (target.value === 'none-comparison') {
-      setBaseValues([]);
-      setBasePeriodBeginsDatetime(undefined);
-      setBasePeriodEndsDatetime(undefined);
-      setBasePeriodDatetimeDisabled(true);
-    }
-  };
-
   const onSearchMeter = ({ target }) => {
     const keyword = target.value.toLowerCase();
     const filteredResult = meterList.filter(
@@ -274,45 +242,54 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
     };
   };
 
+  let onComparisonTypeChange = ({ target }) => {
+    console.log(target.value);
+    setComparisonType(target.value);
+    if (target.value === 'year-over-year') {
+      setBasePeriodDateRangePickerDisabled(true);
+      setBasePeriodDateRange([moment(reportingPeriodDateRange[0]).subtract(1, 'years').toDate(),
+        moment(reportingPeriodDateRange[1]).subtract(1, 'years').toDate()]);
+    } else if (target.value === 'month-on-month') {
+      setBasePeriodDateRangePickerDisabled(true);
+      setBasePeriodDateRange([moment(reportingPeriodDateRange[0]).subtract(1, 'months').toDate(),
+        moment(reportingPeriodDateRange[1]).subtract(1, 'months').toDate()]);
+    } else if (target.value === 'free-comparison') {
+      setBasePeriodDateRangePickerDisabled(false);
+    } else if (target.value === 'none-comparison') {
+      setBasePeriodDateRange([null, null]);
+      setBasePeriodDateRangePickerDisabled(true);
+    }
+  };
+
   let onBasePeriodChange = (DateRange) => {
-    if(DateRange == null){
-      setBaseValues([]);
-    }
-    let startDate = moment(DateRange[0]);
-    let endDate = moment(DateRange[1]);
-    setBaseValues([DateRange[0], DateRange[1]]);
-    setBasePeriodBeginsDatetime(startDate);
-    setBasePeriodEndsDatetime(endDate);
-  };
-
-  let onChange = (DateRange) => {
-    if(DateRange == null){
-      setValues([]);
-    }
-    let startDate = moment(DateRange[0]);
-    let endDate = moment(DateRange[1]);
-    setValues([DateRange[0], DateRange[1]]);
-    setReportingPeriodBeginsDatetime(startDate);
-    setReportingPeriodEndsDatetime(endDate);
-    if (comparisonType === 'year-over-year') {
-      setBasePeriodBeginsDatetime(startDate.clone().subtract(1, 'years'));
-      setBasePeriodEndsDatetime(endDate.clone().subtract(1, 'years'));
-      setBaseValues([startDate.clone().subtract(1, 'years').toDate(),
-        endDate.clone().subtract(1, 'years').toDate()]);
-    } else if (comparisonType === 'month-on-month') {
-      setBasePeriodBeginsDatetime(startDate.clone().subtract(1, 'months'));
-      setBasePeriodEndsDatetime(endDate.clone().subtract(1, 'months'));
-      setBaseValues([startDate.clone().subtract(1, 'months').toDate(),
-        endDate.clone().subtract(1, 'months').toDate()]);
+    console.log(DateRange);
+    
+    if(DateRange == null) {
+      setBasePeriodDateRange([null, null]);
+    } else {
+      setBasePeriodDateRange([DateRange[0], DateRange[1]]);
     }
   };
 
-  let onClean = event => {
-    setValues([]);
+  let onReportingPeriodChange = (DateRange) => {
+      if(DateRange == null) {
+      setReportingPeriodDateRange([null, null]);
+    } else {
+      setReportingPeriodDateRange([DateRange[0], DateRange[1]]);
+      if (comparisonType === 'year-over-year') {
+        setBasePeriodDateRange([moment(DateRange[0]).clone().subtract(1, 'years').toDate(), moment(DateRange[1]).clone().subtract(1, 'years').toDate()]);
+      } else if (comparisonType === 'month-on-month') {
+        setBasePeriodDateRange([moment(DateRange[0]).clone().subtract(1, 'months').toDate(), moment(DateRange[1]).clone().subtract(1, 'months').toDate()]);
+      }
+    }
   };
 
-  let onBaseClean = event => {
-    setValues([]);
+  let onBasePeriodClean = event => {
+    setBasePeriodDateRange([null, null]);
+  };
+
+  let onReportingPeriodClean = event => {
+    setReportingPeriodDateRange([null, null]);
   };
 
   // Handler
@@ -323,10 +300,10 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
     console.log(selectedMeter);
     console.log(comparisonType);
     console.log(periodType);
-    console.log(basePeriodBeginsDatetime != null ? basePeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') : undefined);
-    console.log(basePeriodEndsDatetime != null ? basePeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss') : undefined);
-    console.log(reportingPeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss'));
-    console.log(reportingPeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss'));
+    console.log(basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : null)
+    console.log(basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : null)
+    console.log(moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'))
+    console.log(moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'));
 
     // disable submit button
     setSubmitButtonDisabled(true);
@@ -339,13 +316,13 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
     setDetailedDataTableData([]);
 
     let isResponseOK = false;
-    fetch(APIBaseURL + '/reports/meterenergy?' +
+    fetch(APIBaseURL + '/reports/metercost?' +
       'meterid=' + selectedMeter +
       '&periodtype=' + periodType +
-      '&baseperiodstartdatetime=' + (basePeriodBeginsDatetime != null ? basePeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') : '') +
-      '&baseperiodenddatetime=' + (basePeriodEndsDatetime != null ? basePeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss') : '') +
-      '&reportingperiodstartdatetime=' + reportingPeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' + reportingPeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss'), {
+      '&baseperiodstartdatetime=' + (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
+      '&baseperiodenddatetime=' + (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
+      '&reportingperiodstartdatetime=' + moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'), {
       method: 'GET',
       headers: {
         "Content-type": "application/json",
@@ -556,17 +533,18 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
                   <Label className={labelClasses} for="basePeriodBeginsDatetime">
                     {t('Base Period')}{t('(Optional)')}
                   </Label>
-                  <DateRangePicker
-                    readOnly={basePeriodDatetimeDisabled}
-                    format="MM/dd/yyyy hh:mm aa"
-                    value={baseValues}
+                  <DateRangePicker 
+                    id='basePeriodDateRangePicker'
+                    readOnly={basePeriodDateRangePickerDisabled}
+                    format="yyyy-MM-dd hh:mm aa"
+                    value={basePeriodDateRange}
                     onChange={onBasePeriodChange}
                     size="md"
-                    style={styles}
-                    onClean={onBaseClean}
-                    locale={local}
+                    style={dateRangePickerStyle}
+                    onClean={onBasePeriodClean}
+                    locale={dateRangePickerLocale}
                     showMeridian
-                    placeholder={"~"}
+                    placeholder={t("Select Date Range")}
                    />
                 </FormGroup>
               </Col>
@@ -575,15 +553,16 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
                   <Label className={labelClasses}>{t('Reporting Period')}</Label>
                   <br/>
                   <DateRangePicker
-                    format="MM/dd/yyyy hh:mm aa"
-                    value={values}
+                    id='reportingPeriodDateRangePicker'
+                    format="yyyy-MM-dd hh:mm aa"
+                    value={reportingPeriodDateRange}
+                    onChange={onReportingPeriodChange}
                     size="md"
-                    style={styles}
-                    onChange={onChange}
+                    style={dateRangePickerStyle}
+                    onClean={onReportingPeriodClean}
+                    locale={dateRangePickerLocale}
                     showMeridian
-                    placeholder="Select Date Range"
-                    onClean={onClean}
-                    locale={local}
+                    placeholder={t("Select Date Range")}
                   />
                 </FormGroup>
               </Col>
