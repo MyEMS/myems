@@ -422,7 +422,7 @@ const MeterCarbon = ({ setRedirect, setRedirectUrl, t }) => {
         setSpinnerHidden(true);
         // show export button
         setExportButtonHidden(false);
-          
+
       } else {
         toast.error(json.description)
       }
