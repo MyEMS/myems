@@ -16,7 +16,6 @@ import {
   Spinner,
 } from 'reactstrap';
 import CountUp from 'react-countup';
-import Datetime from 'react-datetime';
 import moment from 'moment';
 import loadable from '@loadable/component';
 import Cascader from 'rc-cascader';
@@ -66,9 +65,9 @@ const MeterCost = ({ setRedirect, setRedirectUrl, t }) => {
   const [comparisonType, setComparisonType] = useState('month-on-month');
   const [periodType, setPeriodType] = useState('daily');
   const [cascaderOptions, setCascaderOptions] = useState(undefined);
-  const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([current_moment.clone().startOf('month').toDate(), current_moment.toDate()]);
   const [basePeriodDateRange, setBasePeriodDateRange] = useState([current_moment.clone().subtract(1, 'months').startOf('month').toDate(), current_moment.clone().subtract(1, 'months').toDate()]);
   const [basePeriodDateRangePickerDisabled, setBasePeriodDateRangePickerDisabled] = useState(true);
+  const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([current_moment.clone().startOf('month').toDate(), current_moment.toDate()]);
   const dateRangePickerLocale = {
     sunday: t('sunday'),
     monday: t('monday'),
