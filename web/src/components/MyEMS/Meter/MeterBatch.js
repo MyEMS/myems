@@ -14,9 +14,9 @@ import {
   Label,
   Spinner,
 } from 'reactstrap';
+import Cascader from 'rc-cascader';
 import moment from 'moment';
 import loadable from '@loadable/component';
-import Cascader from 'rc-cascader';
 import { getCookieValue, createCookie } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
@@ -24,8 +24,8 @@ import { toast } from 'react-toastify';
 import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL } from '../../../config';
 import { DateRangePicker } from 'rsuite';
-const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
+const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
 const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
@@ -48,12 +48,11 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
     }
   });
   // State
+  //Query From
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
   const [selectedSpaceID, setSelectedSpaceID] = useState(undefined);
   const [meterList, setMeterList] = useState([]);
   const [cascaderOptions, setCascaderOptions] = useState(undefined);
-
-  //Query From
   const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([current_moment.clone().startOf('month').toDate(), current_moment.toDate()]);
   const dateRangePickerLocale = {
     sunday: t('sunday'),

@@ -15,10 +15,9 @@ import {
   CustomInput,
   Spinner,
 } from 'reactstrap';
-import Datetime from 'react-datetime';
+import Cascader from 'rc-cascader';
 import moment from 'moment';
 import loadable from '@loadable/component';
-import Cascader from 'rc-cascader';
 import LineChart from '../common/LineChart';
 import { getCookieValue, createCookie } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
@@ -26,7 +25,7 @@ import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL } from '../../../config';
-
+import { DateRangePicker } from 'rsuite';
 
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
@@ -58,9 +57,25 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
   const [meterList, setMeterList] = useState([]);
   const [filteredMeterList, setFilteredMeterList] = useState([]);
   const [selectedMeter, setSelectedMeter] = useState(undefined);
-  const [reportingPeriodBeginsDatetime, setReportingPeriodBeginsDatetime] = useState(current_moment.clone().startOf('day'));
-  const [reportingPeriodEndsDatetime, setReportingPeriodEndsDatetime] = useState(current_moment);
   const [cascaderOptions, setCascaderOptions] = useState(undefined);
+  const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([current_moment.clone().startOf('month').toDate(), current_moment.toDate()]);
+  const dateRangePickerLocale = {
+    sunday: t('sunday'),
+    monday: t('monday'),
+    tuesday: t('tuesday'),
+    wednesday: t('wednesday'),
+    thursday: t('thursday'),
+    friday: t('friday'),
+    saturday: t('saturday'),
+    ok: t('ok'),
+    today: t('today'),
+    yesterday: t('yesterday'),
+    hours: t('hours'),
+    minutes: t('minutes'),
+    seconds: t('seconds'),
+    last7Days: t('last7Days')
+  };
+  const dateRangePickerStyle = { display: 'block', zIndex: 10};
 
   // buttons
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
@@ -212,29 +227,26 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
     };
   };
 
-  let onReportingPeriodBeginsDatetimeChange = (newDateTime) => {
-    setReportingPeriodBeginsDatetime(newDateTime);
+  let onReportingPeriodChange = (DateRange) => {
+    if(DateRange == null) {
+    setReportingPeriodDateRange([null, null]);
+    } else {
+      setReportingPeriodDateRange([DateRange[0], DateRange[1]]);
+    }
   };
 
-  let onReportingPeriodEndsDatetimeChange = (newDateTime) => {
-    setReportingPeriodEndsDatetime(newDateTime);
+  let onReportingPeriodClean = event => {
+    setReportingPeriodDateRange([null, null]);
   };
-
-  var getValidReportingPeriodBeginsDatetimes = function (currentDate) {
-    return currentDate.isBefore(moment(reportingPeriodEndsDatetime, 'MM/DD/YYYY, hh:mm:ss a'));
-  }
-
-  var getValidReportingPeriodEndsDatetimes = function (currentDate) {
-    return currentDate.isAfter(moment(reportingPeriodBeginsDatetime, 'MM/DD/YYYY, hh:mm:ss a'));
-  }
+  
   // Handler
   const handleSubmit = e => {
     e.preventDefault();
     console.log('handleSubmit');
     console.log(selectedSpaceID);
     console.log(selectedMeter);
-    console.log(reportingPeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss'));
-    console.log(reportingPeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss'));
+    console.log(moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'))
+    console.log(moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'));
 
     // disable submit button
     setSubmitButtonDisabled(true); 
@@ -249,8 +261,8 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
     let isResponseOK = false;
     fetch(APIBaseURL + '/reports/metertrend?' +
       'meterid=' + selectedMeter +
-      '&reportingperiodstartdatetime=' + reportingPeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' + reportingPeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss'), {
+      '&reportingperiodstartdatetime=' + moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'), {
       method: 'GET',
       headers: {
         "Content-type": "application/json",
@@ -413,26 +425,20 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
-                  <Label className={labelClasses} for="reportingPeriodBeginsDatetime">
-                    {t('Reporting Period Begins')}
-                  </Label>
-                  <Datetime id='reportingPeriodBeginsDatetime'
-                    value={reportingPeriodBeginsDatetime}
-                    onChange={onReportingPeriodBeginsDatetimeChange}
-                    isValidDate={getValidReportingPeriodBeginsDatetimes}
-                    closeOnSelect={true} />
-                </FormGroup>
-              </Col>
-              <Col xs={6} sm={3}>
-                <FormGroup className="form-group">
-                  <Label className={labelClasses} for="reportingPeriodEndsDatetime">
-                    {t('Reporting Period Ends')}
-                  </Label>
-                  <Datetime id='reportingPeriodEndsDatetime'
-                    value={reportingPeriodEndsDatetime}
-                    onChange={onReportingPeriodEndsDatetimeChange}
-                    isValidDate={getValidReportingPeriodEndsDatetimes}
-                    closeOnSelect={true} />
+                  <Label className={labelClasses}>{t('Reporting Period')}</Label>
+                  <br/>
+                  <DateRangePicker
+                    id='reportingPeriodDateRangePicker'
+                    format="yyyy-MM-dd hh:mm aa"
+                    value={reportingPeriodDateRange}
+                    onChange={onReportingPeriodChange}
+                    size="md"
+                    style={dateRangePickerStyle}
+                    onClean={onReportingPeriodClean}
+                    locale={dateRangePickerLocale}
+                    showMeridian
+                    placeholder={t("Select Date Range")}
+                  />
                 </FormGroup>
               </Col>
               <Col xs="auto">
