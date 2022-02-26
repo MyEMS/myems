@@ -1725,7 +1725,7 @@ const resources = {
       'Base Period Begins': '基准期开始',
       'Base Period Ends': '基准期结束',
       'Comparison Types': '比较类型',
-      'Year-Over-Year': '上年同比',
+      'Year-Over-Year': '去年同比',
       'Month-On-Month': '上月环比',
       'Free Comparison': '自由比',
       'None Comparison': '不比',
