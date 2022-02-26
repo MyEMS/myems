@@ -20,6 +20,7 @@ import {
   Spinner,
 } from 'reactstrap';
 import Cascader from 'rc-cascader';
+import moment from "moment";
 import loadable from '@loadable/component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
@@ -30,7 +31,6 @@ import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL } from '../../../config';
-import moment from "moment";
 import { DateRangePicker } from 'rsuite';
 
 
@@ -57,12 +57,9 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
   let table = createRef();
   // State
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
+  const [selectedSpaceID, setSelectedSpaceID] = useState(undefined);
   const [meterList, setMeterList] = useState([]);
   const [cascaderOptions, setCascaderOptions] = useState(undefined);
-  const [spinnerHidden, setSpinnerHidden] = useState(false);
-  const [exportButtonHidden, setExportButtonHidden] = useState(true);
-  const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
-  const [selectedSpaceID, setSelectedSpaceID] = useState(undefined)
 
   //Query From
   const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([current_moment.clone().startOf('month').toDate(), current_moment.toDate()]);
@@ -86,9 +83,13 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
 
   // buttons
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
+  const [spinnerHidden, setSpinnerHidden] = useState(false);
+  const [exportButtonHidden, setExportButtonHidden] = useState(true);
+
+  // Results
+  const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
 
   useEffect(() => {
-    // begin of getting space tree
     let isResponseOK = false;
     fetch(APIBaseURL + '/spaces/tree', {
       method: 'GET',
@@ -123,7 +124,6 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
     }).catch(err => {
       console.log(err);
     });
-    // end of getting space tree
 
   }, []);
   const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
@@ -249,6 +249,7 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
     // hide export button
     setExportButtonHidden(true)
 
+    // Reinitialize tables
     setMeterList([]);
 
     let isResponseOK = false;
@@ -287,12 +288,12 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
 
           setExcelBytesBase64(json['excel_bytes_base64']);
 
+          // enable submit button
+          setSubmitButtonDisabled(false);
           // hide spinner
           setSpinnerHidden(true);
           // show export button
           setExportButtonHidden(false);
-
-          setSubmitButtonDisabled(false);
         } else {
           toast.error(json.description)
         }
