@@ -32,6 +32,7 @@ import { toast } from 'react-toastify';
 import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL } from '../../../config';
 import { DateRangePicker } from 'rsuite';
+import { endOfDay} from 'date-fns';
 
 
 const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
@@ -224,8 +225,12 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
 
   let onReportingPeriodChange = (DateRange) => {
     if(DateRange == null) {
-    setReportingPeriodDateRange([null, null]);
+      setReportingPeriodDateRange([null, null]);
     } else {
+      if (moment(DateRange[1]).format('HH:mm:ss') == '00:00:00') {
+        // if the user did not change time value, set the default time to the end of day
+        DateRange[1] = endOfDay(DateRange[1]);
+      }
       setReportingPeriodDateRange([DateRange[0], DateRange[1]]);
     }
   };

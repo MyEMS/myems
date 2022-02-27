@@ -30,6 +30,7 @@ import { APIBaseURL } from '../../../config';
 import { periodTypeOptions } from '../common/PeriodTypeOptions';
 import { comparisonTypeOptions } from '../common/ComparisonTypeOptions';
 import { DateRangePicker } from 'rsuite';
+import { endOfDay} from 'date-fns';
 
 
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
@@ -260,19 +261,25 @@ const MeterCost = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   let onBasePeriodChange = (DateRange) => {
-    console.log(DateRange);
-    
     if(DateRange == null) {
       setBasePeriodDateRange([null, null]);
     } else {
+      if (moment(DateRange[1]).format('HH:mm:ss') == '00:00:00') {
+        // if the user did not change time value, set the default time to the end of day
+        DateRange[1] = endOfDay(DateRange[1]);
+      }
       setBasePeriodDateRange([DateRange[0], DateRange[1]]);
     }
   };
 
   let onReportingPeriodChange = (DateRange) => {
-      if(DateRange == null) {
+    if(DateRange == null) {
       setReportingPeriodDateRange([null, null]);
     } else {
+      if (moment(DateRange[1]).format('HH:mm:ss') == '00:00:00') {
+        // if the user did not change time value, set the default time to the end of day
+        DateRange[1] = endOfDay(DateRange[1]);
+      }
       setReportingPeriodDateRange([DateRange[0], DateRange[1]]);
       if (comparisonType === 'year-over-year') {
         setBasePeriodDateRange([moment(DateRange[0]).clone().subtract(1, 'years').toDate(), moment(DateRange[1]).clone().subtract(1, 'years').toDate()]);
