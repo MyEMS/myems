@@ -429,14 +429,13 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
                   <br/>
                   <DateRangePicker
                     id='reportingPeriodDateRangePicker'
-                    format="yyyy-MM-dd hh:mm aa"
+                    format="yyyy-MM-dd HH:mm:ss"
                     value={reportingPeriodDateRange}
                     onChange={onReportingPeriodChange}
                     size="md"
                     style={dateRangePickerStyle}
                     onClean={onReportingPeriodClean}
                     locale={dateRangePickerLocale}
-                    showMeridian
                     placeholder={t("Select Date Range")}
                   />
                 </FormGroup>

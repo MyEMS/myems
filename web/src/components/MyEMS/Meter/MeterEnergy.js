@@ -261,6 +261,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
     }
   };
 
+  // Callback fired when value changed
   let onBasePeriodChange = (DateRange) => {
     console.log(DateRange);
     
@@ -271,6 +272,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
     }
   };
 
+  // Callback fired when value changed
   let onReportingPeriodChange = (DateRange) => {
       if(DateRange == null) {
       setReportingPeriodDateRange([null, null]);
@@ -284,14 +286,16 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
     }
   };
 
+  // Callback fired when value clean
   let onBasePeriodClean = event => {
     setBasePeriodDateRange([null, null]);
   };
 
+  // Callback fired when value clean
   let onReportingPeriodClean = event => {
     setReportingPeriodDateRange([null, null]);
   };
-
+  
   // Handler
   const handleSubmit = e => {
     e.preventDefault();
@@ -536,14 +540,13 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
                   <DateRangePicker 
                     id='basePeriodDateRangePicker'
                     readOnly={basePeriodDateRangePickerDisabled}
-                    format="yyyy-MM-dd hh:mm aa"
+                    format="yyyy-MM-dd HH:mm:ss"
                     value={basePeriodDateRange}
                     onChange={onBasePeriodChange}
                     size="md"
                     style={dateRangePickerStyle}
                     onClean={onBasePeriodClean}
                     locale={dateRangePickerLocale}
-                    showMeridian
                     placeholder={t("Select Date Range")}
                    />
                 </FormGroup>
@@ -554,14 +557,13 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
                   <br/>
                   <DateRangePicker
                     id='reportingPeriodDateRangePicker'
-                    format="yyyy-MM-dd hh:mm aa"
+                    format="yyyy-MM-dd HH:mm:ss"
                     value={reportingPeriodDateRange}
                     onChange={onReportingPeriodChange}
                     size="md"
                     style={dateRangePickerStyle}
                     onClean={onReportingPeriodClean}
                     locale={dateRangePickerLocale}
-                    showMeridian
                     placeholder={t("Select Date Range")}
                   />
                 </FormGroup>
