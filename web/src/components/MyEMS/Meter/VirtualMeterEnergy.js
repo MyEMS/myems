@@ -509,9 +509,7 @@ const VirtualMeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
-                  <Label className={labelClasses} for="basePeriodBeginsDatetime">
-                    {t('Base Period')}{t('(Optional)')}
-                  </Label>
+                  <Label className={labelClasses} for="basePeriodDateRangePicker">{t('Base Period')}{t('(Optional)')}</Label>
                   <DateRangePicker 
                     id='basePeriodDateRangePicker'
                     readOnly={basePeriodDateRangePickerDisabled}
@@ -528,7 +526,7 @@ const VirtualMeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
-                  <Label className={labelClasses}>{t('Reporting Period')}</Label>
+                  <Label className={labelClasses} for="reportingPeriodDateRangePicker">{t('Reporting Period')}</Label>
                   <br/>
                   <DateRangePicker
                     id='reportingPeriodDateRangePicker'

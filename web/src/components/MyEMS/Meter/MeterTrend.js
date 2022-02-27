@@ -430,7 +430,7 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
-                  <Label className={labelClasses}>{t('Reporting Period')}</Label>
+                  <Label className={labelClasses} for="reportingPeriodDateRangePicker">{t('Reporting Period')}</Label>
                   <br/>
                   <DateRangePicker
                     id='reportingPeriodDateRangePicker'

@@ -16,22 +16,23 @@ import {
   Spinner
 } from 'reactstrap';
 import CountUp from 'react-countup';
-import Datetime from 'react-datetime';
 import moment from 'moment';
+import loadable from '@loadable/component';
 import Cascader from 'rc-cascader';
 import CardSummary from '../common/CardSummary';
 import LineChart from '../common/LineChart';
 import SharePie from '../common/SharePie';
-import loadable from '@loadable/component';
 import { getCookieValue, createCookie } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL } from '../../../config';
+import uuid from 'uuid/v1';
 import { periodTypeOptions } from '../common/PeriodTypeOptions';
 import { comparisonTypeOptions } from '../common/ComparisonTypeOptions';
-import uuid from 'uuid/v1';
+import { DateRangePicker } from 'rsuite';
+import { endOfDay} from 'date-fns';
 
 const ChildSpacesTable = loadable(() => import('../common/ChildSpacesTable'));
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
@@ -57,18 +58,32 @@ const SpaceCost = ({ setRedirect, setRedirectUrl, t }) => {
     }
   });
   // State
-
+  // Query Parameters
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
   const [selectedSpaceID, setSelectedSpaceID] = useState(undefined);
   const [comparisonType, setComparisonType] = useState('month-on-month');
   const [periodType, setPeriodType] = useState('daily');
-  const [basePeriodBeginsDatetime, setBasePeriodBeginsDatetime] = useState(current_moment.clone().subtract(1, 'months').startOf('month'));
-  const [basePeriodEndsDatetime, setBasePeriodEndsDatetime] = useState(current_moment.clone().subtract(1, 'months'));
-  const [basePeriodBeginsDatetimeDisabled, setBasePeriodBeginsDatetimeDisabled] = useState(true);
-  const [basePeriodEndsDatetimeDisabled, setBasePeriodEndsDatetimeDisabled] = useState(true);
-  const [reportingPeriodBeginsDatetime, setReportingPeriodBeginsDatetime] = useState(current_moment.clone().startOf('month'));
-  const [reportingPeriodEndsDatetime, setReportingPeriodEndsDatetime] = useState(current_moment);
   const [cascaderOptions, setCascaderOptions] = useState(undefined);
+  const [basePeriodDateRange, setBasePeriodDateRange] = useState([current_moment.clone().subtract(1, 'months').startOf('month').toDate(), current_moment.clone().subtract(1, 'months').toDate()]);
+  const [basePeriodDateRangePickerDisabled, setBasePeriodDateRangePickerDisabled] = useState(true);
+  const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([current_moment.clone().startOf('month').toDate(), current_moment.toDate()]);
+  const dateRangePickerLocale = {
+    sunday: t('sunday'),
+    monday: t('monday'),
+    tuesday: t('tuesday'),
+    wednesday: t('wednesday'),
+    thursday: t('thursday'),
+    friday: t('friday'),
+    saturday: t('saturday'),
+    ok: t('ok'),
+    today: t('today'),
+    yesterday: t('yesterday'),
+    hours: t('hours'),
+    minutes: t('minutes'),
+    seconds: t('seconds'),
+    last7Days: t('last7Days')
+  };
+  const dateRangePickerStyle = { display: 'block', zIndex: 10};
   
   // buttons
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
@@ -146,67 +161,61 @@ const SpaceCost = ({ setRedirect, setRedirectUrl, t }) => {
     console.log(target.value);
     setComparisonType(target.value);
     if (target.value === 'year-over-year') {
-      setBasePeriodBeginsDatetimeDisabled(true);
-      setBasePeriodEndsDatetimeDisabled(true);
-      setBasePeriodBeginsDatetime(moment(reportingPeriodBeginsDatetime).subtract(1, 'years'));
-      setBasePeriodEndsDatetime(moment(reportingPeriodEndsDatetime).subtract(1, 'years'));
+      setBasePeriodDateRangePickerDisabled(true);
+      setBasePeriodDateRange([moment(reportingPeriodDateRange[0]).subtract(1, 'years').toDate(),
+        moment(reportingPeriodDateRange[1]).subtract(1, 'years').toDate()]);
     } else if (target.value === 'month-on-month') {
-      setBasePeriodBeginsDatetimeDisabled(true);
-      setBasePeriodEndsDatetimeDisabled(true);
-      setBasePeriodBeginsDatetime(moment(reportingPeriodBeginsDatetime).subtract(1, 'months'));
-      setBasePeriodEndsDatetime(moment(reportingPeriodEndsDatetime).subtract(1, 'months'));
+      setBasePeriodDateRangePickerDisabled(true);
+      setBasePeriodDateRange([moment(reportingPeriodDateRange[0]).subtract(1, 'months').toDate(),
+        moment(reportingPeriodDateRange[1]).subtract(1, 'months').toDate()]);
     } else if (target.value === 'free-comparison') {
-      setBasePeriodBeginsDatetimeDisabled(false);
-      setBasePeriodEndsDatetimeDisabled(false);
+      setBasePeriodDateRangePickerDisabled(false);
     } else if (target.value === 'none-comparison') {
-      setBasePeriodBeginsDatetime(undefined);
-      setBasePeriodEndsDatetime(undefined);
-      setBasePeriodBeginsDatetimeDisabled(true);
-      setBasePeriodEndsDatetimeDisabled(true);
+      setBasePeriodDateRange([null, null]);
+      setBasePeriodDateRangePickerDisabled(true);
     }
-  }
+  };
 
-  let onBasePeriodBeginsDatetimeChange = (newDateTime) => {
-    setBasePeriodBeginsDatetime(newDateTime);
-  }
-
-  let onBasePeriodEndsDatetimeChange = (newDateTime) => {
-    setBasePeriodEndsDatetime(newDateTime);
-  }
-
-  let onReportingPeriodBeginsDatetimeChange = (newDateTime) => {
-    setReportingPeriodBeginsDatetime(newDateTime);
-    if (comparisonType === 'year-over-year') {
-      setBasePeriodBeginsDatetime(newDateTime.clone().subtract(1, 'years'));
-    } else if (comparisonType === 'month-on-month') {
-      setBasePeriodBeginsDatetime(newDateTime.clone().subtract(1, 'months'));
+  // Callback fired when value changed
+  let onBasePeriodChange = (DateRange) => {
+    if(DateRange == null) {
+      setBasePeriodDateRange([null, null]);
+    } else {
+      if (moment(DateRange[1]).format('HH:mm:ss') == '00:00:00') {
+        // if the user did not change time value, set the default time to the end of day
+        DateRange[1] = endOfDay(DateRange[1]);
+      }
+      setBasePeriodDateRange([DateRange[0], DateRange[1]]);
     }
-  }
+  };
 
-  let onReportingPeriodEndsDatetimeChange = (newDateTime) => {
-    setReportingPeriodEndsDatetime(newDateTime);
-    if (comparisonType === 'year-over-year') {
-      setBasePeriodEndsDatetime(newDateTime.clone().subtract(1, 'years'));
-    } else if (comparisonType === 'month-on-month') {
-      setBasePeriodEndsDatetime(newDateTime.clone().subtract(1, 'months'));
+  // Callback fired when value changed
+  let onReportingPeriodChange = (DateRange) => {
+    if(DateRange == null) {
+      setReportingPeriodDateRange([null, null]);
+    } else {
+      if (moment(DateRange[1]).format('HH:mm:ss') == '00:00:00') {
+        // if the user did not change time value, set the default time to the end of day
+        DateRange[1] = endOfDay(DateRange[1]);
+      }
+      setReportingPeriodDateRange([DateRange[0], DateRange[1]]);
+      if (comparisonType === 'year-over-year') {
+        setBasePeriodDateRange([moment(DateRange[0]).clone().subtract(1, 'years').toDate(), moment(DateRange[1]).clone().subtract(1, 'years').toDate()]);
+      } else if (comparisonType === 'month-on-month') {
+        setBasePeriodDateRange([moment(DateRange[0]).clone().subtract(1, 'months').toDate(), moment(DateRange[1]).clone().subtract(1, 'months').toDate()]);
+      }
     }
-  }
+  };
 
-  var getValidBasePeriodBeginsDatetimes = function (currentDate) {
-    return currentDate.isBefore(moment(basePeriodEndsDatetime, 'MM/DD/YYYY, hh:mm:ss a'));
-  }
+  // Callback fired when value clean
+  let onBasePeriodClean = event => {
+    setBasePeriodDateRange([null, null]);
+  };
 
-  var getValidBasePeriodEndsDatetimes = function (currentDate) {
-    return currentDate.isAfter(moment(basePeriodBeginsDatetime, 'MM/DD/YYYY, hh:mm:ss a'));
-  }
-
-  var getValidReportingPeriodBeginsDatetimes = function (currentDate) {
-    return currentDate.isBefore(moment(reportingPeriodEndsDatetime, 'MM/DD/YYYY, hh:mm:ss a'));
-  }
-
-  var getValidReportingPeriodEndsDatetimes = function (currentDate) {
-    return currentDate.isAfter(moment(reportingPeriodBeginsDatetime, 'MM/DD/YYYY, hh:mm:ss a'));
-  }
+  // Callback fired when value clean
+  let onReportingPeriodClean = event => {
+    setReportingPeriodDateRange([null, null]);
+  };
 
   // Handler
   const handleSubmit = e => {
@@ -215,10 +224,10 @@ const SpaceCost = ({ setRedirect, setRedirectUrl, t }) => {
     console.log(selectedSpaceID);
     console.log(comparisonType);
     console.log(periodType);
-    console.log(basePeriodBeginsDatetime != null ? basePeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') : undefined);
-    console.log(basePeriodEndsDatetime != null ? basePeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss') : undefined);
-    console.log(reportingPeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss'));
-    console.log(reportingPeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss'));
+    console.log(basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : null)
+    console.log(basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : null)
+    console.log(moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'))
+    console.log(moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'));
     
     // disable submit button
     setSubmitButtonDisabled(true);
@@ -235,10 +244,10 @@ const SpaceCost = ({ setRedirect, setRedirectUrl, t }) => {
     fetch(APIBaseURL + '/reports/spacecost?' +
       'spaceid=' + selectedSpaceID +
       '&periodtype=' + periodType +
-      '&baseperiodstartdatetime=' + (basePeriodBeginsDatetime != null ? basePeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') : '') +
-      '&baseperiodenddatetime=' + (basePeriodEndsDatetime != null ? basePeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss') : '') +
-      '&reportingperiodstartdatetime=' + reportingPeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' + reportingPeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss'), {
+      '&baseperiodstartdatetime=' + (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
+      '&baseperiodenddatetime=' + (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
+      '&reportingperiodstartdatetime=' + moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'), {
       method: 'GET',
       headers: {
         "Content-type": "application/json",
@@ -611,52 +620,36 @@ const SpaceCost = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
-                  <Label className={labelClasses} for="basePeriodBeginsDatetime">
-                    {t('Base Period Begins')}{t('(Optional)')}
-                  </Label>
-                  <Datetime id='basePeriodBeginsDatetime'
-                    value={basePeriodBeginsDatetime}
-                    inputProps={{ disabled: basePeriodBeginsDatetimeDisabled }}
-                    onChange={onBasePeriodBeginsDatetimeChange}
-                    isValidDate={getValidBasePeriodBeginsDatetimes}
-                    closeOnSelect={true} />
+                  <Label className={labelClasses} for="basePeriodDateRangePicker">{t('Base Period')}{t('(Optional)')}</Label>
+                  <DateRangePicker 
+                    id='basePeriodDateRangePicker'
+                    readOnly={basePeriodDateRangePickerDisabled}
+                    format="yyyy-MM-dd HH:mm:ss"
+                    value={basePeriodDateRange}
+                    onChange={onBasePeriodChange}
+                    size="md"
+                    style={dateRangePickerStyle}
+                    onClean={onBasePeriodClean}
+                    locale={dateRangePickerLocale}
+                    placeholder={t("Select Date Range")}
+                   />
                 </FormGroup>
               </Col>
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
-                  <Label className={labelClasses} for="basePeriodEndsDatetime">
-                    {t('Base Period Ends')}{t('(Optional)')}
-                  </Label>
-                  <Datetime id='basePeriodEndsDatetime'
-                    value={basePeriodEndsDatetime}
-                    inputProps={{ disabled: basePeriodEndsDatetimeDisabled }}
-                    onChange={onBasePeriodEndsDatetimeChange}
-                    isValidDate={getValidBasePeriodEndsDatetimes}
-                    closeOnSelect={true} />
-                </FormGroup>
-              </Col>
-              <Col xs={6} sm={3}>
-                <FormGroup className="form-group">
-                  <Label className={labelClasses} for="reportingPeriodBeginsDatetime">
-                    {t('Reporting Period Begins')}
-                  </Label>
-                  <Datetime id='reportingPeriodBeginsDatetime'
-                    value={reportingPeriodBeginsDatetime}
-                    onChange={onReportingPeriodBeginsDatetimeChange}
-                    isValidDate={getValidReportingPeriodBeginsDatetimes}
-                    closeOnSelect={true} />
-                </FormGroup>
-              </Col>
-              <Col xs={6} sm={3}>
-                <FormGroup className="form-group">
-                  <Label className={labelClasses} for="reportingPeriodEndsDatetime">
-                    {t('Reporting Period Ends')}
-                  </Label>
-                  <Datetime id='reportingPeriodEndsDatetime'
-                    value={reportingPeriodEndsDatetime}
-                    onChange={onReportingPeriodEndsDatetimeChange}
-                    isValidDate={getValidReportingPeriodEndsDatetimes}
-                    closeOnSelect={true} />
+                  <Label className={labelClasses} for="reportingPeriodDateRangePicker">{t('Reporting Period')}</Label>
+                  <br/>
+                  <DateRangePicker
+                    id='reportingPeriodDateRangePicker'
+                    format="yyyy-MM-dd HH:mm:ss"
+                    value={reportingPeriodDateRange}
+                    onChange={onReportingPeriodChange}
+                    size="md"
+                    style={dateRangePickerStyle}
+                    onClean={onReportingPeriodClean}
+                    locale={dateRangePickerLocale}
+                    placeholder={t("Select Date Range")}
+                  />
                 </FormGroup>
               </Col>
               <Col xs="auto">
@@ -737,6 +730,7 @@ const SpaceCost = ({ setRedirect, setRedirectUrl, t }) => {
         data={parameterLineChartData}
         options={parameterLineChartOptions}>
       </LineChart>
+
       <DetailedDataTable data={detailedDataTableData} title={t('Detailed Data')} columns={detailedDataTableColumns} pagesize={50} >
       </DetailedDataTable>
       <br />
