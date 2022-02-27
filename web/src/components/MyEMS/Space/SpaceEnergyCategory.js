@@ -86,7 +86,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
     last7Days: t('last7Days')
   };
   const dateRangePickerStyle = { display: 'block', zIndex: 10};
-  
+
   // buttons
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
@@ -109,10 +109,10 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
   const [parameterLineChartLabels, setParameterLineChartLabels] = useState([]);
   const [parameterLineChartData, setParameterLineChartData] = useState({});
   const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
-  
+
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([{dataField: 'startdatetime', text: t('Datetime'), sort: true}]);
-  
+
   const [childSpacesTableData, setChildSpacesTableData] = useState([]);
   const [childSpacesTableColumns, setChildSpacesTableColumns] = useState([{dataField: 'name', text: t('Child Spaces'), sort: true }]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
