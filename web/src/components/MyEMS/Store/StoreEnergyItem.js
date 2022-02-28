@@ -324,12 +324,11 @@ const StoreEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(response => {
       if (response.ok) {
         isResponseOK = true;
-      }
+      };
       return response.json();
     }).then(json => {
       if (isResponseOK) {
-        console.log(json)
-
+        console.log(json);
         let cardSummaryArray = []
         json['reporting_period']['names'].forEach((currentValue, index) => {
           let cardSummaryItem = {}
@@ -499,7 +498,6 @@ const StoreEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
   };
   
 
-
   return (
     <Fragment>
       <div>
@@ -660,7 +658,6 @@ const StoreEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
         data={storeLineChartData}
         options={storeLineChartOptions}>
       </LineChart>
-
       <LineChart reportingTitle={t('Related Parameters')}
         baseTitle=''
         labels={parameterLineChartLabels}
@@ -670,7 +667,6 @@ const StoreEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
       <br />
       <DetailedDataTable data={detailedDataTableData} title={t('Detailed Data')} columns={detailedDataTableColumns} pagesize={50} >
       </DetailedDataTable>
-
     </Fragment>
   );
 };

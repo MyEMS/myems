@@ -322,7 +322,7 @@ const StoreStatistics = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(response => {
       if (response.ok) {
         isResponseOK = true;
-      }
+      };
       return response.json();
     }).then(json => {
       if (isResponseOK) {

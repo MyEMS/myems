@@ -23,7 +23,6 @@ import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL } from '../../../config';
-
 import { DateRangePicker } from 'rsuite';
 import { endOfDay} from 'date-fns';
 
