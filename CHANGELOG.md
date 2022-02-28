@@ -16,6 +16,31 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
+## [v1.8.0] -   2022-02-28
+### Added
+- added Meter Carbon Dioxide Emissions Report to Web UI
+- added Virtual Meter Carbon Dioxide Emissions Report
+
+### Changed
+- updated Dashboard report in Web UI
+- updated README for docker
+- added limit 1 to number of ENERGY_VALUE points of meter
+- updated docker compose files for windows host and for linux host
+- replaced DateTime with DateRangePicker for Meter reports in Web UI
+- replaced DateTime with DateRangePicker for Space reports in Web UI
+- replaced DateTime with DateRangePicker for Store reports in Web UI
+- replaced DateTime with DateRangePicker for Tenant reports in Web UI
+- replaced DateTime with DateRangePicker for Shopfloor reports in Web UI
+- replaced DateTime with DateRangePicker for Equipment reports in Web UI
+- replaced DateTime with DateRangePicker for CombinedEquipment reports in Web UI
+
+### Fixed
+- fixed TypeError cased by undefined decimal value in Web UI
+- fixed issues in CombinedEquipmentEfficiency report and EquipmentEfficiency report
+
+### Removed
+-   None.
+
 ## [v1.7.2] -   2022-02-19
 ### Added
 - added default character set and collate to database
@@ -705,7 +730,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v1.7.2...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v1.8.0...HEAD
+[v1.8.0]: https://github.com/MyEMS/myems/compare/v1.7.2...v1.8.0
 [v1.7.2]: https://github.com/MyEMS/myems/compare/v1.7.1...v1.7.2
 [v1.7.1]: https://github.com/MyEMS/myems/compare/v1.7.0...v1.7.1
 [v1.7.0]: https://github.com/MyEMS/myems/compare/v1.6.1...v1.7.0
