@@ -77,7 +77,6 @@ const StoreBatch = ({ setRedirect, setRedirectUrl, t }) => {
   };
   const dateRangePickerStyle = { display: 'block', zIndex: 10};
 
-      
   // buttons
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
@@ -168,7 +167,7 @@ const StoreBatch = ({ setRedirect, setRedirectUrl, t }) => {
     setSpinnerHidden(false);
     // hide export button
     setExportButtonHidden(true)
- 
+
     // Reinitialize tables
     setStoreList([]);
     
@@ -235,7 +234,6 @@ const StoreBatch = ({ setRedirect, setRedirectUrl, t }) => {
             }
           })
         });
-        console.log(detailed_column_list);
         setDetailedDataTableColumns(detailed_column_list);
 
         setExcelBytesBase64(json['excel_bytes_base64']);
