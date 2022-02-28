@@ -12,9 +12,8 @@ import {
   FormGroup,
   Input,
   Label,
-  Spinner,
+  Spinner
 } from 'reactstrap';
-import Datetime from 'react-datetime';
 import moment from 'moment';
 import loadable from '@loadable/component';
 import Cascader from 'rc-cascader';
@@ -25,6 +24,8 @@ import { toast } from 'react-toastify';
 import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL } from '../../../config';
 
+import { DateRangePicker } from 'rsuite';
+import { endOfDay} from 'date-fns';
 
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
@@ -49,15 +50,33 @@ const ShopfloorBatch = ({ setRedirect, setRedirectUrl, t }) => {
       createCookie('token', token, 1000 * 60 * 60 * 8);
     }
   });
+
+
   // State
   // Query Parameters
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
   const [selectedSpaceID, setSelectedSpaceID] = useState(undefined);
   const [shopfloorList, setShopfloorList] = useState([]);
-  const [reportingPeriodBeginsDatetime, setReportingPeriodBeginsDatetime] = useState(current_moment.clone().startOf('month'));
-  const [reportingPeriodEndsDatetime, setReportingPeriodEndsDatetime] = useState(current_moment);
   const [cascaderOptions, setCascaderOptions] = useState(undefined);
-      
+  const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([current_moment.clone().startOf('month').toDate(), current_moment.toDate()]);
+  const dateRangePickerLocale = {
+    sunday: t('sunday'),
+    monday: t('monday'),
+    tuesday: t('tuesday'),
+    wednesday: t('wednesday'),
+    thursday: t('thursday'),
+    friday: t('friday'),
+    saturday: t('saturday'),
+    ok: t('ok'),
+    today: t('today'),
+    yesterday: t('yesterday'),
+    hours: t('hours'),
+    minutes: t('minutes'),
+    seconds: t('seconds'),
+    last7Days: t('last7Days')
+  };
+  const dateRangePickerStyle = { display: 'block', zIndex: 10};
+
   // buttons
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
@@ -67,7 +86,7 @@ const ShopfloorBatch = ({ setRedirect, setRedirectUrl, t }) => {
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState(
     [{dataField: 'name', text: t('Name'), sort: true}, {dataField: 'space', text: t('Space'), sort: true}]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
-  
+
   useEffect(() => {
     let isResponseOK = false;
     fetch(APIBaseURL + '/spaces/tree', {
@@ -115,29 +134,32 @@ const ShopfloorBatch = ({ setRedirect, setRedirectUrl, t }) => {
     setExportButtonHidden(true);
     setSubmitButtonDisabled(false);
   }
-  let onReportingPeriodBeginsDatetimeChange = (newDateTime) => {
-    setReportingPeriodBeginsDatetime(newDateTime);
-  }
+  // Callback fired when value changed
+  let onReportingPeriodChange = (DateRange) => {
+    if(DateRange == null) {
+      setReportingPeriodDateRange([null, null]);
+    } else {
+      if (moment(DateRange[1]).format('HH:mm:ss') == '00:00:00') {
+        // if the user did not change time value, set the default time to the end of day
+        DateRange[1] = endOfDay(DateRange[1]);
+      }
+      setReportingPeriodDateRange([DateRange[0], DateRange[1]]);
+    }
+  };
 
-  let onReportingPeriodEndsDatetimeChange = (newDateTime) => {
-    setReportingPeriodEndsDatetime(newDateTime);
-  }
-
-  var getValidReportingPeriodBeginsDatetimes = function (currentDate) {
-    return currentDate.isBefore(moment(reportingPeriodEndsDatetime, 'MM/DD/YYYY, hh:mm:ss a'));
-  }
-
-  var getValidReportingPeriodEndsDatetimes = function (currentDate) {
-    return currentDate.isAfter(moment(reportingPeriodBeginsDatetime, 'MM/DD/YYYY, hh:mm:ss a'));
-  }
-
+  // Callback fired when value clean
+  let onReportingPeriodClean = event => {
+    setReportingPeriodDateRange([null, null]);
+  };  
+  
+  
   // Handler
   const handleSubmit = e => {
     e.preventDefault();
     console.log('handleSubmit');
     console.log(selectedSpaceID);
-    console.log(reportingPeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss'));
-    console.log(reportingPeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss'));
+    console.log(moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'))
+    console.log(moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'));
 
     // disable submit button
     setSubmitButtonDisabled(true);
@@ -145,15 +167,15 @@ const ShopfloorBatch = ({ setRedirect, setRedirectUrl, t }) => {
     setSpinnerHidden(false);
     // hide export button
     setExportButtonHidden(true)
- 
+
     // Reinitialize tables
     setShopfloorList([]);
     
     let isResponseOK = false;
     fetch(APIBaseURL + '/reports/shopfloorbatch?' +
       'spaceid=' + selectedSpaceID +
-      '&reportingperiodstartdatetime=' + reportingPeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' + reportingPeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss'), {
+      '&reportingperiodstartdatetime=' + moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'), {
       method: 'GET',
       headers: {
         "Content-type": "application/json",
@@ -169,7 +191,7 @@ const ShopfloorBatch = ({ setRedirect, setRedirectUrl, t }) => {
       return response.json();
     }).then(json => {
       if (isResponseOK) {
-        console.log(json)
+        console.log(json);
         let shopfloors = [];
         if (json['shopfloors'].length > 0) {
           json['shopfloors'].forEach((currentShopfloor, index) => {
@@ -278,26 +300,19 @@ const ShopfloorBatch = ({ setRedirect, setRedirectUrl, t }) => {
               
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
-                  <Label className={labelClasses} for="reportingPeriodBeginsDatetime">
-                    {t('Reporting Period Begins')}
-                  </Label>
-                  <Datetime id='reportingPeriodBeginsDatetime'
-                    value={reportingPeriodBeginsDatetime}
-                    onChange={onReportingPeriodBeginsDatetimeChange}
-                    isValidDate={getValidReportingPeriodBeginsDatetimes}
-                    closeOnSelect={true} />
-                </FormGroup>
-              </Col>
-              <Col xs={6} sm={3}>
-                <FormGroup className="form-group">
-                  <Label className={labelClasses} for="reportingPeriodEndsDatetime">
-                    {t('Reporting Period Ends')}
-                  </Label>
-                  <Datetime id='reportingPeriodEndsDatetime'
-                    value={reportingPeriodEndsDatetime}
-                    onChange={onReportingPeriodEndsDatetimeChange}
-                    isValidDate={getValidReportingPeriodEndsDatetimes}
-                    closeOnSelect={true} />
+                  <Label className={labelClasses} for="reportingPeriodDateRangePicker">{t('Reporting Period')}</Label>
+                  <br/>
+                  <DateRangePicker
+                    id='reportingPeriodDateRangePicker'
+                    format="yyyy-MM-dd HH:mm:ss"
+                    value={reportingPeriodDateRange}
+                    onChange={onReportingPeriodChange}
+                    size="md"
+                    style={dateRangePickerStyle}
+                    onClean={onReportingPeriodClean}
+                    locale={dateRangePickerLocale}
+                    placeholder={t("Select Date Range")}
+                  />
                 </FormGroup>
               </Col>
               <Col xs="auto">

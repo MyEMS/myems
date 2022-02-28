@@ -329,11 +329,11 @@ const StoreEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(response => {
       if (response.ok) {
         isResponseOK = true;
-      }
+      };
       return response.json();
     }).then(json => {
       if (isResponseOK) {
-        console.log(json)
+        console.log(json);
 
         let cardSummaryArray = []
         json['reporting_period']['names'].forEach((currentValue, index) => {
