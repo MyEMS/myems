@@ -151,7 +151,6 @@ const EquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
     setReportingPeriodDateRange([null, null]);
   };
 
-
   // Handler
   const handleSubmit = e => {
     e.preventDefault();

@@ -507,7 +507,6 @@ const EquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
         setSpinnerHidden(true);
         // show export button
         setExportButtonHidden(false);
-        
       } else {
         toast.error(json.description)
       }
@@ -532,7 +531,6 @@ const EquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
             document.body.removeChild(link);
         });
   };
-  
 
   return (
     <Fragment>
