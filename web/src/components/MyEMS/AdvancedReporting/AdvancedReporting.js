@@ -2,7 +2,6 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { Alert, Row, Col, Card, CardBody, Button, ButtonGroup, Form, FormGroup, Label, Spinner } from 'reactstrap';
 import Summary from './Summary';
 import FalconCardHeader from '../../common/FalconCardHeader';
-import Datetime from 'react-datetime';
 import moment from 'moment';
 import createMarkup from '../../../helpers/createMarkup';
 import { isIterableArray } from '../../../helpers/utils';
