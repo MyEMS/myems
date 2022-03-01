@@ -218,6 +218,11 @@ Sehen [Docker Compose Schnelle Bereitstellung](docker-compose-de.md)
 
 [Community Edition Straßenkarte](https://github.com/orgs/MyEMS/projects?type=beta)
 
+
+## MyEMS Kooperationsplan für Integrationstests
+
+Sehen [MyEMS Kooperationsplan für Integrationstests](integration-testing-cn.md)
+
 ## QQ Group
 
 ![QQ Group 1](/docs/images/qq-group-1.png)

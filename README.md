@@ -223,6 +223,10 @@ administrator@myems.io
 
 [社区版路线图](https://github.com/orgs/MyEMS/projects?type=beta)
 
+## MyEMS集成测试合作计划
+
+详见 [MyEMS集成测试合作计划](integration-testing-cn.md)
+
 ## QQ交流群
 
 ![QQ群1](/docs/images/qq-group-1.png)
