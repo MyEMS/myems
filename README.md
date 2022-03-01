@@ -223,9 +223,9 @@ administrator@myems.io
 
 [社区版路线图](https://github.com/orgs/MyEMS/projects?type=beta)
 
-## MyEMS集成测试合作计划
+## 集成测试合作计划
 
-详见 [MyEMS集成测试合作计划](integration-testing-cn.md)
+详见 [集成测试合作计划](integration-testing-cn.md)
 
 ## QQ交流群
 
