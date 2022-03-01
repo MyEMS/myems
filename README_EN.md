@@ -220,9 +220,9 @@ See [Docker Compose Repaid Deployment](docker-compose-en.md)
 
 [Community Edition Roadmap](https://github.com/orgs/MyEMS/projects?type=beta)
 
-## MyEMS Integration Testing Cooperation Plan
+## Integration Testing Cooperation Plan
 
-详见 [MyEMS集成测试合作计划](integration-testing-cn.md)
+See [Integration Testing Cooperation Plan](integration-testing-cn.md)
 
 
 ## QQ Group
