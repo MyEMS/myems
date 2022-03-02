@@ -3,9 +3,9 @@
 
 | Eigenschaften                    | Enterprise Edition | Erläuterung   |
 | :---                             |  :----:            |  :----:       |
-| Open Source                      | ❌      |                      |
-| Pricing                          | Pay for Projects |              |
-| Change Name and Logo             | ✔️        |                      |
+| Open Source                      | ❌      |  Codeverschlüsselung    |
+| Pricing                          | Pay for Projects | Entwicklung kann entsprechend der Projektgenehmigung angepasst werden  |
+| Change Name and Logo             | ✔️        |  Entwicklung kann entsprechend der Projektgenehmigung angepasst werden |
 | Kubernetes                       |  ✔️        | https://kubernetes.io/ |
 | Space/Saving Data                |  ✔️        | Erfordert eine Komponente zur Vorhersage des Energieverbrauchs |
 | Equipment/Saving Data            | ✔️        | Erfordert eine Komponente zur Vorhersage des Energieverbrauchs |
@@ -31,24 +31,26 @@
 | Ingest from Oracle               |  ✔️        | https://www.oracle.com/database/ |
 | Ingest from MongoDB              |  ✔️        | https://www.mongodb.com/ |
 | Ingest from InfluxDB             |  ✔️        | https://www.influxdata.com/products/influxdb/ |
-| FDD Rule Engine                  |  ✔️        | Erfordert eine Standardkomponentenlizenz |
+| Energy integrator                |  ✔️        | Enterprise Version Lizenz oder anpassbare Entwicklung |
+| Equipment Runtime Totalization   |  ✔️        | Enterprise Version Lizenz oder anpassbare Entwicklung |
+| FDD Rule Engine                  |  ✔️        | Enterprise Version Lizenz oder anpassbare Entwicklung |
 | Alarm via Alibaba Cloud SMS Service| ✔️        | https://www.aliyun.com/product/sms?userCode=8jwn6m8c |
-| Advanced Reporting Engine        |  ✔️        | Erfordert eine Standardkomponentenlizenz oder eine benutzerdefinierte Entwicklung |
-| Prognose des Energieverbrauchs   |  ✔️        | Erfordert eine Standardkomponentenlizenz oder eine benutzerdefinierte Entwicklung |
-| Graphics Drawing Tool            |  ✔️        | Erfordert eine Standardkomponentenlizenz |
-| Equipments Remote Control        |  ✔️        | Erfordert eine Standardkomponentenlizenz oder eine benutzerdefinierte Entwicklung |
+| Advanced Reporting Engine        |  ✔️        | Enterprise Version Lizenz oder anpassbare Entwicklung |
+| Prognose des Energieverbrauchs   |  ✔️        | Enterprise Version Lizenz oder anpassbare Entwicklung |
+| Graphics Drawing Tool            |  ✔️        | Enterprise Version Lizenz oder anpassbare Entwicklung |
+| Equipments Remote Control        |  ✔️        | Enterprise Version Lizenz oder anpassbare Entwicklung |
 | BACnet Server                    |  ✔️        | http://www.bacnet.org/ |
 | Modbus TCP Server                |  ✔️        | https://modbus.org/ |
 | OPC UA Server                    |  ✔️        | https://opcfoundation.org/ |
 | MQTT Publisher                   |  ✔️        | https://mqtt.org/ |
 | Kafka Producer                   |  ✔️        | Produce Data https://kafka.apache.org/ |
-| iOS APP                          |  ✔️        | Erfordert eine Standardkomponentenlizenz oder eine benutzerdefinierte Entwicklung |
-| Android APP                      |  ✔️        | Erfordert eine Standardkomponentenlizenz oder eine benutzerdefinierte Entwicklung |
-| WeChat Mini Program              |  ✔️        | Erfordert eine Standardkomponentenlizenz oder eine benutzerdefinierte Entwicklung |
-| Alipay Mini Program              |  ✔️        | Erfordert eine Standardkomponentenlizenz oder eine benutzerdefinierte Entwicklung |
+| iOS APP                          |  ✔️        | Enterprise Version Lizenz oder anpassbare Entwicklung |
+| Android APP                      |  ✔️        | Enterprise Version Lizenz oder anpassbare Entwicklung |
+| WeChat Mini Program              |  ✔️        | Enterprise Version Lizenz oder anpassbare Entwicklung |
+| Alipay Mini Program              |  ✔️        | Enterprise Version Lizenz oder anpassbare Entwicklung |
 | IPC Hardware Gateway (Data Acquisition and Remote Control）| ✔️ | MyEMS-zertifizierte industrielle Computerhardware |
 | LoRa Radio Module (Data Acquisition and Remote Control）   | ✔️ | MyEMS-zertifiziertes LoRa-Hardwaregerät |
-| Protocol for Uploading to Provincial Platform of On-line monitoring system for Key Energy-Consuming Unit | ❌     | ✔️        |                      |
+| Protocol for Uploading to Provincial/Municipal Platform of On-line monitoring system for Key Energy-Consuming Unit | ❌     | ✔️        |                      |
 | 3rd Party Systems Integration Service | ✔️        | Kundenspezifische Entwicklung |
 | Online software training         |  ✔️        |                      |
 | Face to face software training   |  ✔️        |                      |
