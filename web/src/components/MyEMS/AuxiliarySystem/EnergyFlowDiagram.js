@@ -14,7 +14,6 @@ import {
   CustomInput,
   Spinner,
 } from 'reactstrap';
-import Datetime from 'react-datetime';
 import moment from 'moment';
 import ReactEchartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/lib/echarts';
