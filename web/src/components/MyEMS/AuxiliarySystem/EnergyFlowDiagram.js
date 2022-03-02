@@ -14,7 +14,6 @@ import {
   CustomInput,
   Spinner,
 } from 'reactstrap';
-import Datetime from 'react-datetime';
 import moment from 'moment';
 import ReactEchartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/lib/echarts';
@@ -25,6 +24,8 @@ import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { APIBaseURL } from '../../../config';
+import { DateRangePicker } from 'rsuite';
+import { endOfDay} from 'date-fns';
 
 echarts.use([SankeyChart]);
 const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
@@ -51,8 +52,24 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
   // Query Parameters
   const [energyFlowDiagramList, setEnergyFlowDiagramList] = useState([]);
   const [selectedEnergyFlowDiagram, setSelectedEnergyFlowDiagram] = useState(undefined);
-  const [reportingPeriodBeginsDatetime, setReportingPeriodBeginsDatetime] = useState(current_moment.clone().subtract(1, 'months').startOf('month'));
-  const [reportingPeriodEndsDatetime, setReportingPeriodEndsDatetime] = useState(current_moment.clone().subtract(1, 'months').endOf('month'));
+  const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([current_moment.clone().startOf('month').toDate(), current_moment.toDate()]);
+  const dateRangePickerLocale = {
+    sunday: t('sunday'),
+    monday: t('monday'),
+    tuesday: t('tuesday'),
+    wednesday: t('wednesday'),
+    thursday: t('thursday'),
+    friday: t('friday'),
+    saturday: t('saturday'),
+    ok: t('ok'),
+    today: t('today'),
+    yesterday: t('yesterday'),
+    hours: t('hours'),
+    minutes: t('minutes'),
+    seconds: t('seconds'),
+    last7Days: t('last7Days')
+  };
+  const dateRangePickerStyle = { display: 'block', zIndex: 10};
   const { isDark } = useContext(AppContext);
 
   // buttons
@@ -193,29 +210,32 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
     };
   };
 
-  let onReportingPeriodBeginsDatetimeChange = (newDateTime) => {
-    setReportingPeriodBeginsDatetime(newDateTime);
-  }
+  let onReportingPeriodChange = (DateRange) => {
+    if(DateRange == null) {
+      setReportingPeriodDateRange([null, null]);
+      setSubmitButtonDisabled(true);
+    } else {
+      if (moment(DateRange[1]).format('HH:mm:ss') == '00:00:00') {
+        // if the user did not change time value, set the default time to the end of day
+        DateRange[1] = endOfDay(DateRange[1]);
+      }
+      setReportingPeriodDateRange([DateRange[0], DateRange[1]]);
+      setSubmitButtonDisabled(false);
+    }
+  };
 
-  let onReportingPeriodEndsDatetimeChange = (newDateTime) => {
-    setReportingPeriodEndsDatetime(newDateTime);
-  }
-
-  var getValidReportingPeriodBeginsDatetimes = function (currentDate) {
-    return currentDate.isBefore(moment(reportingPeriodEndsDatetime, 'MM/DD/YYYY, hh:mm:ss a'));
-  }
-
-  var getValidReportingPeriodEndsDatetimes = function (currentDate) {
-    return currentDate.isAfter(moment(reportingPeriodBeginsDatetime, 'MM/DD/YYYY, hh:mm:ss a'));
-  }
+  // Callback fired when value clean
+  let onReportingPeriodClean = event => {
+    setReportingPeriodDateRange([null, null]);
+  };
 
   // Handler
   const handleSubmit = e => {
     e.preventDefault();
     console.log('handleSubmit');
     console.log(selectedEnergyFlowDiagram);
-    console.log(reportingPeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss'));
-    console.log(reportingPeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss'));
+    console.log(moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'));
+    console.log(moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'));
 
     // disable submit button
     setSubmitButtonDisabled(true);
@@ -225,8 +245,8 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
     let isResponseOK = false;
     fetch(APIBaseURL + '/reports/energyflowdiagram?' +
       'energyflowdiagramid=' + selectedEnergyFlowDiagram +
-      '&reportingperiodstartdatetime=' + reportingPeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' + reportingPeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss'), {
+      '&reportingperiodstartdatetime=' + moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'), {
       method: 'GET',
       headers: {
         "Content-type": "application/json",
@@ -289,26 +309,19 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                 <FormGroup className="form-group">
-                  <Label className={labelClasses} for="reportingPeriodBeginsDatetime">
-                    {t('Reporting Period Begins')}
-                  </Label>
-                  <Datetime id='reportingPeriodBeginsDatetime'
-                    value={reportingPeriodBeginsDatetime}
-                    onChange={onReportingPeriodBeginsDatetimeChange}
-                    isValidDate={getValidReportingPeriodBeginsDatetimes}
-                    closeOnSelect={true} />
-                </FormGroup>
-              </Col>
-              <Col xs="auto">
-                <FormGroup className="form-group">
-                  <Label className={labelClasses} for="reportingPeriodEndsDatetime">
-                    {t('Reporting Period Ends')}
-                  </Label>
-                  <Datetime id='reportingPeriodEndsDatetime'
-                    value={reportingPeriodEndsDatetime}
-                    onChange={onReportingPeriodEndsDatetimeChange}
-                    isValidDate={getValidReportingPeriodEndsDatetimes}
-                    closeOnSelect={true} />
+                  <Label className={labelClasses} for="reportingPeriodDateRangePicker">{t('Reporting Period')}</Label>
+                  <br/>
+                  <DateRangePicker
+                    id='reportingPeriodDateRangePicker'
+                    format="yyyy-MM-dd HH:mm:ss"
+                    value={reportingPeriodDateRange}
+                    onChange={onReportingPeriodChange}
+                    size="md"
+                    style={dateRangePickerStyle}
+                    onClean={onReportingPeriodClean}
+                    locale={dateRangePickerLocale}
+                    placeholder={t("Select Date Range")}
+                  />
                 </FormGroup>
               </Col>
               <Col xs="auto">
