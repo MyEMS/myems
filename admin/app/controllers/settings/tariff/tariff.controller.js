@@ -199,6 +199,9 @@ app.controller('ModalAddTariffCtrl', function($scope, $timeout, $uibModalInstanc
 		$uibModalInstance.dismiss('cancel');
 	};
 	$scope.add = function(t) {
+		if (t.peak_type == null || t.price == null){
+			return false;
+		}
 		t.start_time_of_day=t.start_time_of_day.format().slice(11, 19);
 		t.end_time_of_day=t.end_time_of_day.format().slice(11, 19);
 		if ($scope.tariff.tariff_type == 'timeofuse') {
@@ -283,6 +286,9 @@ app.controller('ModalEditTariffCtrl', function($scope, $timeout, $uibModalInstan
 		$uibModalInstance.dismiss('cancel');
 	};
 	$scope.add = function(t) {
+		if (t.peak_type == null || t.price == null){
+			return false;
+		}
 		t.start_time_of_day=moment(t.start_time_of_day).format().slice(11, 19);
 		t.end_time_of_day=moment(t.end_time_of_day).format().slice(11, 19);
 		if ($scope.tariff.tariff_type == 'timeofuse') {
