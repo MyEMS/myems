@@ -4,15 +4,15 @@
 | Features                         | Enterprise Edition | Explanation    |
 | :---                             |  :----:            | :----:         |
 | Open Source                      | ❌       |                      |
-| Pricing                          | Pay for Projects |               |
-| Change Name and Logo             | ✔️        |                      |
+| Pricing                          | Pay for Projects | Enterprise version license, or customizable development |
+| Change Name and Logo             | ✔️        |  Enterprise version license, or customizable development |
 | Kubernetes                       |  ✔️        | https://kubernetes.io/ |
-| Space/Saving Data                |  ✔️        | Requires Energy consumption prediction component |
-| Equipment/Saving Data            |  ✔️        | Requires Energy consumption prediction component |
-| Tenant/Saving Data               |  ✔️        | Requires Energy consumption prediction component |
-| Store/Saving Data                |  ✔️        | Requires Energy consumption prediction component |
-| Shopfloor/Saving Data            |  ✔️        | Requires Energy consumption prediction component |
-| Combined Equipment/Saving Data   | ✔️        | Requires Energy consumption prediction component |
+| Space/Saving Data                |  ✔️        | Enterprise version license, or customizable development |
+| Equipment/Saving Data            |  ✔️        | Enterprise version license, or customizable development |
+| Tenant/Saving Data               |  ✔️        | Enterprise version license, or customizable development |
+| Store/Saving Data                |  ✔️        | Enterprise version license, or customizable development |
+| Shopfloor/Saving Data            |  ✔️        | Enterprise version license, or customizable development |
+| Combined Equipment/Saving Data   | ✔️        | Enterprise version license, or customizable development |
 | BACnet/IP                        |  ✔️        | http://www.bacnet.org/ |
 | MQTT Subscriber                  |  ✔️        | https://mqtt.org/ |
 | Kafka Consumer                   |  ✔️        | https://kafka.apache.org/ |
@@ -31,24 +31,26 @@
 | Ingest from Oracle               |  ✔️        | https://www.oracle.com/database/ |
 | Ingest from MongoDB              |  ✔️        | https://www.mongodb.com/ |
 | Ingest from InfluxDB             |  ✔️        | https://www.influxdata.com/products/influxdb/ |
-| FDD Rule Engine                  |  ✔️        | Requires standard component license or custom development |
+| Energy integrator                |  ✔️        | Enterprise version license, or customizable development |
+| Equipment Runtime Totalization   |  ✔️        | Enterprise version license, or customizable development |
+| FDD Rule Engine                  |  ✔️        | Enterprise version license, or customizable development |
 | Alarm via Alibaba Cloud SMS Service| ✔️        | https://www.aliyun.com/product/sms?userCode=8jwn6m8c |
-| Advanced Reporting Engine        |  ✔️        | Requires standard component license or custom development |
-| Prognose des Energieverbrauchs   |  ✔️        | Requires standard component license or custom development |
+| Advanced Reporting Engine        |  ✔️        | Enterprise version license, or customizable development |
+| Prognose des Energieverbrauchs   |  ✔️        | Enterprise version license, or customizable development |
 | Graphics Drawing Tool            |  ✔️        |                      |
-| Equipments Remote Control        |  ✔️        | Requires standard component license or custom development |
+| Equipments Remote Control        |  ✔️        | Enterprise version license, or customizable development |
 | BACnet Server                    |  ✔️        | http://www.bacnet.org/ |
 | Modbus TCP Server                |  ✔️        | https://modbus.org/ |
 | OPC UA Server                    |  ✔️        | https://opcfoundation.org/ |
 | MQTT Publisher                   | ✔️        | Publish Data https://mqtt.org/ |
 | Kafka Producer                   |  ✔️        | Produce Data https://kafka.apache.org/ |
-| iOS APP                          |  ✔️        | Requires standard component license or custom development |
-| Android APP                      |  ✔️        | Requires standard component license or custom development |
-| WeChat Mini Program              |  ✔️        | Requires standard component license or custom development |
-| Alipay Mini Program              |  ✔️        | Requires standard component license or custom development |
+| iOS APP                          |  ✔️        | Enterprise version license, or customizable development |
+| Android APP                      |  ✔️        | Enterprise version license, or customizable development |
+| WeChat Mini Program              |  ✔️        | Enterprise version license, or customizable development |
+| Alipay Mini Program              |  ✔️        | Enterprise version license, or customizable development |
 | IPC Hardware Gateway (Data Acquisition and Remote Control）| ✔️ | MyEMS certified industrial computer hardware |
 | LoRa Radio Module (Data Acquisition and Remote Control）| ✔️ | MyEMS certified LoRa hardware device |
-| Protocol for Uploading to Provincial Platform of On-line monitoring system for Key Energy-Consuming Unit | ❌ | ✔️ | Requires standard component license or custom development |
+| Protocol for Uploading to Provincial/Municipal Platform of On-line monitoring system for Key Energy-Consuming Unit | ❌ | ✔️ | Enterprise version license, or customizable development |
 | 3rd Party Systems Integration Service | ✔️        | Custom development |
 | Online software training         |  ✔️        |                      |
 | Face to face software training   |  ✔️        |                      |
