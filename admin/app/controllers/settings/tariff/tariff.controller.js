@@ -167,7 +167,10 @@ app.controller('ModalAddTariffCtrl', function($scope, $timeout, $uibModalInstanc
 	$scope.timeofuse = [];
 	$scope.block=[];
 	$scope.tariff={valid_from:moment(),valid_through:moment()};
-	$scope.t={start_time_of_day:moment(),end_time_of_day:moment()};
+	$scope.t={start_time_of_day:moment().startOf('day'),end_time_of_day:moment().endOf('day')};
+	$scope.t.peak_type = 'midpeak';
+	$scope.t.price = '0.5';
+
 	$scope.dtOptions = {
 		locale:{
 			format: 'YYYY-MM-DD HH:mm:ss',
@@ -199,11 +202,11 @@ app.controller('ModalAddTariffCtrl', function($scope, $timeout, $uibModalInstanc
 		$uibModalInstance.dismiss('cancel');
 	};
 	$scope.add = function(t) {
-		if (t.peak_type == null || t.price == null){
+		if (t.peak_type == null || t.price == null || t.peak_type == '' || t.price == ''){
 			return false;
 		}
-		t.start_time_of_day=t.start_time_of_day.format().slice(11, 19);
-		t.end_time_of_day=t.end_time_of_day.format().slice(11, 19);
+		t.start_time_of_day=moment(t.start_time_of_day).format().slice(11, 19);
+		t.end_time_of_day=moment(t.end_time_of_day).format().slice(11, 19);
 		if ($scope.tariff.tariff_type == 'timeofuse') {
 			if ($scope.timeofuse.length > 0) {
 				$scope.timeofuse.unshift(angular.copy(t));
@@ -252,7 +255,9 @@ app.controller('ModalEditTariffCtrl', function($scope, $timeout, $uibModalInstan
 	$scope.categories = params.categories;
 	$scope.timeofuse = $scope.tariff.timeofuse;
 	$scope.block=$scope.tariff.block;
-	$scope.t={start_time_of_day:moment(),end_time_of_day:moment()};
+	$scope.t={start_time_of_day:moment().startOf('day'),end_time_of_day:moment().endOf('day')};
+	$scope.t.peak_type = 'midpeak';
+	$scope.t.price = '0.5';
 	$scope.dtOptions = {
 		locale:{
 			format: 'YYYY-MM-DD HH:mm:ss',
@@ -286,7 +291,7 @@ app.controller('ModalEditTariffCtrl', function($scope, $timeout, $uibModalInstan
 		$uibModalInstance.dismiss('cancel');
 	};
 	$scope.add = function(t) {
-		if (t.peak_type == null || t.price == null){
+		if (t.peak_type == null || t.price == null || t.peak_type == '' || t.price == ''){
 			return false;
 		}
 		t.start_time_of_day=moment(t.start_time_of_day).format().slice(11, 19);
