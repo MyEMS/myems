@@ -1,49 +1,45 @@
-	<div class="wrapper wrapper-content">
+<div class="wrapper wrapper-content">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="tabs-container">
 
-		<div class="row">
-			<div class="col-lg-12">
-				<div class="tabs-container">
+				<uib-tabset>
+						<uib-tab heading="{{'SETTING.CONTACT' | translate}}">
+							<div class="panel-body" ng-controller="ContactController">
+								<a ng-click="addContact()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.ADD_CONTACT' | translate}}</a>
+								<table class="table table-bordered table-hover" >
+									<thead>
+										<tr>
+											<th class="text-center">{{'SETTING.ID' | translate}}</th>
+											<th class="text-center">{{'SETTING.NAME' | translate}}</th>
+											<th class="text-center">{{'CONTACT.EMAIL' | translate}}</th>
+											<th class="text-center">{{'CONTACT.PHONE' | translate}}</th>
+											<th class="text-center">{{'CONTACT.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
+											<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="contact in contacts">
+											<td class="text-center">{{ contact.id }}</td>
+											<td class="text-center">{{ contact.name }}</td>
+											<td class="text-center">{{ contact.email }}</td>
+											<td class="text-center">{{ contact.phone }}</td>
+											<td class="text-center">{{ contact.description }}</td>
+											<td class="text-center">
+												<a class="btn btn-primary btn-rounded btn-xs" ng-click="editContact(contact)" >{{'SETTING.EDIT' | translate}}</a>
+												<a ng-click="deleteContact(contact)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
 
-					<uib-tabset>
-							<uib-tab heading="{{'SETTING.CONTACT' | translate}}">
-								<div class="panel-body" ng-controller="ContactController">
-									<a ng-click="addContact()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.ADD_CONTACT' | translate}}</a>
-									<table class="table table-bordered table-hover" >
-										<thead>
-											<tr>
-												<th class="text-center">{{'SETTING.ID' | translate}}</th>
-												<th class="text-center">{{'SETTING.NAME' | translate}}</th>
-												<th class="text-center">{{'CONTACT.EMAIL' | translate}}</th>
-												<th class="text-center">{{'CONTACT.PHONE' | translate}}</th>
-												<th class="text-center">{{'CONTACT.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
-												<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr ng-repeat="contact in contacts">
-												<td class="text-center">{{ contact.id }}</td>
-												<td class="text-center">{{ contact.name }}</td>
-												<td class="text-center">{{ contact.email }}</td>
-												<td class="text-center">{{ contact.phone }}</td>
-												<td class="text-center">{{ contact.description }}</td>
-												<td class="text-center">
-													<a class="btn btn-primary btn-rounded btn-xs" ng-click="editContact(contact)" >{{'SETTING.EDIT' | translate}}</a>
-													<a ng-click="deleteContact(contact)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
-
-												</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</uib-tab>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</uib-tab>
 
 
-						</uib-tabset>
+					</uib-tabset>
 
-					</div>
 				</div>
 			</div>
-
-
-
 		</div>
+</div>

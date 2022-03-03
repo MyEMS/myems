@@ -151,7 +151,8 @@ app.controller('TariffController', function(
 						}
 					});
 				}
-			});
+			}
+		);
 	};
 
 	$scope.getAllTariffs();
