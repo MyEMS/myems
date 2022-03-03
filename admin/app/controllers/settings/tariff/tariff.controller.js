@@ -167,9 +167,15 @@ app.controller('ModalAddTariffCtrl', function($scope, $timeout, $uibModalInstanc
 	$scope.timeofuse = [];
 	$scope.block=[];
 	$scope.tariff={valid_from:moment(),valid_through:moment()};
-	$scope.t={start_time_of_day:moment().startOf('day'),end_time_of_day:moment().endOf('day')};
+	$scope.t={};
+	$scope.t.start_hour = '00';
+	$scope.t.start_min = '00';
+	$scope.t.start_second = '00';
+	$scope.t.end_hour = '23';
+	$scope.t.end_min = '59';
+	$scope.t.end_second = '59';
 	$scope.t.peak_type = 'midpeak';
-	$scope.t.price = '0.5';
+	$scope.t.price = 0.5;
 
 	$scope.dtOptions = {
 		locale:{
@@ -202,18 +208,26 @@ app.controller('ModalAddTariffCtrl', function($scope, $timeout, $uibModalInstanc
 		$uibModalInstance.dismiss('cancel');
 	};
 	$scope.add = function(t) {
-		if (t.peak_type == null || t.price == null || t.peak_type == '' || t.price == ''){
+		if (t.peak_type == null || t.price == null || t.peak_type == ''){
 			return false;
 		}
-		t.start_time_of_day=moment(t.start_time_of_day).format().slice(11, 19);
-		t.end_time_of_day=moment(t.end_time_of_day).format().slice(11, 19);
+		t.start_time_of_day= t.start_hour + ':' + t.start_min + ':' + t.start_second;
+		t.end_time_of_day= t.end_hour + ':' + t.end_min + ':' + t.end_second;
 		if ($scope.tariff.tariff_type == 'timeofuse') {
 			if ($scope.timeofuse.length > 0) {
 				$scope.timeofuse.unshift(angular.copy(t));
 			} else {
 				$scope.timeofuse.push(angular.copy(t));
 			}
-			$scope.t={start_time_of_day:moment(),end_time_of_day:moment()};
+			$scope.t={};
+			$scope.t.start_hour = '00';
+			$scope.t.start_min = '00';
+			$scope.t.start_second = '00';
+			$scope.t.end_hour = '23';
+			$scope.t.end_min = '59';
+			$scope.t.end_second = '59';
+			$scope.t.peak_type = 'midpeak';
+			$scope.t.price = 0.5;
 
 			$timeout(function() {
 				angular.element('#touTable').trigger('footable_redraw');
@@ -255,9 +269,15 @@ app.controller('ModalEditTariffCtrl', function($scope, $timeout, $uibModalInstan
 	$scope.categories = params.categories;
 	$scope.timeofuse = $scope.tariff.timeofuse;
 	$scope.block=$scope.tariff.block;
-	$scope.t={start_time_of_day:moment().startOf('day'),end_time_of_day:moment().endOf('day')};
+	$scope.t={};
+	$scope.t.start_hour = '00';
+	$scope.t.start_min = '00';
+	$scope.t.start_second = '00';
+	$scope.t.end_hour = '23';
+	$scope.t.end_min = '59';
+	$scope.t.end_second = '59';
 	$scope.t.peak_type = 'midpeak';
-	$scope.t.price = '0.5';
+	$scope.t.price = 0.5;
 	$scope.dtOptions = {
 		locale:{
 			format: 'YYYY-MM-DD HH:mm:ss',
@@ -291,18 +311,26 @@ app.controller('ModalEditTariffCtrl', function($scope, $timeout, $uibModalInstan
 		$uibModalInstance.dismiss('cancel');
 	};
 	$scope.add = function(t) {
-		if (t.peak_type == null || t.price == null || t.peak_type == '' || t.price == ''){
+		if (t.peak_type == null || t.price == null || t.peak_type == ''){
 			return false;
 		}
-		t.start_time_of_day=moment(t.start_time_of_day).format().slice(11, 19);
-		t.end_time_of_day=moment(t.end_time_of_day).format().slice(11, 19);
+		t.start_time_of_day= t.start_hour + ':' + t.start_min + ':' + t.start_second;
+		t.end_time_of_day= t.end_hour + ':' + t.end_min + ':' + t.end_second;
 		if ($scope.tariff.tariff_type == 'timeofuse') {
 			if ($scope.timeofuse.length > 0) {
 				$scope.timeofuse.unshift(angular.copy(t));
 			} else {
 				$scope.timeofuse.push(angular.copy(t));
 			}
-			$scope.t={start_time_of_day:moment(),end_time_of_day:moment()};
+			$scope.t={};
+			$scope.t.start_hour = '00';
+			$scope.t.start_min = '00';
+			$scope.t.start_second = '00';
+			$scope.t.end_hour = '23';
+			$scope.t.end_min = '59';
+			$scope.t.end_second = '59';
+			$scope.t.peak_type = 'midpeak';
+			$scope.t.price = 0.5;
 
 			$timeout(function() {
 				angular.element('#touTable').trigger('footable_redraw');
