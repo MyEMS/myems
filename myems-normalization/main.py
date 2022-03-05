@@ -23,6 +23,8 @@ def main():
     fh.setFormatter(formatter)
     # add the handlers to logger
     logger.addHandler(fh)
+    # send logging output to sys.stderr
+    logger.addHandler(logging.StreamHandler())
 
     # calculate energy consumption in hourly period
     Process(target=meter.calculate_hourly, args=(logger,)).start()
