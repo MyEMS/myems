@@ -16,6 +16,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
+## [v1.8.1] -   2022-03-05
+### Added
+- added integration testing plan to README
+- added StreamHandler to send logging output to sys.stderr
+
+### Changed
+- replaced DateTime with DateRangePicker for Advanced reports in Web UI
+- replaced DateTime with DateRangePicker for EnergyFlowDiagram in Web UI
+- updated Tariff Editor in Admin UI
+
+### Fixed
+- None.
+
+### Removed
+- None.
+
 ## [v1.8.0] -   2022-02-28
 ### Added
 - added Meter Carbon Dioxide Emissions Report to Web UI
