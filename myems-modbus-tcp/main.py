@@ -25,6 +25,8 @@ def main():
     fh.setFormatter(formatter)
     # add the handlers to logger
     logger.addHandler(fh)
+    # send logging output to sys.stderr
+    logger.addHandler(logging.StreamHandler())
 
     ####################################################################################################################
     # Create Gateway Process

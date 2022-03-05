@@ -71,6 +71,8 @@ def main():
     fh.setFormatter(formatter)
     # add the handlers to logger
     logger.addHandler(fh)
+    # send logging output to sys.stderr
+    logger.addHandler(logging.StreamHandler())
 
     # combined equipment energy input by energy categories
     Process(target=combined_equipment_energy_input_category.main, args=(logger,)).start()

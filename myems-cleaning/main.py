@@ -22,6 +22,8 @@ def main():
     fh.setFormatter(formatter)
     # add the handlers to logger
     logger.addHandler(fh)
+    # send logging output to sys.stderr
+    logger.addHandler(logging.StreamHandler())
 
     # clean analog values
     Process(target=clean_analog_value.process, args=(logger,)).start()
