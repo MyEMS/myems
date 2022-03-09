@@ -380,7 +380,7 @@ def worker(space):
     common_end_datetime_utc = end_datetime_utc
 
     print("Getting common time slot of energy values for all combined equipments")
-    if common_start_datetime_utc is not None and common_start_datetime_utc is not None:
+    if common_start_datetime_utc is not None and common_end_datetime_utc is not None:
         if energy_combined_equipment_hourly is not None and len(energy_combined_equipment_hourly) > 0:
             for combined_equipment_id, energy_hourly in energy_combined_equipment_hourly.items():
                 if energy_hourly is None or len(energy_hourly) == 0:
@@ -394,7 +394,7 @@ def worker(space):
                         common_end_datetime_utc = max(energy_hourly.keys())
 
     print("Getting common time slot of energy values for all equipments...")
-    if common_start_datetime_utc is not None and common_start_datetime_utc is not None:
+    if common_start_datetime_utc is not None and common_end_datetime_utc is not None:
         if energy_equipment_hourly is not None and len(energy_equipment_hourly) > 0:
             for equipment_id, energy_hourly in energy_equipment_hourly.items():
                 if energy_hourly is None or len(energy_hourly) == 0:
@@ -408,7 +408,7 @@ def worker(space):
                         common_end_datetime_utc = max(energy_hourly.keys())
 
     print("Getting common time slot of energy values for all child spaces...")
-    if common_start_datetime_utc is not None and common_start_datetime_utc is not None:
+    if common_start_datetime_utc is not None and common_end_datetime_utc is not None:
         if energy_child_space_hourly is not None and len(energy_child_space_hourly) > 0:
             for child_space_id, energy_hourly in energy_child_space_hourly.items():
                 if energy_hourly is None or len(energy_hourly) == 0:
