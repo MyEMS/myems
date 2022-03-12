@@ -3,13 +3,13 @@ Create and start all the services with a single command
 
 ### Prerequisite
 
-- Installed docker, docker-compose, npm on a host.
-- Installed MySQL database with username 'root' and password '!MyEMS1'.
-- The MySQL database can be connected from the host where Docker is installed.
+- Installed docker, docker-compose, npm on the host.
+- Installed MySQL server with username 'root' and password '!MyEMS1'.
+- The MySQL database can be connected from the host on which the Docker Engine runs.
 
 ### Configuration
 
-**Note**: The host here refers to the host where docker is installed. The IP and account password here are assumed and used to show instructions. Please modify them as appropriate.
+**Note**: The host refers to the server on which the docker engine runs. The IP and account password are assumed and used to show instructions. Please modify them as appropriate.
 
 | --                | --          |
 | ----------        | ----------- |
@@ -46,28 +46,28 @@ Note: Refer to [database/README.md](./database/README.md)
 
 3.  Modify Config
 
-**Note**：The host IP assumed here is 192.168.0.1, the database IP is 192.168.0.2, the database account is: root, and the database password is: !MyEMS1, please modify as appropriate
+**Note**：Assume the host IP is 192.168.0.1, the database IP is 192.168.0.2, the database account is: root, and the database password is: !MyEMS1, please modify them as appropriate
 
-3.1  Modify api address in nginx.conf
+3.1  Modify API's address in nginx.conf
 ```
 cd myems
-sed -i 's/127.0.0.1:8000/192.168.0.1:8000/g' admin/nginx.conf
-sed -i 's/127.0.0.1:8000/192.168.0.1:8000/g' web/nginx.conf
+nano admin/nginx.conf
+nano web/nginx.conf
 ```
 
-3.2  Copy example.env to .env and modify database IP, username and password in .env
+3.2  Copy example.env to .env in each folder and modify database IP, username and password in .env
 ```
 cd myems
 cp myems-aggregation/example.env myems-aggregation/.env
-sed -i 's/127.0.0.1/192.168.0.2/g' myems-aggregation/.env
+nano myems-aggregation/.env
 cp myems-api/example.env myems-api/.env
-sed -i 's/127.0.0.1/192.168.0.2/g' myems-api/.env
+nano myems-api/.env
 cp myems-cleaning/example.env myems-cleaning/.env
-sed -i 's/127.0.0.1/192.168.0.2/g' myems-cleaning/.env
+nano myems-cleaning/.env
 cp myems-modbus-tcp/example.env myems-modbus-tcp/.env
-sed -i 's/127.0.0.1/192.168.0.2/g' myems-modbus-tcp/.env
+nano myems-modbus-tcp/.env
 cp myems-normalization/example.env myems-normalization/.env
-sed -i 's/127.0.0.1/192.168.0.2/g' myems-normalization/.env 
+nano myems-normalization/.env 
 ```
 
 3.3 Modify upload folder in docker-compose.yml
