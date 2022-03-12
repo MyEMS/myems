@@ -52,6 +52,8 @@
 | LoRa Radio Module (Data Acquisition and Remote Control）| ✔️ | MyEMS certified LoRa hardware device |
 | Protocol for Uploading to Provincial/Municipal Platform of On-line monitoring system for Key Energy-Consuming Unit | ❌ | ✔️ | Enterprise version license, or customizable development |
 | 3rd Party Systems Integration Service | ✔️        | Custom development |
+| Fault compensation               | ✔️         |                      |
+| Formal invoices and contracts    | ✔️         |                      |
 | Online software training         |  ✔️        |                      |
 | Face to face software training   |  ✔️        |                      |
 | Email Customer Support           |  ✔️        |                      |

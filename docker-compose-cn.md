@@ -9,7 +9,7 @@
 
 ### 配置
 
-**注**：这里的主机指的是安装Docker的主机, 这里的IP和账号密码都为假定的，用来展示说明，请酌情修改。
+**注**：主机指的是运行Docker引擎的服务器, IP和账号密码请酌情修改。
 
 | --                | --          |
 | ----------        | ----------- |
@@ -46,31 +46,31 @@ mysql -u root -p < myems_user_db.sql
 
 3.  修改配置
 
-注：如“配置”所述，这里假定的**主机IP为 192.168.0.1，数据库IP为 192.168.0.2，数据库账号为：root,数据库密码:!MyEMS1,用户应该修改为自己对应的主机IP,数据库IP,数据库账号，数据库密码**
+**注**：假定的主机IP为 192.168.0.1，数据库IP为 192.168.0.2，数据库账号为：root,数据库密码:!MyEMS1,请酌情修改
 
 3.1  修改nginx.conf里的API配置
 ```
 cd myems
-sed -i 's/127.0.0.1:8000/192.168.0.1:8000/g' admin/nginx.conf
-sed -i 's/127.0.0.1:8000/192.168.0.1:8000/g' web/nginx.conf
+nano admin/nginx.conf
+nano web/nginx.conf
 ```
 
-3.2  复制example.env为.env并修改.env里的数据库IP，账号，密码
+3.2  分别复制下列目录中的example.env为.env并修改.env里的数据库IP，账号，密码
 ```
 cd myems
 cp myems-aggregation/example.env myems-aggregation/.env
-sed -i 's/127.0.0.1/192.168.0.2/g' myems-aggregation/.env
+nano myems-aggregation/.env
 cp myems-api/example.env myems-api/.env
-sed -i 's/127.0.0.1/192.168.0.2/g' myems-api/.env
+nano myems-api/.env
 cp myems-cleaning/example.env myems-cleaning/.env
-sed -i 's/127.0.0.1/192.168.0.2/g' myems-cleaning/.env
+nano myems-cleaning/.env
 cp myems-modbus-tcp/example.env myems-modbus-tcp/.env
-sed -i 's/127.0.0.1/192.168.0.2/g' myems-modbus-tcp/.env
+nano myems-modbus-tcp/.env
 cp myems-normalization/example.env myems-normalization/.env
-sed -i 's/127.0.0.1/192.168.0.2/g' myems-normalization/.env 
+nano myems-normalization/.env 
 ```
 
-3.3 修改docker-compose.yml中upload文件夹
+3.3 修改docker-compose.yml中upload文件夹路径
 如果是Windows主机，在api和admin服务中，volumes/source使用 c:\upload
 如果是Linux主机，在api和admin服务中，volumes/source使用 /upload
 应确保api和admin共享同一主机文件夹。
