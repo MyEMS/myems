@@ -33,9 +33,9 @@ python-decouple
 
 ```bash
 cd myems/myems-api
-pip install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+sudo pip install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
 cp example.env .env
-chmod +x run.sh
+sudo chmod +x run.sh
 ./run.sh
 ```
 
@@ -110,50 +110,50 @@ In this section, you will online install myems-api on Ubuntu Server with interne
 * Copy source code to a production Ubuntu Server and then install tools
 ```bash
 cd myems/myems-api
-pip install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+sudo pip install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
 ```
 
 * Install  myems-api service:
 ```bash
-cp -r myems/myems-api /myems-api
+sudo cp -r myems/myems-api /myems-api
 ```
 Create .env file based on example.env and edit the .env file if needed:
 ```bash
-cp /myems-api/example.env /myems-api/.env
-nano /myems-api/.env
+sudo cp /myems-api/example.env /myems-api/.env
+sudo nano /myems-api/.env
 ```
 Check or change the listening port (default is 8000) in myems-api.service and myems-api.socket:
 ```bash
-nano /myems-api/myems-api.service
+sudo nano /myems-api/myems-api.service
 ```
 ```bash
 ExecStart=/usr/local/bin/gunicorn -b 0.0.0.0:8000 --pid /run/myems-api/pid --timeout 600 --workers=4 app:api
 ```
 ```bash
-nano /myems-api/myems-api.socket
+sudo nano /myems-api/myems-api.socket
 ```
 ```bash
 ListenStream=0.0.0.0:8000
 ```
 Add port to firewall:
 ```bash
-ufw allow 8000
+sudo ufw allow 8000
 ```
 Setup systemd configure files:
 ```bash
-cp /myems-api/myems-api.service /lib/systemd/system/
-cp /myems-api/myems-api.socket /lib/systemd/system/
-cp /myems-api/myems-api.conf /usr/lib/tmpfiles.d/
+sudo cp /myems-api/myems-api.service /lib/systemd/system/
+sudo cp /myems-api/myems-api.socket /lib/systemd/system/
+sudo cp /myems-api/myems-api.conf /usr/lib/tmpfiles.d/
 ```
 Next enable the services so that they autostart at boot:
 ```bash
-  systemctl enable myems-api.socket
-  systemctl enable myems-api.service
+sudo systemctl enable myems-api.socket
+sudo systemctl enable myems-api.service
 ```
 Start the services :
 ```bash
-systemctl start myems-api.socket
-systemctl start myems-api.service
+sudo systemctl start myems-api.socket
+sudo systemctl start myems-api.service
 ```
 
 ### Option 3: Offline install myems-api on Ubuntu Server without internet access

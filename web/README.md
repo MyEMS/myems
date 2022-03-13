@@ -130,7 +130,7 @@ refer to http://nginx.org/en/docs/install.html
 
 *   Configure NGINX
 ```bash
-nano /etc/nginx/nginx.conf
+sudo nano /etc/nginx/nginx.conf
 ```
 In the 'http' section, add some directives:
 ```
@@ -158,8 +158,8 @@ Add a new 'server' section with direstives as below:
           # add try_files directive to avoid 404 error while refreshing pages
           try_files $uri  /index.html;
       }
-      -- To avoid CORS issue, use Nginx to proxy myems-api to path /api 
-      -- Add another location /api in 'server ', replace demo address http://127.0.0.1:8000/ with actual url
+      ## To avoid CORS issue, use Nginx to proxy myems-api to path /api 
+      ## Add another location /api in 'server' and replace demo address http://127.0.0.1:8000/ with actual url
       location /api {
           proxy_pass http://127.0.0.1:8000/;
           proxy_connect_timeout 75;

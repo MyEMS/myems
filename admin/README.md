@@ -105,8 +105,8 @@ Add a new 'server' section with direstives as below:
           root    /var/www/html/admin;
           index index.html index.htm;
       }
-      -- To avoid CORS issue, use Nginx to proxy myems-api to path /api 
-      -- Add another location /api in 'server ', replace demo address http://127.0.0.1:8000/ with actual url
+      ## To avoid CORS issue, use Nginx to proxy myems-api to path /api 
+      ## Add another location /api in 'server' and replace demo address http://127.0.0.1:8000/ with actual url
       location /api {
           proxy_pass http://127.0.0.1:8000/;
           proxy_connect_timeout 75;
@@ -119,6 +119,8 @@ Add a new 'server' section with direstives as below:
 * Install myems-admin :
   If the server can not connect to the internet, please compress the myems/admin folder and upload it to the server and extract it to ~/myems/admin
 ```bash
+sudo mkdir /var/www
+sudo mkdir /var/www/html
 sudo cp -r myems/admin  /var/www/html/admin
 sudo chmod 0755 -R /var/www/html/admin
 ```
