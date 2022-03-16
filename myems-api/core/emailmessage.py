@@ -74,7 +74,7 @@ class EmailMessageCollection:
         if cursor:
             cursor.close()
         if cnx:
-            cnx.disconnect()
+            cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -211,7 +211,7 @@ class EmailMessageCollection:
             row = cursor.fetchone()
             if row is None:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.RULE_NOT_FOUND')
 
@@ -234,7 +234,7 @@ class EmailMessageCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/emailmessages/' + str(new_id)
@@ -271,7 +271,7 @@ class EmailMessageItem:
         if cursor:
             cursor.close()
         if cnx:
-            cnx.disconnect()
+            cnx.close()
 
         if row is None:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
@@ -416,7 +416,7 @@ class EmailMessageItem:
 
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.EMAIL_MESSAGE_NOT_FOUND')
 
@@ -428,7 +428,7 @@ class EmailMessageItem:
             row = cursor.fetchone()
             if row is None:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.RULE_NOT_FOUND')
 
@@ -452,7 +452,7 @@ class EmailMessageItem:
 
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -476,7 +476,7 @@ class EmailMessageItem:
             if cursor:
                 cursor.close()
             if cnx:
-                cnx.disconnect()
+                cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.EMAIL_MESSAGE_NOT_FOUND')
 
@@ -486,6 +486,6 @@ class EmailMessageItem:
         if cursor:
             cursor.close()
         if cnx:
-            cnx.disconnect()
+            cnx.close()
 
         resp.status = falcon.HTTP_204

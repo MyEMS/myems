@@ -37,7 +37,7 @@ def get_energy_category_tariffs(cost_center_id, energy_category_id, start_dateti
     except Exception as e:
         print(str(e))
         if cnx:
-            cnx.disconnect()
+            cnx.close()
         if cursor:
             cursor.close()
         return dict()
@@ -46,7 +46,7 @@ def get_energy_category_tariffs(cost_center_id, energy_category_id, start_dateti
         if cursor:
             cursor.close()
         if cnx:
-            cnx.disconnect()
+            cnx.close()
         return dict()
 
     for row in rows_tariffs:
@@ -64,7 +64,7 @@ def get_energy_category_tariffs(cost_center_id, energy_category_id, start_dateti
     except Exception as e:
         print(str(e))
         if cnx:
-            cnx.disconnect()
+            cnx.close()
         if cursor:
             cursor.close()
         return dict()
@@ -72,7 +72,7 @@ def get_energy_category_tariffs(cost_center_id, energy_category_id, start_dateti
     if cursor:
         cursor.close()
     if cnx:
-        cnx.disconnect()
+        cnx.close()
 
     if rows_timeofuse_tariffs is None or len(rows_timeofuse_tariffs) == 0:
         return dict()
@@ -138,7 +138,7 @@ def get_energy_item_tariffs(cost_center_id, energy_item_id, start_datetime_utc, 
     except Exception as e:
         print(str(e))
         if cnx:
-            cnx.disconnect()
+            cnx.close()
         if cursor:
             cursor.close()
         return dict()
@@ -147,7 +147,7 @@ def get_energy_item_tariffs(cost_center_id, energy_item_id, start_datetime_utc, 
         if cursor:
             cursor.close()
         if cnx:
-            cnx.disconnect()
+            cnx.close()
         return dict()
 
     for row in rows_tariffs:
@@ -165,7 +165,7 @@ def get_energy_item_tariffs(cost_center_id, energy_item_id, start_datetime_utc, 
     except Exception as e:
         print(str(e))
         if cnx:
-            cnx.disconnect()
+            cnx.close()
         if cursor:
             cursor.close()
         return dict()
@@ -173,7 +173,7 @@ def get_energy_item_tariffs(cost_center_id, energy_item_id, start_datetime_utc, 
     if cursor:
         cursor.close()
     if cnx:
-        cnx.disconnect()
+        cnx.close()
 
     if rows_timeofuse_tariffs is None or len(rows_timeofuse_tariffs) == 0:
         return dict()

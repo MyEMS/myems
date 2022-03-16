@@ -99,7 +99,7 @@ class MeterCollection:
                 result.append(meta_result)
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         resp.text = json.dumps(result)
 
     @staticmethod
@@ -189,7 +189,7 @@ class MeterCollection:
                        " WHERE name = %s ", (name,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
                                    description='API.METER_NAME_IS_ALREADY_IN_USE')
 
@@ -199,7 +199,7 @@ class MeterCollection:
                        (new_values['data']['energy_category_id'],))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_CATEGORY_NOT_FOUND')
 
@@ -210,7 +210,7 @@ class MeterCollection:
         row = cursor.fetchone()
         if row is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
 
@@ -222,13 +222,13 @@ class MeterCollection:
             row = cursor.fetchone()
             if row is None:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.ENERGY_ITEM_NOT_FOUND')
             else:
                 if row[1] != energy_category_id:
                     cursor.close()
-                    cnx.disconnect()
+                    cnx.close()
                     raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
                                            description='API.ENERGY_ITEM_DOES_NOT_BELONG_TO_ENERGY_CATEGORY')
 
@@ -240,13 +240,13 @@ class MeterCollection:
             row = cursor.fetchone()
             if row is None:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.MASTER_METER_NOT_FOUND')
             else:
                 if row[1] != energy_category_id:
                     cursor.close()
-                    cnx.disconnect()
+                    cnx.close()
                     raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
                                            description='API.MASTER_METER_DOES_NOT_BELONG_TO_SAME_ENERGY_CATEGORY')
 
@@ -267,7 +267,7 @@ class MeterCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/meters/' + str(new_id)
@@ -348,7 +348,7 @@ class MeterItem:
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         if row is None:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
@@ -390,7 +390,7 @@ class MeterItem:
         row = cursor.fetchone()
         if row is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.METER_NOT_FOUND')
         else:
@@ -404,7 +404,7 @@ class MeterItem:
         row_virtual_meter = cursor.fetchone()
         if row_virtual_meter is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THIS_METER_IS_BEING_USED_BY_A_VIRTUAL_METER')
@@ -416,7 +416,7 @@ class MeterItem:
         rows_child_meters = cursor.fetchall()
         if rows_child_meters is not None and len(rows_child_meters) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_CHILD_METERS')
@@ -428,7 +428,7 @@ class MeterItem:
         rows_spaces = cursor.fetchall()
         if rows_spaces is not None and len(rows_spaces) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_SPACES')
@@ -440,7 +440,7 @@ class MeterItem:
         rows_tenants = cursor.fetchall()
         if rows_tenants is not None and len(rows_tenants) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_TENANTS')
@@ -452,7 +452,7 @@ class MeterItem:
         rows_stores = cursor.fetchall()
         if rows_stores is not None and len(rows_stores) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_STORES')
@@ -464,7 +464,7 @@ class MeterItem:
         rows_shopfloors = cursor.fetchall()
         if rows_shopfloors is not None and len(rows_shopfloors) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_SHOPFLOORS')
@@ -477,7 +477,7 @@ class MeterItem:
         rows_combined_equipments = cursor.fetchall()
         if rows_combined_equipments is not None and len(rows_combined_equipments) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_COMBINED_EQUIPMENTS')
@@ -489,7 +489,7 @@ class MeterItem:
         rows_combined_equipments = cursor.fetchall()
         if rows_combined_equipments is not None and len(rows_combined_equipments) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_COMBINED_EQUIPMENT_PARAMETERS')
@@ -501,7 +501,7 @@ class MeterItem:
         rows_equipments = cursor.fetchall()
         if rows_equipments is not None and len(rows_equipments) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_EQUIPMENTS')
@@ -513,7 +513,7 @@ class MeterItem:
         rows_equipments = cursor.fetchall()
         if rows_equipments is not None and len(rows_equipments) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_EQUIPMENT_PARAMETERS')
@@ -525,7 +525,7 @@ class MeterItem:
         rows_equipments = cursor.fetchall()
         if rows_equipments is not None and len(rows_equipments) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_POINTS')
@@ -537,7 +537,7 @@ class MeterItem:
         rows_links = cursor.fetchall()
         if rows_links is not None and len(rows_links) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_ENERGY_FLOW_DIAGRAM_LINKS')
@@ -546,7 +546,7 @@ class MeterItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -643,7 +643,7 @@ class MeterItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.METER_NOT_FOUND')
 
@@ -652,7 +652,7 @@ class MeterItem:
                        " WHERE name = %s AND id != %s ", (name, id_))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
                                    description='API.METER_NAME_IS_ALREADY_IN_USE')
 
@@ -662,7 +662,7 @@ class MeterItem:
                        (new_values['data']['energy_category_id'],))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_CATEGORY_NOT_FOUND')
 
@@ -673,7 +673,7 @@ class MeterItem:
         row = cursor.fetchone()
         if row is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
 
@@ -685,13 +685,13 @@ class MeterItem:
             row = cursor.fetchone()
             if row is None:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.ENERGY_ITEM_NOT_FOUND')
             else:
                 if row[1] != energy_category_id:
                     cursor.close()
-                    cnx.disconnect()
+                    cnx.close()
                     raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
                                            description='API.ENERGY_ITEM_DOES_NOT_BELONG_TO_ENERGY_CATEGORY')
 
@@ -703,13 +703,13 @@ class MeterItem:
             row = cursor.fetchone()
             if row is None:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.MASTER_METER_NOT_FOUND')
             else:
                 if row[1] != energy_category_id:
                     cursor.close()
-                    cnx.disconnect()
+                    cnx.close()
                     raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
                                            description='API.MASTER_METER_DOES_NOT_BELONG_TO_SAME_ENERGY_CATEGORY')
 
@@ -722,7 +722,7 @@ class MeterItem:
             row = cursor.fetchone()
             if row is not None:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.CANNOT_SET_EXISTING_SUBMETER_AS_MASTER_METER')
 
@@ -744,7 +744,7 @@ class MeterItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -774,7 +774,7 @@ class MeterSubmeterCollection:
         row = cursor.fetchone()
         if row is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.METER_NOT_FOUND')
         else:
@@ -847,7 +847,7 @@ class MeterSubmeterCollection:
                 result.append(meta_result)
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         resp.text = json.dumps(result)
 
 
@@ -875,7 +875,7 @@ class MeterPointCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.METER_NOT_FOUND')
 
@@ -921,7 +921,7 @@ class MeterPointCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.METER_NOT_FOUND')
         cursor.execute(" SELECT name, object_type "
@@ -930,7 +930,7 @@ class MeterPointCollection:
         row = cursor.fetchone()
         if row is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
         elif row[1] == 'ENERGY_VALUE':
@@ -941,7 +941,7 @@ class MeterPointCollection:
             rows_points = cursor.fetchall()
             if rows_points is not None and len(rows_points) > 0:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
                                        description='API.METER_CANNOT_HAVE_MORE_THAN_ONE_ENERGY_VALUE_POINTS')
 
@@ -951,7 +951,7 @@ class MeterPointCollection:
         cursor.execute(query, (id_, new_values['data']['point_id'],))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
                                    description='API.METER_POINT_RELATION_EXISTS')
 
@@ -961,7 +961,7 @@ class MeterPointCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/meters/' + str(id_) + '/points/' + str(new_values['data']['point_id'])
@@ -998,7 +998,7 @@ class MeterPointItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.METER_NOT_FOUND')
 
@@ -1007,7 +1007,7 @@ class MeterPointItem:
                        " WHERE id = %s ", (pid,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
 
@@ -1016,7 +1016,7 @@ class MeterPointItem:
                        " WHERE meter_id = %s AND point_id = %s ", (id_, pid))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.METER_POINT_RELATION_NOT_FOUND')
 
@@ -1024,7 +1024,7 @@ class MeterPointItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 

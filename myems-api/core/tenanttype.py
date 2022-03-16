@@ -27,7 +27,7 @@ class TenantTypeCollection:
         cursor.execute(query)
         rows = cursor.fetchall()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -82,7 +82,7 @@ class TenantTypeCollection:
                        " WHERE name = %s ", (name,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.TENANT_TYPE_NAME_IS_ALREADY_IN_USE')
 
@@ -91,7 +91,7 @@ class TenantTypeCollection:
                        " WHERE simplified_code = %s ", (simplified_code,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.TENANT_TYPE_SIMPLIFIED_CODE_IS_ALREADY_IN_USE')
 
@@ -105,7 +105,7 @@ class TenantTypeCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/tenanttypes/' + str(new_id)
@@ -136,7 +136,7 @@ class TenantTypeItem:
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         if row is None:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TENANT_TYPE_NOT_FOUND')
@@ -165,7 +165,7 @@ class TenantTypeItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TENANT_TYPE_NOT_FOUND')
 
@@ -175,7 +175,7 @@ class TenantTypeItem:
         rows_tenants = cursor.fetchall()
         if rows_tenants is not None and len(rows_tenants) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.TENANT_TYPE_USED_IN_TENANT')
@@ -184,7 +184,7 @@ class TenantTypeItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         resp.status = falcon.HTTP_204
 
     @staticmethod
@@ -234,7 +234,7 @@ class TenantTypeItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TENANT_TYPE_NOT_FOUND')
 
@@ -243,7 +243,7 @@ class TenantTypeItem:
                        " WHERE name = %s AND id != %s ", (name, id_))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
                                    description='API.TENANT_TYPE_NAME_IS_ALREADY_IN_USE')
 
@@ -252,7 +252,7 @@ class TenantTypeItem:
                        " WHERE simplified_code = %s  AND id != %s ", (simplified_code, id_))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
                                    description='API.TENANT_TYPE_SIMPLIFIED_CODE_IS_ALREADY_IN_USE')
 
@@ -265,6 +265,6 @@ class TenantTypeItem:
                                     id_,))
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         resp.status = falcon.HTTP_200
 

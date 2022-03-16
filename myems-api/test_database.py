@@ -23,4 +23,4 @@ if __name__ == "__main__":
         if cursor:
             cursor.close()
         if cnx:
-            cnx.disconnect()
+            cnx.close()

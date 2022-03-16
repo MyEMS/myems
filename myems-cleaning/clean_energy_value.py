@@ -27,7 +27,7 @@ def process(logger):
             if cursor_historical:
                 cursor_historical.close()
             if cnx_historical:
-                cnx_historical.disconnect()
+                cnx_historical.close()
             time.sleep(60)
             continue
 
@@ -60,7 +60,7 @@ def process(logger):
             if cursor_historical:
                 cursor_historical.close()
             if cnx_historical:
-                cnx_historical.disconnect()
+                cnx_historical.close()
             time.sleep(60)
             continue
 
@@ -69,7 +69,7 @@ def process(logger):
             if cursor_historical:
                 cursor_historical.close()
             if cnx_historical:
-                cnx_historical.disconnect()
+                cnx_historical.close()
             time.sleep(60)
             continue
         else:
@@ -207,7 +207,7 @@ def process(logger):
             if cursor_system:
                 cursor_system.close()
             if cnx_system:
-                cnx_system.disconnect()
+                cnx_system.close()
 
         try:
             query = (" SELECT id, point_id, actual_value "
@@ -220,7 +220,7 @@ def process(logger):
             if cursor_historical:
                 cursor_historical.close()
             if cnx_historical:
-                cnx_historical.disconnect()
+                cnx_historical.close()
             time.sleep(60)
             continue
 
@@ -248,7 +248,7 @@ def process(logger):
                 if cursor_historical:
                     cursor_historical.close()
                 if cnx_historical:
-                    cnx_historical.disconnect()
+                    cnx_historical.close()
                 time.sleep(60)
                 continue
 
@@ -402,7 +402,7 @@ def process(logger):
             if cursor_historical:
                 cursor_historical.close()
             if cnx_historical:
-                cnx_historical.disconnect()
+                cnx_historical.close()
             time.sleep(60)
             continue
 
@@ -472,7 +472,7 @@ def process(logger):
                 if cursor_historical:
                     cursor_historical.close()
                 if cnx_historical:
-                    cnx_historical.disconnect()
+                    cnx_historical.close()
                 time.sleep(60)
                 continue
 
@@ -570,6 +570,6 @@ def process(logger):
             if cursor_historical:
                 cursor_historical.close()
             if cnx_historical:
-                cnx_historical.disconnect()
+                cnx_historical.close()
 
         time.sleep(900)

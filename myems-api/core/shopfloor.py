@@ -70,7 +70,7 @@ class ShopfloorCollection:
                 result.append(meta_result)
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         resp.text = json.dumps(result)
 
     @staticmethod
@@ -137,7 +137,7 @@ class ShopfloorCollection:
                        " WHERE name = %s ", (name,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
                                    description='API.SHOPFLOOR_NAME_IS_ALREADY_IN_USE')
 
@@ -149,7 +149,7 @@ class ShopfloorCollection:
             row = cursor.fetchone()
             if row is None:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.CONTACT_NOT_FOUND')
 
@@ -161,7 +161,7 @@ class ShopfloorCollection:
             row = cursor.fetchone()
             if row is None:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.COST_CENTER_NOT_FOUND')
 
@@ -179,7 +179,7 @@ class ShopfloorCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/shopfloors/' + str(new_id)
@@ -235,7 +235,7 @@ class ShopfloorItem:
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         if row is None:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
@@ -274,7 +274,7 @@ class ShopfloorItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SHOPFLOOR_NOT_FOUND')
 
@@ -286,7 +286,7 @@ class ShopfloorItem:
         rows_spaces = cursor.fetchall()
         if rows_spaces is not None and len(rows_spaces) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_SPACES')
@@ -299,7 +299,7 @@ class ShopfloorItem:
         rows_equipments = cursor.fetchall()
         if rows_equipments is not None and len(rows_equipments) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_EQUIPMENTS')
@@ -312,7 +312,7 @@ class ShopfloorItem:
         rows_meters = cursor.fetchall()
         if rows_meters is not None and len(rows_meters) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_METERS')
@@ -325,7 +325,7 @@ class ShopfloorItem:
         rows_offline_meters = cursor.fetchall()
         if rows_offline_meters is not None and len(rows_offline_meters) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_OFFLINE_METERS')
@@ -337,7 +337,7 @@ class ShopfloorItem:
         rows_points = cursor.fetchall()
         if rows_points is not None and len(rows_points) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_POINTS')
@@ -350,7 +350,7 @@ class ShopfloorItem:
         rows_sensors = cursor.fetchall()
         if rows_sensors is not None and len(rows_sensors) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_SENSORS')
@@ -363,7 +363,7 @@ class ShopfloorItem:
         rows_virtual_meters = cursor.fetchall()
         if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_VIRTUAL_METERS')
@@ -372,7 +372,7 @@ class ShopfloorItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -444,7 +444,7 @@ class ShopfloorItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SHOPFLOOR_NOT_FOUND')
 
@@ -453,7 +453,7 @@ class ShopfloorItem:
                        " WHERE name = %s AND id != %s ", (name, id_))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
                                    description='API.SHOPFLOOR_NAME_IS_ALREADY_IN_USE')
 
@@ -465,7 +465,7 @@ class ShopfloorItem:
             row = cursor.fetchone()
             if row is None:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.CONTACT_NOT_FOUND')
 
@@ -477,7 +477,7 @@ class ShopfloorItem:
             row = cursor.fetchone()
             if row is None:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.COST_CENTER_NOT_FOUND')
 
@@ -495,7 +495,7 @@ class ShopfloorItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -524,7 +524,7 @@ class ShopfloorEquipmentCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SHOPFLOOR_NOT_FOUND')
 
@@ -574,7 +574,7 @@ class ShopfloorEquipmentCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SHOPFLOOR_NOT_FOUND')
 
@@ -583,7 +583,7 @@ class ShopfloorEquipmentCollection:
                        " WHERE id = %s ", (equipment_id,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.EQUIPMENT_NOT_FOUND')
 
@@ -593,7 +593,7 @@ class ShopfloorEquipmentCollection:
         cursor.execute(query, (id_, equipment_id,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
                                    description='API.SHOPFLOOR_EQUIPMENT_RELATION_EXISTS')
 
@@ -603,7 +603,7 @@ class ShopfloorEquipmentCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/shopfloors/' + str(id_) + '/equipments/' + str(equipment_id)
@@ -639,7 +639,7 @@ class ShopfloorEquipmentItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SHOPFLOOR_NOT_FOUND')
 
@@ -648,7 +648,7 @@ class ShopfloorEquipmentItem:
                        " WHERE id = %s ", (eid,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.EQUIPMENT_NOT_FOUND')
 
@@ -657,7 +657,7 @@ class ShopfloorEquipmentItem:
                        " WHERE shopfloor_id = %s AND equipment_id = %s ", (id_, eid))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SHOPFLOOR_EQUIPMENT_RELATION_NOT_FOUND')
 
@@ -666,7 +666,7 @@ class ShopfloorEquipmentItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -695,7 +695,7 @@ class ShopfloorMeterCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SHOPFLOOR_NOT_FOUND')
 
@@ -759,7 +759,7 @@ class ShopfloorMeterCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SHOPFLOOR_NOT_FOUND')
 
@@ -768,7 +768,7 @@ class ShopfloorMeterCollection:
                        " WHERE id = %s ", (meter_id,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.METER_NOT_FOUND')
 
@@ -778,7 +778,7 @@ class ShopfloorMeterCollection:
         cursor.execute(query, (id_, meter_id,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
                                    description='API.SHOPFLOOR_METER_RELATION_EXISTS')
 
@@ -788,7 +788,7 @@ class ShopfloorMeterCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/shopfloors/' + str(id_) + '/meters/' + str(meter_id)
@@ -824,7 +824,7 @@ class ShopfloorMeterItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SHOPFLOOR_NOT_FOUND')
 
@@ -833,7 +833,7 @@ class ShopfloorMeterItem:
                        " WHERE id = %s ", (mid,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.METER_NOT_FOUND')
 
@@ -842,7 +842,7 @@ class ShopfloorMeterItem:
                        " WHERE shopfloor_id = %s AND meter_id = %s ", (id_, mid))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SHOPFLOOR_METER_RELATION_NOT_FOUND')
 
@@ -850,7 +850,7 @@ class ShopfloorMeterItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -879,7 +879,7 @@ class ShopfloorOfflineMeterCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SHOPFLOOR_NOT_FOUND')
 
@@ -943,7 +943,7 @@ class ShopfloorOfflineMeterCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SHOPFLOOR_NOT_FOUND')
 
@@ -952,7 +952,7 @@ class ShopfloorOfflineMeterCollection:
                        " WHERE id = %s ", (offline_meter_id,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.OFFLINE_METER_NOT_FOUND')
 
@@ -962,7 +962,7 @@ class ShopfloorOfflineMeterCollection:
         cursor.execute(query, (id_, offline_meter_id,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
                                    description='API.SHOPFLOOR_OFFLINE_METER_RELATION_EXISTS')
 
@@ -972,7 +972,7 @@ class ShopfloorOfflineMeterCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/shopfloors/' + str(id_) + '/offlinemeters/' + str(offline_meter_id)
@@ -1008,7 +1008,7 @@ class ShopfloorOfflineMeterItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SHOPFLOOR_NOT_FOUND')
 
@@ -1017,7 +1017,7 @@ class ShopfloorOfflineMeterItem:
                        " WHERE id = %s ", (mid,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.OFFLINE_METER_NOT_FOUND')
 
@@ -1026,7 +1026,7 @@ class ShopfloorOfflineMeterItem:
                        " WHERE shopfloor_id = %s AND offline_meter_id = %s ", (id_, mid))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SHOPFLOOR_OFFLINE_METER_RELATION_NOT_FOUND')
 
@@ -1035,7 +1035,7 @@ class ShopfloorOfflineMeterItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -1064,7 +1064,7 @@ class ShopfloorPointCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SHOPFLOOR_NOT_FOUND')
 
@@ -1127,7 +1127,7 @@ class ShopfloorPointCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SHOPFLOOR_NOT_FOUND')
 
@@ -1136,7 +1136,7 @@ class ShopfloorPointCollection:
                        " WHERE id = %s ", (point_id,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
 
@@ -1146,7 +1146,7 @@ class ShopfloorPointCollection:
         cursor.execute(query, (id_, point_id,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
                                    description='API.SHOPFLOOR_POINT_RELATION_EXISTS')
 
@@ -1156,7 +1156,7 @@ class ShopfloorPointCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/shopfloors/' + str(id_) + '/points/' + str(point_id)
@@ -1192,7 +1192,7 @@ class ShopfloorPointItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SHOPFLOOR_NOT_FOUND')
 
@@ -1201,7 +1201,7 @@ class ShopfloorPointItem:
                        " WHERE id = %s ", (pid,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
 
@@ -1210,7 +1210,7 @@ class ShopfloorPointItem:
                        " WHERE shopfloor_id = %s AND point_id = %s ", (id_, pid))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SHOPFLOOR_POINT_RELATION_NOT_FOUND')
 
@@ -1219,7 +1219,7 @@ class ShopfloorPointItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -1248,7 +1248,7 @@ class ShopfloorSensorCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SHOPFLOOR_NOT_FOUND')
 
@@ -1298,7 +1298,7 @@ class ShopfloorSensorCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SHOPFLOOR_NOT_FOUND')
 
@@ -1307,7 +1307,7 @@ class ShopfloorSensorCollection:
                        " WHERE id = %s ", (sensor_id,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SENSOR_NOT_FOUND')
 
@@ -1317,7 +1317,7 @@ class ShopfloorSensorCollection:
         cursor.execute(query, (id_, sensor_id,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
                                    description='API.SHOPFLOOR_SENSOR_RELATION_EXISTS')
 
@@ -1327,7 +1327,7 @@ class ShopfloorSensorCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/shopfloors/' + str(id_) + '/sensors/' + str(sensor_id)
@@ -1363,7 +1363,7 @@ class ShopfloorSensorItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SHOPFLOOR_NOT_FOUND')
 
@@ -1372,7 +1372,7 @@ class ShopfloorSensorItem:
                        " WHERE id = %s ", (sid,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SENSOR_NOT_FOUND')
 
@@ -1381,7 +1381,7 @@ class ShopfloorSensorItem:
                        " WHERE shopfloor_id = %s AND sensor_id = %s ", (id_, sid))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SHOPFLOOR_SENSOR_RELATION_NOT_FOUND')
 
@@ -1389,7 +1389,7 @@ class ShopfloorSensorItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -1418,7 +1418,7 @@ class ShopfloorVirtualMeterCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SHOPFLOOR_NOT_FOUND')
 
@@ -1482,7 +1482,7 @@ class ShopfloorVirtualMeterCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SHOPFLOOR_NOT_FOUND')
 
@@ -1491,7 +1491,7 @@ class ShopfloorVirtualMeterCollection:
                        " WHERE id = %s ", (virtual_meter_id,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.VIRTUAL_METER_NOT_FOUND')
 
@@ -1501,7 +1501,7 @@ class ShopfloorVirtualMeterCollection:
         cursor.execute(query, (id_, virtual_meter_id,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
                                    description='API.SHOPFLOOR_VIRTUAL_METER_RELATION_EXISTS')
 
@@ -1511,7 +1511,7 @@ class ShopfloorVirtualMeterCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/shopfloors/' + str(id_) + '/virtualmeters/' + str(virtual_meter_id)
@@ -1547,7 +1547,7 @@ class ShopfloorVirtualMeterItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SHOPFLOOR_NOT_FOUND')
 
@@ -1556,7 +1556,7 @@ class ShopfloorVirtualMeterItem:
                        " WHERE id = %s ", (mid,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.VIRTUAL_METER_NOT_FOUND')
 
@@ -1565,7 +1565,7 @@ class ShopfloorVirtualMeterItem:
                        " WHERE shopfloor_id = %s AND virtual_meter_id = %s ", (id_, mid))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SHOPFLOOR_VIRTUAL_METER_RELATION_NOT_FOUND')
 
@@ -1574,7 +1574,7 @@ class ShopfloorVirtualMeterItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 

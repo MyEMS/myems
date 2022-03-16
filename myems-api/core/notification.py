@@ -80,7 +80,7 @@ class NotificationCollection:
             if cursor:
                 cursor.close()
             if cnx:
-                cnx.disconnect()
+                cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
         else:
@@ -89,7 +89,7 @@ class NotificationCollection:
                 if cursor:
                     cursor.close()
                 if cnx:
-                    cnx.disconnect()
+                    cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.USER_SESSION_TIMEOUT')
 
@@ -102,7 +102,7 @@ class NotificationCollection:
             if cursor:
                 cursor.close()
             if cnx:
-                cnx.disconnect()
+                cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_PLEASE_RE_LOGIN')
         else:
@@ -130,7 +130,7 @@ class NotificationCollection:
         if cursor:
             cursor.close()
         if cnx:
-            cnx.disconnect()
+            cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -188,7 +188,7 @@ class NotificationItem:
             if cursor:
                 cursor.close()
             if cnx:
-                cnx.disconnect()
+                cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
         else:
@@ -197,7 +197,7 @@ class NotificationItem:
                 if cursor:
                     cursor.close()
                 if cnx:
-                    cnx.disconnect()
+                    cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.USER_SESSION_TIMEOUT')
 
@@ -210,7 +210,7 @@ class NotificationItem:
             if cursor:
                 cursor.close()
             if cnx:
-                cnx.disconnect()
+                cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_PLEASE_RE_LOGIN')
         else:
@@ -226,7 +226,7 @@ class NotificationItem:
         if cursor:
             cursor.close()
         if cnx:
-            cnx.disconnect()
+            cnx.close()
 
         if row is None:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
@@ -289,7 +289,7 @@ class NotificationItem:
             if cursor:
                 cursor.close()
             if cnx:
-                cnx.disconnect()
+                cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
         else:
@@ -298,7 +298,7 @@ class NotificationItem:
                 if cursor:
                     cursor.close()
                 if cnx:
-                    cnx.disconnect()
+                    cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.USER_SESSION_TIMEOUT')
 
@@ -311,7 +311,7 @@ class NotificationItem:
             if cursor:
                 cursor.close()
             if cnx:
-                cnx.disconnect()
+                cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_PLEASE_RE_LOGIN')
         else:
@@ -324,7 +324,7 @@ class NotificationItem:
             if cursor:
                 cursor.close()
             if cnx:
-                cnx.disconnect()
+                cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.NOTIFICATION_NOT_FOUND')
 
@@ -337,7 +337,7 @@ class NotificationItem:
         if cursor:
             cursor.close()
         if cnx:
-            cnx.disconnect()
+            cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -371,7 +371,7 @@ class NotificationItem:
             if cursor:
                 cursor.close()
             if cnx:
-                cnx.disconnect()
+                cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
         else:
@@ -380,7 +380,7 @@ class NotificationItem:
                 if cursor:
                     cursor.close()
                 if cnx:
-                    cnx.disconnect()
+                    cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.USER_SESSION_TIMEOUT')
 
@@ -393,7 +393,7 @@ class NotificationItem:
             if cursor:
                 cursor.close()
             if cnx:
-                cnx.disconnect()
+                cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_PLEASE_RE_LOGIN')
         else:
@@ -408,7 +408,7 @@ class NotificationItem:
             if cursor:
                 cursor.close()
             if cnx:
-                cnx.disconnect()
+                cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.NOTIFICATION_NOT_FOUND')
 
@@ -417,6 +417,6 @@ class NotificationItem:
         if cursor:
             cursor.close()
         if cnx:
-            cnx.disconnect()
+            cnx.close()
 
         resp.status = falcon.HTTP_204

@@ -160,17 +160,17 @@ class Reporting:
             if cursor_system:
                 cursor_system.close()
             if cnx_system:
-                cnx_system.disconnect()
+                cnx_system.close()
 
             if cursor_energy:
                 cursor_energy.close()
             if cnx_energy:
-                cnx_energy.disconnect()
+                cnx_energy.close()
 
             if cursor_historical:
                 cursor_historical.close()
             if cnx_historical:
-                cnx_historical.disconnect()
+                cnx_historical.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND', description='API.EQUIPMENT_NOT_FOUND')
 
         equipment = dict()
@@ -215,17 +215,17 @@ class Reporting:
             if cursor_system:
                 cursor_system.close()
             if cnx_system:
-                cnx_system.disconnect()
+                cnx_system.close()
 
             if cursor_energy:
                 cursor_energy.close()
             if cnx_energy:
-                cnx_energy.disconnect()
+                cnx_energy.close()
 
             if cursor_historical:
                 cursor_historical.close()
             if cnx_historical:
-                cnx_historical.disconnect()
+                cnx_historical.close()
             raise falcon.HTTPError(falcon.HTTP_404,
                                    title='API.NOT_FOUND',
                                    description='API.ENERGY_CATEGORY_NOT_FOUND')
@@ -472,17 +472,17 @@ class Reporting:
         if cursor_system:
             cursor_system.close()
         if cnx_system:
-            cnx_system.disconnect()
+            cnx_system.close()
 
         if cursor_energy:
             cursor_energy.close()
         if cnx_energy:
-            cnx_energy.disconnect()
+            cnx_energy.close()
 
         if cursor_historical:
             cursor_historical.close()
         if cnx_historical:
-            cnx_historical.disconnect()
+            cnx_historical.close()
 
         result = dict()
 

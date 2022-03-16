@@ -32,13 +32,13 @@ def get_energy_category_factor(energy_category_id, start_datetime_utc, end_datet
         if cursor:
             cursor.close()
         if cnx:
-            cnx.disconnect()
+            cnx.close()
 
     if rows_factor is None:
         if cursor:
             cursor.close()
         if cnx:
-            cnx.disconnect()
+            cnx.close()
         return None
     else:
         return rows_factor[0]
@@ -72,13 +72,13 @@ def get_energy_item_tariffs(energy_item_id, start_datetime_utc, end_datetime_utc
         if cursor:
             cursor.close()
         if cnx:
-            cnx.disconnect()
+            cnx.close()
 
     if rows_factor is None:
         if cursor:
             cursor.close()
         if cnx:
-            cnx.disconnect()
+            cnx.close()
         return None
     else:
         return rows_factor[0]

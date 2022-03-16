@@ -102,7 +102,7 @@ class SpaceCollection:
                 result.append(meta_result)
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         resp.text = json.dumps(result)
 
     @staticmethod
@@ -189,7 +189,7 @@ class SpaceCollection:
                        " WHERE name = %s ", (name,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
                                    description='API.SPACE_NAME_IS_ALREADY_IN_USE')
 
@@ -201,7 +201,7 @@ class SpaceCollection:
             row = cursor.fetchone()
             if row is None:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.PARENT_SPACE_NOT_FOUND')
 
@@ -211,7 +211,7 @@ class SpaceCollection:
                        (new_values['data']['timezone_id'],))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TIMEZONE_NOT_FOUND')
         if contact_id is not None:
@@ -222,7 +222,7 @@ class SpaceCollection:
             row = cursor.fetchone()
             if row is None:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.CONTACT_NOT_FOUND')
 
@@ -234,7 +234,7 @@ class SpaceCollection:
             row = cursor.fetchone()
             if row is None:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.COST_CENTER_NOT_FOUND')
 
@@ -255,7 +255,7 @@ class SpaceCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/spaces/' + str(new_id)
@@ -336,7 +336,7 @@ class SpaceItem:
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         if row is None:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
@@ -380,7 +380,7 @@ class SpaceItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
@@ -392,7 +392,7 @@ class SpaceItem:
         rows_spaces = cursor.fetchall()
         if rows_spaces is not None and len(rows_spaces) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_CHILDREN_SPACES')
@@ -405,7 +405,7 @@ class SpaceItem:
         rows_equipments = cursor.fetchall()
         if rows_equipments is not None and len(rows_equipments) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_EQUIPMENTS')
@@ -418,7 +418,7 @@ class SpaceItem:
         rows_combined_equipments = cursor.fetchall()
         if rows_combined_equipments is not None and len(rows_combined_equipments) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_COMBINED_EQUIPMENTS')
@@ -431,7 +431,7 @@ class SpaceItem:
         rows_meters = cursor.fetchall()
         if rows_meters is not None and len(rows_meters) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_METERS')
@@ -444,7 +444,7 @@ class SpaceItem:
         rows_offline_meters = cursor.fetchall()
         if rows_offline_meters is not None and len(rows_offline_meters) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_OFFLINE_METERS')
@@ -456,7 +456,7 @@ class SpaceItem:
         rows_points = cursor.fetchall()
         if rows_points is not None and len(rows_points) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_POINTS')
@@ -469,7 +469,7 @@ class SpaceItem:
         rows_sensors = cursor.fetchall()
         if rows_sensors is not None and len(rows_sensors) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_SENSORS')
@@ -481,7 +481,7 @@ class SpaceItem:
         rows_stores = cursor.fetchall()
         if rows_stores is not None and len(rows_stores) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_STORES')
@@ -493,7 +493,7 @@ class SpaceItem:
         rows_tenants = cursor.fetchall()
         if rows_tenants is not None and len(rows_tenants) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_TENANTS')
@@ -506,7 +506,7 @@ class SpaceItem:
         rows_virtual_meters = cursor.fetchall()
         if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_VIRTUAL_METERS')
@@ -515,7 +515,7 @@ class SpaceItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -611,7 +611,7 @@ class SpaceItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
@@ -620,7 +620,7 @@ class SpaceItem:
                        " WHERE name = %s AND id != %s ", (name, id_))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.SPACE_NAME_IS_ALREADY_IN_USE')
 
@@ -632,7 +632,7 @@ class SpaceItem:
             row = cursor.fetchone()
             if row is None:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.PARENT_SPACE_NOT_FOUND')
 
@@ -642,7 +642,7 @@ class SpaceItem:
                        (new_values['data']['timezone_id'],))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TIMEZONE_NOT_FOUND')
         if contact_id is not None:
@@ -653,7 +653,7 @@ class SpaceItem:
             row = cursor.fetchone()
             if row is None:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.CONTACT_NOT_FOUND')
 
@@ -665,7 +665,7 @@ class SpaceItem:
             row = cursor.fetchone()
             if row is None:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.COST_CENTER_NOT_FOUND')
 
@@ -687,7 +687,7 @@ class SpaceItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -720,7 +720,7 @@ class SpaceChildrenCollection:
         row_current_space = cursor.fetchone()
         if row_current_space is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
         # note: row_current_space will be used at the end
@@ -819,7 +819,7 @@ class SpaceChildrenCollection:
                 result['children'].append(meta_result)
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         resp.text = json.dumps(result)
 
 
@@ -847,7 +847,7 @@ class SpaceCombinedEquipmentCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
@@ -897,7 +897,7 @@ class SpaceCombinedEquipmentCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
@@ -906,7 +906,7 @@ class SpaceCombinedEquipmentCollection:
                        " WHERE id = %s ", (combined_equipment_id,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
@@ -916,7 +916,7 @@ class SpaceCombinedEquipmentCollection:
         cursor.execute(query, (id_, combined_equipment_id,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
                                    description='API.SPACE_COMBINED_EQUIPMENT_RELATION_EXISTS')
 
@@ -926,7 +926,7 @@ class SpaceCombinedEquipmentCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/spaces/' + str(id_) + '/combinedequipments/' + str(combined_equipment_id)
@@ -962,7 +962,7 @@ class SpaceCombinedEquipmentItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
@@ -971,7 +971,7 @@ class SpaceCombinedEquipmentItem:
                        " WHERE id = %s ", (eid,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
@@ -980,7 +980,7 @@ class SpaceCombinedEquipmentItem:
                        " WHERE space_id = %s AND combined_equipment_id = %s ", (id_, eid))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_COMBINED_EQUIPMENT_RELATION_NOT_FOUND')
 
@@ -989,7 +989,7 @@ class SpaceCombinedEquipmentItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -1018,7 +1018,7 @@ class SpaceEquipmentCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
@@ -1068,7 +1068,7 @@ class SpaceEquipmentCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
@@ -1077,7 +1077,7 @@ class SpaceEquipmentCollection:
                        " WHERE id = %s ", (equipment_id,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.EQUIPMENT_NOT_FOUND')
 
@@ -1087,7 +1087,7 @@ class SpaceEquipmentCollection:
         cursor.execute(query, (id_, equipment_id,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
                                    description='API.SPACE_EQUIPMENT_RELATION_EXISTS')
 
@@ -1097,7 +1097,7 @@ class SpaceEquipmentCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/spaces/' + str(id_) + '/equipments/' + str(equipment_id)
@@ -1133,7 +1133,7 @@ class SpaceEquipmentItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
@@ -1142,7 +1142,7 @@ class SpaceEquipmentItem:
                        " WHERE id = %s ", (eid,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.EQUIPMENT_NOT_FOUND')
 
@@ -1151,7 +1151,7 @@ class SpaceEquipmentItem:
                        " WHERE space_id = %s AND equipment_id = %s ", (id_, eid))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_EQUIPMENT_RELATION_NOT_FOUND')
 
@@ -1159,7 +1159,7 @@ class SpaceEquipmentItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -1188,7 +1188,7 @@ class SpaceMeterCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
@@ -1252,7 +1252,7 @@ class SpaceMeterCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
@@ -1261,7 +1261,7 @@ class SpaceMeterCollection:
                        " WHERE id = %s ", (meter_id,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.METER_NOT_FOUND')
 
@@ -1271,7 +1271,7 @@ class SpaceMeterCollection:
         cursor.execute(query, (id_, meter_id,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
                                    description='API.SPACE_METER_RELATION_EXISTS')
 
@@ -1281,7 +1281,7 @@ class SpaceMeterCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/spaces/' + str(id_) + '/meters/' + str(meter_id)
@@ -1317,7 +1317,7 @@ class SpaceMeterItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
@@ -1326,7 +1326,7 @@ class SpaceMeterItem:
                        " WHERE id = %s ", (mid,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.METER_NOT_FOUND')
 
@@ -1337,7 +1337,7 @@ class SpaceMeterItem:
         rows = cursor.fetchall()
         if rows is None or len(rows) == 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_METER_RELATION_NOT_FOUND')
 
@@ -1345,7 +1345,7 @@ class SpaceMeterItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -1374,7 +1374,7 @@ class SpaceOfflineMeterCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
@@ -1438,7 +1438,7 @@ class SpaceOfflineMeterCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
@@ -1447,7 +1447,7 @@ class SpaceOfflineMeterCollection:
                        " WHERE id = %s ", (offline_meter_id,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.OFFLINE_METER_NOT_FOUND')
 
@@ -1457,7 +1457,7 @@ class SpaceOfflineMeterCollection:
         cursor.execute(query, (id_, offline_meter_id,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
                                    description='API.SPACE_OFFLINE_METER_RELATION_EXISTS')
 
@@ -1467,7 +1467,7 @@ class SpaceOfflineMeterCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/spaces/' + str(id_) + '/offlinemeters/' + str(offline_meter_id)
@@ -1503,7 +1503,7 @@ class SpaceOfflineMeterItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
@@ -1512,7 +1512,7 @@ class SpaceOfflineMeterItem:
                        " WHERE id = %s ", (mid,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.OFFLINE_METER_NOT_FOUND')
 
@@ -1521,7 +1521,7 @@ class SpaceOfflineMeterItem:
                        " WHERE space_id = %s AND offline_meter_id = %s ", (id_, mid))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_OFFLINE_METER_RELATION_NOT_FOUND')
 
@@ -1530,7 +1530,7 @@ class SpaceOfflineMeterItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -1559,7 +1559,7 @@ class SpacePointCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
@@ -1622,7 +1622,7 @@ class SpacePointCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
@@ -1631,7 +1631,7 @@ class SpacePointCollection:
                        " WHERE id = %s ", (point_id,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
 
@@ -1641,7 +1641,7 @@ class SpacePointCollection:
         cursor.execute(query, (id_, point_id,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
                                    description='API.SPACE_POINT_RELATION_EXISTS')
 
@@ -1651,7 +1651,7 @@ class SpacePointCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/spaces/' + str(id_) + '/points/' + str(point_id)
@@ -1687,7 +1687,7 @@ class SpacePointItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
@@ -1696,7 +1696,7 @@ class SpacePointItem:
                        " WHERE id = %s ", (pid,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
 
@@ -1705,7 +1705,7 @@ class SpacePointItem:
                        " WHERE space_id = %s AND point_id = %s ", (id_, pid))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_POINT_RELATION_NOT_FOUND')
 
@@ -1714,7 +1714,7 @@ class SpacePointItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -1743,7 +1743,7 @@ class SpaceSensorCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
@@ -1793,7 +1793,7 @@ class SpaceSensorCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
@@ -1802,7 +1802,7 @@ class SpaceSensorCollection:
                        " WHERE id = %s ", (sensor_id,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SENSOR_NOT_FOUND')
 
@@ -1812,7 +1812,7 @@ class SpaceSensorCollection:
         cursor.execute(query, (id_, sensor_id,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
                                    description='API.SPACE_SENSOR_RELATION_EXISTS')
 
@@ -1822,7 +1822,7 @@ class SpaceSensorCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/spaces/' + str(id_) + '/sensors/' + str(sensor_id)
@@ -1858,7 +1858,7 @@ class SpaceSensorItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
@@ -1867,7 +1867,7 @@ class SpaceSensorItem:
                        " WHERE id = %s ", (sid,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SENSOR_NOT_FOUND')
 
@@ -1876,7 +1876,7 @@ class SpaceSensorItem:
                        " WHERE space_id = %s AND sensor_id = %s ", (id_, sid))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_SENSOR_RELATION_NOT_FOUND')
 
@@ -1884,7 +1884,7 @@ class SpaceSensorItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -1913,7 +1913,7 @@ class SpaceShopfloorCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
@@ -1963,7 +1963,7 @@ class SpaceShopfloorCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
@@ -1972,7 +1972,7 @@ class SpaceShopfloorCollection:
                        " WHERE id = %s ", (shopfloor_id,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SHOPFLOOR_NOT_FOUND')
 
@@ -1982,7 +1982,7 @@ class SpaceShopfloorCollection:
         cursor.execute(query, (id_, shopfloor_id,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
                                    description='API.SPACE_SHOPFLOOR_RELATION_EXISTS')
 
@@ -1992,7 +1992,7 @@ class SpaceShopfloorCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/spaces/' + str(id_) + '/shopfloors/' + str(shopfloor_id)
@@ -2028,7 +2028,7 @@ class SpaceShopfloorItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
@@ -2037,7 +2037,7 @@ class SpaceShopfloorItem:
                        " WHERE id = %s ", (sid,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SHOPFLOOR_NOT_FOUND')
 
@@ -2046,7 +2046,7 @@ class SpaceShopfloorItem:
                        " WHERE space_id = %s AND shopfloor_id = %s ", (id_, sid))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_SHOPFLOOR_RELATION_NOT_FOUND')
 
@@ -2054,7 +2054,7 @@ class SpaceShopfloorItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -2083,7 +2083,7 @@ class SpaceStoreCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
@@ -2133,7 +2133,7 @@ class SpaceStoreCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
@@ -2142,7 +2142,7 @@ class SpaceStoreCollection:
                        " WHERE id = %s ", (store_id,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_NOT_FOUND')
 
@@ -2152,7 +2152,7 @@ class SpaceStoreCollection:
         cursor.execute(query, (id_, store_id,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
                                    description='API.SPACE_STORE_RELATION_EXISTS')
 
@@ -2162,7 +2162,7 @@ class SpaceStoreCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/spaces/' + str(id_) + '/stores/' + str(store_id)
@@ -2198,7 +2198,7 @@ class SpaceStoreItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
@@ -2207,7 +2207,7 @@ class SpaceStoreItem:
                        " WHERE id = %s ", (tid,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_NOT_FOUND')
 
@@ -2216,7 +2216,7 @@ class SpaceStoreItem:
                        " WHERE space_id = %s AND store_id = %s ", (id_, tid))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_STORE_RELATION_NOT_FOUND')
 
@@ -2224,7 +2224,7 @@ class SpaceStoreItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -2253,7 +2253,7 @@ class SpaceTenantCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
@@ -2303,7 +2303,7 @@ class SpaceTenantCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
@@ -2312,7 +2312,7 @@ class SpaceTenantCollection:
                        " WHERE id = %s ", (tenant_id,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TENANT_NOT_FOUND')
 
@@ -2322,7 +2322,7 @@ class SpaceTenantCollection:
         cursor.execute(query, (id_, tenant_id,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
                                    description='API.SPACE_TENANT_RELATION_EXISTS')
 
@@ -2332,7 +2332,7 @@ class SpaceTenantCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/spaces/' + str(id_) + '/tenants/' + str(tenant_id)
@@ -2368,7 +2368,7 @@ class SpaceTenantItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
@@ -2377,7 +2377,7 @@ class SpaceTenantItem:
                        " WHERE id = %s ", (tid,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TENANT_NOT_FOUND')
 
@@ -2386,7 +2386,7 @@ class SpaceTenantItem:
                        " WHERE space_id = %s AND tenant_id = %s ", (id_, tid))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_TENANT_RELATION_NOT_FOUND')
 
@@ -2394,7 +2394,7 @@ class SpaceTenantItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -2423,7 +2423,7 @@ class SpaceVirtualMeterCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
@@ -2487,7 +2487,7 @@ class SpaceVirtualMeterCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
@@ -2496,7 +2496,7 @@ class SpaceVirtualMeterCollection:
                        " WHERE id = %s ", (virtual_meter_id,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.VIRTUAL_METER_NOT_FOUND')
 
@@ -2506,7 +2506,7 @@ class SpaceVirtualMeterCollection:
         cursor.execute(query, (id_, virtual_meter_id,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
                                    description='API.SPACE_VIRTUAL_METER_RELATION_EXISTS')
 
@@ -2516,7 +2516,7 @@ class SpaceVirtualMeterCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/spaces/' + str(id_) + '/virtualmeters/' + str(virtual_meter_id)
@@ -2552,7 +2552,7 @@ class SpaceVirtualMeterItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
@@ -2561,7 +2561,7 @@ class SpaceVirtualMeterItem:
                        " WHERE id = %s ", (mid,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.VIRTUAL_METER_NOT_FOUND')
 
@@ -2570,7 +2570,7 @@ class SpaceVirtualMeterItem:
                        " WHERE space_id = %s AND virtual_meter_id = %s ", (id_, mid))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_VIRTUAL_METER_RELATION_NOT_FOUND')
 
@@ -2579,7 +2579,7 @@ class SpaceVirtualMeterItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -2621,14 +2621,14 @@ class SpaceTreeCollection:
 
         if row is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.USER_SESSION_NOT_FOUND')
         else:
             utc_expires = row[0]
             if datetime.utcnow() > utc_expires:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.USER_SESSION_TIMEOUT')
         # get privilege
@@ -2639,7 +2639,7 @@ class SpaceTreeCollection:
         row = cursor.fetchone()
         if row is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, 'API.NOT_FOUND', 'API.USER_NOT_FOUND')
         else:
             is_admin = bool(row[0])
@@ -2658,7 +2658,7 @@ class SpaceTreeCollection:
             cursor.execute(query, (privilege_id,))
             row = cursor.fetchone()
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
 
             if row is None:
                 raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
@@ -2692,5 +2692,5 @@ class SpaceTreeCollection:
                 node_dict[row['id']] = AnyNode(id=row['id'], parent=parent_node, name=row['name'])
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         resp.text = JsonExporter(sort_keys=True).export(node_dict[space_id], )

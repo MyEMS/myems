@@ -25,7 +25,7 @@ class TimezoneCollection:
         cursor.execute(query)
         rows = cursor.fetchall()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -62,14 +62,14 @@ class TimezoneItem:
         row = cursor.fetchone()
         if row is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TIMEZONE_NOT_FOUND')
 
         result = {"id": row[0], "name": row[1], "description": row[2], "utc_offset": row[3]}
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.text = json.dumps(result)
 
@@ -97,7 +97,7 @@ class TimezoneItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TIMEZONE_NOT_FOUND')
 
@@ -111,6 +111,6 @@ class TimezoneItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_200

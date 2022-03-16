@@ -56,7 +56,7 @@ class EquipmentCollection:
                 result.append(meta_result)
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         resp.text = json.dumps(result)
 
     @staticmethod
@@ -112,7 +112,7 @@ class EquipmentCollection:
                        " WHERE name = %s ", (name,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.EQUIPMENT_NAME_IS_ALREADY_IN_USE')
 
@@ -124,7 +124,7 @@ class EquipmentCollection:
             row = cursor.fetchone()
             if row is None:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.COST_CENTER_NOT_FOUND')
 
@@ -141,7 +141,7 @@ class EquipmentCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/equipments/' + str(new_id)
@@ -186,7 +186,7 @@ class EquipmentItem:
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         if row is None:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
@@ -224,7 +224,7 @@ class EquipmentItem:
         rows_equipments = cursor.fetchall()
         if rows_equipments is not None and len(rows_equipments) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_SPACES')
@@ -237,7 +237,7 @@ class EquipmentItem:
         rows_combined_equipments = cursor.fetchall()
         if rows_combined_equipments is not None and len(rows_combined_equipments) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_COMBINED_EQUIPMENTS')
@@ -250,7 +250,7 @@ class EquipmentItem:
         rows_meters = cursor.fetchall()
         if rows_meters is not None and len(rows_meters) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_METER')
@@ -263,7 +263,7 @@ class EquipmentItem:
         rows_offline_meters = cursor.fetchall()
         if rows_offline_meters is not None and len(rows_offline_meters) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_OFFLINE_METER')
@@ -276,7 +276,7 @@ class EquipmentItem:
         rows_virtual_meters = cursor.fetchall()
         if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_VIRTUAL_METER')
@@ -289,7 +289,7 @@ class EquipmentItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -349,7 +349,7 @@ class EquipmentItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.EQUIPMENT_NOT_FOUND')
 
@@ -358,7 +358,7 @@ class EquipmentItem:
                        " WHERE name = %s AND id != %s ", (name, id_))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
                                    description='API.EQUIPMENT_NAME_IS_ALREADY_IN_USE')
 
@@ -369,7 +369,7 @@ class EquipmentItem:
         row = cursor.fetchone()
         if row is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
 
@@ -386,7 +386,7 @@ class EquipmentItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -412,7 +412,7 @@ class EquipmentItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.EQUIPMENT_NOT_FOUND')
 
@@ -531,7 +531,7 @@ class EquipmentItem:
             cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         resp.status = falcon.HTTP_201
         resp.location = '/equipments/' + str(new_id)
 
@@ -560,7 +560,7 @@ class EquipmentParameterCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.EQUIPMENT_NOT_FOUND')
 
@@ -665,7 +665,7 @@ class EquipmentParameterCollection:
                 result.append(meta_result)
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         resp.text = json.dumps(result)
 
     @staticmethod
@@ -739,7 +739,7 @@ class EquipmentParameterCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.NOT_FOUND',
                                    description='API.EQUIPMENT_NOT_FOUND')
 
@@ -748,7 +748,7 @@ class EquipmentParameterCollection:
                        " WHERE name = %s AND equipment_id = %s ", (name, id_))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.EQUIPMENT_PARAMETER_NAME_IS_ALREADY_IN_USE')
 
@@ -764,7 +764,7 @@ class EquipmentParameterCollection:
             cursor.execute(query, (point_id, ))
             if cursor.fetchone() is None:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.POINT_NOT_FOUND')
 
@@ -846,7 +846,7 @@ class EquipmentParameterCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/equipments/' + str(id_) + 'parameters/' + str(new_id)
@@ -933,7 +933,7 @@ class EquipmentParameterItem:
         cursor.execute(query, (id_, pid))
         row = cursor.fetchone()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         if row is None:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
@@ -1001,7 +1001,7 @@ class EquipmentParameterItem:
         row = cursor.fetchone()
         if row is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.NOT_FOUND',
                                    description='API.EQUIPMENT_NOT_FOUND')
@@ -1013,7 +1013,7 @@ class EquipmentParameterItem:
         row = cursor.fetchone()
         if row is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.NOT_FOUND',
                                    description='API.EQUIPMENT_PARAMETER_NOT_FOUND_OR_NOT_MATCH')
@@ -1023,7 +1023,7 @@ class EquipmentParameterItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -1103,7 +1103,7 @@ class EquipmentParameterItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.NOT_FOUND',
                                    description='API.EQUIPMENT_NOT_FOUND')
 
@@ -1114,7 +1114,7 @@ class EquipmentParameterItem:
         row = cursor.fetchone()
         if row is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.NOT_FOUND',
                                    description='API.EQUIPMENT_PARAMETER_NOT_FOUND_OR_NOT_MATCH')
@@ -1125,7 +1125,7 @@ class EquipmentParameterItem:
         row = cursor.fetchone()
         if row is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.EQUIPMENT_PARAMETER_NAME_IS_ALREADY_IN_USE')
 
@@ -1142,7 +1142,7 @@ class EquipmentParameterItem:
             row = cursor.fetchone()
             if row is None:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.POINT_NOT_FOUND')
 
@@ -1224,7 +1224,7 @@ class EquipmentParameterItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -1253,7 +1253,7 @@ class EquipmentMeterCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.EQUIPMENT_NOT_FOUND')
 
@@ -1325,7 +1325,7 @@ class EquipmentMeterCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.EQUIPMENT_NOT_FOUND')
 
@@ -1334,7 +1334,7 @@ class EquipmentMeterCollection:
                        " WHERE id = %s ", (meter_id,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.METER_NOT_FOUND')
 
@@ -1344,7 +1344,7 @@ class EquipmentMeterCollection:
         cursor.execute(query, (id_, meter_id,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
                                    description='API.EQUIPMENT_METER_RELATION_EXISTS')
 
@@ -1354,7 +1354,7 @@ class EquipmentMeterCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/equipments/' + str(id_) + '/meters/' + str(meter_id)
@@ -1390,7 +1390,7 @@ class EquipmentMeterItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.EQUIPMENT_NOT_FOUND')
 
@@ -1399,7 +1399,7 @@ class EquipmentMeterItem:
                        " WHERE id = %s ", (mid,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.METER_NOT_FOUND')
 
@@ -1408,7 +1408,7 @@ class EquipmentMeterItem:
                        " WHERE equipment_id = %s AND meter_id = %s ", (id_, mid))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.EQUIPMENT_METER_RELATION_NOT_FOUND')
 
@@ -1416,7 +1416,7 @@ class EquipmentMeterItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -1445,7 +1445,7 @@ class EquipmentOfflineMeterCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.EQUIPMENT_NOT_FOUND')
 
@@ -1516,7 +1516,7 @@ class EquipmentOfflineMeterCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.EQUIPMENT_NOT_FOUND')
 
@@ -1525,7 +1525,7 @@ class EquipmentOfflineMeterCollection:
                        " WHERE id = %s ", (offline_meter_id,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.OFFLINE_METER_NOT_FOUND')
 
@@ -1535,7 +1535,7 @@ class EquipmentOfflineMeterCollection:
         cursor.execute(query, (id_, offline_meter_id,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
                                    description='API.EQUIPMENT_OFFLINE_METER_RELATION_EXISTS')
 
@@ -1545,7 +1545,7 @@ class EquipmentOfflineMeterCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/equipments/' + str(id_) + '/offlinemeters/' + str(offline_meter_id)
@@ -1581,7 +1581,7 @@ class EquipmentOfflineMeterItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.EQUIPMENT_NOT_FOUND')
 
@@ -1590,7 +1590,7 @@ class EquipmentOfflineMeterItem:
                        " WHERE id = %s ", (mid,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.OFFLINE_METER_NOT_FOUND')
 
@@ -1599,7 +1599,7 @@ class EquipmentOfflineMeterItem:
                        " WHERE equipment_id = %s AND offline_meter_id = %s ", (id_, mid))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.EQUIPMENT_OFFLINE_METER_RELATION_NOT_FOUND')
 
@@ -1608,7 +1608,7 @@ class EquipmentOfflineMeterItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -1637,7 +1637,7 @@ class EquipmentVirtualMeterCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.EQUIPMENT_NOT_FOUND')
 
@@ -1708,7 +1708,7 @@ class EquipmentVirtualMeterCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.EQUIPMENT_NOT_FOUND')
 
@@ -1717,7 +1717,7 @@ class EquipmentVirtualMeterCollection:
                        " WHERE id = %s ", (virtual_meter_id,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.VIRTUAL_METER_NOT_FOUND')
 
@@ -1727,7 +1727,7 @@ class EquipmentVirtualMeterCollection:
         cursor.execute(query, (id_, virtual_meter_id,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
                                    description='API.EQUIPMENT_VIRTUAL_METER_RELATION_EXISTS')
 
@@ -1737,7 +1737,7 @@ class EquipmentVirtualMeterCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/equipments/' + str(id_) + '/virtualmeters/' + str(virtual_meter_id)
@@ -1773,7 +1773,7 @@ class EquipmentVirtualMeterItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.EQUIPMENT_NOT_FOUND')
 
@@ -1782,7 +1782,7 @@ class EquipmentVirtualMeterItem:
                        " WHERE id = %s ", (mid,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.VIRTUAL_METER_NOT_FOUND')
 
@@ -1791,7 +1791,7 @@ class EquipmentVirtualMeterItem:
                        " WHERE equipment_id = %s AND virtual_meter_id = %s ", (id_, mid))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.EQUIPMENT_VIRTUAL_METER_RELATION_NOT_FOUND')
 
@@ -1800,6 +1800,6 @@ class EquipmentVirtualMeterItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204

@@ -34,7 +34,7 @@ class UserCollection:
         cursor.execute(query)
         rows = cursor.fetchall()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -140,7 +140,7 @@ class UserCollection:
                        " WHERE name = %s ", (name,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
                                    description='API.USER_NAME_IS_ALREADY_IN_USE')
 
@@ -149,7 +149,7 @@ class UserCollection:
                        " WHERE email = %s ", (email,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
                                    description='API.EMAIL_IS_ALREADY_IN_USE')
 
@@ -160,7 +160,7 @@ class UserCollection:
                            (privilege_id,))
             if cursor.fetchone() is None:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.PRIVILEGE_NOT_FOUND')
 
@@ -186,7 +186,7 @@ class UserCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/users/' + str(new_id)
@@ -222,7 +222,7 @@ class UserItem:
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         if row is None:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
@@ -266,7 +266,7 @@ class UserItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.USER_NOT_FOUND')
 
@@ -275,7 +275,7 @@ class UserItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -358,7 +358,7 @@ class UserItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.USER_NOT_FOUND')
 
@@ -367,7 +367,7 @@ class UserItem:
                        " WHERE name = %s AND id != %s ", (name, id_))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
                                    description='API.USER_NAME_IS_ALREADY_IN_USE')
 
@@ -376,7 +376,7 @@ class UserItem:
                        " WHERE email = %s AND id != %s ", (email, id_))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
                                    description='API.EMAIL_IS_ALREADY_IN_USE')
 
@@ -387,7 +387,7 @@ class UserItem:
                            (privilege_id,))
             if cursor.fetchone() is None:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.PRIVILEGE_NOT_FOUND')
 
@@ -408,7 +408,7 @@ class UserItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -456,7 +456,7 @@ class UserLogin:
             row = cursor.fetchone()
             if row is None:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_404, 'API.ERROR', 'API.USER_NOT_FOUND')
 
             result = {"id": row[0],
@@ -485,7 +485,7 @@ class UserLogin:
             row = cursor.fetchone()
             if row is None:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_404, 'API.ERROR', 'API.USER_NOT_FOUND')
 
             result = {"id": row[0],
@@ -502,7 +502,7 @@ class UserLogin:
 
         else:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_NAME_OR_EMAIL')
 
@@ -510,7 +510,7 @@ class UserLogin:
 
         if failed_login_count >= config.maximum_failed_login_count:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.USER_ACCOUNT_HAS_BEEN_LOCKED')
 
         salt = result['salt']
@@ -525,7 +525,7 @@ class UserLogin:
             cursor.execute(update_failed_login_count, (failed_login_count + 1, user_uuid))
             cnx.commit()
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.INVALID_PASSWORD')
 
         if failed_login_count != 0:
@@ -538,12 +538,12 @@ class UserLogin:
 
         if result['account_expiration_datetime_utc'] <= datetime.utcnow():
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.USER_ACCOUNT_HAS_EXPIRED')
 
         if result['password_expiration_datetime_utc'] <= datetime.utcnow():
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.USER_PASSWORD_HAS_EXPIRED')
 
         add_session = (" INSERT INTO tbl_sessions "
@@ -555,7 +555,7 @@ class UserLogin:
         cursor.execute(add_session, (user_uuid, token, utc_expires))
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         del result['salt']
         del result['password']
 
@@ -618,7 +618,7 @@ class UserLogout:
         rowcount = cursor.rowcount
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         if rowcount is None or rowcount == 0:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.USER_SESSION_NOT_FOUND')
@@ -685,14 +685,14 @@ class ChangePassword:
 
         if row is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.USER_SESSION_NOT_FOUND')
         else:
             utc_expires = row[0]
             if datetime.utcnow() > utc_expires:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.USER_SESSION_TIMEOUT')
 
@@ -703,7 +703,7 @@ class ChangePassword:
         row = cursor.fetchone()
         if row is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, 'API.NOT_FOUND', 'API.USER_NOT_FOUND')
 
         result = {'salt': row[0], 'password': row[1]}
@@ -714,7 +714,7 @@ class ChangePassword:
 
         if hashed_password != result['password']:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.INVALID_OLD_PASSWORD')
 
         # Update User password
@@ -736,7 +736,7 @@ class ChangePassword:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         resp.text = json.dumps("OK")
         resp.status = falcon.HTTP_200
         write_log(user_uuid=user_uuid, request_method='PUT', resource_type='ChangePassword',
@@ -801,14 +801,14 @@ class ResetPassword:
 
         if row is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ADMINISTRATOR_SESSION_NOT_FOUND')
         else:
             utc_expires = row[0]
             if datetime.utcnow() > utc_expires:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.ADMINISTRATOR_SESSION_TIMEOUT')
 
@@ -819,7 +819,7 @@ class ResetPassword:
         row = cursor.fetchone()
         if row is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.INVALID_PRIVILEGE')
 
         salt = uuid.uuid4().hex
@@ -838,7 +838,7 @@ class ResetPassword:
         row = cursor.fetchone()
         if row is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.INVALID_USERNAME')
 
         user_id = row[0]
@@ -852,7 +852,7 @@ class ResetPassword:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         resp.text = json.dumps("OK")
         resp.status = falcon.HTTP_200
         write_log(user_uuid=admin_user_uuid, request_method='PUT', resource_type='ResetPassword',
@@ -895,13 +895,13 @@ class Unlock:
         row = cursor.fetchone()
         if row is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.INVALID_Id')
 
         failed_login_count = row[0]
         if failed_login_count < config.maximum_failed_login_count:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.USER_ACCOUNT_IS_NOT_LOCKED')
 
         update_user = (" UPDATE tbl_users "
@@ -917,11 +917,11 @@ class Unlock:
         row = cursor.fetchone()
         if row is None or row[0] != 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.ACCOUNT_UNLOCK_FAILED')
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         resp.text = json.dumps("OK")
         resp.status = falcon.HTTP_200
         write_log(user_uuid=admin_user_uuid, request_method='PUT', resource_type='UnlockUser',

@@ -117,7 +117,7 @@ class EnergyFlowDiagramCollection:
                 result.append(meta_result)
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         resp.text = json.dumps(result)
 
     @staticmethod
@@ -147,7 +147,7 @@ class EnergyFlowDiagramCollection:
                        " WHERE name = %s ", (name,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
                                    description='API.ENERGY_FLOW_DIAGRAM_NAME_IS_ALREADY_IN_USE')
 
@@ -159,7 +159,7 @@ class EnergyFlowDiagramCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/energyflowdiagrams/' + str(new_id)
@@ -268,7 +268,7 @@ class EnergyFlowDiagramItem:
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         if row is None:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
@@ -309,7 +309,7 @@ class EnergyFlowDiagramItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -343,7 +343,7 @@ class EnergyFlowDiagramItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_NOT_FOUND')
 
@@ -352,7 +352,7 @@ class EnergyFlowDiagramItem:
                        " WHERE name = %s AND id != %s ", (name, id_))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
                                    description='API.ENERGY_FLOW_DIAGRAM_NAME_IS_ALREADY_IN_USE')
 
@@ -364,7 +364,7 @@ class EnergyFlowDiagramItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -443,7 +443,7 @@ class EnergyFlowDiagramLinkCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_NOT_FOUND')
 
@@ -473,7 +473,7 @@ class EnergyFlowDiagramLinkCollection:
                 result.append(meta_result)
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         resp.text = json.dumps(result)
 
     @staticmethod
@@ -522,7 +522,7 @@ class EnergyFlowDiagramLinkCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_NOT_FOUND')
 
@@ -534,7 +534,7 @@ class EnergyFlowDiagramLinkCollection:
         row = cursor.fetchone()
         if row is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_LINK_IS_ALREADY_IN_USE')
@@ -545,7 +545,7 @@ class EnergyFlowDiagramLinkCollection:
         cursor.execute(query, (source_node_id,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.SOURCE_NODE_NOT_FOUND')
 
@@ -555,7 +555,7 @@ class EnergyFlowDiagramLinkCollection:
         cursor.execute(query, (target_node_id,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.TARGET_NODE_NOT_FOUND')
 
@@ -615,7 +615,7 @@ class EnergyFlowDiagramLinkCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/energyflowdiagrams/' + str(id_) + 'links/' + str(new_id)
@@ -700,7 +700,7 @@ class EnergyFlowDiagramLinkItem:
         cursor.execute(query, (id_, lid))
         row = cursor.fetchone()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         if row is None:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
@@ -743,7 +743,7 @@ class EnergyFlowDiagramLinkItem:
         row = cursor.fetchone()
         if row is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_NOT_FOUND')
@@ -755,7 +755,7 @@ class EnergyFlowDiagramLinkItem:
         row = cursor.fetchone()
         if row is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_LINK_NOT_FOUND_OR_NOT_MATCH')
@@ -765,7 +765,7 @@ class EnergyFlowDiagramLinkItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -820,7 +820,7 @@ class EnergyFlowDiagramLinkItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_NOT_FOUND')
 
@@ -831,7 +831,7 @@ class EnergyFlowDiagramLinkItem:
         row = cursor.fetchone()
         if row is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_LINK_NOT_FOUND_OR_NOT_MATCH')
@@ -844,7 +844,7 @@ class EnergyFlowDiagramLinkItem:
         row = cursor.fetchone()
         if row is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_LINK_IS_ALREADY_IN_USE')
@@ -855,7 +855,7 @@ class EnergyFlowDiagramLinkItem:
         cursor.execute(query, (source_node_id,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.SOURCE_NODE_NOT_FOUND')
 
@@ -865,7 +865,7 @@ class EnergyFlowDiagramLinkItem:
         cursor.execute(query, (target_node_id,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.TARGET_NODE_NOT_FOUND')
 
@@ -925,7 +925,7 @@ class EnergyFlowDiagramLinkItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -954,7 +954,7 @@ class EnergyFlowDiagramNodeCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_NOT_FOUND')
 
@@ -973,7 +973,7 @@ class EnergyFlowDiagramNodeCollection:
                 result.append(meta_result)
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         resp.text = json.dumps(result)
 
     @staticmethod
@@ -1006,7 +1006,7 @@ class EnergyFlowDiagramNodeCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_NOT_FOUND')
 
@@ -1015,7 +1015,7 @@ class EnergyFlowDiagramNodeCollection:
                        " WHERE name = %s AND energy_flow_diagram_id = %s ", (name, id_))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.ENERGY_FLOW_DIAGRAM_NAME_IS_ALREADY_IN_USE')
 
@@ -1027,7 +1027,7 @@ class EnergyFlowDiagramNodeCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/energyflowdiagrams/' + str(id_) + 'nodes/' + str(new_id)
@@ -1062,7 +1062,7 @@ class EnergyFlowDiagramNodeItem:
         cursor.execute(query, (id_, nid))
         row = cursor.fetchone()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         if row is None:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
@@ -1095,7 +1095,7 @@ class EnergyFlowDiagramNodeItem:
         row = cursor.fetchone()
         if row is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_NOT_FOUND')
@@ -1107,7 +1107,7 @@ class EnergyFlowDiagramNodeItem:
         row = cursor.fetchone()
         if row is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_NODE_NOT_FOUND_OR_NOT_MATCH')
@@ -1117,7 +1117,7 @@ class EnergyFlowDiagramNodeItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -1156,7 +1156,7 @@ class EnergyFlowDiagramNodeItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_NOT_FOUND')
 
@@ -1167,7 +1167,7 @@ class EnergyFlowDiagramNodeItem:
         row = cursor.fetchone()
         if row is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_NODE_NOT_FOUND_OR_NOT_MATCH')
@@ -1178,7 +1178,7 @@ class EnergyFlowDiagramNodeItem:
         row = cursor.fetchone()
         if row is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.ENERGY_FLOW_DIAGRAM_NODE_NAME_IS_ALREADY_IN_USE')
 
@@ -1190,7 +1190,7 @@ class EnergyFlowDiagramNodeItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_200
 

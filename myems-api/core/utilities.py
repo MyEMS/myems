@@ -226,7 +226,7 @@ def get_energy_category_tariffs(cost_center_id, energy_category_id, start_dateti
     except Exception as e:
         print(str(e))
         if cnx:
-            cnx.disconnect()
+            cnx.close()
         if cursor:
             cursor.close()
         return dict()
@@ -235,7 +235,7 @@ def get_energy_category_tariffs(cost_center_id, energy_category_id, start_dateti
         if cursor:
             cursor.close()
         if cnx:
-            cnx.disconnect()
+            cnx.close()
         return dict()
 
     for row in rows_tariffs:
@@ -253,7 +253,7 @@ def get_energy_category_tariffs(cost_center_id, energy_category_id, start_dateti
     except Exception as e:
         print(str(e))
         if cnx:
-            cnx.disconnect()
+            cnx.close()
         if cursor:
             cursor.close()
         return dict()
@@ -261,7 +261,7 @@ def get_energy_category_tariffs(cost_center_id, energy_category_id, start_dateti
     if cursor:
         cursor.close()
     if cnx:
-        cnx.disconnect()
+        cnx.close()
 
     if rows_timeofuse_tariffs is None or len(rows_timeofuse_tariffs) == 0:
         return dict()
@@ -330,7 +330,7 @@ def get_energy_category_peak_types(cost_center_id, energy_category_id, start_dat
     except Exception as e:
         print(str(e))
         if cnx:
-            cnx.disconnect()
+            cnx.close()
         if cursor:
             cursor.close()
         return dict()
@@ -339,7 +339,7 @@ def get_energy_category_peak_types(cost_center_id, energy_category_id, start_dat
         if cursor:
             cursor.close()
         if cnx:
-            cnx.disconnect()
+            cnx.close()
         return dict()
 
     for row in rows_tariffs:
@@ -357,7 +357,7 @@ def get_energy_category_peak_types(cost_center_id, energy_category_id, start_dat
     except Exception as e:
         print(str(e))
         if cnx:
-            cnx.disconnect()
+            cnx.close()
         if cursor:
             cursor.close()
         return dict()
@@ -365,7 +365,7 @@ def get_energy_category_peak_types(cost_center_id, energy_category_id, start_dat
     if cursor:
         cursor.close()
     if cnx:
-        cnx.disconnect()
+        cnx.close()
 
     if rows_timeofuse_tariffs is None or len(rows_timeofuse_tariffs) == 0:
         return dict()

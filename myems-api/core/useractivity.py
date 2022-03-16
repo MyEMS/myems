@@ -40,14 +40,14 @@ def access_control(req):
 
     if row is None:
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                description='API.ADMINISTRATOR_SESSION_NOT_FOUND')
     else:
         utc_expires = row[0]
         if datetime.utcnow() > utc_expires:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.ADMINISTRATOR_SESSION_TIMEOUT')
     query = (" SELECT name "
@@ -56,7 +56,7 @@ def access_control(req):
     cursor.execute(query, (admin_user_uuid,))
     row = cursor.fetchone()
     cursor.close()
-    cnx.disconnect()
+    cnx.close()
     if row is None:
         raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.INVALID_PRIVILEGE')
 
@@ -89,7 +89,7 @@ def write_log(user_uuid, request_method, resource_type, resource_id, request_bod
         print('write_log:' + str(e))
     finally:
         if cnx:
-            cnx.disconnect()
+            cnx.close()
         if cursor:
             cursor.close()
 

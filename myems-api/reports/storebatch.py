@@ -94,7 +94,7 @@ class Reporting:
             if cursor_system_db:
                 cursor_system_db.close()
             if cnx_system_db:
-                cnx_system_db.disconnect()
+                cnx_system_db.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
         else:
@@ -165,12 +165,12 @@ class Reporting:
             if cursor_system_db:
                 cursor_system_db.close()
             if cnx_system_db:
-                cnx_system_db.disconnect()
+                cnx_system_db.close()
 
             if cursor_energy_db:
                 cursor_energy_db.close()
             if cnx_energy_db:
-                cnx_energy_db.disconnect()
+                cnx_energy_db.close()
 
             raise falcon.HTTPError(falcon.HTTP_404,
                                    title='API.NOT_FOUND',
@@ -208,12 +208,12 @@ class Reporting:
         if cursor_system_db:
             cursor_system_db.close()
         if cnx_system_db:
-            cnx_system_db.disconnect()
+            cnx_system_db.close()
 
         if cursor_energy_db:
             cursor_energy_db.close()
         if cnx_energy_db:
-            cnx_energy_db.disconnect()
+            cnx_energy_db.close()
 
         ################################################################################################################
         # Step 6: construct the report

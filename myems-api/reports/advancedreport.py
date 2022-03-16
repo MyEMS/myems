@@ -82,7 +82,7 @@ class AdvancedReportCollection:
         if cursor_reporting:
             cursor_reporting.close()
         if cnx_reporting:
-            cnx_reporting.disconnect()
+            cnx_reporting.close()
 
         ################################################################################################################
         # Step 3: construct the result
@@ -136,7 +136,7 @@ class AdvancedReportItem:
         if cursor_reporting:
             cursor_reporting.close()
         if cnx_reporting:
-            cnx_reporting.disconnect()
+            cnx_reporting.close()
 
         if row is None:
             raise falcon.HTTPError(falcon.HTTP_404,
@@ -172,7 +172,7 @@ class AdvancedReportItem:
                                  " WHERE id = %s ", (id_,))
         if cursor_reporting.fetchone() is None:
             cursor_reporting.close()
-            cnx_reporting.disconnect()
+            cnx_reporting.close()
             raise falcon.HTTPError(falcon.HTTP_404,
                                    title='API.NOT_FOUND',
                                    description='API.ADVANCED_REPORT_NOT_FOUND')
@@ -184,6 +184,6 @@ class AdvancedReportItem:
         if cursor_reporting:
             cursor_reporting.close()
         if cnx_reporting:
-            cnx_reporting.disconnect()
+            cnx_reporting.close()
 
         resp.status = falcon.HTTP_204

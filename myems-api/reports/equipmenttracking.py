@@ -52,7 +52,7 @@ class Reporting:
             if cursor:
                 cursor.close()
             if cnx:
-                cnx.disconnect()
+                cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
         else:
@@ -100,7 +100,7 @@ class Reporting:
         if cursor:
             cursor.close()
         if cnx:
-            cnx.disconnect()
+            cnx.close()
 
         ################################################################################################################
         # Step 4: construct the report

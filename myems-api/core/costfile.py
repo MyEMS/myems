@@ -31,7 +31,7 @@ class CostFileCollection:
         cursor.execute(query)
         rows = cursor.fetchall()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -102,7 +102,7 @@ class CostFileCollection:
             if cursor_user_db:
                 cursor_user_db.close()
             if cnx_user_db:
-                cnx_user_db.disconnect()
+                cnx_user_db.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
         else:
@@ -111,7 +111,7 @@ class CostFileCollection:
                 if cursor_user_db:
                     cursor_user_db.close()
                 if cnx_user_db:
-                    cnx_user_db.disconnect()
+                    cnx_user_db.close()
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.USER_SESSION_TIMEOUT')
 
@@ -124,7 +124,7 @@ class CostFileCollection:
             if cursor_user_db:
                 cursor_user_db.close()
             if cnx_user_db:
-                cnx_user_db.disconnect()
+                cnx_user_db.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_PLEASE_RE_LOGIN')
 
@@ -142,7 +142,7 @@ class CostFileCollection:
         new_id = cursor_historical_db.lastrowid
         cnx_historical_db.commit()
         cursor_historical_db.close()
-        cnx_historical_db.disconnect()
+        cnx_historical_db.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/costfiles/' + str(new_id)
@@ -176,7 +176,7 @@ class CostFileItem:
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         if row is None:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_FILE_NOT_FOUND')
@@ -211,7 +211,7 @@ class CostFileItem:
         row = cursor.fetchone()
         if row is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_FILE_NOT_FOUND')
 
@@ -231,7 +231,7 @@ class CostFileItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -263,7 +263,7 @@ class CostFileRestore:
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         if row is None:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',

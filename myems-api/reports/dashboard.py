@@ -133,7 +133,7 @@ class Reporting:
             if cursor_user:
                 cursor_user.close()
             if cnx_user:
-                cnx_user.disconnect()
+                cnx_user.close()
 
             raise falcon.HTTPError(falcon.HTTP_404, 'API.NOT_FOUND', 'API.USER_NOT_FOUND')
 
@@ -150,7 +150,7 @@ class Reporting:
                 if cursor_user:
                     cursor_user.close()
                 if cnx_user:
-                    cnx_user.disconnect()
+                    cnx_user.close()
 
                 raise falcon.HTTPError(falcon.HTTP_404, 'API.NOT_FOUND', 'API.USER_PRIVILEGE_NOT_FOUND')
 
@@ -161,7 +161,7 @@ class Reporting:
                 if cursor_user:
                     cursor_user.close()
                 if cnx_user:
-                    cnx_user.disconnect()
+                    cnx_user.close()
 
                 raise falcon.HTTPError(falcon.HTTP_404, 'API.NOT_FOUND', 'API.USER_PRIVILEGE_NOT_FOUND')
             # todo: how to deal with multiple spaces in privilege data
@@ -170,7 +170,7 @@ class Reporting:
         if cursor_user:
             cursor_user.close()
         if cnx_user:
-            cnx_user.disconnect()
+            cnx_user.close()
 
         cnx_system = mysql.connector.connect(**config.myems_system_db)
         cursor_system = cnx_system.cursor()
@@ -183,7 +183,7 @@ class Reporting:
             if cursor_system:
                 cursor_system.close()
             if cnx_system:
-                cnx_system.disconnect()
+                cnx_system.close()
 
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND', description='API.SPACE_NOT_FOUND')
 
@@ -236,17 +236,17 @@ class Reporting:
             if cursor_system:
                 cursor_system.close()
             if cnx_system:
-                cnx_system.disconnect()
+                cnx_system.close()
 
             if cursor_energy:
                 cursor_energy.close()
             if cnx_energy:
-                cnx_energy.disconnect()
+                cnx_energy.close()
 
             if cursor_billing:
                 cursor_billing.close()
             if cnx_billing:
-                cnx_billing.disconnect()
+                cnx_billing.close()
 
             raise falcon.HTTPError(falcon.HTTP_404,
                                    title='API.NOT_FOUND',
@@ -583,17 +583,17 @@ class Reporting:
         if cursor_system:
             cursor_system.close()
         if cnx_system:
-            cnx_system.disconnect()
+            cnx_system.close()
 
         if cursor_energy:
             cursor_energy.close()
         if cnx_energy:
-            cnx_energy.disconnect()
+            cnx_energy.close()
 
         if cursor_billing:
             cursor_billing.close()
         if cnx_billing:
-            cnx_billing.disconnect()
+            cnx_billing.close()
 
         result = dict()
 

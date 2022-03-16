@@ -71,7 +71,7 @@ class TextMessageCollection:
         if cursor:
             cursor.close()
         if cnx:
-            cnx.disconnect()
+            cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -194,7 +194,7 @@ class TextMessageCollection:
             row = cursor.fetchone()
             if row is None:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.RULE_NOT_FOUND')
 
@@ -215,7 +215,7 @@ class TextMessageCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/textmessages/' + str(new_id)
@@ -251,7 +251,7 @@ class TextMessageItem:
         if cursor:
             cursor.close()
         if cnx:
-            cnx.disconnect()
+            cnx.close()
 
         if row is None:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
@@ -382,7 +382,7 @@ class TextMessageItem:
 
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TEXT_MESSAGE_NOT_FOUND')
 
@@ -394,7 +394,7 @@ class TextMessageItem:
             row = cursor.fetchone()
             if row is None:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.RULE_NOT_FOUND')
 
@@ -416,7 +416,7 @@ class TextMessageItem:
 
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -438,7 +438,7 @@ class TextMessageItem:
             if cursor:
                 cursor.close()
             if cnx:
-                cnx.disconnect()
+                cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TEXT_MESSAGE_NOT_FOUND')
 
@@ -448,6 +448,6 @@ class TextMessageItem:
         if cursor:
             cursor.close()
         if cnx:
-            cnx.disconnect()
+            cnx.close()
 
         resp.status = falcon.HTTP_204

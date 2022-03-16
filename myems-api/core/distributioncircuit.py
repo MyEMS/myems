@@ -56,7 +56,7 @@ class DistributionCircuitCollection:
                 result.append(meta_result)
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         resp.text = json.dumps(result)
 
     @staticmethod
@@ -136,7 +136,7 @@ class DistributionCircuitCollection:
                        (distribution_system_id,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DISTRIBUTION_SYSTEM_NOT_FOUND')
 
@@ -146,7 +146,7 @@ class DistributionCircuitCollection:
                        (distribution_system_id, name,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
                                    description='API.DISTRIBUTION_CIRCUIT_NAME_IS_ALREADY_IN_USE')
 
@@ -166,7 +166,7 @@ class DistributionCircuitCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/distributioncircuits/' + str(new_id)
@@ -210,7 +210,7 @@ class DistributionCircuitItem:
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         if row is None:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
@@ -245,7 +245,7 @@ class DistributionCircuitItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DISTRIBUTION_CIRCUIT_NOT_FOUND')
 
@@ -258,7 +258,7 @@ class DistributionCircuitItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -343,7 +343,7 @@ class DistributionCircuitItem:
                        (distribution_system_id,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DISTRIBUTION_SYSTEM_NOT_FOUND')
 
@@ -353,7 +353,7 @@ class DistributionCircuitItem:
                        (distribution_system_id, name, id_))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
                                    description='API.DISTRIBUTION_CIRCUIT_NAME_IS_ALREADY_IN_USE')
 
@@ -373,7 +373,7 @@ class DistributionCircuitItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -414,7 +414,7 @@ class DistributionCircuitPointCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DISTRIBUTION_CIRCUIT_NOT_FOUND')
 
@@ -463,7 +463,7 @@ class DistributionCircuitPointCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DISTRIBUTION_CIRCUIT_NOT_FOUND')
 
@@ -472,7 +472,7 @@ class DistributionCircuitPointCollection:
                        " WHERE id = %s ", (new_values['data']['point_id'],))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
 
@@ -482,7 +482,7 @@ class DistributionCircuitPointCollection:
         cursor.execute(query, (id_, new_values['data']['point_id'],))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
                                    description='API.DISTRIBUTION_CIRCUIT_POINT_RELATION_EXISTS')
 
@@ -492,7 +492,7 @@ class DistributionCircuitPointCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/distributioncircuits/' + str(id_) + '/points/' + str(new_values['data']['point_id'])
@@ -528,7 +528,7 @@ class DistributionCircuitPointItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DISTRIBUTION_CIRCUIT_NOT_FOUND')
 
@@ -537,7 +537,7 @@ class DistributionCircuitPointItem:
                        " WHERE id = %s ", (pid,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
 
@@ -546,7 +546,7 @@ class DistributionCircuitPointItem:
                        " WHERE distribution_circuit_id = %s AND point_id = %s ", (id_, pid))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DISTRIBUTION_CIRCUIT_POINT_RELATION_NOT_FOUND')
 
@@ -555,7 +555,7 @@ class DistributionCircuitPointItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 

@@ -73,7 +73,7 @@ class WechatMessageCollection(object):
         if cursor:
             cursor.close()
         if cnx:
-            cnx.disconnect()
+            cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -218,7 +218,7 @@ class WechatMessageCollection(object):
             row = cursor.fetchone()
             if row is None:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.RULE_NOT_FOUND')
 
@@ -239,7 +239,7 @@ class WechatMessageCollection(object):
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/wechatmessages/' + str(new_id)
@@ -276,7 +276,7 @@ class WechatMessageItem:
         if cursor:
             cursor.close()
         if cnx:
-            cnx.disconnect()
+            cnx.close()
 
         if row is None:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
@@ -429,7 +429,7 @@ class WechatMessageItem:
 
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.WECHAT_MESSAGE_NOT_FOUND')
 
@@ -441,7 +441,7 @@ class WechatMessageItem:
             row = cursor.fetchone()
             if row is None:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.RULE_NOT_FOUND')
 
@@ -464,7 +464,7 @@ class WechatMessageItem:
 
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -488,7 +488,7 @@ class WechatMessageItem:
             if cursor:
                 cursor.close()
             if cnx:
-                cnx.disconnect()
+                cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.WECHAT_MESSAGE_NOT_FOUND')
 
@@ -498,6 +498,6 @@ class WechatMessageItem:
         if cursor:
             cursor.close()
         if cnx:
-            cnx.disconnect()
+            cnx.close()
 
         resp.status = falcon.HTTP_204

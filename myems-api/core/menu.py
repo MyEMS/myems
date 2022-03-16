@@ -38,7 +38,7 @@ class MenuCollection:
                 result.append(temp)
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         resp.text = json.dumps(result)
 
 
@@ -76,7 +76,7 @@ class MenuItem:
                       "is_hidden": bool(rows_menu['is_hidden'])}
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         resp.text = json.dumps(result)
 
     @staticmethod
@@ -111,7 +111,7 @@ class MenuItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -142,7 +142,7 @@ class MenuChildrenCollection:
         row_current_menu = cursor.fetchone()
         if row_current_menu is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.MENU_NOT_FOUND')
 
@@ -184,7 +184,7 @@ class MenuChildrenCollection:
                 result['children'].append(meta_result)
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         resp.text = json.dumps(result)
 
 
@@ -233,5 +233,5 @@ class MenuWebCollection:
             result[item['route']] = item['children']
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         resp.text = json.dumps(result)
