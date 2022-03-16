@@ -16,6 +16,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
+## [v1.8.2] -   2022-03-16
+### Added
+- None.
+
+### Changed
+- replaced cnx.disconnect() with cnx.close() according to PEP 249
+- updated docker compose version to 3.8
+- updated README
+- renamed database files
+
+### Fixed
+- fixed common time slot issues in aggregation service
+
+### Removed
+- None.
+
 ## [v1.8.1] -   2022-03-05
 ### Added
 - added integration testing plan to README
@@ -746,7 +762,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v1.8.1...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v1.8.2...HEAD
+[v1.8.2]: https://github.com/MyEMS/myems/compare/v1.8.1...v1.8.2
 [v1.8.1]: https://github.com/MyEMS/myems/compare/v1.8.0...v1.8.1
 [v1.8.0]: https://github.com/MyEMS/myems/compare/v1.7.2...v1.8.0
 [v1.7.2]: https://github.com/MyEMS/myems/compare/v1.7.1...v1.7.2
