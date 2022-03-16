@@ -40,7 +40,7 @@ class DataSourceCollection:
         cursor.execute(query)
         rows = cursor.fetchall()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -132,7 +132,7 @@ class DataSourceCollection:
                        " WHERE name = %s ", (name,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
                                    description='API.DATA_SOURCE_NAME_IS_ALREADY_IN_USE')
 
@@ -141,7 +141,7 @@ class DataSourceCollection:
                        " WHERE id = %s ", (gateway_id,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_GATEWAY_ID')
 
@@ -155,7 +155,7 @@ class DataSourceCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/datasources/' + str(new_id)
@@ -198,7 +198,7 @@ class DataSourceItem:
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         if row is None:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DATA_SOURCE_NOT_FOUND')
@@ -241,7 +241,7 @@ class DataSourceItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DATA_SOURCE_NOT_FOUND')
 
@@ -255,7 +255,7 @@ class DataSourceItem:
         row_meter = cursor.fetchone()
         if row_meter is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THIS_DATA_SOURCE_IS_BEING_USED_BY_A_METER' + row_meter[0])
@@ -265,7 +265,7 @@ class DataSourceItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         resp.status = falcon.HTTP_204
 
     @staticmethod
@@ -336,7 +336,7 @@ class DataSourceItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DATA_SOURCE_NOT_FOUND')
 
@@ -345,7 +345,7 @@ class DataSourceItem:
                        " WHERE id = %s ", (gateway_id,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_GATEWAY_ID')
 
@@ -360,7 +360,7 @@ class DataSourceItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -390,7 +390,7 @@ class DataSourcePointCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DATA_SOURCE_NOT_FOUND')
 
@@ -421,5 +421,5 @@ class DataSourcePointCollection:
                 result.append(meta_result)
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         resp.text = json.dumps(result)

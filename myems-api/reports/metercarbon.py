@@ -161,22 +161,22 @@ class Reporting:
             if cursor_system:
                 cursor_system.close()
             if cnx_system:
-                cnx_system.disconnect()
+                cnx_system.close()
 
             if cursor_energy:
                 cursor_energy.close()
             if cnx_energy:
-                cnx_energy.disconnect()
+                cnx_energy.close()
 
             if cursor_carbon:
                 cursor_carbon.close()
             if cnx_carbon:
-                cnx_carbon.disconnect()
+                cnx_carbon.close()
 
             if cursor_historical:
                 cursor_historical.close()
             if cnx_historical:
-                cnx_historical.disconnect()
+                cnx_historical.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND', description='API.METER_NOT_FOUND')
 
         meter = dict()
@@ -435,22 +435,22 @@ class Reporting:
         if cursor_system:
             cursor_system.close()
         if cnx_system:
-            cnx_system.disconnect()
+            cnx_system.close()
 
         if cursor_energy:
             cursor_energy.close()
         if cnx_energy:
-            cnx_energy.disconnect()
+            cnx_energy.close()
 
         if cursor_carbon:
             cursor_carbon.close()
         if cnx_carbon:
-            cnx_carbon.disconnect()
+            cnx_carbon.close()
 
         if cursor_historical:
             cursor_historical.close()
         if cnx_historical:
-            cnx_historical.disconnect()
+            cnx_historical.close()
         result = {
             "meter": {
                 "cost_center_id": meter['cost_center_id'],

@@ -57,7 +57,7 @@ class Reporting:
             if cursor_system:
                 cursor_system.close()
             if cnx_system:
-                cnx_system.disconnect()
+                cnx_system.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DISTRIBUTION_SYSTEM_NOT_FOUND')
 
@@ -103,7 +103,7 @@ class Reporting:
         if cursor_system:
             cursor_system.close()
         if cnx_system:
-            cnx_system.disconnect()
+            cnx_system.close()
         ################################################################################################################
         # Step 5: query points' data
         ################################################################################################################
@@ -152,7 +152,7 @@ class Reporting:
         if cursor_historical:
             cursor_historical.close()
         if cnx_historical:
-            cnx_historical.disconnect()
+            cnx_historical.close()
 
         ################################################################################################################
         # Step 6: construct the report

@@ -28,7 +28,7 @@ class CostCenterCollection:
         cursor.execute(query)
         rows = cursor.fetchall()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -71,7 +71,7 @@ class CostCenterCollection:
                        " WHERE name = %s ", (name, ))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.COST_CENTER_NAME_EXISTS')
@@ -81,7 +81,7 @@ class CostCenterCollection:
                            " WHERE external_id = %s ", (external_id, ))
             if cursor.fetchone() is not None:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.COST_CENTER_EXTERNAL_ID_EXISTS')
 
@@ -94,7 +94,7 @@ class CostCenterCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/costcenters/' + str(new_id)
@@ -126,7 +126,7 @@ class CostCenterItem:
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         if row is None:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
@@ -152,7 +152,7 @@ class CostCenterItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
 
@@ -163,7 +163,7 @@ class CostCenterItem:
         rows_equipments = cursor.fetchall()
         if rows_equipments is not None and len(rows_equipments) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_EQUIPMENTS')
@@ -175,7 +175,7 @@ class CostCenterItem:
         rows_combined_equipments = cursor.fetchall()
         if rows_combined_equipments is not None and len(rows_combined_equipments) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_COMBINED_EQUIPMENTS')
@@ -187,7 +187,7 @@ class CostCenterItem:
         rows_tariffs = cursor.fetchall()
         if rows_tariffs is not None and len(rows_tariffs) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_TARIFFS')
@@ -199,7 +199,7 @@ class CostCenterItem:
         rows_meters = cursor.fetchall()
         if rows_meters is not None and len(rows_meters) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_METERS')
@@ -211,7 +211,7 @@ class CostCenterItem:
         rows_offline_meters = cursor.fetchall()
         if rows_offline_meters is not None and len(rows_offline_meters) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_OFFLINE_METERS')
@@ -223,7 +223,7 @@ class CostCenterItem:
         rows_virtual_meters = cursor.fetchall()
         if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_OFFLINE_METERS')
@@ -235,7 +235,7 @@ class CostCenterItem:
         rows_tenants = cursor.fetchall()
         if rows_tenants is not None and len(rows_tenants) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_TENANTS')
@@ -247,7 +247,7 @@ class CostCenterItem:
         rows_stores = cursor.fetchall()
         if rows_stores is not None and len(rows_stores) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_STORES')
@@ -259,7 +259,7 @@ class CostCenterItem:
         rows_factories = cursor.fetchall()
         if rows_factories is not None and len(rows_factories) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_SPACES')
@@ -271,7 +271,7 @@ class CostCenterItem:
         rows_shopfloors = cursor.fetchall()
         if rows_shopfloors is not None and len(rows_shopfloors) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_SHOPFLOORS')
@@ -280,7 +280,7 @@ class CostCenterItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         resp.status = falcon.HTTP_204
 
     @staticmethod
@@ -319,7 +319,7 @@ class CostCenterItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
 
@@ -329,7 +329,7 @@ class CostCenterItem:
                        (name, id_, ))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.COST_CENTER_NAME_EXISTS')
@@ -340,7 +340,7 @@ class CostCenterItem:
                            (external_id, id_, ))
             if cursor.fetchone() is not None:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_400,
                                        title='API.BAD_REQUEST',
                                        description='API.COST_CENTER_EXTERNAL_ID_EXISTS')
@@ -350,7 +350,7 @@ class CostCenterItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404,
                                    title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
@@ -365,7 +365,7 @@ class CostCenterItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -399,7 +399,7 @@ class CostCenterTariffCollection:
         rows = cursor.fetchall()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -437,7 +437,7 @@ class CostCenterTariffCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
 
@@ -446,7 +446,7 @@ class CostCenterTariffCollection:
                        " WHERE id = %s ", (new_values['data']['tariff_id'],))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TARIFF_NOT_FOUND')
 
@@ -456,7 +456,7 @@ class CostCenterTariffCollection:
         rows = cursor.fetchall()
         if rows is not None and len(rows) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.TARIFF_IS_ALREADY_ASSOCIATED_WITH_COST_CENTER')
 
@@ -467,7 +467,7 @@ class CostCenterTariffCollection:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/costcenters/' + str(id_) + '/tariffs/' + str(new_values['data']['tariff_id'])
@@ -504,7 +504,7 @@ class CostCenterTariffItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
 
@@ -513,7 +513,7 @@ class CostCenterTariffItem:
                        " WHERE id = %s ", (tid,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TARIFF_NOT_FOUND')
 
@@ -522,7 +522,7 @@ class CostCenterTariffItem:
                        " WHERE cost_center_id = %s AND tariff_id = %s ", (id_, tid))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TARIFF_IS_NOT_ASSOCIATED_WITH_COST_CENTER')
 
@@ -531,6 +531,6 @@ class CostCenterTariffItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204

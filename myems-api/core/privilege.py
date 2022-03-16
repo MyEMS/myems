@@ -26,7 +26,7 @@ class PrivilegeCollection:
         cursor.execute(query)
         rows = cursor.fetchall()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -71,7 +71,7 @@ class PrivilegeCollection:
                        " WHERE name = %s ", (name,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
                                    description='API.PRIVILEGE_NAME_IS_ALREADY_IN_USE')
 
@@ -83,7 +83,7 @@ class PrivilegeCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/privileges/' + str(new_id)
@@ -117,7 +117,7 @@ class PrivilegeItem:
         rows_users = cursor.fetchall()
         if rows_users is not None and len(rows_users) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_USERS')
@@ -127,7 +127,7 @@ class PrivilegeItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.PRIVILEGE_NOT_FOUND')
 
@@ -136,7 +136,7 @@ class PrivilegeItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -176,7 +176,7 @@ class PrivilegeItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.PRIVILEGE_NOT_FOUND')
 
@@ -185,7 +185,7 @@ class PrivilegeItem:
                        " WHERE name = %s AND id != %s ", (name, id_))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
                                    description='API.PRIVILEGE_NAME_IS_ALREADY_IN_USE')
 
@@ -196,7 +196,7 @@ class PrivilegeItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_200
 

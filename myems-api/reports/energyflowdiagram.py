@@ -99,7 +99,7 @@ class Reporting:
             if cursor_system:
                 cursor_system.close()
             if cnx_system:
-                cnx_system.disconnect()
+                cnx_system.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_NOT_FOUND')
         else:
@@ -202,7 +202,7 @@ class Reporting:
         if cursor_system:
             cursor_system.close()
         if cnx_system:
-            cnx_system.disconnect()
+            cnx_system.close()
 
         ################################################################################################################
         # Step 5: query reporting period meter energy input

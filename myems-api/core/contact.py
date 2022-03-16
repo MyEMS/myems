@@ -29,7 +29,7 @@ class ContactCollection:
         cursor.execute(query)
         rows = cursor.fetchall()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -97,7 +97,7 @@ class ContactCollection:
                        " WHERE name = %s ", (name,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.CONTACT_NAME_IS_ALREADY_IN_USE')
 
@@ -113,7 +113,7 @@ class ContactCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/contacts/' + str(new_id)
@@ -144,7 +144,7 @@ class ContactItem:
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         if row is None:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
@@ -174,7 +174,7 @@ class ContactItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.CONTACT_NOT_FOUND')
 
@@ -185,7 +185,7 @@ class ContactItem:
         rows_shopfloors = cursor.fetchall()
         if rows_shopfloors is not None and len(rows_shopfloors) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_SHOPFLOORS')
@@ -197,7 +197,7 @@ class ContactItem:
         rows_spaces = cursor.fetchall()
         if rows_spaces is not None and len(rows_spaces) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_SPACES')
@@ -209,7 +209,7 @@ class ContactItem:
         rows_stores = cursor.fetchall()
         if rows_stores is not None and len(rows_stores) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_STORES')
@@ -221,7 +221,7 @@ class ContactItem:
         rows_tenants = cursor.fetchall()
         if rows_tenants is not None and len(rows_tenants) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_TENANTS')
@@ -230,7 +230,7 @@ class ContactItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -291,7 +291,7 @@ class ContactItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.CONTACT_NOT_FOUND')
 
@@ -300,7 +300,7 @@ class ContactItem:
                        " WHERE name = %s AND id != %s ", (name, id_))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.CONTACT_NAME_IS_ALREADY_IN_USE')
 
@@ -316,7 +316,7 @@ class ContactItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_200
 

@@ -39,7 +39,7 @@ class EnergyItemCollection:
         cursor.execute(query)
         rows = cursor.fetchall()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -85,7 +85,7 @@ class EnergyItemCollection:
                        " WHERE name = %s ", (name,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
                                    description='API.ENERGY_ITEM_NAME_IS_ALREADY_IN_USE')
 
@@ -95,7 +95,7 @@ class EnergyItemCollection:
                        (energy_category_id,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_CATEGORY_NOT_FOUND')
 
@@ -108,7 +108,7 @@ class EnergyItemCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/energyitems/' + str(new_id)
@@ -151,7 +151,7 @@ class EnergyItemItem:
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         if row is None:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_ITEM_NOT_FOUND')
@@ -179,7 +179,7 @@ class EnergyItemItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_ITEM_NOT_FOUND')
 
@@ -189,7 +189,7 @@ class EnergyItemItem:
         rows_meters = cursor.fetchall()
         if rows_meters is not None and len(rows_meters) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.ENERGY_ITEM_USED_IN_METER')
@@ -200,7 +200,7 @@ class EnergyItemItem:
         rows_virtual_meters = cursor.fetchall()
         if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.ENERGY_ITEM_USED_IN_VIRTUAL_METER')
@@ -211,7 +211,7 @@ class EnergyItemItem:
         rows_offline_meters = cursor.fetchall()
         if rows_offline_meters is not None and len(rows_offline_meters) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.ENERGY_ITEM_USED_IN_OFFLINE_METER')
@@ -220,7 +220,7 @@ class EnergyItemItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         resp.status = falcon.HTTP_204
 
     @staticmethod
@@ -259,7 +259,7 @@ class EnergyItemItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_ITEM_NOT_FOUND')
 
@@ -268,7 +268,7 @@ class EnergyItemItem:
                        " WHERE name = %s AND id != %s ", (name, id_))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
                                    description='API.ENERGY_ITEM_NAME_IS_ALREADY_IN_USE')
 
@@ -278,7 +278,7 @@ class EnergyItemItem:
                        (energy_category_id,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_CATEGORY_NOT_FOUND')
 
@@ -290,6 +290,6 @@ class EnergyItemItem:
                                     id_,))
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         resp.status = falcon.HTTP_200
 

@@ -80,7 +80,7 @@ class WebMessageCollection:
             if cursor:
                 cursor.close()
             if cnx:
-                cnx.disconnect()
+                cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
         else:
@@ -89,7 +89,7 @@ class WebMessageCollection:
                 if cursor:
                     cursor.close()
                 if cnx:
-                    cnx.disconnect()
+                    cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.USER_SESSION_TIMEOUT')
 
@@ -102,7 +102,7 @@ class WebMessageCollection:
             if cursor:
                 cursor.close()
             if cnx:
-                cnx.disconnect()
+                cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_PLEASE_RE_LOGIN')
         else:
@@ -111,7 +111,7 @@ class WebMessageCollection:
         if cursor:
             cursor.close()
         if cnx:
-            cnx.disconnect()
+            cnx.close()
 
         # get web messages
         cnx = mysql.connector.connect(**config.myems_fdd_db)
@@ -129,7 +129,7 @@ class WebMessageCollection:
         if cursor:
             cursor.close()
         if cnx:
-            cnx.disconnect()
+            cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -181,7 +181,7 @@ class WebMessageStatusNewCollection:
             if cursor:
                 cursor.close()
             if cnx:
-                cnx.disconnect()
+                cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
         else:
@@ -190,7 +190,7 @@ class WebMessageStatusNewCollection:
                 if cursor:
                     cursor.close()
                 if cnx:
-                    cnx.disconnect()
+                    cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.USER_SESSION_TIMEOUT')
 
@@ -203,7 +203,7 @@ class WebMessageStatusNewCollection:
             if cursor:
                 cursor.close()
             if cnx:
-                cnx.disconnect()
+                cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_PLEASE_RE_LOGIN')
         else:
@@ -212,7 +212,7 @@ class WebMessageStatusNewCollection:
         if cursor:
             cursor.close()
         if cnx:
-            cnx.disconnect()
+            cnx.close()
 
         # get 'new' web messages
         cnx = mysql.connector.connect(**config.myems_fdd_db)
@@ -230,7 +230,7 @@ class WebMessageStatusNewCollection:
         if cursor:
             cursor.close()
         if cnx:
-            cnx.disconnect()
+            cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -298,7 +298,7 @@ class WebMessageStatusNewCollection:
             if cursor:
                 cursor.close()
             if cnx:
-                cnx.disconnect()
+                cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
         else:
@@ -307,7 +307,7 @@ class WebMessageStatusNewCollection:
                 if cursor:
                     cursor.close()
                 if cnx:
-                    cnx.disconnect()
+                    cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.USER_SESSION_TIMEOUT')
 
@@ -320,7 +320,7 @@ class WebMessageStatusNewCollection:
             if cursor:
                 cursor.close()
             if cnx:
-                cnx.disconnect()
+                cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_PLEASE_RE_LOGIN')
         else:
@@ -329,7 +329,7 @@ class WebMessageStatusNewCollection:
         if cursor:
             cursor.close()
         if cnx:
-            cnx.disconnect()
+            cnx.close()
 
         cnx = mysql.connector.connect(**config.myems_fdd_db)
         cursor = cnx.cursor()
@@ -339,7 +339,7 @@ class WebMessageStatusNewCollection:
                        " WHERE status = %s AND user_id = %s ", ('new', user_id))
         if cursor.fetchall() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.WEB_MESSAGE_NOT_FOUND')
 
@@ -353,7 +353,7 @@ class WebMessageStatusNewCollection:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -398,7 +398,7 @@ class WebMessageItem:
             if cursor:
                 cursor.close()
             if cnx:
-                cnx.disconnect()
+                cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
         else:
@@ -407,7 +407,7 @@ class WebMessageItem:
                 if cursor:
                     cursor.close()
                 if cnx:
-                    cnx.disconnect()
+                    cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.USER_SESSION_TIMEOUT')
 
@@ -420,7 +420,7 @@ class WebMessageItem:
             if cursor:
                 cursor.close()
             if cnx:
-                cnx.disconnect()
+                cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_PLEASE_RE_LOGIN')
         else:
@@ -429,7 +429,7 @@ class WebMessageItem:
         if cursor:
             cursor.close()
         if cnx:
-            cnx.disconnect()
+            cnx.close()
 
         # get web message by id
         cnx = mysql.connector.connect(**config.myems_fdd_db)
@@ -446,7 +446,7 @@ class WebMessageItem:
         if cursor:
             cursor.close()
         if cnx:
-            cnx.disconnect()
+            cnx.close()
 
         if row is None:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
@@ -518,7 +518,7 @@ class WebMessageItem:
             if cursor:
                 cursor.close()
             if cnx:
-                cnx.disconnect()
+                cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
         else:
@@ -527,7 +527,7 @@ class WebMessageItem:
                 if cursor:
                     cursor.close()
                 if cnx:
-                    cnx.disconnect()
+                    cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.USER_SESSION_TIMEOUT')
 
@@ -540,7 +540,7 @@ class WebMessageItem:
             if cursor:
                 cursor.close()
             if cnx:
-                cnx.disconnect()
+                cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_PLEASE_RE_LOGIN')
         else:
@@ -549,7 +549,7 @@ class WebMessageItem:
         if cursor:
             cursor.close()
         if cnx:
-            cnx.disconnect()
+            cnx.close()
 
         cnx = mysql.connector.connect(**config.myems_fdd_db)
         cursor = cnx.cursor()
@@ -559,7 +559,7 @@ class WebMessageItem:
                        " WHERE id = %s AND user_id = %s ", (id_, user_id))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.WEB_MESSAGE_NOT_FOUND')
 
@@ -572,7 +572,7 @@ class WebMessageItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -606,7 +606,7 @@ class WebMessageItem:
             if cursor:
                 cursor.close()
             if cnx:
-                cnx.disconnect()
+                cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
         else:
@@ -615,7 +615,7 @@ class WebMessageItem:
                 if cursor:
                     cursor.close()
                 if cnx:
-                    cnx.disconnect()
+                    cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.USER_SESSION_TIMEOUT')
 
@@ -628,7 +628,7 @@ class WebMessageItem:
             if cursor:
                 cursor.close()
             if cnx:
-                cnx.disconnect()
+                cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_PLEASE_RE_LOGIN')
         else:
@@ -637,7 +637,7 @@ class WebMessageItem:
         if cursor:
             cursor.close()
         if cnx:
-            cnx.disconnect()
+            cnx.close()
 
         cnx = mysql.connector.connect(**config.myems_fdd_db)
         cursor = cnx.cursor()
@@ -651,7 +651,7 @@ class WebMessageItem:
             if cursor:
                 cursor.close()
             if cnx:
-                cnx.disconnect()
+                cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.WEB_MESSAGE_NOT_FOUND')
 
@@ -660,6 +660,6 @@ class WebMessageItem:
         if cursor:
             cursor.close()
         if cnx:
-            cnx.disconnect()
+            cnx.close()
 
         resp.status = falcon.HTTP_204

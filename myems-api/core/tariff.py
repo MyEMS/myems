@@ -85,7 +85,7 @@ class TariffCollection:
                             meta_result['timeofuse'].append(meta_data)
                 else:
                     cursor.close()
-                    cnx.disconnect()
+                    cnx.close()
                     raise falcon.HTTPError(falcon.HTTP_400,
                                            title='API.ERROR',
                                            description='API.INVALID_TARIFF_TYPE')
@@ -93,7 +93,7 @@ class TariffCollection:
                 result.append(meta_result)
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.text = json.dumps(result)
 
@@ -159,7 +159,7 @@ class TariffCollection:
                        " WHERE name = %s ", (name,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.TARIFF_NAME_IS_ALREADY_IN_USE')
 
@@ -168,7 +168,7 @@ class TariffCollection:
                        " WHERE id = %s ", (energy_category_id,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_CATEGORY_NOT_FOUND')
 
@@ -215,7 +215,7 @@ class TariffCollection:
                 cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/tariffs/' + str(new_id)
@@ -252,7 +252,7 @@ class TariffItem:
         row = cursor.fetchone()
         if row is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TARIFF_NOT_FOUND')
 
@@ -306,7 +306,7 @@ class TariffItem:
                     result['timeofuse'].append(meta_data)
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.text = json.dumps(result)
 
@@ -327,7 +327,7 @@ class TariffItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TARIFF_NOT_FOUND')
 
@@ -337,7 +337,7 @@ class TariffItem:
         rows = cursor.fetchall()
         if rows is not None and len(rows) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.TARIFF_NOT_EMPTY')
 
@@ -347,7 +347,7 @@ class TariffItem:
         rows = cursor.fetchall()
         if rows is not None and len(rows) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.TARIFF_NOT_EMPTY')
 
@@ -357,7 +357,7 @@ class TariffItem:
         rows = cursor.fetchall()
         if rows is not None and len(rows) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.TARIFF_IN_USE')
 
@@ -365,7 +365,7 @@ class TariffItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -441,7 +441,7 @@ class TariffItem:
 
         if cursor.rowcount != 1:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TARIFF_NOT_FOUND')
 
@@ -450,7 +450,7 @@ class TariffItem:
                        " WHERE name = %s AND id != %s ", (name, id_))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.TARIFF_NAME_IS_ALREADY_IN_USE')
 
@@ -479,7 +479,7 @@ class TariffItem:
         if tariff_type == 'block':
             if 'block' not in new_values['data'].keys() or new_values['data']['block'] is None:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_400,
                                        title='API.BAD_REQUEST',
                                        description='API.INVALID_TARIFF_BLOCK_PRICING')
@@ -503,7 +503,7 @@ class TariffItem:
         elif tariff_type == 'timeofuse':
             if 'timeofuse' not in new_values['data'].keys() or new_values['data']['timeofuse'] is None:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_400,
                                        title='API.BAD_REQUEST',
                                        description='API.INVALID_TARIFF_TIME_OF_USE_PRICING')
@@ -530,7 +530,7 @@ class TariffItem:
                     cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         resp.status = falcon.HTTP_200
 
 

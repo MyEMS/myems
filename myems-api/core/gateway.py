@@ -29,7 +29,7 @@ class GatewayCollection:
         cursor.execute(query)
         rows = cursor.fetchall()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -79,7 +79,7 @@ class GatewayCollection:
                        " WHERE name = %s ", (name,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.GATEWAY_NAME_IS_ALREADY_IN_USE')
 
@@ -91,7 +91,7 @@ class GatewayCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/gateways/' + str(new_id)
@@ -123,7 +123,7 @@ class GatewayItem:
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         if row is None:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.GATEWAY_NOT_FOUND')
@@ -163,7 +163,7 @@ class GatewayItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.GATEWAY_NOT_FOUND')
 
@@ -175,7 +175,7 @@ class GatewayItem:
                        (id_,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_DATA_SOURCES')
@@ -184,7 +184,7 @@ class GatewayItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         resp.status = falcon.HTTP_204
 
     @staticmethod
@@ -218,7 +218,7 @@ class GatewayItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.GATEWAY_NOT_FOUND')
 
@@ -227,7 +227,7 @@ class GatewayItem:
                        " WHERE name = %s AND id != %s ", (name, id_))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.GATEWAY_NAME_IS_ALREADY_IN_USE')
 
@@ -239,7 +239,7 @@ class GatewayItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -269,7 +269,7 @@ class GatewayDataSourceCollection:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.GATEWAY_NOT_FOUND')
 
@@ -303,6 +303,6 @@ class GatewayDataSourceCollection:
                 result.append(meta_result)
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         resp.text = json.dumps(result)
 

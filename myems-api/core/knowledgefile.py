@@ -30,7 +30,7 @@ class KnowledgeFileCollection:
         cursor.execute(query)
         rows = cursor.fetchall()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         user_dict = dict()
         if rows is not None and len(rows) > 0:
@@ -46,7 +46,7 @@ class KnowledgeFileCollection:
         cursor.execute(query)
         rows = cursor.fetchall()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -124,7 +124,7 @@ class KnowledgeFileCollection:
             if cursor:
                 cursor.close()
             if cnx:
-                cnx.disconnect()
+                cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
         else:
@@ -133,7 +133,7 @@ class KnowledgeFileCollection:
                 if cursor:
                     cursor.close()
                 if cnx:
-                    cnx.disconnect()
+                    cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.USER_SESSION_TIMEOUT')
 
@@ -146,7 +146,7 @@ class KnowledgeFileCollection:
             if cursor:
                 cursor.close()
             if cnx:
-                cnx.disconnect()
+                cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_PLEASE_RE_LOGIN')
         else:
@@ -166,7 +166,7 @@ class KnowledgeFileCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/knowledgefiles/' + str(new_id)
@@ -196,7 +196,7 @@ class KnowledgeFileItem:
         cursor.execute(query)
         rows = cursor.fetchall()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         user_dict = dict()
         if rows is not None and len(rows) > 0:
@@ -212,7 +212,7 @@ class KnowledgeFileItem:
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         if row is None:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
@@ -250,7 +250,7 @@ class KnowledgeFileItem:
         row = cursor.fetchone()
         if row is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404,
                                    title='API.NOT_FOUND',
                                    description='API.KNOWLEDGE_FILE_NOT_FOUND')
@@ -269,7 +269,7 @@ class KnowledgeFileItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -300,7 +300,7 @@ class KnowledgeFileRestore:
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         if row is None:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',

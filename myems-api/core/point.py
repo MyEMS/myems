@@ -40,7 +40,7 @@ class PointCollection:
         cursor.execute(query)
         rows = cursor.fetchall()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -160,7 +160,7 @@ class PointCollection:
                        " WHERE name = %s AND data_source_id = %s ", (name, data_source_id))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
                                    description='API.POINT_NAME_IS_ALREADY_IN_USE')
 
@@ -169,7 +169,7 @@ class PointCollection:
                        " WHERE id = %s ", (data_source_id,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DATA_SOURCE_ID')
 
@@ -191,7 +191,7 @@ class PointCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/points/' + str(new_id)
@@ -237,7 +237,7 @@ class PointItem:
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         if row is None:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
@@ -273,7 +273,7 @@ class PointItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
 
@@ -286,7 +286,7 @@ class PointItem:
         row_meter = cursor.fetchone()
         if row_meter is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_METERS')
@@ -300,7 +300,7 @@ class PointItem:
         row_sensor = cursor.fetchone()
         if row_sensor is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_SENSORS')
@@ -314,7 +314,7 @@ class PointItem:
         row_shopfloor = cursor.fetchone()
         if row_shopfloor is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_SHOPFLOORS')
@@ -328,7 +328,7 @@ class PointItem:
         row_store = cursor.fetchone()
         if row_store is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_STORES')
@@ -342,7 +342,7 @@ class PointItem:
         row_space = cursor.fetchone()
         if row_space is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_SPACES')
@@ -356,7 +356,7 @@ class PointItem:
         row_tenant = cursor.fetchone()
         if row_tenant is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_TENANTS')
@@ -370,7 +370,7 @@ class PointItem:
         row_equipment = cursor.fetchone()
         if row_equipment is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_EQUIPMENT_PARAMETERS')
@@ -384,7 +384,7 @@ class PointItem:
         row_combined_equipment = cursor.fetchone()
         if row_combined_equipment is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_COMBINED_EQUIPMENT_PARAMETERS')
@@ -393,7 +393,7 @@ class PointItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -499,7 +499,7 @@ class PointItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
 
@@ -508,7 +508,7 @@ class PointItem:
                        " WHERE id = %s ", (data_source_id,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DATA_SOURCE_ID')
 
@@ -517,7 +517,7 @@ class PointItem:
                        " WHERE name = %s AND data_source_id = %s AND id != %s ", (name, data_source_id, id_))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
                                    description='API.POINT_NAME_IS_ALREADY_IN_USE')
 
@@ -542,7 +542,7 @@ class PointItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_200
 

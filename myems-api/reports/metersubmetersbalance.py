@@ -125,12 +125,12 @@ class Reporting:
             if cursor_system:
                 cursor_system.close()
             if cnx_system:
-                cnx_system.disconnect()
+                cnx_system.close()
 
             if cursor_energy:
                 cursor_energy.close()
             if cnx_energy:
-                cnx_energy.disconnect()
+                cnx_energy.close()
 
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND', description='API.METER_NOT_FOUND')
 
@@ -327,12 +327,12 @@ class Reporting:
         if cursor_system:
             cursor_system.close()
         if cnx_system:
-            cnx_system.disconnect()
+            cnx_system.close()
 
         if cursor_energy:
             cursor_energy.close()
         if cnx_energy:
-            cnx_energy.disconnect()
+            cnx_energy.close()
 
         result = {
             "meter": {

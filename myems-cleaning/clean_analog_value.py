@@ -17,7 +17,7 @@ def job(logger):
         if cursor_historical:
             cursor_historical.close()
         if cnx_historical:
-            cnx_historical.disconnect()
+            cnx_historical.close()
         return
 
     expired_utc = datetime.utcnow() - timedelta(days=config.live_in_days)
@@ -32,7 +32,7 @@ def job(logger):
         if cursor_historical:
             cursor_historical.close()
         if cnx_historical:
-            cnx_historical.disconnect()
+            cnx_historical.close()
 
     logger.info("Deleted trend before date time in UTC: " + expired_utc.isoformat()[0:19])
 

@@ -135,7 +135,7 @@ class VirtualMeterCollection:
                 result.append(meta_result)
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         resp.text = json.dumps(result)
 
     @staticmethod
@@ -230,7 +230,7 @@ class VirtualMeterCollection:
                        " WHERE name = %s ", (name,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.VIRTUAL_METER_NAME_IS_ALREADY_IN_USE')
 
@@ -240,7 +240,7 @@ class VirtualMeterCollection:
                        (energy_category_id,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_CATEGORY_NOT_FOUND')
 
@@ -251,7 +251,7 @@ class VirtualMeterCollection:
         row = cursor.fetchone()
         if row is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
 
@@ -263,13 +263,13 @@ class VirtualMeterCollection:
             row = cursor.fetchone()
             if row is None:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.ENERGY_ITEM_NOT_FOUND')
             else:
                 if row[1] != energy_category_id:
                     cursor.close()
-                    cnx.disconnect()
+                    cnx.close()
                     raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
                                            description='API.ENERGY_ITEM_IS_NOT_BELONG_TO_ENERGY_CATEGORY')
 
@@ -280,7 +280,7 @@ class VirtualMeterCollection:
                                " WHERE id = %s ", (variable['meter_id'],))
                 if cursor.fetchone() is None:
                     cursor.close()
-                    cnx.disconnect()
+                    cnx.close()
                     raise falcon.HTTPError(falcon.HTTP_404,
                                            title='API.NOT_FOUND',
                                            description='API.METER_OF_VARIABLE_NOT_FOUND')
@@ -290,7 +290,7 @@ class VirtualMeterCollection:
                                " WHERE id = %s ", (variable['meter_id'],))
                 if cursor.fetchone() is None:
                     cursor.close()
-                    cnx.disconnect()
+                    cnx.close()
                     raise falcon.HTTPError(falcon.HTTP_404,
                                            title='API.NOT_FOUND',
                                            description='API.OFFLINE_METER_OF_VARIABLE_NOT_FOUND')
@@ -300,7 +300,7 @@ class VirtualMeterCollection:
                                " WHERE id = %s ", (variable['meter_id'],))
                 if cursor.fetchone() is None:
                     cursor.close()
-                    cnx.disconnect()
+                    cnx.close()
                     raise falcon.HTTPError(falcon.HTTP_404,
                                            title='API.NOT_FOUND',
                                            description='API.VIRTUAL_METER_OF_VARIABLE_NOT_FOUND')
@@ -331,7 +331,7 @@ class VirtualMeterCollection:
             cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/virtualmeters/' + str(new_id)
@@ -469,7 +469,7 @@ class VirtualMeterItem:
         meta_result['expression'] = expression
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         resp.text = json.dumps(meta_result)
 
     @staticmethod
@@ -489,7 +489,7 @@ class VirtualMeterItem:
         row = cursor.fetchone()
         if row is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.VIRTUAL_METER_NOT_FOUND')
         else:
@@ -503,7 +503,7 @@ class VirtualMeterItem:
         row_virtual_meter = cursor.fetchone()
         if row_virtual_meter is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_OTHER_VIRTUAL_METERS')
@@ -515,7 +515,7 @@ class VirtualMeterItem:
         rows_spaces = cursor.fetchall()
         if rows_spaces is not None and len(rows_spaces) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_SPACES')
@@ -528,7 +528,7 @@ class VirtualMeterItem:
         rows_combined_equipments = cursor.fetchall()
         if rows_combined_equipments is not None and len(rows_combined_equipments) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_COMBINED_EQUIPMENTS')
@@ -541,7 +541,7 @@ class VirtualMeterItem:
         rows_combined_equipments = cursor.fetchall()
         if rows_combined_equipments is not None and len(rows_combined_equipments) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_COMBINED_EQUIPMENT_PARAMETERS')
@@ -553,7 +553,7 @@ class VirtualMeterItem:
         rows_equipments = cursor.fetchall()
         if rows_equipments is not None and len(rows_equipments) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_EQUIPMENTS')
@@ -566,7 +566,7 @@ class VirtualMeterItem:
         rows_equipments = cursor.fetchall()
         if rows_equipments is not None and len(rows_equipments) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_EQUIPMENT_PARAMETERS')
@@ -578,7 +578,7 @@ class VirtualMeterItem:
         rows_tenants = cursor.fetchall()
         if rows_tenants is not None and len(rows_tenants) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_TENANTS')
@@ -590,7 +590,7 @@ class VirtualMeterItem:
         rows_stores = cursor.fetchall()
         if rows_stores is not None and len(rows_stores) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_STORES')
@@ -602,7 +602,7 @@ class VirtualMeterItem:
         rows_shopfloors = cursor.fetchall()
         if rows_shopfloors is not None and len(rows_shopfloors) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_SHOPFLOORS')
@@ -614,7 +614,7 @@ class VirtualMeterItem:
         rows_links = cursor.fetchall()
         if rows_links is not None and len(rows_links) > 0:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_ENERGY_FLOW_DIAGRAM_LINKS')
@@ -632,7 +632,7 @@ class VirtualMeterItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -732,7 +732,7 @@ class VirtualMeterItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.VIRTUAL_METER_NOT_FOUND')
 
@@ -741,7 +741,7 @@ class VirtualMeterItem:
                        " WHERE name = %s AND id != %s ", (name, id_))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.VIRTUAL_METER_NAME_IS_ALREADY_IN_USE')
 
@@ -751,7 +751,7 @@ class VirtualMeterItem:
                        (energy_category_id,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_CATEGORY_NOT_FOUND')
 
@@ -762,7 +762,7 @@ class VirtualMeterItem:
         row = cursor.fetchone()
         if row is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
 
@@ -774,13 +774,13 @@ class VirtualMeterItem:
             row = cursor.fetchone()
             if row is None:
                 cursor.close()
-                cnx.disconnect()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.ENERGY_ITEM_NOT_FOUND')
             else:
                 if row[1] != energy_category_id:
                     cursor.close()
-                    cnx.disconnect()
+                    cnx.close()
                     raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                            description='API.ENERGY_ITEM_IS_NOT_BELONG_TO_ENERGY_CATEGORY')
 
@@ -791,7 +791,7 @@ class VirtualMeterItem:
                                " WHERE id = %s ", (variable['meter_id'],))
                 if cursor.fetchone() is None:
                     cursor.close()
-                    cnx.disconnect()
+                    cnx.close()
                     raise falcon.HTTPError(falcon.HTTP_404,
                                            title='API.NOT_FOUND',
                                            description='API.METER_OF_VARIABLE_NOT_FOUND')
@@ -801,7 +801,7 @@ class VirtualMeterItem:
                                " WHERE id = %s ", (variable['meter_id'],))
                 if cursor.fetchone() is None:
                     cursor.close()
-                    cnx.disconnect()
+                    cnx.close()
                     raise falcon.HTTPError(falcon.HTTP_404,
                                            title='API.NOT_FOUND',
                                            description='API.OFFLINE_METER_OF_VARIABLE_NOT_FOUND')
@@ -811,7 +811,7 @@ class VirtualMeterItem:
                                " WHERE id = %s ", (variable['meter_id'],))
                 if cursor.fetchone() is None:
                     cursor.close()
-                    cnx.disconnect()
+                    cnx.close()
                     raise falcon.HTTPError(falcon.HTTP_404,
                                            title='API.NOT_FOUND',
                                            description='API.VIRTUAL_METER_OF_VARIABLE_NOT_FOUND')
@@ -850,7 +850,7 @@ class VirtualMeterItem:
             cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_200
 

@@ -28,7 +28,7 @@ class EmailServerCollection:
         cursor.execute(query)
         rows = cursor.fetchall()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -118,7 +118,7 @@ class EmailServerCollection:
                        " WHERE host = %s ", (host,))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
                                    description='API.EMAIL_SERVER_HOST_IS_ALREADY_IN_USE')
 
@@ -134,7 +134,7 @@ class EmailServerCollection:
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/emailservers/' + str(new_id)
@@ -165,7 +165,7 @@ class EmailServerItem:
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
         if row is None:
             raise falcon.HTTPError(falcon.HTTP_404, 'API.NOT_FOUND')
 
@@ -196,7 +196,7 @@ class EmailServerItem:
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.EMAIL_SERVER_NOT_FOUND')
 
@@ -204,7 +204,7 @@ class EmailServerItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -285,7 +285,7 @@ class EmailServerItem:
                        (id_,))
         if cursor.fetchone() is None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.EMAIL_SERVER_NOT_FOUND')
 
@@ -294,7 +294,7 @@ class EmailServerItem:
                        " WHERE host = %s AND id != %s ", (host, id_))
         if cursor.fetchone() is not None:
             cursor.close()
-            cnx.disconnect()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
                                    description='API.EMAIL_SERVER_HOST_IS_ALREADY_IN_USE')
 
@@ -312,6 +312,6 @@ class EmailServerItem:
         cnx.commit()
 
         cursor.close()
-        cnx.disconnect()
+        cnx.close()
 
         resp.status = falcon.HTTP_200
