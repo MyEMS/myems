@@ -1,0 +1,9 @@
+{
+  "extends": ["react-app", "prettier", "plugin:react/recommended"],
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": "warn",
+    "react/no-unescaped-entities": "off",
+    "react/prop-types": "off"
+  }
+}

@@ -1,0 +1,57 @@
+.iui-checkbox
+{
+	background-color: transparent;
+    color: black;
+	cursor: default;
+	margin: 0;
+	padding: 0;
+	position: relative;
+	white-space:nowrap;
+
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+.iui-checkbox div /*Compatibility with Bootstrap */
+{
+	-webkit-box-sizing: content-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: content-box;    /* Firefox, other Gecko */
+	box-sizing: content-box; 
+}
+.iui-checkbox-box
+{
+	display: inline-block;
+	border: thin solid gray;
+	color: black;
+	width: 14px;
+	height: 14px;
+	vertical-align: middle;
+}
+.iui-checkbox-box-disabled
+{
+	border: thin solid #cecece;
+	color: #cecece !important;
+}
+.iui-checkbox-checked
+{
+}
+.iui-checkbox-indeterminate
+{
+	color: gray;
+}
+.iui-checkbox-unchecked
+{
+}
+.iui-checkbox-content 
+{
+	display: inline-block;
+	margin: 0;
+	padding: 0 5px;
+    white-space: normal;
+}
+.iui-checkbox-content-disabled
+{
+	color: #cecece;
+}

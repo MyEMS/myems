@@ -51,8 +51,8 @@ Note: Refer to [database/README.md](./database/README.md)
 3.1  Modify API's address in nginx.conf
 ```
 cd myems
-nano admin/nginx.conf
-nano web/nginx.conf
+nano myems-admin/nginx.conf
+nano myems-web/nginx.conf
 ```
 
 3.2  Copy example.env to .env in each folder and modify database IP, username and password in .env
@@ -78,7 +78,7 @@ Make sure the upload folders in api and admin are same folder on host.
 4.  Build Web UI
 
 ```
-cd myems/web
+cd myems/myems-web
 npm i --unsafe-perm=true --allow-root --legacy-peer-deps
 npm run build
 ```
@@ -100,11 +100,11 @@ docker-compose -f docker-compose-on-linux.yml up -d
 
 6. Verification
 
-|       | Address                 | Expected Result  |
-| ----- | ----------------------- | ---------------- |
-| web   | 192.168.0.1:80          | Login succeeded by entering account and password |
-| admin | 192.168.0.1:8001        | Login succeeded by entering account and password |
-| api   | 192.168.0.1:8000/version| Return version information |
+|             | Address                 | Expected Result  |
+| ----------- | ----------------------- | ---------------- |
+| myems-web   | 192.168.0.1:80          | Login succeeded by entering account and password |
+| myems-admin | 192.168.0.1:8001        | Login succeeded by entering account and password |
+| myems-api   | 192.168.0.1:8000/version| Return version information |
 
 **Note**：If the API reports an error, please confirm Whether the database IP, database account and database password in .env are correct. If not, please modify them then execute:
 ```

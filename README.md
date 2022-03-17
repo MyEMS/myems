@@ -162,7 +162,7 @@ MyEMS项目由下列组件构成:
 
 ### MyEMS 管理 UI (AngularJS version 1.x)
 
-详见 [myems-admin介绍与安装](./admin/README.md)
+详见 [myems-admin介绍与安装](myems-admin/README.md)
 
 ### MyEMS Modbus TCP 数据采集服务 (Python)
 
@@ -182,7 +182,7 @@ MyEMS项目由下列组件构成:
 
 ### MyEMS Web UI (ReactJS)
 
-详见 [myems-web介绍与安装](./web/README.md)
+详见 [myems-web介绍与安装](myems-web/README.md)
 
 ### 默认端口号
 
