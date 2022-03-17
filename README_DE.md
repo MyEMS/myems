@@ -226,4 +226,5 @@ Sehen [Kooperationsplan für Integrationstests](integration-testing-cn.md)
 ## QQ-Gruppe
 
 Gruppennummer: 792528967
+
 ![QQ Group 1](/docs/images/qq-group-1.png)
