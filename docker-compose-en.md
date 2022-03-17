@@ -37,6 +37,7 @@ mysql -u root -p < myems_energy_db.sql
 mysql -u root -p < myems_energy_model_db.sql
 mysql -u root -p < myems_fdd_db.sql
 mysql -u root -p < myems_historical_db.sql
+mysql -u root -p < myems_production_db.sql
 mysql -u root -p < myems_reporting_db.sql
 mysql -u root -p < myems_system_db.sql
 mysql -u root -p < myems_user_db.sql
