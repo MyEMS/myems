@@ -6,7 +6,7 @@ services:
     volumes:
       - type: bind
         source: /upload
-        target: /var/www/html/admin/upload
+        target: /var/www/myems-admin/upload
     restart: always
     ports:
       - "8000:8000"
@@ -39,7 +39,7 @@ services:
     volumes:
       - type: bind
         source: /upload
-        target: /var/www/html/admin/upload
+        target: /var/www/myems-admin/upload
     restart: always
     ports:
       - "8001:8001"
