@@ -1,12 +1,14 @@
 
-## Features of MyEMS Enterprise Edition
+## Optional Features and Services of MyEMS Enterprise Edition
 
 | Features                         | Enterprise Edition | Explanation    |
 | :---                             |  :----:            | :----:         |
 | Open Source                      | ❌       |                      |
-| Pricing                          | Pay for Projects | Enterprise version license, or customizable development |
-| Change Name and Logo             | ✔️        |  Enterprise version license, or customizable development |
-| Kubernetes                       |  ✔️        | https://kubernetes.io/ |
+| Pricing                          | Pay per Project | Licensed per project, lifetime valid, custom development |
+| Change Name and Logo             |  ✔️        | Licensed per project, lifetime valid, custom development  |
+| Deploy on Kubernetes (K8s)       |  ✔️        | https://kubernetes.io/ |
+| Deploy on SQL Server Database    |  ✔️        | https://www.microsoft.com/en-us/sql-server |
+| Deploy on Oracle Database        |  ✔️        | https://www.oracle.com/database/ |
 | Space/Saving Data                |  ✔️        | Enterprise version license, or customizable development |
 | Equipment/Saving Data            |  ✔️        | Enterprise version license, or customizable development |
 | Tenant/Saving Data               |  ✔️        | Enterprise version license, or customizable development |

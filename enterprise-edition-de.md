@@ -1,12 +1,15 @@
 
-## Funktionen der MyEMS Enterprise Edition
+## Optionale Funktionen und Dienste der MyEMS Enterprise Edition
 
 | Eigenschaften                    | Enterprise Edition | Erläuterung   |
 | :---                             |  :----:            |  :----:       |
 | Open Source                      | ❌      |  Codeverschlüsselung    |
-| Pricing                          | Pay for Projects | Entwicklung kann entsprechend der Projektgenehmigung angepasst werden  |
-| Change Name and Logo             | ✔️        |  Entwicklung kann entsprechend der Projektgenehmigung angepasst werden |
-| Kubernetes                       |  ✔️        | https://kubernetes.io/ |
+| Pricing                          | Pay per Project | Lizenziert pro Projekt, Lebenszeit gültig, kundenspezifische Entwicklung  |
+| Change Name and Logo             | ✔️        |  Lizenziert pro Projekt, Lebenszeit gültig, kundenspezifische Entwicklung |
+| Deploy on Kubernetes (K8s)       |  ✔️        | https://kubernetes.io/ |
+| Deploy on SQL Server Database    |  ✔️        | https://www.microsoft.com/en-us/sql-server |
+| Deploy on Oracle Database        |  ✔️        | https://www.oracle.com/database/ |
+| Deploy on PostgreSQL Database    |  ✔️        | https://www.postgresql.org/ |
 | Space/Saving Data                |  ✔️        | Erfordert eine Komponente zur Vorhersage des Energieverbrauchs |
 | Equipment/Saving Data            | ✔️        | Erfordert eine Komponente zur Vorhersage des Energieverbrauchs |
 | Tenant/Saving Data               |  ✔️        | Erfordert eine Komponente zur Vorhersage des Energieverbrauchs |
