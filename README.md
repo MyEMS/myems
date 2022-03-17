@@ -229,4 +229,5 @@ administrator@myems.io
 
 ## QQ交流群
 
-![QQ群1](/docs/images/qq-group-1.png)
+群号: 792528967
+![QQ群](/docs/images/qq-group.png)
