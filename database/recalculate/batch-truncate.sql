@@ -1,7 +1,7 @@
 
 -- NOTE: this script is DANGEROUS and may cause data loss so it is for advanced users only
 -- NOTE: before running this script, you should stop the myems-normalization service and myems-aggregation service
--- NOTE  after running this scipt, you should start the myems-normalization service and myems-aggregation service
+-- NOTE  after running this script, you should start the myems-normalization service and myems-aggregation service
 
 TRUNCATE TABLE myems_energy_db.tbl_combined_equipment_input_category_hourly;
 TRUNCATE TABLE myems_energy_db.tbl_combined_equipment_input_item_hourly;

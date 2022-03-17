@@ -1,7 +1,7 @@
 -- NOTE: this script is DANGEROUS and may cause data loss so it is for advanced users only
 -- NOTE: before running this script, you should stop the myems-normalization service and myems-aggregation service
--- NOTE: after running this scipt, you should start the myems-normalization service and myems-aggregation service
--- NOTE: the start datetime in datebase are in UTC 
+-- NOTE: after running this script, you should start the myems-normalization service and myems-aggregation service
+-- NOTE: the start datetime in database are in UTC
 
 DELETE FROM `myems_energy_db`.`tbl_combined_equipment_input_category_hourly`
 WHERE start_datetime_utc >= '2020-12-31 16:00:00';
