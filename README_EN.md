@@ -161,7 +161,7 @@ See [myems-api Introduction & Installation](./myems-api/README.md)
 
 ### MyEMS Admin UI (ReactJS)
 
-See [myems-admin Introduction & Installation](./admin/README.md)
+See [myems-admin Introduction & Installation](myems-admin/README.md)
 
 ### MyEMS Modbus TCP Acquisition Service (Python)
 
@@ -181,7 +181,7 @@ See [myems-aggregation Introduction & Installation](./myems-aggregation/README.m
 
 ### MyEMS Web UI (AngularJS)
 
-See [myems-web Introduction & Installation](./web/README.md)
+See [myems-web Introduction & Installation](myems-web/README.md)
 
 ### Default Ports
 

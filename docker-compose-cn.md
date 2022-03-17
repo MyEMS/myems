@@ -51,8 +51,8 @@ mysql -u root -p < myems_user_db.sql
 3.1  修改nginx.conf里的API配置
 ```
 cd myems
-nano admin/nginx.conf
-nano web/nginx.conf
+nano myems-admin/nginx.conf
+nano myems-web/nginx.conf
 ```
 
 3.2  分别复制下列目录中的example.env为.env并修改.env里的数据库IP，账号，密码
@@ -78,7 +78,7 @@ nano myems-normalization/.env
 4.  编译Web UI
 
 ```
-cd myems/web
+cd myems/myems-web
 npm i --unsafe-perm=true --allow-root --legacy-peer-deps
 npm run build
 ```
@@ -100,11 +100,11 @@ docker-compose -f docker-compose-on-linux.yml up -d
 
 6. 验证
 
-|       | 网址                    | 期望结果           |
-| ----- | ----------------------- | ---------------- |
-| web   | 192.168.0.1:80          | 输入账号密码登录成功 |
-| admin | 192.168.0.1:8001        | 输入账号密码登录成功 |
-| api   | 192.168.0.1:8000/version| 返回版本信息       |
+|             | 网址                    | 期望结果           |
+| ----------- | ----------------------- | ---------------- |
+| myems-web   | 192.168.0.1:80          | 输入账号密码登录成功 |
+| myems-admin | 192.168.0.1:8001        | 输入账号密码登录成功 |
+| myems-api   | 192.168.0.1:8000/version| 返回版本信息       |
 
 **注**：如果api报错，请确认.env里的数据库IP，数据库账号，数据库密码是否正确，如果不正确，请修改后执行：
 
