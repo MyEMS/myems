@@ -66,6 +66,7 @@ CREATE TABLE IF NOT EXISTS `myems_production_db`.`tbl_teams` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(128) NOT NULL,
   `uuid` CHAR(36) NOT NULL,
+  `description` VARCHAR(255),
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_teams_index_1` ON  `myems_production_db`.`tbl_teams`   (`name`);
 
