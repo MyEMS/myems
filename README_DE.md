@@ -223,6 +223,7 @@ Sehen [Docker Compose Schnelle Bereitstellung](docker-compose-de.md)
 
 Sehen [Kooperationsplan für Integrationstests](integration-testing-cn.md)
 
-## QQ Group
+## QQ-Gruppe
 
+Gruppennummer: 792528967
 ![QQ Group 1](/docs/images/qq-group-1.png)
