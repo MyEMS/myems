@@ -1,8 +1,8 @@
 # myems-web
 
 ## Introduction
-MyEMS Web 用户界面，用于查询能源报表
-Providing Web UI of MyEMS for viewing energy reports
+Web 用户界面，用于能源数据可视化
+Providing Web UI for energy data visualization
 
 ## Prerequisites
 
@@ -22,7 +22,7 @@ sudo ln -s /usr/local/lib/nodejs/node-vxx.x.x-linux-x64/bin/node /usr/bin/node
 sudo ln -s /usr/local/lib/nodejs/node-vxx.x.x-linux-x64/bin/npm /usr/bin/npm
 sudo ln -s /usr/local/lib/nodejs/node-vxx.x.x-linux-x64/bin/npx /usr/bin/npx
 ```
-Download Latest Current Version Windows Installer (.msi) 64-bit from https://nodejs.org/en/download/current/
+Download the latest current version Windows installer (.msi) 64-bit from https://nodejs.org/en/download/current/
 Install Node.js with Setup Wizard
 
 
@@ -147,13 +147,13 @@ http{
 }
 ```
 
-Add a new 'server' section with direstives as below:
+Add a new 'server' section with directives as below:
 ```
   server {
       listen                 80;
       server_name     myems-web;
       location / {
-          root    /var/www/html/web;
+          root    /var/www/myems-web;
           index index.html index.htm;
           # add try_files directive to avoid 404 error while refreshing pages
           try_files $uri  /index.html;
@@ -190,8 +190,8 @@ tar czvf myems-web.tar.gz build
   Note that the following path should be same as that was configured in nginx.conf.
 ```bash
 tar xzf myems-web.tar.gz
-sudo rm -r /var/www/html/web
-sudo mv build  /var/www/html/web
+sudo rm -r /var/www/myems-web
+sudo mv build  /var/www/myems-web
 ```
 
 ### Option 3: Install on Apache2 Server
@@ -214,9 +214,9 @@ Add a new 'VirtualHost' as below
 ```
 <VirtualHost 127.0.0.1:80>
         ServerAdmin MyEMS-web
-        DocumentRoot /var/www/web
+        DocumentRoot /var/www/myems-web
         
-        <Directory "var/www/web">
+        <Directory "var/www/myems-web">
                 Options FollowSymLinks
                 AllowOverride All
                 Require all granted
@@ -244,12 +244,12 @@ tar czvf myems-web.tar.gz build
   Note that the following path should be same as that was configured in 000-default.conf
 ```bash
 tar xzf myems-web.tar.gz
-sudo rm -r /var/www/web
-sudo mv build  /var/www/web
+sudo rm -r /var/www/myems-web
+sudo mv build  /var/www/myems-web
 ```
 *   avoid 404 error while refreshing pages
 ```bash
-cd /var/www/web
+cd /var/www/myems-web
 sudo vi .htaccess
 ```
   Add a IfModule as below:

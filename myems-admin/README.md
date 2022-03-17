@@ -44,11 +44,11 @@ docker build -t myems/myems-admin .
 If run on Windows host, bind-mount a share upload file folder at c:\myems-upload to the container and also bind-mount nginx.conf 
 -v parameter for upload folder must be same with that in myems-api
 ```bash
-docker run -d -p 8001:8001 -v c:\myems-upload:/var/www/html/admin/upload -v c:\myems-admin/nginx.conf:/etc/nginx/nginx.conf --restart always --name myems-admin myems/myems-admin
+docker run -d -p 8001:8001 -v c:\myems-upload:/var/www/myems-admin/upload -v c:\myems-admin/nginx.conf:/etc/nginx/nginx.conf --restart always --name myems-admin myems/myems-admin
 ```
 If run on Linux host, bind-mount a share upload file folder at /myems-upload to the container and also bind-mount nginx.conf 
 ```bash
-docker run -d -p 8001:8001 -v /myems-upload:/var/www/html/admin/upload -v /myems-admin/nginx.conf:/etc/nginx/nginx.conf --restart always --name myems-admin myems/myems-admin
+docker run -d -p 8001:8001 -v /myems-upload:/var/www/myems-admin/upload -v /myems-admin/nginx.conf:/etc/nginx/nginx.conf --restart always --name myems-admin myems/myems-admin
 ```
 
 -d Run container in background and print container ID
@@ -96,13 +96,13 @@ http{
 }
 ```
 
-Add a new 'server' section with direstives as below:
+Add a new 'server' section with directives as below:
 ```
   server {
       listen                 8001;
       server_name     myems-admin;
       location / {
-          root    /var/www/html/admin;
+          root    /var/www/myems-admin;
           index index.html index.htm;
       }
       ## To avoid CORS issue, use Nginx to proxy myems-api to path /api 
@@ -120,19 +120,18 @@ Add a new 'server' section with direstives as below:
   If the server can not connect to the internet, please compress the myems/myems-admin folder and upload it to the server and extract it to ~/myems/myems-admin
 ```bash
 sudo mkdir /var/www
-sudo mkdir /var/www/html
-sudo cp -r myems/myems-admin  /var/www/html/admin
-sudo chmod 0755 -R /var/www/html/admin
+sudo cp -r myems/myems-admin  /var/www/myems-admin
+sudo chmod 0755 -R /var/www/myems-admin
 ```
   Check the config file and change it if necessary:
 ```bash
-sudo nano /var/www/html/admin/app/api.js
+sudo nano /var/www/myems-admin/app/api.js
 ```
 
 ## NOTE:
 The 'upload' folder is for user uploaded files. DO NOT delete/move/overwrite the 'upload' folder when you upgraded myems-admin.
 ```bash
- /var/www/html/admin/upload
+ /var/www/myems-admin/upload
 ```
 
 
@@ -156,9 +155,9 @@ Add a new 'VirtualHost' as below
 ```xml
 <VirtualHost 127.0.0.1:8001>
         ServerAdmin MyEMS-admin
-        DocumentRoot /var/www/admin
+        DocumentRoot /var/www/myems-admin
         
-        <Directory "var/www/admin">
+        <Directory "var/www/myems-admin">
                 Options FollowSymLinks
                 AllowOverride All
                 Require all granted
@@ -171,12 +170,12 @@ Add a new 'VirtualHost' as below
 * Install myems-admin :
   If the server can not connect to the internet, please compress the myems/myems-admin folder and upload it to the server and extract it to ~/myems/myems-admin
 ```bash
-sudo cp -r myems/myems-admin  /var/www/html/admin
-sudo chmod 0755 -R /var/www/html/admin
+sudo cp -r myems/myems-admin  /var/www/myems-admin
+sudo chmod 0755 -R /var/www/myems-admin
 ```
   Check the config file and change it if necessary:
 ```bash
-sudo nano /var/www/html/admin/app/api.js
+sudo nano /var/www/myems-admin/app/api.js
 ```
 
 

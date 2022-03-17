@@ -228,4 +228,5 @@ See [Integration Testing Cooperation Plan](integration-testing-cn.md)
 ## QQ Group
 
 Group Number: 792528967
+
 ![QQ Group 1](/docs/images/qq-group-1.png)
