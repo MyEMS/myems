@@ -11,9 +11,9 @@ $ xcode-select --install
 然后安装python3
 
 ```shell
-$ brew search python3 //默认安装最新版3.9
+$ brew search python3 //默认安装最新版3.10
 $ python3 -V
-Python 3.9.1 //安装Python3 OK
+Python 3.10.1 //安装Python3 OK
 ```
 国内网络可能会出现安装慢的问题，配置下国内的资源镜像
 ```shell
@@ -45,18 +45,20 @@ Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 
 mysql>
 ```
-然后初始化数据库，克隆[myems-database](https://github.com/myems/myems-database)到本地。
+然后初始化数据库，克隆[myems](https://github.com/myems/myems)到本地。
 ```shell
-$ git clone https://github.com/myems/myems-database.git
-$ cd myems-database
+$ git clone https://github.com/myems/myems.git
+$ cd myems/myems-database
 $ mysql -u root -p密码 //用root登录mysql
 mysql>
 source myems_billing_baseline_db.sql
 source myems_billing_db.sql
+source myems_carbon_db.sql
 source myems_energy_baseline_db.sql
 source myems_energy_db.sql
 source myems_fdd_db.sql
 source myems_historical_db.sql
+source myems_production_db.sql
 source myems_reporting_db.sql
 source myems_system_db.sql
 source myems_user_db.sql
@@ -68,10 +70,12 @@ mysql> show databases;  // 查看数据库是否导入OK
 | information_schema        |
 | myems_billing_baseline_db |
 | myems_billing_db          |
+| myems_carbon_db          |
 | myems_energy_baseline_db  |
 | myems_energy_db           |
 | myems_fdd_db              |
 | myems_historical_db       |
+| myems_production_db       |
 | myems_reporting_db        |
 | myems_system_db           |
 | myems_user_db             |
@@ -135,7 +139,6 @@ $ source ~/.zshrc
 
 ### 4.运行myems-api服务
 ```shell
-$ git clone https://github.com/kuuyee/myems-api.git
 $ cd myems/myems-api
 $ gunicorn -b 0.0.0.0:8000 app:api
 [2021-02-16 22:21:46 +0800] [3252] [INFO] Starting gunicorn 20.0.4
@@ -149,11 +152,11 @@ $ gunicorn -b 0.0.0.0:8000 app:api
 ### 5.验证myems-api服务
 
 打开浏览器访问[http://0.0.0.0:8000/version](http://0.0.0.0:8000/version) 
-如果看到如下输出就表示服务启动正常。
+如果看到输出版本信息就表示服务启动正常。
 ```json
 {
-"version": "MyEMS 1.3.2",
-"release-date": "2021-10-22",
+"version": "MyEMS 1.8.2",
+"release-date": "2022-03-16",
 "website": "https://myems.io"
 }
 ```

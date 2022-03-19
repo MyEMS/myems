@@ -94,9 +94,9 @@ working_day_start_time_local = config('WORKING_DAY_START_TIME_LOCAL', default='0
 
 # indicates where user uploaded files will be saved to
 # must use the root folder of myems-admin web application
-# for example if you serve myems-admin at /var/www/html/admin
+# for example if you serve myems-admin at /var/www/myems-admin
 # you should set the upload_path as below
-upload_path = config('UPLOAD_PATH', default='/var/www/html/admin/upload/')
+upload_path = config('UPLOAD_PATH', default='/var/www/myems-admin/upload/')
 
 # main currency unit
 currency_unit = config('CURRENCY_UNIT', default='CNY')
