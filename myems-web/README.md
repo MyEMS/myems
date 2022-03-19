@@ -1,8 +1,8 @@
 # myems-web
 
 ## Introduction
-Web 用户界面，用于能源数据可视化
-Providing Web UI for energy data visualization
+Web用户界面，用于MyEMS能源数据可视化
+Web UI for MyEMS energy data visualization
 
 ## Prerequisites
 
@@ -12,7 +12,7 @@ Node.js 17.0.0 or later
 
 ## Running in Local Environment for Development
 
-*   Install Node.js via binary archive on Linux
+* Install Node.js via binary archive on Linux
 Download Current Linux Binaries (x64) from https://nodejs.org/en/download/current/
 
 ```bash
@@ -33,17 +33,19 @@ npm version
 npx -v
 ```
 
-*   Download all the necessary dependencies into the node_modules directory.
+* Download all the necessary dependencies into the node_modules directory.
 ```bash
 cd myems/myems-web
 npm i --unsafe-perm=true --allow-root --legacy-peer-deps
 ```
-*   If you modified any scss files then you need to compile SCSS, else you can safely ignore this step.
+
+* If you modified any scss files then you need to compile SCSS, else you can safely ignore this step.
 Run below command in your project directory to compile scss.
 ```bash
 npm run scss
-``` 
-*   Starting the Development Server
+```
+
+* Starting the Development Server
 A local web server will start at http://localhost:3000.
 We are using webpack and webpack-serve to automatically detect file changes. So, if you edit and save a file, your browser will automatically refresh and preview the change.
 ```bash
@@ -173,21 +175,23 @@ Restart NGINX
 sudo systemctl restart nginx
 ```
 
-*   Install MyEMS Web UI:
+* Install MyEMS Web UI:
 
-  Check and change the config file if necessary:
+Check and change the config file if necessary:
 ```bash
 cd myems/myems-web
 sudo nano src/config.js
 ```
-  Build and Compress
+
+Build and Compress
 ```bash
 sudo npm run build
 tar czvf myems-web.tar.gz build
 ```
-  Install
-  Upload the file myems-web.tar.gz to you web server. 
-  Note that the following path should be same as that was configured in nginx.conf.
+
+Install
+Upload the file myems-web.tar.gz to you web server. 
+Note that the following path should be same as that was configured in nginx.conf.
 ```bash
 tar xzf myems-web.tar.gz
 sudo rm -r /var/www/myems-web
@@ -195,11 +199,11 @@ sudo mv build  /var/www/myems-web
 ```
 
 ### Option 3: Install on Apache2 Server
-*   Install Apache2 Server
+* Install Apache2 Server
 
 refer to https://httpd.apache.org/docs/2.4/install.html
 
-*   Configure Apache2
+* Configure Apache2
 ```bash
 sudo vi /etc/apache2/ports.conf
 ```
@@ -226,22 +230,24 @@ Add a new 'VirtualHost' as below
 </VirtualHost>
 ```
 
-*   Install MyEMS Web UI:
+* Install MyEMS Web UI:
 
-  Check and change the config file if necessary:
+Check and change the config file if necessary:
 ```bash
 cd myems/myems-web
 sudo nano src/config.js
 ```
-  Build and Compress
+
+Build and Compress
 ```bash
 cd myems/myems-web/
 sudo npm run build
 tar czvf myems-web.tar.gz build
 ```
-  Install 
-  Upload the file myems-web.tar.gz to you web server. 
-  Note that the following path should be same as that was configured in 000-default.conf
+
+Install 
+Upload the file myems-web.tar.gz to you web server. 
+Note that the following path should be same as that was configured in 000-default.conf
 ```bash
 tar xzf myems-web.tar.gz
 sudo rm -r /var/www/myems-web
@@ -274,13 +280,15 @@ LoadModule rewrite_module /usr/lib/apache2/modules/mod_rewrite.so
 ```
 
 ### Option 4: Install myems-web on Node.js Web Server
-*   Run below command in your project directory to make the Production build.
-    This will create an optimized production build by compililing, merging and minifying all the source files as necessary and put them in the build/ folder.
+* Run below command in your project directory to make the Production build.
+
+This will create an optimized production build by compiling, merging and minifying all the source files as necessary and put them in the build/ folder.
 ```bash
 sudo npm run build
 ```
-*   Run the production build locally at http://localhost:80.
+
+* Run the production build locally at http://localhost:80.
     If you want to listen on other port, change it in myems/myems-web/server.js
-```
+```bash
 sudo node server.js
 ```

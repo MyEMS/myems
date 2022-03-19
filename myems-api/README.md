@@ -1,7 +1,8 @@
 # MyEMS API Service
 
 ## Introduction
-Providing RESTful API service for [MyEMS](https://github.com/MyEMS/myems) components and third party applications.
+
+RESTful API service for [MyEMS](https://github.com/MyEMS/myems) components and third party applications.
 
 ## Prerequisites
 
@@ -71,12 +72,12 @@ docker build -t myems/myems-api .
 On Windows host, bind-mount a share upload folder at c:\myems-upload to the container, 
  and also bind-mount the .env to the container:
 ```bash
-docker run -d -p 8000:8000 -v c:\myems-upload:/var/www/html/admin/upload -v c:\myems-api\.env:/code/.env --restart always --name myems-api myems/myems-api
+docker run -d -p 8000:8000 -v c:\myems-upload:/var/www/myems-admin/upload -v c:\myems-api\.env:/code/.env --restart always --name myems-api myems/myems-api
 ```
 On Linux host, bind-mount a share upload file folder at /myems-upload to the container,
  and also bind-mount the .env to the container:
 ```bash
-docker run -d -p 8000:8000 -v /myems-upload:/var/www/html/admin/upload -v /myems-api/.env:/.env --restart always --name myems-api myems/myems-api
+docker run -d -p 8000:8000 -v /myems-upload:/var/www/myems-admin/upload -v /myems-api/.env:/.env --restart always --name myems-api myems/myems-api
 ```
 
 * -d Run container in background and print container ID
