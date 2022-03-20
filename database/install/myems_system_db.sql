@@ -849,8 +849,8 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_tariffs` (
   `valid_from_datetime_utc` DATETIME NOT NULL,
   `valid_through_datetime_utc` DATETIME NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_tariffs_parameters_index_1` ON  `myems_system_db`.`tbl_tariffs`   (`name`);
-CREATE INDEX `tbl_tariffs_parameters_index_2` ON  `myems_system_db`.`tbl_tariffs`   (`energy_category_id`, `valid_from_datetime_utc`,  `valid_through_datetime_utc`);
+CREATE INDEX `tbl_tariffs_index_1` ON  `myems_system_db`.`tbl_tariffs`   (`name`);
+CREATE INDEX `tbl_tariffs_index_2` ON  `myems_system_db`.`tbl_tariffs`   (`energy_category_id`, `valid_from_datetime_utc`,  `valid_through_datetime_utc`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_tariffs_timeofuses`
