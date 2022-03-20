@@ -88,10 +88,10 @@ def write_log(user_uuid, request_method, resource_type, resource_id, request_bod
     except Exception as e:
         print('write_log:' + str(e))
     finally:
-        if cnx:
-            cnx.close()
         if cursor:
             cursor.close()
+        if cnx:
+            cnx.close()
 
 
 def user_logger(func):
