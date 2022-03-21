@@ -42,11 +42,13 @@ sudo chmod +x run.sh
 ```
 
 Quick run on Windows (NOT for production use):
+
 Find python path in Command Prompt:
 ```bash
 where python
 ```
 Assume the result is 'C:\Users\johnson\AppData\Local\Programs\Python\Python310\python.exe'
+
 Copy fcntl.py and pwd.py to lib folder:
 ```bash
 cp myems\myems-api\fcntl.py C:\Users\johnson\AppData\Local\Programs\Python\Python310\Lib
