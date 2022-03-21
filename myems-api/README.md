@@ -32,6 +32,7 @@ python-decouple
 
 ## Quick Run for Development
 
+Quick run on Linux (NOT for production use):
 ```bash
 cd myems/myems-api
 sudo pip install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
@@ -39,6 +40,26 @@ cp example.env .env
 sudo chmod +x run.sh
 ./run.sh
 ```
+
+Quick run on Windows (NOT for production use):
+Find python path in Command Prompt:
+```bash
+where python
+```
+Assume the result is 'C:\Users\johnson\AppData\Local\Programs\Python\Python310\python.exe'
+Copy fcntl.py and pwd.py to lib folder:
+```bash
+cp myems\myems-api\fcntl.py C:\Users\johnson\AppData\Local\Programs\Python\Python310\Lib
+cp myems\myems-api\pwd.py C:\Users\johnson\AppData\Local\Programs\Python\Python310\Lib
+```
+
+Install and run with waitress:
+```bash
+pip install waitress
+cd myems\myems-api
+waitress-serve --listen=127.0.0.1:8000 app:api
+```
+
 
 ## Installation
 
@@ -2671,6 +2692,8 @@ curl -i -X GET {{base_url}}/reports/virtualmetercost?virtualmeterid=1&periodtype
 [7]. https://foss.heptapod.net/openpyxl/openpyxl
 
 [8]. https://foss.heptapod.net/openpyxl/et_xmlfile/
+
+[9]. https://docs.pylonsproject.org/projects/waitress/en/latest/
 
 
 
