@@ -30,7 +30,7 @@ const LineChart = ({
           {
             borderWidth: 2,
             data: data[option],
-            borderColor: rgbaColor(isDark ? themeColors.primary : '#fff', 0.8),
+            borderColor: rgbaColor(isDark ? themeColors.primary : '#000', 0.8),
             backgroundColor: gradientFill
           }
         ]
@@ -53,12 +53,12 @@ const LineChart = ({
         xAxes: [
           {
             ticks: {
-              fontColor: rgbaColor('#fff', 0.7),
+              fontColor: rgbaColor('#789', 0.8),
               fontStyle: 600
             },
             gridLines: {
-              color: rgbaColor('#fff', 0.1),
-              zeroLineColor: rgbaColor('#fff', 0.1),
+              color: rgbaColor('#000', 0.1),
+              zeroLineColor: rgbaColor('#000', 0.1),
               lineWidth: 1
             }
           }
@@ -67,7 +67,7 @@ const LineChart = ({
           {
             display: true,
             gridLines: {
-              color: rgbaColor('#fff', 0.1)
+              color: rgbaColor('#000', 0.1)
             }
           }
         ]
@@ -77,10 +77,10 @@ const LineChart = ({
 
   return (
     <Card className="mb-3">
-      <CardBody className="rounded-soft bg-gradient">
+      <CardBody className="rounded-soft">
         <Row className="text-white align-items-center no-gutters">
           <Col>
-            <h4 className="text-white mb-0">{reportingTitle}</h4>
+            <h4 className="mb-0" style={{color:'#789'}} >{reportingTitle}</h4>
             <p className="fs--1 font-weight-semi-bold">
               {baseTitle}
             </p>
@@ -100,7 +100,7 @@ const LineChart = ({
                   ))}
               </CustomInput>
             </Col>
-          }   
+          }
         </Row>
         <Line data={config.data} options={config.options} width={1618} height={375} />
       </CardBody>
@@ -109,3 +109,4 @@ const LineChart = ({
 };
 
 export default LineChart;
+
