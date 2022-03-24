@@ -33,8 +33,8 @@ def process(logger):
 
         # Note:
         # the default value of unchecked values' is_bad property is NULL
-        # if a value is checked and the result is bad then is_bad would be set to TRUE
-        # else if a value is checked and the result is good then is_bad would be set to FALSE
+        # if a value is checked and the result is bad then is_bad would be set to 1
+        # else if a value is checked and the result is good then is_bad would be set to 0
 
         ################################################################################################################
         # Step 1: get the time slot to clean.
@@ -212,7 +212,7 @@ def process(logger):
         try:
             query = (" SELECT id, point_id, actual_value "
                      " FROM tbl_energy_value "
-                     " WHERE utc_date_time >= %s AND utc_date_time <= %s AND is_bad IS NOT TRUE ")
+                     " WHERE utc_date_time >= %s AND utc_date_time <= %s AND (is_bad = 0 OR is_bad IS NULL) ")
             cursor_historical.execute(query, (min_datetime, max_datetime,))
             rows_energy_values = cursor_historical.fetchall()
         except Exception as e:
@@ -239,7 +239,7 @@ def process(logger):
         if len(bad_list) > 0:
             try:
                 update = (" UPDATE tbl_energy_value "
-                          " SET is_bad = TRUE "
+                          " SET is_bad = 1 "
                           " WHERE id IN (" + ', '.join(map(str, bad_list)) + ")")
                 cursor_historical.execute(update, )
                 cnx_historical.commit()
@@ -393,7 +393,7 @@ def process(logger):
         try:
             query = (" SELECT point_id, id, utc_date_time, actual_value "
                      " FROM tbl_energy_value "
-                     " WHERE utc_date_time >= %s AND utc_date_time <= %s AND is_bad IS NOT TRUE "
+                     " WHERE utc_date_time >= %s AND utc_date_time <= %s AND (is_bad = 0 OR is_bad IS NULL) "
                      " ORDER BY point_id, utc_date_time ")
             cursor_historical.execute(query, (min_datetime, max_datetime,))
             rows_energy_values = cursor_historical.fetchall()
@@ -463,7 +463,7 @@ def process(logger):
         if len(bad_list) > 0:
             try:
                 update = (" UPDATE tbl_energy_value "
-                          " SET is_bad = TRUE "
+                          " SET is_bad = 1 "
                           " WHERE id IN (" + ', '.join(map(str, bad_list)) + ")")
                 cursor_historical.execute(update, )
                 cnx_historical.commit()
@@ -557,7 +557,7 @@ def process(logger):
         ################################################################################################################
         try:
             update = (" UPDATE tbl_energy_value "
-                      " SET is_bad = FALSE "
+                      " SET is_bad = 0 "
                       " WHERE utc_date_time >= %s AND utc_date_time < %s AND is_bad IS NULL ")
             # NOTE: use '<' instead of '<=' in WHERE statement because there may be some new inserted values
             cursor_historical.execute(update, (min_datetime, max_datetime,))
