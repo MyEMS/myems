@@ -246,20 +246,20 @@ def main(logger):
                     break
 
         # end of for virtual_meter loop
-        if cnx_system_db:
-            cnx_system_db.close()
         if cursor_system_db:
             cursor_system_db.close()
+        if cnx_system_db:
+            cnx_system_db.close()
 
-        if cnx_energy_db:
-            cnx_energy_db.close()
         if cursor_energy_db:
             cursor_energy_db.close()
+        if cnx_energy_db:
+            cnx_energy_db.close()
 
-        if cnx_billing_db:
-            cnx_billing_db.close()
         if cursor_billing_db:
             cursor_billing_db.close()
+        if cnx_billing_db:
+            cnx_billing_db.close()
         print("go to sleep 300 seconds...")
         time.sleep(300)
         print("wake from sleep, and continue to work...")

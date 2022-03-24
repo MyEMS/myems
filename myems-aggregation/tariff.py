@@ -36,10 +36,10 @@ def get_energy_category_tariffs(cost_center_id, energy_category_id, start_dateti
         rows_tariffs = cursor.fetchall()
     except Exception as e:
         print(str(e))
-        if cnx:
-            cnx.close()
         if cursor:
             cursor.close()
+        if cnx:
+            cnx.close()
         return dict()
 
     if rows_tariffs is None or len(rows_tariffs) == 0:
@@ -63,10 +63,10 @@ def get_energy_category_tariffs(cost_center_id, energy_category_id, start_dateti
         rows_timeofuse_tariffs = cursor.fetchall()
     except Exception as e:
         print(str(e))
-        if cnx:
-            cnx.close()
         if cursor:
             cursor.close()
+        if cnx:
+            cnx.close()
         return dict()
 
     if cursor:
@@ -137,10 +137,10 @@ def get_energy_item_tariffs(cost_center_id, energy_item_id, start_datetime_utc, 
         rows_tariffs = cursor.fetchall()
     except Exception as e:
         print(str(e))
-        if cnx:
-            cnx.close()
         if cursor:
             cursor.close()
+        if cnx:
+            cnx.close()
         return dict()
 
     if rows_tariffs is None or len(rows_tariffs) == 0:
@@ -164,10 +164,10 @@ def get_energy_item_tariffs(cost_center_id, energy_item_id, start_datetime_utc, 
         rows_timeofuse_tariffs = cursor.fetchall()
     except Exception as e:
         print(str(e))
-        if cnx:
-            cnx.close()
         if cursor:
             cursor.close()
+        if cnx:
+            cnx.close()
         return dict()
 
     if cursor:
