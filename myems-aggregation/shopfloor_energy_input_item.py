@@ -130,7 +130,7 @@ def worker(shopfloor):
         cursor_system_db.execute(" SELECT m.id, m.name, m.energy_item_id "
                                  " FROM tbl_meters m, tbl_shopfloors_meters tm "
                                  " WHERE m.id = tm.meter_id "
-                                 "       AND m.is_counted = true "
+                                 "       AND m.is_counted = 1 "
                                  "       AND m.energy_item_id is NOT NULL "
                                  "       AND tm.shopfloor_id = %s ",
                                  (shopfloor['id'],))
@@ -162,7 +162,7 @@ def worker(shopfloor):
                                  " FROM tbl_virtual_meters m, tbl_shopfloors_virtual_meters tm "
                                  " WHERE m.id = tm.virtual_meter_id "
                                  "       AND m.energy_item_id is NOT NULL "
-                                 "       AND m.is_counted = true "
+                                 "       AND m.is_counted = 1 "
                                  "       AND tm.shopfloor_id = %s ",
                                  (shopfloor['id'],))
         rows_virtual_meters = cursor_system_db.fetchall()
@@ -194,7 +194,7 @@ def worker(shopfloor):
                                  " FROM tbl_offline_meters m, tbl_shopfloors_offline_meters tm "
                                  " WHERE m.id = tm.offline_meter_id "
                                  "       AND m.energy_item_id is NOT NULL "
-                                 "       AND m.is_counted = true "
+                                 "       AND m.is_counted = 1 "
                                  "       AND tm.shopfloor_id = %s ",
                                  (shopfloor['id'],))
         rows_offline_meters = cursor_system_db.fetchall()
@@ -225,7 +225,7 @@ def worker(shopfloor):
         cursor_system_db.execute(" SELECT e.id, e.name "
                                  " FROM tbl_equipments e, tbl_shopfloors_equipments se "
                                  " WHERE e.id = se.equipment_id "
-                                 "       AND e.is_input_counted = true "
+                                 "       AND e.is_input_counted = 1 "
                                  "       AND se.shopfloor_id = %s ",
                                  (shopfloor['id'],))
         rows_equipments = cursor_system_db.fetchall()

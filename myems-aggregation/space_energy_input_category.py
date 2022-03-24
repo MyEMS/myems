@@ -140,7 +140,7 @@ def worker(space):
         cursor_system_db.execute(" SELECT m.id, m.name, m.energy_category_id "
                                  " FROM tbl_meters m, tbl_spaces_meters sm "
                                  " WHERE m.id = sm.meter_id "
-                                 "       AND m.is_counted = true "
+                                 "       AND m.is_counted = 1 "
                                  "       AND sm.space_id = %s ",
                                  (space['id'],))
         rows_meters = cursor_system_db.fetchall()
@@ -170,7 +170,7 @@ def worker(space):
         cursor_system_db.execute(" SELECT m.id, m.name, m.energy_category_id "
                                  " FROM tbl_virtual_meters m, tbl_spaces_virtual_meters sm "
                                  " WHERE m.id = sm.virtual_meter_id "
-                                 "       AND m.is_counted = true "
+                                 "       AND m.is_counted = 1 "
                                  "       AND sm.space_id = %s ",
                                  (space['id'],))
         rows_virtual_meters = cursor_system_db.fetchall()
@@ -201,7 +201,7 @@ def worker(space):
         cursor_system_db.execute(" SELECT m.id, m.name, m.energy_category_id "
                                  " FROM tbl_offline_meters m, tbl_spaces_offline_meters sm "
                                  " WHERE m.id = sm.offline_meter_id "
-                                 "       AND m.is_counted = true "
+                                 "       AND m.is_counted = 1 "
                                  "       AND sm.space_id = %s ",
                                  (space['id'],))
         rows_offline_meters = cursor_system_db.fetchall()
@@ -232,7 +232,7 @@ def worker(space):
         cursor_system_db.execute(" SELECT e.id, e.name "
                                  " FROM tbl_combined_equipments e, tbl_spaces_combined_equipments se "
                                  " WHERE e.id = se.combined_equipment_id "
-                                 "       AND e.is_input_counted = true "
+                                 "       AND e.is_input_counted = 1 "
                                  "       AND se.space_id = %s ",
                                  (space['id'],))
         rows_combined_equipments = cursor_system_db.fetchall()
@@ -262,7 +262,7 @@ def worker(space):
         cursor_system_db.execute(" SELECT e.id, e.name "
                                  " FROM tbl_equipments e, tbl_spaces_equipments se "
                                  " WHERE e.id = se.equipment_id "
-                                 "       AND e.is_input_counted = true "
+                                 "       AND e.is_input_counted = 1 "
                                  "       AND se.space_id = %s ",
                                  (space['id'],))
         rows_equipments = cursor_system_db.fetchall()
@@ -292,7 +292,7 @@ def worker(space):
         cursor_system_db.execute(" SELECT s.id, s.name "
                                  " FROM tbl_shopfloors s, tbl_spaces_shopfloors ss "
                                  " WHERE s.id = ss.shopfloor_id "
-                                 "       AND s.is_input_counted = true "
+                                 "       AND s.is_input_counted = 1 "
                                  "       AND ss.space_id = %s ",
                                  (space['id'],))
         rows_shopfloors = cursor_system_db.fetchall()
@@ -322,7 +322,7 @@ def worker(space):
         cursor_system_db.execute(" SELECT s.id, s.name "
                                  " FROM tbl_stores s, tbl_spaces_stores ss "
                                  " WHERE s.id = ss.store_id "
-                                 "       AND s.is_input_counted = true "
+                                 "       AND s.is_input_counted = 1 "
                                  "       AND ss.space_id = %s ",
                                  (space['id'],))
         rows_stores = cursor_system_db.fetchall()
@@ -352,7 +352,7 @@ def worker(space):
         cursor_system_db.execute(" SELECT t.id, t.name "
                                  " FROM tbl_tenants t, tbl_spaces_tenants st "
                                  " WHERE t.id = st.tenant_id "
-                                 "       AND t.is_input_counted = true "
+                                 "       AND t.is_input_counted = 1 "
                                  "       AND st.space_id = %s ",
                                  (space['id'],))
         rows_tenants = cursor_system_db.fetchall()
@@ -381,7 +381,7 @@ def worker(space):
     try:
         cursor_system_db.execute(" SELECT id, name "
                                  " FROM tbl_spaces "
-                                 " WHERE is_input_counted = true "
+                                 " WHERE is_input_counted = 1 "
                                  "       AND parent_space_id = %s ",
                                  (space['id'],))
         rows_child_spaces = cursor_system_db.fetchall()

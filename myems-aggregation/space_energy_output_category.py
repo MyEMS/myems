@@ -129,7 +129,7 @@ def worker(space):
         cursor_system_db.execute(" SELECT e.id, e.name "
                                  " FROM tbl_combined_equipments e, tbl_spaces_combined_equipments se "
                                  " WHERE e.id = se.combined_equipment_id "
-                                 "       AND e.is_output_counted = true "
+                                 "       AND e.is_output_counted = 1 "
                                  "       AND se.space_id = %s ",
                                  (space['id'],))
         rows_combined_equipments = cursor_system_db.fetchall()
@@ -158,7 +158,7 @@ def worker(space):
         cursor_system_db.execute(" SELECT e.id, e.name "
                                  " FROM tbl_equipments e, tbl_spaces_equipments se "
                                  " WHERE e.id = se.equipment_id "
-                                 "       AND e.is_output_counted = true "
+                                 "       AND e.is_output_counted = 1 "
                                  "       AND se.space_id = %s ",
                                  (space['id'],))
         rows_equipments = cursor_system_db.fetchall()
@@ -186,7 +186,7 @@ def worker(space):
     try:
         cursor_system_db.execute(" SELECT id, name "
                                  " FROM tbl_spaces "
-                                 " WHERE is_output_counted = true "
+                                 " WHERE is_output_counted = 1 "
                                  "       AND parent_space_id = %s ",
                                  (space['id'],))
         rows_child_spaces = cursor_system_db.fetchall()
