@@ -205,7 +205,7 @@ class MenuWebCollection:
 
         query = (" SELECT id, route, parent_menu_id "
                  " FROM tbl_menus "
-                 " WHERE parent_menu_id IS NULL AND is_hidden = false ")
+                 " WHERE parent_menu_id IS NULL AND is_hidden = 0 ")
         cursor.execute(query)
         rows_menus = cursor.fetchall()
 
@@ -219,7 +219,7 @@ class MenuWebCollection:
 
         query = (" SELECT id, route, parent_menu_id "
                  " FROM tbl_menus "
-                 " WHERE parent_menu_id IS NOT NULL AND is_hidden = false ")
+                 " WHERE parent_menu_id IS NOT NULL AND is_hidden = 0 ")
         cursor.execute(query)
         rows_menus = cursor.fetchall()
 
