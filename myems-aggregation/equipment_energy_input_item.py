@@ -128,9 +128,9 @@ def worker(equipment):
         cursor_system_db.execute(" SELECT m.id, m.name, m.energy_item_id "
                                  " FROM tbl_meters m, tbl_equipments_meters em "
                                  " WHERE m.id = em.meter_id "
-                                 "       AND m.is_counted = true "
+                                 "       AND m.is_counted = 1 "
                                  "       AND m.energy_item_id is NOT NULL "
-                                 "       AND em.is_output = false "
+                                 "       AND em.is_output = 0 "
                                  "       AND em.equipment_id = %s ",
                                  (equipment['id'],))
         rows_meters = cursor_system_db.fetchall()
@@ -161,8 +161,8 @@ def worker(equipment):
                                  " FROM tbl_virtual_meters m, tbl_equipments_virtual_meters em "
                                  " WHERE m.id = em.virtual_meter_id "
                                  "       AND m.energy_item_id is NOT NULL "
-                                 "       AND m.is_counted = true "
-                                 "       AND em.is_output = false "
+                                 "       AND m.is_counted = 1 "
+                                 "       AND em.is_output = 0 "
                                  "       AND em.equipment_id = %s ",
                                  (equipment['id'],))
         rows_virtual_meters = cursor_system_db.fetchall()
@@ -194,8 +194,8 @@ def worker(equipment):
                                  " FROM tbl_offline_meters m, tbl_equipments_offline_meters em "
                                  " WHERE m.id = em.offline_meter_id "
                                  "       AND m.energy_item_id is NOT NULL "
-                                 "       AND m.is_counted = true "
-                                 "       AND em.is_output = false "
+                                 "       AND m.is_counted = 1 "
+                                 "       AND em.is_output = 0 "
                                  "       AND em.equipment_id = %s ",
                                  (equipment['id'],))
         rows_offline_meters = cursor_system_db.fetchall()

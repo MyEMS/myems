@@ -128,7 +128,7 @@ def worker(store):
         cursor_system_db.execute(" SELECT m.id, m.name, m.energy_item_id "
                                  " FROM tbl_meters m, tbl_stores_meters sm "
                                  " WHERE m.id = sm.meter_id "
-                                 "       AND m.is_counted = true "
+                                 "       AND m.is_counted = 1 "
                                  "       AND m.energy_item_id is NOT NULL "
                                  "       AND sm.store_id = %s ",
                                  (store['id'],))
@@ -160,7 +160,7 @@ def worker(store):
                                  " FROM tbl_virtual_meters m, tbl_stores_virtual_meters sm "
                                  " WHERE m.id = sm.virtual_meter_id "
                                  "       AND m.energy_item_id is NOT NULL "
-                                 "       AND m.is_counted = true "
+                                 "       AND m.is_counted = 1 "
                                  "       AND sm.store_id = %s ",
                                  (store['id'],))
         rows_virtual_meters = cursor_system_db.fetchall()
@@ -192,7 +192,7 @@ def worker(store):
                                  " FROM tbl_offline_meters m, tbl_stores_offline_meters sm "
                                  " WHERE m.id = sm.offline_meter_id "
                                  "       AND m.energy_item_id is NOT NULL "
-                                 "       AND m.is_counted = true "
+                                 "       AND m.is_counted = 1 "
                                  "       AND sm.store_id = %s ",
                                  (store['id'],))
         rows_offline_meters = cursor_system_db.fetchall()

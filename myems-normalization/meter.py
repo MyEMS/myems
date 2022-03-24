@@ -207,7 +207,7 @@ def worker(meter):
     try:
         query = (" SELECT utc_date_time, actual_value "
                  " FROM tbl_energy_value "
-                 " WHERE point_id = %s AND utc_date_time < %s AND is_bad = FALSE "
+                 " WHERE point_id = %s AND utc_date_time < %s AND is_bad = 0 "
                  " ORDER BY utc_date_time DESC "
                  " LIMIT 1 ")
         cursor_historical_db.execute(query, (meter['point_id'], start_datetime_utc,))
@@ -235,7 +235,7 @@ def worker(meter):
     try:
         query = (" SELECT utc_date_time, actual_value "
                  " FROM tbl_energy_value "
-                 " WHERE point_id = %s AND utc_date_time >= %s AND utc_date_time < %s AND is_bad = FALSE "
+                 " WHERE point_id = %s AND utc_date_time >= %s AND utc_date_time < %s AND is_bad = 0 "
                  " ORDER BY utc_date_time ")
         cursor_historical_db.execute(query, (meter['point_id'], start_datetime_utc, end_datetime_utc))
         rows_energy_values = cursor_historical_db.fetchall()
