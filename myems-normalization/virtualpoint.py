@@ -22,7 +22,7 @@ def calculate(logger):
         cursor_system_db = None
         try:
             cnx_system_db = mysql.connector.connect(**config.myems_system_db)
-            cursor_system_db = cnx_system_db.cursor(dictionary=True)
+            cursor_system_db = cnx_system_db.cursor()
         except Exception as e:
             logger.error("Error in step 0 of virtual point calculate " + str(e))
             if cursor_system_db:
@@ -48,12 +48,12 @@ def calculate(logger):
                 continue
 
             for row in rows_virtual_points:
-                meta_result = {"id": row['id'],
-                               "name": row['name'],
-                               "data_source_id": row['data_source_id'],
-                               "high_limit": row['high_limit'],
-                               "low_limit": row['low_limit'],
-                               "address": row['address']}
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "data_source_id": row[2],
+                               "high_limit": row[3],
+                               "low_limit": row[4],
+                               "address": row[5]}
                 virtual_point_list.append(meta_result)
 
         except Exception as e:
