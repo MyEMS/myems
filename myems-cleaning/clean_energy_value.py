@@ -186,7 +186,7 @@ def process(logger):
         cursor_system = None
         try:
             cnx_system = mysql.connector.connect(**config.myems_system_db)
-            cursor_system = cnx_system.cursor(dictionary=True)
+            cursor_system = cnx_system.cursor()
 
             query = (" SELECT id, high_limit, low_limit "
                      " FROM tbl_points "
@@ -197,8 +197,8 @@ def process(logger):
             point_dict = dict()
             if rows_points is not None and len(rows_points) > 0:
                 for row in rows_points:
-                    point_dict[row['id']] = {"high_limit": row['high_limit'],
-                                             "low_limit": row['low_limit']}
+                    point_dict[row[0]] = {"high_limit": row[1],
+                                          "low_limit": row[2]}
         except Exception as e:
             logger.error("Error in step 2.1 of clean_energy_value.process " + str(e))
             time.sleep(60)
