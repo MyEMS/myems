@@ -155,7 +155,8 @@ VALUES
 (10, '示例PostgreSQL数据源', 'd89b81e6-4917-4a84-b0e9-c2e939599d3a', 1, 'postgresql', '{"host":"192.168.0.10", "port":5432, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }'),
 (11, '示例Oracle数据源', '1bdf4db8-ea71-433e-ad16-b637275073d7', 1, 'oracle', '{"host":"192.168.0.11", "port":1521, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }'),
 (12, '示例MongoDB数据源', 'c211fbad-d1d4-465c-bdf5-242f5593682e', 1, 'mongodb', '{"host":"192.168.0.12", "port":27017, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }'),
-(13, '示例InfluxDB数据源', '79cb60ff-c683-4289-ac69-bd13e1f970d1', 1, 'influxdb', '{"host":"192.168.0.13", "port":8086, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }');
+(13, '示例InfluxDB数据源', '79cb60ff-c683-4289-ac69-bd13e1f970d1', 1, 'influxdb', '{"host":"192.168.0.13", "port":8086, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }'),
+(14, '示例MQTT数据源', 'e3d56e11-00da-4957-ab0b-1d761dc8b89f', 1, 'mqtt', '{"host":"192.168.1.101", "port":1883, "user":"myems", "password":"!MyEMS1", "topic":"myems", "qos":2 }');
 COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
