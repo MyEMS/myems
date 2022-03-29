@@ -71,16 +71,6 @@ cd myems/myems-web
 nano nginx.conf
 ```
 
-* Download all the necessary dependencies into the node_modules directory.
-```bash
-npm i --unsafe-perm=true --allow-root --legacy-peer-deps
-```
-
-* Build for production with NPM
-```bash
-npm run build
-```
-
 * Build a Docker image
 
 On Windows:
