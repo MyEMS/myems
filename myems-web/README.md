@@ -73,6 +73,8 @@ nano nginx.conf
 
 * Build a Docker image
 
+**NOTE**: You can safely ignore the command 'npm run build' in this section, because it is built into the Dockerfile
+
 On Windows:
 ```bash
 cp -r myems/myems-web c:\myems-web
