@@ -71,17 +71,9 @@ cd myems/myems-web
 nano nginx.conf
 ```
 
-* Download all the necessary dependencies into the node_modules directory.
-```bash
-npm i --unsafe-perm=true --allow-root --legacy-peer-deps
-```
-
-* Build for production with NPM
-```bash
-npm run build
-```
-
 * Build a Docker image
+
+**NOTE**: You can safely ignore the command 'npm run build' in this section, because it is built into the Dockerfile
 
 On Windows:
 ```bash
