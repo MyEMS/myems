@@ -68,7 +68,7 @@ docker run -d -v c:\myems-normalization\.env:/code/.env --restart always --name 
 ```
 On Linux host, bind-mount the .env to the container:
 ```bash
-docker run -d -v /myems-normalization/.env:/.env --restart always --name myems-normalization myems/myems-normalization
+docker run -d -v /myems-normalization/.env:/code/.env --restart always --name myems-normalization myems/myems-normalization
 ```
 * -d Run container in background and print container ID
 

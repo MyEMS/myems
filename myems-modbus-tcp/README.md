@@ -61,7 +61,7 @@ docker run -d -v c:\myems-modbus-tcp\.env:/code/.env --restart always --name mye
 ```
 On Linux host, bind-mount the .env to the container:
 ```bash
-docker run -d -v /myems-modbus-tcp/.env:/.env --restart always --name myems-modbus-tcp myems/myems-modbus-tcp
+docker run -d -v /myems-modbus-tcp/.env:/code/.env --restart always --name myems-modbus-tcp myems/myems-modbus-tcp
 ```
 * -d Run container in background and print container ID
 

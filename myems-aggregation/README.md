@@ -62,7 +62,7 @@ docker run -d -v c:\myems-aggregation\.env:/code/.env --restart always --name my
 ```
 On Linux host, bind-mount the .env to the container:
 ```bash
-docker run -d -v /myems-aggregation/.env:/.env --restart always --name myems-aggregation myems/myems-aggregation
+docker run -d -v /myems-aggregation/.env:/code/.env --restart always --name myems-aggregation myems/myems-aggregation
 ```
 * -d Run container in background and print container ID
 
