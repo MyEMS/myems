@@ -51,7 +51,9 @@ cp -r myems/myems-normalization /
 cd /myems-normalization
 ```
 
-* Duplicate example.env file as .env file and modify the .env file
+* Create .env file
+
+Duplicate example.env file as .env file and modify the .env file
 Replace ~~127.0.0.1~~ with real **HOST** IP address.
 ```bash
 cp example.env .env
@@ -62,17 +64,20 @@ cp example.env .env
 docker build -t myems/myems-normalization .
 ```
 * Run a Docker container
+
 On Windows host, bind-mount the .env to the container:
 ```bash
-docker run -d -v c:\myems-normalization\.env:/code/.env --restart always --name myems-normalization myems/myems-normalization
+docker run -d -v c:\myems-normalization\.env:/code/.env:ro --restart always --name myems-normalization myems/myems-normalization
 ```
 On Linux host, bind-mount the .env to the container:
 ```bash
-docker run -d -v /myems-normalization/.env:/code/.env --restart always --name myems-normalization myems/myems-normalization
+docker run -d -v /myems-normalization/.env:/code/.env:ro --restart always --name myems-normalization myems/myems-normalization
 ```
 * -d Run container in background and print container ID
 
-* -v If you use -v or --volume to bind-mount a file or directory that does not yet exist on the Docker host, -v creates the endpoint for you. It is always created as a directory.
+* -v If you use -v or --volume to bind-mount a file or directory that does not yet exist on the Docker host, 
+-v creates the endpoint for you. It is always created as a directory.
+The ro option, if present, causes the bind mount to be mounted into the container as read-only.
 
 * --restart Restart policy to apply when a container exits
 
