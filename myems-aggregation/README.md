@@ -56,17 +56,20 @@ cp example.env .env
 docker build -t myems/myems-aggregation .
 ```
 * Run a Docker container
+
 On Windows host, bind-mount the .env to the container: 
 ```bash
-docker run -d -v c:\myems-aggregation\.env:/code/.env --restart always --name myems-aggregation myems/myems-aggregation
+docker run -d -v c:\myems-aggregation\.env:/code/.env:ro --restart always --name myems-aggregation myems/myems-aggregation
 ```
 On Linux host, bind-mount the .env to the container:
 ```bash
-docker run -d -v /myems-aggregation/.env:/code/.env --restart always --name myems-aggregation myems/myems-aggregation
+docker run -d -v /myems-aggregation/.env:/code/.env:ro --restart always --name myems-aggregation myems/myems-aggregation
 ```
 * -d Run container in background and print container ID
 
-* -v If you use -v or --volume to bind-mount a file or directory that does not yet exist on the Docker host, -v creates the endpoint for you. It is always created as a directory.
+* -v If you use -v or --volume to bind-mount a file or directory that does not yet exist on the Docker host, 
+-v creates the endpoint for you. It is always created as a directory.
+The ro option, if present, causes the bind mount to be mounted into the container as read-only.
 
 * --restart Restart policy to apply when a container exits
 

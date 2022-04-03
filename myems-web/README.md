@@ -1,6 +1,7 @@
 # myems-web
 
 ## Introduction
+
 Web用户界面，用于MyEMS能源数据可视化
 Web UI for MyEMS energy data visualization
 
@@ -13,6 +14,7 @@ Node.js 17.0.0 or later
 ## Running in Local Environment for Development
 
 * Install Node.js via binary archive on Linux
+
 Download Current Linux Binaries (x64) from https://nodejs.org/en/download/current/
 
 ```bash
@@ -24,7 +26,6 @@ sudo ln -s /usr/local/lib/nodejs/node-vxx.x.x-linux-x64/bin/npx /usr/bin/npx
 ```
 Download the latest current version Windows installer (.msi) 64-bit from https://nodejs.org/en/download/current/
 Install Node.js with Setup Wizard
-
 
 Test installation
 ```bash
@@ -90,22 +91,28 @@ docker build -t myems/myems-web .
 ```
 
 * Run a Docker container
+
 If run on Windows host, bind-mount nginx.conf to the container
 ```bash
-docker run -d -p 80:80 -v c:\myems-web/nginx.conf:/etc/nginx/nginx.conf --restart always --name myems-web myems/myems-web
+docker run -d -p 80:80 -v c:\myems-web/nginx.conf:/etc/nginx/nginx.conf:ro --restart always --name myems-web myems/myems-web
 ```
 If run on Linux host, bind-mount nginx.conf 
 ```bash
-docker run -d -p 80:80 -v /myems-web/nginx.conf:/etc/nginx/nginx.conf --restart always --name myems-web myems/myems-web
+docker run -d -p 80:80 -v /myems-web/nginx.conf:/etc/nginx/nginx.conf:ro --restart always --name myems-web myems/myems-web
 ```
 
--d Run container in background and print container ID
+* -d Run container in background and print container ID
 
--p Publish a container's port(s) to the host, 80:80 (Host:Container) binds port 80 (right)  of the container to TCP port 80 (left) of the host machine.
+* -p Publish a container's port(s) to the host, 80:80 (Host:Container) binds port 80 (right)  of the container to 
+TCP port 80 (left) of the host machine.
 
---restart Restart policy to apply when a container exits
+* -v If you use -v or --volume to bind-mount a file or directory that does not yet exist on the Docker host, 
+-v creates the endpoint for you. It is always created as a directory.
+The ro option, if present, causes the bind mount to be mounted into the container as read-only.
 
---name Assign a name to the container
+* --restart Restart policy to apply when a container exits
+
+* --name Assign a name to the container
 
 If you want to immigrate the image to another computer,
 * Export image to tarball file

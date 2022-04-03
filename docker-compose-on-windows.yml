@@ -4,9 +4,7 @@ services:
     build: ./myems-api
     command: gunicorn app:api -b 0.0.0.0:8000 --timeout 600 --workers=4
     volumes:
-      - type: bind
-        source: c:\upload
-        target: /var/www/myems-admin/upload
+      - c:\myems-upload:/var/www/myems-admin/upload
     restart: always
     ports:
       - "8000:8000"
@@ -37,9 +35,7 @@ services:
     healthcheck:
       test: [ "CMD","nginx","-t" ]
     volumes:
-      - type: bind
-        source: c:\upload
-        target: /var/www/myems-admin/upload
+      - c:\myems-upload:/var/www/myems-admin/upload
     restart: always
     ports:
       - "8001:8001"
