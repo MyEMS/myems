@@ -69,25 +69,31 @@ waitress-serve --listen=127.0.0.1:8000 app:api
 
 In this section, you will install myems-api on Docker.
 
-* Duplicate example.env file as .env file and modify the .env file
-Replace ~~127.0.0.1~~ with real **HOST** IP address.
-```bash
-cp example.env .env
-```
-
-* Build a Docker image
+* Copy source code to root directory
 
 On Windows:
 ```bash
 cp -r myems/myems-api c:\
 cd c:\myems-api
-docker build -t myems/myems-api .
 ```
 
 On Linux:
 ```bash
 cp -r myems/myems-api /
 cd /myems-api
+```
+
+* Create .env file based on example.env file
+
+Manually replace ~~127.0.0.1~~ with real **HOST** IP address.
+
+```bash
+cp example.env .env
+```
+
+* Build a Docker image
+
+```bash
 docker build -t myems/myems-api .
 ```
 

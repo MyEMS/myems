@@ -3,6 +3,7 @@
 ## Introduction
 
 Web用户界面，用于MyEMS能源数据可视化
+
 Web UI for MyEMS energy data visualization
 
 ## Prerequisites
@@ -72,21 +73,26 @@ cd myems/myems-web
 nano nginx.conf
 ```
 
-* Build a Docker image
 
-**NOTE**: You can safely ignore the command 'npm run build' in this section, because it is built into the Dockerfile
+* Copy source code to root directory
 
 On Windows:
 ```bash
-cp -r myems/myems-web c:\myems-web
+cp -r myems/myems-web c:\
 cd c:\myems-web
-docker build -t myems/myems-web .
 ```
 
 On Linux:
 ```bash
-cp -r myems/myems-web /myems-web
+cp -r myems/myems-web /
 cd /myems-web
+```
+
+**NOTE**: You can safely ignore the command 'npm run build' in this section, because it is built into the Dockerfile
+
+* Build a Docker image
+
+```bash
 docker build -t myems/myems-web .
 ```
 
@@ -119,6 +125,7 @@ If you want to immigrate the image to another computer,
 ```bash
 docker save --output myems-web.tar myems/myems-web
 ```
+
 * Copy the tarball file to another computer, and then load image from tarball file
 ```bash
 docker load --input .\myems-web.tar

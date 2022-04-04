@@ -1,5 +1,7 @@
 FROM nginx:latest
 
+RUN apt update && apt install -y nano
+
 # remove the default config
 RUN rm /etc/nginx/conf.d/default.conf && \
     rm /etc/nginx/nginx.conf
