@@ -1,6 +1,6 @@
 FROM python:slim
 
-# RUN apt update && apt install -y nano
+RUN apt update && apt install -y nano telnet
 
 # todo: share upload folder with admin container on Docker
 RUN mkdir -p /var/www/myems-admin/upload
