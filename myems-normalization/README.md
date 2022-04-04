@@ -6,7 +6,7 @@ MyEMS Normalization Service
 
 ## Introduction
 
-This service is a component of MyEMS. It normalizes energy data in historical database.
+This service is a component of MyEMS to normalize energy data in historical database.
 
 ![MyEMS Meter Normalization](../docs/images/meter-normalization.png)
 
@@ -51,10 +51,10 @@ cp -r myems/myems-normalization /
 cd /myems-normalization
 ```
 
-* Create .env file
+* Create .env file based on example.env file
 
-Duplicate example.env file as .env file and modify the .env file
-Replace ~~127.0.0.1~~ with real **HOST** IP address.
+Manually replace ~~127.0.0.1~~ with real **HOST** IP address.
+
 ```bash
 cp example.env .env
 ```
@@ -63,6 +63,7 @@ cp example.env .env
 ```bash
 docker build -t myems/myems-normalization .
 ```
+
 * Run a Docker container
 
 On Windows host, bind-mount the .env to the container:

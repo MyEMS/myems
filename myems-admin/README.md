@@ -3,6 +3,7 @@
 ## Introduction
 
 系统管理用户界面，用于MyEMS系统配置
+
 Admin UI for MyEMS system settings
 
 ## Prerequisites
@@ -16,9 +17,22 @@ nginx-1.18.0 or later
 
 In this section, you will install myems-admin on Docker.
 
-* replace ~~127.0.0.1:8000~~ in nginx.conf with actual **HOST** ip and port of myems-api
+* Copy source code to root directory
+
+On Windows:
 ```bash
-cd myems/myems-admin
+cp -r myems/myems-admin c:\
+cd c:\myems-admin
+```
+
+On Linux:
+```bash
+cp -r myems/myems-admin /
+cd /myems-admin
+```
+
+* Manually replace ~~127.0.0.1:8000~~ in nginx.conf with actual **HOST** ip and port of myems-api
+```bash
 nano nginx.conf
 ```
 
@@ -28,17 +42,7 @@ nano nginx.conf
 
 * Build a Docker image
 
-On Windows:
 ```bash
-cp -r myems/myems-admin c:\myems-admin
-cd c:\myems-admin
-docker build -t myems/myems-admin .
-```
-
-On Linux:
-```bash
-cp -r myems/myems-admin /myems-admin
-cd /myems-admin
 docker build -t myems/myems-admin .
 ```
 
@@ -49,6 +53,7 @@ If run on Windows host, bind-mount a share upload file folder at c:\myems-upload
 ```bash
 docker run -d -p 8001:8001 -v c:\myems-upload:/var/www/myems-admin/upload -v c:\myems-admin/nginx.conf:/etc/nginx/nginx.conf:ro --restart always --name myems-admin myems/myems-admin
 ```
+
 If run on Linux host, bind-mount a share upload file folder at /myems-upload to the container and also bind-mount nginx.conf 
 ```bash
 docker run -d -p 8001:8001 -v /myems-upload:/var/www/myems-admin/upload -v /myems-admin/nginx.conf:/etc/nginx/nginx.conf:ro --restart always --name myems-admin myems/myems-admin
@@ -72,6 +77,7 @@ If you want to immigrate the image to another computer,
 ```bash
 docker save --output myems-admin.tar myems/myems-admin
 ```
+
 * Copy the tarball file to another computer, and then load image from tarball file
 ```bash
 docker load --input .\myems-admin.tar

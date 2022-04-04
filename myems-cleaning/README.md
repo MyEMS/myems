@@ -1,11 +1,12 @@
 # myems-cleaning
+
 MyEMS Cleaning Service 
 
 MyEMS 数据清洗服务
 
 ## Introduction
 
-This service is a component of MyEMS. It cleans the historical data. 
+This service is a component of MyEMS to clean the historical data. 
 
 ## Prerequisites
 
@@ -44,8 +45,10 @@ cp -r myems/myems-cleaning /
 cd /myems-cleaning
 ```
 
-* Duplicate example.env file as .env file and modify the .env file
-Replace ~~127.0.0.1~~ with real **HOST** IP address.
+* Create .env file based on example.env file
+
+Manually replace ~~127.0.0.1~~ with real **HOST** IP address.
+
 ```bash
 cp example.env .env
 ```
@@ -54,16 +57,19 @@ cp example.env .env
 ```bash
 docker build -t myems/myems-cleaning .
 ```
+
 * Run a Docker container
 
 On Windows host, bind-mount the .env to the container:
 ```bash
 docker run -d -v c:\myems-cleaning\.env:/code/.env:ro --restart always --name myems-cleaning myems/myems-cleaning
 ```
+
 On Linux host, bind-mount the .env to the container:
 ```bash
 docker run -d -v /myems-cleaning/.env:/code/.env:ro --restart always --name myems-cleaning myems/myems-cleaning
 ```
+
 * -d Run container in background and print container ID
 
 * -v If you use -v or --volume to bind-mount a file or directory that does not yet exist on the Docker host, 

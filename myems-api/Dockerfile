@@ -1,9 +1,11 @@
 FROM python:slim
-WORKDIR /code
+
+# RUN apt update && apt install -y nano
 
 # todo: share upload folder with admin container on Docker
 RUN mkdir -p /var/www/myems-admin/upload
 
+WORKDIR /code
 COPY . /code
 RUN pip install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
 EXPOSE 8000

@@ -1,4 +1,4 @@
-FROM  node:latest as build-stage
+FROM node:latest as build-stage
 WORKDIR /opt
 COPY . .
 RUN npm install --registry https://registry.npm.taobao.org
@@ -7,13 +7,13 @@ RUN npm run build
 
 FROM nginx:latest as production-stage
 
+RUN apt update && apt install -y nano
+
 # remove the default config
 RUN rm /etc/nginx/conf.d/default.conf && rm /etc/nginx/nginx.conf
 
 # create new root folder
 RUN mkdir -p /var/www/myems-web
-
-# Note: You should run 'npm run build' in the web direction to generate the production build.
 
 COPY nginx.conf /etc/nginx/
 COPY --from=build-stage /opt/build/ /var/www/myems-web

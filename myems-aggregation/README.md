@@ -6,7 +6,7 @@ Data Aggregation Service
 
 ## Introduction
 
-This service is a component of MyEMS. It aggregates normalized data up to multiple dimensions.
+This service is a component of MyEMS to aggregate normalized data up to multiple dimensions.
 
 ## Prerequisites
 
@@ -45,22 +45,27 @@ cp -r myems/myems-aggregation /
 cd /myems/myems-aggregation
 ```
 
-* Duplicate example.env file as .env file and modify the .env file
-Replace ~~127.0.0.1~~ with real **HOST** IP address.
+* Create .env file based on example.env file
+
+Manually replace ~~127.0.0.1~~ with real **HOST** IP address.
+
 ```bash
 cp example.env .env
 ```
 
 * Build a Docker image
+* 
 ```bash
 docker build -t myems/myems-aggregation .
 ```
+
 * Run a Docker container
 
 On Windows host, bind-mount the .env to the container: 
 ```bash
 docker run -d -v c:\myems-aggregation\.env:/code/.env:ro --restart always --name myems-aggregation myems/myems-aggregation
 ```
+
 On Linux host, bind-mount the .env to the container:
 ```bash
 docker run -d -v /myems-aggregation/.env:/code/.env:ro --restart always --name myems-aggregation myems/myems-aggregation

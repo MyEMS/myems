@@ -2,7 +2,7 @@
 
 ### Introduction
 
-This service is a component of MyEMS Community Edition to acquire data from Modbus TCP devices.
+This service is a component of MyEMS to acquire data from Modbus TCP devices.
 
 ### Prerequisites
 
@@ -45,8 +45,10 @@ cp -r myems/myems-modbus-tcp /
 cd /myems-modbus-tcp
 ```
 
-* Duplicate example.env file as .env file and modify the .env file
-Replace ~~127.0.0.1~~ with real **HOST** IP address.
+* Create .env file based on example.env file
+
+Manually replace ~~127.0.0.1~~ with real **HOST** IP address.
+
 ```bash
 cp example.env .env
 ```
@@ -55,16 +57,19 @@ cp example.env .env
 ```bash
 docker build -t myems/myems-modbus-tcp .
 ```
+
 * Run a Docker container
 
 On Windows host, bind-mount the .env to the container:
 ```bash
 docker run -d -v c:\myems-modbus-tcp\.env:/code/.env:ro --restart always --name myems-modbus-tcp myems/myems-modbus-tcp
 ```
+
 On Linux host, bind-mount the .env to the container:
 ```bash
 docker run -d -v /myems-modbus-tcp/.env:/code/.env:ro --restart always --name myems-modbus-tcp myems/myems-modbus-tcp
 ```
+
 * -d Run container in background and print container ID
 
 * -v If you use -v or --volume to bind-mount a file or directory that does not yet exist on the Docker host, 
