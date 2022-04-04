@@ -1,6 +1,6 @@
 FROM python:slim
 
-RUN apt update && apt install -y nano
+RUN apt update && apt install -y nano telnet
 
 WORKDIR /code
 COPY . /code
