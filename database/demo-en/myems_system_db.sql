@@ -9,8 +9,8 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_combined_equipments`
 (`id`, `name`, `uuid`,  `is_input_counted`, `is_output_counted`, `cost_center_id`, `description` )
 VALUES
-(1, 'CombinedEquipment1', '48aab70f-2e32-4518-9986-a6b7395acf58', true, false, 1, 'description'),
-(2, 'CombinedEquipment2', 'c235e68c-e1be-4d7a-84e7-976c83ff6e44', true, false, 1,  'description');
+(1, 'CombinedEquipment1', '48aab70f-2e32-4518-9986-a6b7395acf58', 1, 0, 1, 'description'),
+(2, 'CombinedEquipment2', 'c235e68c-e1be-4d7a-84e7-976c83ff6e44', 1, 0, 1,  'description');
 
 COMMIT;
 
@@ -37,7 +37,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_combined_equipments_meters`
 (`id`, `combined_equipment_id`, `meter_id`, `is_output`)
 VALUES
-(1, 1, 1, false);
+(1, 1, 1, 0);
 
 COMMIT;
 
@@ -50,7 +50,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_combined_equipments_offline_meters`
 (`id`, `combined_equipment_id`, `offline_meter_id`, `is_output`)
 VALUES
-(1, 1, 1, false);
+(1, 1, 1, 0);
 
 COMMIT;
 
@@ -93,7 +93,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_combined_equipments_virtual_meters`
 (`id`, `combined_equipment_id`, `virtual_meter_id`, `is_output`)
 VALUES
-(1, 1, 1, false);
+(1, 1, 1, 0);
 
 COMMIT;
 
@@ -302,8 +302,8 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_equipments`
 (`id`, `name`, `uuid`,  `is_input_counted`, `is_output_counted`, `cost_center_id`,  `description` )
 VALUES
-(1, 'Equipment1', 'bfa8b106-89a1-49ca-9b2b-a481ac41a873', true, false, 1, 'description'),
-(2, 'Equipment2', 'ad5798ec-d827-43d9-bf08-fc7516f9c4c8', true, false, 1, 'description');
+(1, 'Equipment1', 'bfa8b106-89a1-49ca-9b2b-a481ac41a873', 1, 0, 1, 'description'),
+(2, 'Equipment2', 'ad5798ec-d827-43d9-bf08-fc7516f9c4c8', 1, 0, 1, 'description');
 
 COMMIT;
 
@@ -316,7 +316,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_equipments_meters`
 (`id`, `equipment_id`, `meter_id`, `is_output`)
 VALUES
-(1, 1, 1, false);
+(1, 1, 1, 0);
 
 COMMIT;
 
@@ -329,7 +329,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_equipments_offline_meters`
 (`id`, `equipment_id`, `offline_meter_id`, `is_output`)
 VALUES
-(1, 1, 1, false);
+(1, 1, 1, 0);
 
 COMMIT;
 
@@ -372,7 +372,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_equipments_virtual_meters`
 (`id`, `equipment_id`, `virtual_meter_id`, `is_output`)
 VALUES
-(1, 1, 1, false);
+(1, 1, 1, 0);
 
 COMMIT;
 
@@ -402,9 +402,9 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_meters`
 (`id`, `name`, `uuid`, `energy_category_id`, `is_counted`, `hourly_low_limit`, `hourly_high_limit`, `cost_center_id`, `energy_item_id`, `master_meter_id`, `description`)
 VALUES
-(1, 'Example Meter 1', '5ca47bc5-22c2-47fc-b906-33222191ea40', 1, true, 0.000, 999.999, 1, 1, null, 'meter1'),
-(2, 'Example Meter 2', '5ca47bc5-22c2-47fc-b906-33222191ea40', 1, true, 0.000, 999.999, 1, 1, 1,  'meter2'),
-(3, 'Example Meter 3', '6db58cd6-33d3-58ed-a095-22333202fb51', 1, true, 0.000, 999.999, 1, 1, 1,  'meter3');
+(1, 'Example Meter 1', '5ca47bc5-22c2-47fc-b906-33222191ea40', 1, 1, 0.000, 999.999, 1, 1, null, 'meter1'),
+(2, 'Example Meter 2', '5ca47bc5-22c2-47fc-b906-33222191ea40', 1, 1, 0.000, 999.999, 1, 1, 1,  'meter2'),
+(3, 'Example Meter 3', '6db58cd6-33d3-58ed-a095-22333202fb51', 1, 1, 0.000, 999.999, 1, 1, 1,  'meter3');
 
 COMMIT;
 
@@ -429,7 +429,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_offline_meters`
 (`id`, `name`, `uuid`, `energy_category_id`, `is_counted`, `hourly_low_limit`, `hourly_high_limit`, `cost_center_id`, `energy_item_id`, `description`)
 VALUES
-(1, 'Example Offline Meter', '62f473e0-1a35-41f3-9c30-8110d75d65bb', 1, true, 0.0, 999.999, 1, 1, 'offlinemeter1');
+(1, 'Example Offline Meter', '62f473e0-1a35-41f3-9c30-8110d75d65bb', 1, 1, 0.0, 999.999, 1, 1, 'offlinemeter1');
 
 COMMIT;
 
@@ -445,35 +445,35 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_points`
-(`id`, `name`, `data_source_id`, `object_type`, `units`, `high_limit`, `low_limit`, `ratio`, `is_trend`, `address`, `description` )
+(`id`, `name`, `data_source_id`, `object_type`, `units`, `high_limit`, `low_limit`, `ratio`, `is_trend`, `is_virtual`, `address`, `description` )
 VALUES
-(1, 'Active Energy Import Tariff 1', 1, 'ENERGY_VALUE', 'kWh', 99999999999, 0, 1.000, true,
+(1, 'Active Energy Import Tariff 1', 1, 'ENERGY_VALUE', 'kWh', 99999999999, 0, 1.000, 1, 0,
   '{\"slave_id\":1, \"function_code\":3, \"offset\":801, \"number_of_registers\":4, \"format\":\"=d\", \"byte_swap\":false}', null),
 
-(2, 'Working hours counter', 1, 'ANALOG_VALUE',  'S', 999999999, 0, 1.000, true,
+(2, 'Working hours counter', 1, 'ANALOG_VALUE',  'S', 999999999, 0, 1.000, 1, 0,
   '{\"slave_id\":1, \"function_code\":3, \"offset\":209, \"number_of_registers\":2, \"format\":\"=L\", \"byte_swap\":true}', null),
 
-(3, 'Current a', 1, 'ANALOG_VALUE',  'A', 5, 0, 1.000, true,
+(3, 'Current a', 1, 'ANALOG_VALUE',  'A', 5, 0, 1.000, 1, 0,
   '{\"slave_id\":1, \"function_code\":3, \"offset\":13, \"number_of_registers\":2, \"format\":\"=f\", \"byte_swap\":false}', null),
 
-(4, 'Active Power a', 1, 'ANALOG_VALUE',  'W', 3450, 0, 1.000, true,
+(4, 'Active Power a', 1, 'ANALOG_VALUE',  'W', 3450, 0, 1.000, 1, 0,
   '{\"slave_id\":1, \"function_code\":3, \"offset\":25, \"number_of_registers\":2, \"format\":\"=f\", \"byte_swap\":false}', null),
 
-(5, 'Power Factor a', 1, 'ANALOG_VALUE',  'W', 1, 0, 1.000, true,
+(5, 'Power Factor a', 1, 'ANALOG_VALUE',  'W', 1, 0, 1.000, 1, 0,
   '{\"slave_id\":1, \"function_code\":3, \"offset\":37, \"number_of_registers\":2, \"format\":\"=f\", \"byte_swap\":false}', null),
 
-(6, 'Example ModbusTCP Point 6', 2, 'ENERGY_VALUE',  'Wh', 99999999999, 0, 1.000, true,
+(6, 'Example ModbusTCP Point 6', 2, 'ENERGY_VALUE',  'Wh', 99999999999, 0, 1.000, 1, 0,
   '{\"slave_id\":1, \"function_code\":3, \"offset\":40001, \"number_of_registers\":2, \"format\":\"=f\", \"byte_swap\":false}', null),
 
-(7, 'Example Point 7', 2, 'ANALOG_VALUE',  'V', 690, 0, 1.000, true,
+(7, 'Example Point 7', 2, 'ANALOG_VALUE',  'V', 690, 0, 1.000, 1, 0,
   '{\"slave_id\":1, \"function_code\":3, \"offset\":40002, \"number_of_registers\":2, \"format\":\"=f\", \"byte_swap\":false}', null),
 
-(8, 'BACnet Example Point 1', 3, 'ANALOG_VALUE',  'V', 690, 0, 1.000, true,
+(8, 'BACnet Example Point 1', 3, 'ANALOG_VALUE',  'V', 690, 0, 1.000, 1, 0,
   '{\"object_type\":\"analogValue\", \"object_id\":3004860, \"property_name\":\"presentValue\", \"property_array_index\":null}', null),
 -- BACnet Object Type
 -- analogValue, analogInput, analogOutput, binaryValue, binaryInput, binaryOutput
 
-(9, 'S7 Example Point1', 4, 'ANALOG_VALUE',  'kWh', 99999999999, 0, 1.000, true,
+(9, 'S7 Example Point1', 4, 'ANALOG_VALUE',  'kWh', 99999999999, 0, 1.000, 1,
   '{\"area\":\"DB\", \"db_number\":700, \"start\":8, \"size\":4}', null);
 -- # S7 Area
 -- 'PE', 'PA', 'MK', 'DB', 'CT', 'TM'
@@ -514,7 +514,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_shopfloors`
 (`id`, `name`, `uuid` , `area`, `contact_id`, `is_input_counted`,  `cost_center_id`, `description`)
 VALUES
-(1, 'MyEMS Shopfloor', 'd03837fd-9d30-44fe-9443-154f7c7e15f1',  99999.999, 1, true, 1,  'MyEMS Project');
+(1, 'MyEMS Shopfloor', 'd03837fd-9d30-44fe-9443-154f7c7e15f1',  99999.999, 1, 1, 1,  'MyEMS Project');
 COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -607,9 +607,9 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_spaces`
 (`id`, `name`, `uuid`, `parent_space_id`, `area`, `timezone_id`, `contact_id`, `is_input_counted`, `is_output_counted`, `cost_center_id`, `description`)
 VALUES
-(2, 'MyEMS Building #1', '8f25b33b-db93-49b3-b0f8-b01e0c19df29', 1, 88888.888, 56, 1, true, true, 1,  'MyEMS Project'),
-(3, 'MyEMS Building #2', '195d7ea8-17b4-4e9c-bb37-546428155438', 1, 66666.666, 56, 1, true, true, 1, 'MyEMS Project'),
-(10000, 'Debugging Space', '2c44a292-eb0c-49a3-a50e-4fc03858dc0c', 1, 88888.888, 56, 1, true, true, 1,  'MyEMS Project');
+(2, 'MyEMS Building #1', '8f25b33b-db93-49b3-b0f8-b01e0c19df29', 1, 88888.888, 56, 1, 1, 1, 1,  'MyEMS Project'),
+(3, 'MyEMS Building #2', '195d7ea8-17b4-4e9c-bb37-546428155438', 1, 66666.666, 56, 1, 1, 1, 1, 'MyEMS Project'),
+(10000, 'Debugging Space', '2c44a292-eb0c-49a3-a50e-4fc03858dc0c', 1, 88888.888, 56, 1, 1, 1, 1,  'MyEMS Project');
 COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -922,7 +922,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_stores`
 (`id`, `name`, `uuid`, `address`, `latitude`, `longitude`, `area`, `store_type_id`, `is_input_counted`, `contact_id`, `cost_center_id`, `description`)
 VALUES
-(1, 'McDonald\'s (delisu store on Qinian Street)', 'd8a24322-4bab-4ba2-aedc-5d55a84c3db8', 'No. 7, East Damochang Street, Dongcheng District, Beijing', 39.899493, 116.412041, 500.000, 1, true, 1, 1,  'MacDonalds');
+(1, 'McDonald\'s (delisu store on Qinian Street)', 'd8a24322-4bab-4ba2-aedc-5d55a84c3db8', 'No. 7, East Damochang Street, Dongcheng District, Beijing', 39.899493, 116.412041, 500.000, 1, 1, 1, 1,  'MacDonalds');
 COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -1018,8 +1018,8 @@ INSERT INTO `myems_system_db`.`tbl_tenants`
 (`id`, `name`, `uuid`, `buildings`, `floors`, `rooms`, `area`, `tenant_type_id`, `is_input_counted`, `is_key_tenant`,
    `lease_number`, `lease_start_datetime_utc`, `lease_end_datetime_utc`, `is_in_lease`, `contact_id`, `cost_center_id`, `description`)
 VALUES
-(1, 'Starbucks星巴克', '6b0da806-a4cd-431a-8116-2915e90aaf8b', 'Building #1', 'L1 L2 L3', '1201b+2247+3F', 418.8, 9, true, true,
- '6b0da806',  '2019-12-31 16:00:00', '2022-12-31 16:00:00', true, 1, 1,  'my description');
+(1, 'Starbucks星巴克', '6b0da806-a4cd-431a-8116-2915e90aaf8b', 'Building #1', 'L1 L2 L3', '1201b+2247+3F', 418.8, 9, 1, 1,
+ '6b0da806',  '2019-12-31 16:00:00', '2022-12-31 16:00:00', 1, 1, 1,  'my description');
 COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -1120,7 +1120,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_virtual_meters`
 (`id`, `name`, `uuid`, `equation`, `energy_category_id`, `is_counted`, `cost_center_id`, `energy_item_id`, `description`)
 VALUES
-(1, 'Example Virtual Meter', '3fff2cfb-f755-44c8-a919-6135205a8573', 'x1+x2+x3', 1, true, 1, 1, 'virtual description');
+(1, 'Example Virtual Meter', '3fff2cfb-f755-44c8-a919-6135205a8573', 'x1+x2+x3', 1, 1, 1, 1, 'virtual description');
 
 COMMIT;
 
