@@ -236,6 +236,8 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
       // disable submit button
       setSubmitButtonDisabled(true);
     };
+    let customInputTarget = document.getElementById('meterSelect');
+    customInputTarget.value = filteredResult[0].value;
   };
 
   let onReportingPeriodChange = (DateRange) => {
