@@ -1067,10 +1067,10 @@ class CombinedEquipmentParameterItem:
         offline_meter_dict = dict()
         if rows_offline_meters is not None and len(rows_offline_meters) > 0:
             for row in rows_offline_meters:
-                offline_meter_dict[row[2] = {"type": 'offline_meter',
-                                             "id": row[0],
-                                             "name": row[1],
-                                             "uuid": row[2]}
+                offline_meter_dict[row[2]] = {"type": 'offline_meter',
+                                              "id": row[0],
+                                              "name": row[1],
+                                              "uuid": row[2]}
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_virtual_meters ")
