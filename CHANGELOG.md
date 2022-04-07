@@ -5,13 +5,37 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
--   None.
+- added myems_production_db to database.
+- added column to `myems_production_db`.`tbl_teams` in database.
+- added instruction for running myems-api with waitress on Windows.
+- added nano to Dockfile.
+- added telnet to Dockerfile.
+- 
 
 ### Changed
--   None.
+- renamed folder admin to myems-admin, and folder web to myems-web.
+- updated nginx configs for myems-admin and myems-web.
+- updated upload folder path.
+- renamed index tbl_tariffs_index in database.
+- replaced TRUE/FALSE with 1/0 in SQL statements in myems-cleaning service.
+- replaced TRUE/FALSE with 1/0 in SQL statements in myems-normalization service.
+- updated example.env for myems-normalization.
+- replaced TRUE/FALSE with 1/0 in SQL statements in myems-aggregation service.
+- replaced FALSE with 0 in SQL statements.
+- changed linechart background color when web ui is in light mode.
+- removed dictionary parameter from cursor in myems-cleaning service.
+- removed dictionary parameter from cursor in myems-normalization service.
+- updated database demo scripts.
+- removed dictionary parameter from cursor of combinedequipment api functions.
+- updated Dockerfile and README of Web UI.
+- updated .env path for docker run in README.
+- updated docker instruction in README.
 
 ### Fixed
--   None.
+- Fixed Meter list search and clear issue.
+- moved cnx.close after cursor.close in useractivity.write_log procedure.
+- fixed no such file error in admin ui.
+- moved cursor.close before cnx.close in myems aggregation service.
 
 ### Removed
 -   None.
