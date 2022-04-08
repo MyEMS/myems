@@ -89,7 +89,7 @@ class VirtualMeterCollection:
                     query_variables = (" SELECT v.id, v.name, v.meter_type, v.meter_id "
                                        " FROM tbl_virtual_meters vm, tbl_variables v "
                                        " WHERE vm.id = %s AND v.virtual_meter_id = vm.id "
-                                       " ORDER BY SUBSTRING(v.name,2) + 0 ")
+                                       " ORDER BY SUBSTRING(v.name, 2, 10) + 0 ")
                     cursor.execute(query_variables, (meta_result['id'],))
                     rows_variables = cursor.fetchall()
                     if rows_variables is not None:

@@ -59,7 +59,7 @@ Install and run with waitress:
 ```bash
 pip install waitress
 cd myems\myems-api
-waitress-serve --listen=127.0.0.1:8000 app:api
+waitress-serve --listen=0.0.0.0:8000 app:api
 ```
 
 
