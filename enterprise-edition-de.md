@@ -16,6 +16,8 @@
 | Store/Saving Data                |  ✔️        |                      |
 | Shopfloor/Saving Data            |  ✔️        | Erfordert eine Komponente zur Vorhersage des Energieverbrauchs |
 | Combined Equipment/Saving Data   | ✔️        | Erfordert eine Komponente zur Vorhersage des Energieverbrauchs |
+| Analyse des CO2-Fußabdrucks      | ✔️        |                      |
+| Analyse der Kohlenstoffemissionen| ✔️        |                      |
 | BACnet/IP                        | ✔️        | http://www.bacnet.org/ |
 | MQTT Subscriber                  |  ✔️        | https://mqtt.org/ |
 | Kafka Consumer                   |  ✔️        | https://kafka.apache.org/ |
