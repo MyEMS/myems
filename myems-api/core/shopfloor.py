@@ -262,9 +262,6 @@ class ShopfloorItem:
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SHOPFLOOR_ID')
-        if int(id_) == 1:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.THIS_SHOPFLOOR_CANNOT_BE_DELETED')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()

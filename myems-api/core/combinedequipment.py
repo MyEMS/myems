@@ -29,9 +29,9 @@ class CombinedEquipmentCollection:
         cost_center_dict = dict()
         if rows_cost_centers is not None and len(rows_cost_centers) > 0:
             for row in rows_cost_centers:
-                cost_center_dict[row['id']] = {"id": row[0],
-                                               "name": row[1],
-                                               "uuid": row[2]}
+                cost_center_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, "
                  "        is_input_counted, is_output_counted, "
