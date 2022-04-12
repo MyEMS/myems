@@ -174,9 +174,9 @@ class CombinedEquipmentItem:
         cost_center_dict = dict()
         if rows_cost_centers is not None and len(rows_cost_centers) > 0:
             for row in rows_cost_centers:
-                cost_center_dict[row['id']] = {"id": row[0],
-                                               "name": row[1],
-                                               "uuid": row[2]}
+                cost_center_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, "
                  "        is_input_counted, is_output_counted, "
@@ -1044,7 +1044,7 @@ class CombinedEquipmentParameterItem:
         if rows_points is not None and len(rows_points) > 0:
             for row in rows_points:
                 point_dict[row[0]] = {"id": row[0],
-                                         "name": row[1]}
+                                      "name": row[1]}
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_meters ")
@@ -1405,7 +1405,7 @@ class CombinedEquipmentMeterCollection:
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
                        " FROM tbl_combined_equipments "
@@ -1424,9 +1424,9 @@ class CombinedEquipmentMeterCollection:
         energy_category_dict = dict()
         if rows_energy_categories is not None and len(rows_energy_categories) > 0:
             for row in rows_energy_categories:
-                energy_category_dict[row['id']] = {"id": row['id'],
-                                                   "name": row['name'],
-                                                   "uuid": row['uuid']}
+                energy_category_dict[row[0]] = {"id": row[0],
+                                                "name": row[1],
+                                                "uuid": row[2]}
 
         query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id, em.is_output "
                  " FROM tbl_combined_equipments e, tbl_combined_equipments_meters em, tbl_meters m "
@@ -1438,10 +1438,10 @@ class CombinedEquipmentMeterCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                energy_category = energy_category_dict.get(row['energy_category_id'], None)
-                meta_result = {"id": row['id'], "name": row['name'], "uuid": row['uuid'],
+                energy_category = energy_category_dict.get(row[3], None)
+                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
                                "energy_category": energy_category,
-                               "is_output": bool(row['is_output'])}
+                               "is_output": bool(row[4])}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -1597,7 +1597,7 @@ class CombinedEquipmentOfflineMeterCollection:
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
                        " FROM tbl_combined_equipments "
@@ -1616,9 +1616,9 @@ class CombinedEquipmentOfflineMeterCollection:
         energy_category_dict = dict()
         if rows_energy_categories is not None and len(rows_energy_categories) > 0:
             for row in rows_energy_categories:
-                energy_category_dict[row['id']] = {"id": row['id'],
-                                                   "name": row['name'],
-                                                   "uuid": row['uuid']}
+                energy_category_dict[row[0]] = {"id": row[0],
+                                                "name": row[1],
+                                                "uuid": row[2]}
 
         query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id, em.is_output "
                  " FROM tbl_combined_equipments e, tbl_combined_equipments_offline_meters em, tbl_offline_meters m "
@@ -1630,10 +1630,10 @@ class CombinedEquipmentOfflineMeterCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                energy_category = energy_category_dict.get(row['energy_category_id'], None)
-                meta_result = {"id": row['id'], "name": row['name'], "uuid": row['uuid'],
+                energy_category = energy_category_dict.get(row[3], None)
+                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
                                "energy_category": energy_category,
-                               "is_output": bool(row['is_output'])}
+                               "is_output": bool(row[4])}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -1790,7 +1790,7 @@ class CombinedEquipmentVirtualMeterCollection:
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
                        " FROM tbl_combined_equipments "
@@ -1809,9 +1809,9 @@ class CombinedEquipmentVirtualMeterCollection:
         energy_category_dict = dict()
         if rows_energy_categories is not None and len(rows_energy_categories) > 0:
             for row in rows_energy_categories:
-                energy_category_dict[row['id']] = {"id": row['id'],
-                                                   "name": row['name'],
-                                                   "uuid": row['uuid']}
+                energy_category_dict[row[0]] = {"id": row[0],
+                                                "name": row[1],
+                                                "uuid": row[2]}
 
         query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id, em.is_output "
                  " FROM tbl_combined_equipments e, tbl_combined_equipments_virtual_meters em, tbl_virtual_meters m "
@@ -1823,10 +1823,10 @@ class CombinedEquipmentVirtualMeterCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                energy_category = energy_category_dict.get(row['energy_category_id'], None)
-                meta_result = {"id": row['id'], "name": row['name'], "uuid": row['uuid'],
+                energy_category = energy_category_dict.get(row[3], None)
+                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
                                "energy_category": energy_category,
-                               "is_output": bool(row['is_output'])}
+                               "is_output": bool(row[4])}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)

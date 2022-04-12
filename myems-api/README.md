@@ -41,7 +41,7 @@ sudo chmod +x run.sh
 ./run.sh
 ```
 
-Quick run on Windows (NOT for production use):
+Quick run on Windows (NOT for production usage):
 
 Find python path in Command Prompt:
 ```bash
