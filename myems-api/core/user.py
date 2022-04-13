@@ -883,15 +883,13 @@ class Unlock:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_ID')
 
-        Id = id_
-
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
 
         query = (" SELECT failed_login_count "
                  " FROM tbl_users "
                  " WHERE id = %s ")
-        cursor.execute(query, (Id,))
+        cursor.execute(query, (id_,))
         row = cursor.fetchone()
         if row is None:
             cursor.close()
@@ -907,13 +905,13 @@ class Unlock:
         update_user = (" UPDATE tbl_users "
                        " SET failed_login_count = 0"
                        " WHERE id = %s ")
-        cursor.execute(update_user, (Id, ))
+        cursor.execute(update_user, (id_, ))
         cnx.commit()
 
         query = (" SELECT failed_login_count "
                  " FROM tbl_users "
                  " WHERE id = %s ")
-        cursor.execute(query, (Id,))
+        cursor.execute(query, (id_,))
         row = cursor.fetchone()
         if row is None or row[0] != 0:
             cursor.close()
@@ -925,4 +923,4 @@ class Unlock:
         resp.text = json.dumps("OK")
         resp.status = falcon.HTTP_200
         write_log(user_uuid=admin_user_uuid, request_method='PUT', resource_type='UnlockUser',
-                  resource_id=Id, request_body=None)
+                  resource_id=id_, request_body=None)

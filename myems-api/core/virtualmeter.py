@@ -19,7 +19,7 @@ class VirtualMeterCollection:
     @staticmethod
     def on_get(req, resp):
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_energy_categories ")
@@ -29,9 +29,9 @@ class VirtualMeterCollection:
         energy_category_dict = dict()
         if rows_energy_categories is not None and len(rows_energy_categories) > 0:
             for row in rows_energy_categories:
-                energy_category_dict[row['id']] = {"id": row['id'],
-                                                   "name": row['name'],
-                                                   "uuid": row['uuid']}
+                energy_category_dict[row[0]] = {"id": row[0],
+                                                "name": row[1],
+                                                "uuid": row[2]}
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_energy_items ")
@@ -41,9 +41,9 @@ class VirtualMeterCollection:
         energy_item_dict = dict()
         if rows_energy_items is not None and len(rows_energy_items) > 0:
             for row in rows_energy_items:
-                energy_item_dict[row['id']] = {"id": row['id'],
-                                               "name": row['name'],
-                                               "uuid": row['uuid']}
+                energy_item_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_cost_centers ")
@@ -53,9 +53,9 @@ class VirtualMeterCollection:
         cost_center_dict = dict()
         if rows_cost_centers is not None and len(rows_cost_centers) > 0:
             for row in rows_cost_centers:
-                cost_center_dict[row['id']] = {"id": row['id'],
-                                               "name": row['name'],
-                                               "uuid": row['uuid']}
+                cost_center_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, equation, energy_category_id, is_counted, cost_center_id, "
                  "        energy_item_id, description "
@@ -67,18 +67,18 @@ class VirtualMeterCollection:
         result = list()
         if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
             for row in rows_virtual_meters:
-                energy_category = energy_category_dict.get(row['energy_category_id'], None)
-                cost_center = cost_center_dict.get(row['cost_center_id'], None)
-                energy_item = energy_item_dict.get(row['energy_item_id'], None)
-                meta_result = {"id": row['id'],
-                               "name": row['name'],
-                               "uuid": row['uuid'],
-                               "equation": row['equation'],
+                energy_category = energy_category_dict.get(row[4], None)
+                cost_center = cost_center_dict.get(row[6], None)
+                energy_item = energy_item_dict.get(row[7], None)
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
+                               "equation": row[3],
                                "energy_category": energy_category,
-                               "is_counted": True if row['is_counted'] else False,
+                               "is_counted": True if row[5] else False,
                                "cost_center": cost_center,
                                "energy_item": energy_item,
-                               "description": row['description'],
+                               "description": row[8],
                                "expression": {}}
 
                 expression = dict()
@@ -94,42 +94,42 @@ class VirtualMeterCollection:
                     rows_variables = cursor.fetchall()
                     if rows_variables is not None:
                         for row_variable in rows_variables:
-                            if row_variable['meter_type'].lower() == 'meter':
+                            if row_variable[2].lower() == 'meter':
                                 query_meter = (" SELECT m.name "
                                                " FROM tbl_meters m "
                                                " WHERE m.id = %s ")
-                                cursor.execute(query_meter, (row_variable['meter_id'],))
+                                cursor.execute(query_meter, (row_variable[3],))
                                 row_meter = cursor.fetchone()
                                 if row_meter is not None:
-                                    expression['variables'].append({'id': row_variable['id'],
-                                                                    'name': row_variable['name'],
-                                                                    'meter_type': row_variable['meter_type'],
-                                                                    'meter_id': row_variable['meter_id'],
-                                                                    'meter_name': row_meter['name']})
-                            elif row_variable['meter_type'].lower() == 'offline_meter':
+                                    expression['variables'].append({'id': row_variable[0],
+                                                                    'name': row_variable[1],
+                                                                    'meter_type': row_variable[2],
+                                                                    'meter_id': row_variable[3],
+                                                                    'meter_name': row_meter[0]})
+                            elif row_variable[2].lower() == 'offline_meter':
                                 query_meter = (" SELECT m.name "
                                                " FROM tbl_offline_meters m "
                                                " WHERE m.id = %s ")
-                                cursor.execute(query_meter, (row_variable['meter_id'],))
+                                cursor.execute(query_meter, (row_variable[3],))
                                 row_meter = cursor.fetchone()
                                 if row_meter is not None:
-                                    expression['variables'].append({'id': row_variable['id'],
-                                                                    'name': row_variable['name'],
-                                                                    'meter_type': row_variable['meter_type'],
-                                                                    'meter_id': row_variable['meter_id'],
-                                                                    'meter_name': row_meter['name']})
-                            elif row_variable['meter_type'].lower() == 'virtual_meter':
+                                    expression['variables'].append({'id': row_variable[0],
+                                                                    'name': row_variable[1],
+                                                                    'meter_type': row_variable[2],
+                                                                    'meter_id': row_variable[3],
+                                                                    'meter_name': row_meter[0]})
+                            elif row_variable[2].lower() == 'virtual_meter':
                                 query_meter = (" SELECT m.name "
                                                " FROM tbl_virtual_meters m "
                                                " WHERE m.id = %s ")
-                                cursor.execute(query_meter, (row_variable['meter_id'],))
+                                cursor.execute(query_meter, (row_variable[3],))
                                 row_meter = cursor.fetchone()
                                 if row_meter is not None:
-                                    expression['variables'].append({'id': row_variable['id'],
-                                                                    'name': row_variable['name'],
-                                                                    'meter_type': row_variable['meter_type'],
-                                                                    'meter_id': row_variable['meter_id'],
-                                                                    'meter_name': row_meter['name']})
+                                    expression['variables'].append({'id': row_variable[0],
+                                                                    'name': row_variable[1],
+                                                                    'meter_type': row_variable[2],
+                                                                    'meter_id': row_variable[3],
+                                                                    'meter_name': row_meter[0]})
 
                 meta_result['expression'] = expression
                 result.append(meta_result)
@@ -354,7 +354,7 @@ class VirtualMeterItem:
                                    description='API.INVALID_VIRTUAL_METER_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_energy_categories ")
@@ -364,9 +364,9 @@ class VirtualMeterItem:
         energy_category_dict = dict()
         if rows_energy_categories is not None and len(rows_energy_categories) > 0:
             for row in rows_energy_categories:
-                energy_category_dict[row['id']] = {"id": row['id'],
-                                                   "name": row['name'],
-                                                   "uuid": row['uuid']}
+                energy_category_dict[row[0]] = {"id": row[0],
+                                                "name": row[1],
+                                                "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, energy_category_id "
                  " FROM tbl_energy_items ")
@@ -376,9 +376,9 @@ class VirtualMeterItem:
         energy_item_dict = dict()
         if rows_energy_items is not None and len(rows_energy_items) > 0:
             for row in rows_energy_items:
-                energy_item_dict[row['id']] = {"id": row['id'],
-                                               "name": row['name'],
-                                               "uuid": row['uuid']}
+                energy_item_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_cost_centers ")
@@ -388,9 +388,9 @@ class VirtualMeterItem:
         cost_center_dict = dict()
         if rows_cost_centers is not None and len(rows_cost_centers) > 0:
             for row in rows_cost_centers:
-                cost_center_dict[row['id']] = {"id": row['id'],
-                                               "name": row['name'],
-                                               "uuid": row['uuid']}
+                cost_center_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, equation, energy_category_id, is_counted, cost_center_id, "
                  "        energy_item_id, description "
@@ -402,18 +402,18 @@ class VirtualMeterItem:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.VIRTUAL_METER_NOT_FOUND')
         else:
-            energy_category = energy_category_dict.get(row['energy_category_id'], None)
-            cost_center = cost_center_dict.get(row['cost_center_id'], None)
-            energy_item = energy_item_dict.get(row['energy_item_id'], None)
-            meta_result = {"id": row['id'],
-                           "name": row['name'],
-                           "uuid": row['uuid'],
-                           "equation": row['equation'],
+            energy_category = energy_category_dict.get(row[4], None)
+            cost_center = cost_center_dict.get(row[6], None)
+            energy_item = energy_item_dict.get(row[7], None)
+            meta_result = {"id": row[0],
+                           "name": row[1],
+                           "uuid": row[2],
+                           "equation": row[3],
                            "energy_category": energy_category,
-                           "is_counted": True if row['is_counted'] else False,
+                           "is_counted": True if row[5] else False,
                            "cost_center": cost_center,
                            "energy_item": energy_item,
-                           "description": row['description'],
+                           "description": row[8],
                            "expression": {}}
 
         expression = dict()
@@ -429,42 +429,42 @@ class VirtualMeterItem:
             rows_variables = cursor.fetchall()
             if rows_variables is not None:
                 for row_variable in rows_variables:
-                    if row_variable['meter_type'].lower() == 'meter':
+                    if row_variable[2].lower() == 'meter':
                         query_meter = (" SELECT m.name "
                                        " FROM tbl_meters m "
                                        " WHERE m.id = %s ")
-                        cursor.execute(query_meter, (row_variable['meter_id'],))
+                        cursor.execute(query_meter, (row_variable[3],))
                         row_meter = cursor.fetchone()
                         if row_meter is not None:
-                            expression['variables'].append({'id': row_variable['id'],
-                                                            'name': row_variable['name'],
-                                                            'meter_type': row_variable['meter_type'],
-                                                            'meter_id': row_variable['meter_id'],
-                                                            'meter_name': row_meter['name']})
-                    elif row_variable['meter_type'].lower() == 'offline_meter':
+                            expression['variables'].append({'id': row_variable[0],
+                                                            'name': row_variable[1],
+                                                            'meter_type': row_variable[2],
+                                                            'meter_id': row_variable[3],
+                                                            'meter_name': row_meter[0]})
+                    elif row_variable[2].lower() == 'offline_meter':
                         query_meter = (" SELECT m.name "
                                        " FROM tbl_offline_meters m "
                                        " WHERE m.id = %s ")
-                        cursor.execute(query_meter, (row_variable['meter_id'],))
+                        cursor.execute(query_meter, (row_variable[3],))
                         row_meter = cursor.fetchone()
                         if row_meter is not None:
-                            expression['variables'].append({'id': row_variable['id'],
-                                                            'name': row_variable['name'],
-                                                            'meter_type': row_variable['meter_type'],
-                                                            'meter_id': row_variable['meter_id'],
-                                                            'meter_name': row_meter['name']})
-                    elif row_variable['meter_type'].lower() == 'virtual_meter':
+                            expression['variables'].append({'id': row_variable[0],
+                                                            'name': row_variable[1],
+                                                            'meter_type': row_variable[2],
+                                                            'meter_id': row_variable[3],
+                                                            'meter_name': row_meter[0]})
+                    elif row_variable[2].lower() == 'virtual_meter':
                         query_meter = (" SELECT m.name "
                                        " FROM tbl_virtual_meters m "
                                        " WHERE m.id = %s ")
-                        cursor.execute(query_meter, (row_variable['meter_id'],))
+                        cursor.execute(query_meter, (row_variable[3],))
                         row_meter = cursor.fetchone()
                         if row_meter is not None:
-                            expression['variables'].append({'id': row_variable['id'],
-                                                            'name': row_variable['name'],
-                                                            'meter_type': row_variable['meter_type'],
-                                                            'meter_id': row_variable['meter_id'],
-                                                            'meter_name': row_meter['name']})
+                            expression['variables'].append({'id': row_variable[0],
+                                                            'name': row_variable[1],
+                                                            'meter_type': row_variable[2],
+                                                            'meter_id': row_variable[3],
+                                                            'meter_name': row_meter[0]})
 
         meta_result['expression'] = expression
 

@@ -20,7 +20,7 @@ class TariffCollection:
     @staticmethod
     def on_get(req, resp):
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT t.id, t.name, t.uuid, "
                  "        ec.id AS energy_category_id, ec.name AS energy_category_name, "
@@ -39,17 +39,15 @@ class TariffCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                valid_from = row['valid_from_datetime_utc'].replace(tzinfo=timezone.utc) + \
-                    timedelta(minutes=timezone_offset)
-                valid_through = row['valid_through_datetime_utc'].replace(tzinfo=timezone.utc) + \
-                    timedelta(minutes=timezone_offset)
-                meta_result = {"id": row['id'],
-                               "name": row['name'],
-                               "uuid": row['uuid'],
-                               "energy_category": {"id": row['energy_category_id'],
-                                                   "name": row['energy_category_name']},
-                               "tariff_type": row['tariff_type'],
-                               "unit_of_price": row['unit_of_price'],
+                valid_from = row[7].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
+                valid_through = row[8].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
+                               "energy_category": {"id": row[3],
+                                                   "name": row[4]},
+                               "tariff_type": row[5],
+                               "unit_of_price": row[6],
                                "valid_from": valid_from.strftime('%Y-%m-%dT%H:%M:%S'),
                                "valid_through": valid_through.strftime('%Y-%m-%dT%H:%M:%S')}
 
@@ -63,9 +61,9 @@ class TariffCollection:
                     rows_block = cursor.fetchall()
                     if rows_block is not None and len(rows_block) > 0:
                         for row_block in rows_block:
-                            meta_data = {"start_amount": row_block['start_amount'],
-                                         "end_amount": row_block['end_amount'],
-                                         "price": row_block['price']}
+                            meta_data = {"start_amount": row_block[0],
+                                         "end_amount": row_block[1],
+                                         "price": row_block[2]}
                             meta_result['block'].append(meta_data)
 
                 elif meta_result['tariff_type'] == 'timeofuse':
@@ -78,10 +76,10 @@ class TariffCollection:
                     rows_timeofuses = cursor.fetchall()
                     if rows_timeofuses is not None and len(rows_timeofuses) > 0:
                         for row_timeofuse in rows_timeofuses:
-                            meta_data = {"start_time_of_day": str(row_timeofuse['start_time_of_day']),
-                                         "end_time_of_day": str(row_timeofuse['end_time_of_day']),
-                                         "peak_type": row_timeofuse['peak_type'],
-                                         "price": row_timeofuse['price']}
+                            meta_data = {"start_time_of_day": str(row_timeofuse[0]),
+                                         "end_time_of_day": str(row_timeofuse[1]),
+                                         "peak_type": row_timeofuse[2],
+                                         "price": row_timeofuse[3]}
                             meta_result['timeofuse'].append(meta_data)
                 else:
                     cursor.close()
@@ -239,7 +237,7 @@ class TariffItem:
                                    description='API.INVALID_TARIFF_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT t.id, t.name, t.uuid, "
                  "        ec.id AS energy_category_id, ec.name AS energy_category_name, "
@@ -260,18 +258,16 @@ class TariffItem:
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
 
-        valid_from = row['valid_from_datetime_utc'].replace(tzinfo=timezone.utc) + \
-            timedelta(minutes=timezone_offset)
-        valid_through = row['valid_through_datetime_utc'].replace(tzinfo=timezone.utc) + \
-            timedelta(minutes=timezone_offset)
+        valid_from = row[7].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
+        valid_through = row[8].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
 
-        result = {"id": row['id'],
-                  "name": row['name'],
-                  "uuid": row['uuid'],
-                  "energy_category": {"id": row['energy_category_id'],
-                                      "name": row['energy_category_name']},
-                  "tariff_type": row['tariff_type'],
-                  "unit_of_price": row['unit_of_price'],
+        result = {"id": row[0],
+                  "name": row[1],
+                  "uuid": row[2],
+                  "energy_category": {"id": row[3],
+                                      "name": row[4]},
+                  "tariff_type": row[5],
+                  "unit_of_price": row[6],
                   "valid_from": valid_from.strftime('%Y-%m-%dT%H:%M:%S'),
                   "valid_through": valid_through.strftime('%Y-%m-%dT%H:%M:%S')}
 
@@ -285,9 +281,9 @@ class TariffItem:
             rows_block = cursor.fetchall()
             if rows_block is not None and len(rows_block) > 0:
                 for row_block in rows_block:
-                    meta_data = {"start_amount": row_block['start_amount'],
-                                 "end_amount": row_block['end_amount'],
-                                 "price": row_block['price']}
+                    meta_data = {"start_amount": row_block[0],
+                                 "end_amount": row_block[1],
+                                 "price": row_block[2]}
                     result['block'].append(meta_data)
 
         elif result['tariff_type'] == 'timeofuse':
@@ -299,10 +295,10 @@ class TariffItem:
             rows_timeofuses = cursor.fetchall()
             if rows_timeofuses is not None and len(rows_timeofuses) > 0:
                 for row_timeofuse in rows_timeofuses:
-                    meta_data = {"start_time_of_day": str(row_timeofuse['start_time_of_day']),
-                                 "end_time_of_day": str(row_timeofuse['end_time_of_day']),
-                                 "peak_type": row_timeofuse['peak_type'],
-                                 "price": row_timeofuse['price']}
+                    meta_data = {"start_time_of_day": str(row_timeofuse[0]),
+                                 "end_time_of_day": str(row_timeofuse[1]),
+                                 "peak_type": row_timeofuse[2],
+                                 "price": row_timeofuse[3]}
                     result['timeofuse'].append(meta_data)
 
         cursor.close()

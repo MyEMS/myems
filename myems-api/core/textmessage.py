@@ -81,7 +81,8 @@ class TextMessageCollection:
                                "recipient_mobile": row[2],
                                "message": row[3],
                                "created_datetime": row[4].timestamp() * 1000 if isinstance(row[4], datetime) else None,
-                               "scheduled_datetime": row[5].timestamp() * 1000 if isinstance(row[5], datetime) else None,
+                               "scheduled_datetime":
+                                   row[5].timestamp() * 1000 if isinstance(row[5], datetime) else None,
                                "acknowledge_code": row[6],
                                "status": row[7]}
                 result.append(meta_result)

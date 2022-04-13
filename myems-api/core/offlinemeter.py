@@ -19,7 +19,7 @@ class OfflineMeterCollection:
     @staticmethod
     def on_get(req, resp):
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_energy_categories ")
@@ -29,9 +29,9 @@ class OfflineMeterCollection:
         energy_category_dict = dict()
         if rows_energy_categories is not None and len(rows_energy_categories) > 0:
             for row in rows_energy_categories:
-                energy_category_dict[row['id']] = {"id": row['id'],
-                                                   "name": row['name'],
-                                                   "uuid": row['uuid']}
+                energy_category_dict[row[0]] = {"id": row[0],
+                                                "name": row[1],
+                                                "uuid": row[2]}
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_energy_items ")
@@ -41,9 +41,9 @@ class OfflineMeterCollection:
         energy_item_dict = dict()
         if rows_energy_items is not None and len(rows_energy_items) > 0:
             for row in rows_energy_items:
-                energy_item_dict[row['id']] = {"id": row['id'],
-                                               "name": row['name'],
-                                               "uuid": row['uuid']}
+                energy_item_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_cost_centers ")
@@ -53,9 +53,9 @@ class OfflineMeterCollection:
         cost_center_dict = dict()
         if rows_cost_centers is not None and len(rows_cost_centers) > 0:
             for row in rows_cost_centers:
-                cost_center_dict[row['id']] = {"id": row['id'],
-                                               "name": row['name'],
-                                               "uuid": row['uuid']}
+                cost_center_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, energy_category_id, "
                  "        is_counted, hourly_low_limit, hourly_high_limit, "
@@ -68,19 +68,19 @@ class OfflineMeterCollection:
         result = list()
         if rows_meters is not None and len(rows_meters) > 0:
             for row in rows_meters:
-                energy_category = energy_category_dict.get(row['energy_category_id'], None)
-                energy_item = energy_item_dict.get(row['energy_item_id'], None)
-                cost_center = cost_center_dict.get(row['cost_center_id'], None)
-                meta_result = {"id": row['id'],
-                               "name": row['name'],
-                               "uuid": row['uuid'],
+                energy_category = energy_category_dict.get(row[3], None)
+                energy_item = energy_item_dict.get(row[7], None)
+                cost_center = cost_center_dict.get(row[8], None)
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
                                "energy_category": energy_category,
-                               "is_counted": True if row['is_counted'] else False,
-                               "hourly_low_limit": row['hourly_low_limit'],
-                               "hourly_high_limit": row['hourly_high_limit'],
+                               "is_counted": True if row[4] else False,
+                               "hourly_low_limit": row[5],
+                               "hourly_high_limit": row[6],
                                "energy_item": energy_item,
                                "cost_center": cost_center,
-                               "description": row['description']}
+                               "description": row[9]}
                 result.append(meta_result)
 
         cursor.close()
@@ -248,7 +248,7 @@ class OfflineMeterItem:
                                    description='API.INVALID_OFFLINE_METER_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_energy_categories ")
@@ -258,9 +258,9 @@ class OfflineMeterItem:
         energy_category_dict = dict()
         if rows_energy_categories is not None and len(rows_energy_categories) > 0:
             for row in rows_energy_categories:
-                energy_category_dict[row['id']] = {"id": row['id'],
-                                                   "name": row['name'],
-                                                   "uuid": row['uuid']}
+                energy_category_dict[row[0]] = {"id": row[0],
+                                                "name": row[1],
+                                                "uuid": row[2]}
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_energy_items ")
@@ -270,9 +270,9 @@ class OfflineMeterItem:
         energy_item_dict = dict()
         if rows_energy_items is not None and len(rows_energy_items) > 0:
             for row in rows_energy_items:
-                energy_item_dict[row['id']] = {"id": row['id'],
-                                               "name": row['name'],
-                                               "uuid": row['uuid']}
+                energy_item_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_cost_centers ")
@@ -282,9 +282,9 @@ class OfflineMeterItem:
         cost_center_dict = dict()
         if rows_cost_centers is not None and len(rows_cost_centers) > 0:
             for row in rows_cost_centers:
-                cost_center_dict[row['id']] = {"id": row['id'],
-                                               "name": row['name'],
-                                               "uuid": row['uuid']}
+                cost_center_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, energy_category_id, "
                  "        is_counted, hourly_low_limit, hourly_high_limit, "
@@ -300,19 +300,19 @@ class OfflineMeterItem:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.OFFLINE_METER_NOT_FOUND')
         else:
-            energy_category = energy_category_dict.get(row['energy_category_id'], None)
-            energy_item = energy_item_dict.get(row['energy_item_id'], None)
-            cost_center = cost_center_dict.get(row['cost_center_id'], None)
-            meta_result = {"id": row['id'],
-                           "name": row['name'],
-                           "uuid": row['uuid'],
+            energy_category = energy_category_dict.get(row[3], None)
+            energy_item = energy_item_dict.get(row[7], None)
+            cost_center = cost_center_dict.get(row[8], None)
+            meta_result = {"id": row[0],
+                           "name": row[1],
+                           "uuid": row[2],
                            "energy_category": energy_category,
-                           "is_counted": True if row['is_counted'] else False,
-                           "hourly_low_limit": row['hourly_low_limit'],
-                           "hourly_high_limit": row['hourly_high_limit'],
+                           "is_counted": True if row[4] else False,
+                           "hourly_low_limit": row[5],
+                           "hourly_high_limit": row[6],
                            "energy_item": energy_item,
                            "cost_center": cost_center,
-                           "description": row['description']}
+                           "description": row[9]}
 
         resp.text = json.dumps(meta_result)
 

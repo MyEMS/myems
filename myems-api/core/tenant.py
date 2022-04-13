@@ -20,7 +20,7 @@ class TenantCollection:
     @staticmethod
     def on_get(req, resp):
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_tenant_types ")
@@ -30,9 +30,9 @@ class TenantCollection:
         tenant_type_dict = dict()
         if rows_tenant_types is not None and len(rows_tenant_types) > 0:
             for row in rows_tenant_types:
-                tenant_type_dict[row['id']] = {"id": row['id'],
-                                               "name": row['name'],
-                                               "uuid": row['uuid']}
+                tenant_type_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_contacts ")
@@ -42,9 +42,9 @@ class TenantCollection:
         contact_dict = dict()
         if rows_contacts is not None and len(rows_contacts) > 0:
             for row in rows_contacts:
-                contact_dict[row['id']] = {"id": row['id'],
-                                           "name": row['name'],
-                                           "uuid": row['uuid']}
+                contact_dict[row[0]] = {"id": row[0],
+                                        "name": row[1],
+                                        "uuid": row[2]}
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_cost_centers ")
@@ -54,9 +54,9 @@ class TenantCollection:
         cost_center_dict = dict()
         if rows_cost_centers is not None and len(rows_cost_centers) > 0:
             for row in rows_cost_centers:
-                cost_center_dict[row['id']] = {"id": row['id'],
-                                               "name": row['name'],
-                                               "uuid": row['uuid']}
+                cost_center_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, "
                  "        buildings, floors, rooms, area, tenant_type_id, "
@@ -75,33 +75,33 @@ class TenantCollection:
         result = list()
         if rows_spaces is not None and len(rows_spaces) > 0:
             for row in rows_spaces:
-                tenant_type = tenant_type_dict.get(row['tenant_type_id'], None)
-                contact = contact_dict.get(row['contact_id'], None)
-                cost_center = cost_center_dict.get(row['cost_center_id'], None)
+                tenant_type = tenant_type_dict.get(row[7], None)
+                contact = contact_dict.get(row[14], None)
+                cost_center = cost_center_dict.get(row[15], None)
 
-                lease_start_datetime_local = row['lease_start_datetime_utc'].replace(tzinfo=timezone.utc) + \
+                lease_start_datetime_local = row[11].replace(tzinfo=timezone.utc) + \
                     timedelta(minutes=timezone_offset)
-                lease_end_datetime_local = row['lease_end_datetime_utc'].replace(tzinfo=timezone.utc) + \
+                lease_end_datetime_local = row[12].replace(tzinfo=timezone.utc) + \
                     timedelta(minutes=timezone_offset)
 
-                meta_result = {"id": row['id'],
-                               "name": row['name'],
-                               "uuid": row['uuid'],
-                               "buildings": row['buildings'],
-                               "floors": row['floors'],
-                               "rooms": row['rooms'],
-                               "area": row['area'],
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
+                               "buildings": row[3],
+                               "floors": row[4],
+                               "rooms": row[5],
+                               "area": row[6],
                                "tenant_type": tenant_type,
-                               "is_input_counted": bool(row['is_input_counted']),
-                               "is_key_tenant": bool(row['is_key_tenant']),
-                               "lease_number": row['lease_number'],
+                               "is_input_counted": bool(row[8]),
+                               "is_key_tenant": bool(row[9]),
+                               "lease_number": row[10],
                                "lease_start_datetime": lease_start_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
                                "lease_end_datetime": lease_end_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
-                               "is_in_lease": bool(row['is_in_lease']),
+                               "is_in_lease": bool(row[13]),
                                "contact": contact,
                                "cost_center": cost_center,
-                               "description": row['description'],
-                               "qrcode": 'tenant:' + row['uuid']}
+                               "description": row[16],
+                               "qrcode": 'tenant:' + row[2]}
                 result.append(meta_result)
 
         cursor.close()
@@ -316,7 +316,7 @@ class TenantItem:
                                    description='API.INVALID_TENANT_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_tenant_types ")
@@ -326,9 +326,9 @@ class TenantItem:
         tenant_type_dict = dict()
         if rows_tenant_types is not None and len(rows_tenant_types) > 0:
             for row in rows_tenant_types:
-                tenant_type_dict[row['id']] = {"id": row['id'],
-                                               "name": row['name'],
-                                               "uuid": row['uuid']}
+                tenant_type_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_contacts ")
@@ -338,9 +338,9 @@ class TenantItem:
         contact_dict = dict()
         if rows_contacts is not None and len(rows_contacts) > 0:
             for row in rows_contacts:
-                contact_dict[row['id']] = {"id": row['id'],
-                                           "name": row['name'],
-                                           "uuid": row['uuid']}
+                contact_dict[row[0]] = {"id": row[0],
+                                        "name": row[1],
+                                        "uuid": row[2]}
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_cost_centers ")
@@ -350,9 +350,9 @@ class TenantItem:
         cost_center_dict = dict()
         if rows_cost_centers is not None and len(rows_cost_centers) > 0:
             for row in rows_cost_centers:
-                cost_center_dict[row['id']] = {"id": row['id'],
-                                               "name": row['name'],
-                                               "uuid": row['uuid']}
+                cost_center_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, "
                  "        buildings, floors, rooms, area, tenant_type_id,"
@@ -370,35 +370,35 @@ class TenantItem:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TENANT_NOT_FOUND')
         else:
-            tenant_type = tenant_type_dict.get(row['tenant_type_id'], None)
-            contact = contact_dict.get(row['contact_id'], None)
-            cost_center = cost_center_dict.get(row['cost_center_id'], None)
+            tenant_type = tenant_type_dict.get(row[7], None)
+            contact = contact_dict.get(row[14], None)
+            cost_center = cost_center_dict.get(row[15], None)
             timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
             if config.utc_offset[0] == '-':
                 timezone_offset = -timezone_offset
-            lease_start_datetime_local = row['lease_start_datetime_utc'].replace(tzinfo=timezone.utc) + \
+            lease_start_datetime_local = row[11].replace(tzinfo=timezone.utc) + \
                 timedelta(minutes=timezone_offset)
-            lease_end_datetime_local = row['lease_end_datetime_utc'].replace(tzinfo=timezone.utc) + \
+            lease_end_datetime_local = row[12].replace(tzinfo=timezone.utc) + \
                 timedelta(minutes=timezone_offset)
 
-            meta_result = {"id": row['id'],
-                           "name": row['name'],
-                           "uuid": row['uuid'],
-                           "buildings": row['buildings'],
-                           "floors": row['floors'],
-                           "rooms": row['rooms'],
-                           "area": row['area'],
+            meta_result = {"id": row[0],
+                           "name": row[1],
+                           "uuid": row[2],
+                           "buildings": row[3],
+                           "floors": row[4],
+                           "rooms": row[5],
+                           "area": row[6],
                            "tenant_type": tenant_type,
-                           "is_input_counted": bool(row['is_input_counted']),
-                           "is_key_tenant": bool(row['is_key_tenant']),
-                           "lease_number": row['lease_number'],
+                           "is_key_tenant": bool(row[8]),
+                           "is_input_counted": bool(row[9]),
+                           "lease_number": row[10],
                            "lease_start_datetime": lease_start_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
                            "lease_end_datetime": lease_end_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
-                           "is_in_lease": bool(row['is_in_lease']),
+                           "is_in_lease": bool(row[13]),
                            "contact": contact,
                            "cost_center": cost_center,
-                           "description": row['description'],
-                           "qrcode": 'tenant:' + row['uuid']}
+                           "description": row[16],
+                           "qrcode": 'tenant:' + row[2]}
 
         resp.text = json.dumps(meta_result)
 
@@ -728,7 +728,7 @@ class TenantMeterCollection:
                                    description='API.INVALID_TENANT_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
                        " FROM tbl_tenants "
@@ -747,9 +747,9 @@ class TenantMeterCollection:
         energy_category_dict = dict()
         if rows_energy_categories is not None and len(rows_energy_categories) > 0:
             for row in rows_energy_categories:
-                energy_category_dict[row['id']] = {"id": row['id'],
-                                                   "name": row['name'],
-                                                   "uuid": row['uuid']}
+                energy_category_dict[row[0]] = {"id": row[0],
+                                                "name": row[1],
+                                                "uuid": row[2]}
 
         query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id "
                  " FROM tbl_tenants t, tbl_tenants_meters tm, tbl_meters m "
@@ -761,8 +761,8 @@ class TenantMeterCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                energy_category = energy_category_dict.get(row['energy_category_id'], None)
-                meta_result = {"id": row['id'], "name": row['name'], "uuid": row['uuid'],
+                energy_category = energy_category_dict.get(row[3], None)
+                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
                                "energy_category": energy_category}
                 result.append(meta_result)
 
@@ -912,7 +912,7 @@ class TenantOfflineMeterCollection:
                                    description='API.INVALID_TENANT_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
                        " FROM tbl_tenants "
@@ -931,9 +931,9 @@ class TenantOfflineMeterCollection:
         energy_category_dict = dict()
         if rows_energy_categories is not None and len(rows_energy_categories) > 0:
             for row in rows_energy_categories:
-                energy_category_dict[row['id']] = {"id": row['id'],
-                                                   "name": row['name'],
-                                                   "uuid": row['uuid']}
+                energy_category_dict[row[0]] = {"id": row[0],
+                                                "name": row[1],
+                                                "uuid": row[2]}
 
         query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id "
                  " FROM tbl_tenants s, tbl_tenants_offline_meters sm, tbl_offline_meters m "
@@ -945,8 +945,8 @@ class TenantOfflineMeterCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                energy_category = energy_category_dict.get(row['energy_category_id'], None)
-                meta_result = {"id": row['id'], "name": row['name'], "uuid": row['uuid'],
+                energy_category = energy_category_dict.get(row[3], None)
+                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
                                "energy_category": energy_category}
                 result.append(meta_result)
 
@@ -1097,7 +1097,7 @@ class TenantPointCollection:
                                    description='API.INVALID_TENANT_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
                        " FROM tbl_tenants "
@@ -1116,9 +1116,9 @@ class TenantPointCollection:
         data_source_dict = dict()
         if rows_data_sources is not None and len(rows_data_sources) > 0:
             for row in rows_data_sources:
-                data_source_dict[row['id']] = {"id": row['id'],
-                                               "name": row['name'],
-                                               "uuid": row['uuid']}
+                data_source_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
 
         query = (" SELECT p.id, p.name, p.data_source_id "
                  " FROM tbl_tenants t, tbl_tenants_points tp, tbl_points p "
@@ -1130,8 +1130,8 @@ class TenantPointCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                data_source = data_source_dict.get(row['data_source_id'], None)
-                meta_result = {"id": row['id'], "name": row['name'], "data_source": data_source}
+                data_source = data_source_dict.get(row[2], None)
+                meta_result = {"id": row[0], "name": row[1], "data_source": data_source}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -1451,7 +1451,7 @@ class TenantVirtualMeterCollection:
                                    description='API.INVALID_TENANT_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
                        " FROM tbl_tenants "
@@ -1470,9 +1470,9 @@ class TenantVirtualMeterCollection:
         energy_category_dict = dict()
         if rows_energy_categories is not None and len(rows_energy_categories) > 0:
             for row in rows_energy_categories:
-                energy_category_dict[row['id']] = {"id": row['id'],
-                                                   "name": row['name'],
-                                                   "uuid": row['uuid']}
+                energy_category_dict[row[0]] = {"id": row[0],
+                                                "name": row[1],
+                                                "uuid": row[2]}
 
         query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id "
                  " FROM tbl_tenants t, tbl_tenants_virtual_meters tm, tbl_virtual_meters m "
@@ -1484,8 +1484,8 @@ class TenantVirtualMeterCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                energy_category = energy_category_dict.get(row['energy_category_id'], None)
-                meta_result = {"id": row['id'], "name": row['name'], "uuid": row['uuid'],
+                energy_category = energy_category_dict.get(row[3], None)
+                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
                                "energy_category": energy_category}
                 result.append(meta_result)
 

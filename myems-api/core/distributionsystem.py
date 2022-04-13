@@ -19,7 +19,7 @@ class DistributionSystemCollection:
     @staticmethod
     def on_get(req, resp):
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid, "
                  "        svg, description "
@@ -32,11 +32,11 @@ class DistributionSystemCollection:
         if rows_distribution_systems is not None and len(rows_distribution_systems) > 0:
             for row in rows_distribution_systems:
 
-                meta_result = {"id": row['id'],
-                               "name": row['name'],
-                               "uuid": row['uuid'],
-                               "svg": row['svg'],
-                               "description": row['description']}
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
+                               "svg": row[3],
+                               "description": row[4]}
                 result.append(meta_result)
 
         cursor.close()
@@ -121,7 +121,7 @@ class DistributionSystemItem:
                                    description='API.INVALID_METER_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid, "
                  "        svg, description "
@@ -136,11 +136,11 @@ class DistributionSystemItem:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DISTRIBUTION_SYSTEM_NOT_FOUND')
         else:
-            meta_result = {"id": row['id'],
-                           "name": row['name'],
-                           "uuid": row['uuid'],
-                           "svg": row['svg'],
-                           "description": row['description']}
+            meta_result = {"id": row[0],
+                           "name": row[1],
+                           "uuid": row[2],
+                           "svg": row[3],
+                           "description": row[4]}
 
         resp.text = json.dumps(meta_result)
 
@@ -265,7 +265,7 @@ class DistributionSystemDistributionCircuitCollection:
                                    description='API.INVALID_DISTRIBUTION_SYSTEM_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
                        " FROM tbl_distribution_systems "
@@ -287,10 +287,10 @@ class DistributionSystemDistributionCircuitCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                meta_result = {"id": row['id'], "name": row['name'], "uuid": row['uuid'],
-                               "distribution_room": row['distribution_room'], "switchgear": row['switchgear'],
-                               "peak_load": row['peak_load'], "peak_current": row['peak_current'],
-                               "customers": row['customers'], "meters": row['meters']}
+                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
+                               "distribution_room": row[3], "switchgear": row[4],
+                               "peak_load": row[5], "peak_current": row[6],
+                               "customers": row[7], "meters": row[8]}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)

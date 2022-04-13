@@ -83,8 +83,10 @@ class WechatMessageCollection(object):
                                "recipient_openid": row[2],
                                "message_template_id": row[3],
                                "message_data": row[4],
-                               "created_datetime_utc": row[5].timestamp() * 1000 if isinstance(row[5], datetime) else None,
-                               "scheduled_datetime_utc": row[6].timestamp() * 1000 if isinstance(row[6], datetime) else None,
+                               "created_datetime_utc":
+                                   row[5].timestamp() * 1000 if isinstance(row[5], datetime) else None,
+                               "scheduled_datetime_utc":
+                                   row[6].timestamp() * 1000 if isinstance(row[6], datetime) else None,
                                "acknowledge_code": row[7],
                                "status": row[8]}
                 result.append(meta_result)

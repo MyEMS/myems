@@ -18,7 +18,7 @@ class MenuCollection:
     @staticmethod
     def on_get(req, resp):
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT id, name, route, parent_menu_id, is_hidden "
                  " FROM tbl_menus "
@@ -29,11 +29,11 @@ class MenuCollection:
         result = list()
         if rows_menus is not None and len(rows_menus) > 0:
             for row in rows_menus:
-                temp = {"id": row['id'],
-                        "name": row['name'],
-                        "route": row['route'],
-                        "parent_menu_id": row['parent_menu_id'],
-                        "is_hidden": bool(row['is_hidden'])}
+                temp = {"id": row[0],
+                        "name": row[1],
+                        "route": row[2],
+                        "parent_menu_id": row[3],
+                        "is_hidden": bool(row[4])}
 
                 result.append(temp)
 
@@ -59,7 +59,7 @@ class MenuItem:
                                    description='API.INVALID_MENU_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT id, name, route, parent_menu_id, is_hidden "
                  " FROM tbl_menus "
@@ -69,11 +69,11 @@ class MenuItem:
 
         result = None
         if rows_menu is not None and len(rows_menu) > 0:
-            result = {"id": rows_menu['id'],
-                      "name": rows_menu['name'],
-                      "route": rows_menu['route'],
-                      "parent_menu_id": rows_menu['parent_menu_id'],
-                      "is_hidden": bool(rows_menu['is_hidden'])}
+            result = {"id": rows_menu[0],
+                      "name": rows_menu[1],
+                      "route": rows_menu[2],
+                      "parent_menu_id": rows_menu[3],
+                      "is_hidden": bool(rows_menu[4])}
 
         cursor.close()
         cnx.close()
@@ -133,7 +133,7 @@ class MenuChildrenCollection:
                                    description='API.INVALID_MENU_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT id, name, route, parent_menu_id, is_hidden "
                  " FROM tbl_menus "
@@ -155,15 +155,15 @@ class MenuChildrenCollection:
         menu_dict = dict()
         if rows_menus is not None and len(rows_menus) > 0:
             for row in rows_menus:
-                menu_dict[row['id']] = {"id": row['id'],
-                                        "name": row['name']}
+                menu_dict[row[0]] = {"id": row[0],
+                                     "name": row[1]}
 
         result = dict()
         result['current'] = dict()
-        result['current']['id'] = row_current_menu['id']
-        result['current']['name'] = row_current_menu['name']
-        result['current']['parent_menu'] = menu_dict.get(row_current_menu['parent_menu_id'], None)
-        result['current']['is_hidden'] = bool(row_current_menu['is_hidden'])
+        result['current']['id'] = row_current_menu[0]
+        result['current']['name'] = row_current_menu[1]
+        result['current']['parent_menu'] = menu_dict.get(row_current_menu[3], None)
+        result['current']['is_hidden'] = bool(row_current_menu[4])
 
         result['children'] = list()
 
@@ -176,11 +176,11 @@ class MenuChildrenCollection:
 
         if rows_menus is not None and len(rows_menus) > 0:
             for row in rows_menus:
-                parent_menu = menu_dict.get(row['parent_menu_id'], None)
-                meta_result = {"id": row['id'],
-                               "name": row['name'],
+                parent_menu = menu_dict.get(row[3], None)
+                meta_result = {"id": row[0],
+                               "name": row[1],
                                "parent_menu": parent_menu,
-                               "is_hidden": bool(row['is_hidden'])}
+                               "is_hidden": bool(row[4])}
                 result['children'].append(meta_result)
 
         cursor.close()
@@ -201,7 +201,7 @@ class MenuWebCollection:
     @staticmethod
     def on_get(req, resp):
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT id, route, parent_menu_id "
                  " FROM tbl_menus "
@@ -212,8 +212,8 @@ class MenuWebCollection:
         first_level_routes = {}
         if rows_menus is not None and len(rows_menus) > 0:
             for row in rows_menus:
-                first_level_routes[row['id']] = {
-                    'route': row['route'],
+                first_level_routes[row[0]] = {
+                    'route': row[1],
                     'children': []
                 }
 
@@ -225,8 +225,8 @@ class MenuWebCollection:
 
         if rows_menus is not None and len(rows_menus) > 0:
             for row in rows_menus:
-                if row['parent_menu_id'] in first_level_routes.keys():
-                    first_level_routes[row['parent_menu_id']]['children'].append(row['route'])
+                if row[2] in first_level_routes.keys():
+                    first_level_routes[row[2]]['children'].append(row[1])
 
         result = dict()
         for _id, item in first_level_routes.items():
