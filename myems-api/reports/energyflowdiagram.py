@@ -87,7 +87,7 @@ class Reporting:
         ################################################################################################################
 
         cnx_system = mysql.connector.connect(**config.myems_system_db)
-        cursor_system = cnx_system.cursor(dictionary=True)
+        cursor_system = cnx_system.cursor()
 
         query = (" SELECT name, uuid "
                  " FROM tbl_energy_flow_diagrams "
@@ -103,8 +103,8 @@ class Reporting:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_NOT_FOUND')
         else:
-            energy_flow_diagram_name = row['name']
-            energy_flow_diagram_uuid = row['uuid']
+            energy_flow_diagram_name = row[0]
+            energy_flow_diagram_uuid = row[1]
 
         ################################################################################################################
         # Step 3: query nodes
@@ -119,10 +119,10 @@ class Reporting:
         node_list_dict = dict()
         if rows_nodes is not None and len(rows_nodes) > 0:
             for row in rows_nodes:
-                node_dict[row['id']] = row['name']
-                if node_list_dict.get(row['energy_flow_diagram_id']) is None:
-                    node_list_dict[row['energy_flow_diagram_id']] = list()
-                node_list_dict[row['energy_flow_diagram_id']].append({"id": row['id'], "name": row['name']})
+                node_dict[row[0]] = row[2]
+                if node_list_dict.get(row[1]) is None:
+                    node_list_dict[row[1]] = list()
+                node_list_dict[row[1]].append({"id": row[0], "name": row[2]})
 
         ################################################################################################################
         # Step 4: query links
@@ -135,10 +135,10 @@ class Reporting:
         meter_dict = dict()
         if rows_meters is not None and len(rows_meters) > 0:
             for row in rows_meters:
-                meter_dict[row['uuid']] = {"type": 'meter',
-                                           "id": row['id'],
-                                           "name": row['name'],
-                                           "uuid": row['uuid']}
+                meter_dict[row[2]] = {"type": 'meter',
+                                      "id": row[0],
+                                      "name": row[1],
+                                      "uuid": row[2]}
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_offline_meters ")
@@ -148,10 +148,10 @@ class Reporting:
         offline_meter_dict = dict()
         if rows_offline_meters is not None and len(rows_offline_meters) > 0:
             for row in rows_offline_meters:
-                offline_meter_dict[row['uuid']] = {"type": 'offline_meter',
-                                                   "id": row['id'],
-                                                   "name": row['name'],
-                                                   "uuid": row['uuid']}
+                offline_meter_dict[row[2]] = {"type": 'offline_meter',
+                                              "id": row[0],
+                                              "name": row[1],
+                                              "uuid": row[2]}
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_virtual_meters ")
@@ -161,10 +161,10 @@ class Reporting:
         virtual_meter_dict = dict()
         if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
             for row in rows_virtual_meters:
-                virtual_meter_dict[row['uuid']] = {"type": 'virtual_meter',
-                                                   "id": row['id'],
-                                                   "name": row['name'],
-                                                   "uuid": row['uuid']}
+                virtual_meter_dict[row[2]] = {"type": 'virtual_meter',
+                                              "id": row[0],
+                                              "name": row[1],
+                                              "uuid": row[2]}
 
         query = (" SELECT id, energy_flow_diagram_id, source_node_id, target_node_id, meter_uuid "
                  " FROM tbl_energy_flow_diagrams_links")
@@ -175,23 +175,23 @@ class Reporting:
         if rows_links is not None and len(rows_links) > 0:
             for row in rows_links:
                 # find meter by uuid
-                meter = meter_dict.get(row['meter_uuid'], None)
+                meter = meter_dict.get(row[4], None)
                 if meter is None:
-                    meter = virtual_meter_dict.get(row['meter_uuid'], None)
+                    meter = virtual_meter_dict.get(row[4], None)
                 if meter is None:
-                    meter = offline_meter_dict.get(row['meter_uuid'], None)
+                    meter = offline_meter_dict.get(row[4], None)
 
-                if link_list_dict.get(row['energy_flow_diagram_id']) is None:
-                    link_list_dict[row['energy_flow_diagram_id']] = list()
-                link_list_dict[row['energy_flow_diagram_id']].append({"id": row['id'],
-                                                                      "source_node": {
-                                                                          "id": row['source_node_id'],
-                                                                          "name": node_dict.get(row['source_node_id'])},
-                                                                      "target_node": {
-                                                                          "id": row['target_node_id'],
-                                                                          "name": node_dict.get(row['target_node_id'])},
-                                                                      "meter": meter,
-                                                                      "value": None})
+                if link_list_dict.get(row[1]) is None:
+                    link_list_dict[row[1]] = list()
+                link_list_dict[row[1]].append({"id": row[0],
+                                               "source_node": {
+                                                   "id": row[2],
+                                                   "name": node_dict.get(row[2])},
+                                               "target_node": {
+                                                   "id": row[3],
+                                                   "name": node_dict.get(row[3])},
+                                               "meter": meter,
+                                               "value": None})
 
         meta_result = {"id": energy_flow_diagram_id,
                        "name": energy_flow_diagram_name,
