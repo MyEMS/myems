@@ -22,7 +22,7 @@ class SpaceCollection:
     @staticmethod
     def on_get(req, resp):
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_spaces ")
@@ -32,9 +32,9 @@ class SpaceCollection:
         space_dict = dict()
         if rows_spaces is not None and len(rows_spaces) > 0:
             for row in rows_spaces:
-                space_dict[row['id']] = {"id": row['id'],
-                                         "name": row['name'],
-                                         "uuid": row['uuid']}
+                space_dict[row[0]] = {"id": row[0],
+                                      "name": row[1],
+                                      "uuid": row[2]}
 
         query = (" SELECT id, name, utc_offset "
                  " FROM tbl_timezones ")
@@ -44,9 +44,9 @@ class SpaceCollection:
         timezone_dict = dict()
         if rows_timezones is not None and len(rows_timezones) > 0:
             for row in rows_timezones:
-                timezone_dict[row['id']] = {"id": row['id'],
-                                            "name": row['name'],
-                                            "utc_offset": row['utc_offset']}
+                timezone_dict[row[0]] = {"id": row[0],
+                                         "name": row[1],
+                                         "utc_offset": row[2]}
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_contacts ")
@@ -56,9 +56,9 @@ class SpaceCollection:
         contact_dict = dict()
         if rows_contacts is not None and len(rows_contacts) > 0:
             for row in rows_contacts:
-                contact_dict[row['id']] = {"id": row['id'],
-                                           "name": row['name'],
-                                           "uuid": row['uuid']}
+                contact_dict[row[0]] = {"id": row[0],
+                                        "name": row[1],
+                                        "uuid": row[2]}
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_cost_centers ")
@@ -68,9 +68,9 @@ class SpaceCollection:
         cost_center_dict = dict()
         if rows_cost_centers is not None and len(rows_cost_centers) > 0:
             for row in rows_cost_centers:
-                cost_center_dict[row['id']] = {"id": row['id'],
-                                               "name": row['name'],
-                                               "uuid": row['uuid']}
+                cost_center_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, "
                  "        parent_space_id, area, timezone_id, is_input_counted, is_output_counted, "
@@ -83,22 +83,22 @@ class SpaceCollection:
         result = list()
         if rows_spaces is not None and len(rows_spaces) > 0:
             for row in rows_spaces:
-                timezone = timezone_dict.get(row['timezone_id'], None)
-                contact = contact_dict.get(row['contact_id'], None)
-                cost_center = cost_center_dict.get(row['cost_center_id'], None)
-                parent_space = space_dict.get(row['parent_space_id'], None)
-                meta_result = {"id": row['id'],
-                               "name": row['name'],
-                               "uuid": row['uuid'],
+                timezone = timezone_dict.get(row[5], None)
+                contact = contact_dict.get(row[8], None)
+                cost_center = cost_center_dict.get(row[9], None)
+                parent_space = space_dict.get(row[3], None)
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
                                "parent_space": parent_space,
-                               "area": row['area'],
+                               "area": row[4],
                                "timezone": timezone,
-                               "is_input_counted": bool(row['is_input_counted']),
-                               "is_output_counted": bool(row['is_output_counted']),
+                               "is_input_counted": bool(row[6]),
+                               "is_output_counted": bool(row[7]),
                                "contact": contact,
                                "cost_center": cost_center,
-                               "description": row['description'],
-                               "qrcode": "space:" + row['uuid']}
+                               "description": row[10],
+                               "qrcode": "space:" + row[2]}
                 result.append(meta_result)
 
         cursor.close()
@@ -278,7 +278,7 @@ class SpaceItem:
                                    description='API.INVALID_METER_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_spaces ")
@@ -288,9 +288,9 @@ class SpaceItem:
         space_dict = dict()
         if rows_spaces is not None and len(rows_spaces) > 0:
             for row in rows_spaces:
-                space_dict[row['id']] = {"id": row['id'],
-                                         "name": row['name'],
-                                         "uuid": row['uuid']}
+                space_dict[row[0]] = {"id": row[0],
+                                      "name": row[1],
+                                      "uuid": row[2]}
 
         query = (" SELECT id, name, utc_offset "
                  " FROM tbl_timezones ")
@@ -300,9 +300,9 @@ class SpaceItem:
         timezone_dict = dict()
         if rows_timezones is not None and len(rows_timezones) > 0:
             for row in rows_timezones:
-                timezone_dict[row['id']] = {"id": row['id'],
-                                            "name": row['name'],
-                                            "utc_offset": row['utc_offset']}
+                timezone_dict[row[0]] = {"id": row[0],
+                                         "name": row[1],
+                                         "utc_offset": row[2]}
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_contacts ")
@@ -312,9 +312,9 @@ class SpaceItem:
         contact_dict = dict()
         if rows_contacts is not None and len(rows_contacts) > 0:
             for row in rows_contacts:
-                contact_dict[row['id']] = {"id": row['id'],
-                                           "name": row['name'],
-                                           "uuid": row['uuid']}
+                contact_dict[row[0]] = {"id": row[0],
+                                        "name": row[1],
+                                        "uuid": row[2]}
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_cost_centers ")
@@ -324,9 +324,9 @@ class SpaceItem:
         cost_center_dict = dict()
         if rows_cost_centers is not None and len(rows_cost_centers) > 0:
             for row in rows_cost_centers:
-                cost_center_dict[row['id']] = {"id": row['id'],
-                                               "name": row['name'],
-                                               "uuid": row['uuid']}
+                cost_center_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, "
                  "        parent_space_id, area, timezone_id, is_input_counted, is_output_counted, "
@@ -342,22 +342,22 @@ class SpaceItem:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
         else:
-            parent_space = space_dict.get(row['parent_space_id'], None)
-            timezone = timezone_dict.get(row['timezone_id'], None)
-            contact = contact_dict.get(row['contact_id'], None)
-            cost_center = cost_center_dict.get(row['cost_center_id'], None)
-            meta_result = {"id": row['id'],
-                           "name": row['name'],
-                           "uuid": row['uuid'],
+            parent_space = space_dict.get(row[3], None)
+            timezone = timezone_dict.get(row[5], None)
+            contact = contact_dict.get(row[8], None)
+            cost_center = cost_center_dict.get(row[9], None)
+            meta_result = {"id": row[0],
+                           "name": row[1],
+                           "uuid": row[2],
                            "parent_space_id": parent_space,
-                           "area": row['area'],
+                           "area": row[4],
                            "timezone": timezone,
-                           "is_input_counted": bool(row['is_input_counted']),
-                           "is_output_counted": bool(row['is_output_counted']),
+                           "is_input_counted": bool(row[6]),
+                           "is_output_counted": bool(row[7]),
                            "contact": contact,
                            "cost_center": cost_center,
-                           "description": row['description'],
-                           "qrcode": "space:" + row['uuid']}
+                           "description": row[10],
+                           "qrcode": "space:" + row[2]}
 
         resp.text = json.dumps(meta_result)
 
@@ -709,7 +709,7 @@ class SpaceChildrenCollection:
                                    description='API.INVALID_SPACE_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid, "
                  "        parent_space_id, area, timezone_id, is_input_counted, is_output_counted, "
@@ -733,9 +733,9 @@ class SpaceChildrenCollection:
         space_dict = dict()
         if rows_spaces is not None and len(rows_spaces) > 0:
             for row in rows_spaces:
-                space_dict[row['id']] = {"id": row['id'],
-                                         "name": row['name'],
-                                         "uuid": row['uuid']}
+                space_dict[row[0]] = {"id": row[0],
+                                      "name": row[1],
+                                      "uuid": row[2]}
 
         query = (" SELECT id, name, utc_offset "
                  " FROM tbl_timezones ")
@@ -745,9 +745,9 @@ class SpaceChildrenCollection:
         timezone_dict = dict()
         if rows_timezones is not None and len(rows_timezones) > 0:
             for row in rows_timezones:
-                timezone_dict[row['id']] = {"id": row['id'],
-                                            "name": row['name'],
-                                            "utc_offset": row['utc_offset']}
+                timezone_dict[row[0]] = {"id": row[0],
+                                         "name": row[1],
+                                         "utc_offset": row[2]}
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_contacts ")
@@ -757,9 +757,9 @@ class SpaceChildrenCollection:
         contact_dict = dict()
         if rows_contacts is not None and len(rows_contacts) > 0:
             for row in rows_contacts:
-                contact_dict[row['id']] = {"id": row['id'],
-                                           "name": row['name'],
-                                           "uuid": row['uuid']}
+                contact_dict[row[0]] = {"id": row[0],
+                                        "name": row[1],
+                                        "uuid": row[2]}
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_cost_centers ")
@@ -769,23 +769,23 @@ class SpaceChildrenCollection:
         cost_center_dict = dict()
         if rows_cost_centers is not None and len(rows_cost_centers) > 0:
             for row in rows_cost_centers:
-                cost_center_dict[row['id']] = {"id": row['id'],
-                                               "name": row['name'],
-                                               "uuid": row['uuid']}
+                cost_center_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
         result = dict()
         result['current'] = dict()
-        result['current']['id'] = row_current_space['id']
-        result['current']['name'] = row_current_space['name']
-        result['current']['uuid'] = row_current_space['uuid']
-        result['current']['parent_space'] = space_dict.get(row_current_space['parent_space_id'], None)
-        result['current']['area'] = row_current_space['area']
-        result['current']['timezone'] = timezone_dict.get(row_current_space['timezone_id'], None)
-        result['current']['is_input_counted'] = bool(row_current_space['is_input_counted'])
-        result['current']['is_output_counted'] = bool(row_current_space['is_output_counted'])
-        result['current']['contact'] = contact_dict.get(row_current_space['contact_id'], None)
-        result['current']['cost_center'] = cost_center_dict.get(row_current_space['cost_center_id'], None)
-        result['current']['description'] = row_current_space['description']
-        result['current']['qrcode'] = 'space:' + row_current_space['uuid']
+        result['current']['id'] = row_current_space[0]
+        result['current']['name'] = row_current_space[1]
+        result['current']['uuid'] = row_current_space[2]
+        result['current']['parent_space'] = space_dict.get(row_current_space[3], None)
+        result['current']['area'] = row_current_space[4]
+        result['current']['timezone'] = timezone_dict.get(row_current_space[5], None)
+        result['current']['is_input_counted'] = bool(row_current_space[6])
+        result['current']['is_output_counted'] = bool(row_current_space[7])
+        result['current']['contact'] = contact_dict.get(row_current_space[8], None)
+        result['current']['cost_center'] = cost_center_dict.get(row_current_space[9], None)
+        result['current']['description'] = row_current_space[10]
+        result['current']['qrcode'] = 'space:' + row_current_space[2]
 
         result['children'] = list()
 
@@ -800,22 +800,22 @@ class SpaceChildrenCollection:
 
         if rows_spaces is not None and len(rows_spaces) > 0:
             for row in rows_spaces:
-                timezone = timezone_dict.get(row['timezone_id'], None)
-                contact = contact_dict.get(row['contact_id'], None)
-                cost_center = cost_center_dict.get(row['cost_center_id'], None)
-                parent_space = space_dict.get(row['parent_space_id'], None)
-                meta_result = {"id": row['id'],
-                               "name": row['name'],
-                               "uuid": row['uuid'],
+                timezone = timezone_dict.get(row[5], None)
+                contact = contact_dict.get(row[8], None)
+                cost_center = cost_center_dict.get(row[9], None)
+                parent_space = space_dict.get(row[3], None)
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
                                "parent_space": parent_space,
-                               "area": row['area'],
+                               "area": row[4],
                                "timezone": timezone,
-                               "is_input_counted": bool(row['is_input_counted']),
-                               "is_output_counted": bool(row['is_output_counted']),
+                               "is_input_counted": bool(row[6]),
+                               "is_output_counted": bool(row[7]),
                                "contact": contact,
                                "cost_center": cost_center,
-                               "description": row['description'],
-                               "qrcode": 'space:' + row['uuid']}
+                               "description": row[10],
+                               "qrcode": 'space:' + row[2]}
                 result['children'].append(meta_result)
 
         cursor.close()
@@ -1181,7 +1181,7 @@ class SpaceMeterCollection:
                                    description='API.INVALID_SPACE_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
                        " FROM tbl_spaces "
@@ -1200,9 +1200,9 @@ class SpaceMeterCollection:
         energy_category_dict = dict()
         if rows_energy_categories is not None and len(rows_energy_categories) > 0:
             for row in rows_energy_categories:
-                energy_category_dict[row['id']] = {"id": row['id'],
-                                                   "name": row['name'],
-                                                   "uuid": row['uuid']}
+                energy_category_dict[row[0]] = {"id": row[0],
+                                                "name": row[1],
+                                                "uuid": row[2]}
 
         query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id "
                  " FROM tbl_spaces s, tbl_spaces_meters sm, tbl_meters m "
@@ -1214,8 +1214,8 @@ class SpaceMeterCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                energy_category = energy_category_dict.get(row['energy_category_id'], None)
-                meta_result = {"id": row['id'], "name": row['name'], "uuid": row['uuid'],
+                energy_category = energy_category_dict.get(row[3], None)
+                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
                                "energy_category": energy_category}
                 result.append(meta_result)
 
@@ -1367,7 +1367,7 @@ class SpaceOfflineMeterCollection:
                                    description='API.INVALID_SPACE_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
                        " FROM tbl_spaces "
@@ -1386,9 +1386,9 @@ class SpaceOfflineMeterCollection:
         energy_category_dict = dict()
         if rows_energy_categories is not None and len(rows_energy_categories) > 0:
             for row in rows_energy_categories:
-                energy_category_dict[row['id']] = {"id": row['id'],
-                                                   "name": row['name'],
-                                                   "uuid": row['uuid']}
+                energy_category_dict[row[0]] = {"id": row[0],
+                                                "name": row[1],
+                                                "uuid": row[2]}
 
         query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id "
                  " FROM tbl_spaces s, tbl_spaces_offline_meters sm, tbl_offline_meters m "
@@ -1400,8 +1400,8 @@ class SpaceOfflineMeterCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                energy_category = energy_category_dict.get(row['energy_category_id'], None)
-                meta_result = {"id": row['id'], "name": row['name'], "uuid": row['uuid'],
+                energy_category = energy_category_dict.get(row[3], None)
+                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
                                "energy_category": energy_category}
                 result.append(meta_result)
 
@@ -1552,7 +1552,7 @@ class SpacePointCollection:
                                    description='API.INVALID_SPACE_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
                        " FROM tbl_spaces "
@@ -1571,9 +1571,9 @@ class SpacePointCollection:
         data_source_dict = dict()
         if rows_data_sources is not None and len(rows_data_sources) > 0:
             for row in rows_data_sources:
-                data_source_dict[row['id']] = {"id": row['id'],
-                                               "name": row['name'],
-                                               "uuid": row['uuid']}
+                data_source_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
 
         query = (" SELECT p.id, p.name, p.data_source_id "
                  " FROM tbl_spaces s, tbl_spaces_points sp, tbl_points p "
@@ -1585,8 +1585,8 @@ class SpacePointCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                data_source = data_source_dict.get(row['data_source_id'], None)
-                meta_result = {"id": row['id'], "name": row['name'], "data_source": data_source}
+                data_source = data_source_dict.get(row[2], None)
+                meta_result = {"id": row[0], "name": row[1], "data_source": data_source}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -2416,7 +2416,7 @@ class SpaceVirtualMeterCollection:
                                    description='API.INVALID_SPACE_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
                        " FROM tbl_spaces "
@@ -2435,9 +2435,9 @@ class SpaceVirtualMeterCollection:
         energy_category_dict = dict()
         if rows_energy_categories is not None and len(rows_energy_categories) > 0:
             for row in rows_energy_categories:
-                energy_category_dict[row['id']] = {"id": row['id'],
-                                                   "name": row['name'],
-                                                   "uuid": row['uuid']}
+                energy_category_dict[row[0]] = {"id": row[0],
+                                                "name": row[1],
+                                                "uuid": row[2]}
 
         query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id "
                  " FROM tbl_spaces s, tbl_spaces_virtual_meters sm, tbl_virtual_meters m "
@@ -2449,8 +2449,8 @@ class SpaceVirtualMeterCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                energy_category = energy_category_dict.get(row['energy_category_id'], None)
-                meta_result = {"id": row['id'], "name": row['name'], "uuid": row['uuid'],
+                energy_category = energy_category_dict.get(row[3], None)
+                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
                                "energy_category": energy_category}
                 result.append(meta_result)
 
@@ -2678,7 +2678,7 @@ class SpaceTreeCollection:
                                        description='API.PRIVILEGE_NOT_FOUND')
         # get all spaces
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT id, name, parent_space_id "
                  " FROM tbl_spaces "
@@ -2688,8 +2688,8 @@ class SpaceTreeCollection:
         node_dict = dict()
         if rows_spaces is not None and len(rows_spaces) > 0:
             for row in rows_spaces:
-                parent_node = node_dict[row['parent_space_id']] if row['parent_space_id'] is not None else None
-                node_dict[row['id']] = AnyNode(id=row['id'], parent=parent_node, name=row['name'])
+                parent_node = node_dict[row[2]] if row[2] is not None else None
+                node_dict[row[0]] = AnyNode(id=row[0], parent=parent_node, name=row[1])
 
         cursor.close()
         cnx.close()

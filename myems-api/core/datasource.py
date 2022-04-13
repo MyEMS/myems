@@ -21,7 +21,7 @@ class DataSourceCollection:
     def on_get(req, resp):
         access_control(req)
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_gateways ")
@@ -30,9 +30,9 @@ class DataSourceCollection:
         gateway_dict = dict()
         if rows_gateways is not None and len(rows_gateways) > 0:
             for row in rows_gateways:
-                gateway_dict[row['id']] = {"id": row['id'],
-                                           "name": row['name'],
-                                           "uuid": row['uuid']}
+                gateway_dict[row[0]] = {"id": row[0],
+                                        "name": row[1],
+                                        "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, gateway_id, protocol, connection, last_seen_datetime_utc "
                  " FROM tbl_data_sources "
@@ -49,18 +49,17 @@ class DataSourceCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                if isinstance(row['last_seen_datetime_utc'], datetime):
-                    last_seen_datetime_local = row['last_seen_datetime_utc'].replace(tzinfo=timezone.utc) + \
-                                               timedelta(minutes=timezone_offset)
+                if isinstance(row[6], datetime):
+                    last_seen_datetime_local = row[6].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
                     last_seen_datetime = last_seen_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
                 else:
                     last_seen_datetime = None
-                meta_result = {"id": row['id'],
-                               "name": row['name'],
-                               "uuid": row['uuid'],
-                               "gateway": gateway_dict.get(row['gateway_id']),
-                               "protocol": row['protocol'],
-                               "connection": row['connection'],
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
+                               "gateway": gateway_dict.get(row[3]),
+                               "protocol": row[4],
+                               "connection": row[5],
                                "last_seen_datetime": last_seen_datetime
                                }
 
@@ -179,7 +178,7 @@ class DataSourceItem:
                                    description='API.INVALID_DATA_SOURCE_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_gateways ")
@@ -188,9 +187,9 @@ class DataSourceItem:
         gateway_dict = dict()
         if rows_gateways is not None and len(rows_gateways) > 0:
             for row in rows_gateways:
-                gateway_dict[row['id']] = {"id": row['id'],
-                                           "name": row['name'],
-                                           "uuid": row['uuid']}
+                gateway_dict[row[0]] = {"id": row[0],
+                                        "name": row[1],
+                                        "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, gateway_id, protocol, connection, last_seen_datetime_utc "
                  " FROM tbl_data_sources "
@@ -207,19 +206,19 @@ class DataSourceItem:
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
 
-        if isinstance(row['last_seen_datetime_utc'], datetime):
-            last_seen_datetime_local = row['last_seen_datetime_utc'].replace(tzinfo=timezone.utc) + \
+        if isinstance(row[6], datetime):
+            last_seen_datetime_local = row[6].replace(tzinfo=timezone.utc) + \
                 timedelta(minutes=timezone_offset)
             last_seen_datetime = last_seen_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
         else:
             last_seen_datetime = None
 
-        result = {"id": row['id'],
-                  "name": row['name'],
-                  "uuid": row['uuid'],
-                  "gateway": gateway_dict.get(row['gateway_id']),
-                  "protocol": row['protocol'],
-                  "connection": row['connection'],
+        result = {"id": row[0],
+                  "name": row[1],
+                  "uuid": row[2],
+                  "gateway": gateway_dict.get(row[3]),
+                  "protocol": row[4],
+                  "connection": row[5],
                   "last_seen_datetime": last_seen_datetime
                   }
 
@@ -383,7 +382,7 @@ class DataSourcePointCollection:
                                    description='API.INVALID_DATA_SOURCE_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
                        " FROM tbl_data_sources "
@@ -407,17 +406,17 @@ class DataSourcePointCollection:
 
         if rows_point is not None and len(rows_point) > 0:
             for row in rows_point:
-                meta_result = {"id": row['id'],
-                               "name": row['name'],
-                               "object_type": row['object_type'],
-                               "units": row['units'],
-                               "high_limit": row['high_limit'],
-                               "low_limit": row['low_limit'],
-                               "ratio": float(row['ratio']),
-                               "is_trend": bool(row['is_trend']),
-                               "is_virtual": bool(row['is_virtual']),
-                               "address": row['address'],
-                               "description": row['description']}
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "object_type": row[2],
+                               "units": row[3],
+                               "high_limit": row[4],
+                               "low_limit": row[5],
+                               "ratio": float(row[6]),
+                               "is_trend": bool(row[7]),
+                               "is_virtual": bool(row[8]),
+                               "address": row[9],
+                               "description": row[10]}
                 result.append(meta_result)
 
         cursor.close()

@@ -19,7 +19,7 @@ class SensorCollection:
     @staticmethod
     def on_get(req, resp):
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid, description "
                  " FROM tbl_sensors "
@@ -30,10 +30,10 @@ class SensorCollection:
         result = list()
         if rows_sensors is not None and len(rows_sensors) > 0:
             for row in rows_sensors:
-                meta_result = {"id": row['id'],
-                               "name": row['name'],
-                               "uuid": row['uuid'],
-                               "description": row['description']}
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
+                               "description": row[3]}
                 result.append(meta_result)
 
         cursor.close()
@@ -110,7 +110,7 @@ class SensorItem:
                                    description='API.INVALID_SENSOR_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid, description "
                  " FROM tbl_sensors "
@@ -124,10 +124,10 @@ class SensorItem:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SENSOR_NOT_FOUND')
         else:
-            meta_result = {"id": row['id'],
-                           "name": row['name'],
-                           "uuid": row['uuid'],
-                           "description": row['description']}
+            meta_result = {"id": row[0],
+                           "name": row[1],
+                           "uuid": row[2],
+                           "description": row[3]}
 
         resp.text = json.dumps(meta_result)
 

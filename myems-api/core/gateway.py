@@ -21,8 +21,7 @@ class GatewayCollection:
     def on_get(req, resp):
         access_control(req)
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
-
+        cursor = cnx.cursor()
         query = (" SELECT id, name, uuid, token, last_seen_datetime_utc "
                  " FROM tbl_gateways "
                  " ORDER BY id ")
@@ -38,14 +37,14 @@ class GatewayCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                if isinstance(row['last_seen_datetime_utc'], datetime):
-                    last_seen_datetime_local = row['last_seen_datetime_utc'].replace(tzinfo=timezone.utc) + \
+                if isinstance(row[4], datetime):
+                    last_seen_datetime_local = row[4].replace(tzinfo=timezone.utc) + \
                                                timedelta(minutes=timezone_offset)
                     last_seen_datetime = last_seen_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
                 else:
                     last_seen_datetime = None
-                meta_result = {"id": row['id'], "name": row['name'], "uuid": row['uuid'],
-                               "token": row['token'],
+                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
+                               "token": row[3],
                                "last_seen_datetime": last_seen_datetime
                                }
                 result.append(meta_result)
@@ -115,7 +114,7 @@ class GatewayItem:
                                    description='API.INVALID_GATEWAY_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid, token, last_seen_datetime_utc "
                  " FROM tbl_gateways "
@@ -132,17 +131,17 @@ class GatewayItem:
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
 
-        if isinstance(row['last_seen_datetime_utc'], datetime):
-            last_seen_datetime_local = row['last_seen_datetime_utc'].replace(tzinfo=timezone.utc) + \
+        if isinstance(row[4], datetime):
+            last_seen_datetime_local = row[4].replace(tzinfo=timezone.utc) + \
                                        timedelta(minutes=timezone_offset)
             last_seen_datetime = last_seen_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
         else:
             last_seen_datetime = None
 
-        result = {"id": row['id'],
-                  "name": row['name'],
-                  "uuid": row['uuid'],
-                  "token": row['token'],
+        result = {"id": row[0],
+                  "name": row[1],
+                  "uuid": row[2],
+                  "token": row[3],
                   "last_seen_datetime": last_seen_datetime}
 
         resp.text = json.dumps(result)
@@ -262,7 +261,7 @@ class GatewayDataSourceCollection:
                                    description='API.INVALID_GATEWAY_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
                        " FROM tbl_gateways "
@@ -287,17 +286,17 @@ class GatewayDataSourceCollection:
         rows_data_source = cursor.fetchall()
         if rows_data_source is not None and len(rows_data_source) > 0:
             for row in rows_data_source:
-                if isinstance(row['last_seen_datetime_utc'], datetime):
-                    last_seen_datetime_local = row['last_seen_datetime_utc'].replace(tzinfo=timezone.utc) + \
+                if isinstance(row[5], datetime):
+                    last_seen_datetime_local = row[5].replace(tzinfo=timezone.utc) + \
                                                timedelta(minutes=timezone_offset)
                     last_seen_datetime = last_seen_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
                 else:
                     last_seen_datetime = None
-                meta_result = {"id": row['id'],
-                               "name": row['name'],
-                               "uuid": row['uuid'],
-                               "protocol": row['protocol'],
-                               "connection": row['connection'],
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
+                               "protocol": row[3],
+                               "connection": row[4],
                                "last_seen_datetime": last_seen_datetime,
                                }
                 result.append(meta_result)

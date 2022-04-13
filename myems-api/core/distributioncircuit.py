@@ -19,7 +19,7 @@ class DistributionCircuitCollection:
     @staticmethod
     def on_get(req, resp):
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_distribution_systems ")
@@ -29,9 +29,9 @@ class DistributionCircuitCollection:
         distribution_system_dict = dict()
         if rows_distribution_systems is not None and len(rows_distribution_systems) > 0:
             for row in rows_distribution_systems:
-                distribution_system_dict[row['id']] = {"id": row['id'],
-                                                       "name": row['name'],
-                                                       "uuid": row['uuid']}
+                distribution_system_dict[row[0]] = {"id": row[0],
+                                                    "name": row[1],
+                                                    "uuid": row[2]}
         query = (" SELECT id, name, uuid, distribution_system_id, "
                  "        distribution_room, switchgear, peak_load, peak_current, customers, meters "
                  " FROM tbl_distribution_circuits "
@@ -42,17 +42,17 @@ class DistributionCircuitCollection:
         result = list()
         if rows_distribution_circuits is not None and len(rows_distribution_circuits) > 0:
             for row in rows_distribution_circuits:
-                distribution_system = distribution_system_dict.get(row['distribution_system_id'])
-                meta_result = {"id": row['id'],
-                               "name": row['name'],
-                               "uuid": row['uuid'],
+                distribution_system = distribution_system_dict.get(row[3])
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
                                "distribution_system": distribution_system,
-                               "distribution_room": row['distribution_room'],
-                               "switchgear": row['switchgear'],
-                               "peak_load": row['peak_load'],
-                               "peak_current": row['peak_current'],
-                               "customers": row['customers'],
-                               "meters": row['meters']}
+                               "distribution_room": row[4],
+                               "switchgear": row[5],
+                               "peak_load": row[6],
+                               "peak_current": row[7],
+                               "customers": row[8],
+                               "meters": row[9]}
                 result.append(meta_result)
 
         cursor.close()
@@ -189,7 +189,7 @@ class DistributionCircuitItem:
                                    description='API.INVALID_METER_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_distribution_systems ")
@@ -199,9 +199,9 @@ class DistributionCircuitItem:
         distribution_system_dict = dict()
         if rows_distribution_systems is not None and len(rows_distribution_systems) > 0:
             for row in rows_distribution_systems:
-                distribution_system_dict[row['id']] = {"id": row['id'],
-                                                       "name": row['name'],
-                                                       "uuid": row['uuid']}
+                distribution_system_dict[row[0]] = {"id": row[0],
+                                                    "name": row[1],
+                                                    "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, distribution_system_id, "
                  "        distribution_room, switchgear, peak_load, peak_current, customers, meters "
@@ -216,17 +216,17 @@ class DistributionCircuitItem:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DISTRIBUTION_CIRCUIT_NOT_FOUND')
         else:
-            distribution_system = distribution_system_dict.get(row['distribution_system_id'])
-            meta_result = {"id": row['id'],
-                           "name": row['name'],
-                           "uuid": row['uuid'],
+            distribution_system = distribution_system_dict.get(row[3])
+            meta_result = {"id": row[0],
+                           "name": row[1],
+                           "uuid": row[2],
                            "distribution_system": distribution_system,
-                           "distribution_room": row['distribution_room'],
-                           "switchgear": row['switchgear'],
-                           "peak_load": row['peak_load'],
-                           "peak_current": row['peak_current'],
-                           "customers": row['customers'],
-                           "meters": row['meters']}
+                           "distribution_room": row[4],
+                           "switchgear": row[5],
+                           "peak_load": row[6],
+                           "peak_current": row[7],
+                           "customers": row[8],
+                           "meters": row[9]}
 
         resp.text = json.dumps(meta_result)
 
@@ -395,7 +395,7 @@ class DistributionCircuitPointCollection:
                                    description='API.INVALID_DISTRIBUTION_CIRCUIT_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_distribution_systems ")
@@ -405,9 +405,9 @@ class DistributionCircuitPointCollection:
         distribution_system_dict = dict()
         if rows_distribution_systems is not None and len(rows_distribution_systems) > 0:
             for row in rows_distribution_systems:
-                distribution_system_dict[row['uuid']] = {"id": row['id'],
-                                                         "name": row['name'],
-                                                         "uuid": row['uuid']}
+                distribution_system_dict[row['uuid']] = {"id": row[0],
+                                                         "name": row[1],
+                                                         "uuid": row[2]}
 
         cursor.execute(" SELECT name "
                        " FROM tbl_distribution_circuits "
@@ -431,10 +431,10 @@ class DistributionCircuitPointCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                meta_result = {"id": row['point_id'], "name": row['point_name'], "address": row['point_address'],
-                               "distribution_circuit": {"id": row['distribution_circuit_id'],
-                                                        "name": row['distribution_circuit_name'],
-                                                        "uuid": row['distribution_circuit_uuid']}}
+                meta_result = {"id": row[0], "name": row[1], "address": row[2],
+                               "distribution_circuit": {"id": row[3],
+                                                        "name": row[4],
+                                                        "uuid": row[5]}}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)

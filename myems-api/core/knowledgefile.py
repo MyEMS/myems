@@ -23,7 +23,7 @@ class KnowledgeFileCollection:
     @staticmethod
     def on_get(req, resp):
         cnx = mysql.connector.connect(**config.myems_user_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT uuid, display_name "
                  " FROM tbl_users ")
@@ -35,10 +35,10 @@ class KnowledgeFileCollection:
         user_dict = dict()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                user_dict[row['uuid']] = row['display_name']
+                user_dict[row[0]] = row[1]
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT id, file_name, uuid, upload_datetime_utc, upload_user_uuid, file_object"
                  " FROM tbl_knowledge_files "
@@ -55,17 +55,17 @@ class KnowledgeFileCollection:
                 timezone_offset = -timezone_offset
             for row in rows:
                 # Base64 encode the bytes
-                base64_encoded_data = base64.b64encode(row['file_object'])
+                base64_encoded_data = base64.b64encode(row[5])
                 # get the Base64 encoded data using human-readable characters.
                 base64_message = base64_encoded_data.decode('utf-8')
-                upload_datetime_local = row['upload_datetime_utc'].replace(tzinfo=None) + \
+                upload_datetime_local = row[3].replace(tzinfo=None) + \
                     timedelta(minutes=timezone_offset)
-                meta_result = {"id": row['id'],
-                               "file_name": row['file_name'],
-                               "uuid": row['uuid'],
+                meta_result = {"id": row[0],
+                               "file_name": row[1],
+                               "uuid": row[2],
                                "upload_datetime": upload_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
-                               "user_display_name": user_dict.get(row['upload_user_uuid'], None),
-                               "file_size_bytes": sys.getsizeof(row['file_object']),
+                               "user_display_name": user_dict.get(row[4], None),
+                               "file_size_bytes": sys.getsizeof(row[5]),
                                "file_bytes_base64": base64_message
                                }
                 result.append(meta_result)

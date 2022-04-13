@@ -20,7 +20,7 @@ class PointCollection:
         """Handles GET requests"""
         access_control(req)
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_data_sources ")
@@ -30,9 +30,9 @@ class PointCollection:
         data_source_dict = dict()
         if rows_data_sources is not None and len(rows_data_sources) > 0:
             for row in rows_data_sources:
-                data_source_dict[row['id']] = {"id": row['id'],
-                                               "name": row['name'],
-                                               "uuid": row['uuid']}
+                data_source_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
 
         query = (" SELECT id, name, data_source_id, object_type, units, "
                  "        high_limit, low_limit, ratio, is_trend, is_virtual, address, description "
@@ -45,19 +45,19 @@ class PointCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                data_source = data_source_dict.get(row['data_source_id'], None)
-                meta_result = {"id": row['id'],
-                               "name": row['name'],
+                data_source = data_source_dict.get(row[2], None)
+                meta_result = {"id": row[0],
+                               "name": row[1],
                                "data_source": data_source,
-                               "object_type": row['object_type'],
-                               "units": row['units'],
-                               "high_limit": row['high_limit'],
-                               "low_limit": row['low_limit'],
-                               "ratio": float(row['ratio']),
-                               "is_trend": bool(row['is_trend']),
-                               "is_virtual": bool(row['is_virtual']),
-                               "address": row['address'],
-                               "description": row['description']}
+                               "object_type": row[3],
+                               "units": row[4],
+                               "high_limit": row[5],
+                               "low_limit": row[6],
+                               "ratio": float(row[7]),
+                               "is_trend": bool(row[8]),
+                               "is_virtual": bool(row[9]),
+                               "address": row[10],
+                               "description": row[11]}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -216,7 +216,7 @@ class PointItem:
                                    description='API.INVALID_POINT_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_data_sources ")
@@ -226,9 +226,9 @@ class PointItem:
         data_source_dict = dict()
         if rows_data_sources is not None and len(rows_data_sources) > 0:
             for row in rows_data_sources:
-                data_source_dict[row['id']] = {"id": row['id'],
-                                               "name": row['name'],
-                                               "uuid": row['uuid']}
+                data_source_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
 
         query = (" SELECT id, name, data_source_id, object_type, units, "
                  "        high_limit, low_limit, ratio, is_trend, is_virtual, address, description "
@@ -242,19 +242,19 @@ class PointItem:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
 
-        data_source = data_source_dict.get(row['data_source_id'], None)
-        result = {"id": row['id'],
-                  "name": row['name'],
+        data_source = data_source_dict.get(row[2], None)
+        result = {"id": row[0],
+                  "name": row[1],
                   "data_source": data_source,
-                  "object_type": row['object_type'],
-                  "units": row['units'],
-                  "high_limit": row['high_limit'],
-                  "low_limit": row['low_limit'],
-                  "ratio": float(row['ratio']),
-                  "is_trend": bool(row['is_trend']),
-                  "is_virtual": bool(row['is_virtual']),
-                  "address": row['address'],
-                  "description": row['description']}
+                  "object_type": row[3],
+                  "units": row[4],
+                  "high_limit": row[5],
+                  "low_limit": row[6],
+                  "ratio": float(row[7]),
+                  "is_trend": bool(row[8]),
+                  "is_virtual": bool(row[9]),
+                  "address": row[10],
+                  "description": row[11]}
         resp.text = json.dumps(result)
 
     @staticmethod

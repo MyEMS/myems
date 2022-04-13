@@ -19,7 +19,7 @@ class EquipmentCollection:
     @staticmethod
     def on_get(req, resp):
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_cost_centers ")
@@ -29,9 +29,9 @@ class EquipmentCollection:
         cost_center_dict = dict()
         if rows_cost_centers is not None and len(rows_cost_centers) > 0:
             for row in rows_cost_centers:
-                cost_center_dict[row['id']] = {"id": row['id'],
-                                               "name": row['name'],
-                                               "uuid": row['uuid']}
+                cost_center_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, "
                  "        is_input_counted, is_output_counted, "
@@ -44,15 +44,15 @@ class EquipmentCollection:
         result = list()
         if rows_equipments is not None and len(rows_equipments) > 0:
             for row in rows_equipments:
-                cost_center = cost_center_dict.get(row['cost_center_id'], None)
-                meta_result = {"id": row['id'],
-                               "name": row['name'],
-                               "uuid": row['uuid'],
-                               "is_input_counted": bool(row['is_input_counted']),
-                               "is_output_counted": bool(row['is_output_counted']),
+                cost_center = cost_center_dict.get(row[5], None)
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
+                               "is_input_counted": bool(row[3]),
+                               "is_output_counted": bool(row[4]),
                                "cost_center": cost_center,
-                               "description": row['description'],
-                               "qrcode": 'equipment:' + row['uuid']}
+                               "description": row[6],
+                               "qrcode": 'equipment:' + row[2]}
                 result.append(meta_result)
 
         cursor.close()
@@ -164,7 +164,7 @@ class EquipmentItem:
                                    description='API.INVALID_EQUIPMENT_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_cost_centers ")
@@ -174,9 +174,9 @@ class EquipmentItem:
         cost_center_dict = dict()
         if rows_cost_centers is not None and len(rows_cost_centers) > 0:
             for row in rows_cost_centers:
-                cost_center_dict[row['id']] = {"id": row['id'],
-                                               "name": row['name'],
-                                               "uuid": row['uuid']}
+                cost_center_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, "
                  "        is_input_counted, is_output_counted, "
@@ -192,15 +192,15 @@ class EquipmentItem:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.EQUIPMENT_NOT_FOUND')
         else:
-            cost_center = cost_center_dict.get(row['cost_center_id'], None)
-            meta_result = {"id": row['id'],
-                           "name": row['name'],
-                           "uuid": row['uuid'],
-                           "is_input_counted": bool(row['is_input_counted']),
-                           "is_output_counted": bool(row['is_output_counted']),
+            cost_center = cost_center_dict.get(row[5], None)
+            meta_result = {"id": row[0],
+                           "name": row[1],
+                           "uuid": row[2],
+                           "is_input_counted": bool(row[3]),
+                           "is_output_counted": bool(row[4]),
                            "cost_center": cost_center,
-                           "description": row['description'],
-                           "qrcode": 'equipment:' + row['uuid']}
+                           "description": row[6],
+                           "qrcode": 'equipment:' + row[2]}
 
         resp.text = json.dumps(meta_result)
 
@@ -406,7 +406,7 @@ class EquipmentItem:
         new_values = json.loads(raw_json)
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
         cursor.execute(" SELECT name "
                        " FROM tbl_equipments "
                        " WHERE id = %s ", (id_,))
@@ -427,17 +427,16 @@ class EquipmentItem:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.EQUIPMENT_NOT_FOUND')
         else:
-
             add_values = (" INSERT INTO tbl_equipments "
                           "    (name, uuid, is_input_counted, is_output_counted, "
                           "     cost_center_id, description) "
                           " VALUES (%s, %s, %s, %s, %s, %s) ")
-            cursor.execute(add_values, (row['name'] + ' Copy',
+            cursor.execute(add_values, (row[0] + ' Copy',
                                         str(uuid.uuid4()),
-                                        row['is_input_counted'],
-                                        row['is_output_counted'],
-                                        row['cost_center_id'],
-                                        row['description']))
+                                        row[1],
+                                        row[2],
+                                        row[3],
+                                        row[4]))
             new_id = cursor.lastrowid
             cnx.commit()
 
@@ -452,8 +451,8 @@ class EquipmentItem:
                           " VALUES  ")
             for row in rows_meters:
                 add_values += " (" + str(new_id) + ","
-                add_values += str(row['meter_id']) + ","
-                add_values += str(bool(row['is_output'])) + "), "
+                add_values += str(row[0]) + ","
+                add_values += str(bool(row[1])) + "), "
             # trim ", " at the end of string and then execute
             cursor.execute(add_values[:-2])
             cnx.commit()
@@ -469,8 +468,8 @@ class EquipmentItem:
                           " VALUES  ")
             for row in rows_offline_meters:
                 add_values += " (" + str(new_id) + ","
-                add_values += "'" + str(row['offline_meter_id']) + "',"
-                add_values += str(bool(row['is_output'])) + "), "
+                add_values += "'" + str(row[0]) + "',"
+                add_values += str(bool(row[1])) + "), "
             # trim ", " at the end of string and then execute
             cursor.execute(add_values[:-2])
             cnx.commit()
@@ -486,8 +485,8 @@ class EquipmentItem:
                           " VALUES  ")
             for row in rows_virtual_meters:
                 add_values += " (" + str(new_id) + ","
-                add_values += str(row['virtual_meter_id']) + ","
-                add_values += str(bool(row['is_output'])) + "), "
+                add_values += str(row[0]) + ","
+                add_values += str(bool(row[1])) + "), "
             # trim ", " at the end of string and then execute
             cursor.execute(add_values[:-2])
             cnx.commit()
@@ -505,24 +504,24 @@ class EquipmentItem:
                           " VALUES  ")
             for row in rows_parameters:
                 add_values += " (" + str(new_id) + ","
-                add_values += "'" + str(row['name']) + "',"
-                add_values += "'" + str(row['parameter_type']) + "',"
-                if row['constant'] is not None:
-                    add_values += "'" + str(row['constant']) + "',"
+                add_values += "'" + str(row[0]) + "',"
+                add_values += "'" + str(row[1]) + "',"
+                if row[2] is not None:
+                    add_values += "'" + str(row[2]) + "',"
                 else:
                     add_values += "null, "
 
-                if row['point_id'] is not None:
-                    add_values += str(row['point_id']) + ","
+                if row[3] is not None:
+                    add_values += str(row[3]) + ","
                 else:
                     add_values += "null, "
 
-                if row['numerator_meter_uuid'] is not None:
-                    add_values += "'" + row['numerator_meter_uuid'] + "',"
+                if row[4] is not None:
+                    add_values += "'" + row[4] + "',"
                 else:
                     add_values += "null, "
-                if row['denominator_meter_uuid'] is not None:
-                    add_values += "'" + row['denominator_meter_uuid'] + "'), "
+                if row[5] is not None:
+                    add_values += "'" + row[5] + "'), "
                 else:
                     add_values += "null), "
 
@@ -553,7 +552,7 @@ class EquipmentParameterCollection:
                                    description='API.INVALID_EQUIPMENT_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
                        " FROM tbl_equipments "
@@ -572,8 +571,8 @@ class EquipmentParameterCollection:
         point_dict = dict()
         if rows_points is not None and len(rows_points) > 0:
             for row in rows_points:
-                point_dict[row['id']] = {"id": row['id'],
-                                         "name": row['name']}
+                point_dict[row[0]] = {"id": row[0],
+                                      "name": row[1]}
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_meters ")
@@ -583,10 +582,10 @@ class EquipmentParameterCollection:
         meter_dict = dict()
         if rows_meters is not None and len(rows_meters) > 0:
             for row in rows_meters:
-                meter_dict[row['uuid']] = {"type": 'meter',
-                                           "id": row['id'],
-                                           "name": row['name'],
-                                           "uuid": row['uuid']}
+                meter_dict[row[2]] = {"type": 'meter',
+                                      "id": row[0],
+                                      "name": row[1],
+                                      "uuid": row[2]}
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_offline_meters ")
@@ -596,10 +595,10 @@ class EquipmentParameterCollection:
         offline_meter_dict = dict()
         if rows_offline_meters is not None and len(rows_offline_meters) > 0:
             for row in rows_offline_meters:
-                offline_meter_dict[row['uuid']] = {"type": 'offline_meter',
-                                                   "id": row['id'],
-                                                   "name": row['name'],
-                                                   "uuid": row['uuid']}
+                offline_meter_dict[row[2]] = {"type": 'offline_meter',
+                                              "id": row[0],
+                                              "name": row[1],
+                                              "uuid": row[2]}
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_virtual_meters ")
@@ -609,10 +608,10 @@ class EquipmentParameterCollection:
         virtual_meter_dict = dict()
         if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
             for row in rows_virtual_meters:
-                virtual_meter_dict[row['uuid']] = {"type": 'virtual_meter',
-                                                   "id": row['id'],
-                                                   "name": row['name'],
-                                                   "uuid": row['uuid']}
+                virtual_meter_dict[row[2]] = {"type": 'virtual_meter',
+                                              "id": row[0],
+                                              "name": row[1],
+                                              "uuid": row[2]}
 
         query = (" SELECT id, name, parameter_type, "
                  "        constant, point_id, numerator_meter_uuid, denominator_meter_uuid "
@@ -629,35 +628,35 @@ class EquipmentParameterCollection:
                 point = None
                 numerator_meter = None
                 denominator_meter = None
-                if row['parameter_type'] == 'point':
-                    point = point_dict.get(row['point_id'], None)
+                if row[2] == 'point':
+                    point = point_dict.get(row[4], None)
                     constant = None
                     numerator_meter = None
                     denominator_meter = None
-                elif row['parameter_type'] == 'constant':
-                    constant = row['constant']
+                elif row[2] == 'constant':
+                    constant = row[3]
                     point = None
                     numerator_meter = None
                     denominator_meter = None
-                elif row['parameter_type'] == 'fraction':
+                elif row[2] == 'fraction':
                     constant = None
                     point = None
                     # find numerator meter by uuid
-                    numerator_meter = meter_dict.get(row['numerator_meter_uuid'], None)
+                    numerator_meter = meter_dict.get(row[5], None)
                     if numerator_meter is None:
-                        numerator_meter = virtual_meter_dict.get(row['numerator_meter_uuid'], None)
+                        numerator_meter = virtual_meter_dict.get(row[5], None)
                     if numerator_meter is None:
-                        numerator_meter = offline_meter_dict.get(row['numerator_meter_uuid'], None)
+                        numerator_meter = offline_meter_dict.get(row[5], None)
                     # find denominator meter by uuid
-                    denominator_meter = meter_dict.get(row['denominator_meter_uuid'], None)
+                    denominator_meter = meter_dict.get(row[6], None)
                     if denominator_meter is None:
-                        denominator_meter = virtual_meter_dict.get(row['denominator_meter_uuid'], None)
+                        denominator_meter = virtual_meter_dict.get(row[6], None)
                     if denominator_meter is None:
-                        denominator_meter = offline_meter_dict.get(row['denominator_meter_uuid'], None)
+                        denominator_meter = offline_meter_dict.get(row[6], None)
 
-                meta_result = {"id": row['id'],
-                               "name": row['name'],
-                               "parameter_type": row['parameter_type'],
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "parameter_type": row[2],
                                "constant": constant,
                                "point": point,
                                "numerator_meter": numerator_meter,
@@ -732,8 +731,7 @@ class EquipmentParameterCollection:
                 denominator_meter_uuid = str.strip(new_values['data']['denominator_meter_uuid'])
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
-
+        cursor = cnx.cursor()
         cursor.execute(" SELECT name "
                        " FROM tbl_equipments "
                        " WHERE id = %s ", (id_,))
@@ -757,7 +755,6 @@ class EquipmentParameterCollection:
             if point_id is None:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_POINT_ID')
-
             query = (" SELECT id, name "
                      " FROM tbl_points "
                      " WHERE id = %s ")
@@ -774,19 +771,17 @@ class EquipmentParameterCollection:
                                        description='API.INVALID_CONSTANT_VALUE')
 
         elif parameter_type == 'fraction':
-
             query = (" SELECT id, name, uuid "
                      " FROM tbl_meters ")
             cursor.execute(query)
             rows_meters = cursor.fetchall()
-
             meter_dict = dict()
             if rows_meters is not None and len(rows_meters) > 0:
                 for row in rows_meters:
-                    meter_dict[row['uuid']] = {"type": 'meter',
-                                               "id": row['id'],
-                                               "name": row['name'],
-                                               "uuid": row['uuid']}
+                    meter_dict[row[2]] = {"type": 'meter',
+                                          "id": row[0],
+                                          "name": row[1],
+                                          "uuid": row[2]}
 
             query = (" SELECT id, name, uuid "
                      " FROM tbl_offline_meters ")
@@ -796,10 +791,10 @@ class EquipmentParameterCollection:
             offline_meter_dict = dict()
             if rows_offline_meters is not None and len(rows_offline_meters) > 0:
                 for row in rows_offline_meters:
-                    offline_meter_dict[row['uuid']] = {"type": 'offline_meter',
-                                                       "id": row['id'],
-                                                       "name": row['name'],
-                                                       "uuid": row['uuid']}
+                    offline_meter_dict[row[2]] = {"type": 'offline_meter',
+                                                  "id": row[0],
+                                                  "name": row[1],
+                                                  "uuid": row[2]}
 
             query = (" SELECT id, name, uuid "
                      " FROM tbl_virtual_meters ")
@@ -809,10 +804,10 @@ class EquipmentParameterCollection:
             virtual_meter_dict = dict()
             if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
                 for row in rows_virtual_meters:
-                    virtual_meter_dict[row['uuid']] = {"type": 'virtual_meter',
-                                                       "id": row['id'],
-                                                       "name": row['name'],
-                                                       "uuid": row['uuid']}
+                    virtual_meter_dict[row[2]] = {"type": 'virtual_meter',
+                                                  "id": row[0],
+                                                  "name": row[1],
+                                                  "uuid": row[2]}
 
             # validate numerator meter uuid
             if meter_dict.get(numerator_meter_uuid) is None and \
@@ -874,7 +869,7 @@ class EquipmentParameterItem:
                                    description='API.INVALID_EQUIPMENT_PARAMETER_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT id, name "
                  " FROM tbl_points ")
@@ -884,8 +879,8 @@ class EquipmentParameterItem:
         point_dict = dict()
         if rows_points is not None and len(rows_points) > 0:
             for row in rows_points:
-                point_dict[row['id']] = {"id": row['id'],
-                                         "name": row['name']}
+                point_dict[row[0]] = {"id": row[1],
+                                      "name": row[1]}
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_meters ")
@@ -895,10 +890,10 @@ class EquipmentParameterItem:
         meter_dict = dict()
         if rows_meters is not None and len(rows_meters) > 0:
             for row in rows_meters:
-                meter_dict[row['uuid']] = {"type": 'meter',
-                                           "id": row['id'],
-                                           "name": row['name'],
-                                           "uuid": row['uuid']}
+                meter_dict[row[2]] = {"type": 'meter',
+                                      "id": row[0],
+                                      "name": row[1],
+                                      "uuid": row[2]}
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_offline_meters ")
@@ -908,10 +903,10 @@ class EquipmentParameterItem:
         offline_meter_dict = dict()
         if rows_offline_meters is not None and len(rows_offline_meters) > 0:
             for row in rows_offline_meters:
-                offline_meter_dict[row['uuid']] = {"type": 'offline_meter',
-                                                   "id": row['id'],
-                                                   "name": row['name'],
-                                                   "uuid": row['uuid']}
+                offline_meter_dict[row[2]] = {"type": 'offline_meter',
+                                              "id": row[0],
+                                              "name": row[1],
+                                              "uuid": row[2]}
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_virtual_meters ")
@@ -921,10 +916,10 @@ class EquipmentParameterItem:
         virtual_meter_dict = dict()
         if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
             for row in rows_virtual_meters:
-                virtual_meter_dict[row['uuid']] = {"type": 'virtual_meter',
-                                                   "id": row['id'],
-                                                   "name": row['name'],
-                                                   "uuid": row['uuid']}
+                virtual_meter_dict[row[2]] = {"type": 'virtual_meter',
+                                              "id": row[0],
+                                              "name": row[1],
+                                              "uuid": row[2]}
 
         query = (" SELECT id, name, parameter_type, "
                  "        constant, point_id, numerator_meter_uuid, denominator_meter_uuid "
@@ -943,35 +938,35 @@ class EquipmentParameterItem:
             point = None
             numerator_meter = None
             denominator_meter = None
-            if row['parameter_type'] == 'point':
-                point = point_dict.get(row['point_id'], None)
+            if row[2] == 'point':
+                point = point_dict.get(row[4], None)
                 constant = None
                 numerator_meter = None
                 denominator_meter = None
-            elif row['parameter_type'] == 'constant':
-                constant = row['constant']
+            elif row[2] == 'constant':
+                constant = row[3]
                 point = None
                 numerator_meter = None
                 denominator_meter = None
-            elif row['parameter_type'] == 'fraction':
+            elif row[2] == 'fraction':
                 constant = None
                 point = None
                 # find numerator meter by uuid
-                numerator_meter = meter_dict.get(row['numerator_meter_uuid'], None)
+                numerator_meter = meter_dict.get(row[5], None)
                 if numerator_meter is None:
-                    numerator_meter = virtual_meter_dict.get(row['numerator_meter_uuid'], None)
+                    numerator_meter = virtual_meter_dict.get(row[5], None)
                 if numerator_meter is None:
-                    numerator_meter = offline_meter_dict.get(row['numerator_meter_uuid'], None)
+                    numerator_meter = offline_meter_dict.get(row[5], None)
                 # find denominator meter by uuid
-                denominator_meter = meter_dict.get(row['denominator_meter_uuid'], None)
+                denominator_meter = meter_dict.get(row[6], None)
                 if denominator_meter is None:
-                    denominator_meter = virtual_meter_dict.get(row['denominator_meter_uuid'], None)
+                    denominator_meter = virtual_meter_dict.get(row[6], None)
                 if denominator_meter is None:
-                    denominator_meter = offline_meter_dict.get(row['denominator_meter_uuid'], None)
+                    denominator_meter = offline_meter_dict.get(row[6], None)
 
-            meta_result = {"id": row['id'],
-                           "name": row['name'],
-                           "parameter_type": row['parameter_type'],
+            meta_result = {"id": row[0],
+                           "name": row[1],
+                           "parameter_type": row[2],
                            "constant": constant,
                            "point": point,
                            "numerator_meter": numerator_meter,
@@ -1096,7 +1091,7 @@ class EquipmentParameterItem:
                 denominator_meter_uuid = str.strip(new_values['data']['denominator_meter_uuid'])
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
                        " FROM tbl_equipments "
@@ -1161,10 +1156,10 @@ class EquipmentParameterItem:
             meter_dict = dict()
             if rows_meters is not None and len(rows_meters) > 0:
                 for row in rows_meters:
-                    meter_dict[row['uuid']] = {"type": 'meter',
-                                               "id": row['id'],
-                                               "name": row['name'],
-                                               "uuid": row['uuid']}
+                    meter_dict[row[2]] = {"type": 'meter',
+                                          "id": row[0],
+                                          "name": row[1],
+                                          "uuid": row[2]}
 
             query = (" SELECT id, name, uuid "
                      " FROM tbl_offline_meters ")
@@ -1174,10 +1169,10 @@ class EquipmentParameterItem:
             offline_meter_dict = dict()
             if rows_offline_meters is not None and len(rows_offline_meters) > 0:
                 for row in rows_offline_meters:
-                    offline_meter_dict[row['uuid']] = {"type": 'offline_meter',
-                                                       "id": row['id'],
-                                                       "name": row['name'],
-                                                       "uuid": row['uuid']}
+                    offline_meter_dict[row[2]] = {"type": 'offline_meter',
+                                                  "id": row[0],
+                                                  "name": row[1],
+                                                  "uuid": row[2]}
 
             query = (" SELECT id, name, uuid "
                      " FROM tbl_virtual_meters ")
@@ -1187,10 +1182,10 @@ class EquipmentParameterItem:
             virtual_meter_dict = dict()
             if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
                 for row in rows_virtual_meters:
-                    virtual_meter_dict[row['uuid']] = {"type": 'virtual_meter',
-                                                       "id": row['id'],
-                                                       "name": row['name'],
-                                                       "uuid": row['uuid']}
+                    virtual_meter_dict[row[2]] = {"type": 'virtual_meter',
+                                                  "id": row[0],
+                                                  "name": row[1],
+                                                  "uuid": row[2]}
 
             # validate numerator meter uuid
             if meter_dict.get(numerator_meter_uuid) is None and \
@@ -1246,7 +1241,7 @@ class EquipmentMeterCollection:
                                    description='API.INVALID_EQUIPMENT_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
                        " FROM tbl_equipments "
@@ -1265,9 +1260,9 @@ class EquipmentMeterCollection:
         energy_category_dict = dict()
         if rows_energy_categories is not None and len(rows_energy_categories) > 0:
             for row in rows_energy_categories:
-                energy_category_dict[row['id']] = {"id": row['id'],
-                                                   "name": row['name'],
-                                                   "uuid": row['uuid']}
+                energy_category_dict[row[0]] = {"id": row[0],
+                                                "name": row[1],
+                                                "uuid": row[2]}
 
         query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id, em.is_output "
                  " FROM tbl_equipments e, tbl_equipments_meters em, tbl_meters m "
@@ -1279,10 +1274,10 @@ class EquipmentMeterCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                energy_category = energy_category_dict.get(row['energy_category_id'], None)
-                meta_result = {"id": row['id'], "name": row['name'], "uuid": row['uuid'],
+                energy_category = energy_category_dict.get(row[3], None)
+                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
                                "energy_category": energy_category,
-                               "is_output": bool(row['is_output'])}
+                               "is_output": bool(row[4])}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -1438,7 +1433,7 @@ class EquipmentOfflineMeterCollection:
                                    description='API.INVALID_EQUIPMENT_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
                        " FROM tbl_equipments "
@@ -1457,9 +1452,9 @@ class EquipmentOfflineMeterCollection:
         energy_category_dict = dict()
         if rows_energy_categories is not None and len(rows_energy_categories) > 0:
             for row in rows_energy_categories:
-                energy_category_dict[row['id']] = {"id": row['id'],
-                                                   "name": row['name'],
-                                                   "uuid": row['uuid']}
+                energy_category_dict[row[0]] = {"id": row[0],
+                                                "name": row[1],
+                                                "uuid": row[2]}
 
         query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id, em.is_output "
                  " FROM tbl_equipments e, tbl_equipments_offline_meters em, tbl_offline_meters m "
@@ -1471,10 +1466,10 @@ class EquipmentOfflineMeterCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                energy_category = energy_category_dict.get(row['energy_category_id'], None)
-                meta_result = {"id": row['id'], "name": row['name'], "uuid": row['uuid'],
+                energy_category = energy_category_dict.get(row[3], None)
+                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
                                "energy_category": energy_category,
-                               "is_output": bool(row['is_output'])}
+                               "is_output": bool(row[4])}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -1630,7 +1625,7 @@ class EquipmentVirtualMeterCollection:
                                    description='API.INVALID_EQUIPMENT_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
                        " FROM tbl_equipments "
@@ -1649,9 +1644,9 @@ class EquipmentVirtualMeterCollection:
         energy_category_dict = dict()
         if rows_energy_categories is not None and len(rows_energy_categories) > 0:
             for row in rows_energy_categories:
-                energy_category_dict[row['id']] = {"id": row['id'],
-                                                   "name": row['name'],
-                                                   "uuid": row['uuid']}
+                energy_category_dict[row[0]] = {"id": row[0],
+                                                "name": row[1],
+                                                "uuid": row[2]}
 
         query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id, em.is_output "
                  " FROM tbl_equipments e, tbl_equipments_virtual_meters em, tbl_virtual_meters m "
@@ -1663,10 +1658,10 @@ class EquipmentVirtualMeterCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                energy_category = energy_category_dict.get(row['energy_category_id'], None)
-                meta_result = {"id": row['id'], "name": row['name'], "uuid": row['uuid'],
+                energy_category = energy_category_dict.get(row[3], None)
+                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
                                "energy_category": energy_category,
-                               "is_output": bool(row['is_output'])}
+                               "is_output": bool(row[4])}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)

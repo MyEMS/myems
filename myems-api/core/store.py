@@ -19,7 +19,7 @@ class StoreCollection:
     @staticmethod
     def on_get(req, resp):
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_store_types ")
@@ -29,9 +29,9 @@ class StoreCollection:
         store_type_dict = dict()
         if rows_store_types is not None and len(rows_store_types) > 0:
             for row in rows_store_types:
-                store_type_dict[row['id']] = {"id": row['id'],
-                                              "name": row['name'],
-                                              "uuid": row['uuid']}
+                store_type_dict[row[0]] = {"id": row[0],
+                                           "name": row[1],
+                                           "uuid": row[2]}
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_contacts ")
@@ -41,9 +41,9 @@ class StoreCollection:
         contact_dict = dict()
         if rows_contacts is not None and len(rows_contacts) > 0:
             for row in rows_contacts:
-                contact_dict[row['id']] = {"id": row['id'],
-                                           "name": row['name'],
-                                           "uuid": row['uuid']}
+                contact_dict[row[0]] = {"id": row[0],
+                                        "name": row[1],
+                                        "uuid": row[2]}
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_cost_centers ")
@@ -53,9 +53,9 @@ class StoreCollection:
         cost_center_dict = dict()
         if rows_cost_centers is not None and len(rows_cost_centers) > 0:
             for row in rows_cost_centers:
-                cost_center_dict[row['id']] = {"id": row['id'],
-                                               "name": row['name'],
-                                               "uuid": row['uuid']}
+                cost_center_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, "
                  "        address, latitude, longitude, area, store_type_id, "
@@ -68,23 +68,23 @@ class StoreCollection:
         result = list()
         if rows_spaces is not None and len(rows_spaces) > 0:
             for row in rows_spaces:
-                store_type = store_type_dict.get(row['store_type_id'], None)
-                contact = contact_dict.get(row['contact_id'], None)
-                cost_center = cost_center_dict.get(row['cost_center_id'], None)
+                store_type = store_type_dict.get(row[7], None)
+                contact = contact_dict.get(row[9], None)
+                cost_center = cost_center_dict.get(row[10], None)
 
-                meta_result = {"id": row['id'],
-                               "name": row['name'],
-                               "uuid": row['uuid'],
-                               "address": row['address'],
-                               "latitude": row['latitude'],
-                               "longitude": row['longitude'],
-                               "area": row['area'],
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
+                               "address": row[3],
+                               "latitude": row[4],
+                               "longitude": row[5],
+                               "area": row[6],
                                "store_type": store_type,
-                               "is_input_counted": bool(row['is_input_counted']),
+                               "is_input_counted": bool(row[8]),
                                "contact": contact,
                                "cost_center": cost_center,
-                               "description": row['description'],
-                               "qrcode": 'store:' + row['uuid']}
+                               "description": row[11],
+                               "qrcode": 'store:' + row[2]}
                 result.append(meta_result)
 
         cursor.close()
@@ -263,7 +263,7 @@ class StoreItem:
                                    description='API.INVALID_STORE_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_store_types ")
@@ -273,9 +273,9 @@ class StoreItem:
         store_type_dict = dict()
         if rows_store_types is not None and len(rows_store_types) > 0:
             for row in rows_store_types:
-                store_type_dict[row['id']] = {"id": row['id'],
-                                              "name": row['name'],
-                                              "uuid": row['uuid']}
+                store_type_dict[row[0]] = {"id": row[0],
+                                           "name": row[1],
+                                           "uuid": row[2]}
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_contacts ")
@@ -285,9 +285,9 @@ class StoreItem:
         contact_dict = dict()
         if rows_contacts is not None and len(rows_contacts) > 0:
             for row in rows_contacts:
-                contact_dict[row['id']] = {"id": row['id'],
-                                           "name": row['name'],
-                                           "uuid": row['uuid']}
+                contact_dict[row[0]] = {"id": row[0],
+                                        "name": row[1],
+                                        "uuid": row[2]}
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_cost_centers ")
@@ -297,9 +297,9 @@ class StoreItem:
         cost_center_dict = dict()
         if rows_cost_centers is not None and len(rows_cost_centers) > 0:
             for row in rows_cost_centers:
-                cost_center_dict[row['id']] = {"id": row['id'],
-                                               "name": row['name'],
-                                               "uuid": row['uuid']}
+                cost_center_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, "
                  "        address, latitude, longitude, area, store_type_id,"
@@ -316,22 +316,22 @@ class StoreItem:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_NOT_FOUND')
         else:
-            store_type = store_type_dict.get(row['store_type_id'], None)
-            contact = contact_dict.get(row['contact_id'], None)
-            cost_center = cost_center_dict.get(row['cost_center_id'], None)
-            meta_result = {"id": row['id'],
-                           "name": row['name'],
-                           "uuid": row['uuid'],
-                           "address": row['address'],
-                           "latitude": row['latitude'],
-                           "longitude": row['longitude'],
-                           "area": row['area'],
+            store_type = store_type_dict.get(row[7], None)
+            contact = contact_dict.get(row[9], None)
+            cost_center = cost_center_dict.get(row[10], None)
+            meta_result = {"id": row[0],
+                           "name": row[1],
+                           "uuid": row[2],
+                           "address": row[3],
+                           "latitude": row[4],
+                           "longitude": row[5],
+                           "area": row[6],
                            "store_type": store_type,
-                           "is_input_counted": bool(row['is_input_counted']),
+                           "is_input_counted": bool(row[8]),
                            "contact": contact,
                            "cost_center": cost_center,
-                           "description": row['description'],
-                           "qrcode": 'store:' + row['uuid']}
+                           "description": row[11],
+                           "qrcode": 'store:' + row[2]}
 
         resp.text = json.dumps(meta_result)
 
@@ -625,7 +625,7 @@ class StoreMeterCollection:
                                    description='API.INVALID_STORE_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
                        " FROM tbl_stores "
@@ -644,9 +644,9 @@ class StoreMeterCollection:
         energy_category_dict = dict()
         if rows_energy_categories is not None and len(rows_energy_categories) > 0:
             for row in rows_energy_categories:
-                energy_category_dict[row['id']] = {"id": row['id'],
-                                                   "name": row['name'],
-                                                   "uuid": row['uuid']}
+                energy_category_dict[row[0]] = {"id": row[0],
+                                                "name": row[1],
+                                                "uuid": row[2]}
 
         query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id "
                  " FROM tbl_stores t, tbl_stores_meters tm, tbl_meters m "
@@ -658,8 +658,8 @@ class StoreMeterCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                energy_category = energy_category_dict.get(row['energy_category_id'], None)
-                meta_result = {"id": row['id'], "name": row['name'], "uuid": row['uuid'],
+                energy_category = energy_category_dict.get(row[3], None)
+                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
                                "energy_category": energy_category}
                 result.append(meta_result)
 
@@ -809,7 +809,7 @@ class StoreOfflineMeterCollection:
                                    description='API.INVALID_STORE_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
                        " FROM tbl_stores "
@@ -828,9 +828,9 @@ class StoreOfflineMeterCollection:
         energy_category_dict = dict()
         if rows_energy_categories is not None and len(rows_energy_categories) > 0:
             for row in rows_energy_categories:
-                energy_category_dict[row['id']] = {"id": row['id'],
-                                                   "name": row['name'],
-                                                   "uuid": row['uuid']}
+                energy_category_dict[row[0]] = {"id": row[0],
+                                                "name": row[1],
+                                                "uuid": row[2]}
 
         query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id "
                  " FROM tbl_stores s, tbl_stores_offline_meters sm, tbl_offline_meters m "
@@ -842,8 +842,8 @@ class StoreOfflineMeterCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                energy_category = energy_category_dict.get(row['energy_category_id'], None)
-                meta_result = {"id": row['id'], "name": row['name'], "uuid": row['uuid'],
+                energy_category = energy_category_dict.get(row[3], None)
+                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
                                "energy_category": energy_category}
                 result.append(meta_result)
 
@@ -994,7 +994,7 @@ class StorePointCollection:
                                    description='API.INVALID_STORE_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
                        " FROM tbl_stores "
@@ -1013,9 +1013,9 @@ class StorePointCollection:
         data_source_dict = dict()
         if rows_data_sources is not None and len(rows_data_sources) > 0:
             for row in rows_data_sources:
-                data_source_dict[row['id']] = {"id": row['id'],
-                                               "name": row['name'],
-                                               "uuid": row['uuid']}
+                data_source_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
 
         query = (" SELECT p.id, p.name, p.data_source_id "
                  " FROM tbl_stores t, tbl_stores_points tp, tbl_points p "
@@ -1027,8 +1027,8 @@ class StorePointCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                data_source = data_source_dict.get(row['data_source_id'], None)
-                meta_result = {"id": row['id'], "name": row['name'], "data_source": data_source}
+                data_source = data_source_dict.get(row[2], None)
+                meta_result = {"id": row[0], "name": row[1], "data_source": data_source}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -1348,7 +1348,7 @@ class StoreVirtualMeterCollection:
                                    description='API.INVALID_STORE_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
                        " FROM tbl_stores "
@@ -1367,9 +1367,9 @@ class StoreVirtualMeterCollection:
         energy_category_dict = dict()
         if rows_energy_categories is not None and len(rows_energy_categories) > 0:
             for row in rows_energy_categories:
-                energy_category_dict[row['id']] = {"id": row['id'],
-                                                   "name": row['name'],
-                                                   "uuid": row['uuid']}
+                energy_category_dict[row[0]] = {"id": row[1],
+                                                "name": row[2],
+                                                "uuid": row[3]}
 
         query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id "
                  " FROM tbl_stores t, tbl_stores_virtual_meters tm, tbl_virtual_meters m "
@@ -1381,8 +1381,8 @@ class StoreVirtualMeterCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                energy_category = energy_category_dict.get(row['energy_category_id'], None)
-                meta_result = {"id": row['id'], "name": row['name'], "uuid": row['uuid'],
+                energy_category = energy_category_dict.get(row[3], None)
+                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
                                "energy_category": energy_category}
                 result.append(meta_result)
 

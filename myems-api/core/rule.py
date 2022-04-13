@@ -22,7 +22,7 @@ class RuleCollection:
         """Handles GET requests"""
         access_control(req)
         cnx = mysql.connector.connect(**config.myems_fdd_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid, "
                  "        category, fdd_code, priority, "
@@ -42,25 +42,25 @@ class RuleCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                if isinstance(row['last_run_datetime_utc'], datetime):
-                    last_run_datetime_local = row['last_run_datetime_utc'].replace(tzinfo=timezone.utc) + \
+                if isinstance(row[10], datetime):
+                    last_run_datetime_local = row[10].replace(tzinfo=timezone.utc) + \
                                               timedelta(minutes=timezone_offset)
                     last_run_datetime = last_run_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
                 else:
                     last_run_datetime = None
 
-                if isinstance(row['next_run_datetime_utc'], datetime):
-                    next_run_datetime_local = row['next_run_datetime_utc'].replace(tzinfo=timezone.utc) + \
+                if isinstance(row[11], datetime):
+                    next_run_datetime_local = row[11].replace(tzinfo=timezone.utc) + \
                                               timedelta(minutes=timezone_offset)
                     next_run_datetime = next_run_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
                 else:
                     next_run_datetime = None
 
-                meta_result = {"id": row['id'], "name": row['name'], "uuid": row['uuid'],
-                               "category": row['category'], "fdd_code": row['fdd_code'], "priority": row['priority'],
-                               "channel": row['channel'], "expression": row['expression'],
-                               "message_template": row['message_template'].replace("<br>", ""),
-                               "is_enabled": bool(row['is_enabled']),
+                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
+                               "category": row[3], "fdd_code": row[4], "priority": row[5],
+                               "channel": row[6], "expression": row[7],
+                               "message_template": row[8].replace("<br>", ""),
+                               "is_enabled": bool(row[9]),
                                "last_run_datetime": last_run_datetime,
                                "next_run_datetime": next_run_datetime,
                                }
@@ -204,7 +204,7 @@ class RuleItem:
                                    description='API.INVALID_RULE_ID')
 
         cnx = mysql.connector.connect(**config.myems_fdd_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid, "
                  "        category, fdd_code, priority, "
@@ -223,25 +223,25 @@ class RuleItem:
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
 
-        if isinstance(row['last_run_datetime_utc'], datetime):
-            last_run_datetime_local = row['last_run_datetime_utc'].replace(tzinfo=timezone.utc) + \
+        if isinstance(row[10], datetime):
+            last_run_datetime_local = row[10].replace(tzinfo=timezone.utc) + \
                                       timedelta(minutes=timezone_offset)
             last_run_datetime = last_run_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
         else:
             last_run_datetime = None
 
-        if isinstance(row['next_run_datetime_utc'], datetime):
-            next_run_datetime_local = row['next_run_datetime_utc'].replace(tzinfo=timezone.utc) + \
+        if isinstance(row[11], datetime):
+            next_run_datetime_local = row[11].replace(tzinfo=timezone.utc) + \
                                       timedelta(minutes=timezone_offset)
             next_run_datetime = next_run_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
         else:
             next_run_datetime = None
 
-        result = {"id": row['id'], "name": row['name'], "uuid": row['uuid'],
-                  "category": row['category'], "fdd_code": row['fdd_code'], "priority": row['priority'],
-                  "channel": row['channel'], "expression": row['expression'],
-                  "message_template": row['message_template'].replace("<br>", ""),
-                  "is_enabled": bool(row['is_enabled']),
+        result = {"id": row[0], "name": row[1], "uuid": row[2],
+                  "category": row[3], "fdd_code": row[4], "priority": row[5],
+                  "channel": row[6], "expression": row[7],
+                  "message_template": row[8].replace("<br>", ""),
+                  "is_enabled": bool(row[9]),
                   "last_run_datetime": last_run_datetime,
                   "next_run_datetime": next_run_datetime,
                   }

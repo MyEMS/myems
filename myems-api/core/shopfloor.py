@@ -19,7 +19,7 @@ class ShopfloorCollection:
     @staticmethod
     def on_get(req, resp):
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_contacts ")
@@ -29,9 +29,9 @@ class ShopfloorCollection:
         contact_dict = dict()
         if rows_contacts is not None and len(rows_contacts) > 0:
             for row in rows_contacts:
-                contact_dict[row['id']] = {"id": row['id'],
-                                           "name": row['name'],
-                                           "uuid": row['uuid']}
+                contact_dict[row[0]] = {"id": row[0],
+                                        "name": row[1],
+                                        "uuid": row[2]}
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_cost_centers ")
@@ -41,9 +41,9 @@ class ShopfloorCollection:
         cost_center_dict = dict()
         if rows_cost_centers is not None and len(rows_cost_centers) > 0:
             for row in rows_cost_centers:
-                cost_center_dict[row['id']] = {"id": row['id'],
-                                               "name": row['name'],
-                                               "uuid": row['uuid']}
+                cost_center_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, "
                  "        area, is_input_counted, "
@@ -56,17 +56,17 @@ class ShopfloorCollection:
         result = list()
         if rows_shopfloors is not None and len(rows_shopfloors) > 0:
             for row in rows_shopfloors:
-                contact = contact_dict.get(row['contact_id'], None)
-                cost_center = cost_center_dict.get(row['cost_center_id'], None)
-                meta_result = {"id": row['id'],
-                               "name": row['name'],
-                               "uuid": row['uuid'],
-                               "area": row['area'],
-                               "is_input_counted": bool(row['is_input_counted']),
+                contact = contact_dict.get(row[5], None)
+                cost_center = cost_center_dict.get(row[6], None)
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
+                               "area": row[3],
+                               "is_input_counted": bool(row[4]),
                                "contact": contact,
                                "cost_center": cost_center,
-                               "description": row['description'],
-                               "qrcode": "shopfloor:" + row['uuid']}
+                               "description": row[7],
+                               "qrcode": "shopfloor:" + row[2]}
                 result.append(meta_result)
 
         cursor.close()
@@ -202,7 +202,7 @@ class ShopfloorItem:
                                    description='API.INVALID_SHOPFLOOR_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_contacts ")
@@ -212,9 +212,9 @@ class ShopfloorItem:
         contact_dict = dict()
         if rows_contacts is not None and len(rows_contacts) > 0:
             for row in rows_contacts:
-                contact_dict[row['id']] = {"id": row['id'],
-                                           "name": row['name'],
-                                           "uuid": row['uuid']}
+                contact_dict[row[0]] = {"id": row[0],
+                                        "name": row[1],
+                                        "uuid": row[2]}
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_cost_centers ")
@@ -224,9 +224,9 @@ class ShopfloorItem:
         cost_center_dict = dict()
         if rows_cost_centers is not None and len(rows_cost_centers) > 0:
             for row in rows_cost_centers:
-                cost_center_dict[row['id']] = {"id": row['id'],
-                                               "name": row['name'],
-                                               "uuid": row['uuid']}
+                cost_center_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, "
                  "        area, is_input_counted, contact_id, cost_center_id, description "
@@ -241,17 +241,17 @@ class ShopfloorItem:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SHOPFLOOR_NOT_FOUND')
         else:
-            contact = contact_dict.get(row['contact_id'], None)
-            cost_center = cost_center_dict.get(row['cost_center_id'], None)
-            meta_result = {"id": row['id'],
-                           "name": row['name'],
-                           "uuid": row['uuid'],
-                           "area": row['area'],
-                           "is_input_counted": bool(row['is_input_counted']),
+            contact = contact_dict.get(row[5], None)
+            cost_center = cost_center_dict.get(row[6], None)
+            meta_result = {"id": row[0],
+                           "name": row[1],
+                           "uuid": row[2],
+                           "area": row[3],
+                           "is_input_counted": bool(row[4]),
                            "contact": contact,
                            "cost_center": cost_center,
-                           "description": row['description'],
-                           "qrcode": "shopfloor:" + row['uuid']}
+                           "description": row[7],
+                           "qrcode": "shopfloor:" + row[2]}
 
         resp.text = json.dumps(meta_result)
 
@@ -685,7 +685,7 @@ class ShopfloorMeterCollection:
                                    description='API.INVALID_SHOPFLOOR_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
                        " FROM tbl_shopfloors "
@@ -704,9 +704,9 @@ class ShopfloorMeterCollection:
         energy_category_dict = dict()
         if rows_energy_categories is not None and len(rows_energy_categories) > 0:
             for row in rows_energy_categories:
-                energy_category_dict[row['id']] = {"id": row['id'],
-                                                   "name": row['name'],
-                                                   "uuid": row['uuid']}
+                energy_category_dict[row[0]] = {"id": row[0],
+                                                "name": row[1],
+                                                "uuid": row[2]}
 
         query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id "
                  " FROM tbl_shopfloors s, tbl_shopfloors_meters sm, tbl_meters m "
@@ -718,8 +718,8 @@ class ShopfloorMeterCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                energy_category = energy_category_dict.get(row['energy_category_id'], None)
-                meta_result = {"id": row['id'], "name": row['name'], "uuid": row['uuid'],
+                energy_category = energy_category_dict.get(row[3], None)
+                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
                                "energy_category": energy_category}
                 result.append(meta_result)
 
@@ -869,7 +869,7 @@ class ShopfloorOfflineMeterCollection:
                                    description='API.INVALID_SHOPFLOOR_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
                        " FROM tbl_shopfloors "
@@ -888,9 +888,9 @@ class ShopfloorOfflineMeterCollection:
         energy_category_dict = dict()
         if rows_energy_categories is not None and len(rows_energy_categories) > 0:
             for row in rows_energy_categories:
-                energy_category_dict[row['id']] = {"id": row['id'],
-                                                   "name": row['name'],
-                                                   "uuid": row['uuid']}
+                energy_category_dict[row[0]] = {"id": row[0],
+                                                "name": row[1],
+                                                "uuid": row[2]}
 
         query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id "
                  " FROM tbl_shopfloors s, tbl_shopfloors_offline_meters sm, tbl_offline_meters m "
@@ -902,8 +902,8 @@ class ShopfloorOfflineMeterCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                energy_category = energy_category_dict.get(row['energy_category_id'], None)
-                meta_result = {"id": row['id'], "name": row['name'], "uuid": row['uuid'],
+                energy_category = energy_category_dict.get(row[3], None)
+                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
                                "energy_category": energy_category}
                 result.append(meta_result)
 
@@ -1054,7 +1054,7 @@ class ShopfloorPointCollection:
                                    description='API.INVALID_SHOPFLOOR_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
                        " FROM tbl_shopfloors "
@@ -1073,9 +1073,9 @@ class ShopfloorPointCollection:
         data_source_dict = dict()
         if rows_data_sources is not None and len(rows_data_sources) > 0:
             for row in rows_data_sources:
-                data_source_dict[row['id']] = {"id": row['id'],
-                                               "name": row['name'],
-                                               "uuid": row['uuid']}
+                data_source_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
 
         query = (" SELECT p.id, p.name, p.data_source_id "
                  " FROM tbl_shopfloors s, tbl_shopfloors_points sp, tbl_points p "
@@ -1087,8 +1087,8 @@ class ShopfloorPointCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                data_source = data_source_dict.get(row['data_source_id'], None)
-                meta_result = {"id": row['id'], "name": row['name'], "data_source": data_source}
+                data_source = data_source_dict.get(row[2], None)
+                meta_result = {"id": row[0], "name": row[1], "data_source": data_source}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -1408,7 +1408,7 @@ class ShopfloorVirtualMeterCollection:
                                    description='API.INVALID_SHOPFLOOR_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
                        " FROM tbl_shopfloors "
@@ -1427,9 +1427,9 @@ class ShopfloorVirtualMeterCollection:
         energy_category_dict = dict()
         if rows_energy_categories is not None and len(rows_energy_categories) > 0:
             for row in rows_energy_categories:
-                energy_category_dict[row['id']] = {"id": row['id'],
-                                                   "name": row['name'],
-                                                   "uuid": row['uuid']}
+                energy_category_dict[row[0]] = {"id": row[0],
+                                                "name": row[1],
+                                                "uuid": row[2]}
 
         query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id "
                  " FROM tbl_shopfloors s, tbl_shopfloors_virtual_meters sm, tbl_virtual_meters m "
@@ -1441,8 +1441,8 @@ class ShopfloorVirtualMeterCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                energy_category = energy_category_dict.get(row['energy_category_id'], None)
-                meta_result = {"id": row['id'], "name": row['name'], "uuid": row['uuid'],
+                energy_category = energy_category_dict.get(row[3], None)
+                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
                                "energy_category": energy_category}
                 result.append(meta_result)
 

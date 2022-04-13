@@ -68,7 +68,7 @@ class WebMessageCollection:
                                    description='API.USER_UUID_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
 
         cnx = mysql.connector.connect(**config.myems_user_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT utc_expires "
                  " FROM tbl_sessions "
@@ -84,7 +84,7 @@ class WebMessageCollection:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
         else:
-            utc_expires = row['utc_expires']
+            utc_expires = row[0]
             if datetime.utcnow() > utc_expires:
                 if cursor:
                     cursor.close()
@@ -106,7 +106,7 @@ class WebMessageCollection:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_PLEASE_RE_LOGIN')
         else:
-            user_id = row['id']
+            user_id = row[0]
 
         if cursor:
             cursor.close()
@@ -169,7 +169,7 @@ class WebMessageStatusNewCollection:
                                    description='API.USER_UUID_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
 
         cnx = mysql.connector.connect(**config.myems_user_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT utc_expires "
                  " FROM tbl_sessions "
@@ -185,7 +185,7 @@ class WebMessageStatusNewCollection:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
         else:
-            utc_expires = row['utc_expires']
+            utc_expires = row[0]
             if datetime.utcnow() > utc_expires:
                 if cursor:
                     cursor.close()
@@ -207,7 +207,7 @@ class WebMessageStatusNewCollection:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_PLEASE_RE_LOGIN')
         else:
-            user_id = row['id']
+            user_id = row[0]
 
         if cursor:
             cursor.close()
@@ -286,7 +286,7 @@ class WebMessageStatusNewCollection:
                                    description='API.USER_UUID_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
 
         cnx = mysql.connector.connect(**config.myems_user_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT utc_expires "
                  " FROM tbl_sessions "
@@ -302,7 +302,7 @@ class WebMessageStatusNewCollection:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
         else:
-            utc_expires = row['utc_expires']
+            utc_expires = row[0]
             if datetime.utcnow() > utc_expires:
                 if cursor:
                     cursor.close()
@@ -324,7 +324,7 @@ class WebMessageStatusNewCollection:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_PLEASE_RE_LOGIN')
         else:
-            user_id = row['id']
+            user_id = row[0]
 
         if cursor:
             cursor.close()
@@ -386,7 +386,7 @@ class WebMessageItem:
                                    description='API.USER_UUID_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
 
         cnx = mysql.connector.connect(**config.myems_user_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT utc_expires "
                  " FROM tbl_sessions "
@@ -402,7 +402,7 @@ class WebMessageItem:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
         else:
-            utc_expires = row['utc_expires']
+            utc_expires = row[0]
             if datetime.utcnow() > utc_expires:
                 if cursor:
                     cursor.close()
@@ -424,7 +424,7 @@ class WebMessageItem:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_PLEASE_RE_LOGIN')
         else:
-            user_id = row['id']
+            user_id = row[0]
 
         if cursor:
             cursor.close()
@@ -506,7 +506,7 @@ class WebMessageItem:
                                    description='API.USER_UUID_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
 
         cnx = mysql.connector.connect(**config.myems_user_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT utc_expires "
                  " FROM tbl_sessions "
@@ -522,7 +522,7 @@ class WebMessageItem:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
         else:
-            utc_expires = row['utc_expires']
+            utc_expires = row[0]
             if datetime.utcnow() > utc_expires:
                 if cursor:
                     cursor.close()
@@ -544,7 +544,7 @@ class WebMessageItem:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_PLEASE_RE_LOGIN')
         else:
-            user_id = row['id']
+            user_id = row[0]
 
         if cursor:
             cursor.close()
@@ -594,7 +594,7 @@ class WebMessageItem:
                                    description='API.USER_UUID_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
 
         cnx = mysql.connector.connect(**config.myems_user_db)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor()
 
         query = (" SELECT utc_expires "
                  " FROM tbl_sessions "
@@ -610,7 +610,7 @@ class WebMessageItem:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
         else:
-            utc_expires = row['utc_expires']
+            utc_expires = row[0]
             if datetime.utcnow() > utc_expires:
                 if cursor:
                     cursor.close()
@@ -632,7 +632,7 @@ class WebMessageItem:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_PLEASE_RE_LOGIN')
         else:
-            user_id = row['id']
+            user_id = row[0]
 
         if cursor:
             cursor.close()
