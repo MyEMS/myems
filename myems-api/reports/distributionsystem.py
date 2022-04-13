@@ -48,7 +48,7 @@ class Reporting:
         # Step 2: Step 2: query the distribution system
         ################################################################################################################
         cnx_system = mysql.connector.connect(**config.myems_system_db)
-        cursor_system = cnx_system.cursor(dictionary=True)
+        cursor_system = cnx_system.cursor()
 
         cursor_system.execute(" SELECT name "
                               " FROM tbl_distribution_systems "
@@ -75,10 +75,10 @@ class Reporting:
         circuit_list = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                circuit_list.append({"id": row['id'], "name": row['name'], "uuid": row['uuid'],
-                                     "distribution_room": row['distribution_room'], "switchgear": row['switchgear'],
-                                     "peak_load": row['peak_load'], "peak_current": row['peak_current'],
-                                     "customers": row['customers'], "meters": row['meters'],
+                circuit_list.append({"id": row[0], "name": row[1], "uuid": row[2],
+                                     "distribution_room": row[3], "switchgear": row[4],
+                                     "peak_load": row[5], "peak_current": row[6],
+                                     "customers": row[7], "meters": row[8],
                                      "points": list()})
 
         ################################################################################################################
@@ -95,10 +95,10 @@ class Reporting:
 
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    circuit_list[x]['points'].append({"id": row['id'],
-                                                      "name": row['name'],
-                                                      "object_type": row['object_type'],
-                                                      "units": row['units'],
+                    circuit_list[x]['points'].append({"id": row[0],
+                                                      "name": row[1],
+                                                      "object_type": row[2],
+                                                      "units": row[3],
                                                       "value": None})
         if cursor_system:
             cursor_system.close()

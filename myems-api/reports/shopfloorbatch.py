@@ -83,7 +83,7 @@ class Reporting:
                                    description='API.INVALID_REPORTING_PERIOD_END_DATETIME')
 
         cnx_system_db = mysql.connector.connect(**config.myems_system_db)
-        cursor_system_db = cnx_system_db.cursor(dictionary=True)
+        cursor_system_db = cnx_system_db.cursor()
 
         cursor_system_db.execute(" SELECT name "
                                  " FROM tbl_spaces "
@@ -98,7 +98,7 @@ class Reporting:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
         else:
-            space_name = row['name']
+            space_name = row[0]
 
         ################################################################################################################
         # Step 2: build a space tree
@@ -112,8 +112,8 @@ class Reporting:
         node_dict = dict()
         if rows_spaces is not None and len(rows_spaces) > 0:
             for row in rows_spaces:
-                parent_node = node_dict[row['parent_space_id']] if row['parent_space_id'] is not None else None
-                node_dict[row['id']] = AnyNode(id=row['id'], parent=parent_node, name=row['name'])
+                parent_node = node_dict[row[2]] if row[2] is not None else None
+                node_dict[row[0]] = AnyNode(id=row[0], parent=parent_node, name=row[1])
 
         ################################################################################################################
         # Step 3: query all shopfloors in the space tree
@@ -134,11 +134,11 @@ class Reporting:
         rows_shopfloors = cursor_system_db.fetchall()
         if rows_shopfloors is not None and len(rows_shopfloors) > 0:
             for row in rows_shopfloors:
-                shopfloor_dict[row['id']] = {"shopfloor_name": row['shopfloor_name'],
-                                             "space_name": row['space_name'],
-                                             "cost_center_name": row['cost_center_name'],
-                                             "description": row['description'],
-                                             "values": list()}
+                shopfloor_dict[row[0]] = {"shopfloor_name": row[1],
+                                          "space_name": row[2],
+                                          "cost_center_name": row[3],
+                                          "description": row[4],
+                                          "values": list()}
 
         ################################################################################################################
         # Step 4: query energy categories
@@ -178,10 +178,10 @@ class Reporting:
                                    description='API.ENERGY_CATEGORY_NOT_FOUND')
         energy_category_list = list()
         for row_energy_category in rows_energy_categories:
-            if row_energy_category['id'] in energy_category_set:
-                energy_category_list.append({"id": row_energy_category['id'],
-                                             "name": row_energy_category['name'],
-                                             "unit_of_measure": row_energy_category['unit_of_measure']})
+            if row_energy_category[0] in energy_category_set:
+                energy_category_list.append({"id": row_energy_category[0],
+                                             "name": row_energy_category[1],
+                                             "unit_of_measure": row_energy_category[2]})
 
         ################################################################################################################
         # Step 5: query reporting period energy input

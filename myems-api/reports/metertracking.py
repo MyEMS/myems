@@ -85,7 +85,7 @@ class Reporting:
                                    description='API.THE_REPORTING_PERIOD_MUST_BE_LONGER_THAN_15_MINUTES')
 
         cnx_system_db = mysql.connector.connect(**config.myems_system_db)
-        cursor_system_db = cnx_system_db.cursor(dictionary=True)
+        cursor_system_db = cnx_system_db.cursor()
 
         cnx_historical = mysql.connector.connect(**config.myems_historical_db)
         cursor_historical = cnx_historical.cursor()
@@ -103,7 +103,7 @@ class Reporting:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
         else:
-            space_name = row['name']
+            space_name = row[0]
 
         ################################################################################################################
         # Step 2: build a space tree
@@ -117,8 +117,8 @@ class Reporting:
         node_dict = dict()
         if rows_spaces is not None and len(rows_spaces) > 0:
             for row in rows_spaces:
-                parent_node = node_dict[row['parent_space_id']] if row['parent_space_id'] is not None else None
-                node_dict[row['id']] = AnyNode(id=row['id'], parent=parent_node, name=row['name'])
+                parent_node = node_dict[row[2]] if row[2] is not None else None
+                node_dict[row[0]] = AnyNode(id=row[0], parent=parent_node, name=row[1])
 
         ################################################################################################################
         # Step 3: query all meters in the space tree
@@ -140,11 +140,11 @@ class Reporting:
         rows_meters = cursor_system_db.fetchall()
         if rows_meters is not None and len(rows_meters) > 0:
             for row in rows_meters:
-                meter_dict[row['id']] = {"meter_name": row['meter_name'],
-                                         "space_name": row['space_name'],
-                                         "cost_center_name": row['cost_center_name'],
-                                         "energy_category_name": row['energy_category_name'],
-                                         "description": row['description']}
+                meter_dict[row[0]] = {"meter_name": row[1],
+                                      "space_name": row[2],
+                                      "cost_center_name": row[3],
+                                      "energy_category_name": row[4],
+                                      "description": row[5]}
 
         ################################################################################################################
         # Step 4: query start value and end value

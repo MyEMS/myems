@@ -71,7 +71,7 @@ class AdvancedReportCollection:
         ################################################################################################################
 
         cnx_reporting = mysql.connector.connect(**config.myems_reporting_db)
-        cursor_reporting = cnx_reporting.cursor(dictionary=True)
+        cursor_reporting = cnx_reporting.cursor()
 
         query = (" SELECT id, file_name, uuid, create_datetime_utc, file_type, file_object "
                  " FROM tbl_reports_files "
@@ -91,17 +91,17 @@ class AdvancedReportCollection:
         if rows is not None and len(rows) > 0:
             for row in rows:
                 # Base64 encode the bytes
-                base64_encoded_data = base64.b64encode(row['file_object'])
+                base64_encoded_data = base64.b64encode(row[5])
                 # get the Base64 encoded data using human-readable characters.
                 base64_message = base64_encoded_data.decode('utf-8')
-                create_datetime_local = row['create_datetime_utc'].replace(tzinfo=None) + \
+                create_datetime_local = row[3].replace(tzinfo=None) + \
                     timedelta(minutes=timezone_offset)
-                meta_result = {"id": row['id'],
-                               "file_name": row['file_name'],
-                               "uuid": row['uuid'],
+                meta_result = {"id": row[0],
+                               "file_name": row[1],
+                               "uuid": row[2],
                                "create_datetime_local": create_datetime_local.isoformat(),
-                               "file_type": row['file_type'],
-                               "file_size_bytes": sys.getsizeof(row['file_object']),
+                               "file_type": row[4],
+                               "file_size_bytes": sys.getsizeof(row[5]),
                                "file_bytes_base64": base64_message}
                 result.append(meta_result)
 
@@ -126,7 +126,7 @@ class AdvancedReportItem:
                                    description='API.INVALID_ADVANCED_REPORT_ID')
 
         cnx_reporting = mysql.connector.connect(**config.myems_reporting_db)
-        cursor_reporting = cnx_reporting.cursor(dictionary=True)
+        cursor_reporting = cnx_reporting.cursor()
 
         query = (" SELECT id, file_name, uuid, create_datetime_utc, file_type, file_object "
                  " FROM tbl_reports_files "
@@ -144,16 +144,15 @@ class AdvancedReportItem:
                                    description='API.ADVANCED_REPORT_NOT_FOUND')
 
         # Base64 encode the bytes
-        base64_encoded_data = base64.b64encode(row['file_object'])
+        base64_encoded_data = base64.b64encode(row[5])
         # get the Base64 encoded data using human-readable characters.
         base64_message = base64_encoded_data.decode('utf-8')
 
-        result = {"id": row['id'],
-                  "file_name": row['file_name'],
-                  "uuid": row['uuid'],
-                  "create_datetime":
-                  row['create_datetime_utc'].replace(tzinfo=timezone.utc).timestamp() * 1000,
-                  "file_type": row['file_type'],
+        result = {"id": row[0],
+                  "file_name": row[1],
+                  "uuid": row[2],
+                  "create_datetime": row[3].replace(tzinfo=timezone.utc).timestamp() * 1000,
+                  "file_type": row[4],
                   "file_bytes_base64": base64_message}
         resp.text = json.dumps(result)
 
@@ -165,7 +164,7 @@ class AdvancedReportItem:
                                    description='API.INVALID_ADVANCED_REPORT_ID')
 
         cnx_reporting = mysql.connector.connect(**config.myems_reporting_db)
-        cursor_reporting = cnx_reporting.cursor(dictionary=True)
+        cursor_reporting = cnx_reporting.cursor()
 
         cursor_reporting.execute(" SELECT id "
                                  " FROM tbl_reports_files "
