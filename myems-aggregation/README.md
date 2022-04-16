@@ -42,7 +42,7 @@ cd c:\myems-aggregation
 On Linux:
 ```bash
 cp -r myems/myems-aggregation /
-cd /myems/myems-aggregation
+cd /myems-aggregation
 ```
 
 * Create .env file based on example.env file
