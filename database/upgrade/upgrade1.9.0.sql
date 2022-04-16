@@ -72,6 +72,6 @@ CREATE INDEX `tbl_teams_index_1` ON  `myems_production_db`.`tbl_teams`   (`name`
 
 -- UPDATE VERSION NUMBER
 USE `myems_system_db` ;
-UPDATE `myems_system_db`.`tbl_versions` SET version='1.9.0', release_date='2022-03-28' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='1.9.0', release_date='2022-04-16' WHERE id=1;
 
 COMMIT;
