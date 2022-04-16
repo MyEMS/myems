@@ -52,13 +52,7 @@ const NavbarTop = () => {
             <NavbarTopDropDownMenus setNavbarCollapsed={setNavbarCollapsed} />
           </Nav>
         </Collapse>
-      ) : (
-        <Nav navbar className={`align-items-center d-none d-${topNavbarBreakpoint}-block`}>
-          <NavItem>
-            <SearchBox autoCompleteItem={autoCompleteInitialItem} />
-          </NavItem>
-        </Nav>
-      )}
+      ) : null}
 
       <TopNavRightSideNavItem />
     </Navbar>

@@ -38,7 +38,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - moved cursor.close before cnx.close in myems aggregation service.
 
 ### Removed
--   None.
+- Removed search box from navbar of web ui.
 
 ## [v1.8.2] -   2022-03-16
 ### Added
