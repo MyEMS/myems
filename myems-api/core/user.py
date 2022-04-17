@@ -814,7 +814,7 @@ class ResetPassword:
 
         query = (" SELECT name "
                  " FROM tbl_users "
-                 " WHERE uuid = %s AND is_admin = true ")
+                 " WHERE uuid = %s AND is_admin = 1 ")
         cursor.execute(query, (admin_user_uuid,))
         row = cursor.fetchone()
         if row is None:
