@@ -245,8 +245,8 @@ class Reporting:
                  " AND start_datetime_utc >= %s "
                  " AND start_datetime_utc < %s "
                  " ORDER BY start_datetime_utc ")
-        cursor_carbon.execute(query, (virtual_meter['id'], reporting_start_datetime_utc, reporting_end_datetime_utc))
-        rows_virtual_meter_hourly = cursor_carbon.fetchall()
+        cursor_energy.execute(query, (virtual_meter['id'], reporting_start_datetime_utc, reporting_end_datetime_utc))
+        rows_virtual_meter_hourly = cursor_energy.fetchall()
 
         rows_virtual_meter_periodically = utilities.aggregate_hourly_data_by_period(rows_virtual_meter_hourly,
                                                                                     reporting_start_datetime_utc,
