@@ -166,8 +166,8 @@ class UserCollection:
 
         add_row = (" INSERT INTO tbl_users "
                    "     (name, uuid, display_name, email, salt, password, is_admin, privilege_id, "
-                   "      account_expiration_datetime_utc, password_expiration_datetime_utc) "
-                   " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                   "      account_expiration_datetime_utc, password_expiration_datetime_utc, failed_login_count) "
+                   " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
 
         salt = uuid.uuid4().hex
         password = new_values['data']['password']
@@ -182,7 +182,8 @@ class UserCollection:
                                  is_admin,
                                  privilege_id,
                                  account_expiration_datetime,
-                                 password_expiration_datetime))
+                                 password_expiration_datetime,
+                                 0))
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
