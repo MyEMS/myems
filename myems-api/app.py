@@ -5,7 +5,7 @@ from core import energyflowdiagram, privilege, textmessage, distributioncircuit,
     costcenter, point, knowledgefile, meter, tariff, user, storetype, timezone, \
     costfile, offlinemeterfile, version, contact, emailserver, combinedequipment, datasource, equipment, tenant, \
     shopfloor, webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, \
-    offlinemeter, rule, energycategory, sensor, energyitem, notification, menu
+    offlinemeter, rule, energycategory, sensor, energyitem, notification, menu, svg
 from reports import advancedreport
 from reports import distributionsystem as distributionsystemreport
 from reports import energyflowdiagram as energyflowdiagramreport
@@ -413,6 +413,11 @@ api.add_route('/tariffs',
               tariff.TariffCollection())
 api.add_route('/tariffs/{id_}',
               tariff.TariffItem())
+
+api.add_route('/svgs',
+              svg.Collection())
+api.add_route('/svgs/{id_}',
+              svg.Item())
 
 api.add_route('/tenants',
               tenant.TenantCollection())
