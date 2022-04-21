@@ -9,6 +9,10 @@ import {
   Form,
   FormGroup,
   Label,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
   Row,
   Spinner
 } from 'reactstrap';
@@ -20,6 +24,7 @@ import uuid from 'uuid/v1';
 import { toast } from 'react-toastify';
 import { APIBaseURL } from '../../../config';
 import ButtonIcon from '../../common/ButtonIcon';
+import ReactHtmlParser from 'react-html-parser'; 
 
 const SvgSystem = ({ setRedirect, setRedirectUrl, t }) => {
   useEffect(() => {
@@ -151,6 +156,13 @@ const SvgSystem = ({ setRedirect, setRedirectUrl, t }) => {
     console.log('svgSystemContentDict', svgSystemContentDict);
   }, [svgSystemContentDict]);
 
+  const showData = (e) =>{
+    console.log("showData", e);
+  }
+
+  function test() {
+    console.log("Hello World")
+  }
   return (
     <Fragment>
       <div>
@@ -204,6 +216,16 @@ const SvgSystem = ({ setRedirect, setRedirectUrl, t }) => {
           <div dangerouslySetInnerHTML={svgSystemContentDict} />
         </Col>
       </Row>
+      <Modal>
+        <ModalHeader> {t('Data Show')} </ModalHeader>
+        <ModalBody>
+
+        </ModalBody>
+                      
+                      <ModalFooter>
+
+                      </ModalFooter>
+      </Modal>
     </Fragment>
   );
 };
