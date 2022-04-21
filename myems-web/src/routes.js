@@ -443,7 +443,8 @@ export const auxiliarySystemRoutes = {
   icon: 'chart-pie',
   children: [
     { to: '/auxiliarysystem/energyflowdiagram', name: 'Energy Flow Diagram' },
-    { to: '/auxiliarysystem/distributionsystem', name: 'Distribution System' }
+    { to: '/auxiliarysystem/distributionsystem', name: 'Distribution System' },
+    { to: '/auxiliarysystem/svgsystem', name: 'Svg System' }
   ]
 };
 

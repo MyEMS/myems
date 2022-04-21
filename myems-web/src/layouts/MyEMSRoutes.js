@@ -196,6 +196,7 @@ import AdvancedReporting from '../components/MyEMS/AdvancedReporting/AdvancedRep
 import KnowledgeBase from '../components/MyEMS/KnowledgeBase/KnowledgeBase';
 // Notification
 import Notification from '../components/MyEMS/Notification/Notification';
+import SvgSystem from '../components/MyEMS/AuxiliarySystem/SvgSystem';
 
 // const InboxRoutes = ({ match: { url } }) => (
 //   <InboxProvider>
@@ -422,6 +423,7 @@ const MyEMSRoutes = () => (
     {/*Auxiliary System*/}
     <Route path="/auxiliarysystem/energyflowdiagram" exact component={EnergyFlowDiagram} />
     <Route path="/auxiliarysystem/distributionsystem" exact component={DistributionSystem} />
+    <Route path="/auxiliarysystem/svgsystem" exact component={SvgSystem} />
 
     {/*FDD*/}
     <Route path="/fdd/combinedequipment" exact component={FDDCombinedEquipmentFault} />
