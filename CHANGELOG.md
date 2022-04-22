@@ -5,13 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
-- None.
+- added API reverse proxy in Apache conf.
 
 ### Changed
-- None.
+- replaced true with 1 in SQL statements of myems-api.
+- updated user insert sql statement for failed_login_count.
 
 ### Fixed
-- None.
+- fixed typo in virtualmetercarbon.
 
 ### Removed
 - None.

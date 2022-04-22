@@ -164,7 +164,7 @@ Listen 8001
 sudo vi /etc/apache2/sites-available/000-default.conf
 ```
 Add a new 'VirtualHost' as below
-```xml
+```
 <VirtualHost 127.0.0.1:8001>
         ServerAdmin MyEMS-admin
         DocumentRoot /var/www/myems-admin
@@ -173,9 +173,19 @@ Add a new 'VirtualHost' as below
                 Options FollowSymLinks
                 AllowOverride All
                 Require all granted
+    			Header set Access-Control-Allow-Origin *
         </Directory>
         ErrorLog ${APACHE_LOG_DIR}/error.log
         CustomLog ${APACHE_LOG_DIR}/access.log combined
+        ProxyRequests Off
+		ProxyPreserveHost On
+		
+		<Proxy *>
+			Order Deny,Allow
+			Allow from all
+		</Proxy>
+		ProxyPass /api http://127.0.0.1:8000/
+		ProxyPassReverse /api http://127.0.0.1:8000/
 </VirtualHost>
 ```
 
