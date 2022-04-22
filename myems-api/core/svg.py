@@ -1,3 +1,5 @@
+import re
+
 import falcon
 import simplejson as json
 import mysql.connector
@@ -20,7 +22,7 @@ class Collection:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor(dictionary=True)
 
-        query = (" SELECT id, name, content "
+        query = (" SELECT id, name "
                  " FROM tbl_svgs "
                  " ORDER BY id ")
         cursor.execute(query)
@@ -30,8 +32,7 @@ class Collection:
         if rows_svgs is not None and len(rows_svgs) > 0:
             for row in rows_svgs:
                 temp = {"id": row['id'],
-                        "name": row['name'],
-                        "content": row['content']}
+                        "name": row['name']}
 
                 result.append(temp)
 
@@ -75,57 +76,51 @@ class Item:
             cnx.disconnect()
             resp.text = json.dumps(result)
 
-        query = (" SELECT id, svg_id, point_id, point_icon, point_x, point_y, meter_type, meter_id, meter_name, func"
-                 " FROM tbl_svg_points "
-                 " WHERE svg_id=%s ")
-        cursor.execute(query, (id_,))
-        rows_point = cursor.fetchall()
+        tmp_content = result['content']
+        # Get all ids
+        ids = re.findall(r'<text id="(.*?)" .*?>8*</text>', tmp_content)  # # ['PT100', 'PT101']
+        # Get All Data
+        """
+        数据点 Point 代码 PT
+        计量表 Meter 代号 MT
+        虚拟表 VirtualMeter 代号 VM
+        离线表 OfflineMeter 代码 OM
+        空间 Space 代号 SP
+        传感器 Sensor 代号 SS
+        设备 Equipment 代号 EQ
+        组合设备 CombinedEquipment 代码 CE
+        车间 Shopfloor代码 SF
+        """
+        _dict = {
+            'PT': {},
+            'MT': {},
+            'VM': {},
+            'OM': {},
+            'SP': {},
+            'SS': {},
+            'EQ': {},
+            'CE': {},
+            'SF': {},
+        }
 
-        add_svg = ""
-        if rows_point is not None and len(rows_point) > 0:
-            for row in rows_point:
-                print("row", row)
-                add_svg = add_svg + \
-                          '<image id="{point_id}" onclick={l_tag}{func}(this,"{meter_type}",{meter_id},"{meter_name}"){r_tag} overflow="visible" width="80" height="80" xlink:href="{point_icon}"  transform="translate({point_x},{point_y})"> </image>\n'. \
-                              format(point_id=row['point_id'],
-                                     point_icon=row['point_icon'],
-                                     point_x=row['point_x'],
-                                     point_y=row['point_y'],
-                                     func= row['func'],
-                                     meter_type=row['meter_type'],
-                                     meter_id=row['meter_id'],
-                                     meter_name=row['meter_name'],
-                                     r_tag="}",
-                                     l_tag="{",
-                                     )
+        # Group the tag
+        for item in ids:
+            _type = item[0:2]
+            _number = item[2:]
+            if _number not in _dict[_type].keys():
+                _dict[_type][_number] = 111
 
-            result['content'] = result['content'].replace("Template", add_svg)
-        else:
-            result['content'] = result['content'].replace("TEMPLATE", "")
+        # Todo: Get data from database
 
-        result['content'] = """
-<svg version="1.1" id="svg_01" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 1920 912" enable-background="new 0 0 1920 912" xml:space="preserve">
+        # Replace
+        for item in ids:
+            r_type = item[0:2]
+            r_id = item[2:]
+            tmp_content = re.sub(r'<text id="' + item + '" (?P<other>.*?)>8*</text>',
+                                 r'<text id="' + item + '" \g<other> >' + str(_dict[r_type][r_id]) + '</text>',
+                                 tmp_content)
 
-     <image id="1" onClick="test()" overflow="visible" width="80" height="80" xlink:href="meter.png"  transform="translate(100.0,100.0)"> </image>
-
-<g>
-	<g>
-		<g>
-			<ellipse fill="#FFFFFF" cx="1137.5" cy="457.4" rx="44" ry="37.8"/>
-			<path d="M1137.5,420c24,0,43.5,16.7,43.5,37.3s-19.5,37.3-43.5,37.3s-43.5-16.7-43.5-37.3S1113.5,420,1137.5,420 M1137.5,419
-				c-24.6,0-44.5,17.2-44.5,38.3s19.9,38.3,44.5,38.3s44.5-17.2,44.5-38.3S1162.1,419,1137.5,419L1137.5,419z"/>
-		</g>
-		<ellipse fill="none" cx="1146" cy="460.1" rx="31" ry="31.4"/>
-		
-			<text transform="matrix(0.7175 0 0 1 1120.8711 472.938)" stroke="#000000" stroke-miterlimit="10" font-family="'AdobeSongStd-Light-GBpc-EUC-H'" font-size="50.1724px">Ａ</text>
-	</g>
-	<text transform="matrix(0.7175 0 0 1 1077.3623 554.2559)" font-family="'AdobeSongStd-Light-GBpc-EUC-H'" font-size="50.1724px">FFF2 {text}</text>
-</g>
-
-</svg>
-"""
-
+        result['content'] = tmp_content
         cursor.close()
         cnx.disconnect()
         resp.text = json.dumps(result)
