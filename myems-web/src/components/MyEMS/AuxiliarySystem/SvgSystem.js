@@ -89,6 +89,7 @@ const SvgSystem = ({ setRedirect, setRedirectUrl, t }) => {
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
+  // Select: Choose Svg
   const onSvgSystemChange = event => {
     setSelectedSvgSystemID(event.target.value);
     console.log('You Change the Svg ID', event.target.value);
@@ -96,6 +97,7 @@ const SvgSystem = ({ setRedirect, setRedirectUrl, t }) => {
     getSvgContent(event.target.value);
   };
 
+  // Fcuntion: Get Svg Content
   const getSvgContent = svgId => {
     let isResponseOK = false;
     fetch(APIBaseURL + '/svgs/' + svgId, {
@@ -126,9 +128,6 @@ const SvgSystem = ({ setRedirect, setRedirectUrl, t }) => {
       .catch(err => {
         console.log(err);
       });
-  };
-  const viewSvg = () => {
-    getSvgContent(selectedSvgSystemID);
   };
 
   useEffect(() => {
