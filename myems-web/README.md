@@ -276,7 +276,7 @@ sudo vi .htaccess
 ```
   Add a IfModule as below:
 ```bash
-IfModule mod_rewrite.c>
+<IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
   RewriteRule ^index\.html$ - [L]
