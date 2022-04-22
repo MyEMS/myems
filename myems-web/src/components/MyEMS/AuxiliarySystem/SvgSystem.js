@@ -195,19 +195,7 @@ const SvgSystem = ({ setRedirect, setRedirectUrl, t }) => {
                   </CustomInput>
                 </FormGroup>
               </Col>
-              <Col xs="auto">
-                <FormGroup>
-                  <br />
-                  <Spinner color="primary" hidden={spinnerHidden} />
-                </FormGroup>
-              </Col>
             </Row>
-            <Col xs="auto">
-              <br />
-              <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default" onClick={viewSvg}>
-                {t('View')}
-              </ButtonIcon>
-            </Col>
           </Form>
         </CardBody>
       </Card>
