@@ -107,6 +107,9 @@ class Item:
         for item in ids:
             _type = item[0:2]
             _number = item[2:]
+            if _type not in _dict.keys():
+                print("Error Type", item)
+                continue
             if _number not in _dict[_type].keys():
                 _dict[_type][_number] = 111
 
