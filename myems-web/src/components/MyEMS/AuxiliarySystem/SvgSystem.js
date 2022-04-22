@@ -20,11 +20,8 @@ import RealtimeChart from './RealtimeChart';
 import { getCookieValue, createCookie } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
-import uuid from 'uuid/v1';
 import { toast } from 'react-toastify';
 import { APIBaseURL } from '../../../config';
-import ButtonIcon from '../../common/ButtonIcon';
-import ReactHtmlParser from 'react-html-parser'; 
 
 const SvgSystem = ({ setRedirect, setRedirectUrl, t }) => {
   useEffect(() => {
@@ -45,21 +42,18 @@ const SvgSystem = ({ setRedirect, setRedirectUrl, t }) => {
       createCookie('token', token, 1000 * 60 * 60 * 8);
     }
   });
-  let table = createRef();
+
   // Svg List
   const [svgSystemList, setSvgSystemList] = useState([]);
-
-  // Svg Content
-  const [svgSystemContent, setSvgSystemContent] = useState(undefined);
-  const [svgSystemContentDict, setSvgSystemContentDict] = useState(undefined);
 
   // Query Parameters
   const [selectedSvgSystemID, setSelectedSvgSystemID] = useState(undefined);
 
-  //Results
-  const [images, setImages] = useState([]);
-  const [spinnerHidden, setSpinnerHidden] = useState(false);
+  // Results
+  const [svgSystemContent, setSvgSystemContent] = useState(undefined);
+  const [svgSystemContentDict, setSvgSystemContentDict] = useState(undefined);
 
+  // Init: Get svgs and set the first svg
   useEffect(() => {
     let isResponseOK = false;
     fetch(APIBaseURL + '/svgs', {
@@ -81,7 +75,6 @@ const SvgSystem = ({ setRedirect, setRedirectUrl, t }) => {
       .then(json => {
         console.log(json);
         if (isResponseOK) {
-          console.log('svgs', json);
           setSvgSystemList(json);
           setSelectedSvgSystemID(json[0].id);
           getSvgContent(json[0].id);
@@ -96,12 +89,11 @@ const SvgSystem = ({ setRedirect, setRedirectUrl, t }) => {
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
-  let onSvgSystemChange = event => {
+  const onSvgSystemChange = event => {
     setSelectedSvgSystemID(event.target.value);
-    console.log('onSvgSystemChange ID', event.target.value);
+    console.log('You Change the Svg ID', event.target.value);
     // Get Svg Content
     getSvgContent(event.target.value);
-
   };
 
   const getSvgContent = svgId => {
@@ -125,9 +117,8 @@ const SvgSystem = ({ setRedirect, setRedirectUrl, t }) => {
       .then(json => {
         console.log(json);
         if (isResponseOK) {
-          console.log('getSvgContent', json.content);
           setSvgSystemContent(json.content);
-          setSvgSystemContentDict({__html: json.content});
+          setSvgSystemContentDict({ __html: json.content });
         } else {
           toast.error(json.description);
         }
@@ -156,13 +147,6 @@ const SvgSystem = ({ setRedirect, setRedirectUrl, t }) => {
     console.log('svgSystemContentDict', svgSystemContentDict);
   }, [svgSystemContentDict]);
 
-  const showData = (e) =>{
-    console.log("showData", e);
-  }
-
-  function test() {
-    console.log("Hello World")
-  }
   return (
     <Fragment>
       <div>
@@ -199,21 +183,9 @@ const SvgSystem = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <Row noGutters>
-        <Col lg="10" className="pr-lg-2">
-          <div dangerouslySetInnerHTML={svgSystemContentDict} />
-        </Col>
-      </Row>
-      <Modal>
-        <ModalHeader> {t('Data Show')} </ModalHeader>
-        <ModalBody>
-
-        </ModalBody>
-                      
-                      <ModalFooter>
-
-                      </ModalFooter>
-      </Modal>
+      <Card className="bg-light">
+        <div dangerouslySetInnerHTML={svgSystemContentDict} />
+      </Card>
     </Fragment>
   );
 };
