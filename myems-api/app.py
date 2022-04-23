@@ -5,7 +5,7 @@ from core import energyflowdiagram, privilege, textmessage, distributioncircuit,
     costcenter, point, knowledgefile, meter, tariff, user, storetype, timezone, \
     costfile, offlinemeterfile, version, contact, emailserver, combinedequipment, datasource, equipment, tenant, \
     shopfloor, webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, \
-    offlinemeter, rule, energycategory, sensor, energyitem, notification, menu, svg
+    offlinemeter, rule, energycategory, sensor, energyitem, notification, menu
 from reports import advancedreport
 from reports import distributionsystem as distributionsystemreport
 from reports import energyflowdiagram as energyflowdiagramreport
@@ -85,6 +85,7 @@ from reports import virtualmetercost
 ########################################################################################################################
 # BEGIN imports for Enterprise Version
 ########################################################################################################################
+from pro import svg
 
 ########################################################################################################################
 # END imports for Enterprise Version
@@ -414,11 +415,6 @@ api.add_route('/tariffs',
 api.add_route('/tariffs/{id_}',
               tariff.TariffItem())
 
-api.add_route('/svgs',
-              svg.Collection())
-api.add_route('/svgs/{id_}',
-              svg.Item())
-
 api.add_route('/tenants',
               tenant.TenantCollection())
 api.add_route('/tenants/{id_}',
@@ -654,7 +650,10 @@ api.add_route('/reports/virtualmetercost',
 ########################################################################################################################
 # BEGIN Routes for Enterprise Edition
 ########################################################################################################################
-
+api.add_route('/svgs',
+              svg.Collection())
+api.add_route('/svgs/{id_}',
+              svg.Item())
 ########################################################################################################################
 # END Routes for Enterprise Edition
 ########################################################################################################################
