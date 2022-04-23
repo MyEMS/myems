@@ -177,6 +177,7 @@ import CombinedEquipmentStatistics from '../components/MyEMS/CombinedEquipment/C
 // Auxiliary System
 import EnergyFlowDiagram from '../components/MyEMS/AuxiliarySystem/EnergyFlowDiagram';
 import DistributionSystem from '../components/MyEMS/AuxiliarySystem/DistributionSystem';
+// import SvgSystem from '../components/MyEMS/AuxiliarySystem/SvgSystem';
 // FDD
 import FDDCombinedEquipmentFault from '../components/MyEMS/FDD/CombinedEquipmentFault';
 import FDDEquipmentFault from '../components/MyEMS/FDD/EquipmentFault';
@@ -196,7 +197,7 @@ import AdvancedReporting from '../components/MyEMS/AdvancedReporting/AdvancedRep
 import KnowledgeBase from '../components/MyEMS/KnowledgeBase/KnowledgeBase';
 // Notification
 import Notification from '../components/MyEMS/Notification/Notification';
-import SvgSystem from '../components/MyEMS/AuxiliarySystem/SvgSystem';
+
 
 // const InboxRoutes = ({ match: { url } }) => (
 //   <InboxProvider>
@@ -423,7 +424,7 @@ const MyEMSRoutes = () => (
     {/*Auxiliary System*/}
     <Route path="/auxiliarysystem/energyflowdiagram" exact component={EnergyFlowDiagram} />
     <Route path="/auxiliarysystem/distributionsystem" exact component={DistributionSystem} />
-    <Route path="/auxiliarysystem/svgsystem" exact component={SvgSystem} />
+    {/* <Route path="/auxiliarysystem/svgsystem" exact component={SvgSystem} /> */}
 
     {/*FDD*/}
     <Route path="/fdd/combinedequipment" exact component={FDDCombinedEquipmentFault} />

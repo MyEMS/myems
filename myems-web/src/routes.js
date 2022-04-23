@@ -444,7 +444,7 @@ export const auxiliarySystemRoutes = {
   children: [
     { to: '/auxiliarysystem/energyflowdiagram', name: 'Energy Flow Diagram' },
     { to: '/auxiliarysystem/distributionsystem', name: 'Distribution System' },
-    { to: '/auxiliarysystem/svgsystem', name: 'Svg System' }
+    // { to: '/auxiliarysystem/svgsystem', name: 'Svg System' }
   ]
 };
 
