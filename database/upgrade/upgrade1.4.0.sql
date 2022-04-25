@@ -50,6 +50,7 @@ WHERE tv.expression_id = te.id ;
 
 DROP TABLE IF EXISTS myems_system_db.tbl_variables;
 DROP TABLE IF EXISTS myems_system_db.tbl_virtual_meters;
+DROP TABLE IF EXISTS myems_system_db.tbl_expressions;
 
 ALTER TABLE myems_system_db.tbl_variables_new RENAME myems_system_db.tbl_variables;
 ALTER TABLE myems_system_db.tbl_virtual_meters_new RENAME myems_system_db.tbl_virtual_meters;
