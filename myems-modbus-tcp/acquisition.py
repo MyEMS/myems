@@ -194,18 +194,15 @@ def process(logger, data_source_id, host, port):
                     value = result[0]
 
                 if point['object_type'] == 'ANALOG_VALUE':
-                    analog_value_list.append({'data_source_id': data_source_id,
-                                              'point_id': point['id'],
+                    analog_value_list.append({'point_id': point['id'],
                                               'is_trend': point['is_trend'],
                                               'value': Decimal(value) * point['ratio']})
                 elif point['object_type'] == 'ENERGY_VALUE':
-                    energy_value_list.append({'data_source_id': data_source_id,
-                                              'point_id': point['id'],
+                    energy_value_list.append({'point_id': point['id'],
                                               'is_trend': point['is_trend'],
                                               'value': Decimal(value) * point['ratio']})
                 elif point['object_type'] == 'DIGITAL_VALUE':
-                    digital_value_list.append({'data_source_id': data_source_id,
-                                               'point_id': point['id'],
+                    digital_value_list.append({'point_id': point['id'],
                                                'is_trend': point['is_trend'],
                                                'value': int(value) * int(point['ratio'])})
 
