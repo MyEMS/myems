@@ -312,13 +312,13 @@ export const dashboardRoutes = {
   name: 'Dashboard',
   to: '/dashboard',
   exact: true,
-  icon: 'chart-pie'
+  icon: 'tachometer-alt'
 };
 
 export const spaceRoutes = {
   name: 'Space Data',
   to: '/space',
-  icon: 'chart-pie',
+  icon: 'building',
   exact: true,
   children: [
     { to: '/space/energycategory', name: 'Energy Category Data' },
@@ -336,7 +336,7 @@ export const spaceRoutes = {
 export const equipmentRoutes = {
   name: 'Equipment Data',
   to: '/equipment',
-  icon: 'chart-pie',
+  icon: 'cog',
   children: [
     { to: '/equipment/energycategory', name: 'Energy Category Data' },
     { to: '/equipment/energyitem', name: 'Energy Item Data' },
@@ -376,7 +376,7 @@ export const meterRoutes = {
 export const tenantRoutes = {
   name: 'Tenant Data',
   to: '/tenant',
-  icon: 'chart-pie',
+  icon: 'user',
   children: [
     { to: '/tenant/energycategory', name: 'Energy Category Data' },
     { to: '/tenant/energyitem', name: 'Energy Item Data' },
@@ -392,7 +392,7 @@ export const tenantRoutes = {
 export const storeRoutes = {
   name: 'Store Data',
   to: '/store',
-  icon: 'chart-pie',
+  icon: 'shopping-bag',
   children: [
     { to: '/store/energycategory', name: 'Energy Category Data' },
     { to: '/store/energyitem', name: 'Energy Item Data' },
@@ -407,7 +407,7 @@ export const storeRoutes = {
 export const shopfloorRoutes = {
   name: 'Shopfloor Data',
   to: '/shopfloor',
-  icon: 'chart-pie',
+  icon: 'industry',
   children: [
     { to: '/shopfloor/energycategory', name: 'Energy Category Data' },
     { to: '/shopfloor/energyitem', name: 'Energy Item Data' },
@@ -422,7 +422,7 @@ export const shopfloorRoutes = {
 export const combinedEquipmentRoutes = {
   name: 'Combined Equipment Data',
   to: '/combinedequipment',
-  icon: 'chart-pie',
+  icon: 'cogs',
   children: [
     { to: '/combinedequipment/energycategory', name: 'Energy Category Data' },
     { to: '/combinedequipment/energyitem', name: 'Energy Item Data' },
@@ -440,7 +440,7 @@ export const combinedEquipmentRoutes = {
 export const auxiliarySystemRoutes = {
   name: 'Auxiliary System',
   to: '/auxiliarysystem',
-  icon: 'chart-pie',
+  icon: 'tv',
   children: [
     { to: '/auxiliarysystem/energyflowdiagram', name: 'Energy Flow Diagram' },
     { to: '/auxiliarysystem/distributionsystem', name: 'Distribution System' }
@@ -464,7 +464,7 @@ export const fddRoutes = {
 export const monitoringRoutes = {
   name: 'Monitoring',
   to: '/monitoring',
-  icon: 'chart-pie',
+  icon: 'eye',
   children: [
     { to: '/monitoring/spaceequipments', name: 'Space Equipments' },
     { to: '/monitoring/combinedequipments', name: 'Combined Equipments' },
@@ -485,7 +485,7 @@ export const knowledgeBaseRoutes = {
   name: 'Knowledge Base',
   to: '/knowledgebase',
   exact: true,
-  icon: 'book'
+  icon: 'folder'
 };
 
 export default [
