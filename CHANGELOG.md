@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - replaced true with 1 in SQL statements of myems-api.
 - updated user insert sql statement for failed_login_count.
 - updated icons for vertical menu items.
+- updated acquisition procedure of myems-modbus-tcp.
 
 ### Fixed
 - fixed typo in virtualmetercarbon.
