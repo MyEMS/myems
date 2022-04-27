@@ -150,6 +150,7 @@ http{
     gzip_proxied any;
     gzip_types *;
     gzip_vary on;
+    proxy_buffering off;
     ...
 
 }
