@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 - fixed typo in virtualmetercarbon.
 - updated database upgrade1.4.0 sql script
+- set proxy_buffering off in nginx.conf files. 
 
 ### Removed
 - None.
