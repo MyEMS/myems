@@ -51,12 +51,12 @@ docker build -t myems/myems-admin .
 If run on Windows host, bind-mount a share upload file folder at c:\myems-upload to the container and also bind-mount nginx.conf 
 -v parameter for upload folder must be same with that in myems-api
 ```bash
-docker run -d -p 8001:8001 -v c:\myems-upload:/var/www/myems-admin/upload -v c:\myems-admin/nginx.conf:/etc/nginx/nginx.conf:ro --restart always --name myems-admin myems/myems-admin
+docker run -d -p 8001:8001 -v c:\myems-upload:/var/www/myems-admin/upload -v c:\myems-admin/nginx.conf:/etc/nginx/nginx.conf:ro --log-opt max-size=1m --log-opt max-file=2 --restart always --name myems-admin myems/myems-admin
 ```
 
 If run on Linux host, bind-mount a share upload file folder at /myems-upload to the container and also bind-mount nginx.conf 
 ```bash
-docker run -d -p 8001:8001 -v /myems-upload:/var/www/myems-admin/upload -v /myems-admin/nginx.conf:/etc/nginx/nginx.conf:ro --restart always --name myems-admin myems/myems-admin
+docker run -d -p 8001:8001 -v /myems-upload:/var/www/myems-admin/upload -v /myems-admin/nginx.conf:/etc/nginx/nginx.conf:ro --log-opt max-size=1m --log-opt max-file=2 --restart always --name myems-admin myems/myems-admin
 ```
 
 * -d Run container in background and print container ID
@@ -67,6 +67,10 @@ TCP port 8001 (left) of the host machine.
 * -v If you use -v or --volume to bind-mount a file or directory that does not yet exist on the Docker host, 
 -v creates the endpoint for you. It is always created as a directory.
 The ro option, if present, causes the bind mount to be mounted into the container as read-only.
+
+* --log-opt max-size=2m The maximum size of the log before it is rolled. A positive integer plus a modifier representing the unit of measure (k, m, or g).
+
+* --log-opt max-file=2 The maximum number of log files that can be present. If rolling the logs creates excess files, the oldest file is removed. A positive integer. 
 
 * --restart Restart policy to apply when a container exits
 

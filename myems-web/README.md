@@ -100,11 +100,11 @@ docker build -t myems/myems-web .
 
 If run on Windows host, bind-mount nginx.conf to the container
 ```bash
-docker run -d -p 80:80 -v c:\myems-web/nginx.conf:/etc/nginx/nginx.conf:ro --restart always --name myems-web myems/myems-web
+docker run -d -p 80:80 -v c:\myems-web/nginx.conf:/etc/nginx/nginx.conf:ro --log-opt max-size=1m --log-opt max-file=2 --restart always --name myems-web myems/myems-web
 ```
 If run on Linux host, bind-mount nginx.conf 
 ```bash
-docker run -d -p 80:80 -v /myems-web/nginx.conf:/etc/nginx/nginx.conf:ro --restart always --name myems-web myems/myems-web
+docker run -d -p 80:80 -v /myems-web/nginx.conf:/etc/nginx/nginx.conf:ro --log-opt max-size=1m --log-opt max-file=2 --restart always --name myems-web myems/myems-web
 ```
 
 * -d Run container in background and print container ID
@@ -115,6 +115,10 @@ TCP port 80 (left) of the host machine.
 * -v If you use -v or --volume to bind-mount a file or directory that does not yet exist on the Docker host, 
 -v creates the endpoint for you. It is always created as a directory.
 The ro option, if present, causes the bind mount to be mounted into the container as read-only.
+
+* --log-opt max-size=2m The maximum size of the log before it is rolled. A positive integer plus a modifier representing the unit of measure (k, m, or g).
+
+* --log-opt max-file=2 The maximum number of log files that can be present. If rolling the logs creates excess files, the oldest file is removed. A positive integer. 
 
 * --restart Restart policy to apply when a container exits
 
