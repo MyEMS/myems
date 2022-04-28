@@ -62,12 +62,12 @@ docker build -t myems/myems-modbus-tcp .
 
 On Windows host, bind-mount the .env to the container:
 ```bash
-docker run -d -v c:\myems-modbus-tcp\.env:/code/.env:ro --restart always --name myems-modbus-tcp myems/myems-modbus-tcp
+docker run -d -v c:\myems-modbus-tcp\.env:/code/.env:ro --log-opt max-size=1m --log-opt max-file=2 --restart always --name myems-modbus-tcp myems/myems-modbus-tcp
 ```
 
 On Linux host, bind-mount the .env to the container:
 ```bash
-docker run -d -v /myems-modbus-tcp/.env:/code/.env:ro --restart always --name myems-modbus-tcp myems/myems-modbus-tcp
+docker run -d -v /myems-modbus-tcp/.env:/code/.env:ro --log-opt max-size=1m --log-opt max-file=2 --restart always --name myems-modbus-tcp myems/myems-modbus-tcp
 ```
 
 * -d Run container in background and print container ID
@@ -75,6 +75,10 @@ docker run -d -v /myems-modbus-tcp/.env:/code/.env:ro --restart always --name my
 * -v If you use -v or --volume to bind-mount a file or directory that does not yet exist on the Docker host, 
 -v creates the endpoint for you. It is always created as a directory.
 The ro option, if present, causes the bind mount to be mounted into the container as read-only.
+
+* --log-opt max-size=2m The maximum size of the log before it is rolled. A positive integer plus a modifier representing the unit of measure (k, m, or g).
+
+* --log-opt max-file=2 The maximum number of log files that can be present. If rolling the logs creates excess files, the oldest file is removed. A positive integer. 
 
 * --restart Restart policy to apply when a container exits
 
