@@ -17,8 +17,10 @@
     "@fullcalendar/react": "^5.3.1",
     "@fullcalendar/timegrid": "^5.3.1",
     "@loadable/component": "^5.13.2",
+    "assert": "^2.0.0",
     "attr-accept": "^2.2.2",
     "bootstrap": "^4.5.3",
+    "buffer": "^6.0.3",
     "chart.js": "^2.9.3",
     "classnames": "^2.2.6",
     "echarts": "^5.2.2",
@@ -73,9 +75,9 @@
     "react-toastify": "^5.5.0",
     "react-typed": "^1.2.0",
     "reactstrap": "^8.6.0",
+    "rsuite": "^5.6.1",
     "slick-carousel": "^1.8.1",
-    "uuid": "^3.4.0",
-    "rsuite": "^5.6.1"
+    "uuid": "^3.4.0"
   },
   "scripts": {
     "start": "react-scripts --openssl-legacy-provider start",
@@ -92,7 +94,6 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.28.0",
-    "postcss": "^8.0.0",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^6.1.0",
     "gulp-clean-css": "^4.3.0",
@@ -101,6 +102,7 @@
     "gulp-rtlcss": "^1.4.1",
     "gulp-sass": "^5.0.0",
     "gulp-sourcemaps": "^2.6.5",
+    "postcss": "^8.0.0",
     "prettier": "1.17.1",
     "sass": "^1.43.4"
   }

@@ -60,3 +60,6 @@ ENV/
 env.bak/
 venv.bak/
 pythonenv*
+
+# ee files
+ee/
