@@ -1,7 +1,7 @@
 FROM node:latest as build-stage
 WORKDIR /opt
 COPY . .
-RUN npm install --registry https://registry.npm.taobao.org
+RUN npm install --unsafe-perm=true --allow-root --legacy-peer-deps --registry https://registry.npm.taobao.org
 RUN npm run build
 
 

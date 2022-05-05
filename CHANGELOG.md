@@ -26,6 +26,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - updated icons for vertical menu items.
 - updated acquisition procedure of myems-modbus-tcp.
 - updated myems-web for SCADA visualization system.
+- updated Dockerfile of myems-web.
 
 ### Fixed
 - fixed typo in virtualmetercarbon.
