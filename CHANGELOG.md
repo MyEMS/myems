@@ -5,6 +5,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+- None.
+
+### Changed
+- None.
+
+### Fixed
+
+### Removed
+- None.
+
+
+## [v1.9.1] -   2022-05-05
+### Added
 - added API reverse proxy in Apache conf.
 
 ### Changed
@@ -18,6 +31,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed typo in virtualmetercarbon.
 - updated database upgrade1.4.0 sql script
 - set proxy_buffering off in nginx.conf files. 
+- fixed row meters index error in meterbatch report api.
 
 ### Removed
 - None.
@@ -804,7 +818,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v1.9.0...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v1.9.1...HEAD
+[v1.9.1]: https://github.com/MyEMS/myems/compare/v1.9.0...v1.9.1
 [v1.9.0]: https://github.com/MyEMS/myems/compare/v1.8.2...v1.9.0
 [v1.8.2]: https://github.com/MyEMS/myems/compare/v1.8.1...v1.8.2
 [v1.8.1]: https://github.com/MyEMS/myems/compare/v1.8.0...v1.8.1
