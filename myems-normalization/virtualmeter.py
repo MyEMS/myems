@@ -443,7 +443,7 @@ def worker(virtual_meter):
             cnx_energy_db.close()
         return "Error in step 4.1 virtual meter worker " + str(e) + " for '" + virtual_meter['name'] + "'"
 
-    print("saving energy values to table virtual meter hourly...")
+    print("saving energy values to table energy virtual meter hourly...")
 
     if len(normalized_values) > 0:
         try:
