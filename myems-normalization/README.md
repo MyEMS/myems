@@ -64,16 +64,16 @@ cp example.env .env
 docker build -t myems/myems-normalization .
 ```
 
-* Run a Docker container
-
-On Windows host, bind-mount the .env to the container:
-```bash
-docker run -d -v c:\myems-normalization\.env:/code/.env:ro --log-opt max-size=1m --log-opt max-file=2 --restart always --name myems-normalization myems/myems-normalization
-```
-On Linux host, bind-mount the .env to the container:
+* Run a Docker container on Linux (run as superuser)
 ```bash
 docker run -d -v /myems-normalization/.env:/code/.env:ro --log-opt max-size=1m --log-opt max-file=2 --restart always --name myems-normalization myems/myems-normalization
 ```
+
+* Run a Docker container on Windows (Run as Administrator)
+```bash
+docker run -d -v c:\myems-normalization\.env:/code/.env:ro --log-opt max-size=1m --log-opt max-file=2 --restart always --name myems-normalization myems/myems-normalization
+```
+
 * -d Run container in background and print container ID
 
 * -v If you use -v or --volume to bind-mount a file or directory that does not yet exist on the Docker host, 
