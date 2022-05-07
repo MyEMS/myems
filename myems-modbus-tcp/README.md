@@ -58,16 +58,14 @@ cp example.env .env
 docker build -t myems/myems-modbus-tcp .
 ```
 
-* Run a Docker container
-
-On Windows host, bind-mount the .env to the container:
-```bash
-docker run -d -v c:\myems-modbus-tcp\.env:/code/.env:ro --log-opt max-size=1m --log-opt max-file=2 --restart always --name myems-modbus-tcp myems/myems-modbus-tcp
-```
-
-On Linux host, bind-mount the .env to the container:
+* Run a Docker container on Linux (run as superuser)
 ```bash
 docker run -d -v /myems-modbus-tcp/.env:/code/.env:ro --log-opt max-size=1m --log-opt max-file=2 --restart always --name myems-modbus-tcp myems/myems-modbus-tcp
+```
+
+* Run a Docker container on Windows (Run as Administrator)
+```bash
+docker run -d -v c:\myems-modbus-tcp\.env:/code/.env:ro --log-opt max-size=1m --log-opt max-file=2 --restart always --name myems-modbus-tcp myems/myems-modbus-tcp
 ```
 
 * -d Run container in background and print container ID
@@ -89,7 +87,9 @@ The absolute path after colon is for path on container and that CANNOT be change
 By passing .env as bind-mount parameter, you can change the configuration values later.
 If you changed .env file, restart the container to make the change effective.
 
-If you want to immigrate the image to another computer,
+* Immigrate the Docker container
+
+To immigrate the container to another computer,
 * Export image to tarball file
 ```bash
 docker save --output myems-modbus-tcp.tar myems/myems-modbus-tcp
