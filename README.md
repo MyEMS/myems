@@ -232,3 +232,7 @@ administrator@myems.io
 群号: 792528967
 
 ![QQ群](/docs/images/qq-group.png)
+
+## 视频
+
+[BiliBili](https://space.bilibili.com/539108162)
