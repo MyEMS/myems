@@ -274,7 +274,7 @@ class Reporting:
         child_space_list = list()
         cursor_system.execute(" SELECT id, name  "
                               " FROM tbl_spaces "
-                              " WHERE parent_space_id = %s "
+                              " WHERE parent_space_id = %s AND is_input_counted = 1 "
                               " ORDER BY id ", (space['id'], ))
         rows_child_spaces = cursor_system.fetchall()
         if rows_child_spaces is not None and len(rows_child_spaces) > 0:
