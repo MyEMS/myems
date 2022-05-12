@@ -486,8 +486,11 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                 parameters_ws[col + str(table_current_row_number)].border = f_border
                 parameters_ws[col + str(table_current_row_number)].font = title_font
                 parameters_ws[col + str(table_current_row_number)].alignment = c_c_alignment
-                parameters_ws[col + str(table_current_row_number)] = round(parameters_data['values'][i][j], 2)
-
+                try:
+                    parameters_ws[col + str(table_current_row_number)] = round(parameters_data['values'][i][j], 2)
+                except Exception as e:
+                    print('error 1 in excelexporters\meterenergy: ' + str(e))
+                
                 table_current_row_number += 1
 
             table_current_col_number = table_current_col_number + 3
