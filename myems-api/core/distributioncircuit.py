@@ -147,7 +147,7 @@ class DistributionCircuitCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.DISTRIBUTION_CIRCUIT_NAME_IS_ALREADY_IN_USE')
 
         add_values = (" INSERT INTO tbl_distribution_circuits "
@@ -354,7 +354,7 @@ class DistributionCircuitItem:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.DISTRIBUTION_CIRCUIT_NAME_IS_ALREADY_IN_USE')
 
         update_row = (" UPDATE tbl_distribution_circuits "

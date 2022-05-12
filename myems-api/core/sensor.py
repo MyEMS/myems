@@ -75,7 +75,7 @@ class SensorCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.SENSOR_NAME_IS_ALREADY_IN_USE')
 
         add_values = (" INSERT INTO tbl_sensors "
@@ -255,7 +255,7 @@ class SensorItem:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.SENSOR_NAME_IS_ALREADY_IN_USE')
 
         update_row = (" UPDATE tbl_sensors "

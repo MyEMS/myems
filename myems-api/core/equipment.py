@@ -359,7 +359,7 @@ class EquipmentItem:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.EQUIPMENT_NAME_IS_ALREADY_IN_USE')
 
         cursor.execute(" SELECT name "

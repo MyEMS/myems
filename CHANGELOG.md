@@ -5,15 +5,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
-- None.
+- added bilibili link to README.
 
 ### Changed
-- None.
+- updated Dockerfile of myems-web.
+- updated translations of myems-admin.
 
 ### Fixed
+- fixed wrong http status for XXX_NAME_IS_ALREADY_IN_USE.
 
 ### Removed
-- None.
+- removed child spaces which is not (input or output) counted in from space reports.
 
 
 ## [v1.9.1] -   2022-05-05

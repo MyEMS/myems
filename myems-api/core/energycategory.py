@@ -89,7 +89,7 @@ class EnergyCategoryCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.ENERGY_CATEGORY_NAME_IS_ALREADY_IN_USE')
 
         add_value = (" INSERT INTO tbl_energy_categories "
@@ -292,7 +292,7 @@ class EnergyCategoryItem:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.ENERGY_CATEGORY_NAME_IS_ALREADY_IN_USE')
 
         update_row = (" UPDATE tbl_energy_categories "
