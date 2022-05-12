@@ -230,10 +230,14 @@ def generate_excel(report,
                     row = str(start_detail_data_row_num + j)
                     ws[col + row].font = title_font
                     ws[col + row].alignment = c_c_alignment
-                    ws[col + row] = round(reporting_period_data['values'][i][j], 3) if \
-                        len(reporting_period_data['values'][i]) > 0 and \
-                        len(reporting_period_data['values'][i]) > j and \
-                        reporting_period_data['values'][i][j] is not None else ''
+                    try:
+                        ws[col + row] =  round(reporting_period_data['values'][i][j], 3) if \
+                            len(reporting_period_data['values'][i]) > 0 and \
+                            len(reporting_period_data['values'][i]) > j and \
+                            reporting_period_data['values'][i][j] is not None else ''
+                    except Exception as e:
+                        print('error 1 in excelexporters\metertrend: ' + str(e))
+
                     ws[col + row].border = f_border
             # line
             # 39~: line
@@ -378,8 +382,11 @@ def generate_excel(report,
                 parameters_ws[col + str(table_current_row_number)].border = f_border
                 parameters_ws[col + str(table_current_row_number)].font = title_font
                 parameters_ws[col + str(table_current_row_number)].alignment = c_c_alignment
-                parameters_ws[col + str(table_current_row_number)] = round(parameters_data['values'][i][j], 2)
-
+                try:
+                    parameters_ws[col + str(table_current_row_number)] = round(parameters_data['values'][i][j], 2)
+                except Exception as e:
+                    print('error 2 in excelexporters\metertrend: ' + str(e))
+                
                 table_current_row_number += 1
 
             table_current_col_number = table_current_col_number + 3
