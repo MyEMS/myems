@@ -138,7 +138,7 @@ class ShopfloorCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.SHOPFLOOR_NAME_IS_ALREADY_IN_USE')
 
         if contact_id is not None:
@@ -451,7 +451,7 @@ class ShopfloorItem:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.SHOPFLOOR_NAME_IS_ALREADY_IN_USE')
 
         if contact_id is not None:
