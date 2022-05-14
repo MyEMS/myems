@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 - updated Dockerfile of myems-web.
 - updated translations of myems-admin.
+- updated modbus acquisition procedure.
 
 ### Fixed
 - fixed wrong http status for XXX_NAME_IS_ALREADY_IN_USE.
