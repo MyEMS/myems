@@ -22,7 +22,7 @@ from byte_swap import byte_swap_32_bit, byte_swap_64_bit
 def process(logger, data_source_id, host, port):
 
     while True:
-        # the outermost while loop
+        # begin of the outermost while loop
 
         ################################################################################################################
         # Step 1: telnet the host
@@ -32,6 +32,7 @@ def process(logger, data_source_id, host, port):
             print("Succeeded to telnet %s:%s in acquisition process ", host, port)
         except Exception as e:
             logger.error("Failed to telnet %s:%s in acquisition process: %s  ", host, port, str(e))
+            # go to begin of the outermost while loop
             time.sleep(300)
             continue
 
@@ -49,7 +50,7 @@ def process(logger, data_source_id, host, port):
                 cursor_system_db.close()
             if cnx_system_db:
                 cnx_system_db.close()
-            # sleep and then continue the outermost loop to reload points
+            # go to begin of the outermost while loop
             time.sleep(60)
             continue
 
@@ -62,14 +63,22 @@ def process(logger, data_source_id, host, port):
             rows_point = cursor_system_db.fetchall()
         except Exception as e:
             logger.error("Error in step 2.2 of acquisition process: " + str(e))
-            # sleep several minutes and continue the outer loop to reload points
+            if cursor_system_db:
+                cursor_system_db.close()
+            if cnx_system_db:
+                cnx_system_db.close()
+            # go to begin of the outermost while loop
             time.sleep(60)
             continue
 
         if rows_point is None or len(rows_point) == 0:
             # there is no points for this data source
             logger.error("Point Not Found in Data Source (ID = %s), acquisition process terminated ", data_source_id)
-            # sleep 60 seconds and go back to the begin of outermost while loop to reload points
+            if cursor_system_db:
+                cursor_system_db.close()
+            if cnx_system_db:
+                cnx_system_db.close()
+            # go to begin of the outermost while loop
             time.sleep(60)
             continue
 
@@ -98,7 +107,12 @@ def process(logger, data_source_id, host, port):
                 cursor_historical_db.close()
             if cnx_historical_db:
                 cnx_historical_db.close()
-            # sleep 60 seconds and go back to the begin of outermost while loop to reload points
+
+            if cursor_system_db:
+                cursor_system_db.close()
+            if cnx_system_db:
+                cnx_system_db.close()
+            # go to begin of the outermost while loop
             time.sleep(60)
             continue
 
@@ -107,20 +121,22 @@ def process(logger, data_source_id, host, port):
         master.set_timeout(5.0)
         print("Ready to connect to %s:%s ", host, port)
 
-        # inner loop to read all point values within a configurable period
+        # inner while loop to read all point values periodically
         while True:
+            # begin of the inner while loop
             is_modbus_tcp_timed_out = False
             energy_value_list = list()
             analog_value_list = list()
             digital_value_list = list()
 
+            # TODO: update point list in another thread
             # foreach point loop
             for point in point_list:
+                # begin of foreach point loop
                 try:
                     address = json.loads(point['address'])
                 except Exception as e:
-                    logger.error("Error in step 3.2 of acquisition process: \n"
-                                 "Invalid point address in JSON " + str(e))
+                    logger.error("Error in step 3.2 of acquisition process: Invalid point address in JSON " + str(e))
                     continue
 
                 if 'slave_id' not in address.keys() \
@@ -138,11 +154,11 @@ def process(logger, data_source_id, host, port):
 
                     logger.error('Data Source(ID=%s), Point(ID=%s) Invalid address data.',
                                  data_source_id, point['id'])
-                    # invalid point is found,
-                    # and go on the foreach point loop to process next point
+                    # invalid point is found
+                    # go to begin of foreach point loop to process next point
                     continue
 
-                # read register value for valid point
+                # read point value
                 try:
                     result = master.execute(slave=address['slave_id'],
                                             function_code=address['function_code'],
@@ -161,26 +177,28 @@ def process(logger, data_source_id, host, port):
 
                     if 'timed out' in str(e):
                         is_modbus_tcp_timed_out = True
-                        # timeout error, break the foreach point loop
+                        # timeout error
+                        # break the foreach point loop
                         break
                     else:
                         # exception occurred when read register value,
-                        # and go on the foreach point loop to process next point
+                        # go to begin of foreach point loop to process next point
                         continue
 
                 if result is None or not isinstance(result, tuple) or len(result) == 0:
-                    # invalid result,
-                    # and go on the foreach point loop to process next point
                     logger.error("Error in step 3.3 of acquisition process: \n"
                                  " invalid result: None "
                                  " for point_id: " + str(point['id']))
+                    # invalid result
+                    # go to begin of foreach point loop to process next point
                     continue
 
                 if not isinstance(result[0], float) and not isinstance(result[0], int) or math.isnan(result[0]):
-                    # invalid result, and go on the foreach point loop to process next point
                     logger.error(" Error in step 3.4 of acquisition process:\n"
                                  " invalid result: not float and not int or not a number "
                                  " for point_id: " + str(point['id']))
+                    # invalid result
+                    # go to begin of foreach point loop to process next point
                     continue
 
                 if address['byte_swap']:
@@ -209,7 +227,7 @@ def process(logger, data_source_id, host, port):
             # end of foreach point loop
 
             if is_modbus_tcp_timed_out:
-                # Modbus TCP connection timeout error
+                # Modbus TCP connection timeout
 
                 # destroy the Modbus master
                 del master
@@ -219,8 +237,13 @@ def process(logger, data_source_id, host, port):
                     cursor_historical_db.close()
                 if cnx_historical_db:
                     cnx_historical_db.close()
+                if cursor_system_db:
+                    cursor_system_db.close()
+                if cnx_system_db:
+                    cnx_system_db.close()
 
-                # break the inner while loop to reconnect the Modbus device
+                # break the inner while loop
+                # go to begin of the outermost while loop
                 time.sleep(60)
                 break
 
@@ -238,7 +261,7 @@ def process(logger, data_source_id, host, port):
                         cursor_historical_db.close()
                     if cnx_historical_db:
                         cnx_historical_db.close()
-                    # sleep some seconds
+                    # go to begin of the inner while loop
                     time.sleep(60)
                     continue
 
@@ -253,7 +276,7 @@ def process(logger, data_source_id, host, port):
                         cursor_system_db.close()
                     if cnx_system_db:
                         cnx_system_db.close()
-                    # sleep some seconds
+                    # go to begin of the inner while loop
                     time.sleep(60)
                     continue
 
@@ -423,11 +446,17 @@ def process(logger, data_source_id, host, port):
                 cnx_system_db.commit()
             except Exception as e:
                 logger.error("Error in step 4.6 of acquisition process " + str(e))
-                # ignore this exception
+                if cursor_system_db:
+                    cursor_system_db.close()
+                if cnx_system_db:
+                    cnx_system_db.close()
+                # go to begin of the inner while loop
+                time.sleep(60)
+                continue
 
-            # sleep and continue the next iteration of the inner while loop
+            # sleep interval in seconds and continue the inner while loop
             time.sleep(config.interval_in_seconds)
 
-        # end of inner while loop
+        # end of the inner while loop
 
-    # end of outermost while loop
+    # end of the outermost while loop
