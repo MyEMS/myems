@@ -445,13 +445,15 @@ def worker(virtual_meter):
 
     print("saving energy values to table energy virtual meter hourly...")
 
-    if len(normalized_values) > 0:
+    while len(normalized_values) > 0:
+        insert_100 = normalized_values[:100]
+        normalized_values = normalized_values[100:]
         try:
             add_values = (" INSERT INTO tbl_virtual_meter_hourly "
                           " (virtual_meter_id, start_datetime_utc, actual_value) "
                           " VALUES  ")
 
-            for meta_data in normalized_values:
+            for meta_data in insert_100:
                 add_values += " (" + str(virtual_meter['id']) + ","
                 add_values += "'" + meta_data['start_datetime_utc'].isoformat()[0:19] + "',"
                 add_values += str(meta_data['actual_value']) + "), "
