@@ -164,13 +164,13 @@ class Reporting:
                 query_start_value = (" SELECT actual_value "
                                      " FROM tbl_energy_value "
                                      " where point_id in ("
-                                     + ', '.join(map(lambda x: str(x['point_id']), rows_points_id)) + ") "
+                                     + ', '.join(map(lambda x: str(x[0]), rows_points_id)) + ") "
                                      " AND utc_date_time BETWEEN %s AND %s "
                                      " order by utc_date_time ASC LIMIT 0,1")
                 query_end_value = (" SELECT actual_value "
                                    " FROM tbl_energy_value "
                                    " where point_id in ("
-                                   + ', '.join(map(lambda x: str(x['point_id']), rows_points_id)) + ") "
+                                   + ', '.join(map(lambda x: str(x[0]), rows_points_id)) + ") "
                                    " AND utc_date_time BETWEEN %s AND %s "
                                    " order by utc_date_time DESC LIMIT 0,1")
                 cursor_historical.execute(query_start_value,
