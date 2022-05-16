@@ -16,7 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed wrong http status for XXX_NAME_IS_ALREADY_IN_USE.
 
 ### Removed
-- removed child spaces which is not (input or output) counted in from space reports.
+- None.
 
 
 ## [v1.9.1] -   2022-05-05
