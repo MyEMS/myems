@@ -236,11 +236,13 @@ def process(logger):
                     bad_list.append(row_energy_value[0])
 
         print('bad list: ' + str(bad_list))
-        if len(bad_list) > 0:
+        while len(bad_list) > 0:
+            update_100 = bad_list[:100]
+            bad_list = bad_list[100:]
             try:
                 update = (" UPDATE tbl_energy_value "
                           " SET is_bad = 1 "
-                          " WHERE id IN (" + ', '.join(map(str, bad_list)) + ")")
+                          " WHERE id IN (" + ', '.join(map(str, update_100)) + ")")
                 cursor_historical.execute(update, )
                 cnx_historical.commit()
             except Exception as e:
@@ -460,11 +462,13 @@ def process(logger):
                 continue
 
         print('bad list: ' + str(bad_list))
-        if len(bad_list) > 0:
+        while len(bad_list) > 0:
+            update_100 = bad_list[:100]
+            bad_list = bad_list[100:]
             try:
                 update = (" UPDATE tbl_energy_value "
                           " SET is_bad = 1 "
-                          " WHERE id IN (" + ', '.join(map(str, bad_list)) + ")")
+                          " WHERE id IN (" + ', '.join(map(str, update_100)) + ")")
                 cursor_historical.execute(update, )
                 cnx_historical.commit()
             except Exception as e:
