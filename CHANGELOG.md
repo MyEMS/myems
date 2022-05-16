@@ -11,6 +11,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - updated Dockerfile of myems-web.
 - updated translations of myems-admin.
 - updated modbus acquisition procedure.
+- simplified database update queries in myems-cleaning.
+- simplified database insert queries in myems-normalization.
 
 ### Fixed
 - fixed wrong http status for XXX_NAME_IS_ALREADY_IN_USE.
