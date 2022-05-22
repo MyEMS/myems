@@ -29,6 +29,7 @@ const MeterRealtime = ({ setRedirect, setRedirectUrl, t }) => {
   const [maxCursor, setMaxCursor] = useState(0);
   const [selectMeterList, setSelectMeterList] = useState([]);
   const len = 8;
+  const ran = 1;
 
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
@@ -173,13 +174,48 @@ const MeterRealtime = ({ setRedirect, setRedirectUrl, t }) => {
   useEffect(() => {
     const meterLen = meterList.length;
     const maxCursor = Math.ceil(meterLen / len);
+
     setCursor(1);
     setMaxCursor(maxCursor);
+
+    document.getElementById("cursor_2").hidden=true;
+    document.getElementById("cursor_3").hidden=true;
+    document.getElementById("cursor_4").hidden=true;
+    if(maxCursor == 2){
+      document.getElementById("cursor_2").hidden=false;    
+    }
+    if(maxCursor == 3){
+      document.getElementById("cursor_2").hidden=false;
+      document.getElementById("cursor_3").hidden=false;
+    }
+    if(maxCursor>=4)
+    {
+      document.getElementById("cursor_2").hidden=false;
+      document.getElementById("cursor_3").hidden=false;
+      document.getElementById("cursor_4").hidden=false;
+    }
+
   }, [meterList]);
 
   useEffect(() => {
     setSelectMeterList(meterList.slice(cursor * len - 8, cursor * len));
+   
+
   }, [cursor, meterList]);
+
+  function getCursor(location){
+    switch (location){
+      case 1:
+            return cursor > maxCursor-3&&maxCursor - 3 >= 0 ? maxCursor-3 : cursor;
+      case 2:
+            return cursor > maxCursor-3&&maxCursor - 3 >= 0 ? maxCursor -2 : cursor +1;
+      case 3:
+            return cursor > maxCursor-3&&maxCursor - 3 >= 0 ? maxCursor -1: cursor +2;  
+      case 4:
+            return cursor > maxCursor-3&&maxCursor - 3 >= 0 ? maxCursor  : cursor+3;
+    }
+  }
+
   return (
     <Fragment>
       <div>
@@ -229,14 +265,23 @@ const MeterRealtime = ({ setRedirect, setRedirectUrl, t }) => {
         <PaginationItem>
           <PaginationLink first href="#" onClick={() => setCursor(1)} />
         </PaginationItem>
+       
         <PaginationItem>
           <PaginationLink previous href="#" onClick={() => (cursor - 1 >= 1 ? setCursor(cursor - 1) : null)} />
         </PaginationItem>
         <PaginationItem>
-          <PaginationLink href="#">{cursor}</PaginationLink>
+          <PaginationLink href="#" onClick={() => (setCursor(getCursor(1)))}>{getCursor(1)}</PaginationLink>
         </PaginationItem>
-        
-        <PaginationItem>
+        <PaginationItem id="cursor_2">
+          <PaginationLink href="#" onClick={() => (setCursor(getCursor(2)))}>{getCursor(2)}</PaginationLink>
+        </PaginationItem>
+        <PaginationItem id="cursor_3">
+          <PaginationLink href="#" onClick={() => (setCursor(getCursor(3)))}>{getCursor(3)}</PaginationLink>
+        </PaginationItem>
+        <PaginationItem id="cursor_4">
+          <PaginationLink href="#" onClick={() => (setCursor(getCursor(4)))}>{getCursor(4)}</PaginationLink>
+        </PaginationItem>
+        <PaginationItem >
           <PaginationLink next href="#" onClick={() => (cursor + 1 <= maxCursor ? setCursor(cursor + 1) : null)} />
         </PaginationItem>
         <PaginationItem>
