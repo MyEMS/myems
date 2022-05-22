@@ -5,6 +5,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+- None.
+
+### Changed
+- None.
+
+### Fixed
+- None.
+
+### Removed
+- None.
+
+
+## [v1.9.2] - 2022-05-22
+
+### Added
 - added bilibili link to README.
 
 ### Changed
@@ -14,6 +29,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - simplified database update queries in myems-cleaning.
 - simplified database insert queries in myems-normalization.
 - updated pagination of meterRealtime in myems-web.
+- moved menu tariff settings upper than cost center settings in myems-admin.
 
 ### Fixed
 - fixed wrong http status for XXX_NAME_IS_ALREADY_IN_USE.
@@ -21,7 +37,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Removed
 - None.
-
 
 ## [v1.9.1] -   2022-05-05
 ### Added
@@ -826,7 +841,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v1.9.1...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v1.9.2...HEAD
+[v1.9.2]: https://github.com/MyEMS/myems/compare/v1.9.1...v1.9.2
 [v1.9.1]: https://github.com/MyEMS/myems/compare/v1.9.0...v1.9.1
 [v1.9.0]: https://github.com/MyEMS/myems/compare/v1.8.2...v1.9.0
 [v1.8.2]: https://github.com/MyEMS/myems/compare/v1.8.1...v1.8.2
