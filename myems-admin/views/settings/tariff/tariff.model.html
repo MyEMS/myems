@@ -34,14 +34,14 @@
                         <div class="col-sm-7"><input ng-model="tariff.unit_of_price" type="text" class="form-control"></div>
                     </div>
                     <div class="hr-line-dashed"></div>
-                    <div class="form-group"><label class="col-sm-5 control-label">{{'SETTING.START_DATETIME' | translate}}</label>
+                    <div class="form-group"><label class="col-sm-5 control-label">{{'SETTING.TARIFF_VALID_FROM' | translate}}</label>
                         <div class="col-sm-7">
                             <input date-range-picker class="form-control date-picker" type="text" ng-model="tariff.valid_from" options="dtOptions"
                             placeholder="{{'SETTING.SELECT_DATE' | translate}}" readonly="" />
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>
-                    <div class="form-group"><label class="col-sm-5 control-label">{{'SETTING.END_DATETIME' | translate}}</label>
+                    <div class="form-group"><label class="col-sm-5 control-label">{{'SETTING.TARIFF_VALID_THROUGH' | translate}}</label>
                         <div class="col-sm-7">
                             <input date-range-picker class="form-control date-picker" type="text" ng-model="tariff.valid_through" options="dtOptions"
                             placeholder="{{'SETTING.SELECT_DATE' | translate}}" readonly="" />
@@ -96,8 +96,8 @@
                 <table id="touTable" ng-show="tariff.tariff_type=='timeofuse'" class="footable table table-bordered table-hover" data-sort="false" data-page-size="10" >
                     <thead>
                         <tr>
-                            <th class="text-center">{{'SETTING.START_TIME' | translate}}</th>
-                            <th class="text-center">{{'SETTING.END_TIME' | translate}}</th>
+                            <th class="text-center">{{'SETTING.TIME_OF_USE_START_TIME' | translate}}</th>
+                            <th class="text-center">{{'SETTING.TIME_OF_USE_END_TIME' | translate}}</th>
                             <th class="text-center">{{'SETTING.PEAK_TYPE' | translate}}</th>
                             <th class="text-center">{{'SETTING.PRICE' | translate}}</th>
                             <th class="text-center">{{'SETTING.ACTION' | translate}}</th>
