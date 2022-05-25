@@ -8,7 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - None.
 
 ### Changed
-- None.
+- Updated translations of myems-admin.
+- Added quick mode to meterenergy report in myems-api.
 
 ### Fixed
 - None.
