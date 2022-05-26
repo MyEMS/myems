@@ -2556,6 +2556,14 @@ curl -i -X GET {{base_url}}/reports/spaceefficiency?spaceid=1&periodtype=daily&b
 ```bash
 curl -i -X GET {{base_url}}/reports/spaceenergycategory?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+*   GET Space Energy Category Report (Quick Mode)
+
+(parameter spaceid can be replaced with spaceuuid)
+(It does not return parameters and Excel file in quick mode)
+
+```bash
+curl -i -X GET {{base_url}}/reports/spaceenergycategory?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
+```
 *   GET Space Energy Item Report
 
 (parameter spaceid can be replaced with spaceuuid)
@@ -2576,6 +2584,13 @@ curl -i -X GET {{base_url}}/reports/spaceincome?spaceid=1&periodtype=daily&basep
 
 ```bash
 curl -i -X GET {{base_url}}/reports/spaceload?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
+*   GET Space Load Report (Quick Mode)
+
+(parameter spaceid can be replaced with spaceuuid)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/spaceload?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
 ```
 *   GET Space Output Report
 
