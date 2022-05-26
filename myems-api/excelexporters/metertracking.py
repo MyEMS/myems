@@ -55,159 +55,58 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
     ws = wb.active
     ws.title = "MeterTracking"
 
-    # Row height
-    ws.row_dimensions[1].height = 102
-    for i in range(2, 5 + 1):
-        ws.row_dimensions[i].height = 42
+    # Column width
+    for i in range(ord('A'), ord('H')):
+        ws.column_dimensions[chr(i)].width = 30.0
 
-    for i in range(6, len(report['meters']) + 15):
-        ws.row_dimensions[i].height = 60
+    # Head image
+    ws.row_dimensions[1].height = 105
+    img = Image("excelexporters/myems.png")
+    ws.add_image(img, 'A1')
 
-    # Col width
-    ws.column_dimensions['A'].width = 1.5
-
-    ws.column_dimensions['B'].width = 25.0
-
-    for i in range(ord('C'), ord('L')):
-        ws.column_dimensions[chr(i)].width = 15.0
-
-    # Font
-    name_font = Font(name='Arial', size=15, bold=True)
-    title_font = Font(name='Arial', size=15, bold=True)
-
-    table_fill = PatternFill(fill_type='solid', fgColor='1F497D')
-    f_border = Border(left=Side(border_style='medium', color='00000000'),
-                      right=Side(border_style='medium', color='00000000'),
-                      bottom=Side(border_style='medium', color='00000000'),
-                      top=Side(border_style='medium', color='00000000')
-                      )
-    b_border = Border(
-        bottom=Side(border_style='medium', color='00000000'),
-    )
-
-    b_c_alignment = Alignment(vertical='bottom',
-                              horizontal='center',
-                              text_rotation=0,
-                              wrap_text=True,
-                              shrink_to_fit=False,
-                              indent=0)
-    c_c_alignment = Alignment(vertical='center',
-                              horizontal='center',
-                              text_rotation=0,
-                              wrap_text=True,
-                              shrink_to_fit=False,
-                              indent=0)
+    # Query Parameters
     b_r_alignment = Alignment(vertical='bottom',
                               horizontal='right',
                               text_rotation=0,
                               wrap_text=True,
                               shrink_to_fit=False,
                               indent=0)
-
-    # Img
-    img = Image("excelexporters/myems.png")
-    ws.add_image(img, 'A1')
-
-    # Title
-    ws['B3'].alignment = b_r_alignment
-    ws['B3'] = 'Space:'
-    ws['C3'].border = b_border
-    ws['C3'].alignment = b_c_alignment
-    ws['C3'] = space_name
-
-    ws['B4'].alignment = b_r_alignment
-    ws['B4'] = 'Reporting Start Datetime:'
-    ws['C4'].border = b_border
-    ws['C4'].alignment = b_c_alignment
-    ws['C4'] = reporting_start_datetime_local
-
-    ws['B5'].alignment = b_r_alignment
-    ws['B5'] = 'Reporting End Datetime:'
-    ws['C5'].border = b_border
-    ws['C5'].alignment = b_c_alignment
-    ws['C5'] = reporting_end_datetime_local
+    ws['A3'].alignment = b_r_alignment
+    ws['A3'] = 'Space:'
+    ws['B3'] = space_name
+    ws['A4'].alignment = b_r_alignment
+    ws['A4'] = 'Start Datetime:'
+    ws['B4'] = reporting_start_datetime_local
+    ws['A5'].alignment = b_r_alignment
+    ws['A5'] = 'End Datetime:'
+    ws['B5'] = reporting_end_datetime_local
 
     # Title
-    ws['B6'].border = f_border
-    ws['B6'].font = name_font
-    ws['B6'].alignment = c_c_alignment
-    ws['B6'].fill = table_fill
-    ws['B6'] = 'Name'
-
-    ws['C6'].border = f_border
-    ws['C6'].alignment = c_c_alignment
-    ws['C6'].font = name_font
-    ws['C6'].fill = table_fill
-    ws['C6'] = 'Space'
-
-    ws['D6'].border = f_border
-    ws['D6'].font = name_font
-    ws['D6'].alignment = c_c_alignment
-    ws['D6'].fill = table_fill
-    ws['D6'] = 'Cost Center'
-
-    ws['E6'].border = f_border
-    ws['E6'].alignment = c_c_alignment
-    ws['E6'].font = name_font
-    ws['E6'].fill = table_fill
-    ws['E6'] = 'Energy Category'
-
-    ws['F6'].border = f_border
-    ws['F6'].font = name_font
-    ws['F6'].alignment = c_c_alignment
-    ws['F6'].fill = table_fill
-    ws['F6'] = 'Description'
-
-    ws['G6'].border = f_border
-    ws['G6'].font = name_font
-    ws['G6'].alignment = c_c_alignment
-    ws['G6'].fill = table_fill
-    ws['G6'] = 'Start Value'
-
-    ws['H6'].border = f_border
-    ws['H6'].font = name_font
-    ws['H6'].alignment = c_c_alignment
-    ws['H6'].fill = table_fill
-    ws['H6'] = 'End Value'
+    title_font = Font(size=12, bold=True)
+    ws['A6'].font = title_font
+    ws['A6'] = 'Name'
+    ws['B6'].font = title_font
+    ws['B6'] = 'Space'
+    ws['C6'].font = title_font
+    ws['C6'] = 'Cost Center'
+    ws['D6'].font = title_font
+    ws['D6'] = 'Energy Category'
+    ws['E6'].font = title_font
+    ws['E6'] = 'Description'
+    ws['F6'].font = title_font
+    ws['F6'] = 'Start Value'
+    ws['G6'].font = title_font
+    ws['G6'] = 'End Value'
 
     current_row_number = 7
     for i in range(0, len(report['meters'])):
-
-        ws['B' + str(current_row_number)].font = title_font
-        ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)].alignment = c_c_alignment
-        ws['B' + str(current_row_number)] = report['meters'][i]['meter_name']
-
-        ws['C' + str(current_row_number)].font = title_font
-        ws['C' + str(current_row_number)].border = f_border
-        ws['C' + str(current_row_number)].alignment = c_c_alignment
-        ws['C' + str(current_row_number)] = report['meters'][i]['space_name']
-
-        ws['D' + str(current_row_number)].font = title_font
-        ws['D' + str(current_row_number)].border = f_border
-        ws['D' + str(current_row_number)].alignment = c_c_alignment
-        ws['D' + str(current_row_number)] = report['meters'][i]['cost_center_name']
-
-        ws['E' + str(current_row_number)].font = title_font
-        ws['E' + str(current_row_number)].border = f_border
-        ws['E' + str(current_row_number)].alignment = c_c_alignment
-        ws['E' + str(current_row_number)] = report['meters'][i]['energy_category_name']
-
-        ws['F' + str(current_row_number)].font = title_font
-        ws['F' + str(current_row_number)].border = f_border
-        ws['F' + str(current_row_number)].alignment = c_c_alignment
-        ws['F' + str(current_row_number)] = report['meters'][i]['description']
-
-        ws['G' + str(current_row_number)].font = title_font
-        ws['G' + str(current_row_number)].border = f_border
-        ws['G' + str(current_row_number)].alignment = c_c_alignment
-        ws['G' + str(current_row_number)] = report['meters'][i]['start_value']
-
-        ws['H' + str(current_row_number)].font = title_font
-        ws['H' + str(current_row_number)].border = f_border
-        ws['H' + str(current_row_number)].alignment = c_c_alignment
-        ws['H' + str(current_row_number)] = report['meters'][i]['end_value']
-
+        ws['A' + str(current_row_number)] = report['meters'][i]['meter_name']
+        ws['B' + str(current_row_number)] = report['meters'][i]['space_name']
+        ws['C' + str(current_row_number)] = report['meters'][i]['cost_center_name']
+        ws['D' + str(current_row_number)] = report['meters'][i]['energy_category_name']
+        ws['E' + str(current_row_number)] = report['meters'][i]['description']
+        ws['F' + str(current_row_number)] = report['meters'][i]['start_value']
+        ws['G' + str(current_row_number)] = report['meters'][i]['end_value']
         current_row_number += 1
 
     filename = str(uuid.uuid4()) + '.xlsx'
