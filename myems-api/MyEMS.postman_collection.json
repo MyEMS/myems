@@ -2,7 +2,8 @@
 	"info": {
 		"_postman_id": "bc59da70-d821-4750-8fde-4efcc1bd66d6",
 		"name": "MyEMS",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3685858"
 	},
 	"item": [
 		{
@@ -12275,6 +12276,61 @@
 					"response": []
 				},
 				{
+					"name": "GET Space Energy Category Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/spaceenergycategory?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"spaceenergycategory"
+							],
+							"query": [
+								{
+									"key": "spaceid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "spaceuuid",
+									"value": "9dfb7cff-f19f-4a1e-8c79-3adf6425bfd9",
+									"description": "use id or uuid",
+									"disabled": true
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Space Energy Item Report",
 					"request": {
 						"method": "GET",
@@ -12421,6 +12477,61 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Space Load Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/spaceload?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"spaceload"
+							],
+							"query": [
+								{
+									"key": "spaceid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "spaceuuid",
+									"value": "9dfb7cff-f19f-4a1e-8c79-3adf6425bfd9",
+									"description": "use id or uuid",
+									"disabled": true
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
 								}
 							]
 						}
