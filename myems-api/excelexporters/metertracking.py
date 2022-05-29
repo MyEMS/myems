@@ -56,8 +56,8 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
     ws.title = "MeterTracking"
 
     # Column width
-    for i in range(ord('A'), ord('H')):
-        ws.column_dimensions[chr(i)].width = 30.0
+    for i in range(ord('A'), ord('I')):
+        ws.column_dimensions[chr(i)].width = 25.0
 
     # Head image
     ws.row_dimensions[1].height = 105
@@ -84,29 +84,32 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
     # Title
     title_font = Font(size=12, bold=True)
     ws['A6'].font = title_font
-    ws['A6'] = 'Name'
+    ws['A6'] = 'ID'
     ws['B6'].font = title_font
-    ws['B6'] = 'Space'
+    ws['B6'] = 'Name'
     ws['C6'].font = title_font
-    ws['C6'] = 'Cost Center'
+    ws['C6'] = 'Space'
     ws['D6'].font = title_font
-    ws['D6'] = 'Energy Category'
+    ws['D6'] = 'Cost Center'
     ws['E6'].font = title_font
-    ws['E6'] = 'Description'
+    ws['E6'] = 'Energy Category'
     ws['F6'].font = title_font
-    ws['F6'] = 'Start Value'
+    ws['F6'] = 'Description'
     ws['G6'].font = title_font
-    ws['G6'] = 'End Value'
+    ws['G6'] = 'Start Value'
+    ws['H6'].font = title_font
+    ws['H6'] = 'End Value'
 
     current_row_number = 7
     for i in range(0, len(report['meters'])):
-        ws['A' + str(current_row_number)] = report['meters'][i]['meter_name']
-        ws['B' + str(current_row_number)] = report['meters'][i]['space_name']
-        ws['C' + str(current_row_number)] = report['meters'][i]['cost_center_name']
-        ws['D' + str(current_row_number)] = report['meters'][i]['energy_category_name']
-        ws['E' + str(current_row_number)] = report['meters'][i]['description']
-        ws['F' + str(current_row_number)] = report['meters'][i]['start_value']
-        ws['G' + str(current_row_number)] = report['meters'][i]['end_value']
+        ws['A' + str(current_row_number)] = report['meters'][i]['id']
+        ws['B' + str(current_row_number)] = report['meters'][i]['meter_name']
+        ws['C' + str(current_row_number)] = report['meters'][i]['space_name']
+        ws['D' + str(current_row_number)] = report['meters'][i]['cost_center_name']
+        ws['E' + str(current_row_number)] = report['meters'][i]['energy_category_name']
+        ws['F' + str(current_row_number)] = report['meters'][i]['description']
+        ws['G' + str(current_row_number)] = report['meters'][i]['start_value']
+        ws['H' + str(current_row_number)] = report['meters'][i]['end_value']
         current_row_number += 1
 
     filename = str(uuid.uuid4()) + '.xlsx'
