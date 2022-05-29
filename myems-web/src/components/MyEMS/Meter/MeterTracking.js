@@ -154,7 +154,14 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
 
   const columns = [
     {
-      dataField: 'metername',
+      dataField: 'id',
+      headerClasses: 'border-0',
+      text: t('ID'),
+      classes: 'border-0 py-2 align-middle',
+      sort: true
+    },
+    {
+      dataField: 'name',
       headerClasses: 'border-0',
       text: t('Name'),
       classes: 'border-0 py-2 align-middle',
