@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Added quick mode to spaceenergycategory report in myems-api.
 - Added quick mode to spaceload report in myems-api.
 - Added object ID to editor title of model dialogs in myems-admin.
+- Added ID column to MeterBatch report in myems-web.
 
 ### Changed
 - Updated translations of myems-admin.

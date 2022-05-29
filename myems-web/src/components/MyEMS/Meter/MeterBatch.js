@@ -80,7 +80,9 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
 
   //Results
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState(
-    [{dataField: 'name', text: t('Name'), sort: true}, {dataField: 'space', text: t('Space'), sort: true}]);
+    [{dataField: 'id', text: t('ID'), sort: true},
+    {dataField: 'name', text: t('Name'), sort: true},
+    {dataField: 'space', text: t('Space'), sort: true}]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
   
   useEffect(() => {
@@ -209,6 +211,11 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
         setMeterList(meters);
 
         let detailed_column_list = [];
+        detailed_column_list.push({
+          dataField: 'id',
+          text: t('ID'),
+          sort: true
+        });
         detailed_column_list.push({
           dataField: 'name',
           text: t('Name'),
