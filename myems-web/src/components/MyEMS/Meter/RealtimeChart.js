@@ -43,6 +43,7 @@ class RealtimeChart extends Component {
   state = {
     trendLog: [],
     currentEnergyValue: undefined,
+    energyValuePointName: undefined,
     chartData: {
       labels: range(1, 61),
       datasets: [
@@ -86,6 +87,7 @@ class RealtimeChart extends Component {
         let trendLog = length > 60 ? json['energy_value']['values'].slice(length - 60, length)
             : json['energy_value']['values'];
         let currentEnergyValue = undefined;
+        let energyValuePointName = json['energy_value']['name'];
         let pointList = [];
         let chartData = Object.assign(this.state.chartData);
         chartData.labels = trendLog.length  > 60 ? range(1, 61) : range(1, trendLog.length + 1);
@@ -107,6 +109,7 @@ class RealtimeChart extends Component {
             chartData: chartData,
             trendLog: trendLog, 
             currentEnergyValue: currentEnergyValue,
+            energyValuePointName: energyValuePointName,
             pointList: pointList,
           });
         }
@@ -139,6 +142,7 @@ class RealtimeChart extends Component {
           console.log(json);
           let trendLog = json['energy_value']['values'];
           let currentEnergyValue = undefined;
+          let energyValuePointName = json['energy_value']['name'];
           let pointList = [];
           if (trendLog.length > 0) {
             currentEnergyValue = trendLog[trendLog.length - 1];
@@ -157,6 +161,7 @@ class RealtimeChart extends Component {
             this.setState({ 
               trendLog: trendLog, 
               currentEnergyValue: currentEnergyValue,
+              energyValuePointName: energyValuePointName,
               pointList: pointList,
             });
           }
@@ -189,7 +194,7 @@ class RealtimeChart extends Component {
         </CardHeader>
         <CardBody className="text-white fs--1">
           <p className="pb-2" style={{ borderBottom: dividerBorder }}>
-            {t('Trend in the last hour of Energy Value Point')}
+            {t('Trend in the last hour of Energy Value Point')} {this.state.energyValuePointName}
           </p>
           <Line data={chartData} options={chartOptions} width={10} height={4} />
           <ListGroup flush className="mt-4">

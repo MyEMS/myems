@@ -5,12 +5,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+- None.
+
+### Changed
+- None.
+
+### Fixed
+- None.
+
+### Removed
+- None.
+
+## [v1.9.3] - 2022-06-03
+### Added
 - Added quick mode to meterenergy report in myems-api.
 - Added quick mode to spaceenergycategory report in myems-api.
 - Added quick mode to spaceload report in myems-api.
 - Added object ID to editor title of model dialogs in myems-admin.
 - Added ID column to MeterBatch report in myems-web.
 - Added ID column to MeterTracking report in myems-api and myems-web.
+- Added energy value point name to Meter RealtimeChart in myems-web.
 
 ### Changed
 - Updated translations of myems-admin.
@@ -23,7 +37,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Removed
 - None.
-
 
 ## [v1.9.2] - 2022-05-22
 
@@ -849,7 +862,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v1.9.2...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v1.9.3...HEAD
+[v1.9.3]: https://github.com/MyEMS/myems/compare/v1.9.2...v1.9.3
 [v1.9.2]: https://github.com/MyEMS/myems/compare/v1.9.1...v1.9.2
 [v1.9.1]: https://github.com/MyEMS/myems/compare/v1.9.0...v1.9.1
 [v1.9.0]: https://github.com/MyEMS/myems/compare/v1.8.2...v1.9.0
