@@ -149,7 +149,7 @@ class Reporting:
                 parameters_data['timestamps'].append(point_timestamps)
                 parameters_data['values'].append(point_values)
             elif point['object_type'] == 'ENERGY_VALUE':
-                energy_value_data['name'] = point['name']
+                energy_value_data['name'] = point['name'] + ' (' + point['units'] + ')'
                 query = (" SELECT utc_date_time, actual_value "
                          " FROM tbl_energy_value "
                          " WHERE point_id = %s "
@@ -159,9 +159,7 @@ class Reporting:
                                                   reporting_start_datetime_utc,
                                                   reporting_end_datetime_utc))
                 rows = cursor_historical.fetchall()
-
                 if rows is not None and len(rows) > 0:
-
                     for row in rows:
                         current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
                                                  timedelta(minutes=timezone_offset)

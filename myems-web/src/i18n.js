@@ -283,8 +283,7 @@ const resources = {
       'Off-Peak': 'Off-Peak',
       'Percentage': 'Percentage',
       //Realtime Chart
-      'Trend in the last hour of Energy Value Point (UNIT)':
-        'Trend in the last hour of Energy Value Point (UNIT) {{UNIT}}',
+      'Trend in the last hour of Energy Value Point': 'Trend in the last hour of Energy Value Point',
       'Circuit': 'Circuit',
       'Point': 'Point',
       'Realtime Value': 'Realtime Value',
@@ -1090,7 +1089,7 @@ const resources = {
       'Off-Peak': 'Off-Peak',
       'Percentage': 'Prozentsatz',
       //Realtime Chart
-      'Trend in the last hour of Energy Value Point (UNIT)': 'Trend in der letzten Stunde des Energiewertpunkts ({{UNIT}})',
+      'Trend in the last hour of Energy Value Point': 'Trend in der letzten Stunde des Energiewertpunkts',
       'Circuit': 'Schaltkreis',
       'Point': 'Punkt',
       'Realtime Value': 'Echtzeitwert',
@@ -1879,7 +1878,7 @@ const resources = {
       'Off-Peak': '谷',
       'Percentage': '百分比',
       //Realtime Chart
-      'Trend in the last hour of Energy Value Point (UNIT)': '能耗值点最近一小时趋势 ({{UNIT}})',
+      'Trend in the last hour of Energy Value Point': '能耗值点最近一小时趋势',
       'Circuit': '回路',
       'Point': '数据点',
       'Realtime Value': '实时值',

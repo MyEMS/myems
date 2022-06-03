@@ -189,7 +189,7 @@ class RealtimeChart extends Component {
         </CardHeader>
         <CardBody className="text-white fs--1">
           <p className="pb-2" style={{ borderBottom: dividerBorder }}>
-          {t('Trend in the last hour of Energy Value Point (UNIT)', {'UNIT': 'kWh'})}
+            {t('Trend in the last hour of Energy Value Point')}
           </p>
           <Line data={chartData} options={chartOptions} width={10} height={4} />
           <ListGroup flush className="mt-4">

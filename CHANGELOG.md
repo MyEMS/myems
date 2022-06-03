@@ -19,7 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Deleted width limit from cascader-menu in myems-web.
 
 ### Fixed
-- None.
+- updated meterrealtime report to display right units of energy value.
 
 ### Removed
 - None.
