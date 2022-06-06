@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
-- None.
+- Added meter id column to virtual meter editor.
 
 ### Changed
 - Changed default user expiration datetime to one year from the creation.

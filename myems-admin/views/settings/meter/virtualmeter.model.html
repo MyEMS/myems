@@ -89,6 +89,7 @@
                         <tr>
                             <th class="text-center">{{'SETTING.VARIABLE_NAME' | translate}}</th>
                             <th class="text-center">{{'SETTING.METER_TYPE' | translate}}</th>
+                            <th class="text-center">{{'SETTING.ID' | translate}}</th>
                             <th class="text-center">{{'SETTING.METER_NAME' | translate}}</th>
                             <th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 
@@ -106,6 +107,9 @@
                                 </ui-select>
                             </td>
                             <td class="text-center sm">
+                               <!-- ID -->
+                            </td>
+                            <td class="text-center sm">
                                 <ui-select on-select="changeMeter($item, $model)" ng-model="currentMeter.selected" theme="bootstrap">
                                     <ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                                     <ui-select-choices repeat="currentMeter in currentmeters | filter: $select.search">
@@ -113,7 +117,6 @@
                                     </ui-select-choices>
                                 </ui-select>
                             </td>
-
                             <td class="text-center sm">
                                 <a class="btn btn-primary btn-rounded btn-xs" ng-click="add()" >{{'SETTING.ADD' | translate}}</a>
                             </td>
@@ -124,8 +127,8 @@
                         <tr ng-repeat="variable in virtualmeter.expression.variables">
                             <td class="text-center sm">{{ variable.name }}</td>
                             <td class="text-center sm">{{ metertypemap[variable.meter_type] | translate }}</td>
+                            <td class="text-center sm">{{ variable.meter_id }}</td>
                             <td class="text-center sm">{{ variable.meter_name }}</td>
-
                             <td class="text-center sm">
                                 <a ng-click="delete($index)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
 
