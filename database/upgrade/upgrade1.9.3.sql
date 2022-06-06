@@ -1,6 +1,6 @@
 -- ---------------------------------------------------------------------------------------------------------------------
 -- WARNING: BACKUP YOUR DATABASE BEFORE UPGRADING
--- THIS SCRIPT IS ONLY FOR UPGRADING 1.9.1 TO 1.9.2
+-- THIS SCRIPT IS ONLY FOR UPGRADING 1.9.2 TO 1.9.3
 -- THE CURRENT VERSION CAN BE FOUND AT `myems_system_db`.`tbl_versions`
 -- ---------------------------------------------------------------------------------------------------------------------
 

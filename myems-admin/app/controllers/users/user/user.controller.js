@@ -232,8 +232,8 @@ app.controller('ModalAddUserCtrl', function ($scope, $uibModalInstance, params) 
 	$scope.privileges = params.privileges;
 	$scope.user = {
 		is_admin: false,
-		account_expiration_datetime:moment(),
-        password_expiration_datetime:moment()
+		account_expiration_datetime:moment().add(1,'years'),
+        password_expiration_datetime:moment().add(1,'years')
 	};
 	$scope.dtOptions = {
         locale:{
