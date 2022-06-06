@@ -31,15 +31,15 @@ app.controller('VirtualMeterController', function($scope, $window, $uibModal, $t
 		});
 	};
 
-$scope.getAllEnergyItems = function() {
-	EnergyItemService.getAllEnergyItems(function (response) {
-		if (angular.isDefined(response.status) && response.status === 200) {
-			$scope.energyitems = response.data;
-		} else {
-			$scope.energyitems = [];
-		}
-	});
-};
+	$scope.getAllEnergyItems = function() {
+		EnergyItemService.getAllEnergyItems(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.energyitems = response.data;
+			} else {
+				$scope.energyitems = [];
+			}
+		});
+	};
 
 	$scope.getAllVirtualMeters = function() {
 		VirtualMeterService.getAllVirtualMeters(function (response) {
