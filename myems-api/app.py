@@ -78,6 +78,7 @@ from reports import tenantload
 from reports import tenantbatch
 from reports import tenantsaving
 from reports import tenantstatistics
+from reports import virtualmeterbatch
 from reports import virtualmeterenergy
 from reports import virtualmetercarbon
 from reports import virtualmetercost
@@ -639,6 +640,8 @@ api.add_route('/reports/tenantsaving',
               tenantsaving.Reporting())
 api.add_route('/reports/tenantstatistics',
               tenantstatistics.Reporting())
+api.add_route('/reports/virtualmeterbatch',
+              virtualmeterbatch.Reporting())
 api.add_route('/reports/virtualmeterenergy',
               virtualmeterenergy.Reporting())
 api.add_route('/reports/virtualmetercarbon',

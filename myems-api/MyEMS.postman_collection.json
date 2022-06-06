@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "bc59da70-d821-4750-8fde-4efcc1bd66d6",
+		"_postman_id": "adc37a86-3c72-4953-b793-7cf2f88b90f7",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "3685858"
+		"_exporter_id": "21321211"
 	},
 	"item": [
 		{
@@ -11281,7 +11281,33 @@
 					"name": "GET Meter Batch Analysis Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "is_logged_in=true",
+								"type": "text"
+							},
+							{
+								"key": "Cookie",
+								"value": "token=1d7518a0f7e92e175d0dfcee118a3903ff0c6089b34a19174dc998a11671de47aacf024785371b1ea42e26cc7bd31d483f05d9f87e3dfbe99ac8a6e0c202fc58",
+								"type": "text"
+							},
+							{
+								"key": "Cookie",
+								"value": "user_display_name=Demo2206",
+								"type": "text"
+							},
+							{
+								"key": "Cookie",
+								"value": "user_name=demo2206@kwh-w.com",
+								"type": "text"
+							},
+							{
+								"key": "Cookie",
+								"value": "user_uuid=288c128a-3b7b-499e-b0f3-533294b37ea4",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/meterbatch?spaceid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00",
 							"host": [
@@ -13400,6 +13426,38 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Vitrual Meter Batch Analysis Report",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/virtualmeterbatch?spaceid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"virtualmeterbatch"
+							],
+							"query": [
+								{
+									"key": "spaceid",
+									"value": "1"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-11-01T00:00:00"
 								}
 							]
 						}
