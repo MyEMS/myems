@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "bc59da70-d821-4750-8fde-4efcc1bd66d6",
+		"_postman_id": "adc37a86-3c72-4953-b793-7cf2f88b90f7",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "3685858"
+		"_exporter_id": "21321211"
 	},
 	"item": [
 		{
@@ -11279,6 +11279,11 @@
 				},
 				{
 					"name": "GET Meter Batch Analysis Report",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"connection": true
+						}
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -13400,6 +13405,41 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Vitrual Meter Batch Analysis Report",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/virtualmeterbatch?spaceid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"virtualmeterbatch"
+							],
+							"query": [
+								{
+									"key": "spaceid",
+									"value": "1"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-11-01T00:00:00"
 								}
 							]
 						}
