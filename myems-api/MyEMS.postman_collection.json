@@ -11279,35 +11279,14 @@
 				},
 				{
 					"name": "GET Meter Batch Analysis Report",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"connection": true
+						}
+					},
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "Cookie",
-								"value": "is_logged_in=true",
-								"type": "text"
-							},
-							{
-								"key": "Cookie",
-								"value": "token=1d7518a0f7e92e175d0dfcee118a3903ff0c6089b34a19174dc998a11671de47aacf024785371b1ea42e26cc7bd31d483f05d9f87e3dfbe99ac8a6e0c202fc58",
-								"type": "text"
-							},
-							{
-								"key": "Cookie",
-								"value": "user_display_name=Demo2206",
-								"type": "text"
-							},
-							{
-								"key": "Cookie",
-								"value": "user_name=demo2206@kwh-w.com",
-								"type": "text"
-							},
-							{
-								"key": "Cookie",
-								"value": "user_uuid=288c128a-3b7b-499e-b0f3-533294b37ea4",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"url": {
 							"raw": "{{base_url}}/reports/meterbatch?spaceid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00",
 							"host": [
@@ -13434,6 +13413,9 @@
 				},
 				{
 					"name": "GET Vitrual Meter Batch Analysis Report",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
