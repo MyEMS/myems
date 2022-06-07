@@ -135,10 +135,10 @@ class Reporting:
         if rows_meters is not None and len(rows_meters) > 0:
             for row in rows_meters:
                 virtual_meter_dict[row[0]] = {"virtual_meter_name": row[1],
-                                      "energy_category_id": row[2],
-                                      "space_name": row[3],
-                                      "cost_center_name": row[4],
-                                      "values": list()}
+                                              "energy_category_id": row[2],
+                                              "space_name": row[3],
+                                              "cost_center_name": row[4],
+                                              "values": list()}
 
         ################################################################################################################
         # Step 4: query energy categories
@@ -230,7 +230,7 @@ class Reporting:
         # export result to Excel file and then encode the file to base64 string
         result['excel_bytes_base64'] = \
             excelexporters.virtualmeterbatch.export(result,
-                                             space_name,
-                                             reporting_period_start_datetime_local,
-                                             reporting_period_end_datetime_local)
+                                                    space_name,
+                                                    reporting_period_start_datetime_local,
+                                                    reporting_period_end_datetime_local)
         resp.text = json.dumps(result)
