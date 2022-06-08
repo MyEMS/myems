@@ -4,7 +4,7 @@ import mysql.connector
 import config
 from anytree import AnyNode, LevelOrderIter
 from datetime import datetime, timedelta, timezone
-import excelexporters.offlinemeters
+import excelexporters.offlinemeterbatch
 
 
 class Reporting:
@@ -229,8 +229,8 @@ class Reporting:
 
         # export result to Excel file and then encode the file to base64 string
         result['excel_bytes_base64'] = \
-            excelexporters.offlinemeters.export(result,
-                                                space_name,
-                                                reporting_period_start_datetime_local,
-                                                reporting_period_end_datetime_local)
+            excelexporters.offlinemeterbatch.export(result,
+                                                    space_name,
+                                                    reporting_period_start_datetime_local,
+                                                    reporting_period_end_datetime_local)
         resp.text = json.dumps(result)

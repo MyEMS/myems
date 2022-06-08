@@ -45,7 +45,7 @@ from reports import metersubmetersbalance
 from reports import metertrend
 from reports import metertracking
 from reports import meterbatch
-from reports import offlinemeters
+from reports import offlinemeterbatch
 from reports import offlinemeterenergy
 from reports import offlinemetercost
 from reports import shopfloorcost
@@ -575,8 +575,8 @@ api.add_route('/reports/metertrend',
               metertrend.Reporting())
 api.add_route('/reports/metertracking',
               metertracking.Reporting())
-api.add_route('/reports/offlinemeters',
-              offlinemeters.Reporting())
+api.add_route('/reports/offlinemeterbatch',
+              offlinemeterbatch.Reporting())
 api.add_route('/reports/offlinemeterenergy',
               offlinemeterenergy.Reporting())
 api.add_route('/reports/offlinemetercost',
