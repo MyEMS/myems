@@ -2481,6 +2481,10 @@ curl -i -X GET {{base_url}}/reports/metertrend?meterid=6&reportingperiodstartdat
 ```bash
 curl -i -X GET {{base_url}}/reports/metertracking?spaceid=1
 ```
+*   GET Offline Meter Analysis Report
+```bash
+curl -i -X GET {{base_url}}/reports/offlinemeters?spaceid=1&reportingperiodstartdatetime=2021-05-01T00:00:00&reportingperiodenddatetime=2021-05-20T11:41:09
+```
 *   GET Offline Meter Energy Report
 ```bash
 curl -i -X GET {{base_url}}/reports/offlinemeterenergy?offlinemeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
