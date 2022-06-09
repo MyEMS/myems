@@ -192,12 +192,12 @@ class Reporting:
                                      (offline_meter_id,
                                       reporting_start_datetime_utc,
                                       reporting_end_datetime_utc))
-            rows_meter_energy = cursor_energy_db.fetchall()
+            rows_offline_meter_energy = cursor_energy_db.fetchall()
             for energy_category in energy_category_list:
                 subtotal = None
-                for row_meter_energy in rows_meter_energy:
+                for row_offline_meter_energy in rows_offline_meter_energy:
                     if energy_category['id'] == offline_meter_dict[offline_meter_id]['energy_category_id']:
-                        subtotal = row_meter_energy[0]
+                        subtotal = row_offline_meter_energy[0]
                         break
                 offline_meter_dict[offline_meter_id]['values'].append(subtotal)
 
