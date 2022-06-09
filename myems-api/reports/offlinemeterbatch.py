@@ -131,9 +131,9 @@ class Reporting:
                                  " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
                                  " AND som.space_id = s.id AND som.offline_meter_id = om.id "
                                  " AND om.cost_center_id = cc.id  ", )
-        rows_meters = cursor_system_db.fetchall()
-        if rows_meters is not None and len(rows_meters) > 0:
-            for row in rows_meters:
+        rows_offline_meters = cursor_system_db.fetchall()
+        if rows_offline_meters is not None and len(rows_offline_meters) > 0:
+            for row in rows_offline_meters:
                 offline_meter_dict[row[0]] = {"offline_meter_name": row[1],
                                               "energy_category_id": row[2],
                                               "space_name": row[3],
