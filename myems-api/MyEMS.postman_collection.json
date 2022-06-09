@@ -11316,11 +11316,6 @@
 				},
 				{
 					"name": "GET Offline Meter Analysis Report",
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {
-							"connection": true
-						}
-					},
 					"request": {
 						"method": "GET",
 						"header": [],
