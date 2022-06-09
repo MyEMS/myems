@@ -149,9 +149,9 @@ class Reporting:
         # query energy categories in reporting period
         energy_category_set = set()
 
-        if rows_meters is not None and len(rows_meters) > 0:
-            for row_meter in rows_meters:
-                energy_category_set.add(row_meter[2])
+        if rows_offline_meters is not None and len(rows_offline_meters) > 0:
+            for row_offline_meter in rows_offline_meters:
+                energy_category_set.add(row_offline_meter[2])
 
         # query all energy categories
         cursor_system_db.execute(" SELECT id, name, unit_of_measure "
