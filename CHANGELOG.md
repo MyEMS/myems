@@ -6,7 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 ### Added
 - Added meter id column to virtual meter editor.
-- Added virtual meter batch report to myems-api.
+- Added virtual meter batch analysis report to myems-api.
+- Added offline meter batch analysis report to myems-api.
 
 ### Changed
 - Changed default user expiration datetime to one year from the creation.
