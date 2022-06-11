@@ -282,13 +282,16 @@ def process(logger, data_source_id, host, port):
 
             current_datetime_utc = datetime.utcnow()
             # bulk insert values into historical database within a period
-            # update latest values in the meanwhile
-            if len(analog_value_list) > 0:
+            # and then update latest values
+            while len(analog_value_list) > 0:
+                analog_value_list_100 = analog_value_list[:100]
+                analog_value_list = analog_value_list[100:]
+
                 add_values = (" INSERT INTO tbl_analog_value (point_id, utc_date_time, actual_value) "
                               " VALUES  ")
                 trend_value_count = 0
 
-                for point_value in analog_value_list:
+                for point_value in analog_value_list_100:
                     if point_value['is_trend']:
                         add_values += " (" + str(point_value['point_id']) + ","
                         add_values += "'" + current_datetime_utc.isoformat() + "',"
@@ -310,7 +313,7 @@ def process(logger, data_source_id, host, port):
                                  " VALUES  ")
                 latest_value_count = 0
 
-                for point_value in analog_value_list:
+                for point_value in analog_value_list_100:
                     delete_values += str(point_value['point_id']) + ","
                     latest_values += " (" + str(point_value['point_id']) + ","
                     latest_values += "'" + current_datetime_utc.isoformat() + "',"
@@ -334,12 +337,15 @@ def process(logger, data_source_id, host, port):
                         logger.error("Error in step 4.3.3 of acquisition process " + str(e))
                         # ignore this exception
 
-            if len(energy_value_list) > 0:
+            while len(energy_value_list) > 0:
+                energy_value_list_100 = energy_value_list[:100]
+                energy_value_list = energy_value_list[100:]
+
                 add_values = (" INSERT INTO tbl_energy_value (point_id, utc_date_time, actual_value) "
                               " VALUES  ")
                 trend_value_count = 0
 
-                for point_value in energy_value_list:
+                for point_value in energy_value_list_100:
                     if point_value['is_trend']:
                         add_values += " (" + str(point_value['point_id']) + ","
                         add_values += "'" + current_datetime_utc.isoformat() + "',"
@@ -359,9 +365,8 @@ def process(logger, data_source_id, host, port):
                 delete_values = " DELETE FROM tbl_energy_value_latest WHERE point_id IN ( "
                 latest_values = (" INSERT INTO tbl_energy_value_latest (point_id, utc_date_time, actual_value) "
                                  " VALUES  ")
-
                 latest_value_count = 0
-                for point_value in energy_value_list:
+                for point_value in energy_value_list_100:
                     delete_values += str(point_value['point_id']) + ","
                     latest_values += " (" + str(point_value['point_id']) + ","
                     latest_values += "'" + current_datetime_utc.isoformat() + "',"
@@ -387,12 +392,15 @@ def process(logger, data_source_id, host, port):
                         logger.error("Error in step 4.4.3 of acquisition process " + str(e))
                         # ignore this exception
 
-            if len(digital_value_list) > 0:
+            while len(digital_value_list) > 0:
+                digital_value_list_100 = digital_value_list[:100]
+                digital_value_list = digital_value_list[100:]
+
                 add_values = (" INSERT INTO tbl_digital_value (point_id, utc_date_time, actual_value) "
                               " VALUES  ")
                 trend_value_count = 0
 
-                for point_value in digital_value_list:
+                for point_value in digital_value_list_100:
                     if point_value['is_trend']:
                         add_values += " (" + str(point_value['point_id']) + ","
                         add_values += "'" + current_datetime_utc.isoformat() + "',"
@@ -413,7 +421,7 @@ def process(logger, data_source_id, host, port):
                 latest_values = (" INSERT INTO tbl_digital_value_latest (point_id, utc_date_time, actual_value) "
                                  " VALUES  ")
                 latest_value_count = 0
-                for point_value in digital_value_list:
+                for point_value in digital_value_list_100:
                     delete_values += str(point_value['point_id']) + ","
                     latest_values += " (" + str(point_value['point_id']) + ","
                     latest_values += "'" + current_datetime_utc.isoformat() + "',"
