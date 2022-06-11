@@ -363,13 +363,13 @@ export const meterRoutes = {
     { to: '/meter/metertrend', name: 'Meter Trend' },
     { to: '/meter/meterrealtime', name: 'Meter Realtime' },
     { to: '/meter/metersubmetersbalance', name: 'Master Meter Submeters Balance' },
+    { to: '/meter/meterbatch', name: 'Meter Batch Analysis' },
+    { to: '/meter/metertracking', name: 'Meter Tracking' },
     { to: '/meter/virtualmeterenergy', name: 'Virtual Meter Energy' },
     { to: '/meter/virtualmetercarbon', name: 'Virtual Meter Carbon' },
     { to: '/meter/virtualmetercost', name: 'Virtual Meter Cost' },
     { to: '/meter/offlinemeterenergy', name: 'Offline Meter Energy' },
     { to: '/meter/offlinemetercost', name: 'Offline Meter Cost' },
-    { to: '/meter/batch', name: 'Batch Analysis' },
-    { to: '/meter/tracking', name: 'Meter Tracking' }
   ]
 };
 
