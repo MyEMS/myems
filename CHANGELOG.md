@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 - Changed default user expiration datetime to one year from the creation.
 - Reduced insert values length each time in myems-modbus-tcp service.
+- Updated routes and menu items name in myems-web (Database Update Required).
 
 ### Fixed
 - Reduced .
