@@ -429,8 +429,8 @@ VALUES
 (307,'Virtual Meter Cost','/meter/virtualmetercost',300,0),
 (308,'Offline Meter Energy','/meter/offlinemeterenergy',300,0),
 (309,'Offline Meter Cost','/meter/offlinemetercost',300,0),
-(310,'Batch Analysis','/meter/batch',300,0),
-(311,'Meter Tracking','/meter/tracking',300,0),
+(310,'Meter Batch Analysis','/meter/meterbatch',300,0),
+(311,'Meter Tracking','/meter/metertracking',300,0),
 (312,'Meter Carbon','/meter/metercarbon',300,0),
 (313,'Virtual Meter Carbon','/meter/virtualmetercarbon',300,0),
 (400,'Tenant Data','/tenant',NULL,0),
@@ -1248,6 +1248,6 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '1.9.3', '2022-06-03');
+(1, '1.9.4', '2022-06-11');
 
 COMMIT;

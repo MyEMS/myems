@@ -366,19 +366,19 @@ const MyEMSRoutes = () => (
     <Route path="/equipment/tracking" exact component={EquipmentTracking} />
 
     {/*Meter*/}
-    <Route path="/meter/batch" exact component={MeterBatch} />
     <Route path="/meter/meterenergy" exact component={MeterEnergy} />
     <Route path="/meter/metercarbon" exact component={MeterCarbon} />
     <Route path="/meter/metercost" exact component={MeterCost} />
     <Route path="/meter/metertrend" exact component={MeterTrend} />
     <Route path="/meter/meterrealtime" exact component={MeterRealtime} />
     <Route path="/meter/metersubmetersbalance" exact component={MeterSubmetersBalance} />
+    <Route path="/meter/meterbatch" exact component={MeterBatch} />
+    <Route path="/meter/metertracking" exact component={MeterTracking} />
     <Route path="/meter/offlinemeterenergy" exact component={OfflineMeterEnergy} />
     <Route path="/meter/offlinemetercost" exact component={OfflineMeterCost} />
     <Route path="/meter/virtualmeterenergy" exact component={VirtualMeterEnergy} />
     <Route path="/meter/virtualmetercarbon" exact component={VirtualMeterCarbon} />
     <Route path="/meter/virtualmetercost" exact component={VirtualMeterCost} />
-    <Route path="/meter/tracking" exact component={MeterTracking} />
 
     {/*Tenant*/}
     <Route path="/tenant/energycategory" exact component={TenantEnergyCategory} />
