@@ -130,10 +130,10 @@ def user_logger(func):
                 raw_json = reads.decode('utf-8')
                 with open(file_name, "rb") as fr:
                     req.stream = Body(fr)
-                    os.remove(file_name)
                     func(*args, **kwargs)
                     write_log(user_uuid=user_uuid, request_method='POST', resource_type=class_name,
                               resource_id=kwargs.get('id_'), request_body=raw_json)
+                os.remove(file_name)
             except Exception as e:
                 if isinstance(e, falcon.HTTPError):
                     raise e
@@ -143,16 +143,17 @@ def user_logger(func):
         elif func_name == "on_put":
             try:
                 file_name = str(uuid.uuid4())
+
                 with open(file_name, "wb") as fw:
                     reads = req.stream.read()
                     fw.write(reads)
                 raw_json = reads.decode('utf-8')
                 with open(file_name, "rb") as fr:
                     req.stream = Body(fr)
-                    os.remove(file_name)
                     func(*args, **kwargs)
                     write_log(user_uuid=user_uuid, request_method='PUT', resource_type=class_name,
                               resource_id=kwargs.get('id_'), request_body=raw_json)
+                os.remove(file_name)
             except Exception as e:
                 if isinstance(e, falcon.HTTPError):
                     raise e
