@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Fixed
 - Fixed remove file error in user_logger decorator of myems-api.
+- Fixed email address validator issue in myems-api.
 
 ### Removed
 - None.
