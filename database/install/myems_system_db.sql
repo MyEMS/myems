@@ -435,6 +435,7 @@ VALUES
 (313,'Virtual Meter Carbon','/meter/virtualmetercarbon',300,0),
 (314,'Virtual Meter Batch Analysis','/meter/virtualmeterbatch',300,0),
 (315,'Offline Meter Batch Analysis','/meter/offlinemeterbatch',300,0),
+(316,'Offline Meter Carbon','/meter/offlinemetercarbon',300,0),
 (400,'Tenant Data','/tenant',NULL,0),
 (401,'Energy Category Data','/tenant/energycategory',400,0),
 (402,'Energy Item Data','/tenant/energyitem',400,0),

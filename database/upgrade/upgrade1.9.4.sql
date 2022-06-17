@@ -17,6 +17,7 @@ UPDATE `myems_system_db`.`tbl_menus` SET `route` = '/meter/metertracking' WHERE 
 INSERT INTO myems_system_db.tbl_menus (id,name,route, parent_menu_id,is_hidden)
 VALUES
 (314,'Virtual Meter Batch Analysis','/meter/virtualmeterbatch',300,0),
-(315,'Offline Meter Batch Analysis','/meter/offlinemeterbatch',300,0);
+(315,'Offline Meter Batch Analysis','/meter/offlinemeterbatch',300,0),
+(316,'Offline Meter Carbon','/meter/offlinemetercarbon',300,0);
 
 COMMIT;
