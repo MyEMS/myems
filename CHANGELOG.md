@@ -8,11 +8,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Added meter id column to virtual meter editor.
 - Added virtual meter batch analysis report to myems-api.
 - Added offline meter batch analysis report to myems-api.
+- Added virtual meter batch analysis report to myems-web.
 
 ### Changed
 - Changed default user expiration datetime to one year from the creation.
 - Reduced insert values length each time in myems-modbus-tcp service.
 - Updated routes and menu items name in myems-web (Database Update Required).
+- Updated translations of myems-admin.
 
 ### Fixed
 - Fixed remove file error in user_logger decorator of myems-api.
