@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Added virtual meter batch analysis report to myems-api.
 - Added offline meter batch analysis report to myems-api.
 - Added virtual meter batch analysis report to myems-web.
+- Added offline meter batch analysis report to myems-web.
 
 ### Changed
 - Changed default user expiration datetime to one year from the creation.

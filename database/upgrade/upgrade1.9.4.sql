@@ -1,6 +1,6 @@
 -- ---------------------------------------------------------------------------------------------------------------------
 -- WARNING: BACKUP YOUR DATABASE BEFORE UPGRADING
--- THIS SCRIPT IS ONLY FOR UPGRADING 1.9.3 TO latest
+-- THIS SCRIPT IS ONLY FOR UPGRADING 1.9.3 TO 1.9.4
 -- THE CURRENT VERSION CAN BE FOUND AT `myems_system_db`.`tbl_versions`
 -- ---------------------------------------------------------------------------------------------------------------------
 
@@ -16,6 +16,7 @@ UPDATE `myems_system_db`.`tbl_menus` SET `route` = '/meter/metertracking' WHERE 
 
 INSERT INTO myems_system_db.tbl_menus (id,name,route, parent_menu_id,is_hidden)
 VALUES
-(314,'Virtual Meter Batch Analysis','/meter/virtualmeterbatch',300,0);
+(314,'Virtual Meter Batch Analysis','/meter/virtualmeterbatch',300,0),
+(315,'Offline Meter Batch Analysis','/meter/offlinemeterbatch',300,0);
 
 COMMIT;
