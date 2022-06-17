@@ -28,7 +28,7 @@ import { endOfDay} from 'date-fns';
 
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
-const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
+const VirtualMeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
@@ -168,7 +168,7 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
     setMeterList([]);
     
     let isResponseOK = false;
-    fetch(APIBaseURL + '/reports/meterbatch?' +
+    fetch(APIBaseURL + '/reports/virtualmeterbatch?' +
       'spaceid=' + selectedSpaceID +
       '&reportingperiodstartdatetime=' + moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
       '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'), {
@@ -189,11 +189,11 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
       if (isResponseOK) {
         console.log(json)
         let meters = [];
-        if (json['meters'].length > 0) {
-          json['meters'].forEach((currentMeter, index) => {
+        if (json['virtual_meters'].length > 0) {
+          json['virtual_meters'].forEach((currentMeter, index) => {
             let detailed_value = {};
             detailed_value['id'] = currentMeter['id'];
-            detailed_value['name'] = currentMeter['meter_name'];
+            detailed_value['name'] = currentMeter['virtual_meter_name'];
             detailed_value['space'] = currentMeter['space_name'];
             detailed_value['costcenter'] = currentMeter['cost_center_name'];
             currentMeter['values'].forEach((currentValue, energyCategoryIndex) => {
@@ -261,7 +261,7 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
   const handleExport = e => {
     e.preventDefault();
     const mimeType='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    const fileName = 'meterbatch.xlsx'
+    const fileName = 'virtualmeterbatch.xlsx'
     var fileUrl = "data:" + mimeType + ";base64," + excelBytesBase64;
     fetch(fileUrl)
         .then(response => response.blob())
@@ -281,7 +281,7 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
     <Fragment>
       <div>
         <Breadcrumb>
-          <BreadcrumbItem>{t('Meter Data')}</BreadcrumbItem><BreadcrumbItem active>{t('Meter Batch Analysis')}</BreadcrumbItem>
+          <BreadcrumbItem>{t('Meter Data')}</BreadcrumbItem><BreadcrumbItem active>{t('Virtual Meter Batch Analysis')}</BreadcrumbItem>
         </Breadcrumb>
       </div>
       <Card className="bg-light mb-3">
@@ -352,4 +352,4 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
   );
 };
 
-export default withTranslation()(withRedirect(MeterBatch));
+export default withTranslation()(withRedirect(VirtualMeterBatch));

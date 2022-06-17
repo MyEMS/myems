@@ -135,6 +135,7 @@ import MeterTracking from '../components/MyEMS/Meter/MeterTracking';
 import MeterTrend from '../components/MyEMS/Meter/MeterTrend';
 import OfflineMeterCost from '../components/MyEMS/Meter/OfflineMeterCost';
 import OfflineMeterEnergy from '../components/MyEMS/Meter/OfflineMeterEnergy';
+import VirtualMeterBatch from '../components/MyEMS/Meter/VirtualMeterBatch';
 import VirtualMeterCarbon from '../components/MyEMS/Meter/VirtualMeterCarbon';
 import VirtualMeterCost from '../components/MyEMS/Meter/VirtualMeterCost';
 import VirtualMeterEnergy from '../components/MyEMS/Meter/VirtualMeterEnergy';
@@ -196,7 +197,6 @@ import AdvancedReporting from '../components/MyEMS/AdvancedReporting/AdvancedRep
 import KnowledgeBase from '../components/MyEMS/KnowledgeBase/KnowledgeBase';
 // Notification
 import Notification from '../components/MyEMS/Notification/Notification';
-
 
 // const InboxRoutes = ({ match: { url } }) => (
 //   <InboxProvider>
@@ -374,11 +374,12 @@ const MyEMSRoutes = () => (
     <Route path="/meter/metersubmetersbalance" exact component={MeterSubmetersBalance} />
     <Route path="/meter/meterbatch" exact component={MeterBatch} />
     <Route path="/meter/metertracking" exact component={MeterTracking} />
-    <Route path="/meter/offlinemeterenergy" exact component={OfflineMeterEnergy} />
-    <Route path="/meter/offlinemetercost" exact component={OfflineMeterCost} />
     <Route path="/meter/virtualmeterenergy" exact component={VirtualMeterEnergy} />
     <Route path="/meter/virtualmetercarbon" exact component={VirtualMeterCarbon} />
     <Route path="/meter/virtualmetercost" exact component={VirtualMeterCost} />
+    <Route path="/meter/virtualmeterbatch" exact component={VirtualMeterBatch} />
+    <Route path="/meter/offlinemeterenergy" exact component={OfflineMeterEnergy} />
+    <Route path="/meter/offlinemetercost" exact component={OfflineMeterCost} />
 
     {/*Tenant*/}
     <Route path="/tenant/energycategory" exact component={TenantEnergyCategory} />
