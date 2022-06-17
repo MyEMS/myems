@@ -37,17 +37,18 @@ from reports import fddshopfloorfault
 from reports import fddspacefault
 from reports import fddstorefault
 from reports import fddtenantfault
-from reports import meterenergy
+from reports import meterbatch
 from reports import metercarbon
 from reports import metercost
+from reports import meterenergy
 from reports import meterrealtime
 from reports import metersubmetersbalance
 from reports import metertrend
 from reports import metertracking
-from reports import meterbatch
 from reports import offlinemeterbatch
-from reports import offlinemeterenergy
+from reports import offlinemetercarbon
 from reports import offlinemetercost
+from reports import offlinemeterenergy
 from reports import shopfloorcost
 from reports import shopfloorenergycategory
 from reports import shopfloorenergyitem
@@ -80,9 +81,9 @@ from reports import tenantbatch
 from reports import tenantsaving
 from reports import tenantstatistics
 from reports import virtualmeterbatch
-from reports import virtualmeterenergy
 from reports import virtualmetercarbon
 from reports import virtualmetercost
+from reports import virtualmeterenergy
 
 ########################################################################################################################
 # BEGIN imports for Enterprise Version
@@ -577,10 +578,12 @@ api.add_route('/reports/metertracking',
               metertracking.Reporting())
 api.add_route('/reports/offlinemeterbatch',
               offlinemeterbatch.Reporting())
-api.add_route('/reports/offlinemeterenergy',
-              offlinemeterenergy.Reporting())
+api.add_route('/reports/offlinemetercarbon',
+              offlinemetercarbon.Reporting())
 api.add_route('/reports/offlinemetercost',
               offlinemetercost.Reporting())
+api.add_route('/reports/offlinemeterenergy',
+              offlinemeterenergy.Reporting())
 api.add_route('/reports/shopfloorcost',
               shopfloorcost.Reporting())
 api.add_route('/reports/shopfloorenergycategory',
