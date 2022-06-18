@@ -62,7 +62,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
     # todo
     ws = wb.active
-    ws.title = "MeterCarbonDioxideEmissions"
+    ws.title = "MeterCarbon"
     # Row height
     ws.row_dimensions[1].height = 102
     for i in range(2, 2000 + 1):
@@ -154,7 +154,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
     if has_carbon_data_flag:
         ws['B6'].font = title_font
-        ws['B6'] = name + 'Reporting Period Carbon Dioxide Emissions'
+        ws['B6'] = name + 'Reporting Period Carbon'
 
         reporting_period_data = report['reporting_period']
         category = report['meter']['energy_category_name']
@@ -324,7 +324,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                 ws[col + str(end_data_row_number + 1)].border = f_border
 
             line = LineChart()
-            line.title = 'Reporting Period Carbon Dioxide Emissions - ' + report['meter']['energy_category_name'] + \
+            line.title = 'Reporting Period Carbon - ' + report['meter']['energy_category_name'] + \
                          " (" + report['meter']['unit_of_measure'] + ")"
             line_data = Reference(ws, min_col=3, min_row=start_detail_data_row_number, max_row=max_row)
             line.series.append(Series(line_data, title_from_data=True))
