@@ -59,7 +59,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
     wb = Workbook()
 
     ws = wb.active
-    ws.title = "OfflineMeterCarbonDioxideEmissions"
+    ws.title = "OfflineMeterCarbon"
     # Row height
     ws.row_dimensions[1].height = 102
     for i in range(2, 2000 + 1):
@@ -151,7 +151,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
     if has_values_flag:
         ws['B6'].font = title_font
-        ws['B6'] = name + 'Reporting Period Carbon Dioxide Emissions'
+        ws['B6'] = name + 'Reporting Period Carbon'
 
         reporting_period_data = report['reporting_period']
         category = report['offline_meter']['energy_category_name']
@@ -320,7 +320,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             line_data.marker.symbol = "circle"
             line_data.smooth = True
             line.x_axis.crosses = 'min'
-            line.title = 'Reporting Period Carbon Dioxide Emissions - ' + \
+            line.title = 'Reporting Period Carbon - ' + \
                          report['offline_meter']['energy_category_name'] + \
                          " (" + report['offline_meter']['unit_of_measure'] + ")"
             line.dLbls = DataLabelList()
