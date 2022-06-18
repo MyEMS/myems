@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Added virtual meter batch analysis report.
 - Added offline meter batch analysis report.
 - Added offline meter carbon dioxide emissions report.
+- Added sums by time of use types to meter energy report.
 
 ### Changed
 - Changed default user expiration datetime to one year from the creation.
