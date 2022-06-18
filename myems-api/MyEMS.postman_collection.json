@@ -11279,11 +11279,6 @@
 				},
 				{
 					"name": "GET Meter Batch Analysis Report",
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {
-							"connection": true
-						}
-					},
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -13489,9 +13484,6 @@
 				},
 				{
 					"name": "GET Vitrual Meter Batch Analysis Report",
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {}
-					},
 					"request": {
 						"method": "GET",
 						"header": [],

@@ -270,6 +270,10 @@ class Reporting:
         reporting['total_in_category'] = Decimal(0.0)
         reporting['total_in_kgce'] = Decimal(0.0)
         reporting['total_in_kgco2e'] = Decimal(0.0)
+        reporting['toppeak'] = Decimal(0.0)
+        reporting['onpeak'] = Decimal(0.0)
+        reporting['midpeak'] = Decimal(0.0)
+        reporting['offpeak'] = Decimal(0.0)
 
         for row_meter_periodically in rows_meter_periodically:
             current_datetime_local = row_meter_periodically[0].replace(tzinfo=timezone.utc) + \
@@ -293,6 +297,20 @@ class Reporting:
             reporting['total_in_kgce'] += actual_value * meter['kgce']
             reporting['total_in_kgco2e'] += actual_value * meter['kgco2e']
 
+        energy_category_tariff_dict = utilities.get_energy_category_peak_types(meter['cost_center_id'],
+                                                                               meter['energy_category_id'],
+                                                                               reporting_start_datetime_utc,
+                                                                               reporting_end_datetime_utc)
+        for row_meter_periodically in rows_meter_periodically:
+            peak_type = energy_category_tariff_dict.get(row_meter_periodically[0], None)
+            if peak_type == 'toppeak':
+                reporting['toppeak'] += row_meter_periodically[1]
+            elif peak_type == 'onpeak':
+                reporting['onpeak'] += row_meter_periodically[1]
+            elif peak_type == 'midpeak':
+                reporting['midpeak'] += row_meter_periodically[1]
+            elif peak_type == 'offpeak':
+                reporting['offpeak'] += row_meter_periodically[1]
         ################################################################################################################
         # Step 6: query tariff data
         ################################################################################################################
@@ -425,6 +443,10 @@ class Reporting:
                 "total_in_category": reporting['total_in_category'],
                 "total_in_kgce": reporting['total_in_kgce'],
                 "total_in_kgco2e": reporting['total_in_kgco2e'],
+                "toppeak": reporting['toppeak'],
+                "onpeak": reporting['onpeak'],
+                "midpeak": reporting['midpeak'],
+                "offpeak": reporting['offpeak'],
                 "timestamps": reporting['timestamps'],
                 "values": reporting['values'],
             },
