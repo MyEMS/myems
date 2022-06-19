@@ -5,6 +5,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+-
+
+### Changed
+- 
+
+### Fixed
+-
+
+### Removed
+- 
+
+## [v1.9.4] - 2022-06-18
+### Added
 - Added meter id column to virtual meter editor.
 - Added virtual meter batch analysis report.
 - Added offline meter batch analysis report.
@@ -871,7 +884,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v1.9.3...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v1.9.4...HEAD
+[v1.9.4]: https://github.com/MyEMS/myems/compare/v1.9.3...v1.9.4
 [v1.9.3]: https://github.com/MyEMS/myems/compare/v1.9.2...v1.9.3
 [v1.9.2]: https://github.com/MyEMS/myems/compare/v1.9.1...v1.9.2
 [v1.9.1]: https://github.com/MyEMS/myems/compare/v1.9.0...v1.9.1
