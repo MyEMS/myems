@@ -301,16 +301,16 @@ class Reporting:
                                                                                meter['energy_category_id'],
                                                                                reporting_start_datetime_utc,
                                                                                reporting_end_datetime_utc)
-        for row_meter_periodically in rows_meter_periodically:
-            peak_type = energy_category_tariff_dict.get(row_meter_periodically[0], None)
+        for row_meter_hourly in rows_meter_hourly:
+            peak_type = energy_category_tariff_dict.get(row_meter_hourly[0], None)
             if peak_type == 'toppeak':
-                reporting['toppeak'] += row_meter_periodically[1]
+                reporting['toppeak'] += row_meter_hourly[1]
             elif peak_type == 'onpeak':
-                reporting['onpeak'] += row_meter_periodically[1]
+                reporting['onpeak'] += row_meter_hourly[1]
             elif peak_type == 'midpeak':
-                reporting['midpeak'] += row_meter_periodically[1]
+                reporting['midpeak'] += row_meter_hourly[1]
             elif peak_type == 'offpeak':
-                reporting['offpeak'] += row_meter_periodically[1]
+                reporting['offpeak'] += row_meter_hourly[1]
         ################################################################################################################
         # Step 6: query tariff data
         ################################################################################################################
