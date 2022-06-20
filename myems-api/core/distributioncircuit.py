@@ -405,9 +405,9 @@ class DistributionCircuitPointCollection:
         distribution_system_dict = dict()
         if rows_distribution_systems is not None and len(rows_distribution_systems) > 0:
             for row in rows_distribution_systems:
-                distribution_system_dict[row['uuid']] = {"id": row[0],
-                                                         "name": row[1],
-                                                         "uuid": row[2]}
+                distribution_system_dict[row[2]] = {"id": row[0],
+                                                    "name": row[1],
+                                                    "uuid": row[2]}
 
         cursor.execute(" SELECT name "
                        " FROM tbl_distribution_circuits "
