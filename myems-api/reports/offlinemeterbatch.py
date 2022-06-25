@@ -138,7 +138,8 @@ class Reporting:
                                               "energy_category_id": row[2],
                                               "space_name": row[3],
                                               "cost_center_name": row[4],
-                                              "values": list()}
+                                              "values": list(),
+                                              "subtotal": None}
 
         ################################################################################################################
         # Step 4: query energy categories
@@ -198,7 +199,10 @@ class Reporting:
                 for row_offline_meter_energy in rows_offline_meter_energy:
                     if energy_category['id'] == offline_meter_dict[offline_meter_id]['energy_category_id']:
                         subtotal = row_offline_meter_energy[0]
+                        offline_meter_dict[offline_meter_id]['subtotal'] = subtotal
                         break
+                # append subtotal
+                # append None if energy category is not applicable
                 offline_meter_dict[offline_meter_id]['values'].append(subtotal)
 
         if cursor_system_db:
@@ -222,6 +226,7 @@ class Reporting:
                 "space_name": offline_meter['space_name'],
                 "cost_center_name": offline_meter['cost_center_name'],
                 "values": offline_meter['values'],
+                "subtotal": offline_meter['subtotal'],
             })
 
         result = {'offline_meters': offline_meter_list,
