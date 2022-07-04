@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 ### Added
 - added subtotal to meter/offlinemeter/virtualmeter batch report 
-
+- added mqtt to data source protocol in myems-api
 ### Changed
 - 
 

@@ -111,7 +111,8 @@ class DataSourceCollection:
                  'postgresql',
                  'oracle',
                  'mongodb',
-                 'influxdb'):
+                 'influxdb',
+                 'mqtt'):
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DATA_SOURCE_PROTOCOL')
         protocol = new_values['data']['protocol']
@@ -315,7 +316,8 @@ class DataSourceItem:
                  'postgresql',
                  'oracle',
                  'mongodb',
-                 'influxdb'):
+                 'influxdb',
+                 'mqtt'):
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DATA_SOURCE_PROTOCOL')
         protocol = new_values['data']['protocol']
