@@ -446,7 +446,7 @@ Result in JSON
 | name          | string    | Data Source name                          |
 | gateway       | object    | Gateway                                   |
 | uuid          | string    | Data Source UUID                          |
-| protocol      | string    | Protocol Type Supported: 'modbus-tcp', 'modbus-rtu', 'bacnet-ip', 's7', 'profibus', 'profinet', 'opc-ua', 'lora', 'simulation', 'controllogix', 'weather', 'mysql', 'sqlserver', 'postgresql', 'oracle', 'mongodb', 'influxdb' |
+| protocol      | string    | Protocol Type Supported: 'modbus-tcp', 'modbus-rtu', 'bacnet-ip', 's7', 'profibus', 'profinet', 'opc-ua', 'lora', 'simulation', 'controllogix', 'weather', 'mysql', 'sqlserver', 'postgresql', 'oracle', 'mongodb', 'influxdb', 'mqtt' |
 | connection    | json      | Connection data in JSON. BACnet/IP example: {"host":"10.1.2.88"}, Modbus TCP example: {"host":"10.1.2.88", "port":502}, S7 example: {"host":"10.1.2.202", "port":102, "rack": 0, "slot": 2}, ControlLogix example: {"host":"10.1.2.88","port":44818,"processorslot":3} OPC UA example: {"url":"opc.tcp://10.1.2.5:49320/OPCUA/SimulationServer/"} |
 | last_seen_datetime| string | Indicates the last time when the data source was seen in local timezone |
 | status        | string    | 'online' or 'offline' determined by last seen datetime|
