@@ -61,4 +61,20 @@ CREATE TABLE IF NOT EXISTS `myems_reporting_db`.`tbl_reports_files` (
   CREATE INDEX `tbl_reports_files_index_1` ON  `myems_reporting_db`.`tbl_reports_files`  (`file_name`);
   CREATE INDEX `tbl_reports_files_index_2` ON  `myems_reporting_db`.`tbl_reports_files`  (`create_datetime_utc`);
 
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_reporting_db`.`tbl_template_files`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_reporting_db`.`tbl_template_files` ;
+
+CREATE TABLE IF NOT EXISTS `myems_reporting_db`.`tbl_template_files` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `uuid` CHAR(36) NOT NULL,
+  `report_id` BIGINT NOT NULL,
+  `file_name` VARCHAR(255) NOT NULL,
+  `file_type` VARCHAR(45) NOT NULL COMMENT 'file_type: xlsx, pdf or docx',
+  `file_object` LONGBLOB NOT NULL,
+  PRIMARY KEY (`id`));
+  CREATE INDEX `tbl_template_files_index_1` ON  `myems_reporting_db`.`tbl_template_files`  (`file_name`);
+  CREATE INDEX `tbl_template_files_index_2` ON  `myems_reporting_db`.`tbl_template_files`  (`report_id`);
+
 COMMIT;
