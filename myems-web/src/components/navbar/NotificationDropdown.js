@@ -73,7 +73,6 @@ const NotificationDropdown = ({ t }) => {
     });
 
   }, [t,]);
-  console.log("test");
   console.log(rawNewNotificationschild);
 
 

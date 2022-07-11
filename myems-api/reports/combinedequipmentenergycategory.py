@@ -511,16 +511,14 @@ class Reporting:
                                           " WHERE equipment_id = %s "
                                           "     AND energy_category_id = %s "
                                           "     AND start_datetime_utc >= %s "
-                                          "     AND start_datetime_utc < %s "
-                                          " ORDER BY start_datetime_utc ",
+                                          "     AND start_datetime_utc < %s ",
                                           (associated_equipment['id'],
                                            energy_category_id,
                                            reporting_start_datetime_utc,
                                            reporting_end_datetime_utc))
                     row_subtotal = cursor_energy.fetchone()
 
-                    subtotal = Decimal(0.0) if (row_subtotal is None or row_subtotal[0] is None) else row_subtotal[
-                        0]
+                    subtotal = Decimal(0.0) if (row_subtotal is None or row_subtotal[0] is None) else row_subtotal[0]
                     associated_equipment_data[energy_category_id]['subtotals'].append(subtotal)
 
         ################################################################################################################
