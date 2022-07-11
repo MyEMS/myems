@@ -501,8 +501,7 @@ class Reporting:
                                           " WHERE equipment_id = %s "
                                           "     AND energy_item_id = %s "
                                           "     AND start_datetime_utc >= %s "
-                                          "     AND start_datetime_utc < %s "
-                                          " ORDER BY start_datetime_utc ",
+                                          "     AND start_datetime_utc < %s ",
                                           (associated_equipment['id'],
                                            energy_item_id,
                                            reporting_start_datetime_utc,
