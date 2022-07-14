@@ -365,6 +365,29 @@ VALUES
 
 COMMIT;
 
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_integrators`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_integrators` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_integrators` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `uuid` CHAR(36) NOT NULL,
+  `high_temperature_point_id` BIGINT NOT NULL,
+  `low_temperature_point_id` BIGINT NOT NULL,
+  `flow_point_id` BIGINT NOT NULL,
+  `heat_capacity` DECIMAL(18, 3) NOT NULL,
+  `liquid_density` DECIMAL(18, 3) NOT NULL,
+  `coefficient` DECIMAL(18, 3) NOT NULL,
+  `result_point_id` BIGINT NOT NULL,
+  `is_enabled` BOOL NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_integrators_index_1` ON `myems_system_db`.`tbl_integrators` (`name`);
+
+
+
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_knowledge_files`
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -1251,6 +1274,6 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '1.9.4', '2022-06-18');
+(1, '1.9.5', '2022-07-10');
 
 COMMIT;
