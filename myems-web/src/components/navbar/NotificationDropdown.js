@@ -15,6 +15,7 @@ import { APIBaseURL } from "../../config";
 import moment from 'moment';
 import { toast } from "react-toastify";
 import { getCookieValue } from '../../helpers/utils';
+import alarm from "../../assets/audio/alarm.mp3";
 
 const NotificationDropdown = ({ t }) => {
   // State
@@ -44,6 +45,8 @@ const NotificationDropdown = ({ t }) => {
       if (isResponseOK) {
         let NewNotificationList = []
         if (json.length > 0) {
+              const audio = new Audio(alarm);
+              audio.play();
               json.forEach((currentValue, index) => {
                 let notification = {}
                 notification['id'] = json[index]['id'];
@@ -63,6 +66,7 @@ const NotificationDropdown = ({ t }) => {
                 }
 
               });
+              
             }else {
           setIsAllRead(true);
         }
