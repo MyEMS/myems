@@ -9,7 +9,6 @@ START TRANSACTION;
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_reporting_db`.`tbl_template_files`
 -- ---------------------------------------------------------------------------------------------------------------------
-DROP TABLE IF EXISTS `myems_reporting_db`.`tbl_template_files` ;
 
 CREATE TABLE IF NOT EXISTS `myems_reporting_db`.`tbl_template_files` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
@@ -25,7 +24,6 @@ CREATE TABLE IF NOT EXISTS `myems_reporting_db`.`tbl_template_files` (
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_integrators`
 -- ---------------------------------------------------------------------------------------------------------------------
-DROP TABLE IF EXISTS `myems_system_db`.`tbl_integrators` ;
 
 CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_integrators` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
@@ -42,7 +40,22 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_integrators` (
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_integrators_index_1` ON `myems_system_db`.`tbl_integrators` (`name`);
 
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_historical_db`.`tbl_data_repair_files`
+-- ---------------------------------------------------------------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `myems_historical_db`.`tbl_data_repair_files` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `file_name` VARCHAR(255) NOT NULL,
+  `uuid` CHAR(36) NOT NULL,
+  `upload_datetime_utc` DATETIME NOT NULL,
+  `status` VARCHAR(45) NOT NULL COMMENT 'new, done, error',
+  `file_object` LONGBLOB NOT NULL,
+  PRIMARY KEY (`id`));
+
+
 -- UPDATE VERSION NUMBER
-UPDATE `myems_system_db`.`tbl_versions` SET version='1.9.5', release_date='2022-07-10' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='1.9.5', release_date='2022-07-18' WHERE id=1;
 
 COMMIT;
