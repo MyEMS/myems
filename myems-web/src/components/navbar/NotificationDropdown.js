@@ -7,7 +7,6 @@ import ListGroup from 'reactstrap/es/ListGroup';
 import ListGroupItem from 'reactstrap/es/ListGroupItem';
 import { rawEarlierNotifications, rawNewNotifications } from '../../data/notification/notification';
 import { isIterableArray } from '../../helpers/utils';
-import useFakeFetch from '../../hooks/useFakeFetch';
 import FalconCardHeader from '../common/FalconCardHeader';
 import Notification from '../notification/Notification';
 import { withTranslation } from 'react-i18next';
@@ -15,13 +14,17 @@ import { APIBaseURL } from "../../config";
 import moment from 'moment';
 import { toast } from "react-toastify";
 import { getCookieValue } from '../../helpers/utils';
+import alarm from "../../assets/audio/alarm.mp3";
+import Lottie from 'react-lottie';
+import * as animationData from '../../assets/lottie/bellalert.json'
+
 
 const NotificationDropdown = ({ t }) => {
   // State
   const [rawNewNotificationschild, setRawNewNotificationschild] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [isAllRead, setIsAllRead] = useState(false);
-
+  const [isLottieStopped, setIsLottieStopped] = useState(true);
+  
   useEffect(() => {
     let isResponseOK = false;
     fetch(APIBaseURL + '/webmessagesnew', {
@@ -44,6 +47,9 @@ const NotificationDropdown = ({ t }) => {
       if (isResponseOK) {
         let NewNotificationList = []
         if (json.length > 0) {
+              const audio = new Audio(alarm);
+              audio.play();
+              setIsLottieStopped(false);
               json.forEach((currentValue, index) => {
                 let notification = {}
                 notification['id'] = json[index]['id'];
@@ -63,8 +69,9 @@ const NotificationDropdown = ({ t }) => {
                 }
 
               });
-            }else {
-          setIsAllRead(true);
+              
+          } else {
+            setIsLottieStopped(true);
         }
         setRawNewNotificationschild(NewNotificationList);
       }
@@ -126,30 +133,33 @@ const NotificationDropdown = ({ t }) => {
           return response.json();
           }).then(json => {
             console.log(json)
-          if (isResponseOK) {
-            let NewNotificationList = []
-            if (json.length > 0) {
-                  json.forEach((currentValue, index) => {
-                    let notification = {}
-                    notification['id'] = json[index]['id'];
-                    notification['status'] = json[index]['status'];
-                    notification['subject'] = json[index]['subject']
-                    notification['message'] = json[index]['message'];
-                    notification['created_datetime'] = moment(parseInt(json[index]['created_datetime']))
-                        .format("YYYY-MM-DD HH:mm:ss");
-                    if (NewNotificationList.length > 3 ){
-                        return true
-                    }
-                    if (notification['message'].length > 40){
-                      notification['message'] = notification['message'].substring(0,30) + "...";
-                    }
-                    if (notification["status"] === "new"){
-                      NewNotificationList.push(notification);
-                    }
+            if (isResponseOK) {
+              let NewNotificationList = []
+              if (json.length > 0) {
+                const audio = new Audio(alarm);
+                audio.play();
+                setIsLottieStopped(false);
+                json.forEach((currentValue, index) => {
+                  let notification = {}
+                  notification['id'] = json[index]['id'];
+                  notification['status'] = json[index]['status'];
+                  notification['subject'] = json[index]['subject']
+                  notification['message'] = json[index]['message'];
+                  notification['created_datetime'] = moment(parseInt(json[index]['created_datetime']))
+                      .format("YYYY-MM-DD HH:mm:ss");
+                  if (NewNotificationList.length > 3 ){
+                      return true
+                  }
+                  if (notification['message'].length > 40){
+                    notification['message'] = notification['message'].substring(0,30) + "...";
+                  }
+                  if (notification["status"] === "new"){
+                    NewNotificationList.push(notification);
+                  }
 
-                  });
-                }else {
-              setIsAllRead(true);
+                });
+              } else {
+                setIsLottieStopped(true);
             }
             setRawNewNotificationschild(NewNotificationList);
           }
@@ -182,11 +192,10 @@ const NotificationDropdown = ({ t }) => {
     >
       <DropdownToggle
         nav
-        className={classNames('px-0', {
-          'notification-indicator notification-indicator-primary': !isAllRead
-        })}
+        className={classNames('px-0')}
       >
-        <FontAwesomeIcon icon="bell" transform="shrink-6" className="fs-4" />
+        {/* <FontAwesomeIcon icon="bell" transform="shrink-6" className="fs-4" /> */}
+        <Lottie options={{loop: true, autoplay: true, animationData: animationData}} isStopped={isLottieStopped} width="50px" height="50px"  />
       </DropdownToggle>
       <DropdownMenu right className="dropdown-menu-card">
         <Card className="card-notification shadow-none" style={{ maxWidth: '20rem' }}>

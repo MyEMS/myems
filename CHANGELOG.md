@@ -9,7 +9,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added mqtt to data source protocol in myems-api
 - added tbl_template_files to myems_reporting_db
 - added tbl_integrators to myems_system_db
-- 
+- added alarm audio for notification in myems-web
+- added alarm lottie for notification in myems-web
+
 ### Changed
 - 
 
