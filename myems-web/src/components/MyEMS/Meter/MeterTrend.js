@@ -338,7 +338,7 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
         setDetailedDataTableColumns(columns);
 
         let detial_value_list = [];
-        // choose the first point's timestamps for all points
+        // choose the first point's timestamps (not empty) for all points
         if (json['reporting_period']['timestamps'].length > 0) {
           let arr_index = 0
           for(let index in json['reporting_period']['timestamps']) {
