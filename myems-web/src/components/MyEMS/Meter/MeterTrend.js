@@ -338,9 +338,17 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
         setDetailedDataTableColumns(columns);
 
         let detial_value_list = [];
-        // choose the first point's timestamps for all points
+        // choose the first point's timestamps (not empty) for all points
         if (json['reporting_period']['timestamps'].length > 0) {
-          json['reporting_period']['timestamps'][0].forEach((currentValue, index) => {
+          let arr_index = 0
+          for(let index in json['reporting_period']['timestamps']) {
+            if (json['reporting_period']['timestamps'][index].length == 0) {
+              arr_index = arr_index + 1;
+            } else {
+              break;
+            }
+          }
+          json['reporting_period']['timestamps'][arr_index].forEach((currentValue, index) => {
             let detial_value = {};
             detial_value['id'] = index;
             detial_value['startdatetime'] = currentValue;
@@ -350,6 +358,7 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
             detial_value_list.push(detial_value);
           });
         };
+      
         setDetailedDataTableData(detial_value_list);
         
         setExcelBytesBase64(json['excel_bytes_base64']);
