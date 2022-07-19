@@ -1367,9 +1367,9 @@ class StoreVirtualMeterCollection:
         energy_category_dict = dict()
         if rows_energy_categories is not None and len(rows_energy_categories) > 0:
             for row in rows_energy_categories:
-                energy_category_dict[row[0]] = {"id": row[1],
-                                                "name": row[2],
-                                                "uuid": row[3]}
+                energy_category_dict[row[0]] = {"id": row[0],
+                                                "name": row[1],
+                                                "uuid": row[2]}
 
         query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id "
                  " FROM tbl_stores t, tbl_stores_virtual_meters tm, tbl_virtual_meters m "
