@@ -1264,7 +1264,7 @@
 								"method": "POST",
 								"header": [
 									{
-										"key": "User_UUID",
+										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "text",
 										"description": "Any admin users' UUID"
@@ -3960,7 +3960,7 @@
 								"method": "POST",
 								"header": [
 									{
-										"key": "User_UUID",
+										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "text",
 										"description": "Any admin users' UUID"
@@ -4779,7 +4779,7 @@
 								"method": "POST",
 								"header": [
 									{
-										"key": "User_UUID",
+										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "text",
 										"description": "Any admin users' UUID"
