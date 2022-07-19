@@ -11,7 +11,7 @@ from core.useractivity import user_logger, access_control
 class DataRepairFileCollection:
     @staticmethod
     def __init__():
-        """"Initializes OfflineMeterFileCollection"""
+        """"Initializes DataRepairFileCollection"""
         pass
 
     @staticmethod
@@ -25,7 +25,7 @@ class DataRepairFileCollection:
         cursor = cnx.cursor()
 
         query = (" SELECT id, file_name, uuid, upload_datetime_utc, status "
-                 " FROM tbl_offline_meter_files "
+                 " FROM tbl_data_repair_files "
                  " ORDER BY upload_datetime_utc desc ")
         cursor.execute(query)
         rows = cursor.fetchall()
@@ -76,7 +76,7 @@ class DataRepairFileCollection:
             os.rename(temp_file_path, file_path)
         except Exception as ex:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.FAILED_TO_UPLOAD_OFFLINE_METER_FILE')
+                                   description='API.FAILED_TO_UPLOAD_DATA_REPAIR_FILE')
 
         # Verify User Session
         token = req.headers.get('TOKEN')
@@ -132,7 +132,7 @@ class DataRepairFileCollection:
         cnx = mysql.connector.connect(**config.myems_historical_db)
         cursor = cnx.cursor()
 
-        add_values = (" INSERT INTO tbl_offline_meter_files "
+        add_values = (" INSERT INTO tbl_data_repair_files "
                       " (file_name, uuid, upload_datetime_utc, status, file_object ) "
                       " VALUES (%s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (filename,
@@ -146,13 +146,13 @@ class DataRepairFileCollection:
         cnx.close()
 
         resp.status = falcon.HTTP_201
-        resp.location = '/offlinemeterfiles/' + str(new_id)
+        resp.location = '/datarepairfiles/' + str(new_id)
 
 
 class DataRepairFileItem:
     @staticmethod
     def __init__():
-        """"Initializes OfflineMeterFileItem"""
+        """"Initializes DataRepairFileItem"""
         pass
 
     @staticmethod
@@ -165,13 +165,13 @@ class DataRepairFileItem:
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
-                                   description='API.INVALID_OFFLINE_METER_FILE_ID')
+                                   description='API.INVALID_DATA_REPAIR_FILE_ID')
 
         cnx = mysql.connector.connect(**config.myems_historical_db)
         cursor = cnx.cursor()
 
         query = (" SELECT id, file_name, uuid, upload_datetime_utc, status "
-                 " FROM tbl_offline_meter_files "
+                 " FROM tbl_data_repair_files "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
@@ -179,7 +179,7 @@ class DataRepairFileItem:
         cnx.close()
         if row is None:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.OFFLINE_METER_FILE_NOT_FOUND')
+                                   description='API.DATA_REPAIR_FILE_NOT_FOUND')
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -200,20 +200,20 @@ class DataRepairFileItem:
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_OFFLINE_METER_FILE_ID')
+                                   description='API.INVALID_DATA_REPAIR_FILE_ID')
 
         cnx = mysql.connector.connect(**config.myems_historical_db)
         cursor = cnx.cursor()
 
         cursor.execute(" SELECT uuid "
-                       " FROM tbl_offline_meter_files "
+                       " FROM tbl_data_repair_files "
                        " WHERE id = %s ", (id_,))
         row = cursor.fetchone()
         if row is None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.OFFLINE_METER_FILE_NOT_FOUND')
+                                   description='API.DATA_REPAIR_FILE_NOT_FOUND')
 
         try:
             file_uuid = row[0]
@@ -223,11 +223,11 @@ class DataRepairFileItem:
             # remove the file from disk
             os.remove(file_path)
         except Exception as ex:
-            # ignore exception and don't return API.OFFLINE_METER_FILE_NOT_FOUND error
+            # ignore exception and don't return API.DATA_REPAIR_FILE_NOT_FOUND error
             pass
 
         # Note: the energy data imported from the deleted file will not be deleted
-        cursor.execute(" DELETE FROM tbl_offline_meter_files WHERE id = %s ", (id_,))
+        cursor.execute(" DELETE FROM tbl_data_repair_files WHERE id = %s ", (id_,))
         cnx.commit()
 
         cursor.close()
@@ -239,7 +239,7 @@ class DataRepairFileItem:
 class DataRepairFileRestore:
     @staticmethod
     def __init__():
-        """"Initializes OfflineMeterFileRestore"""
+        """"Initializes DataRepairFileRestore"""
         pass
 
     @staticmethod
@@ -251,13 +251,13 @@ class DataRepairFileRestore:
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_OFFLINE_METER_FILE_ID')
+                                   description='API.INVALID_DATA_REPAIR_FILE_ID')
 
         cnx = mysql.connector.connect(**config.myems_historical_db)
         cursor = cnx.cursor()
 
         query = (" SELECT uuid, file_object "
-                 " FROM tbl_offline_meter_files "
+                 " FROM tbl_data_repair_files "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
@@ -266,7 +266,7 @@ class DataRepairFileRestore:
 
         if row is None:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.OFFLINE_METER_FILE_NOT_FOUND')
+                                   description='API.DATA_REPAIR_FILE_NOT_FOUND')
 
         result = {"uuid": row[0],
                   "file_object": row[1]}
@@ -288,5 +288,5 @@ class DataRepairFileRestore:
             os.replace(temp_file_path, file_path)
         except Exception as ex:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.FAILED_TO_RESTORE_OFFLINE_METER_FILE')
+                                   description='API.FAILED_TO_RESTORE_DATA_REPAIR_FILE')
         resp.text = json.dumps('success')
