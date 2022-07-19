@@ -879,7 +879,7 @@ class EquipmentParameterItem:
         point_dict = dict()
         if rows_points is not None and len(rows_points) > 0:
             for row in rows_points:
-                point_dict[row[0]] = {"id": row[1],
+                point_dict[row[0]] = {"id": row[0],
                                       "name": row[1]}
 
         query = (" SELECT id, name, uuid "
