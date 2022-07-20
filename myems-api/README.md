@@ -315,6 +315,8 @@ View in Postman: import the file MyEMS.postman_collection.json with Postman
 
 [Energy Flow Diagram](#Energy-Flow-Diagram)
 
+[Data Repair File](#Data-Repair-File)
+
 [Distribution System](#Distribution-System) | [Distribution Circuit](#Distribution-Circuit)
 
 [Rule](#Rule) | [Email Message](#Email Message) | [Text Message](#Text Message) | [Web Message](#Web Message) | [Wechat Message](#Wechat Message)
@@ -520,6 +522,41 @@ curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKE
 *   DELETE Unbind Point from Distribution Circuit
 ```bash
 curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN" -X DELETE {{base_url}}/distributioncircuits/{id}/points/{pid}
+```
+
+### Data Repair File
+*   GET a Data Repair File by ID
+
+```bash
+curl -i -X GET {{base_url}}/datareapirfiles/{id}
+```
+Result
+
+| Name          | Data Type | Description                               |
+|---------------|-----------|-------------------------------------------|
+| id            | integer   | Data Repair File ID                       |
+| file_name     | string    | Data Repair File name                     |
+| uuid          | string    | Data Repair File UUID                     |
+| upload_datetime | string  | Upload Datetime in Local Timezone         |
+| status        | string    | Data Repair File processing status (new, done, error)   |
+| file_object   | BLOB      | Data Repair File Object                   |
+
+*   GET All Data Repair Files
+```bash
+curl -i -X GET {{base_url}}/datareapirfiles
+```
+*   DELETE a Data Repair File by ID
+```bash
+curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKEN-AFTER-LOGIN" -X DELETE {{base_url}}/datareapirfiles/{id}
+```
+*   POST Upload a Data Repair File
+    (call users login API to get 'User-UUID' and 'Token')
+```bash
+curl -i -H "User-UUID: dcdb67d1-6116-4987-916f-6fc6cf2bc0e4" -H "Token: GET-TOKEN-AFTER-LOGIN"  -H "Content-Type: application/TBD" -X POST -d 'file: (binary)' {{base_url}}/datareapirfiles
+```
+*   GET Restore a Data Repair File by ID from database to disk
+```bash
+curl -i -X GET {{base_url}}/datareapirfiles/{id}/restore
 ```
 
 ### Distribution System
@@ -2756,8 +2793,4 @@ curl -i -X GET {{base_url}}/reports/virtualmeterenergy?virtualmeterid=1&periodty
 [8]. https://foss.heptapod.net/openpyxl/et_xmlfile/
 
 [9]. https://docs.pylonsproject.org/projects/waitress/en/latest/
-
-
-
-
 

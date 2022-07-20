@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "c28cc7f0-ad0f-4e59-befc-f3539a5c6323",
+		"_postman_id": "5d6b994f-8ca5-465e-b827-43d45a69f275",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "3685858"
+		"_exporter_id": "21321211"
 	},
 	"item": [
 		{
@@ -1355,6 +1355,175 @@
 									"path": [
 										"costfiles",
 										"2",
+										"restore"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Data Repair File",
+					"item": [
+						{
+							"name": "GET All Data Repair Files",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "b339501802112dcf79dcb85faaa8f7c998b87583932e0814b598f7aa59fd4bee208e039ce38b3cf9265a4e33bf3224914563d8976fd7196c84e0d0c680d4c31a",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/datarepairfiles",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"datarepairfiles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET a Data Repair File by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "b339501802112dcf79dcb85faaa8f7c998b87583932e0814b598f7aa59fd4bee208e039ce38b3cf9265a4e33bf3224914563d8976fd7196c84e0d0c680d4c31a",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/datarepairfiles/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"datarepairfiles",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Upload a Data Repair File",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "b339501802112dcf79dcb85faaa8f7c998b87583932e0814b598f7aa59fd4bee208e039ce38b3cf9265a4e33bf3224914563d8976fd7196c84e0d0c680d4c31a",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/home/kkomia/Documents/工作/MyEMS能耗值点数据补录.xlsx"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/datarepairfiles",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"datarepairfiles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Data Repair File by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "d167591fd6c23457b3e19084df234578ede8ab02eb896ff8864974b4116d0af3661c9b9b5e793f6ca609a484a79a1fdbe7677a30dedbc2fcd6def346e303e492",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/datarepairfiles/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"datarepairfiles",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Rstore a Data Repair File by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "b339501802112dcf79dcb85faaa8f7c998b87583932e0814b598f7aa59fd4bee208e039ce38b3cf9265a4e33bf3224914563d8976fd7196c84e0d0c680d4c31a",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/datarepairfiles/1/restore",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"datarepairfiles",
+										"1",
 										"restore"
 									]
 								}
