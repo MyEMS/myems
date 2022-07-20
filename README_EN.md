@@ -41,10 +41,10 @@ Using open source to help achieve carbon peak carbon neutrality goals.
 
 | Features                         | Community Edition | Explanation    |
 | :---                             |      :----:       | :----:         |
-| Open Source                      | ✔️              | MIT License        |
+| Open Source                      | ✔️            | MIT License        |
 | Pricing                          | Free            |               |
-| Change Name and Logo             | ❌️             |                      |
-| Modbus TCP                       | ✔️             |                      |
+| Change Name and Logo             | ❌️            | There are legal risks in case of violation |
+| Modbus TCP Protocol              | ✔️            | Data acquisition, https://modbus.org/      |
 | Data Points Number               | Unlimited       | The actual number is limited by the upper limit of server resources |
 | Meters Number                    | Unlimited       | The actual number is limited by the upper limit of server resources |
 | Spaces Number                    | Unlimited       | The actual number is limited by the upper limit of server resources |
