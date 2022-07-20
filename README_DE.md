@@ -43,8 +43,8 @@ Verwendung von Open Source, um die Ziele der CO2-Peak-Kohlenstoffneutralität zu
 | :---                             |      :----:          |  :----:       |
 | Open Source                      | ✔️                 | MIT License      |
 | Pricing                          | Free                 |              |
-| Change Name and Logo             | ️❌                  |                      |
-| Modbus TCP                       | ✔️                 |                      |
+| Change Name and Logo             | ️❌                  | Bei Verstößen bestehen rechtliche Risiken |
+| Modbus TCP Protocol              | ✔️                 | Datenerfassung, https://modbus.org/       |
 | Number of Data Points            | Unbegrenzt        | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
 | Number of Meters                 | Unbegrenzt        | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
 | Number of Spaces                 | Unbegrenzt        | Die tatsächliche Zahl ist durch die obere Grenze der Serverressourcen begrenzt |
