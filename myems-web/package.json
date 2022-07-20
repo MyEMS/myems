@@ -36,7 +36,7 @@
     "leaflet.markercluster": "^1.4.1",
     "leaflet.tilelayer.colorfilter": "^1.2.5",
     "lodash": "^4.17.20",
-    "moment": "^2.28.0",
+    "moment": "^2.29.4",
     "node-sass": "^7.0.0",
     "plyr": "^3.6.2",
     "prism-react-renderer": "^0.1.7",
