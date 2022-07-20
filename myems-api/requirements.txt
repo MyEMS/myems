@@ -1,7 +1,7 @@
 anytree
 simplejson
 mysql-connector-python
-falcon==3.0.1
+falcon
 falcon_cors
 falcon-multipart
 gunicorn
