@@ -5,7 +5,7 @@ from core import energyflowdiagram, privilege, textmessage, distributioncircuit,
     costcenter, point, knowledgefile, meter, tariff, user, storetype, timezone, \
     costfile, offlinemeterfile, version, contact, emailserver, combinedequipment, datasource, equipment, tenant, \
     shopfloor, webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, \
-    offlinemeter, rule, energycategory, sensor, energyitem, notification, menu
+    offlinemeter, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile
 from reports import advancedreport
 from reports import distributionsystem as distributionsystemreport
 from reports import energyflowdiagram as energyflowdiagramreport
@@ -151,6 +151,13 @@ api.add_route('/costfiles/{id_}',
               costfile.CostFileItem())
 api.add_route('/costfiles/{id_}/restore',
               costfile.CostFileRestore())
+
+api.add_route('/datarepairfiles',
+              datarepairfile.DataRepairFileCollection())
+api.add_route('/datarepairfiles/{id_}',
+              datarepairfile.DataRepairFileItem())
+api.add_route('/datarepairfiles/{id_}/restore',
+              datarepairfile.DataRepairFileRestore())
 
 api.add_route('/datasources',
               datasource.DataSourceCollection())
