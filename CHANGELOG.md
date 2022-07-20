@@ -19,6 +19,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 - removed invalid ORDER BY clause from myems-api
 - fixed point timestamps issue of metertrend report in myems-web
+- fixed error of DELETE a Virtual Meter from Store in myems-api
+- fixed error of GET a Parameter of an Equipment in myems-api
+- fixed typo in postman collection
 ### Removed
 - 
 
