@@ -5,6 +5,7 @@ import meter
 import offlinemeter
 import virtualmeter
 import virtualpoint
+import datarepair
 
 
 def main():
@@ -32,6 +33,8 @@ def main():
     Process(target=virtualmeter.calculate_hourly, args=(logger,)).start()
     # calculate virtual point value
     Process(target=virtualpoint.calculate, args=(logger,)).start()
+    # rapair energy value in hourly period
+    Process(target=datarepair.calculate_hourly, args=(logger,)).start()
 
 
 if __name__ == '__main__':

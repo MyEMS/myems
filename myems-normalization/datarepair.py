@@ -110,7 +110,7 @@ def calculate_hourly(logger):
                 if config.utc_offset[0] == '-':
                     timezone_offset = -timezone_offset
 
-                for row in ws.iter_rows(min_row=2, max_row=1024, min_col=1, max_col=4):
+                for row in ws.iter_rows(min_row=2, max_row=128, min_col=1, max_col=4):
                     repair_file_data = dict()
                     repair_file_data['point_id'] = None
                     repair_file_data['point_name'] = None
@@ -120,7 +120,8 @@ def calculate_hourly(logger):
 
                     for cell in row:
                         col_num += 1
-                        print(cell.value)
+                        if not isinstance(cell.value,type(None)):
+                            print(cell.value)
                         if col_num == 1:
                             # get point ID (myems_system_db.tbl_points)
                             if cell.value is not None:
@@ -140,6 +141,7 @@ def calculate_hourly(logger):
                             else:
                                 if is_Vaild_Date(cell.value):
                                     start_datetime_local = cell.value
+                                    start_datetime_local = datetime.strptime(start_datetime_local, '%Y-%m-%d %H:%M:%S')
                                 else:
                                     print("invalid date and go to next cell in this row until reach max_col...")
 
@@ -152,7 +154,7 @@ def calculate_hourly(logger):
                             else:
                                 repair_file_data['actual_value'] = cell.value
 
-                    if len(repair_file_data['data']) > 0:
+                    if  not isinstance(repair_file_data['point_id'], type(None)):
                         print("repair_file_data:" + str(repair_file_data))
                         energy_data_list.append(repair_file_data)
 
@@ -179,7 +181,7 @@ def calculate_hourly(logger):
 
                 try:
                     cursor.execute(" SELECT id, name, low_limit, high_limit"
-                                   " FROM tbl_point ")
+                                   " FROM tbl_points ")
                     rows_points = cursor.fetchall()
                 except Exception as e:
                     logger.error("Error in step 3.2 of datarepair.calculate_hourly " + str(e))
@@ -222,7 +224,7 @@ def calculate_hourly(logger):
                     # and then insert new repair data
                     ####################################################################################################
                     try:
-                        cnx = mysql.connector.connect(**config.myems_energy_db)
+                        cnx = mysql.connector.connect(**config.myems_historical_db)
                         cursor = cnx.cursor()
                     except Exception as e:
                         logger.error("Error in step 3.2 of datarepair.calculate_hourly " + str(e))
@@ -234,15 +236,21 @@ def calculate_hourly(logger):
                         continue
 
                     try:
-                        start_time = min(energy_data_list['date_time_utc'])
-                        end_time = max(energy_data_list['date_time_utc'])
-                        point_id = energy_data_item['point_id']
+                        
+                        data_time_utc_list = list()
+                        for i in range(len(energy_data_list)):
+                            for item in (energy_data_list[i]['date_time_utc'],):
+                                data_time_utc_list.append(item)
+
+                        start_time = min(data_time_utc_list)
+                        end_time = max(data_time_utc_list)
+                        point_id = energy_data_list[0]['point_id']
 
                         cursor.execute(" DELETE FROM tbl_energy_value "
                                        " WHERE point_id = %s "
-                                       "       AND  >= %s "
+                                       "       AND utc_date_time >= %s "
                                        "       AND utc_date_time < %s ",
-                                        (point_id,
+                                        (str(point_id),
                                         start_time.isoformat()[0:19],
                                         end_time.isoformat()[0:19]))
                         cnx.commit()
@@ -251,13 +259,16 @@ def calculate_hourly(logger):
                             
                             add_values = (" INSERT INTO tbl_energy_value "
                                           "             (point_id, utc_date_time, actual_value, is_bad) "
-                                          " VALUES (%d, %s, %s, %d) ",
-                                          point_id, energy_data_item['start_datetime_utc'].isoformat()[0:19],
-                                          str(energy_data_item['actual_value']))
+                                          " VALUES  ")
+
+                            add_values += " (" + str(point_id) + ","
+                            add_values += "'" + energy_data_item['date_time_utc'].isoformat()[0:19] + "',"
+                            add_values += "'" + str(energy_data_item['actual_value']) + "',"
+                            add_values += "0" + "), "
                                 
         
                             print("add_values:" + add_values)
-                            cursor.execute(add_values)
+                            cursor.execute(add_values[:-2])
                             cnx.commit()
 
                     except Exception as e:
