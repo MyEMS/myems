@@ -178,11 +178,12 @@
 .rs-picker-toggle,
 .rs-picker-toggle-value{color: $gray-900 !important;}
 
-.rs-picker-default,
 .rs-picker-toggle,
 .rs-picker-input,
 .rs-picker-input,
 .rs-picker-toggle {--rs-input-bg:$white;background-color: $white;border: 1px solid $white !important;}
+
+.rs-picker-default {--rs-input-bg:$white;background-color: $white;border: 1px solid $gray-300 !important;}
 
 .rs-picker-default:not(.rs-picker-disabled),
 .rs-btn-active,
