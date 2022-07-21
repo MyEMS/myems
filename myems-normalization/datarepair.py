@@ -245,11 +245,11 @@ def calculate_hourly(logger):
                         start_time = min(data_time_utc_list)
                         end_time = max(data_time_utc_list)
                         point_id = energy_data_list[0]['point_id']
-
+                        print("deleted data from %s to %s in table myems_historical_db.tbl_energy_value", start_time, end_time)
                         cursor.execute(" DELETE FROM tbl_energy_value "
                                        " WHERE point_id = %s "
                                        "       AND utc_date_time >= %s "
-                                       "       AND utc_date_time < %s ",
+                                       "       AND utc_date_time <= %s ",
                                         (str(point_id),
                                         start_time.isoformat()[0:19],
                                         end_time.isoformat()[0:19]))
