@@ -76,7 +76,7 @@ def do(logger):
             is_valid_file = True
             fw = None
             try:
-                fw = open("myem-data-repair.blob", 'wb')
+                fw = open("myems-data-repair.blob", 'wb')
                 fw.write(excel_file['file_object'])
                 fw.close()
             except Exception as e:
@@ -89,7 +89,7 @@ def do(logger):
             fr = None
             wb = None
             try:
-                fr = open("myem-data-repair.blob", 'rb')
+                fr = open("myems-data-repair.blob", 'rb')
                 wb = load_workbook(fr, data_only=True)
                 fr.close()
             except Exception as e:
@@ -301,7 +301,7 @@ def do(logger):
                 cnx = mysql.connector.connect(**config.myems_historical_db)
                 cursor = cnx.cursor()
             except Exception as e:
-                logger.error("Error in step 4.1 of odatarepair.do " + str(e))
+                logger.error("Error in step 4.1 of datarepair.do " + str(e))
                 if cursor:
                     cursor.close()
                 if cnx:
