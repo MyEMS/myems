@@ -7,9 +7,9 @@ import config
 
 ################################################################################################################
 # PROCEDURES:
-# STEP 1: get all 'new' offline meter files
+# STEP 1: get all 'new' data repair files
 # STEP 2: for each new files, iterate all rows and read cell's value and store data to energy data list
-# STEP 3: insert or update energy data to table offline meter hourly in energy database
+# STEP 3: insert or update energy data to table tbl_energy_value in energy database
 # STEP 4: update file status to 'done' or 'error'
 ################################################################################################################
 
@@ -26,7 +26,7 @@ def do(logger):
             cnx = mysql.connector.connect(**config.myems_historical_db)
             cursor = cnx.cursor()
         except Exception as e:
-            logger.error("Error in step 1.1 of offline meter.calculate_hourly " + str(e))
+            logger.error("Error in step 1.1 of datarepair.do " + str(e))
             if cursor:
                 cursor.close()
             if cnx:
@@ -48,7 +48,7 @@ def do(logger):
             cursor.execute(query, )
             rows_files = cursor.fetchall()
         except Exception as e:
-            logger.error("Error in step 1.2 of offline meter.calculate_hourly " + str(e))
+            logger.error("Error in step 1.2 of datarepair.do " + str(e))
             time.sleep(60)
             continue
         finally:
@@ -76,11 +76,11 @@ def do(logger):
             is_valid_file = True
             fw = None
             try:
-                fw = open("myems-normalization.blob", 'wb')
+                fw = open("myem-data-repair.blob", 'wb')
                 fw.write(excel_file['file_object'])
                 fw.close()
             except Exception as e:
-                logger.error("Error in step 2.1 of data repair.calculate_hourly " + str(e))
+                logger.error("Error in step 2.1 of datarepair.do " + str(e))
                 if fw:
                     fw.close()
                 # mark as invalid file
@@ -89,11 +89,11 @@ def do(logger):
             fr = None
             wb = None
             try:
-                fr = open("myems-normalization.blob", 'rb')
+                fr = open("myem-data-repair.blob", 'rb')
                 wb = load_workbook(fr, data_only=True)
                 fr.close()
             except Exception as e:
-                logger.error("Error in step 2.2 of offline meter.calculate_hourly " + str(e))
+                logger.error("Error in step 2.2 of datarepair.do " + str(e))
                 if fr:
                     fr.close()
                 # mark as invalid file
@@ -127,16 +127,19 @@ def do(logger):
                             if cell.value is not None:
                                 repair_file_data['point_id'] = cell.value
                             else:
+                                is_valid_file = False
                                 break
                         elif col_num == 2:
                             # get point name
                             if cell.value is None:
+                                is_valid_file = False
                                 break
                             else:
                                 repair_file_data['point_name'] = cell.value
                         elif col_num == 3:
                             # get date of the cell
                             if cell.value is None:
+                                is_valid_file = False
                                 break
                             else:
                                 if is_Vaild_Date(cell.value):
@@ -150,6 +153,7 @@ def do(logger):
                        
                         elif col_num == 4:
                             if cell.value is None:
+                                is_valid_file = False
                                 break
                             else:
                                 repair_file_data['actual_value'] = cell.value
@@ -171,7 +175,7 @@ def do(logger):
                     cnx = mysql.connector.connect(**config.myems_system_db)
                     cursor = cnx.cursor()
                 except Exception as e:
-                    logger.error("Error in step 3.1 of datarepair.calculate_hourly " + str(e))
+                    logger.error("Error in step 3.1 of datarepair.do " + str(e))
                     if cursor:
                         cursor.close()
                     if cnx:
@@ -184,7 +188,7 @@ def do(logger):
                                    " FROM tbl_points ")
                     rows_points = cursor.fetchall()
                 except Exception as e:
-                    logger.error("Error in step 3.2 of datarepair.calculate_hourly " + str(e))
+                    logger.error("Error in step 3.2 of datarepair.do " + str(e))
                     time.sleep(60)
                     continue
                 finally:
@@ -197,16 +201,24 @@ def do(logger):
                     print("Could not find any points in the MyEMS System Database...")
                     time.sleep(60)
                     continue
-                else:
+                elif is_valid_file:
                     point_id_set = set()
+                    file_point_id = set()
+
                     for rows_point in rows_points:
                         # valid point id in excel file
                         point_id_set.add(rows_point[0])
 
                     for energy_data_item in energy_data_list:
+                        file_point_id.add(energy_data_item['point_id'])
+                    if len(file_point_id) != 1:
+                        is_valid_file = False
+
+                    for energy_data_item in energy_data_list:
                         if energy_data_item['point_id'] not in point_id_set:
                             is_valid_file = False
                             break
+                        
 
                         for rows_point in rows_points:
                             if rows_point[0] == energy_data_item['point_id']:
@@ -227,7 +239,7 @@ def do(logger):
                         cnx = mysql.connector.connect(**config.myems_historical_db)
                         cursor = cnx.cursor()
                     except Exception as e:
-                        logger.error("Error in step 3.2 of datarepair.calculate_hourly " + str(e))
+                        logger.error("Error in step 3.2 of datarepair.do " + str(e))
                         if cursor:
                             cursor.close()
                         if cnx:
@@ -272,7 +284,7 @@ def do(logger):
                             cnx.commit()
 
                     except Exception as e:
-                        logger.error("Error in step 3.3 of datarepair.calculate_hourly " + str(e))
+                        logger.error("Error in step 3.3 of datarepair.do " + str(e))
                         time.sleep(60)
                         continue
                     finally:
@@ -289,7 +301,7 @@ def do(logger):
                 cnx = mysql.connector.connect(**config.myems_historical_db)
                 cursor = cnx.cursor()
             except Exception as e:
-                logger.error("Error in step 4.1 of offlinemeter.calculate_hourly " + str(e))
+                logger.error("Error in step 4.1 of odatarepair.do " + str(e))
                 if cursor:
                     cursor.close()
                 if cnx:
@@ -304,7 +316,7 @@ def do(logger):
                 cursor.execute(update_row, ('done' if is_valid_file else 'error', excel_file['id'],))
                 cnx.commit()
             except Exception as e:
-                logger.error("Error in step 4.2 of datarepair.calculate_hourly " + str(e))
+                logger.error("Error in step 4.2 of datarepair.do " + str(e))
                 time.sleep(60)
                 continue
             finally:
