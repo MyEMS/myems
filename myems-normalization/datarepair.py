@@ -110,7 +110,7 @@ def calculate_hourly(logger):
                 if config.utc_offset[0] == '-':
                     timezone_offset = -timezone_offset
 
-                for row in ws.iter_rows(min_row=2, max_row=128, min_col=1, max_col=4):
+                for row in ws.iter_rows(min_row=2, max_row=1024, min_col=1, max_col=4):
                     repair_file_data = dict()
                     repair_file_data['point_id'] = None
                     repair_file_data['point_name'] = None
