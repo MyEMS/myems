@@ -127,7 +127,6 @@ def do(logger):
                             if cell.value is not None:
                                 repair_file_data['point_id'] = cell.value
                             else:
-                                is_valid_file = False
                                 break
                         elif col_num == 2:
                             # get point name
