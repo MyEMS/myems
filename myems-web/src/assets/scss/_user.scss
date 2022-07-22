@@ -183,6 +183,8 @@
 .rs-picker-input,
 .rs-picker-toggle {--rs-input-bg:$white;background-color: $white;border: 1px solid $white !important;}
 
+
+.rs-picker-menu {background-color: $white;}
 .rs-picker-default {--rs-input-bg:$white;background-color: $white;border: 1px solid $gray-300 !important;}
 
 .rs-picker-default:not(.rs-picker-disabled),
@@ -192,5 +194,4 @@
 .rs-btn:hover, .rs-picker-default:not(.rs-picker-disabled),
 .rs-picker-toggle-active, .rs-picker-default:not(.rs-picker-disabled),
 .rs-picker-toggle:focus, .rs-picker-default:not(.rs-picker-disabled),
-
 .rs-picker-toggle:hover {border-color: $white !important;}

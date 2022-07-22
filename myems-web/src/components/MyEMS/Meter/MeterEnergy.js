@@ -21,7 +21,7 @@ import loadable from '@loadable/component';
 import Cascader from 'rc-cascader';
 import CardSummary from '../common/CardSummary';
 import LineChart from '../common/LineChart';
-import ParameterLineChart from '../common/ParameterLineChart';
+import ParameterLineChart from '../common/MultipleLineChart';
 import { getCookieValue, createCookie } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
@@ -629,7 +629,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
         baseTitle=''
         labels={parameterLineChartLabels}
         data={parameterLineChartData}
-        parameterOptions={parameterLineChartOptions}>
+        options={parameterLineChartOptions}>
       </ParameterLineChart>
       <br />
       <DetailedDataTable data={detailedDataTableData} title={t('Detailed Data')} columns={detailedDataTableColumns} pagesize={50} >

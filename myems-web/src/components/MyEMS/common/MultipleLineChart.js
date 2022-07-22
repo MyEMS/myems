@@ -5,26 +5,25 @@ import { Line } from 'react-chartjs-2';
 import { rgbaColor, themeColors, isIterableArray } from '../../../helpers/utils';
 import AppContext from '../../../context/Context';
 
-const ParameterLineChart = ({
+const MultipleLineChart = ({
   reportingTitle,
   baseTitle,
   labels,
   data,
-  parameterOptions
+  options
 }) => {
-  console.log(parameterOptions)
-  const [parameterValues, setParameterValues] = useState(['a0']);
+  const [values, setValues] = useState(['a0']);
   const { isDark } = useContext(AppContext);
-  const [parameterNodes, setParameterNodes] = useState([{value: 'a0', label: parameterOptions.label}])
+  const [nodes, setNodes] = useState([{value: 'a0', label: options.label}])
 
-  let handleChange = (values) => {
-    setParameterValues(values);
+  let handleChange = (arr) => {
+    setValues(arr);
     let nodes = [];
-    values.forEach(item => {
+    arr.forEach(item => {
       let index = item.slice(1);
-      nodes.push({value: item, label: parameterOptions[index].label})
+      nodes.push({value: item, label: options[index].label})
     });
-    setParameterNodes(nodes);
+    setNodes(nodes);
   }
 
   const config = {
@@ -36,7 +35,7 @@ const ParameterLineChart = ({
       gradientFill.addColorStop(0, isDark ? 'rgba(44,123,229, 0.5)' : 'rgba(255, 255, 255, 0.3)');
       gradientFill.addColorStop(1, isDark ? 'transparent' : 'rgba(255, 255, 255, 0)');
       let sets = [];
-      parameterNodes.forEach(item => {
+      nodes.forEach(item => {
         sets.push({
           label: item.label,
           borderWidth: 2,
@@ -46,7 +45,7 @@ const ParameterLineChart = ({
         })
       })
       return {
-        labels: labels[parameterValues[0]],
+        labels: labels[values[0]],
         datasets: sets
       };
     },
@@ -94,14 +93,16 @@ const ParameterLineChart = ({
               {baseTitle}
             </p>
           </Col>
-          {isIterableArray(parameterOptions) &&
+          {isIterableArray(options) &&
             <Col xs="auto" className="d-none d-sm-block">
               <CheckPicker
                 sticky
-                data={parameterOptions}
-                value={parameterValues}
+                data={options}
+                value={values}
                 appearance="default"
                 placeholder="select"
+                searchable={false}
+                countable={false}
                 onSelect={handleChange}
                 style={{ width: 224, borderRadius: '.25rem'}}
                 />
@@ -114,5 +115,5 @@ const ParameterLineChart = ({
   );
 };
 
-export default ParameterLineChart;
+export default MultipleLineChart;
 
