@@ -348,15 +348,17 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
               break;
             }
           }
-          json['reporting_period']['timestamps'][arr_index].forEach((currentValue, index) => {
-            let detial_value = {};
-            detial_value['id'] = index;
-            detial_value['startdatetime'] = currentValue;
-            json['reporting_period']['names'].forEach((currentValue1, index1) => {
-              detial_value['a' + index1] = json['reporting_period']['values'][index1][index];
+          if (json['reporting_period']['timestamps'][arr_index] !== undefined) {
+            json['reporting_period']['timestamps'][arr_index].forEach((currentValue, index) => {
+              let detial_value = {};
+              detial_value['id'] = index;
+              detial_value['startdatetime'] = currentValue;
+              json['reporting_period']['names'].forEach((currentValue1, index1) => {
+                detial_value['a' + index1] = json['reporting_period']['values'][index1][index];
+              });
+              detial_value_list.push(detial_value);
             });
-            detial_value_list.push(detial_value);
-          });
+          }
         };
       
         setDetailedDataTableData(detial_value_list);

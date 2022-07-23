@@ -21,6 +21,7 @@ import loadable from '@loadable/component';
 import Cascader from 'rc-cascader';
 import CardSummary from '../common/CardSummary';
 import LineChart from '../common/LineChart';
+import MultipleLineChart from '../common/MultipleLineChart';
 import { getCookieValue, createCookie } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
@@ -624,12 +625,12 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
         options={meterLineChartOptions}>
       </LineChart>
 
-      <LineChart reportingTitle={t('Related Parameters')}
+      <MultipleLineChart reportingTitle={t('Related Parameters')}
         baseTitle=''
         labels={parameterLineChartLabels}
         data={parameterLineChartData}
         options={parameterLineChartOptions}>
-      </LineChart>
+      </MultipleLineChart>
       <br />
       <DetailedDataTable data={detailedDataTableData} title={t('Detailed Data')} columns={detailedDataTableColumns} pagesize={50} >
       </DetailedDataTable>
