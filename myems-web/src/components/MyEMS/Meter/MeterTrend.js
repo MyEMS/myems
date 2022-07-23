@@ -339,7 +339,6 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
 
         let detial_value_list = [];
         // choose the first point's timestamps (not empty) for all points
-        console.log(json['reporting_period']['timestamps'])
         if (json['reporting_period']['timestamps'].length > 0) {
           let arr_index = 0
           for(let index in json['reporting_period']['timestamps']) {

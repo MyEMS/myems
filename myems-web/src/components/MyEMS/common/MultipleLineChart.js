@@ -96,7 +96,6 @@ const MultipleLineChart = ({
           {isIterableArray(options) &&
             <Col xs="auto" className="d-none d-sm-block">
               <CheckPicker
-                sticky
                 data={options}
                 value={values}
                 appearance="default"
