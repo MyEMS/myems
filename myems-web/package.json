@@ -1,6 +1,6 @@
 {
   "name": "myems",
-  "version": "1.9.4",
+  "version": "1.9.5",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.1",
