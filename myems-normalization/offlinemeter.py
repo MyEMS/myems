@@ -16,7 +16,7 @@ import config
 
 def calculate_hourly(logger):
     while True:
-        # outer loop to reconnect server if there is a connection error
+        # the outermost while loop to reconnect server if there is a connection error
         ################################################################################################################
         # STEP 1: get all 'new' offline meter files
         ################################################################################################################

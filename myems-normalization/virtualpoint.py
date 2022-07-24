@@ -17,7 +17,7 @@ import config
 def calculate(logger):
 
     while True:
-        # outer loop to reconnect server if there is a connection error
+        # the outermost while loop to reconnect server if there is a connection error
         cnx_system_db = None
         cursor_system_db = None
         try:
