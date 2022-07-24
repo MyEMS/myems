@@ -5,6 +5,7 @@ import meter
 import offlinemeter
 import virtualmeter
 import virtualpoint
+import datarepair
 
 
 def main():
@@ -27,11 +28,13 @@ def main():
     logger.addHandler(logging.StreamHandler())
 
     # calculate energy consumption in hourly period
-    Process(target=meter.calculate_hourly, args=(logger,)).start()
-    Process(target=offlinemeter.calculate_hourly, args=(logger,)).start()
-    Process(target=virtualmeter.calculate_hourly, args=(logger,)).start()
+    # Process(target=meter.calculate_hourly, args=(logger,)).start()
+    # Process(target=offlinemeter.calculate_hourly, args=(logger,)).start()
+    # Process(target=virtualmeter.calculate_hourly, args=(logger,)).start()
     # calculate virtual point value
-    Process(target=virtualpoint.calculate, args=(logger,)).start()
+    # Process(target=virtualpoint.calculate, args=(logger,)).start()
+    # repair historical energy value
+    Process(target=datarepair.do, args=(logger,)).start()
 
 
 if __name__ == '__main__':
