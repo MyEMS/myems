@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added alarm lottie for notification in myems-web
 - added tbl_data_repair_files to myems_historical_db
 - added data repair file actions to myems-api
+- added data repair file procedure to myems-normalization
 - 
 ### Changed
 - changed parameter line chart to multiple line chart for meterenergy report in myems-web
