@@ -14,16 +14,32 @@ const MultipleLineChart = ({
 }) => {
   const [values, setValues] = useState(['a0']);
   const { isDark } = useContext(AppContext);
-  const [nodes, setNodes] = useState([{value: 'a0', label: options.label}])
+  const [nodes, setNodes] = useState([{label: options.label, borderWidth: 2, data: data['a0'], borderColor: rgbaColor('#2c7be5', 0.8)}]);
+  const colorArr = ['#2c7be5', '#727cf5', '#6b5eae', '#ff679b', '#e63757', '#fd7e14', '#f5803e', '#00d27a', '#02a8b5', '#27bcfd'];
 
   let handleChange = (arr) => {
+    console.log(options)
+    let tempNodes = nodes;
+    if (values.length < arr.length) {
+      let index = arr[arr.length - 1];
+      tempNodes.push({
+        label: options[index.slice(1)].label,
+        borderWidth: 2,
+        data: data[index],
+        borderColor: rgbaColor(colorArr[index.slice(1) % colorArr.length], 0.8),
+      })
+    } else {
+      let i = 0
+      for (; i <= values.length; i++ ) {
+        if (i === arr.length || values[i] !== arr[i]){
+          break;
+        }
+      }
+      tempNodes.splice(i, 1);
+      console.log(tempNodes)
+    }
     setValues(arr);
-    let nodes = [];
-    arr.forEach(item => {
-      let index = item.slice(1);
-      nodes.push({value: item, label: options[index].label})
-    });
-    setNodes(nodes);
+    setNodes(tempNodes);
   }
 
   const config = {
@@ -34,16 +50,11 @@ const MultipleLineChart = ({
         : ctx.createLinearGradient(0, 0, 0, 250);
       gradientFill.addColorStop(0, isDark ? 'rgba(44,123,229, 0.5)' : 'rgba(255, 255, 255, 0.3)');
       gradientFill.addColorStop(1, isDark ? 'transparent' : 'rgba(255, 255, 255, 0)');
-      let sets = [];
-      nodes.forEach(item => {
-        sets.push({
-          label: item.label,
-          borderWidth: 2,
-          data: data[item.value],
-          borderColor: rgbaColor(isDark ? themeColors.primary : '#000', 0.8),
-          backgroundColor: gradientFill
-        })
-      })
+      let sets = nodes;
+      if (sets.length === 1 && sets[0].label === undefined) {
+        sets.splice(0,1);
+        sets.push({label: options.label, borderWidth: 2, data: data['a0'], borderColor: rgbaColor('#2c7be5', 0.8)})
+      }
       return {
         labels: labels[values[0]],
         datasets: sets
@@ -51,12 +62,6 @@ const MultipleLineChart = ({
     },
     options: {
       legend: { display: false },
-      tooltips: {
-        mode: 'x-axis',
-        xPadding: 20,
-        yPadding: 10,
-        displayColors: false,
-      },
       hover: { mode: 'label' },
       scales: {
         xAxes: [
