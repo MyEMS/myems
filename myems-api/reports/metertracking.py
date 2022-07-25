@@ -149,6 +149,11 @@ class Reporting:
         ################################################################################################################
         # Step 4: query start value and end value
         ################################################################################################################
+        start_value_data = 0
+        end_value_data = 0
+        start_end = 0
+        start_end_flag = 0
+
         for meter_id in meter_dict:
             cursor_system_db.execute(" SELECT point_id "
                                      " FROM tbl_meters_points mp, tbl_points p"
@@ -159,7 +164,7 @@ class Reporting:
 
             start_value = None
             end_value = None
-
+            
             if rows_points_id is not None and len(rows_points_id) > 0:
                 query_start_value = (" SELECT actual_value "
                                      " FROM tbl_energy_value "
@@ -179,6 +184,9 @@ class Reporting:
                 row_start_value = cursor_historical.fetchone()
                 if row_start_value is not None:
                     start_value = row_start_value[0]
+                    start_value_data += 1
+                    start_end_flag += 1
+
 
                 cursor_historical.execute(query_end_value,
                                           ((reporting_end_datetime_utc - timedelta(minutes=15)),
@@ -187,9 +195,16 @@ class Reporting:
 
                 if row_end_value is not None:
                     end_value = row_end_value[0]
+                    end_value_data += 1
+                    start_end_flag += 1
+
+                if start_end_flag == 2:
+                    start_end += 1
+                start_end_flag = 0
 
             meter_dict[meter_id]['start_value'] = start_value
             meter_dict[meter_id]['end_value'] = end_value
+        
 
         if cursor_system_db:
             cursor_system_db.close()
@@ -216,6 +231,11 @@ class Reporting:
                 "start_value": meter['start_value'],
                 "end_value": meter['end_value']
             })
+        
+        start_value_integrity_rate = format((start_value_data / len(meter_list) * 1.0) * 100, '.4f') + "%"
+        end_value_integrity_rate = format((end_value_data / len(meter_list) * 1.0) * 100, '.4f') + "%"
+        start_end_value_integrity_rate = format((start_end / len(meter_list) * 1.0) * 100, '.4f') + "%"
+
 
         result = {'meters': meter_list}
         # export result to Excel file and then encode the file to base64 string
@@ -223,5 +243,8 @@ class Reporting:
             excelexporters.metertracking.export(result,
                                                 space_name,
                                                 reporting_period_start_datetime_local,
-                                                reporting_period_end_datetime_local)
+                                                reporting_period_end_datetime_local,
+                                                start_value_integrity_rate,
+                                                end_value_integrity_rate,
+                                                start_end_value_integrity_rate)
         resp.text = json.dumps(result)

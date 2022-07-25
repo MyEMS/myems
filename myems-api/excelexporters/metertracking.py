@@ -13,7 +13,7 @@ from openpyxl import Workbook
 # Step 3: Encode the excelexporters file to Base64
 ########################################################################################################################
 
-def export(result, space_name, reporting_start_datetime_local, reporting_end_datetime_local):
+def export(result, space_name, reporting_start_datetime_local, reporting_end_datetime_local, start_value_integrity_rate, end_value_integrity_rate, start_end_value_integrity_rate):
     ####################################################################################################################
     # Step 1: Validate the report data
     ####################################################################################################################
@@ -26,7 +26,10 @@ def export(result, space_name, reporting_start_datetime_local, reporting_end_dat
     filename = generate_excel(result,
                               space_name,
                               reporting_start_datetime_local,
-                              reporting_end_datetime_local)
+                              reporting_end_datetime_local,
+                              start_value_integrity_rate,
+                              end_value_integrity_rate,
+                              start_end_value_integrity_rate)
     ####################################################################################################################
     # Step 3: Encode the excel file to Base64
     ####################################################################################################################
@@ -49,7 +52,7 @@ def export(result, space_name, reporting_start_datetime_local, reporting_end_dat
     return base64_message
 
 
-def generate_excel(report, space_name, reporting_start_datetime_local, reporting_end_datetime_local):
+def generate_excel(report, space_name, reporting_start_datetime_local, reporting_end_datetime_local, start_value_integrity_rate, end_value_integrity_rate, start_end_value_integrity_rate):
 
     wb = Workbook()
     ws = wb.active
@@ -80,27 +83,36 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
     ws['A5'].alignment = b_r_alignment
     ws['A5'] = 'End Datetime:'
     ws['B5'] = reporting_end_datetime_local
+    ws['A6'].alignment = b_r_alignment
+    ws['A6'] = 'Start Value Integrity Rate:'
+    ws['B6'] = start_value_integrity_rate
+    ws['A7'].alignment = b_r_alignment
+    ws['A7'] = 'End value Integrity Rate:'
+    ws['B7'] = end_value_integrity_rate
+    ws['A8'].alignment = b_r_alignment
+    ws['A8'] = 'Value Integrity Rate:'
+    ws['B8'] = start_end_value_integrity_rate
 
     # Title
     title_font = Font(size=12, bold=True)
-    ws['A6'].font = title_font
-    ws['A6'] = 'ID'
-    ws['B6'].font = title_font
-    ws['B6'] = 'Name'
-    ws['C6'].font = title_font
-    ws['C6'] = 'Space'
-    ws['D6'].font = title_font
-    ws['D6'] = 'Cost Center'
-    ws['E6'].font = title_font
-    ws['E6'] = 'Energy Category'
-    ws['F6'].font = title_font
-    ws['F6'] = 'Description'
-    ws['G6'].font = title_font
-    ws['G6'] = 'Start Value'
-    ws['H6'].font = title_font
-    ws['H6'] = 'End Value'
+    ws['A9'].font = title_font
+    ws['A9'] = 'ID'
+    ws['B9'].font = title_font
+    ws['B9'] = 'Name'
+    ws['C9'].font = title_font
+    ws['C9'] = 'Space'
+    ws['D9'].font = title_font
+    ws['D9'] = 'Cost Center'
+    ws['E9'].font = title_font
+    ws['E9'] = 'Energy Category'
+    ws['F9'].font = title_font
+    ws['F9'] = 'Description'
+    ws['G9'].font = title_font
+    ws['G9'] = 'Start Value'
+    ws['H9'].font = title_font
+    ws['H9'] = 'End Value'
 
-    current_row_number = 7
+    current_row_number = 10
     for i in range(0, len(report['meters'])):
         ws['A' + str(current_row_number)] = report['meters'][i]['id']
         ws['B' + str(current_row_number)] = report['meters'][i]['meter_name']
