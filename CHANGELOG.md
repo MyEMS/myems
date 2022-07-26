@@ -5,11 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+- added data integrity rates to metertracking report in myems-api
 - 
 ### Changed
 -
 ### Fixed
--
+- fixed energy category index error of storebatch report in myems-api
+- 
 ### Removed
 -
 
