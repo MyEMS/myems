@@ -177,7 +177,7 @@ class Reporting:
                                    description='API.ENERGY_CATEGORY_NOT_FOUND')
         energy_category_list = list()
         for row_energy_category in rows_energy_categories:
-            if row_energy_category['id'] in energy_category_set:
+            if row_energy_category[0] in energy_category_set:
                 energy_category_list.append({"id": row_energy_category[0],
                                              "name": row_energy_category[1],
                                              "unit_of_measure": row_energy_category[2]})
