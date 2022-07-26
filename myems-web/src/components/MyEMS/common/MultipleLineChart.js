@@ -136,4 +136,3 @@ const MultipleLineChart = ({
 };
 
 export default MultipleLineChart;
-
