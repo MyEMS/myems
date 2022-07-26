@@ -1,6 +1,7 @@
 import base64
 import uuid
 import os
+from decimal import Decimal
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 from openpyxl.drawing.image import Image
 from openpyxl import Workbook
@@ -80,27 +81,39 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
     ws['A5'].alignment = b_r_alignment
     ws['A5'] = 'End Datetime:'
     ws['B5'] = reporting_end_datetime_local
+    ws['A6'].alignment = b_r_alignment
+    ws['A6'] = 'Start Value Integrity Rate:'
+    ws['B6'] = (str(report['start_value_integrity_rate'] * Decimal(100.0)) + '%') \
+        if report['start_value_integrity_rate'] is not None else None
+    ws['A7'].alignment = b_r_alignment
+    ws['A7'] = 'End Value Integrity Rate:'
+    ws['B7'] = (str(report['end_value_integrity_rate'] * Decimal(100.0)) + '%') \
+        if report['end_value_integrity_rate'] is not None else None
+    ws['A8'].alignment = b_r_alignment
+    ws['A8'] = 'Start End Value Integrity Rate:'
+    ws['B8'] = (str(report['start_end_value_integrity_rate'] * Decimal(100.0)) + '%') \
+        if report['start_end_value_integrity_rate'] is not None else None
 
     # Title
     title_font = Font(size=12, bold=True)
-    ws['A6'].font = title_font
-    ws['A6'] = 'ID'
-    ws['B6'].font = title_font
-    ws['B6'] = 'Name'
-    ws['C6'].font = title_font
-    ws['C6'] = 'Space'
-    ws['D6'].font = title_font
-    ws['D6'] = 'Cost Center'
-    ws['E6'].font = title_font
-    ws['E6'] = 'Energy Category'
-    ws['F6'].font = title_font
-    ws['F6'] = 'Description'
-    ws['G6'].font = title_font
-    ws['G6'] = 'Start Value'
-    ws['H6'].font = title_font
-    ws['H6'] = 'End Value'
+    ws['A9'].font = title_font
+    ws['A9'] = 'ID'
+    ws['B9'].font = title_font
+    ws['B9'] = 'Name'
+    ws['C9'].font = title_font
+    ws['C9'] = 'Space'
+    ws['D9'].font = title_font
+    ws['D9'] = 'Cost Center'
+    ws['E9'].font = title_font
+    ws['E9'] = 'Energy Category'
+    ws['F9'].font = title_font
+    ws['F9'] = 'Description'
+    ws['G9'].font = title_font
+    ws['G9'] = 'Start Value'
+    ws['H9'].font = title_font
+    ws['H9'] = 'End Value'
 
-    current_row_number = 7
+    current_row_number = 10
     for i in range(0, len(report['meters'])):
         ws['A' + str(current_row_number)] = report['meters'][i]['id']
         ws['B' + str(current_row_number)] = report['meters'][i]['meter_name']
