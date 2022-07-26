@@ -2516,7 +2516,7 @@ curl -i -X GET {{base_url}}/reports/metertrend?meterid=6&reportingperiodstartdat
 ```
 *   GET Meter Tracking Report
 ```bash
-curl -i -X GET {{base_url}}/reports/metertracking?spaceid=1
+curl -i -X GET {{base_url}}/reports/metertracking?spaceid=1&reportingperiodstartdatetime=2021-05-01T00:00:00&reportingperiodenddatetime=2021-05-20T11:41:09
 ```
 *   GET Offline Meter Batch Analysis Report
 ```bash

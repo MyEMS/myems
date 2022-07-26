@@ -1,6 +1,7 @@
 import base64
 import uuid
 import os
+from decimal import Decimal
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 from openpyxl.drawing.image import Image
 from openpyxl import Workbook
@@ -13,7 +14,7 @@ from openpyxl import Workbook
 # Step 3: Encode the excelexporters file to Base64
 ########################################################################################################################
 
-def export(result, space_name, reporting_start_datetime_local, reporting_end_datetime_local, start_value_integrity_rate, end_value_integrity_rate, start_end_value_integrity_rate):
+def export(result, space_name, reporting_start_datetime_local, reporting_end_datetime_local):
     ####################################################################################################################
     # Step 1: Validate the report data
     ####################################################################################################################
@@ -26,10 +27,7 @@ def export(result, space_name, reporting_start_datetime_local, reporting_end_dat
     filename = generate_excel(result,
                               space_name,
                               reporting_start_datetime_local,
-                              reporting_end_datetime_local,
-                              start_value_integrity_rate,
-                              end_value_integrity_rate,
-                              start_end_value_integrity_rate)
+                              reporting_end_datetime_local)
     ####################################################################################################################
     # Step 3: Encode the excel file to Base64
     ####################################################################################################################
@@ -52,7 +50,7 @@ def export(result, space_name, reporting_start_datetime_local, reporting_end_dat
     return base64_message
 
 
-def generate_excel(report, space_name, reporting_start_datetime_local, reporting_end_datetime_local, start_value_integrity_rate, end_value_integrity_rate, start_end_value_integrity_rate):
+def generate_excel(report, space_name, reporting_start_datetime_local, reporting_end_datetime_local):
 
     wb = Workbook()
     ws = wb.active
@@ -85,13 +83,16 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
     ws['B5'] = reporting_end_datetime_local
     ws['A6'].alignment = b_r_alignment
     ws['A6'] = 'Start Value Integrity Rate:'
-    ws['B6'] = start_value_integrity_rate
+    ws['B6'] = (str(report['start_value_integrity_rate'] * Decimal(100.0)) + '%') \
+        if report['start_value_integrity_rate'] is not None else None
     ws['A7'].alignment = b_r_alignment
-    ws['A7'] = 'End value Integrity Rate:'
-    ws['B7'] = end_value_integrity_rate
+    ws['A7'] = 'End Value Integrity Rate:'
+    ws['B7'] = (str(report['end_value_integrity_rate'] * Decimal(100.0)) + '%') \
+        if report['end_value_integrity_rate'] is not None else None
     ws['A8'].alignment = b_r_alignment
-    ws['A8'] = 'Value Integrity Rate:'
-    ws['B8'] = start_end_value_integrity_rate
+    ws['A8'] = 'Start End Value Integrity Rate:'
+    ws['B8'] = (str(report['start_end_value_integrity_rate'] * Decimal(100.0)) + '%') \
+        if report['start_end_value_integrity_rate'] is not None else None
 
     # Title
     title_font = Font(size=12, bold=True)

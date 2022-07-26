@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "5d6b994f-8ca5-465e-b827-43d45a69f275",
+		"_postman_id": "18359b7c-63c6-423d-9b14-164cf54fa4c3",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "21321211"
+		"_exporter_id": "3685858"
 	},
 	"item": [
 		{
@@ -11847,7 +11847,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/reports/metertracking?spaceid=1",
+							"raw": "{{base_url}}/reports/metertracking?spaceid=1&reportingperiodstartdatetime=2022-05-01T00:00:00&reportingperiodenddatetime=2022-05-31T23:59:59",
 							"host": [
 								"{{base_url}}"
 							],
@@ -11859,6 +11859,14 @@
 								{
 									"key": "spaceid",
 									"value": "1"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2022-05-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2022-05-31T23:59:59"
 								}
 							]
 						}
