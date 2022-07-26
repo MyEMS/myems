@@ -4,6 +4,7 @@ import { CheckPicker } from 'rsuite';
 import { Line } from 'react-chartjs-2';
 import { rgbaColor, themeColors, isIterableArray } from '../../../helpers/utils';
 import AppContext from '../../../context/Context';
+import moment from 'moment';
 
 const MultipleLineChart = ({
   reportingTitle,
@@ -15,18 +16,30 @@ const MultipleLineChart = ({
   const [values, setValues] = useState(['a0']);
   const { isDark } = useContext(AppContext);
   const [nodes, setNodes] = useState([{label: options.label, borderWidth: 2, data: data['a0'], borderColor: rgbaColor('#2c7be5', 0.8)}]);
-  const colorArr = ['#2c7be5', '#727cf5', '#6b5eae', '#ff679b', '#e63757', '#fd7e14', '#f5803e', '#00d27a', '#02a8b5', '#27bcfd'];
+  const [lastMoment, setLastMoment] = useState(moment());
 
   let handleChange = (arr) => {
-    console.log(options)
+    let currentMoment = moment();
+    if (currentMoment.diff(lastMoment) <= 750) {
+      return;
+    }
     let tempNodes = nodes;
+    if (tempNodes.length > 0 && tempNodes[0].label === undefined) {
+      let index = arr[0];
+      nodes[0] = {
+        label: options[index.slice(1)].label,
+        borderWidth: 2,
+        data: data[index],
+        borderColor: rgbaColor("#"+((1<<24)*Math.random()|0).toString(16), 0.8),
+      }
+    }
     if (values.length < arr.length) {
       let index = arr[arr.length - 1];
       tempNodes.push({
         label: options[index.slice(1)].label,
         borderWidth: 2,
         data: data[index],
-        borderColor: rgbaColor(colorArr[index.slice(1) % colorArr.length], 0.8),
+        borderColor: rgbaColor("#"+((1<<24)*Math.random()|0).toString(16), 0.8),
       })
     } else {
       let i = 0
@@ -36,10 +49,10 @@ const MultipleLineChart = ({
         }
       }
       tempNodes.splice(i, 1);
-      console.log(tempNodes)
     }
     setValues(arr);
     setNodes(tempNodes);
+    setLastMoment(currentMoment);
   }
 
   const config = {
@@ -50,14 +63,17 @@ const MultipleLineChart = ({
         : ctx.createLinearGradient(0, 0, 0, 250);
       gradientFill.addColorStop(0, isDark ? 'rgba(44,123,229, 0.5)' : 'rgba(255, 255, 255, 0.3)');
       gradientFill.addColorStop(1, isDark ? 'transparent' : 'rgba(255, 255, 255, 0)');
-      let sets = nodes;
-      if (sets.length === 1 && sets[0].label === undefined) {
-        sets.splice(0,1);
-        sets.push({label: options.label, borderWidth: 2, data: data['a0'], borderColor: rgbaColor('#2c7be5', 0.8)})
+      if (nodes.length > 0 && nodes[0].label === undefined) {
+        nodes[0] = {
+          label: options.label,
+          borderWidth: 2,
+          data: data['a0'],
+          borderColor: rgbaColor("#"+((1<<24)*Math.random()|0).toString(16), 0.8),
+        }
       }
       return {
         labels: labels[values[0]],
-        datasets: sets
+        datasets: nodes
       };
     },
     options: {
