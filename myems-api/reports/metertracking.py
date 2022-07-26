@@ -5,6 +5,7 @@ import config
 from anytree import AnyNode, LevelOrderIter
 import excelexporters.metertracking
 from datetime import datetime, timedelta, timezone
+from decimal import Decimal
 
 
 class Reporting:
@@ -149,6 +150,11 @@ class Reporting:
         ################################################################################################################
         # Step 4: query start value and end value
         ################################################################################################################
+        integral_start_value_count = int(0)
+        integral_end_value_count = int(0)
+        integral_start_end_value_count = int(0)
+        is_integral_start_value = int(0)
+
         for meter_id in meter_dict:
             cursor_system_db.execute(" SELECT point_id "
                                      " FROM tbl_meters_points mp, tbl_points p"
@@ -159,6 +165,7 @@ class Reporting:
 
             start_value = None
             end_value = None
+            is_integral_start_value = False
 
             if rows_points_id is not None and len(rows_points_id) > 0:
                 query_start_value = (" SELECT actual_value "
@@ -179,6 +186,8 @@ class Reporting:
                 row_start_value = cursor_historical.fetchone()
                 if row_start_value is not None:
                     start_value = row_start_value[0]
+                    integral_start_value_count += int(1)
+                    is_integral_start_value = True
 
                 cursor_historical.execute(query_end_value,
                                           ((reporting_end_datetime_utc - timedelta(minutes=15)),
@@ -187,6 +196,9 @@ class Reporting:
 
                 if row_end_value is not None:
                     end_value = row_end_value[0]
+                    integral_end_value_count += int(1)
+                    if is_integral_start_value:
+                        integral_start_end_value_count += int(1)
 
             meter_dict[meter_id]['start_value'] = start_value
             meter_dict[meter_id]['end_value'] = end_value
@@ -217,7 +229,16 @@ class Reporting:
                 "end_value": meter['end_value']
             })
 
-        result = {'meters': meter_list}
+        meter_count = len(meter_list)
+        start_value_integrity_rate = Decimal(integral_start_value_count / meter_count) if meter_count > 0 else None
+        end_value_integrity_rate = Decimal(integral_end_value_count / meter_count) if meter_count > 0 else None
+        start_end_value_integrity_rate = Decimal(integral_start_end_value_count / meter_count) if meter_count > 0 \
+            else None
+
+        result = {'meters': meter_list,
+                  'start_value_integrity_rate': start_value_integrity_rate,
+                  'end_value_integrity_rate': end_value_integrity_rate,
+                  'start_end_value_integrity_rate': start_end_value_integrity_rate}
         # export result to Excel file and then encode the file to base64 string
         result['excel_bytes_base64'] = \
             excelexporters.metertracking.export(result,
