@@ -2,7 +2,8 @@ export const version = '1.9.5';
 export const navbarBreakPoint = 'xl'; // Vertical navbar breakpoint
 export const topNavbarBreakpoint = 'lg';
 //export const APIBaseURL = 'http://127.0.0.1:8000';
-export const APIBaseURL = window.location.protocol+"//"+window.location.hostname+":"+window.location.port+"/api";
+export const APIBaseURL = 'http://106.14.32.24/api';
+//export const APIBaseURL = window.location.protocol+"//"+window.location.hostname+":"+window.location.port+"/api";
 export const settings = {
   isFluid: true,
   isRTL: false,
