@@ -12,7 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 - fixed energy category index error of storebatch report in myems-api
 - fixed setDetailedDataTableData async issue of meterenergy report in myems-web
-- fixed warnings on mouse over by set rsuite version to 5.4.4 in myems-web
+- fixed warnings on mouse over by set rsuite version to 5.16.3 in myems-web
 ### Removed
 -
 
