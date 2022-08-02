@@ -1,12 +1,12 @@
 import time
 from datetime import datetime, timedelta
 import mysql.connector
-from sympy import sympify
+from sympy import sympify, Piecewise, symbols
 from multiprocessing import Pool
 import random
 import json
 import config
-
+import re
 
 ########################################################################################################################
 # PROCEDURES:
@@ -226,8 +226,13 @@ def worker(virtual_point):
     # convert strings into SymPy expressions.
     ############################################################################################################
     try:
-        expr = sympify(expression)
-        print("the expression to be evaluated: " + str(expr))
+        if (re.search(',', expression) != None):
+            print("the expression to be evaluated as piecewise function: " + str(expression))
+            for item in substitutions.keys():
+                locals()[item] = symbols(item)
+        else:
+            expr = sympify(expression)
+            print("the expression to be evaluated: " + str(expr))
         for utc_date_time in utc_date_time_set:
             meta_data = dict()
             meta_data['utc_date_time'] = utc_date_time
@@ -260,8 +265,15 @@ def worker(virtual_point):
             # using the subs flag, which takes a dictionary of Symbol: point pairs.
             ####################################################################################################
 
-            meta_data['actual_value'] = expr.evalf(subs=subs)
-            normalized_values.append(meta_data)
+            if (re.search(',', expression) != None):
+                expr = eval(expression)
+                p = Piecewise(*expr)
+                meta_data['actual_value'] = p.subs(subs)
+                normalized_values.append(meta_data)
+                
+            else:
+                meta_data['actual_value'] = expr.evalf(subs=subs)
+                normalized_values.append(meta_data)
 
     except Exception as e:
         if cursor_historical_db:
