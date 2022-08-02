@@ -161,6 +161,7 @@ def worker(virtual_point):
         ########################################################################################################
         address = json.loads(virtual_point['address'])
         # example: '{"expression": "x1-x2", "substitutions": {"x1":1,"x2":2}}'
+        # piecewise function example: '{"expression":"(1, x <200 ), (2, x >= 500), (0,True)", "substitutions":{"x":101}}'
         if 'expression' not in address.keys() \
                 or 'substitutions' not in address.keys() \
                 or len(address['expression']) == 0 \
