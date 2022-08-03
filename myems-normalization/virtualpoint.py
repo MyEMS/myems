@@ -2,7 +2,7 @@ import time
 from datetime import datetime, timedelta
 import mysql.connector
 from sympy import sympify, Piecewise, symbols
-import sympy
+from sympy import *
 from multiprocessing import Pool
 import random
 import json
@@ -270,7 +270,7 @@ def worker(virtual_point):
             if (re.search(',', expression) != None):
                 expr = eval(expression)
                 p = Piecewise(*expr)
-                meta_data['actual_value'] = format(float(p.subs(subs)),"0.4f")
+                meta_data['actual_value'] = float(p.subs(subs))
                 normalized_values.append(meta_data)
                 
             else:
