@@ -2,12 +2,13 @@ import time
 from datetime import datetime, timedelta
 import mysql.connector
 from sympy import sympify, Piecewise, symbols
-from sympy import *
+from decimal import Decimal
 from multiprocessing import Pool
 import random
 import json
 import config
 import re
+
 
 ########################################################################################################################
 # PROCEDURES:
@@ -84,9 +85,9 @@ def calculate(logger):
             if error is not None and len(error) > 0:
                 logger.error(error)
 
-        print("go to sleep ...")
+        print("go to sleep ")
         time.sleep(60)
-        print("wake from sleep, and continue to work...")
+        print("wake from sleep, and continue to work")
 
 
 ########################################################################################################################
@@ -161,8 +162,8 @@ def worker(virtual_point):
         # parse the expression and get all points in substitutions
         ########################################################################################################
         address = json.loads(virtual_point['address'])
-        # example: '{"expression": "x1-x2", "substitutions": {"x1":1,"x2":2}}'
-        # piecewise function example: '{"expression":"(1, x <200 ), (2, x >= 500), (0,True)", "substitutions":{"x":101}}'
+        # algebraic expression example: '{"expression": "x1-x2", "substitutions": {"x1":1,"x2":2}}'
+        # piecewise function example: '{"expression":"(1,x<200 ), (2,x>=500), (0,True)", "substitutions":{"x":101}}'
         if 'expression' not in address.keys() \
                 or 'substitutions' not in address.keys() \
                 or len(address['expression']) == 0 \
@@ -183,7 +184,7 @@ def worker(virtual_point):
     # Step 3: query points value from historical database
     ############################################################################################################
 
-    print("getting point values ...")
+    print("getting point values ")
     point_values_dict = dict()
     if point_list is not None and len(point_list) > 0:
         try:
@@ -212,14 +213,14 @@ def worker(virtual_point):
     # Step 4: evaluate the equation with points values
     ############################################################################################################
 
-    print("getting date time set for all points...")
+    print("getting date time set for all points")
     utc_date_time_set = set()
     if point_values_dict is not None and len(point_values_dict) > 0:
         for point_id, point_values in point_values_dict.items():
             if point_values is not None and len(point_values) > 0:
                 utc_date_time_set = utc_date_time_set.union(point_values.keys())
 
-    print("evaluating the equation with SymPy...")
+    print("evaluating the equation with SymPy")
     normalized_values = list()
 
     ############################################################################################################
@@ -228,13 +229,15 @@ def worker(virtual_point):
     # convert strings into SymPy expressions.
     ############################################################################################################
     try:
-        if (re.search(',', expression) != None):
-            print("the expression to be evaluated as piecewise function: " + str(expression))
+        if re.search(',', expression):
             for item in substitutions.keys():
                 locals()[item] = symbols(item)
+            expr = eval(expression)
+            print("the expression will be evaluated as piecewise function: " + str(expr))
         else:
             expr = sympify(expression)
-            print("the expression to be evaluated: " + str(expr))
+            print("the expression will be evaluated as algebraic expression: " + str(expr))
+
         for utc_date_time in utc_date_time_set:
             meta_data = dict()
             meta_data['utc_date_time'] = utc_date_time
@@ -266,17 +269,13 @@ def worker(virtual_point):
             # but it is more efficient and numerically stable to pass the substitution to evalf
             # using the subs flag, which takes a dictionary of Symbol: point pairs.
             ####################################################################################################
-
-            if (re.search(',', expression) != None):
-                expr = eval(expression)
-                p = Piecewise(*expr)
-                meta_data['actual_value'] = float(p.subs(subs))
+            if re.search(',', expression):
+                formula = Piecewise(*expr)
+                meta_data['actual_value'] = Decimal(formula.subs(subs))
                 normalized_values.append(meta_data)
-                
             else:
-                meta_data['actual_value'] = expr.evalf(subs=subs)
+                meta_data['actual_value'] = Decimal(expr.evalf(subs=subs))
                 normalized_values.append(meta_data)
-
     except Exception as e:
         if cursor_historical_db:
             cursor_historical_db.close()
@@ -284,7 +283,7 @@ def worker(virtual_point):
             cnx_historical_db.close()
         return "Error in step 4.1 virtual point worker " + str(e) + " for '" + virtual_point['name'] + "'"
 
-    print("saving virtual points values to historical database...")
+    print("saving virtual points values to historical database")
 
     if len(normalized_values) > 0:
         try:
