@@ -303,9 +303,9 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
           });
           setMeterList(meters);
 
-          setStartIntegrityRate(parseFloat(json['start_integrity_rate'] * 100).toFixed(2));
-          setEndIntegrityRate(parseFloat(json['end_integrity_rate'] * 100).toFixed(2));
-          setFullIntegrityRate(parseFloat(json['full_integrity_rate'] * 100).toFixed(2));
+          setStartIntegrityRate(parseFloat(json['start_integrity_rate'] * 100).toFixed(2) + "%");
+          setEndIntegrityRate(parseFloat(json['end_integrity_rate'] * 100).toFixed(2) + "%");
+          setFullIntegrityRate(parseFloat(json['full_integrity_rate'] * 100).toFixed(2) + "%");
 
           setExcelBytesBase64(json['excel_bytes_base64']);
           
