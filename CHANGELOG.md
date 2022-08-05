@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+- 
+### Changed
+- 
+### Fixed
+-
+### Removed
+-
+
+## [v1.9.6] - 2022-08-05
+### Added
 - added data integrity rates to meter tracking report in myems-api & myems-web
 - added piecewise function to virtual point in myems-normalization
 - 
@@ -910,7 +920,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v1.9.5...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v1.9.6...HEAD
+[v1.9.6]: https://github.com/MyEMS/myems/compare/v1.9.5...v1.9.6
 [v1.9.5]: https://github.com/MyEMS/myems/compare/v1.9.4...v1.9.5
 [v1.9.4]: https://github.com/MyEMS/myems/compare/v1.9.3...v1.9.4
 [v1.9.3]: https://github.com/MyEMS/myems/compare/v1.9.2...v1.9.3
