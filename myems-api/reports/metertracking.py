@@ -150,9 +150,9 @@ class Reporting:
         ################################################################################################################
         # Step 4: query start value and end value
         ################################################################################################################
-        integral_start_value_count = int(0)
-        integral_end_value_count = int(0)
-        integral_start_end_value_count = int(0)
+        integral_start_count = int(0)
+        integral_end_count = int(0)
+        integral_full_count = int(0)
         is_integral_start_value = int(0)
 
         for meter_id in meter_dict:
@@ -186,7 +186,7 @@ class Reporting:
                 row_start_value = cursor_historical.fetchone()
                 if row_start_value is not None:
                     start_value = row_start_value[0]
-                    integral_start_value_count += int(1)
+                    integral_start_count += int(1)
                     is_integral_start_value = True
 
                 cursor_historical.execute(query_end_value,
@@ -196,9 +196,9 @@ class Reporting:
 
                 if row_end_value is not None:
                     end_value = row_end_value[0]
-                    integral_end_value_count += int(1)
+                    integral_end_count += int(1)
                     if is_integral_start_value:
-                        integral_start_end_value_count += int(1)
+                        integral_full_count += int(1)
 
             meter_dict[meter_id]['start_value'] = start_value
             meter_dict[meter_id]['end_value'] = end_value
@@ -230,15 +230,14 @@ class Reporting:
             })
 
         meter_count = len(meter_list)
-        start_value_integrity_rate = Decimal(integral_start_value_count / meter_count) if meter_count > 0 else None
-        end_value_integrity_rate = Decimal(integral_end_value_count / meter_count) if meter_count > 0 else None
-        start_end_value_integrity_rate = Decimal(integral_start_end_value_count / meter_count) if meter_count > 0 \
-            else None
+        start_integrity_rate = Decimal(integral_start_count / meter_count) if meter_count > 0 else None
+        end_integrity_rate = Decimal(integral_end_count / meter_count) if meter_count > 0 else None
+        full_integrity_rate = Decimal(integral_full_count / meter_count) if meter_count > 0 else None
 
         result = {'meters': meter_list,
-                  'start_value_integrity_rate': start_value_integrity_rate,
-                  'end_value_integrity_rate': end_value_integrity_rate,
-                  'start_end_value_integrity_rate': start_end_value_integrity_rate}
+                  'start_integrity_rate': start_integrity_rate,
+                  'end_integrity_rate': end_integrity_rate,
+                  'full_integrity_rate': full_integrity_rate}
         # export result to Excel file and then encode the file to base64 string
         result['excel_bytes_base64'] = \
             excelexporters.metertracking.export(result,

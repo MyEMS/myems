@@ -82,17 +82,17 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
     ws['A5'] = 'End Datetime:'
     ws['B5'] = reporting_end_datetime_local
     ws['A6'].alignment = b_r_alignment
-    ws['A6'] = 'Start Value Integrity Rate:'
-    ws['B6'] = (str(report['start_value_integrity_rate'] * Decimal(100.0)) + '%') \
-        if report['start_value_integrity_rate'] is not None else None
+    ws['A6'] = 'Start Integrity Rate:'
+    ws['B6'] = (str(report['start_integrity_rate'] * Decimal(100.0)) + '%') \
+        if report['start_integrity_rate'] is not None else None
     ws['A7'].alignment = b_r_alignment
-    ws['A7'] = 'End Value Integrity Rate:'
-    ws['B7'] = (str(report['end_value_integrity_rate'] * Decimal(100.0)) + '%') \
-        if report['end_value_integrity_rate'] is not None else None
+    ws['A7'] = 'End Integrity Rate:'
+    ws['B7'] = (str(report['end_integrity_rate'] * Decimal(100.0)) + '%') \
+        if report['end_integrity_rate'] is not None else None
     ws['A8'].alignment = b_r_alignment
-    ws['A8'] = 'Start End Value Integrity Rate:'
-    ws['B8'] = (str(report['start_end_value_integrity_rate'] * Decimal(100.0)) + '%') \
-        if report['start_end_value_integrity_rate'] is not None else None
+    ws['A8'] = 'Full Integrity Rate:'
+    ws['B8'] = (str(report['full_integrity_rate'] * Decimal(100.0)) + '%') \
+        if report['full_integrity_rate'] is not None else None
 
     # Title
     title_font = Font(size=12, bold=True)

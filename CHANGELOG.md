@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
-- added data integrity rates to metertracking report in myems-api
+- added data integrity rates to meter tracking report in myems-api & myems-web
 - added piecewise function to virtual point in myems-normalization
 - 
 ### Changed

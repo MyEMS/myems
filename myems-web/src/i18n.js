@@ -296,6 +296,9 @@ const resources = {
       'Edit Meter': 'Edit',
       'Start Value': 'Start Value',
       'End Value': 'End Value',
+      'Start Integrity Rate': 'Start Integrity Rate',
+      'End Integrity Rate': 'End Integrity Rate',
+      'Full Integrity Rate': 'Full Integrity Rate',
       //Equipment Tracking
       'Equipment List': 'Equipment List',
       'Edit Equipment': 'Edit',
@@ -1106,6 +1109,9 @@ const resources = {
       'Edit Meter': 'bearbeiten',
       'Start Value': 'Wert des Starts',
       'End Value': 'Wert des Ends',
+      'Start Integrity Rate': 'Start Integritätsrate',
+      'End Integrity Rate': 'End Integritätsrate',
+      'Full Integrity Rate': 'Vollständige Integritätsrate',
       //Equipment Tracking
       'Equipment List': 'Ausrüstungsliste',
       'Edit Equipment': 'bearbeiten',
@@ -1897,8 +1903,11 @@ const resources = {
       //Meter Tracking
       'Meter List': '计量表列表',
       'Edit Meter': '编辑',
-      'Start Value': '开始值',
+      'Start Value': '起始值',
       'End Value': '结束值',
+      'Start Integrity Rate': '起始数据完整率',
+      'End Integrity Rate': '结束数据完整率',
+      'Full Integrity Rate': '整体数据完整率',
       //Equipment Tracking
       'Equipment List': '设备列表',
       'Edit Equipment': '编辑',
@@ -1988,7 +1997,7 @@ const resources = {
       'Bill Date': '账单日期',
       'Payment Due Date': '付款到期日',
       'Amount Payable': '应付款金额',
-      'Billing Period Start': '结算期开始日期',
+      'Billing Period Start': '结算期起始日期',
       'Billing Period End': '结算期结束日期',
       'Quantity': '数量',
       'Price': '价格',
