@@ -19,7 +19,9 @@ import {
   UncontrolledDropdown,
   Spinner,
 } from 'reactstrap';
+import CountUp from 'react-countup';
 import Cascader from 'rc-cascader';
+import CardSummary from '../common/CardSummary';
 import moment from "moment";
 import loadable from '@loadable/component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -89,6 +91,9 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
 
   // Results
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
+  const [startIntegrityRate, setStartIntegrityRate] = useState('');
+  const [endIntegrityRate, setEndIntegrityRate] = useState('');
+  const [fullIntegrityRate, setFullIntegrityRate] = useState('');
 
   useEffect(() => {
     let isResponseOK = false;
@@ -298,8 +303,12 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
           });
           setMeterList(meters);
 
-          setExcelBytesBase64(json['excel_bytes_base64']);
+          setStartIntegrityRate(parseFloat(json['start_integrity_rate'] * 100).toFixed(2));
+          setEndIntegrityRate(parseFloat(json['end_integrity_rate'] * 100).toFixed(2));
+          setFullIntegrityRate(parseFloat(json['full_integrity_rate'] * 100).toFixed(2));
 
+          setExcelBytesBase64(json['excel_bytes_base64']);
+          
           // enable submit button
           setSubmitButtonDisabled(false);
           // hide spinner
@@ -399,6 +408,20 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
+      <div className="card-deck">
+        <CardSummary title={t('Start Integrity Rate')}
+          color="success"  >
+          <CountUp end={startIntegrityRate} duration={2} prefix="" separator="," decimals={2} decimal="." />
+        </CardSummary>
+        <CardSummary title={t('End Integrity Rate')}
+          color="success"  >
+          <CountUp end={endIntegrityRate} duration={2} prefix="" separator="," decimals={2} decimal="." />
+        </CardSummary>
+        <CardSummary title={t('Full Integrity Rate')}
+          color="warning"  >
+          <CountUp end={fullIntegrityRate} duration={2} prefix="" separator="," decimals={2} decimal="." />
+        </CardSummary>
+      </div>
       <DetailedDataTable data={meterList} title={t('Meter List')} columns={columns} pagesize={50} >
       </DetailedDataTable>
 
