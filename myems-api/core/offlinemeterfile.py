@@ -128,22 +128,26 @@ class OfflineMeterFileCollection:
                                    description='API.INVALID_USER_PLEASE_RE_LOGIN')
         else:
             user_id = row[0]
+        try:
+            cnx = mysql.connector.connect(**config.myems_historical_db)
+            cursor = cnx.cursor()
 
-        cnx = mysql.connector.connect(**config.myems_historical_db)
-        cursor = cnx.cursor()
-
-        add_values = (" INSERT INTO tbl_offline_meter_files "
-                      " (file_name, uuid, upload_datetime_utc, status, file_object ) "
-                      " VALUES (%s, %s, %s, %s, %s) ")
-        cursor.execute(add_values, (filename,
-                                    file_uuid,
-                                    datetime.utcnow(),
-                                    'new',
-                                    raw_blob))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+            add_values = (" INSERT INTO tbl_offline_meter_files "
+                          " (file_name, uuid, upload_datetime_utc, status, file_object ) "
+                          " VALUES (%s, %s, %s, %s, %s) ")
+            cursor.execute(add_values, (filename,
+                                        file_uuid,
+                                        datetime.utcnow(),
+                                        'new',
+                                        raw_blob))
+            new_id = cursor.lastrowid
+            cnx.commit()
+            cursor.close()
+            cnx.close()
+        except Exception as e:
+            print("API.FAILED_TO_UPLOAD_OFFLINE_METER_FILE " + str(e))
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
+                                   description='API.FAILED_TO_UPLOAD_OFFLINE_METER_FILE')
 
         resp.status = falcon.HTTP_201
         resp.location = '/offlinemeterfiles/' + str(new_id)
