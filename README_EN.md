@@ -14,7 +14,8 @@
 
 ## MyEMS Introduction
 
-MyEMS is the founder of open source energy management system.
+MyEMS is an industry-leading open source energy management system and is based on Python and React.
+It is used for collecting, processing, analyzing, reporting and displaying energy data of buildings, factories, shopping malls, data centers and enterprise zones.
 MyEMS can be used for device management, data collection, processing, analysis, visualization and reporting for your EMS projects. 
 MyEMS is being developed and maintained by an experienced development team, and the system's source code is published under MIT license.
 Using open source to help achieve carbon peak carbon neutrality goals.
