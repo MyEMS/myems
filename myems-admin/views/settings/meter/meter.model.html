@@ -29,9 +29,9 @@
             <div class="hr-line-dashed"></div>
             <div class="form-group"><label class="col-sm-4 control-label">{{'SETTING.ENERGY_ITEM' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
                 <div class="col-sm-8">
-                    <ui-select ng-model="energy_item_name.selected" name="meter.energy_item_id" theme="bootstrap">
-                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{energy_item_name.selected}}</ui-select-match>
-                        <ui-select-choices repeat="energyitem.name as energyitem in energyitems | filter: $select.search">
+                    <ui-select ng-model="energy_item.selected" on-select="selected_energy_item()" name="meter.energy_item_id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{energy_item.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="energyitem in energyitems | filter: $select.search">
                             <div ng-bind-html="energyitem.name | highlight: $select.search"></div>
                         </ui-select-choices>
                     </ui-select>

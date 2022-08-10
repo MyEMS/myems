@@ -300,19 +300,25 @@ app.controller('ModalAddMeterCtrl', function($scope, $uibModalInstance, params) 
 		$uibModalInstance.dismiss('cancel');
 	};
 
-	$scope.energy_item_name = {}
+	$scope.meter.energy_item = {}
+	$scope.energy_item ={}
+	$scope.energy_item.selected = {}
+
 	$scope.change_energyitems = function(selected_energy_category_id){
 		var i = 0;
 		var j = 0;
 		$scope.energyitems = [];
-
 		for (; i < params.energyitems.length; i++){
 			if (params.energyitems[i]['energy_category']['id'] == selected_energy_category_id){
 				$scope.energyitems[j] = params.energyitems[i]
 				j = j + 1
 			}
 		}
-		$scope.energy_item_name.selected = '请选择或搜索...'
+		$scope.energy_item.selected.name = '请选择或搜索...'
+	}
+
+	$scope.selected_energy_item = function(){
+		$scope.meter.energy_item = $scope.energy_item.selected
 	}
 
 });
