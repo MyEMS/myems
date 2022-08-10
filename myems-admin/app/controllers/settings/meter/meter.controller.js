@@ -304,9 +304,10 @@ app.controller('ModalAddMeterCtrl', function($scope, $uibModalInstance, params) 
 		var i = 0;
 		var j = 0;
 		$scope.energyitems = [];
-		for (; i < params.energyitems.length; i++, j++){
+		for (; i < params.energyitems.length; i++){
 			if (params.energyitems[i]['energy_category']['id'] == selected_energy_category_id){
 				$scope.energyitems[j] = params.energyitems[i]
+				j = j + 1
 			}
 		}
 	}
