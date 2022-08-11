@@ -332,7 +332,7 @@ app.controller('ModalEditMeterCtrl', function($scope, $uibModalInstance, params)
 	$scope.parentmeters = params.parentmeters;
 	$scope.categories = params.categories;
 	$scope.costcenters = params.costcenters;
-	$scope.energyitems = params.energyitems;
+	$scope.energyitems = [];
 	$scope.ok = function() {
 		$uibModalInstance.close($scope.meter);
 	};
@@ -340,4 +340,28 @@ app.controller('ModalEditMeterCtrl', function($scope, $uibModalInstance, params)
 	$scope.cancel = function() {
 		$uibModalInstance.dismiss('cancel');
 	};
+
+	$scope.last_energy_category_select_id = null;
+	$scope.change_energyitems = function(selected_energy_category_id){
+		var i = 0;
+		var j = 0;
+		$scope.energyitems = [];
+		for (; i < params.energyitems.length; i++){
+			if (params.energyitems[i]['energy_category']['id'] == selected_energy_category_id){
+				$scope.energyitems[j] = params.energyitems[i];
+				j = j + 1;
+			}
+		}
+
+		if ($scope.last_energy_category_select_id == null){
+			$scope.last_energy_category_select_id = selected_energy_category_id;
+		}
+		else{
+			if($scope.last_energy_category_select_id != selected_energy_category_id){
+				$scope.last_energy_category_select_id = selected_energy_category_id;
+				delete $scope.meter.energy_item;
+			}
+		}
+	}
+	$scope.change_energyitems($scope.meter.energy_category.id);
 });
