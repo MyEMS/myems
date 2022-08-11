@@ -316,7 +316,6 @@ app.controller('ModalAddMeterCtrl', function($scope, $uibModalInstance, params) 
 			$scope.last_energy_category_select_id = selected_energy_category_id
 		}
 		else{
-			console.log($scope.last_energy_category_select_id,selected_energy_category_id)
 			if($scope.last_energy_category_select_id != selected_energy_category_id){
 				$scope.last_energy_category_select_id = selected_energy_category_id
 				delete $scope.meter.energy_item;
