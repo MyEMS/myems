@@ -313,7 +313,7 @@ app.controller('ModalAddMeterCtrl', function($scope, $uibModalInstance, params) 
 		}
 
 		if ($scope.last_energy_category_select_id == null){
-			$scope.last_energy_category_select_id = selected_energy_category_id
+			$scope.last_energy_category_select_id = selected_energy_category_id;
 		}
 		else{
 			if($scope.last_energy_category_select_id != selected_energy_category_id){
