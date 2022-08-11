@@ -242,7 +242,7 @@ app.controller('ModalAddVirtualMeterCtrl', function($timeout, $scope,
 
 	$scope.operation = "SETTING.ADD_VIRTUAL_METER";
 	$scope.categories = params.categories;
-	$scope.energyitems = params.energyitems;
+	$scope.energyitems = [];
 	$scope.costcenters = params.costcenters;
 	$scope.meters = params.meters;
 	$scope.virtualmeters = params.virtualmeters;
@@ -278,6 +278,30 @@ app.controller('ModalAddVirtualMeterCtrl', function($timeout, $scope,
 	$scope.cancel = function() {
 		$uibModalInstance.dismiss('cancel');
 	};
+
+
+	$scope.last_energy_category_select_id = null;
+	$scope.change_energyitems = function(selected_energy_category_id){
+		var i = 0;
+		var j = 0;
+		$scope.energyitems = [];
+		for (; i < params.energyitems.length; i++){
+			if (params.energyitems[i]['energy_category']['id'] == selected_energy_category_id){
+				$scope.energyitems[j] = params.energyitems[i];
+				j = j + 1;
+			}
+		}
+
+		if ($scope.last_energy_category_select_id == null){
+			$scope.last_energy_category_select_id = selected_energy_category_id;
+		}
+		else{
+			if($scope.last_energy_category_select_id != selected_energy_category_id){
+				$scope.last_energy_category_select_id = selected_energy_category_id;
+				delete $scope.virtualmeter.energy_item;
+			}
+		}
+	}
 
 	$scope.add = function() {
 		var variable = {
@@ -373,6 +397,30 @@ app.controller('ModalEditVirtualMeterCtrl', function($timeout, $scope, $uibModal
 	$scope.cancel = function() {
 		$uibModalInstance.dismiss('cancel');
 	};
+
+	$scope.last_energy_category_select_id = null;
+	$scope.change_energyitems = function(selected_energy_category_id){
+		var i = 0;
+		var j = 0;
+		$scope.energyitems = [];
+		for (; i < params.energyitems.length; i++){
+			if (params.energyitems[i]['energy_category']['id'] == selected_energy_category_id){
+				$scope.energyitems[j] = params.energyitems[i];
+				j = j + 1;
+			}
+		}
+
+		if ($scope.last_energy_category_select_id == null){
+			$scope.last_energy_category_select_id = selected_energy_category_id;
+		}
+		else{
+			if($scope.last_energy_category_select_id != selected_energy_category_id){
+				$scope.last_energy_category_select_id = selected_energy_category_id;
+				delete $scope.virtualmeter.energy_item;
+			}
+		}
+	}
+	$scope.change_energyitems($scope.virtualmeter.energy_category.id);
 
 	$timeout(function() {
 		angular.element('#variablesTable').trigger('footable_redraw');
