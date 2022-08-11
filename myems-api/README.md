@@ -2311,6 +2311,13 @@ curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKE
 ```bash
 curl -i -X GET {{base_url}}/reports/combinedequipmentbatch?spaceid=1&reportingperiodstartdatetime=2021-05-01T00:00:00&reportingperiodenddatetime=2021-05-20T11:41:09
 ```
+*   GET Combined Equipment Carbon Dioxide Emission Report
+
+(parameter combinedequipmentid can be replaced with combinedequipmentuuid)
+
+```bash
+curl -i -X GET {{base_url}}/reports/combinedequipmentcarbon?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
 *   GET Combined Equipment Cost Report
 
 (parameter combinedequipmentid can be replaced with combinedequipmentuuid)
@@ -2389,6 +2396,13 @@ curl -i -X GET {{base_url}}/reports/energyflowdiagram?energyflowdiagramid=1&repo
 *   GET Equipment Batch Analysis Report
 ```bash
 curl -i -X GET {{base_url}}/reports/equipmentbatch?spaceid=1&reportingperiodstartdatetime=2021-05-01T00:00:00&reportingperiodenddatetime=2021-05-20T11:41:09
+```
+*   GET Equipment Carbon Dioxide Emission Report
+
+(parameter equipmentid can be replaced with equipmentuuid)
+
+```bash
+curl -i -X GET {{base_url}}/reports/equipmentcarbon?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
 *   GET Equipment Cost Report
 
@@ -2538,6 +2552,13 @@ curl -i -X GET {{base_url}}/reports/offlinemeterenergy?offlinemeterid=1&periodty
 ```bash
 curl -i -X GET {{base_url}}/reports/shopfloorbatch?spaceid=1&reportingperiodstartdatetime=2021-05-01T00:00:00&reportingperiodenddatetime=2021-05-20T11:41:09
 ```
+* GET Shopfloor Carbon Dioxide Emission Report
+
+(parameter shopfloorid can be replaced with shopflooruuid)
+
+```bash
+curl -i -X GET {{base_url}}/reports/shopfloorcarbon?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
 * GET Shopfloor Cost Report
 
 (parameter shopfloorid can be replaced with shopflooruuid)
@@ -2579,6 +2600,13 @@ curl -i -X GET {{base_url}}/reports/shopfloorsaving?shopfloorid=1&periodtype=dai
 
 ```bash
 curl -i -X GET {{base_url}}/reports/shopfloorstatistics?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
+*   GET Space Carbon Dioxide Emission Report
+
+(parameter spaceid can be replaced with spaceuuid)
+
+```bash
+curl -i -X GET {{base_url}}/reports/spacecarbon?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
 *   GET Space Cost Report
 
@@ -2662,6 +2690,13 @@ curl -i -X GET {{base_url}}/reports/spacestatistics?spaceid=1&periodtype=daily&b
 ```bash
 curl -i -X GET {{base_url}}/reports/storebatch?spaceid=1&reportingperiodstartdatetime=2021-05-01T00:00:00&reportingperiodenddatetime=2021-05-20T11:41:09
 ```
+*   GET Store Carbon Dioxide Emission Report
+
+(parameter storeid can be replaced with storeuuid)
+
+```bash
+curl -i -X GET {{base_url}}/reports/storetcarbon?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
 *   GET Store Cost Report
 
 (parameter storeid can be replaced with storeuuid)
@@ -2715,44 +2750,51 @@ curl -i -X GET {{base_url}}/reports/tenantbatch?spaceid=1&reportingperiodstartda
 ```bash
 curl -i -X GET {{base_url}}/reports/tenantbill?tenantid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00
 ```
+*   GET Tenant Carbon Dioxide Emission Report
+
+(parameter tenantid can be replaced with tenantuuid)
+
+```bash
+curl -i -X GET {{base_url}}/reports/tenantcarbon?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
 *   GET Tenant Cost Report
 
-(parameter storeid can be replaced with storeuuid)
+(parameter tenantid can be replaced with tenantuuid)
 
 ```bash
 curl -i -X GET {{base_url}}/reports/tenantcost?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
 *   GET Tenant Energy Category Report
 
-(parameter storeid can be replaced with storeuuid)
+(parameter tenantid can be replaced with tenantuuid)
 
 ```bash
 curl -i -X GET {{base_url}}/reports/tenantenergycategory?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
 *   GET Tenant Energy Item Report
 
-(parameter storeid can be replaced with storeuuid)
+(parameter tenantid can be replaced with tenantuuid)
 
 ```bash
 curl -i -X GET {{base_url}}/reports/tenantenergyitem?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
 *   GET Tenant Load Report
 
-(parameter storeid can be replaced with storeuuid)
+(parameter tenantid can be replaced with tenantuuid)
 
 ```bash
 curl -i -X GET {{base_url}}/reports/tenantload?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
 *   GET Tenant Saving Report
 
-(parameter storeid can be replaced with storeuuid)
+(parameter tenantid can be replaced with tenantuuid)
 
 ```bash
 curl -i -X GET {{base_url}}/reports/tenantsaving?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
 *   GET Tenant Statistics Report
 
-(parameter storeid can be replaced with storeuuid)
+(parameter tenantid can be replaced with tenantuuid)
 
 ```bash
 curl -i -X GET {{base_url}}/reports/tenantstatistics?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00

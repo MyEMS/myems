@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "18359b7c-63c6-423d-9b14-164cf54fa4c3",
+		"_postman_id": "86957d6a-e6e9-4238-99ed-62dc1d2ced94",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "3685858"
@@ -10354,6 +10354,57 @@
 							"path": [
 								"reports",
 								"combinedequipmentcost"
+							],
+							"query": [
+								{
+									"key": "combinedequipmentid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "combinedequipmentuuid",
+									"value": "48aab70f-2e32-4518-9986-a6b7395acf58",
+									"description": "use id or uuid",
+									"disabled": true
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Combined Equipment Carbon Dioxide Emission Report",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/combinedequipmentcarbon?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"combinedequipmentcarbon"
 							],
 							"query": [
 								{
