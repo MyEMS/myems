@@ -300,10 +300,7 @@ app.controller('ModalAddMeterCtrl', function($scope, $uibModalInstance, params) 
 		$uibModalInstance.dismiss('cancel');
 	};
 
-	$scope.meter.energy_item = {}
-	$scope.energy_item ={}
-	$scope.energy_item.selected = {}
-
+	$scope.last_energy_category_select_id = null
 	$scope.change_energyitems = function(selected_energy_category_id){
 		var i = 0;
 		var j = 0;
@@ -314,11 +311,17 @@ app.controller('ModalAddMeterCtrl', function($scope, $uibModalInstance, params) 
 				j = j + 1
 			}
 		}
-		$scope.energy_item.selected.name = '请选择或搜索...'
-	}
 
-	$scope.selected_energy_item = function(){
-		$scope.meter.energy_item = $scope.energy_item.selected
+		if ($scope.last_energy_category_select_id == null){
+			$scope.last_energy_category_select_id = selected_energy_category_id
+		}
+		else{
+			console.log($scope.last_energy_category_select_id,selected_energy_category_id)
+			if($scope.last_energy_category_select_id != selected_energy_category_id){
+				$scope.last_energy_category_select_id = selected_energy_category_id
+				delete $scope.meter.energy_item;
+			}
+		}
 	}
 
 });
