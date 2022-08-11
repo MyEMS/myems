@@ -30,7 +30,7 @@
             <div class="form-group"><label class="col-sm-4 control-label">{{'SETTING.ENERGY_ITEM' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
                 <div class="col-sm-8">
                     <ui-select ng-model="meter.energy_item" name="meter.energy_item_id" theme="bootstrap">
-                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{select.selected.name}}</ui-select-match>
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="energyitem in energyitems | filter: $select.search">
                             <div ng-bind-html="energyitem.name | highlight: $select.search"></div>
                         </ui-select-choices>
