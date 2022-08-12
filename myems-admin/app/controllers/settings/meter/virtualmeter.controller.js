@@ -351,7 +351,7 @@ app.controller('ModalAddVirtualMeterCtrl', function($timeout, $scope,
 			$scope.last_meter_type_select = $scope.currentMeterType.selected.sid;
 		}
 		else{
-			if($scope.last_energy_category_select_id != $scope.currentMeterType.selected.sid){
+			if($scope.last_meter_type_select != $scope.currentMeterType.selected.sid){
 				$scope.last_meter_type_select = $scope.currentMeterType.selected.sid;
 				delete $scope.currentMeter.selected;
 			}
@@ -484,7 +484,7 @@ app.controller('ModalEditVirtualMeterCtrl', function($timeout, $scope, $uibModal
 			$scope.last_meter_type_select = $scope.currentMeterType.selected.sid;
 		}
 		else{
-			if($scope.last_energy_category_select_id != $scope.currentMeterType.selected.sid){
+			if($scope.last_meter_type_select != $scope.currentMeterType.selected.sid){
 				$scope.last_meter_type_select = $scope.currentMeterType.selected.sid;
 				delete $scope.currentMeter.selected;
 			}
