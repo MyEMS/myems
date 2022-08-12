@@ -11,7 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 - fixed issues when energy item list refreshing with energy category in myems-admin 
 - fixed virtual meter editor issue when refreshing meter list with meter type in myems-admin 
-
+- fixed virtual point issue of conversion from Float to Decimal in myems-normalization
 ### Removed
 -
 
