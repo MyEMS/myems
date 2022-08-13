@@ -10,6 +10,7 @@ from reports import advancedreport
 from reports import distributionsystem as distributionsystemreport
 from reports import energyflowdiagram as energyflowdiagramreport
 from reports import combinedequipmentbatch
+from reports import combinedequipmentcarbon
 from reports import combinedequipmentcost
 from reports import combinedequipmentefficiency
 from reports import combinedequipmentenergycategory
@@ -59,6 +60,7 @@ from reports import shopfloorsaving
 from reports import shopfloorstatistics
 from reports import shopfloorbatch
 from reports import spaceefficiency
+from reports import spacecarbon
 from reports import spacecost
 from reports import spaceenergycategory
 from reports import spaceenergyitem
@@ -76,6 +78,7 @@ from reports import storeload
 from reports import storesaving
 from reports import storestatistics
 from reports import tenantbill
+from reports import tenantcarbon
 from reports import tenantcost
 from reports import tenantenergycategory
 from reports import tenantenergyitem
@@ -516,6 +519,8 @@ api.add_route('/reports/energyflowdiagram',
               energyflowdiagramreport.Reporting())
 api.add_route('/reports/combinedequipmentbatch',
               combinedequipmentbatch.Reporting())
+api.add_route('/reports/combinedequipmentcarbon',
+              combinedequipmentcarbon.Reporting())
 api.add_route('/reports/combinedequipmentcost',
               combinedequipmentcost.Reporting())
 api.add_route('/reports/combinedequipmentefficiency',
@@ -612,6 +617,8 @@ api.add_route('/reports/shopfloorstatistics',
               shopfloorstatistics.Reporting())
 api.add_route('/reports/shopfloorbatch',
               shopfloorbatch.Reporting())
+api.add_route('/reports/spacecarbon',
+              spacecarbon.Reporting())
 api.add_route('/reports/spacecost',
               spacecost.Reporting())
 api.add_route('/reports/spaceefficiency',
@@ -650,6 +657,8 @@ api.add_route('/reports/tenantbatch',
               tenantbatch.Reporting())
 api.add_route('/reports/tenantbill',
               tenantbill.Reporting())
+api.add_route('/reports/tenantcarbon',
+              tenantcarbon.Reporting())
 api.add_route('/reports/tenantcost',
               tenantcost.Reporting())
 api.add_route('/reports/tenantenergycategory',

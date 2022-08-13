@@ -323,6 +323,7 @@ export const spaceRoutes = {
   children: [
     { to: '/space/energycategory', name: 'Energy Category Data' },
     { to: '/space/energyitem', name: 'Energy Item Data' },
+    { to: '/space/carbon', name: 'Carbon' },
     { to: '/space/cost', name: 'Cost' },
     { to: '/space/output', name: 'Output' },
     { to: '/space/income', name: 'Income' },
@@ -384,6 +385,7 @@ export const tenantRoutes = {
   children: [
     { to: '/tenant/energycategory', name: 'Energy Category Data' },
     { to: '/tenant/energyitem', name: 'Energy Item Data' },
+    { to: '/tenant/carbon', name: 'Carbon' },
     { to: '/tenant/cost', name: 'Cost' },
     { to: '/tenant/load', name: 'Load' },
     { to: '/tenant/statistics', name: 'Statistics' },
@@ -432,6 +434,7 @@ export const combinedEquipmentRoutes = {
   children: [
     { to: '/combinedequipment/energycategory', name: 'Energy Category Data' },
     { to: '/combinedequipment/energyitem', name: 'Energy Item Data' },
+    { to: '/combinedequipment/carbon', name: 'Carbon' },
     { to: '/combinedequipment/cost', name: 'Cost' },
     { to: '/combinedequipment/output', name: 'Output' },
     { to: '/combinedequipment/income', name: 'Income' },
