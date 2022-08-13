@@ -400,6 +400,7 @@ export const storeRoutes = {
   children: [
     { to: '/store/energycategory', name: 'Energy Category Data' },
     { to: '/store/energyitem', name: 'Energy Item Data' },
+    { to: '/store/carbon', name: 'Carbon' },
     { to: '/store/cost', name: 'Cost' },
     { to: '/store/load', name: 'Load' },
     { to: '/store/statistics', name: 'Statistics' },

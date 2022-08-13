@@ -12,9 +12,9 @@ import config
 # for each shopfloor in list:
 #   Step 2: get the latest start_datetime_utc
 #   Step 3: get all energy input data since the latest start_datetime_utc
-#   Step 4: get carbon dioxide emission factor
-#   Step 5: calculate carbon dioxide emission by multiplying energy with factor
-#   Step 6: save carbon dioxide emission data to database
+#   Step 4: get carbon dioxide emissions factor
+#   Step 5: calculate carbon dioxide emissions by multiplying energy with factor
+#   Step 6: save carbon dioxide emissions data to database
 ########################################################################################################################
 
 
@@ -186,9 +186,9 @@ def main(logger):
                     end_datetime_utc = current_datetime_utc
 
             ############################################################################################################
-            # Step 4: get carbon dioxide emission factor
+            # Step 4: get carbon dioxide emissions factor
             ############################################################################################################
-            print("Step 4: get carbon dioxide emission factor")
+            print("Step 4: get carbon dioxide emissions factor")
             factor_dict = dict()
             for energy_category_id in energy_category_list:
                 factor_dict[energy_category_id] = \
@@ -197,9 +197,9 @@ def main(logger):
                         start_datetime_utc,
                         end_datetime_utc)
             ############################################################################################################
-            # Step 5: calculate carbon dioxide emission by multiplying energy with factor
+            # Step 5: calculate carbon dioxide emissions by multiplying energy with factor
             ############################################################################################################
-            print("Step 5: calculate carbon dioxide emission by multiplying energy with factor")
+            print("Step 5: calculate carbon dioxide emissions by multiplying energy with factor")
             carbon_dict = dict()
 
             if len(energy_dict) > 0:
@@ -219,9 +219,9 @@ def main(logger):
                         del carbon_dict[current_datetime_utc]
 
             ############################################################################################################
-            # Step 6: save carbon dioxide emission data to database
+            # Step 6: save carbon dioxide emissions data to database
             ############################################################################################################
-            print("Step 6: save carbon dioxide emission data to database")
+            print("Step 6: save carbon dioxide emissions data to database")
 
             if len(carbon_dict) > 0:
                 try:

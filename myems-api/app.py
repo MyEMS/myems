@@ -67,13 +67,14 @@ from reports import spaceload
 from reports import spaceoutput
 from reports import spacesaving
 from reports import spacestatistics
+from reports import storebatch
+from reports import storecarbon
 from reports import storecost
 from reports import storeenergycategory
 from reports import storeenergyitem
 from reports import storeload
 from reports import storesaving
 from reports import storestatistics
-from reports import storebatch
 from reports import tenantbill
 from reports import tenantcost
 from reports import tenantenergycategory
@@ -631,6 +632,8 @@ api.add_route('/reports/spacestatistics',
               spacestatistics.Reporting())
 api.add_route('/reports/storebatch',
               storebatch.Reporting())
+api.add_route('/reports/storecarbon',
+              storecarbon.Reporting())
 api.add_route('/reports/storecost',
               storecost.Reporting())
 api.add_route('/reports/storeenergycategory',
