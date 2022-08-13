@@ -21,6 +21,7 @@ from reports import combinedequipmentsaving
 from reports import combinedequipmentstatistics
 from reports import dashboard
 from reports import equipmentbatch
+from reports import equipmentcarbon
 from reports import equipmentcost
 from reports import equipmentefficiency
 from reports import equipmentenergycategory
@@ -535,6 +536,8 @@ api.add_route('/reports/dashboard',
               dashboard.Reporting())
 api.add_route('/reports/equipmentbatch',
               equipmentbatch.Reporting())
+api.add_route('/reports/equipmentcarbon',
+              equipmentcarbon.Reporting())
 api.add_route('/reports/equipmentcost',
               equipmentcost.Reporting())
 api.add_route('/reports/equipmentefficiency',

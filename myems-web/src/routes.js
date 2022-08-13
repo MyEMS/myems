@@ -340,6 +340,7 @@ export const equipmentRoutes = {
   children: [
     { to: '/equipment/energycategory', name: 'Energy Category Data' },
     { to: '/equipment/energyitem', name: 'Energy Item Data' },
+    { to: '/equipment/carbon', name: 'Carbon' },
     { to: '/equipment/cost', name: 'Cost' },
     { to: '/equipment/output', name: 'Output' },
     { to: '/equipment/income', name: 'Income' },

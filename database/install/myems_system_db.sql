@@ -430,6 +430,7 @@ VALUES
 (107,'Load','/space/load',100,0),
 (108,'Statistics','/space/statistics',100,0),
 (109,'Saving','/space/saving',100,0),
+(110,'Carbon','/space/carbon',100,0),
 (200,'Equipment Data','/equipment',NULL,0),
 (201,'Energy Category Data','/equipment/energycategory',200,0),
 (202,'Energy Item Data','/equipment/energyitem',200,0),
@@ -442,6 +443,7 @@ VALUES
 (209,'Saving','/equipment/saving',200,0),
 (210,'Batch Analysis','/equipment/batch',200,0),
 (211,'Equipment Tracking','/equipment/tracking',200,0),
+(212,'Carbon','/equipment/carbon',200,0),
 (300,'Meter Data','/meter',NULL,0),
 (301,'Meter Energy','/meter/meterenergy',300,0),
 (302,'Meter Cost','/meter/metercost',300,0),
@@ -468,6 +470,7 @@ VALUES
 (406,'Saving','/tenant/saving',400,0),
 (407,'Tenant Bill','/tenant/bill',400,0),
 (408,'Batch Analysis','/tenant/batch',400,0),
+(409,'Carbon','/tenant/carbon',400,0),
 (500,'Store Data','/store',NULL,0),
 (501,'Energy Category Data','/store/energycategory',500,0),
 (502,'Energy Item Data','/store/energyitem',500,0),
@@ -476,6 +479,7 @@ VALUES
 (505,'Statistics','/store/statistics',500,0),
 (506,'Saving','/store/saving',500,0),
 (507,'Batch Analysis','/store/batch',500,0),
+(508,'Carbon','/store/carbon',500,0),
 (600,'Shopfloor Data','/shopfloor',NULL,0),
 (601,'Energy Category Data','/shopfloor/energycategory',600,0),
 (602,'Energy Item Data','/shopfloor/energyitem',600,0),
@@ -484,6 +488,7 @@ VALUES
 (605,'Statistics','/shopfloor/statistics',600,0),
 (606,'Saving','/shopfloor/saving',600,0),
 (607,'Batch Analysis','/shopfloor/batch',600,0),
+(608,'Carbon','/shopfloor/carbon',600,0),
 (700,'Combined Equipment Data','/combinedequipment',NULL,0),
 (701,'Energy Category Data','/combinedequipment/energycategory',700,0),
 (702,'Energy Item Data','/combinedequipment/energyitem',700,0),
@@ -495,6 +500,7 @@ VALUES
 (708,'Statistics','/combinedequipment/statistics',700,0),
 (709,'Saving','/combinedequipment/saving',700,0),
 (710,'Batch Analysis','/combinedequipment/batch',700,0),
+(711,'Carbon','/combinedequipment/carbon',700,0),
 (800,'Auxiliary System','/auxiliarysystem',NULL,0),
 (801,'Energy Flow Diagram','/auxiliarysystem/energyflowdiagram',800,0),
 (802,'Distribution System','/auxiliarysystem/distributionsystem',800,0),
@@ -1274,6 +1280,6 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '1.9.6', '2022-08-05');
+(1, '2.0.0', '2022-08-18');
 
 COMMIT;
