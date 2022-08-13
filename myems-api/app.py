@@ -50,6 +50,7 @@ from reports import offlinemeterbatch
 from reports import offlinemetercarbon
 from reports import offlinemetercost
 from reports import offlinemeterenergy
+from reports import shopfloorcarbon
 from reports import shopfloorcost
 from reports import shopfloorenergycategory
 from reports import shopfloorenergyitem
@@ -594,6 +595,8 @@ api.add_route('/reports/offlinemetercost',
               offlinemetercost.Reporting())
 api.add_route('/reports/offlinemeterenergy',
               offlinemeterenergy.Reporting())
+api.add_route('/reports/shopfloorcarbon',
+              shopfloorcarbon.Reporting())
 api.add_route('/reports/shopfloorcost',
               shopfloorcost.Reporting())
 api.add_route('/reports/shopfloorenergycategory',
