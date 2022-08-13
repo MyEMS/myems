@@ -1,12 +1,13 @@
 import logging
 from logging.handlers import RotatingFileHandler
 from multiprocessing import Process
-import combined_equipment_energy_input_category
-import combined_equipment_energy_input_item
-import combined_equipment_energy_output_category
 import combined_equipment_billing_input_category
 import combined_equipment_billing_input_item
 import combined_equipment_billing_output_category
+import combined_equipment_carbon_input_category
+import combined_equipment_energy_input_category
+import combined_equipment_energy_input_item
+import combined_equipment_energy_output_category
 import equipment_billing_input_category
 import equipment_billing_input_item
 import equipment_billing_output_category
@@ -26,6 +27,7 @@ import shopfloor_energy_input_item
 import space_billing_input_category
 import space_billing_input_item
 import space_billing_output_category
+import space_carbon_input_category
 import space_energy_input_category
 import space_energy_input_item
 import space_energy_output_category
@@ -36,6 +38,7 @@ import store_energy_input_category
 import store_energy_input_item
 import tenant_billing_input_category
 import tenant_billing_input_item
+import tenant_carbon_input_category
 import tenant_energy_input_category
 import tenant_energy_input_item
 import virtual_meter_carbon
@@ -61,19 +64,20 @@ def main():
     # send logging output to sys.stderr
     logger.addHandler(logging.StreamHandler())
 
-    # combined equipment energy input by energy categories
-    Process(target=combined_equipment_energy_input_category.main, args=(logger,)).start()
-    # combined equipment energy input by energy items
-    Process(target=combined_equipment_energy_input_item.main, args=(logger,)).start()
-    # combined equipment energy output by energy categories
-    Process(target=combined_equipment_energy_output_category.main, args=(logger,)).start()
-
     # combined equipment billing input by energy categories
     Process(target=combined_equipment_billing_input_category.main, args=(logger,)).start()
     # combined equipment billing input by energy items
     Process(target=combined_equipment_billing_input_item.main, args=(logger,)).start()
     # combined equipment billing output by energy categories
     Process(target=combined_equipment_billing_output_category.main, args=(logger,)).start()
+    # combined equipment carbon dioxide emissions by energy categories
+    Process(target=combined_equipment_carbon_input_category.main, args=(logger,)).start()
+    # combined equipment energy input by energy categories
+    Process(target=combined_equipment_energy_input_category.main, args=(logger,)).start()
+    # combined equipment energy input by energy items
+    Process(target=combined_equipment_energy_input_item.main, args=(logger,)).start()
+    # combined equipment energy output by energy categories
+    Process(target=combined_equipment_energy_output_category.main, args=(logger,)).start()
 
     # equipment billing input by energy categories
     Process(target=equipment_billing_input_category.main, args=(logger,)).start()
@@ -117,7 +121,8 @@ def main():
     Process(target=space_billing_input_item.main, args=(logger,)).start()
     # space billing output by energy categories
     Process(target=space_billing_output_category.main, args=(logger,)).start()
-
+    # space carbon dioxide emissions by energy categories
+    Process(target=space_carbon_input_category.main, args=(logger,)).start()
     # space energy input by energy categories
     Process(target=space_energy_input_category.main, args=(logger,)).start()
     # space energy input by energy items
@@ -140,7 +145,8 @@ def main():
     Process(target=tenant_billing_input_category.main, args=(logger,)).start()
     # tenant billing input by energy items
     Process(target=tenant_billing_input_item.main, args=(logger,)).start()
-
+    # tenant carbon dioxide emissions by energy categories
+    Process(target=tenant_carbon_input_category.main, args=(logger,)).start()
     # tenant energy input by energy categories
     Process(target=tenant_energy_input_category.main, args=(logger,)).start()
     # tenant energy input by energy items
