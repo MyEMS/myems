@@ -252,7 +252,7 @@ class Reporting:
                 point_list.append({"id": row[0], "name": row[1], "units": row[2], "object_type": row[3]})
 
         ################################################################################################################
-        # Step 5: query base period energy cost
+        # Step 5: query base period energy carbon dioxide emissions
         ################################################################################################################
         base = dict()
         if energy_category_set is not None and len(energy_category_set) > 0:
@@ -263,16 +263,16 @@ class Reporting:
                 base[energy_category_id]['subtotal'] = Decimal(0.0)
 
                 cursor_carbon.execute(" SELECT start_datetime_utc, actual_value "
-                                       " FROM tbl_equipment_input_category_hourly "
-                                       " WHERE equipment_id = %s "
-                                       "     AND energy_category_id = %s "
-                                       "     AND start_datetime_utc >= %s "
-                                       "     AND start_datetime_utc < %s "
-                                       " ORDER BY start_datetime_utc ",
-                                       (equipment['id'],
-                                        energy_category_id,
-                                        base_start_datetime_utc,
-                                        base_end_datetime_utc))
+                                      " FROM tbl_equipment_input_category_hourly "
+                                      " WHERE equipment_id = %s "
+                                      "     AND energy_category_id = %s "
+                                      "     AND start_datetime_utc >= %s "
+                                      "     AND start_datetime_utc < %s "
+                                      " ORDER BY start_datetime_utc ",
+                                      (equipment['id'],
+                                       energy_category_id,
+                                       base_start_datetime_utc,
+                                       base_end_datetime_utc))
                 rows_equipment_hourly = cursor_carbon.fetchall()
 
                 rows_equipment_periodically = utilities.aggregate_hourly_data_by_period(rows_equipment_hourly,
@@ -300,7 +300,7 @@ class Reporting:
                     base[energy_category_id]['subtotal'] += actual_value
 
         ################################################################################################################
-        # Step 6: query reporting period energy cost
+        # Step 6: query reporting period energy carbon dioxide emissions
         ################################################################################################################
         reporting = dict()
         if energy_category_set is not None and len(energy_category_set) > 0:
@@ -315,16 +315,16 @@ class Reporting:
                 reporting[energy_category_id]['offpeak'] = Decimal(0.0)
 
                 cursor_carbon.execute(" SELECT start_datetime_utc, actual_value "
-                                       " FROM tbl_equipment_input_category_hourly "
-                                       " WHERE equipment_id = %s "
-                                       "     AND energy_category_id = %s "
-                                       "     AND start_datetime_utc >= %s "
-                                       "     AND start_datetime_utc < %s "
-                                       " ORDER BY start_datetime_utc ",
-                                       (equipment['id'],
-                                        energy_category_id,
-                                        reporting_start_datetime_utc,
-                                        reporting_end_datetime_utc))
+                                      " FROM tbl_equipment_input_category_hourly "
+                                      " WHERE equipment_id = %s "
+                                      "     AND energy_category_id = %s "
+                                      "     AND start_datetime_utc >= %s "
+                                      "     AND start_datetime_utc < %s "
+                                      " ORDER BY start_datetime_utc ",
+                                      (equipment['id'],
+                                       energy_category_id,
+                                       reporting_start_datetime_utc,
+                                       reporting_end_datetime_utc))
                 rows_equipment_hourly = cursor_carbon.fetchall()
 
                 rows_equipment_periodically = utilities.aggregate_hourly_data_by_period(rows_equipment_hourly,
@@ -540,7 +540,7 @@ class Reporting:
             "timestamps": parameters_data['timestamps'],
             "values": parameters_data['values']
         }
-        result['excel_bytes_base64'] = excelexporters.equipmentcost.export(result,
+        result['excel_bytes_base64'] = excelexporters.equipmentcarbon.export(result,
                                                                            equipment['name'],
                                                                            reporting_start_datetime_local,
                                                                            reporting_end_datetime_local,

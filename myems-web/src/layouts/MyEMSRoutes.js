@@ -114,6 +114,7 @@ import SpaceStatistics from '../components/MyEMS/Space/SpaceStatistics';
 import SpaceSaving from '../components/MyEMS/Space/SpaceSaving';
 // Equipment
 import EquipmentBatch from '../components/MyEMS/Equipment/EquipmentBatch';
+import EquipmentCarbon from '../components/MyEMS/Equipment/EquipmentCarbon';
 import EquipmentCost from '../components/MyEMS/Equipment/EquipmentCost';
 import EquipmentEfficiency from '../components/MyEMS/Equipment/EquipmentEfficiency';
 import EquipmentEnergyCategory from '../components/MyEMS/Equipment/EquipmentEnergyCategory';
@@ -356,6 +357,7 @@ const MyEMSRoutes = () => (
 
     {/*Equipment*/}
     <Route path="/equipment/batch" exact component={EquipmentBatch} />
+    <Route path="/equipment/carbon" exact component={EquipmentCarbon} />
     <Route path="/equipment/cost" exact component={EquipmentCost} />
     <Route path="/equipment/efficiency" exact component={EquipmentEfficiency} />
     <Route path="/equipment/energycategory" exact component={EquipmentEnergyCategory} />
