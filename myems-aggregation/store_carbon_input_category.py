@@ -8,8 +8,8 @@ import config
 
 ########################################################################################################################
 # PROCEDURES
-# Step 1: get all equipments
-# for each equipment in list:
+# Step 1: get all stores
+# for each store in list:
 #   Step 2: get the latest start_datetime_utc
 #   Step 3: get all energy input data since the latest start_datetime_utc
 #   Step 4: get carbon dioxide emissions factor
@@ -23,7 +23,7 @@ def main(logger):
     while True:
         # the outermost while loop
         ################################################################################################################
-        # Step 1: get all equipments
+        # Step 1: get all stores
         ################################################################################################################
         cnx_system_db = None
         cursor_system_db = None
@@ -31,7 +31,7 @@ def main(logger):
             cnx_system_db = mysql.connector.connect(**config.myems_system_db)
             cursor_system_db = cnx_system_db.cursor()
         except Exception as e:
-            logger.error("Error in step 1.1 of equipment_carbon_input_category " + str(e))
+            logger.error("Error in step 1.1 of store_carbon_input_category " + str(e))
             if cursor_system_db:
                 cursor_system_db.close()
             if cnx_system_db:
@@ -42,15 +42,15 @@ def main(logger):
 
         print("Connected to MyEMS System Database")
 
-        equipment_list = list()
+        store_list = list()
         try:
             cursor_system_db.execute(" SELECT id, name, cost_center_id "
-                                     " FROM tbl_equipments "
+                                     " FROM tbl_stores "
                                      " ORDER BY id ")
-            rows_equipments = cursor_system_db.fetchall()
+            rows_stores = cursor_system_db.fetchall()
 
-            if rows_equipments is None or len(rows_equipments) == 0:
-                print("Step 1.2: There isn't any equipments. ")
+            if rows_stores is None or len(rows_stores) == 0:
+                print("Step 1.2: There isn't any stores. ")
                 if cursor_system_db:
                     cursor_system_db.close()
                 if cnx_system_db:
@@ -59,11 +59,11 @@ def main(logger):
                 time.sleep(60)
                 continue
 
-            for row in rows_equipments:
-                equipment_list.append({"id": row[0], "name": row[1], "cost_center_id": row[2]})
+            for row in rows_stores:
+                store_list.append({"id": row[0], "name": row[1], "cost_center_id": row[2]})
 
         except Exception as e:
-            logger.error("Error in step 1.2 of equipment_carbon_input_category " + str(e))
+            logger.error("Error in step 1.2 of store_carbon_input_category " + str(e))
             if cursor_system_db:
                 cursor_system_db.close()
             if cnx_system_db:
@@ -72,7 +72,7 @@ def main(logger):
             time.sleep(60)
             continue
 
-        print("Step 1.2: Got all equipments from MyEMS System Database")
+        print("Step 1.2: Got all stores from MyEMS System Database")
 
         cnx_energy_db = None
         cursor_energy_db = None
@@ -80,7 +80,7 @@ def main(logger):
             cnx_energy_db = mysql.connector.connect(**config.myems_energy_db)
             cursor_energy_db = cnx_energy_db.cursor()
         except Exception as e:
-            logger.error("Error in step 1.3 of equipment_carbon_input_category " + str(e))
+            logger.error("Error in step 1.3 of store_carbon_input_category " + str(e))
             if cursor_energy_db:
                 cursor_energy_db.close()
             if cnx_energy_db:
@@ -102,7 +102,7 @@ def main(logger):
             cnx_carbon_db = mysql.connector.connect(**config.myems_carbon_db)
             cursor_carbon_db = cnx_carbon_db.cursor()
         except Exception as e:
-            logger.error("Error in step 1.4 of equipment_carbon_input_category " + str(e))
+            logger.error("Error in step 1.4 of store_carbon_input_category " + str(e))
             if cursor_carbon_db:
                 cursor_carbon_db.close()
             if cnx_carbon_db:
@@ -123,17 +123,17 @@ def main(logger):
 
         print("Connected to MyEMS Carbon Database")
 
-        for equipment in equipment_list:
+        for store in store_list:
 
             ############################################################################################################
             # Step 2: get the latest start_datetime_utc
             ############################################################################################################
-            print("Step 2: get the latest start_datetime_utc from carbon database for " + equipment['name'])
+            print("Step 2: get the latest start_datetime_utc from carbon database for " + store['name'])
             try:
                 cursor_carbon_db.execute(" SELECT MAX(start_datetime_utc) "
-                                         " FROM tbl_equipment_input_category_hourly "
-                                         " WHERE equipment_id = %s ",
-                                         (equipment['id'], ))
+                                         " FROM tbl_store_input_category_hourly "
+                                         " WHERE store_id = %s ",
+                                         (store['id'], ))
                 row_datetime = cursor_carbon_db.fetchone()
                 start_datetime_utc = datetime.strptime(config.start_datetime_utc, '%Y-%m-%d %H:%M:%S')
                 start_datetime_utc = start_datetime_utc.replace(minute=0, second=0, microsecond=0, tzinfo=None)
@@ -147,8 +147,8 @@ def main(logger):
 
                 print("start_datetime_utc: " + start_datetime_utc.isoformat()[0:19])
             except Exception as e:
-                logger.error("Error in step 2 of equipment_carbon_input_category " + str(e))
-                # break the for equipment loop
+                logger.error("Error in step 2 of store_carbon_input_category " + str(e))
+                # break the for store loop
                 break
 
             ############################################################################################################
@@ -157,15 +157,15 @@ def main(logger):
             print("Step 3: get all energy input data since the latest start_datetime_utc")
 
             query = (" SELECT start_datetime_utc, energy_category_id, actual_value "
-                     " FROM tbl_equipment_input_category_hourly "
-                     " WHERE equipment_id = %s AND start_datetime_utc >= %s "
+                     " FROM tbl_store_input_category_hourly "
+                     " WHERE store_id = %s AND start_datetime_utc >= %s "
                      " ORDER BY id ")
-            cursor_energy_db.execute(query, (equipment['id'], start_datetime_utc, ))
+            cursor_energy_db.execute(query, (store['id'], start_datetime_utc, ))
             rows_hourly = cursor_energy_db.fetchall()
 
             if rows_hourly is None or len(rows_hourly) == 0:
                 print("Step 3: There isn't any energy input data to calculate. ")
-                # continue the for equipment loop
+                # continue the for store loop
                 continue
 
             energy_dict = dict()
@@ -186,9 +186,9 @@ def main(logger):
                     end_datetime_utc = current_datetime_utc
 
             ############################################################################################################
-            # Step 4: get carbon dioxide emissions factor
+            # Step 4: get carbon dioxide emission factor
             ############################################################################################################
-            print("Step 4: get carbon dioxide emissions factor")
+            print("Step 4: get carbon dioxide emission factor")
             factor_dict = dict()
             for energy_category_id in energy_category_list:
                 factor_dict[energy_category_id] = \
@@ -197,9 +197,9 @@ def main(logger):
                         start_datetime_utc,
                         end_datetime_utc)
             ############################################################################################################
-            # Step 5: calculate carbon dioxide emissions by multiplying energy with factor
+            # Step 5: calculate carbon dioxide emission by multiplying energy with factor
             ############################################################################################################
-            print("Step 5: calculate carbon dioxide emissions by multiplying energy with factor")
+            print("Step 5: calculate carbon dioxide emission by multiplying energy with factor")
             carbon_dict = dict()
 
             if len(energy_dict) > 0:
@@ -219,14 +219,14 @@ def main(logger):
                         del carbon_dict[current_datetime_utc]
 
             ############################################################################################################
-            # Step 6: save carbon dioxide emissions data to database
+            # Step 6: save carbon dioxide emissions data to carbon database
             ############################################################################################################
-            print("Step 6: save carbon dioxide emissions data to database")
+            print("Step 6: save carbon dioxide emissions data to carbon database")
 
             if len(carbon_dict) > 0:
                 try:
-                    add_values = (" INSERT INTO tbl_equipment_input_category_hourly "
-                                  "             (equipment_id, "
+                    add_values = (" INSERT INTO tbl_store_input_category_hourly "
+                                  "             (store_id, "
                                   "              energy_category_id, "
                                   "              start_datetime_utc, "
                                   "              actual_value) "
@@ -236,20 +236,20 @@ def main(logger):
                         for energy_category_id in energy_category_list:
                             current_carbon = carbon_dict[current_datetime_utc].get(energy_category_id)
                             if current_carbon is not None and isinstance(current_carbon, Decimal):
-                                add_values += " (" + str(equipment['id']) + ","
+                                add_values += " (" + str(store['id']) + ","
                                 add_values += " " + str(energy_category_id) + ","
                                 add_values += "'" + current_datetime_utc.isoformat()[0:19] + "',"
-                                add_values += str(current_carbon[current_datetime_utc][energy_category_id]) + "), "
+                                add_values += str(carbon_dict[current_datetime_utc][energy_category_id]) + "), "
                     print("add_values:" + add_values)
                     # trim ", " at the end of string and then execute
                     cursor_carbon_db.execute(add_values[:-2])
                     cnx_carbon_db.commit()
                 except Exception as e:
-                    logger.error("Error in step 6 of equipment_carbon_input_category " + str(e))
-                    # break the for equipment loop
+                    logger.error("Error in step 6 of store_carbon_input_category " + str(e))
+                    # break the for store loop
                     break
 
-        # end of for equipment loop
+        # end of for store loop
         if cursor_system_db:
             cursor_system_db.close()
         if cnx_system_db:

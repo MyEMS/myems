@@ -67,7 +67,7 @@ def generate_excel(report,
 
     wb = Workbook()
     ws = wb.active
-    ws.title = "StoreCost"
+    ws.title = "StoreCarbon"
 
     # Row height
     ws.row_dimensions[1].height = 118
@@ -161,7 +161,7 @@ def generate_excel(report,
 
     if has_energy_data_flag:
         ws['B6'].font = title_font
-        ws['B6'] = name + ' ' + 'Reporting Period Costs'
+        ws['B6'] = name + ' ' + 'Reporting Period Carbon Dioxide Emissions'
 
         category = reporting_period_data['names']
         ca_len = len(category)
@@ -170,7 +170,7 @@ def generate_excel(report,
 
         ws['B8'].font = title_font
         ws['B8'].alignment = c_c_alignment
-        ws['B8'] = 'Cost'
+        ws['B8'] = 'Carbon Dioxide Emissions'
         ws['B8'].border = f_border
 
         ws['B9'].font = title_font
@@ -246,7 +246,7 @@ def generate_excel(report,
 
     if has_ele_peak_flag:
         ws['B12'].font = title_font
-        ws['B12'] = name + ' ' + 'Electricity Costs by Time-Of-Use'
+        ws['B12'] = name + ' ' + 'Electricity Carbon Dioxide Emissions by Time-Of-Use'
 
         ws['B13'].fill = table_fill
         ws['B13'].font = name_font
@@ -257,7 +257,7 @@ def generate_excel(report,
         ws['C13'].font = name_font
         ws['C13'].alignment = c_c_alignment
         ws['C13'].border = f_border
-        ws['C13'] = 'Electricity Costs by Time-Of-Use'
+        ws['C13'] = 'Electricity Carbon Dioxide Emissions by Time-Of-Use'
 
         ws['B14'].font = title_font
         ws['B14'].alignment = c_c_alignment
@@ -329,7 +329,7 @@ def generate_excel(report,
 
     if has_subtotals_data_flag:
         ws['B' + str(current_row_number)].font = title_font
-        ws['B' + str(current_row_number)] = name + ' ' + 'Costs Proportion'
+        ws['B' + str(current_row_number)] = name + ' ' + 'Carbon Dioxide Emissions Proportion'
 
         current_row_number += 1
 
@@ -344,7 +344,7 @@ def generate_excel(report,
         ws['C' + str(current_row_number)].font = name_font
         ws['C' + str(current_row_number)].alignment = c_c_alignment
         ws['C' + str(current_row_number)].border = f_border
-        ws['C' + str(current_row_number)] = 'Costs Proportion'
+        ws['C' + str(current_row_number)] = 'Carbon Dioxide Emissions Proportion'
 
         current_row_number += 1
 
@@ -518,7 +518,7 @@ def generate_excel(report,
                 ws[col + str(current_row_number)].border = f_border
 
                 line = LineChart()
-                line.title = 'Reporting Period Costs - ' + \
+                line.title = 'Reporting Period Carbon Dioxide Emissions - ' + \
                              reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
                 labels = Reference(ws, min_col=2, min_row=detail_data_table_start_row_number + 1,
                                    max_row=table_end_row_number)

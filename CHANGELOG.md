@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - added equipment carbon dioxide emissions report
 - added shopfloor carbon dioxide emissions report
+- added store carbon dioxide emissions report
 ### Changed
 - 
 ### Fixed

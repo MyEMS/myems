@@ -154,6 +154,7 @@ import TenantBatch from '../components/MyEMS/Tenant/TenantBatch';
 // Store
 import StoreEnergyCategory from '../components/MyEMS/Store/StoreEnergyCategory';
 import StoreEnergyItem from '../components/MyEMS/Store/StoreEnergyItem';
+import StoreCarbon from '../components/MyEMS/Store/StoreCarbon';
 import StoreCost from '../components/MyEMS/Store/StoreCost';
 import StoreLoad from '../components/MyEMS/Store/StoreLoad';
 import StoreStatistics from '../components/MyEMS/Store/StoreStatistics';
@@ -401,6 +402,7 @@ const MyEMSRoutes = () => (
     {/*Sotore*/}
     <Route path="/store/energycategory" exact component={StoreEnergyCategory} />
     <Route path="/store/energyitem" exact component={StoreEnergyItem} />
+    <Route path="/store/carbon" exact component={StoreCarbon} />
     <Route path="/store/cost" exact component={StoreCost} />
     <Route path="/store/load" exact component={StoreLoad} />
     <Route path="/store/statistics" exact component={StoreStatistics} />
