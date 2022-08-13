@@ -415,6 +415,7 @@ export const shopfloorRoutes = {
   children: [
     { to: '/shopfloor/energycategory', name: 'Energy Category Data' },
     { to: '/shopfloor/energyitem', name: 'Energy Item Data' },
+    { to: '/shopfloor/carbon', name: 'Carbon' },
     { to: '/shopfloor/cost', name: 'Cost' },
     { to: '/shopfloor/load', name: 'Load' },
     { to: '/shopfloor/statistics', name: 'Statistics' },
