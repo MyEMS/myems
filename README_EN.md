@@ -81,6 +81,7 @@ Using open source to help achieve carbon peak carbon neutrality goals.
 | Meter/Offline Meter Batch Analysis       | ✔️             |                      |
 | Space/Energy Category Data       | ✔️             |                      |
 | Space/Energy Item Data           | ✔️             |                      |
+| Space/Carbon Dioxide Emissions Report | ✔️          |                      |
 | Space/Cost Data                  | ✔️             |                      |
 | Space/Output Data                | ✔️             |                      |
 | Space/Income Data                | ✔️             |                      |
@@ -89,6 +90,7 @@ Using open source to help achieve carbon peak carbon neutrality goals.
 | Space/Statistics                 | ✔️             |                      |
 | Equipment/Energy Category Data   | ✔️             |                      |
 | Equipment/Energy Item Data       | ✔️             |                      |
+| Equipment/Carbon Dioxide Emissions Report | ✔️          |                      |
 | Equipment/Cost Data              | ✔️             |                      |
 | Equipment/Output Data            | ✔️             |                      |
 | Equipment/Income Data            | ✔️             |                      |
@@ -99,6 +101,7 @@ Using open source to help achieve carbon peak carbon neutrality goals.
 | Equipment/Equipment Tracking     | ✔️             |                      |
 | Tenant/Energy Category Data      | ✔️             |                      |
 | Tenant/Energy Item Data          | ✔️             |                      |
+| Tenant/Carbon Dioxide Emissions Report | ✔️          |                      |
 | Tenant/Cost Data                 | ✔️             |                      |
 | Tenant/Load Data                 | ✔️             |                      |
 | Tenant/Statistics                | ✔️             |                      |
@@ -106,18 +109,21 @@ Using open source to help achieve carbon peak carbon neutrality goals.
 | Tenant/Batch Analysis            | ✔️             |                      |
 | Store/Energy Category Data       | ✔️             |                      |
 | Store/Energy Item Data           | ✔️             |                      |
+| Store/Carbon Dioxide Emissions Report | ✔️          |                      |
 | Store/Cost Data                  | ✔️             |                      |
 | Store/Load Data                  | ✔️             |                      |
 | Store/Statistics                 | ✔️             |                      |
 | Store/Batch Analysis             | ✔️             |                      |
 | Shopfloor/Energy Category Data   | ✔️             |                      |
 | Shopfloor/Energy Item Data       | ✔️             |                      |
+| Shopfloor/Carbon Dioxide Emissions Report | ✔️          |                      |
 | Shopfloor/Cost Data              | ✔️             |                      |
 | Shopfloor/Load Data              | ✔️             |                      |
 | Shopfloor/Statistics             | ✔️             |                      |
 | Shopfloor/Batch Analysis         | ✔️             |                      |
 | Combined Equipment/Energy Category Data | ✔️      |                      |
 | Combined Equipment/Energy Item Data     | ✔️      |                      |
+| Combined Equipment/Carbon Dioxide Emissions Report | ✔️          |                      |
 | Combined Equipment/Cost Data            | ✔️      |                      |
 | Combined Equipment/Output Data          | ✔️      |                      |
 | Combined Equipment/Income Data          | ✔️      |                      |
