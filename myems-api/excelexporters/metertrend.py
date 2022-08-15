@@ -231,7 +231,7 @@ def generate_excel(report,
                     ws[col + row].font = title_font
                     ws[col + row].alignment = c_c_alignment
                     try:
-                        ws[col + row] =  round(reporting_period_data['values'][i][j], 3) if \
+                        ws[col + row] = round(reporting_period_data['values'][i][j], 3) if \
                             len(reporting_period_data['values'][i]) > 0 and \
                             len(reporting_period_data['values'][i]) > j and \
                             reporting_period_data['values'][i][j] is not None else ''

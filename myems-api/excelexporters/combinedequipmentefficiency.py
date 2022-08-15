@@ -491,8 +491,8 @@ def generate_excel(report,
             i_num += 1
             line = LineChart()
             line.title = 'Reporting Period Cumulative Efficiency - ' + \
-                         reporting_period_data['names'][i] + '-' + reporting_period_data['numerator_names'][i] + " (" + \
-                         reporting_period_data['numerator_units'][i] + ")"
+                         reporting_period_data['names'][i] + '-' + reporting_period_data['numerator_names'][i] + \
+                         " (" + reporting_period_data['numerator_units'][i] + ")"
             labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1, max_row=table_end_row_number)
             line_data = Reference(ws, min_col=3 + i_num, min_row=table_start_row_number, max_row=table_end_row_number)
             line.add_data(line_data, titles_from_data=True)
@@ -517,8 +517,8 @@ def generate_excel(report,
             i_num += 1
             line = LineChart()
             line.title = 'Reporting Period Cumulative Efficiency - ' + \
-                         reporting_period_data['names'][i] + '-' +reporting_period_data['denominator_names'][i] + " (" + \
-                         reporting_period_data['denominator_units'][i] + ")"
+                         reporting_period_data['names'][i] + '-' + reporting_period_data['denominator_names'][i] + \
+                         " (" + reporting_period_data['denominator_units'][i] + ")"
             labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1, max_row=table_end_row_number)
             line_data = Reference(ws, min_col=3 + i_num, min_row=table_start_row_number, max_row=table_end_row_number)
             line.add_data(line_data, titles_from_data=True)
