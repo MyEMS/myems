@@ -188,11 +188,11 @@ class Reporting:
         energy_category_set = set()
         # query energy categories in base period
         cursor_carbon.execute(" SELECT DISTINCT(energy_category_id) "
-                               " FROM tbl_combined_equipment_input_category_hourly "
-                               " WHERE combined_equipment_id = %s "
-                               "     AND start_datetime_utc >= %s "
-                               "     AND start_datetime_utc < %s ",
-                               (combined_equipment['id'], base_start_datetime_utc, base_end_datetime_utc))
+                              " FROM tbl_combined_equipment_input_category_hourly "
+                              " WHERE combined_equipment_id = %s "
+                              "     AND start_datetime_utc >= %s "
+                              "     AND start_datetime_utc < %s ",
+                              (combined_equipment['id'], base_start_datetime_utc, base_end_datetime_utc))
         rows_energy_categories = cursor_carbon.fetchall()
         if rows_energy_categories is not None or len(rows_energy_categories) > 0:
             for row_energy_category in rows_energy_categories:

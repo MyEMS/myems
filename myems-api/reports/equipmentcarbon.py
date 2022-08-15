@@ -541,8 +541,8 @@ class Reporting:
             "values": parameters_data['values']
         }
         result['excel_bytes_base64'] = excelexporters.equipmentcarbon.export(result,
-                                                                           equipment['name'],
-                                                                           reporting_start_datetime_local,
-                                                                           reporting_end_datetime_local,
-                                                                           period_type)
+                                                                             equipment['name'],
+                                                                             reporting_start_datetime_local,
+                                                                             reporting_end_datetime_local,
+                                                                             period_type)
         resp.text = json.dumps(result)
