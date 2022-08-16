@@ -9,7 +9,7 @@ app.factory('DataRepairFileService', function($http) {
                 callback(response);
             });
         },
-        searchDataRepairFile: function(query, headers, callback) {  
+        searchDataRepairFiles: function(query, headers, callback) {  
             $http.get(getAPI()+'datarepairfiles', { params: { q: query } }, {headers})  
             .then(function (response) {
                 callback(response);
@@ -41,7 +41,7 @@ app.factory('DataRepairFileService', function($http) {
                 callback(response);
             }); 
         },
-        getDataRepairFiles: function(id, headers, callback) {  
+        getDataRepairFile: function(id, headers, callback) {  
             $http.get(getAPI()+'datarepairfiles/' + id, {headers})  
             .then(function (response) {
                 callback(response);
