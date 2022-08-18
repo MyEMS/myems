@@ -96,14 +96,14 @@ app.controller('DataRepairFileController', function(
                             toaster.pop({
                                 type: "success",
                                 title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-                                body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", {template: $translate.instant("SETTING.OFFLINE_METER_FILE")}),
+                                body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", {template: $translate.instant("SETTING.DATA_REPAIR_FILE")}),
                                 showCloseButton: true,
                             });
 							$scope.getAllDataRepairFiles();
 						} else {
                             toaster.pop({
                                 type: "error",
-                                title: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("SETTING.OFFLINE_METER_FILE")}),
+                                title: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("SETTING.DATA_REPAIR_FILE")}),
                                 body: $translate.instant(response.data.description),
                                 showCloseButton: true,
                             });
