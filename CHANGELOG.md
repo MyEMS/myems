@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added store carbon dioxide emissions report
 - added space carbon dioxide emissions report
 - added tenant carbon dioxide emissions report
+- added data repair file UI to myems-admin
 ### Changed
 - 
 ### Fixed

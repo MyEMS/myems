@@ -277,7 +277,9 @@ function config($translateProvider) {
                 PARENT_MENU: 'Parent Menu',
                 IS_HIDDEN: 'Is Hidden',
                 CHILD_MENUS: 'Child Menus',
-                EDIT_MENU: 'Edit Menu'
+                EDIT_MENU: 'Edit Menu',
+
+                DATA_REPAIR_FILE: 'Data Repair File',
             },
             CONTACT: {
                 EMAIL: 'Email',
@@ -349,7 +351,6 @@ function config($translateProvider) {
                 INPUT_ADDRESS: 'Please Input Address',
                 INPUT_DESCRIPTION: 'Please Input Description',
             },
-
             DISTRIBUTION_SYSTEM: {
                 DISTRIBUTION_SYSTEM: 'Distribution System',
                 ADD_DISTRIBUTION_SYSTEM: 'Add Distribution System',
@@ -1287,7 +1288,9 @@ function config($translateProvider) {
                 PARENT_MENU: '上级菜单',
                 IS_HIDDEN: '是否隐藏',
                 CHILD_MENUS: '下级菜单',
-                EDIT_MENU: '编辑菜单'
+                EDIT_MENU: '编辑菜单',
+
+                DATA_REPAIR_FILE: '数据修补文件',
             },
             CONTACT: {
                 EMAIL: '邮箱',
@@ -1337,7 +1340,6 @@ function config($translateProvider) {
                 INPUT_ADDRESS: '请输入地址',
                 INPUT_DESCRIPTION: '请输入描述',
             },
-
             DISTRIBUTION_SYSTEM: {
                 DISTRIBUTION_SYSTEM: '配电系统',
                 ADD_DISTRIBUTION_SYSTEM: '添加配电系统',
@@ -2301,7 +2303,9 @@ function config($translateProvider) {
                 PARENT_MENU: 'Superior Menü',
                 IS_HIDDEN: 'Ist versteckt',
                 CHILD_MENUS: 'Unteres Menü',
-                EDIT_MENU: 'Menü bearbeiten'
+                EDIT_MENU: 'Menü bearbeiten',
+
+                DATA_REPAIR_FILE: 'Daten reparieren dateien',
             },
             CONTACT: {
                 EMAIL: 'Briefkasten',

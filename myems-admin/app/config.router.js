@@ -509,9 +509,11 @@ app
                                             }, {
 
                                                 files: [
+                                                    'app/services/settings/datasource/datarepairfile.service.js',
                                                     'app/services/settings/datasource/datasource.service.js',
                                                     'app/services/settings/datasource/point.service.js',
                                                     'app/services/settings/gateway/gateway.service.js',
+                                                    'app/controllers/settings/datasource/datarepairfile.controller.js',
                                                     'app/controllers/settings/datasource/datasource.master.controller.js',
                                                     'app/controllers/settings/datasource/datasource.controller.js',
                                                     'app/controllers/settings/datasource/point.controller.js'
