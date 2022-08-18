@@ -17,24 +17,24 @@ app.factory('DataRepairFileService', function($http) {
                 callback(response);
             }); 
         },
-        addDataRepairFile: function(offlinemeterfile, headers, callback) {  
-            $http.post(getAPI()+'datarepairfiles', {data:offlinemeterfile}, {headers})  
+        addDataRepairFile: function(datarepairfile, headers, callback) {  
+            $http.post(getAPI()+'datarepairfiles', {data:datarepairfile}, {headers})  
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });  
         },
-        restoreDataRepairFile: function (offlinemeterfile, headers, callback) {
-            $http.get(getAPI() + 'datarepairfiles/' + offlinemeterfile.id + '/restore', {headers})
+        restoreDataRepairFile: function (datarepairfile, headers, callback) {
+            $http.get(getAPI() + 'datarepairfiles/' + datarepairfile.id + '/restore', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        deleteDataRepairFile: function(offlinemeterfile, headers, callback) {  
-            $http.delete(getAPI()+'datarepairfiles/' + offlinemeterfile.id, {headers})  
+        deleteDataRepairFile: function(datarepairfile, headers, callback) {  
+            $http.delete(getAPI()+'datarepairfiles/' + datarepairfile.id, {headers})  
             .then(function (response) {
                 callback(response);
             }, function (response) {
