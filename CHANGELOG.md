@@ -5,6 +5,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+- 
+### Changed
+- 
+### Fixed
+- 
+### Removed
+-
+
+## [v2.0.0] - 2022-08-18
+
+### Added
 - added combined equipment carbon dioxide emissions report
 - added equipment carbon dioxide emissions report
 - added shopfloor carbon dioxide emissions report
@@ -21,6 +32,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - 
 ### Removed
 -
+
 
 ## [v1.9.6] - 2022-08-05
 ### Added
@@ -929,7 +941,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v1.9.6...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/MyEMS/myems/compare/v1.9.6...v2.0.0
 [v1.9.6]: https://github.com/MyEMS/myems/compare/v1.9.5...v1.9.6
 [v1.9.5]: https://github.com/MyEMS/myems/compare/v1.9.4...v1.9.5
 [v1.9.4]: https://github.com/MyEMS/myems/compare/v1.9.3...v1.9.4
