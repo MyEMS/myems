@@ -7,6 +7,9 @@ import App from './App';
 import Main from './Main';
 import './helpers/initFA';
 import './i18n';
+import {  Chart as ChartJS } from 'chart.js';
+import annotationPlugin from 'chartjs-plugin-annotation';
+ChartJS.register(annotationPlugin);
 
 ReactDOM.render(
   <Main>
