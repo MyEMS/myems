@@ -323,6 +323,7 @@ export const spaceRoutes = {
   children: [
     { to: '/space/energycategory', name: 'Energy Category Data' },
     { to: '/space/energyitem', name: 'Energy Item Data' },
+    { to: '/space/carbon', name: 'Carbon' },
     { to: '/space/cost', name: 'Cost' },
     { to: '/space/output', name: 'Output' },
     { to: '/space/income', name: 'Income' },
@@ -340,6 +341,7 @@ export const equipmentRoutes = {
   children: [
     { to: '/equipment/energycategory', name: 'Energy Category Data' },
     { to: '/equipment/energyitem', name: 'Energy Item Data' },
+    { to: '/equipment/carbon', name: 'Carbon' },
     { to: '/equipment/cost', name: 'Cost' },
     { to: '/equipment/output', name: 'Output' },
     { to: '/equipment/income', name: 'Income' },
@@ -383,6 +385,7 @@ export const tenantRoutes = {
   children: [
     { to: '/tenant/energycategory', name: 'Energy Category Data' },
     { to: '/tenant/energyitem', name: 'Energy Item Data' },
+    { to: '/tenant/carbon', name: 'Carbon' },
     { to: '/tenant/cost', name: 'Cost' },
     { to: '/tenant/load', name: 'Load' },
     { to: '/tenant/statistics', name: 'Statistics' },
@@ -399,6 +402,7 @@ export const storeRoutes = {
   children: [
     { to: '/store/energycategory', name: 'Energy Category Data' },
     { to: '/store/energyitem', name: 'Energy Item Data' },
+    { to: '/store/carbon', name: 'Carbon' },
     { to: '/store/cost', name: 'Cost' },
     { to: '/store/load', name: 'Load' },
     { to: '/store/statistics', name: 'Statistics' },
@@ -414,6 +418,7 @@ export const shopfloorRoutes = {
   children: [
     { to: '/shopfloor/energycategory', name: 'Energy Category Data' },
     { to: '/shopfloor/energyitem', name: 'Energy Item Data' },
+    { to: '/shopfloor/carbon', name: 'Carbon' },
     { to: '/shopfloor/cost', name: 'Cost' },
     { to: '/shopfloor/load', name: 'Load' },
     { to: '/shopfloor/statistics', name: 'Statistics' },
@@ -429,6 +434,7 @@ export const combinedEquipmentRoutes = {
   children: [
     { to: '/combinedequipment/energycategory', name: 'Energy Category Data' },
     { to: '/combinedequipment/energyitem', name: 'Energy Item Data' },
+    { to: '/combinedequipment/carbon', name: 'Carbon' },
     { to: '/combinedequipment/cost', name: 'Cost' },
     { to: '/combinedequipment/output', name: 'Output' },
     { to: '/combinedequipment/income', name: 'Income' },

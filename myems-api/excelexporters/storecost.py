@@ -246,7 +246,7 @@ def generate_excel(report,
 
     if has_ele_peak_flag:
         ws['B12'].font = title_font
-        ws['B12'] = name + ' ' + 'Electricity Consumption by Time-Of-Use'
+        ws['B12'] = name + ' ' + 'Electricity Costs by Time-Of-Use'
 
         ws['B13'].fill = table_fill
         ws['B13'].font = name_font
@@ -257,7 +257,7 @@ def generate_excel(report,
         ws['C13'].font = name_font
         ws['C13'].alignment = c_c_alignment
         ws['C13'].border = f_border
-        ws['C13'] = 'Electricity Consumption by Time-Of-Use'
+        ws['C13'] = 'Electricity Costs by Time-Of-Use'
 
         ws['B14'].font = title_font
         ws['B14'].alignment = c_c_alignment

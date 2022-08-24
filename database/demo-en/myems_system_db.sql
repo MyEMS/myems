@@ -153,10 +153,10 @@ VALUES
 (8, 'Example MySQL Data Source', '409439d0-3e0a-4ab3-865a-a5c0329925f8', 1, 'mysql', '{"host":"192.168.0.8", "port":3306, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }'),
 (9, 'Example SQL Server Data Source', '025f0429-5088-4f2a-85a3-dff9b4523692', 1, 'sqlserver', '{"host":"192.168.0.9", "port":1433, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }'),
 (10, 'Example PostgreSQL Data Source', 'd89b81e6-4917-4a84-b0e9-c2e939599d3a', 1, 'postgresql', '{"host":"192.168.0.10", "port":5432, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }'),
-(11, 'Example Oracle Data Source', '1bdf4db8-ea71-433e-ad16-b637275073d7', 1, 'oracle', '{"host":"192.168.0.11", "port":1521, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }'),
+(11, 'Example Oracle Data Source', '1bdf4db8-ea71-433e-ad16-b637275073d7', 1, 'oracle', '{"dsn":"192.168.0.11:1521/myems", "user":"myems", "password":"!MyEMS1"}'),
 (12, 'Example MongoDB Data Source', 'c211fbad-d1d4-465c-bdf5-242f5593682e', 1, 'mongodb', '{"host":"192.168.0.12", "port":27017, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }'),
-(13, 'Example InfluxDB Data Source', '79cb60ff-c683-4289-ac69-bd13e1f970d1', 1, 'influxdb', '{"host":"192.168.0.13", "port":8086, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }'),
-(14, 'Example MQTT Data Source', 'e3d56e11-00da-4957-ab0b-1d761dc8b89f', 1, 'mqtt', '{"host":"192.168.1.101", "port":1883, "user":"myems", "password":"!MyEMS1", "topic":"myems", "qos":2 }');
+(13, 'Example InfluxDB Data Source', '79cb60ff-c683-4289-ac69-bd13e1f970d1', 1, 'influxdb', '{"url":"http://192.168.0.13:8086", "token":"Un3iYTk==", "org":"myems"}'),
+(14, 'Example MQTT Data Source', 'e3d56e11-00da-4957-ab0b-1d761dc8b89f', 1, 'mqtt', '{"host":"192.168.0.14","port":1883,"user":"myems", "password":"!MyEMS1", "topic":"70B3D5100995","qos":2}');
 COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------

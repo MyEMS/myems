@@ -9,9 +9,30 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 - 
 ### Fixed
--
+- 
 ### Removed
 -
+
+## [v2.0.0] - 2022-08-18
+
+### Added
+- added combined equipment carbon dioxide emissions report
+- added equipment carbon dioxide emissions report
+- added shopfloor carbon dioxide emissions report
+- added store carbon dioxide emissions report
+- added space carbon dioxide emissions report
+- added tenant carbon dioxide emissions report
+- added data repair file UI to myems-admin
+### Changed
+- 
+### Fixed
+- fixed issues when energy item list refreshing with energy category in myems-admin 
+- fixed virtual meter editor issue when refreshing meter list with meter type in myems-admin 
+- fixed virtual point issue of conversion from Float to Decimal in myems-normalization
+- 
+### Removed
+-
+
 
 ## [v1.9.6] - 2022-08-05
 ### Added
@@ -920,7 +941,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v1.9.6...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/MyEMS/myems/compare/v1.9.6...v2.0.0
 [v1.9.6]: https://github.com/MyEMS/myems/compare/v1.9.5...v1.9.6
 [v1.9.5]: https://github.com/MyEMS/myems/compare/v1.9.4...v1.9.5
 [v1.9.4]: https://github.com/MyEMS/myems/compare/v1.9.3...v1.9.4

@@ -251,7 +251,7 @@ def generate_excel(report,
 
     if has_ele_peak_flag:
         ws['B12'].font = title_font
-        ws['B12'] = name + ' ' + 'Electricity Consumption by Time-Of-Use'
+        ws['B12'] = name + ' ' + 'Electricity Costs by Time-Of-Use'
 
         ws['B13'].fill = table_fill
         ws['B13'].font = name_font
@@ -262,7 +262,7 @@ def generate_excel(report,
         ws['C13'].font = name_font
         ws['C13'].alignment = c_c_alignment
         ws['C13'].border = f_border
-        ws['C13'] = 'Electricity Consumption by Time-Of-Use'
+        ws['C13'] = 'Electricity Costs by Time-Of-Use'
 
         ws['B14'].font = title_font
         ws['B14'].alignment = c_c_alignment
@@ -305,7 +305,7 @@ def generate_excel(report,
         ws['C17'] = round(reporting_period_data['offpeaks'][0], 2)
 
         pie = PieChart()
-        pie.title = name + ' ' + 'Electricity Consumption by Time-Of-Use'
+        pie.title = name + ' ' + 'Electricity Costs by Time-Of-Use'
         labels = Reference(ws, min_col=2, min_row=14, max_row=17)
         pie_data = Reference(ws, min_col=3, min_row=13, max_row=17)
         pie.add_data(pie_data, titles_from_data=True)

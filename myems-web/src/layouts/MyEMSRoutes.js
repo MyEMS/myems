@@ -105,6 +105,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 // Space
 import SpaceEnergyCategory from '../components/MyEMS/Space/SpaceEnergyCategory';
 import SpaceEnergyItem from '../components/MyEMS/Space/SpaceEnergyItem';
+import SpaceCarbon from '../components/MyEMS/Space/SpaceCarbon';
 import SpaceCost from '../components/MyEMS/Space/SpaceCost';
 import SpaceOutput from '../components/MyEMS/Space/SpaceOutput';
 import SpaceIncome from '../components/MyEMS/Space/SpaceIncome';
@@ -114,6 +115,7 @@ import SpaceStatistics from '../components/MyEMS/Space/SpaceStatistics';
 import SpaceSaving from '../components/MyEMS/Space/SpaceSaving';
 // Equipment
 import EquipmentBatch from '../components/MyEMS/Equipment/EquipmentBatch';
+import EquipmentCarbon from '../components/MyEMS/Equipment/EquipmentCarbon';
 import EquipmentCost from '../components/MyEMS/Equipment/EquipmentCost';
 import EquipmentEfficiency from '../components/MyEMS/Equipment/EquipmentEfficiency';
 import EquipmentEnergyCategory from '../components/MyEMS/Equipment/EquipmentEnergyCategory';
@@ -144,6 +146,7 @@ import VirtualMeterEnergy from '../components/MyEMS/Meter/VirtualMeterEnergy';
 // Tenant
 import TenantEnergyCategory from '../components/MyEMS/Tenant/TenantEnergyCategory';
 import TenantEnergyItem from '../components/MyEMS/Tenant/TenantEnergyItem';
+import TenantCarbon from '../components/MyEMS/Tenant/TenantCarbon';
 import TenantCost from '../components/MyEMS/Tenant/TenantCost';
 import TenantLoad from '../components/MyEMS/Tenant/TenantLoad';
 import TenantStatistics from '../components/MyEMS/Tenant/TenantStatistics';
@@ -153,6 +156,7 @@ import TenantBatch from '../components/MyEMS/Tenant/TenantBatch';
 // Store
 import StoreEnergyCategory from '../components/MyEMS/Store/StoreEnergyCategory';
 import StoreEnergyItem from '../components/MyEMS/Store/StoreEnergyItem';
+import StoreCarbon from '../components/MyEMS/Store/StoreCarbon';
 import StoreCost from '../components/MyEMS/Store/StoreCost';
 import StoreLoad from '../components/MyEMS/Store/StoreLoad';
 import StoreStatistics from '../components/MyEMS/Store/StoreStatistics';
@@ -161,6 +165,7 @@ import StoreBatch from '../components/MyEMS/Store/StoreBatch';
 // Shopfloor
 import ShopfloorEnergyCategory from '../components/MyEMS/Shopfloor/ShopfloorEnergyCategory';
 import ShopfloorEnergyItem from '../components/MyEMS/Shopfloor/ShopfloorEnergyItem';
+import ShopfloorCarbon from '../components/MyEMS/Shopfloor/ShopfloorCarbon';
 import ShopfloorCost from '../components/MyEMS/Shopfloor/ShopfloorCost';
 import ShopfloorLoad from '../components/MyEMS/Shopfloor/ShopfloorLoad';
 import ShopfloorStatistics from '../components/MyEMS/Shopfloor/ShopfloorStatistics';
@@ -168,6 +173,7 @@ import ShopfloorSaving from '../components/MyEMS/Shopfloor/ShopfloorSaving';
 import ShopfloorBatch from '../components/MyEMS/Shopfloor/ShopfloorBatch';
 // CombinedEquipment
 import CombinedEquipmentBatch from '../components/MyEMS/CombinedEquipment/CombinedEquipmentBatch';
+import CombinedEquipmentCarbon from '../components/MyEMS/CombinedEquipment/CombinedEquipmentCarbon';
 import CombinedEquipmentCost from '../components/MyEMS/CombinedEquipment/CombinedEquipmentCost';
 import CombinedEquipmentEfficiency from '../components/MyEMS/CombinedEquipment/CombinedEquipmentEfficiency';
 import CombinedEquipmentEnergyCategory from '../components/MyEMS/CombinedEquipment/CombinedEquipmentEnergyCategory';
@@ -346,6 +352,7 @@ const MyEMSRoutes = () => (
     {/*Space*/}
     <Route path="/space/energycategory" exact component={SpaceEnergyCategory} />
     <Route path="/space/energyitem" exact component={SpaceEnergyItem} />
+    <Route path="/space/carbon" exact component={SpaceCarbon} />
     <Route path="/space/cost" exact component={SpaceCost} />
     <Route path="/space/output" exact component={SpaceOutput} />
     <Route path="/space/income" exact component={SpaceIncome} />
@@ -356,6 +363,7 @@ const MyEMSRoutes = () => (
 
     {/*Equipment*/}
     <Route path="/equipment/batch" exact component={EquipmentBatch} />
+    <Route path="/equipment/carbon" exact component={EquipmentCarbon} />
     <Route path="/equipment/cost" exact component={EquipmentCost} />
     <Route path="/equipment/efficiency" exact component={EquipmentEfficiency} />
     <Route path="/equipment/energycategory" exact component={EquipmentEnergyCategory} />
@@ -388,6 +396,7 @@ const MyEMSRoutes = () => (
     {/*Tenant*/}
     <Route path="/tenant/energycategory" exact component={TenantEnergyCategory} />
     <Route path="/tenant/energyitem" exact component={TenantEnergyItem} />
+    <Route path="/tenant/carbon" exact component={TenantCarbon} />
     <Route path="/tenant/cost" exact component={TenantCost} />
     <Route path="/tenant/load" exact component={TenantLoad} />
     <Route path="/tenant/statistics" exact component={TenantStatistics} />
@@ -398,6 +407,7 @@ const MyEMSRoutes = () => (
     {/*Sotore*/}
     <Route path="/store/energycategory" exact component={StoreEnergyCategory} />
     <Route path="/store/energyitem" exact component={StoreEnergyItem} />
+    <Route path="/store/carbon" exact component={StoreCarbon} />
     <Route path="/store/cost" exact component={StoreCost} />
     <Route path="/store/load" exact component={StoreLoad} />
     <Route path="/store/statistics" exact component={StoreStatistics} />
@@ -407,6 +417,7 @@ const MyEMSRoutes = () => (
     {/*Shopfloor*/}
     <Route path="/shopfloor/energycategory" exact component={ShopfloorEnergyCategory} />
     <Route path="/shopfloor/energyitem" exact component={ShopfloorEnergyItem} />
+    <Route path="/shopfloor/carbon" exact component={ShopfloorCarbon} />
     <Route path="/shopfloor/cost" exact component={ShopfloorCost} />
     <Route path="/shopfloor/load" exact component={ShopfloorLoad} />
     <Route path="/shopfloor/statistics" exact component={ShopfloorStatistics} />
@@ -415,6 +426,7 @@ const MyEMSRoutes = () => (
 
     {/*CombinedEquipment*/}
     <Route path="/combinedequipment/batch" exact component={CombinedEquipmentBatch} />
+    <Route path="/combinedequipment/carbon" exact component={CombinedEquipmentCarbon} />
     <Route path="/combinedequipment/cost" exact component={CombinedEquipmentCost} />
     <Route path="/combinedequipment/efficiency" exact component={CombinedEquipmentEfficiency} />
     <Route path="/combinedequipment/energycategory" exact component={CombinedEquipmentEnergyCategory} />

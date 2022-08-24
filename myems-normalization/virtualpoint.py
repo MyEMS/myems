@@ -271,10 +271,10 @@ def worker(virtual_point):
             ####################################################################################################
             if re.search(',', expression):
                 formula = Piecewise(*expr)
-                meta_data['actual_value'] = Decimal(formula.subs(subs))
+                meta_data['actual_value'] = Decimal(str(formula.subs(subs)))
                 normalized_values.append(meta_data)
             else:
-                meta_data['actual_value'] = Decimal(expr.evalf(subs=subs))
+                meta_data['actual_value'] = Decimal(str(expr.evalf(subs=subs)))
                 normalized_values.append(meta_data)
     except Exception as e:
         if cursor_historical_db:

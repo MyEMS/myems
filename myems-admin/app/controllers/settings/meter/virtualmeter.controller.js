@@ -242,7 +242,7 @@ app.controller('ModalAddVirtualMeterCtrl', function($timeout, $scope,
 
 	$scope.operation = "SETTING.ADD_VIRTUAL_METER";
 	$scope.categories = params.categories;
-	$scope.energyitems = params.energyitems;
+	$scope.energyitems = [];
 	$scope.costcenters = params.costcenters;
 	$scope.meters = params.meters;
 	$scope.virtualmeters = params.virtualmeters;
@@ -279,6 +279,30 @@ app.controller('ModalAddVirtualMeterCtrl', function($timeout, $scope,
 		$uibModalInstance.dismiss('cancel');
 	};
 
+
+	$scope.last_energy_category_select_id = null;
+	$scope.change_energyitems = function(selected_energy_category_id) {
+		var i = 0;
+		var j = 0;
+		$scope.energyitems = [];
+		for (; i < params.energyitems.length; i++){
+			if (params.energyitems[i]['energy_category']['id'] == selected_energy_category_id){
+				$scope.energyitems[j] = params.energyitems[i];
+				j = j + 1;
+			}
+		}
+
+		if ($scope.last_energy_category_select_id == null){
+			$scope.last_energy_category_select_id = selected_energy_category_id;
+		}
+		else{
+			if($scope.last_energy_category_select_id != selected_energy_category_id){
+				$scope.last_energy_category_select_id = selected_energy_category_id;
+				delete $scope.virtualmeter.energy_item;
+			}
+		}
+	}
+
 	$scope.add = function() {
 		var variable = {
 			name: 'x' + ($scope.counter),
@@ -309,6 +333,7 @@ app.controller('ModalAddVirtualMeterCtrl', function($timeout, $scope,
 
 	};
 
+	$scope.last_meter_type_select = null
 	$scope.changeMeterType = function() {
 		switch ($scope.currentMeterType.selected.sid) {
 			case 'meter':
@@ -320,6 +345,16 @@ app.controller('ModalAddVirtualMeterCtrl', function($timeout, $scope,
 			case 'offline_meter':
 				$scope.currentmeters = $scope.offlinemeters;
 				break;
+		}
+
+		if ($scope.last_meter_type_select == null){
+			$scope.last_meter_type_select = $scope.currentMeterType.selected.sid;
+		}
+		else{
+			if($scope.last_meter_type_select != $scope.currentMeterType.selected.sid){
+				$scope.last_meter_type_select = $scope.currentMeterType.selected.sid;
+				delete $scope.currentMeter.selected;
+			}
 		}
 	};
 
@@ -374,6 +409,30 @@ app.controller('ModalEditVirtualMeterCtrl', function($timeout, $scope, $uibModal
 		$uibModalInstance.dismiss('cancel');
 	};
 
+	$scope.last_energy_category_select_id = null;
+	$scope.change_energyitems = function(selected_energy_category_id) {
+		var i = 0;
+		var j = 0;
+		$scope.energyitems = [];
+		for (; i < params.energyitems.length; i++){
+			if (params.energyitems[i]['energy_category']['id'] == selected_energy_category_id){
+				$scope.energyitems[j] = params.energyitems[i];
+				j = j + 1;
+			}
+		}
+
+		if ($scope.last_energy_category_select_id == null){
+			$scope.last_energy_category_select_id = selected_energy_category_id;
+		}
+		else{
+			if($scope.last_energy_category_select_id != selected_energy_category_id){
+				$scope.last_energy_category_select_id = selected_energy_category_id;
+				delete $scope.virtualmeter.energy_item;
+			}
+		}
+	}
+	$scope.change_energyitems($scope.virtualmeter.energy_category.id);
+
 	$timeout(function() {
 		angular.element('#variablesTable').trigger('footable_redraw');
 	}, 100);
@@ -407,6 +466,7 @@ app.controller('ModalEditVirtualMeterCtrl', function($timeout, $scope, $uibModal
 
 	};
 
+	$scope.last_meter_type_select = null
 	$scope.changeMeterType = function() {
 		switch ($scope.currentMeterType.selected.sid) {
 			case 'meter':
@@ -418,6 +478,16 @@ app.controller('ModalEditVirtualMeterCtrl', function($timeout, $scope, $uibModal
 			case 'offline_meter':
 				$scope.currentmeters = $scope.offlinemeters;
 				break;
+		}
+	
+		if ($scope.last_meter_type_select == null){
+			$scope.last_meter_type_select = $scope.currentMeterType.selected.sid;
+		}
+		else{
+			if($scope.last_meter_type_select != $scope.currentMeterType.selected.sid){
+				$scope.last_meter_type_select = $scope.currentMeterType.selected.sid;
+				delete $scope.currentMeter.selected;
+			}
 		}
 	};
 

@@ -10,6 +10,7 @@ from reports import advancedreport
 from reports import distributionsystem as distributionsystemreport
 from reports import energyflowdiagram as energyflowdiagramreport
 from reports import combinedequipmentbatch
+from reports import combinedequipmentcarbon
 from reports import combinedequipmentcost
 from reports import combinedequipmentefficiency
 from reports import combinedequipmentenergycategory
@@ -21,6 +22,7 @@ from reports import combinedequipmentsaving
 from reports import combinedequipmentstatistics
 from reports import dashboard
 from reports import equipmentbatch
+from reports import equipmentcarbon
 from reports import equipmentcost
 from reports import equipmentefficiency
 from reports import equipmentenergycategory
@@ -49,6 +51,7 @@ from reports import offlinemeterbatch
 from reports import offlinemetercarbon
 from reports import offlinemetercost
 from reports import offlinemeterenergy
+from reports import shopfloorcarbon
 from reports import shopfloorcost
 from reports import shopfloorenergycategory
 from reports import shopfloorenergyitem
@@ -57,6 +60,7 @@ from reports import shopfloorsaving
 from reports import shopfloorstatistics
 from reports import shopfloorbatch
 from reports import spaceefficiency
+from reports import spacecarbon
 from reports import spacecost
 from reports import spaceenergycategory
 from reports import spaceenergyitem
@@ -65,14 +69,16 @@ from reports import spaceload
 from reports import spaceoutput
 from reports import spacesaving
 from reports import spacestatistics
+from reports import storebatch
+from reports import storecarbon
 from reports import storecost
 from reports import storeenergycategory
 from reports import storeenergyitem
 from reports import storeload
 from reports import storesaving
 from reports import storestatistics
-from reports import storebatch
 from reports import tenantbill
+from reports import tenantcarbon
 from reports import tenantcost
 from reports import tenantenergycategory
 from reports import tenantenergyitem
@@ -513,6 +519,8 @@ api.add_route('/reports/energyflowdiagram',
               energyflowdiagramreport.Reporting())
 api.add_route('/reports/combinedequipmentbatch',
               combinedequipmentbatch.Reporting())
+api.add_route('/reports/combinedequipmentcarbon',
+              combinedequipmentcarbon.Reporting())
 api.add_route('/reports/combinedequipmentcost',
               combinedequipmentcost.Reporting())
 api.add_route('/reports/combinedequipmentefficiency',
@@ -535,6 +543,8 @@ api.add_route('/reports/dashboard',
               dashboard.Reporting())
 api.add_route('/reports/equipmentbatch',
               equipmentbatch.Reporting())
+api.add_route('/reports/equipmentcarbon',
+              equipmentcarbon.Reporting())
 api.add_route('/reports/equipmentcost',
               equipmentcost.Reporting())
 api.add_route('/reports/equipmentefficiency',
@@ -591,6 +601,8 @@ api.add_route('/reports/offlinemetercost',
               offlinemetercost.Reporting())
 api.add_route('/reports/offlinemeterenergy',
               offlinemeterenergy.Reporting())
+api.add_route('/reports/shopfloorcarbon',
+              shopfloorcarbon.Reporting())
 api.add_route('/reports/shopfloorcost',
               shopfloorcost.Reporting())
 api.add_route('/reports/shopfloorenergycategory',
@@ -605,6 +617,8 @@ api.add_route('/reports/shopfloorstatistics',
               shopfloorstatistics.Reporting())
 api.add_route('/reports/shopfloorbatch',
               shopfloorbatch.Reporting())
+api.add_route('/reports/spacecarbon',
+              spacecarbon.Reporting())
 api.add_route('/reports/spacecost',
               spacecost.Reporting())
 api.add_route('/reports/spaceefficiency',
@@ -625,6 +639,8 @@ api.add_route('/reports/spacestatistics',
               spacestatistics.Reporting())
 api.add_route('/reports/storebatch',
               storebatch.Reporting())
+api.add_route('/reports/storecarbon',
+              storecarbon.Reporting())
 api.add_route('/reports/storecost',
               storecost.Reporting())
 api.add_route('/reports/storeenergycategory',
@@ -641,6 +657,8 @@ api.add_route('/reports/tenantbatch',
               tenantbatch.Reporting())
 api.add_route('/reports/tenantbill',
               tenantbill.Reporting())
+api.add_route('/reports/tenantcarbon',
+              tenantcarbon.Reporting())
 api.add_route('/reports/tenantcost',
               tenantcost.Reporting())
 api.add_route('/reports/tenantenergycategory',

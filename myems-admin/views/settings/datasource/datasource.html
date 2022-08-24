@@ -101,7 +101,40 @@
 							</table>
 						</div>
 					</uib-tab>
+					<uib-tab heading="{{'SETTING.DATA_REPAIR_FILE' | translate}}">
+						<div class="panel-body" ng-controller="DataRepairFileController">
+							<div id="dropzone1" class="dropzone" options="dzOptions" callbacks="dzCallbacks" ng-dropzone></div>
+							<table class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
+										<th class="text-center">{{'SETTING.STATUS' | translate}}</th>
+										<th class="text-center">{{'SETTING.UPLOAD_TIME' | translate}}</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="datarepairfile in datarepairfiles">
+										<td class="text-center">{{ datarepairfile.id }}</td>
+										<td class="text-center"><a href="./upload/{{datarepairfile.uuid}}"
+												download="{{datarepairfile.file_name}}">{{ datarepairfile.file_name }}</a>
+										</td>
+										<td class="text-center">{{ datarepairfile.status }}</td>
+										<td class="text-center">
+											{{ datarepairfile.upload_datetime }}</td>
 
+										<td class="text-center">
+											<a ng-click="restoreDataRepairFile(datarepairfile)"
+												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.RESTORE' | translate}}</a>
+											<a ng-click="deleteDataRepairFile(datarepairfile)"
+												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' | translate}}</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</uib-tab>
 
 				</uib-tabset>
 
