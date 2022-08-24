@@ -64,6 +64,11 @@ cp example.env .env
 docker build -t myems/myems-normalization .
 ```
 
+* Build a Docker image on Apple M1 for Linux(AMD/Intel)
+```bash
+docker buildx build --platform=linux/amd64 -t myems/myems-normalization .
+```
+
 * Run a Docker container on Linux (run as superuser)
 ```bash
 docker run -d -v /myems-normalization/.env:/code/.env:ro --log-opt max-size=1m --log-opt max-file=2 --restart always --name myems-normalization myems/myems-normalization
