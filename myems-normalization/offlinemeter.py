@@ -307,8 +307,7 @@ def calculate_hourly(logger):
 
         # end of for excel_file in excel_file_list
 
-        print("go to sleep ...")
+        print("go to sleep")
         time.sleep(300)
-        print("wake from sleep, and go to work...")
-    # end of outer while
-
+        print("wake from sleep, and go to work")
+    # end of the outermost while
