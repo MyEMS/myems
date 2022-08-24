@@ -97,6 +97,11 @@ cp example.env .env
 docker build -t myems/myems-api .
 ```
 
+* Build a Docker image on Apple M1 for Linux(AMD/Intel)
+```bash
+docker buildx build --platform=linux/amd64 -t myems/myems-api .
+```
+
 * Run a Docker container
 
 On Windows host, bind-mount a share upload folder at c:\myems-upload to the container, 

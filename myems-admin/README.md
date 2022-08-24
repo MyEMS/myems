@@ -46,6 +46,11 @@ nano nginx.conf
 docker build -t myems/myems-admin .
 ```
 
+* Build a Docker image on Apple M1 for Linux(AMD/Intel)
+```bash
+docker buildx build --platform=linux/amd64 -t myems/myems-admin .
+```
+
 * Run a Docker container
 
 If run on Windows host, bind-mount a share upload file folder at c:\myems-upload to the container and also bind-mount nginx.conf 

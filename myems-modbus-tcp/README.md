@@ -58,6 +58,11 @@ cp example.env .env
 docker build -t myems/myems-modbus-tcp .
 ```
 
+* Build a Docker image on Apple M1 for Linux(AMD/Intel)
+```bash
+docker buildx build --platform=linux/amd64 -t myems/myems-modbus-tcp .
+```
+
 * Run a Docker container on Linux (run as superuser)
 ```bash
 docker run -d -v /myems-modbus-tcp/.env:/code/.env:ro --log-opt max-size=1m --log-opt max-file=2 --restart always --name myems-modbus-tcp myems/myems-modbus-tcp
