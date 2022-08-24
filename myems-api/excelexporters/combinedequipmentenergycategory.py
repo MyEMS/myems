@@ -676,7 +676,7 @@ def generate_excel(report,
     # current_row_number+1+ca_len*6~: table_data
     ####################################################################################################################
 
-    associated_reporting_period_data_list = report['associated_base_period_list']
+    associated_reporting_period_data_list = report['associated_report_period_list']
     for associated_reporting_period_data in associated_reporting_period_data_list:
         current_row_number = current_row_number + 1 
         times = associated_reporting_period_data['timestamps']
