@@ -1,8 +1,26 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import { Row, Col, Card, CardBody, CustomInput } from 'reactstrap';
-import { Line } from 'react-chartjs-2';
 import { rgbaColor, themeColors, isIterableArray } from '../../../helpers/utils';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Chart } from 'react-chartjs-2';
 import AppContext from '../../../context/Context';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Tooltip,
+  Legend
+);
 
 const LineChart = ({
   reportingTitle,
@@ -14,30 +32,60 @@ const LineChart = ({
   const [selectedLabel, setSelectedLabel] = useState('a0');
   const [option, setOption] = useState('a0');
   const { isDark } = useContext(AppContext);
-
-  const config = {
-    data(canvas) {
-      const ctx = canvas.getContext('2d');
+  const chartRef = useRef(null);
+  const [lineData, setLineData] = useState({
+    datasets: [],
+  });  
+  useEffect(() => {
+    const chart = chartRef.current;
+    if (chart) {
+      const ctx = chart.ctx;
       const gradientFill = isDark
         ? ctx.createLinearGradient(0, 0, 0, ctx.canvas.height)
         : ctx.createLinearGradient(0, 0, 0, 250);
       gradientFill.addColorStop(0, isDark ? 'rgba(44,123,229, 0.5)' : 'rgba(255, 255, 255, 0.3)');
       gradientFill.addColorStop(1, isDark ? 'transparent' : 'rgba(255, 255, 255, 0)');
-
-      return {
-        labels: labels[selectedLabel],
-        datasets: [
-          {
+      
+      const chartData = {
+        datasets: [{
             borderWidth: 2,
             data: data[option],
             borderColor: rgbaColor(isDark ? themeColors.primary : '#000', 0.8),
-            backgroundColor: gradientFill
-          }
-        ]
+            backgroundColor: gradientFill,
+            tension: 0.4,
+          }],
+        labels: labels[selectedLabel],
       };
-    },
+      setLineData(chartData);
+    }
+  }, [data, option, labels]);
+
+  const config = {
     options: {
-      legend: { display: false },
+      plugins: {
+        legend: {
+          display: false,
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            fontColor: rgbaColor('#789', 0.8),
+            fontStyle: 600
+          },
+          gridLines: {
+            color: rgbaColor('#000', 0.1),
+            zeroLineColor: rgbaColor('#000', 0.1),
+            lineWidth: 1
+          }
+        },
+        y: {
+          display: true,
+          gridLines: {
+            color: rgbaColor('#000', 0.1)
+          }
+        },
+      },
       tooltips: {
         mode: 'x-axis',
         xPadding: 20,
@@ -49,29 +97,6 @@ const LineChart = ({
         }
       },
       hover: { mode: 'label' },
-      scales: {
-        xAxes: [
-          {
-            ticks: {
-              fontColor: rgbaColor('#789', 0.8),
-              fontStyle: 600
-            },
-            gridLines: {
-              color: rgbaColor('#000', 0.1),
-              zeroLineColor: rgbaColor('#000', 0.1),
-              lineWidth: 1
-            }
-          }
-        ],
-        yAxes: [
-          {
-            display: true,
-            gridLines: {
-              color: rgbaColor('#000', 0.1)
-            }
-          }
-        ]
-      }
     }
   };
 
@@ -102,7 +127,7 @@ const LineChart = ({
             </Col>
           }
         </Row>
-        <Line data={config.data} options={config.options} width={1618} height={375} />
+        <Chart ref={chartRef} type="line" data={lineData} options={config.options} width={1618} height={375} />
       </CardBody>
     </Card>
   );
