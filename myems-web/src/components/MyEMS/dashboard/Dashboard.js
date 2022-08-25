@@ -15,6 +15,9 @@ import { withTranslation } from 'react-i18next';
 import moment from 'moment';
 import { APIBaseURL } from '../../../config';
 import uuid from 'uuid/v1';
+import annotationPlugin from 'chartjs-plugin-annotation';
+import {  Chart as ChartJS } from 'chart.js';
+ChartJS.register(annotationPlugin);
 
 const ChildSpacesTable = loadable(() => import('../common/ChildSpacesTable'));
 
@@ -64,7 +67,6 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
     let user_display_name = getCookieValue('user_display_name');
     let user_uuid = getCookieValue('user_uuid');
     let token = getCookieValue('token');
-    console.log(is_logged_in);
     if (is_logged_in === null || !is_logged_in) {
       setRedirectUrl(`/authentication/basic/login`);
       setRedirect(true);
