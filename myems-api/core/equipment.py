@@ -1312,7 +1312,6 @@ class EquipmentMeterCollection:
         is_output = new_values['data']['is_output']
 
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "

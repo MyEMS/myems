@@ -271,6 +271,7 @@ def do(logger):
                             add_values += "'" + str(energy_data_item['actual_value']) + "',"
                             add_values += "0" + "), "
                             print("add_values:" + add_values)
+                            # trim ", " at the end of string and then execute
                             cursor.execute(add_values[:-2])
                             cnx.commit()
                     except Exception as e:
@@ -320,4 +321,4 @@ def do(logger):
         print("go to sleep")
         time.sleep(300)
         print("wake from sleep, and go to work")
-    # end of outer while
+    # end of the outermost while
