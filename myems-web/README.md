@@ -93,11 +93,6 @@ cd /myems-web
 * Build a Docker image
 
 ```bash
-docker build -t myems/myems-web .
-```
-
-* Build a Docker image on Apple M1 for Linux(AMD/Intel)
-```bash
 docker buildx build --platform=linux/amd64 -t myems/myems-web .
 ```
 

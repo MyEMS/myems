@@ -62,20 +62,19 @@ class DataRepairFileCollection:
             # Retrieve filename
             filename = upload.filename
             file_uuid = str(uuid.uuid4())
- 
+
             # Define file_path
             file_path = os.path.join(config.upload_path, file_uuid)
-  
+
             # Write to a temporary file to prevent incomplete files from
             # being used.
             temp_file_path = file_path + '~'
- 
+
             open(temp_file_path, 'wb').write(raw_blob)
 
             # Now that we know the file has been fully saved to disk
             # move it into place.
             os.rename(temp_file_path, file_path)
-
         except Exception as ex:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_UPLOAD_DATA_REPAIR_FILE')
