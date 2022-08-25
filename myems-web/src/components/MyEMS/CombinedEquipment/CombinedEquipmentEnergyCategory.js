@@ -538,7 +538,7 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
           }
           associatedNamesList.push(names)
         });
-        setAssociatedEquipmentLineChartOptionsList(names);
+        setAssociatedEquipmentLineChartOptionsList(associatedNamesList);
 
         let associated_equipment_value_list = [];
         if (json['associated_equipment']['associated_equipment_names_array'].length > 0) {
