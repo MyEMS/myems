@@ -51,7 +51,8 @@ const LineChart = ({
             borderWidth: 2,
             data: data[option],
             borderColor: rgbaColor(isDark ? themeColors.primary : '#000', 0.8),
-            backgroundColor: gradientFill
+            backgroundColor: gradientFill,
+            tension: 0.4,
           }],
         labels: labels[selectedLabel],
       };

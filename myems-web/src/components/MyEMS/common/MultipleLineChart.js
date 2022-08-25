@@ -15,7 +15,7 @@ import {
 import { rgbaColor, themeColors, isIterableArray } from '../../../helpers/utils';
 import AppContext from '../../../context/Context';
 import moment from 'moment';
-import { min } from 'lodash';
+import { node } from 'prop-types';
 
 ChartJS.register(
   annotationPlugin,
@@ -26,6 +26,28 @@ ChartJS.register(
   Tooltip,
   Legend
 );
+
+const maxAnnotation1 = {
+  type: 'label',
+  backgroundColor: 'rgba(245, 245, 245, 0.5)',
+  content: (ctx) => 'MAX ' + maxValue(ctx).toFixed(2),
+  font: {
+    size: 16
+  },
+  padding: {
+    top: 6,
+    left: 6,
+    right: 6,
+    bottom: 6
+  },
+  position: {
+    x: (ctx) => maxIndex(ctx) <= 3 ? 'start' : maxIndex(ctx) >= 10 ? 'end' : 'center',
+    y: 'end'
+  },
+  xValue: (ctx) => maxLabel(ctx),
+  yAdjust: 24,
+  yValue: (ctx) => maxValue(ctx)
+};
 
 function maxValue(ctx) {
   if (ctx.chart.data.datasets.length < 1) {
@@ -54,28 +76,6 @@ function maxLabel(ctx) {
   }
   return ctx.chart.data.labels[maxIndex(ctx)];
 }
-
-const maxAnnotation1 = {
-  type: 'label',
-  backgroundColor: 'rgba(245, 245, 245, 0.5)',
-  content: (ctx) => 'MAX ' + maxValue(ctx).toFixed(2),
-  font: {
-    size: 16
-  },
-  padding: {
-    top: 6,
-    left: 6,
-    right: 6,
-    bottom: 6
-  },
-  position: {
-    x: (ctx) => maxIndex(ctx) <= 3 ? 'start' : maxIndex(ctx) >= 10 ? 'end' : 'center',
-    y: 'end'
-  },
-  xValue: (ctx) => maxLabel(ctx),
-  yAdjust: 24,
-  yValue: (ctx) => maxValue(ctx)
-};
 
 const maxAnnotation2 = {
   type: 'point',
@@ -217,6 +217,7 @@ const MultipleLineChart = ({
           borderWidth: 2,
           data: data[index],
           borderColor: rgbaColor("#"+((1<<24)*Math.random()|0).toString(16), 0.8),
+          tension: 0.4,
         }
       }
       if (oldValues.length < values.length) {
@@ -226,6 +227,7 @@ const MultipleLineChart = ({
           borderWidth: 2,
           data: data[index],
           borderColor: rgbaColor("#"+((1<<24)*Math.random()|0).toString(16), 0.8),
+          tension: 0.4,
         })
       } else {
         let i = 0
