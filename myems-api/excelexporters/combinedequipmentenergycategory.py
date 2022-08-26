@@ -667,6 +667,118 @@ def generate_excel(report,
             timestamps_data_all_equal_0(report['parameters']['timestamps']):
 
         has_parameters_names_and_timestamps_and_values_data = False
+    
+    ####################################################################################################################
+    # Sixth: Associated Equipment Detailed Data
+    # current_row_number: title
+    # current_row_number+1 ~ current_row_number+1+ca_len*6-1: line
+    # current_row_number+1+ca_len*6: table title
+    # current_row_number+1+ca_len*6~: table_data
+    ####################################################################################################################
+
+    associated_reporting_period_data_list = report['associated_report_period_list']
+    for associated_reporting_period_data in associated_reporting_period_data_list:
+        current_row_number = current_row_number + 1 
+        times = associated_reporting_period_data['timestamps']
+        has_detail_data_flag = True
+        ca_len = len(associated_reporting_period_data['names'])
+        table_row = current_row_number + 2 + ca_len * 6
+        chart_start_row_number = current_row_number + 1
+
+        if "timestamps" not in associated_reporting_period_data.keys() or \
+                associated_reporting_period_data['timestamps'] is None or \
+                len(associated_reporting_period_data['timestamps']) == 0:
+            has_detail_data_flag = False
+
+        if has_detail_data_flag:
+            ws['B' + str(current_row_number)].font = title_font
+            ws['B' + str(current_row_number)] = \
+                str(report['associated_equipment']['associated_equipment_names_array'][0][associated_reporting_period_data_list.index(associated_reporting_period_data)]) + \
+                ' ' + 'Detailed Data'
+
+            ws.row_dimensions[table_row].height = 60
+            ws['B'+str(table_row)].fill = table_fill
+            ws['B' + str(table_row)].font = title_font
+            ws['B'+str(table_row)].border = f_border
+            ws['B'+str(table_row)].alignment = c_c_alignment
+            ws['B'+str(table_row)] = 'Datetime'
+            time = times[0]
+            has_data = False
+            max_row = 0
+            if len(time) > 0:
+                has_data = True
+                max_row = table_row + len(time)
+
+            if has_data:
+                for i in range(0, len(time)):
+                    col = 'B'
+                    row = str(table_row+1 + i)
+                    # col = chr(ord('B') + i)
+                    ws[col + row].font = title_font
+                    ws[col + row].alignment = c_c_alignment
+                    ws[col + row] = time[i]
+                    ws[col + row].border = f_border
+
+                for i in range(0, ca_len):
+                    col = chr(ord('C') + i)
+
+                    ws[col + str(table_row)].fill = table_fill
+                    ws[col + str(table_row)].font = title_font
+                    ws[col + str(table_row)].alignment = c_c_alignment
+                    ws[col + str(table_row)] = associated_reporting_period_data['names'][i] + \
+                        " (" + associated_reporting_period_data['units'][i] + ")"
+                    ws[col + str(table_row)].border = f_border
+
+                    time = times[i]
+                    time_len = len(time)
+
+                    for j in range(0, time_len):
+                        row = str(table_row+1 + j)
+
+                        ws[col + row].font = title_font
+                        ws[col + row].alignment = c_c_alignment
+                        ws[col + row] = round(associated_reporting_period_data['values'][i][j], 2)
+                        ws[col + row].border = f_border
+
+                current_row_number = table_row + 1 + len(times[0])
+
+                ws['B' + str(current_row_number)].font = title_font
+                ws['B' + str(current_row_number)].alignment = c_c_alignment
+                ws['B' + str(current_row_number)].border = f_border
+                ws['B' + str(current_row_number)] = 'Subtotal'
+
+                for i in range(0, ca_len):
+                    col = chr(ord('C') + i)
+                    ws[col + str(current_row_number)].font = title_font
+                    ws[col + str(current_row_number)].alignment = c_c_alignment
+                    ws[col + str(current_row_number)].border = f_border
+                    ws[col + str(current_row_number)] = round(associated_reporting_period_data['subtotals'][i], 2)
+
+                    # line
+                    line = LineChart()
+                    line.title = 'Reporting Period Consumption - ' + ws.cell(column=3+i, row=table_row).value
+                    labels = Reference(ws, min_col=2, min_row=table_row+1, max_row=max_row)
+                    line_data = Reference(ws, min_col=3 + i, min_row=table_row, max_row=max_row)  # openpyxl bug
+                    line.add_data(line_data, titles_from_data=True)
+                    line.set_categories(labels)
+                    line_data = line.series[0]
+                    line_data.marker.symbol = "circle"
+                    line_data.smooth = True
+                    line.x_axis.crosses = 'min'
+                    line.height = 8.25
+                    line.width = 24
+                    line.dLbls = DataLabelList()
+                    line.dLbls.dLblPos = 't'
+                    line.dLbls.showVal = True  # val show
+                    line.dLbls.showPercent = True  # percent show
+                    chart_col = 'B'
+                    chart_cell = chart_col + str(chart_start_row_number + 6*i)
+                    ws.add_chart(line, chart_cell)
+
+
+    ####################################################################################################################
+
+
     if has_parameters_names_and_timestamps_and_values_data:
 
         ###############################

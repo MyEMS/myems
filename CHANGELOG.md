@@ -5,7 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
-- 
+- added MAX/MIN/AVG to parameters line charts
+- added associated equipments trend data to combined equipment input energy category report
 ### Changed
 - 
 ### Fixed
