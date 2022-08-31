@@ -93,6 +93,12 @@ cd /myems-web
 * Build a Docker image
 
 ```bash
+docker build -t myems/myems-web .
+```
+
+To build for multiple platforms and not only for the architecture and operating system that the user invoking the build happens to run.
+You can use buildx and set the --platform flag to specify the target platform for the build output, (for example, linux/amd64, linux/arm64, or darwin/amd64).
+```bash
 docker buildx build --platform=linux/amd64 -t myems/myems-web .
 ```
 
