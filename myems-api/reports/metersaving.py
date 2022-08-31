@@ -6,7 +6,7 @@ import config
 from datetime import datetime, timedelta, timezone
 from core import utilities
 from decimal import Decimal
-# import excelexporters.metersaving
+import excelexporters.metersaving
 
 
 class Reporting:
@@ -202,7 +202,7 @@ class Reporting:
         if rows_points is not None and len(rows_points) > 0:
             for row in rows_points:
                 point_list.append({"id": row[0], "name": row[1], "units": row[2], "object_type": row[3]})
-        
+
         ################################################################################################################
         # Step 4: query base period energy saving
         ################################################################################################################
@@ -211,7 +211,7 @@ class Reporting:
             for energy_category_id in energy_category_set:
                 kgce = energy_category_dict[energy_category_id]['kgce']
                 kgco2e = energy_category_dict[energy_category_id]['kgco2e']
-                    
+
                 base[energy_category_id] = dict()
                 base[energy_category_id]['timestamps'] = list()
                 base[energy_category_id]['values_baseline'] = list()
@@ -234,14 +234,14 @@ class Reporting:
                                                " AND start_datetime_utc < %s "
                                                " ORDER BY start_datetime_utc ",
                                                (meter['id'],
-                                               base_start_datetime_utc,
-                                               base_end_datetime_utc))
+                                                base_start_datetime_utc,
+                                                base_end_datetime_utc))
                 rows_meter_hourly = cursor_energy_baseline.fetchall()
 
                 rows_meter_periodically = utilities.aggregate_hourly_data_by_period(rows_meter_hourly,
-                                                                                   base_start_datetime_utc,
-                                                                                   base_end_datetime_utc,
-                                                                                   period_type)
+                                                                                    base_start_datetime_utc,
+                                                                                    base_end_datetime_utc,
+                                                                                    period_type)
                 for row_meter_periodically in rows_meter_periodically:
                     current_datetime_local = row_meter_periodically[0].replace(tzinfo=timezone.utc) + \
                                              timedelta(minutes=timezone_offset)
@@ -262,7 +262,7 @@ class Reporting:
                     base[energy_category_id]['subtotal_baseline'] += baseline_value
                     base[energy_category_id]['subtotal_in_kgce_baseline'] += baseline_value * kgce
                     base[energy_category_id]['subtotal_in_kgco2e_baseline'] += baseline_value * kgco2e
-                
+
                 # query base period's energy actual
                 cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
                                       " FROM tbl_meter_hourly "
@@ -299,7 +299,7 @@ class Reporting:
                     base[energy_category_id]['subtotal_in_kgce_actual'] += actual_value * kgce
                     base[energy_category_id]['subtotal_in_kgco2e_actual'] += actual_value * kgco2e
 
-            # calculate base period's energy savings
+                # calculate base period's energy savings
                 for i in range(len(base[energy_category_id]['values_baseline'])):
                     base[energy_category_id]['values_saving'].append(
                         base[energy_category_id]['values_baseline'][i] -
@@ -376,20 +376,21 @@ class Reporting:
 
                 # query reporting period's energy actual
                 cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
-                                    " FROM tbl_meter_hourly "
-                                    " WHERE meter_id = %s "
-                                    "     AND start_datetime_utc >= %s "
-                                    "     AND start_datetime_utc < %s "
-                                    " ORDER BY start_datetime_utc ",
-                                    (meter['id'],
-                                    reporting_start_datetime_utc,
-                                    reporting_end_datetime_utc))
+                                      " FROM tbl_meter_hourly "
+                                      " WHERE meter_id = %s "
+                                      "     AND start_datetime_utc >= %s "
+                                      "     AND start_datetime_utc < %s "
+                                      " ORDER BY start_datetime_utc ",
+                                      (meter['id'],
+                                       reporting_start_datetime_utc,
+                                       reporting_end_datetime_utc))
                 rows_meter_hourly = cursor_energy.fetchall()
 
                 rows_meter_periodically = utilities.aggregate_hourly_data_by_period(rows_meter_hourly,
                                                                                     reporting_start_datetime_utc,
                                                                                     reporting_end_datetime_utc,
                                                                                     period_type)
+                print(rows_meter_periodically)
                 for row_meter_periodically in rows_meter_periodically:
                     current_datetime_local = row_meter_periodically[0].replace(tzinfo=timezone.utc) + \
                                              timedelta(minutes=timezone_offset)
@@ -546,7 +547,11 @@ class Reporting:
         result['base_period']['names'] = list()
         result['base_period']['units'] = list()
         result['base_period']['timestamps'] = list()
+        result['base_period']['values_actual'] = list()
+        result['base_period']['values_baseline'] = list()
         result['base_period']['values_saving'] = list()
+        result['base_period']['subtotals_actual'] = list()
+        result['base_period']['subtotals_baseline'] = list()
         result['base_period']['subtotals_saving'] = list()
         result['base_period']['subtotals_in_kgce_saving'] = list()
         result['base_period']['subtotals_in_kgco2e_saving'] = list()
@@ -557,7 +562,11 @@ class Reporting:
                 result['base_period']['names'].append(energy_category_dict[energy_category_id]['name'])
                 result['base_period']['units'].append(energy_category_dict[energy_category_id]['unit_of_measure'])
                 result['base_period']['timestamps'].append(base[energy_category_id]['timestamps'])
+                result['base_period']['values_actual'].append(base[energy_category_id]['values_actual'])
+                result['base_period']['values_baseline'].append(base[energy_category_id]['values_baseline'])
                 result['base_period']['values_saving'].append(base[energy_category_id]['values_saving'])
+                result['base_period']['subtotals_actual'].append(base[energy_category_id]['subtotal_actual'])
+                result['base_period']['subtotals_baseline'].append(base[energy_category_id]['subtotal_baseline'])
                 result['base_period']['subtotals_saving'].append(base[energy_category_id]['subtotal_saving'])
                 result['base_period']['subtotals_in_kgce_saving'].append(
                     base[energy_category_id]['subtotal_in_kgce_saving'])
@@ -571,7 +580,11 @@ class Reporting:
         result['reporting_period']['energy_category_ids'] = list()
         result['reporting_period']['units'] = list()
         result['reporting_period']['timestamps'] = list()
+        result['reporting_period']['values_actual'] = list()
+        result['reporting_period']['values_baseline'] = list()
         result['reporting_period']['values_saving'] = list()
+        result['reporting_period']['subtotals_actual'] = list()
+        result['reporting_period']['subtotals_baseline'] = list()
         result['reporting_period']['subtotals_saving'] = list()
         result['reporting_period']['subtotals_in_kgce_saving'] = list()
         result['reporting_period']['subtotals_in_kgco2e_saving'] = list()
@@ -587,7 +600,11 @@ class Reporting:
                 result['reporting_period']['energy_category_ids'].append(energy_category_id)
                 result['reporting_period']['units'].append(energy_category_dict[energy_category_id]['unit_of_measure'])
                 result['reporting_period']['timestamps'].append(reporting[energy_category_id]['timestamps'])
+                result['reporting_period']['values_actual'].append(reporting[energy_category_id]['values_actual'])
+                result['reporting_period']['values_baseline'].append(reporting[energy_category_id]['values_baseline'])
                 result['reporting_period']['values_saving'].append(reporting[energy_category_id]['values_saving'])
+                result['reporting_period']['subtotals_actual'].append(reporting[energy_category_id]['subtotal_actual'])
+                result['reporting_period']['subtotals_baseline'].append(reporting[energy_category_id]['subtotal_baseline'])
                 result['reporting_period']['subtotals_saving'].append(reporting[energy_category_id]['subtotal_saving'])
                 result['reporting_period']['subtotals_in_kgce_saving'].append(
                     reporting[energy_category_id]['subtotal_in_kgce_saving'])
@@ -602,11 +619,27 @@ class Reporting:
                 result['reporting_period']['total_in_kgco2e_saving'] += \
                     reporting[energy_category_id]['subtotal_in_kgco2e_saving']
 
+        result['reporting_period']['increment_rate_in_kgce_saving'] = \
+            (result['reporting_period']['total_in_kgce_saving'] - result['base_period']['total_in_kgce_saving']) / \
+            result['base_period']['total_in_kgce_saving'] \
+            if result['base_period']['total_in_kgce_saving'] > Decimal(0.0) else None
+
+        result['reporting_period']['increment_rate_in_kgco2e_saving'] = \
+            (result['reporting_period']['total_in_kgco2e_saving'] - result['base_period']['total_in_kgco2e_saving']) / \
+            result['base_period']['total_in_kgco2e_saving'] \
+            if result['base_period']['total_in_kgco2e_saving'] > Decimal(0.0) else None
+
+        result['parameters'] = {
+            "names": parameters_data['names'],
+            "timestamps": parameters_data['timestamps'],
+            "values": parameters_data['values']
+        }
+
         # export result to Excel file and then encode the file to base64 string
-        # result['excel_bytes_base64'] = excelexporters.spacesaving.export(result,
-        #                                                                  meter['name'],
-        #                                                                  reporting_start_datetime_local,
-        #                                                                  reporting_end_datetime_local,
-        #                                                                  period_type)
+        result['excel_bytes_base64'] = excelexporters.metersaving.export(result,
+                                                                         meter['name'],
+                                                                         reporting_start_datetime_local,
+                                                                         reporting_end_datetime_local,
+                                                                         period_type)
 
         resp.text = json.dumps(result)
