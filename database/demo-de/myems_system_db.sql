@@ -1,4 +1,5 @@
 -- MyEMS System Database Demo Data
+-- MyEMS System Database Demo Data
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Demo Data for table `myems_system_db`.`tbl_combined_equipments`
@@ -155,7 +156,7 @@ VALUES
 (10, 'Beispiel PostgreSQL Datenquellenverwaltung', 'd89b81e6-4917-4a84-b0e9-c2e939599d3a', 1, 'postgresql', '{"host":"192.168.0.10", "port":5432, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }'),
 (11, 'Beispiel Oracle Datenquellenverwaltung', '1bdf4db8-ea71-433e-ad16-b637275073d7', 1, 'oracle', '{"dsn":"192.168.0.11:1521/myems", "user":"myems", "password":"!MyEMS1"}'),
 (12, 'Beispiel MongoDB Datenquellenverwaltung', 'c211fbad-d1d4-465c-bdf5-242f5593682e', 1, 'mongodb', '{"host":"192.168.0.12", "port":27017, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }'),
-(13, 'Beispiel InfluxDB Datenquellenverwaltung', '79cb60ff-c683-4289-ac69-bd13e1f970d1', 1, 'influxdb', '{"url":"http://192.168.0.13:8086", "token":"Un3iYTk==", "org":"myems"}'),
+(13, 'Example InfluxDB Data Source', '79cb60ff-c683-4289-ac69-bd13e1f970d1', 1, 'influxdb', '{"url":"http://192.168.0.13:8086", "token":"MYEMSINFLUXDBTOKEN", "org":"myems", "bucket":"myems"}'),
 (14, 'Beispiel MQTT Datenquellenverwaltung', 'e3d56e11-00da-4957-ab0b-1d761dc8b89f', 1, 'mqtt', '{"host":"192.168.1.101", "port":1883, "user":"myems", "password":"!MyEMS1", "topic":"myems", "qos":2 }');
 COMMIT;
 
