@@ -15,6 +15,7 @@ import {
 } from 'chart.js';
 import { Chart } from 'react-chartjs-2';
 import AppContext from '../../../context/Context';
+import {withTranslation} from "react-i18next";
 
 ChartJS.register(
   CategoryScale,
@@ -33,7 +34,8 @@ const MixedLineChart = ({
   baseTitle,
   labels,
   data,
-  options
+  options,
+  t
 }) => {
   const [selectedLabel, setSelectedLabel] = useState('a0');
   const [option, setOption] = useState('0');
@@ -41,7 +43,10 @@ const MixedLineChart = ({
   const chartRef = useRef(null);
   const [lineData, setLineData] = useState({
     datasets: [],
-  });  
+  });
+  const actual = t('Actual');
+  const baseline = t('Baseline');
+  const saving = t('Baseline Value - Actual Value');
   useEffect(() => {
     const chart = chartRef.current;
     let label = '';
@@ -60,7 +65,7 @@ const MixedLineChart = ({
           {
             borderWidth: 2,
             data: data['a' + option],
-            label: label + ':实际',
+            label: label + actual,
             borderColor: rgbaColor(isDark ? themeColors.primary : '#000', 0.8),
             backgroundColor: gradientFill,
             tension: 0.4,
@@ -69,7 +74,7 @@ const MixedLineChart = ({
           {
             borderWidth: 2,
             data: data['b' + option],
-            label: label + ':基线',
+            label: label + baseline,
             borderColor: rgbaColor(isDark ? themeColors.primary : '#000', 0.8),
             backgroundColor: gradientFill,
             tension: 0.4,
@@ -78,7 +83,7 @@ const MixedLineChart = ({
           {
             borderWidth: 2,
             data: data['c' + option],
-            label: label + ':节能',
+            label: label + saving,
             borderColor: rgbaColor(isDark ? themeColors.primary : '#000', 0.8),
             backgroundColor: gradientFill,
             tension: 0.4,
@@ -159,5 +164,5 @@ const MixedLineChart = ({
   );
 };
 
-export default MixedLineChart;
+export default withTranslation()(MixedLineChart);
 

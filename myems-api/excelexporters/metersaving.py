@@ -462,7 +462,7 @@ def generate_excel(report,
         ws[col + str(current_row_number)].alignment = c_c_alignment
         ws[col + str(current_row_number)].border = f_border
         ws[col + str(current_row_number)] = \
-            reporting_period_data['names'][0] + ':实际' + " (" + reporting_period_data['units'][0] + ")"
+            reporting_period_data['names'][0] + ':Actual' + " (" + reporting_period_data['units'][0] + ")"
         col = chr(ord(col) + 1)
 
         ws[col + str(current_row_number)].fill = table_fill
@@ -470,7 +470,7 @@ def generate_excel(report,
         ws[col + str(current_row_number)].alignment = c_c_alignment
         ws[col + str(current_row_number)].border = f_border
         ws[col + str(current_row_number)] = \
-            reporting_period_data['names'][0] + ':基线' + " (" + reporting_period_data['units'][0] + ")"
+            reporting_period_data['names'][0] + ':Baseline' + " (" + reporting_period_data['units'][0] + ")"
         col = chr(ord(col) + 1)
 
         ws[col + str(current_row_number)].fill = table_fill
@@ -478,7 +478,7 @@ def generate_excel(report,
         ws[col + str(current_row_number)].alignment = c_c_alignment
         ws[col + str(current_row_number)].border = f_border
         ws[col + str(current_row_number)] = \
-            reporting_period_data['names'][0] + ':节能' + " (" + reporting_period_data['units'][0] + ")"
+            reporting_period_data['names'][0] + ':Saving' + " (" + reporting_period_data['units'][0] + ")"
 
         current_row_number += 1
 
