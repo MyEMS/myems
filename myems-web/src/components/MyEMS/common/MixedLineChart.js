@@ -64,7 +64,7 @@ const MixedLineChart = ({
         datasets: [
           {
             borderWidth: 2,
-            data: data['a' + option],
+            data: data['a0'],
             label: label + actual,
             borderColor: rgbaColor(isDark ? themeColors.primary : '#000', 0.8),
             backgroundColor: gradientFill,
@@ -73,7 +73,7 @@ const MixedLineChart = ({
           },
           {
             borderWidth: 2,
-            data: data['b' + option],
+            data: data['b0'],
             label: label + baseline,
             borderColor: rgbaColor(isDark ? themeColors.primary : '#000', 0.8),
             backgroundColor: gradientFill,
@@ -82,7 +82,7 @@ const MixedLineChart = ({
           },
           {
             borderWidth: 2,
-            data: data['c' + option],
+            data: data['c0'],
             label: label + saving,
             borderColor: rgbaColor(isDark ? themeColors.primary : '#000', 0.8),
             backgroundColor: gradientFill,

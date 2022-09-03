@@ -132,7 +132,7 @@ const MeterSaving = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       console.log(json);
       if (isResponseOK) {
-        // rename keys 
+        // rename keys
         json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
         setCascaderOptions(json);
         setSelectedSpaceName([json[0]].map(o => o.label));
@@ -309,7 +309,7 @@ const MeterSaving = ({ setRedirect, setRedirectUrl, t }) => {
 
     // Reinitialize tables
     setDetailedDataTableData([]);
-    
+
     let isResponseOK = false;
     fetch(APIBaseURL + '/reports/metersaving?' +
       'meterid=' + selectedMeter +
@@ -336,73 +336,58 @@ const MeterSaving = ({ setRedirect, setRedirectUrl, t }) => {
         console.log(json);
 
         let cardSummaryArray = []
-        json['reporting_period']['names'].forEach((currentValue, index) => {
-          let cardSummaryItem = {}
-          cardSummaryItem['name'] = json['reporting_period']['names'][index];
-          cardSummaryItem['unit'] = json['reporting_period']['units'][index];
-          cardSummaryItem['subtotal'] = json['reporting_period']['subtotals_saving'][index];
-          cardSummaryItem['increment_rate'] = parseFloat(json['reporting_period']['increment_rates_saving'][index] * 100).toFixed(2) + "%";
+        let cardSummaryItem = {}
+        let unit = json['reporting_period']['units'];
+        let name = json['reporting_period']['names']
+          cardSummaryItem['name'] = json['reporting_period']['names'];
+          cardSummaryItem['unit'] = json['reporting_period']['units'];
+          cardSummaryItem['subtotal'] = json['reporting_period']['subtotals_saving'];
+          cardSummaryItem['increment_rate'] = parseFloat(json['reporting_period']['increment_rates_saving'] * 100).toFixed(2) + "%";
           cardSummaryArray.push(cardSummaryItem);
-        });
         setCardSummaryList(cardSummaryArray);
 
-        let totalInTCE = {}; 
+        let totalInTCE = {};
         totalInTCE['value'] = json['reporting_period']['total_in_kgce_saving'] / 1000; // convert from kg to t
         totalInTCE['increment_rate'] = parseFloat(json['reporting_period']['increment_rate_in_kgce_saving'] * 100).toFixed(2) + "%";
         setTotalInTCE(totalInTCE);
 
-        let totalInTCO2E = {}; 
+        let totalInTCO2E = {};
         totalInTCO2E['value'] = json['reporting_period']['total_in_kgco2e_saving'] / 1000; // convert from kg to t
         totalInTCO2E['increment_rate'] = parseFloat(json['reporting_period']['increment_rate_in_kgco2e_saving'] * 100).toFixed(2) + "%";
         setTotalInTCO2E(totalInTCO2E);
 
         let TCEDataArray = [];
-        json['reporting_period']['names'].forEach((currentValue, index) => {
-          let TCEDataItem = {}
-          TCEDataItem['id'] = index;
-          TCEDataItem['name'] = currentValue;
-          TCEDataItem['value'] = json['reporting_period']['subtotals_in_kgce_saving'][index] / 1000; // convert from kg to t
+        let TCEDataItem = {}
+          TCEDataItem['id'] = 0;
+          TCEDataItem['name'] = name;
+          TCEDataItem['value'] = json['reporting_period']['subtotals_in_kgce_saving'] / 1000; // convert from kg to t
           TCEDataItem['color'] = "#"+((1<<24)*Math.random()|0).toString(16);
           TCEDataArray.push(TCEDataItem);
-        });
         setTCEShareData(TCEDataArray);
 
         let TCO2EDataArray = [];
-        json['reporting_period']['names'].forEach((currentValue, index) => {
-          let TCO2EDataItem = {}
-          TCO2EDataItem['id'] = index;
-          TCO2EDataItem['name'] = currentValue;
-          TCO2EDataItem['value'] = json['reporting_period']['subtotals_in_kgco2e_saving'][index] / 1000; // convert from kg to t
-          TCO2EDataItem['color'] = "#"+((1<<24)*Math.random()|0).toString(16);
-          TCO2EDataArray.push(TCO2EDataItem);
-        });
+        let TCO2EDataItem = {}
+        TCO2EDataItem['id'] = 0;
+        TCO2EDataItem['name'] = name;
+        TCO2EDataItem['value'] = json['reporting_period']['subtotals_in_kgco2e_saving'] / 1000; // convert from kg to t
+        TCO2EDataItem['color'] = "#"+((1<<24)*Math.random()|0).toString(16);
+        TCO2EDataArray.push(TCO2EDataItem);
         setTCO2EShareData(TCO2EDataArray);
 
         let timestamps = {}
-        json['reporting_period']['timestamps'].forEach((currentValue, index) => {
-          timestamps['a' + index] = currentValue;
-        });
+        timestamps['a0'] = json['reporting_period']['timestamps'];
         setMeterLineChartLabels(timestamps);
-        
+
         let values = {}
-        json['reporting_period']['values_actual'].forEach((currentValue, index) => {
-          values['a' + index] = currentValue;
-        });
-        json['reporting_period']['values_baseline'].forEach((currentValue, index) => {
-          values['b' + index] = currentValue;
-        });
-        json['reporting_period']['values_saving'].forEach((currentValue, index) => {
-          values['c' + index] = currentValue;
-        });
+        values['a0'] = json['reporting_period']['values_actual']
+        values['b0'] = json['reporting_period']['values_baseline']
+        values['c0'] = json['reporting_period']['values_saving']
         setMeterLineChartData(values);
-        
+
         let names = Array();
-        json['reporting_period']['names'].forEach((currentValue, index) => {
-          let unit = json['reporting_period']['units'][index];
-          names.push({ 'value': 'a' + index, 'label': currentValue + ' (' + unit + ')'});
-        });
+        names.push({ 'value': 'a' + 0, 'label': name + ' (' + unit + ')'});
         setMeterLineChartOptions(names);
-       
+
         timestamps = {}
         json['parameters']['timestamps'].forEach((currentValue, index) => {
           timestamps['a' + index] = currentValue;
@@ -414,25 +399,25 @@ const MeterSaving = ({ setRedirect, setRedirectUrl, t }) => {
           values['a' + index] = currentValue;
         });
         setParameterLineChartData(values);
-      
+
         names = Array();
         json['parameters']['names'].forEach((currentValue, index) => {
           if (currentValue.startsWith('TARIFF-')) {
             currentValue = t('Tariff') + currentValue.replace('TARIFF-', '-');
           }
-          
+
           names.push({ 'value': 'a' + index, 'label': currentValue });
         });
         setParameterLineChartOptions(names);
 
         let detailed_value_list = [];
         if (json['reporting_period']['timestamps'].length > 0) {
-          json['reporting_period']['timestamps'][0].forEach((currentTimestamp, timestampIndex) => {
+          json['reporting_period']['timestamps'].forEach((currentTimestamp, timestampIndex) => {
             let detailed_value = {};
             detailed_value['id'] = timestampIndex;
             detailed_value['startdatetime'] = currentTimestamp;
-            json['reporting_period']['values_saving'].forEach((currentValue, energyCategoryIndex) => {
-              detailed_value['a' + energyCategoryIndex] = json['reporting_period']['values_saving'][energyCategoryIndex][timestampIndex];
+            json['reporting_period']['values_saving'].forEach(() => {
+              detailed_value['a0'] = json['reporting_period']['values_saving'][timestampIndex];
             });
             detailed_value_list.push(detailed_value);
           });
@@ -441,23 +426,19 @@ const MeterSaving = ({ setRedirect, setRedirectUrl, t }) => {
         let detailed_value = {};
         detailed_value['id'] = detailed_value_list.length;
         detailed_value['startdatetime'] = t('Subtotal');
-        json['reporting_period']['subtotals_saving'].forEach((currentValue, index) => {
-            detailed_value['a' + index] = currentValue;
-          });
+        detailed_value['a0'] = json['reporting_period']['subtotals_saving'];
         detailed_value_list.push(detailed_value);
         setDetailedDataTableData(detailed_value_list);
-        
+
         let detailed_column_list = [];
         detailed_column_list.push({
           dataField: 'startdatetime',
           text: t('Datetime'),
           sort: true
         });
-        json['reporting_period']['names'].forEach((currentValue, index) => {
-          let unit = json['reporting_period']['units'][index];
           detailed_column_list.push({
-            dataField: 'a' + index,
-            text: currentValue + ' (' + unit + ')',
+            dataField: 'a' + 0,
+            text: name + ' (' + unit + ')',
             sort: true,
             formatter: function (decimalValue) {
               if (typeof decimalValue === 'number') {
@@ -467,9 +448,8 @@ const MeterSaving = ({ setRedirect, setRedirectUrl, t }) => {
               }
             }
           });
-        });
         setDetailedDataTableColumns(detailed_column_list);
-        
+
         setExcelBytesBase64(json['excel_bytes_base64']);
 
         // enable submit button
@@ -478,7 +458,7 @@ const MeterSaving = ({ setRedirect, setRedirectUrl, t }) => {
         setSpinnerHidden(true);
         // show export button
         setExportButtonHidden(false);
-        
+
       } else {
         toast.error(json.description)
       }
@@ -503,7 +483,7 @@ const MeterSaving = ({ setRedirect, setRedirectUrl, t }) => {
             document.body.removeChild(link);
         });
   };
-  
+
 
 
   return (
@@ -581,7 +561,7 @@ const MeterSaving = ({ setRedirect, setRedirectUrl, t }) => {
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="basePeriodDateRangePicker">{t('Base Period')}{t('(Optional)')}</Label>
-                  <DateRangePicker 
+                  <DateRangePicker
                     id='basePeriodDateRangePicker'
                     readOnly={basePeriodDateRangePickerDisabled}
                     format="yyyy-MM-dd HH:mm:ss"
@@ -628,7 +608,7 @@ const MeterSaving = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                   <br></br>
-                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default" 
+                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
                   hidden={exportButtonHidden}
                   onClick={handleExport} >
                     {t('Export')}
@@ -647,15 +627,15 @@ const MeterSaving = ({ setRedirect, setRedirectUrl, t }) => {
             {cardSummaryItem['subtotal'] && <CountUp end={cardSummaryItem['subtotal']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
           </CardSummary>
         ))}
-       
-        <CardSummary 
-          rate={totalInTCE['increment_rate'] || ''} 
+
+        <CardSummary
+          rate={totalInTCE['increment_rate'] || ''}
           title={t('Reporting Period Savings CATEGORY (Baseline - Actual) UNIT', { 'CATEGORY': t('Ton of Standard Coal'), 'UNIT': '(TCE)' })}
           color="warning" >
           {totalInTCE['value'] && <CountUp end={totalInTCE['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
         </CardSummary>
-        <CardSummary 
-          rate={totalInTCO2E['increment_rate'] || ''} 
+        <CardSummary
+          rate={totalInTCO2E['increment_rate'] || ''}
           title={t('Reporting Period Decreased CATEGORY (Baseline - Actual) UNIT', { 'CATEGORY': t('Ton of Carbon Dioxide Emissions'), 'UNIT': '(TCO2E)' })}
           color="warning" >
           {totalInTCO2E['value'] && <CountUp end={totalInTCO2E['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
