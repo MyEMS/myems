@@ -41,6 +41,7 @@ from reports import fddstorefault
 from reports import fddtenantfault
 from reports import meterbatch
 from reports import metercarbon
+from reports import metercomparison
 from reports import metercost
 from reports import meterenergy
 from reports import meterrealtime
@@ -582,6 +583,8 @@ api.add_route('/reports/meterbatch',
               meterbatch.Reporting())
 api.add_route('/reports/metercarbon',
               metercarbon.Reporting())
+api.add_route('/reports/metercomparison',
+              metercomparison.Reporting())
 api.add_route('/reports/metercost',
               metercost.Reporting())
 api.add_route('/reports/meterenergy',
