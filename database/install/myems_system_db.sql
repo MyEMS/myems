@@ -464,6 +464,7 @@ VALUES
 (317,'Meter Saving','/meter/saving',300,0),
 (318,'Offline Meter Saving','/meter/offlinemetersaving',300,0),
 (319,'Virtual Meter Saving','/meter/virtualmetersaving',300,0),
+(320,'Meter Comparison','/meter/metercomparison',300,0),
 (400,'Tenant Data','/tenant',NULL,0),
 (401,'Energy Category Data','/tenant/energycategory',400,0),
 (402,'Energy Item Data','/tenant/energyitem',400,0),
@@ -1283,6 +1284,6 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '2.1.0', '2022-08-28');
+(1, '2.1.0', '2022-09-09');
 
 COMMIT;
