@@ -45,6 +45,7 @@ from reports import metercomparison
 from reports import metercost
 from reports import meterenergy
 from reports import meterrealtime
+from reports import metersaving
 from reports import metersubmetersbalance
 from reports import metertrend
 from reports import metertracking
@@ -590,6 +591,8 @@ api.add_route('/reports/meterenergy',
               meterenergy.Reporting())
 api.add_route('/reports/meterrealtime',
               meterrealtime.Reporting())
+api.add_route('/reports/metersaving',
+              metersaving.Reporting())
 api.add_route('/reports/metersubmetersbalance',
               metersubmetersbalance.Reporting())
 api.add_route('/reports/metertrend',
