@@ -461,7 +461,7 @@ VALUES
 (314,'Virtual Meter Batch Analysis','/meter/virtualmeterbatch',300,0),
 (315,'Offline Meter Batch Analysis','/meter/offlinemeterbatch',300,0),
 (316,'Offline Meter Carbon','/meter/offlinemetercarbon',300,0),
-(317,'Meter Saving','/meter/saving',300,0),
+(317,'Meter Saving','/meter/metersaving',300,0),
 (318,'Offline Meter Saving','/meter/offlinemetersaving',300,0),
 (319,'Virtual Meter Saving','/meter/virtualmetersaving',300,0),
 (320,'Meter Comparison','/meter/metercomparison',300,0),

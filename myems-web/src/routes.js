@@ -364,6 +364,7 @@ export const meterRoutes = {
     { to: '/meter/metercost', name: 'Meter Cost' },
     { to: '/meter/metertrend', name: 'Meter Trend' },
     { to: '/meter/meterrealtime', name: 'Meter Realtime' },
+    { to: '/meter/metersaving', name: 'Meter Saving' },
     { to: '/meter/metersubmetersbalance', name: 'Master Meter Submeters Balance' },
     { to: '/meter/meterbatch', name: 'Meter Batch Analysis' },
     { to: '/meter/metercomparison', name: 'Meter Comparison' },

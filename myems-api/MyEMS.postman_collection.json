@@ -11789,6 +11789,57 @@
 					"response": []
 				},
 				{
+					"name": "GET Meter Energy Saving Report",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/metersaving?meterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"metersaving"
+							],
+							"query": [
+								{
+									"key": "meterid",
+									"value": "1",
+									"description": "use meterid or meteruuid"
+								},
+								{
+									"key": "meteruuid",
+									"value": "5ca47bc5-22c2-47fc-b906-33222191ea40",
+									"description": "use meterid or meteruuid",
+									"disabled": true
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Meter Energy Report (Quick Mode)",
 					"request": {
 						"method": "GET",
@@ -11801,6 +11852,61 @@
 							"path": [
 								"reports",
 								"meterenergy"
+							],
+							"query": [
+								{
+									"key": "meterid",
+									"value": "1",
+									"description": "use meterid or meteruuid"
+								},
+								{
+									"key": "meteruuid",
+									"value": "5ca47bc5-22c2-47fc-b906-33222191ea40",
+									"description": "use meterid or meteruuid",
+									"disabled": true
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Meter Saving Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/metersaving?meterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"metersaving"
 							],
 							"query": [
 								{
