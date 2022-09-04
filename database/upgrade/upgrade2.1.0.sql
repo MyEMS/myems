@@ -10,7 +10,7 @@ START TRANSACTION;
 
 INSERT INTO myems_system_db.tbl_menus (id,name,route, parent_menu_id,is_hidden)
 VALUES
-(317,'Meter Saving','/meter/saving',300,0),
+(317,'Meter Saving','/meter/metersaving',300,0),
 (318,'Offline Meter Saving','/meter/offlinemetersaving',300,0),
 (319,'Virtual Meter Saving','/meter/virtualmetersaving',300,0),
 (320,'Meter Comparison','/meter/metercomparison',300,0);

@@ -2492,7 +2492,7 @@ curl -i -X GET {{base_url}}/reports/metercarbon?meterid=1&periodtype=daily&basep
 ```bash
 curl -i -X GET {{base_url}}/reports/metercomparison?meterid1=6&meterid2=7&periodtype=daily&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-* GET Meter Energy Report (Quick Mode)
+* GET Meter Comparison Report (Quick Mode)
 
 (parameter meterid can be replaced with meteruuid)
 (It does not return parameters and Excel file in quick mode)
@@ -2506,6 +2506,7 @@ curl -i -X GET {{base_url}}/reports/metercomparison?meterid1=6&meterid2=7&period
 ```bash
 curl -i -X GET {{base_url}}/reports/metercost?meterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+
 * GET Meter Energy Report
 
 (parameter meterid can be replaced with meteruuid)
@@ -2513,6 +2514,7 @@ curl -i -X GET {{base_url}}/reports/metercost?meterid=1&periodtype=daily&baseper
 ```bash
 curl -i -X GET {{base_url}}/reports/meterenergy?meterid=6&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+
 * GET Meter Energy Report (Quick Mode)
 
 (parameter meterid can be replaced with meteruuid)
@@ -2520,6 +2522,7 @@ curl -i -X GET {{base_url}}/reports/meterenergy?meterid=6&periodtype=daily&basep
 ```bash
 curl -i -X GET {{base_url}}/reports/meterenergy?meterid=6&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
 ```
+
 * GET Meter Realtime Report
 
 (parameter meterid can be replaced with meteruuid)
@@ -2534,6 +2537,23 @@ curl -i -X GET {{base_url}}/reports/meterrealtime?meterid=1
 ```bash
 curl -i -X GET {{base_url}}/reports/metersubmetersbalance?meterid=1&periodtype=daily&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+
+* GET Meter Saving Report
+
+(parameter meterid can be replaced with meteruuid)
+
+```bash
+curl -i -X GET {{base_url}}/reports/metersaving?meterid=6&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
+
+* GET Meter Saving Report (Quick Mode)
+
+(parameter meterid can be replaced with meteruuid)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/metersaving?meterid=6&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
+```
+
 * GET Meter Trend Report
 
 (parameter meterid can be replaced with meteruuid)
