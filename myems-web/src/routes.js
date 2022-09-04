@@ -366,6 +366,7 @@ export const meterRoutes = {
     { to: '/meter/meterrealtime', name: 'Meter Realtime' },
     { to: '/meter/metersubmetersbalance', name: 'Master Meter Submeters Balance' },
     { to: '/meter/meterbatch', name: 'Meter Batch Analysis' },
+    { to: '/meter/metercomparison', name: 'Meter Comparison' },
     { to: '/meter/metertracking', name: 'Meter Tracking' },
     { to: '/meter/virtualmeterenergy', name: 'Virtual Meter Energy' },
     { to: '/meter/virtualmetercarbon', name: 'Virtual Meter Carbon' },
