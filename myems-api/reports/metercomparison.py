@@ -24,11 +24,9 @@ class Reporting:
     # Step 1: valid parameters
     # Step 2: query the meter and energy category
     # Step 3: query associated points
-    # Step 4: query base period energy consumption
-    # Step 5: query reporting period energy consumption
-    # Step 6: query tariff data
-    # Step 7: query associated points data
-    # Step 8: construct the report
+    # Step 4: query reporting period energy consumption
+    # Step 5: query associated points data
+    # Step 6: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
@@ -228,7 +226,7 @@ class Reporting:
             for row in rows_points2:
                 point_list2.append({"id": row[0], "name": row[1], "units": row[2], "object_type": row[3]})
         ################################################################################################################
-        # Step 5: query reporting period energy consumption
+        # Step 4: query reporting period energy consumption
         ################################################################################################################
         query1 = (" SELECT start_datetime_utc, actual_value "
                   " FROM tbl_meter_hourly "
@@ -240,9 +238,9 @@ class Reporting:
         rows_meter1_hourly = cursor_energy.fetchall()
 
         rows_meter1_periodically = utilities.aggregate_hourly_data_by_period(rows_meter1_hourly,
-                                                                            reporting_start_datetime_utc,
-                                                                            reporting_end_datetime_utc,
-                                                                            period_type)
+                                                                             reporting_start_datetime_utc,
+                                                                             reporting_end_datetime_utc,
+                                                                             period_type)
         reporting1 = dict()
         reporting1['timestamps'] = list()
         reporting1['values'] = list()
@@ -306,7 +304,7 @@ class Reporting:
             reporting2['values'].append(actual_value)
             reporting2['total_in_category'] += actual_value
         ################################################################################################################
-        # Step 7: query associated points data
+        # Step 5: query associated points data
         ################################################################################################################
         parameters_data1 = dict()
         parameters_data1['names'] = list()
@@ -445,7 +443,7 @@ class Reporting:
                 parameters_data2['timestamps'].append(point_timestamps)
                 parameters_data2['values'].append(point_values)
         ################################################################################################################
-        # Step 8: construct the report
+        # Step 6: construct the report
         ################################################################################################################
         if cursor_system:
             cursor_system.close()
@@ -463,6 +461,7 @@ class Reporting:
             cnx_historical.close()
         result = {
             "meter1": {
+                "name": meter1['name'],
                 "energy_category_id": meter1['energy_category_id'],
                 "energy_category_name": meter1['energy_category_name'],
                 "unit_of_measure": meter1['unit_of_measure'],
@@ -478,6 +477,7 @@ class Reporting:
                 "values": parameters_data1['values']
             },
             "meter2": {
+                "name": meter2['name'],
                 "energy_category_id": meter2['energy_category_id'],
                 "energy_category_name": meter2['energy_category_name'],
                 "unit_of_measure": meter2['unit_of_measure'],

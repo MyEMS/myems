@@ -39,6 +39,7 @@ const resources = {
       'Meter Realtime': 'Meter Realtime',
       'Master Meter Submeters Balance': 'Master Meter Submeters Balance',
       'Meter Batch Analysis': 'Meter Batch Analysis',
+      'Meter Comparison': 'Meter Comparison',
       'Meter Tracking': 'Meter Tracking',
       'Virtual Meter Energy': 'Virtual Meter Energy',
       'Virtual Meter Carbon': 'Virtual Meter Carbon Dioxide Emissions',
@@ -251,6 +252,7 @@ const resources = {
       'Reporting Period Percentage Difference': 'Reporting Period Percentage Difference',
       'Reporting Period Difference CATEGORY VALUE UNIT': 'Reporting Period Difference {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Trend Values': 'Trend Values',
+      'METER CATEGORY VALUE UNIT': '{{METER}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       //FDD
       'Fault List': 'Fault List',
       'Reporting Period Number of Fault VALUE': 'Reporting Period Number of Fault {{VALUE}}',
@@ -848,6 +850,7 @@ const resources = {
       'Meter Realtime': 'Meter Echtzeit',
       'Master Meter Submeters Balance': 'Master Meter Submeters Balance',
       'Meter Batch Analysis': 'Meter Charge Analyse',
+      'Meter Comparison': 'Meter Vergleich',
       'Meter Tracking': 'Meterverfolgung',
       'Virtual Meter Energy': 'Virtuelles Meter Energie',
       'Virtual Meter Carbon': 'Virtuelles Meter Kohlendioxidemissionen',
@@ -1067,6 +1070,7 @@ const resources = {
       'Reporting Period Difference CATEGORY VALUE UNIT':
         'Unterschied im Berichtszeitraum {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Trend Values': 'Trendwerte',
+      'METER CATEGORY VALUE UNIT': '{{METER}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       //FDD
       'Fault List': 'Fehlerliste',
       'Reporting Period Number of Fault VALUE': 'Berichtszeitraum Anzahl der Fehler: {{VALUE}}',
@@ -1669,6 +1673,8 @@ const resources = {
       'Meter Realtime': '计量表实时分析',
       'Master Meter Submeters Balance': '总分表平衡分析',
       'Meter Batch Analysis': '计量表批量分析',
+      'Meter Comparison': '计量表对比分析',
+      'Meter Tracking': '计量表台账',
       'Virtual Meter Energy': '虚拟表能耗分析',
       'Virtual Meter Carbon': '虚拟表碳排放分析',
       'Virtual Meter Cost': '虚拟表成本分析',
@@ -1677,7 +1683,6 @@ const resources = {
       'Offline Meter Carbon': '离线表碳排放分析',
       'Offline Meter Cost': '离线表成本分析',
       'Offline Meter Batch Analysis': '离线表批量分析',
-      'Meter Tracking': '计量表台账',
       'Tenant Bill': '租户账单',
       'Energy Flow Diagram': '能流图',
       'Distribution System': '配电系统',
@@ -1866,6 +1871,7 @@ const resources = {
       'Reporting Period Percentage Difference': '报告期差值百分比',
       'Reporting Period Difference CATEGORY VALUE UNIT': '报告期差值 {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Trend Values': '趋势值',
+      'METER CATEGORY VALUE UNIT': '{{METER}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       //FDD
       'Fault List': '故障列表',
       'Reporting Period Number of Fault VALUE': '报告期故障数: {{VALUE}}',
