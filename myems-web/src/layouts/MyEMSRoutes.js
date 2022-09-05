@@ -129,9 +129,11 @@ import EquipmentTracking from '../components/MyEMS/Equipment/EquipmentTracking';
 // Meter
 import MeterBatch from '../components/MyEMS/Meter/MeterBatch';
 import MeterCarbon from '../components/MyEMS/Meter/MeterCarbon';
+import MeterComparison from '../components/MyEMS/Meter/MeterComparison';
 import MeterCost from '../components/MyEMS/Meter/MeterCost';
 import MeterEnergy from '../components/MyEMS/Meter/MeterEnergy';
 import MeterRealtime from '../components/MyEMS/Meter/MeterRealtime';
+import MeterSaving from  '../components/MyEMS/Meter/MeterSaving'
 import MeterSubmetersBalance from '../components/MyEMS/Meter/MeterSubmetersBalance';
 import MeterTracking from '../components/MyEMS/Meter/MeterTracking';
 import MeterTrend from '../components/MyEMS/Meter/MeterTrend';
@@ -378,9 +380,11 @@ const MyEMSRoutes = () => (
     {/*Meter*/}
     <Route path="/meter/meterenergy" exact component={MeterEnergy} />
     <Route path="/meter/metercarbon" exact component={MeterCarbon} />
+    <Route path="/meter/metercomparison" exact component={MeterComparison} />
     <Route path="/meter/metercost" exact component={MeterCost} />
     <Route path="/meter/metertrend" exact component={MeterTrend} />
     <Route path="/meter/meterrealtime" exact component={MeterRealtime} />
+    <Route path="/meter/metersaving" exact component={MeterSaving} />
     <Route path="/meter/metersubmetersbalance" exact component={MeterSubmetersBalance} />
     <Route path="/meter/meterbatch" exact component={MeterBatch} />
     <Route path="/meter/metertracking" exact component={MeterTracking} />
