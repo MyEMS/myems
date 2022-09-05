@@ -85,7 +85,7 @@ const MixedLineChart = ({
             data: data['c0'],
             label: label + saving,
             borderColor: rgbaColor(isDark ? themeColors.primary : '#000', 0.8),
-            backgroundColor: gradientFill,
+            backgroundColor: rgbaColor(isDark ? themeColors.primary : '#000', 0.2),
             tension: 0.4,
           }
         ],
