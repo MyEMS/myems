@@ -39,16 +39,16 @@ In this section, you will install myems-normalization on Docker.
 
 * Copy source code to root directory
 
-On Windows:
-```bash
-cp -r myems/myems-normalization c:\
-cd c:\myems-normalization
-```
-
 On Linux:
 ```bash
 cp -r myems/myems-normalization /
 cd /myems-normalization
+```
+
+On Windows:
+```bash
+cp -r myems/myems-normalization c:\
+cd c:\myems-normalization
 ```
 
 * Create .env file based on example.env file
@@ -100,11 +100,14 @@ The absolute path after colon is for path on container and that CANNOT be change
 By passing .env as bind-mount parameter, you can change the configuration values later.
 If you changed .env file, restart the container to make the change effective.
 
-If you want to immigrate the image to another computer,
+* Immigrate the Docker container
+
+To immigrate the container to another computer,
 * Export image to tarball file
 ```bash
 docker save --output myems-normalization.tar myems/myems-normalization
 ```
+
 * Copy the tarball file to another computer, and then load image from tarball file
 ```bash
 docker load --input .\myems-normalization.tar

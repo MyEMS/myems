@@ -408,19 +408,19 @@ def worker(virtual_meter):
             if meter_list_in_expression is not None and len(meter_list_in_expression) > 0:
                 for meter_in_expression in meter_list_in_expression:
                     meter_id = str(meter_in_expression['meter_id'])
-                    actual_value = energy_meter_hourly[meter_id].get(current_datetime_utc, 0.0)
+                    actual_value = energy_meter_hourly[meter_id].get(current_datetime_utc, Decimal(0.0))
                     subs[meter_in_expression['variable_name']] = actual_value
 
             if virtual_meter_list_in_expression is not None and len(virtual_meter_list_in_expression) > 0:
                 for virtual_meter_in_expression in virtual_meter_list_in_expression:
                     virtual_meter_id = str(virtual_meter_in_expression['virtual_meter_id'])
-                    actual_value = energy_virtual_meter_hourly[virtual_meter_id].get(current_datetime_utc, 0.0)
+                    actual_value = energy_virtual_meter_hourly[virtual_meter_id].get(current_datetime_utc, Decimal(0.0))
                     subs[virtual_meter_in_expression['variable_name']] = actual_value
 
             if offline_meter_list_in_expression is not None and len(offline_meter_list_in_expression) > 0:
                 for offline_meter_in_expression in offline_meter_list_in_expression:
                     offline_meter_id = str(offline_meter_in_expression['offline_meter_id'])
-                    actual_value = energy_offline_meter_hourly[offline_meter_id].get(current_datetime_utc, 0.0)
+                    actual_value = energy_offline_meter_hourly[offline_meter_id].get(current_datetime_utc, Decimal(0.0))
                     subs[offline_meter_in_expression['variable_name']] = actual_value
 
             ####################################################################################################
