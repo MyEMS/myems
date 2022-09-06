@@ -67,7 +67,7 @@ def generate_excel(report,
     print(report)
     wb = Workbook()
     ws = wb.active
-    ws.title = "MeterSaving"
+    ws.title = "VirtualMeterSaving"
 
     # Row height
     ws.row_dimensions[1].height = 102
