@@ -261,11 +261,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ca_len = len(category)
         parameters_names_len = len(report['parameters']['names'])
         parameters_data = report['parameters']
-        parameters_parameters_datas_len = 0
-        for i in range(0, parameters_names_len):
-            if len(parameters_data['timestamps'][i]) == 0:
-                continue
-            parameters_parameters_datas_len += 1
+        parameters_parameters_datas_len = parameters_names_len
         start_detail_data_row_num = 13 + (parameters_parameters_datas_len + ca_len) * 6
         ws['B11'].font = title_font
         ws['B11'] = name + 'Detailed Data'
@@ -454,46 +450,63 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         table_current_col_number = 2
 
         for i in range(0, parameters_names_len):
-
-            if len(parameters_data['timestamps'][i]) == 0:
-                continue
-
             col = format_cell.get_column_letter(table_current_col_number)
 
             parameters_ws[col + str(parameters_ws_current_row_number - 1)].fill = table_fill
-            parameters_ws[col + str(parameters_ws_current_row_number - 1)].border = f_border
-
             col = format_cell.get_column_letter(table_current_col_number + 1)
 
             parameters_ws[col + str(parameters_ws_current_row_number - 1)].fill = table_fill
-            parameters_ws[col + str(parameters_ws_current_row_number - 1)].border = f_border
             parameters_ws[col + str(parameters_ws_current_row_number - 1)].font = name_font
             parameters_ws[col + str(parameters_ws_current_row_number - 1)].alignment = c_c_alignment
             parameters_ws[col + str(parameters_ws_current_row_number - 1)] = parameters_data['names'][i]
 
-            table_current_row_number = parameters_ws_current_row_number
-
-            for j, value in enumerate(list(parameters_data['timestamps'][i])):
-                col = format_cell.get_column_letter(table_current_col_number)
-
-                parameters_ws[col + str(table_current_row_number)].border = f_border
-                parameters_ws[col + str(table_current_row_number)].font = title_font
-                parameters_ws[col + str(table_current_row_number)].alignment = c_c_alignment
-                parameters_ws[col + str(table_current_row_number)] = value
-
-                col = format_cell.get_column_letter(table_current_col_number + 1)
-
-                parameters_ws[col + str(table_current_row_number)].border = f_border
-                parameters_ws[col + str(table_current_row_number)].font = title_font
-                parameters_ws[col + str(table_current_row_number)].alignment = c_c_alignment
-                try:
-                    parameters_ws[col + str(table_current_row_number)] = round(parameters_data['values'][i][j], 2)
-                except Exception as e:
-                    print('error 1 in excelexporters\meterenergy: ' + str(e))
-                
-                table_current_row_number += 1
-
             table_current_col_number = table_current_col_number + 3
+
+        ################################################################################################################
+        # Optimized insert parameter data
+        ################################################################################################################
+
+        timestamps_list = parameters_data['timestamps']
+        values_list = parameters_data['values']
+
+        timestamps_data_temp_save_start_row = parameters_timestamps_data_max_len + 10
+
+        values_data_temp_save_start_row = parameters_timestamps_data_max_len * 2 + 10 + 1
+
+        parameters_ws["A" + str(timestamps_data_temp_save_start_row)] = ""
+        for i in range(parameters_timestamps_data_max_len):
+            temp_list = []
+            for j in range(len(timestamps_list)):
+                try:
+                    temp_list.append(timestamps_list[j][i])
+                except IndexError:
+                    temp_list.append("")
+            parameters_ws.append(temp_list)
+
+        parameters_ws["A" + str(values_data_temp_save_start_row)] = ""
+        for i in range(parameters_timestamps_data_max_len):
+            temp_list = []
+            for j in range(len(values_list)):
+                try:
+                    temp_list.append(values_list[j][i])
+                except IndexError:
+                    temp_list.append("")
+            parameters_ws.append(temp_list)
+
+        parameter_current_col_number = 1
+
+        for i in range(len(timestamps_list)):
+            col = format_cell.get_column_letter(parameter_current_col_number)
+            parameters_ws.move_range(
+                "{}{}:{}{}".format(col, timestamps_data_temp_save_start_row + 1, col,
+                                   timestamps_data_temp_save_start_row + parameters_timestamps_data_max_len),
+                (- timestamps_data_temp_save_start_row + (parameters_ws_current_row_number - 1)), (i * 2) + 1)
+            parameters_ws.move_range(
+                "{}{}:{}{}".format(col, values_data_temp_save_start_row + 1, col,
+                                   values_data_temp_save_start_row + parameters_timestamps_data_max_len),
+                (- values_data_temp_save_start_row + (parameters_ws_current_row_number - 1)), (i * 2) + 2)
+
+            parameter_current_col_number += 1
 
         ################################################################################################################
         # parameters chart and parameters table
@@ -509,10 +522,6 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         col_index = 0
 
         for i in range(0, parameters_names_len):
-
-            if len(parameters_data['timestamps'][i]) == 0:
-                continue
-
             line = LineChart()
             data_col = 3 + col_index * 3
             labels_col = 2 + col_index * 3
