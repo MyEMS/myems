@@ -113,16 +113,22 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
 
     # Title
     ws['B3'].alignment = b_r_alignment
-    ws['B3'] = 'Name:'
+    ws['B3'] = 'Name1:'
     ws['C3'].border = b_border
     ws['C3'].alignment = b_c_alignment
     ws['C3'] = name1
 
     ws['D3'].alignment = b_r_alignment
-    ws['D3'] = 'Period:'
+    ws['D3'] = 'Name2:'
     ws['E3'].border = b_border
     ws['E3'].alignment = b_c_alignment
-    ws['E3'] = period_type
+    ws['E3'] = name2
+
+    ws['F3'].alignment = b_r_alignment
+    ws['F3'] = 'Period:'
+    ws['G3'].border = b_border
+    ws['G3'].alignment = b_c_alignment
+    ws['G3'] = period_type
 
     ws['B4'].alignment = b_r_alignment
     ws['B4'] = 'Reporting Start Datetime:'
@@ -144,9 +150,12 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
         return filename
     ####################################################################################################################
     # First: Consumption
-    # 6: title
-    # 7: table title
-    # 8~9 table_data
+    # 6: meter1 title
+    # 7: meter1 table title
+    # 8~9 meter1 table_data
+    # 10: meter2 title
+    # 11: meter2 table title
+    # 12~13: meter2 table_data
     ####################################################################################################################
     has_energy_data_flag = True
 
@@ -194,24 +203,78 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
     else:
         for i in range(6, 9 + 1):
             ws.row_dimensions[i].height = 0.1
+
+    if "values" not in report['reporting_period2'].keys() or len(report['reporting_period2']['values']) == 0:
+        has_energy_data_flag = False
+
+    if has_energy_data_flag:
+        ws['B10'].font = title_font
+        ws['B10'] = name2 + ' ' + 'Consumption'
+
+        reporting_period_data2 = report['reporting_period2']
+
+        category = report['meter2']['energy_category_name']
+        ca_len = len(category)
+
+        ws.row_dimensions[12].height = 60
+
+        ws['B11'].fill = table_fill
+        ws['B11'].border = f_border
+
+        ws['B12'].font = title_font
+        ws['B12'].alignment = c_c_alignment
+        ws['B12'] = 'Consumption'
+        ws['B12'].border = f_border
+
+        col = ''
+
+        for i in range(0, ca_len):
+            col = chr(ord('C') + i)
+            row = '11'
+            cell = col + row
+            ws[col + '11'].fill = table_fill
+            ws[col + '11'].font = name_font
+            ws[col + '11'].alignment = c_c_alignment
+            ws[col + '11'] = report['meter2']['energy_category_name'] + " (" + report['meter2']['unit_of_measure'] + ")"
+            ws[col + '11'].border = f_border
+
+            ws[col + '12'].font = name_font
+            ws[col + '12'].alignment = c_c_alignment
+            ws[col + '12'] = round(reporting_period_data2['total_in_category'], 2)
+            ws[col + '12'].border = f_border
+
+        # TCE TCO2E
+        end_col = col
+    else:
+        for i in range(11, 14 + 1):
+            ws.row_dimensions[i].height = 0.1
     ####################################################################################################################
     # Second: Detailed Data
-    # 11: title
+    # 15: title
     # 12 ~ 16: chart
-    # 18: table title
-    # 19~43: table_data
+    # 18 + 6 * parameterlen + : table title
+    # 19 + 6 * parameterlen~18 + 6 * parameterlen + timestamps_len: table_data
+    # parameter_len: len(report['parameters1']['names']) + len(report['parameters1']['names'])
+    # timestamps_len: reporting_period_data1['timestamps']
     ####################################################################################################################
     has_energy_detail_flag = True
     reporting_period_data1 = report['reporting_period1']
+    reporting_period_data2 = report['reporting_period2']
     times = reporting_period_data1['timestamps']
 
     if "values" not in report['reporting_period1'].keys() or len(report['reporting_period1']['values']) == 0:
         has_energy_detail_flag = False
 
+    if "values" not in report['reporting_period2'].keys() or len(report['reporting_period2']['values']) == 0:
+        has_energy_detail_flag = False
+
     if has_energy_detail_flag:
         reporting_period_data1 = report['reporting_period1']
+        reporting_period_data2 = report['reporting_period2']
         category = report['meter1']['energy_category_name']
-        ca_len = len(category)
+        ca_len_data1 = len(category)
+        category = report['meter2']['energy_category_name']
+        ca_len_data2 = len(category)
         parameters_names_len = len(report['parameters1']['names'])
         parameters_data = report['parameters1']
         parameters_parameters_datas_len = 0
@@ -219,9 +282,15 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
             if len(parameters_data['timestamps'][i]) == 0:
                 continue
             parameters_parameters_datas_len += 1
-        start_detail_data_row_num = 13 + (parameters_parameters_datas_len + ca_len) * 6
-        ws['B11'].font = title_font
-        ws['B11'] = name1 + 'Detailed Data'
+        parameters_names_len = len(report['parameters2']['names'])
+        parameters_data = report['parameters2']
+        for i in range(0, parameters_names_len):
+            if len(parameters_data['timestamps'][i]) == 0:
+                continue
+            parameters_parameters_datas_len += 1
+        start_detail_data_row_num = 15 + (parameters_parameters_datas_len + ca_len_data1 + ca_len_data2) * 6
+        ws['B14'].font = title_font
+        ws['B14'] = name1 + ' and ' + name2 + 'Detailed Data'
 
         ws.row_dimensions[start_detail_data_row_num].height = 60
 
@@ -247,18 +316,18 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
                 ws[col + row] = time[i]
                 ws[col + row].border = f_border
 
-            for i in range(0, ca_len):
-                # 12 title
-                col = chr(ord('C') + i)
+            for i in range(0, ca_len_data1):
+                # table_title
+                col = chr(ord(col) + 1)
 
                 ws[col + str(start_detail_data_row_num)].fill = table_fill
                 ws[col + str(start_detail_data_row_num)].font = title_font
                 ws[col + str(start_detail_data_row_num)].alignment = c_c_alignment
-                ws[col + str(start_detail_data_row_num)] = report['meter1']['energy_category_name'] + \
+                ws[col + str(start_detail_data_row_num)] = name1 + report['meter1']['energy_category_name'] + \
                     " (" + report['meter1']['unit_of_measure'] + ")"
                 ws[col + str(start_detail_data_row_num)].border = f_border
 
-                # 13 data
+                # table_data
                 time = times
                 time_len = len(time)
 
@@ -269,14 +338,36 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
                     ws[col + row].alignment = c_c_alignment
                     ws[col + row] = round(reporting_period_data1['values'][j], 2)
                     ws[col + row].border = f_border
+
+            for i in range(0, ca_len_data2):
+                # table_title
+                col = chr(ord(col) + 1)
+
+                ws[col + str(start_detail_data_row_num)].fill = table_fill
+                ws[col + str(start_detail_data_row_num)].font = title_font
+                ws[col + str(start_detail_data_row_num)].alignment = c_c_alignment
+                ws[col + str(start_detail_data_row_num)] = name2 + report['meter2']['energy_category_name'] + \
+                    " (" + report['meter2']['unit_of_measure'] + ")"
+                ws[col + str(start_detail_data_row_num)].border = f_border
+
+                # table_data
+                time = times
+                time_len = len(time)
+
+                for j in range(0, time_len):
+                    row = str(start_detail_data_row_num + 1 + j)
+                    # col = chr(ord('B') + i)
+                    ws[col + row].font = title_font
+                    ws[col + row].alignment = c_c_alignment
+                    ws[col + row] = round(reporting_period_data2['values'][j], 2)
+                    ws[col + row].border = f_border
             # line
-            # 13~: line
+            # 15~: line
             line = LineChart()
-            line.title = 'Reporting Period Consumption - ' + report['meter1']['energy_category_name'] + \
-                " (" + report['meter1']['unit_of_measure'] + ")"
+            line.title = 'Reporting Period Consumption' 
             labels = Reference(ws, min_col=2, min_row=start_detail_data_row_num + 1, max_row=max_row)
-            bar_data = Reference(ws, min_col=3, min_row=start_detail_data_row_num, max_row=max_row)
-            line.add_data(bar_data, titles_from_data=True)
+            line_data = Reference(ws, min_col=3, max_col = 2 + ca_len_data1 + ca_len_data2, min_row=start_detail_data_row_num, max_row=max_row)
+            line.add_data(line_data, titles_from_data=True)
             line.set_categories(labels)
             line_data = line.series[0]
             line_data.marker.symbol = "circle"
@@ -285,11 +376,10 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
             line.height = 8.25
             line.width = 24
             line.dLbls = DataLabelList()
-            line.dLbls = DataLabelList()
             line.dLbls.dLblPos = 't'
             line.dLbls.showVal = True
             line.dLbls.showPercent = False
-            ws.add_chart(line, "B12")
+            ws.add_chart(line, "B15")
 
             col = 'B'
             row = str(start_detail_data_row_num + 1 + len(time))
@@ -299,12 +389,20 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
             ws[col + row] = 'Total'
             ws[col + row].border = f_border
 
-            for i in range(0, ca_len):
+            for i in range(0, ca_len_data1):
                 col = chr(ord(col) + 1)
                 ws[col + row].font = title_font
                 ws[col + row].alignment = c_c_alignment
                 ws[col + row] = round(reporting_period_data1['total_in_category'], 2)
                 ws[col + row].border = f_border
+
+            for i in range(0, ca_len_data2):
+                col = chr(ord(col) + 1)
+                ws[col + row].font = title_font
+                ws[col + row].alignment = c_c_alignment
+                ws[col + row] = round(reporting_period_data2['total_in_category'], 2)
+                ws[col + row].border = f_border
+
 
     else:
         for i in range(11, 43 + 1):
@@ -315,8 +413,10 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
     # 12 is the starting line number of the last line chart in the report period
     category = report['meter1']['energy_category_name']
     time_len = len(reporting_period_data1['timestamps'])
-    ca_len = len(category)
-    current_sheet_parameters_row_number = 12 + ca_len * 6
+    ca_len_data1 = len(category)
+    category = report['meter2']['energy_category_name']
+    ca_len_data2 = len(category)
+    current_sheet_parameters_row_number = 10 + (ca_len_data1 + ca_len_data2) * 6
     if 'parameters1' not in report.keys() or \
             report['parameters1'] is None or \
             'names' not in report['parameters1'].keys() or \
@@ -329,6 +429,20 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
             report['parameters1']['values'] is None or \
             len(report['parameters1']['values']) == 0 or \
             timestamps_data_all_equal_0(report['parameters1']['timestamps']):
+        has_parameters_names_and_timestamps_and_values_data = False
+
+    if 'parameters2' not in report.keys() or \
+            report['parameters2'] is None or \
+            'names' not in report['parameters2'].keys() or \
+            report['parameters2']['names'] is None or \
+            len(report['parameters2']['names']) == 0 or \
+            'timestamps' not in report['parameters2'].keys() or \
+            report['parameters2']['timestamps'] is None or \
+            len(report['parameters2']['timestamps']) == 0 or \
+            'values' not in report['parameters2'].keys() or \
+            report['parameters2']['values'] is None or \
+            len(report['parameters2']['values']) == 0 or \
+            timestamps_data_all_equal_0(report['parameters2']['timestamps']):
         has_parameters_names_and_timestamps_and_values_data = False
 
     if has_parameters_names_and_timestamps_and_values_data:
@@ -445,12 +559,127 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
 
             table_current_col_number = table_current_col_number + 3
 
+
+        parameters_data2 = report['parameters2']
+
+        parameters_names_len = len(parameters_data2['names'])
+
+        file_name = (re.sub(r'[^A-Z]', '', ws.title))+'_'
+        parameters_ws = wb.create_sheet(file_name + 'Parameters2')
+
+        parameters_timestamps_data_max_len = \
+            get_parameters_timestamps_lists_max_len(list(parameters_data2['timestamps']))
+
+        # Row height
+        parameters_ws.row_dimensions[1].height = 102
+        for i in range(2, 7 + 1):
+            parameters_ws.row_dimensions[i].height = 42
+
+        for i in range(8, parameters_timestamps_data_max_len + 10):
+            parameters_ws.row_dimensions[i].height = 60
+
+        # Col width
+        parameters_ws.column_dimensions['A'].width = 1.5
+
+        parameters_ws.column_dimensions['B'].width = 25.0
+
+        for i in range(3, 12 + parameters_names_len * 3):
+            parameters_ws.column_dimensions[format_cell.get_column_letter(i)].width = 15.0
+
+        # Img
+        img = Image("excelexporters/myems.png")
+        parameters_ws.add_image(img, 'A1')
+
+        # Title
+        parameters_ws['B3'].alignment = b_r_alignment
+        parameters_ws['B3'] = 'Name:'
+        parameters_ws['C3'].border = b_border
+        parameters_ws['C3'].alignment = b_c_alignment
+        parameters_ws['C3'] = name1
+
+        parameters_ws['D3'].alignment = b_r_alignment
+        parameters_ws['D3'] = 'Period:'
+        parameters_ws['E3'].border = b_border
+        parameters_ws['E3'].alignment = b_c_alignment
+        parameters_ws['E3'] = period_type
+
+        parameters_ws['B4'].alignment = b_r_alignment
+        parameters_ws['B4'] = 'Reporting Start Datetime:'
+        parameters_ws['C4'].border = b_border
+        parameters_ws['C4'].alignment = b_c_alignment
+        parameters_ws['C4'] = reporting_start_datetime_local
+
+        parameters_ws['D4'].alignment = b_r_alignment
+        parameters_ws['D4'] = 'Reporting End Datetime:'
+        parameters_ws['E4'].border = b_border
+        parameters_ws['E4'].alignment = b_c_alignment
+        parameters_ws['E4'] = reporting_end_datetime_local
+
+        parameters_ws_current_row_number = 6
+
+        parameters_ws['B' + str(parameters_ws_current_row_number)].font = title_font
+        parameters_ws['B' + str(parameters_ws_current_row_number)] = name2 + ' ' + 'Parameters'
+
+        parameters_ws_current_row_number += 1
+
+        parameters_table_start_row_number = parameters_ws_current_row_number
+
+        parameters_ws.row_dimensions[parameters_ws_current_row_number].height = 80
+
+        parameters_ws_current_row_number += 1
+
+        table_current_col_number = 2
+
+        for i in range(0, parameters_names_len):
+
+            if len(parameters_data2['timestamps'][i]) == 0:
+                continue
+
+            col = format_cell.get_column_letter(table_current_col_number)
+
+            parameters_ws[col + str(parameters_ws_current_row_number - 1)].fill = table_fill
+            parameters_ws[col + str(parameters_ws_current_row_number - 1)].border = f_border
+
+            col = format_cell.get_column_letter(table_current_col_number + 1)
+
+            parameters_ws[col + str(parameters_ws_current_row_number - 1)].fill = table_fill
+            parameters_ws[col + str(parameters_ws_current_row_number - 1)].border = f_border
+            parameters_ws[col + str(parameters_ws_current_row_number - 1)].font = name_font
+            parameters_ws[col + str(parameters_ws_current_row_number - 1)].alignment = c_c_alignment
+            parameters_ws[col + str(parameters_ws_current_row_number - 1)] = parameters_data2['names'][i]
+
+            table_current_row_number = parameters_ws_current_row_number
+
+            for j, value in enumerate(list(parameters_data2['timestamps'][i])):
+                col = format_cell.get_column_letter(table_current_col_number)
+
+                parameters_ws[col + str(table_current_row_number)].border = f_border
+                parameters_ws[col + str(table_current_row_number)].font = title_font
+                parameters_ws[col + str(table_current_row_number)].alignment = c_c_alignment
+                parameters_ws[col + str(table_current_row_number)] = value
+
+                col = format_cell.get_column_letter(table_current_col_number + 1)
+
+                parameters_ws[col + str(table_current_row_number)].border = f_border
+                parameters_ws[col + str(table_current_row_number)].font = title_font
+                parameters_ws[col + str(table_current_row_number)].alignment = c_c_alignment
+                try:
+                    parameters_ws[col + str(table_current_row_number)] = round(parameters_data2['values'][i][j], 2)
+                except Exception as e:
+                    print('error 1 in excelexporters\meterenergy: ' + str(e))
+                
+                table_current_row_number += 1
+
+            table_current_col_number = table_current_col_number + 3
+
         ################################################################################################################
         # parameters chart and parameters table
         ################################################################################################################
 
         ws['B' + str(current_sheet_parameters_row_number)].font = title_font
         ws['B' + str(current_sheet_parameters_row_number)] = name1 + ' ' + 'Parameters'
+        parameters_names_len = len(report['parameters1']['names'])
+        parameters_ws = wb[file_name + 'Parameters1']
 
         current_sheet_parameters_row_number += 1
 
@@ -461,6 +690,54 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
         for i in range(0, parameters_names_len):
 
             if len(parameters_data1['timestamps'][i]) == 0:
+                continue
+
+            line = LineChart()
+            data_col = 3 + col_index * 3
+            labels_col = 2 + col_index * 3
+            col_index += 1
+            line.title = 'Parameters - ' + \
+                         parameters_ws.cell(row=parameters_table_start_row_number, column=data_col).value
+            labels = Reference(parameters_ws, min_col=labels_col, min_row=parameters_table_start_row_number + 1,
+                               max_row=(len(parameters_data1['timestamps'][i]) + parameters_table_start_row_number))
+            line_data = Reference(parameters_ws, min_col=data_col, min_row=parameters_table_start_row_number,
+                                  max_row=(len(parameters_data1['timestamps'][i]) + parameters_table_start_row_number))
+            line.add_data(line_data, titles_from_data=True)
+            line.set_categories(labels)
+            line_data = line.series[0]
+            line_data.marker.symbol = "circle"
+            line_data.smooth = True
+            line.x_axis.crosses = 'min'
+            line.height = 8.25
+            line.width = 24
+            line.dLbls = DataLabelList()
+            line.dLbls.dLblPos = 't'
+            line.dLbls.showVal = False
+            line.dLbls.showPercent = False
+            chart_col = 'B'
+            chart_cell = chart_col + str(chart_start_row_number)
+            chart_start_row_number += 6
+            ws.add_chart(line, chart_cell)
+
+        current_sheet_parameters_row_number = chart_start_row_number
+
+        current_sheet_parameters_row_number += 1
+
+        parameters_ws = wb[file_name + 'Parameters1']
+        ws['B' + str(current_sheet_parameters_row_number)].font = title_font
+        ws['B' + str(current_sheet_parameters_row_number)] = name2 + ' ' + 'Parameters'
+
+        current_sheet_parameters_row_number += 1
+
+        chart_start_row_number = current_sheet_parameters_row_number
+
+        col_index = 0
+
+        parameters_names_len = len(report['parameters2']['names'])
+
+        for i in range(0, parameters_names_len):
+
+            if len(parameters_data2['timestamps'][i]) == 0:
                 continue
 
             line = LineChart()
