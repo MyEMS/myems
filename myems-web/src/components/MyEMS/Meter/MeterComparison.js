@@ -588,7 +588,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
                 </FormGroup>
               </Col>
             </Row>
-            <Row>
+            <Row form >
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="space">
