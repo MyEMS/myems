@@ -4,6 +4,7 @@ import mysql.connector
 from sympy import sympify
 from multiprocessing import Pool
 import random
+from decimal import Decimal
 import config
 
 

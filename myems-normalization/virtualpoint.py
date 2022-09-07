@@ -130,18 +130,12 @@ def worker(virtual_point):
             cnx_historical_db.close()
         return "Error in step 1.2 of virtual point worker " + str(e) + " for '" + virtual_point['name'] + "'"
 
-    start_datetime_utc = datetime.strptime(config.start_datetime_utc, '%Y-%m-%d %H:%M:%S')
-    start_datetime_utc = start_datetime_utc.replace(minute=0, second=0, microsecond=0, tzinfo=None)
+    start_datetime_utc = datetime.strptime(config.start_datetime_utc, '%Y-%m-%d %H:%M:%S').replace(tzinfo=None)
 
     if row is not None and len(row) > 0 and isinstance(row[0], datetime):
-        # replace second and microsecond with 0
-        # note: do not replace minute in case of calculating in half hourly
-        start_datetime_utc = row[0].replace(second=0, microsecond=0, tzinfo=None)
-        # start from the next time slot
-        start_datetime_utc += timedelta(minutes=config.minutes_to_count)
+        start_datetime_utc = row[0].replace(tzinfo=None)
 
-    end_datetime_utc = datetime.utcnow().replace()
-    end_datetime_utc = end_datetime_utc.replace(second=0, microsecond=0, tzinfo=None)
+    end_datetime_utc = datetime.utcnow().replace(tzinfo=None)
 
     if end_datetime_utc <= start_datetime_utc:
         if cursor_historical_db:
@@ -192,7 +186,7 @@ def worker(virtual_point):
                 point_id = str(point['point_id'])
                 query = (" SELECT utc_date_time, actual_value "
                          " FROM tbl_analog_value "
-                         " WHERE point_id = %s AND utc_date_time >= %s AND utc_date_time < %s "
+                         " WHERE point_id = %s AND utc_date_time > %s AND utc_date_time < %s "
                          " ORDER BY utc_date_time ")
                 cursor_historical_db.execute(query, (point_id, start_datetime_utc, end_datetime_utc, ))
                 rows = cursor_historical_db.fetchall()

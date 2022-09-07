@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - updated docker build instruction in README
 - 
 ### Fixed
+- fixed start datetime issue for virtual point in myems-normalization
 - 
 ### Removed
 -
