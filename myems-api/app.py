@@ -92,6 +92,7 @@ from reports import virtualmeterbatch
 from reports import virtualmetercarbon
 from reports import virtualmetercost
 from reports import virtualmeterenergy
+from reports import virtualmetersaving
 
 ########################################################################################################################
 # BEGIN imports for Enterprise Version
@@ -679,6 +680,8 @@ api.add_route('/reports/tenantstatistics',
               tenantstatistics.Reporting())
 api.add_route('/reports/virtualmeterbatch',
               virtualmeterbatch.Reporting())
+api.add_route('/reports/virtualmetersaving',
+              virtualmetersaving.Reporting())
 api.add_route('/reports/virtualmeterenergy',
               virtualmeterenergy.Reporting())
 api.add_route('/reports/virtualmetercarbon',
