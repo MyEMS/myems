@@ -74,7 +74,8 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
     hours: t('hours'),
     minutes: t('minutes'),
     seconds: t('seconds'),
-    last7Days: t('last7Days')
+    last7Days: t('last7Days'),
+    formattedDayPattern: 'yyyy-MM-dd'
   };
   const dateRangePickerStyle = { display: 'block', zIndex: 10};
 
