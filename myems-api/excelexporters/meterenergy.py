@@ -13,21 +13,21 @@ import openpyxl.utils.cell as format_cell
 ########################################################################################################################
 # PROCEDURES
 # Step 1: Validate the report data
-# Step 2: Generate excelexporters file
-# Step 3: Encode the excelexporters file to Base64
+# Step 2: Generate excel file from the report data
+# Step 3: Encode the excel file to Base64
 ########################################################################################################################
 
-def export(result, name, reporting_start_datetime_local, reporting_end_datetime_local, period_type):
+def export(report, name, reporting_start_datetime_local, reporting_end_datetime_local, period_type):
     ####################################################################################################################
     # Step 1: Validate the report data
     ####################################################################################################################
-    if result is None:
+    if report is None:
         return None
 
     ####################################################################################################################
     # Step 2: Generate excel file from the report data
     ####################################################################################################################
-    filename = generate_excel(result,
+    filename = generate_excel(report,
                               name,
                               reporting_start_datetime_local,
                               reporting_end_datetime_local,

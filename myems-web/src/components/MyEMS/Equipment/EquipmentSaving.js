@@ -635,7 +635,7 @@ const EquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
         {cardSummaryList.map(cardSummaryItem => (
           <CardSummary key={cardSummaryItem['name']}
             rate={cardSummaryItem['increment_rate']}
-            title={t('Reporting Period Savings CATEGORY (Baseline - Actual) UNIT', { 'CATEGORY': cardSummaryItem['name'], 'UNIT': '(' + cardSummaryItem['unit'] + ')' })}
+            title={t('Reporting Period Saving CATEGORY (Baseline - Actual) UNIT', { 'CATEGORY': cardSummaryItem['name'], 'UNIT': '(' + cardSummaryItem['unit'] + ')' })}
             color="success" >
             {cardSummaryItem['subtotal'] && <CountUp end={cardSummaryItem['subtotal']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
           </CardSummary>
@@ -643,7 +643,7 @@ const EquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
        
         <CardSummary 
           rate={totalInTCE['increment_rate'] || ''} 
-          title={t('Reporting Period Savings CATEGORY (Baseline - Actual) UNIT', { 'CATEGORY': t('Ton of Standard Coal'), 'UNIT': '(TCE)' })}
+          title={t('Reporting Period Saving CATEGORY (Baseline - Actual) UNIT', { 'CATEGORY': t('Ton of Standard Coal'), 'UNIT': '(TCE)' })}
           color="warning" >
           {totalInTCE['value'] && <CountUp end={totalInTCE['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
         </CardSummary>
@@ -662,7 +662,7 @@ const EquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
           <SharePie data={TCO2EShareData} title={t('Ton of Carbon Dioxide Emissions by Energy Category')} />
         </Col>
       </Row>
-      <LineChart reportingTitle={t('Reporting Period Savings CATEGORY VALUE UNIT', { 'CATEGORY': null, 'VALUE': null, 'UNIT': null })}
+      <LineChart reportingTitle={t('Reporting Period Saving CATEGORY VALUE UNIT', { 'CATEGORY': null, 'VALUE': null, 'UNIT': null })}
         baseTitle=''
         labels={equipmentLineChartLabels}
         data={equipmentLineChartData}
