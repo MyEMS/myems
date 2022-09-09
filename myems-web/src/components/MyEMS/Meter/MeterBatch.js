@@ -17,12 +17,12 @@ import {
 import Cascader from 'rc-cascader';
 import moment from 'moment';
 import loadable from '@loadable/component';
-import { getCookieValue, createCookie } from '../../../helpers/utils';
+import { getCookieValue, createCookie, getItemFromStore } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import ButtonIcon from '../../common/ButtonIcon';
-import { APIBaseURL } from '../../../config';
+import { APIBaseURL, settings } from '../../../config';
 import { DateRangePicker } from 'rsuite';
 import { endOfDay} from 'date-fns';
 
@@ -169,10 +169,12 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
     setMeterList([]);
     
     let isResponseOK = false;
+    const language = getItemFromStore('myems_web_ui_language', settings.language);
     fetch(APIBaseURL + '/reports/meterbatch?' +
       'spaceid=' + selectedSpaceID +
       '&reportingperiodstartdatetime=' + moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'), {
+      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') + 
+      '&language=' + language, {
       method: 'GET',
       headers: {
         "Content-type": "application/json",
