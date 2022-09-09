@@ -13,7 +13,7 @@ import {
   Input,
   Label,
   CustomInput,
-  Spinner,
+  Spinner
 } from 'reactstrap';
 import CountUp from 'react-countup';
 import moment from 'moment';
@@ -57,7 +57,7 @@ const VirtualMeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
   });
 
   // State
-  //Query From
+  //Query Form
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
   const [selectedSpaceID, setSelectedSpaceID] = useState(undefined);
   const [virtualMeterList, setVirtualMeterList] = useState([]);
@@ -255,7 +255,7 @@ const VirtualMeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   let onReportingPeriodChange = (DateRange) => {
-      if(DateRange == null) {
+    if(DateRange == null) {
       setReportingPeriodDateRange([null, null]);
     } else {
       if (moment(DateRange[1]).format('HH:mm:ss') == '00:00:00') {
@@ -292,11 +292,11 @@ const VirtualMeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
     console.log(moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'));
 
     // disable submit button
-    setSubmitButtonDisabled(true); 
+    setSubmitButtonDisabled(true);
     // show spinner
     setSpinnerHidden(false);
     // hide export button
-    setExportButtonHidden(true) 
+    setExportButtonHidden(true);
 
     // Reinitialize tables
     setDetailedDataTableData([]);
@@ -407,7 +407,7 @@ const VirtualMeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
         // hide spinner
         setSpinnerHidden(true);
         // show export button
-        setExportButtonHidden(false);  
+        setExportButtonHidden(false);
 
       } else {
         toast.error(json.description)
@@ -445,7 +445,7 @@ const VirtualMeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
       <Card className="bg-light mb-3">
         <CardBody className="p-3">
           <Form onSubmit={handleSubmit}>
-            <Row form >
+            <Row form>
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="space">
@@ -510,7 +510,7 @@ const VirtualMeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="basePeriodDateRangePicker">{t('Base Period')}{t('(Optional)')}</Label>
-                  <DateRangePicker 
+                  <DateRangePicker
                     id='basePeriodDateRangePicker'
                     readOnly={basePeriodDateRangePickerDisabled}
                     format="yyyy-MM-dd HH:mm:ss"
@@ -557,7 +557,7 @@ const VirtualMeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                   <br></br>
-                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default" 
+                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
                   hidden={exportButtonHidden}
                   onClick={handleExport} >
                     {t('Export')}

@@ -227,7 +227,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ws[tco2e_col + '7'].fill = table_fill
         ws[tco2e_col + '7'].font = name_font
         ws[tco2e_col + '7'].alignment = c_c_alignment
-        ws[tco2e_col + '7'] = 'Ton of Carbon Dioxide Emissions (TCO2E) Saving'
+        ws[tco2e_col + '7'] = 'Ton of Carbon Dioxide Emissions (TCO2E) Decreased'
         ws[tco2e_col + '7'].border = f_border
 
         ws[tco2e_col + '8'].font = name_font
@@ -333,8 +333,8 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             line.dLbls = DataLabelList()
             line.dLbls = DataLabelList()
             line.dLbls.dLblPos = 't'
-            line.dLbls.showVal = True  # 数量显示
-            line.dLbls.showPercent = False  # 百分比显示
+            line.dLbls.showVal = True
+            line.dLbls.showPercent = False
             ws.add_chart(line, "B12")
 
             col = 'B'
