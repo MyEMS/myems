@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+- 
+### Changed
+- 
+### Fixed
+- 
+### Removed
+-
+
+## [v2.1.0] - 2022-09-09
+### Added
 - added MAX/MIN/AVG to parameters line charts
 - added associated equipments trend data to combined equipment input energy category report
 - added new protocol to datasource in myems-api
@@ -15,6 +25,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 - updated demo database
 - updated docker build instruction in README
+- updated daterange picker in myems-web
 - 
 ### Fixed
 - fixed start datetime issue for virtual point in myems-normalization
@@ -950,7 +961,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v2.0.0...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v2.1.0...HEAD
+[2.1.0]: https://github.com/MyEMS/myems/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/MyEMS/myems/compare/v1.9.6...v2.0.0
 [v1.9.6]: https://github.com/MyEMS/myems/compare/v1.9.5...v1.9.6
 [v1.9.5]: https://github.com/MyEMS/myems/compare/v1.9.4...v1.9.5

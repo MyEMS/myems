@@ -2857,6 +2857,11 @@ curl -i -X GET {{base_url}}/reports/virtualmetercost?virtualmeterid=1&periodtype
 curl -i -X GET {{base_url}}/reports/virtualmeterenergy?virtualmeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
 
+*   GET Virtual Meter Saving Report
+```bash
+curl -i -X GET {{base_url}}/reports/virtualmetersaving?virtualmeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
+
 ## References
 
 [1]. http://myems.io
