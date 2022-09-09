@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added new protocol to datasource in myems-api
 - added meter saving report
 - added meter comparison report
+- added virtual meter saving report
 - 
 ### Changed
 - updated demo database

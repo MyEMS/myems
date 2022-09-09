@@ -238,7 +238,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
     else:
         for i in range(6, 9 + 1):
-            ws.rows_dimensions[i].height = 0.1
+            ws.row_dimensions[i].height = 0.1
 
     ####################################################################################################################
 
