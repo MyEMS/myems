@@ -238,12 +238,12 @@ const resources = {
       'Reporting Period CATEGORY Median UNIT': 'Reporting Period {{CATEGORY}} Median (Middle Value) {{UNIT}}',
       'Reporting Period CATEGORY Stdev UNIT': 'Reporting Period {{CATEGORY}} Sample Standard Deviation {{UNIT}}',
       'Reporting Period CATEGORY Variance UNIT': 'Reporting Period {{CATEGORY}} Sample Variance {{UNIT}}',
-      'Reporting Period Savings CATEGORY (Baseline - Actual) UNIT':
-        'Reporting Period Savings {{CATEGORY}} (Baseline - Actual) {{UNIT}}',
+      'Reporting Period Saving CATEGORY (Baseline - Actual) UNIT':
+        'Reporting Period Saving {{CATEGORY}} (Baseline - Actual) {{UNIT}}',
       'Reporting Period Decreased CATEGORY (Baseline - Actual) UNIT':
         'Reporting Period Decreased {{CATEGORY}} (Baseline - Actual) {{UNIT}}',
-      'Reporting Period Savings CATEGORY VALUE UNIT': 'Reporting Period Savings {{CATEGORY}} {{VALUE}} {{UNIT}}',
-      'Base Period Savings CATEGORY VALUE UNIT': 'Base Period Savings {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Saving CATEGORY VALUE UNIT': 'Reporting Period Saving {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Base Period Saving CATEGORY VALUE UNIT': 'Base Period Saving {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Master Meter Consumption CATEGORY UNIT':
         'Reporting Period Master Meter Consumption {{CATEGORY}} {{UNIT}}',
       'Reporting Period Master Meter Consumption CATEGORY VALUE UNIT':
@@ -1058,13 +1058,13 @@ const resources = {
       'Reporting Period CATEGORY Median UNIT': 'Berichtszeitraum {{CATEGORY}} Median (Mittlerer Wert) {{UNIT}}',
       'Reporting Period CATEGORY Stdev UNIT': 'Berichtszeitraum {{CATEGORY}} Standardabweichung der Probe {{UNIT}}',
       'Reporting Period CATEGORY Variance UNIT': 'Berichtszeitraum {{CATEGORY}} Stichprobenvarianz {{UNIT}}',
-      'Reporting Period Savings CATEGORY (Baseline - Actual) UNIT':
+      'Reporting Period Saving CATEGORY (Baseline - Actual) UNIT':
         'Einsparungen im Berichtszeitraum {{CATEGORY}} (Grundlinie - Ist) {{UNIT}}',
       'Reporting Period Decreased CATEGORY (Baseline - Actual) UNIT':
         'Berichtszeitraum verkürzt {{CATEGORY}} (Grundlinie - Ist) {{UNIT}}',
-      'Reporting Period Savings CATEGORY VALUE UNIT':
+      'Reporting Period Saving CATEGORY VALUE UNIT':
         'Einsparungen im Berichtszeitraum {{CATEGORY}} {{VALUE}} {{UNIT}}',
-      'Base Period Savings CATEGORY VALUE UNIT': 'Einsparungen in der Basisperiode {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Base Period Saving CATEGORY VALUE UNIT': 'Einsparungen in der Basisperiode {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Master Meter Consumption CATEGORY UNIT':
         'Berichtszeitraum Master Meter Verbrauch {{CATEGORY}} {{UNIT}}',
       'Reporting Period Master Meter Consumption CATEGORY VALUE UNIT':
@@ -1871,10 +1871,10 @@ const resources = {
       'Reporting Period CATEGORY Median UNIT': '报告期 {{CATEGORY}} 中位数 {{UNIT}}',
       'Reporting Period CATEGORY Stdev UNIT': '报告期 {{CATEGORY}} 样本标准差 {{UNIT}}',
       'Reporting Period CATEGORY Variance UNIT': '报告期 {{CATEGORY}} 样本方差 {{UNIT}}',
-      'Reporting Period Savings CATEGORY (Baseline - Actual) UNIT': '报告期节约 {{CATEGORY}} (基线-实际) {{UNIT}}',
+      'Reporting Period Saving CATEGORY (Baseline - Actual) UNIT': '报告期节约 {{CATEGORY}} (基线-实际) {{UNIT}}',
       'Reporting Period Decreased CATEGORY (Baseline - Actual) UNIT': '报告期减少 {{CATEGORY}} (基线-实际) {{UNIT}}',
-      'Reporting Period Savings CATEGORY VALUE UNIT': '报告期节约 {{CATEGORY}} {{VALUE}} {{UNIT}}',
-      'Base Period Savings CATEGORY VALUE UNIT': '基准期节约 {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Saving CATEGORY VALUE UNIT': '报告期节约 {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Base Period Saving CATEGORY VALUE UNIT': '基准期节约 {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Master Meter Consumption CATEGORY UNIT': '报告期总表消耗 {{CATEGORY}} {{UNIT}}',
       'Reporting Period Master Meter Consumption CATEGORY VALUE UNIT': '报告期总表消耗 {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Submeters Consumption CATEGORY UNIT': '报告期分表消耗 {{CATEGORY}} {{UNIT}}',

@@ -1,3 +1,4 @@
+import re
 import falcon
 import simplejson as json
 import mysql.connector
@@ -6,7 +7,6 @@ from datetime import datetime, timedelta, timezone
 from core import utilities
 from decimal import Decimal
 import excelexporters.meterenergy
-import re
 
 
 class Reporting:
