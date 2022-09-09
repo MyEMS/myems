@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f3fa636a-0bb7-4040-b6fc-af74f2f507e7",
+		"_postman_id": "77093ec5-f2ac-424f-a143-7796f92cb930",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -11789,7 +11789,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Meter Energy Saving Report",
+					"name": "GET Meter Saving Report",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -14056,6 +14056,50 @@
 							"path": [
 								"reports",
 								"virtualmeterenergy"
+							],
+							"query": [
+								{
+									"key": "virtualmeterid",
+									"value": "1"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Virtual Meter Saving Report",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/virtualmetersaving?virtualmeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"virtualmetersaving"
 							],
 							"query": [
 								{
