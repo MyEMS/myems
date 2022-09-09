@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 - updated demo database
 - updated docker build instruction in README
+- updated daterange picker in myems-web
 - 
 ### Fixed
 - fixed start datetime issue for virtual point in myems-normalization
