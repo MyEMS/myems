@@ -14,7 +14,7 @@ import openpyxl.utils.cell as format_cell
 # PROCEDURES
 # Step 1: Validate the report data
 # Step 2: Generate excel file
-# Step 3: Encode the excel file bytes to Base64
+# Step 3: Encode the excel file to Base64
 ########################################################################################################################
 
 
@@ -158,14 +158,12 @@ def generate_excel(report,
     # if has not energy data: set low height for rows
     ####################################################################################################################
     reporting_period_data = report['reporting_period']
-
-    has_energy_data_flag = True
     if "names" not in reporting_period_data.keys() or \
             reporting_period_data['names'] is None or \
             len(reporting_period_data['names']) == 0:
-        has_energy_data_flag = False
-
-    if has_energy_data_flag:
+        for i in range(6, 8 + 1):
+            ws.row_dimensions[i].height = 0.1
+    else:
         ws['B6'].font = title_font
         ws['B6'] = name + ' ' + 'Reporting Period Carbon Dioxide Emissions'
 
@@ -228,9 +226,6 @@ def generate_excel(report,
             if reporting_period_data['total_increment_rate'] is not None else "-"
         ws[col + '9'].border = f_border
 
-    else:
-        for i in range(6, 8 + 1):
-            ws.row_dimensions[i].height = 0.1
     ####################################################################################################################
     # Second: Electricity Carbon Dioxide Emissions by Time-Of-Use
     # 12: title
@@ -238,13 +233,12 @@ def generate_excel(report,
     # 14~17 table_data
     # Total: 6 rows
     ####################################################################################################################
-    has_ele_peak_flag = True
     if "toppeaks" not in reporting_period_data.keys() or \
             reporting_period_data['toppeaks'] is None or \
             len(reporting_period_data['toppeaks']) == 0:
-        has_ele_peak_flag = False
-
-    if has_ele_peak_flag:
+        for i in range(12, 18 + 1):
+            ws.row_dimensions[i].height = 0.1
+    else:
         ws['B12'].font = title_font
         ws['B12'] = name + ' ' + 'Electricity Carbon Dioxide Emissions by Time-Of-Use'
 
@@ -316,23 +310,14 @@ def generate_excel(report,
 
         ws.add_chart(pie, "D13")
 
-    else:
-        for i in range(12, 18 + 1):
-            ws.row_dimensions[i].height = 0.1
-        # end_row 10
-        # start_row 12
     ####################################################################################################################
     # Second: Carbon Dioxide Emissions Proportion by Energy Category
     ####################################################################################################################
     current_row_number = 19
-
-    has_subtotals_data_flag = True
-
     if 'subtotals' not in reporting_period_data.keys() or \
             reporting_period_data['subtotals'] is None:
-        has_subtotals_data_flag = False
-
-    if has_subtotals_data_flag:
+        pass
+    else:
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)] = name + ' ' + 'Carbon Dioxide Emissions Proportion'
 
@@ -401,7 +386,6 @@ def generate_excel(report,
     ####################################################################################################################
     reporting_period_data = report['reporting_period']
     times = reporting_period_data['timestamps']
-    has_detail_data_flag = True
     ca_len = len(report['reporting_period']['names'])
     real_timestamps_len = timestamps_data_not_equal_0(report['parameters']['timestamps'])
     table_row = current_row_number + 2 + ca_len*6 + real_timestamps_len*7
@@ -409,9 +393,8 @@ def generate_excel(report,
     if "timestamps" not in reporting_period_data.keys() or \
             reporting_period_data['timestamps'] is None or \
             len(reporting_period_data['timestamps']) == 0:
-        has_detail_data_flag = False
-
-    if has_detail_data_flag:
+        pass
+    else:
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)] = name + ' ' + 'Detailed Data'
 
@@ -498,7 +481,6 @@ def generate_excel(report,
 
     current_sheet_parameters_row_number = chart_start_row_number + ca_len * 6
     ####################################################################################################################
-    has_parameters_names_and_timestamps_and_values_data = True
     if 'parameters' not in report.keys() or \
             report['parameters'] is None or \
             'names' not in report['parameters'].keys() or \
@@ -511,9 +493,8 @@ def generate_excel(report,
             report['parameters']['values'] is None or \
             len(report['parameters']['values']) == 0 or \
             timestamps_data_all_equal_0(report['parameters']['timestamps']):
-
-        has_parameters_names_and_timestamps_and_values_data = False
-    if has_parameters_names_and_timestamps_and_values_data:
+        pass
+    else:
 
         ################################################################################################################
         # new worksheet

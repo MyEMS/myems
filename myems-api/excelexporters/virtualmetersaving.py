@@ -54,7 +54,6 @@ def export(report, name, reporting_start_datetime_local, reporting_end_datetime_
 
 def generate_excel(report, name, reporting_start_datetime_local, reporting_end_datetime_local, period_type):
     wb = Workbook()
-    # todo
     ws = wb.active
     ws.title = "VirtualMeterSaving"
     # Row height

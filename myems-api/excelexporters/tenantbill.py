@@ -12,7 +12,7 @@ from openpyxl import Workbook
 # PROCEDURES
 # Step 1: Validate the report data
 # Step 2: Generate excel file
-# Step 3: Encode the excel file bytes to Base64
+# Step 3: Encode the excel file to Base64
 ########################################################################################################################
 
 
@@ -138,15 +138,12 @@ def generate_excel(report,
     img.height = 117
     ws.add_image(img, 'I12')
 
-    has_lease_number_data_flag = True
     if "tenant" not in report.keys() or \
             report['tenant'] is None or \
             'lease_number' not in report['tenant'].keys() or \
             report['tenant']['lease_number'] is None:
-        has_lease_number_data_flag = False
         ws.row_dimensions[24].height = 0.1
-
-    if has_lease_number_data_flag:
+    else:
         ws['B24'].font = name_font
         ws['B24'].alignment = b_r_alignment
         ws['B24'] = 'Lease Number:'
@@ -154,14 +151,11 @@ def generate_excel(report,
         ws['C24'].font = name_font
         ws['C24'] = report['tenant']['lease_number']
 
-    has_tenant_data_flag = True
     if "tenant" not in report.keys() or \
             report['tenant'] is None:
-        has_tenant_data_flag = False
         for i in range(36, 41 + 1):
             ws.row_dimensions[i].height = 0.1
-
-    if has_tenant_data_flag:
+    else:
         report_tenant_data = report['tenant']
         for i in range(36, 41 + 1):
             ws.merge_cells('C{}:D{}'.format(i, i))
@@ -207,13 +201,10 @@ def generate_excel(report,
                          and report['reporting_period']['total_cost'] is not None
                       else 0, 2))
 
-    has_reporting_period_data_flag = True
-
     if 'reporting_period' not in report.keys() \
             or report['reporting_period'] is None:
-        has_reporting_period_data_flag = False
-
-    if has_reporting_period_data_flag:
+        pass
+    else:
         ws.row_dimensions[53].height = 25.0
         for i in range(ord('B'), ord('J')):
             ws[chr(i) + '53'].fill = table_fill

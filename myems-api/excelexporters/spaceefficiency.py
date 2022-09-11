@@ -14,7 +14,7 @@ import openpyxl.utils.cell as format_cell
 # PROCEDURES
 # Step 1: Validate the report data
 # Step 2: Generate excel file
-# Step 3: Encode the excel file bytes to Base64
+# Step 3: Encode the excel file to Base64
 ########################################################################################################################
 
 
@@ -152,19 +152,13 @@ def generate_excel(report,
         return filename
 
     ####################################################################################################################
-
     current_row_number = 6
-
     reporting_period_data = report['reporting_period_efficiency']
-
-    has_names_data_flag = True
-
     if "names" not in reporting_period_data.keys() or \
             reporting_period_data['names'] is None or \
             len(reporting_period_data['names']) == 0:
-        has_names_data_flag = False
-
-    if has_names_data_flag:
+        pass
+    else:
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)] = name + ' ' + 'Reporting Period Cumulative Efficiency'
 

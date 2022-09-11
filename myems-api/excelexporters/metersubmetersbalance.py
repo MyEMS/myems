@@ -142,15 +142,11 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
         return filename
     ####################################################################################################################
-
-    has_difference_values_data_flag = True
+    current_row_number = 6
     if 'difference_values' not in report['reporting_period'].keys() or len(
             report['reporting_period']['difference_values']) == 0:
-        has_difference_values_data_flag = False
-
-    current_row_number = 6
-
-    if has_difference_values_data_flag:
+        pass
+    else:
         reporting_period_data = report['reporting_period']
         category = report['meter']['energy_category_name']
 
@@ -309,7 +305,6 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             pass
 
     ####################################################################################################################
-    has_parameters_names_and_timestamps_and_values_data = True
     # 12 is the starting line number of the last line chart in the report period
     category = report['meter']['energy_category_name']
     ca_len = len(category)
@@ -327,8 +322,8 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             report['parameters']['values'] is None or \
             len(report['parameters']['values']) == 0 or \
             timestamps_data_all_equal_0(report['parameters']['timestamps']):
-        has_parameters_names_and_timestamps_and_values_data = False
-    if has_parameters_names_and_timestamps_and_values_data:
+        pass
+    else:
 
         ################################################################################################################
         # new worksheet

@@ -147,12 +147,10 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
     # 7: table title
     # 8~9 table_data
     ####################################################################################################################
-    has_energy_data_flag = True
-
     if "values" not in report['reporting_period'].keys() or len(report['reporting_period']['values']) == 0:
-        has_energy_data_flag = False
-
-    if has_energy_data_flag:
+        for i in range(6, 9 + 1):
+            ws.row_dimensions[i].height = 0.1
+    else:
         ws['B6'].font = title_font
         ws['B6'] = name + ' ' + 'Consumption'
 
@@ -238,9 +236,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ws[tco2e_col + '9'] = str(round(reporting_period_data['increment_rate'] * 100, 2)) + "%" \
             if reporting_period_data['increment_rate'] is not None else "-"
         ws[tco2e_col + '9'].border = f_border
-    else:
-        for i in range(6, 9 + 1):
-            ws.row_dimensions[i].height = 0.1
+
     ####################################################################################################################
     # Second: Detailed Data
     # 11: title
@@ -248,14 +244,13 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
     # 18: table title
     # 19~43: table_data
     ####################################################################################################################
-    has_energy_detail_flag = True
     reporting_period_data = report['reporting_period']
     times = reporting_period_data['timestamps']
 
     if "values" not in report['reporting_period'].keys() or len(report['reporting_period']['values']) == 0:
-        has_energy_detail_flag = False
-
-    if has_energy_detail_flag:
+        for i in range(11, 43 + 1):
+            ws.row_dimensions[i].height = 0.0
+    else:
         reporting_period_data = report['reporting_period']
         category = report['meter']['energy_category_name']
         ca_len = len(category)
@@ -349,12 +344,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                 ws[col + row] = round(reporting_period_data['total_in_category'], 2)
                 ws[col + row].border = f_border
 
-    else:
-        for i in range(11, 43 + 1):
-            ws.row_dimensions[i].height = 0.0
-
     ##########################################
-    has_parameters_names_and_timestamps_and_values_data = True
     # 12 is the starting line number of the last line chart in the report period
     category = report['meter']['energy_category_name']
     time_len = len(reporting_period_data['timestamps'])
@@ -372,9 +362,8 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             report['parameters']['values'] is None or \
             len(report['parameters']['values']) == 0 or \
             timestamps_data_all_equal_0(report['parameters']['timestamps']):
-        has_parameters_names_and_timestamps_and_values_data = False
-    if has_parameters_names_and_timestamps_and_values_data:
-
+        pass
+    else:
         ################################################################################################################
         # new worksheet
         ################################################################################################################

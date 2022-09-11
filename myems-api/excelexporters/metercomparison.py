@@ -13,8 +13,8 @@ import openpyxl.utils.cell as format_cell
 ########################################################################################################################
 # PROCEDURES
 # Step 1: Validate the report data
-# Step 2: Generate excelexporters file
-# Step 3: Encode the excelexporters file to Base64
+# Step 2: Generate excel file from the report data
+# Step 3: Encode the excel file to Base64
 ########################################################################################################################
 
 def export(result, name1, name2, reporting_start_datetime_local, reporting_end_datetime_local, period_type):
@@ -60,7 +60,6 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
     wb = Workbook()
     ws = wb.active
     ws.title = "MeterComaprison"
-    # todo: add sheets for meter2
     # Row height
     ws.row_dimensions[1].height = 102
     for i in range(2, 2000 + 1):
@@ -157,12 +156,10 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
     # 11: meter2 table title
     # 12~13: meter2 table_data
     ####################################################################################################################
-    has_energy_data_flag = True
-
     if "values" not in report['reporting_period1'].keys() or len(report['reporting_period1']['values']) == 0:
-        has_energy_data_flag = False
-
-    if has_energy_data_flag:
+        for i in range(6, 9 + 1):
+            ws.row_dimensions[i].height = 0.1
+    else:
         ws['B6'].font = title_font
         ws['B6'] = name1 + ' ' + 'Consumption'
 
@@ -200,14 +197,11 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
 
         # TCE TCO2E
         end_col = col
-    else:
-        for i in range(6, 9 + 1):
-            ws.row_dimensions[i].height = 0.1
 
     if "values" not in report['reporting_period2'].keys() or len(report['reporting_period2']['values']) == 0:
-        has_energy_data_flag = False
-
-    if has_energy_data_flag:
+        for i in range(11, 14 + 1):
+            ws.row_dimensions[i].height = 0.1
+    else:
         ws['B10'].font = title_font
         ws['B10'] = name2 + ' ' + 'Consumption'
 
@@ -245,9 +239,7 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
 
         # TCE TCO2E
         end_col = col
-    else:
-        for i in range(11, 14 + 1):
-            ws.row_dimensions[i].height = 0.1
+
     ####################################################################################################################
     # Second: Detailed Data
     # 15: title
@@ -257,18 +249,17 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
     # parameter_len: len(report['parameters1']['names']) + len(report['parameters1']['names'])
     # timestamps_len: reporting_period_data1['timestamps']
     ####################################################################################################################
-    has_energy_detail_flag = True
     reporting_period_data1 = report['reporting_period1']
     reporting_period_data2 = report['reporting_period2']
     times = reporting_period_data1['timestamps']
 
-    if "values" not in report['reporting_period1'].keys() or len(report['reporting_period1']['values']) == 0:
-        has_energy_detail_flag = False
-
-    if "values" not in report['reporting_period2'].keys() or len(report['reporting_period2']['values']) == 0:
-        has_energy_detail_flag = False
-
-    if has_energy_detail_flag:
+    if "values" not in report['reporting_period1'].keys() or \
+            len(report['reporting_period1']['values']) == 0 or \
+            "values" not in report['reporting_period2'].keys() or \
+            len(report['reporting_period2']['values']) == 0:
+        for i in range(11, 43 + 1):
+            ws.row_dimensions[i].height = 0.0
+    else:
         reporting_period_data1 = report['reporting_period1']
         reporting_period_data2 = report['reporting_period2']
         category = report['meter1']['energy_category_name']
@@ -402,11 +393,6 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
                 ws[col + row].alignment = c_c_alignment
                 ws[col + row] = round(reporting_period_data2['total_in_category'], 2)
                 ws[col + row].border = f_border
-
-
-    else:
-        for i in range(11, 43 + 1):
-            ws.row_dimensions[i].height = 0.0
 
     ####################################################################################################################
     has_parameters_names_and_timestamps_and_values_data = True
@@ -553,12 +539,11 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
                 try:
                     parameters_ws[col + str(table_current_row_number)] = round(parameters_data1['values'][i][j], 2)
                 except Exception as e:
-                    print('error 1 in excelexporters\meterenergy: ' + str(e))
+                    print('error 1 in excelexporters\\meterenergy: ' + str(e))
                 
                 table_current_row_number += 1
 
             table_current_col_number = table_current_col_number + 3
-
 
         parameters_data2 = report['parameters2']
 
@@ -666,7 +651,7 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
                 try:
                     parameters_ws[col + str(table_current_row_number)] = round(parameters_data2['values'][i][j], 2)
                 except Exception as e:
-                    print('error 1 in excelexporters\meterenergy: ' + str(e))
+                    print('error 1 in excelexporters\\meterenergy: ' + str(e))
                 
                 table_current_row_number += 1
 

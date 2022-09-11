@@ -14,7 +14,7 @@ import openpyxl.utils.cell as format_cell
 # PROCEDURES
 # Step 1: Validate the report data
 # Step 2: Generate excel file
-# Step 3: Encode the excel file bytes to Base64
+# Step 3: Encode the excel file to Base64
 ########################################################################################################################
 
 
@@ -150,19 +150,13 @@ def generate_excel(report,
         return filename
 
     ####################################################################################################################
-
     current_row_number = 6
-
     reporting_period_data = report['reporting_period']
-
-    has_names_data_flag = True
-
     if "names" not in reporting_period_data.keys() or \
             reporting_period_data['names'] is None or \
             len(reporting_period_data['names']) == 0:
-        has_names_data_flag = False
-
-    if has_names_data_flag:
+        pass
+    else:
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)] = name + ' ' + 'Reporting Period Consumption'
 
@@ -302,22 +296,15 @@ def generate_excel(report,
             current_row_number += 1
 
     ####################################################################################################################
-
-    has_values_data = True
-    has_timestamps_data = True
-
     if 'values' not in reporting_period_data.keys() or \
             reporting_period_data['values'] is None or \
-            len(reporting_period_data['values']) == 0:
-        has_values_data = False
-
-    if 'timestamps' not in reporting_period_data.keys() or \
+            len(reporting_period_data['values']) == 0 or \
+            'timestamps' not in reporting_period_data.keys() or \
             reporting_period_data['timestamps'] is None or \
             len(reporting_period_data['timestamps']) == 0 or \
             len(reporting_period_data['timestamps'][0]) == 0:
-        has_timestamps_data = False
-
-    if has_values_data and has_timestamps_data:
+        pass
+    else:
         ca_len = len(reporting_period_data['names'])
         time = reporting_period_data['timestamps'][0]
         real_timestamps_len = timestamps_data_not_equal_0(report['parameters']['timestamps'])
@@ -433,7 +420,6 @@ def generate_excel(report,
             ws.add_chart(line, chart_cell)
     ####################################################################################################################
     current_sheet_parameters_row_number = chart_start_row_number + 1
-    has_parameters_names_and_timestamps_and_values_data = True
     if 'parameters' not in report.keys() or \
             report['parameters'] is None or \
             'names' not in report['parameters'].keys() or \
@@ -446,9 +432,8 @@ def generate_excel(report,
             report['parameters']['values'] is None or \
             len(report['parameters']['values']) == 0 or \
             timestamps_data_all_equal_0(report['parameters']['timestamps']):
-        has_parameters_names_and_timestamps_and_values_data = False
-    if has_parameters_names_and_timestamps_and_values_data:
-
+        pass
+    else:
         ################################################################################################################
         # new worksheet
         ################################################################################################################

@@ -15,7 +15,7 @@ import openpyxl.utils.cell as format_cell
 # PROCEDURES
 # Step 1: Validate the report data
 # Step 2: Generate excel file
-# Step 3: Encode the excel file bytes to Base64
+# Step 3: Encode the excel file to Base64
 ########################################################################################################################
 
 
@@ -155,15 +155,12 @@ def generate_excel(report,
     ####################################################################################################################
 
     reporting_period_data = report['reporting_period']
-
-    has_cost_data_flag = True
-
     if "names" not in reporting_period_data.keys() or \
             reporting_period_data['names'] is None or \
             len(reporting_period_data['names']) == 0:
-        has_cost_data_flag = False
-
-    if has_cost_data_flag:
+        for i in range(6, 8 + 1):
+            ws.row_dimensions[i].height = 0.1
+    else:
         ws['B5'].font = title_font
         ws['B5'] = name + ' ' + 'Reporting Period Income'
         category = reporting_period_data['names']
@@ -224,18 +221,14 @@ def generate_excel(report,
             if reporting_period_data['total_increment_rate'] is not None else "-"
         ws[col + '8'].border = f_border
 
-    else:
-        for i in range(6, 8 + 1):
-            ws.row_dimensions[i].height = 0.1
     ####################################################################################################################
     current_row_number = 10
-    has_subtotals_data_flag = True
     if "subtotals" not in reporting_period_data.keys() or \
             reporting_period_data['subtotals'] is None or \
             len(reporting_period_data['subtotals']) == 0:
-        has_subtotals_data_flag = False
-
-    if has_subtotals_data_flag:
+        for i in range(13, 22 + 1):
+            ws.row_dimensions[i].height = 0.1
+    else:
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)] = name + ' ' + 'Incomes by Energy Category'
 
@@ -307,24 +300,19 @@ def generate_excel(report,
         if ca_len < 4:
             current_row_number = current_row_number - ca_len + 4
 
-    else:
-        for i in range(13, 22 + 1):
-            ws.row_dimensions[i].height = 0.1
-
     ####################################################################################################################
     current_row_number = 14
     reporting_period_data = report['reporting_period']
     times = reporting_period_data['timestamps']
-    has_detail_data_flag = True
     ca_len = len(report['reporting_period']['names'])
     real_timestamps_len = timestamps_data_not_equal_0(report['parameters']['timestamps'])
     table_row = (current_row_number + 1) + ca_len * 6 + real_timestamps_len * 7 + 1
     if "timestamps" not in reporting_period_data.keys() or \
             reporting_period_data['timestamps'] is None or \
             len(reporting_period_data['timestamps']) == 0:
-        has_detail_data_flag = False
-
-    if has_detail_data_flag:
+        for i in range(37, 69 + 1):
+            ws.row_dimensions[i].height = 0.1
+    else:
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)] = name + ' ' + 'Detailed Data'
 
@@ -436,14 +424,7 @@ def generate_excel(report,
             ws[col + row] = round(total_sum, 2)
             ws[col + row].border = f_border
 
-    else:
-        for i in range(37, 69 + 1):
-            ws.row_dimensions[i].height = 0.1
-
     ####################################################################################################################
-
-    has_associated_equipment_flag = True
-
     time_len = len(times[0])
     current_row_number = time_len + table_row + 3
     if "associated_equipment" not in report.keys() or \
@@ -453,9 +434,8 @@ def generate_excel(report,
             or report['associated_equipment']['associated_equipment_names_array'] is None \
             or len(report['associated_equipment']['associated_equipment_names_array']) == 0 \
             or len(report['associated_equipment']['associated_equipment_names_array'][0]) == 0:
-        has_associated_equipment_flag = False
-
-    if has_associated_equipment_flag:
+        pass
+    else:
         associated_equipment = report['associated_equipment']
 
         ws['B' + str(current_row_number)].font = title_font
@@ -515,7 +495,6 @@ def generate_excel(report,
             print(subtotal)
     ####################################################################################################################
     current_sheet_parameters_row_number = chart_start_row_number + ca_len * 6 + 1
-    has_parameters_names_and_timestamps_and_values_data = True
     if 'parameters' not in report.keys() or \
             report['parameters'] is None or \
             'names' not in report['parameters'].keys() or \
@@ -528,10 +507,8 @@ def generate_excel(report,
             report['parameters']['values'] is None or \
             len(report['parameters']['values']) == 0 or \
             timestamps_data_all_equal_0(report['parameters']['timestamps']):
-
-        has_parameters_names_and_timestamps_and_values_data = False
-    if has_parameters_names_and_timestamps_and_values_data:
-
+        pass
+    else:
         ################################################################################################################
         # new worksheet
         ################################################################################################################
