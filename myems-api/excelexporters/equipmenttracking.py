@@ -9,8 +9,8 @@ from openpyxl import Workbook
 ########################################################################################################################
 # PROCEDURES
 # Step 1: Validate the report data
-# Step 2: Generate excelexporters file
-# Step 3: Encode the excelexporters file to Base64
+# Step 2: Generate excel file from the report data
+# Step 3: Encode the excel file to Base64
 ########################################################################################################################
 
 def export(result, space_name):

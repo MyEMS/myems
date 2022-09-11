@@ -146,7 +146,7 @@ def generate_excel(report,
 
         return filename
     ####################################################################################################################
-    # First: 趋势
+    # First: Trend
     # 6: title
     # 7: table title
     # 8~ table_data
@@ -259,13 +259,9 @@ def generate_excel(report,
                 chart_cell = chart_col + str(7 + 6*i)
 
                 ws.add_chart(line, chart_cell)
-    else:
-        pass
 
     ####################################################################################################################
-    has_parameters_names_and_timestamps_and_values_data = True
     # 12 is the starting line number of the last line chart in the report period
-
     if 'parameters' not in report.keys() or \
             report['parameters'] is None or \
             'names' not in report['parameters'].keys() or \
@@ -278,8 +274,8 @@ def generate_excel(report,
             report['parameters']['values'] is None or \
             len(report['parameters']['values']) == 0 or \
             timestamps_data_all_equal_0(report['parameters']['timestamps']):
-        has_parameters_names_and_timestamps_and_values_data = False
-    if has_parameters_names_and_timestamps_and_values_data:
+        pass
+    else:
 
         ################################################################################################################
         # new worksheet
