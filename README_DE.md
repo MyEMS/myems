@@ -57,6 +57,7 @@ Verwendung von Open Source, um die Ziele der CO2-Peak-Kohlenstoffneutralität zu
 | MySQL                            | ✔️             | http://mysql.com/    |
 | MariaDB                          | ✔️             | https://mariadb.org/ |
 | SingleStore                      | ✔️             | https://www.singlestore.com/ |
+| OceanBase                         | ✔️             | https://www.oceanbase.com/ |
 | AWS Cloud                        | ✔️             | https://aws.amazon.com/ |
 | Azure Cloud                      | ✔️             | https://azure.microsoft.com/ |
 | Alibaba Cloud                    | ✔️             | https://aliyun.com/ |
