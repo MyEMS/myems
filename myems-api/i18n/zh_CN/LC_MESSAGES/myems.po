@@ -27,9 +27,9 @@ msgid "End Datetime"
 msgstr "结束时间"
 
 msgid "ID"
-msgstr "编号"
+msgstr "ID"
 
 msgid "Name"
-msgstr "姓名"
+msgstr "名称"
 
 

@@ -11502,7 +11502,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/reports/meterbatch?spaceid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00",
+							"raw": "{{base_url}}/reports/meterbatch?spaceid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00&language=zh_CN",
 							"host": [
 								"{{base_url}}"
 							],
@@ -11522,6 +11522,11 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-11-01T00:00:00"
+								},
+								{
+									"key": "language",
+									"value": "zh_CN",
+									"description": "zh_CN, en, de"
 								}
 							]
 						}

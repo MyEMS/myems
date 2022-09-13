@@ -74,7 +74,7 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
     formattedDayPattern: 'yyyy-MM-dd'
   };
   const dateRangePickerStyle = { display: 'block', zIndex: 10};
-  const language = useContext(AppContext);
+  const { language } = useContext(AppContext);
 
   // buttons
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
@@ -175,7 +175,7 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
       'spaceid=' + selectedSpaceID +
       '&reportingperiodstartdatetime=' + moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
       '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') + 
-      '&language=' + language.language, {
+      '&language=' + language, {
       method: 'GET',
       headers: {
         "Content-type": "application/json",
