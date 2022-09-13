@@ -13,8 +13,8 @@ import openpyxl.utils.cell as format_cell
 ########################################################################################################################
 # PROCEDURES
 # Step 1: Validate the report data
-# Step 2: Generate excelexporters file
-# Step 3: Encode the excelexporters file to Base64
+# Step 2: Generate excel file from the report data
+# Step 3: Encode the excel file to Base64
 ########################################################################################################################
 
 def export(report, name, reporting_start_datetime_local, reporting_end_datetime_local, period_type):
@@ -60,7 +60,6 @@ def export(report, name, reporting_start_datetime_local, reporting_end_datetime_
 def generate_excel(report, name, reporting_start_datetime_local, reporting_end_datetime_local, period_type):
     wb = Workbook()
 
-    # todo
     ws = wb.active
     ws.title = "MeterCarbon"
     # Row height
@@ -146,13 +145,10 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         return filename
 
     ####################################################################################################################
-
-    has_carbon_data_flag = True
-
     if "values" not in report['reporting_period'].keys() or len(report['reporting_period']['values']) == 0:
-        has_carbon_data_flag = False
-
-    if has_carbon_data_flag:
+        for i in range(6, 9 + 1):
+            ws.row_dimensions[i].height = 0.1
+    else:
         ws['B6'].font = title_font
         ws['B6'] = name + 'Reporting Period Carbon Dioxide Emissions'
 
@@ -236,13 +232,8 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             if reporting_period_data['increment_rate'] is not None else "-"
         ws[tco2e_col + '9'].border = f_border
 
-    else:
-        for i in range(6, 9 + 1):
-            ws.rows_dimensions[i].height = 0.1
-
     ####################################################################################################################
 
-    has_carbon_detail_flag = True
     reporting_period_data = report['reporting_period']
     category = report['meter']['energy_category_name']
     ca_len = len(category)
@@ -256,9 +247,9 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         parameters_parameters_datas_len += 1
 
     if "values" not in reporting_period_data.keys() or len(reporting_period_data['values']) == 0:
-        has_carbon_detail_flag = False
-
-    if has_carbon_detail_flag:
+        for i in range(11, 43 + 1):
+            ws.row_dimensions[i].height = 0.0
+    else:
         start_detail_data_row_number = 13 + (parameters_parameters_datas_len + ca_len) * 6
 
         ws['B11'].font = title_font
@@ -340,12 +331,8 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             line.height = 8.25
             line.width = 24
             ws.add_chart(line, "B12")
-    else:
-        for i in range(11, 43 + 1):
-            ws.row_dimensions[i].height = 0.0
 
     ####################################################################################################################
-    has_parameters_names_and_timestamps_and_values_data = True
     # 12 is the starting line number of the last line chart in the report period
     time_len = len(reporting_period_data['timestamps'])
     current_sheet_parameters_row_number = 12 + ca_len * 6
@@ -361,8 +348,8 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             report['parameters']['values'] is None or \
             len(report['parameters']['values']) == 0 or \
             timestamps_data_all_equal_0(report['parameters']['timestamps']):
-        has_parameters_names_and_timestamps_and_values_data = False
-    if has_parameters_names_and_timestamps_and_values_data:
+        pass
+    else:
 
         ################################################################################################################
         # new worksheet

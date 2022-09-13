@@ -58,6 +58,7 @@ MyEMS由资深专业团队开发维护，源代码基于MIT开源软件许可协
 | MySQL                             | ✔️             | http://mysql.com/    |
 | MariaDB                           | ✔️             | https://mariadb.org/ |
 | SingleStore                       | ✔️             | https://www.singlestore.com/ |
+| OceanBase                         | ✔️             | https://www.oceanbase.com/ |
 | AWS 云部署                         | ✔️             | https://aws.amazon.com/ |
 | AZure 云部署                       | ✔️             | https://azure.microsoft.com/ |
 | 阿里云部署                          | ✔️             | https://aliyun.com/ |

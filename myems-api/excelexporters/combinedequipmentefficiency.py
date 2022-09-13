@@ -153,17 +153,12 @@ def generate_excel(report,
     ####################################################################################################################
 
     current_row_number = 6
-
     reporting_period_data = report['reporting_period_efficiency']
-
-    has_names_data_flag = True
-
     if "names" not in reporting_period_data.keys() or \
             reporting_period_data['names'] is None or \
             len(reporting_period_data['names']) == 0:
-        has_names_data_flag = False
-
-    if has_names_data_flag:
+        pass
+    else:
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)] = name + ' ' + 'Reporting Period Cumulative Efficiency'
 
@@ -298,7 +293,7 @@ def generate_excel(report,
 
         has_parameters_names_and_timestamps_and_values_data = False
 
-    #####################################
+    ####################################################################################################################
 
     has_values_data = True
     has_timestamps_data = True

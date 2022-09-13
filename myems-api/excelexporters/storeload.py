@@ -411,8 +411,6 @@ def generate_excel(report,
             ws.add_chart(line, chart_col + chart_cell)
 
     ####################################################################################################################
-    has_parameters_names_and_timestamps_and_values_data = True
-
     ca_len = len(report['reporting_period']['names'])
     current_sheet_parameters_row_number = current_row_number + ca_len * 6
     if 'parameters' not in report.keys() or \
@@ -427,13 +425,11 @@ def generate_excel(report,
             report['parameters']['values'] is None or \
             len(report['parameters']['values']) == 0 or \
             timestamps_data_all_equal_0(report['parameters']['timestamps']):
-        has_parameters_names_and_timestamps_and_values_data = False
-    if has_parameters_names_and_timestamps_and_values_data:
-
+        pass
+    else:
         ################################################################################################################
         # new worksheet
         ################################################################################################################
-
         parameters_data = report['parameters']
 
         parameters_names_len = len(parameters_data['names'])

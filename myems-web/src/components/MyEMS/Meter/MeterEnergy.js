@@ -13,7 +13,7 @@ import {
   Input,
   Label,
   CustomInput,
-  Spinner,
+  Spinner
 } from 'reactstrap';
 import CountUp from 'react-countup';
 import moment from 'moment';

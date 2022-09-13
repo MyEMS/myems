@@ -15,7 +15,7 @@ import openpyxl.utils.cell as format_cell
 # PROCEDURES
 # Step 1: Validate the report data
 # Step 2: Generate excel file
-# Step 3: Encode the excel file bytes to Base64
+# Step 3: Encode the excel file to Base64
 ########################################################################################################################
 
 
@@ -154,14 +154,12 @@ def generate_excel(report,
     ####################################################################################################################
 
     reporting_period_data = report['reporting_period']
-
-    has_energy_data_flag = True
     if "names" not in reporting_period_data.keys() or \
             reporting_period_data['names'] is None or \
             len(reporting_period_data['names']) == 0:
-        has_energy_data_flag = False
-
-    if has_energy_data_flag:
+        for i in range(6, 10 + 1):
+            ws.row_dimensions[i].height = 0.1
+    else:
         ws['B6'].font = title_font
         ws['B6'] = name + ' ' + 'Reporting Period Carbon Dioxide Emissions'
 
@@ -236,19 +234,13 @@ def generate_excel(report,
             if reporting_period_data['total_increment_rate'] is not None else "-"
         ws[end_col + '10'].border = f_border
 
-    else:
-        for i in range(6, 10 + 1):
-            ws.row_dimensions[i].height = 0.1
-
     ####################################################################################################################
-
-    has_ele_peak_flag = True
     if "toppeaks" not in reporting_period_data.keys() or \
             reporting_period_data['toppeaks'] is None or \
             len(reporting_period_data['toppeaks']) == 0:
-        has_ele_peak_flag = False
-
-    if has_ele_peak_flag:
+        for i in range(12, 18 + 1):
+            ws.row_dimensions[i].height = 0.1
+    else:
         ws['B12'].font = title_font
         ws['B12'] = name + 'Electricity Carbon Dioxide Emissions by Time-Of-Use'
 
@@ -351,21 +343,15 @@ def generate_excel(report,
         s1.dLbls.showPercent = True
         ws.add_chart(pie, "E13")
 
-    else:
-        for i in range(12, 18 + 1):
-            ws.row_dimensions[i].height = 0.1
-
     ####################################################################################################################
-
     current_row_number = 19
-
-    has_subtotals_data_flag = True
     if "subtotals" not in reporting_period_data.keys() or \
             reporting_period_data['subtotals'] is None or \
             len(reporting_period_data['subtotals']) == 0:
-        has_subtotals_data_flag = False
-
-    if has_subtotals_data_flag:
+        for i in range(21, 29 + 1):
+            current_row_number = 30
+            ws.row_dimensions[i].height = 0.1
+    else:
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)] = name + ' ' + 'Carbon Dioxide Emissions Proportion'
 
@@ -436,25 +422,17 @@ def generate_excel(report,
         if ca_len < 4:
             current_row_number = current_row_number - ca_len + 4
 
-    else:
-        for i in range(21, 29 + 1):
-            current_row_number = 30
-            ws.row_dimensions[i].height = 0.1
-
     ####################################################################################################################
-
     current_row_number += 1
-
-    has_detail_data_flag = True
-
     table_start_draw_flag = current_row_number + 1
 
     if "timestamps" not in reporting_period_data.keys() or \
             reporting_period_data['timestamps'] is None or \
             len(reporting_period_data['timestamps']) == 0:
-        has_detail_data_flag = False
-
-    if has_detail_data_flag:
+        for i in range(30, 69 + 1):
+            current_row_number = 70
+            ws.row_dimensions[i].height = 0.1
+    else:
         reporting_period_data = report['reporting_period']
         times = reporting_period_data['timestamps']
         ca_len = len(report['reporting_period']['names'])
@@ -584,13 +562,7 @@ def generate_excel(report,
 
             current_row_number += 1
 
-    else:
-        for i in range(30, 69 + 1):
-            current_row_number = 70
-            ws.row_dimensions[i].height = 0.1
     ####################################################################################################################
-    has_parameters_names_and_timestamps_and_values_data = True
-
     ca_len = len(report['reporting_period']['names'])
     current_sheet_parameters_row_number = table_start_draw_flag + ca_len * 6
     if 'parameters' not in report.keys() or \
@@ -605,8 +577,8 @@ def generate_excel(report,
             report['parameters']['values'] is None or \
             len(report['parameters']['values']) == 0 or \
             timestamps_data_all_equal_0(report['parameters']['timestamps']):
-        has_parameters_names_and_timestamps_and_values_data = False
-    if has_parameters_names_and_timestamps_and_values_data:
+        pass
+    else:
 
         ################################################################################################################
         # new worksheet

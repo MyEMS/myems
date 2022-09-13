@@ -14,7 +14,7 @@ import openpyxl.utils.cell as format_cell
 # PROCEDURES
 # Step 1: Validate the report data
 # Step 2: Generate excel file
-# Step 3: Encode the excel file bytes to Base64
+# Step 3: Encode the excel file to Base64
 ########################################################################################################################
 
 
@@ -152,16 +152,13 @@ def generate_excel(report,
         return filename
 
     ####################################################################################################################
-
     reporting_period_data = report['reporting_period']
-
-    has_energy_data_flag = True
     if "names" not in reporting_period_data.keys() or \
             reporting_period_data['names'] is None or \
             len(reporting_period_data['names']) == 0:
-        has_energy_data_flag = False
-
-    if has_energy_data_flag:
+        for i in range(6, 10 + 1):
+            ws.row_dimensions[i].height = 0.1
+    else:
         ws['B6'].font = title_font
         ws['B6'] = name + ' ' + 'Reporting Period Consumption'
 
@@ -261,19 +258,14 @@ def generate_excel(report,
         ws[tco2e_col + '10'] = str(round(reporting_period_data['increment_rate_in_kgco2e'] * 100, 2)) + "%" \
             if reporting_period_data['increment_rate_in_kgco2e'] is not None else "-"
         ws[tco2e_col + '10'].border = f_border
-    else:
-        for i in range(6, 10 + 1):
-            ws.row_dimensions[i].height = 0.1
 
     ####################################################################################################################
-
-    has_ele_peak_flag = True
     if "toppeaks" not in reporting_period_data.keys() or \
             reporting_period_data['toppeaks'] is None or \
             len(reporting_period_data['toppeaks']) == 0:
-        has_ele_peak_flag = False
-
-    if has_ele_peak_flag:
+        for i in range(12, 18 + 1):
+            ws.row_dimensions[i].height = 0.1
+    else:
         ws['B12'].font = title_font
         ws['B12'] = name + ' ' + 'Electricity Consumption by Time-Of-Use'
 
@@ -343,21 +335,15 @@ def generate_excel(report,
         s1.dLbls.showPercent = True
         ws.add_chart(pie, "D13")
 
-    else:
-        for i in range(12, 18 + 1):
-            ws.row_dimensions[i].height = 0.1
-
     ####################################################################################################################
-
     current_row_number = 19
-
-    has_kgce_data_flag = True
     if "subtotals_in_kgce" not in reporting_period_data.keys() or \
             reporting_period_data['subtotals_in_kgce'] is None or \
             len(reporting_period_data['subtotals_in_kgce']) == 0:
-        has_kgce_data_flag = False
-
-    if has_kgce_data_flag:
+        for i in range(21, 29 + 1):
+            current_row_number = 30
+            ws.row_dimensions[i].height = 0.1
+    else:
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)] = name + ' ' + 'Ton of Standard Coal(TCE) by Energy Category'
 
@@ -414,22 +400,15 @@ def generate_excel(report,
         if ca_len < 4:
             current_row_number = current_row_number - ca_len + 4
 
-    else:
-        for i in range(21, 29 + 1):
-            current_row_number = 30
-            ws.row_dimensions[i].height = 0.1
-
     ####################################################################################################################
-
     current_row_number += 1
-    has_kgco2e_data_flag = True
-
     if "subtotals_in_kgco2e" not in reporting_period_data.keys() or \
             reporting_period_data['subtotals_in_kgco2e'] is None or \
             len(reporting_period_data['subtotals_in_kgco2e']) == 0:
-        has_kgco2e_data_flag = False
-
-    if has_kgco2e_data_flag:
+        for i in range(30, 39 + 1):
+            current_row_number = 40
+            ws.row_dimensions[i].height = 0.1
+    else:
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)] = name + ' ' + 'Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category'
 
@@ -485,24 +464,16 @@ def generate_excel(report,
         if ca_len < 4:
             current_row_number = current_row_number - ca_len + 4
 
-    else:
-        for i in range(30, 39 + 1):
-            current_row_number = 40
-            ws.row_dimensions[i].height = 0.1
-
     ####################################################################################################################
     current_row_number += 1
-
-    has_detail_data_flag = True
-
     table_start_draw_flag = current_row_number + 1
-
     if "timestamps" not in reporting_period_data.keys() or \
             reporting_period_data['timestamps'] is None or \
             len(reporting_period_data['timestamps']) == 0:
-        has_detail_data_flag = False
-
-    if has_detail_data_flag:
+        for i in range(40, 69 + 1):
+            current_row_number = 70
+            ws.row_dimensions[i].height = 0.1
+    else:
         reporting_period_data = report['reporting_period']
         times = reporting_period_data['timestamps']
         ca_len = len(report['reporting_period']['names'])
@@ -593,13 +564,8 @@ def generate_excel(report,
 
             current_row_number += 1
 
-    else:
-        for i in range(40, 69 + 1):
-            current_row_number = 70
-            ws.row_dimensions[i].height = 0.1
     ####################################################################################################################
     current_sheet_parameters_row_number = table_start_draw_flag + ca_len * 6 + 1
-    has_parameters_names_and_timestamps_and_values_data = True
     if 'parameters' not in report.keys() or \
             report['parameters'] is None or \
             'names' not in report['parameters'].keys() or \
@@ -612,8 +578,8 @@ def generate_excel(report,
             report['parameters']['values'] is None or \
             len(report['parameters']['values']) == 0 or \
             timestamps_data_all_equal_0(report['parameters']['timestamps']):
-        has_parameters_names_and_timestamps_and_values_data = False
-    if has_parameters_names_and_timestamps_and_values_data:
+        pass
+    else:
 
         ###############################
         # new worksheet

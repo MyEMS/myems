@@ -14,7 +14,7 @@ import openpyxl.utils.cell as format_cell
 # PROCEDURES
 # Step 1: Validate the report data
 # Step 2: Generate excel file
-# Step 3: Encode the excel file bytes to Base64
+# Step 3: Encode the excel file to Base64
 ########################################################################################################################
 
 
@@ -303,13 +303,11 @@ def generate_excel(report,
     # a+1~ analysis_end_row_number+1+line_charts_row_number+: line
     # detailed_start_row_number~ : the detailed data table
     ####################################################################################################################
-    has_timestamps_flag = True
     if "timestamps" not in reporting_period_data.keys() or \
             reporting_period_data['timestamps'] is None or \
             len(reporting_period_data['timestamps']) == 0:
-        has_timestamps_flag = False
-
-    if has_timestamps_flag:
+        pass
+    else:
         timestamps = reporting_period_data['timestamps'][0]
         values = reporting_period_data['values']
         names = reporting_period_data['names']
@@ -401,7 +399,6 @@ def generate_excel(report,
 
     ####################################################################################################################
     current_sheet_parameters_row_number = analysis_end_row_number + 2 + 6 * ca_len
-    has_parameters_names_and_timestamps_and_values_data = True
     if 'parameters' not in report.keys() or \
             report['parameters'] is None or \
             'names' not in report['parameters'].keys() or \
@@ -414,9 +411,8 @@ def generate_excel(report,
             report['parameters']['values'] is None or \
             len(report['parameters']['values']) == 0 or \
             timestamps_data_all_equal_0(report['parameters']['timestamps']):
-        has_parameters_names_and_timestamps_and_values_data = False
-    if has_parameters_names_and_timestamps_and_values_data:
-
+        pass
+    else:
         ################################################################################################################
         # new worksheet
         ################################################################################################################

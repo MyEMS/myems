@@ -31,6 +31,7 @@ class Reporting:
     def on_get(req, resp):
         print(req.params)
         virtual_meter_id = req.params.get('virtualmeterid')
+        virtual_meter_uuid = req.params.get('virtualmeteruuid')
         period_type = req.params.get('periodtype')
         base_period_start_datetime_local = req.params.get('baseperiodstartdatetime')
         base_period_end_datetime_local = req.params.get('baseperiodenddatetime')
@@ -40,16 +41,25 @@ class Reporting:
         ################################################################################################################
         # Step 1: valid parameters
         ################################################################################################################
-        if virtual_meter_id is None:
+        if virtual_meter_id is None and virtual_meter_uuid is None:
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_VIRTUAL_METER_ID')
-        else:
+
+        if virtual_meter_id is not None:
             virtual_meter_id = str.strip(virtual_meter_id)
             if not virtual_meter_id.isdigit() or int(virtual_meter_id) <= 0:
                 raise falcon.HTTPError(falcon.HTTP_400,
                                        title='API.BAD_REQUEST',
                                        description='API.INVALID_VIRTUAL_METER_ID')
+
+        if virtual_meter_uuid is not None:
+            regex = re.compile('^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}\Z', re.I)
+            match = regex.match(str.strip(virtual_meter_uuid))
+            if not bool(match):
+                raise falcon.HTTPError(falcon.HTTP_400,
+                                       title='API.BAD_REQUEST',
+                                       description='API.INVALID_VIRTUAL_METER_UUID')
 
         if period_type is None:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_PERIOD_TYPE')

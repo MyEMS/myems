@@ -379,7 +379,7 @@ class Reporting:
                     base[energy_category_id]['subtotal_in_kgce_actual'] += actual_value * kgce
                     base[energy_category_id]['subtotal_in_kgco2e_actual'] += actual_value * kgco2e
 
-                # calculate base period's energy savings
+                # calculate base period's energy saving
                 for i in range(len(base[energy_category_id]['values_baseline'])):
                     base[energy_category_id]['values_saving'].append(
                         base[energy_category_id]['values_baseline'][i] -

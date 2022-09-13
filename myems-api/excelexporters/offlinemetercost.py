@@ -11,8 +11,8 @@ from openpyxl.chart.label import DataLabelList
 ########################################################################################################################
 # PROCEDURES
 # Step 1: Validate the report data
-# Step 2: Generate excelexporters file
-# Step 3: Encode the excelexporters file to Base64
+# Step 2: Generate excel file from the report data
+# Step 3: Encode the excel file to Base64
 ########################################################################################################################
 
 def export(report, name, reporting_start_datetime_local, reporting_end_datetime_local, period_type):
@@ -58,7 +58,6 @@ def export(report, name, reporting_start_datetime_local, reporting_end_datetime_
 def generate_excel(report, name, reporting_start_datetime_local, reporting_end_datetime_local, period_type):
     wb = Workbook()
 
-    # todo
     ws = wb.active
     ws.title = "OfflineMeterCost"
     # Row height
@@ -144,13 +143,10 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         return filename
 
     ####################################################################################################################
-
-    has_cost_data_flag = True
-
     if "values" not in report['reporting_period'].keys() or len(report['reporting_period']['values']) == 0:
-        has_cost_data_flag = False
-
-    if has_cost_data_flag:
+        for i in range(6, 9 + 1):
+            ws.row_dimensions[i].height = 0.1
+    else:
         ws['B6'].font = title_font
         ws['B6'] = name + 'Reporting Period Costs'
 
@@ -235,22 +231,16 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             if reporting_period_data['increment_rate'] is not None else "-"
         ws[tco2e_col + '9'].border = f_border
 
-    else:
-        for i in range(6, 9 + 1):
-            ws.rows_dimensions[i].height = 0.1
-
     ####################################################################################################################
-
-    has_cost_detail_flag = True
     reporting_period_data = report['reporting_period']
     category = report['offline_meter']['energy_category_name']
     ca_len = len(category)
     times = reporting_period_data['timestamps']
 
     if "values" not in reporting_period_data.keys() or len(reporting_period_data['values']) == 0:
-        has_cost_detail_flag = False
-
-    if has_cost_detail_flag:
+        for i in range(11, 43 + 1):
+            ws.row_dimensions[i].height = 0.0
+    else:
         ws['B11'].font = title_font
         ws['B11'] = name + 'Detailed Data'
 
@@ -330,9 +320,6 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             line.height = 8.25
             line.width = 24
             ws.add_chart(line, "B12")
-    else:
-        for i in range(11, 43 + 1):
-            ws.row_dimensions[i].height = 0.0
 
     filename = str(uuid.uuid4()) + '.xlsx'
     wb.save(filename)
