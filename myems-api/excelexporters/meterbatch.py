@@ -56,6 +56,8 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
     locale_path = './locale/'
     if (language == 'zh_CN'):
         trans = gettext.translation('i18n', locale_path, languages=['zh_CN']) 
+    elif (language == 'de'):
+        trans = gettext.translation('i18n', locale_path, languages=['de_DE'])
     else:
         trans = gettext.translation('i18n', locale_path, languages=['en_US'])
     trans.install()
