@@ -2475,7 +2475,7 @@ curl -i -X GET {{base_url}}/reports/equipmentstatistics?equipmentid=1&periodtype
 ```
 *   GET Meter Batch Analysis Report
 ```bash
-curl -i -X GET {{base_url}}/reports/meterbatch?spaceid=1&reportingperiodstartdatetime=2021-05-01T00:00:00&reportingperiodenddatetime=2021-05-20T11:41:09
+curl -i -X GET {{base_url}}/reports/meterbatch?spaceid=1&reportingperiodstartdatetime=2021-05-01T00:00:00&reportingperiodenddatetime=2021-05-20T11:41:09&language=en
 ```
 * GET Meter Carbon Dioxide Emission Report
 

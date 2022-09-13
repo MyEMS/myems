@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState, useContext } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -17,14 +17,15 @@ import {
 import Cascader from 'rc-cascader';
 import moment from 'moment';
 import loadable from '@loadable/component';
-import { getCookieValue, createCookie } from '../../../helpers/utils';
+import { getCookieValue, createCookie, getItemFromStore } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import ButtonIcon from '../../common/ButtonIcon';
-import { APIBaseURL } from '../../../config';
+import { APIBaseURL, settings } from '../../../config';
 import { DateRangePicker } from 'rsuite';
 import { endOfDay} from 'date-fns';
+import AppContext from '../../../context/Context';
 
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
@@ -73,6 +74,7 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
     formattedDayPattern: 'yyyy-MM-dd'
   };
   const dateRangePickerStyle = { display: 'block', zIndex: 10};
+  const { language } = useContext(AppContext);
 
   // buttons
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
@@ -172,7 +174,8 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
     fetch(APIBaseURL + '/reports/meterbatch?' +
       'spaceid=' + selectedSpaceID +
       '&reportingperiodstartdatetime=' + moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'), {
+      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') + 
+      '&language=' + language, {
       method: 'GET',
       headers: {
         "Content-type": "application/json",
