@@ -194,7 +194,7 @@ def generate_excel(report,
             ws[col + str(current_row_number)].alignment = c_c_alignment
             ws[col + str(current_row_number)].border = f_border
             ws[col + str(current_row_number)] = \
-                reporting_period_data['names'][i] + "   " + _('Baseline') + ' - ' + _('Actual') + "(" + reporting_period_data['units'][i] + ")"
+                reporting_period_data['names'][i] + "   (" + _('Baseline') + ' - ' + _('Actual') + ")(" + reporting_period_data['units'][i] + ")"
 
             col = chr(ord(col) + 1)
 
@@ -202,7 +202,7 @@ def generate_excel(report,
         ws[col + str(current_row_number)].font = name_font
         ws[col + str(current_row_number)].alignment = c_c_alignment
         ws[col + str(current_row_number)].border = f_border
-        ws[col + str(current_row_number)] = _('Ton of Standard Coal') + '  ' + _('Baseline') + ' - ' + _('Actual') + ' (TCE)'
+        ws[col + str(current_row_number)] = _('Ton of Standard Coal') + '  (' + _('Baseline') + ' - ' + _('Actual') + ') (TCE)'
 
         col = chr(ord(col) + 1)
 
@@ -210,7 +210,7 @@ def generate_excel(report,
         ws[col + str(current_row_number)].font = name_font
         ws[col + str(current_row_number)].alignment = c_c_alignment
         ws[col + str(current_row_number)].border = f_border
-        ws[col + str(current_row_number)] = _('Ton of Carbon Dioxide Emissions') + '  ' + _('Baseline') + ' - ' + _('Actual') + ' (TCO2E)'
+        ws[col + str(current_row_number)] = _('Ton of Carbon Dioxide Emissions') + '  (' + _('Baseline') + ' - ' + _('Actual') + ') (TCO2E)'
 
         col = chr(ord(col) + 1)
 

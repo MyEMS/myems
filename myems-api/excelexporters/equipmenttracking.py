@@ -4,6 +4,7 @@ import os
 from openpyxl.styles import Border, Side, Alignment, Font
 from openpyxl.drawing.image import Image
 from openpyxl import Workbook
+import gettext
 
 
 ########################################################################################################################
@@ -13,7 +14,7 @@ from openpyxl import Workbook
 # Step 3: Encode the excel file to Base64
 ########################################################################################################################
 
-def export(result, space_name):
+def export(result, space_name, language):
     ####################################################################################################################
     # Step 1: Validate the report data
     ####################################################################################################################
@@ -24,7 +25,8 @@ def export(result, space_name):
     # Step 2: Generate excel file from the report data
     ####################################################################################################################
     filename = generate_excel(result,
-                              space_name)
+                              space_name,
+                              language)
     ####################################################################################################################
     # Step 3: Encode the excel file to Base64
     ####################################################################################################################
@@ -47,8 +49,18 @@ def export(result, space_name):
     return base64_message
 
 
-def generate_excel(report, space_name):
-
+def generate_excel(report, space_name, language):
+    locale_path = './i18n/'
+    if language == 'zh_CN':
+        trans = gettext.translation('myems', locale_path, languages=['zh_CN'])
+    elif language == 'de':
+        trans = gettext.translation('myems', locale_path, languages=['de'])
+    elif language == 'en':
+        trans = gettext.translation('myems', locale_path, languages=['en'])
+    else:
+        trans = gettext.translation('myems', locale_path, languages=['en'])
+    trans.install()
+    _ = trans.gettext
     wb = Workbook()
     ws = wb.active
     ws.title = "EquipmentTracking"
@@ -93,22 +105,22 @@ def generate_excel(report, space_name):
     ws['B3'].border = f_border
     ws['B3'].font = name_font
     ws['B3'].alignment = b_c_alignment
-    ws['B3'] = 'Name'
+    ws['B3'] = _('Name') + ':'
 
     ws['C3'].border = f_border
     ws['C3'].alignment = b_c_alignment
     ws['C3'].font = name_font
-    ws['C3'] = 'Space'
+    ws['C3'] = _('Space') + ':'
 
     ws['D3'].border = f_border
     ws['D3'].font = name_font
     ws['D3'].alignment = b_c_alignment
-    ws['D3'] = 'Cost Center'
+    ws['D3'] = _('Cost Center') + ':'
 
     ws['E3'].border = f_border
     ws['E3'].alignment = b_c_alignment
     ws['E3'].font = name_font
-    ws['E3'] = 'Description'
+    ws['E3'] = _('Description') + ':'
 
     current_row_number = 4
     for i in range(0, len(report['equipments'])):

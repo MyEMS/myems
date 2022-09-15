@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-09-13 17:25+0800\n"
-"PO-Revision-Date: 2022-09-15 14:58+0800\n"
+"PO-Revision-Date: 2022-09-15 18:24+0800\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -202,3 +202,9 @@ msgstr "Standardabweichung der Probe"
 
 msgid "Sample Variance"
 msgstr "Stichprobenvarianz"
+
+msgid "Cost Center"
+msgstr "Kostenstelle"
+
+msgid "Description"
+msgstr "Beschreibung"

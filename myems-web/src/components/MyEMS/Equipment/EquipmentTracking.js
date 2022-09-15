@@ -1,4 +1,4 @@
-import React, { createRef, Fragment, useEffect, useState } from 'react';
+import React, { createRef, Fragment, useEffect, useState, useContext } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -28,7 +28,7 @@ import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL } from '../../../config';
-
+import AppContext from '../../../context/Context';
 
 const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
   useEffect(() => {
@@ -58,6 +58,8 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
   const [spinnerHidden, setSpinnerHidden] = useState(false);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
+
+  const { language } = useContext(AppContext)
   
   useEffect(() => {
     let isResponseOK = false;
@@ -219,7 +221,8 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
     // begin of getting equipment list
     let isResponseOK = false;
     fetch(APIBaseURL + '/reports/equipmenttracking?' +
-      'spaceid=' + selectedSpaceID, {
+      'spaceid=' + selectedSpaceID + 
+      '&language=' + language, {
       method: 'GET',
       headers: {
         "Content-type": "application/json",

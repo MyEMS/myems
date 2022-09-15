@@ -4,6 +4,7 @@ import os
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 from openpyxl.drawing.image import Image
 from openpyxl import Workbook
+import gettext
 
 
 ########################################################################################################################
@@ -13,7 +14,7 @@ from openpyxl import Workbook
 # Step 3: Encode the excelexporters file to Base64
 ########################################################################################################################
 
-def export(result, space_name, reporting_start_datetime_local, reporting_end_datetime_local):
+def export(result, space_name, reporting_start_datetime_local, reporting_end_datetime_local, language):
     ####################################################################################################################
     # Step 1: Validate the report data
     ####################################################################################################################
@@ -26,7 +27,8 @@ def export(result, space_name, reporting_start_datetime_local, reporting_end_dat
     filename = generate_excel(result,
                               space_name,
                               reporting_start_datetime_local,
-                              reporting_end_datetime_local)
+                              reporting_end_datetime_local,
+                              language)
     ####################################################################################################################
     # Step 3: Encode the excel file to Base64
     ####################################################################################################################
@@ -49,8 +51,18 @@ def export(result, space_name, reporting_start_datetime_local, reporting_end_dat
     return base64_message
 
 
-def generate_excel(report, space_name, reporting_start_datetime_local, reporting_end_datetime_local):
-
+def generate_excel(report, space_name, reporting_start_datetime_local, reporting_end_datetime_local, language):
+    locale_path = './i18n/'
+    if language == 'zh_CN':
+        trans = gettext.translation('myems', locale_path, languages=['zh_CN'])
+    elif language == 'de':
+        trans = gettext.translation('myems', locale_path, languages=['de'])
+    elif language == 'en':
+        trans = gettext.translation('myems', locale_path, languages=['en'])
+    else:
+        trans = gettext.translation('myems', locale_path, languages=['en'])
+    trans.install()
+    _ = trans.gettext
     wb = Workbook()
     ws = wb.active
     ws.title = "EquipmentBatch"
@@ -111,19 +123,19 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
 
     # Title
     ws['B3'].alignment = b_r_alignment
-    ws['B3'] = 'Space:'
+    ws['B3'] = _('Space') + ':'
     ws['C3'].border = b_border
     ws['C3'].alignment = b_c_alignment
     ws['C3'] = space_name
 
     ws['B4'].alignment = b_r_alignment
-    ws['B4'] = 'Reporting Start Datetime:'
+    ws['B4'] = _('Reporting Start Datetime') + ':'
     ws['C4'].border = b_border
     ws['C4'].alignment = b_c_alignment
     ws['C4'] = reporting_start_datetime_local
 
     ws['B5'].alignment = b_r_alignment
-    ws['B5'] = 'Reporting End Datetime:'
+    ws['B5'] = _('Reporting End Datetime') + ':'
     ws['C5'].border = b_border
     ws['C5'].alignment = b_c_alignment
     ws['C5'] = reporting_end_datetime_local
@@ -133,13 +145,13 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
     ws['B6'].font = name_font
     ws['B6'].alignment = c_c_alignment
     ws['B6'].fill = table_fill
-    ws['B6'] = 'Name'
+    ws['B6'] = _('Name')
 
     ws['C6'].border = f_border
     ws['C6'].alignment = c_c_alignment
     ws['C6'].font = name_font
     ws['C6'].fill = table_fill
-    ws['C6'] = 'Space'
+    ws['C6'] = _('Space')
 
     ca_len = len(report['energycategories'])
 
