@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState, useContext } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -25,6 +25,7 @@ import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL } from '../../../config';
 import { DateRangePicker } from 'rsuite';
 import { endOfDay} from 'date-fns';
+import Appcontext from '../../../context/Context'
 
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
@@ -125,6 +126,7 @@ const VirtualMeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
   }, []);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
+  const { language } = useContext(Appcontext);
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
@@ -172,7 +174,8 @@ const VirtualMeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
     fetch(APIBaseURL + '/reports/virtualmeterbatch?' +
       'spaceid=' + selectedSpaceID +
       '&reportingperiodstartdatetime=' + moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'), {
+      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+      '&language=' + language, {
       method: 'GET',
       headers: {
         "Content-type": "application/json",

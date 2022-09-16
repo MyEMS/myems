@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState, useContext } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -27,6 +27,7 @@ import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL } from '../../../config';
 import { DateRangePicker } from 'rsuite';
 import { endOfDay} from 'date-fns';
+import AppContext from '../../../context/Context';
 
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
@@ -78,6 +79,7 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
     formattedDayPattern: 'yyyy-MM-dd'
   };
   const dateRangePickerStyle = { display: 'block', zIndex: 10};
+  const { language } = useContext(AppContext);
 
   // buttons
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
@@ -270,7 +272,8 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
     fetch(APIBaseURL + '/reports/metertrend?' +
       'meterid=' + selectedMeter +
       '&reportingperiodstartdatetime=' + moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'), {
+      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+      '&language=' + language, {
       method: 'GET',
       headers: {
         "Content-type": "application/json",

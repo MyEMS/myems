@@ -36,6 +36,7 @@ class Reporting:
         base_period_end_datetime = req.params.get('baseperiodenddatetime')
         reporting_period_start_datetime = req.params.get('reportingperiodstartdatetime')
         reporting_period_end_datetime = req.params.get('reportingperiodenddatetime')
+        language = req.params.get('language')
 
         ################################################################################################################
         # Step 1: valid parameters
@@ -322,6 +323,7 @@ class Reporting:
                                                      offline_meter['name'],
                                                      reporting_period_start_datetime,
                                                      reporting_period_end_datetime,
-                                                     period_type)
+                                                     period_type,
+                                                     language)
 
         resp.text = json.dumps(result)
