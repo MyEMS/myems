@@ -27,6 +27,7 @@ class Reporting:
     def on_get(req, resp):
         print(req.params)
         space_id = req.params.get('spaceid')
+        language = req.params.get('language')
 
         ################################################################################################################
         # Step 1: valid parameters
@@ -110,5 +111,6 @@ class Reporting:
         # export result to Excel file and then encode the file to base64 string
         result['excel_bytes_base64'] = \
             excelexporters.equipmenttracking.export(result,
-                                                    space_name)
+                                                    space_name,
+                                                    language)
         resp.text = json.dumps(result)

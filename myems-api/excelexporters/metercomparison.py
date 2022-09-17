@@ -8,6 +8,7 @@ from openpyxl.drawing.image import Image
 from openpyxl import Workbook
 from openpyxl.chart.label import DataLabelList
 import openpyxl.utils.cell as format_cell
+import gettext
 
 
 ########################################################################################################################
@@ -17,7 +18,7 @@ import openpyxl.utils.cell as format_cell
 # Step 3: Encode the excel file to Base64
 ########################################################################################################################
 
-def export(result, name1, name2, reporting_start_datetime_local, reporting_end_datetime_local, period_type):
+def export(result, name1, name2, reporting_start_datetime_local, reporting_end_datetime_local, period_type, language):
     ####################################################################################################################
     # Step 1: Validate the report data
     ####################################################################################################################
@@ -32,7 +33,8 @@ def export(result, name1, name2, reporting_start_datetime_local, reporting_end_d
                               name2,
                               reporting_start_datetime_local,
                               reporting_end_datetime_local,
-                              period_type)
+                              period_type,
+                              language)
     ####################################################################################################################
     # Step 3: Encode the excel file to Base64
     ####################################################################################################################
@@ -55,7 +57,20 @@ def export(result, name1, name2, reporting_start_datetime_local, reporting_end_d
     return base64_message
 
 
-def generate_excel(report, name1, name2, reporting_start_datetime_local, reporting_end_datetime_local, period_type):
+def generate_excel(report, name1, name2, reporting_start_datetime_local, reporting_end_datetime_local, period_type,
+                   language):
+
+    locale_path = './i18n/'
+    if language == 'zh_CN':
+        trans = gettext.translation('myems', locale_path, languages=['zh_CN'])
+    elif language == 'de':
+        trans = gettext.translation('myems', locale_path, languages=['de'])
+    elif language == 'en':
+        trans = gettext.translation('myems', locale_path, languages=['en'])
+    else:
+        trans = gettext.translation('myems', locale_path, languages=['en'])
+    trans.install()
+    _ = trans.gettext
 
     wb = Workbook()
     ws = wb.active
@@ -112,31 +127,31 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
 
     # Title
     ws['B3'].alignment = b_r_alignment
-    ws['B3'] = 'Name1:'
+    ws['B3'] = _('Name') + '1:'
     ws['C3'].border = b_border
     ws['C3'].alignment = b_c_alignment
     ws['C3'] = name1
 
     ws['D3'].alignment = b_r_alignment
-    ws['D3'] = 'Name2:'
+    ws['D3'] = _('Name') + '2:'
     ws['E3'].border = b_border
     ws['E3'].alignment = b_c_alignment
     ws['E3'] = name2
 
     ws['F3'].alignment = b_r_alignment
-    ws['F3'] = 'Period:'
+    ws['F3'] = _('Period') + ':'
     ws['G3'].border = b_border
     ws['G3'].alignment = b_c_alignment
     ws['G3'] = period_type
 
     ws['B4'].alignment = b_r_alignment
-    ws['B4'] = 'Reporting Start Datetime:'
+    ws['B4'] = _('Reporting Start Datetime') + ':'
     ws['C4'].border = b_border
     ws['C4'].alignment = b_c_alignment
     ws['C4'] = reporting_start_datetime_local
 
     ws['D4'].alignment = b_r_alignment
-    ws['D4'] = 'Reporting End Datetime:'
+    ws['D4'] = _('Reporting End Datetime') + ':'
     ws['E4'].border = b_border
     ws['E4'].alignment = b_c_alignment
     ws['E4'] = reporting_end_datetime_local
@@ -161,7 +176,7 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
             ws.row_dimensions[i].height = 0.1
     else:
         ws['B6'].font = title_font
-        ws['B6'] = name1 + ' ' + 'Consumption'
+        ws['B6'] = name1 + ' ' + _('Consumption')
 
         reporting_period_data1 = report['reporting_period1']
 
@@ -175,7 +190,7 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
 
         ws['B8'].font = title_font
         ws['B8'].alignment = c_c_alignment
-        ws['B8'] = 'Consumption'
+        ws['B8'] = _('Consumption')
         ws['B8'].border = f_border
 
         col = ''
@@ -203,7 +218,7 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
             ws.row_dimensions[i].height = 0.1
     else:
         ws['B10'].font = title_font
-        ws['B10'] = name2 + ' ' + 'Consumption'
+        ws['B10'] = name2 + ' ' + _('Consumption')
 
         reporting_period_data2 = report['reporting_period2']
 
@@ -217,7 +232,7 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
 
         ws['B12'].font = title_font
         ws['B12'].alignment = c_c_alignment
-        ws['B12'] = 'Consumption'
+        ws['B12'] = _('Consumption')
         ws['B12'].border = f_border
 
         col = ''
@@ -281,7 +296,7 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
             parameters_parameters_datas_len += 1
         start_detail_data_row_num = 15 + (parameters_parameters_datas_len + ca_len_data1 + ca_len_data2) * 6
         ws['B14'].font = title_font
-        ws['B14'] = name1 + ' and ' + name2 + 'Detailed Data'
+        ws['B14'] = name1 + ' and ' + name2 + _('Detailed Data')
 
         ws.row_dimensions[start_detail_data_row_num].height = 60
 
@@ -289,7 +304,7 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
         ws['B' + str(start_detail_data_row_num)].font = title_font
         ws['B' + str(start_detail_data_row_num)].border = f_border
         ws['B' + str(start_detail_data_row_num)].alignment = c_c_alignment
-        ws['B' + str(start_detail_data_row_num)] = 'Datetime'
+        ws['B' + str(start_detail_data_row_num)] = _('Datetime')
         time = times
         has_data = False
         max_row = 0
@@ -355,9 +370,10 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
             # line
             # 15~: line
             line = LineChart()
-            line.title = 'Reporting Period Consumption' 
+            line.title = _('Reporting Period Consumption')
             labels = Reference(ws, min_col=2, min_row=start_detail_data_row_num + 1, max_row=max_row)
-            line_data = Reference(ws, min_col=3, max_col = 2 + ca_len_data1 + ca_len_data2, min_row=start_detail_data_row_num, max_row=max_row)
+            line_data = Reference(ws, min_col=3, max_col = 2 + ca_len_data1 + ca_len_data2,
+                                  min_row=start_detail_data_row_num, max_row=max_row)
             line.add_data(line_data, titles_from_data=True)
             line.set_categories(labels)
             line_data = line.series[0]
@@ -377,7 +393,7 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
 
             ws[col + row].font = title_font
             ws[col + row].alignment = c_c_alignment
-            ws[col + row] = 'Total'
+            ws[col + row] = _('Total')
             ws[col + row].border = f_border
 
             for i in range(0, ca_len_data1):
@@ -465,25 +481,25 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
 
         # Title
         parameters_ws['B3'].alignment = b_r_alignment
-        parameters_ws['B3'] = 'Name:'
+        parameters_ws['B3'] = _('Name') + ':'
         parameters_ws['C3'].border = b_border
         parameters_ws['C3'].alignment = b_c_alignment
         parameters_ws['C3'] = name1
 
         parameters_ws['D3'].alignment = b_r_alignment
-        parameters_ws['D3'] = 'Period:'
+        parameters_ws['D3'] = _('Period') + ':'
         parameters_ws['E3'].border = b_border
         parameters_ws['E3'].alignment = b_c_alignment
         parameters_ws['E3'] = period_type
 
         parameters_ws['B4'].alignment = b_r_alignment
-        parameters_ws['B4'] = 'Reporting Start Datetime:'
+        parameters_ws['B4'] = _('Reporting Start Datetime') + ':'
         parameters_ws['C4'].border = b_border
         parameters_ws['C4'].alignment = b_c_alignment
         parameters_ws['C4'] = reporting_start_datetime_local
 
         parameters_ws['D4'].alignment = b_r_alignment
-        parameters_ws['D4'] = 'Reporting End Datetime:'
+        parameters_ws['D4'] = _('Reporting End Datetime') + ':'
         parameters_ws['E4'].border = b_border
         parameters_ws['E4'].alignment = b_c_alignment
         parameters_ws['E4'] = reporting_end_datetime_local
@@ -491,7 +507,7 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
         parameters_ws_current_row_number = 6
 
         parameters_ws['B' + str(parameters_ws_current_row_number)].font = title_font
-        parameters_ws['B' + str(parameters_ws_current_row_number)] = name1 + ' ' + 'Parameters'
+        parameters_ws['B' + str(parameters_ws_current_row_number)] = name1 + ' ' + _('Parameters')
 
         parameters_ws_current_row_number += 1
 
@@ -577,25 +593,25 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
 
         # Title
         parameters_ws['B3'].alignment = b_r_alignment
-        parameters_ws['B3'] = 'Name:'
+        parameters_ws['B3'] = _('Name') + ':'
         parameters_ws['C3'].border = b_border
         parameters_ws['C3'].alignment = b_c_alignment
         parameters_ws['C3'] = name1
 
         parameters_ws['D3'].alignment = b_r_alignment
-        parameters_ws['D3'] = 'Period:'
+        parameters_ws['D3'] = _('Period') + ':'
         parameters_ws['E3'].border = b_border
         parameters_ws['E3'].alignment = b_c_alignment
         parameters_ws['E3'] = period_type
 
         parameters_ws['B4'].alignment = b_r_alignment
-        parameters_ws['B4'] = 'Reporting Start Datetime:'
+        parameters_ws['B4'] = _('Reporting Start Datetime') + ':'
         parameters_ws['C4'].border = b_border
         parameters_ws['C4'].alignment = b_c_alignment
         parameters_ws['C4'] = reporting_start_datetime_local
 
         parameters_ws['D4'].alignment = b_r_alignment
-        parameters_ws['D4'] = 'Reporting End Datetime:'
+        parameters_ws['D4'] = _('Reporting End Datetime') + ':'
         parameters_ws['E4'].border = b_border
         parameters_ws['E4'].alignment = b_c_alignment
         parameters_ws['E4'] = reporting_end_datetime_local
@@ -603,7 +619,7 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
         parameters_ws_current_row_number = 6
 
         parameters_ws['B' + str(parameters_ws_current_row_number)].font = title_font
-        parameters_ws['B' + str(parameters_ws_current_row_number)] = name2 + ' ' + 'Parameters'
+        parameters_ws['B' + str(parameters_ws_current_row_number)] = name2 + ' ' + _('Parameters')
 
         parameters_ws_current_row_number += 1
 
@@ -662,7 +678,7 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
         ################################################################################################################
 
         ws['B' + str(current_sheet_parameters_row_number)].font = title_font
-        ws['B' + str(current_sheet_parameters_row_number)] = name1 + ' ' + 'Parameters'
+        ws['B' + str(current_sheet_parameters_row_number)] = name1 + ' ' + _('Parameters')
         parameters_names_len = len(report['parameters1']['names'])
         parameters_ws = wb[file_name + 'Parameters1']
 
@@ -710,7 +726,7 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
 
         parameters_ws = wb[file_name + 'Parameters1']
         ws['B' + str(current_sheet_parameters_row_number)].font = title_font
-        ws['B' + str(current_sheet_parameters_row_number)] = name2 + ' ' + 'Parameters'
+        ws['B' + str(current_sheet_parameters_row_number)] = name2 + ' ' + _('Parameters')
 
         current_sheet_parameters_row_number += 1
 

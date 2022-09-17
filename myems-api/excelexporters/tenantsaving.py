@@ -160,7 +160,7 @@ def generate_excel(report,
         pass
     else:
         ws['B' + str(current_row_number)].font = title_font
-        ws['B' + str(current_row_number)] = name + ' ' + '' + 'Reporting Period Savings'
+        ws['B' + str(current_row_number)] = name + ' ' + '' + 'Reporting Period Saving'
 
         current_row_number += 1
 
@@ -204,7 +204,7 @@ def generate_excel(report,
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)].alignment = c_c_alignment
         ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)] = 'Savings'
+        ws['B' + str(current_row_number)] = 'Saving'
 
         col = 'C'
 
@@ -316,7 +316,7 @@ def generate_excel(report,
         ws['C' + str(current_row_number)].font = name_font
         ws['C' + str(current_row_number)].alignment = c_c_alignment
         ws['C' + str(current_row_number)].border = f_border
-        ws['C' + str(current_row_number)] = 'Savings'
+        ws['C' + str(current_row_number)] = 'Saving'
 
         ws['D' + str(current_row_number)].fill = table_fill
         ws['D' + str(current_row_number)].font = name_font
@@ -385,7 +385,7 @@ def generate_excel(report,
         ws['C' + str(current_row_number)].font = name_font
         ws['C' + str(current_row_number)].alignment = c_c_alignment
         ws['C' + str(current_row_number)].border = f_border
-        ws['C' + str(current_row_number)] = 'Savings'
+        ws['C' + str(current_row_number)] = 'Saving'
 
         ws['D' + str(current_row_number)].fill = table_fill
         ws['D' + str(current_row_number)].font = name_font
@@ -540,7 +540,7 @@ def generate_excel(report,
 
         for i in range(0, ca_len):
             line = LineChart()
-            line.title = 'Reporting Period Savings - ' + \
+            line.title = 'Reporting Period Saving - ' + \
                 reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
             labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1, max_row=table_end_row_number)
             line_data = Reference(ws, min_col=3 + i, min_row=table_start_row_number, max_row=table_end_row_number)

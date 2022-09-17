@@ -42,6 +42,7 @@ class Reporting:
         base_period_end_datetime_local = req.params.get('baseperiodenddatetime')
         reporting_period_start_datetime_local = req.params.get('reportingperiodstartdatetime')
         reporting_period_end_datetime_local = req.params.get('reportingperiodenddatetime')
+        language = req.params.get('language')
 
         ################################################################################################################
         # Step 1: valid parameters
@@ -489,6 +490,7 @@ class Reporting:
                                               meter['name'],
                                               reporting_period_start_datetime_local,
                                               reporting_period_end_datetime_local,
-                                              period_type)
+                                              period_type,
+                                              language)
 
         resp.text = json.dumps(result)
