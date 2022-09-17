@@ -1,8 +1,3 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
@@ -32,8 +27,8 @@ msgstr "ID"
 msgid "Name"
 msgstr "Name"
 
-msgid "Period Types"
-msgstr "Period Types"
+msgid "Period Type"
+msgstr "Period Type"
 
 msgid "Reporting Start Datetime"
 msgstr "Reporting Start Datetime"
@@ -167,8 +162,8 @@ msgstr "Reporting Period Output"
 msgid "Output"
 msgstr "Output"
 
-msgid "Reporting Period Savings"
-msgstr "Reporting Period Savings"
+msgid "Reporting Period Saving"
+msgstr "Reporting Period Saving"
 
 msgid "Baseline"
 msgstr "Baseline"
@@ -176,8 +171,11 @@ msgstr "Baseline"
 msgid "Actual"
 msgstr "Actual"
 
-msgid "Savings"
-msgstr "Savings"
+msgid "Saving"
+msgstr "Saving"
+
+msgid "Decreased"
+msgstr "Decreased"
 
 msgid "Statistics"
 msgstr "Statistics"
@@ -208,3 +206,27 @@ msgstr "Cost Center"
 
 msgid "Description"
 msgstr "Description"
+
+msgid "Master Meter Consumption"
+msgstr "Master Meter Consumption"
+
+msgid "Submeters Consumption"
+msgstr "Submeters Consumption"
+
+msgid "Difference"
+msgstr "Difference"
+
+msgid "Percentage Difference"
+msgstr "Percentage Difference"
+
+msgid "Start Integrity Rate"
+msgstr "Start Integrity Rate"
+
+msgid "End Integrity Rate"
+msgstr "End Integrity Rate"
+
+msgid "Full Integrity Rate"
+msgstr "Full Integrity Rate"
+
+msgid "Trend"
+msgstr "Trend"

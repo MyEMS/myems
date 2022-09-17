@@ -5,6 +5,7 @@ from decimal import Decimal
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 from openpyxl.drawing.image import Image
 from openpyxl import Workbook
+import gettext
 
 
 ########################################################################################################################
@@ -14,7 +15,7 @@ from openpyxl import Workbook
 # Step 3: Encode the excelexporters file to Base64
 ########################################################################################################################
 
-def export(result, space_name, reporting_start_datetime_local, reporting_end_datetime_local):
+def export(result, space_name, reporting_start_datetime_local, reporting_end_datetime_local, language):
     ####################################################################################################################
     # Step 1: Validate the report data
     ####################################################################################################################
@@ -27,7 +28,8 @@ def export(result, space_name, reporting_start_datetime_local, reporting_end_dat
     filename = generate_excel(result,
                               space_name,
                               reporting_start_datetime_local,
-                              reporting_end_datetime_local)
+                              reporting_end_datetime_local,
+                              language)
     ####################################################################################################################
     # Step 3: Encode the excel file to Base64
     ####################################################################################################################
@@ -50,7 +52,19 @@ def export(result, space_name, reporting_start_datetime_local, reporting_end_dat
     return base64_message
 
 
-def generate_excel(report, space_name, reporting_start_datetime_local, reporting_end_datetime_local):
+def generate_excel(report, space_name, reporting_start_datetime_local, reporting_end_datetime_local, language):
+
+    locale_path = './i18n/'
+    if language == 'zh_CN':
+        trans = gettext.translation('myems', locale_path, languages=['zh_CN'])
+    elif language == 'de':
+        trans = gettext.translation('myems', locale_path, languages=['de'])
+    elif language == 'en':
+        trans = gettext.translation('myems', locale_path, languages=['en'])
+    else:
+        trans = gettext.translation('myems', locale_path, languages=['en'])
+    trans.install()
+    _ = trans.gettext
 
     wb = Workbook()
     ws = wb.active
@@ -73,24 +87,24 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
                               shrink_to_fit=False,
                               indent=0)
     ws['A3'].alignment = b_r_alignment
-    ws['A3'] = 'Space:'
+    ws['A3'] = _('Space') + ':'
     ws['B3'] = space_name
     ws['A4'].alignment = b_r_alignment
-    ws['A4'] = 'Start Datetime:'
+    ws['A4'] = _('Start Datetime') + ':'
     ws['B4'] = reporting_start_datetime_local
     ws['A5'].alignment = b_r_alignment
-    ws['A5'] = 'End Datetime:'
+    ws['A5'] = _('End Datetime') + ':'
     ws['B5'] = reporting_end_datetime_local
     ws['A6'].alignment = b_r_alignment
-    ws['A6'] = 'Start Integrity Rate:'
+    ws['A6'] = _('Start Integrity Rate') + ':'
     ws['B6'] = (str(report['start_integrity_rate'] * Decimal(100.0)) + '%') \
         if report['start_integrity_rate'] is not None else None
     ws['A7'].alignment = b_r_alignment
-    ws['A7'] = 'End Integrity Rate:'
+    ws['A7'] = _('End Integrity Rate') + ':'
     ws['B7'] = (str(report['end_integrity_rate'] * Decimal(100.0)) + '%') \
         if report['end_integrity_rate'] is not None else None
     ws['A8'].alignment = b_r_alignment
-    ws['A8'] = 'Full Integrity Rate:'
+    ws['A8'] = _('Full Integrity Rate') + ':'
     ws['B8'] = (str(report['full_integrity_rate'] * Decimal(100.0)) + '%') \
         if report['full_integrity_rate'] is not None else None
 

@@ -140,7 +140,7 @@ def generate_excel(report,
     ws['C3'] = name
 
     ws['D3'].alignment = b_r_alignment
-    ws['D3'] = _('Period Types') + ':'
+    ws['D3'] = _('Period Type') + ':'
     ws['E3'].border = b_border
     ws['E3'].alignment = b_c_alignment
     ws['E3'] = period_type
@@ -174,7 +174,7 @@ def generate_excel(report,
         pass
     else:
         ws['B' + str(current_row_number)].font = title_font
-        ws['B' + str(current_row_number)] = name + ' ' + _('Reporting Period Savings')
+        ws['B' + str(current_row_number)] = name + ' ' + _('Reporting Period Saving')
 
         current_row_number += 1
         category = reporting_period_data['names']
@@ -217,7 +217,7 @@ def generate_excel(report,
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)].alignment = c_c_alignment
         ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)] = _('Savings')
+        ws['B' + str(current_row_number)] = _('Saving')
 
         col = 'C'
 
@@ -297,7 +297,7 @@ def generate_excel(report,
         ws['C' + str(current_row_number)].font = name_font
         ws['C' + str(current_row_number)].alignment = c_c_alignment
         ws['C' + str(current_row_number)].border = f_border
-        ws['C' + str(current_row_number)] = _('Savings')
+        ws['C' + str(current_row_number)] = _('Saving')
 
         ws['D' + str(current_row_number)].fill = table_fill
         ws['D' + str(current_row_number)].font = name_font
@@ -366,7 +366,7 @@ def generate_excel(report,
         ws['C' + str(current_row_number)].font = name_font
         ws['C' + str(current_row_number)].alignment = c_c_alignment
         ws['C' + str(current_row_number)].border = f_border
-        ws['C' + str(current_row_number)] = _('Savings')
+        ws['C' + str(current_row_number)] = _('Saving')
 
         ws['D' + str(current_row_number)].fill = table_fill
         ws['D' + str(current_row_number)].font = name_font
@@ -528,7 +528,7 @@ def generate_excel(report,
 
         for i in range(0, ca_len):
             line = LineChart()
-            line.title = _('Reporting Period Savings') + ' - ' + \
+            line.title = _('Reporting Period Saving') + ' - ' + \
                          reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
             labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1, max_row=table_end_row_number)
             line_data = Reference(ws, min_col=3 + i, min_row=table_start_row_number, max_row=table_end_row_number)
@@ -609,7 +609,7 @@ def generate_excel(report,
         parameters_ws['C3'] = name
 
         parameters_ws['D3'].alignment = b_r_alignment
-        parameters_ws['D3'] = _('Period Types') + ':'
+        parameters_ws['D3'] = _('Period Type') + ':'
         parameters_ws['E3'].border = b_border
         parameters_ws['E3'].alignment = b_c_alignment
         parameters_ws['E3'] = period_type

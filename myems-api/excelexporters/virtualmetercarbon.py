@@ -6,6 +6,7 @@ from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 from openpyxl.drawing.image import Image
 from openpyxl import Workbook
 from openpyxl.chart.label import DataLabelList
+import gettext
 
 
 ########################################################################################################################
@@ -15,7 +16,7 @@ from openpyxl.chart.label import DataLabelList
 # Step 3: Encode the excel file to Base64
 ########################################################################################################################
 
-def export(report, name, reporting_start_datetime_local, reporting_end_datetime_local, period_type):
+def export(report, name, reporting_start_datetime_local, reporting_end_datetime_local, period_type, language):
     ####################################################################################################################
     # Step 1: Validate the report data
     ####################################################################################################################
@@ -32,7 +33,8 @@ def export(report, name, reporting_start_datetime_local, reporting_end_datetime_
                               name,
                               reporting_start_datetime_local,
                               reporting_end_datetime_local,
-                              period_type)
+                              period_type,
+                              language)
     ####################################################################################################################
     # Step 3: Encode the excel file to Base64
     ####################################################################################################################
@@ -55,7 +57,20 @@ def export(report, name, reporting_start_datetime_local, reporting_end_datetime_
     return base64_message
 
 
-def generate_excel(report, name, reporting_start_datetime_local, reporting_end_datetime_local, period_type):
+def generate_excel(report, name, reporting_start_datetime_local, reporting_end_datetime_local, period_type, language):
+
+    locale_path = './i18n/'
+    if language == 'zh_CN':
+        trans = gettext.translation('myems', locale_path, languages=['zh_CN'])
+    elif language == 'de':
+        trans = gettext.translation('myems', locale_path, languages=['de'])
+    elif language == 'en':
+        trans = gettext.translation('myems', locale_path, languages=['en'])
+    else:
+        trans = gettext.translation('myems', locale_path, languages=['en'])
+    trans.install()
+    _ = trans.gettext
+
     wb = Workbook()
 
     ws = wb.active
@@ -112,25 +127,25 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
     # Title
     ws['B3'].alignment = b_r_alignment
-    ws['B3'] = 'Name:'
+    ws['B3'] = _('Name') + ':'
     ws['C3'].border = b_border
     ws['C3'].alignment = b_c_alignment
     ws['C3'] = name
 
     ws['D3'].alignment = b_r_alignment
-    ws['D3'] = 'Period:'
+    ws['D3'] = _('Period') + ':'
     ws['E3'].border = b_border
     ws['E3'].alignment = b_c_alignment
     ws['E3'] = period_type
 
     ws['B4'].alignment = b_r_alignment
-    ws['B4'] = 'Reporting Start Datetime:'
+    ws['B4'] = _('Reporting Start Datetime') + ':'
     ws['C4'].border = b_border
     ws['C4'].alignment = b_c_alignment
     ws['C4'] = reporting_start_datetime_local
 
     ws['D4'].alignment = b_r_alignment
-    ws['D4'] = 'Reporting End Datetime:'
+    ws['D4'] = _('Reporting End Datetime') + ':'
     ws['E4'].border = b_border
     ws['E4'].alignment = b_c_alignment
     ws['E4'] = reporting_end_datetime_local
@@ -148,7 +163,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             ws.row_dimensions[i].height = 0.1
     else:
         ws['B6'].font = title_font
-        ws['B6'] = name + 'Reporting Period Carbon'
+        ws['B6'] = name + _('Reporting Period Carbon')
 
         reporting_period_data = report['reporting_period']
         category = report['virtual_meter']['energy_category_name']
@@ -160,12 +175,12 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
         ws['B8'].font = title_font
         ws['B8'].alignment = c_c_alignment
-        ws['B8'] = 'Carbon Dioxide Emissions'
+        ws['B8'] = _('Carbon Dioxide Emissions')
         ws['B8'].border = f_border
 
         ws['B9'].font = title_font
         ws['B9'].alignment = c_c_alignment
-        ws['B9'] = 'Increment Rate'
+        ws['B9'] = _('Increment Rate')
         ws['B9'].border = f_border
 
         col = 'B'
@@ -198,7 +213,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ws[tce_col + '7'].fill = table_fill
         ws[tce_col + '7'].font = name_font
         ws[tce_col + '7'].alignment = c_c_alignment
-        ws[tce_col + '7'] = 'Ton of Standard Coal (TCE)'
+        ws[tce_col + '7'] = _('Ton of Standard Coal') + '(TCE)'
         ws[tce_col + '7'].border = f_border
 
         ws[tce_col + '8'].font = name_font
@@ -217,7 +232,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ws[tco2e_col + '7'].fill = table_fill
         ws[tco2e_col + '7'].font = name_font
         ws[tco2e_col + '7'].alignment = c_c_alignment
-        ws[tco2e_col + '7'] = 'Ton of Carbon Dioxide Emissions (TCO2E)'
+        ws[tco2e_col + '7'] = _('Ton of Carbon Dioxide Emissions') + '(TCO2E)'
         ws[tco2e_col + '7'].border = f_border
 
         ws[tco2e_col + '8'].font = name_font
@@ -241,14 +256,14 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             ws.row_dimensions[i].height = 0.0
     else:
         ws['B11'].font = title_font
-        ws['B11'] = name + 'Detailed Data'
+        ws['B11'] = name + _('Detailed Data')
 
         ws.row_dimensions[18].height = 60
         ws['B18'].fill = table_fill
         ws['B18'].font = title_font
         ws['B18'].border = f_border
         ws['B18'].alignment = c_c_alignment
-        ws['B18'] = 'Datetime'
+        ws['B18'] = _('Datetime')
         time = times
         has_data = False
         max_row = 0
@@ -272,7 +287,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
             ws['B' + str(end_data_row_number + 1)].font = title_font
             ws['B' + str(end_data_row_number + 1)].alignment = c_c_alignment
-            ws['B' + str(end_data_row_number + 1)] = 'Total'
+            ws['B' + str(end_data_row_number + 1)] = _('Total')
             ws['B' + str(end_data_row_number + 1)].border = f_border
 
             for i in range(0, ca_len):
@@ -311,9 +326,9 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             line_data.marker.symbol = "circle"
             line_data.smooth = True
             line.x_axis.crosses = 'min'
-            line.title = 'Reporting Period Carbon - ' + \
-                         report['virtual_meter']['energy_category_name'] + \
-                         " (" + report['virtual_meter']['unit_of_measure'] + ")"
+            line.title = _('Reporting Period Carbon') + ' - ' + \
+                report['virtual_meter']['energy_category_name'] + \
+                " (" + report['virtual_meter']['unit_of_measure'] + ")"
             line.dLbls = DataLabelList()
             line.dLbls.dLblPos = 't'
             line.dLbls.showVal = True

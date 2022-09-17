@@ -16,7 +16,7 @@ import {
   Spinner
 } from 'reactstrap';
 import CountUp from 'react-countup';
-import moment, { lang } from 'moment';
+import moment from 'moment';
 import loadable from '@loadable/component';
 import Cascader from 'rc-cascader';
 import CardSummary from '../common/CardSummary';
