@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState, useContext } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -32,6 +32,7 @@ import { periodTypeOptions } from '../common/PeriodTypeOptions';
 import { comparisonTypeOptions } from '../common/ComparisonTypeOptions';
 import { DateRangePicker } from 'rsuite';
 import { endOfDay} from 'date-fns';
+import AppContext from '../../../context/Context';
 
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
@@ -87,6 +88,7 @@ const EquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
     formattedDayPattern: 'yyyy-MM-dd'
   };
   const dateRangePickerStyle = { display: 'block', zIndex: 10};
+  const { language } = useContext(AppContext);
 
   // buttons
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
@@ -317,7 +319,8 @@ const EquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
       '&baseperiodstartdatetime=' + (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
       '&baseperiodenddatetime=' + (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
       '&reportingperiodstartdatetime=' + moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'), {
+      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') + 
+      '&language=' + language, {
       method: 'GET',
       headers: {
         "Content-type": "application/json",

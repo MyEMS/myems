@@ -33,6 +33,7 @@ class Reporting:
         space_id = req.params.get('spaceid')
         reporting_period_start_datetime_local = req.params.get('reportingperiodstartdatetime')
         reporting_period_end_datetime_local = req.params.get('reportingperiodenddatetime')
+        language = req.params.get('language')
 
         ################################################################################################################
         # Step 1: valid parameters
@@ -238,5 +239,6 @@ class Reporting:
             excelexporters.equipmentbatch.export(result,
                                                  space_name,
                                                  reporting_period_start_datetime_local,
-                                                 reporting_period_end_datetime_local)
+                                                 reporting_period_end_datetime_local,
+                                                 language)
         resp.text = json.dumps(result)

@@ -34,6 +34,7 @@ class Reporting:
         meter_uuid = req.params.get('meteruuid')
         reporting_period_start_datetime_local = req.params.get('reportingperiodstartdatetime')
         reporting_period_end_datetime_local = req.params.get('reportingperiodenddatetime')
+        language = req.params.get('language')
         quick_mode = req.params.get('quickmode')
 
         ################################################################################################################
@@ -290,6 +291,7 @@ class Reporting:
                                                                             meter['name'],
                                                                             reporting_period_start_datetime_local,
                                                                             reporting_period_end_datetime_local,
-                                                                            None)
+                                                                            None,
+                                                                            language)
 
         resp.text = json.dumps(result)
