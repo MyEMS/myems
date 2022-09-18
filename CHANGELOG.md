@@ -5,11 +5,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
-- added internationalization to myems-api
 - 
 ### Changed
 - 
 ### Fixed
+- 
+### Removed
+-
+
+## [v2.2.0] - 2022-09-18
+### Added
+- added internationalization to myems-api
+- added i18n to excel exporters of space in myems-api
+- added i18n to excel exporters of meter in myems-api
+- added i18n to excel exporters of virtual meter in myems-api
+- added i18n to excel exporters of offline meter in myems-api
+- added i18n to excel exporters of equipment in myems-api
+- added OceanBase to README
+- 
+### Changed
+- 
+### Fixed
+- updated if/else statements for excelexporters in myems-api
 - 
 ### Removed
 -
@@ -962,7 +979,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v2.1.0...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v2.2.0...HEAD
+[2.2.0]: https://github.com/MyEMS/myems/compare/v2.1.0...v2.2.0
 [2.1.0]: https://github.com/MyEMS/myems/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/MyEMS/myems/compare/v1.9.6...v2.0.0
 [v1.9.6]: https://github.com/MyEMS/myems/compare/v1.9.5...v1.9.6

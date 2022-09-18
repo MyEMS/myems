@@ -17,7 +17,7 @@ import {
 import Cascader from 'rc-cascader';
 import moment from 'moment';
 import loadable from '@loadable/component';
-import { getCookieValue, createCookie, getItemFromStore } from '../../../helpers/utils';
+import { getCookieValue, createCookie } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
