@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState, useContext } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -23,6 +23,7 @@ import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL } from '../../../config';
+import Appcontext from '../../../context/Context'
 
 import { DateRangePicker } from 'rsuite';
 import { endOfDay} from 'date-fns';
@@ -75,6 +76,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
     formattedDayPattern: 'yyyy-MM-dd'
   };
   const dateRangePickerStyle = { display: 'block', zIndex: 10};
+  const { language } = useContext(Appcontext);
 
   // buttons
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
@@ -173,7 +175,8 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
     fetch(APIBaseURL + '/reports/tenantbatch?' +
       'spaceid=' + selectedSpaceID +
       '&reportingperiodstartdatetime=' + moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'), {
+      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') + 
+      '&language=' + language, {
       method: 'GET',
       headers: {
         "Content-type": "application/json",

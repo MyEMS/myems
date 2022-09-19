@@ -3,14 +3,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-09-09 16:37+0800\n"
-"PO-Revision-Date: 2022-09-17 10:51+0800\n"
+"PO-Revision-Date: 2022-09-19 16:26+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 2.3\n"
 
 msgid "Space"
 msgstr "空间"
@@ -230,3 +230,66 @@ msgstr "整体数据完整率"
 
 msgid "Trend"
 msgstr "趋势"
+
+msgid "Payment Notice"
+msgstr "付款通知书"
+
+msgid "Lease Number"
+msgstr "租赁数量"
+
+msgid "Bill Number"
+msgstr "账单号码"
+
+msgid "Lease Contract Number"
+msgstr "租赁合同号码"
+
+msgid "Bill Date"
+msgstr "账单日期"
+
+msgid "Payment Due Date"
+msgstr "付款到期日"
+
+msgid "Amount Payable"
+msgstr "应付款金额"
+
+msgid "Energy Category"
+msgstr "能源分类"
+
+msgid "Billing Period Start"
+msgstr "计费周期开始"
+
+msgid "Billing Period End"
+msgstr "结算期结束日期"
+
+msgid "Quantity"
+msgstr "数量"
+
+msgid "Unit"
+msgstr "单位"
+
+msgid "Amount"
+msgstr "金额"
+
+msgid "Tax Rate"
+msgstr "税率"
+
+msgid "VAT Output Tax"
+msgstr "增值税销项税金"
+
+msgid "Total Amount Payable"
+msgstr "应付金额合计"
+
+msgid "Electricity Costs by Time-Of-Use"
+msgstr "分时用电成本"
+
+msgid "Electricity Carbon Dioxide Emissions Proportion by Time-Of-Use"
+msgstr "分时用电排放二氧化碳占比"
+
+msgid "Associated Equipment Data"
+msgstr "相关设备数据"
+
+msgid "Associated Equipment"
+msgstr "相关设备"
+
+msgid "Electricity Cost Proportion by Time-Of-Use"
+msgstr "分时用电成本占比"

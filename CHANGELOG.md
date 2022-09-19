@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+- added i18n to excel exporters of store
+- added i18n to excel exporters of tenant
+- added i18n to excel exporters of shopfloor
+- added i18n to excel exporters of combined equipment
 - 
 ### Changed
 - 
@@ -15,12 +19,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [v2.2.0] - 2022-09-18
 ### Added
-- added internationalization to myems-api
-- added i18n to excel exporters of space in myems-api
-- added i18n to excel exporters of meter in myems-api
-- added i18n to excel exporters of virtual meter in myems-api
-- added i18n to excel exporters of offline meter in myems-api
-- added i18n to excel exporters of equipment in myems-api
+- added i18n to excel exporters of space
+- added i18n to excel exporters of meter
+- added i18n to excel exporters of virtual meter
+- added i18n to excel exporters of offline meter
+- added i18n to excel exporters of equipment
 - added OceanBase to README
 - 
 ### Changed

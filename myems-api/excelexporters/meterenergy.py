@@ -132,19 +132,19 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
     ws['C3'] = name
 
     ws['D3'].alignment = b_r_alignment
-    ws['D3'] = 'Period:'
+    ws['D3'] = _('Period Type') + ':'
     ws['E3'].border = b_border
     ws['E3'].alignment = b_c_alignment
     ws['E3'] = period_type
 
     ws['B4'].alignment = b_r_alignment
-    ws['B4'] = 'Reporting Start Datetime:'
+    ws['B4'] = _('Reporting Start Datetime') + ':'
     ws['C4'].border = b_border
     ws['C4'].alignment = b_c_alignment
     ws['C4'] = reporting_start_datetime_local
 
     ws['D4'].alignment = b_r_alignment
-    ws['D4'] = 'Reporting End Datetime:'
+    ws['D4'] = _('Reporting End Datetime') + ':'
     ws['E4'].border = b_border
     ws['E4'].alignment = b_c_alignment
     ws['E4'] = reporting_end_datetime_local
@@ -387,7 +387,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         parameters_names_len = len(parameters_data['names'])
 
         file_name = (re.sub(r'[^A-Z]', '', ws.title))+'_'
-        parameters_ws = wb.create_sheet(file_name + 'Parameters')
+        parameters_ws = wb.create_sheet(file_name + _('Parameters'))
 
         parameters_timestamps_data_max_len = \
             get_parameters_timestamps_lists_max_len(list(parameters_data['timestamps']))

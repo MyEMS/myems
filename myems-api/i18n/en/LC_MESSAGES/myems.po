@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-09-09 16:44+0800\n"
-"PO-Revision-Date: 2022-09-15 18:23+0800\n"
+"PO-Revision-Date: 2022-09-19 16:19+0800\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -230,3 +230,66 @@ msgstr "Full Integrity Rate"
 
 msgid "Trend"
 msgstr "Trend"
+
+msgid "Payment Notice"
+msgstr "Payment Notice"
+
+msgid "Lease Number"
+msgstr "Lease Number"
+
+msgid "Bill Number"
+msgstr "Bill Number"
+
+msgid "Lease Contract Number"
+msgstr "Lease Contract Number"
+
+msgid "Bill Date"
+msgstr "Bill Date"
+
+msgid "Payment Due Date"
+msgstr "Payment Due Date"
+
+msgid "Amount Payable"
+msgstr "Amount Payable"
+
+msgid "Energy Category"
+msgstr "Energy Category"
+
+msgid "Billing Period Start"
+msgstr "Billing Period Start"
+
+msgid "Billing Period End"
+msgstr "Billing Period End"
+
+msgid "Quantity"
+msgstr "Quantity"
+
+msgid "Unit"
+msgstr "Unit"
+
+msgid "Amount"
+msgstr "Amount"
+
+msgid "Tax Rate"
+msgstr "Tax Rate"
+
+msgid "VAT Output Tax"
+msgstr "VAT Output Tax"
+
+msgid "Total Amount Payable"
+msgstr "Total Amount Payable"
+
+msgid "Electricity Costs by Time-Of-Use"
+msgstr "Electricity Costs by Time-Of-Use"
+
+msgid "Electricity Carbon Dioxide Emissions Proportion by Time-Of-Use"
+msgstr "Electricity Carbon Dioxide Emissions Proportion by Time-Of-Use"
+
+msgid "Associated Equipment Data"
+msgstr "Associated Equipment Data"
+
+msgid "Associated Equipment"
+msgstr "Associated Equipment"
+
+msgid "Electricity Cost Proportion by Time-Of-Use"
+msgstr "Electricity Cost Proportion by Time-Of-Use"

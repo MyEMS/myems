@@ -329,7 +329,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                 ws[col + str(end_data_row_number + 1)].border = f_border
 
             line = LineChart()
-            line.title = 'Reporting Period Costs - ' + report['meter']['energy_category_name'] + \
+            line.title = _('Reporting Period Costs') + ' - ' + report['meter']['energy_category_name'] + \
                          " (" + report['meter']['unit_of_measure'] + ")"
             line_data = Reference(ws, min_col=3, min_row=start_detail_data_row_number, max_row=max_row)
             line.series.append(Series(line_data, title_from_data=True))
@@ -374,7 +374,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         parameters_names_len = len(parameters_data['names'])
 
         file_name = (re.sub(r'[^A-Z]', '', ws.title))+'_'
-        parameters_ws = wb.create_sheet(file_name + 'Parameters')
+        parameters_ws = wb.create_sheet(file_name + _('Parameters'))
 
         parameters_timestamps_data_max_len = \
             get_parameters_timestamps_lists_max_len(list(parameters_data['timestamps']))
