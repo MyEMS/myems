@@ -28,7 +28,8 @@ def export(result, space_name, reporting_start_datetime_local, reporting_end_dat
     filename = generate_excel(result,
                               space_name,
                               reporting_start_datetime_local,
-                              reporting_end_datetime_local, language)
+                              reporting_end_datetime_local,
+                              language)
     ####################################################################################################################
     # Step 3: Encode the excel file to Base64
     ####################################################################################################################
@@ -52,19 +53,6 @@ def export(result, space_name, reporting_start_datetime_local, reporting_end_dat
 
 
 def generate_excel(report, space_name, reporting_start_datetime_local, reporting_end_datetime_local, language):
-
-    locale_path = './i18n/'
-    if language == 'zh_CN':
-        trans = gettext.translation('myems', locale_path, languages=['zh_CN'])
-    elif language == 'de':
-        trans = gettext.translation('myems', locale_path, languages=['de'])
-    elif language == 'en':
-        trans = gettext.translation('myems', locale_path, languages=['en'])
-    else:
-        trans = gettext.translation('myems', locale_path, languages=['en'])
-    trans.install()
-    _ = trans.gettext
-
 
     locale_path = './i18n/'
     if language == 'zh_CN':

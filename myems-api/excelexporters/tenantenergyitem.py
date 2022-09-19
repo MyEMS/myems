@@ -1,5 +1,4 @@
 import base64
-import imp
 import uuid
 import os
 import re

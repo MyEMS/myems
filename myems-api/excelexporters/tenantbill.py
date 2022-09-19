@@ -79,19 +79,6 @@ def generate_excel(report,
     trans.install()
     _ = trans.gettext
 
-
-    locale_path = './i18n/'
-    if language == 'zh_CN':
-        trans = gettext.translation('myems', locale_path, languages=['zh_CN'])
-    elif language == 'de':
-        trans = gettext.translation('myems', locale_path, languages=['de'])
-    elif language == 'en':
-        trans = gettext.translation('myems', locale_path, languages=['en'])
-    else:
-        trans = gettext.translation('myems', locale_path, languages=['en'])
-    trans.install()
-    _ = trans.gettext
-
     wb = Workbook()
     ws = wb.active
     ws.title = "TenantBill"
