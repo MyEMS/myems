@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-09-13 17:25+0800\n"
-"PO-Revision-Date: 2022-09-15 18:24+0800\n"
+"PO-Revision-Date: 2022-09-19 16:24+0800\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -230,3 +230,66 @@ msgstr "Vollständige Integritätsrate"
 
 msgid "Trend"
 msgstr "Trend"
+
+msgid "Payment Notice"
+msgstr "Zahlungshinweis"
+
+msgid "Lease Number"
+msgstr "Vermietung Mengen"
+
+msgid "Bill Number"
+msgstr "Rechnungsnummer"
+
+msgid "Lease Contract Number"
+msgstr "Mietvertragsnummer"
+
+msgid "Bill Date"
+msgstr "Rechnungsdatum"
+
+msgid "Payment Due Date"
+msgstr "Fälligkeitsdatum"
+
+msgid "Amount Payable"
+msgstr "Bezahlbarer Betrag"
+
+msgid "Energy Category"
+msgstr "Energie kategorien"
+
+msgid "Billing Period Start"
+msgstr "Beginn des Abrechnungszeitraums"
+
+msgid "Billing Period End"
+msgstr "Ende des Abrechnungszeitraums"
+
+msgid "Quantity"
+msgstr "Menge"
+
+msgid "Unit"
+msgstr "Maßeinheit"
+
+msgid "Amount"
+msgstr "Geldbetrag"
+
+msgid "Tax Rate"
+msgstr "Steuersatz"
+
+msgid "VAT Output Tax"
+msgstr "Mehrwertsteuer Ausgangssteuer"
+
+msgid "Total Amount Payable"
+msgstr "Gesamtbetrag zahlbar"
+
+msgid "Electricity Costs by Time-Of-Use"
+msgstr "Kosten des Stromverbrauchs nach Zeiteinteilung"
+
+msgid "Electricity Carbon Dioxide Emissions Proportion by Time-Of-Use"
+msgstr "Anteil des Teil Platz Emission von Kohlendioxid bei Zeitaufteilung"
+
+msgid "Associated Equipment Data"
+msgstr "Dazugehörige Geräte Daten"
+
+msgid "Associated Equipment"
+msgstr "Dazugehörige Geräte"
+
+msgid "Electricity Cost Proportion by Time-Of-Use"
+msgstr "Anteil des Teil Platz Kosten des Stromverbrauchs nach Zeiteinteilung"

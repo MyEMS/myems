@@ -43,6 +43,7 @@ class Reporting:
         base_end_datetime_local = req.params.get('baseperiodenddatetime')
         reporting_start_datetime_local = req.params.get('reportingperiodstartdatetime')
         reporting_end_datetime_local = req.params.get('reportingperiodenddatetime')
+        language = req.params.get('language')
 
         ################################################################################################################
         # Step 1: valid parameters
@@ -611,5 +612,6 @@ class Reporting:
                                                                                    combined_equipment['name'],
                                                                                    reporting_start_datetime_local,
                                                                                    reporting_end_datetime_local,
-                                                                                   period_type)
-        resp.text = json.dumps(result)
+                                                                                   period_type,
+                                                                                   language)
+        resp.text = json.dumps(result)  

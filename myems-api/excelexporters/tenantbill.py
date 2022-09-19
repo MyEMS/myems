@@ -6,6 +6,7 @@ from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 from decimal import Decimal
 from openpyxl.drawing.image import Image
 from openpyxl import Workbook
+import gettext
 
 
 ########################################################################################################################
@@ -20,7 +21,8 @@ def export(report,
            name,
            reporting_start_datetime_local,
            reporting_end_datetime_local,
-           period_type):
+           period_type,
+           language):
     ####################################################################################################################
     # Step 1: Validate the report data
     ####################################################################################################################
@@ -34,7 +36,8 @@ def export(report,
                               name,
                               reporting_start_datetime_local,
                               reporting_end_datetime_local,
-                              period_type)
+                              period_type,
+                              language)
     ####################################################################################################################
     # Step 3: Encode the excel file to Base64
     ####################################################################################################################
@@ -61,7 +64,34 @@ def generate_excel(report,
                    name,
                    reporting_start_datetime_local,
                    reporting_end_datetime_local,
-                   period_type):
+                   period_type,
+                   language):
+
+    locale_path = './i18n/'
+    if language == 'zh_CN':
+        trans = gettext.translation('myems', locale_path, languages=['zh_CN'])
+    elif language == 'de':
+        trans = gettext.translation('myems', locale_path, languages=['de'])
+    elif language == 'en':
+        trans = gettext.translation('myems', locale_path, languages=['en'])
+    else:
+        trans = gettext.translation('myems', locale_path, languages=['en'])
+    trans.install()
+    _ = trans.gettext
+
+
+    locale_path = './i18n/'
+    if language == 'zh_CN':
+        trans = gettext.translation('myems', locale_path, languages=['zh_CN'])
+    elif language == 'de':
+        trans = gettext.translation('myems', locale_path, languages=['de'])
+    elif language == 'en':
+        trans = gettext.translation('myems', locale_path, languages=['en'])
+    else:
+        trans = gettext.translation('myems', locale_path, languages=['en'])
+    trans.install()
+    _ = trans.gettext
+
     wb = Workbook()
     ws = wb.active
     ws.title = "TenantBill"
@@ -130,7 +160,7 @@ def generate_excel(report,
 
     ws['C12'].font = notice_font
     ws['C12'].alignment = c_c_alignment
-    ws['C12'] = 'Payment Notice'
+    ws['C12'] = _('Payment Notice')
 
     # img
     img = Image("excelexporters/myemslogo.png")
@@ -146,7 +176,7 @@ def generate_excel(report,
     else:
         ws['B24'].font = name_font
         ws['B24'].alignment = b_r_alignment
-        ws['B24'] = 'Lease Number:'
+        ws['B24'] = _('Lease Number') + ':'
         ws['C24'].alignment = b_l_alignment
         ws['C24'].font = name_font
         ws['C24'] = report['tenant']['lease_number']
@@ -183,11 +213,11 @@ def generate_excel(report,
             ws['H' + str(i)].alignment = b_l_alignment
             ws['H' + str(i)].font = name_font
 
-        ws['E37'] = 'Bill Number:'
-        ws['E38'] = 'Lease Contract Number:'
-        ws['E39'] = 'Bill Date:'
-        ws['E40'] = 'Payment Due Date:'
-        ws['E41'] = 'Amount Payable:'
+        ws['E37'] = _('Bill Number') + ':'
+        ws['E38'] = _('Lease Contract Number') + ':'
+        ws['E39'] = _('Bill Date') + ':'
+        ws['E40'] = _('Payment Due Date') + ':'
+        ws['E41'] = _('Amount Payable') + ':'
 
         # Simulated data
         ws['H37'] = ''
@@ -212,14 +242,14 @@ def generate_excel(report,
             ws[chr(i) + '53'].alignment = c_c_alignment
             ws[chr(i) + '53'].border = f_border
 
-        ws['B53'] = 'Energy Category'
-        ws['C53'] = 'Billing Period Start'
-        ws['D53'] = 'Billing Period End'
-        ws['E53'] = 'Quantity'
-        ws['F53'] = 'Unit'
-        ws['G53'] = 'Amount'
-        ws['H53'] = 'Tax Rate'
-        ws['I53'] = 'VAT Output Tax'
+        ws['B53'] = _('Energy Category')
+        ws['C53'] = _('Billing Period Start')
+        ws['D53'] = _('Billing Period End')
+        ws['E53'] = _('Quantity')
+        ws['F53'] = _('Unit')
+        ws['G53'] = _('Amount')
+        ws['H53'] = _('Tax Rate')
+        ws['I53'] = _('VAT Output Tax')
 
         reporting_period_data = report['reporting_period']
         names = reporting_period_data['names']
@@ -266,7 +296,7 @@ def generate_excel(report,
             ws.merge_cells('B{}:G{}'.format(i, i))
             ws.merge_cells('H{}:I{}'.format(i, i))
 
-        ws['B' + str(current_row_number)] = 'Subtotal:'
+        ws['B' + str(current_row_number)] = _('Subtotal') + ':'
         ws['H' + str(current_row_number)] = report['reporting_period']['currency_unit'] + str(
             round(report['reporting_period']['total_cost']
                   if 'reporting_period' in report.keys()
@@ -279,12 +309,12 @@ def generate_excel(report,
         # Simulated data
         taxes = Decimal(0.00)
 
-        ws['B' + str(current_row_number)] = 'VAT Output Tax:'
+        ws['B' + str(current_row_number)] = _('VAT Output Tax') + ':'
         ws['H' + str(current_row_number)] = report['reporting_period']['currency_unit'] + str(round(taxes, 2))
 
         current_row_number += 1
 
-        ws['B' + str(current_row_number)] = 'Total Amount Payable:'
+        ws['B' + str(current_row_number)] = _('Total Amount Payable') + ':'
         ws['H' + str(current_row_number)] = report['reporting_period']['currency_unit'] + str(
             round(report['reporting_period']['total_cost'] + taxes
                   if 'reporting_period' in report.keys()
