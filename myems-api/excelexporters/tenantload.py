@@ -8,6 +8,7 @@ from openpyxl.drawing.image import Image
 from openpyxl import Workbook
 from openpyxl.chart.label import DataLabelList
 import openpyxl.utils.cell as format_cell
+import gettext
 
 
 ########################################################################################################################
@@ -22,7 +23,8 @@ def export(report,
            name,
            reporting_start_datetime_local,
            reporting_end_datetime_local,
-           period_type):
+           period_type,
+           language):
     ####################################################################################################################
     # Step 1: Validate the report data
     ####################################################################################################################
@@ -36,7 +38,8 @@ def export(report,
                               name,
                               reporting_start_datetime_local,
                               reporting_end_datetime_local,
-                              period_type)
+                              period_type,
+                              language)
     ####################################################################################################################
     # Step 3: Encode the excel file to Base64
     ####################################################################################################################
@@ -59,7 +62,20 @@ def export(report,
     return base64_message
 
 
-def generate_excel(report, name, reporting_start_datetime_local, reporting_end_datetime_local, period_type):
+def generate_excel(report, name, reporting_start_datetime_local, reporting_end_datetime_local, period_type, language):
+
+    locale_path = './i18n/'
+    if language == 'zh_CN':
+        trans = gettext.translation('myems', locale_path, languages=['zh_CN'])
+    elif language == 'de':
+        trans = gettext.translation('myems', locale_path, languages=['de'])
+    elif language == 'en':
+        trans = gettext.translation('myems', locale_path, languages=['en'])
+    else:
+        trans = gettext.translation('myems', locale_path, languages=['en'])
+    trans.install()
+    _ = trans.gettext
+
     wb = Workbook()
 
     # todo
@@ -117,25 +133,25 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
     # Title
     ws['B3'].alignment = b_r_alignment
-    ws['B3'] = 'Name:'
+    ws['B3'] = _('Name') + ':'
     ws['C3'].border = b_border
     ws['C3'].alignment = b_c_alignment
     ws['C3'] = name
 
     ws['D3'].alignment = b_r_alignment
-    ws['D3'] = 'Period:'
+    ws['D3'] = _('Period Type') + ':'
     ws['E3'].border = b_border
     ws['E3'].alignment = b_c_alignment
     ws['E3'] = period_type
 
     ws['B4'].alignment = b_r_alignment
-    ws['B4'] = 'Reporting Start Datetime:'
+    ws['B4'] = _('Reporting Start Datetime') + ':'
     ws['C4'].border = b_border
     ws['C4'].alignment = b_c_alignment
     ws['C4'] = reporting_start_datetime_local
 
     ws['D4'].alignment = b_r_alignment
-    ws['D4'] = 'Reporting End Datetime:'
+    ws['D4'] = _('Reporting End Datetime') + ':'
     ws['E4'].border = b_border
     ws['E4'].alignment = b_c_alignment
     ws['E4'] = reporting_end_datetime_local
@@ -157,7 +173,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ca_len = len(category)
 
         ws['B' + str(current_row_number)].font = title_font
-        ws['B' + str(current_row_number)] = name + 'Reporting Period Average Load'
+        ws['B' + str(current_row_number)] = name + _('Reporting Period Average Load')
 
         current_row_number += 1
 
@@ -179,7 +195,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)].alignment = c_c_alignment
         ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)] = 'Average Load'
+        ws['B' + str(current_row_number)] = _('Average Load')
 
         for i in range(0, ca_len):
             col = chr(ord('C') + i)
@@ -194,7 +210,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)].alignment = c_c_alignment
         ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)] = 'Per Unit Area'
+        ws['B' + str(current_row_number)] = _('Per Unit Area')
 
         for i in range(0, ca_len):
             col = chr(ord('C') + i)
@@ -209,7 +225,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)].alignment = c_c_alignment
         ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)] = 'Increment Rate'
+        ws['B' + str(current_row_number)] = _('Increment Rate')
 
         for i in range(0, ca_len):
             col = chr(ord('C') + i)
@@ -223,7 +239,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         current_row_number += 2
 
         ws['B' + str(current_row_number)].font = title_font
-        ws['B' + str(current_row_number)] = name + 'Reporting Period Maximum Load'
+        ws['B' + str(current_row_number)] = name + _('Reporting Period Maximum Load')
 
         current_row_number += 1
 
@@ -244,7 +260,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)].alignment = c_c_alignment
         ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)] = 'Maximum Load'
+        ws['B' + str(current_row_number)] = _('Maximum Load')
 
         for i in range(0, ca_len):
             col = chr(ord('C') + i)
@@ -259,7 +275,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)].alignment = c_c_alignment
         ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)] = 'Per Unit Area'
+        ws['B' + str(current_row_number)] = _('Per Unit Area')
 
         for i in range(0, ca_len):
             col = chr(ord('C') + i)
@@ -274,7 +290,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)].alignment = c_c_alignment
         ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)] = 'Increment Rate'
+        ws['B' + str(current_row_number)] = _('Increment Rate')
 
         for i in range(0, ca_len):
             col = chr(ord('C') + i)
@@ -288,7 +304,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         current_row_number += 2
 
         ws['B' + str(current_row_number)].font = title_font
-        ws['B' + str(current_row_number)] = name + 'Reporting Period Load Factor'
+        ws['B' + str(current_row_number)] = name + _('Reporting Period Load Factor')
 
         current_row_number += 1
 
@@ -308,7 +324,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)].alignment = c_c_alignment
         ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)] = 'Load Factor'
+        ws['B' + str(current_row_number)] = _('Load Factor')
 
         for i in range(0, ca_len):
             col = chr(ord('C') + i)
@@ -323,7 +339,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)].alignment = c_c_alignment
         ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)] = 'Increment Rate'
+        ws['B' + str(current_row_number)] = _('Increment Rate')
 
         for i in range(0, ca_len):
             col = chr(ord('C') + i)
@@ -353,7 +369,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         time = times[0]
         real_timestamps_len = timestamps_data_not_equal_0(report['parameters']['timestamps'])
         ws['B' + str(current_row_number)].font = title_font
-        ws['B' + str(current_row_number)] = name + 'Detailed Data'
+        ws['B' + str(current_row_number)] = name + _('Detailed Data')
 
         current_row_number += 1
         chart_start_number = current_row_number
@@ -371,7 +387,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)].alignment = c_c_alignment
         ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)] = 'Datetime'
+        ws['B' + str(current_row_number)] = _('Datetime')
 
         col = 'C'
 
@@ -382,7 +398,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                 ws[col + str(current_row_number)].alignment = c_c_alignment
                 ws[col + str(current_row_number)].border = f_border
                 ws[col + str(current_row_number)] = reporting_period_data['names'][i] + \
-                    " Average Load(" + reporting_period_data['units'][i] + "/H)"
+                    " " + _('Average Load') + "(" + reporting_period_data['units'][i] + "/H)"
                 col = chr(ord(col) + 1)
 
             if has_sub_maximums_data_flag:
@@ -391,7 +407,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                 ws[col + str(current_row_number)].alignment = c_c_alignment
                 ws[col + str(current_row_number)].border = f_border
                 ws[col + str(current_row_number)] = reporting_period_data['names'][i] + \
-                    " Maximum Load(" + reporting_period_data['units'][i] + "/H)"
+                    " " + _('Maximum Load') + "(" + reporting_period_data['units'][i] + "/H)"
                 col = chr(ord(col) + 1)
 
         current_row_number += 1
@@ -433,7 +449,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
             if has_sub_averages_data_flag:
                 line = LineChart()
-                line.title = 'Reporting Period Average Load - ' + ws.cell(column=current_chart_col_number,
+                line.title = _('Reporting Period Average Load') + ' - ' + ws.cell(column=current_chart_col_number,
                                                                           row=table_start_number).value
                 datas = Reference(ws, min_col=current_chart_col_number, min_row=table_start_number,
                                   max_row=table_end_number)
@@ -454,7 +470,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
             if has_sub_maximums_data_flag:
                 line = LineChart()
-                line.title = 'Reporting Period Maximum Load - ' + ws.cell(column=current_chart_col_number,
+                line.title = _('Reporting Period Maximum Load') + ' - ' + ws.cell(column=current_chart_col_number,
                                                                           row=table_start_number).value
                 datas = Reference(ws, min_col=current_chart_col_number, min_row=table_start_number,
                                   max_row=table_end_number)
@@ -497,7 +513,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         parameters_names_len = len(parameters_data['names'])
 
         file_name = (re.sub(r'[^A-Z]', '', ws.title))+'_'
-        parameters_ws = wb.create_sheet(file_name + 'Parameters')
+        parameters_ws = wb.create_sheet(file_name + _('Parameters'))
 
         parameters_timestamps_data_max_len = \
             get_parameters_timestamps_lists_max_len(list(parameters_data['timestamps']))
@@ -524,25 +540,25 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
         # Title
         parameters_ws['B3'].alignment = b_r_alignment
-        parameters_ws['B3'] = 'Name:'
+        parameters_ws['B3'] = _('Name') + ':'
         parameters_ws['C3'].border = b_border
         parameters_ws['C3'].alignment = b_c_alignment
         parameters_ws['C3'] = name
 
         parameters_ws['D3'].alignment = b_r_alignment
-        parameters_ws['D3'] = 'Period:'
+        parameters_ws['D3'] = _('Period Type') + ':'
         parameters_ws['E3'].border = b_border
         parameters_ws['E3'].alignment = b_c_alignment
         parameters_ws['E3'] = period_type
 
         parameters_ws['B4'].alignment = b_r_alignment
-        parameters_ws['B4'] = 'Reporting Start Datetime:'
+        parameters_ws['B4'] = _('Reporting Start Datetime') + ':'
         parameters_ws['C4'].border = b_border
         parameters_ws['C4'].alignment = b_c_alignment
         parameters_ws['C4'] = reporting_start_datetime_local
 
         parameters_ws['D4'].alignment = b_r_alignment
-        parameters_ws['D4'] = 'Reporting End Datetime:'
+        parameters_ws['D4'] = _('Reporting End Datetime') + ':'
         parameters_ws['E4'].border = b_border
         parameters_ws['E4'].alignment = b_c_alignment
         parameters_ws['E4'] = reporting_end_datetime_local
@@ -550,7 +566,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         parameters_ws_current_row_number = 6
 
         parameters_ws['B' + str(parameters_ws_current_row_number)].font = title_font
-        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' ' + 'Parameters'
+        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' ' + _('Parameters')
 
         parameters_ws_current_row_number += 1
 
@@ -606,7 +622,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ################################################################################################################
 
         ws['B' + str(current_sheet_parameters_row_number)].font = title_font
-        ws['B' + str(current_sheet_parameters_row_number)] = name + ' ' + 'Parameters'
+        ws['B' + str(current_sheet_parameters_row_number)] = name + ' ' + _('Parameters')
 
         current_sheet_parameters_row_number += 1
 
@@ -623,7 +639,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             data_col = 3 + col_index * 3
             labels_col = 2 + col_index * 3
             col_index += 1
-            line.title = 'Parameters - ' + \
+            line.title = _('Parameters') + ' - ' + \
                          parameters_ws.cell(row=parameters_table_start_row_number, column=data_col).value
             labels = Reference(parameters_ws, min_col=labels_col, min_row=parameters_table_start_row_number + 1,
                                max_row=(len(parameters_data['timestamps'][i]) + parameters_table_start_row_number))

@@ -36,6 +36,7 @@ class Reporting:
         tenant_uuid = req.params.get('tenantuuid')
         reporting_start_datetime_local = req.params.get('reportingperiodstartdatetime')
         reporting_end_datetime_local = req.params.get('reportingperiodenddatetime')
+        language = req.params.get('language')
         # This value is intentionally left daily
         period_type = 'daily'
 
@@ -376,6 +377,7 @@ class Reporting:
                                                                         tenant['name'],
                                                                         reporting_start_datetime_local,
                                                                         reporting_end_datetime_local,
-                                                                        period_type)
+                                                                        period_type,
+                                                                        language)
 
         resp.text = json.dumps(result)

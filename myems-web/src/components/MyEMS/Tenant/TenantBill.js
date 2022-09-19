@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import {
   Breadcrumb,
@@ -30,6 +30,7 @@ import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL } from '../../../config';
 import { DateRangePicker } from 'rsuite';
 import { endOfDay} from 'date-fns';
+import AppContext from '../../../context/Context';
 
 
 const formatCurrency = (number, currency) =>
@@ -106,6 +107,8 @@ const Invoice = ({ setRedirect, setRedirectUrl, t }) => {
   //State
   // Query Parameters
  
+  const { language } = useContext(AppContext);
+
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
   const [selectedSpaceID, setSelectedSpaceID] = useState(undefined);
   const [tenantList, setTenantList] = useState([]);
@@ -296,7 +299,8 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
     fetch(APIBaseURL + '/reports/tenantbill?' +
       'tenantid=' + selectedTenant +
       '&reportingperiodstartdatetime=' + moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'), {
+      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') + 
+      '&language=' + language, {
       method: 'GET',
       headers: {
         "Content-type": "application/json",

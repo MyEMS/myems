@@ -459,7 +459,7 @@ def generate_excel(report,
         parameters_names_len = len(parameters_data['names'])
 
         file_name = (re.sub(r'[^A-Z]', '', ws.title))+'_'
-        parameters_ws = wb.create_sheet(file_name + 'Parameters')
+        parameters_ws = wb.create_sheet(file_name + _('Parameters'))
 
         parameters_timestamps_data_max_len = \
             get_parameters_timestamps_lists_max_len(list(parameters_data['timestamps']))

@@ -8,6 +8,7 @@ from openpyxl.drawing.image import Image
 from openpyxl import Workbook
 from openpyxl.chart.label import DataLabelList
 import openpyxl.utils.cell as format_cell
+import gettext
 
 
 ########################################################################################################################
@@ -22,7 +23,8 @@ def export(report,
            name,
            reporting_start_datetime_local,
            reporting_end_datetime_local,
-           period_type):
+           period_type,
+           language):
     ####################################################################################################################
     # Step 1: Validate the report data
     ####################################################################################################################
@@ -37,7 +39,8 @@ def export(report,
                               name,
                               reporting_start_datetime_local,
                               reporting_end_datetime_local,
-                              period_type)
+                              period_type,
+                              language)
     ####################################################################################################################
     # Step 3: Encode the excel file to Base64
     ####################################################################################################################
@@ -64,7 +67,21 @@ def generate_excel(report,
                    name,
                    reporting_start_datetime_local,
                    reporting_end_datetime_local,
-                   period_type):
+                   period_type,
+                   language):
+
+    locale_path = './i18n/'
+    if language == 'zh_CN':
+        trans = gettext.translation('myems', locale_path, languages=['zh_CN'])
+    elif language == 'de':
+        trans = gettext.translation('myems', locale_path, languages=['de'])
+    elif language == 'en':
+        trans = gettext.translation('myems', locale_path, languages=['en'])
+    else:
+        trans = gettext.translation('myems', locale_path, languages=['en'])
+    trans.install()
+    _ = trans.gettext
+
     wb = Workbook()
     ws = wb.active
     ws.title = "CombinedEquipmentEnergyItem"
@@ -120,25 +137,25 @@ def generate_excel(report,
 
     # Title
     ws['B3'].alignment = b_r_alignment
-    ws['B3'] = 'Name:'
+    ws['B3'] = _('Name') + ':'
     ws['C3'].border = b_border
     ws['C3'].alignment = b_c_alignment
     ws['C3'] = name
 
     ws['D3'].alignment = b_r_alignment
-    ws['D3'] = 'Period:'
+    ws['D3'] = _('Period Type') + ':'
     ws['E3'].border = b_border
     ws['E3'].alignment = b_c_alignment
     ws['E3'] = period_type
 
     ws['B4'].alignment = b_r_alignment
-    ws['B4'] = 'Reporting Start Datetime:'
+    ws['B4'] = _('Reporting Start Datetime') + ':'
     ws['C4'].border = b_border
     ws['C4'].alignment = b_c_alignment
     ws['C4'] = reporting_start_datetime_local
 
     ws['D4'].alignment = b_r_alignment
-    ws['D4'] = 'Reporting End Datetime:'
+    ws['D4'] = _('Reporting End Datetime') + ':'
     ws['E4'].border = b_border
     ws['E4'].alignment = b_c_alignment
     ws['E4'] = reporting_end_datetime_local
@@ -161,7 +178,7 @@ def generate_excel(report,
         pass
     else:
         ws['B' + str(current_row_number)].font = title_font
-        ws['B' + str(current_row_number)] = name + ' ' + 'Reporting Period Consumption'
+        ws['B' + str(current_row_number)] = name + ' ' + _('Reporting Period Consumption')
 
         current_row_number += 1
 
@@ -190,7 +207,7 @@ def generate_excel(report,
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)].alignment = c_c_alignment
         ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)] = '消耗'
+        ws['B' + str(current_row_number)] = _('Per Unit Area')
 
         col = 'C'
 
@@ -207,7 +224,7 @@ def generate_excel(report,
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)].alignment = c_c_alignment
         ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)] = 'Increment Rate'
+        ws['B' + str(current_row_number)] = _('Increment Rate')
 
         col = 'C'
 
@@ -242,7 +259,7 @@ def generate_excel(report,
             ws['C' + str(current_row_number)].fill = table_fill
             ws['C' + str(current_row_number)].alignment = c_c_alignment
             ws['C' + str(current_row_number)].border = f_border
-            ws['C' + str(current_row_number)] = '消耗'
+            ws['C' + str(current_row_number)] = _('Per Unit Area')
 
             current_row_number += 1
 
@@ -304,7 +321,7 @@ def generate_excel(report,
         time = reporting_period_data['timestamps'][0]
         real_timestamps_len = timestamps_data_not_equal_0(report['parameters']['timestamps'])
         ws['B' + str(current_row_number)].font = title_font
-        ws['B' + str(current_row_number)] = name + ' ' + 'Detailed Data'
+        ws['B' + str(current_row_number)] = name + ' ' + _('Detailed Data')
 
         current_row_number += 1
 
@@ -318,7 +335,7 @@ def generate_excel(report,
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)].alignment = c_c_alignment
         ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)] = 'Datetime'
+        ws['B' + str(current_row_number)] = _('Datetime')
 
         col = 'C'
 
@@ -355,7 +372,7 @@ def generate_excel(report,
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)].alignment = c_c_alignment
         ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)] = 'Subtotal'
+        ws['B' + str(current_row_number)] = _('Subtotal')
 
         col = 'C'
 
@@ -391,7 +408,7 @@ def generate_excel(report,
 
         for i in range(0, ca_len):
             line = LineChart()
-            line.title = 'Reporting Period Consumption - ' + \
+            line.title = _('Reporting Period Consumption') + ' - ' + \
                          reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
             labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1, max_row=table_end_row_number)
             line_data = Reference(ws, min_col=3 + i, min_row=table_start_row_number, max_row=table_end_row_number)
@@ -427,7 +444,7 @@ def generate_excel(report,
         associated_equipment = report['associated_equipment']
 
         ws['B' + str(current_row_number)].font = title_font
-        ws['B' + str(current_row_number)] = name + ' ' + 'Associated Equipment Data'
+        ws['B' + str(current_row_number)] = name + ' ' + _('Associated Equipment Data')
 
         current_row_number += 1
         table_start_row_number = current_row_number
@@ -437,7 +454,7 @@ def generate_excel(report,
         ws['B' + str(current_row_number)].font = name_font
         ws['B' + str(current_row_number)].alignment = c_c_alignment
         ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)] = 'Associated Equipment'
+        ws['B' + str(current_row_number)] = _('Associated Equipment')
         ca_len = len(associated_equipment['energy_item_names'])
 
         for i in range(0, ca_len):
@@ -493,7 +510,7 @@ def generate_excel(report,
         parameters_names_len = len(parameters_data['names'])
 
         file_name = (re.sub(r'[^A-Z]', '', ws.title))+'_'
-        parameters_ws = wb.create_sheet(file_name + 'Parameters')
+        parameters_ws = wb.create_sheet(file_name + _('Parameters'))
 
         parameters_timestamps_data_max_len = \
             get_parameters_timestamps_lists_max_len(list(parameters_data['timestamps']))
@@ -520,25 +537,25 @@ def generate_excel(report,
 
         # Title
         parameters_ws['B3'].alignment = b_r_alignment
-        parameters_ws['B3'] = 'Name:'
+        parameters_ws['B3'] = _('Name') + ':'
         parameters_ws['C3'].border = b_border
         parameters_ws['C3'].alignment = b_c_alignment
         parameters_ws['C3'] = name
 
         parameters_ws['D3'].alignment = b_r_alignment
-        parameters_ws['D3'] = 'Period:'
+        parameters_ws['D3'] = _('Period Type') + ':'
         parameters_ws['E3'].border = b_border
         parameters_ws['E3'].alignment = b_c_alignment
         parameters_ws['E3'] = period_type
 
         parameters_ws['B4'].alignment = b_r_alignment
-        parameters_ws['B4'] = 'Reporting Start Datetime:'
+        parameters_ws['B4'] = _('Reporting Start Datetime') + ':'
         parameters_ws['C4'].border = b_border
         parameters_ws['C4'].alignment = b_c_alignment
         parameters_ws['C4'] = reporting_start_datetime_local
 
         parameters_ws['D4'].alignment = b_r_alignment
-        parameters_ws['D4'] = 'Reporting End Datetime:'
+        parameters_ws['D4'] = _('Reporting End Datetime') + ':'
         parameters_ws['E4'].border = b_border
         parameters_ws['E4'].alignment = b_c_alignment
         parameters_ws['E4'] = reporting_end_datetime_local
@@ -546,7 +563,7 @@ def generate_excel(report,
         parameters_ws_current_row_number = 6
 
         parameters_ws['B' + str(parameters_ws_current_row_number)].font = title_font
-        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' ' + 'Parameters'
+        parameters_ws['B' + str(parameters_ws_current_row_number)] = name + ' ' + _('Parameters')
 
         parameters_ws_current_row_number += 1
 
@@ -602,7 +619,7 @@ def generate_excel(report,
         ################################################################################################################
 
         ws['B' + str(current_sheet_parameters_row_number)].font = title_font
-        ws['B' + str(current_sheet_parameters_row_number)] = name + ' ' + 'Parameters'
+        ws['B' + str(current_sheet_parameters_row_number)] = name + ' ' + _('Parameters')
 
         current_sheet_parameters_row_number += 1
 
@@ -619,7 +636,7 @@ def generate_excel(report,
             data_col = 3+col_index*3
             labels_col = 2+col_index*3
             col_index += 1
-            line.title = 'Parameters - ' + \
+            line.title = _('Parameters') + ' - ' + \
                          parameters_ws.cell(row=parameters_table_start_row_number, column=data_col).value
             labels = Reference(parameters_ws, min_col=labels_col, min_row=parameters_table_start_row_number + 1,
                                max_row=(len(parameters_data['timestamps'][i])+parameters_table_start_row_number))
