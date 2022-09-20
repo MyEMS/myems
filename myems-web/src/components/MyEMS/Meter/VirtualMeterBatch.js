@@ -71,7 +71,7 @@ const VirtualMeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
     minutes: t('minutes'),
     seconds: t('seconds'),
     last7Days: t('last7Days'),
-    formattedDayPattern: 'yyyy-MM-dd'
+    formattedMonthPattern: 'yyyy-MM-dd'
   };
   const dateRangePickerStyle = { display: 'block', zIndex: 10};
 
