@@ -111,21 +111,21 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
     # Title
     title_font = Font(size=12, bold=True)
     ws['A9'].font = title_font
-    ws['A9'] = 'ID'
+    ws['A9'] = _('ID')
     ws['B9'].font = title_font
-    ws['B9'] = 'Name'
+    ws['B9'] = _('Name')
     ws['C9'].font = title_font
-    ws['C9'] = 'Space'
+    ws['C9'] = _('Space')
     ws['D9'].font = title_font
-    ws['D9'] = 'Cost Center'
+    ws['D9'] = _('Cost Center')
     ws['E9'].font = title_font
-    ws['E9'] = 'Energy Category'
+    ws['E9'] = _('Energy Category')
     ws['F9'].font = title_font
-    ws['F9'] = 'Description'
+    ws['F9'] = _('Description')
     ws['G9'].font = title_font
-    ws['G9'] = 'Start Value'
+    ws['G9'] = _('Start Value')
     ws['H9'].font = title_font
-    ws['H9'] = 'End Value'
+    ws['H9'] = _('End Value')
 
     current_row_number = 10
     for i in range(0, len(report['meters'])):
