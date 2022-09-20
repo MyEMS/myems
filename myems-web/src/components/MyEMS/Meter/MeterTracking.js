@@ -94,9 +94,9 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
 
   // Results
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
-  const [startIntegrityRate, setStartIntegrityRate] = useState('');
-  const [endIntegrityRate, setEndIntegrityRate] = useState('');
-  const [fullIntegrityRate, setFullIntegrityRate] = useState('');
+  const [startIntegrityRate, setStartIntegrityRate] = useState(0);
+  const [endIntegrityRate, setEndIntegrityRate] = useState(0);
+  const [fullIntegrityRate, setFullIntegrityRate] = useState(0);
 
   useEffect(() => {
     let isResponseOK = false;
@@ -307,9 +307,9 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
           });
           setMeterList(meters);
 
-          setStartIntegrityRate(parseFloat(json['start_integrity_rate'] * 100).toFixed(2) + "%");
-          setEndIntegrityRate(parseFloat(json['end_integrity_rate'] * 100).toFixed(2) + "%");
-          setFullIntegrityRate(parseFloat(json['full_integrity_rate'] * 100).toFixed(2) + "%");
+          setStartIntegrityRate(json['start_integrity_rate'] * 100);
+          setEndIntegrityRate(json['end_integrity_rate'] * 100);
+          setFullIntegrityRate(json['full_integrity_rate'] * 100);
 
           setExcelBytesBase64(json['excel_bytes_base64']);
           
