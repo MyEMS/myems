@@ -111,21 +111,23 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
     # Title
     title_font = Font(size=12, bold=True)
     ws['A9'].font = title_font
-    ws['A9'] = 'ID'
+    ws['A9'] = _('ID')
     ws['B9'].font = title_font
-    ws['B9'] = 'Name'
+    ws['B9'] = _('Name')
     ws['C9'].font = title_font
-    ws['C9'] = 'Space'
+    ws['C9'] = _('Space')
     ws['D9'].font = title_font
-    ws['D9'] = 'Cost Center'
+    ws['D9'] = _('Cost Center')
     ws['E9'].font = title_font
-    ws['E9'] = 'Energy Category'
+    ws['E9'] = _('Energy Category')
     ws['F9'].font = title_font
-    ws['F9'] = 'Description'
+    ws['F9'] = _('Description')
     ws['G9'].font = title_font
-    ws['G9'] = 'Start Value'
+    ws['G9'] = _('Start Value')
     ws['H9'].font = title_font
-    ws['H9'] = 'End Value'
+    ws['H9'] = _('End Value')
+    ws['I9'].font = title_font
+    ws['I9'] = _('Difference Value')
 
     current_row_number = 10
     for i in range(0, len(report['meters'])):
@@ -137,6 +139,7 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
         ws['F' + str(current_row_number)] = report['meters'][i]['description']
         ws['G' + str(current_row_number)] = report['meters'][i]['start_value']
         ws['H' + str(current_row_number)] = report['meters'][i]['end_value']
+        ws['I' + str(current_row_number)] = report['meters'][i]['difference_value']
         current_row_number += 1
 
     filename = str(uuid.uuid4()) + '.xlsx'

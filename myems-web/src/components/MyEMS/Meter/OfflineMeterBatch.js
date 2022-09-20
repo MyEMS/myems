@@ -50,7 +50,7 @@ const OfflineMeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
     }
   });
   // State
-  //Query From
+  //Query Form
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
   const [selectedSpaceID, setSelectedSpaceID] = useState(undefined);
   const [meterList, setMeterList] = useState([]);

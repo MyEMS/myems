@@ -58,7 +58,7 @@ const OfflineMeterCarbon = ({ setRedirect, setRedirectUrl, t }) => {
   });
 
   // State
-  //Query From
+  //Query Form
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
   const [selectedSpaceID, setSelectedSpaceID] = useState(undefined);
   const [offlineMeterList, setOfflineMeterList] = useState([]);

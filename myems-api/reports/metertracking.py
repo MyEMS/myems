@@ -203,6 +203,10 @@ class Reporting:
 
             meter_dict[meter_id]['start_value'] = start_value
             meter_dict[meter_id]['end_value'] = end_value
+            if start_value is not None and end_value is not None:
+                meter_dict[meter_id]['difference_value'] = end_value - start_value
+            else:
+                meter_dict[meter_id]['difference_value'] = None
 
         if cursor_system_db:
             cursor_system_db.close()
@@ -227,7 +231,8 @@ class Reporting:
                 "energy_category_name": meter['energy_category_name'],
                 "description": meter['description'],
                 "start_value": meter['start_value'],
-                "end_value": meter['end_value']
+                "end_value": meter['end_value'],
+                "difference_value": meter['difference_value']
             })
 
         meter_count = len(meter_list)
