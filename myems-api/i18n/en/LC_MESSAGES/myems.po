@@ -299,3 +299,6 @@ msgstr "Start Value"
 
 msgid "End Value"
 msgstr "End Value"
+
+msgid "Difference Value"
+msgstr "Difference Value"

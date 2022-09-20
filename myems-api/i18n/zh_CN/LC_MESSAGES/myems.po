@@ -299,3 +299,6 @@ msgstr "起始值"
 
 msgid "End Value"
 msgstr "结束值"
+
+msgid "Difference Value"
+msgstr "差值"

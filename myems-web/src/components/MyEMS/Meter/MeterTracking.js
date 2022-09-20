@@ -65,7 +65,7 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
   const [meterList, setMeterList] = useState([]);
   const [cascaderOptions, setCascaderOptions] = useState(undefined);
 
-  //Query From
+  //Query Form
   const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([current_moment.clone().startOf('month').toDate(), current_moment.toDate()]);
   const dateRangePickerLocale = {
     sunday: t('sunday'),
@@ -219,6 +219,13 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
       sort: true
     },
     {
+      dataField: 'differencevalue',
+      headerClasses: 'border-0',
+      text: t('Difference Value'),
+      classes: 'border-0 py-2 align-middle',
+      sort: true
+    },
+    {
       dataField: '',
       headerClasses: 'border-0',
       text: '',
@@ -303,7 +310,8 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
               'energycategory': currentValue['energy_category_name'],
               'description': currentValue['description'],
               'startvalue': currentValue['start_value'],
-              'endvalue': currentValue['end_value']});
+              'endvalue': currentValue['end_value'],
+              'differencevalue': currentValue['difference_value']});
           });
           setMeterList(meters);
 

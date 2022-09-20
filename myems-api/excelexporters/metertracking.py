@@ -126,6 +126,8 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
     ws['G9'] = _('Start Value')
     ws['H9'].font = title_font
     ws['H9'] = _('End Value')
+    ws['I9'].font = title_font
+    ws['I9'] = _('Difference Value')
 
     current_row_number = 10
     for i in range(0, len(report['meters'])):
@@ -137,6 +139,7 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
         ws['F' + str(current_row_number)] = report['meters'][i]['description']
         ws['G' + str(current_row_number)] = report['meters'][i]['start_value']
         ws['H' + str(current_row_number)] = report['meters'][i]['end_value']
+        ws['I' + str(current_row_number)] = report['meters'][i]['difference_value']
         current_row_number += 1
 
     filename = str(uuid.uuid4()) + '.xlsx'
