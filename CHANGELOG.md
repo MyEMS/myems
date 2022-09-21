@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added i18n to excel exporters of shopfloor
 - added i18n to excel exporters of combined equipment
 - added difference value to meter tracking report
+- added translation of TARIFF in myems-web
 - 
 ### Changed
 - 
