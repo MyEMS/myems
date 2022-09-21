@@ -395,7 +395,6 @@ const CombinedEquipmentStatistics = ({ setRedirect, setRedirectUrl, t }) => {
           if (currentValue.startsWith('TARIFF-')) {
             currentValue = t('Tariff') + currentValue.replace('TARIFF-', '-');
           }
-          
           names.push({ 'value': 'a' + index, 'label': currentValue });
         });
         setParameterLineChartOptions(names);
