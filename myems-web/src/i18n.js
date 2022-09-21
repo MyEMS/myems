@@ -75,6 +75,8 @@ const resources = {
       "This Year's Costs CATEGORY VALUE UNIT": "This Year's Costs {{CATEGORY}} {{VALUE}} {{UNIT}}",
       "Consumption CATEGORY VALUE UNIT in The Same Period Last Year": "Consumption {{CATEGORY}} {{VALUE}} {{UNIT}}  in The Same Period Last Year",
       "Costs CATEGORY VALUE UNIT in The Same Period Last Year": "Costs {{CATEGORY}} {{VALUE}} {{UNIT}} in The Same Period Last Year",
+      'CATEGORY Consumption UNIT': '{{CATEGORY}} Consumption {{UNIT}}',
+      'CATEGORY Costs UNIT': '{{CATEGORY}} Costs {{UNIT}}',
       // Entities
       'Space': 'Space',
       'Equipment': 'Equipment',
@@ -890,6 +892,8 @@ const resources = {
       "This Year's Costs CATEGORY VALUE UNIT": 'Der Kosten Dieses Jahr {{CATEGORY}} {{VALUE}} {{UNIT}}',
       "Consumption CATEGORY VALUE UNIT in The Same Period Last Year": 'Der Verbrauch {{CATEGORY}} {{VALUE}} {{UNIT}} im gleichen Zeitraum im vergangenen Jahr',
       "Costs CATEGORY VALUE UNIT in The Same Period Last Year": 'Der Kosten {{CATEGORY}} {{VALUE}} {{UNIT}} im gleichen Zeitraum im vergangenen Jahr',
+      'CATEGORY Consumption UNIT': '{{CATEGORY}} Verbrauch {{UNIT}}',
+      'CATEGORY Costs UNIT': '{{CATEGORY}} Kosten {{UNIT}}',
       // Entities
       'Space': 'Platz',
       'Equipment': 'Ausrüstung',
@@ -1718,6 +1722,8 @@ const resources = {
       "This Year's Costs CATEGORY VALUE UNIT": '本年成本 {{CATEGORY}} {{VALUE}} {{UNIT}}',
       "Consumption CATEGORY VALUE UNIT in The Same Period Last Year": '去年同期消耗 {{CATEGORY}} {{VALUE}} {{UNIT}}',
       "Costs CATEGORY VALUE UNIT in The Same Period Last Year": '去年同期成本 {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'CATEGORY Consumption UNIT': '{{CATEGORY}} 消耗 {{UNIT}}',
+      'CATEGORY Costs UNIT': '{{CATEGORY}} 成本 {{UNIT}}',
       // Entities
       'Space': '空间',
       'Equipment': '设备',

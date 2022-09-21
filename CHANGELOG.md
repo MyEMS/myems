@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added translation of TARIFF in myems-web
 - 
 ### Changed
+- updated ChildSpacesTable of Dashboard in myems-web
 - 
 ### Fixed
 - updated datetime picker format pattern

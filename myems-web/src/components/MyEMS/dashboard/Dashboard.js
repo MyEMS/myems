@@ -342,7 +342,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               let unit = json['child_space_input']['units'][index];
               child_space_column_list.push({
                 dataField: 'a' + index,
-                text: currentValue + ' (' + unit + ')',
+                text: t('CATEGORY Consumption UNIT', { 'CATEGORY': currentValue, 'UNIT': '(' + unit + ')' }),
                 sort: true,
                 formatter: function (decimalValue) {
                   if (typeof decimalValue === 'number') {
@@ -357,7 +357,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               let unit = json['child_space_cost']['units'][index];
               child_space_column_list.push({
                 dataField: 'b' + index,
-                text: currentValue + ' (' + unit + ')',
+                text: t('CATEGORY Costs UNIT', { 'CATEGORY': currentValue, 'UNIT': '(' + unit + ')' }),
                 sort: true,
                 formatter: function (decimalValue) {
                   if (typeof decimalValue === 'number') {
