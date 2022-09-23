@@ -192,12 +192,11 @@ const MultipleLineChart = ({
 
   let handleChange = (arr) => {
     let currentMoment = moment();
-    if (currentMoment.diff(lastMoment) <= 750) {
-      return;
-    }
+    
     setOldValues(values);
     setValues(arr);
     setLastMoment(currentMoment);
+    chartRef.current.update();
   }
 
   useEffect(() => {
