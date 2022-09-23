@@ -17,6 +17,7 @@ import { APIBaseURL } from '../../../config';
 import uuid from 'uuid/v1';
 import annotationPlugin from 'chartjs-plugin-annotation';
 import {  Chart as ChartJS } from 'chart.js';
+import BarChart from '../common/BarChart';
 ChartJS.register(annotationPlugin);
 
 const ChildSpacesTable = loadable(() => import('../common/ChildSpacesTable'));
@@ -37,20 +38,21 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
   const [timeOfUseShareData, setTimeOfUseShareData] = useState([]);
   const [TCEShareData, setTCEShareData] = useState([]);
   const [TCO2EShareData, setTCO2EShareData] = useState([]);
-
-  const [thisYearInputCardSummaryList, setThisYearInputCardSummaryList] = useState([]);
-  const [thisYearCostCardSummaryList, setThisYearCostCardSummaryList] = useState([]);
-  const [lastYearInputCardSummaryList, setLastYearInputCardSummaryList] = useState([]);
-  const [lastYearCostCardSummaryList, setLastYearCostCardSummaryList] = useState([]);
+  
+  const [thisYearBarList, setThisYearBarList] = useState([]);
+  const [lastYearBarList, setLastYearBarList] = useState([]);
+  const [thisMonthInputCardSummaryList, setThisMonthInputCardSummaryList] = useState([]);
+  const [thisMonthCostCardSummaryList, setThisMonthCostCardSummaryList] = useState([]);
+  const [barLabels, setBarLabels] = useState([]);
   const [totalInTCE, setTotalInTCE] = useState({});
   const [totalInTCO2E, setTotalInTCO2E] = useState({});
 
   const [spaceInputLineChartLabels, setSpaceInputLineChartLabels] = useState([]);
   const [spaceInputLineChartData, setSpaceInputLineChartData] = useState({});
   const [spaceInputLineChartOptions, setSpaceInputLineChartOptions] = useState([]);
+  const [spaceCostLineChartOptions, setSpaceCostLineChartOptions] = useState([]);
   const [spaceCostLineChartLabels, setSpaceCostLineChartLabels] = useState([]);
   const [spaceCostLineChartData, setSpaceCostLineChartData] = useState({});
-  const [spaceCostLineChartOptions, setSpaceCostLineChartOptions] = useState([]);
 
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState(
@@ -113,7 +115,9 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             setFetchSuccess(true);
             // hide spinner
             setSpinnerHidden(true);
-            let thisYearInputCardSummaryArray = []
+            let labels = []
+            let thisYearBarList = []
+            let lastYearBarList = []
             json['reporting_period_input']['names'].forEach((currentValue, index) => {
               let cardSummaryItem = {}
               cardSummaryItem['name'] = json['reporting_period_input']['names'][index];
@@ -121,11 +125,10 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               cardSummaryItem['subtotal'] = json['reporting_period_input']['subtotals'][index];
               cardSummaryItem['increment_rate'] = parseFloat(json['reporting_period_input']['increment_rates'][index] * 100).toFixed(2) + "%";
               cardSummaryItem['subtotal_per_unit_area'] = json['reporting_period_input']['subtotals_per_unit_area'][index];
-              thisYearInputCardSummaryArray.push(cardSummaryItem);
+              labels.push(t('CATEGORY Consumption UNIT', {'CATEGORY': null, 'UNIT': null}) + cardSummaryItem['name'] + cardSummaryItem['unit']);
+              thisYearBarList.push(cardSummaryItem);
             });
-            setThisYearInputCardSummaryList(thisYearInputCardSummaryArray);
 
-            let thisYearCostCardSummaryArray = []
             json['reporting_period_cost']['names'].forEach((currentValue, index) => {
               let cardSummaryItem = {}
               cardSummaryItem['name'] = json['reporting_period_cost']['names'][index];
@@ -133,11 +136,12 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               cardSummaryItem['subtotal'] = json['reporting_period_cost']['subtotals'][index];
               cardSummaryItem['increment_rate'] = parseFloat(json['reporting_period_cost']['increment_rates'][index] * 100).toFixed(2) + "%";
               cardSummaryItem['subtotal_per_unit_area'] = json['reporting_period_cost']['subtotals_per_unit_area'][index];
-              thisYearCostCardSummaryArray.push(cardSummaryItem);
+              labels.push(t('CATEGORY Costs UNIT', {'CATEGORY': null, 'UNIT': null}) + cardSummaryItem['name'] + cardSummaryItem['unit']);
+              thisYearBarList.push(cardSummaryItem);
             });
-            setThisYearCostCardSummaryList(thisYearCostCardSummaryArray);
+            setBarLabels(labels);
+            setThisYearBarList(thisYearBarList);
 
-            let lastYearInputCardSummaryArray = []
             json['base_period_input']['names'].forEach((currentValue, index) => {
               let cardSummaryItem = {}
               cardSummaryItem['name'] = json['base_period_input']['names'][index];
@@ -145,11 +149,9 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               cardSummaryItem['subtotal'] = json['base_period_input']['subtotals'][index];
               cardSummaryItem['increment_rate'] = null;
               cardSummaryItem['subtotal_per_unit_area'] = json['base_period_input']['subtotals_per_unit_area'][index];
-              lastYearInputCardSummaryArray.push(cardSummaryItem);
+              lastYearBarList.push(cardSummaryItem);
             });
-            setLastYearInputCardSummaryList(lastYearInputCardSummaryArray);
 
-            let lastYearCostCardSummaryArray = []
             json['base_period_cost']['names'].forEach((currentValue, index) => {
               let cardSummaryItem = {}
               cardSummaryItem['name'] = json['base_period_cost']['names'][index];
@@ -157,9 +159,9 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               cardSummaryItem['subtotal'] = json['base_period_cost']['subtotals'][index];
               cardSummaryItem['increment_rate'] = null;
               cardSummaryItem['subtotal_per_unit_area'] = json['base_period_cost']['subtotals_per_unit_area'][index];
-              lastYearCostCardSummaryArray.push(cardSummaryItem);
+              lastYearBarList.push(cardSummaryItem);
             });
-            setLastYearCostCardSummaryList(lastYearCostCardSummaryArray);
+            setLastYearBarList(lastYearBarList);
 
             let timeOfUseArray = [];
             json['reporting_period_input']['energy_category_ids'].forEach((currentValue, index) => {
@@ -253,11 +255,20 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             setSpaceInputLineChartData(values);
 
             let names = Array();
+            let thisMonthInputArr = [];
             json['reporting_period_input']['names'].forEach((currentValue, index) => {
               let unit = json['reporting_period_input']['units'][index];
+              let thisMonthItem = {}
               names.push({ 'value': 'a' + index, 'label': currentValue + ' (' + unit + ')'});
+              thisMonthItem['name'] = json['reporting_period_input']['names'][index];
+              thisMonthItem['unit'] = json['reporting_period_input']['units'][index];
+              thisMonthItem['subtotal'] = json['reporting_period_input']['values'][index][json['reporting_period_input']['values'][index].length - 1];
+              thisMonthItem['increment_rate'] = parseFloat(json['reporting_period_input']['increment_rates'][index] * 100).toFixed(2) + "%";
+              thisMonthItem['subtotal_per_unit_area'] = json['reporting_period_input']['subtotals_per_unit_area'][index];
+              thisMonthInputArr.push(thisMonthItem);
             });
             setSpaceInputLineChartOptions(names);
+            setThisMonthInputCardSummaryList(thisMonthInputArr);
 
             timestamps = {}
             json['reporting_period_cost']['timestamps'].forEach((currentValue, index) => {
@@ -272,11 +283,20 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             setSpaceCostLineChartData(values);
 
             names = Array();
+            let thisMonthCostArr = [];
             json['reporting_period_cost']['names'].forEach((currentValue, index) => {
+              let thisMonthItem = {};
               let unit = json['reporting_period_cost']['units'][index];
               names.push({ 'value': 'a' + index, 'label': currentValue + ' (' + unit + ')'});
+              thisMonthItem['name'] = json['reporting_period_cost']['names'][index];
+              thisMonthItem['unit'] = json['reporting_period_cost']['units'][index];
+              thisMonthItem['subtotal'] = json['reporting_period_cost']['values'][index][json['reporting_period_cost']['values'][index].length - 1];
+              thisMonthItem['increment_rate'] = parseFloat(json['reporting_period_cost']['increment_rates'][index] * 100).toFixed(2) + "%";
+              thisMonthItem['subtotal_per_unit_area'] = json['reporting_period_cost']['subtotals_per_unit_area'][index];
+              thisMonthCostArr.push(thisMonthItem);
             });
             setSpaceCostLineChartOptions(names);
+            setThisMonthCostCardSummaryList(thisMonthCostArr);
 
             let detailed_value_list = [];
             if (json['reporting_period_input']['timestamps'].length > 0 ) {
@@ -307,7 +327,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               sort: true
             })
             json['reporting_period_input']['names'].forEach((currentValue, index) => {
-              let unit = json['reporting_period_input']['units'][index];
+              let unit = json['reporting_period_cost']['units'][index];
               detailed_column_list.push({
                 dataField: 'a' + index,
                 text: currentValue + ' (' + unit + ')',
@@ -342,7 +362,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               let unit = json['child_space_input']['units'][index];
               child_space_column_list.push({
                 dataField: 'a' + index,
-                text: currentValue + ' (' + unit + ')',
+                text: t('CATEGORY Consumption UNIT', { 'CATEGORY': currentValue, 'UNIT': '(' + unit + ')' }),
                 sort: true,
                 formatter: function (decimalValue) {
                   if (typeof decimalValue === 'number') {
@@ -357,7 +377,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               let unit = json['child_space_cost']['units'][index];
               child_space_column_list.push({
                 dataField: 'b' + index,
-                text: currentValue + ' (' + unit + ')',
+                text: t('CATEGORY Costs UNIT', { 'CATEGORY': currentValue, 'UNIT': '(' + unit + ')' }),
                 sort: true,
                 formatter: function (decimalValue) {
                   if (typeof decimalValue === 'number') {
@@ -388,10 +408,10 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
         <Spinner color="warning" hidden={spinnerHidden}  />
         <Spinner color="info" hidden={spinnerHidden}  />
         <Spinner color="light" hidden={spinnerHidden}  />
-        {thisYearInputCardSummaryList.map(cardSummaryItem => (
+        {thisMonthInputCardSummaryList.map(cardSummaryItem => (
           <CardSummary key={uuid()}
             rate={cardSummaryItem['increment_rate']}
-            title={t("This Year's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': cardSummaryItem['name'], 'VALUE': null, 'UNIT': '(' + cardSummaryItem['unit'] + ')' })}
+            title={t("This Month's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': cardSummaryItem['name'], 'VALUE': null, 'UNIT': '(' + cardSummaryItem['unit'] + ')' })}
             color="success"
             footnote={t('Per Unit Area')}
             footvalue={cardSummaryItem['subtotal_per_unit_area']}
@@ -399,10 +419,10 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             {cardSummaryItem['subtotal'] && <CountUp end={cardSummaryItem['subtotal']} duration={2} prefix="" separator="," decimal="." decimals={0} />}
           </CardSummary>
         ))}
-        {thisYearCostCardSummaryList.map(cardSummaryItem => (
+        {thisMonthCostCardSummaryList.map(cardSummaryItem => (
           <CardSummary key={uuid()}
             rate={cardSummaryItem['increment_rate']}
-            title={t("This Year's Costs CATEGORY VALUE UNIT", { 'CATEGORY': cardSummaryItem['name'], 'VALUE': null, 'UNIT': '(' + cardSummaryItem['unit'] + ')' })}
+            title={t("This Month's Costs CATEGORY VALUE UNIT", { 'CATEGORY': cardSummaryItem['name'], 'VALUE': null, 'UNIT': '(' + cardSummaryItem['unit'] + ')' })}
             color="success"
             footnote={t('Per Unit Area')}
             footvalue={cardSummaryItem['subtotal_per_unit_area']}
@@ -411,29 +431,28 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           </CardSummary>
         ))}
       </div>
-      <div className="card-deck">
-        {lastYearInputCardSummaryList.map(cardSummaryItem => (
-          <CardSummary key={uuid()}
-            rate={cardSummaryItem['increment_rate']}
-            title={t("Consumption CATEGORY VALUE UNIT in The Same Period Last Year", { 'CATEGORY': cardSummaryItem['name'], 'VALUE': null, 'UNIT': '(' + cardSummaryItem['unit'] + ')' })}
-            color="success"
+      <div className='card-deck'>
+          <BarChart
+            labels={barLabels}
+            data={thisYearBarList}
+            compareData={lastYearBarList}
+            title={t('This Year')}
+            compareTitle={t('The Same Period Last Year')}
             footnote={t('Per Unit Area')}
-            footvalue={cardSummaryItem['subtotal_per_unit_area']}
-            footunit={"(" + cardSummaryItem['unit'] + "/M²)"} >
-            {cardSummaryItem['subtotal'] && <CountUp end={cardSummaryItem['subtotal']} duration={2} prefix="" separator="," decimal="." decimals={0} />}
-          </CardSummary>
-        ))}
-        {lastYearCostCardSummaryList.map(cardSummaryItem => (
-          <CardSummary key={uuid()}
-            rate={cardSummaryItem['increment_rate']}
-            title={t("Costs CATEGORY VALUE UNIT in The Same Period Last Year", { 'CATEGORY': cardSummaryItem['name'], 'VALUE': null, 'UNIT': '(' + cardSummaryItem['unit'] + ')' })}
-            color="success"
-            footnote={t('Per Unit Area')}
-            footvalue={cardSummaryItem['subtotal_per_unit_area']}
-            footunit={"(" + cardSummaryItem['unit'] + "/M²)"} >
-            {cardSummaryItem['subtotal'] && <CountUp end={cardSummaryItem['subtotal']} duration={2} prefix="" separator="," decimal="." decimals={0} />}
-          </CardSummary>
-        ))}
+            footunit={"/M²"} >
+          </BarChart>
+          <LineChart reportingTitle={t("This Year's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': null, 'VALUE': null, 'UNIT': null })}
+            baseTitle=''
+            labels={spaceInputLineChartLabels}
+            data={spaceInputLineChartData}
+            options={spaceInputLineChartOptions}>
+          </LineChart>
+          <LineChart reportingTitle={t("This Year's Costs CATEGORY VALUE UNIT", { 'CATEGORY': null, 'VALUE': null, 'UNIT': null })}
+            baseTitle=''
+            labels={spaceCostLineChartLabels}
+            data={spaceCostLineChartData}
+            options={spaceCostLineChartOptions}>
+          </LineChart>
       </div>
       <div className="card-deck">
         <CardSummary
@@ -469,19 +488,6 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           <SharePie data={TCO2EShareData} title={t('Ton of Carbon Dioxide Emissions by Energy Category')} />
         </Col>
       </Row>
-      <LineChart reportingTitle={t("This Year's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': null, 'VALUE': null, 'UNIT': null })}
-        baseTitle=''
-        labels={spaceInputLineChartLabels}
-        data={spaceInputLineChartData}
-        options={spaceInputLineChartOptions}>
-      </LineChart>
-      <LineChart reportingTitle={t("This Year's Costs CATEGORY VALUE UNIT", { 'CATEGORY': null, 'VALUE': null, 'UNIT': null })}
-        baseTitle=''
-        labels={spaceCostLineChartLabels}
-        data={spaceCostLineChartData}
-        options={spaceCostLineChartOptions}>
-      </LineChart>
-
       <ChildSpacesTable data={childSpacesTableData}
         title={t('Child Spaces Data')}
         columns={childSpacesTableColumns}>
