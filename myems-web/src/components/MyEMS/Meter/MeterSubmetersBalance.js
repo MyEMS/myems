@@ -164,14 +164,14 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
               setSubmitButtonDisabled(true);
             }
           } else {
-            toast.error(json.description)
+            toast.error(t(json.description))
           }
         }).catch(err => {
           console.log(err);
         });
         // end of get Meters by root Space ID
       } else {
-        toast.error(json.description);
+        toast.error(t(json.description));
       }
     }).catch(err => {
       console.log(err);
@@ -217,7 +217,7 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
           setSubmitButtonDisabled(true);
         }
       } else {
-        toast.error(json.description)
+        toast.error(t(json.description))
       }
     }).catch(err => {
       console.log(err);
@@ -390,7 +390,7 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
         setExportButtonHidden(false);
         
       } else {
-        toast.error(json.description)
+        toast.error(t(json.description))
       }
     }).catch(err => {
       console.log(err);

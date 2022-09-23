@@ -64,6 +64,7 @@ class RealtimeChart extends Component {
 
   componentDidMount() {
     this._isMounted = true;
+    const { t } = this.props;
     // fetch meter realtime data at the first time
     let isResponseOK = false;
     fetch(APIBaseURL + '/reports/meterrealtime?meterid=' + this.props.meterId, {
@@ -114,7 +115,7 @@ class RealtimeChart extends Component {
           });
         }
       } else {
-        toast.error(json.description)
+        toast.error(t(json.description))
       }
     }).catch(err => {
       console.log(err);
@@ -166,7 +167,7 @@ class RealtimeChart extends Component {
             });
           }
         } else {
-          toast.error(json.description)
+          toast.error(t(json.description))
         }
       }).catch(err => {
         console.log(err);

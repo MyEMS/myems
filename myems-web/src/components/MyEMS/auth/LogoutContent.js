@@ -37,7 +37,7 @@ const LogoutContent = ({ layout, titleTag: TitleTag, t }) => {
         createCookie('token', '', 0);
         createCookie('is_logged_in', false, 0);
       } else {
-        toast.error(json.description)
+        toast.error(t(json.description))
       }
     }).catch(err => {
       console.log(err);

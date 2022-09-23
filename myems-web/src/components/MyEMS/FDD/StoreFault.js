@@ -135,14 +135,14 @@ const StoreFault = ({ setRedirect, setRedirectUrl, t }) => {
               setSubmitButtonDisabled(true);
             }
           } else {
-            toast.error(json.description)
+            toast.error(t(json.description))
           }
         }).catch(err => {
           console.log(err);
         });
         // end of get Stores by root Space ID
       } else {
-        toast.error(json.description)
+        toast.error(t(json.description))
       }
     }).catch(err => {
       console.log(err);
@@ -308,7 +308,7 @@ const StoreFault = ({ setRedirect, setRedirectUrl, t }) => {
           setSubmitButtonDisabled(true);
         }
       } else {
-        toast.error(json.description)
+        toast.error(t(json.description))
       }
     }).catch(err => {
       console.log(err);
@@ -751,7 +751,7 @@ const StoreFault = ({ setRedirect, setRedirectUrl, t }) => {
         setExcelBytesBase64(json['excel_bytes_base64']);
 
       } else {
-        toast.error(json.description)
+        toast.error(t(json.description))
       }
     }).catch(err => {
       console.log(err);

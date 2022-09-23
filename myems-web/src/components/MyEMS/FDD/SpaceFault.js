@@ -105,7 +105,7 @@ const SpaceFault = ({ setRedirect, setRedirectUrl, t }) => {
         setSelectedSpaceName([json[0]].map(o => o.label));
         setSelectedSpaceID([json[0]].map(o => o.value));
       } else {
-        toast.error(json.description);
+        toast.error(t(json.description));
       }
     }).catch(err => {
       console.log(err);
@@ -675,7 +675,7 @@ const SpaceFault = ({ setRedirect, setRedirectUrl, t }) => {
         
         setExcelBytesBase64(json['excel_bytes_base64']);
       } else {
-        toast.error(json.description)
+        toast.error(t(json.description))
       }
     }).catch(err => {
       console.log(err);

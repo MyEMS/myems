@@ -114,7 +114,7 @@ const MeterRealtime = ({ setRedirect, setRedirectUrl, t }) => {
                 setMeterList(json[0]);
                 setSpinnerHidden(true);
               } else {
-                toast.error(json.description);
+                toast.error(t(json.description));
               }
             })
             .catch(err => {
@@ -122,7 +122,7 @@ const MeterRealtime = ({ setRedirect, setRedirectUrl, t }) => {
             });
           //end of getting meters of the default space
         } else {
-          toast.error(json.description);
+          toast.error(t(json.description));
         }
       })
       .catch(err => {
@@ -162,7 +162,7 @@ const MeterRealtime = ({ setRedirect, setRedirectUrl, t }) => {
 
           setSpinnerHidden(true);
         } else {
-          toast.error(json.description);
+          toast.error(t(json.description));
         }
       })
       .catch(err => {
