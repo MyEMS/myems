@@ -317,7 +317,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
           }
         });
       } else {
-        toast.error(json.description)
+        toast.error(t(json.description))
       }
     }).catch(err => {
       console.log(err);
