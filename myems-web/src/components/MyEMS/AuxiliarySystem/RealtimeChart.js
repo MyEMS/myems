@@ -24,6 +24,7 @@ class RealtimeChart extends Component {
 
   componentDidMount() {
     console.log(this.props);
+    const { t } = this.props;
     this._isMounted = true;
     // fetch realtime data at the first time
     let isResponseOK = false;
@@ -62,7 +63,7 @@ class RealtimeChart extends Component {
             });
           }
         } else {
-          toast.error(json.description)
+          toast.error(t(json.description))
         }
       }).catch(err => {
         console.log(err);
@@ -108,7 +109,7 @@ class RealtimeChart extends Component {
               });
             }
           } else {
-            toast.error(json.description)
+            toast.error(t(json.description))
           }
         }).catch(err => {
           console.log(err);

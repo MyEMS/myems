@@ -87,7 +87,7 @@ const SpaceEquipments = ({ setRedirect, setRedirectUrl, t }) => {
         setSelectedSpaceName([json[0]].map(o => o.label));
         setSelectedSpaceID([json[0]].map(o => o.value));
       } else {
-        toast.error(json.description);
+        toast.error(t(json.description));
       }
     }).catch(err => {
       console.log(err);
