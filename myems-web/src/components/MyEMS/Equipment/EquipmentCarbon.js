@@ -168,14 +168,14 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
               setSubmitButtonDisabled(true);
             }
           } else {
-            toast.error(json.description)
+            toast.error(t(json.description))
           }
         }).catch(err => {
           console.log(err);
         });
         // end of get Equipments by root Space ID
       } else {
-        toast.error(json.description);
+        toast.error(t(json.description));
       }
     }).catch(err => {
       console.log(err);
@@ -219,7 +219,7 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
           setSubmitButtonDisabled(true);
         }
       } else {
-        toast.error(json.description)
+        toast.error(t(json.description))
       }
     }).catch(err => {
       console.log(err);
@@ -511,7 +511,7 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
         // show export button
         setExportButtonHidden(false);
       } else {
-        toast.error(json.description)
+        toast.error(t(json.description))
       }
     }).catch(err => {
       console.log(err);

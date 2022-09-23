@@ -167,14 +167,14 @@ const VirtualMeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
               setSubmitButtonDisabled(true);
             }
           } else {
-            toast.error(json.description)
+            toast.error(t(json.description))
           }
         }).catch(err => {
           console.log(err);
         });
         // end of get Virtual Meters by root Space ID
       } else {
-        toast.error(json.description);
+        toast.error(t(json.description));
       }
     }).catch(err => {
       console.log(err);
@@ -219,7 +219,7 @@ const VirtualMeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
           setSubmitButtonDisabled(true);
         }
       } else {
-        toast.error(json.description)
+        toast.error(t(json.description))
       }
     }).catch(err => {
       console.log(err);
@@ -417,7 +417,7 @@ const VirtualMeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
         setExportButtonHidden(false);
 
       } else {
-        toast.error(json.description)
+        toast.error(t(json.description))
       }
     }).catch(err => {
       console.log(err);

@@ -143,7 +143,7 @@ const AdvacnedReporting = ({ setRedirect, setRedirectUrl, t }) => {
         setSpinnerHidden(true);
 
       } else {
-        toast.error(json.description)
+        toast.error(t(json.description))
       }
     }).catch(err => {
       console.log(err);

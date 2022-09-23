@@ -118,7 +118,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
         setSubmitButtonDisabled(false);
         setSpinnerHidden(true);
       } else {
-        toast.error(json.description);
+        toast.error(t(json.description));
       }
     }).catch(err => {
       console.log(err);
@@ -262,7 +262,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
         setExportButtonHidden(false);
           
       } else {
-        toast.error(json.description)
+        toast.error(t(json.description))
       }
     }).catch(err => {
       console.log(err);
