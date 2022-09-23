@@ -98,7 +98,7 @@ const NavbarTopDropDownMenus = ({ setRedirectUrl, setRedirect, setNavbarCollapse
         }
         setShowRoutes(showRoutes);
       } else {
-        toast.error(json.description);
+        toast.error(t(json.description));
       }
     }).catch(err => {
       console.log(err);

@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added difference value to meter tracking report
 - added translation of TARIFF in myems-web
 - added barchart to Dashboard in myems-web
+- added translation of API errors in myems-web
 - 
 ### Changed
 - updated ChildSpacesTable of Dashboard in myems-web
