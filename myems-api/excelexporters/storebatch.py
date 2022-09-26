@@ -92,13 +92,13 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
     data_font = Font(name='Franklin Gothic Book', size=11)
 
     table_fill = PatternFill(fill_type='solid', fgColor='1F497D')
-    f_border = Border(left=Side(border_style='medium', color='00000000'),
-                      right=Side(border_style='medium', color='00000000'),
-                      bottom=Side(border_style='medium', color='00000000'),
-                      top=Side(border_style='medium', color='00000000')
+    f_border = Border(left=Side(border_style='medium'),
+                      right=Side(border_style='medium'),
+                      bottom=Side(border_style='medium'),
+                      top=Side(border_style='medium')
                       )
     b_border = Border(
-        bottom=Side(border_style='medium', color='00000000'),
+        bottom=Side(border_style='medium'),
     )
 
     b_c_alignment = Alignment(vertical='bottom',
