@@ -103,13 +103,13 @@ def generate_excel(report,
     title_font = Font(name='Arial', size=15, bold=True)
 
     table_fill = PatternFill(fill_type='solid', fgColor='1F497D')
-    f_border = Border(left=Side(border_style='medium', color='00000000'),
-                      right=Side(border_style='medium', color='00000000'),
-                      bottom=Side(border_style='medium', color='00000000'),
-                      top=Side(border_style='medium', color='00000000')
+    f_border = Border(left=Side(border_style='medium'),
+                      right=Side(border_style='medium'),
+                      bottom=Side(border_style='medium'),
+                      top=Side(border_style='medium')
                       )
     b_border = Border(
-        bottom=Side(border_style='medium', color='00000000'),
+        bottom=Side(border_style='medium'),
     )
 
     b_c_alignment = Alignment(vertical='bottom',
@@ -503,8 +503,8 @@ def generate_excel(report,
             i_num += 1
             line = LineChart()
             line.title = _('Reporting Period Cumulative Efficiency') + ' - ' + \
-                         reporting_period_data['names'][i] + '-' + reporting_period_data['numerator_names'][i] + \
-                         " (" + reporting_period_data['numerator_units'][i] + ")"
+                reporting_period_data['names'][i] + '-' + reporting_period_data['numerator_names'][i] + \
+                " (" + reporting_period_data['numerator_units'][i] + ")"
             labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1, max_row=table_end_row_number)
             line_data = Reference(ws, min_col=3 + i_num, min_row=table_start_row_number, max_row=table_end_row_number)
             line.add_data(line_data, titles_from_data=True)
@@ -529,8 +529,8 @@ def generate_excel(report,
             i_num += 1
             line = LineChart()
             line.title = _('Reporting Period Cumulative Efficiency') + ' - ' + \
-                         reporting_period_data['names'][i] + '-' + reporting_period_data['denominator_names'][i] + \
-                         " (" + reporting_period_data['denominator_units'][i] + ")"
+                reporting_period_data['names'][i] + '-' + reporting_period_data['denominator_names'][i] + \
+                " (" + reporting_period_data['denominator_units'][i] + ")"
             labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1, max_row=table_end_row_number)
             line_data = Reference(ws, min_col=3 + i_num, min_row=table_start_row_number, max_row=table_end_row_number)
             line.add_data(line_data, titles_from_data=True)
