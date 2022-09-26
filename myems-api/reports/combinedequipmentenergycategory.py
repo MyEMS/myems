@@ -651,7 +651,6 @@ class Reporting:
                     associated_report_period['total_in_kgco2e'] += associated_report[energy_category_id]['subtotal_in_kgco2e']
                     result['associated_report_period_list'].append(associated_report_period)
 
-
         result['reporting_period'] = dict()
         result['reporting_period']['names'] = list()
         result['reporting_period']['energy_category_ids'] = list()
