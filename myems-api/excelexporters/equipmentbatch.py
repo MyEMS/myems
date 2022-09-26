@@ -88,7 +88,7 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
     title_font = Font(name='Arial', size=15, bold=True)
     data_font = Font(name='Franklin Gothic Book', size=11)
 
-    table_fill = PatternFill(fill_type='solid', fgColor='1F497D')
+    table_fill = PatternFill(fill_type='solid', fgColor='90ee90')
     f_border = Border(left=Side(border_style='medium'),
                       right=Side(border_style='medium'),
                       bottom=Side(border_style='medium'),
