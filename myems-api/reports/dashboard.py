@@ -530,21 +530,35 @@ class Reporting:
                 kgco2e = energy_category_dict[energy_category_id]['kgco2e']
                 for child_space in child_space_list:
                     child_space_input[energy_category_id]['child_space_names'].append(child_space['name'])
+                    subtotal = 0
+                    subtotal_list = list()
 
-                    cursor_energy.execute(" SELECT SUM(actual_value) "
+                    cursor_energy.execute(" SELECT start_datetime_utc, actual_value"
                                           " FROM tbl_space_input_category_hourly "
                                           " WHERE space_id = %s "
                                           "     AND energy_category_id = %s "
                                           "     AND start_datetime_utc >= %s "
-                                          "     AND start_datetime_utc < %s ",
+                                          "     AND start_datetime_utc < %s "
+                                          " ORDER BY start_datetime_utc ",
                                           (child_space['id'],
                                            energy_category_id,
                                            reporting_start_datetime_utc,
                                            reporting_end_datetime_utc))
-                    row_subtotal = cursor_energy.fetchone()
+                    row_subtotal = cursor_energy.fetchall() 
+                    rows_space_periodically = utilities.aggregate_hourly_data_by_period(row_subtotal,
+                                                                                    reporting_start_datetime_utc,
+                                                                                    reporting_end_datetime_utc,
+                                                                                    period_type)
 
-                    subtotal = Decimal(0.0) if (row_subtotal is None or row_subtotal[0] is None) else row_subtotal[0]
-                    child_space_input[energy_category_id]['subtotals'].append(subtotal)
+                    for row_space_periodically in rows_space_periodically:
+                        current_datetime_local = row_space_periodically[0].replace(tzinfo=timezone.utc) + \
+                                                timedelta(minutes=timezone_offset)
+
+                        actual_value = Decimal(0.0) if row_space_periodically[1] is None else row_space_periodically[1]
+                        subtotal_list.append(actual_value)
+                        subtotal += actual_value
+
+                    child_space_input[energy_category_id]['subtotals'].append(subtotal_list)
                     child_space_input[energy_category_id]['subtotals_in_kgce'].append(subtotal * kgce)
                     child_space_input[energy_category_id]['subtotals_in_kgco2e'].append(subtotal * kgco2e)
 
@@ -560,21 +574,30 @@ class Reporting:
                 child_space_cost[energy_category_id]['subtotals'] = list()
                 for child_space in child_space_list:
                     child_space_cost[energy_category_id]['child_space_names'].append(child_space['name'])
+                    subtotal_list = list()
 
-                    cursor_billing.execute(" SELECT SUM(actual_value) "
+                    cursor_billing.execute(" SELECT start_datetime_utc, actual_value"
                                            " FROM tbl_space_input_category_hourly "
                                            " WHERE space_id = %s "
                                            "     AND energy_category_id = %s "
                                            "     AND start_datetime_utc >= %s "
-                                           "     AND start_datetime_utc < %s ",
+                                           "     AND start_datetime_utc < %s "
+                                           " ORDER BY start_datetime_utc ",
                                            (child_space['id'],
                                             energy_category_id,
                                             reporting_start_datetime_utc,
                                             reporting_end_datetime_utc))
-                    row_subtotal = cursor_billing.fetchone()
+                    row_subtotal = cursor_billing.fetchall() 
+                    rows_space_periodically = utilities.aggregate_hourly_data_by_period(row_subtotal,
+                                                                                    reporting_start_datetime_utc,
+                                                                                    reporting_end_datetime_utc,
+                                                                                    period_type)
 
-                    subtotal = Decimal(0.0) if (row_subtotal is None or row_subtotal[0] is None) else row_subtotal[0]
-                    child_space_cost[energy_category_id]['subtotals'].append(subtotal)
+                    for row_space_periodically in rows_space_periodically:
+                        actual_value = Decimal(0.0) if row_space_periodically[1] is None else row_space_periodically[1]
+                        subtotal_list.append(actual_value)
+
+                    child_space_cost[energy_category_id]['subtotals'].append(subtotal_list)
 
         ################################################################################################################
         # Step 11: construct the report

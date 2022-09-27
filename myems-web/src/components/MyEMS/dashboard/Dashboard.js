@@ -18,6 +18,7 @@ import uuid from 'uuid/v1';
 import annotationPlugin from 'chartjs-plugin-annotation';
 import {  Chart as ChartJS } from 'chart.js';
 import BarChart from '../common/BarChart';
+import ChartSpacesStackBar from '../common/ChartSpacesStackBar';
 ChartJS.register(annotationPlugin);
 
 const ChildSpacesTable = loadable(() => import('../common/ChildSpacesTable'));
@@ -62,6 +63,9 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
   const [childSpacesTableColumns, setChildSpacesTableColumns] = useState(
     [{dataField: 'name', text: t('Child Spaces'), sort: true }]);
 
+  const [childSpacesInputData, setChildSpacesInputData] = useState([]);
+  const [childSpacesCostData, setChildSpacesCostData] = useState([]);
+  const [monthLabels, setMonthLabels] = useState([]);
 
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
@@ -390,6 +394,9 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             });
 
             setChildSpacesTableColumns(child_space_column_list);
+            setChildSpacesInputData(json['child_space_input']);
+            setChildSpacesCostData(json['child_space_input']);
+            setMonthLabels(json['reporting_period_cost']['timestamps'][0]);
           }
         });
       };
@@ -488,10 +495,14 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           <SharePie data={TCO2EShareData} title={t('Ton of Carbon Dioxide Emissions by Energy Category')} />
         </Col>
       </Row>
-      <ChildSpacesTable data={childSpacesTableData}
+      <ChartSpacesStackBar
         title={t('Child Spaces Data')}
-        columns={childSpacesTableColumns}>
-      </ChildSpacesTable>
+        labels={monthLabels}
+        inputData={childSpacesInputData}
+        costData={childSpacesCostData}
+        childSpaces={spaceCostLineChartOptions}
+      >
+      </ChartSpacesStackBar>
 
     </Fragment>
   );
