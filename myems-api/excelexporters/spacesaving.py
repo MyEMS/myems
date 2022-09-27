@@ -1,14 +1,15 @@
 import base64
-import uuid
-import os
-from decimal import Decimal
-from openpyxl.chart import PieChart, LineChart, Reference
-from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
-from openpyxl.drawing.image import Image
-from openpyxl import Workbook
-from openpyxl.chart.label import DataLabelList
-import openpyxl.utils.cell as format_cell
 import gettext
+import os
+import uuid
+from decimal import Decimal
+
+import openpyxl.utils.cell as format_cell
+from openpyxl import Workbook
+from openpyxl.chart import PieChart, LineChart, Reference
+from openpyxl.chart.label import DataLabelList
+from openpyxl.drawing.image import Image
+from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 
 
 ########################################################################################################################

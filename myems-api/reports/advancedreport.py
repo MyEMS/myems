@@ -1,10 +1,11 @@
-import falcon
-import simplejson as json
-import mysql.connector
-from datetime import datetime, timedelta, timezone
 import base64
 import sys
+from datetime import datetime, timedelta, timezone
+
 import config
+import falcon
+import mysql.connector
+import simplejson as json
 
 
 class AdvancedReportCollection:

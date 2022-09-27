@@ -1,11 +1,12 @@
-import falcon
-import simplejson as json
-import mysql.connector
-import config
-from anytree import AnyNode, LevelOrderIter
-import excelexporters.metertracking
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
+
+import config
+import excelexporters.metertracking
+import falcon
+import mysql.connector
+import simplejson as json
+from anytree import AnyNode, LevelOrderIter
 
 
 class Reporting:

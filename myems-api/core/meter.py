@@ -1,9 +1,10 @@
-import falcon
-import simplejson as json
-import mysql.connector
 import uuid
-from core.useractivity import user_logger, access_control
+
 import config
+import falcon
+import mysql.connector
+import simplejson as json
+from core.useractivity import user_logger, access_control
 
 
 class MeterCollection:

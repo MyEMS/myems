@@ -1,11 +1,12 @@
 import base64
-import uuid
-import os
-from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
-from openpyxl.drawing.image import Image
-from openpyxl.utils import column_index_from_string, get_column_letter
-from openpyxl import Workbook
 import gettext
+import os
+import uuid
+
+from openpyxl import Workbook
+from openpyxl.drawing.image import Image
+from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
+from openpyxl.utils import column_index_from_string, get_column_letter
 
 
 ########################################################################################################################
