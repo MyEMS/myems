@@ -1,12 +1,14 @@
 import json
-import mysql.connector
-import time
-import math
-from datetime import datetime
 import telnetlib
-from modbus_tk import modbus_tcp
-import config
+import time
+from datetime import datetime
 from decimal import Decimal
+
+import math
+import mysql.connector
+from modbus_tk import modbus_tcp
+
+import config
 from byte_swap import byte_swap_32_bit, byte_swap_64_bit
 
 

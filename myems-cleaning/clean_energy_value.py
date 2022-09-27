@@ -1,7 +1,9 @@
-import mysql.connector
-import config
 import time
 from datetime import datetime, timedelta
+
+import mysql.connector
+
+import config
 
 
 ########################################################################################################################

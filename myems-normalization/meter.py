@@ -1,10 +1,13 @@
+import random
 import time
 from datetime import datetime, timedelta, timezone
-import mysql.connector
-from multiprocessing import Pool
-import random
 from decimal import Decimal
+from multiprocessing import Pool
+
+import mysql.connector
+
 import config
+
 
 ########################################################################################################################
 # PROCEDURES:

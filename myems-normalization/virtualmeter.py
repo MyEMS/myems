@@ -1,10 +1,12 @@
+import random
 import time
 from datetime import datetime, timedelta
+from decimal import Decimal
+from multiprocessing import Pool
+
 import mysql.connector
 from sympy import sympify
-from multiprocessing import Pool
-import random
-from decimal import Decimal
+
 import config
 
 

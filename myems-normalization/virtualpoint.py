@@ -1,13 +1,15 @@
+import json
+import random
+import re
 import time
-from datetime import datetime, timedelta
-import mysql.connector
-from sympy import sympify, Piecewise, symbols
+from datetime import datetime
 from decimal import Decimal
 from multiprocessing import Pool
-import random
-import json
+
+import mysql.connector
+from sympy import sympify, Piecewise, symbols
+
 import config
-import re
 
 
 ########################################################################################################################

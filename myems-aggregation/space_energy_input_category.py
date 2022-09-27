@@ -1,9 +1,11 @@
+import random
 import time
 from datetime import datetime, timedelta
 from decimal import Decimal
-import mysql.connector
 from multiprocessing import Pool
-import random
+
+import mysql.connector
+
 import config
 
 

@@ -1,7 +1,9 @@
 import time
 from datetime import datetime, timedelta
 from decimal import Decimal
+
 import mysql.connector
+
 import carbon_dioxide_emmision_factor
 import config
 
