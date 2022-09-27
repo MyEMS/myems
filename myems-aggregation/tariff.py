@@ -1,7 +1,9 @@
-from datetime import timedelta
-import mysql.connector
-import config
 import collections
+from datetime import timedelta
+
+import mysql.connector
+
+import config
 
 
 ########################################################################################################################

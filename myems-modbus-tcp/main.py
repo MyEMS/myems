@@ -1,12 +1,14 @@
 import json
-import mysql.connector
-import config
-from multiprocessing import Process
-import time
 import logging
+import time
 from logging.handlers import RotatingFileHandler
-import gateway
+from multiprocessing import Process
+
+import mysql.connector
+
 import acquisition
+import config
+import gateway
 
 
 def main():

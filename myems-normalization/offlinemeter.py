@@ -1,9 +1,12 @@
 import time
 from datetime import datetime, timedelta
+from decimal import Decimal
+
 import mysql.connector
 from openpyxl import load_workbook
-from decimal import Decimal
+
 import config
+
 
 ################################################################################################################
 # PROCEDURES:

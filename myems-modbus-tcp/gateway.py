@@ -1,8 +1,11 @@
-import mysql.connector
-import config
 import time
 from datetime import datetime
+
+import mysql.connector
 import schedule
+
+import config
+
 
 ########################################################################################################################
 # Gateway Job Procedures

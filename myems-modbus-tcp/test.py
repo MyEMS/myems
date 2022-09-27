@@ -1,6 +1,8 @@
 import sys
-from modbus_tk import modbus_tcp
 import telnetlib
+
+from modbus_tk import modbus_tcp
+
 import byte_swap
 
 

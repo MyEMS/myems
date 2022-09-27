@@ -1,11 +1,12 @@
 import logging
 from logging.handlers import RotatingFileHandler
 from multiprocessing import Process
+
+import datarepair
 import meter
 import offlinemeter
 import virtualmeter
 import virtualpoint
-import datarepair
 
 
 def main():
