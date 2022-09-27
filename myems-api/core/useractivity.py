@@ -1,12 +1,13 @@
 import os
-from functools import wraps
-import config
-import mysql.connector
-from datetime import datetime
 import uuid
-from gunicorn.http.body import Body
-import simplejson as json
+from datetime import datetime
+from functools import wraps
+
+import config
 import falcon
+import mysql.connector
+import simplejson as json
+from gunicorn.http.body import Body
 
 
 def access_control(req):

@@ -1,14 +1,13 @@
 import falcon
 from falcon_cors import CORS
 from falcon_multipart.middleware import MultipartMiddleware
+
 from core import energyflowdiagram, privilege, textmessage, distributioncircuit, virtualmeter, \
     costcenter, point, knowledgefile, meter, tariff, user, storetype, timezone, \
     costfile, offlinemeterfile, version, contact, emailserver, combinedequipment, datasource, equipment, tenant, \
     shopfloor, webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, \
     offlinemeter, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile
 from reports import advancedreport
-from reports import distributionsystem as distributionsystemreport
-from reports import energyflowdiagram as energyflowdiagramreport
 from reports import combinedequipmentbatch
 from reports import combinedequipmentcarbon
 from reports import combinedequipmentcost
@@ -21,6 +20,8 @@ from reports import combinedequipmentoutput
 from reports import combinedequipmentsaving
 from reports import combinedequipmentstatistics
 from reports import dashboard
+from reports import distributionsystem as distributionsystemreport
+from reports import energyflowdiagram as energyflowdiagramreport
 from reports import equipmentbatch
 from reports import equipmentcarbon
 from reports import equipmentcost
@@ -33,12 +34,7 @@ from reports import equipmentoutput
 from reports import equipmentsaving
 from reports import equipmentstatistics
 from reports import equipmenttracking
-from reports import fddcombinedequipmentfault
-from reports import fddequipmentfault
-from reports import fddshopfloorfault
-from reports import fddspacefault
-from reports import fddstorefault
-from reports import fddtenantfault
+from reports import fddfault
 from reports import meterbatch
 from reports import metercarbon
 from reports import metercomparison
@@ -47,12 +43,13 @@ from reports import meterenergy
 from reports import meterrealtime
 from reports import metersaving
 from reports import metersubmetersbalance
-from reports import metertrend
 from reports import metertracking
+from reports import metertrend
 from reports import offlinemeterbatch
 from reports import offlinemetercarbon
 from reports import offlinemetercost
 from reports import offlinemeterenergy
+from reports import shopfloorbatch
 from reports import shopfloorcarbon
 from reports import shopfloorcost
 from reports import shopfloorenergycategory
@@ -60,10 +57,9 @@ from reports import shopfloorenergyitem
 from reports import shopfloorload
 from reports import shopfloorsaving
 from reports import shopfloorstatistics
-from reports import shopfloorbatch
-from reports import spaceefficiency
 from reports import spacecarbon
 from reports import spacecost
+from reports import spaceefficiency
 from reports import spaceenergycategory
 from reports import spaceenergyitem
 from reports import spaceincome
@@ -79,13 +75,13 @@ from reports import storeenergyitem
 from reports import storeload
 from reports import storesaving
 from reports import storestatistics
+from reports import tenantbatch
 from reports import tenantbill
 from reports import tenantcarbon
 from reports import tenantcost
 from reports import tenantenergycategory
 from reports import tenantenergyitem
 from reports import tenantload
-from reports import tenantbatch
 from reports import tenantsaving
 from reports import tenantstatistics
 from reports import virtualmeterbatch
@@ -568,18 +564,8 @@ api.add_route('/reports/equipmentstatistics',
               equipmentstatistics.Reporting())
 api.add_route('/reports/equipmenttracking',
               equipmenttracking.Reporting())
-api.add_route('/reports/fddcombinedequipmentfault',
-              fddcombinedequipmentfault.Reporting())
-api.add_route('/reports/fddequipmentfault',
-              fddequipmentfault.Reporting())
-api.add_route('/reports/fddshopfloorfault',
-              fddshopfloorfault.Reporting())
-api.add_route('/reports/fddspacefault',
-              fddspacefault.Reporting())
-api.add_route('/reports/fddstorefault',
-              fddstorefault.Reporting())
-api.add_route('/reports/fddtenantfault',
-              fddtenantfault.Reporting())
+api.add_route('/reports/fddfault',
+              fddfault.Reporting())
 api.add_route('/reports/meterbatch',
               meterbatch.Reporting())
 api.add_route('/reports/metercarbon',

@@ -1,9 +1,10 @@
 import re
-import falcon
-import simplejson as json
-import mysql.connector
-import config
 from datetime import datetime, timedelta, timezone
+
+import config
+import falcon
+import mysql.connector
+import simplejson as json
 
 
 class Reporting:

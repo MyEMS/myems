@@ -1,10 +1,11 @@
-import falcon
-import simplejson as json
-import mysql.connector
-import config
 from datetime import datetime, timedelta, timezone
-from core import utilities
 from decimal import Decimal
+
+import config
+import falcon
+import mysql.connector
+import simplejson as json
+from core import utilities
 
 
 class Reporting:

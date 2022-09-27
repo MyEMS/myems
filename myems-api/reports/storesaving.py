@@ -1,12 +1,13 @@
 import re
-import falcon
-import simplejson as json
-import mysql.connector
-import config
 from datetime import datetime, timedelta, timezone
-from core import utilities
 from decimal import Decimal
+
+import config
 import excelexporters.storesaving
+import falcon
+import mysql.connector
+import simplejson as json
+from core import utilities
 
 
 class Reporting:
@@ -517,7 +518,7 @@ class Reporting:
         parameters_data['names'] = list()
         parameters_data['timestamps'] = list()
         parameters_data['values'] = list()
-        if energy_category_set is not None and len(energy_category_set) > 0:
+        if config.is_tariff_appended and energy_category_set is not None and len(energy_category_set) > 0:
             for energy_category_id in energy_category_set:
                 energy_category_tariff_dict = utilities.get_energy_category_tariffs(store['cost_center_id'],
                                                                                     energy_category_id,

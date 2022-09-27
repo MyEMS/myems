@@ -1,12 +1,13 @@
 import re
-import falcon
-import simplejson as json
-import mysql.connector
-import config
 from datetime import datetime, timedelta, timezone
-from core import utilities
 from decimal import Decimal
+
+import config
 import excelexporters.metercarbon
+import falcon
+import mysql.connector
+import simplejson as json
+from core import utilities
 
 
 class Reporting:
@@ -348,21 +349,22 @@ class Reporting:
         parameters_data['timestamps'] = list()
         parameters_data['values'] = list()
 
-        tariff_dict = utilities.get_energy_category_tariffs(meter['cost_center_id'],
-                                                            meter['energy_category_id'],
-                                                            reporting_start_datetime_utc,
-                                                            reporting_end_datetime_utc)
-        tariff_timestamp_list = list()
-        tariff_value_list = list()
-        for k, v in tariff_dict.items():
-            # convert k from utc to local
-            k = k + timedelta(minutes=timezone_offset)
-            tariff_timestamp_list.append(k.isoformat()[0:19])
-            tariff_value_list.append(v)
+        if config.is_tariff_appended:
+            tariff_dict = utilities.get_energy_category_tariffs(meter['cost_center_id'],
+                                                                meter['energy_category_id'],
+                                                                reporting_start_datetime_utc,
+                                                                reporting_end_datetime_utc)
+            tariff_timestamp_list = list()
+            tariff_value_list = list()
+            for k, v in tariff_dict.items():
+                # convert k from utc to local
+                k = k + timedelta(minutes=timezone_offset)
+                tariff_timestamp_list.append(k.isoformat()[0:19])
+                tariff_value_list.append(v)
 
-        parameters_data['names'].append('TARIFF-' + meter['energy_category_name'])
-        parameters_data['timestamps'].append(tariff_timestamp_list)
-        parameters_data['values'].append(tariff_value_list)
+            parameters_data['names'].append('TARIFF-' + meter['energy_category_name'])
+            parameters_data['timestamps'].append(tariff_timestamp_list)
+            parameters_data['values'].append(tariff_value_list)
 
         ################################################################################################################
         # Step 9: query associated points data

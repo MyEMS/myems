@@ -103,3 +103,6 @@ currency_unit = config('CURRENCY_UNIT', default='CNY')
 
 # maximum failed login count, otherwise the user should be locked
 maximum_failed_login_count = config('MAXIMUM_FAILED_LOGIN_COUNT', default=3, cast=int)
+
+# indicates if the tariff appended to parameters data
+is_tariff_appended = config('IS_TARIFF_APPENDED', default=True, cast=bool)

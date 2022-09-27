@@ -39,7 +39,7 @@ import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL } from '../../../config';
 
 
-const CombinedEquipmentFault = ({ setRedirect, setRedirectUrl, t }) => {
+const FDDFault = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
@@ -63,12 +63,10 @@ const CombinedEquipmentFault = ({ setRedirect, setRedirectUrl, t }) => {
   // Query Parameters
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
   const [selectedSpaceID, setSelectedSpaceID] = useState(undefined);
-  const [combinedEquipmentList, setCombinedEquipmentList] = useState([]);
-  const [selectedCombinedEquipment, setSelectedCombinedEquipment] = useState(undefined);
   const [reportingPeriodBeginsDatetime, setReportingPeriodBeginsDatetime] = useState(current_moment.clone().startOf('month'));
   const [reportingPeriodEndsDatetime, setReportingPeriodEndsDatetime] = useState(current_moment);
   const [cascaderOptions, setCascaderOptions] = useState(undefined);
-
+  
   // buttons
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
@@ -78,7 +76,7 @@ const CombinedEquipmentFault = ({ setRedirect, setRedirectUrl, t }) => {
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([{dataField: 'startdatetime', text: t('Datetime'), sort: true}]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
-  
+
   useEffect(() => {
     let isResponseOK = false;
     fetch(APIBaseURL + '/spaces/tree', {
@@ -94,53 +92,18 @@ const CombinedEquipmentFault = ({ setRedirect, setRedirectUrl, t }) => {
       console.log(response);
       if (response.ok) {
         isResponseOK = true;
+        // enable submit button
+        setSubmitButtonDisabled(false);
       }
       return response.json();
     }).then(json => {
-      console.log(json)
+      console.log(json);
       if (isResponseOK) {
         // rename keys 
         json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
         setCascaderOptions(json);
         setSelectedSpaceName([json[0]].map(o => o.label));
         setSelectedSpaceID([json[0]].map(o => o.value));
-        // get Combined Equipments by root Space ID
-        let isResponseOK = false;
-        fetch(APIBaseURL + '/spaces/' + [json[0]].map(o => o.value) + '/combinedequipments', {
-          method: 'GET',
-          headers: {
-            "Content-type": "application/json",
-            "User-UUID": getCookieValue('user_uuid'),
-            "Token": getCookieValue('token')
-          },
-          body: null,
-
-        }).then(response => {
-          if (response.ok) {
-            isResponseOK = true;
-          }
-          return response.json();
-        }).then(json => {
-          if (isResponseOK) {
-            json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
-            console.log(json);
-            setCombinedEquipmentList(json[0]);
-            if (json[0].length > 0) {
-              setSelectedCombinedEquipment(json[0][0].value);
-              // enable submit button
-              setSubmitButtonDisabled(false);
-            } else {
-              setSelectedCombinedEquipment(undefined);
-              // disable submit button
-              setSubmitButtonDisabled(true);
-            }
-          } else {
-            toast.error(t(json.description))
-          }
-        }).catch(err => {
-          console.log(err);
-        });
-        // end of get Combined Equipments by root Space ID
       } else {
         toast.error(t(json.description));
       }
@@ -149,7 +112,6 @@ const CombinedEquipmentFault = ({ setRedirect, setRedirectUrl, t }) => {
     });
 
   }, []);
-
   const orderFormatter = (dataField, { id, name, email }) => (
     <Fragment>
       <Link to="/e-commerce/order-details">
@@ -255,7 +217,6 @@ const CombinedEquipmentFault = ({ setRedirect, setRedirectUrl, t }) => {
     onSelect: onSelect,
     onSelectAll: onSelect
   });
-
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
   let table = createRef();
@@ -276,46 +237,10 @@ const CombinedEquipmentFault = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
+    console.log(value, selectedOptions);
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
     setSelectedSpaceID(value[value.length - 1]);
-
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/spaces/' + value[value.length - 1] + '/combinedequipments', {
-      method: 'GET',
-      headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
-      },
-      body: null,
-
-    }).then(response => {
-      if (response.ok) {
-        isResponseOK = true;
-      }
-      return response.json();
-    }).then(json => {
-      if (isResponseOK) {
-        json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
-        console.log(json)
-        setCombinedEquipmentList(json[0]);
-        if (json[0].length > 0) {
-          setSelectedCombinedEquipment(json[0][0].value);
-          // enable submit button
-          setSubmitButtonDisabled(false);
-        } else {
-          setSelectedCombinedEquipment(undefined);
-          // disable submit button
-          setSubmitButtonDisabled(true);
-        }
-      } else {
-        toast.error(t(json.description))
-      }
-    }).catch(err => {
-      console.log(err);
-    });
   }
-
   let onReportingPeriodBeginsDatetimeChange = (newDateTime) => {
     setReportingPeriodBeginsDatetime(newDateTime);
   }
@@ -337,7 +262,6 @@ const CombinedEquipmentFault = ({ setRedirect, setRedirectUrl, t }) => {
     e.preventDefault();
     console.log('handleSubmit');
     console.log(selectedSpaceID);
-    console.log(selectedCombinedEquipment);
     console.log(reportingPeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss'));
     console.log(reportingPeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss'));
 
@@ -352,8 +276,8 @@ const CombinedEquipmentFault = ({ setRedirect, setRedirectUrl, t }) => {
     setDetailedDataTableData([]);
     
     let isResponseOK = false;
-    fetch(APIBaseURL + '/reports/fddcombinedequipmentfault?' +
-      'combinedequipmentid' + selectedCombinedEquipment +
+    fetch(APIBaseURL + '/reports/fddfault?' +
+      'spaceid=' + selectedSpaceID + 
       '&reportingperiodstartdatetime=' + reportingPeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') +
       '&reportingperiodenddatetime=' + reportingPeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss'), {
       method: 'GET',
@@ -380,7 +304,6 @@ const CombinedEquipmentFault = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       if (isResponseOK) {
         console.log(json)
-              
         setDetailedDataTableData([
           {
             id: uuid().split('-')[0],
@@ -713,7 +636,6 @@ const CombinedEquipmentFault = ({ setRedirect, setRedirectUrl, t }) => {
             amount: 111
           }
         ]);
-
         setDetailedDataTableColumns([
           {
             dataField: 'id',
@@ -758,12 +680,13 @@ const CombinedEquipmentFault = ({ setRedirect, setRedirectUrl, t }) => {
     }).catch(err => {
       console.log(err);
     });
+  
   };
   
   const handleExport = e => {
     e.preventDefault();
     const mimeType='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    const fileName = 'combinedequipmentfault.xlsx'
+    const fileName = 'fddfault.xlsx'
     var fileUrl = "data:" + mimeType + ";base64," + excelBytesBase64;
     fetch(fileUrl)
         .then(response => response.blob())
@@ -778,12 +701,11 @@ const CombinedEquipmentFault = ({ setRedirect, setRedirectUrl, t }) => {
   };
   
 
-
   return (
     <Fragment>
       <div>
         <Breadcrumb>
-          <BreadcrumbItem>{t('Fault Detection & Diagnostics')}</BreadcrumbItem><BreadcrumbItem active>{t('Combined Equipment Faults Data')}</BreadcrumbItem>
+          <BreadcrumbItem active>{t('Fault Alarm')}</BreadcrumbItem>
         </Breadcrumb>
       </div>
       <Card className="bg-light mb-3">
@@ -802,21 +724,6 @@ const CombinedEquipmentFault = ({ setRedirect, setRedirectUrl, t }) => {
                     expandTrigger="hover">
                     <Input value={selectedSpaceName || ''} readOnly />
                   </Cascader>
-                </FormGroup>
-              </Col>
-              <Col xs="auto">
-                <FormGroup>
-                  <Label className={labelClasses} for="combinedEquipmentSelect">
-                    {t('Combined Equipment')}
-                  </Label>
-                  <CustomInput type="select" id="combinedEquipmentSelect" name="combinedEquipmentSelect" onChange={({ target }) => setSelectedCombinedEquipment(target.value)}
-                  >
-                    {combinedEquipmentList.map((combinedEquipment, index) => (
-                      <option value={combinedEquipment.value} key={combinedEquipment.value}>
-                        {combinedEquipment.label}
-                      </option>
-                    ))}
-                  </CustomInput>
                 </FormGroup>
               </Col>
               <Col xs="auto">
@@ -885,7 +792,7 @@ const CombinedEquipmentFault = ({ setRedirect, setRedirectUrl, t }) => {
             </InputGroup>
           ) : (
               <Fragment>
-               
+                
               </Fragment>
             )}
         </FalconCardHeader>
@@ -954,4 +861,4 @@ const CombinedEquipmentFault = ({ setRedirect, setRedirectUrl, t }) => {
   );
 };
 
-export default withTranslation()(withRedirect(CombinedEquipmentFault));
+export default withTranslation()(withRedirect(FDDFault));

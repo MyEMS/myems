@@ -1,12 +1,13 @@
 import re
-import falcon
-import simplejson as json
-import mysql.connector
-import config
 from datetime import datetime, timedelta, timezone
-from core import utilities
 from decimal import Decimal
+
+import config
 import excelexporters.meterenergy
+import falcon
+import mysql.connector
+import simplejson as json
+from core import utilities
 
 
 class Reporting:
@@ -319,7 +320,8 @@ class Reporting:
         parameters_data['names'] = list()
         parameters_data['timestamps'] = list()
         parameters_data['values'] = list()
-        if not is_quick_mode:
+
+        if config.is_tariff_appended and not is_quick_mode:
             tariff_dict = utilities.get_energy_category_tariffs(meter['cost_center_id'],
                                                                 meter['energy_category_id'],
                                                                 reporting_start_datetime_utc,

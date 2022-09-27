@@ -1,11 +1,12 @@
 import base64
-import uuid
-import os
-from decimal import Decimal
-from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
-from openpyxl.drawing.image import Image
-from openpyxl import Workbook
 import gettext
+import os
+import uuid
+from decimal import Decimal
+
+from openpyxl import Workbook
+from openpyxl.drawing.image import Image
+from openpyxl.styles import Alignment, Font
 
 
 ########################################################################################################################

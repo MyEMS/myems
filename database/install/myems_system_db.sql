@@ -509,12 +509,6 @@ VALUES
 (801,'Energy Flow Diagram','/auxiliarysystem/energyflowdiagram',800,0),
 (802,'Distribution System','/auxiliarysystem/distributionsystem',800,0),
 (900,'Fault Detection & Diagnostics','/fdd',NULL,0),
-(901,'Space Faults Data','/fdd/space',900,0),
-(902,'Equipment Faults Data','/fdd/equipment',900,0),
-(903,'Combined Equipment Faults Data','/fdd/combinedequipment',900,0),
-(904,'Tenant Faults Data','/fdd/tenant',900,0),
-(905,'Store Faults Data','/fdd/store',900,0),
-(906,'Shopfloor Faults Data','/fdd/shopfloor',900,0),
 (1000,'Monitoring','/monitoring',NULL,0),
 (1001,'Space Equipments','/monitoring/spaceequipments',1000,0),
 (1002,'Combined Equipments','/monitoring/combinedequipments',1000,0),
@@ -1284,6 +1278,6 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '2.3.0', '2022-09-23');
+(1, '2.4.0', '2022-09-30');
 
 COMMIT;

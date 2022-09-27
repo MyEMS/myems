@@ -1,10 +1,11 @@
-import falcon
-import simplejson as json
-import mysql.connector
-import config
-from anytree import AnyNode, LevelOrderIter
 from datetime import datetime, timedelta, timezone
+
+import config
 import excelexporters.virtualmeterbatch
+import falcon
+import mysql.connector
+import simplejson as json
+from anytree import AnyNode, LevelOrderIter
 
 
 class Reporting:
