@@ -395,7 +395,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
 
             setChildSpacesTableColumns(child_space_column_list);
             setChildSpacesInputData(json['child_space_input']);
-            setChildSpacesCostData(json['child_space_input']);
+            setChildSpacesCostData(json['child_space_cost']);
             setMonthLabels(json['reporting_period_cost']['timestamps'][0]);
           }
         });
@@ -500,7 +500,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
         labels={monthLabels}
         inputData={childSpacesInputData}
         costData={childSpacesCostData}
-        childSpaces={spaceCostLineChartOptions}
+        childSpaces={spaceInputLineChartOptions}
       >
       </ChartSpacesStackBar>
 
