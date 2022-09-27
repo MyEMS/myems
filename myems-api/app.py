@@ -33,12 +33,7 @@ from reports import equipmentoutput
 from reports import equipmentsaving
 from reports import equipmentstatistics
 from reports import equipmenttracking
-from reports import fddcombinedequipmentfault
-from reports import fddequipmentfault
-from reports import fddshopfloorfault
-from reports import fddspacefault
-from reports import fddstorefault
-from reports import fddtenantfault
+from reports import fddfault
 from reports import meterbatch
 from reports import metercarbon
 from reports import metercomparison
@@ -568,18 +563,8 @@ api.add_route('/reports/equipmentstatistics',
               equipmentstatistics.Reporting())
 api.add_route('/reports/equipmenttracking',
               equipmenttracking.Reporting())
-api.add_route('/reports/fddcombinedequipmentfault',
-              fddcombinedequipmentfault.Reporting())
-api.add_route('/reports/fddequipmentfault',
-              fddequipmentfault.Reporting())
-api.add_route('/reports/fddshopfloorfault',
-              fddshopfloorfault.Reporting())
-api.add_route('/reports/fddspacefault',
-              fddspacefault.Reporting())
-api.add_route('/reports/fddstorefault',
-              fddstorefault.Reporting())
-api.add_route('/reports/fddtenantfault',
-              fddtenantfault.Reporting())
+api.add_route('/reports/fddfault',
+              fddfault.Reporting())
 api.add_route('/reports/meterbatch',
               meterbatch.Reporting())
 api.add_route('/reports/metercarbon',
