@@ -1,12 +1,13 @@
 import base64
+import gettext
 import os
 import uuid
+
 from openpyxl import Workbook
 from openpyxl.chart import LineChart, Reference, Series
 from openpyxl.chart.label import DataLabelList
 from openpyxl.drawing.image import Image
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
-import gettext
 
 
 ########################################################################################################################

@@ -1,9 +1,10 @@
-from datetime import datetime, timedelta
-import mysql.connector
 import collections
-from decimal import Decimal
 import statistics
+from datetime import datetime, timedelta
+from decimal import Decimal
+
 import config
+import mysql.connector
 
 
 ########################################################################################################################
