@@ -460,17 +460,9 @@ export const auxiliarySystemRoutes = {
 };
 
 export const fddRoutes = {
-  name: 'Fault Detection & Diagnostics',
+  name: 'Fault Alarm',
   to: '/fdd',
   icon: 'bell',
-  children: [
-    { to: '/fdd/space', name: 'Space Faults Data' },
-    { to: '/fdd/equipment', name: 'Equipment Faults Data' },
-    { to: '/fdd/combinedequipment', name: 'Combined Equipment Faults Data' },
-    { to: '/fdd/tenant', name: 'Tenant Faults Data' },
-    { to: '/fdd/store', name: 'Store Faults Data' },
-    { to: '/fdd/shopfloor', name: 'Shopfloor Faults Data' }
-  ]
 };
 
 export const monitoringRoutes = {
