@@ -546,9 +546,9 @@ class Reporting:
                                            reporting_end_datetime_utc))
                     row_subtotal = cursor_energy.fetchall() 
                     rows_space_periodically = utilities.aggregate_hourly_data_by_period(row_subtotal,
-                                                                                    reporting_start_datetime_utc,
-                                                                                    reporting_end_datetime_utc,
-                                                                                    period_type)
+                                                                                        reporting_start_datetime_utc,
+                                                                                        reporting_end_datetime_utc,
+                                                                                        period_type)
 
                     for row_space_periodically in rows_space_periodically:
                         current_datetime_local = row_space_periodically[0].replace(tzinfo=timezone.utc) + \
@@ -589,9 +589,9 @@ class Reporting:
                                             reporting_end_datetime_utc))
                     row_subtotal = cursor_billing.fetchall() 
                     rows_space_periodically = utilities.aggregate_hourly_data_by_period(row_subtotal,
-                                                                                    reporting_start_datetime_utc,
-                                                                                    reporting_end_datetime_utc,
-                                                                                    period_type)
+                                                                                        reporting_start_datetime_utc,
+                                                                                        reporting_end_datetime_utc,
+                                                                                        period_type)
 
                     for row_space_periodically in rows_space_periodically:
                         actual_value = Decimal(0.0) if row_space_periodically[1] is None else row_space_periodically[1]
