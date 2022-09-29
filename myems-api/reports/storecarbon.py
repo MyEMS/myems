@@ -280,16 +280,16 @@ class Reporting:
                 base[energy_category_id]['subtotal'] = Decimal(0.0)
 
                 cursor_carbon.execute(" SELECT start_datetime_utc, actual_value "
-                                       " FROM tbl_store_input_category_hourly "
-                                       " WHERE store_id = %s "
-                                       "     AND energy_category_id = %s "
-                                       "     AND start_datetime_utc >= %s "
-                                       "     AND start_datetime_utc < %s "
-                                       " ORDER BY start_datetime_utc ",
-                                       (store['id'],
-                                        energy_category_id,
-                                        base_start_datetime_utc,
-                                        base_end_datetime_utc))
+                                      " FROM tbl_store_input_category_hourly "
+                                      " WHERE store_id = %s "
+                                      "     AND energy_category_id = %s "
+                                      "     AND start_datetime_utc >= %s "
+                                      "     AND start_datetime_utc < %s "
+                                      " ORDER BY start_datetime_utc ",
+                                      (store['id'],
+                                       energy_category_id,
+                                       base_start_datetime_utc,
+                                       base_end_datetime_utc))
                 rows_store_hourly = cursor_carbon.fetchall()
 
                 rows_store_periodically = utilities.aggregate_hourly_data_by_period(rows_store_hourly,
@@ -412,9 +412,9 @@ class Reporting:
         for point in point_list:
             point_values = []
             point_timestamps = []
-            if point['object_type'] == 'ANALOG_VALUE':
+            if point['object_type'] == 'ENERGY_VALUE':
                 query = (" SELECT utc_date_time, actual_value "
-                         " FROM tbl_analog_value "
+                         " FROM tbl_energy_value "
                          " WHERE point_id = %s "
                          "       AND utc_date_time BETWEEN %s AND %s "
                          " ORDER BY utc_date_time ")
@@ -430,10 +430,9 @@ class Reporting:
                         current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
                         point_timestamps.append(current_datetime)
                         point_values.append(row[1])
-
-            elif point['object_type'] == 'ENERGY_VALUE':
+            elif point['object_type'] == 'ANALOG_VALUE':
                 query = (" SELECT utc_date_time, actual_value "
-                         " FROM tbl_energy_value "
+                         " FROM tbl_analog_value "
                          " WHERE point_id = %s "
                          "       AND utc_date_time BETWEEN %s AND %s "
                          " ORDER BY utc_date_time ")

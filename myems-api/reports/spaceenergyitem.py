@@ -433,9 +433,9 @@ class Reporting:
         for point in point_list:
             point_values = []
             point_timestamps = []
-            if point['object_type'] == 'ANALOG_VALUE':
+            if point['object_type'] == 'ENERGY_VALUE':
                 query = (" SELECT utc_date_time, actual_value "
-                         " FROM tbl_analog_value "
+                         " FROM tbl_energy_value "
                          " WHERE point_id = %s "
                          "       AND utc_date_time BETWEEN %s AND %s "
                          " ORDER BY utc_date_time ")
@@ -451,10 +451,9 @@ class Reporting:
                         current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
                         point_timestamps.append(current_datetime)
                         point_values.append(row[1])
-
-            elif point['object_type'] == 'ENERGY_VALUE':
+            elif point['object_type'] == 'ANALOG_VALUE':
                 query = (" SELECT utc_date_time, actual_value "
-                         " FROM tbl_energy_value "
+                         " FROM tbl_analog_value "
                          " WHERE point_id = %s "
                          "       AND utc_date_time BETWEEN %s AND %s "
                          " ORDER BY utc_date_time ")

@@ -434,9 +434,9 @@ class Reporting:
         for point in point_list:
             point_values = []
             point_timestamps = []
-            if point['object_type'] == 'ANALOG_VALUE':
+            if point['object_type'] == 'ENERGY_VALUE':
                 query = (" SELECT utc_date_time, actual_value "
-                         " FROM tbl_analog_value "
+                         " FROM tbl_energy_value "
                          " WHERE point_id = %s "
                          "       AND utc_date_time BETWEEN %s AND %s "
                          " ORDER BY utc_date_time ")
@@ -452,10 +452,9 @@ class Reporting:
                         current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
                         point_timestamps.append(current_datetime)
                         point_values.append(row[1])
-
-            elif point['object_type'] == 'ENERGY_VALUE':
+            elif point['object_type'] == 'ANALOG_VALUE':
                 query = (" SELECT utc_date_time, actual_value "
-                         " FROM tbl_energy_value "
+                         " FROM tbl_analog_value "
                          " WHERE point_id = %s "
                          "       AND utc_date_time BETWEEN %s AND %s "
                          " ORDER BY utc_date_time ")
@@ -536,24 +535,23 @@ class Reporting:
                     associated_report[energy_category_id]['subtotal'] = Decimal(0.0)
                     associated_report[energy_category_id]['subtotal_in_kgce'] = Decimal(0.0)
                     associated_report[energy_category_id]['subtotal_in_kgco2e'] = Decimal(0.0)
-                    print(associated_equipment['id'])
                     cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
-                                        " FROM tbl_equipment_input_category_hourly "
-                                        " WHERE equipment_id = %s "
-                                        "     AND energy_category_id = %s "
-                                        "     AND start_datetime_utc >= %s "
-                                        "     AND start_datetime_utc < %s "
-                                        " ORDER BY start_datetime_utc ",
-                                        (associated_equipment['id'],
-                                        energy_category_id,
-                                        reporting_start_datetime_utc,
-                                        reporting_end_datetime_utc))
+                                          " FROM tbl_equipment_input_category_hourly "
+                                          " WHERE equipment_id = %s "
+                                          "     AND energy_category_id = %s "
+                                          "     AND start_datetime_utc >= %s "
+                                          "     AND start_datetime_utc < %s "
+                                          " ORDER BY start_datetime_utc ",
+                                          (associated_equipment['id'],
+                                           energy_category_id,
+                                           reporting_start_datetime_utc,
+                                           reporting_end_datetime_utc))
                     rows_equipment_hourly = cursor_energy.fetchall()
-                    rows_equipment_periodically = utilities.aggregate_hourly_data_by_period(rows_equipment_hourly,
-                                                                                            reporting_start_datetime_utc,
-                                                                                            reporting_end_datetime_utc,
-                                                                                            period_type)
-
+                    rows_equipment_periodically = \
+                        utilities.aggregate_hourly_data_by_period(rows_equipment_hourly,
+                                                                  reporting_start_datetime_utc,
+                                                                  reporting_end_datetime_utc,
+                                                                  period_type)
 
                     for row_equipment_periodically in rows_equipment_periodically:
                         current_datetime_local = row_equipment_periodically[0].replace(tzinfo=timezone.utc) + \
@@ -646,10 +644,14 @@ class Reporting:
                     associated_report_period['timestamps'].append(associated_report[energy_category_id]['timestamps'])
                     associated_report_period['values'].append(associated_report[energy_category_id]['values'])
                     associated_report_period['subtotals'].append(associated_report[energy_category_id]['subtotal'])
-                    associated_report_period['subtotals_in_kgce'].append(associated_report[energy_category_id]['subtotal_in_kgce'])
-                    associated_report_period['subtotals_in_kgco2e'].append(associated_report[energy_category_id]['subtotal_in_kgco2e'])
-                    associated_report_period['total_in_kgce'] += associated_report[energy_category_id]['subtotal_in_kgce']
-                    associated_report_period['total_in_kgco2e'] += associated_report[energy_category_id]['subtotal_in_kgco2e']
+                    associated_report_period['subtotals_in_kgce'].append(associated_report[energy_category_id]
+                                                                         ['subtotal_in_kgce'])
+                    associated_report_period['subtotals_in_kgco2e'].append(associated_report[energy_category_id]
+                                                                           ['subtotal_in_kgco2e'])
+                    associated_report_period['total_in_kgce'] += associated_report[energy_category_id]
+                    ['subtotal_in_kgce']
+                    associated_report_period['total_in_kgco2e'] += associated_report[energy_category_id]
+                    ['subtotal_in_kgco2e']
                     result['associated_report_period_list'].append(associated_report_period)
 
         result['reporting_period'] = dict()
