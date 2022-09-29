@@ -169,8 +169,6 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ws['B6'] = name + _('Reporting Period Costs')
 
         reporting_period_data = report['reporting_period']
-        category = report['meter']['energy_category_name']
-        ca_len = len(category)
 
         ws.row_dimensions[7].height = 60
         ws['B7'].fill = table_fill
@@ -186,72 +184,61 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ws['B9'] = _('Increment Rate')
         ws['B9'].border = f_border
 
-        col = 'B'
+        ws['C7'].fill = table_fill
+        ws['C7'].font = name_font
+        ws['C7'].alignment = c_c_alignment
+        ws['C7'] = report['meter']['energy_category_name'] + " (" + report['meter']['unit_of_measure'] + ")"
+        ws['C7'].border = f_border
 
-        for i in range(0, ca_len):
-            col = chr(ord('C') + i)
+        ws['C8'].font = name_font
+        ws['C8'].alignment = c_c_alignment
+        ws['C8'] = round(reporting_period_data['total_in_category'], 2)
+        ws['C8'].border = f_border
 
-            ws[col + '7'].fill = table_fill
-            ws[col + '7'].font = name_font
-            ws[col + '7'].alignment = c_c_alignment
-            ws[col + '7'] = report['meter']['energy_category_name'] + " (" + report['meter']['unit_of_measure'] + ")"
-            ws[col + '7'].border = f_border
-
-            ws[col + '8'].font = name_font
-            ws[col + '8'].alignment = c_c_alignment
-            ws[col + '8'] = round(reporting_period_data['total_in_category'], 2)
-            ws[col + '8'].border = f_border
-
-            ws[col + '9'].font = name_font
-            ws[col + '9'].alignment = c_c_alignment
-            ws[col + '9'] = str(round(reporting_period_data['increment_rate'] * 100, 2)) + "%" \
-                if reporting_period_data['increment_rate'] is not None else "-"
-            ws[col + '9'].border = f_border
-
-        # TCE TCO2E
-        end_col = col
-        # TCE
-        tce_col = chr(ord(end_col) + 1)
-        ws[tce_col + '7'].fill = table_fill
-        ws[tce_col + '7'].font = name_font
-        ws[tce_col + '7'].alignment = c_c_alignment
-        ws[tce_col + '7'] = _('Ton of Standard Coal') + '(TCE)'
-        ws[tce_col + '7'].border = f_border
-
-        ws[tce_col + '8'].font = name_font
-        ws[tce_col + '8'].alignment = c_c_alignment
-        ws[tce_col + '8'] = round(reporting_period_data['total_in_kgce'] / 1000, 2)
-        ws[tce_col + '8'].border = f_border
-
-        ws[tce_col + '9'].font = name_font
-        ws[tce_col + '9'].alignment = c_c_alignment
-        ws[tce_col + '9'] = str(round(reporting_period_data['increment_rate'] * 100, 2)) + "%" \
+        ws['C9'].font = name_font
+        ws['C9'].alignment = c_c_alignment
+        ws['C9'] = str(round(reporting_period_data['increment_rate'] * 100, 2)) + "%" \
             if reporting_period_data['increment_rate'] is not None else "-"
-        ws[tce_col + '9'].border = f_border
+        ws['C9'].border = f_border
+
+        # TCE
+        ws['D7'].fill = table_fill
+        ws['D7'].font = name_font
+        ws['D7'].alignment = c_c_alignment
+        ws['D7'] = _('Ton of Standard Coal') + '(TCE)'
+        ws['D7'].border = f_border
+
+        ws['D8'].font = name_font
+        ws['D8'].alignment = c_c_alignment
+        ws['D8'] = round(reporting_period_data['total_in_kgce'] / 1000, 2)
+        ws['D8'].border = f_border
+
+        ws['D9'].font = name_font
+        ws['D9'].alignment = c_c_alignment
+        ws['D9'] = str(round(reporting_period_data['increment_rate'] * 100, 2)) + "%" \
+            if reporting_period_data['increment_rate'] is not None else "-"
+        ws['D9'].border = f_border
 
         # TCO2E
-        tco2e_col = chr(ord(end_col) + 2)
-        ws[tco2e_col + '7'].fill = table_fill
-        ws[tco2e_col + '7'].font = name_font
-        ws[tco2e_col + '7'].alignment = c_c_alignment
-        ws[tco2e_col + '7'] = _('Ton of Carbon Dioxide Emissions') + '(TCO2E)'
-        ws[tco2e_col + '7'].border = f_border
+        ws['E7'].fill = table_fill
+        ws['E7'].font = name_font
+        ws['E7'].alignment = c_c_alignment
+        ws['E7'] = _('Ton of Carbon Dioxide Emissions') + '(TCO2E)'
+        ws['E7'].border = f_border
 
-        ws[tco2e_col + '8'].font = name_font
-        ws[tco2e_col + '8'].alignment = c_c_alignment
-        ws[tco2e_col + '8'] = round(reporting_period_data['total_in_kgco2e'] / 1000, 2)
-        ws[tco2e_col + '8'].border = f_border
+        ws['E8'].font = name_font
+        ws['E8'].alignment = c_c_alignment
+        ws['E8'] = round(reporting_period_data['total_in_kgco2e'] / 1000, 2)
+        ws['E8'].border = f_border
 
-        ws[tco2e_col + '9'].font = name_font
-        ws[tco2e_col + '9'].alignment = c_c_alignment
-        ws[tco2e_col + '9'] = str(round(reporting_period_data['increment_rate'] * 100, 2)) + "%" \
+        ws['E9'].font = name_font
+        ws['E9'].alignment = c_c_alignment
+        ws['E9'] = str(round(reporting_period_data['increment_rate'] * 100, 2)) + "%" \
             if reporting_period_data['increment_rate'] is not None else "-"
-        ws[tco2e_col + '9'].border = f_border
+        ws['E9'].border = f_border
 
     ####################################################################################################################
     reporting_period_data = report['reporting_period']
-    category = report['meter']['energy_category_name']
-    ca_len = len(category)
     times = reporting_period_data['timestamps']
     parameters_names_len = len(report['parameters']['names'])
     parameters_data = report['parameters']
@@ -265,7 +252,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         for i in range(11, 43 + 1):
             ws.row_dimensions[i].height = 0.0
     else:
-        start_detail_data_row_number = 13 + (parameters_parameters_datas_len + ca_len) * 6
+        start_detail_data_row_number = 13 + (parameters_parameters_datas_len + 1) * 6
 
         ws['B11'].font = title_font
         ws['B11'] = name + _('Detailed Data')
@@ -302,36 +289,32 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             ws['B' + str(end_data_row_number + 1)] = _('Total')
             ws['B' + str(end_data_row_number + 1)].border = f_border
 
-            for i in range(0, ca_len):
+            ws['C' + str(start_detail_data_row_number)].fill = table_fill
+            ws['C' + str(start_detail_data_row_number)].font = title_font
+            ws['C' + str(start_detail_data_row_number)].alignment = c_c_alignment
+            ws['C' + str(start_detail_data_row_number)] = \
+                report['meter']['energy_category_name']+" (" + report['meter']['unit_of_measure'] + ")"
+            ws['C' + str(start_detail_data_row_number)].border = f_border
 
-                col = chr(ord('C') + i)
+            time = times
+            time_len = len(time)
 
-                ws[col + str(start_detail_data_row_number)].fill = table_fill
-                ws[col + str(start_detail_data_row_number)].font = title_font
-                ws[col + str(start_detail_data_row_number)].alignment = c_c_alignment
-                ws[col + str(start_detail_data_row_number)] = \
-                    report['meter']['energy_category_name']+" (" + report['meter']['unit_of_measure'] + ")"
-                ws[col + str(start_detail_data_row_number)].border = f_border
+            for j in range(0, time_len):
+                row = str(start_detail_data_row_number + 1 + j)
 
-                time = times
-                time_len = len(time)
+                ws['C' + row].font = title_font
+                ws['C' + row].alignment = c_c_alignment
+                ws['C' + row] = round(reporting_period_data['values'][j], 2)
+                ws['C' + row].border = f_border
 
-                for j in range(0, time_len):
-                    row = str(start_detail_data_row_number + 1 + j)
-
-                    ws[col + row].font = title_font
-                    ws[col + row].alignment = c_c_alignment
-                    ws[col + row] = round(reporting_period_data['values'][j], 2)
-                    ws[col + row].border = f_border
-
-                ws[col + str(end_data_row_number + 1)].font = title_font
-                ws[col + str(end_data_row_number + 1)].alignment = c_c_alignment
-                ws[col + str(end_data_row_number + 1)] = round(reporting_period_data['total_in_category'], 2)
-                ws[col + str(end_data_row_number + 1)].border = f_border
+            ws['C' + str(end_data_row_number + 1)].font = title_font
+            ws['C' + str(end_data_row_number + 1)].alignment = c_c_alignment
+            ws['C' + str(end_data_row_number + 1)] = round(reporting_period_data['total_in_category'], 2)
+            ws['C' + str(end_data_row_number + 1)].border = f_border
 
             line = LineChart()
             line.title = _('Reporting Period Costs') + ' - ' + report['meter']['energy_category_name'] + \
-                         " (" + report['meter']['unit_of_measure'] + ")"
+                " (" + report['meter']['unit_of_measure'] + ")"
             line_data = Reference(ws, min_col=3, min_row=start_detail_data_row_number, max_row=max_row)
             line.series.append(Series(line_data, title_from_data=True))
             labels = Reference(ws, min_col=2, min_row=start_detail_data_row_number + 1, max_row=max_row)
@@ -350,7 +333,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
     ####################################################################################################################
     # 12 is the starting line number of the last line chart in the report period
     time_len = len(reporting_period_data['timestamps'])
-    current_sheet_parameters_row_number = 12 + ca_len * 6
+    current_sheet_parameters_row_number = 12 + 1 * 6
     if 'parameters' not in report.keys() or \
             report['parameters'] is None or \
             'names' not in report['parameters'].keys() or \
