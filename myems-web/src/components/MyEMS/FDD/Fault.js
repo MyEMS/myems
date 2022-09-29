@@ -277,7 +277,7 @@ const FDDFault = ({ setRedirect, setRedirectUrl, t }) => {
         setDetailedDataTableColumns([
           {
             dataField: 'id',
-            text: 'id',
+            text: 'ID',
             classes: 'py-2 align-middle',
             formatter: orderFormatter,
             sort: true
