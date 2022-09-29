@@ -176,16 +176,12 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
         for i in range(6, 9 + 1):
             ws.row_dimensions[i].height = 0.1
     else:
-        ws['B6'].font = title_font
-        ws['B6'] = name1 + ' ' + _('Consumption')
-
         reporting_period_data1 = report['reporting_period1']
 
-        category = report['meter1']['energy_category_name']
-        ca_len = len(category)
-
         ws.row_dimensions[7].height = 60
-
+        ws['B7'].font = title_font
+        ws['B7'].alignment = c_c_alignment
+        ws['B7'] = name1
         ws['B7'].fill = table_fill
         ws['B7'].border = f_border
 
@@ -194,67 +190,45 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
         ws['B8'] = _('Consumption')
         ws['B8'].border = f_border
 
-        col = ''
+        ws['C7'].fill = table_fill
+        ws['C7'].font = name_font
+        ws['C7'].alignment = c_c_alignment
+        ws['C7'] = report['meter1']['energy_category_name'] + " (" + report['meter1']['unit_of_measure'] + ")"
+        ws['C7'].border = f_border
 
-        for i in range(0, ca_len):
-            col = chr(ord('C') + i)
-            row = '7'
-            cell = col + row
-            ws[col + '7'].fill = table_fill
-            ws[col + '7'].font = name_font
-            ws[col + '7'].alignment = c_c_alignment
-            ws[col + '7'] = report['meter1']['energy_category_name'] + " (" + report['meter1']['unit_of_measure'] + ")"
-            ws[col + '7'].border = f_border
-
-            ws[col + '8'].font = name_font
-            ws[col + '8'].alignment = c_c_alignment
-            ws[col + '8'] = round(reporting_period_data1['total_in_category'], 2)
-            ws[col + '8'].border = f_border
-
-        # TCE TCO2E
-        end_col = col
+        ws['C8'].font = name_font
+        ws['C8'].alignment = c_c_alignment
+        ws['C8'] = round(reporting_period_data1['total_in_category'], 2)
+        ws['C8'].border = f_border
 
     if "values" not in report['reporting_period2'].keys() or len(report['reporting_period2']['values']) == 0:
         for i in range(11, 14 + 1):
             ws.row_dimensions[i].height = 0.1
     else:
-        ws['B10'].font = title_font
-        ws['B10'] = name2 + ' ' + _('Consumption')
-
         reporting_period_data2 = report['reporting_period2']
 
-        category = report['meter2']['energy_category_name']
-        ca_len = len(category)
-
         ws.row_dimensions[12].height = 60
-
+        ws['B11'].font = title_font
+        ws['B11'].alignment = c_c_alignment
         ws['B11'].fill = table_fill
         ws['B11'].border = f_border
+        ws['B11'] = name2
 
         ws['B12'].font = title_font
         ws['B12'].alignment = c_c_alignment
         ws['B12'] = _('Consumption')
         ws['B12'].border = f_border
 
-        col = ''
+        ws['C11'].fill = table_fill
+        ws['C11'].font = name_font
+        ws['C11'].alignment = c_c_alignment
+        ws['C11'] = report['meter2']['energy_category_name'] + " (" + report['meter2']['unit_of_measure'] + ")"
+        ws['C11'].border = f_border
 
-        for i in range(0, ca_len):
-            col = chr(ord('C') + i)
-            row = '11'
-            cell = col + row
-            ws[col + '11'].fill = table_fill
-            ws[col + '11'].font = name_font
-            ws[col + '11'].alignment = c_c_alignment
-            ws[col + '11'] = report['meter2']['energy_category_name'] + " (" + report['meter2']['unit_of_measure'] + ")"
-            ws[col + '11'].border = f_border
-
-            ws[col + '12'].font = name_font
-            ws[col + '12'].alignment = c_c_alignment
-            ws[col + '12'] = round(reporting_period_data2['total_in_category'], 2)
-            ws[col + '12'].border = f_border
-
-        # TCE TCO2E
-        end_col = col
+        ws['C12'].font = name_font
+        ws['C12'].alignment = c_c_alignment
+        ws['C12'] = round(reporting_period_data2['total_in_category'], 2)
+        ws['C12'].border = f_border
 
     ####################################################################################################################
     # Second: Detailed Data

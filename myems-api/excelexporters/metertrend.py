@@ -103,7 +103,6 @@ def generate_excel(report,
     # Font
     name_font = Font(name='Arial', size=15, bold=True)
     title_font = Font(name='Arial', size=15, bold=True)
-    data_font = Font(name='Franklin Gothic Book', size=11)
 
     table_fill = PatternFill(fill_type='solid', fgColor='90ee90')
     f_border = Border(left=Side(border_style='medium'),
@@ -170,25 +169,24 @@ def generate_excel(report,
     # 8~ table_data
     ####################################################################################################################
     has_data_flag = True
-    reporting_period_data = report['reporting_period']
-    if "names" not in reporting_period_data.keys() or \
-            reporting_period_data['names'] is None or \
-            len(reporting_period_data['names']) == 0:
+    report['reporting_period'] = report['reporting_period']
+    if "names" not in report['reporting_period'].keys() or \
+            report['reporting_period']['names'] is None or \
+            len(report['reporting_period']['names']) == 0:
         has_data_flag = False
 
-    if "timestamps" not in reporting_period_data.keys() or \
-            reporting_period_data['timestamps'] is None or \
-            len(reporting_period_data['timestamps']) == 0:
+    if "timestamps" not in report['reporting_period'].keys() or \
+            report['reporting_period']['timestamps'] is None or \
+            len(report['reporting_period']['timestamps']) == 0:
         has_data_flag = False
 
-    if "values" not in reporting_period_data.keys() or \
-            reporting_period_data['values'] is None or \
-            len(reporting_period_data['values']) == 0:
+    if "values" not in report['reporting_period'].keys() or \
+            report['reporting_period']['values'] is None or \
+            len(report['reporting_period']['values']) == 0:
         has_data_flag = False
-    ca = reporting_period_data['names']
-    ca_len = len(ca)
-    temp_max_row = 0
-    times = reporting_period_data['timestamps']
+
+    ca_len = len(report['reporting_period']['names'])
+    times = report['reporting_period']['timestamps']
     category = report['meter']['energy_category_name']
     parameters_names_len = len(report['parameters']['names'])
     parameters_data = report['parameters']
@@ -204,9 +202,7 @@ def generate_excel(report,
             if len(time) > 0:
                 break
         has_data = False
-        max_row = 0
         current_sheet_parameters_row_number = 7
-        temp_max_row = max_row
         for i in range(8, len(time) + 6 + ca_len * 6 + len(category) * 6 + 2):
             ws.row_dimensions[i].height = 42
         if len(time) > 0:
@@ -240,7 +236,7 @@ def generate_excel(report,
                 ws[col + str(start_detail_data_row_num - 1)].fill = table_fill
                 ws[col + str(start_detail_data_row_num - 1)].font = title_font
                 ws[col + str(start_detail_data_row_num - 1)].alignment = c_c_alignment
-                ws[col + str(start_detail_data_row_num - 1)] = reporting_period_data['names'][i]
+                ws[col + str(start_detail_data_row_num - 1)] = report['reporting_period']['names'][i]
                 ws[col + str(start_detail_data_row_num - 1)].border = f_border
 
                 for j in range(0, len(time)):
@@ -249,18 +245,18 @@ def generate_excel(report,
                     ws[col + row].font = title_font
                     ws[col + row].alignment = c_c_alignment
                     try:
-                        ws[col + row] = round(reporting_period_data['values'][i][j], 3) if \
-                            len(reporting_period_data['values'][i]) > 0 and \
-                            len(reporting_period_data['values'][i]) > j and \
-                            reporting_period_data['values'][i][j] is not None else ''
+                        ws[col + row] = round(report['reporting_period']['values'][i][j], 3) if \
+                            len(report['reporting_period']['values'][i]) > 0 and \
+                            len(report['reporting_period']['values'][i]) > j and \
+                            report['reporting_period']['values'][i][j] is not None else ''
                     except Exception as e:
-                        print('error 1 in excelexporters\metertrend: ' + str(e))
+                        print('error 1 in excelexporters\\metertrend: ' + str(e))
 
                     ws[col + row].border = f_border
             # line
             # 39~: line
                 line = LineChart()
-                line.title = 'Trend Value - ' + reporting_period_data['names'][i]
+                line.title = report['reporting_period']['names'][i]
                 labels = Reference(ws, min_col=2, min_row=start_detail_data_row_num, max_row=max_row-1)
                 line_data = Reference(ws, min_col=3 + i, min_row=start_detail_data_row_num+1, max_row=max_row-1)
                 line.add_data(line_data, titles_from_data=True)
@@ -399,7 +395,7 @@ def generate_excel(report,
                 try:
                     parameters_ws[col + str(table_current_row_number)] = round(parameters_data['values'][i][j], 2)
                 except Exception as e:
-                    print('error 2 in excelexporters\metertrend: ' + str(e))
+                    print('error 2 in excelexporters\\metertrend: ' + str(e))
                 
                 table_current_row_number += 1
 
@@ -427,8 +423,8 @@ def generate_excel(report,
             data_col = 3 + col_index * 3
             labels_col = 2 + col_index * 3
             col_index += 1
-            line.title = 'Parameters - ' + \
-                         parameters_ws.cell(row=parameters_table_start_row_number, column=data_col).value
+            line.title = _('Parameters') + ' - ' + \
+                parameters_ws.cell(row=parameters_table_start_row_number, column=data_col).value
             labels = Reference(parameters_ws, min_col=labels_col, min_row=parameters_table_start_row_number + 1,
                                max_row=(len(parameters_data['timestamps'][i]) + parameters_table_start_row_number))
             line_data = Reference(parameters_ws, min_col=data_col, min_row=parameters_table_start_row_number,

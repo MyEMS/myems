@@ -325,8 +325,8 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             line_data.marker.symbol = "circle"
             line_data.smooth = True
             line.x_axis.crosses = 'min'
-            line.title = 'Reporting Period Consumption - ' + report['virtual_meter']['energy_category_name'] + \
-                         " (" + report['virtual_meter']['unit_of_measure'] + ")"
+            line.title = _('Reporting Period Consumption') + ' - ' + report['virtual_meter']['energy_category_name'] + \
+                " (" + report['virtual_meter']['unit_of_measure'] + ")"
             line.dLbls = DataLabelList()
             line.dLbls.dLblPos = 't'
             line.dLbls.showVal = True
