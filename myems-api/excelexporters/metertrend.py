@@ -103,7 +103,6 @@ def generate_excel(report,
     # Font
     name_font = Font(name='Arial', size=15, bold=True)
     title_font = Font(name='Arial', size=15, bold=True)
-    data_font = Font(name='Franklin Gothic Book', size=11)
 
     table_fill = PatternFill(fill_type='solid', fgColor='90ee90')
     f_border = Border(left=Side(border_style='medium'),
@@ -187,7 +186,6 @@ def generate_excel(report,
         has_data_flag = False
     ca = reporting_period_data['names']
     ca_len = len(ca)
-    temp_max_row = 0
     times = reporting_period_data['timestamps']
     category = report['meter']['energy_category_name']
     parameters_names_len = len(report['parameters']['names'])
@@ -204,9 +202,7 @@ def generate_excel(report,
             if len(time) > 0:
                 break
         has_data = False
-        max_row = 0
         current_sheet_parameters_row_number = 7
-        temp_max_row = max_row
         for i in range(8, len(time) + 6 + ca_len * 6 + len(category) * 6 + 2):
             ws.row_dimensions[i].height = 42
         if len(time) > 0:
@@ -260,7 +256,7 @@ def generate_excel(report,
             # line
             # 39~: line
                 line = LineChart()
-                line.title = 'Trend Value - ' + reporting_period_data['names'][i]
+                line.title = reporting_period_data['names'][i]
                 labels = Reference(ws, min_col=2, min_row=start_detail_data_row_num, max_row=max_row-1)
                 line_data = Reference(ws, min_col=3 + i, min_row=start_detail_data_row_num+1, max_row=max_row-1)
                 line.add_data(line_data, titles_from_data=True)
@@ -427,8 +423,8 @@ def generate_excel(report,
             data_col = 3 + col_index * 3
             labels_col = 2 + col_index * 3
             col_index += 1
-            line.title = 'Parameters - ' + \
-                         parameters_ws.cell(row=parameters_table_start_row_number, column=data_col).value
+            line.title = _('Parameters') + ' - ' + \
+                parameters_ws.cell(row=parameters_table_start_row_number, column=data_col).value
             labels = Reference(parameters_ws, min_col=labels_col, min_row=parameters_table_start_row_number + 1,
                                max_row=(len(parameters_data['timestamps'][i]) + parameters_table_start_row_number))
             line_data = Reference(parameters_ws, min_col=data_col, min_row=parameters_table_start_row_number,
