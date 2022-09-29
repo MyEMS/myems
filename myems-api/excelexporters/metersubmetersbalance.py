@@ -322,10 +322,8 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
     ####################################################################################################################
     # 12 is the starting line number of the last line chart in the report period
-    category = report['meter']['energy_category_name']
-    ca_len = len(category)
-    time_len = len(report['reporting_period']['timestamps'])
-    current_sheet_parameters_row_number = 14 + ca_len * 6
+
+    current_sheet_parameters_row_number = 14 + 1 * 6
     if 'parameters' not in report.keys() or \
             report['parameters'] is None or \
             'names' not in report['parameters'].keys() or \

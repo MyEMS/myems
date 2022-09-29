@@ -254,12 +254,10 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             ws.row_dimensions[i].height = 0.0
     else:
         reporting_period_data = report['reporting_period']
-        category = report['meter']['energy_category_name']
-        ca_len = len(category)
         parameters_names_len = len(report['parameters']['names'])
         parameters_data = report['parameters']
         parameters_parameters_datas_len = parameters_names_len
-        start_detail_data_row_num = 13 + (parameters_parameters_datas_len + ca_len) * 6
+        start_detail_data_row_num = 13 + (parameters_parameters_datas_len + 1) * 6
         ws['B11'].font = title_font
         ws['B11'] = name + _('Detailed Data')
 
@@ -287,28 +285,23 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                 ws[col + row] = time[i]
                 ws[col + row].border = f_border
 
-            for i in range(0, ca_len):
-                # 12 title
-                col = chr(ord('C') + i)
+            ws['C' + str(start_detail_data_row_num)].fill = table_fill
+            ws['C' + str(start_detail_data_row_num)].font = title_font
+            ws['C' + str(start_detail_data_row_num)].alignment = c_c_alignment
+            ws['C' + str(start_detail_data_row_num)] = report['meter']['energy_category_name'] + \
+                " (" + report['meter']['unit_of_measure'] + ")"
+            ws['C' + str(start_detail_data_row_num)].border = f_border
 
-                ws[col + str(start_detail_data_row_num)].fill = table_fill
-                ws[col + str(start_detail_data_row_num)].font = title_font
-                ws[col + str(start_detail_data_row_num)].alignment = c_c_alignment
-                ws[col + str(start_detail_data_row_num)] = report['meter']['energy_category_name'] + \
-                    " (" + report['meter']['unit_of_measure'] + ")"
-                ws[col + str(start_detail_data_row_num)].border = f_border
+            # 13 data
+            time = times
+            time_len = len(time)
 
-                # 13 data
-                time = times
-                time_len = len(time)
-
-                for j in range(0, time_len):
-                    row = str(start_detail_data_row_num + 1 + j)
-                    # col = chr(ord('B') + i)
-                    ws[col + row].font = title_font
-                    ws[col + row].alignment = c_c_alignment
-                    ws[col + row] = round(reporting_period_data['values'][j], 2)
-                    ws[col + row].border = f_border
+            for j in range(0, time_len):
+                row = str(start_detail_data_row_num + 1 + j)
+                ws['C' + row].font = title_font
+                ws['C' + row].alignment = c_c_alignment
+                ws['C' + row] = round(reporting_period_data['values'][j], 2)
+                ws['C' + row].border = f_border
             # line
             # 13~: line
             line = LineChart()
@@ -331,27 +324,21 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             line.dLbls.showPercent = False
             ws.add_chart(line, "B12")
 
-            col = 'B'
             row = str(start_detail_data_row_num + 1 + len(time))
 
-            ws[col + row].font = title_font
-            ws[col + row].alignment = c_c_alignment
-            ws[col + row] = _('Total')
-            ws[col + row].border = f_border
+            ws['B' + row].font = title_font
+            ws['B' + row].alignment = c_c_alignment
+            ws['B' + row] = _('Total')
+            ws['B' + row].border = f_border
 
-            for i in range(0, ca_len):
-                col = chr(ord(col) + 1)
-                ws[col + row].font = title_font
-                ws[col + row].alignment = c_c_alignment
-                ws[col + row] = round(reporting_period_data['total_in_category'], 2)
-                ws[col + row].border = f_border
+            ws['C' + row].font = title_font
+            ws['C' + row].alignment = c_c_alignment
+            ws['C' + row] = round(reporting_period_data['total_in_category'], 2)
+            ws['C' + row].border = f_border
 
     ##########################################
     # 12 is the starting line number of the last line chart in the report period
-    category = report['meter']['energy_category_name']
-    time_len = len(reporting_period_data['timestamps'])
-    ca_len = len(category)
-    current_sheet_parameters_row_number = 12 + ca_len * 6
+    current_sheet_parameters_row_number = 12 + 1 * 6
     if 'parameters' not in report.keys() or \
             report['parameters'] is None or \
             'names' not in report['parameters'].keys() or \

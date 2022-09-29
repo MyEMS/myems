@@ -14,7 +14,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - changed associated points query order in myems-api
 -
 ### Fixed
-- updated combined equipment energy category excel exporter to show parameters data even if there is no energy data 
+- updated combined equipment energy category Excel exporter to show parameters data even if there is no energy data 
+- fixed wrong multiple energy categories in Excel exporters
+- 
 ### Removed
 -
 
