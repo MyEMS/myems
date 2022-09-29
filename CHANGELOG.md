@@ -30,6 +30,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - 
 ### Changed
 - updated ChildSpacesTable of Dashboard in myems-web
+- updated FDD Faults Report in myems-web
 - 
 ### Fixed
 - updated datetime picker format pattern
