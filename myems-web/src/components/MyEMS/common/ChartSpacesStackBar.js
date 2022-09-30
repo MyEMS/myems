@@ -46,7 +46,7 @@ const ChartSpacesStackBar = ({ labels, inputData, costData, title, childSpaces, 
               : ctx.createLinearGradient(0, 0, 0, 250);
             gradientFill.addColorStop(0, isDark ? 'rgba(44,123,229, 0.5)' : 'rgba(255, 255, 255, 0.3)');
             gradientFill.addColorStop(1, isDark ? 'transparent' : 'rgba(255, 255, 255, 0)');
-            if (inputData['subtotals_array'] != undefined) {
+            if (inputData['subtotals_array'] != undefined && inputData['subtotals_array'].length > 0) {
                 let category = t('CATEGORY Consumption UNIT', {'CATEGORY': inputData['energy_category_names'][index], 'UNIT': inputData['units'][index]});
                 let childSpaceArray = inputData['child_space_names_array'][index];
                 inputData['subtotals_array'][index].forEach((item, itemIndex) => {
@@ -59,7 +59,7 @@ const ChartSpacesStackBar = ({ labels, inputData, costData, title, childSpaces, 
                     })
                 })
             }
-            if (costData['subtotals_array'] != undefined) {
+            if (costData['subtotals_array'] != undefined && costData['subtotals_array'].length > 0) {
                 let category = t('CATEGORY Costs UNIT', {'CATEGORY': costData['energy_category_names'][index], 'UNIT': costData['units'][index]});
                 let childSpaceArray = costData['child_space_names_array'][index];
                 costData['subtotals_array'][index].forEach((item, itemIndex) => {
