@@ -140,7 +140,7 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
     ws['E3'] = name2
 
     ws['F3'].alignment = b_r_alignment
-    ws['F3'] = _('Period') + ':'
+    ws['F3'] = _('Period Type') + ':'
     ws['G3'].border = b_border
     ws['G3'].alignment = b_c_alignment
     ws['G3'] = period_type
@@ -462,7 +462,7 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
         parameters_ws['C3'] = name1
 
         parameters_ws['D3'].alignment = b_r_alignment
-        parameters_ws['D3'] = _('Period') + ':'
+        parameters_ws['D3'] = _('Period Type') + ':'
         parameters_ws['E3'].border = b_border
         parameters_ws['E3'].alignment = b_c_alignment
         parameters_ws['E3'] = period_type
@@ -574,7 +574,7 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
         parameters_ws['C3'] = name1
 
         parameters_ws['D3'].alignment = b_r_alignment
-        parameters_ws['D3'] = _('Period') + ':'
+        parameters_ws['D3'] = _('Period Type') + ':'
         parameters_ws['E3'].border = b_border
         parameters_ws['E3'].alignment = b_c_alignment
         parameters_ws['E3'] = period_type
