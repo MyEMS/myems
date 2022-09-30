@@ -3,11 +3,17 @@ import paginationFactory, { PaginationProvider } from 'react-bootstrap-table2-pa
 import BootstrapTable from 'react-bootstrap-table-next';
 import { toast } from 'react-toastify';
 import {
+  Breadcrumb,
+  BreadcrumbItem,
   Row,
   Col,
   Card,
   CardBody,
   Button,
+  ButtonGroup,
+  Form,
+  FormGroup,
+  Label,
   CustomInput,
   DropdownItem,
   DropdownMenu,
@@ -21,7 +27,7 @@ import { Link } from 'react-router-dom';
 import Badge from 'reactstrap/es/Badge';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FalconCardHeader from '../../common/FalconCardHeader';
-import uuid from 'uuid/v1';
+import Datetime from 'react-datetime';
 import { getPaginationArray } from '../../../helpers/utils';
 import { getCookieValue, createCookie } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
@@ -34,14 +40,23 @@ import { APIBaseURL } from '../../../config';
 
 const Fault = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
-  const [startDatetime, setStartDatetime] = useState(current_moment.clone().subtract(6, 'months'));
+
+  // Query Parameters
+  const [startDatetime, setStartDatetime] = useState(current_moment.clone().startOf('month'));
   const [endDatetime, setEndDatetime] = useState(current_moment);
+  const [priority, setPriority] = useState('');
+  const [status, setStatus] = useState('');
+
   
   const [fetchSuccess, setFetchSuccess] = useState(false);
   //Results
-  const [notifications, setNotifications] = useState([]);
+  const [faults, setFaults] = useState([]);
+  const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
 
-  const [spinnerHidden, setSpinnerHidden] = useState(false);
+  // buttons
+  const [spinnerHidden, setSpinnerHidden] = useState(true);
+  const [exportButtonHidden, setExportButtonHidden] = useState(true);
+  const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
@@ -59,52 +74,6 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
       createCookie('user_display_name', user_display_name, 1000 * 60 * 60 * 8);
       createCookie('user_uuid', user_uuid, 1000 * 60 * 60 * 8);
       createCookie('token', token, 1000 * 60 * 60 * 8);
-
-      let isResponseOK = false;
-      if (!fetchSuccess) { 
-        fetch(APIBaseURL + '/webmessages?' +
-            'startdatetime=' + startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-            '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss'), {
-          method: 'GET',
-          headers: {
-            "Content-type": "application/json",
-            "User-UUID": getCookieValue('user_uuid'),
-            "Token": getCookieValue('token')
-          },
-          body: null,
-
-        }).then(response => {
-          if (response.ok) {
-            isResponseOK = true;
-          }
-          return response.json();
-        }).then(json => {
-          if (isResponseOK) {
-            console.log(json);
-            setFetchSuccess(true);
-
-            let notificationList = []
-
-            if (json.length > 0) {
-              json.forEach((currentValue, index) => {
-                let notification = {}
-                notification['id'] = json[index]['id'];
-                notification['subject'] = json[index]['subject'];
-                notification['created_datetime'] = moment(parseInt(json[index]['created_datetime']))
-                    .format("YYYY-MM-DD HH:mm:ss");
-                notification['message'] = json[index]['message'];
-                notification['status'] = json[index]['status'];
-                notification['url'] = json[index]['url'];
-
-                notificationList.push(notification);
-              });
-            }
-          
-            setNotifications(notificationList);
-            setSpinnerHidden(true);
-          }
-        });
-      }
     }
   }, );
   // State
@@ -125,6 +94,32 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
     });
   };
 
+  let onStartDatetimeChange = (newDateTime) => {
+    setStartDatetime(newDateTime);
+  }
+
+  let onEndDatetimeChange = (newDateTime) => {
+    setEndDatetime(newDateTime);
+  }
+
+  var getStartDatetime = function (currentDate) {
+    return currentDate.isBefore(moment(endDatetime, 'MM/DD/YYYY, hh:mm:ss a'));
+  }
+
+  var getEndDatetime = function (currentDate) {
+    return currentDate.isAfter(moment(startDatetime, 'MM/DD/YYYY, hh:mm:ss a'));
+  }
+
+  const orderFormatter = (dataField, { id, name, email }) => (
+    <Fragment>
+      <Link to="/e-commerce/order-details">
+        <strong>#{id}</strong>
+      </Link>{' '}
+      by <strong>{name}</strong>
+      <br />
+      <a href={`mailto:${email}`}>{email}</a>
+    </Fragment>
+  );
 
   const subjectFormatter = (dataField, { url }) => (
     <Fragment>
@@ -181,6 +176,7 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
       </DropdownMenu>
     </UncontrolledDropdown>
   );
+
   const columns = [
     {
       dataField: 'subject',
@@ -221,7 +217,7 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
   const options = {
     custom: true,
     sizePerPage: 10,
-    totalSize: notifications.length
+    totalSize: faults.length
   };
 
   const SelectRowInput = ({ indeterminate, rowIndex, ...rest }) => (
@@ -247,6 +243,80 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
     onSelect: onSelect,
     onSelectAll: onSelect
   });
+  const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
+
+// Handler
+  const handleSubmit = e => {
+    e.preventDefault();
+    console.log('handleSubmit');
+    console.log(startDatetime.format('YYYY-MM-DDTHH:mm:ss'));
+    console.log(endDatetime.format('YYYY-MM-DDTHH:mm:ss'));
+
+    // disable submit button
+    setSubmitButtonDisabled(true);
+    // show spinner
+    setSpinnerHidden(false);
+    // hide export button
+    setExportButtonHidden(true)
+
+    // Reinitialize tables
+    setFaults([]);
+    
+    let isResponseOK = false;
+    fetch(APIBaseURL + '/webmessages?' +
+      'startdatetime=' + startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+      '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss'), {
+      method: 'GET',
+      headers: {
+        "Content-type": "application/json",
+        "User-UUID": getCookieValue('user_uuid'),
+        "Token": getCookieValue('token')
+      },
+      body: null,
+
+    }).then(response => {
+      if (response.ok) {
+        isResponseOK = true;
+      }
+      // enable submit button
+      setSubmitButtonDisabled(false);
+      // hide spinner
+      setSpinnerHidden(true);
+      // show export button
+      setExportButtonHidden(false)
+
+      return response.json();
+    }).then(json => {
+      if (isResponseOK) {
+        setFetchSuccess(true);
+
+        let faultList = []
+
+        if (json.length > 0) {
+          json.forEach((currentValue, index) => {
+            let fault = {}
+            fault['id'] = currentValue['id'];
+            fault['subject'] = currentValue['subject'];
+            fault['created_datetime'] = moment(parseInt(currentValue['created_datetime']))
+                .format("YYYY-MM-DD HH:mm:ss");
+            fault['message'] = currentValue['message'];
+            fault['status'] = currentValue['status'];
+            fault['url'] = currentValue['url'];
+
+            faultList.push(fault);
+          });
+        }
+        
+        setFaults(faultList);
+        setExcelBytesBase64(json['excel_bytes_base64']);
+        setSpinnerHidden(true);
+      } else {
+        toast.error(t(json.description))
+      }
+    }).catch(err => {
+      console.log(err);
+    });
+  };
 
   const handleRead = (id, ) => {
     console.log('Mark As Read: ', id)
@@ -295,24 +365,24 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
             console.log(json);
             setFetchSuccess(true);
 
-            let notificationList = []
+            let faultList = []
 
             if (json.length > 0) {
               json.forEach((currentValue, index) => {
-                let notification = {}
-                notification['id'] = json[index]['id'];
-                notification['subject'] = json[index]['subject'];
-                notification['created_datetime'] = moment(parseInt(json[index]['created_datetime']))
+                let fault = {}
+                fault['id'] = json[index]['id'];
+                fault['subject'] = json[index]['subject'];
+                fault['created_datetime'] = moment(parseInt(json[index]['created_datetime']))
                     .format("YYYY-MM-DD HH:mm:ss");
-                notification['message'] = json[index]['message'];
-                notification['status'] = json[index]['status'];
-                notification['url'] = json[index]['url'];
+                fault['message'] = json[index]['message'];
+                fault['status'] = json[index]['status'];
+                fault['url'] = json[index]['url'];
 
-                notificationList.push(notification);
+                faultList.push(fault);
               });
             }
 
-            setNotifications(notificationList);
+            setFaults(faultList);
             setSpinnerHidden(true);
           }
         });
@@ -372,24 +442,24 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
             console.log(json);
             setFetchSuccess(true);
 
-            let notificationList = []
+            let faultList = []
 
             if (json.length > 0) {
               json.forEach((currentValue, index) => {
-                let notification = {}
-                notification['id'] = json[index]['id'];
-                notification['subject'] = json[index]['subject'];
-                notification['created_datetime'] = moment(parseInt(json[index]['created_datetime']))
+                let fault = {}
+                fault['id'] = json[index]['id'];
+                fault['subject'] = json[index]['subject'];
+                fault['created_datetime'] = moment(parseInt(json[index]['created_datetime']))
                     .format("YYYY-MM-DD HH:mm:ss");
-                notification['message'] = json[index]['message'];
-                notification['status'] = json[index]['status'];
-                notification['url'] = json[index]['url'];
+                fault['message'] = json[index]['message'];
+                fault['status'] = json[index]['status'];
+                fault['url'] = json[index]['url'];
 
-                notificationList.push(notification);
+                faultList.push(fault);
               });
             }
 
-            setNotifications(notificationList);
+            setFaults(faultList);
             setSpinnerHidden(true);
           }
         });
@@ -444,24 +514,24 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
             console.log(json);
             setFetchSuccess(true);
 
-            let notificationList = []
+            let faultList = []
 
             if (json.length > 0) {
               json.forEach((currentValue, index) => {
-                let notification = {}
-                notification['id'] = json[index]['id'];
-                notification['subject'] = json[index]['subject'];
-                notification['created_datetime'] = moment(parseInt(json[index]['created_datetime']))
+                let fault = {}
+                fault['id'] = json[index]['id'];
+                fault['subject'] = json[index]['subject'];
+                fault['created_datetime'] = moment(parseInt(json[index]['created_datetime']))
                     .format("YYYY-MM-DD HH:mm:ss");
-                notification['message'] = json[index]['message'];
-                notification['status'] = json[index]['status'];
-                notification['url'] = json[index]['url'];
+                fault['message'] = json[index]['message'];
+                fault['status'] = json[index]['status'];
+                fault['url'] = json[index]['url'];
 
-                notificationList.push(notification);
+                faultList.push(fault);
               });
             }
 
-            setNotifications(notificationList);
+            setFaults(faultList);
             setSpinnerHidden(true);
           }
         });
@@ -473,9 +543,111 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
     });
   };
 
+  const handleExport = e => {
+    e.preventDefault();
+    const mimeType='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    const fileName = 'fddfault.xlsx'
+    var fileUrl = "data:" + mimeType + ";base64," + excelBytesBase64;
+    fetch(fileUrl)
+        .then(response => response.blob())
+        .then(blob => {
+            var link = window.document.createElement("a");
+            link.href = window.URL.createObjectURL(blob, { type: mimeType });
+            link.download = fileName;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+  };
+
 
   return (
     <Fragment>
+      <div>
+        <Breadcrumb>
+          <BreadcrumbItem active>{t('Fault Alarm')}</BreadcrumbItem>
+        </Breadcrumb>
+      </div>
+      <Card className="bg-light mb-3">
+        <CardBody className="p-3">
+          <Form onSubmit={handleSubmit}>
+            <Row form>
+              <Col sm={1}>
+                <FormGroup className="form-group">
+                  <Label className={labelClasses} for="priority">
+                    {t('Notification Priority')}
+                  </Label>
+                  <CustomInput type="select" id="bulk-select" 
+                    value={priority}
+                    onChange={({ target }) => {setPriority(target.value);}}>
+                    <option value="MEDIUM" key="MEDIUM" >{t('Notification Medium')}</option>
+                    <option value="CRITICAL" key="CRITICAL" >{t('Notification Critical')}</option>
+                  </CustomInput>
+                </FormGroup>
+              </Col>
+              <Col sm={1}>
+                <FormGroup className="form-group">
+                  <Label className={labelClasses} for="status">
+                    {t('Notification Status')}
+                  </Label>
+                  <CustomInput type="select" id="bulk-select"
+                    value={status}
+                    onChange={({ target }) => {setStatus(target.value);}}>
+                    <option value="read" key="read" >{t('Notification Read')}</option>
+                    <option value="new" key="new" >{t('Notification Unread')}</option>
+                  </CustomInput>
+                </FormGroup>
+              </Col>
+              <Col sm={2}>
+                <FormGroup className="form-group">
+                  <Label className={labelClasses} for="startDatetime">
+                    {t('Reporting Period Begins')}
+                  </Label>
+                  <Datetime id='startDatetime'
+                    value={startDatetime}
+                    onChange={onStartDatetimeChange}
+                    isValidDate={getStartDatetime}
+                    closeOnSelect={true} />
+                </FormGroup>
+              </Col>
+              <Col sm={2}>
+                <FormGroup className="form-group">
+                  <Label className={labelClasses} for="endDatetime">
+                    {t('Reporting Period Ends')}
+                  </Label>
+                  <Datetime id='endDatetime'
+                    value={endDatetime}
+                    onChange={onEndDatetimeChange}
+                    isValidDate={getEndDatetime}
+                    closeOnSelect={true} />
+                </FormGroup>
+              </Col>
+              <Col xs="auto">
+                <FormGroup>
+                  <br></br>
+                  <Spinner color="primary" hidden={spinnerHidden}  />
+                </FormGroup>
+              </Col>
+              <Col xs="auto">
+                <FormGroup>
+                  <br></br>
+                  <ButtonGroup id="submit">
+                    <Button color="success" disabled={submitButtonDisabled} >{t('Submit')}</Button>
+                  </ButtonGroup>
+                </FormGroup>
+              </Col>
+              <Col xs="auto">
+                  <br></br>
+                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default" 
+                  hidden={exportButtonHidden}
+                  onClick={handleExport} >
+                    {t('Export')}
+                  </ButtonIcon>
+              </Col>
+            </Row>
+          </Form>
+        </CardBody>
+      </Card>
       <Card className="mb-3">
         <Spinner color="primary" hidden={spinnerHidden}  />
         <FalconCardHeader title={t('Fault Alarms')} light={false}>
@@ -509,7 +681,7 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
                       ref={table}
                       bootstrap4
                       keyField="id"
-                      data={notifications}
+                      data={faults}
                       columns={columns}
                       selectRow={selectRow(onSelect)}
                       bordered={false}
