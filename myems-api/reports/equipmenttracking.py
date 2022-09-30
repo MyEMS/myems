@@ -1,9 +1,10 @@
-import config
-import excelexporters.equipmenttracking
 import falcon
 import mysql.connector
 import simplejson as json
 from anytree import AnyNode, LevelOrderIter
+
+import config
+import excelexporters.equipmenttracking
 
 
 class Reporting:
