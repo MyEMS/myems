@@ -1,10 +1,11 @@
 import re
 import uuid
 
-import config
 import falcon
 import mysql.connector
 import simplejson as json
+
+import config
 from core.useractivity import user_logger, access_control
 
 

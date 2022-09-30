@@ -2,10 +2,11 @@ import base64
 import sys
 from datetime import datetime, timedelta, timezone
 
-import config
 import falcon
 import mysql.connector
 import simplejson as json
+
+import config
 
 
 class AdvancedReportCollection:

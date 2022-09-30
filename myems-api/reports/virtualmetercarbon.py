@@ -1,11 +1,12 @@
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 
-import config
-import excelexporters.virtualmetercarbon
 import falcon
 import mysql.connector
 import simplejson as json
+
+import config
+import excelexporters.virtualmetercarbon
 from core import utilities
 
 

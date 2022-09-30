@@ -1,12 +1,13 @@
 import uuid
 from datetime import datetime
 
-import config
 import falcon
 import mysql.connector
 import simplejson as json
 from anytree import AnyNode
 from anytree.exporter import JsonExporter
+
+import config
 from core.useractivity import user_logger, access_control
 
 
