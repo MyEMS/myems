@@ -1,10 +1,10 @@
 import json
+import math
 import telnetlib
 import time
 from datetime import datetime
 from decimal import Decimal
 
-import math
 import mysql.connector
 from modbus_tk import modbus_tcp
 
