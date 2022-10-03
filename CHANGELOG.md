@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - 
 ### Changed
+- Split batch inserts into small ones in myems-aggregation
 -
 ### Fixed
 - updated translations in Excel exporters
