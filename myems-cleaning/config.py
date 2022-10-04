@@ -22,5 +22,9 @@ myems_historical_db = {
 # NOTE: By default, energy values in historical db will never be deleted automatically.
 live_in_days = config('LIVE_IN_DAYS', default=365, cast=int)
 
+# indicates from when (in UTC timezone) to clean if all is_bad properties are null
+# format string: "%Y-%m-%d %H:%M:%S"
+start_datetime_utc = config('START_DATETIME_UTC', default='2021-12-31 16:00:00')
+
 # indicates if the program is in debug mode
 is_debug = config('IS_DEBUG', default=False, cast=bool)
