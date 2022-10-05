@@ -112,7 +112,7 @@ class EmailMessageCollection:
         try:
             raw_json = req.get_param('req')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=ex)
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=str(ex))
 
         new_values = json.loads(raw_json)
 
@@ -313,7 +313,7 @@ class EmailMessageItem:
         try:
             raw_json = req.get_param('req')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=ex)
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=str(ex))
 
         new_values = json.loads(raw_json)
 

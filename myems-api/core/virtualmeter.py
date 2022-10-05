@@ -148,7 +148,7 @@ class VirtualMeterCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=ex)
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=str(ex))
 
         new_values = json.loads(raw_json)
 
@@ -646,7 +646,7 @@ class VirtualMeterItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=ex)
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -832,7 +832,7 @@ class VirtualMeterItem:
                                         id_,))
             cnx.commit()
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=ex)
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=str(ex))
 
         try:
             cursor.execute(" SELECT id "
@@ -844,7 +844,7 @@ class VirtualMeterItem:
                 cursor.execute(" DELETE FROM tbl_variables WHERE virtual_meter_id = %s ", (id_,))
                 cnx.commit()
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=ex)
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=str(ex))
 
         # add variables
         for variable in new_values['data']['expression']['variables']:
@@ -857,7 +857,7 @@ class VirtualMeterItem:
                                             variable['meter_id'],))
                 cnx.commit()
             except Exception as ex:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=ex)
+                raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=str(ex))
 
         cursor.close()
         cnx.close()
