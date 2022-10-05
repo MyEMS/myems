@@ -817,39 +817,47 @@ class VirtualMeterItem:
                     raise falcon.HTTPError(falcon.HTTP_404,
                                            title='API.NOT_FOUND',
                                            description='API.VIRTUAL_METER_OF_VARIABLE_NOT_FOUND')
-
-        update_row = (" UPDATE tbl_virtual_meters "
-                      " SET name = %s, equation = %s, energy_category_id = %s, is_counted = %s, "
-                      "     cost_center_id = %s, energy_item_id = %s, description = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (name,
-                                    new_values['data']['expression']['equation'].lower(),
-                                    energy_category_id,
-                                    is_counted,
-                                    cost_center_id,
-                                    energy_item_id,
-                                    description,
-                                    id_,))
-        cnx.commit()
-
-        cursor.execute(" SELECT id "
-                       " FROM tbl_variables "
-                       " WHERE virtual_meter_id = %s ", (id_,))
-        row_variables = cursor.fetchall()
-        if row_variables is not None and len(row_variables) > 0:
-            # delete variables
-            cursor.execute(" DELETE FROM tbl_variables WHERE virtual_meter_id = %s ", (id_,))
+        try:
+            update_row = (" UPDATE tbl_virtual_meters "
+                          " SET name = %s, equation = %s, energy_category_id = %s, is_counted = %s, "
+                          "     cost_center_id = %s, energy_item_id = %s, description = %s "
+                          " WHERE id = %s ")
+            cursor.execute(update_row, (name,
+                                        new_values['data']['expression']['equation'].lower(),
+                                        energy_category_id,
+                                        is_counted,
+                                        cost_center_id,
+                                        energy_item_id,
+                                        description,
+                                        id_,))
             cnx.commit()
+        except Exception as ex:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=ex)
+
+        try:
+            cursor.execute(" SELECT id "
+                           " FROM tbl_variables "
+                           " WHERE virtual_meter_id = %s ", (id_,))
+            row_variables = cursor.fetchall()
+            if row_variables is not None and len(row_variables) > 0:
+                # delete variables
+                cursor.execute(" DELETE FROM tbl_variables WHERE virtual_meter_id = %s ", (id_,))
+                cnx.commit()
+        except Exception as ex:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=ex)
 
         # add variables
         for variable in new_values['data']['expression']['variables']:
-            add_values = (" INSERT INTO tbl_variables (name, virtual_meter_id, meter_type, meter_id) "
-                          " VALUES (%s, %s, %s, %s) ")
-            cursor.execute(add_values, (variable['name'].lower(),
-                                        id_,
-                                        variable['meter_type'],
-                                        variable['meter_id'],))
-            cnx.commit()
+            try:
+                add_values = (" INSERT INTO tbl_variables (name, virtual_meter_id, meter_type, meter_id) "
+                              " VALUES (%s, %s, %s, %s) ")
+                cursor.execute(add_values, (variable['name'].lower(),
+                                            id_,
+                                            variable['meter_type'],
+                                            variable['meter_id'],))
+                cnx.commit()
+            except Exception as ex:
+                raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=ex)
 
         cursor.close()
         cnx.close()

@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated min_datetime issue in myems-cleaning (NOTE: add START_DATETIME_UTC to .env for upgrading)
 ### Fixed
 - updated translations in Excel exporters
+- added try except statements to virtualmeter of myems-api
 - 
 ### Removed
 -
