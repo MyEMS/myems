@@ -104,7 +104,7 @@ class WechatMessageCollection(object):
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=ex)
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=str(ex))
 
         new_values = json.loads(raw_json)
 
@@ -156,7 +156,7 @@ class WechatMessageCollection(object):
         try:
             json.loads(message_data)
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description=ex)
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description=str(ex))
 
         if 'acknowledge_code' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['acknowledge_code'], str) or \
@@ -311,7 +311,7 @@ class WechatMessageItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=ex)
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=str(ex))
 
         new_values = json.loads(raw_json)
 
@@ -363,7 +363,7 @@ class WechatMessageItem:
         try:
             json.loads(message_data)
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description=ex)
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description=str(ex))
 
         if 'acknowledge_code' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['acknowledge_code'], str) or \
