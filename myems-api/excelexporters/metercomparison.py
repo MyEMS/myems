@@ -571,7 +571,7 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
         parameters_ws['B3'] = _('Name') + ':'
         parameters_ws['C3'].border = b_border
         parameters_ws['C3'].alignment = b_c_alignment
-        parameters_ws['C3'] = name1
+        parameters_ws['C3'] = name2
 
         parameters_ws['D3'].alignment = b_r_alignment
         parameters_ws['D3'] = _('Period Type') + ':'
@@ -643,7 +643,7 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
                     parameters_ws[col + str(table_current_row_number)] = round(parameters_data2['values'][i][j], 2)
                 except Exception as e:
                     print('error 1 in excelexporters\\meterenergy: ' + str(e))
-                
+
                 table_current_row_number += 1
 
             table_current_col_number = table_current_col_number + 3

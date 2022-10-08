@@ -8,17 +8,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - 
 ### Changed
 - Split batch inserts into small ones in myems-aggregation
-- Updated min_datetime issue in myems-cleaning (NOTE: add START_DATETIME_UTC to .env for upgrading)
+- Updated min_datetime issue in myems-cleaning (NOTE: add START_DATETIME_UTC to myems-cleaning/.env for upgrading)
+- Set access_log off in nginx.conf for myems-admin and myems-web (NOTE: modify myems-web/nginx.conf and myems-admin/nginx.conf for upgrading)
+- 
 ### Fixed
 - updated translations in Excel exporters
 - added try except statements to virtualmeter of myems-api
 - fixed TypeError: Object of type IntegrityError is not JSON serializable in myems-api
+- fixed wrong meter2 name in Excel exporter of MeterComparison report
 ### Removed
 -
 
 ## [v2.4.0] - 2022-09-30
 ### Added
-- added config entry to indicate if the tariff appended to parameters data
+- added config entry to indicate if the tariff appended to parameters data (NOTE: add IS_TARIFF_APPENDED to myems-api/.env for upgrading)
 
 ### Changed
 - changed table color in the Excel exporters
