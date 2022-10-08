@@ -44,9 +44,8 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
   // Query Parameters
   const [startDatetime, setStartDatetime] = useState(current_moment.clone().startOf('month'));
   const [endDatetime, setEndDatetime] = useState(current_moment);
-  const [priority, setPriority] = useState('');
-  const [status, setStatus] = useState('');
-
+  const [priority, setPriority] = useState('all');
+  const [status, setStatus] = useState('all');
   
   const [fetchSuccess, setFetchSuccess] = useState(false);
   //Results
@@ -251,6 +250,8 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
     console.log('handleSubmit');
     console.log(startDatetime.format('YYYY-MM-DDTHH:mm:ss'));
     console.log(endDatetime.format('YYYY-MM-DDTHH:mm:ss'));
+    console.log(priority)
+    console.log(status)
 
     // disable submit button
     setSubmitButtonDisabled(true);
@@ -265,7 +266,9 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
     let isResponseOK = false;
     fetch(APIBaseURL + '/webmessages?' +
       'startdatetime=' + startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-      '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss'), {
+      '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+      '&priority=' + priority + 
+      '&status=' + status, {
       method: 'GET',
       headers: {
         "Content-type": "application/json",
@@ -580,8 +583,9 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
                   <CustomInput type="select" id="bulk-select" 
                     value={priority}
                     onChange={({ target }) => {setPriority(target.value);}}>
-                    <option value="MEDIUM" key="MEDIUM" >{t('Notification Medium')}</option>
-                    <option value="CRITICAL" key="CRITICAL" >{t('Notification Critical')}</option>
+                    <option value="all" key="all" >{t('View all')}</option>
+                    <option value="medium" key="medium" >{t('Notification Medium')}</option>
+                    <option value="critical" key="critical" >{t('Notification Critical')}</option>
                   </CustomInput>
                 </FormGroup>
               </Col>
@@ -593,8 +597,10 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
                   <CustomInput type="select" id="bulk-select"
                     value={status}
                     onChange={({ target }) => {setStatus(target.value);}}>
+                    <option value="all" key="all" >{t('View all')}</option>
                     <option value="read" key="read" >{t('Notification Read')}</option>
-                    <option value="new" key="new" >{t('Notification Unread')}</option>
+                    <option value="unread" key="unread" >{t('Notification Unread')}</option>
+                    <option value="acknowledged" key="acknowledged" >{t('Notification Acknowledged')}</option>
                   </CustomInput>
                 </FormGroup>
               </Col>

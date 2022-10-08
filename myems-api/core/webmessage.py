@@ -20,9 +20,10 @@ class WebMessageCollection:
 
     @staticmethod
     def on_get(req, resp):
-
         start_datetime_local = req.params.get('startdatetime')
         end_datetime_local = req.params.get('enddatetime')
+        status = req.params.get('status')
+        priority = req.params.get('priority')
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -58,6 +59,31 @@ class WebMessageCollection:
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.START_DATETIME_MUST_BE_EARLIER_THAN_END_DATETIME')
+
+        if status is None:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description="API.INVALID_END_DATETIME_FORMAT")
+        else:
+            status = str.strip(status)
+            if status not in ['unread', 'read', 'acknowledged', 'all']:
+                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.INVALID_STATUS')
+            else:
+                if status == 'all':
+                    status = ""
+
+        if priority is None:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description="API.INVALID_END_DATETIME_FORMAT")
+        else:
+            priority = str.strip(priority)
+            if priority not in ['medium', 'critical', 'all']:
+                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.INVALID_PRIORITY')
+            else:
+                if priority == 'all':
+                    priority = ""
+
 
         # Verify User Session
         token = req.headers.get('TOKEN')
@@ -123,9 +149,11 @@ class WebMessageCollection:
                  "        created_datetime_utc, status, reply "
                  " FROM tbl_web_messages "
                  " WHERE user_id = %s AND "
-                 "       created_datetime_utc >= %s AND created_datetime_utc < %s "
+                 "       created_datetime_utc >= %s AND created_datetime_utc < %s AND"
+                 " status LIKE concat ('%', %s, '%') AND"
+                 " priority LIKE concat  ('%', %s, '%')"
                  " ORDER BY created_datetime_utc DESC ")
-        cursor.execute(query, (user_id, start_datetime_utc, end_datetime_utc))
+        cursor.execute(query, (user_id, start_datetime_utc, end_datetime_utc, status, priority))
         rows = cursor.fetchall()
 
         if cursor:
