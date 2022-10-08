@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - updated translations in Excel exporters
 - added try except statements to virtualmeter of myems-api
 - fixed TypeError: Object of type IntegrityError is not JSON serializable in myems-api
+- fixed wrong meter2 name in Excel exporter of MeterComparison report
 ### Removed
 -
 
