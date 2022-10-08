@@ -2,11 +2,12 @@ import re
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 
-import config
-import excelexporters.combinedequipmentefficiency
 import falcon
 import mysql.connector
 import simplejson as json
+
+import config
+import excelexporters.combinedequipmentefficiency
 from core import utilities
 
 
@@ -766,8 +767,7 @@ class Reporting:
                                           " WHERE equipment_id = %s "
                                           "     AND energy_category_id = %s "
                                           "     AND start_datetime_utc >= %s "
-                                          "     AND start_datetime_utc < %s "
-                                          " ORDER BY start_datetime_utc ",
+                                          "     AND start_datetime_utc < %s ",
                                           (associated_equipment['id'],
                                            energy_category_id,
                                            reporting_start_datetime_utc,

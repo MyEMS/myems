@@ -4,10 +4,11 @@ import sys
 import uuid
 from datetime import datetime, timezone, timedelta
 
-import config
 import falcon
 import mysql.connector
 import simplejson as json
+
+import config
 from core.useractivity import user_logger, access_control
 
 

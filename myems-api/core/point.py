@@ -1,7 +1,8 @@
-import config
 import falcon
 import mysql.connector
 import simplejson as json
+
+import config
 from core.useractivity import user_logger, access_control
 
 
@@ -405,7 +406,7 @@ class PointItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=ex)
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',

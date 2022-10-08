@@ -3,8 +3,9 @@ import statistics
 from datetime import datetime, timedelta
 from decimal import Decimal
 
-import config
 import mysql.connector
+
+import config
 
 
 ########################################################################################################################

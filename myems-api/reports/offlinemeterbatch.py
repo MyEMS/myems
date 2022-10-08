@@ -1,11 +1,12 @@
 from datetime import datetime, timedelta, timezone
 
-import config
-import excelexporters.offlinemeterbatch
 import falcon
 import mysql.connector
 import simplejson as json
 from anytree import AnyNode, LevelOrderIter
+
+import config
+import excelexporters.offlinemeterbatch
 
 
 class Reporting:

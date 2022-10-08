@@ -2,11 +2,12 @@ import re
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 
-import config
-import excelexporters.combinedequipmentenergycategory
 import falcon
 import mysql.connector
 import simplejson as json
+
+import config
+import excelexporters.combinedequipmentenergycategory
 from core import utilities
 
 

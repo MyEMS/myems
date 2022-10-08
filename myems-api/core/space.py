@@ -1,12 +1,13 @@
 import uuid
 from datetime import datetime
 
-import config
 import falcon
 import mysql.connector
 import simplejson as json
 from anytree import AnyNode
 from anytree.exporter import JsonExporter
+
+import config
 from core.useractivity import user_logger, access_control
 
 
@@ -115,7 +116,7 @@ class SpaceCollection:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=ex)
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=str(ex))
 
         if 'name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['name'], str) or \
@@ -528,7 +529,7 @@ class SpaceItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=ex)
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -875,7 +876,7 @@ class SpaceCombinedEquipmentCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=ex)
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1046,7 +1047,7 @@ class SpaceEquipmentCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=ex)
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1230,7 +1231,7 @@ class SpaceMeterCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=ex)
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1416,7 +1417,7 @@ class SpaceOfflineMeterCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=ex)
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1600,7 +1601,7 @@ class SpacePointCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=ex)
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1771,7 +1772,7 @@ class SpaceSensorCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=ex)
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1941,7 +1942,7 @@ class SpaceShopfloorCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=ex)
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -2111,7 +2112,7 @@ class SpaceStoreCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=ex)
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -2281,7 +2282,7 @@ class SpaceTenantCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=ex)
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -2465,7 +2466,7 @@ class SpaceVirtualMeterCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=ex)
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -2667,7 +2668,7 @@ class SpaceTreeCollection:
             try:
                 data = json.loads(row[0])
             except Exception as ex:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=ex)
+                raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=str(ex))
 
             if 'spaces' not in data or len(data['spaces']) == 0:
                 raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',

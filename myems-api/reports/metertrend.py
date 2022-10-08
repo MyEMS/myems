@@ -1,11 +1,12 @@
 import re
 from datetime import datetime, timedelta, timezone
 
-import config
-import excelexporters.metertrend
 import falcon
 import mysql.connector
 import simplejson as json
+
+import config
+import excelexporters.metertrend
 from core import utilities
 
 

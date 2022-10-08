@@ -5,20 +5,33 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
-- added config entry to indicate if the tariff appended to parameters data
 - 
+### Changed
+- Split batch inserts into small ones in myems-aggregation
+- Updated min_datetime issue in myems-cleaning (NOTE: add START_DATETIME_UTC to .env for upgrading)
+### Fixed
+- updated translations in Excel exporters
+- added try except statements to virtualmeter of myems-api
+- fixed TypeError: Object of type IntegrityError is not JSON serializable in myems-api
+### Removed
+-
+
+## [v2.4.0] - 2022-09-30
+### Added
+- added config entry to indicate if the tariff appended to parameters data
+
 ### Changed
 - changed table color in the Excel exporters
 - refactored FDD Fault Alarm database, api and web
 - updated child spaces data in Dashboard 
 - changed associated points query order in myems-api
--
+
 ### Fixed
 - updated combined equipment energy category Excel exporter to show parameters data even if there is no energy data 
 - fixed wrong multiple energy categories in Excel exporters
-- 
+
 ### Removed
--
+- None
 
 ## [v2.3.0] - 2022-09-23
 ### Added
@@ -1008,7 +1021,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v2.3.0...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v2.4.0...HEAD
+[2.4.0]: https://github.com/MyEMS/myems/compare/v2.3.0...v2.4.0
 [2.3.0]: https://github.com/MyEMS/myems/compare/v2.2.0...v2.3.0
 [2.2.0]: https://github.com/MyEMS/myems/compare/v2.1.0...v2.2.0
 [2.1.0]: https://github.com/MyEMS/myems/compare/v2.0.0...v2.1.0

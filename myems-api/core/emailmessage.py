@@ -1,10 +1,11 @@
 import re
 from datetime import datetime, timedelta, timezone
 
-import config
 import falcon
 import mysql.connector
 import simplejson as json
+
+import config
 from core.useractivity import user_logger, access_control
 
 
@@ -111,7 +112,7 @@ class EmailMessageCollection:
         try:
             raw_json = req.get_param('req')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=ex)
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=str(ex))
 
         new_values = json.loads(raw_json)
 
@@ -312,7 +313,7 @@ class EmailMessageItem:
         try:
             raw_json = req.get_param('req')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=ex)
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=str(ex))
 
         new_values = json.loads(raw_json)
 

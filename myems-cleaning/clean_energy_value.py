@@ -1,5 +1,5 @@
 import time
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 import mysql.connector
 
@@ -45,16 +45,26 @@ def process(logger):
         min_datetime = None
         max_datetime = None
         try:
-            query = (" SELECT MIN(utc_date_time), MAX(utc_date_time) "
+            query = (" SELECT MAX(utc_date_time) "
+                     " FROM tbl_energy_value "
+                     " WHERE is_bad IS NOT NULL ")
+            cursor_historical.execute(query, ())
+            row_datetime = cursor_historical.fetchone()
+            if row_datetime is not None and len(row_datetime) == 1 and isinstance(row_datetime[0], datetime):
+                # NOTE: To avoid omission mistakes, we start one hour early
+                min_datetime = row_datetime[0] - timedelta(hours=1)
+            else:
+                # all is_bad properties are null
+                min_datetime = datetime.strptime(config.start_datetime_utc,
+                                                 '%Y-%m-%d %H:%M:%S').replace(tzinfo=timezone.utc)
+
+            query = (" SELECT MAX(utc_date_time) "
                      " FROM tbl_energy_value "
                      " WHERE is_bad IS NULL ")
             cursor_historical.execute(query, ())
             row_datetime = cursor_historical.fetchone()
-            if row_datetime is not None and len(row_datetime) == 2 and \
-                    isinstance(row_datetime[0], datetime) and isinstance(row_datetime[1], datetime):
-                # NOTE: To avoid omission mistakes, we start one hour early
-                min_datetime = row_datetime[0] - timedelta(hours=1)
-                max_datetime = row_datetime[1]
+            if row_datetime is not None and len(row_datetime) == 1 and isinstance(row_datetime[0], datetime):
+                max_datetime = row_datetime[0]
 
         except Exception as e:
             print("Error in Step 1 of clean_energy_value.process " + str(e))
@@ -186,6 +196,7 @@ def process(logger):
         print("Step 2: Processing bad case 1.x")
         cnx_system = None
         cursor_system = None
+        point_dict = dict()
         try:
             cnx_system = mysql.connector.connect(**config.myems_system_db)
             cursor_system = cnx_system.cursor()
@@ -196,7 +207,6 @@ def process(logger):
             cursor_system.execute(query)
             rows_points = cursor_system.fetchall()
 
-            point_dict = dict()
             if rows_points is not None and len(rows_points) > 0:
                 for row in rows_points:
                     point_dict[row[0]] = {"high_limit": row[1],

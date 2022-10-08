@@ -1,9 +1,10 @@
 import uuid
 
-import config
 import falcon
 import mysql.connector
 import simplejson as json
+
+import config
 from core.useractivity import user_logger, access_control
 
 
@@ -82,7 +83,7 @@ class ShopfloorCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=ex)
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=str(ex))
 
         new_values = json.loads(raw_json)
 
@@ -382,7 +383,7 @@ class ShopfloorItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=ex)
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -549,7 +550,7 @@ class ShopfloorEquipmentCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=ex)
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -734,7 +735,7 @@ class ShopfloorMeterCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=ex)
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -918,7 +919,7 @@ class ShopfloorOfflineMeterCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=ex)
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1102,7 +1103,7 @@ class ShopfloorPointCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=ex)
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1273,7 +1274,7 @@ class ShopfloorSensorCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=ex)
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1457,7 +1458,7 @@ class ShopfloorVirtualMeterCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=ex)
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',

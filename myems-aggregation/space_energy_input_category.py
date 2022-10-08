@@ -1049,7 +1049,9 @@ def worker(space):
     ####################################################################################################################
     print("Step 22: save energy data to energy database")
 
-    if len(aggregated_values) > 0:
+    while len(aggregated_values) > 0:
+        insert_100 = aggregated_values[:100]
+        aggregated_values = aggregated_values[100:]
         try:
             add_values = (" INSERT INTO tbl_space_input_category_hourly "
                           "             (space_id, "
@@ -1058,7 +1060,7 @@ def worker(space):
                           "              actual_value) "
                           " VALUES  ")
 
-            for aggregated_value in aggregated_values:
+            for aggregated_value in insert_100:
                 for energy_category_id, actual_value in aggregated_value['meta_data'].items():
                     add_values += " (" + str(space['id']) + ","
                     add_values += " " + str(energy_category_id) + ","
@@ -1078,8 +1080,8 @@ def worker(space):
                 cursor_energy_db.close()
             if cnx_energy_db:
                 cnx_energy_db.close()
-    else:
-        if cursor_energy_db:
-            cursor_energy_db.close()
-        if cnx_energy_db:
-            cnx_energy_db.close()
+
+    if cursor_energy_db:
+        cursor_energy_db.close()
+    if cnx_energy_db:
+        cnx_energy_db.close()
