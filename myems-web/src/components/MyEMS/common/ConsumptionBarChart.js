@@ -10,6 +10,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import { withTranslation } from 'react-i18next';
 import { Chart } from 'react-chartjs-2';
 import AppContext from '../../../context/Context';
 
@@ -29,7 +30,8 @@ const ConsumptionBarChart = ({
   baseLabels,
   reportingData,
   baseData,
-  options
+  options,
+  t
 }) => {
   const [selectedLabel, setSelectedLabel] = useState('a0');
   const [option, setOption] = useState('a0');
@@ -79,15 +81,19 @@ const ConsumptionBarChart = ({
             yPadding: 10,
             displayColors: false,
             callbacks: {
-            label: function(context){
-                if (context.datasetIndex) {
-                    return `${reportingLabels[selectedLabel][context.dataIndex]} - ${context.raw}`;
+            title: function(context){
+                if (context[0].datasetIndex) {
+                    return `${reportingLabels[selectedLabel][context[0].dataIndex]}`;
                 } else {
-                    return `${baseLabels[selectedLabel][context.dataIndex]} - ${context.raw}`;
+                    return `${baseLabels[selectedLabel][context[0].dataIndex]}`;
                 }
             },    
-            title: function(context){
-                return context[0].dataset.label;
+            label: function(context){
+                if (context.datasetIndex) {
+                    return `${t('Reporting Period Consumption CATEGORY VALUE UNIT', { 'CATEGORY': options[0].label, 'VALUE': context.raw, 'UNIT': null })}`;
+                } else {
+                    return `${t('Base Period Consumption CATEGORY VALUE UNIT', { 'CATEGORY': options[0].label, 'VALUE': context.raw, 'UNIT': null })}`;
+                }
             }
             }
         },
@@ -154,5 +160,5 @@ const ConsumptionBarChart = ({
   );
 };
 
-export default ConsumptionBarChart;
+export default withTranslation()(ConsumptionBarChart);
 
