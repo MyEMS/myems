@@ -4,7 +4,6 @@ from decimal import Decimal
 
 import falcon
 import mysql.connector
-from rx import for_in
 import simplejson as json
 
 import config
