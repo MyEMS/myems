@@ -155,13 +155,23 @@ function average(ctx) {
 
 const annotation = {
   type: 'line',
-  borderColor: 'black',
+  borderColor: 'green',
   borderDash: [6, 6],
   borderDashOffset: 0,
   borderWidth: 3,
   label: {
     display: true,
-    content: (ctx) => 'Average: ' + average(ctx).toFixed(2),
+    backgroundColor: 'rgba(150, 150, 150, 1)',
+    content: (ctx) => 'AVG ' + average(ctx).toFixed(2),
+    font: {
+      size: 16
+    },
+    padding: {
+      top: 6,
+      left: 6,
+      right: 6,
+      bottom: 6
+    },
     position: 'end'
   },
   scaleID: 'y',
