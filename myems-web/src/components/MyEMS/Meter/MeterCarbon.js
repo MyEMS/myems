@@ -428,7 +428,9 @@ const MeterCarbon = ({ setRedirect, setRedirectUrl, t }) => {
         detailed_value['startdatetime'] = t('Total');
         detailed_value['a0'] = json['reporting_period']['total_in_category'];
         detailed_value_list.push(detailed_value);
-        setDetailedDataTableData(detailed_value_list);
+        setTimeout( () => {
+          setDetailedDataTableData(detailed_value_list);
+        }, 0)
         
         setExcelBytesBase64(json['excel_bytes_base64']);
 

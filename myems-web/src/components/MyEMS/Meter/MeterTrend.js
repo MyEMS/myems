@@ -368,7 +368,9 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
           }
         };
       
-        setDetailedDataTableData(detial_value_list);
+        setTimeout( () => {
+          setDetailedDataTableData(detial_value_list);
+        }, 0)
         
         setExcelBytesBase64(json['excel_bytes_base64']);
 

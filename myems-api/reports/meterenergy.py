@@ -270,6 +270,7 @@ class Reporting:
         reporting = dict()
         reporting['timestamps'] = list()
         reporting['values'] = list()
+        reporting['rates'] = list()
         reporting['total_in_category'] = Decimal(0.0)
         reporting['total_in_kgce'] = Decimal(0.0)
         reporting['total_in_kgco2e'] = Decimal(0.0)
@@ -299,6 +300,10 @@ class Reporting:
             reporting['total_in_category'] += actual_value
             reporting['total_in_kgce'] += actual_value * meter['kgce']
             reporting['total_in_kgco2e'] += actual_value * meter['kgco2e']
+
+        for index, value in enumerate(reporting['values']):
+            reporting['rates'].append((value - base['values'][index])/base['values'][index]
+                if base['values'][index] != None and base['values'][index] > 0 else None)
 
         energy_category_tariff_dict = utilities.get_energy_category_peak_types(meter['cost_center_id'],
                                                                                meter['energy_category_id'],
@@ -451,6 +456,7 @@ class Reporting:
                 "offpeak": reporting['offpeak'],
                 "timestamps": reporting['timestamps'],
                 "values": reporting['values'],
+                "rates": reporting['rates'],
             },
             "parameters": {
                 "names": parameters_data['names'],

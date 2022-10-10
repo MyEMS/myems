@@ -49,7 +49,6 @@ const BarChart = ({
     const chart = chartRef.current;
     let dataArray = [];
     let datasets = [];
-    let color = rgbaColor("#"+((1<<24)*Math.random()|0).toString(16), 0.8);
     if (chart) {
       const ctx = chart.ctx;
       const gradientFill = isDark
@@ -63,20 +62,19 @@ const BarChart = ({
       datasets.push({
         label: title,
         data: dataArray,
-        backgroundColor: color,
-        borderColor: color,
+        backgroundColor: 'rgb(75, 192, 192)',
+        borderColor: 'rgb(75, 192, 192)',
         borderWidth: 1,
       });
       dataArray = [];
-      color = rgbaColor("#"+((1<<24)*Math.random()|0).toString(16), 0.8);
       compareData.forEach(element => {
         dataArray.push(element['subtotal']);
       });
       datasets.push({
         label: compareTitle,
         data: dataArray,
-        backgroundColor: color,
-        borderColor: color,
+        backgroundColor: 'rgb(53, 162, 235)',
+        borderColor: 'rgb(53, 162, 235)',
         borderWidth: 1,
       });
       setChartData({
