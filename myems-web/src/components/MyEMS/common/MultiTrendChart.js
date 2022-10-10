@@ -13,6 +13,8 @@ import {
 import { withTranslation } from 'react-i18next';
 import { Chart } from 'react-chartjs-2';
 import AppContext from '../../../context/Context';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+
 
 ChartJS.register(
   CategoryScale,
@@ -20,16 +22,19 @@ ChartJS.register(
   PointElement,
   BarElement,
   Tooltip,
-  Legend
+  Legend,
 );
 
-const ConsumptionBarChart = ({
+const MultiTrendChart = ({
   reportingTitle,
   baseTitle,
+  reportingTooltipTitle,
+  baseTooltipTitle,
   reportingLabels,
   baseLabels,
   reportingData,
   baseData,
+  rates,
   options,
   t
 }) => {
@@ -52,25 +57,57 @@ const ConsumptionBarChart = ({
       
       const chartData = {
         datasets: [{
+            data: rates,
+            borderColor: rgbaColor(isDark ? themeColors.primary : '#000', 0.8) ,
+            backgroundColor: gradientFill,
+            type: 'line',
+            yAxisID: 'y1',
+            tooltip: {
+              callbacks: {
+                label: function(context){
+                  return context.raw + '%';
+                }
+              }
+            },
+            datalabels: {
+              formatter: function(value, context) {
+                return value + '%';
+              },
+              color: isDark ? themeColors.light : themeColors.dark,
+              align: 'end',
+              anchor: 'end',
+            }
+          },{
             label: baseTitle,
             data: baseData[option],
             backgroundColor: '#4463b6',
             stack: "base",
             tension: 0.4,
+            datalabels: {
+              display: function(context){
+                return false;
+               }
+            },
           },{
             label: reportingTitle,
             data: reportingData[option],
             backgroundColor: '#e87637',
             stack: "reporting",
             tension: 0.4,
-          }],
+            datalabels: {
+              display: function(context){
+                return false;
+               }
+            },
+          },],
         labels: reportingLabels[selectedLabel],
       };
       setLineData(chartData);
     }
-  }, [baseData, reportingData, option, baseLabels, reportingLabels]);
+  }, [baseData, reportingData, option, baseLabels, reportingLabels, rates]);
 
   const config = {
+    plugins: [ChartDataLabels],
     options: {
       plugins: {
         legend: {
@@ -90,9 +127,9 @@ const ConsumptionBarChart = ({
             },    
             label: function(context){
                 if (context.datasetIndex) {
-                    return `${t('Reporting Period Consumption CATEGORY VALUE UNIT', { 'CATEGORY': options[0].label, 'VALUE': context.raw, 'UNIT': null })}`;
+                    return `${reportingTooltipTitle} - ${context.raw}`;
                 } else {
-                    return `${t('Base Period Consumption CATEGORY VALUE UNIT', { 'CATEGORY': options[0].label, 'VALUE': context.raw, 'UNIT': null })}`;
+                    return `${baseTooltipTitle} - ${context.raw}`;
                 }
             }
             }
@@ -118,9 +155,24 @@ const ConsumptionBarChart = ({
                 color: rgbaColor('#000', 0.1)
             },
             ticks: {
-                color: isDark ? themeColors.light : themeColors.dark
+              color: isDark ? themeColors.light : themeColors.dark
             },
-            stacked: true,
+            stack: true,
+        },
+        y1: {
+          type: 'linear',
+          display: true,
+          position: 'right',
+          grid: {
+            drawOnChartArea: false,
+          },
+          max: 100,
+          ticks: {
+            callback: function(value, index, ticks){
+              return value + '%';
+            },
+            color: isDark ? themeColors.light : themeColors.dark
+          }
         },
       },
       hover: { mode: 'label' },
@@ -154,11 +206,11 @@ const ConsumptionBarChart = ({
             </Col>
           }
         </Row>
-        <Chart ref={chartRef} type="bar" data={lineData} options={config.options} width={1618} height={375} />
+        <Chart ref={chartRef} type="bar" data={lineData} options={config.options} plugins={config.plugins} width={1618} height={375} />
       </CardBody> 
     </Card>
   );
 };
 
-export default withTranslation()(ConsumptionBarChart);
+export default withTranslation()(MultiTrendChart);
 

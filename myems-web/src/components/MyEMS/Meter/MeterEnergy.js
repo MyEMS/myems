@@ -20,7 +20,7 @@ import moment from 'moment';
 import loadable from '@loadable/component';
 import Cascader from 'rc-cascader';
 import CardSummary from '../common/CardSummary';
-import ConsumptionBarChart from '../common/ConsumptionBarChart';
+import MultiTrendChart from '../common/MultiTrendChart';
 import MultipleLineChart from '../common/MultipleLineChart';
 import { getCookieValue, createCookie } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
@@ -105,7 +105,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
   const [basePeriodEnergyConsumptionInCategory, setBasePeriodEnergyConsumptionInCategory] = useState(0);
   const [meterBaseLabels, setMeterBaseLabels] = useState([]);
   const [meterBaseData, setMeterBaseData] = useState({});
-
+  const [meterReportingRates, setMeterReportingRates] = useState([]);
   const [meterReportingLabels, setMeterReportingLabels] = useState([]);
   const [meterReportingData, setMeterReportingData] = useState({});
   const [meterReportingOptions, setMeterReportingOptions] = useState([]);
@@ -383,6 +383,12 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
         timestamps['a0'] = json['base_period']['timestamps'];
         setMeterBaseLabels(timestamps);
 
+        let rates = Array();
+        json['reporting_period']['rates'].forEach(rate => {
+          rates.push(rate ? parseFloat(rate * 100).toFixed(2) : '0.00');
+        });
+        setMeterReportingRates(rates);
+
         let values = {'a0':[]}
         json['reporting_period']['values'].forEach((currentValue, index) => {
           values['a0'][index] = currentValue.toFixed(2);
@@ -640,14 +646,17 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
         </CardSummary>
       </div>
 
-      <ConsumptionBarChart reportingTitle={t('Reporting Period Consumption CATEGORY VALUE UNIT', { 'CATEGORY': meterEnergyCategory['name'], 'VALUE': reportingPeriodEnergyConsumptionInCategory.toFixed(2), 'UNIT': '(' + meterEnergyCategory['unit'] + ')' })}
+      <MultiTrendChart reportingTitle={t('Reporting Period Consumption CATEGORY VALUE UNIT', { 'CATEGORY': meterEnergyCategory['name'], 'VALUE': reportingPeriodEnergyConsumptionInCategory.toFixed(2), 'UNIT': '(' + meterEnergyCategory['unit'] + ')' })}
         baseTitle={t('Base Period Consumption CATEGORY VALUE UNIT', { 'CATEGORY': meterEnergyCategory['name'], 'VALUE': basePeriodEnergyConsumptionInCategory.toFixed(2), 'UNIT': '(' + meterEnergyCategory['unit'] + ')' })}
+        reportingTooltipTitle={t('Reporting Period Consumption CATEGORY VALUE UNIT', { 'CATEGORY': meterEnergyCategory['name'], 'VALUE': null, 'UNIT': '(' + meterEnergyCategory['unit'] + ')' })}
+        baseTooltipTitle={t('Base Period Consumption CATEGORY VALUE UNIT', { 'CATEGORY': meterEnergyCategory['name'], 'VALUE': null, 'UNIT': '(' + meterEnergyCategory['unit'] + ')' })}
         reportingLabels={meterReportingLabels}
         reportingData={meterReportingData}
         baseLabels={meterBaseLabels}
         baseData={meterBaseData}
+        rates={meterReportingRates}
         options={meterReportingOptions}>
-      </ConsumptionBarChart>
+      </MultiTrendChart>
 
       <MultipleLineChart reportingTitle={t('Related Parameters')}
         baseTitle=''

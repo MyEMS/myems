@@ -62,7 +62,7 @@ class WebMessageCollection:
 
         if status is None:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description="API.INVALID_END_DATETIME_FORMAT")
+                                   description="API.INVALID_STATUS")
         else:
             status = str.strip(status)
             if status not in ['unread', 'read', 'acknowledged', 'all']:
@@ -74,7 +74,7 @@ class WebMessageCollection:
 
         if priority is None:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description="API.INVALID_END_DATETIME_FORMAT")
+                                   description="API.INVALID_PRIORITY")
         else:
             priority = str.strip(priority)
             if priority not in ['medium', 'critical', 'all']:
