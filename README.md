@@ -56,6 +56,7 @@ MyEMS由资深专业团队开发维护，源代码基于MIT开源软件许可协
 | 组合设备数量                        | 无限制         | 实际数量受限于服务器资源上限|
 | Docker容器化部署                    | ✔️            | https://hub.docker.com/u/myems |
 | MySQL                             | ✔️             | http://mysql.com/    |
+| Percona Server for MySQL          | ✔️             | https://www.percona.com/ |
 | MariaDB                           | ✔️             | https://mariadb.org/ |
 | SingleStore                       | ✔️             | https://www.singlestore.com/ |
 | OceanBase                         | ✔️             | https://www.oceanbase.com/ |

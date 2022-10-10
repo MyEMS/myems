@@ -56,6 +56,7 @@ Using open source to help achieve carbon peak carbon neutrality goals.
 | Combined Equipments Number       | Unlimited       | The actual number is limited by the upper limit of server resources |
 | Docker                           | ✔️             | https://hub.docker.com/u/myems |
 | MySQL                            | ✔️             | http://mysql.com/    |
+| Percona Server for MySQL         | ✔️             | https://www.percona.com/ |
 | MariaDB                          | ✔️             | https://mariadb.org/ |
 | SingleStore                      | ✔️             | https://www.singlestore.com/ |
 | OceanBase                         | ✔️             | https://www.oceanbase.com/ |
