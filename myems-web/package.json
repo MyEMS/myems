@@ -23,6 +23,7 @@
     "buffer": "^6.0.3",
     "chart.js": "^3.9.1",
     "chartjs-plugin-annotation": "^2.0.0",
+    "chartjs-plugin-datalabels": "^2.1.0",
     "classnames": "^2.2.6",
     "echarts": "^5.2.2",
     "echarts-for-react": "^2.0.16",

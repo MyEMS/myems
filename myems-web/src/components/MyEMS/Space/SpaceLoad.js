@@ -337,7 +337,9 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
           });
         };
 
-        setDetailedDataTableData(detailed_value_list);
+        setTimeout( () => {
+          setDetailedDataTableData(detailed_value_list);
+        }, 0)
         
         let detailed_column_list = [];
         detailed_column_list.push({
