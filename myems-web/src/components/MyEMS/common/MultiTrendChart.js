@@ -206,7 +206,7 @@ const MultiTrendChart = ({
             </Col>
           }
         </Row>
-        <Chart ref={chartRef} type="bar" data={lineData} options={config.options} plugins={config.plugins} width={1618} height={375} />
+        <Chart ref={chartRef} type="bar" data={lineData} options={config.options} plugins={config.plugins} width={1618} height={218} />
       </CardBody> 
     </Card>
   );
