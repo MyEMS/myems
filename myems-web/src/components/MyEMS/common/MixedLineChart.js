@@ -158,7 +158,7 @@ const MixedLineChart = ({
             </Col>
           }
         </Row>
-        <Chart ref={chartRef} data={lineData} options={config.options} width={1618} height={375} type='bar' />
+        <Chart ref={chartRef} data={lineData} options={config.options} width={1618} height={218} type='bar' />
       </CardBody>
     </Card>
   );

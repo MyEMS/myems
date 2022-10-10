@@ -309,7 +309,7 @@ const MultipleLineChart = ({
             </Col>
           }
         </Row>
-        <Chart type="line" ref={chartRef} data={lineData} options={config.options} width={1618} height={375} />
+        <Chart type="line" ref={chartRef} data={lineData} options={config.options} width={1618} height={218} />
       </CardBody>
     </Card>
   );

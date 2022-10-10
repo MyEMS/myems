@@ -127,7 +127,7 @@ const LineChart = ({
             </Col>
           }
         </Row>
-        <Chart ref={chartRef} type="line" data={lineData} options={config.options} width={1618} height={375} />
+        <Chart ref={chartRef} type="line" data={lineData} options={config.options} width={1618} height={218} />
       </CardBody>
     </Card>
   );
