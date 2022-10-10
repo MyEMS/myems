@@ -166,7 +166,7 @@ const MultiTrendChart = ({
           grid: {
             drawOnChartArea: false,
           },
-          max: 100,
+          suggestedMax: 100,
           ticks: {
             callback: function(value, index, ticks){
               return value + '%';
