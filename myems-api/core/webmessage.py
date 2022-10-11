@@ -64,25 +64,29 @@ class WebMessageCollection:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description="API.INVALID_STATUS")
         else:
-            status = str.strip(status)
-            if status not in ['unread', 'read', 'acknowledged', 'all']:
+            status = str.lower(str.strip(status))
+            if status not in ['new', 'read', 'acknowledged', 'all']:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_STATUS')
             else:
                 if status == 'all':
-                    status = ""
+                    status_query = ""
+                else: 
+                    status_query = "status = '" + status + "' AND "
 
         if priority is None:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description="API.INVALID_PRIORITY")
         else:
-            priority = str.strip(priority)
-            if priority not in ['medium', 'critical', 'all']:
+            priority = str.upper(str.strip(priority))
+            if priority not in ['LOW', 'MEDIUM', 'HIGH', 'CRITICAL', 'ALL']:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_PRIORITY')
             else:
-                if priority == 'all':
-                    priority = ""
+                if priority == 'ALL':
+                    priority_query = ""
+                else:
+                    priority_query = "priority= '" + priority + "' AND "
 
 
         # Verify User Session
@@ -149,11 +153,11 @@ class WebMessageCollection:
                  "        created_datetime_utc, status, reply "
                  " FROM tbl_web_messages "
                  " WHERE user_id = %s AND "
-                 "       created_datetime_utc >= %s AND created_datetime_utc < %s AND"
-                 " status LIKE concat ('%', %s, '%') AND"
-                 " priority LIKE concat  ('%', %s, '%')"
-                 " ORDER BY created_datetime_utc DESC ")
-        cursor.execute(query, (user_id, start_datetime_utc, end_datetime_utc, status, priority))
+                 "       created_datetime_utc >= %s AND created_datetime_utc < %s AND "
+                 + status_query + priority_query + 
+                 " 1 = 1 ORDER BY created_datetime_utc DESC ")
+
+        cursor.execute(query, (user_id, start_datetime_utc, end_datetime_utc))
         rows = cursor.fetchall()
 
         if cursor:

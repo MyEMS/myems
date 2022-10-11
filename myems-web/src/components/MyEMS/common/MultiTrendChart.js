@@ -76,6 +76,9 @@ const MultiTrendChart = ({
               color: isDark ? themeColors.light : themeColors.dark,
               align: 'end',
               anchor: 'end',
+              display: function(){
+                return rates.length <= 20 ? true : false;
+              }
             }
           },{
             label: baseTitle,
@@ -119,14 +122,14 @@ const MultiTrendChart = ({
             displayColors: false,
             callbacks: {
             title: function(context){
-                if (context[0].datasetIndex) {
+                if (context[0].datasetIndex - 1) {
                     return `${reportingLabels[selectedLabel][context[0].dataIndex]}`;
                 } else {
                     return `${baseLabels[selectedLabel][context[0].dataIndex]}`;
                 }
             },    
             label: function(context){
-                if (context.datasetIndex) {
+                if (context.datasetIndex - 1) {
                     return `${reportingTooltipTitle} - ${context.raw}`;
                 } else {
                     return `${baseTooltipTitle} - ${context.raw}`;

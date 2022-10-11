@@ -19,7 +19,8 @@ from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 # Step 3: Encode the excel file to Base64
 ########################################################################################################################
 
-def export(report, name, reporting_start_datetime_local, reporting_end_datetime_local, period_type, language):
+def export(report, name, reporting_start_datetime_local, reporting_end_datetime_local, period_type, language,
+           comparison_type):
     ####################################################################################################################
     # Step 1: Validate the report data
     ####################################################################################################################
@@ -34,7 +35,8 @@ def export(report, name, reporting_start_datetime_local, reporting_end_datetime_
                               reporting_start_datetime_local,
                               reporting_end_datetime_local,
                               period_type,
-                              language)
+                              language,
+                              comparison_type)
     ####################################################################################################################
     # Step 3: Encode the excel file to Base64
     ####################################################################################################################
@@ -57,7 +59,8 @@ def export(report, name, reporting_start_datetime_local, reporting_end_datetime_
     return base64_message
 
 
-def generate_excel(report, name, reporting_start_datetime_local, reporting_end_datetime_local, period_type, language):
+def generate_excel(report, name, reporting_start_datetime_local, reporting_end_datetime_local, period_type, language,
+                   comparison_type):
 
     locale_path = './i18n/'
     if language == 'zh_CN':
@@ -285,30 +288,61 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                 ws[col + row] = time[i]
                 ws[col + row].border = f_border
 
-            ws['C' + str(start_detail_data_row_num)].fill = table_fill
-            ws['C' + str(start_detail_data_row_num)].font = title_font
-            ws['C' + str(start_detail_data_row_num)].alignment = c_c_alignment
-            ws['C' + str(start_detail_data_row_num)] = report['meter']['energy_category_name'] + \
-                " (" + report['meter']['unit_of_measure'] + ")"
-            ws['C' + str(start_detail_data_row_num)].border = f_border
+
+            if comparison_type == 'none-comparison' :
+                max_col = 3
+                ws['C' + str(start_detail_data_row_num)].fill = table_fill
+                ws['C' + str(start_detail_data_row_num)].font = title_font
+                ws['C' + str(start_detail_data_row_num)].alignment = c_c_alignment
+                ws['C' + str(start_detail_data_row_num)] = report['meter']['energy_category_name'] + \
+                    " (" + report['meter']['unit_of_measure'] + ")"
+                ws['C' + str(start_detail_data_row_num)].border = f_border
+            else:
+                max_col = 4
+                ws['C' + str(start_detail_data_row_num)].fill = table_fill
+                ws['C' + str(start_detail_data_row_num)].font = title_font
+                ws['C' + str(start_detail_data_row_num)].alignment = c_c_alignment
+                ws['C' + str(start_detail_data_row_num)] = _('Base Period') + ' - ' + report['meter']['energy_category_name'] + \
+                    " (" + report['meter']['unit_of_measure'] + ")"
+                ws['C' + str(start_detail_data_row_num)].border = f_border
+
+                ws['D' + str(start_detail_data_row_num)].fill = table_fill
+                ws['D' + str(start_detail_data_row_num)].font = title_font
+                ws['D' + str(start_detail_data_row_num)].alignment = c_c_alignment
+                ws['D' + str(start_detail_data_row_num)] = _('Reporting Period') + ' - ' + report['meter']['energy_category_name'] + \
+                    " (" + report['meter']['unit_of_measure'] + ")"
+                ws['D' + str(start_detail_data_row_num)].border = f_border
 
             # 13 data
             time = times
             time_len = len(time)
 
-            for j in range(0, time_len):
-                row = str(start_detail_data_row_num + 1 + j)
-                ws['C' + row].font = title_font
-                ws['C' + row].alignment = c_c_alignment
-                ws['C' + row] = round(reporting_period_data['values'][j], 2)
-                ws['C' + row].border = f_border
+            if comparison_type == 'none-comparison' :
+                for j in range(0, time_len):
+                    row = str(start_detail_data_row_num + 1 + j)
+                    ws['C' + row].font = title_font
+                    ws['C' + row].alignment = c_c_alignment
+                    ws['C' + row] = round(reporting_period_data['values'][j], 2)
+                    ws['C' + row].border = f_border
+            else :
+                for j in range(0, time_len):
+                    row = str(start_detail_data_row_num + 1 + j)
+                    ws['C' + row].font = title_font
+                    ws['C' + row].alignment = c_c_alignment
+                    ws['C' + row] = round(report['base_period']['values'][j], 2)
+                    ws['C' + row].border = f_border
+
+                    ws['D' + row].font = title_font
+                    ws['D' + row].alignment = c_c_alignment
+                    ws['D' + row] = round(reporting_period_data['values'][j], 2)
+                    ws['D' + row].border = f_border
             # line
             # 13~: line
             line = LineChart()
             line.title = _('Reporting Period Consumption') + ' - ' + report['meter']['energy_category_name'] + \
                 " (" + report['meter']['unit_of_measure'] + ")"
             labels = Reference(ws, min_col=2, min_row=start_detail_data_row_num + 1, max_row=max_row)
-            bar_data = Reference(ws, min_col=3, min_row=start_detail_data_row_num, max_row=max_row)
+            bar_data = Reference(ws, min_col=3, max_col = max_col, min_row=start_detail_data_row_num, max_row=max_row)
             line.add_data(bar_data, titles_from_data=True)
             line.set_categories(labels)
             line_data = line.series[0]
@@ -318,7 +352,6 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             line.height = 8.25
             line.width = 24
             line.dLbls = DataLabelList()
-            line.dLbls = DataLabelList()
             line.dLbls.dLblPos = 't'
             line.dLbls.showVal = True
             line.dLbls.showPercent = False
@@ -326,15 +359,32 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
             row = str(start_detail_data_row_num + 1 + len(time))
 
-            ws['B' + row].font = title_font
-            ws['B' + row].alignment = c_c_alignment
-            ws['B' + row] = _('Total')
-            ws['B' + row].border = f_border
 
-            ws['C' + row].font = title_font
-            ws['C' + row].alignment = c_c_alignment
-            ws['C' + row] = round(reporting_period_data['total_in_category'], 2)
-            ws['C' + row].border = f_border
+            if comparison_type == 'none-comparison' :
+                ws['B' + row].font = title_font
+                ws['B' + row].alignment = c_c_alignment
+                ws['B' + row] = _('Total')
+                ws['B' + row].border = f_border
+
+                ws['C' + row].font = title_font
+                ws['C' + row].alignment = c_c_alignment
+                ws['C' + row] = round(reporting_period_data['total_in_category'], 2)
+                ws['C' + row].border = f_border
+            else :
+                ws['B' + row].font = title_font
+                ws['B' + row].alignment = c_c_alignment
+                ws['B' + row] = _('Total')
+                ws['B' + row].border = f_border
+
+                ws['C' + row].font = title_font
+                ws['C' + row].alignment = c_c_alignment
+                ws['C' + row] = round(report['base_period']['total_in_category'], 2)
+                ws['C' + row].border = f_border
+
+                ws['D' + row].font = title_font
+                ws['D' + row].alignment = c_c_alignment
+                ws['D' + row] = round(reporting_period_data['total_in_category'], 2)
+                ws['D' + row].border = f_border
 
     ##########################################
     # 12 is the starting line number of the last line chart in the report period
