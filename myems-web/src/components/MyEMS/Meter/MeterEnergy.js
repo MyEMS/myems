@@ -447,7 +447,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
             sort: true
           }, {
             dataField: 'a0',
-            text: t('Base Period Consumption CATEGORY VALUE UNIT', { 'CATEGORY': meterEnergyCategory['name'], 'VALUE': null, 'UNIT': '(' + meterEnergyCategory['unit'] + ')' }),
+            text: t('Base Period Consumption CATEGORY VALUE UNIT', { 'CATEGORY': json['meter']['energy_category_name'], 'VALUE': null, 'UNIT': '(' + json['meter']['unit_of_measure'] + ')' }),
             sort: true,
             formatter: function (decimalValue) {
               if (typeof decimalValue === 'number') {
@@ -458,7 +458,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
             }
           }, {
             dataField: 'a1',
-            text: t('Reporting Period Consumption CATEGORY VALUE UNIT', { 'CATEGORY': meterEnergyCategory['name'], 'VALUE': null, 'UNIT': '(' + meterEnergyCategory['unit'] + ')' }),
+            text: t('Reporting Period Consumption CATEGORY VALUE UNIT', { 'CATEGORY': json['meter']['energy_category_name'], 'VALUE': null, 'UNIT': '(' + json['meter']['unit_of_measure'] + ')' }),
             sort: true,
             formatter: function (decimalValue) {
               if (typeof decimalValue === 'number') {

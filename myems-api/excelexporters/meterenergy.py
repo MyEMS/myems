@@ -2,7 +2,6 @@ import base64
 import gettext
 import os
 import re
-from symbol import comparison
 import uuid
 
 import openpyxl.utils.cell as format_cell
