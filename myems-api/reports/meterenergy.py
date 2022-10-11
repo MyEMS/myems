@@ -38,6 +38,7 @@ class Reporting:
         # this procedure accepts meter id or meter uuid to identify a meter
         meter_id = req.params.get('meterid')
         meter_uuid = req.params.get('meteruuid')
+        comparison_type = req.params.get('comparisonType')
         period_type = req.params.get('periodtype')
         base_period_start_datetime = req.params.get('baseperiodstartdatetime')
         base_period_end_datetime = req.params.get('baseperiodenddatetime')
@@ -302,8 +303,10 @@ class Reporting:
             reporting['total_in_kgco2e'] += actual_value * meter['kgco2e']
 
         for index, value in enumerate(reporting['values']):
-            reporting['rates'].append((value - base['values'][index])/base['values'][index]
-                if base['values'][index] != None and base['values'][index] > 0 else None)
+            if index < len(base['values']) and base['values'][index] != 0 and value != 0:
+                reporting['rates'].append((value - base['values'][index])/base['values'][index])
+            else:
+                reporting['rates'].append(None)
 
         energy_category_tariff_dict = utilities.get_energy_category_peak_types(meter['cost_center_id'],
                                                                                meter['energy_category_id'],
@@ -472,6 +475,7 @@ class Reporting:
                                                   reporting_period_start_datetime_local,
                                                   reporting_period_end_datetime_local,
                                                   period_type,
-                                                  language)
+                                                  language,
+                                                  comparison_type)
 
         resp.text = json.dumps(result)
