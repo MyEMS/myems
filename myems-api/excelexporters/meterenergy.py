@@ -19,7 +19,8 @@ from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 # Step 3: Encode the excel file to Base64
 ########################################################################################################################
 
-def export(report, name, reporting_start_datetime_local, reporting_end_datetime_local, period_type, language, comparison_type):
+def export(report, name, reporting_start_datetime_local, reporting_end_datetime_local, period_type, language,
+           comparison_type):
     ####################################################################################################################
     # Step 1: Validate the report data
     ####################################################################################################################
@@ -58,7 +59,8 @@ def export(report, name, reporting_start_datetime_local, reporting_end_datetime_
     return base64_message
 
 
-def generate_excel(report, name, reporting_start_datetime_local, reporting_end_datetime_local, period_type, language, comparison_type):
+def generate_excel(report, name, reporting_start_datetime_local, reporting_end_datetime_local, period_type, language,
+                   comparison_type):
 
     locale_path = './i18n/'
     if language == 'zh_CN':

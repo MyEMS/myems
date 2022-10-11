@@ -339,7 +339,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
     let isResponseOK = false;
     fetch(APIBaseURL + '/reports/meterenergy?' +
       'meterid=' + selectedMeter +
-      '&comparisonType=' + comparisonType +
+      '&comparisontype=' + comparisonType +
       '&periodtype=' + periodType +
       '&baseperiodstartdatetime=' + (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
       '&baseperiodenddatetime=' + (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
