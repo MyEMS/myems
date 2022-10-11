@@ -86,6 +86,7 @@ class WebMessageCollection:
                 if priority == 'all':
                     priority_query = ""
                 else:
+                    priority = str.upper(priority)
                     priority_query = "priority= '" + priority + "' AND "
 
 
