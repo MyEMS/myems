@@ -584,8 +584,10 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
                     value={priority}
                     onChange={({ target }) => {setPriority(target.value);}}>
                     <option value="all" key="all" >{t('View all')}</option>
-                    <option value="medium" key="medium" >{t('Notification Medium')}</option>
-                    <option value="critical" key="critical" >{t('Notification Critical')}</option>
+                    <option value="LOW" key="low" >{t('Notification Low')}</option>
+                    <option value="MEDIUM" key="medium" >{t('Notification Medium')}</option>
+                    <option value="HIGH" key="high" >{t('Notification High')}</option>
+                    <option value="CRITICAL" key="critical" >{t('Notification Critical')}</option>
                   </CustomInput>
                 </FormGroup>
               </Col>
@@ -599,7 +601,7 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
                     onChange={({ target }) => {setStatus(target.value);}}>
                     <option value="all" key="all" >{t('View all')}</option>
                     <option value="read" key="read" >{t('Notification Read')}</option>
-                    <option value="unread" key="unread" >{t('Notification Unread')}</option>
+                    <option value="new" key="unread" >{t('notification_NEW')}</option>
                     <option value="acknowledged" key="acknowledged" >{t('Notification Acknowledged')}</option>
                   </CustomInput>
                 </FormGroup>
