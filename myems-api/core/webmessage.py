@@ -64,7 +64,7 @@ class WebMessageCollection:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description="API.INVALID_STATUS")
         else:
-            status = str.strip(status)
+            status = str.lower(str.strip(status))
             if status not in ['new', 'read', 'acknowledged', 'all']:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_STATUS')
@@ -78,15 +78,14 @@ class WebMessageCollection:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description="API.INVALID_PRIORITY")
         else:
-            priority = str.strip(priority)
-            if priority not in ['LOW', 'MEDIUM', 'HIGH', 'CRITICAL', 'all']:
+            priority = str.upper(str.strip(priority))
+            if priority not in ['LOW', 'MEDIUM', 'HIGH', 'CRITICAL', 'ALL']:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_PRIORITY')
             else:
-                if priority == 'all':
+                if priority == 'ALL':
                     priority_query = ""
                 else:
-                    priority = str.upper(priority)
                     priority_query = "priority= '" + priority + "' AND "
 
 
