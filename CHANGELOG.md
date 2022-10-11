@@ -7,11 +7,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - 
 ### Changed
+- 
+### Fixed
+- 
+### Removed
+-
+## [v2.5.0] - 2022-10-11
+
+### Added
+- added base period data and change rates to meter energy report in myems-web
+- added filters to FDD alarm report and notifications in myems-web
+- 
+### Changed
 - Split batch inserts into small ones in myems-aggregation
 - Updated min_datetime issue in myems-cleaning (NOTE: add START_DATETIME_UTC to myems-cleaning/.env for upgrading)
 - Set access_log off in nginx.conf for myems-admin and myems-web (NOTE: modify myems-web/nginx.conf and myems-admin/nginx.conf for upgrading)
-- added base period data and change rates to meter energy report in myems-web
-- added filters to FDD alarm report and notifications in myems-web
 - 
 ### Fixed
 - updated translations in Excel exporters
@@ -1027,7 +1037,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v2.4.0...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v2.5.0...HEAD
+[2.5.0]: https://github.com/MyEMS/myems/compare/v2.4.0...v2.5.0
 [2.4.0]: https://github.com/MyEMS/myems/compare/v2.3.0...v2.4.0
 [2.3.0]: https://github.com/MyEMS/myems/compare/v2.2.0...v2.3.0
 [2.2.0]: https://github.com/MyEMS/myems/compare/v2.1.0...v2.2.0
