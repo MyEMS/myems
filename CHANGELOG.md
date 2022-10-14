@@ -6,13 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 ### Added
 - added API error message for failing to save offline meter file
+- added base period data to meter enegy report excel exporter in myems-api
 - 
 ### Changed
-- 
-
+-
 ### Fixed
-- 
-
+-
 ### Removed
 -
 ## [v2.5.0] - 2022-10-11

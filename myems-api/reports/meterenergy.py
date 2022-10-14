@@ -474,6 +474,8 @@ class Reporting:
                                                   meter['name'],
                                                   reporting_period_start_datetime_local,
                                                   reporting_period_end_datetime_local,
+                                                  base_period_start_datetime,
+                                                  base_period_end_datetime,
                                                   period_type,
                                                   language,
                                                   comparison_type)
