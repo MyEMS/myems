@@ -147,9 +147,9 @@ class OfflineMeterFileCollection:
             cursor.close()
             cnx.close()
         except Exception as e:
-            print("API.FAILED_TO_UPLOAD_OFFLINE_METER_FILE " + str(e))
+            print("API.FAILED_TO_SAVE_OFFLINE_METER_FILE " + str(e))
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
-                                   description='API.FAILED_TO_UPLOAD_OFFLINE_METER_FILE')
+                                   description='API.FAILED_TO_SAVE_OFFLINE_METER_FILE')
 
         resp.status = falcon.HTTP_201
         resp.location = '/offlinemeterfiles/' + str(new_id)
