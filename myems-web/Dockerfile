@@ -1,7 +1,16 @@
 FROM node:latest as build-stage
 WORKDIR /opt
 COPY . .
-RUN npm install --unsafe-perm=true --allow-root --legacy-peer-deps --registry https://registry.npm.taobao.org
+
+# use this with node v17.x.x or v18.x.x
+RUN npm install --unsafe-perm=true --allow-root --legacy-peer-deps
+
+# use this if https://registry.npmjs.org is slow or unavialiable
+# RUN npm install --unsafe-perm=true --allow-root --legacy-peer-deps --registry https://registry.npm.taobao.org
+
+# use this  with node v16.x.x
+# RUN npm install --unsafe-perm=true --allow-root --legacy-peer-deps
+
 RUN npm run build
 
 
