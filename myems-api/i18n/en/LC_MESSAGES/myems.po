@@ -306,11 +306,11 @@ msgstr "Difference Value"
 msgid "Base Period"
 msgstr "Base Period"
 
-msgid "Base Start Datetime"
-msgstr "Base Start Datetime"
+msgid "Base Period Start Datetime"
+msgstr "Base Period Start Datetime"
 
-msgid "Base End Datetime"
-msgstr "Base End Datetime"
+msgid "Base Period End Datetime"
+msgstr "Base Period End Datetime"
 
 msgid "Base Period Consumption"
 msgstr "Base Period Consumption"

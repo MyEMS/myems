@@ -306,10 +306,10 @@ msgstr "Differenzwert"
 msgid "Base Period"
 msgstr "Bezugszeitraum"
 
-msgid "Base Start Datetime"
+msgid "Base Period Start Datetime"
 msgstr "Basiszeitraum Start Datetime"
 
-msgid "Base End Datetime"
+msgid "Base Period End Datetime"
 msgstr "Basiszeitraum End Datetime"
 
 msgid "Base Period Consumption"

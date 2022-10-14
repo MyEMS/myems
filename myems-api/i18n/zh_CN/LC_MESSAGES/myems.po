@@ -306,10 +306,10 @@ msgstr "差值"
 msgid "Base Period"
 msgstr "基准期"
 
-msgid "Base Start Datetime"
+msgid "Base Period Start Datetime"
 msgstr "基准期开始时间"
 
-msgid "Base End Datetime"
+msgid "Base Period End Datetime"
 msgstr "基准期结束时间"
 
 msgid "Base Period Consumption"

@@ -158,13 +158,13 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
     if comparison_type != 'none-comparison' :
         ws['B5'].alignment = b_r_alignment
-        ws['B5'] = _('Base Start Datetime') + ':'
+        ws['B5'] = _('Base Period Start Datetime') + ':'
         ws['C5'].border = b_border
         ws['C5'].alignment = b_c_alignment
         ws['C5'] = base_period_start_datetime
 
         ws['D5'].alignment = b_r_alignment
-        ws['D5'] = _('Base End Datetime') + ':'
+        ws['D5'] = _('Base Period End Datetime') + ':'
         ws['E5'].border = b_border
         ws['E5'].alignment = b_c_alignment
         ws['E5'] = base_period_end_datetime
