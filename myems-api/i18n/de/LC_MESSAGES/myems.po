@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-09-13 17:25+0800\n"
-"PO-Revision-Date: 2022-10-11 14:11+0800\n"
+"PO-Revision-Date: 2022-10-12 10:02+0800\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -305,3 +305,12 @@ msgstr "Differenzwert"
 
 msgid "Base Period"
 msgstr "Bezugszeitraum"
+
+msgid "Base Period Start Datetime"
+msgstr "Basiszeitraum Start Datetime"
+
+msgid "Base Period End Datetime"
+msgstr "Basiszeitraum End Datetime"
+
+msgid "Base Period Consumption"
+msgstr "Verbrauch des Basiszeitraum"
