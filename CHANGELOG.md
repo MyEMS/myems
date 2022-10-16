@@ -9,9 +9,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added base period data to meter enegy report excel exporter in myems-api
 - 
 ### Changed
--
+- refactored base_period_start_datetime_local and reporting_period_start_datetime_local of all reports in myems-api
+- normalized base period start datetime and reporting period start datetime of all reports in myems-api
+- 
 ### Fixed
--
+- fixed PEP 8: W605 invalid escape sequence Z in myems-api
+- 
 ### Removed
 -
 ## [v2.5.0] - 2022-10-11

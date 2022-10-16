@@ -83,10 +83,10 @@ class Reporting:
             except ValueError:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_BASE_PERIOD_START_DATETIME")
-            base_start_datetime_utc = base_start_datetime_utc.replace(tzinfo=timezone.utc) - \
-                timedelta(minutes=timezone_offset)
+            base_start_datetime_utc = \
+                base_start_datetime_utc.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
             # nomalize the start datetime
-            if base_start_datetime_utc.minute >= 30 and config.minutes_to_count == 30:
+            if config.minutes_to_count == 30 and base_start_datetime_utc.minute >= 30:
                 base_start_datetime_utc = base_start_datetime_utc.replace(minute=30, second=0, microsecond=0)
             else:
                 base_start_datetime_utc = base_start_datetime_utc.replace(minute=0, second=0, microsecond=0)
@@ -99,8 +99,8 @@ class Reporting:
             except ValueError:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_BASE_PERIOD_END_DATETIME")
-            base_end_datetime_utc = base_end_datetime_utc.replace(tzinfo=timezone.utc) - \
-                timedelta(minutes=timezone_offset)
+            base_end_datetime_utc = \
+                base_end_datetime_utc.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
 
         if base_start_datetime_utc is not None and base_end_datetime_utc is not None and \
                 base_start_datetime_utc >= base_end_datetime_utc:
@@ -118,10 +118,10 @@ class Reporting:
             except ValueError:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_REPORTING_PERIOD_START_DATETIME")
-            reporting_start_datetime_utc = reporting_start_datetime_utc.replace(tzinfo=timezone.utc) - \
-                timedelta(minutes=timezone_offset)
+            reporting_start_datetime_utc = \
+                reporting_start_datetime_utc.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
             # nomalize the start datetime
-            if reporting_start_datetime_utc.minute >= 30 and config.minutes_to_count == 30:
+            if config.minutes_to_count == 30 and reporting_start_datetime_utc.minute >= 30:
                 reporting_start_datetime_utc = reporting_start_datetime_utc.replace(minute=30, second=0, microsecond=0)
             else:
                 reporting_start_datetime_utc = reporting_start_datetime_utc.replace(minute=0, second=0, microsecond=0)
