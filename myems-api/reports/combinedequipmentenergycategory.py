@@ -41,10 +41,10 @@ class Reporting:
         combined_equipment_id = req.params.get('combinedequipmentid')
         combined_equipment_uuid = req.params.get('combinedequipmentuuid')
         period_type = req.params.get('periodtype')
-        base_start_datetime_local = req.params.get('baseperiodstartdatetime')
-        base_end_datetime_local = req.params.get('baseperiodenddatetime')
-        reporting_start_datetime_local = req.params.get('reportingperiodstartdatetime')
-        reporting_end_datetime_local = req.params.get('reportingperiodenddatetime')
+        base_period_start_datetime_local = req.params.get('baseperiodstartdatetime')
+        base_period_end_datetime_local = req.params.get('baseperiodenddatetime')
+        reporting_period_start_datetime_local = req.params.get('reportingperiodstartdatetime')
+        reporting_period_end_datetime_local = req.params.get('reportingperiodenddatetime')
         language = req.params.get('language')
 
         ################################################################################################################
@@ -63,7 +63,7 @@ class Reporting:
                                        description='API.INVALID_COMBINED_EQUIPMENT_ID')
 
         if combined_equipment_uuid is not None:
-            regex = re.compile('^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}\Z', re.I)
+            regex = re.compile(r'^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}\Z', re.I)
             match = regex.match(str.strip(combined_equipment_uuid))
             if not bool(match):
                 raise falcon.HTTPError(falcon.HTTP_400,
@@ -82,10 +82,10 @@ class Reporting:
             timezone_offset = -timezone_offset
 
         base_start_datetime_utc = None
-        if base_start_datetime_local is not None and len(str.strip(base_start_datetime_local)) > 0:
-            base_start_datetime_local = str.strip(base_start_datetime_local)
+        if base_period_start_datetime_local is not None and len(str.strip(base_period_start_datetime_local)) > 0:
+            base_period_start_datetime_local = str.strip(base_period_start_datetime_local)
             try:
-                base_start_datetime_utc = datetime.strptime(base_start_datetime_local,
+                base_start_datetime_utc = datetime.strptime(base_period_start_datetime_local,
                                                             '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
                     timedelta(minutes=timezone_offset)
             except ValueError:
@@ -93,10 +93,10 @@ class Reporting:
                                        description="API.INVALID_BASE_PERIOD_START_DATETIME")
 
         base_end_datetime_utc = None
-        if base_end_datetime_local is not None and len(str.strip(base_end_datetime_local)) > 0:
-            base_end_datetime_local = str.strip(base_end_datetime_local)
+        if base_period_end_datetime_local is not None and len(str.strip(base_period_end_datetime_local)) > 0:
+            base_period_end_datetime_local = str.strip(base_period_end_datetime_local)
             try:
-                base_end_datetime_utc = datetime.strptime(base_end_datetime_local,
+                base_end_datetime_utc = datetime.strptime(base_period_end_datetime_local,
                                                           '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
                     timedelta(minutes=timezone_offset)
             except ValueError:
@@ -108,26 +108,26 @@ class Reporting:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_BASE_PERIOD_END_DATETIME')
 
-        if reporting_start_datetime_local is None:
+        if reporting_period_start_datetime_local is None:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description="API.INVALID_REPORTING_PERIOD_START_DATETIME")
         else:
-            reporting_start_datetime_local = str.strip(reporting_start_datetime_local)
+            reporting_period_start_datetime_local = str.strip(reporting_period_start_datetime_local)
             try:
-                reporting_start_datetime_utc = datetime.strptime(reporting_start_datetime_local,
+                reporting_start_datetime_utc = datetime.strptime(reporting_period_start_datetime_local,
                                                                  '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
                     timedelta(minutes=timezone_offset)
             except ValueError:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_REPORTING_PERIOD_START_DATETIME")
 
-        if reporting_end_datetime_local is None:
+        if reporting_period_end_datetime_local is None:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description="API.INVALID_REPORTING_PERIOD_END_DATETIME")
         else:
-            reporting_end_datetime_local = str.strip(reporting_end_datetime_local)
+            reporting_period_end_datetime_local = str.strip(reporting_period_end_datetime_local)
             try:
-                reporting_end_datetime_utc = datetime.strptime(reporting_end_datetime_local,
+                reporting_end_datetime_utc = datetime.strptime(reporting_period_end_datetime_local,
                                                                '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
                     timedelta(minutes=timezone_offset)
             except ValueError:
@@ -641,7 +641,8 @@ class Reporting:
                     associated_report_period['total_in_kgco2e'] = Decimal(0.0)
                     
                     associated_report_period['names'].append(energy_category_dict[energy_category_id]['name'])
-                    associated_report_period['units'].append(energy_category_dict[energy_category_id]['unit_of_measure'])
+                    associated_report_period['units'].append(
+                        energy_category_dict[energy_category_id]['unit_of_measure'])
                     associated_report_period['timestamps'].append(associated_report[energy_category_id]['timestamps'])
                     associated_report_period['values'].append(associated_report[energy_category_id]['values'])
                     associated_report_period['subtotals'].append(associated_report[energy_category_id]['subtotal'])
@@ -649,10 +650,10 @@ class Reporting:
                                                                          ['subtotal_in_kgce'])
                     associated_report_period['subtotals_in_kgco2e'].append(associated_report[energy_category_id]
                                                                            ['subtotal_in_kgco2e'])
-                    associated_report_period['total_in_kgce'] += associated_report[energy_category_id]
-                    ['subtotal_in_kgce']
-                    associated_report_period['total_in_kgco2e'] += associated_report[energy_category_id]
-                    ['subtotal_in_kgco2e']
+                    associated_report_period['total_in_kgce'] += \
+                        associated_report[energy_category_id]['subtotal_in_kgce']
+                    associated_report_period['total_in_kgco2e'] += \
+                        associated_report[energy_category_id]['subtotal_in_kgco2e']
                     result['associated_report_period_list'].append(associated_report_period)
 
         result['reporting_period'] = dict()
@@ -732,8 +733,8 @@ class Reporting:
         result['excel_bytes_base64'] = \
             excelexporters.combinedequipmentenergycategory.export(result,
                                                                   combined_equipment['name'],
-                                                                  reporting_start_datetime_local,
-                                                                  reporting_end_datetime_local,
+                                                                  reporting_period_start_datetime_local,
+                                                                  reporting_period_end_datetime_local,
                                                                   period_type,
                                                                   language)
         resp.text = json.dumps(result)
