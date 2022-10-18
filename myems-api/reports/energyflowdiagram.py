@@ -32,8 +32,8 @@ class Reporting:
     def on_get(req, resp):
         print(req.params)
         energy_flow_diagram_id = req.params.get('energyflowdiagramid')
-        reporting_start_datetime_local = req.params.get('reportingperiodstartdatetime')
-        reporting_end_datetime_local = req.params.get('reportingperiodenddatetime')
+        reporting_period_start_datetime_local = req.params.get('reportingperiodstartdatetime')
+        reporting_period_end_datetime_local = req.params.get('reportingperiodenddatetime')
 
         ################################################################################################################
         # Step 1: valid parameters
@@ -53,26 +53,32 @@ class Reporting:
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
 
-        if reporting_start_datetime_local is None:
+        if reporting_period_start_datetime_local is None:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description="API.INVALID_REPORTING_PERIOD_START_DATETIME")
         else:
-            reporting_start_datetime_local = str.strip(reporting_start_datetime_local)
+            reporting_period_start_datetime_local = str.strip(reporting_period_start_datetime_local)
             try:
-                reporting_start_datetime_utc = datetime.strptime(reporting_start_datetime_local,
-                                                                 '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
-                    timedelta(minutes=timezone_offset)
+                reporting_start_datetime_utc = datetime.strptime(reporting_period_start_datetime_local,
+                                                                 '%Y-%m-%dT%H:%M:%S')
             except ValueError:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_REPORTING_PERIOD_START_DATETIME")
+            reporting_start_datetime_utc = \
+                reporting_start_datetime_utc.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
+            # nomalize the start datetime
+            if config.minutes_to_count == 30 and reporting_start_datetime_utc.minute >= 30:
+                reporting_start_datetime_utc = reporting_start_datetime_utc.replace(minute=30, second=0, microsecond=0)
+            else:
+                reporting_start_datetime_utc = reporting_start_datetime_utc.replace(minute=0, second=0, microsecond=0)
 
-        if reporting_end_datetime_local is None:
+        if reporting_period_end_datetime_local is None:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description="API.INVALID_REPORTING_PERIOD_END_DATETIME")
         else:
-            reporting_end_datetime_local = str.strip(reporting_end_datetime_local)
+            reporting_period_end_datetime_local = str.strip(reporting_period_end_datetime_local)
             try:
-                reporting_end_datetime_utc = datetime.strptime(reporting_end_datetime_local,
+                reporting_end_datetime_utc = datetime.strptime(reporting_period_end_datetime_local,
                                                                '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
                     timedelta(minutes=timezone_offset)
             except ValueError:
