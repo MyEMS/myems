@@ -561,6 +561,8 @@ class CombinedEquipmentEquipmentCollection:
                  " ORDER BY e.id ")
         cursor.execute(query, (id_,))
         rows = cursor.fetchall()
+        cursor.close()
+        cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
