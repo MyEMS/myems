@@ -413,6 +413,8 @@ class CombinedEquipmentItem:
         row = cursor.fetchone()
 
         if row is None:
+            cursor.close()
+            cnx.close()
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_NOT_FOUND')
         else:
@@ -919,6 +921,8 @@ class CombinedEquipmentParameterCollection:
         # validate by parameter type
         if parameter_type == 'point':
             if point_id is None:
+                cursor.close()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_POINT_ID')
 
@@ -934,6 +938,8 @@ class CombinedEquipmentParameterCollection:
 
         elif parameter_type == 'constant':
             if constant is None:
+                cursor.close()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_CONSTANT_VALUE')
 
@@ -982,17 +988,23 @@ class CombinedEquipmentParameterCollection:
             if meter_dict.get(numerator_meter_uuid) is None and \
                     virtual_meter_dict.get(numerator_meter_uuid) is None and \
                     offline_meter_dict.get(numerator_meter_uuid) is None:
+                cursor.close()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_NUMERATOR_METER_UUID')
 
             # validate denominator meter uuid
             if denominator_meter_uuid == numerator_meter_uuid:
+                cursor.close()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_DENOMINATOR_METER_UUID')
 
             if denominator_meter_uuid not in meter_dict and \
                     denominator_meter_uuid not in virtual_meter_dict and \
                     denominator_meter_uuid not in offline_meter_dict:
+                cursor.close()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_DENOMINATOR_METER_UUID')
 
@@ -1295,6 +1307,8 @@ class CombinedEquipmentParameterItem:
         # validate by parameter type
         if parameter_type == 'point':
             if point_id is None:
+                cursor.close()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_POINT_ID')
 
@@ -1311,6 +1325,8 @@ class CombinedEquipmentParameterItem:
 
         elif parameter_type == 'constant':
             if constant is None:
+                cursor.close()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_CONSTANT_VALUE')
 
@@ -1359,17 +1375,23 @@ class CombinedEquipmentParameterItem:
             if meter_dict.get(numerator_meter_uuid) is None and \
                     virtual_meter_dict.get(numerator_meter_uuid) is None and \
                     offline_meter_dict.get(numerator_meter_uuid) is None:
+                cursor.close()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_NUMERATOR_METER_UUID')
 
             # validate denominator meter uuid
             if denominator_meter_uuid == numerator_meter_uuid:
+                cursor.close()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_DENOMINATOR_METER_UUID')
 
             if denominator_meter_uuid not in meter_dict and \
                     denominator_meter_uuid not in virtual_meter_dict and \
                     denominator_meter_uuid not in offline_meter_dict:
+                cursor.close()
+                cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_DENOMINATOR_METER_UUID')
 
@@ -1447,6 +1469,9 @@ class CombinedEquipmentMeterCollection:
                                "energy_category": energy_category,
                                "is_output": bool(row[4])}
                 result.append(meta_result)
+
+        cursor.close()
+        cnx.close()
 
         resp.text = json.dumps(result)
 
@@ -1639,6 +1664,9 @@ class CombinedEquipmentOfflineMeterCollection:
                                "energy_category": energy_category,
                                "is_output": bool(row[4])}
                 result.append(meta_result)
+
+        cursor.close()
+        cnx.close()
 
         resp.text = json.dumps(result)
 
@@ -1833,6 +1861,9 @@ class CombinedEquipmentVirtualMeterCollection:
                                "is_output": bool(row[4])}
                 result.append(meta_result)
 
+
+        cursor.close()
+        cnx.close()
         resp.text = json.dumps(result)
 
     @staticmethod
