@@ -609,12 +609,11 @@ def worker(shopfloor):
         except Exception as e:
             error_string = "Error in step 12.1 of shopfloor_energy_input_item.worker " + str(e)
             print(error_string)
-            return error_string
-        finally:
             if cursor_energy_db:
                 cursor_energy_db.close()
             if cnx_energy_db:
                 cnx_energy_db.close()
+            return error_string
 
     if cursor_energy_db:
         cursor_energy_db.close()
