@@ -174,8 +174,6 @@ def main(logger):
                 continue
 
             energy_dict = dict()
-            energy_category_list = list()
-            energy_category_list.append(meter['energy_category_id'])
             end_datetime_utc = start_datetime_utc
             for row_hourly in rows_hourly:
                 current_datetime_utc = row_hourly[0]
@@ -191,12 +189,11 @@ def main(logger):
             ############################################################################################################
             print("Step 4: get carbon dioxide emission factor")
             factor_dict = dict()
-            for energy_category_id in energy_category_list:
-                factor_dict[energy_category_id] = \
-                    carbon_dioxide_emmision_factor.get_energy_category_factor(
-                        energy_category_id,
-                        start_datetime_utc,
-                        end_datetime_utc)
+            factor_dict[meter['energy_category_id']] = \
+                carbon_dioxide_emmision_factor.get_energy_category_factor(
+                    meter['energy_category_id'],
+                    start_datetime_utc,
+                    end_datetime_utc)
             ############################################################################################################
             # Step 5: calculate carbon dioxide emission by multiplying energy with factor
             ############################################################################################################
@@ -206,15 +203,14 @@ def main(logger):
             if len(energy_dict) > 0:
                 for current_datetime_utc in energy_dict.keys():
                     carbon_dict[current_datetime_utc] = dict()
-                    for energy_category_id in energy_category_list:
-                        current_factor = factor_dict[energy_category_id]
-                        current_energy = energy_dict[current_datetime_utc].get(energy_category_id)
-                        if current_factor is not None \
-                                and isinstance(current_factor, Decimal) \
-                                and current_energy is not None \
-                                and isinstance(current_energy, Decimal):
-                            carbon_dict[current_datetime_utc][energy_category_id] = \
-                                current_energy * current_factor
+                    current_factor = factor_dict[meter['energy_category_id']]
+                    current_energy = energy_dict[current_datetime_utc].get(meter['energy_category_id'])
+                    if current_factor is not None \
+                            and isinstance(current_factor, Decimal) \
+                            and current_energy is not None \
+                            and isinstance(current_energy, Decimal):
+                        carbon_dict[current_datetime_utc][meter['energy_category_id']] = \
+                            current_energy * current_factor
 
                     if len(carbon_dict[current_datetime_utc]) == 0:
                         del carbon_dict[current_datetime_utc]
@@ -233,12 +229,11 @@ def main(logger):
                                   " VALUES  ")
 
                     for current_datetime_utc in carbon_dict:
-                        for energy_category_id in energy_category_list:
-                            current_carbon = carbon_dict[current_datetime_utc].get(energy_category_id)
-                            if current_carbon is not None and isinstance(current_carbon, Decimal):
-                                add_values += " (" + str(meter['id']) + ","
-                                add_values += "'" + current_datetime_utc.isoformat()[0:19] + "',"
-                                add_values += str(current_carbon) + "), "
+                        current_carbon = carbon_dict[current_datetime_utc].get(meter['energy_category_id'])
+                        if current_carbon is not None and isinstance(current_carbon, Decimal):
+                            add_values += " (" + str(meter['id']) + ","
+                            add_values += "'" + current_datetime_utc.isoformat()[0:19] + "',"
+                            add_values += str(current_carbon) + "), "
                     print("add_values:" + add_values)
                     # trim ", " at the end of string and then execute
                     cursor_carbon_db.execute(add_values[:-2])
