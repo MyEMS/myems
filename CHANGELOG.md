@@ -14,7 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - 
 ### Fixed
 - fixed PEP 8: W605 invalid escape sequence Z in myems-api
-- 
+- fixed finally statement issues in myems-aggregation 
 ### Removed
 -
 ## [v2.5.0] - 2022-10-11
