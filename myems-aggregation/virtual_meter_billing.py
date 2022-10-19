@@ -174,8 +174,6 @@ def main(logger):
                 continue
 
             energy_dict = dict()
-            energy_category_list = list()
-            energy_category_list.append(virtual_meter['energy_category_id'])
             end_datetime_utc = start_datetime_utc
             for row_hourly in rows_hourly:
                 current_datetime_utc = row_hourly[0]
@@ -191,11 +189,11 @@ def main(logger):
             ############################################################################################################
             print("Step 4: get tariffs")
             tariff_dict = dict()
-            for energy_category_id in energy_category_list:
-                tariff_dict[energy_category_id] = tariff.get_energy_category_tariffs(virtual_meter['cost_center_id'],
-                                                                                     energy_category_id,
-                                                                                     start_datetime_utc,
-                                                                                     end_datetime_utc)
+            tariff_dict[virtual_meter['energy_category_id']] = \
+                tariff.get_energy_category_tariffs(virtual_meter['cost_center_id'],
+                                                   virtual_meter['energy_category_id'],
+                                                   start_datetime_utc,
+                                                   end_datetime_utc)
             ############################################################################################################
             # Step 5: calculate billing by multiplying energy with tariff
             ############################################################################################################
@@ -205,15 +203,14 @@ def main(logger):
             if len(energy_dict) > 0:
                 for current_datetime_utc in energy_dict.keys():
                     billing_dict[current_datetime_utc] = dict()
-                    for energy_category_id in energy_category_list:
-                        current_tariff = tariff_dict[energy_category_id].get(current_datetime_utc)
-                        current_energy = energy_dict[current_datetime_utc].get(energy_category_id)
-                        if current_tariff is not None \
-                                and isinstance(current_tariff, Decimal) \
-                                and current_energy is not None \
-                                and isinstance(current_energy, Decimal):
-                            billing_dict[current_datetime_utc][energy_category_id] = \
-                                current_energy * current_tariff
+                    current_tariff = tariff_dict[virtual_meter['energy_category_id']].get(current_datetime_utc)
+                    current_energy = energy_dict[current_datetime_utc].get(virtual_meter['energy_category_id'])
+                    if current_tariff is not None \
+                            and isinstance(current_tariff, Decimal) \
+                            and current_energy is not None \
+                            and isinstance(current_energy, Decimal):
+                        billing_dict[current_datetime_utc][virtual_meter['energy_category_id']] = \
+                            current_energy * current_tariff
 
                     if len(billing_dict[current_datetime_utc]) == 0:
                         del billing_dict[current_datetime_utc]
@@ -232,12 +229,12 @@ def main(logger):
                                   " VALUES  ")
 
                     for current_datetime_utc in billing_dict:
-                        for energy_category_id in energy_category_list:
-                            current_billing = billing_dict[current_datetime_utc].get(energy_category_id)
-                            if current_billing is not None and isinstance(current_billing, Decimal):
-                                add_values += " (" + str(virtual_meter['id']) + ","
-                                add_values += "'" + current_datetime_utc.isoformat()[0:19] + "',"
-                                add_values += str(billing_dict[current_datetime_utc][energy_category_id]) + "), "
+                        current_billing = billing_dict[current_datetime_utc].get(virtual_meter['energy_category_id'])
+                        if current_billing is not None and isinstance(current_billing, Decimal):
+                            add_values += " (" + str(virtual_meter['id']) + ","
+                            add_values += "'" + current_datetime_utc.isoformat()[0:19] + "',"
+                            add_values += \
+                                str(billing_dict[current_datetime_utc][virtual_meter['energy_category_id']]) + "), "
                     print("add_values:" + add_values)
                     # trim ", " at the end of string and then execute
                     cursor_billing_db.execute(add_values[:-2])
