@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+-
+### Changed
+-
+### Fixed
+-
+### Removed
+-
+
+## [v2.6.0] - 2022-10-20
+### Added
 - added API error message for failing to save offline meter file
 - added base period data to meter enegy report excel exporter in myems-api
 - 
@@ -21,6 +31,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - 
 ### Removed
 -
+
 ## [v2.5.0] - 2022-10-11
 
 ### Added
@@ -1046,7 +1057,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v2.5.0...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v2.6.0...HEAD
+[2.6.0]: https://github.com/MyEMS/myems/compare/v2.5.0...v2.6.0
 [2.5.0]: https://github.com/MyEMS/myems/compare/v2.4.0...v2.5.0
 [2.4.0]: https://github.com/MyEMS/myems/compare/v2.3.0...v2.4.0
 [2.3.0]: https://github.com/MyEMS/myems/compare/v2.2.0...v2.3.0
