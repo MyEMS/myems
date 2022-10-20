@@ -1721,7 +1721,7 @@ const resources = {
       'Cost Center': '成本中心',
       'Name': '名称',
       'Description': '描述',
-      'Energy Category': '能耗分类',
+      'Energy Category': '能源分类',
       'Child Spaces': '子空间',
       'Associated Equipment': '相关设备',
       //Energy Categories
