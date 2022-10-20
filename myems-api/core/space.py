@@ -2696,3 +2696,48 @@ class SpaceTreeCollection:
         cursor.close()
         cnx.close()
         resp.text = JsonExporter(sort_keys=True).export(node_dict[space_id], )
+
+
+class SpaceEnergyCategoryCollection:
+    @staticmethod
+    def __init__():
+        """Initializes Class"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_get(req, resp, id_):
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_SPACE_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_spaces "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.SPACE_NOT_FOUND')
+
+        query = (" SELECT ec.id, ec.name, ec.uuid "
+                 " FROM tbl_spaces s, tbl_spaces_meters sm, tbl_meters m, tbl_energy_categories ec "
+                 " WHERE sm.space_id = s.id AND m.id = sm.meter_id AND m.energy_category_id = ec.id AND s.id = %s "
+                 " GROUP BY ec.id"
+                 " ORDER BY ec.id ")
+        cursor.execute(query, (id_,))
+        rows = cursor.fetchall()
+
+        result = list()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                meta_result = {"id": row[0], "name": row[1], "uuid": row[2]}
+                result.append(meta_result)
+
+        resp.text = json.dumps(result)

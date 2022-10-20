@@ -359,6 +359,8 @@ api.add_route('/spaces/{id_}/equipments',
               space.SpaceEquipmentCollection())
 api.add_route('/spaces/{id_}/equipments/{eid}',
               space.SpaceEquipmentItem())
+api.add_route('/spaces/{id_}/energycategories',
+              space.SpaceEnergyCategoryCollection())
 api.add_route('/spaces/{id_}/meters',
               space.SpaceMeterCollection())
 api.add_route('/spaces/{id_}/meters/{mid}',
