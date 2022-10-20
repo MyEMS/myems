@@ -160,29 +160,33 @@ def main(logger):
             # Step 3: get all energy data since the latest start_datetime_utc
             ############################################################################################################
             print("Step 3: get all energy data since the latest start_datetime_utc")
+            try:
+                query = (" SELECT start_datetime_utc, actual_value "
+                         " FROM tbl_virtual_meter_hourly "
+                         " WHERE virtual_meter_id = %s AND start_datetime_utc >= %s "
+                         " ORDER BY id ")
+                cursor_energy_db.execute(query, (virtual_meter['id'], start_datetime_utc, ))
+                rows_hourly = cursor_energy_db.fetchall()
 
-            query = (" SELECT start_datetime_utc, actual_value "
-                     " FROM tbl_virtual_meter_hourly "
-                     " WHERE virtual_meter_id = %s AND start_datetime_utc >= %s "
-                     " ORDER BY id ")
-            cursor_energy_db.execute(query, (virtual_meter['id'], start_datetime_utc, ))
-            rows_hourly = cursor_energy_db.fetchall()
+                if rows_hourly is None or len(rows_hourly) == 0:
+                    print("Step 3: There isn't any energy input data to calculate. ")
+                    # continue the for virtual_meter loop
+                    continue
 
-            if rows_hourly is None or len(rows_hourly) == 0:
-                print("Step 3: There isn't any energy input data to calculate. ")
-                # continue the for virtual_meter loop
-                continue
-
-            energy_dict = dict()
-            end_datetime_utc = start_datetime_utc
-            for row_hourly in rows_hourly:
-                current_datetime_utc = row_hourly[0]
-                actual_value = row_hourly[1]
-                if energy_dict.get(current_datetime_utc) is None:
-                    energy_dict[current_datetime_utc] = dict()
-                energy_dict[current_datetime_utc][virtual_meter['energy_category_id']] = actual_value
-                if current_datetime_utc > end_datetime_utc:
-                    end_datetime_utc = current_datetime_utc
+                energy_dict = dict()
+                end_datetime_utc = start_datetime_utc
+                for row_hourly in rows_hourly:
+                    current_datetime_utc = row_hourly[0]
+                    actual_value = row_hourly[1]
+                    if energy_dict.get(current_datetime_utc) is None:
+                        energy_dict[current_datetime_utc] = dict()
+                    energy_dict[current_datetime_utc][virtual_meter['energy_category_id']] = actual_value
+                    if current_datetime_utc > end_datetime_utc:
+                        end_datetime_utc = current_datetime_utc
+            except Exception as e:
+                logger.error("Error in step 3 of virtual_meter_billing " + str(e))
+                # break the for virtual_meter loop
+                break
 
             ############################################################################################################
             # Step 4: get tariffs
@@ -198,29 +202,30 @@ def main(logger):
             # Step 5: calculate billing by multiplying energy with tariff
             ############################################################################################################
             print("Step 5: calculate billing by multiplying energy with tariff")
-            billing_dict = dict()
+            aggregated_values = list()
 
             if len(energy_dict) > 0:
                 for current_datetime_utc in energy_dict.keys():
-                    billing_dict[current_datetime_utc] = dict()
+                    aggregated_value = dict()
+                    aggregated_value['start_datetime_utc'] = current_datetime_utc
+                    aggregated_value['actual_value'] = None
                     current_tariff = tariff_dict[virtual_meter['energy_category_id']].get(current_datetime_utc)
                     current_energy = energy_dict[current_datetime_utc].get(virtual_meter['energy_category_id'])
                     if current_tariff is not None \
                             and isinstance(current_tariff, Decimal) \
                             and current_energy is not None \
                             and isinstance(current_energy, Decimal):
-                        billing_dict[current_datetime_utc][virtual_meter['energy_category_id']] = \
-                            current_energy * current_tariff
-
-                    if len(billing_dict[current_datetime_utc]) == 0:
-                        del billing_dict[current_datetime_utc]
+                        aggregated_value['actual_value'] = current_energy * current_tariff
+                        aggregated_values.append(aggregated_value)
 
             ############################################################################################################
             # Step 6: save billing data to billing database
             ############################################################################################################
             print("Step 6: save billing data to billing database")
 
-            if len(billing_dict) > 0:
+            while len(aggregated_values) > 0:
+                insert_100 = aggregated_values[:100]
+                aggregated_values = aggregated_values[100:]
                 try:
                     add_values = (" INSERT INTO tbl_virtual_meter_hourly "
                                   "             (virtual_meter_id, "
@@ -228,20 +233,17 @@ def main(logger):
                                   "              actual_value) "
                                   " VALUES  ")
 
-                    for current_datetime_utc in billing_dict:
-                        current_billing = billing_dict[current_datetime_utc].get(virtual_meter['energy_category_id'])
-                        if current_billing is not None and isinstance(current_billing, Decimal):
+                    for aggregated_value in insert_100:
+                        if aggregated_value['actual_value'] is not None and \
+                                isinstance(aggregated_value['actual_value'], Decimal):
                             add_values += " (" + str(virtual_meter['id']) + ","
-                            add_values += "'" + current_datetime_utc.isoformat()[0:19] + "',"
-                            add_values += \
-                                str(billing_dict[current_datetime_utc][virtual_meter['energy_category_id']]) + "), "
-                    print("add_values:" + add_values)
+                            add_values += "'" + aggregated_value['start_datetime_utc'].isoformat()[0:19] + "',"
+                            add_values += str(aggregated_value['actual_value']) + "), "
                     # trim ", " at the end of string and then execute
                     cursor_billing_db.execute(add_values[:-2])
                     cnx_billing_db.commit()
                 except Exception as e:
                     logger.error("Error in step 6 of virtual_meter_billing " + str(e))
-                    # break the for virtual_meter loop
                     break
 
         # end of for virtual_meter loop
