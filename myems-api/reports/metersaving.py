@@ -5,6 +5,7 @@ from decimal import Decimal
 import falcon
 import mysql.connector
 import simplejson as json
+import gettext
 
 import config
 import excelexporters.metersaving
@@ -149,6 +150,18 @@ class Reporting:
                 len(str.strip(quick_mode)) > 0 and \
                 str.lower(str.strip(quick_mode)) in ('true', 't', 'on', 'yes', 'y'):
             is_quick_mode = True
+
+        locale_path = './i18n/'
+        if language == 'zh_CN':
+            trans = gettext.translation('myems', locale_path, languages=['zh_CN'])
+        elif language == 'de':
+            trans = gettext.translation('myems', locale_path, languages=['de'])
+        elif language == 'en':
+            trans = gettext.translation('myems', locale_path, languages=['en'])
+        else:
+            trans = gettext.translation('myems', locale_path, languages=['en'])
+        trans.install()
+        _ = trans.gettext
 
         ################################################################################################################
         # Step 2: query the meter and energy category
@@ -444,7 +457,7 @@ class Reporting:
                 tariff_timestamp_list.append(k.isoformat()[0:19])
                 tariff_value_list.append(v)
 
-            parameters_data['names'].append('TARIFF-' + meter['energy_category_name'])
+            parameters_data['names'].append(_('Tariff') + '-' + meter['energy_category_name'])
             parameters_data['timestamps'].append(tariff_timestamp_list)
             parameters_data['values'].append(tariff_value_list)
 

@@ -2,6 +2,7 @@ import re
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 
+import gettext
 import falcon
 import mysql.connector
 import simplejson as json
@@ -104,6 +105,18 @@ class Reporting:
         if reporting_start_datetime_utc >= reporting_end_datetime_utc:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_REPORTING_PERIOD_END_DATETIME')
+
+        locale_path = './i18n/'
+        if language == 'zh_CN':
+            trans = gettext.translation('myems', locale_path, languages=['zh_CN'])
+        elif language == 'de':
+            trans = gettext.translation('myems', locale_path, languages=['de'])
+        elif language == 'en':
+            trans = gettext.translation('myems', locale_path, languages=['en'])
+        else:
+            trans = gettext.translation('myems', locale_path, languages=['en'])
+        trans.install()
+        _ = trans.gettext
 
         ################################################################################################################
         # Step 2: query the tenant
@@ -323,7 +336,7 @@ class Reporting:
                     tariff_timestamp_list.append(k.isoformat()[0:19][0:19])
                     tariff_value_list.append(v)
 
-                parameters_data['names'].append('TARIFF-' + energy_category_dict[energy_category_id]['name'])
+                parameters_data['names'].append(_('Tariff') + '-' + energy_category_dict[energy_category_id]['name'])
                 parameters_data['timestamps'].append(tariff_timestamp_list)
                 parameters_data['values'].append(tariff_value_list)
 
