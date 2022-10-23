@@ -32,6 +32,7 @@ class Reporting:
     def on_get(req, resp):
         print(req.params)
         space_id = req.params.get('spaceid')
+        energy_category = req.params.get('energyCategory')
         reporting_period_start_datetime_local = req.params.get('reportingperiodstartdatetime')
         reporting_period_end_datetime_local = req.params.get('reportingperiodenddatetime')
         language = req.params.get('language')
@@ -47,6 +48,37 @@ class Reporting:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_SPACE_ID')
             else:
                 space_id = int(space_id)
+
+        if energy_category is None:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENERGY_CATEGORY_ID')
+        else:
+            if energy_category == 'all':
+                energy_category_query = ""
+                energy_category_name = None
+            else:
+                energy_category = str.strip(energy_category)
+                if not energy_category.isdigit() or int(energy_category) <= 0:
+                    raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.INVALID_ENERGY_CATEGORY_ID')
+                else:
+                    cnx_system_db = mysql.connector.connect(**config.myems_system_db)
+                    cursor_system_db = cnx_system_db.cursor()
+                    energy_category_query = "AND m.energy_category_id = '" + energy_category + "' "
+                    cursor_system_db.execute(" SELECT name "
+                                             " FROM tbl_energy_categories "
+                                             " WHERE id = %s ", (energy_category,))
+                    row = cursor_system_db.fetchone()
+
+                    if row is None:
+                        if cursor_system_db:
+                            cursor_system_db.close()
+                        if cnx_system_db:
+                            cnx_system_db.close()
+                        raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+                                               description='API.ENERGY_CATEGORY_NOT_FOUND')
+                    else:
+                        energy_category_name = row[0]
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -145,6 +177,7 @@ class Reporting:
                                  "      tbl_energy_categories ec "
                                  " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
                                  "       AND sm.space_id = s.id AND sm.meter_id = m.id "
+                                 + energy_category_query +
                                  "       AND m.cost_center_id = cc.id AND m.energy_category_id = ec.id ", )
         rows_meters = cursor_system_db.fetchall()
         if rows_meters is not None and len(rows_meters) > 0:
@@ -255,6 +288,7 @@ class Reporting:
         result['excel_bytes_base64'] = \
             excelexporters.metertracking.export(result,
                                                 space_name,
+                                                energy_category_name,
                                                 reporting_period_start_datetime_local,
                                                 reporting_period_end_datetime_local,
                                                 language)

@@ -17,6 +17,7 @@ import {
   Media,
   Row,
   UncontrolledDropdown,
+  CustomInput,
   Spinner,
 } from 'reactstrap';
 import CountUp from 'react-countup';
@@ -64,6 +65,8 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
   const [selectedSpaceID, setSelectedSpaceID] = useState(undefined);
   const [meterList, setMeterList] = useState([]);
   const [cascaderOptions, setCascaderOptions] = useState(undefined);
+  const [energyCategoryOptions, setEnergyCategoryOptions] = useState([]);
+  const [energyCategory, setEnergyCategory] = useState('all');
 
   //Query Form
   const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([current_moment.clone().startOf('month').toDate(), current_moment.toDate()]);
@@ -124,12 +127,42 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
         // set the default selected space
         setSelectedSpaceName([json[0]].map(o => o.label));
         setSelectedSpaceID([json[0]].map(o => o.value));
-
+        fetch(APIBaseURL + '/spaces/' + [json[0]].map(o => o.value) + '/treemetersenergycategories', {
+          method: 'GET',
+          headers: {
+            "Content-type": "application/json",
+            "User-UUID": getCookieValue('user_uuid'),
+            "Token": getCookieValue('token')
+          },
+          body: null,
+    
+        }).then(response => {
+          if (response.ok) {
+            isResponseOK = true;
+          }
+          return response.json();
+        }).then(json => {
+          if (isResponseOK) {
+            json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
+            if (json[0].length > 0) {
+              setEnergyCategoryOptions([{value: 'all', label: t('All'), uuid: ''}].concat(json[0]));
+            }else {
+              setEnergyCategoryOptions([{value: 'all', label: t('All'), uuid: ''}]);
+            }
+          } else {
+            toast.error(t(json.description))
+          }
+        }).catch(err => {
+          console.log(err);
+        });
+        // hide export button
+        setExportButtonHidden(true);
         setSubmitButtonDisabled(false);
         setSpinnerHidden(true);
       } else {
         toast.error(t(json.description));
       }
+      return [json[0]].map(o => o.value)
     }).catch(err => {
       console.log(err);
     });
@@ -240,9 +273,39 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
   let onSpaceCascaderChange = (value, selectedOptions) => {
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
     setSelectedSpaceID(value[value.length - 1]);
-    setMeterList([]);
-    setExportButtonHidden(true);
-    setSubmitButtonDisabled(false);
+
+    let isResponseOK = false;
+    fetch(APIBaseURL + '/spaces/' + value[value.length - 1] + '/treemetersenergycategories', {
+      method: 'GET',
+      headers: {
+        "Content-type": "application/json",
+        "User-UUID": getCookieValue('user_uuid'),
+        "Token": getCookieValue('token')
+      },
+      body: null,
+
+    }).then(response => {
+      if (response.ok) {
+        isResponseOK = true;
+      }
+      return response.json();
+    }).then(json => {
+      if (isResponseOK) {
+        json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
+        if (json[0].length > 0) {
+          setEnergyCategoryOptions([{value: 'all', label: t('All'), uuid:''}].concat(json[0]));
+          setEnergyCategory('all')
+        }else {
+          setEnergyCategoryOptions([{value: 'all', label: t('All'), uuid:''}]);
+          setEnergyCategory('all')
+        }
+      } else {
+        toast.error(t(json.description))
+      }
+      setSubmitButtonDisabled(false);
+    }).catch(err => {
+      console.log(err);
+    });
   };
 
   let onReportingPeriodChange = (DateRange) => {
@@ -266,6 +329,7 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
     e.preventDefault();
     console.log('handleSubmit');
     console.log(selectedSpaceID);
+    console.log(energyCategory)
     console.log(moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'))
     console.log(moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'));
 
@@ -282,6 +346,7 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
     let isResponseOK = false;
       fetch(APIBaseURL + '/reports/metertracking?' +
         'spaceid=' + selectedSpaceID +
+        '&energyCategory=' + energyCategory +
         '&reportingperiodstartdatetime=' + moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
         '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
         '&language=' + language, {
@@ -375,6 +440,21 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
                     expandTrigger="hover">
                     <Input value={selectedSpaceName || ''} readOnly />
                   </Cascader>
+                </FormGroup>
+              </Col>
+              <Col xs="auto">
+                <FormGroup>
+                  <Label className={labelClasses} for="energyCategory">
+                    {t('Energy Category')}
+                  </Label>
+                  <CustomInput type="select" id="energyCategory" name="energyCategory" onChange={({ target }) => setEnergyCategory(target.value)}
+                  >
+                    {energyCategoryOptions.map((energyCategory, index) => (
+                      <option value={energyCategory.value} key={energyCategory.value} >
+                        {t(energyCategory.label)}
+                      </option>
+                    ))}
+                  </CustomInput>
                 </FormGroup>
               </Col>
               <Col xs={6} sm={3}>

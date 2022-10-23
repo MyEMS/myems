@@ -363,6 +363,11 @@ api.add_route('/spaces/{id_}/meters',
               space.SpaceMeterCollection())
 api.add_route('/spaces/{id_}/meters/{mid}',
               space.SpaceMeterItem())
+
+# Get energy categories of all meters in the space tree
+api.add_route('/spaces/{id_}/treemetersenergycategories',
+              space.SpaceTreeMetersEnergyCategoryCollection())
+
 api.add_route('/spaces/{id_}/offlinemeters',
               space.SpaceOfflineMeterCollection())
 api.add_route('/spaces/{id_}/offlinemeters/{mid}',
