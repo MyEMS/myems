@@ -5,7 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
--
+- added energy categories filter to meter tracking report
+- 
 ### Changed
 -
 ### Fixed
