@@ -50,7 +50,8 @@ class Reporting:
                 space_id = int(space_id)
 
         if energy_category is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_ENERGY_CATEGORY_ID')
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENERGY_CATEGORY_ID')
         else:
             if energy_category == 'all':
                 energy_category_query = ""
@@ -58,7 +59,8 @@ class Reporting:
             else:
                 energy_category = str.strip(energy_category)
                 if not energy_category.isdigit() or int(energy_category) <= 0:
-                    raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_ENERGY_CATEGORY_ID')
+                    raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.INVALID_ENERGY_CATEGORY_ID')
                 else:
                     cnx_system_db = mysql.connector.connect(**config.myems_system_db)
                     cursor_system_db = cnx_system_db.cursor()
@@ -74,10 +76,9 @@ class Reporting:
                         if cnx_system_db:
                             cnx_system_db.close()
                         raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
-                                            description='API.ENERGY_CATEGORY_NOT_FOUND')
+                                               description='API.ENERGY_CATEGORY_NOT_FOUND')
                     else:
                         energy_category_name = row[0]
-
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':

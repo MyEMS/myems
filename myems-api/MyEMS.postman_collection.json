@@ -7373,7 +7373,7 @@
 							"response": []
 						},
 						{
-							"name": "GET Space Tree",
+							"name": "GET Space Tree  of User",
 							"request": {
 								"method": "GET",
 								"header": [
@@ -7397,6 +7397,37 @@
 									"path": [
 										"spaces",
 										"tree"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Energy Categories of all Meters in the Space Tree",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/spaces/1/treemetersenergycategories",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"treemetersenergycategories"
 									]
 								}
 							},

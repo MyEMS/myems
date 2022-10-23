@@ -127,7 +127,7 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
         // set the default selected space
         setSelectedSpaceName([json[0]].map(o => o.label));
         setSelectedSpaceID([json[0]].map(o => o.value));
-        fetch(APIBaseURL + '/spaces/' + [json[0]].map(o => o.value) + '/energycategories', {
+        fetch(APIBaseURL + '/spaces/' + [json[0]].map(o => o.value) + '/treemetersenergycategories', {
           method: 'GET',
           headers: {
             "Content-type": "application/json",
@@ -275,7 +275,7 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
     setSelectedSpaceID(value[value.length - 1]);
 
     let isResponseOK = false;
-    fetch(APIBaseURL + '/spaces/' + value[value.length - 1] + '/energycategories', {
+    fetch(APIBaseURL + '/spaces/' + value[value.length - 1] + '/treemetersenergycategories', {
       method: 'GET',
       headers: {
         "Content-type": "application/json",
