@@ -16,7 +16,7 @@ from openpyxl.styles import Alignment, Font
 # Step 3: Encode the excelexporters file to Base64
 ########################################################################################################################
 
-def export(result, space_name, reporting_start_datetime_local, reporting_end_datetime_local, language):
+def export(result, space_name, energy_category_name, reporting_start_datetime_local, reporting_end_datetime_local, language):
     ####################################################################################################################
     # Step 1: Validate the report data
     ####################################################################################################################
@@ -28,6 +28,7 @@ def export(result, space_name, reporting_start_datetime_local, reporting_end_dat
     ####################################################################################################################
     filename = generate_excel(result,
                               space_name,
+                              energy_category_name,
                               reporting_start_datetime_local,
                               reporting_end_datetime_local,
                               language)
@@ -53,7 +54,7 @@ def export(result, space_name, reporting_start_datetime_local, reporting_end_dat
     return base64_message
 
 
-def generate_excel(report, space_name, reporting_start_datetime_local, reporting_end_datetime_local, language):
+def generate_excel(report, space_name, energy_category_name, reporting_start_datetime_local, reporting_end_datetime_local, language):
 
     locale_path = './i18n/'
     if language == 'zh_CN':
@@ -108,29 +109,32 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
     ws['A8'] = _('Full Integrity Rate') + ':'
     ws['B8'] = (str(report['full_integrity_rate'] * Decimal(100.0)) + '%') \
         if report['full_integrity_rate'] is not None else None
+    ws['A9'].alignment = b_r_alignment
+    ws['A9'] = _('Energy Category') + ':'
+    ws['B9'] = energy_category_name if energy_category_name is not None else _('All')
 
     # Title
     title_font = Font(size=12, bold=True)
-    ws['A9'].font = title_font
-    ws['A9'] = _('ID')
-    ws['B9'].font = title_font
-    ws['B9'] = _('Name')
-    ws['C9'].font = title_font
-    ws['C9'] = _('Space')
-    ws['D9'].font = title_font
-    ws['D9'] = _('Cost Center')
-    ws['E9'].font = title_font
-    ws['E9'] = _('Energy Category')
-    ws['F9'].font = title_font
-    ws['F9'] = _('Description')
-    ws['G9'].font = title_font
-    ws['G9'] = _('Start Value')
-    ws['H9'].font = title_font
-    ws['H9'] = _('End Value')
-    ws['I9'].font = title_font
-    ws['I9'] = _('Difference Value')
+    ws['A10'].font = title_font
+    ws['A10'] = _('ID')
+    ws['B10'].font = title_font
+    ws['B10'] = _('Name')
+    ws['C10'].font = title_font
+    ws['C10'] = _('Space')
+    ws['D10'].font = title_font
+    ws['D10'] = _('Cost Center')
+    ws['E10'].font = title_font
+    ws['E10'] = _('Energy Category')
+    ws['F10'].font = title_font
+    ws['F10'] = _('Description')
+    ws['G10'].font = title_font
+    ws['G10'] = _('Start Value')
+    ws['H10'].font = title_font
+    ws['H10'] = _('End Value')
+    ws['I10'].font = title_font
+    ws['I10'] = _('Difference Value')
 
-    current_row_number = 10
+    current_row_number = 11
     for i in range(0, len(report['meters'])):
         ws['A' + str(current_row_number)] = report['meters'][i]['id']
         ws['B' + str(current_row_number)] = report['meters'][i]['meter_name']
