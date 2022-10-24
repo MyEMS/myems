@@ -236,7 +236,6 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
         if (isResponseOK) {
           console.log(json)
           setFilteredMeterList([{'id': json['meter']['id'], 'label': json['meter']['name']}]);
-          alert(json['meter']['id'])
           setSelectedMeter(json['meter']['id']);
           setMeterEnergyCategory({
             'name': json['meter']['energy_category_name'],
