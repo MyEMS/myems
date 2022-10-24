@@ -392,9 +392,7 @@ const ShopfloorStatistics = ({ setRedirect, setRedirectUrl, t }) => {
       
         names = Array();
         json['parameters']['names'].forEach((currentValue, index) => {
-          if (currentValue.startsWith('TARIFF-')) {
-            currentValue = t('Tariff') + currentValue.replace('TARIFF-', '-');
-          }
+          
           names.push({ 'value': 'a' + index, 'label': currentValue });
         });
         setParameterLineChartOptions(names);
