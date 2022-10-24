@@ -460,6 +460,8 @@ class Reporting:
                 "unit_of_measure": meter['unit_of_measure'],
                 "kgce": meter['kgce'],
                 "kgco2e": meter['kgco2e'],
+                "name": meter['name'],
+                "id": meter['id'],
             },
             "base_period": {
                 "total_in_category": base['total_in_category'],
