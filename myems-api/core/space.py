@@ -4,7 +4,7 @@ from datetime import datetime
 import falcon
 import mysql.connector
 import simplejson as json
-from anytree import AnyNode
+from anytree import AnyNode, LevelOrderIter
 from anytree.exporter import JsonExporter
 
 import config
@@ -2698,7 +2698,8 @@ class SpaceTreeCollection:
         resp.text = JsonExporter(sort_keys=True).export(node_dict[space_id], )
 
 
-class SpaceEnergyCategoryCollection:
+# Get energy categories of all meters in the space tree
+class SpaceTreeMetersEnergyCategoryCollection:
     @staticmethod
     def __init__():
         """Initializes Class"""
@@ -2710,6 +2711,9 @@ class SpaceEnergyCategoryCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
+        ################################################################################################################
+        # Step 1: valid parameters
+        ################################################################################################################
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SPACE_ID')
@@ -2726,17 +2730,36 @@ class SpaceEnergyCategoryCollection:
             raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
-        query = (" SELECT ec.id, ec.name, ec.uuid "
-                 " FROM tbl_spaces s, tbl_spaces_meters sm, tbl_meters m, tbl_energy_categories ec "
-                 " WHERE sm.space_id = s.id AND m.id = sm.meter_id AND m.energy_category_id = ec.id AND s.id = %s "
-                 " GROUP BY ec.id"
-                 " ORDER BY ec.id ")
-        cursor.execute(query, (id_,))
-        rows = cursor.fetchall()
+        ################################################################################################################
+        # Step 2: build a space tree
+        ################################################################################################################
+        query = (" SELECT id, name, parent_space_id "
+                 " FROM tbl_spaces "
+                 " ORDER BY id ")
+        cursor.execute(query)
+        rows_spaces = cursor.fetchall()
+        node_dict = dict()
+        if rows_spaces is not None and len(rows_spaces) > 0:
+            for row in rows_spaces:
+                parent_node = node_dict[row[2]] if row[2] is not None else None
+                node_dict[row[0]] = AnyNode(id=row[0], parent=parent_node, name=row[1])
+        ################################################################################################################
+        # Step 3: query energy categories of all meters in the space tree
+        ################################################################################################################
+        space_dict = dict()
+
+        for node in LevelOrderIter(node_dict[int(id_)]):
+            space_dict[node.id] = node.name
+
+        cursor.execute(" SELECT distinct(m.energy_category_id), ec.name AS energy_category_name, ec.uuid "
+                       " FROM tbl_spaces s, tbl_spaces_meters sm, tbl_meters m, tbl_energy_categories ec  "
+                       " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
+                       "       AND sm.space_id = s.id AND sm.meter_id = m.id  AND m.energy_category_id = ec.id ", )
+        rows_energy_categories = cursor.fetchall()
 
         result = list()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
+        if rows_energy_categories is not None and len(rows_energy_categories) > 0:
+            for row in rows_energy_categories:
                 meta_result = {"id": row[0], "name": row[1], "uuid": row[2]}
                 result.append(meta_result)
 

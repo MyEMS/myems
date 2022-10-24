@@ -1735,6 +1735,10 @@ curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKE
 ```bash
 curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKEN-AFTER-LOGIN" -X GET {{base_url}}/spaces/tree
 ```
+*   GET Energy Categories of all Meters in the Space Tree
+```bash
+curl -i -X GET {{base_url}}/spaces/{id}/treemetersenergycategories
+```
 
 ### Store
 *   GET Store by ID
