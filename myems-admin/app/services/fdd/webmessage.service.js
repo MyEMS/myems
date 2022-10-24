@@ -2,7 +2,7 @@
 app.factory('WebMessageService', function($http) {
     return {
         getResult: function(query, headers, callback) {
-            $http.get(getAPI()+"webmessages?" + "startdatetime=" + query.startdatetime + "&enddatetime=" + query.enddatetime, {headers})
+            $http.get(getAPI()+"webmessages?status=all&priority=all" + "&startdatetime=" + query.startdatetime + "&enddatetime=" + query.enddatetime, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
