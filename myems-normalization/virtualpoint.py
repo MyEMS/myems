@@ -19,7 +19,6 @@ import config
 ########################################################################################################################
 
 def calculate(logger):
-
     while True:
         # the outermost while loop to reconnect server if there is a connection error
         cnx_system_db = None
@@ -113,7 +112,7 @@ def worker(virtual_point):
             cnx_historical_db.close()
         return "Error in step 1.1 of virtual point worker " + str(e) + " for '" + virtual_point['name'] + "'"
 
-    print("Start to process virtual point: " + "'" + virtual_point['name']+"'")
+    print("Start to process virtual point: " + "'" + virtual_point['name'] + "'")
 
     ####################################################################################################################
     # step 1: get start datetime and end datetime
@@ -190,7 +189,7 @@ def worker(virtual_point):
                          " FROM tbl_analog_value "
                          " WHERE point_id = %s AND utc_date_time > %s AND utc_date_time < %s "
                          " ORDER BY utc_date_time ")
-                cursor_historical_db.execute(query, (point_id, start_datetime_utc, end_datetime_utc, ))
+                cursor_historical_db.execute(query, (point_id, start_datetime_utc, end_datetime_utc,))
                 rows = cursor_historical_db.fetchall()
                 if rows is None or len(rows) == 0:
                     point_values_dict[point_id] = None
@@ -282,6 +281,8 @@ def worker(virtual_point):
     print("saving virtual points values to historical database")
 
     if len(normalized_values) > 0:
+        latest_utc_date_time_in_meta_data = normalized_values[0]
+
         try:
             add_values = (" INSERT INTO tbl_analog_value "
                           " (point_id, utc_date_time, actual_value) "
@@ -291,6 +292,10 @@ def worker(virtual_point):
                 add_values += " (" + str(virtual_point['id']) + ","
                 add_values += "'" + meta_data['utc_date_time'].isoformat()[0:19] + "',"
                 add_values += str(meta_data['actual_value']) + "), "
+
+                if meta_data['utc_date_time'] > latest_utc_date_time_in_meta_data['utc_date_time']:
+                    latest_utc_date_time_in_meta_data = meta_data
+
             print("add_values:" + add_values)
             # trim ", " at the end of string and then execute
             cursor_historical_db.execute(add_values[:-2])
@@ -301,6 +306,32 @@ def worker(virtual_point):
             if cnx_historical_db:
                 cnx_historical_db.close()
             return "Error in step 4.2 virtual point worker " + str(e) + " for '" + virtual_point['name'] + "'"
+
+        try:
+            # update tbl_analog_value_latest
+            delete_value = " DELETE FROM tbl_analog_value_latest WHERE point_id = {} " \
+                .format(virtual_point['id'])
+            latest_value = (" INSERT INTO tbl_analog_value_latest (point_id, utc_date_time, actual_value) "
+                            " VALUES ({}, '{}', {}) "
+                            .format(virtual_point['id'],
+                                    latest_utc_date_time_in_meta_data['utc_date_time'].isoformat()[0:19],
+                                    latest_utc_date_time_in_meta_data['actual_value']))
+
+            print("delete_value:" + delete_value)
+            print("latest_value:" + latest_value)
+
+            cursor_historical_db.execute(delete_value)
+            cnx_historical_db.commit()
+
+            cursor_historical_db.execute(latest_value)
+            cnx_historical_db.commit()
+
+        except Exception as e:
+            if cursor_historical_db:
+                cursor_historical_db.close()
+            if cnx_historical_db:
+                cnx_historical_db.close()
+            return "Error in step 4.3 virtual point worker " + str(e) + " for '" + virtual_point['name'] + "'"
 
     if cursor_historical_db:
         cursor_historical_db.close()
