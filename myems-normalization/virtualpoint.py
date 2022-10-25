@@ -281,7 +281,7 @@ def worker(virtual_point):
     print("saving virtual points values to historical database")
 
     if len(normalized_values) > 0:
-        latest_utc_date_time_in_meta_data = normalized_values[0]
+        latest_meta_data = normalized_values[0]
 
         try:
             add_values = (" INSERT INTO tbl_analog_value "
@@ -293,8 +293,8 @@ def worker(virtual_point):
                 add_values += "'" + meta_data['utc_date_time'].isoformat()[0:19] + "',"
                 add_values += str(meta_data['actual_value']) + "), "
 
-                if meta_data['utc_date_time'] > latest_utc_date_time_in_meta_data['utc_date_time']:
-                    latest_utc_date_time_in_meta_data = meta_data
+                if meta_data['utc_date_time'] > latest_meta_data['utc_date_time']:
+                    latest_meta_data = meta_data
 
             print("add_values:" + add_values)
             # trim ", " at the end of string and then execute
@@ -309,13 +309,12 @@ def worker(virtual_point):
 
         try:
             # update tbl_analog_value_latest
-            delete_value = " DELETE FROM tbl_analog_value_latest WHERE point_id = {} " \
-                .format(virtual_point['id'])
+            delete_value = " DELETE FROM tbl_analog_value_latest WHERE point_id = {} ".format(virtual_point['id'])
             latest_value = (" INSERT INTO tbl_analog_value_latest (point_id, utc_date_time, actual_value) "
                             " VALUES ({}, '{}', {}) "
                             .format(virtual_point['id'],
-                                    latest_utc_date_time_in_meta_data['utc_date_time'].isoformat()[0:19],
-                                    latest_utc_date_time_in_meta_data['actual_value']))
+                                    latest_meta_data['utc_date_time'].isoformat()[0:19],
+                                    latest_meta_data['actual_value']))
 
             print("delete_value:" + delete_value)
             print("latest_value:" + latest_value)

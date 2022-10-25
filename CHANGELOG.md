@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added energy categories filter to meter tracking report
 - added meter energy report hyperlink with meter uuid as query string
 - added hyperlink to energy report page for all meters in meter tracking
+- added updating latest value of virtul point in myems-normalization
 - 
 ### Changed
 - added translations of TARIFF in myems-api
