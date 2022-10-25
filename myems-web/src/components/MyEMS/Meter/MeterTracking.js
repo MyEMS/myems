@@ -170,8 +170,9 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
   }, []);
   const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
-  const nameFormatter = (dataField, { name }) => (
-    <Link to='#'>
+  const nameFormatter = (dataField, { name, uuid }) => (
+    <Link to={{pathname:'/meter/meterenergy?uuid=' + uuid}}  target = "_blank">
+    
       <Media tag={Flex} align="center">
         <Media body className="ml-2">
           <h5 className="mb-0 fs--1">{name}</h5>
@@ -369,6 +370,7 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
           json['meters'].forEach((currentValue, index) => {
             meters.push({
               'id': currentValue['id'],
+              'uuid': currentValue['meter_uuid'],
               'name': currentValue['meter_name'],
               'space': currentValue['space_name'],
               'costcenter': currentValue['cost_center_name'],

@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - added energy categories filter to meter tracking report
 - added meter energy report hyperlink with meter uuid as query string
+- added hyperlink to energy report page for all meters in meter tracking
 - 
 ### Changed
 - added translations of TARIFF in myems-api

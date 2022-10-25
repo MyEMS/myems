@@ -172,7 +172,7 @@ class Reporting:
 
         cursor_system_db.execute(" SELECT m.id, m.name AS meter_name, s.name AS space_name, "
                                  "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
-                                 "         m.description "
+                                 "         m.description, m.uuid AS meter_uuid "
                                  " FROM tbl_spaces s, tbl_spaces_meters sm, tbl_meters m, tbl_cost_centers cc, "
                                  "      tbl_energy_categories ec "
                                  " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
@@ -186,7 +186,8 @@ class Reporting:
                                       "space_name": row[2],
                                       "cost_center_name": row[3],
                                       "energy_category_name": row[4],
-                                      "description": row[5]}
+                                      "description": row[5],
+                                      "meter_uuid": row[6]}
 
         ################################################################################################################
         # Step 4: query start value and end value
@@ -272,7 +273,8 @@ class Reporting:
                 "description": meter['description'],
                 "start_value": meter['start_value'],
                 "end_value": meter['end_value'],
-                "difference_value": meter['difference_value']
+                "difference_value": meter['difference_value'],
+                "meter_uuid": meter['meter_uuid']
             })
 
         meter_count = len(meter_list)
