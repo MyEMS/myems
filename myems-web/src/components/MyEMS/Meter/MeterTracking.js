@@ -172,7 +172,7 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
 
   const nameFormatter = (dataField, { name, uuid }) => (
     <Link to={{pathname:'/meter/meterenergy?uuid=' + uuid}}  target = "_blank">
-    {/* // <Link to={{pathname:'/meter/meterenergy', state:{'uuid': uuid}}}> */}
+    
       <Media tag={Flex} align="center">
         <Media body className="ml-2">
           <h5 className="mb-0 fs--1">{name}</h5>
