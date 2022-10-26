@@ -3,6 +3,24 @@
         <div>
             <form role="form">
                 <div class="form-group no-margin">
+                    <label>{{'FDD.PRIORITY' | translate}}</label>
+                    <ui-select ng-model="$parent.priority" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.key}}</ui-select-match>
+                        <ui-select-choices repeat="item in prorities | filter: $select.search">
+                            <div ng-bind-html="item.key | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="form-group no-margin">
+                    <label>{{'SETTING.STATUS' | translate}}</label>
+                    <ui-select ng-model="$parent.status" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.key}}</ui-select-match>
+                        <ui-select-choices repeat="item in notificationStatus | filter: $select.search">
+                            <div ng-bind-html="item.key | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="form-group no-margin">
                     <label>{{'COMMON.DATE' | translate}}</label>
                     <textarea rows="2" date-range-picker class="form-control date-picker" type="text"
                               ng-model="daterange" options="dtOptions"
@@ -15,6 +33,13 @@
             <div class="row">
                 <div class="col-sm-12">
                     <button ng-click="execute()" class="btn btn-primary btn-rounded btn-block btn-outline" ><i class="fa fa-send"></i> <strong>{{'COMMON.EXECUTE' | translate}}</strong></button>
+                </div>
+            </div>
+        </div>
+        <div class="m-t-md">
+            <div class="row">
+                <div class="col-sm-12">
+                    <button ng-click="markAllWebMessageAsRead()" class="btn btn-default btn-rounded btn-block btn-outline" ><i class="fa fa-send"></i> <strong>{{'FDD.MARK_ALL_AS_READ' | translate}}</strong></button>
                 </div>
             </div>
         </div>
