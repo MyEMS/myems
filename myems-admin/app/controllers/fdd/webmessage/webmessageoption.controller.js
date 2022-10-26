@@ -7,11 +7,17 @@ app.controller('WebMessageOptionController', function(
 	$translate,
 	WebMessageService) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
-	$scope.prorities = [{'key':$translate.instant('FDD.ALL'), 'value':'all'}, {'key':$translate.instant('FDD.LOW'), 'value':'low'},
-	{'key':$translate.instant('FDD.MEDIUM'), 'value':'medium'}, {'key':$translate.instant('FDD.HIGH'), 'value':'high'},
-	{'key':$translate.instant('FDD.CRITICAL'), 'value':'critical'}];
-	$scope.notificationStatus = [{'key':$translate.instant('FDD.ALL'), 'value':'all'}, {'key':$translate.instant('FDD.READ'), 'value':'read'},
-	{'key':$translate.instant('FDD.UNREAD'), 'value':'new'}, {'key':$translate.instant('FDD.ACKNOWLEDGED'), 'value':'acknowledged'}];
+	$scope.prorities = [
+		{'key':$translate.instant('FDD.ALL'), 'value':'all'},
+		{'key':$translate.instant('FDD.LOW'), 'value':'low'},
+		{'key':$translate.instant('FDD.MEDIUM'), 'value':'medium'}, 
+		{'key':$translate.instant('FDD.HIGH'), 'value':'high'},
+		{'key':$translate.instant('FDD.CRITICAL'), 'value':'critical'}];
+	$scope.notificationStatus = [
+		{'key':$translate.instant('FDD.ALL'), 'value':'all'}, 
+		{'key':$translate.instant('FDD.READ'), 'value':'read'},
+		{'key':$translate.instant('FDD.UNREAD'), 'value':'new'}, 
+		{'key':$translate.instant('FDD.ACKNOWLEDGED'), 'value':'acknowledged'}];
 	$scope.daterange = {
 		startDate: moment().subtract(7,'days'),
 		endDate: moment()
@@ -38,7 +44,6 @@ app.controller('WebMessageOptionController', function(
 	};
 
 	$scope.execute = function() {
-		var startdatetime, enddatetime;
 		var query = {
 			startdatetime: $scope.daterange.startDate.format().slice(0, 19),
 			enddatetime: $scope.daterange.endDate.format().slice(0, 19),
