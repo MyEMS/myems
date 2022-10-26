@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - 
 ### Changed
 - added translations of TARIFF in myems-api
+- updated query panel of web messages in myems-admin
 - 
 ### Fixed
 - fixed error translations in myems-web
