@@ -75,7 +75,17 @@ function config($translateProvider) {
                 WECHAT_ID: 'WeChat ID',
                 MESSAGE_FORMAT: 'Message Format',
                 ACKNOWLEDGE_ALARM: 'Acknowledge Alarm?',
-
+                
+                ALL: 'All',
+                LOW: 'Low',
+                MEDIUM: 'Medium',
+                HIGH: 'High',
+                CRITICAL: 'Critical',
+                UNREAD: 'Unread',
+                READ: 'Read',
+                ACKNOWLEDGED: 'Acknowledged',
+                ARCHIVE: 'Archive',
+                MARK_ALL_AS_READ: 'Mark all as read',
             },
             MENU: {
                 SETTINGS: {
@@ -1086,6 +1096,17 @@ function config($translateProvider) {
                 WECHAT_ID: '微信号',
                 MESSAGE_FORMAT: '信息格式',
                 ACKNOWLEDGE_ALARM: '是否确认报警？',
+
+                ALL: '全部',
+                LOW: '低',
+                MEDIUM: '中',
+                HIGH: '高',
+                CRITICAL: '严重',
+                UNREAD: '未读',
+                READ: '已读',
+                ACKNOWLEDGED: '已确认',
+                ARCHIVE: '存档',
+                MARK_ALL_AS_READ: '全部设为已读',
             },
             MENU: {
                 SETTINGS: {
@@ -2102,6 +2123,17 @@ function config($translateProvider) {
                 WECHAT_ID: 'Wir chatten Nummer',
                 MESSAGE_FORMAT: 'Informationsformat',
                 ACKNOWLEDGE_ALARM: 'Bestätigen Sie den Alarm?',
+
+                ALL: 'Alle',
+                LOW: 'Niedrig',
+                MEDIUM: 'Mittelmaß',
+                HIGH: 'Hoch',
+                CRITICAL: 'Kritisch',
+                UNREAD: 'Ungelesene',
+                READ: 'Lesen',
+                ACKNOWLEDGED: 'Anerkannt',
+                ARCHIVE: 'Archiv',
+                MARK_ALL_AS_READ: 'Markiere alle als gelesen',
             },
             MENU: {
                 SETTINGS: {

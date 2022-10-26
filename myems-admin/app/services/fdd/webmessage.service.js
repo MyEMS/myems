@@ -2,7 +2,8 @@
 app.factory('WebMessageService', function($http) {
     return {
         getResult: function(query, headers, callback) {
-            $http.get(getAPI()+"webmessages?status=all&priority=all" + "&startdatetime=" + query.startdatetime + "&enddatetime=" + query.enddatetime, {headers})
+            $http.get(getAPI()+"webmessages?status=" + query.status + "&priority=" + query.priority + 
+            "&startdatetime=" + query.startdatetime + "&enddatetime=" + query.enddatetime, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -35,7 +36,15 @@ app.factory('WebMessageService', function($http) {
             }, function (response) {
                 callback(response);
             });
-        }
+        },
 
+        markAllWebMessageAsRead: function(webmessage, headers, callback) {
+            $http.put(getAPI()+'webmessagesnew', {data:webmessage}, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
     };
 });
