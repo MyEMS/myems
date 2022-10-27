@@ -719,10 +719,10 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
         baseTitle={t('METER CATEGORY VALUE UNIT', { 'METER': meter2['name'], 'CATEGORY': meter2['energy_category_name'], 'VALUE': reportingPeriodEnergyConsumptionInCategory2.toFixed(2), 'UNIT': '(' + meter2['unit_of_measure'] + ')' })}
         reportingTooltipTitle={t('METER CATEGORY VALUE UNIT', { 'METER': meter1['name'], 'CATEGORY': meter1['energy_category_name'], 'VALUE': null, 'UNIT': '(' + meter1['unit_of_measure'] + ')' })}
         baseTooltipTitle={t('METER CATEGORY VALUE UNIT', { 'METER': meter2['name'], 'CATEGORY': meter2['energy_category_name'], 'VALUE': null, 'UNIT': '(' + meter2['unit_of_measure'] + ')' })}
-        reportingLabels={meterLineChartLabels1}
-        reportingData={meterLineChartData1}
-        baseLabels={meterLineChartLabels2}
-        baseData={meterLineChartData2}>
+        baseLabels={meterLineChartLabels1}
+        baseData={meterLineChartData1}
+        reportingLabels={meterLineChartLabels2}
+        reportingData={meterLineChartData2}>
       </MultiTrendChart>
 
       <MultipleLineChart reportingTitle={t('Related Parameters')}
