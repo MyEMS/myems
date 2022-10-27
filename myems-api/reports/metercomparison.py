@@ -288,9 +288,12 @@ class Reporting:
                                                                              reporting_end_datetime_utc,
                                                                              period_type)
         reporting2 = dict()
+        diff = dict()
         reporting2['timestamps'] = list()
         reporting2['values'] = list()
         reporting2['total_in_category'] = Decimal(0.0)
+        diff['values'] = list()
+        diff['total_in_category'] = Decimal(0.0)
 
         for row_meter2_periodically in rows_meter2_periodically:
             current_datetime_local = row_meter2_periodically[0].replace(tzinfo=timezone.utc) + \
@@ -311,6 +314,10 @@ class Reporting:
             reporting2['timestamps'].append(current_datetime)
             reporting2['values'].append(actual_value)
             reporting2['total_in_category'] += actual_value
+        
+        for meter1_value, meter2_value in zip(reporting1['values'], reporting2['values']):
+            diff['values'].append(meter1_value - meter2_value)
+            diff['total_in_category'] += meter1_value - meter2_value
         ################################################################################################################
         # Step 5: query associated points data
         ################################################################################################################
@@ -498,6 +505,10 @@ class Reporting:
                 "timestamps": parameters_data2['timestamps'],
                 "values": parameters_data2['values']
             },
+            "diff": {
+                "values": diff['values'],
+                "total_in_category": diff['total_in_category'],
+            }
         }
         # export result to Excel file and then encode the file to base64 string
         if not is_quick_mode:
