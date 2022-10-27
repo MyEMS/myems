@@ -20,7 +20,6 @@ import moment from 'moment';
 import loadable from '@loadable/component';
 import Cascader from 'rc-cascader';
 import CardSummary from '../common/CardSummary';
-import LineChart from '../common/LineChart';
 import MultipleLineChart from '../common/MultipleLineChart';
 import { getCookieValue, createCookie } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
@@ -29,7 +28,7 @@ import { toast } from 'react-toastify';
 import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL } from '../../../config';
 import { periodTypeOptions } from '../common/PeriodTypeOptions';
-import { comparisonTypeOptions } from '../common/ComparisonTypeOptions';
+import MultiTrendChart from '../common/MultiTrendChart';
 import { DateRangePicker } from 'rsuite';
 import { endOfDay} from 'date-fns';
 import AppContext from '../../../context/Context';
@@ -103,6 +102,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
   const [meter2, setMeter2] = useState({ 'name': undefined, 'energy_category_id': undefined, 'energy_category_name': undefined, 'unit_of_measure': undefined });
   const [reportingPeriodEnergyConsumptionInCategory1, setReportingPeriodEnergyConsumptionInCategory1] = useState(0);
   const [reportingPeriodEnergyConsumptionInCategory2, setReportingPeriodEnergyConsumptionInCategory2] = useState(0);
+  const [reportingPeriodEnergyConsumptionInDifference, setReportingPeriodEnergyConsumptionInDifference] = useState(0);
   const [meterLineChartOptions1, setMeterLineChartOptions1] = useState([]);
   const [meterLineChartOptions2, setMeterLineChartOptions2] = useState([]);
   const [meterLineChartData1, setMeterLineChartData1] = useState({});
@@ -399,6 +399,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
         });
         setReportingPeriodEnergyConsumptionInCategory1(json['reporting_period1']['total_in_category']);
         setReportingPeriodEnergyConsumptionInCategory2(json['reporting_period2']['total_in_category']);
+        setReportingPeriodEnergyConsumptionInDifference(json['diff']['total_in_category']);
         let names1 = Array();
         names1.push({ 'value': 'a0', 'label': json['meter1']['energy_category_name'] });
         setMeterLineChartOptions1(names1);
@@ -488,6 +489,17 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
               return null;
             }
           }
+        }, {
+          dataField: 'a2',
+          text: t('Reporting Period Difference CATEGORY UNIT', { 'CATEGORY': json['meter1']['energy_category_name'], 'UNIT': '(' + json['meter1']['unit_of_measure'] + ')' }),
+          sort: true,
+          formatter: function (decimalValue) {
+            if (typeof decimalValue === 'number') {
+              return decimalValue.toFixed(2);
+            } else {
+              return null;
+            }
+          }
         }]);
 
         let detailed_value_list = [];
@@ -497,6 +509,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
           detailed_value['startdatetime'] = currentTimestamp;
           detailed_value['a0'] = json['reporting_period1']['values'][timestampIndex];
           detailed_value['a1'] = json['reporting_period2']['values'][timestampIndex];
+          detailed_value['a2'] = json['diff']['values'][timestampIndex];
           detailed_value_list.push(detailed_value);
         });
 
@@ -505,6 +518,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
         detailed_value['startdatetime'] = t('Total');
         detailed_value['a0'] = json['reporting_period1']['total_in_category'];
         detailed_value['a1'] = json['reporting_period2']['total_in_category'];
+        detailed_value['a2'] = json['diff']['total_in_category'];
         detailed_value_list.push(detailed_value);
         setTimeout( () => {
           setDetailedDataTableData(detailed_value_list);
@@ -696,19 +710,20 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
           color="success"  >
           <CountUp end={reportingPeriodEnergyConsumptionInCategory2} duration={2} prefix="" separator="," decimals={2} decimal="." />
         </CardSummary>
+        <CardSummary id="cardSummary2" title={t('Reporting Period Difference CATEGORY UNIT', { 'CATEGORY': meter1['energy_category_name'], 'UNIT': '(' + meter1['unit_of_measure'] + ')' })}
+          color="success"  >
+          <CountUp end={reportingPeriodEnergyConsumptionInDifference} duration={2} prefix="" separator="," decimals={2} decimal="." />
+        </CardSummary>
       </div>
-      <LineChart id="meterLineChart1"  reportingTitle={t('METER CATEGORY VALUE UNIT', { 'METER': meter1['name'], 'CATEGORY': meter1['energy_category_name'], 'VALUE': reportingPeriodEnergyConsumptionInCategory1.toFixed(2), 'UNIT': '(' + meter1['unit_of_measure'] + ')' })}
-        
-        labels={meterLineChartLabels1}
-        data={meterLineChartData1}
-        options={meterLineChartOptions1}>
-      </LineChart>
-      <LineChart id="meterLineChart2" reportingTitle={t('METER CATEGORY VALUE UNIT', { 'METER': meter2['name'], 'CATEGORY': meter2['energy_category_name'], 'VALUE': reportingPeriodEnergyConsumptionInCategory2.toFixed(2), 'UNIT': '(' + meter2['unit_of_measure'] + ')' })}
-        
-        labels={meterLineChartLabels2}
-        data={meterLineChartData2}
-        options={meterLineChartOptions2}>
-      </LineChart>
+      <MultiTrendChart reportingTitle={t('METER CATEGORY VALUE UNIT', { 'METER': meter1['name'], 'CATEGORY': meter1['energy_category_name'], 'VALUE': reportingPeriodEnergyConsumptionInCategory1.toFixed(2), 'UNIT': '(' + meter1['unit_of_measure'] + ')' })}
+        baseTitle={t('METER CATEGORY VALUE UNIT', { 'METER': meter2['name'], 'CATEGORY': meter2['energy_category_name'], 'VALUE': reportingPeriodEnergyConsumptionInCategory2.toFixed(2), 'UNIT': '(' + meter2['unit_of_measure'] + ')' })}
+        reportingTooltipTitle={t('METER CATEGORY VALUE UNIT', { 'METER': meter1['name'], 'CATEGORY': meter1['energy_category_name'], 'VALUE': null, 'UNIT': '(' + meter1['unit_of_measure'] + ')' })}
+        baseTooltipTitle={t('METER CATEGORY VALUE UNIT', { 'METER': meter2['name'], 'CATEGORY': meter2['energy_category_name'], 'VALUE': null, 'UNIT': '(' + meter2['unit_of_measure'] + ')' })}
+        baseLabels={meterLineChartLabels1}
+        baseData={meterLineChartData1}
+        reportingLabels={meterLineChartLabels2}
+        reportingData={meterLineChartData2}>
+      </MultiTrendChart>
 
       <MultipleLineChart reportingTitle={t('Related Parameters')}
         baseTitle=''

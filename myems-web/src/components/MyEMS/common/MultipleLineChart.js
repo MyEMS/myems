@@ -206,6 +206,9 @@ const MultipleLineChart = ({
     setOldValues(values);
     setValues(arr);
     setLastMoment(currentMoment);
+    if (chartRef.current){
+      chartRef.current.clear();
+    }
     chartRef.current.update();
   }
 
