@@ -265,16 +265,12 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
     # 18: table title
     # 19~43: table_data
     ####################################################################################################################
-    reporting_period_data = report['reporting_period']
-    times = reporting_period_data['timestamps']
-
     if "values" not in report['reporting_period'].keys() or len(report['reporting_period']['values']) == 0:
         for i in range(11, 43 + 1):
             ws.row_dimensions[i].height = 0.0
     else:
         reporting_period_data = report['reporting_period']
         parameters_names_len = len(report['parameters']['names'])
-        parameters_data = report['parameters']
         parameters_parameters_datas_len = parameters_names_len
         start_detail_data_row_num = 13 + (parameters_parameters_datas_len + 1) * 6
         ws['B11'].font = title_font
@@ -282,7 +278,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
         ws.row_dimensions[start_detail_data_row_num].height = 60
 
-        if comparison_type == 'none-comparison' :
+        if comparison_type == 'none-comparison':
             ws['B' + str(start_detail_data_row_num)].fill = table_fill
             ws['B' + str(start_detail_data_row_num)].font = title_font
             ws['B' + str(start_detail_data_row_num)].border = f_border
@@ -293,38 +289,39 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             ws['B' + str(start_detail_data_row_num)].font = title_font
             ws['B' + str(start_detail_data_row_num)].border = f_border
             ws['B' + str(start_detail_data_row_num)].alignment = c_c_alignment
-            ws['B' + str(start_detail_data_row_num)] =_('Base Period') + ' - ' + _('Datetime')
+            ws['B' + str(start_detail_data_row_num)] = _('Base Period') + ' - ' + _('Datetime')
 
             ws['D' + str(start_detail_data_row_num)].fill = table_fill
             ws['D' + str(start_detail_data_row_num)].font = title_font
             ws['D' + str(start_detail_data_row_num)].border = f_border
             ws['D' + str(start_detail_data_row_num)].alignment = c_c_alignment
-            ws['D' + str(start_detail_data_row_num)] =_('Reporting Period') + ' - ' + _('Datetime')
-        time = times
+            ws['D' + str(start_detail_data_row_num)] = _('Reporting Period') + ' - ' + _('Datetime')
+
         has_data = False
         max_row = 0
-        if len(time) > 0:
+        if len(reporting_period_data['timestamps']) > 0:
             has_data = True
-            max_row = start_detail_data_row_num + len(time)
+            max_row = start_detail_data_row_num + len(reporting_period_data['timestamps'])
 
         if has_data:
-            if comparison_type == 'none-comparison' :
-                for i in range(0, len(time)):
+            if comparison_type == 'none-comparison':
+                for i in range(0, len(reporting_period_data['timestamps'])):
                     col = 'B'
                     row = str(start_detail_data_row_num + 1 + i)
                     # col = chr(ord('B') + i)
                     ws[col + row].font = title_font
                     ws[col + row].alignment = c_c_alignment
-                    ws[col + row] = time[i]
+                    ws[col + row] = reporting_period_data['timestamps'][i]
                     ws[col + row].border = f_border
             else:    
-                for i in range(0, len(time)):
+                for i in range(0, len(reporting_period_data['timestamps'])):
                     col = 'B'
                     row = str(start_detail_data_row_num + 1 + i)
                     # col = chr(ord('B') + i)
                     ws[col + row].font = title_font
                     ws[col + row].alignment = c_c_alignment
-                    ws[col + row] = report['base_period']['timestamps'][i]
+                    ws[col + row] = report['base_period']['timestamps'][i] \
+                        if i < len(report['base_period']['timestamps']) else None
                     ws[col + row].border = f_border
 
                     col = 'D'
@@ -332,7 +329,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                     # col = chr(ord('B') + i)
                     ws[col + row].font = title_font
                     ws[col + row].alignment = c_c_alignment
-                    ws[col + row] = time[i]
+                    ws[col + row] = reporting_period_data['timestamps'][i]
                     ws[col + row].border = f_border
 
             if comparison_type == 'none-comparison' :
@@ -346,29 +343,27 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                 ws['C' + str(start_detail_data_row_num)].fill = table_fill
                 ws['C' + str(start_detail_data_row_num)].font = title_font
                 ws['C' + str(start_detail_data_row_num)].alignment = c_c_alignment
-                ws['C' + str(start_detail_data_row_num)] = _('Base Period') + ' - ' + report['meter']['energy_category_name'] + \
+                ws['C' + str(start_detail_data_row_num)] = _('Base Period') + ' - ' + \
+                    report['meter']['energy_category_name'] + \
                     " (" + report['meter']['unit_of_measure'] + ")"
                 ws['C' + str(start_detail_data_row_num)].border = f_border
 
                 ws['E' + str(start_detail_data_row_num)].fill = table_fill
                 ws['E' + str(start_detail_data_row_num)].font = title_font
                 ws['E' + str(start_detail_data_row_num)].alignment = c_c_alignment
-                ws['E' + str(start_detail_data_row_num)] = _('Reporting Period') + ' - ' + report['meter']['energy_category_name'] + \
+                ws['E' + str(start_detail_data_row_num)] = _('Reporting Period') + ' - ' + \
+                    report['meter']['energy_category_name'] + \
                     " (" + report['meter']['unit_of_measure'] + ")"
                 ws['E' + str(start_detail_data_row_num)].border = f_border
 
             # 13 data
-            time = times
-            time_len = len(time)
-
-            if comparison_type == 'none-comparison' :
-                for j in range(0, time_len):
+            if comparison_type == 'none-comparison':
+                for j in range(0, len(reporting_period_data['timestamps'])):
                     row = str(start_detail_data_row_num + 1 + j)
                     ws['C' + row].font = title_font
                     ws['C' + row].alignment = c_c_alignment
                     ws['C' + row] = round(reporting_period_data['values'][j], 2)
                     ws['C' + row].border = f_border
-
                 # line
                 # 13~: line
                 line = LineChart()
@@ -389,22 +384,19 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                 line.dLbls.showVal = True
                 line.dLbls.showPercent = False
                 ws.add_chart(line, "B12")
-
-                row = str(start_detail_data_row_num + 1 + len(time))
-
-            else :
-                for j in range(0, time_len):
+            else:
+                for j in range(0, len(reporting_period_data['timestamps'])):
                     row = str(start_detail_data_row_num + 1 + j)
                     ws['C' + row].font = title_font
                     ws['C' + row].alignment = c_c_alignment
-                    ws['C' + row] = round(report['base_period']['values'][j], 2)
+                    ws['C' + row] = round(report['base_period']['values'][j], 2) \
+                        if j < len(report['base_period']['values']) else None
                     ws['C' + row].border = f_border
 
                     ws['E' + row].font = title_font
                     ws['E' + row].alignment = c_c_alignment
                     ws['E' + row] = round(reporting_period_data['values'][j], 2)
                     ws['E' + row].border = f_border
-
                 # line
                 # 13~: line
                 line = LineChart()
@@ -428,9 +420,9 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                 line.dLbls.showPercent = False
                 ws.add_chart(line, "B12")
 
-            row = str(start_detail_data_row_num + 1 + len(time))
+            row = str(start_detail_data_row_num + 1 + len(reporting_period_data['timestamps']))
 
-            if comparison_type == 'none-comparison' :
+            if comparison_type == 'none-comparison':
                 ws['B' + row].font = title_font
                 ws['B' + row].alignment = c_c_alignment
                 ws['B' + row] = _('Total')
