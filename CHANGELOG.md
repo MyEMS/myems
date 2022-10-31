@@ -18,7 +18,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 - fixed error translations in myems-web
 - added required parameters to webmessages api request in myems-admin
- 
+- fixed base period timestamps index out of range error in myems-api
+- 
 ### Removed
 -
 
