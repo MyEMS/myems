@@ -30,7 +30,8 @@ class Reporting:
     def on_get(req, resp):
         print(req.params)
         distribution_system_id = req.params.get('distributionsystemid')
-
+        quick_mode = req.params.get('quickmode')
+        
         ################################################################################################################
         # Step 1: valid parameters
         ################################################################################################################
@@ -45,6 +46,13 @@ class Reporting:
         # set the earliest datetime of valid actual value
         # if the utc_date_time is less than reporting_start_datetime_utc, then the value is None because of timeout
         reporting_start_datetime_utc = datetime.utcnow() - timedelta(minutes=30)
+        
+        # if turn quick mode on, do not return parameters data and excel file
+        is_quick_mode = False
+        if quick_mode is not None and \
+            len(str.strip(quick_mode)) > 0 and \
+                str.lower(str.strip(quick_mode)) in ('true', 't', 'on', 'yes', 'y'):
+            is_quick_mode = True
 
         ################################################################################################################
         # Step 2: Step 2: query the distribution system
@@ -109,52 +117,53 @@ class Reporting:
         ################################################################################################################
         # Step 5: query points' data
         ################################################################################################################
-        cnx_historical = mysql.connector.connect(**config.myems_historical_db)
-        cursor_historical = cnx_historical.cursor()
+        if not is_quick_mode:
+            cnx_historical = mysql.connector.connect(**config.myems_historical_db)
+            cursor_historical = cnx_historical.cursor()
 
-        for x in range(len(circuit_list)):
-            for y in range(len(circuit_list[x]['points'])):
-                if circuit_list[x]['points'][y]['object_type'] == 'ANALOG_VALUE':
+            for x in range(len(circuit_list)):
+                for y in range(len(circuit_list[x]['points'])):
+                    if circuit_list[x]['points'][y]['object_type'] == 'ANALOG_VALUE':
 
-                    query = (" SELECT actual_value "
-                             " FROM tbl_analog_value_latest "
-                             " WHERE point_id = %s "
-                             "       AND utc_date_time > %s ")
-                    cursor_historical.execute(query, (circuit_list[x]['points'][y]['id'],
-                                                      reporting_start_datetime_utc))
-                    row = cursor_historical.fetchone()
+                        query = (" SELECT actual_value "
+                                " FROM tbl_analog_value_latest "
+                                " WHERE point_id = %s "
+                                "       AND utc_date_time > %s ")
+                        cursor_historical.execute(query, (circuit_list[x]['points'][y]['id'],
+                                                        reporting_start_datetime_utc))
+                        row = cursor_historical.fetchone()
 
-                    if row is not None:
-                        circuit_list[x]['points'][y]['value'] = row[0]
+                        if row is not None:
+                            circuit_list[x]['points'][y]['value'] = row[0]
 
-                elif circuit_list[x]['points'][y]['object_type'] == 'ENERGY_VALUE':
-                    query = (" SELECT actual_value "
-                             " FROM tbl_energy_value_latest "
-                             " WHERE point_id = %s "
-                             "       AND utc_date_time > %s ")
-                    cursor_historical.execute(query, (circuit_list[x]['points'][y]['id'],
-                                                      reporting_start_datetime_utc))
-                    row = cursor_historical.fetchone()
+                    elif circuit_list[x]['points'][y]['object_type'] == 'ENERGY_VALUE':
+                        query = (" SELECT actual_value "
+                                " FROM tbl_energy_value_latest "
+                                " WHERE point_id = %s "
+                                "       AND utc_date_time > %s ")
+                        cursor_historical.execute(query, (circuit_list[x]['points'][y]['id'],
+                                                        reporting_start_datetime_utc))
+                        row = cursor_historical.fetchone()
 
-                    if row is not None:
-                        circuit_list[x]['points'][y]['value'] = row[0]
+                        if row is not None:
+                            circuit_list[x]['points'][y]['value'] = row[0]
 
-                elif circuit_list[x]['points'][y]['object_type'] == 'DIGITAL_VALUE':
-                    query = (" SELECT actual_value "
-                             " FROM tbl_digital_value_latest "
-                             " WHERE point_id = %s "
-                             "       AND utc_date_time > %s ")
-                    cursor_historical.execute(query, (circuit_list[x]['points'][y]['id'],
-                                                      reporting_start_datetime_utc))
-                    row = cursor_historical.fetchone()
+                    elif circuit_list[x]['points'][y]['object_type'] == 'DIGITAL_VALUE':
+                        query = (" SELECT actual_value "
+                                " FROM tbl_digital_value_latest "
+                                " WHERE point_id = %s "
+                                "       AND utc_date_time > %s ")
+                        cursor_historical.execute(query, (circuit_list[x]['points'][y]['id'],
+                                                        reporting_start_datetime_utc))
+                        row = cursor_historical.fetchone()
 
-                    if row is not None:
-                        circuit_list[x]['points'][y]['value'] = row[0]
+                        if row is not None:
+                            circuit_list[x]['points'][y]['value'] = row[0]
 
-        if cursor_historical:
-            cursor_historical.close()
-        if cnx_historical:
-            cnx_historical.close()
+            if cursor_historical:
+                cursor_historical.close()
+            if cnx_historical:
+                cnx_historical.close()
 
         ################################################################################################################
         # Step 6: construct the report

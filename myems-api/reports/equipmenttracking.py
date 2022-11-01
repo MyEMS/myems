@@ -29,7 +29,7 @@ class Reporting:
         print(req.params)
         space_id = req.params.get('spaceid')
         language = req.params.get('language')
-
+        quick_mode = req.params.get('quick_mode')
         ################################################################################################################
         # Step 1: valid parameters
         ################################################################################################################
@@ -41,6 +41,13 @@ class Reporting:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_SPACE_ID')
             else:
                 space_id = int(space_id)
+
+        # if turn quick mode on, do not return parameters data and excel file
+        is_quick_mode = False
+        if quick_mode is not None and \
+            len(str.strip(quick_mode)) > 0 and \
+                str.lower(str.strip(quick_mode)) in ('true', 't', 'on', 'yes', 'y'):
+            is_quick_mode = True
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -110,8 +117,10 @@ class Reporting:
         result = {'equipments': equipment_list}
 
         # export result to Excel file and then encode the file to base64 string
-        result['excel_bytes_base64'] = \
-            excelexporters.equipmenttracking.export(result,
-                                                    space_name,
-                                                    language)
+        result['excel_bytes_base64'] = None
+        if not is_quick_mode:
+            result['excel_bytes_base64'] = \
+                excelexporters.equipmenttracking.export(result,
+                                                        space_name,
+                                                        language)
         resp.text = json.dumps(result)
