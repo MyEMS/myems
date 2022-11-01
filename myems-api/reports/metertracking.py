@@ -217,7 +217,7 @@ class Reporting:
             end_value = None
             is_integral_start_value = False
 
-            if rows_points_id is not None and len(rows_points_id) > 0 and not is_quick_mode:
+            if rows_points_id is not None and len(rows_points_id) > 0:
                 query_start_value = (" SELECT actual_value "
                                      " FROM tbl_energy_value "
                                      " where point_id in ("
