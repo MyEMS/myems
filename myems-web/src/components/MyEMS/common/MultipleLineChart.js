@@ -183,8 +183,8 @@ const MultipleLineChart = ({
         trigger: 'axis'
       },
       grid: {
-        left: '2%',
-        right: '2%',
+        left: '4%',
+        right: '4%',
         bottom: '15%',
         containLabel: true
       },
@@ -195,7 +195,8 @@ const MultipleLineChart = ({
           interval: 'auto',
           textStyle: {
             color: rgbaColor('#fff', 0.8),
-          }
+          },
+          rotate:30  
         },
         axisLine:{
           lineStyle:{
