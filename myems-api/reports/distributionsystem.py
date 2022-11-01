@@ -151,10 +151,10 @@ class Reporting:
                     if row is not None:
                         circuit_list[x]['points'][y]['value'] = row[0]
 
-            if cursor_historical:
-                cursor_historical.close()
-            if cnx_historical:
-                cnx_historical.close()
+        if cursor_historical:
+            cursor_historical.close()
+        if cnx_historical:
+            cnx_historical.close()
 
         ################################################################################################################
         # Step 6: construct the report
