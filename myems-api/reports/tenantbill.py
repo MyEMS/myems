@@ -42,7 +42,6 @@ class Reporting:
         language = req.params.get('language')
         # This value is intentionally left daily
         period_type = 'daily'
-        quick_mode = req.params.get('quickmode')
 
         ################################################################################################################
         # Step 1: valid parameters
@@ -106,13 +105,6 @@ class Reporting:
         if reporting_start_datetime_utc >= reporting_end_datetime_utc:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_REPORTING_PERIOD_END_DATETIME')
-
-        # if turn quick mode on, do not return parameters data and excel file
-        is_quick_mode = False
-        if quick_mode is not None and \
-            len(str.strip(quick_mode)) > 0 and \
-                str.lower(str.strip(quick_mode)) in ('true', 't', 'on', 'yes', 'y'):
-            is_quick_mode = True
 
         locale_path = './i18n/'
         if language == 'zh_CN':
@@ -330,7 +322,7 @@ class Reporting:
         parameters_data['names'] = list()
         parameters_data['timestamps'] = list()
         parameters_data['values'] = list()
-        if config.is_tariff_appended and energy_category_set is not None and len(energy_category_set) > 0 and not is_quick_mode:
+        if config.is_tariff_appended and energy_category_set is not None and len(energy_category_set) > 0:
             for energy_category_id in energy_category_set:
                 energy_category_tariff_dict = utilities.get_energy_category_tariffs(tenant['cost_center_id'],
                                                                                     energy_category_id,
@@ -402,12 +394,11 @@ class Reporting:
         }
 
         # export result to Excel file and then encode the file to base64 string
-        if not is_quick_mode:
-            result['excel_bytes_base64'] = excelexporters.tenantbill.export(result,
-                                                                            tenant['name'],
-                                                                            reporting_period_start_datetime_local,
-                                                                            reporting_period_end_datetime_local,
-                                                                            period_type,
-                                                                            language)
+        result['excel_bytes_base64'] = excelexporters.tenantbill.export(result,
+                                                                        tenant['name'],
+                                                                        reporting_period_start_datetime_local,
+                                                                        reporting_period_end_datetime_local,
+                                                                        period_type,
+                                                                        language)
 
         resp.text = json.dumps(result)
