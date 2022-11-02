@@ -449,7 +449,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             if has_sub_averages_data_flag:
                 line = LineChart()
                 line.title = _('Reporting Period Average Load') + ' - ' + ws.cell(column=current_chart_col_number,
-                                                                          row=table_start_number).value
+                                                                                  row=table_start_number).value
                 datas = Reference(ws, min_col=current_chart_col_number, min_row=table_start_number,
                                   max_row=table_end_number)
                 line.add_data(datas, titles_from_data=True)
@@ -470,7 +470,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             if has_sub_maximums_data_flag:
                 line = LineChart()
                 line.title = _('Reporting Period Maximum Load') + ' - ' + ws.cell(column=current_chart_col_number,
-                                                                          row=table_start_number).value
+                                                                                  row=table_start_number).value
                 datas = Reference(ws, min_col=current_chart_col_number, min_row=table_start_number,
                                   max_row=table_end_number)
                 line.add_data(datas, titles_from_data=True)
@@ -509,7 +509,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         parameters_data = report['parameters']
         parameters_names_len = len(parameters_data['names'])
 
-        file_name = "Space"+re.sub(r'[^A-Z]', '', ws.title.strip('S')) + "_"
+        file_name = "Space" + re.sub(r'[^A-Z]', '', ws.title.strip('S')) + "_"
         parameters_ws = wb.create_sheet(file_name + _('Parameters'))
 
         parameters_timestamps_data_max_len = \
@@ -637,7 +637,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             labels_col = 2 + col_index * 3
             col_index += 1
             line.title = _('Parameters') + ' - ' + \
-                         parameters_ws.cell(row=parameters_table_start_row_number, column=data_col).value
+                parameters_ws.cell(row=parameters_table_start_row_number, column=data_col).value
             labels = Reference(parameters_ws, min_col=labels_col, min_row=parameters_table_start_row_number + 1,
                                max_row=(len(parameters_data['timestamps'][i]) + parameters_table_start_row_number))
             line_data = Reference(parameters_ws, min_col=data_col, min_row=parameters_table_start_row_number,

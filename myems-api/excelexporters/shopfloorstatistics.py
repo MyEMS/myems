@@ -328,8 +328,8 @@ def generate_excel(report,
     per_unit_area_start_row_number = 9 + ca_len * 2
 
     ws['B' + str(per_unit_area_start_row_number)].font = title_font
-    ws['B' + str(per_unit_area_start_row_number)] = name + ' ' + _('Per Unit Area') + str(report['shopfloor']['area']) + \
-        'M²'
+    ws['B' + str(per_unit_area_start_row_number)] = name + ' ' + _('Per Unit Area') \
+        + str(report['shopfloor']['area']) + 'M²'
 
     category = reporting_period_data['names']
 
@@ -689,7 +689,7 @@ def generate_excel(report,
             labels_col = 2 + col_index * 3
             col_index += 1
             line.title = _('Parameters') + ' - ' + \
-                         parameters_ws.cell(row=parameters_table_start_row_number, column=data_col).value
+                parameters_ws.cell(row=parameters_table_start_row_number, column=data_col).value
             labels = Reference(parameters_ws, min_col=labels_col, min_row=parameters_table_start_row_number + 1,
                                max_row=(len(parameters_data['timestamps'][i]) + parameters_table_start_row_number))
             line_data = Reference(parameters_ws, min_col=data_col, min_row=parameters_table_start_row_number,

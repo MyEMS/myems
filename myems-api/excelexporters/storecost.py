@@ -71,7 +71,6 @@ def generate_excel(report,
                    period_type,
                    language):
 
-
     locale_path = './i18n/'
     if language == 'zh_CN':
         trans = gettext.translation('myems', locale_path, languages=['zh_CN'])
@@ -515,7 +514,7 @@ def generate_excel(report,
 
                 line = LineChart()
                 line.title = _('Reporting Period Costs') + ' - ' + \
-                             reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
+                    reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
                 labels = Reference(ws, min_col=2, min_row=detail_data_table_start_row_number + 1,
                                    max_row=table_end_row_number)
                 line_data = Reference(ws, min_col=3 + i, min_row=detail_data_table_start_row_number,
@@ -700,7 +699,7 @@ def generate_excel(report,
             labels_col = 2 + col_index * 3
             col_index += 1
             line.title = _('Parameters') + ' - ' + \
-                         parameters_ws.cell(row=parameters_table_start_row_number, column=data_col).value
+                parameters_ws.cell(row=parameters_table_start_row_number, column=data_col).value
             labels = Reference(parameters_ws, min_col=labels_col, min_row=parameters_table_start_row_number + 1,
                                max_row=(len(parameters_data['timestamps'][i]) + parameters_table_start_row_number))
             line_data = Reference(parameters_ws, min_col=data_col, min_row=parameters_table_start_row_number,

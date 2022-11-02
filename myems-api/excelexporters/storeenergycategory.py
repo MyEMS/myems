@@ -457,7 +457,8 @@ def generate_excel(report,
 
         if has_kgco2e_data_flag:
             ws['B' + str(current_row_number)].font = title_font
-            ws['B' + str(current_row_number)] = name + ' ' + _('Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category')
+            ws['B' + str(current_row_number)] = name + ' ' \
+                + _('Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category')
 
             current_row_number += 1
             table_start_row_number = current_row_number
@@ -773,7 +774,7 @@ def generate_excel(report,
             labels_col = 2 + col_index * 3
             col_index += 1
             line.title = _('Parameters') + ' - ' + \
-                         parameters_ws.cell(row=parameters_table_start_row_number, column=data_col).value
+                parameters_ws.cell(row=parameters_table_start_row_number, column=data_col).value
             labels = Reference(parameters_ws, min_col=labels_col, min_row=parameters_table_start_row_number + 1,
                                max_row=(len(parameters_data['timestamps'][i]) + parameters_table_start_row_number))
             line_data = Reference(parameters_ws, min_col=data_col, min_row=parameters_table_start_row_number,
