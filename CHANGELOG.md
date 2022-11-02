@@ -10,15 +10,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added hyperlink to energy report page for all meters in meter tracking
 - added updating latest value of virtul point in myems-normalization
 - added difference values to meter comparison report
+- added quickmode parameter to most APIs in myems-api
 - 
 ### Changed
 - added translations of TARIFF in myems-api
 - updated query panel of web messages in myems-admin
+- replaced chartjs with echarts for MultipleLineChart in myems-web
 - 
 ### Fixed
 - fixed error translations in myems-web
 - added required parameters to webmessages api request in myems-admin
 - fixed base period timestamps index out of range error in myems-api
+- fixed PEP 8 warnings in myems-api
 - 
 ### Removed
 -

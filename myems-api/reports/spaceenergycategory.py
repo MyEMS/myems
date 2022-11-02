@@ -465,7 +465,8 @@ class Reporting:
                         tariff_timestamp_list.append(k.isoformat()[0:19][0:19])
                         tariff_value_list.append(v)
 
-                    parameters_data['names'].append(_('Tariff') + '-' + energy_category_dict[energy_category_id]['name'])
+                    parameters_data['names'].append(_('Tariff') + '-'
+                                                    + energy_category_dict[energy_category_id]['name'])
                     parameters_data['timestamps'].append(tariff_timestamp_list)
                     parameters_data['values'].append(tariff_value_list)
 

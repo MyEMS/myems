@@ -296,14 +296,14 @@ def generate_excel(report,
 
             ws[col_average + str(row_da + 1)].font = name_font
             ws[col_average + str(row_da + 1)].alignment = c_c_alignment
-            ws[col_average + str(row_da + 1)] = names[i] + " " + _("Average Load") + "(" + reporting_period_data['units'][
-                i] + "/H)"
+            ws[col_average + str(row_da + 1)] = names[i] + " " + _("Average Load") + "(" \
+                + reporting_period_data['units'][i] + "/H)"
             ws[col_average + str(row_da + 1)].border = f_border
 
             ws[col_maximum + str(row_da + 1)].font = name_font
             ws[col_maximum + str(row_da + 1)].alignment = c_c_alignment
-            ws[col_maximum + str(row_da + 1)] = names[i] + " " + _("Maximum Load") + "(" + reporting_period_data['units'][
-                i] + "/H)"
+            ws[col_maximum + str(row_da + 1)] = names[i] + " " + _("Maximum Load") + "(" \
+                + reporting_period_data['units'][i] + "/H)"
             ws[col_maximum + str(row_da + 1)].border = f_border
         # table_date
         for i in range(0, time_len):
@@ -513,7 +513,7 @@ def generate_excel(report,
             labels_col = 2 + col_index * 3
             col_index += 1
             line.title = _('Parameters') + ' - ' + \
-                         parameters_ws.cell(row=parameters_table_start_row_number, column=data_col).value
+                parameters_ws.cell(row=parameters_table_start_row_number, column=data_col).value
             labels = Reference(parameters_ws, min_col=labels_col, min_row=parameters_table_start_row_number + 1,
                                max_row=(len(parameters_data['timestamps'][i]) + parameters_table_start_row_number))
             line_data = Reference(parameters_ws, min_col=data_col, min_row=parameters_table_start_row_number,

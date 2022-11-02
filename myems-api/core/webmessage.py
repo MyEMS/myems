@@ -88,7 +88,6 @@ class WebMessageCollection:
                 else:
                     priority_query = "priority= '" + priority + "' AND "
 
-
         # Verify User Session
         token = req.headers.get('TOKEN')
         user_uuid = req.headers.get('USER-UUID')

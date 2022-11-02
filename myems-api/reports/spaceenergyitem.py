@@ -143,7 +143,7 @@ class Reporting:
             try:
                 reporting_end_datetime_utc = datetime.strptime(reporting_period_end_datetime_local,
                                                                '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
-                    timedelta(minutes=timezone_offset)
+                                             timedelta(minutes=timezone_offset)
             except ValueError:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_REPORTING_PERIOD_END_DATETIME")
@@ -155,7 +155,7 @@ class Reporting:
         # if turn quick mode on, do not return parameters data and excel file
         is_quick_mode = False
         if quick_mode is not None and \
-            len(str.strip(quick_mode)) > 0 and \
+                len(str.strip(quick_mode)) > 0 and \
                 str.lower(str.strip(quick_mode)) in ('true', 't', 'on', 'yes', 'y'):
             is_quick_mode = True
 
@@ -289,7 +289,7 @@ class Reporting:
                               "      tbl_points po, tbl_sensors_points sepo "
                               " WHERE sp.id = %s AND sp.id = spse.space_id AND spse.sensor_id = se.id "
                               "       AND se.id = sepo.sensor_id AND sepo.point_id = po.id "
-                              " ORDER BY po.id ", (space['id'], ))
+                              " ORDER BY po.id ", (space['id'],))
         rows_points = cursor_system.fetchall()
         if rows_points is not None and len(rows_points) > 0:
             for row in rows_points:
@@ -301,7 +301,7 @@ class Reporting:
         cursor_system.execute(" SELECT po.id, po.name, po.units, po.object_type  "
                               " FROM tbl_spaces sp, tbl_spaces_points sppo, tbl_points po "
                               " WHERE sp.id = %s AND sp.id = sppo.space_id AND sppo.point_id = po.id "
-                              " ORDER BY po.id ", (space['id'], ))
+                              " ORDER BY po.id ", (space['id'],))
         rows_points = cursor_system.fetchall()
         if rows_points is not None and len(rows_points) > 0:
             for row in rows_points:
@@ -314,7 +314,7 @@ class Reporting:
         cursor_system.execute(" SELECT id, name  "
                               " FROM tbl_spaces "
                               " WHERE parent_space_id = %s "
-                              " ORDER BY id ", (space['id'], ))
+                              " ORDER BY id ", (space['id'],))
         rows_child_spaces = cursor_system.fetchall()
         if rows_child_spaces is not None and len(rows_child_spaces) > 0:
             for row in rows_child_spaces:
@@ -469,55 +469,55 @@ class Reporting:
                 point_timestamps = []
                 if point['object_type'] == 'ENERGY_VALUE':
                     query = (" SELECT utc_date_time, actual_value "
-                            " FROM tbl_energy_value "
-                            " WHERE point_id = %s "
-                            "       AND utc_date_time BETWEEN %s AND %s "
-                            " ORDER BY utc_date_time ")
+                             " FROM tbl_energy_value "
+                             " WHERE point_id = %s "
+                             "       AND utc_date_time BETWEEN %s AND %s "
+                             " ORDER BY utc_date_time ")
                     cursor_historical.execute(query, (point['id'],
-                                                    reporting_start_datetime_utc,
-                                                    reporting_end_datetime_utc))
+                                                      reporting_start_datetime_utc,
+                                                      reporting_end_datetime_utc))
                     rows = cursor_historical.fetchall()
 
                     if rows is not None and len(rows) > 0:
                         for row in rows:
                             current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
-                                                    timedelta(minutes=timezone_offset)
+                                                     timedelta(minutes=timezone_offset)
                             current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
                             point_timestamps.append(current_datetime)
                             point_values.append(row[1])
                 elif point['object_type'] == 'ANALOG_VALUE':
                     query = (" SELECT utc_date_time, actual_value "
-                            " FROM tbl_analog_value "
-                            " WHERE point_id = %s "
-                            "       AND utc_date_time BETWEEN %s AND %s "
-                            " ORDER BY utc_date_time ")
+                             " FROM tbl_analog_value "
+                             " WHERE point_id = %s "
+                             "       AND utc_date_time BETWEEN %s AND %s "
+                             " ORDER BY utc_date_time ")
                     cursor_historical.execute(query, (point['id'],
-                                                    reporting_start_datetime_utc,
-                                                    reporting_end_datetime_utc))
+                                                      reporting_start_datetime_utc,
+                                                      reporting_end_datetime_utc))
                     rows = cursor_historical.fetchall()
 
                     if rows is not None and len(rows) > 0:
                         for row in rows:
                             current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
-                                                    timedelta(minutes=timezone_offset)
+                                                     timedelta(minutes=timezone_offset)
                             current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
                             point_timestamps.append(current_datetime)
                             point_values.append(row[1])
                 elif point['object_type'] == 'DIGITAL_VALUE':
                     query = (" SELECT utc_date_time, actual_value "
-                            " FROM tbl_digital_value "
-                            " WHERE point_id = %s "
-                            "       AND utc_date_time BETWEEN %s AND %s "
-                            " ORDER BY utc_date_time ")
+                             " FROM tbl_digital_value "
+                             " WHERE point_id = %s "
+                             "       AND utc_date_time BETWEEN %s AND %s "
+                             " ORDER BY utc_date_time ")
                     cursor_historical.execute(query, (point['id'],
-                                                    reporting_start_datetime_utc,
-                                                    reporting_end_datetime_utc))
+                                                      reporting_start_datetime_utc,
+                                                      reporting_end_datetime_utc))
                     rows = cursor_historical.fetchall()
 
                     if rows is not None and len(rows) > 0:
                         for row in rows:
                             current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
-                                                    timedelta(minutes=timezone_offset)
+                                                     timedelta(minutes=timezone_offset)
                             current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
                             point_timestamps.append(current_datetime)
                             point_values.append(row[1])
@@ -641,7 +641,7 @@ class Reporting:
         result['child_space'] = dict()
         result['child_space']['energy_item_names'] = list()  # 1D array [energy item]
         result['child_space']['units'] = list()  # 1D array [energy item]
-        result['child_space']['child_space_names_array'] = list()   # 2D array [energy item][child space]
+        result['child_space']['child_space_names_array'] = list()  # 2D array [energy item][child space]
         result['child_space']['subtotals_array'] = list()  # 2D array [energy item][child space]
         if energy_item_set is not None and len(energy_item_set) > 0:
             for energy_item_id in energy_item_set:
@@ -656,10 +656,10 @@ class Reporting:
         result['excel_bytes_base64'] = None
         if not is_quick_mode:
             result['excel_bytes_base64'] = excelexporters.spaceenergyitem.export(result,
-                                                                                space['name'],
-                                                                                reporting_period_start_datetime_local,
-                                                                                reporting_period_end_datetime_local,
-                                                                                period_type,
-                                                                                language)
+                                                                                 space['name'],
+                                                                                 reporting_period_start_datetime_local,
+                                                                                 reporting_period_end_datetime_local,
+                                                                                 period_type,
+                                                                                 language)
 
         resp.text = json.dumps(result)

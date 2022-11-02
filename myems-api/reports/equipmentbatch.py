@@ -94,7 +94,7 @@ class Reporting:
         # if turn quick mode on, do not return parameters data and excel file
         is_quick_mode = False
         if quick_mode is not None and \
-            len(str.strip(quick_mode)) > 0 and \
+                len(str.strip(quick_mode)) > 0 and \
                 str.lower(str.strip(quick_mode)) in ('true', 't', 'on', 'yes', 'y'):
             is_quick_mode = True
 
@@ -246,16 +246,14 @@ class Reporting:
                 "values": equipment['values'],
             })
 
-        result = {'equipments': equipment_list,
-                  'energycategories': energy_category_list}
+        result = {'equipments': equipment_list, 'energycategories': energy_category_list, 'excel_bytes_base64': None}
 
         # export result to Excel file and then encode the file to base64 string
-        result['excel_bytes_base64'] = None
         if not is_quick_mode:
             result['excel_bytes_base64'] = \
                 excelexporters.equipmentbatch.export(result,
-                                                    space_name,
-                                                    reporting_period_start_datetime_local,
-                                                    reporting_period_end_datetime_local,
-                                                    language)
+                                                     space_name,
+                                                     reporting_period_start_datetime_local,
+                                                     reporting_period_end_datetime_local,
+                                                     language)
         resp.text = json.dumps(result)

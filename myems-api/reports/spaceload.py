@@ -141,7 +141,7 @@ class Reporting:
             try:
                 reporting_end_datetime_utc = datetime.strptime(reporting_period_end_datetime_local,
                                                                '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
-                    timedelta(minutes=timezone_offset)
+                                             timedelta(minutes=timezone_offset)
             except ValueError:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_REPORTING_PERIOD_END_DATETIME")
@@ -283,7 +283,7 @@ class Reporting:
                               "      tbl_points po, tbl_sensors_points sepo "
                               " WHERE sp.id = %s AND sp.id = spse.space_id AND spse.sensor_id = se.id "
                               "       AND se.id = sepo.sensor_id AND sepo.point_id = po.id "
-                              " ORDER BY po.id ", (space['id'], ))
+                              " ORDER BY po.id ", (space['id'],))
         rows_points = cursor_system.fetchall()
         if rows_points is not None and len(rows_points) > 0:
             for row in rows_points:
@@ -295,7 +295,7 @@ class Reporting:
         cursor_system.execute(" SELECT po.id, po.name, po.units, po.object_type  "
                               " FROM tbl_spaces sp, tbl_spaces_points sppo, tbl_points po "
                               " WHERE sp.id = %s AND sp.id = sppo.space_id AND sppo.point_id = po.id "
-                              " ORDER BY po.id ", (space['id'], ))
+                              " ORDER BY po.id ", (space['id'],))
         rows_points = cursor_system.fetchall()
         if rows_points is not None and len(rows_points) > 0:
             for row in rows_points:
@@ -337,10 +337,10 @@ class Reporting:
                                                               period_type)
                 base[energy_category_id]['factor'] = \
                     (base[energy_category_id]['average'] / base[energy_category_id]['maximum']
-                        if (base[energy_category_id]['average'] is not None and
-                            base[energy_category_id]['maximum'] is not None and
-                            base[energy_category_id]['maximum'] > Decimal(0.0))
-                        else None)
+                     if (base[energy_category_id]['average'] is not None and
+                         base[energy_category_id]['maximum'] is not None and
+                         base[energy_category_id]['maximum'] > Decimal(0.0))
+                     else None)
 
                 for row_space_periodically in rows_space_periodically:
                     current_datetime_local = row_space_periodically[0].replace(tzinfo=timezone.utc) + \
@@ -441,7 +441,8 @@ class Reporting:
                         tariff_timestamp_list.append(k.isoformat()[0:19][0:19])
                         tariff_value_list.append(v)
 
-                    parameters_data['names'].append(_('Tariff') + '-' + energy_category_dict[energy_category_id]['name'])
+                    parameters_data['names'].append(_('Tariff') + '-' +
+                                                    energy_category_dict[energy_category_id]['name'])
                     parameters_data['timestamps'].append(tariff_timestamp_list)
                     parameters_data['values'].append(tariff_value_list)
 
@@ -581,11 +582,11 @@ class Reporting:
                 result['reporting_period']['sub_maximums'].append(reporting[energy_category_id]['sub_maximums'])
                 result['reporting_period']['averages'].append(reporting[energy_category_id]['average'])
                 result['reporting_period']['averages_per_unit_area'].append(
-                        reporting[energy_category_id]['average'] / space['area']
-                        if reporting[energy_category_id]['average'] is not None and
-                        space['area'] is not None and
-                        space['area'] > Decimal(0.0)
-                        else None)
+                    reporting[energy_category_id]['average'] / space['area']
+                    if reporting[energy_category_id]['average'] is not None and
+                    space['area'] is not None and
+                    space['area'] > Decimal(0.0)
+                    else None)
                 result['reporting_period']['averages_increment_rate'].append(
                     (reporting[energy_category_id]['average'] - base[energy_category_id]['average']) /
                     base[energy_category_id]['average'] if (reporting[energy_category_id]['average'] is not None and

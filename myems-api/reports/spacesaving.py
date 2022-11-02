@@ -155,7 +155,7 @@ class Reporting:
         # if turn quick mode on, do not return parameters data and excel file
         is_quick_mode = False
         if quick_mode is not None and \
-            len(str.strip(quick_mode)) > 0 and \
+                len(str.strip(quick_mode)) > 0 and \
                 str.lower(str.strip(quick_mode)) in ('true', 't', 'on', 'yes', 'y'):
             is_quick_mode = True
 
@@ -566,7 +566,8 @@ class Reporting:
         parameters_data['names'] = list()
         parameters_data['timestamps'] = list()
         parameters_data['values'] = list()
-        if config.is_tariff_appended and energy_category_set is not None and len(energy_category_set) > 0 and not is_quick_mode:
+        if config.is_tariff_appended and energy_category_set is not None and len(energy_category_set) > 0 \
+                and not is_quick_mode:
             for energy_category_id in energy_category_set:
                 energy_category_tariff_dict = utilities.get_energy_category_tariffs(space['cost_center_id'],
                                                                                     energy_category_id,
@@ -593,55 +594,55 @@ class Reporting:
                 point_timestamps = []
                 if point['object_type'] == 'ENERGY_VALUE':
                     query = (" SELECT utc_date_time, actual_value "
-                            " FROM tbl_energy_value "
-                            " WHERE point_id = %s "
-                            "       AND utc_date_time BETWEEN %s AND %s "
-                            " ORDER BY utc_date_time ")
+                             " FROM tbl_energy_value "
+                             " WHERE point_id = %s "
+                             "       AND utc_date_time BETWEEN %s AND %s "
+                             " ORDER BY utc_date_time ")
                     cursor_historical.execute(query, (point['id'],
-                                                    reporting_start_datetime_utc,
-                                                    reporting_end_datetime_utc))
+                                                      reporting_start_datetime_utc,
+                                                      reporting_end_datetime_utc))
                     rows = cursor_historical.fetchall()
 
                     if rows is not None and len(rows) > 0:
                         for row in rows:
                             current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
-                                                    timedelta(minutes=timezone_offset)
+                                                     timedelta(minutes=timezone_offset)
                             current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
                             point_timestamps.append(current_datetime)
                             point_values.append(row[1])
                 elif point['object_type'] == 'ANALOG_VALUE':
                     query = (" SELECT utc_date_time, actual_value "
-                            " FROM tbl_analog_value "
-                            " WHERE point_id = %s "
-                            "       AND utc_date_time BETWEEN %s AND %s "
-                            " ORDER BY utc_date_time ")
+                             " FROM tbl_analog_value "
+                             " WHERE point_id = %s "
+                             "       AND utc_date_time BETWEEN %s AND %s "
+                             " ORDER BY utc_date_time ")
                     cursor_historical.execute(query, (point['id'],
-                                                    reporting_start_datetime_utc,
-                                                    reporting_end_datetime_utc))
+                                                      reporting_start_datetime_utc,
+                                                      reporting_end_datetime_utc))
                     rows = cursor_historical.fetchall()
 
                     if rows is not None and len(rows) > 0:
                         for row in rows:
                             current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
-                                                    timedelta(minutes=timezone_offset)
+                                                     timedelta(minutes=timezone_offset)
                             current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
                             point_timestamps.append(current_datetime)
                             point_values.append(row[1])
                 elif point['object_type'] == 'DIGITAL_VALUE':
                     query = (" SELECT utc_date_time, actual_value "
-                            " FROM tbl_digital_value "
-                            " WHERE point_id = %s "
-                            "       AND utc_date_time BETWEEN %s AND %s "
-                            " ORDER BY utc_date_time ")
+                             " FROM tbl_digital_value "
+                             " WHERE point_id = %s "
+                             "       AND utc_date_time BETWEEN %s AND %s "
+                             " ORDER BY utc_date_time ")
                     cursor_historical.execute(query, (point['id'],
-                                                    reporting_start_datetime_utc,
-                                                    reporting_end_datetime_utc))
+                                                      reporting_start_datetime_utc,
+                                                      reporting_end_datetime_utc))
                     rows = cursor_historical.fetchall()
 
                     if rows is not None and len(rows) > 0:
                         for row in rows:
                             current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
-                                                    timedelta(minutes=timezone_offset)
+                                                     timedelta(minutes=timezone_offset)
                             current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
                             point_timestamps.append(current_datetime)
                             point_values.append(row[1])
@@ -845,10 +846,10 @@ class Reporting:
         # export result to Excel file and then encode the file to base64 string
         if not is_quick_mode:
             result['excel_bytes_base64'] = excelexporters.spacesaving.export(result,
-                                                                            space['name'],
-                                                                            reporting_period_start_datetime_local,
-                                                                            reporting_period_end_datetime_local,
-                                                                            period_type,
-                                                                            language)
+                                                                             space['name'],
+                                                                             reporting_period_start_datetime_local,
+                                                                             reporting_period_end_datetime_local,
+                                                                             period_type,
+                                                                             language)
 
         resp.text = json.dumps(result)

@@ -475,7 +475,8 @@ def generate_excel(report,
                 # line
                 # 39~: line
                 line = LineChart()
-                line.title = _('Reporting Period Carbon Dioxide Emissions') + ' - ' + ws.cell(column=3+i, row=table_row).value
+                line.title = _('Reporting Period Carbon Dioxide Emissions') + ' - ' \
+                    + ws.cell(column=3+i, row=table_row).value
                 labels = Reference(ws, min_col=2, min_row=table_row+1, max_row=max_row)
                 line_data = Reference(ws, min_col=3 + i, min_row=table_row, max_row=max_row)  # openpyxl bug
                 line.add_data(line_data, titles_from_data=True)
@@ -647,7 +648,7 @@ def generate_excel(report,
             labels_col = 2+col_index*3
             col_index += 1
             line.title = _('Parameters') + ' - ' + \
-                         parameters_ws.cell(row=parameters_table_start_row_number, column=data_col).value
+                parameters_ws.cell(row=parameters_table_start_row_number, column=data_col).value
             labels = Reference(parameters_ws, min_col=labels_col, min_row=parameters_table_start_row_number + 1,
                                max_row=(len(parameters_data['timestamps'][i])+parameters_table_start_row_number))
             line_data = Reference(parameters_ws, min_col=data_col, min_row=parameters_table_start_row_number,
