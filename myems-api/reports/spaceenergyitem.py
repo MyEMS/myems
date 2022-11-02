@@ -48,6 +48,7 @@ class Reporting:
         reporting_period_start_datetime_local = req.params.get('reportingperiodstartdatetime')
         reporting_period_end_datetime_local = req.params.get('reportingperiodenddatetime')
         language = req.params.get('language')
+        quick_mode = req.params.get('quickmode')
 
         ################################################################################################################
         # Step 1: valid parameters
@@ -150,6 +151,13 @@ class Reporting:
         if reporting_start_datetime_utc >= reporting_end_datetime_utc:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_REPORTING_PERIOD_END_DATETIME')
+
+        # if turn quick mode on, do not return parameters data and excel file
+        is_quick_mode = False
+        if quick_mode is not None and \
+            len(str.strip(quick_mode)) > 0 and \
+                str.lower(str.strip(quick_mode)) in ('true', 't', 'on', 'yes', 'y'):
+            is_quick_mode = True
 
         locale_path = './i18n/'
         if language == 'zh_CN':
@@ -433,7 +441,7 @@ class Reporting:
         parameters_data['names'] = list()
         parameters_data['timestamps'] = list()
         parameters_data['values'] = list()
-        if config.is_tariff_appended and energy_item_set is not None and len(energy_item_set) > 0:
+        if config.is_tariff_appended and energy_item_set is not None and len(energy_item_set) > 0 and not is_quick_mode:
             for energy_item_id in energy_item_set:
                 energy_category_tariff_dict = \
                     utilities.get_energy_category_tariffs(space['cost_center_id'],
@@ -455,67 +463,68 @@ class Reporting:
         ################################################################################################################
         # Step 10: query associated sensors and points data
         ################################################################################################################
-        for point in point_list:
-            point_values = []
-            point_timestamps = []
-            if point['object_type'] == 'ENERGY_VALUE':
-                query = (" SELECT utc_date_time, actual_value "
-                         " FROM tbl_energy_value "
-                         " WHERE point_id = %s "
-                         "       AND utc_date_time BETWEEN %s AND %s "
-                         " ORDER BY utc_date_time ")
-                cursor_historical.execute(query, (point['id'],
-                                                  reporting_start_datetime_utc,
-                                                  reporting_end_datetime_utc))
-                rows = cursor_historical.fetchall()
+        if not is_quick_mode:
+            for point in point_list:
+                point_values = []
+                point_timestamps = []
+                if point['object_type'] == 'ENERGY_VALUE':
+                    query = (" SELECT utc_date_time, actual_value "
+                            " FROM tbl_energy_value "
+                            " WHERE point_id = %s "
+                            "       AND utc_date_time BETWEEN %s AND %s "
+                            " ORDER BY utc_date_time ")
+                    cursor_historical.execute(query, (point['id'],
+                                                    reporting_start_datetime_utc,
+                                                    reporting_end_datetime_utc))
+                    rows = cursor_historical.fetchall()
 
-                if rows is not None and len(rows) > 0:
-                    for row in rows:
-                        current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
-                                                 timedelta(minutes=timezone_offset)
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
-                        point_timestamps.append(current_datetime)
-                        point_values.append(row[1])
-            elif point['object_type'] == 'ANALOG_VALUE':
-                query = (" SELECT utc_date_time, actual_value "
-                         " FROM tbl_analog_value "
-                         " WHERE point_id = %s "
-                         "       AND utc_date_time BETWEEN %s AND %s "
-                         " ORDER BY utc_date_time ")
-                cursor_historical.execute(query, (point['id'],
-                                                  reporting_start_datetime_utc,
-                                                  reporting_end_datetime_utc))
-                rows = cursor_historical.fetchall()
+                    if rows is not None and len(rows) > 0:
+                        for row in rows:
+                            current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
+                                                    timedelta(minutes=timezone_offset)
+                            current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                            point_timestamps.append(current_datetime)
+                            point_values.append(row[1])
+                elif point['object_type'] == 'ANALOG_VALUE':
+                    query = (" SELECT utc_date_time, actual_value "
+                            " FROM tbl_analog_value "
+                            " WHERE point_id = %s "
+                            "       AND utc_date_time BETWEEN %s AND %s "
+                            " ORDER BY utc_date_time ")
+                    cursor_historical.execute(query, (point['id'],
+                                                    reporting_start_datetime_utc,
+                                                    reporting_end_datetime_utc))
+                    rows = cursor_historical.fetchall()
 
-                if rows is not None and len(rows) > 0:
-                    for row in rows:
-                        current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
-                                                 timedelta(minutes=timezone_offset)
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
-                        point_timestamps.append(current_datetime)
-                        point_values.append(row[1])
-            elif point['object_type'] == 'DIGITAL_VALUE':
-                query = (" SELECT utc_date_time, actual_value "
-                         " FROM tbl_digital_value "
-                         " WHERE point_id = %s "
-                         "       AND utc_date_time BETWEEN %s AND %s "
-                         " ORDER BY utc_date_time ")
-                cursor_historical.execute(query, (point['id'],
-                                                  reporting_start_datetime_utc,
-                                                  reporting_end_datetime_utc))
-                rows = cursor_historical.fetchall()
+                    if rows is not None and len(rows) > 0:
+                        for row in rows:
+                            current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
+                                                    timedelta(minutes=timezone_offset)
+                            current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                            point_timestamps.append(current_datetime)
+                            point_values.append(row[1])
+                elif point['object_type'] == 'DIGITAL_VALUE':
+                    query = (" SELECT utc_date_time, actual_value "
+                            " FROM tbl_digital_value "
+                            " WHERE point_id = %s "
+                            "       AND utc_date_time BETWEEN %s AND %s "
+                            " ORDER BY utc_date_time ")
+                    cursor_historical.execute(query, (point['id'],
+                                                    reporting_start_datetime_utc,
+                                                    reporting_end_datetime_utc))
+                    rows = cursor_historical.fetchall()
 
-                if rows is not None and len(rows) > 0:
-                    for row in rows:
-                        current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
-                                                 timedelta(minutes=timezone_offset)
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
-                        point_timestamps.append(current_datetime)
-                        point_values.append(row[1])
+                    if rows is not None and len(rows) > 0:
+                        for row in rows:
+                            current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
+                                                    timedelta(minutes=timezone_offset)
+                            current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                            point_timestamps.append(current_datetime)
+                            point_values.append(row[1])
 
-            parameters_data['names'].append(point['name'] + ' (' + point['units'] + ')')
-            parameters_data['timestamps'].append(point_timestamps)
-            parameters_data['values'].append(point_values)
+                parameters_data['names'].append(point['name'] + ' (' + point['units'] + ')')
+                parameters_data['timestamps'].append(point_timestamps)
+                parameters_data['values'].append(point_values)
 
         ################################################################################################################
         # Step 11: query child spaces energy input
@@ -644,11 +653,13 @@ class Reporting:
                     child_space_data[energy_item_id]['subtotals'])
 
         # export result to Excel file and then encode the file to base64 string
-        result['excel_bytes_base64'] = excelexporters.spaceenergyitem.export(result,
-                                                                             space['name'],
-                                                                             reporting_period_start_datetime_local,
-                                                                             reporting_period_end_datetime_local,
-                                                                             period_type,
-                                                                             language)
+        result['excel_bytes_base64'] = None
+        if not is_quick_mode:
+            result['excel_bytes_base64'] = excelexporters.spaceenergyitem.export(result,
+                                                                                space['name'],
+                                                                                reporting_period_start_datetime_local,
+                                                                                reporting_period_end_datetime_local,
+                                                                                period_type,
+                                                                                language)
 
         resp.text = json.dumps(result)

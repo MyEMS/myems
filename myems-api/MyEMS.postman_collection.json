@@ -10372,6 +10372,42 @@
 					"response": []
 				},
 				{
+					"name": "GET Combined Equipment Batch Analysis Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/combinedequipmentbatch?spaceid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"combinedequipmentbatch"
+							],
+							"query": [
+								{
+									"key": "spaceid",
+									"value": "1"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-11-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Combined Equipment Cost Report",
 					"request": {
 						"method": "GET",
@@ -10423,6 +10459,61 @@
 					"response": []
 				},
 				{
+					"name": "GET Combined Equipment Cost Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/combinedequipmentcost?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"combinedequipmentcost"
+							],
+							"query": [
+								{
+									"key": "combinedequipmentid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "combinedequipmentuuid",
+									"value": "48aab70f-2e32-4518-9986-a6b7395acf58",
+									"description": "use id or uuid",
+									"disabled": true
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Combined Equipment Carbon Dioxide Emission Report",
 					"request": {
 						"method": "GET",
@@ -10467,6 +10558,61 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Combined Equipment Carbon Dioxide Emission Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/combinedequipmentcarbon?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"combinedequipmentcarbon"
+							],
+							"query": [
+								{
+									"key": "combinedequipmentid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "combinedequipmentuuid",
+									"value": "48aab70f-2e32-4518-9986-a6b7395acf58",
+									"description": "use id or uuid",
+									"disabled": true
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
 								}
 							]
 						}
@@ -10631,6 +10777,61 @@
 					"response": []
 				},
 				{
+					"name": "GET Combined Equipment Energy Category Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/combinedequipmentenergycategory?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"combinedequipmentenergycategory"
+							],
+							"query": [
+								{
+									"key": "combinedequipmentid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "combinedequipmentuuid",
+									"value": "48aab70f-2e32-4518-9986-a6b7395acf58",
+									"description": "use id or uuid",
+									"disabled": true
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Combined Equipment Energy Item Report",
 					"request": {
 						"method": "GET",
@@ -10675,6 +10876,61 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Combined Equipment Energy Item Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/combinedequipmentenergyitem?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"combinedequipmentenergyitem"
+							],
+							"query": [
+								{
+									"key": "combinedequipmentid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "combinedequipmentuuid",
+									"value": "48aab70f-2e32-4518-9986-a6b7395acf58",
+									"description": "use id or uuid",
+									"disabled": true
 								}
 							]
 						}
@@ -10733,6 +10989,61 @@
 					"response": []
 				},
 				{
+					"name": "GET Combined Equipment Income Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/combinedequipmentincome?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"combinedequipmentincome"
+							],
+							"query": [
+								{
+									"key": "combinedequipmentid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "combinedequipmentuuid",
+									"value": "48aab70f-2e32-4518-9986-a6b7395acf58",
+									"description": "use id or uuid",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Combined Equipment Load Report",
 					"request": {
 						"method": "GET",
@@ -10777,6 +11088,61 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Combined Equipment Load Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/combinedequipmentload?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"combinedequipmentload"
+							],
+							"query": [
+								{
+									"key": "combinedequipmentid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "combinedequipmentuuid",
+									"value": "48aab70f-2e32-4518-9986-a6b7395acf58",
+									"description": "use id or uuid",
+									"disabled": true
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
 								}
 							]
 						}
@@ -10835,6 +11201,61 @@
 					"response": []
 				},
 				{
+					"name": "GET Combined Equipment Output Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/combinedequipmentoutput?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"combinedequipmentoutput"
+							],
+							"query": [
+								{
+									"key": "combinedequipmentid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "combinedequipmentuuid",
+									"value": "48aab70f-2e32-4518-9986-a6b7395acf58",
+									"description": "use id or uuid",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Combined Equipment Saving Report",
 					"request": {
 						"method": "GET",
@@ -10886,6 +11307,61 @@
 					"response": []
 				},
 				{
+					"name": "GET Combined Equipment Saving Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/combinedequipmentsaving?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"combinedequipmentsaving"
+							],
+							"query": [
+								{
+									"key": "combinedequipmentid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "combinedequipmentuuid",
+									"value": "48aab70f-2e32-4518-9986-a6b7395acf58",
+									"description": "use id or uuid",
+									"disabled": true
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Combined Equipment Statistics Report",
 					"request": {
 						"method": "GET",
@@ -10930,6 +11406,61 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Combined Equipment Statistics Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/combinedequipmentstatistics?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"combinedequipmentstatistics"
+							],
+							"query": [
+								{
+									"key": "combinedequipmentid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "combinedequipmentuuid",
+									"value": "48aab70f-2e32-4518-9986-a6b7395acf58",
+									"description": "use id or uuid",
+									"disabled": true
 								}
 							]
 						}
@@ -11069,6 +11600,42 @@
 					"response": []
 				},
 				{
+					"name": "GET Equipment Batch Analysis Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/equipmentbatch?spaceid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"equipmentbatch"
+							],
+							"query": [
+								{
+									"key": "spaceid",
+									"value": "1"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-11-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Equipment Cost Report",
 					"request": {
 						"method": "GET",
@@ -11113,6 +11680,61 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Equipment Cost Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/equipmentcost?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"equipmentcost"
+							],
+							"query": [
+								{
+									"key": "equipmentid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "equipmentuuid",
+									"value": "bfa8b106-89a1-49ca-9b2b-a481ac41a873",
+									"description": "use id or uuid",
+									"disabled": true
 								}
 							]
 						}
@@ -11171,6 +11793,61 @@
 					"response": []
 				},
 				{
+					"name": "GET Equipment Efficiency Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/equipmentefficiency?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"equipmentefficiency"
+							],
+							"query": [
+								{
+									"key": "equipmentid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "equipmentuuid",
+									"value": "bfa8b106-89a1-49ca-9b2b-a481ac41a873",
+									"description": "use id or uuid",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Equipment Energy Category Report",
 					"request": {
 						"method": "GET",
@@ -11215,6 +11892,61 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Equipment Energy Category Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/equipmentenergycategory?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"equipmentenergycategory"
+							],
+							"query": [
+								{
+									"key": "equipmentid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "equipmentuuid",
+									"value": "bfa8b106-89a1-49ca-9b2b-a481ac41a873",
+									"description": "use id or uuid",
+									"disabled": true
 								}
 							]
 						}
@@ -11273,6 +12005,61 @@
 					"response": []
 				},
 				{
+					"name": "GET Equipment Energy Item Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/equipmentenergyitem?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"equipmentenergyitem"
+							],
+							"query": [
+								{
+									"key": "equipmentid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "equipmentuuid",
+									"value": "bfa8b106-89a1-49ca-9b2b-a481ac41a873",
+									"description": "use id or uuid",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Equipment Income Report",
 					"request": {
 						"method": "GET",
@@ -11317,6 +12104,61 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Equipment Income Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/equipmentincome?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"equipmentincome"
+							],
+							"query": [
+								{
+									"key": "equipmentid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "equipmentuuid",
+									"value": "bfa8b106-89a1-49ca-9b2b-a481ac41a873",
+									"description": "use id or uuid",
+									"disabled": true
 								}
 							]
 						}
@@ -11375,6 +12217,61 @@
 					"response": []
 				},
 				{
+					"name": "GET Equipment Load Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/equipmentload?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"equipmentload"
+							],
+							"query": [
+								{
+									"key": "equipmentid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "equipmentuuid",
+									"value": "bfa8b106-89a1-49ca-9b2b-a481ac41a873",
+									"description": "use id or uuid",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Equipment Output Report",
 					"request": {
 						"method": "GET",
@@ -11426,7 +12323,113 @@
 					"response": []
 				},
 				{
+					"name": "GET Equipment Output Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/equipmentoutput?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"equipmentoutput"
+							],
+							"query": [
+								{
+									"key": "equipmentid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "equipmentuuid",
+									"value": "bfa8b106-89a1-49ca-9b2b-a481ac41a873",
+									"description": "use id or uuid",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Equipment Saving Report",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/equipmentsaving?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"equipmentsaving"
+							],
+							"query": [
+								{
+									"key": "equipmentid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "equipmentuuid",
+									"value": "bfa8b106-89a1-49ca-9b2b-a481ac41a873",
+									"description": "use id or uuid",
+									"disabled": true
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Equipment Saving Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -11528,6 +12531,61 @@
 					"response": []
 				},
 				{
+					"name": "GET Equipment Statistics Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/equipmentstatistics?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"equipmentstatistics"
+							],
+							"query": [
+								{
+									"key": "equipmentid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "equipmentuuid",
+									"value": "bfa8b106-89a1-49ca-9b2b-a481ac41a873",
+									"description": "use id or uuid",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Meter Batch Analysis Report",
 					"request": {
 						"method": "GET",
@@ -11558,6 +12616,47 @@
 									"key": "language",
 									"value": "zh_CN",
 									"description": "zh_CN, en, de"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Meter Batch Analysis Report (QuickMode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/meterbatch?spaceid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00&language=zh_CN&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"meterbatch"
+							],
+							"query": [
+								{
+									"key": "spaceid",
+									"value": "1"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-11-01T00:00:00"
+								},
+								{
+									"key": "language",
+									"value": "zh_CN",
+									"description": "zh_CN, en, de"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
 								}
 							]
 						}
@@ -11608,6 +12707,60 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Meter Carbon Dioxide Emission Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/metercarbon?meterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"metercarbon"
+							],
+							"query": [
+								{
+									"key": "meterid",
+									"value": "1"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "meteruuid",
+									"value": "eb78f7f9-f26f-463b-92fa-d9daf5b3651c",
+									"description": "alternative of meterid",
+									"disabled": true
 								}
 							]
 						}
@@ -11774,30 +12927,24 @@
 					"response": []
 				},
 				{
-					"name": "GET Meter Energy Report",
+					"name": "GET Meter Cost Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/reports/meterenergy?meterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
+							"raw": "{{base_url}}/reports/metercost?meterid=6&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"reports",
-								"meterenergy"
+								"metercost"
 							],
 							"query": [
 								{
 									"key": "meterid",
-									"value": "1",
+									"value": "6",
 									"description": "use meterid or meteruuid"
-								},
-								{
-									"key": "meteruuid",
-									"value": "5ca47bc5-22c2-47fc-b906-33222191ea40",
-									"description": "use meterid or meteruuid",
-									"disabled": true
 								},
 								{
 									"key": "periodtype",
@@ -11818,6 +12965,16 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "meteruuid",
+									"value": "eb78f7f9-f26f-463b-92fa-d9daf5b3651c",
+									"description": "use meterid or meteruuid",
+									"disabled": true
 								}
 							]
 						}
@@ -11825,18 +12982,18 @@
 					"response": []
 				},
 				{
-					"name": "GET Meter Saving Report",
+					"name": "GET Meter Energy Report",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/reports/metersaving?meterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
+							"raw": "{{base_url}}/reports/meterenergy?meterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"reports",
-								"metersaving"
+								"meterenergy"
 							],
 							"query": [
 								{
@@ -11896,6 +13053,61 @@
 									"description": "use meterid or meteruuid"
 								},
 								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "meteruuid",
+									"value": "5ca47bc5-22c2-47fc-b906-33222191ea40",
+									"description": "use meterid or meteruuid",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Meter Saving Report",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/metersaving?meterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"metersaving"
+							],
+							"query": [
+								{
+									"key": "meterid",
+									"value": "1",
+									"description": "use meterid or meteruuid"
+								},
+								{
 									"key": "meteruuid",
 									"value": "5ca47bc5-22c2-47fc-b906-33222191ea40",
 									"description": "use meterid or meteruuid",
@@ -11920,10 +13132,6 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-10-01T00:00:00"
-								},
-								{
-									"key": "quickmode",
-									"value": "true"
 								}
 							]
 						}
@@ -12017,6 +13225,41 @@
 					"response": []
 				},
 				{
+					"name": "GET Meter Realtime Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/meterrealtime?meterid=1&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"meterrealtime"
+							],
+							"query": [
+								{
+									"key": "meterid",
+									"value": "1",
+									"description": "use meterid or meteruuid"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "meteruuid",
+									"value": "eb78f7f9-f26f-463b-92fa-d9daf5b3651c",
+									"description": "use meterid or meteruuid",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Meter Submeters Balance Report",
 					"request": {
 						"method": "GET",
@@ -12053,6 +13296,53 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Meter Submeters Balance Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/metersubmetersbalance?meterid=1&periodtype=daily&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"metersubmetersbalance"
+							],
+							"query": [
+								{
+									"key": "meterid",
+									"value": "1",
+									"description": "use meterid or meteruuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "meteruuid",
+									"value": "eb78f7f9-f26f-463b-92fa-d9daf5b3651c",
+									"description": "use meterid or meteruuid",
+									"disabled": true
 								}
 							]
 						}
@@ -12174,6 +13464,42 @@
 					"response": []
 				},
 				{
+					"name": "GET Meter Tracking Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/metertracking?spaceid=1&reportingperiodstartdatetime=2022-05-01T00:00:00&reportingperiodenddatetime=2022-05-31T23:59:59&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"metertracking"
+							],
+							"query": [
+								{
+									"key": "spaceid",
+									"value": "1"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2022-05-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2022-05-31T23:59:59"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Offline Meter Batch Analysis Report",
 					"request": {
 						"method": "GET",
@@ -12199,6 +13525,42 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-11-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Offline Meter Batch Analysis Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/offlinemeterbatch?spaceid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"offlinemeterbatch"
+							],
+							"query": [
+								{
+									"key": "spaceid",
+									"value": "1"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-11-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
 								}
 							]
 						}
@@ -12250,6 +13612,54 @@
 					"response": []
 				},
 				{
+					"name": "GET Offline Meter Carbon Dioxide Emission Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/offlinemetercarbon?offlinemeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"offlinemetercarbon"
+							],
+							"query": [
+								{
+									"key": "offlinemeterid",
+									"value": "1"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Offline Meter Cost Report",
 					"request": {
 						"method": "GET",
@@ -12287,6 +13697,54 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Offline Meter Cost Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/offlinemetercost?offlinemeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"offlinemetercost"
+							],
+							"query": [
+								{
+									"key": "offlinemeterid",
+									"value": "1"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
 								}
 							]
 						}
@@ -12338,6 +13796,54 @@
 					"response": []
 				},
 				{
+					"name": "GET Offline Meter Energy Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/offlinemeterenergy?offlinemeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"offlinemeterenergy"
+							],
+							"query": [
+								{
+									"key": "offlinemeterid",
+									"value": "1"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Shopfloor Batch Analysis Report",
 					"request": {
 						"method": "GET",
@@ -12363,6 +13869,42 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-11-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Shopfloor Batch Analysis Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/shopfloorbatch?spaceid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"shopfloorbatch"
+							],
+							"query": [
+								{
+									"key": "spaceid",
+									"value": "1"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-11-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
 								}
 							]
 						}
@@ -12421,6 +13963,61 @@
 					"response": []
 				},
 				{
+					"name": "GET Shopfloor Cost Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/shopfloorcost?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"shopfloorcost"
+							],
+							"query": [
+								{
+									"key": "shopfloorid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "shopflooruuid",
+									"value": "d03837fd-9d30-44fe-9443-154f7c7e15f1",
+									"description": "use id or uuid",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Shopfloor Energy Category Report",
 					"request": {
 						"method": "GET",
@@ -12465,6 +14062,61 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Shopfloor Energy Category Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/shopfloorenergycategory?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"shopfloorenergycategory"
+							],
+							"query": [
+								{
+									"key": "shopfloorid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "shopflooruuid",
+									"value": "d03837fd-9d30-44fe-9443-154f7c7e15f1",
+									"description": "use id or uuid",
+									"disabled": true
 								}
 							]
 						}
@@ -12523,6 +14175,61 @@
 					"response": []
 				},
 				{
+					"name": "GET Shopfloor Energy Item Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/shopfloorenergyitem?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"shopfloorenergyitem"
+							],
+							"query": [
+								{
+									"key": "shopfloorid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "shopflooruuid",
+									"value": "d03837fd-9d30-44fe-9443-154f7c7e15f1",
+									"description": "use id or uuid",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Shopfloor Load Report",
 					"request": {
 						"method": "GET",
@@ -12567,6 +14274,61 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Shopfloor Load Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/shopfloorload?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"shopfloorload"
+							],
+							"query": [
+								{
+									"key": "shopfloorid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "shopflooruuid",
+									"value": "d03837fd-9d30-44fe-9443-154f7c7e15f1",
+									"description": "use id or uuid",
+									"disabled": true
 								}
 							]
 						}
@@ -12625,6 +14387,61 @@
 					"response": []
 				},
 				{
+					"name": "GET Shopfloor Saving Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/shopfloorsaving?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"shopfloorsaving"
+							],
+							"query": [
+								{
+									"key": "shopfloorid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "shopflooruuid",
+									"value": "d03837fd-9d30-44fe-9443-154f7c7e15f1",
+									"description": "use id or uuid",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Shopfloor tatistics Report",
 					"request": {
 						"method": "GET",
@@ -12669,6 +14486,61 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Shopfloor tatistics Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/shopfloorstatistics?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"shopfloorstatistics"
+							],
+							"query": [
+								{
+									"key": "shopfloorid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "shopflooruuid",
+									"value": "d03837fd-9d30-44fe-9443-154f7c7e15f1",
+									"description": "use id or uuid",
+									"disabled": true
 								}
 							]
 						}
@@ -12727,6 +14599,61 @@
 					"response": []
 				},
 				{
+					"name": "GET Space Cost Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/spacecost?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"spacecost"
+							],
+							"query": [
+								{
+									"key": "spaceid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "spaceuuid",
+									"value": "9dfb7cff-f19f-4a1e-8c79-3adf6425bfd9",
+									"description": "use id or uuid",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Space Efficiency Report",
 					"request": {
 						"method": "GET",
@@ -12771,6 +14698,61 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Space Efficiency Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/spaceefficiency?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"spaceefficiency"
+							],
+							"query": [
+								{
+									"key": "spaceid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "spaceuuid",
+									"value": "9dfb7cff-f19f-4a1e-8c79-3adf6425bfd9",
+									"description": "use id or uuid",
+									"disabled": true
 								}
 							]
 						}
@@ -12935,6 +14917,61 @@
 					"response": []
 				},
 				{
+					"name": "GET Space Energy Item Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/spaceenergyitem?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"spaceenergyitem"
+							],
+							"query": [
+								{
+									"key": "spaceid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "spaceuuid",
+									"value": "9dfb7cff-f19f-4a1e-8c79-3adf6425bfd9",
+									"description": "use id or uuid",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Space Income Report",
 					"request": {
 						"method": "GET",
@@ -12979,6 +15016,61 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Space Income Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/spaceincome?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"spaceincome"
+							],
+							"query": [
+								{
+									"key": "spaceid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "spaceuuid",
+									"value": "9dfb7cff-f19f-4a1e-8c79-3adf6425bfd9",
+									"description": "use id or uuid",
+									"disabled": true
 								}
 							]
 						}
@@ -13143,6 +15235,61 @@
 					"response": []
 				},
 				{
+					"name": "GET Space Output Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/spaceoutput?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"spaceoutput"
+							],
+							"query": [
+								{
+									"key": "spaceid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "spaceuuid",
+									"value": "9dfb7cff-f19f-4a1e-8c79-3adf6425bfd9",
+									"description": "use id or uuid",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Space Saving Report",
 					"request": {
 						"method": "GET",
@@ -13187,6 +15334,61 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Space Saving Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/spacesaving?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"spacesaving"
+							],
+							"query": [
+								{
+									"key": "spaceid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "spaceuuid",
+									"value": "9dfb7cff-f19f-4a1e-8c79-3adf6425bfd9",
+									"description": "use id or uuid",
+									"disabled": true
 								}
 							]
 						}
@@ -13245,6 +15447,61 @@
 					"response": []
 				},
 				{
+					"name": "GET Space Statistics Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/spacestatistics?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"spacestatistics"
+							],
+							"query": [
+								{
+									"key": "spaceid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "spaceuuid",
+									"value": "9dfb7cff-f19f-4a1e-8c79-3adf6425bfd9",
+									"description": "use id or uuid",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Store Batch Analysis Report",
 					"request": {
 						"method": "GET",
@@ -13277,6 +15534,42 @@
 					"response": []
 				},
 				{
+					"name": "GET Store Batch Analysis Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/storebatch?spaceid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"storebatch"
+							],
+							"query": [
+								{
+									"key": "spaceid",
+									"value": "1"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-11-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Store Cost Report",
 					"request": {
 						"method": "GET",
@@ -13297,10 +15590,55 @@
 									"description": "use id or uuid"
 								},
 								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
 									"key": "storeuuid",
 									"value": "d8a24322-4bab-4ba2-aedc-5d55a84c3db8",
 									"description": "use id or uuid",
 									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Store Cost Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/storecost?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"storecost"
+							],
+							"query": [
+								{
+									"key": "storeid",
+									"value": "1",
+									"description": "use id or uuid"
 								},
 								{
 									"key": "periodtype",
@@ -13321,6 +15659,16 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "storeuuid",
+									"value": "d8a24322-4bab-4ba2-aedc-5d55a84c3db8",
+									"description": "use id or uuid",
+									"disabled": true
 								}
 							]
 						}
@@ -13379,6 +15727,61 @@
 					"response": []
 				},
 				{
+					"name": "GET Store Energy Category Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/storeenergycategory?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"storeenergycategory"
+							],
+							"query": [
+								{
+									"key": "storeid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "storeuuid",
+									"value": "d8a24322-4bab-4ba2-aedc-5d55a84c3db8",
+									"description": "use id or uuid",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Store Energy Item Report",
 					"request": {
 						"method": "GET",
@@ -13423,6 +15826,61 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Store Energy Item Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/storeenergyitem?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"storeenergyitem"
+							],
+							"query": [
+								{
+									"key": "storeid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "storeuuid",
+									"value": "d8a24322-4bab-4ba2-aedc-5d55a84c3db8",
+									"description": "use id or uuid",
+									"disabled": true
 								}
 							]
 						}
@@ -13481,6 +15939,61 @@
 					"response": []
 				},
 				{
+					"name": "GET Store Load Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/storeload?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"storeload"
+							],
+							"query": [
+								{
+									"key": "storeid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "storeuuid",
+									"value": "d8a24322-4bab-4ba2-aedc-5d55a84c3db8",
+									"description": "use id or uuid",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Store Saving Report",
 					"request": {
 						"method": "GET",
@@ -13525,6 +16038,61 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Store Saving Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/storesaving?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"storesaving"
+							],
+							"query": [
+								{
+									"key": "storeid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "storeuuid",
+									"value": "d8a24322-4bab-4ba2-aedc-5d55a84c3db8",
+									"description": "use id or uuid",
+									"disabled": true
 								}
 							]
 						}
@@ -13583,6 +16151,61 @@
 					"response": []
 				},
 				{
+					"name": "GET Store Statistics Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/storestatistics?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"storestatistics"
+							],
+							"query": [
+								{
+									"key": "storeid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "storeuuid",
+									"value": "d8a24322-4bab-4ba2-aedc-5d55a84c3db8",
+									"description": "use id or uuid",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Tenant Batch Analysis Report",
 					"request": {
 						"method": "GET",
@@ -13608,6 +16231,42 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-11-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Tenant Batch Analysis Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/tenantbatch?spaceid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"tenantbatch"
+							],
+							"query": [
+								{
+									"key": "spaceid",
+									"value": "1"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-11-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
 								}
 							]
 						}
@@ -13705,6 +16364,61 @@
 					"response": []
 				},
 				{
+					"name": "GET Tenant Cost Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/tenantcost?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"tenantcost"
+							],
+							"query": [
+								{
+									"key": "tenantid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "tenantuuid",
+									"value": "6b0da806-a4cd-431a-8116-2915e90aaf8b",
+									"description": "use id or uuid",
+									"disabled": true
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Tenant Energy Category Report",
 					"request": {
 						"method": "GET",
@@ -13749,6 +16463,61 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Tenant Energy Category Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/tenantenergycategory?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"tenantenergycategory"
+							],
+							"query": [
+								{
+									"key": "tenantid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "tenantuuid",
+									"value": "6b0da806-a4cd-431a-8116-2915e90aaf8b",
+									"description": "use id or uuid",
+									"disabled": true
 								}
 							]
 						}
@@ -13807,6 +16576,61 @@
 					"response": []
 				},
 				{
+					"name": "GET Tenant Energy Item Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/tenantenergyitem?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"tenantenergyitem"
+							],
+							"query": [
+								{
+									"key": "tenantid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "tenantuuid",
+									"value": "6b0da806-a4cd-431a-8116-2915e90aaf8b",
+									"description": "use id or uuid",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Tenant Load Report",
 					"request": {
 						"method": "GET",
@@ -13851,6 +16675,61 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Tenant Load Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/tenantload?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"tenantload"
+							],
+							"query": [
+								{
+									"key": "tenantid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "tenantuuid",
+									"value": "6b0da806-a4cd-431a-8116-2915e90aaf8b",
+									"description": "use id or uuid",
+									"disabled": true
 								}
 							]
 						}
@@ -13909,6 +16788,61 @@
 					"response": []
 				},
 				{
+					"name": "GET Tenant Saving Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/tenantsaving?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"tenantsaving"
+							],
+							"query": [
+								{
+									"key": "tenantid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "tenantuuid",
+									"value": "6b0da806-a4cd-431a-8116-2915e90aaf8b",
+									"description": "use id or uuid",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Tenant Statistics Report",
 					"request": {
 						"method": "GET",
@@ -13960,6 +16894,61 @@
 					"response": []
 				},
 				{
+					"name": "GET Tenant Statistics Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/tenantstatistics?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"tenantstatistics"
+							],
+							"query": [
+								{
+									"key": "tenantid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "tenantuuid",
+									"value": "6b0da806-a4cd-431a-8116-2915e90aaf8b",
+									"description": "use id or uuid",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Vitrual Meter Batch Analysis Report",
 					"request": {
 						"method": "GET",
@@ -13985,6 +16974,42 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-11-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Vitrual Meter Batch Analysis Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/virtualmeterbatch?spaceid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"virtualmeterbatch"
+							],
+							"query": [
+								{
+									"key": "spaceid",
+									"value": "1"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-11-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
 								}
 							]
 						}
@@ -14036,6 +17061,54 @@
 					"response": []
 				},
 				{
+					"name": "GET Virtual Meter Carbon Dioxide Emission Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/virtualmetercarbon?virtualmeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"virtualmetercarbon"
+							],
+							"query": [
+								{
+									"key": "virtualmeterid",
+									"value": "1"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Virtual Meter Cost Report",
 					"request": {
 						"method": "GET",
@@ -14073,6 +17146,54 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Virtual Meter Cost Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/virtualmetercost?virtualmeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"virtualmetercost"
+							],
+							"query": [
+								{
+									"key": "virtualmeterid",
+									"value": "1"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
 								}
 							]
 						}
@@ -14124,6 +17245,54 @@
 					"response": []
 				},
 				{
+					"name": "GET Virtual Meter Energy Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/virtualmeterenergy?virtualmeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"virtualmeterenergy"
+							],
+							"query": [
+								{
+									"key": "virtualmeterid",
+									"value": "1"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Virtual Meter Saving Report",
 					"request": {
 						"method": "GET",
@@ -14161,6 +17330,54 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Virtual Meter Saving Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/virtualmetersaving?virtualmeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"virtualmetersaving"
+							],
+							"query": [
+								{
+									"key": "virtualmeterid",
+									"value": "1"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
 								}
 							]
 						}
