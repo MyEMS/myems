@@ -36,6 +36,7 @@ class Reporting:
         reporting_period_start_datetime_local = req.params.get('reportingperiodstartdatetime')
         reporting_period_end_datetime_local = req.params.get('reportingperiodenddatetime')
         language = req.params.get('language')
+        quick_mode = req.params.get('quickmode')
 
         ################################################################################################################
         # Step 1: valid parameters
@@ -108,6 +109,12 @@ class Reporting:
         else:
             space_name = row[0]
 
+        # if turn quick mode on, do not return parameters data and excel file
+        is_quick_mode = False
+        if quick_mode is not None and \
+            len(str.strip(quick_mode)) > 0 and \
+                str.lower(str.strip(quick_mode)) in ('true', 't', 'on', 'yes', 'y'):
+            is_quick_mode = True
         ################################################################################################################
         # Step 2: build a space tree
         ################################################################################################################
@@ -242,10 +249,12 @@ class Reporting:
                   'energycategories': energy_category_list}
 
         # export result to Excel file and then encode the file to base64 string
-        result['excel_bytes_base64'] = \
-            excelexporters.combinedequipmentbatch.export(result,
-                                                         space_name,
-                                                         reporting_period_start_datetime_local,
-                                                         reporting_period_end_datetime_local,
-                                                         language)
+        result['excel_bytes_base64'] = None
+        if not is_quick_mode:
+            result['excel_bytes_base64'] = \
+                excelexporters.combinedequipmentbatch.export(result,
+                                                            space_name,
+                                                            reporting_period_start_datetime_local,
+                                                            reporting_period_end_datetime_local,
+                                                            language)
         resp.text = json.dumps(result)

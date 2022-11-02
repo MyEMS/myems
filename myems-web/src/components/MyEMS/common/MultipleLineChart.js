@@ -39,7 +39,7 @@ const MultipleLineChart = ({
     type: 'line',
     markPoint: {
       label:{
-        color: rgbaColor('#fff', 0.8),
+        color: rgbaColor(isDark ? '#fff' : '#000', 0.8),
       },
       data: [
         {
@@ -58,7 +58,7 @@ const MultipleLineChart = ({
           name: 'Average Value'
       }],
       label:{
-        color: rgbaColor('#fff', 0.8),
+        color: rgbaColor(isDark ? '#fff' : '#000', 0.8),
       }
     },
   }]);
@@ -102,7 +102,7 @@ const MultipleLineChart = ({
             }
           ],
           label:{
-            color: rgbaColor('#fff', 0.8),
+            color: rgbaColor(isDark ? '#fff' : '#000', 0.8),
           }
         },
         markLine: {
@@ -111,7 +111,7 @@ const MultipleLineChart = ({
               name: 'Average Value'
           }],
           label:{
-            color: rgbaColor('#fff', 0.8),
+            color: rgbaColor(isDark ? '#fff' : '#000', 0.8),
           }
         },
       }
@@ -148,7 +148,7 @@ const MultipleLineChart = ({
             }
           ],
           label:{
-            color: rgbaColor('#fff', 0.8),
+            color: rgbaColor(isDark ? '#fff' : '#000', 0.8),
           }
         },
         markLine: {
@@ -159,7 +159,7 @@ const MultipleLineChart = ({
             }
           ],
           label:{
-            color: rgbaColor('#fff', 0.8),
+            color: rgbaColor(isDark ? '#fff' : '#000', 0.8),
           }
         },
       })
@@ -183,8 +183,8 @@ const MultipleLineChart = ({
         trigger: 'axis'
       },
       grid: {
-        left: '4%',
-        right: '4%',
+        left: '5%',
+        right: '5%',
         bottom: '15%',
         containLabel: true
       },
@@ -194,13 +194,13 @@ const MultipleLineChart = ({
         axisLabel: {
           interval: 'auto',
           textStyle: {
-            color: rgbaColor('#fff', 0.8),
+            color: rgbaColor(isDark ? '#fff' : '#000', 0.8),
           },
           rotate:30  
         },
         axisLine:{
           lineStyle:{
-            color: rgbaColor('#000', 0.1),
+            color: rgbaColor(isDark ? '#fff' : '#000', 0.8),
           }
         }
       },
@@ -209,12 +209,12 @@ const MultipleLineChart = ({
         splitLine: {show: false},
         axisLabel: {
           textStyle: {
-            color: rgbaColor('#fff', 0.8),
+            color: rgbaColor(isDark ? '#fff' : '#000', 0.8),
           }
         },
         axisLine:{
           lineStyle:{
-            color: rgbaColor('#000', 0.1),
+            color: rgbaColor(isDark ? '#fff' : '#000', 0.8),
           }
         }
       },

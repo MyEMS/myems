@@ -2321,12 +2321,24 @@ curl -i -H "User-UUID: 793f1bb4-6e25-4242-8cdc-2f662b25484f" -H "Token: GET-TOKE
 ```bash
 curl -i -X GET {{base_url}}/reports/combinedequipmentbatch?spaceid=1&reportingperiodstartdatetime=2021-05-01T00:00:00&reportingperiodenddatetime=2021-05-20T11:41:09
 ```
+*   GET Combined Equipment Batch Analysis Report (Quick Mode)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/combinedequipmentbatch?spaceid=1&reportingperiodstartdatetime=2021-05-01T00:00:00&reportingperiodenddatetime=2021-05-20T11:41:09&quickmode=true
+```
 *   GET Combined Equipment Carbon Dioxide Emission Report
 
 (parameter combinedequipmentid can be replaced with combinedequipmentuuid)
 
 ```bash
 curl -i -X GET {{base_url}}/reports/combinedequipmentcarbon?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
+*   GET Combined Equipment Carbon Dioxide Emission Report (Quick mode)
+
+(parameter combinedequipmentid can be replaced with combinedequipmentuuid)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/combinedequipmentcarbon?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
 ```
 *   GET Combined Equipment Cost Report
 
@@ -2335,12 +2347,26 @@ curl -i -X GET {{base_url}}/reports/combinedequipmentcarbon?combinedequipmentid=
 ```bash
 curl -i -X GET {{base_url}}/reports/combinedequipmentcost?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+*   GET Combined Equipment Cost Report (Quick Mode)
+
+(parameter combinedequipmentid can be replaced with combinedequipmentuuid)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/combinedequipmentcost?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
+```
 *   GET Combined Equipment Efficiency Report
 
 (parameter combinedequipmentid can be replaced with combinedequipmentuuid)
 
 ```bash
 curl -i -X GET {{base_url}}/reports/combinedequipmentefficiency?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
+*   GET Combined Equipment Efficiency Report (Quick Mode)
+
+(parameter combinedequipmentid can be replaced with combinedequipmentuuid)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/combinedequipmentefficiency?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
 ```
 *   GET Combined Equipment Energy Category Report
 
@@ -2349,12 +2375,28 @@ curl -i -X GET {{base_url}}/reports/combinedequipmentefficiency?combinedequipmen
 ```bash
 curl -i -X GET {{base_url}}/reports/combinedequipmentenergycategory?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+*   GET Combined Equipment Energy Category Report (Quick Mode)
+
+(parameter combinedequipmentid can be replaced with combinedequipmentuuid)
+(It does not return parameters and Excel file in quick mode)
+
+```bash
+curl -i -X GET {{base_url}}/reports/combinedequipmentenergycategory?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
+```
 *   GET Combined Equipment Energy Item Report
 
 (parameter combinedequipmentid can be replaced with combinedequipmentuuid)
 
 ```bash
 curl -i -X GET {{base_url}}/reports/combinedequipmentenergyitem?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
+*   GET Combined Equipment Energy Item Report (Quick Mode)
+
+(parameter combinedequipmentid can be replaced with combinedequipmentuuid)
+(It does not return parameters and Excel file in quick mode)
+
+```bash
+curl -i -X GET {{base_url}}/reports/combinedequipmentenergyitem?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
 ```
 *   GET Combined Equipment Income Report
 
@@ -2363,12 +2405,28 @@ curl -i -X GET {{base_url}}/reports/combinedequipmentenergyitem?combinedequipmen
 ```bash
 curl -i -X GET {{base_url}}/reports/combinedequipmentincome?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+*   GET Combined Equipment Income Report (Quick Mode)
+
+(parameter combinedequipmentid can be replaced with combinedequipmentuuid)
+(It does not return parameters and Excel file in quick mode)
+
+```bash
+curl -i -X GET {{base_url}}/reports/combinedequipmentincome?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
+```
 *   GET Combined Equipment Load Report
 
 (parameter combinedequipmentid can be replaced with combinedequipmentuuid)
 
 ```bash
 curl -i -X GET {{base_url}}/reports/combinedequipmentload?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
+*   GET Combined Equipment Load Report (Quick Mode)
+
+(parameter combinedequipmentid can be replaced with combinedequipmentuuid)
+(It does not return parameters and Excel file in quick mode)
+
+```bash
+curl -i -X GET {{base_url}}/reports/combinedequipmentload?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
 ```
 *   GET Combined Equipment Output Report
 
@@ -2377,6 +2435,14 @@ curl -i -X GET {{base_url}}/reports/combinedequipmentload?combinedequipmentid=1&
 ```bash
 curl -i -X GET {{base_url}}/reports/combinedequipmentoutput?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+*   GET Combined Equipment Output Report (Quick Mode)
+
+(parameter combinedequipmentid can be replaced with combinedequipmentuuid)
+(It does not return parameters and Excel file in quick mode)
+
+```bash
+curl -i -X GET {{base_url}}/reports/combinedequipmentoutput?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
+```
 *   GET Combined Equipment Saving Report
 
 (parameter combinedequipmentid can be replaced with combinedequipmentuuid)
@@ -2384,12 +2450,28 @@ curl -i -X GET {{base_url}}/reports/combinedequipmentoutput?combinedequipmentid=
 ```bash
 curl -i -X GET {{base_url}}/reports/combinedequipmentsaving?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+*   GET Combined Equipment Saving Report (Quick Mode)
+
+(parameter combinedequipmentid can be replaced with combinedequipmentuuid)
+(It does not return parameters and Excel file in quick mode)
+
+```bash
+curl -i -X GET {{base_url}}/reports/combinedequipmentsaving?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
+```
 *   GET Combined Equipment Statistics Report
 
 (parameter combinedequipmentid can be replaced with combinedequipmentuuid)
 
 ```bash
 curl -i -X GET {{base_url}}/reports/equipmentstatistics?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
+*   GET Combined Equipment Statistics Report (Quick Mode)
+
+(parameter combinedequipmentid can be replaced with combinedequipmentuuid)
+(It does not return parameters and Excel file in quick mode)
+
+```bash
+curl -i -X GET {{base_url}}/reports/equipmentstatistics?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
 ```
 *   GET Dashboard
 ```bash
@@ -2407,12 +2489,25 @@ curl -i -X GET {{base_url}}/reports/energyflowdiagram?energyflowdiagramid=1&repo
 ```bash
 curl -i -X GET {{base_url}}/reports/equipmentbatch?spaceid=1&reportingperiodstartdatetime=2021-05-01T00:00:00&reportingperiodenddatetime=2021-05-20T11:41:09
 ```
+*   GET Equipment Batch Analysis Report (Quick Mode)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/equipmentbatch?spaceid=1&reportingperiodstartdatetime=2021-05-01T00:00:00&reportingperiodenddatetime=2021-05-20T11:41:09&quickmode=true
+```
 *   GET Equipment Carbon Dioxide Emission Report
 
 (parameter equipmentid can be replaced with equipmentuuid)
 
 ```bash
 curl -i -X GET {{base_url}}/reports/equipmentcarbon?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
+*   GET Equipment Carbon Dioxide Emission Report (Quick Mode)
+
+(parameter equipmentid can be replaced with equipmentuuid)
+(It does not return parameters and Excel file in quick mode)
+
+```bash
+curl -i -X GET {{base_url}}/reports/equipmentcarbon?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
 ```
 *   GET Equipment Cost Report
 
@@ -2421,12 +2516,28 @@ curl -i -X GET {{base_url}}/reports/equipmentcarbon?equipmentid=1&periodtype=dai
 ```bash
 curl -i -X GET {{base_url}}/reports/equipmentcost?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+*   GET Equipment Cost Report (Quick Mode)
+
+(parameter equipmentid can be replaced with equipmentuuid)
+(It does not return parameters and Excel file in quick mode)
+
+```bash
+curl -i -X GET {{base_url}}/reports/equipmentcost?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
+```
 *   GET Equipment Efficiency Report
 
 (parameter equipmentid can be replaced with equipmentuuid)
 
 ```bash
 curl -i -X GET {{base_url}}/reports/equipmentefficiency?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
+*   GET Equipment Efficiency Report (Quick Mode)
+
+(parameter equipmentid can be replaced with equipmentuuid)
+(It does not return parameters and Excel file in quick mode)
+
+```bash
+curl -i -X GET {{base_url}}/reports/equipmentefficiency?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
 ```
 *   GET Equipment Energy Category Report
 
@@ -2435,12 +2546,27 @@ curl -i -X GET {{base_url}}/reports/equipmentefficiency?equipmentid=1&periodtype
 ```bash
 curl -i -X GET {{base_url}}/reports/equipmentenergycategory?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+*   GET Equipment Energy Category Report (Quick Mode)
+
+(parameter equipmentid can be replaced with equipmentuuid)
+(It does not return parameters and Excel file in quick mode)
+
+```bash
+curl -i -X GET {{base_url}}/reports/equipmentenergycategory?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
+```
 *   GET Equipment Energy Item Report
 
 (parameter equipmentid can be replaced with equipmentuuid)
 
 ```bash
 curl -i -X GET {{base_url}}/reports/equipmentenergyitem?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
+*   GET Equipment Energy Item Report (Quick Mode)
+
+(parameter equipmentid can be replaced with equipmentuuid)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/equipmentenergyitem?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
 ```
 *   GET Equipment Income Report
 
@@ -2449,12 +2575,27 @@ curl -i -X GET {{base_url}}/reports/equipmentenergyitem?equipmentid=1&periodtype
 ```bash
 curl -i -X GET {{base_url}}/reports/equipmentincome?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+*   GET Equipment Income Report (Quick Mode)
+
+(parameter equipmentid can be replaced with equipmentuuid)
+(It does not return parameters and Excel file in quick mode)
+
+```bash
+curl -i -X GET {{base_url}}/reports/equipmentincome?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
+```
 *   GET Equipment Load Report
 
 (parameter equipmentid can be replaced with equipmentuuid)
 
 ```bash
 curl -i -X GET {{base_url}}/reports/equipmentload?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
+*   GET Equipment Load Report (Quick Mode)
+
+(parameter equipmentid can be replaced with equipmentuuid)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/equipmentload?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
 ```
 *   GET Equipment Output Report
 
@@ -2463,12 +2604,28 @@ curl -i -X GET {{base_url}}/reports/equipmentload?equipmentid=1&periodtype=daily
 ```bash
 curl -i -X GET {{base_url}}/reports/equipmentoutput?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+*   GET Equipment Output Report (Quick Mode)
+
+(parameter equipmentid can be replaced with equipmentuuid)
+(It does not return parameters and Excel file in quick mode)
+
+```bash
+curl -i -X GET {{base_url}}/reports/equipmentoutput?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
+```
 *   GET Equipment Saving Report
 
 (parameter equipmentid can be replaced with equipmentuuid)
 
 ```bash
 curl -i -X GET {{base_url}}/reports/equipmentsaving?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
+*   GET Equipment Saving Report (Quick Mode)
+
+(parameter equipmentid can be replaced with equipmentuuid)
+(It does not return parameters and Excel file in quick mode)
+
+```bash
+curl -i -X GET {{base_url}}/reports/equipmentsaving?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
 ```
 *   GET Equipment Statistics Report
 
@@ -2477,9 +2634,22 @@ curl -i -X GET {{base_url}}/reports/equipmentsaving?equipmentid=1&periodtype=dai
 ```bash
 curl -i -X GET {{base_url}}/reports/equipmentstatistics?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+*   GET Equipment Statistics Report (Quick Mode)
+
+(parameter equipmentid can be replaced with equipmentuuid)
+(It does not return parameters and Excel file in quick mode)
+
+```bash
+curl -i -X GET {{base_url}}/reports/equipmentstatistics?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
+```
 *   GET Meter Batch Analysis Report
 ```bash
 curl -i -X GET {{base_url}}/reports/meterbatch?spaceid=1&reportingperiodstartdatetime=2021-05-01T00:00:00&reportingperiodenddatetime=2021-05-20T11:41:09&language=en
+```
+*   GET Meter Batch Analysis Report (Quick Mode)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/meterbatch?spaceid=1&reportingperiodstartdatetime=2021-05-01T00:00:00&reportingperiodenddatetime=2021-05-20T11:41:09&language=en&quickmode=true
 ```
 * GET Meter Carbon Dioxide Emission Report
 
@@ -2488,7 +2658,13 @@ curl -i -X GET {{base_url}}/reports/meterbatch?spaceid=1&reportingperiodstartdat
 ```bash
 curl -i -X GET {{base_url}}/reports/metercarbon?meterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+* GET Meter Carbon Dioxide Emission Report (Quick Mode)
 
+(parameter meterid can be replaced with meteruuid)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/metercarbon?meterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
+```
 * GET Meter Comparison Report
 
 (parameter meterid can be replaced with meteruuid)
@@ -2509,6 +2685,14 @@ curl -i -X GET {{base_url}}/reports/metercomparison?meterid1=6&meterid2=7&period
 
 ```bash
 curl -i -X GET {{base_url}}/reports/metercost?meterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
+
+* GET Meter Cost Report (Quick Mode)
+
+(parameter meterid can be replaced with meteruuid)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/metercost?meterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
 ```
 
 * GET Meter Energy Report
@@ -2534,12 +2718,27 @@ curl -i -X GET {{base_url}}/reports/meterenergy?meterid=6&periodtype=daily&basep
 ```bash
 curl -i -X GET {{base_url}}/reports/meterrealtime?meterid=1
 ```
+* GET Meter Realtime Report (Quick Mode)
+
+(parameter meterid can be replaced with meteruuid)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/meterrealtime?meterid=1&quickmode=true
+```
 * GET Meter Submeters Balance Report
 
 (parameter meterid can be replaced with meteruuid)
 
 ```bash
 curl -i -X GET {{base_url}}/reports/metersubmetersbalance?meterid=1&periodtype=daily&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
+* GET Meter Submeters Balance Report (Quick Mode)
+
+(parameter meterid can be replaced with meteruuid)
+(It does not return parameters and Excel file in quick mode)
+
+```bash
+curl -i -X GET {{base_url}}/reports/metersubmetersbalance?meterid=1&periodtype=daily&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
 ```
 
 * GET Meter Saving Report
@@ -2581,21 +2780,46 @@ curl -i -X GET {{base_url}}/reports/metertracking?spaceid=1&reportingperiodstart
 ```bash
 curl -i -X GET {{base_url}}/reports/offlinemeterbatch?spaceid=1&reportingperiodstartdatetime=2021-05-01T00:00:00&reportingperiodenddatetime=2021-05-20T11:41:09
 ```
+*   GET Offline Meter Batch Analysis Report (Quick Mode)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/offlinemeterbatch?spaceid=1&reportingperiodstartdatetime=2021-05-01T00:00:00&reportingperiodenddatetime=2021-05-20T11:41:09&quickmode=true
+```
 * GET Offline Meter Carbon Dioxide Emission Report
 ```bash
 curl -i -X GET {{base_url}}/reports/offlinemetercarbon?offlinemeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
+* GET Offline Meter Carbon Dioxide Emission Report (Quick Mode)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/offlinemetercarbon?offlinemeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
 ```
 *   GET Offline Meter Cost Report
 ```bash
 curl -i -X GET {{base_url}}/reports/offlinemetercost?offlinemeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+*   GET Offline Meter Cost Report (Quick Mode)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/offlinemetercost?offlinemeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
+```
 *   GET Offline Meter Energy Report
 ```bash
 curl -i -X GET {{base_url}}/reports/offlinemeterenergy?offlinemeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+*   GET Offline Meter Energy Report (Quick Mode)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/offlinemeterenergy?offlinemeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
+```
 *   GET Shopfloor Batch Analysis Report
 ```bash
 curl -i -X GET {{base_url}}/reports/shopfloorbatch?spaceid=1&reportingperiodstartdatetime=2021-05-01T00:00:00&reportingperiodenddatetime=2021-05-20T11:41:09
+```
+*   GET Shopfloor Batch Analysis Report (Quick Mode)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/shopfloorbatch?spaceid=1&reportingperiodstartdatetime=2021-05-01T00:00:00&reportingperiodenddatetime=2021-05-20T11:41:09&quickmode=true
 ```
 * GET Shopfloor Carbon Dioxide Emission Report
 
@@ -2604,12 +2828,26 @@ curl -i -X GET {{base_url}}/reports/shopfloorbatch?spaceid=1&reportingperiodstar
 ```bash
 curl -i -X GET {{base_url}}/reports/shopfloorcarbon?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+* GET Shopfloor Carbon Dioxide Emission Report (Quick Mode)
+
+(parameter shopfloorid can be replaced with shopflooruuid)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/shopfloorcarbon?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
+```
 * GET Shopfloor Cost Report
 
 (parameter shopfloorid can be replaced with shopflooruuid)
 
 ```bash
 curl -i -X GET {{base_url}}/reports/shopfloorcost?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
+* GET Shopfloor Cost Report (Quick Mode)
+
+(parameter shopfloorid can be replaced with shopflooruuid)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/shopfloorcost?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
 ```
 *   GET Shopfloor Energy Category Report
 
@@ -2618,12 +2856,27 @@ curl -i -X GET {{base_url}}/reports/shopfloorcost?shopfloorid=1&periodtype=daily
 ```bash
 curl -i -X GET {{base_url}}/reports/shopfloorenergycategory?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+*   GET Shopfloor Energy Category Report (Quick Mode)
+
+(parameter shopfloorid can be replaced with shopflooruuid)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/shopfloorenergycategory?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
+```
 *   GET Shopfloor Energy Item Report
 
 (parameter shopfloorid can be replaced with shopflooruuid)
 
 ```bash
 curl -i -X GET {{base_url}}/reports/shopfloorenergyitem?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
+*   GET Shopfloor Energy Item Report (Quick Mode)
+
+(parameter shopfloorid can be replaced with shopflooruuid)
+(It does not return parameters and Excel file in quick mode)
+
+```bash
+curl -i -X GET {{base_url}}/reports/shopfloorenergyitem?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
 ```
 *   GET Shopfloor Load Report
 
@@ -2632,12 +2885,28 @@ curl -i -X GET {{base_url}}/reports/shopfloorenergyitem?shopfloorid=1&periodtype
 ```bash
 curl -i -X GET {{base_url}}/reports/shopfloorload?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+*   GET Shopfloor Load Report (Quick Mode)
+
+(parameter shopfloorid can be replaced with shopflooruuid)
+(It does not return parameters and Excel file in quick mode)
+
+```bash
+curl -i -X GET {{base_url}}/reports/shopfloorload?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
+```
 *   GET Shopfloor Saving Report
 
 (parameter shopfloorid can be replaced with shopflooruuid)
 
 ```bash
 curl -i -X GET {{base_url}}/reports/shopfloorsaving?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
+*   GET Shopfloor Saving Report (Quick Mode)
+
+(parameter shopfloorid can be replaced with shopflooruuid)
+(It does not return parameters and Excel file in quick mode)
+
+```bash
+curl -i -X GET {{base_url}}/reports/shopfloorsaving?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
 ```
 *   GET Shopfloor Statistics Report
 
@@ -2646,12 +2915,27 @@ curl -i -X GET {{base_url}}/reports/shopfloorsaving?shopfloorid=1&periodtype=dai
 ```bash
 curl -i -X GET {{base_url}}/reports/shopfloorstatistics?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+*   GET Shopfloor Statistics Report (Quick Mode)
+
+(parameter shopfloorid can be replaced with shopflooruuid)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/shopfloorstatistics?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
+```
 *   GET Space Carbon Dioxide Emission Report
 
 (parameter spaceid can be replaced with spaceuuid)
 
 ```bash
 curl -i -X GET {{base_url}}/reports/spacecarbon?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
+*   GET Space Carbon Dioxide Emission Report (Quick Mode)
+
+(parameter spaceid can be replaced with spaceuuid)
+(It does not return parameters and Excel file in quick mode)
+
+```bash
+curl -i -X GET {{base_url}}/reports/spacecarbon?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
 ```
 *   GET Space Cost Report
 
@@ -2660,12 +2944,27 @@ curl -i -X GET {{base_url}}/reports/spacecarbon?spaceid=1&periodtype=daily&basep
 ```bash
 curl -i -X GET {{base_url}}/reports/spacecost?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+*   GET Space Cost Report (Quick Mode)
+
+(parameter spaceid can be replaced with spaceuuid)
+(It does not return parameters and Excel file in quick mode)
+
+```bash
+curl -i -X GET {{base_url}}/reports/spacecost?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
+```
 *   GET Space Efficiency Report
 
 (parameter spaceid can be replaced with spaceuuid)
 
 ```bash
 curl -i -X GET {{base_url}}/reports/spaceefficiency?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
+*   GET Space Efficiency Report (Quick Mode)
+
+(parameter spaceid can be replaced with spaceuuid)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/spaceefficiency?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
 ```
 *   GET Space Energy Category Report
 
@@ -2689,12 +2988,26 @@ curl -i -X GET {{base_url}}/reports/spaceenergycategory?spaceid=1&periodtype=dai
 ```bash
 curl -i -X GET {{base_url}}/reports/spaceenergyitem?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+*   GET Space Energy Item Report (Quick Mode)
+
+(parameter spaceid can be replaced with spaceuuid)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/spaceenergyitem?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
+```
 *   GET Space Income Report
 
 (parameter spaceid can be replaced with spaceuuid)
 
 ```bash
 curl -i -X GET {{base_url}}/reports/spaceincome?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
+*   GET Space Income Report (Quick Mode)
+
+(parameter spaceid can be replaced with spaceuuid)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/spaceincome?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
 ```
 *   GET Space Load Report
 
@@ -2717,12 +3030,27 @@ curl -i -X GET {{base_url}}/reports/spaceload?spaceid=1&periodtype=daily&baseper
 ```bash
 curl -i -X GET {{base_url}}/reports/spaceoutput?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+*   GET Space Output Report (Quick Mode)
+
+(parameter spaceid can be replaced with spaceuuid)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/spaceoutput?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
+```
 *   GET Space Saving Report
 
 (parameter spaceid can be replaced with spaceuuid)
 
 ```bash
 curl -i -X GET {{base_url}}/reports/spacesaving?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
+*   GET Space Saving Report (Quick Mode)
+
+(parameter spaceid can be replaced with spaceuuid)
+(It does not return parameters and Excel file in quick mode)
+
+```bash
+curl -i -X GET {{base_url}}/reports/spacesaving?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
 ```
 *   GET Space Statistics Report
 
@@ -2731,9 +3059,21 @@ curl -i -X GET {{base_url}}/reports/spacesaving?spaceid=1&periodtype=daily&basep
 ```bash
 curl -i -X GET {{base_url}}/reports/spacestatistics?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+*   GET Space Statistics Report (Quick Mode)
+
+(parameter spaceid can be replaced with spaceuuid)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/spacestatistics?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
+```
 *   GET Store Batch Analysis Report
 ```bash
 curl -i -X GET {{base_url}}/reports/storebatch?spaceid=1&reportingperiodstartdatetime=2021-05-01T00:00:00&reportingperiodenddatetime=2021-05-20T11:41:09
+```
+*   GET Store Batch Analysis Report (Quick Mode)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/storebatch?spaceid=1&reportingperiodstartdatetime=2021-05-01T00:00:00&reportingperiodenddatetime=2021-05-20T11:41:09&quickmode=true
 ```
 *   GET Store Carbon Dioxide Emission Report
 
@@ -2742,12 +3082,26 @@ curl -i -X GET {{base_url}}/reports/storebatch?spaceid=1&reportingperiodstartdat
 ```bash
 curl -i -X GET {{base_url}}/reports/storetcarbon?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+*   GET Store Carbon Dioxide Emission Report (Quick Mode)
+
+(parameter storeid can be replaced with storeuuid)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/storetcarbon?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
+```
 *   GET Store Cost Report
 
 (parameter storeid can be replaced with storeuuid)
 
 ```bash
 curl -i -X GET {{base_url}}/reports/storetcost?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
+*   GET Store Cost Report (Quick Mode)
+
+(parameter storeid can be replaced with storeuuid)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/storetcost?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
 ```
 *   GET Store Energy Category Report
 
@@ -2756,12 +3110,27 @@ curl -i -X GET {{base_url}}/reports/storetcost?storeid=1&periodtype=daily&basepe
 ```bash
 curl -i -X GET {{base_url}}/reports/storeenergycategory?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+*   GET Store Energy Category Report (Quick Mode)
+
+(parameter storeid can be replaced with storeuuid)
+(It does not return parameters and Excel file in quick mode)
+
+```bash
+curl -i -X GET {{base_url}}/reports/storeenergycategory?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
+```
 *   GET Store Energy Item Report
 
 (parameter storeid can be replaced with storeuuid)
 
 ```bash
 curl -i -X GET {{base_url}}/reports/storeenergyitem?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
+*   GET Store Energy Item Report (Quick Mode)
+
+(parameter storeid can be replaced with storeuuid)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/storeenergyitem?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
 ```
 *   GET Store Load Report
 
@@ -2770,12 +3139,27 @@ curl -i -X GET {{base_url}}/reports/storeenergyitem?storeid=1&periodtype=daily&b
 ```bash
 curl -i -X GET {{base_url}}/reports/storeload?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+*   GET Store Load Report (Quick Mode)
+
+(parameter storeid can be replaced with storeuuid)
+(It does not return parameters and Excel file in quick mode)
+
+```bash
+curl -i -X GET {{base_url}}/reports/storeload?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
+```
 *   GET Store Saving Report
 
 (parameter storeid can be replaced with storeuuid)
 
 ```bash
 curl -i -X GET {{base_url}}/reports/storesaving?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
+*   GET Store Saving Report (Quick Mode)
+
+(parameter storeid can be replaced with storeuuid)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/storesaving?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
 ```
 *   GET Store Statistics Report
 
@@ -2784,9 +3168,21 @@ curl -i -X GET {{base_url}}/reports/storesaving?storeid=1&periodtype=daily&basep
 ```bash
 curl -i -X GET {{base_url}}/reports/storestatistics?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+*   GET Store Statistics Report (Quick Mode)
+
+(parameter storeid can be replaced with storeuuid)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/storestatistics?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
+```
 *   GET Tenant Batch Analysis Report
 ```bash
 curl -i -X GET {{base_url}}/reports/tenantbatch?spaceid=1&reportingperiodstartdatetime=2021-05-01T00:00:00&reportingperiodenddatetime=2021-05-20T11:41:09
+```
+*   GET Tenant Batch Analysis Report (Quick Mode)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/tenantbatch?spaceid=1&reportingperiodstartdatetime=2021-05-01T00:00:00&reportingperiodenddatetime=2021-05-20T11:41:09&quickmode=true
 ```
 *   GET Tenant Bill Report
 
@@ -2802,12 +3198,28 @@ curl -i -X GET {{base_url}}/reports/tenantbill?tenantid=1&reportingperiodstartda
 ```bash
 curl -i -X GET {{base_url}}/reports/tenantcarbon?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+*   GET Tenant Carbon Dioxide Emission Report (Quick Mode)
+
+(parameter tenantid can be replaced with tenantuuid)
+(It does not return parameters and Excel file in quick mode)
+
+```bash
+curl -i -X GET {{base_url}}/reports/tenantcarbon?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
+```
 *   GET Tenant Cost Report
 
 (parameter tenantid can be replaced with tenantuuid)
 
 ```bash
 curl -i -X GET {{base_url}}/reports/tenantcost?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
+*   GET Tenant Cost Report (Quick Mode)
+
+(parameter tenantid can be replaced with tenantuuid)
+(It does not return parameters and Excel file in quick mode)
+
+```bash
+curl -i -X GET {{base_url}}/reports/tenantcost?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
 ```
 *   GET Tenant Energy Category Report
 
@@ -2816,12 +3228,27 @@ curl -i -X GET {{base_url}}/reports/tenantcost?tenantid=1&periodtype=daily&basep
 ```bash
 curl -i -X GET {{base_url}}/reports/tenantenergycategory?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+*   GET Tenant Energy Category Report (Quick Mode)
+
+(parameter tenantid can be replaced with tenantuuid)
+(It does not return parameters and Excel file in quick mode)
+
+```bash
+curl -i -X GET {{base_url}}/reports/tenantenergycategory?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
+```
 *   GET Tenant Energy Item Report
 
 (parameter tenantid can be replaced with tenantuuid)
 
 ```bash
 curl -i -X GET {{base_url}}/reports/tenantenergyitem?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
+*   GET Tenant Energy Item Report (Quick Mode)
+
+(parameter tenantid can be replaced with tenantuuid)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/tenantenergyitem?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
 ```
 *   GET Tenant Load Report
 
@@ -2830,12 +3257,26 @@ curl -i -X GET {{base_url}}/reports/tenantenergyitem?tenantid=1&periodtype=daily
 ```bash
 curl -i -X GET {{base_url}}/reports/tenantload?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+*   GET Tenant Load Report (Quick Mode)
+
+(parameter tenantid can be replaced with tenantuuid)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/tenantload?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
+```
 *   GET Tenant Saving Report
 
 (parameter tenantid can be replaced with tenantuuid)
 
 ```bash
 curl -i -X GET {{base_url}}/reports/tenantsaving?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
+*   GET Tenant Saving Report (Quick Mode)
+
+(parameter tenantid can be replaced with tenantuuid)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/tenantsaving?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
 ```
 *   GET Tenant Statistics Report
 
@@ -2844,28 +3285,60 @@ curl -i -X GET {{base_url}}/reports/tenantsaving?tenantid=1&periodtype=daily&bas
 ```bash
 curl -i -X GET {{base_url}}/reports/tenantstatistics?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+*   GET Tenant Statistics Report (Quick Mode)
+
+(parameter tenantid can be replaced with tenantuuid)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/tenantstatistics?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
+```
 *   GET Virtual Meter Batch Analysis Report
 ```bash
 curl -i -X GET {{base_url}}/reports/virtualmeterbatch?spaceid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00
+```
+*   GET Virtual Meter Batch Analysis Report (Quick Mode)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/virtualmeterbatch?spaceid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00&quickmode=true
 ```
 * GET Virtual Meter Carbon Dioxide Emission Report
 ```bash
 curl -i -X GET {{base_url}}/reports/virtualmetercarbon?virtualmeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+* GET Virtual Meter Carbon Dioxide Emission Report (Quick Mode)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/virtualmetercarbon?virtualmeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
+```
 *   GET Virtual Meter Cost Report
 ```bash
 curl -i -X GET {{base_url}}/reports/virtualmetercost?virtualmeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
+*   GET Virtual Meter Cost Report (Quick Mode)
+(It does not return parameters and Excel file in quick mode)
+
+```bash
+curl -i -X GET {{base_url}}/reports/virtualmetercost?virtualmeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
 ```
 *   GET Virtual Meter Energy Report
 ```bash
 curl -i -X GET {{base_url}}/reports/virtualmeterenergy?virtualmeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
-
+*   GET Virtual Meter Energy Report (Quick Mode)
+(It does not return parameters and Excel file in quick mode)
+```bash
+curl -i -X GET {{base_url}}/reports/virtualmeterenergy?virtualmeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
+```
 *   GET Virtual Meter Saving Report
 ```bash
 curl -i -X GET {{base_url}}/reports/virtualmetersaving?virtualmeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
 ```
+*   GET Virtual Meter Saving Report (Quick Mode)
+(It does not return parameters and Excel file in quick mode)
 
+```bash
+curl -i -X GET {{base_url}}/reports/virtualmetersaving?virtualmeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
+```
 ## References
 
 [1]. http://myems.io

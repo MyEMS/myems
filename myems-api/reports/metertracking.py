@@ -36,6 +36,7 @@ class Reporting:
         reporting_period_start_datetime_local = req.params.get('reportingperiodstartdatetime')
         reporting_period_end_datetime_local = req.params.get('reportingperiodenddatetime')
         language = req.params.get('language')
+        quick_mode = req.params.get('quickmode')
 
         ################################################################################################################
         # Step 1: valid parameters
@@ -125,6 +126,13 @@ class Reporting:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.THE_REPORTING_PERIOD_MUST_BE_LONGER_THAN_15_MINUTES')
 
+        # if turn quick mode on, do not return parameters data and excel file
+        is_quick_mode = False
+        if quick_mode is not None and \
+            len(str.strip(quick_mode)) > 0 and \
+                str.lower(str.strip(quick_mode)) in ('true', 't', 'on', 'yes', 'y'):
+            is_quick_mode = True
+
         cnx_system_db = mysql.connector.connect(**config.myems_system_db)
         cursor_system_db = cnx_system_db.cursor()
 
@@ -196,7 +204,7 @@ class Reporting:
         integral_end_count = int(0)
         integral_full_count = int(0)
         is_integral_start_value = int(0)
-
+    
         for meter_id in meter_dict:
             cursor_system_db.execute(" SELECT point_id "
                                      " FROM tbl_meters_points mp, tbl_points p"
@@ -287,11 +295,13 @@ class Reporting:
                   'end_integrity_rate': end_integrity_rate,
                   'full_integrity_rate': full_integrity_rate}
         # export result to Excel file and then encode the file to base64 string
-        result['excel_bytes_base64'] = \
-            excelexporters.metertracking.export(result,
-                                                space_name,
-                                                energy_category_name,
-                                                reporting_period_start_datetime_local,
-                                                reporting_period_end_datetime_local,
-                                                language)
+        result['excel_bytes_base64'] = None
+        if not is_quick_mode:
+            result['excel_bytes_base64'] = \
+                excelexporters.metertracking.export(result,
+                                                    space_name,
+                                                    energy_category_name,
+                                                    reporting_period_start_datetime_local,
+                                                    reporting_period_end_datetime_local,
+                                                    language)
         resp.text = json.dumps(result)

@@ -30,7 +30,7 @@ class Reporting:
     def on_get(req, resp):
         print(req.params)
         distribution_system_id = req.params.get('distributionsystemid')
-
+        
         ################################################################################################################
         # Step 1: valid parameters
         ################################################################################################################
@@ -117,11 +117,11 @@ class Reporting:
                 if circuit_list[x]['points'][y]['object_type'] == 'ANALOG_VALUE':
 
                     query = (" SELECT actual_value "
-                             " FROM tbl_analog_value_latest "
-                             " WHERE point_id = %s "
-                             "       AND utc_date_time > %s ")
+                            " FROM tbl_analog_value_latest "
+                            " WHERE point_id = %s "
+                            "       AND utc_date_time > %s ")
                     cursor_historical.execute(query, (circuit_list[x]['points'][y]['id'],
-                                                      reporting_start_datetime_utc))
+                                                    reporting_start_datetime_utc))
                     row = cursor_historical.fetchone()
 
                     if row is not None:
@@ -129,11 +129,11 @@ class Reporting:
 
                 elif circuit_list[x]['points'][y]['object_type'] == 'ENERGY_VALUE':
                     query = (" SELECT actual_value "
-                             " FROM tbl_energy_value_latest "
-                             " WHERE point_id = %s "
-                             "       AND utc_date_time > %s ")
+                            " FROM tbl_energy_value_latest "
+                            " WHERE point_id = %s "
+                            "       AND utc_date_time > %s ")
                     cursor_historical.execute(query, (circuit_list[x]['points'][y]['id'],
-                                                      reporting_start_datetime_utc))
+                                                    reporting_start_datetime_utc))
                     row = cursor_historical.fetchone()
 
                     if row is not None:
@@ -141,11 +141,11 @@ class Reporting:
 
                 elif circuit_list[x]['points'][y]['object_type'] == 'DIGITAL_VALUE':
                     query = (" SELECT actual_value "
-                             " FROM tbl_digital_value_latest "
-                             " WHERE point_id = %s "
-                             "       AND utc_date_time > %s ")
+                            " FROM tbl_digital_value_latest "
+                            " WHERE point_id = %s "
+                            "       AND utc_date_time > %s ")
                     cursor_historical.execute(query, (circuit_list[x]['points'][y]['id'],
-                                                      reporting_start_datetime_utc))
+                                                    reporting_start_datetime_utc))
                     row = cursor_historical.fetchone()
 
                     if row is not None:
