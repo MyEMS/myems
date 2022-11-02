@@ -84,7 +84,7 @@ const MultipleLineChart = ({
         data: data[index],
         type: 'line',
         smooth: true,
-        name: options[index.slice(1)].label,
+        name: options[0] ? options[index.slice(1)].label : '',
         itemStyle: {
           lineStyle: {
             color: rgbaColor("#"+((1<<24)*Math.random()|0).toString(16), 0.8),

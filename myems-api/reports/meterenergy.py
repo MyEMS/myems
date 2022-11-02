@@ -11,6 +11,7 @@ import excelexporters.meterenergy
 from core import utilities
 import gettext
 
+
 class Reporting:
     @staticmethod
     def __init__():
@@ -304,7 +305,7 @@ class Reporting:
 
         for row_meter_periodically in rows_meter_periodically:
             current_datetime_local = row_meter_periodically[0].replace(tzinfo=timezone.utc) + \
-                timedelta(minutes=timezone_offset)
+                                     timedelta(minutes=timezone_offset)
             if period_type == 'hourly':
                 current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
             elif period_type == 'daily':
@@ -326,7 +327,7 @@ class Reporting:
 
         for index, value in enumerate(reporting['values']):
             if index < len(base['values']) and base['values'][index] != 0 and value != 0:
-                reporting['rates'].append((value - base['values'][index])/base['values'][index])
+                reporting['rates'].append((value - base['values'][index]) / base['values'][index])
             else:
                 reporting['rates'].append(None)
 
@@ -472,7 +473,7 @@ class Reporting:
             },
             "reporting_period": {
                 "increment_rate":
-                    (reporting['total_in_category'] - base['total_in_category'])/base['total_in_category']
+                    (reporting['total_in_category'] - base['total_in_category']) / base['total_in_category']
                     if base['total_in_category'] > 0 else None,
                 "total_in_category": reporting['total_in_category'],
                 "total_in_kgce": reporting['total_in_kgce'],

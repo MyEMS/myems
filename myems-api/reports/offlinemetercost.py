@@ -140,7 +140,7 @@ class Reporting:
         # if turn quick mode on, do not return parameters data and excel file
         is_quick_mode = False
         if quick_mode is not None and \
-            len(str.strip(quick_mode)) > 0 and \
+                len(str.strip(quick_mode)) > 0 and \
                 str.lower(str.strip(quick_mode)) in ('true', 't', 'on', 'yes', 'y'):
             is_quick_mode = True
 
@@ -418,10 +418,10 @@ class Reporting:
         if not is_quick_mode:
             result['excel_bytes_base64'] = \
                 excelexporters.offlinemetercost.export(result,
-                                                    offline_meter['name'],
-                                                    reporting_period_start_datetime_local,
-                                                    reporting_period_end_datetime_local,
-                                                    period_type,
-                                                    language)
+                                                       offline_meter['name'],
+                                                       reporting_period_start_datetime_local,
+                                                       reporting_period_end_datetime_local,
+                                                       period_type,
+                                                       language)
 
         resp.text = json.dumps(result)

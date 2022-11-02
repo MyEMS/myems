@@ -365,7 +365,7 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
             line = LineChart()
             line.title = _('Reporting Period Consumption')
             labels = Reference(ws, min_col=2, min_row=start_detail_data_row_num + 1, max_row=max_row)
-            line_data = Reference(ws, min_col=3, max_col = 2 + 1 + 1,
+            line_data = Reference(ws, min_col=3, max_col=2 + 1 + 1,
                                   min_row=start_detail_data_row_num, max_row=max_row)
             line.add_data(line_data, titles_from_data=True)
             line.set_categories(labels)

@@ -16,7 +16,8 @@ from openpyxl.styles import Alignment, Font
 # Step 3: Encode the excelexporters file to Base64
 ########################################################################################################################
 
-def export(result, space_name, energy_category_name, reporting_start_datetime_local, reporting_end_datetime_local, language):
+def export(result, space_name, energy_category_name, reporting_start_datetime_local, reporting_end_datetime_local,
+           language):
     ####################################################################################################################
     # Step 1: Validate the report data
     ####################################################################################################################
@@ -54,7 +55,8 @@ def export(result, space_name, energy_category_name, reporting_start_datetime_lo
     return base64_message
 
 
-def generate_excel(report, space_name, energy_category_name, reporting_start_datetime_local, reporting_end_datetime_local, language):
+def generate_excel(report, space_name, energy_category_name, reporting_start_datetime_local,
+                   reporting_end_datetime_local, language):
 
     locale_path = './i18n/'
     if language == 'zh_CN':

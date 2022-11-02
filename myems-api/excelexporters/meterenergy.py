@@ -20,7 +20,7 @@ from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 ########################################################################################################################
 
 def export(report, name, reporting_start_datetime_local, reporting_end_datetime_local, base_period_start_datetime,
-    base_period_end_datetime, period_type, language, comparison_type):
+           base_period_end_datetime, period_type, language, comparison_type):
     ####################################################################################################################
     # Step 1: Validate the report data
     ####################################################################################################################
@@ -64,7 +64,6 @@ def export(report, name, reporting_start_datetime_local, reporting_end_datetime_
 def generate_excel(report, name, reporting_start_datetime_local, reporting_end_datetime_local,
                    base_period_start_datetime, base_period_end_datetime, period_type, language,
                    comparison_type):
-
     locale_path = './i18n/'
     if language == 'zh_CN':
         trans = gettext.translation('myems', locale_path, languages=['zh_CN'])
@@ -156,7 +155,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
     ws['E4'].alignment = b_c_alignment
     ws['E4'] = reporting_end_datetime_local
 
-    if comparison_type != 'none-comparison' :
+    if comparison_type != 'none-comparison':
         ws['B5'].alignment = b_r_alignment
         ws['B5'] = _('Base Period Start Datetime') + ':'
         ws['C5'].border = b_border
@@ -313,7 +312,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                     ws[col + row].alignment = c_c_alignment
                     ws[col + row] = reporting_period_data['timestamps'][i]
                     ws[col + row].border = f_border
-            else:    
+            else:
                 for i in range(0, len(reporting_period_data['timestamps'])):
                     col = 'B'
                     row = str(start_detail_data_row_num + 1 + i)
@@ -332,7 +331,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                     ws[col + row] = reporting_period_data['timestamps'][i]
                     ws[col + row].border = f_border
 
-            if comparison_type == 'none-comparison' :
+            if comparison_type == 'none-comparison':
                 ws['C' + str(start_detail_data_row_num)].fill = table_fill
                 ws['C' + str(start_detail_data_row_num)].font = title_font
                 ws['C' + str(start_detail_data_row_num)].alignment = c_c_alignment
@@ -344,16 +343,14 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                 ws['C' + str(start_detail_data_row_num)].font = title_font
                 ws['C' + str(start_detail_data_row_num)].alignment = c_c_alignment
                 ws['C' + str(start_detail_data_row_num)] = _('Base Period') + ' - ' + \
-                    report['meter']['energy_category_name'] + \
-                    " (" + report['meter']['unit_of_measure'] + ")"
+                    report['meter']['energy_category_name'] + " (" + report['meter']['unit_of_measure'] + ")"
                 ws['C' + str(start_detail_data_row_num)].border = f_border
 
                 ws['E' + str(start_detail_data_row_num)].fill = table_fill
                 ws['E' + str(start_detail_data_row_num)].font = title_font
                 ws['E' + str(start_detail_data_row_num)].alignment = c_c_alignment
                 ws['E' + str(start_detail_data_row_num)] = _('Reporting Period') + ' - ' + \
-                    report['meter']['energy_category_name'] + \
-                    " (" + report['meter']['unit_of_measure'] + ")"
+                    report['meter']['energy_category_name'] + " (" + report['meter']['unit_of_measure'] + ")"
                 ws['E' + str(start_detail_data_row_num)].border = f_border
 
             # 13 data
@@ -370,7 +367,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                 line.title = _('Reporting Period Consumption') + ' - ' + report['meter']['energy_category_name'] + \
                     " (" + report['meter']['unit_of_measure'] + ")"
                 labels = Reference(ws, min_col=2, min_row=start_detail_data_row_num + 1, max_row=max_row)
-                line_data = Reference(ws, min_col=3,  min_row=start_detail_data_row_num, max_row=max_row)
+                line_data = Reference(ws, min_col=3, min_row=start_detail_data_row_num, max_row=max_row)
                 line.add_data(line_data, titles_from_data=True)
                 line.set_categories(labels)
                 line_data = line.series[0]
@@ -432,7 +429,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                 ws['C' + row].alignment = c_c_alignment
                 ws['C' + row] = round(reporting_period_data['total_in_category'], 2)
                 ws['C' + row].border = f_border
-            else :
+            else:
                 ws['B' + row].font = title_font
                 ws['B' + row].alignment = c_c_alignment
                 ws['B' + row] = _('Total')
@@ -478,7 +475,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
         parameters_names_len = len(parameters_data['names'])
 
-        file_name = (re.sub(r'[^A-Z]', '', ws.title))+'_'
+        file_name = (re.sub(r'[^A-Z]', '', ws.title)) + '_'
         parameters_ws = wb.create_sheet(file_name + _('Parameters'))
 
         parameters_timestamps_data_max_len = \

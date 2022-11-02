@@ -253,8 +253,8 @@ class Reporting:
         if not is_quick_mode:
             result['excel_bytes_base64'] = \
                 excelexporters.meterbatch.export(result,
-                                                space_name,
-                                                reporting_period_start_datetime_local,
-                                                reporting_period_end_datetime_local,
-                                                language)
+                                                 space_name,
+                                                 reporting_period_start_datetime_local,
+                                                 reporting_period_end_datetime_local,
+                                                 language)
         resp.text = json.dumps(result)
