@@ -381,41 +381,35 @@ class Reporting:
         if cnx_carbon:
             cnx_carbon.close()
 
-        result = {
-            "offline_meter": {
-                "cost_center_id": offline_meter['cost_center_id'],
-                "energy_category_id": offline_meter['energy_category_id'],
-                "energy_category_name": offline_meter['energy_category_name'],
-                "unit_of_measure": 'KG',
-                "kgce": offline_meter['kgce'],
-                "kgco2e": offline_meter['kgco2e'],
-            },
-            "base_period": {
-                "total_in_category": base['total_in_category'],
-                "total_in_kgce": base['total_in_kgce'],
-                "total_in_kgco2e": base['total_in_kgco2e'],
-                "timestamps": base['timestamps'],
-                "values": base['values'],
-            },
-            "reporting_period": {
-                "increment_rate":
-                    (reporting['total_in_category'] - base['total_in_category']) / base['total_in_category']
-                    if base['total_in_category'] > 0 else None,
-                "total_in_category": reporting['total_in_category'],
-                "total_in_kgce": reporting['total_in_kgce'],
-                "total_in_kgco2e": reporting['total_in_kgco2e'],
-                "timestamps": reporting['timestamps'],
-                "values": reporting['values'],
-            },
-            "parameters": {
-                "names": parameters_data['names'],
-                "timestamps": parameters_data['timestamps'],
-                "values": parameters_data['values']
-            },
-        }
+        result = {"offline_meter": {
+            "cost_center_id": offline_meter['cost_center_id'],
+            "energy_category_id": offline_meter['energy_category_id'],
+            "energy_category_name": offline_meter['energy_category_name'],
+            "unit_of_measure": 'KG',
+            "kgce": offline_meter['kgce'],
+            "kgco2e": offline_meter['kgco2e'],
+        }, "base_period": {
+            "total_in_category": base['total_in_category'],
+            "total_in_kgce": base['total_in_kgce'],
+            "total_in_kgco2e": base['total_in_kgco2e'],
+            "timestamps": base['timestamps'],
+            "values": base['values'],
+        }, "reporting_period": {
+            "increment_rate":
+                (reporting['total_in_category'] - base['total_in_category']) / base['total_in_category']
+                if base['total_in_category'] > 0 else None,
+            "total_in_category": reporting['total_in_category'],
+            "total_in_kgce": reporting['total_in_kgce'],
+            "total_in_kgco2e": reporting['total_in_kgco2e'],
+            "timestamps": reporting['timestamps'],
+            "values": reporting['values'],
+        }, "parameters": {
+            "names": parameters_data['names'],
+            "timestamps": parameters_data['timestamps'],
+            "values": parameters_data['values']
+        }, 'excel_bytes_base64': None}
 
         # export result to Excel file and then encode the file to base64 string
-        result['excel_bytes_base64'] = None
         if not is_quick_mode:
             result['excel_bytes_base64'] = \
                 excelexporters.offlinemetercarbon.export(result,

@@ -245,11 +245,10 @@ class Reporting:
                 "values": combined_equipment['values'],
             })
 
-        result = {'combined_equipments': combined_equipment_list,
-                  'energycategories': energy_category_list}
+        result = {'combined_equipments': combined_equipment_list, 'energycategories': energy_category_list,
+                  'excel_bytes_base64': None}
 
         # export result to Excel file and then encode the file to base64 string
-        result['excel_bytes_base64'] = None
         if not is_quick_mode:
             result['excel_bytes_base64'] = \
                 excelexporters.combinedequipmentbatch.export(result,

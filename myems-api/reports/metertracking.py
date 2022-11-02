@@ -290,12 +290,10 @@ class Reporting:
         end_integrity_rate = Decimal(integral_end_count / meter_count) if meter_count > 0 else None
         full_integrity_rate = Decimal(integral_full_count / meter_count) if meter_count > 0 else None
 
-        result = {'meters': meter_list,
-                  'start_integrity_rate': start_integrity_rate,
-                  'end_integrity_rate': end_integrity_rate,
-                  'full_integrity_rate': full_integrity_rate}
+        result = {'meters': meter_list, 'start_integrity_rate': start_integrity_rate,
+                  'end_integrity_rate': end_integrity_rate, 'full_integrity_rate': full_integrity_rate,
+                  'excel_bytes_base64': None}
         # export result to Excel file and then encode the file to base64 string
-        result['excel_bytes_base64'] = None
         if not is_quick_mode:
             result['excel_bytes_base64'] = \
                 excelexporters.metertracking.export(result,
