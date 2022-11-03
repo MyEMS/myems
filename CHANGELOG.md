@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+- 
+### Changed
+- 
+### Fixed
+- 
+### Removed
+-
+
+## [v2.7.0] - 2022-11-03
+### Added
 - added energy categories filter to meter tracking report
 - added meter energy report hyperlink with meter uuid as query string
 - added hyperlink to energy report page for all meters in meter tracking
@@ -1070,7 +1080,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v2.6.0...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v2.7.0...HEAD
+[2.7.0]: https://github.com/MyEMS/myems/compare/v2.6.0...v2.7.0
 [2.6.0]: https://github.com/MyEMS/myems/compare/v2.5.0...v2.6.0
 [2.5.0]: https://github.com/MyEMS/myems/compare/v2.4.0...v2.5.0
 [2.4.0]: https://github.com/MyEMS/myems/compare/v2.3.0...v2.4.0
