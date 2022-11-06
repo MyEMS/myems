@@ -36,6 +36,7 @@ def main():
     Process(target=gateway.process, args=(logger,)).start()
 
     # Get Data Sources
+    data_source_list = list()
     while True:
         # TODO: This service has to RESTART to reload latest data sources and this should be fixed
         cnx_system_db = None
@@ -54,6 +55,7 @@ def main():
             continue
 
         # Get data sources by gateway and protocol
+        rows_data_source = None
         try:
             query = (" SELECT ds.id, ds.name, ds.connection "
                      " FROM tbl_data_sources ds, tbl_gateways g "
@@ -79,18 +81,19 @@ def main():
             continue
         else:
             # Stop to connect these data sources
+            data_source_list = rows_data_source
             break
 
-    for row_data_source in rows_data_source:
+    for data_source in data_source_list:
         print("Data Source: ID=%s, Name=%s, Connection=%s " %
-              (row_data_source[0], row_data_source[1], row_data_source[2]))
+              (data_source[0], data_source[1], data_source[2]))
 
-        if row_data_source[2] is None or len(row_data_source[2]) == 0:
+        if data_source[2] is None or len(data_source[2]) == 0:
             logger.error("Data Source Connection Not Found.")
             continue
 
         try:
-            server = json.loads(row_data_source[2])
+            server = json.loads(data_source[2])
         except Exception as e:
             logger.error("Data Source Connection JSON error " + str(e))
             continue
@@ -107,7 +110,7 @@ def main():
 
         # fork worker process for each data source
         # todo: how to restart the process if the process terminated unexpectedly
-        Process(target=acquisition.process, args=(logger, row_data_source[0], server['host'], server['port'])).start()
+        Process(target=acquisition.process, args=(logger, data_source[0], server['host'], server['port'])).start()
 
 
 if __name__ == "__main__":
