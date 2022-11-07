@@ -3,7 +3,7 @@ import { Button, Card, CardBody, Col, Form, Row } from 'reactstrap';
 import FalconCardHeader from '../common/FalconCardHeader';
 import FalconInput from '../common/FalconInput';
 import { ProductContext } from '../../context/Context';
-import uuid from 'uuid/v1';
+import {v4 as uuid} from 'uuid';
 import { isIterableArray } from '../../helpers/utils';
 import Flex from '../common/Flex';
 import ContentWithAsideLayout from '../../layouts/ContentWithAsideLayout';

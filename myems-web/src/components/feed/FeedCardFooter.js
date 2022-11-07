@@ -8,7 +8,7 @@ import Avatar from '../common/Avatar';
 import Comments from './Comments';
 import { FeedContext } from '../../context/Context';
 import { isIterableArray } from '../../helpers/utils';
-import uuid from 'uuid/v1';
+import {v4 as uuid} from 'uuid';
 import av3 from '../../assets/img/team/3.jpg';
 
 const FeedCardFooter = ({ id, countLCS, comments, otherComments }) => {

@@ -14,7 +14,7 @@ import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import moment from 'moment';
 import { APIBaseURL } from '../../../config';
-import uuid from 'uuid/v1';
+import {v4 as uuid} from 'uuid';
 import annotationPlugin from 'chartjs-plugin-annotation';
 import {  Chart as ChartJS } from 'chart.js';
 import BarChart from '../common/BarChart';

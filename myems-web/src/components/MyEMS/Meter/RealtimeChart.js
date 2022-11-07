@@ -4,7 +4,7 @@ import range from 'lodash/range';
 import { Card, CardHeader, CardBody, ListGroup, ListGroupItem } from 'reactstrap';
 import { rgbaColor } from '../../../helpers/utils';
 import { withTranslation } from 'react-i18next';
-import uuid from 'uuid/v1';
+import {v4 as uuid} from 'uuid';
 import { APIBaseURL } from '../../../config';
 import { getCookieValue } from '../../../helpers/utils';
 import { toast } from 'react-toastify';

@@ -20,7 +20,7 @@ import RealtimeChart from './RealtimeChart';
 import { getCookieValue, createCookie } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
-import uuid from 'uuid/v1';
+import {v4 as uuid} from 'uuid';
 import { toast } from 'react-toastify';
 import { APIBaseURL } from '../../../config';
 

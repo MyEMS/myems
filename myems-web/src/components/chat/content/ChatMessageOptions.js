@@ -1,7 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { UncontrolledTooltip } from 'reactstrap';
-import uuid from 'uuid/v1';
+import {v4 as uuid} from 'uuid';
 import PropTypes from 'prop-types';
 
 const ChatMessageOptions = ({ id = uuid() }) => (

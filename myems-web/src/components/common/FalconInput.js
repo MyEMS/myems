@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { CustomInput, Input, Label } from 'reactstrap';
-import uuid from 'uuid/v1';
+import {v4 as uuid} from 'uuid';
 
 const FalconInput = ({ label, labelClassName, custom, onChange, type, ...rest }) => {
   const Tag = custom ? CustomInput : Input;

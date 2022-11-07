@@ -9,7 +9,7 @@ import classNames from 'classnames';
 import ButtonIcon from '../../common/ButtonIcon';
 import AppContext, { ProductContext } from '../../../context/Context';
 import { withTranslation } from 'react-i18next';
-import uuid from 'uuid/v1';
+import {v4 as uuid} from 'uuid';
 
 const EquipmentList = ({
   id,
