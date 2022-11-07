@@ -85,7 +85,7 @@ const StoreCarbon = ({ setRedirect, setRedirectUrl, t }) => {
     minutes: t('minutes'),
     seconds: t('seconds'),
     last7Days: t('last7Days'),
-    formattedMonthPattern: 'yyyy-MM-dd'
+    formattedMonthPattern: 'yyyy-MM'
   };
   const dateRangePickerStyle = { display: 'block', zIndex: 10};
   const { language } = useContext(AppContext);
@@ -616,7 +616,7 @@ const StoreCarbon = ({ setRedirect, setRedirectUrl, t }) => {
                   <Label className={labelClasses} for="basePeriodDateRangePicker">{t('Base Period')}{t('(Optional)')}</Label>
                   <DateRangePicker 
                     id='basePeriodDateRangePicker'
-                    readOnly={basePeriodDateRangePickerDisabled}
+                    disabled={basePeriodDateRangePickerDisabled}
                     format="yyyy-MM-dd HH:mm:ss"
                     value={basePeriodDateRange}
                     onChange={onBasePeriodChange}

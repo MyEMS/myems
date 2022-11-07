@@ -71,7 +71,7 @@ const OfflineMeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
     minutes: t('minutes'),
     seconds: t('seconds'),
     last7Days: t('last7Days'),
-    formattedMonthPattern: 'yyyy-MM-dd'
+    formattedMonthPattern: 'yyyy-MM'
   };
   const dateRangePickerStyle = { display: 'block', zIndex: 10};
   const { language } = useContext(AppContext);

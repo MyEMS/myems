@@ -28,7 +28,7 @@ import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL } from '../../../config';
-import uuid from 'uuid/v1';
+import {v1 as uuid} from 'uuid';
 import { periodTypeOptions } from '../common/PeriodTypeOptions';
 import { comparisonTypeOptions } from '../common/ComparisonTypeOptions';
 import { DateRangePicker } from 'rsuite';
@@ -83,7 +83,7 @@ const SpaceCarbon = ({ setRedirect, setRedirectUrl, t }) => {
     minutes: t('minutes'),
     seconds: t('seconds'),
     last7Days: t('last7Days'),
-    formattedMonthPattern: 'yyyy-MM-dd'
+    formattedMonthPattern: 'yyyy-MM'
   };
   const dateRangePickerStyle = { display: 'block', zIndex: 10};
   const { language } = useContext(AppContext);
@@ -626,7 +626,7 @@ const SpaceCarbon = ({ setRedirect, setRedirectUrl, t }) => {
                   <Label className={labelClasses} for="basePeriodDateRangePicker">{t('Base Period')}{t('(Optional)')}</Label>
                   <DateRangePicker 
                     id='basePeriodDateRangePicker'
-                    readOnly={basePeriodDateRangePickerDisabled}
+                    disabled={basePeriodDateRangePickerDisabled}
                     format="yyyy-MM-dd HH:mm:ss"
                     value={basePeriodDateRange}
                     onChange={onBasePeriodChange}
