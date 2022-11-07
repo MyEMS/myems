@@ -6,7 +6,7 @@ import PageHeader from '../common/PageHeader';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FalconEditor from '../common/FalconEditor';
 import Flex from '../common/Flex';
-import uuid from 'uuid/v1';
+import {v4 as uuid} from 'uuid';
 
 import product1 from '../../assets/img/products/1.jpg';
 import product12 from '../../assets/img/products/1-2.jpg';

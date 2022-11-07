@@ -20,7 +20,7 @@ import Flex from '../common/Flex';
 import ButtonImgPostCreate from './ButtonImgPostCreate';
 import FalconCardHeader from '../common/FalconCardHeader';
 import { FeedContext } from '../../context/Context';
-import uuid from 'uuid/v1';
+import {v4 as uuid} from 'uuid';
 
 import av3 from '../../assets/img/team/3.jpg';
 import postLocation from '../../assets/img/illustrations/location.svg';

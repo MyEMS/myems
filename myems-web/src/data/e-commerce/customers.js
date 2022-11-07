@@ -1,4 +1,4 @@
-import uuid from 'uuid/v1';
+import {v4 as uuid} from 'uuid';
 import team2 from '../../assets/img/team/2.jpg';
 import team3 from '../../assets/img/team/3.jpg';
 import team4 from '../../assets/img/team/4.jpg';
