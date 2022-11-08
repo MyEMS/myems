@@ -762,32 +762,48 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
         });
   };
 
-  let reportingPeriodselected = (date) => {
-    // console.log(Ref.current.overlay.children[0].children[0].children[0].children[0].children[1].); // 1
-    let time = moment(date).format('YYYY-MM-DD')
-    let calendarValueObj = Ref.current.overlay.children[0].children[0].children[0].children[0].children[0];
+  let reportingPeriodSelected = (date) => {
+    let time = moment(date).format('YYYY-MM-DD');
     let calendarObj = Ref.current.overlay.children[0].children[0].children[0].children[0].children[1];
     if(reportingPeriodDatetimeFlag) {
-      calendarObj.children[0].children[0].children[0].children[1].innerText = time
-      setReportingPeriodDatetimeFlag(!reportingPeriodDatetimeFlag)
+      calendarObj.children[0].children[0].children[0].children[1].innerText = time;
+      setReportingPeriodDatetimeFlag(!reportingPeriodDatetimeFlag);
     }else{
-      calendarObj.children[1].children[0].children[0].children[1].innerText = time
-      setReportingPeriodDatetimeFlag(!reportingPeriodDatetimeFlag)
-      // she zhi time 
+      if (moment(calendarObj.children[0].children[0].children[0].children[1].innerText).isBefore(time)){
+        calendarObj.children[1].children[0].children[0].children[1].innerText = time;
+      } else {
+        calendarObj.children[1].children[0].children[0].children[1].innerText =
+         calendarObj.children[0].children[0].children[0].children[1].innerText;
+        calendarObj.children[0].children[0].children[0].children[1].innerText = time
+      }
+      setReportingPeriodDatetimeFlag(!reportingPeriodDatetimeFlag);
     }
     
   }
 
-  let basePeriodselected = (date) => {
-    // console.log(Ref.current.overlay.children[0].children[0].children[0].children[0].children[1].); // 1
-    let time = moment(date).format('YYYY-MM-DD')
-    if(reportingPeriodDatetimeFlag) {
-      Ref.current.overlay.children[0].children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[1].innerText = time
-      setReportingPeriodDatetimeFlag(!reportingPeriodDatetimeFlag)
+  let basePeriodSelected = (date) => {
+    let time = moment(date).format('YYYY-MM-DD');
+    let calendarObj = Ref.current.overlay.children[0].children[0].children[0].children[0].children[1];
+    if(basePeriodDatetimeFlag) {
+      calendarObj.children[0].children[0].children[0].children[1].innerText = time
+      setBasePeriodDatetimeFlag(!basePeriodDatetimeFlag)
     }else{
-      Ref.current.overlay.children[0].children[0].children[0].children[0].children[1].children[1].children[0].children[0].children[1].innerText = time
-      setReportingPeriodDatetimeFlag(!reportingPeriodDatetimeFlag)
+      if (moment(calendarObj.children[0].children[0].children[0].children[1].innerText).isBefore(time)){
+        calendarObj.children[1].children[0].children[0].children[1].innerText = time;
+      } else {
+        calendarObj.children[1].children[0].children[0].children[1].innerText =
+         calendarObj.children[0].children[0].children[0].children[1].innerText;
+        calendarObj.children[0].children[0].children[0].children[1].innerText = time
+      }
+      setBasePeriodDatetimeFlag(!basePeriodDatetimeFlag)
     }
+  }
+
+  let reportingPeriodOpened = () => {
+    let calendarTitleObj = Ref.current.overlay.children[0].children[0].children[0].children[0].children[0];
+    let calendarObj = Ref.current.overlay.children[0].children[0].children[0].children[0].children[1];
+    calendarObj.children[0].children[0].children[0].children[1].innerText = calendarTitleObj.firstChild.data.split(' ')[0];
+    calendarObj.children[1].children[0].children[0].children[1].innerText = calendarTitleObj.lastChild.data.split(' ')[0];
   }
 
   return (
@@ -877,6 +893,8 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
                     value={basePeriodDateRange}
                     onChange={onBasePeriodChange}
                     size="md"
+                    ref={Ref}
+                    onSelect={basePeriodSelected}
                     style={dateRangePickerStyle}
                     onClean={onBasePeriodClean}
                     locale={dateRangePickerLocale}
@@ -895,7 +913,8 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
                     onChange={onReportingPeriodChange}
                     size="md"
                     ref={Ref}
-                    onSelect={reportingPeriodselected}
+                    onOpen={reportingPeriodOpened}
+                    onSelect={reportingPeriodSelected}
                     style={dateRangePickerStyle}
                     onClean={onReportingPeriodClean}
                     locale={dateRangePickerLocale}
