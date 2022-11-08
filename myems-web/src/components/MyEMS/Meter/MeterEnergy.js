@@ -40,6 +40,7 @@ const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
 const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
   let current_moment = moment();
+  let flag = true;
   const location = useLocation();
   const uuid = location.search.split('=')[1];
   const Ref = React.useRef();
@@ -107,8 +108,6 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
   const [spaceCascaderHidden, setSpaceCascaderHidden] = useState(false);
   const [meterSearchHidden, setMeterSearchHidden] = useState(false);
-  const [reportingPeriodDatetimeFlag, setReportingPeriodDatetimeFlag] = useState(true);
-  const [basePeriodDatetimeFlag, setBasePeriodDatetimeFlag] = useState(true);
 
   //Results
   const [meterEnergyCategory, setMeterEnergyCategory] = useState({ 'name': '', 'unit': '' });
@@ -762,12 +761,11 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
         });
   };
 
-  let reportingPeriodSelected = (date) => {
+  const onSelected = (date) => {
     let time = moment(date).format('YYYY-MM-DD');
     let calendarObj = Ref.current.overlay.children[0].children[0].children[0].children[0].children[1];
-    if(reportingPeriodDatetimeFlag) {
+    if(flag) {
       calendarObj.children[0].children[0].children[0].children[1].innerText = time;
-      setReportingPeriodDatetimeFlag(!reportingPeriodDatetimeFlag);
     }else{
       if (moment(calendarObj.children[0].children[0].children[0].children[1].innerText).isBefore(time)){
         calendarObj.children[1].children[0].children[0].children[1].innerText = time;
@@ -776,37 +774,12 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
          calendarObj.children[0].children[0].children[0].children[1].innerText;
         calendarObj.children[0].children[0].children[0].children[1].innerText = time
       }
-      setReportingPeriodDatetimeFlag(!reportingPeriodDatetimeFlag);
     }
-    
+    flag = !flag;
   }
 
-  let basePeriodSelected = (date) => {
-    let time = moment(date).format('YYYY-MM-DD');
-    let calendarObj = Ref.current.overlay.children[0].children[0].children[0].children[0].children[1];
-    if(basePeriodDatetimeFlag) {
-      calendarObj.children[0].children[0].children[0].children[1].innerText = time
-      setBasePeriodDatetimeFlag(!basePeriodDatetimeFlag)
-    }else{
-      if (moment(calendarObj.children[0].children[0].children[0].children[1].innerText).isBefore(time)){
-        calendarObj.children[1].children[0].children[0].children[1].innerText = time;
-      } else {
-        calendarObj.children[1].children[0].children[0].children[1].innerText =
-         calendarObj.children[0].children[0].children[0].children[1].innerText;
-        calendarObj.children[0].children[0].children[0].children[1].innerText = time
-      }
-      setBasePeriodDatetimeFlag(!basePeriodDatetimeFlag)
-    }
-  }
-
-  let reportingPeriodOpened = () => {
-    let calendarTitleObj = Ref.current.overlay.children[0].children[0].children[0].children[0].children[0];
-    let calendarObj = Ref.current.overlay.children[0].children[0].children[0].children[0].children[1];
-    calendarObj.children[0].children[0].children[0].children[1].innerText = calendarTitleObj.firstChild.data.split(' ')[0];
-    calendarObj.children[1].children[0].children[0].children[1].innerText = calendarTitleObj.lastChild.data.split(' ')[0];
-  }
-
-  let basePeriodOpened = () => {
+  const onOpened = () => {
+    flag = true;
     let calendarTitleObj = Ref.current.overlay.children[0].children[0].children[0].children[0].children[0];
     let calendarObj = Ref.current.overlay.children[0].children[0].children[0].children[0].children[1];
     calendarObj.children[0].children[0].children[0].children[1].innerText = calendarTitleObj.firstChild.data.split(' ')[0];
@@ -901,8 +874,8 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
                     onChange={onBasePeriodChange}
                     size="md"
                     ref={Ref}
-                    onOpen={basePeriodOpened}
-                    onSelect={basePeriodSelected}
+                    onOpen={onOpened}
+                    onSelect={onSelected}
                     style={dateRangePickerStyle}
                     onClean={onBasePeriodClean}
                     locale={dateRangePickerLocale}
@@ -921,8 +894,8 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
                     onChange={onReportingPeriodChange}
                     size="md"
                     ref={Ref}
-                    onOpen={reportingPeriodOpened}
-                    onSelect={reportingPeriodSelected}
+                    onOpen={onOpened}
+                    onSelect={onSelected}
                     style={dateRangePickerStyle}
                     onClean={onReportingPeriodClean}
                     locale={dateRangePickerLocale}
