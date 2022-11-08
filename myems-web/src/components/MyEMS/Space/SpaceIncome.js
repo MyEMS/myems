@@ -548,7 +548,7 @@ const SpaceIncome = ({ setRedirect, setRedirectUrl, t }) => {
                   <Label className={labelClasses} for="basePeriodDateRangePicker">{t('Base Period')}{t('(Optional)')}</Label>
                   <DateRangePicker 
                     id='basePeriodDateRangePicker'
-                    readOnly={basePeriodDateRangePickerDisabled}
+                    disabled={basePeriodDateRangePickerDisabled}
                     format="yyyy-MM-dd HH:mm:ss"
                     value={basePeriodDateRange}
                     onChange={onBasePeriodChange}
