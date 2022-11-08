@@ -30,7 +30,7 @@ import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL } from '../../../config';
 import { periodTypeOptions } from '../common/PeriodTypeOptions';
 import { comparisonTypeOptions } from '../common/ComparisonTypeOptions';
-import { DateRangePicker, DOMHelper } from 'rsuite';
+import { DateRangePicker } from 'rsuite';
 import { endOfDay} from 'date-fns';
 import AppContext from '../../../context/Context';
 import { useLocation } from 'react-router-dom';
@@ -806,6 +806,13 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
     calendarObj.children[1].children[0].children[0].children[1].innerText = calendarTitleObj.lastChild.data.split(' ')[0];
   }
 
+  let basePeriodOpened = () => {
+    let calendarTitleObj = Ref.current.overlay.children[0].children[0].children[0].children[0].children[0];
+    let calendarObj = Ref.current.overlay.children[0].children[0].children[0].children[0].children[1];
+    calendarObj.children[0].children[0].children[0].children[1].innerText = calendarTitleObj.firstChild.data.split(' ')[0];
+    calendarObj.children[1].children[0].children[0].children[1].innerText = calendarTitleObj.lastChild.data.split(' ')[0];
+  }
+
   return (
     <Fragment>
       <div>
@@ -894,6 +901,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
                     onChange={onBasePeriodChange}
                     size="md"
                     ref={Ref}
+                    onOpen={basePeriodOpened}
                     onSelect={basePeriodSelected}
                     style={dateRangePickerStyle}
                     onClean={onBasePeriodClean}
