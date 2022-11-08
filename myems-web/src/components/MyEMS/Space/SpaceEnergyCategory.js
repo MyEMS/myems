@@ -28,7 +28,7 @@ import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL } from '../../../config';
-import {v1 as uuid} from 'uuid';
+import {v4 as uuid} from 'uuid';
 import { periodTypeOptions } from '../common/PeriodTypeOptions';
 import { comparisonTypeOptions } from '../common/ComparisonTypeOptions';
 import { DateRangePicker } from 'rsuite';

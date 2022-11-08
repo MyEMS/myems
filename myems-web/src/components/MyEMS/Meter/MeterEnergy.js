@@ -30,7 +30,7 @@ import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL } from '../../../config';
 import { periodTypeOptions } from '../common/PeriodTypeOptions';
 import { comparisonTypeOptions } from '../common/ComparisonTypeOptions';
-import { DateRangePicker } from 'rsuite';
+import { DateRangePicker, DOMHelper } from 'rsuite';
 import { endOfDay} from 'date-fns';
 import AppContext from '../../../context/Context';
 import { useLocation } from 'react-router-dom';
@@ -42,6 +42,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
   let current_moment = moment();
   const location = useLocation();
   const uuid = location.search.split('=')[1];
+  const Ref = React.useRef();
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
     let user_name = getCookieValue('user_name');
@@ -96,17 +97,18 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
     minutes: t('minutes'),
     seconds: t('seconds'),
     last7Days: t('last7Days'),
-    formattedMonthPattern: 'yyyy-MM'
+    formattedMonthPattern: 'yyyy-MM-dd'
   };
   const dateRangePickerStyle = { display: 'block', zIndex: 10};
   const { language } = useContext(AppContext);
-
   // buttons
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
   const [spaceCascaderHidden, setSpaceCascaderHidden] = useState(false);
   const [meterSearchHidden, setMeterSearchHidden] = useState(false);
+  const [reportingPeriodDatetimeFlag, setReportingPeriodDatetimeFlag] = useState(true);
+  const [basePeriodDatetimeFlag, setBasePeriodDatetimeFlag] = useState(true);
 
   //Results
   const [meterEnergyCategory, setMeterEnergyCategory] = useState({ 'name': '', 'unit': '' });
@@ -760,6 +762,33 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
         });
   };
 
+  let reportingPeriodselected = (date) => {
+    // console.log(Ref.current.overlay.children[0].children[0].children[0].children[0].children[1].); // 1
+    let time = moment(date).format('YYYY-MM-DD')
+    let calendarValueObj = Ref.current.overlay.children[0].children[0].children[0].children[0].children[0];
+    let calendarObj = Ref.current.overlay.children[0].children[0].children[0].children[0].children[1];
+    if(reportingPeriodDatetimeFlag) {
+      calendarObj.children[0].children[0].children[0].children[1].innerText = time
+      setReportingPeriodDatetimeFlag(!reportingPeriodDatetimeFlag)
+    }else{
+      calendarObj.children[1].children[0].children[0].children[1].innerText = time
+      setReportingPeriodDatetimeFlag(!reportingPeriodDatetimeFlag)
+      // she zhi time 
+    }
+    
+  }
+
+  let basePeriodselected = (date) => {
+    // console.log(Ref.current.overlay.children[0].children[0].children[0].children[0].children[1].); // 1
+    let time = moment(date).format('YYYY-MM-DD')
+    if(reportingPeriodDatetimeFlag) {
+      Ref.current.overlay.children[0].children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[1].innerText = time
+      setReportingPeriodDatetimeFlag(!reportingPeriodDatetimeFlag)
+    }else{
+      Ref.current.overlay.children[0].children[0].children[0].children[0].children[1].children[1].children[0].children[0].children[1].innerText = time
+      setReportingPeriodDatetimeFlag(!reportingPeriodDatetimeFlag)
+    }
+  }
 
   return (
     <Fragment>
@@ -865,6 +894,8 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
                     value={reportingPeriodDateRange}
                     onChange={onReportingPeriodChange}
                     size="md"
+                    ref={Ref}
+                    onSelect={reportingPeriodselected}
                     style={dateRangePickerStyle}
                     onClean={onReportingPeriodClean}
                     locale={dateRangePickerLocale}

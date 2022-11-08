@@ -1,4 +1,4 @@
-import uuid from 'uuid/v1';
+import {v4 as uuid} from 'uuid';
 
 export default [
   {

@@ -25,7 +25,7 @@ import { Link } from 'react-router-dom';
 import Badge from 'reactstrap/es/Badge';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FalconCardHeader from '../../common/FalconCardHeader';
-import uuid from 'uuid/v1';
+import {v4 as uuid} from 'uuid';
 import { getPaginationArray } from '../../../helpers/utils';
 import { getCookieValue, createCookie } from '../../../helpers/utils';
 import Datetime from 'react-datetime';
