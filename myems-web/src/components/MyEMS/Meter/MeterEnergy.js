@@ -30,20 +30,18 @@ import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL } from '../../../config';
 import { periodTypeOptions } from '../common/PeriodTypeOptions';
 import { comparisonTypeOptions } from '../common/ComparisonTypeOptions';
-import { DateRangePicker } from 'rsuite';
 import { endOfDay} from 'date-fns';
 import AppContext from '../../../context/Context';
 import { useLocation } from 'react-router-dom';
+import DatePicker from '../common/DatePicker';
 
 
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
 const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
   let current_moment = moment();
-  let flag = true;
   const location = useLocation();
   const uuid = location.search.split('=')[1];
-  const Ref = React.useRef();
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
     let user_name = getCookieValue('user_name');
@@ -761,31 +759,6 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
         });
   };
 
-  const onSelected = (date) => {
-    let time = moment(date).format('YYYY-MM-DD');
-    let calendarObj = Ref.current.overlay.children[0].children[0].children[0].children[0].children[1];
-    if(flag) {
-      calendarObj.children[0].children[0].children[0].children[1].innerText = time;
-    }else{
-      if (moment(calendarObj.children[0].children[0].children[0].children[1].innerText).isBefore(time)){
-        calendarObj.children[1].children[0].children[0].children[1].innerText = time;
-      } else {
-        calendarObj.children[1].children[0].children[0].children[1].innerText =
-         calendarObj.children[0].children[0].children[0].children[1].innerText;
-        calendarObj.children[0].children[0].children[0].children[1].innerText = time
-      }
-    }
-    flag = !flag;
-  }
-
-  const onOpened = () => {
-    flag = true;
-    let calendarTitleObj = Ref.current.overlay.children[0].children[0].children[0].children[0].children[0];
-    let calendarObj = Ref.current.overlay.children[0].children[0].children[0].children[0].children[1];
-    calendarObj.children[0].children[0].children[0].children[1].innerText = calendarTitleObj.firstChild.data.split(' ')[0];
-    calendarObj.children[1].children[0].children[0].children[1].innerText = calendarTitleObj.lastChild.data.split(' ')[0];
-  }
-
   return (
     <Fragment>
       <div>
@@ -866,16 +839,13 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="basePeriodDateRangePicker">{t('Base Period')}{t('(Optional)')}</Label>
-                  <DateRangePicker 
+                  <DatePicker 
                     id='basePeriodDateRangePicker'
                     disabled={basePeriodDateRangePickerDisabled}
                     format="yyyy-MM-dd HH:mm:ss"
                     value={basePeriodDateRange}
                     onChange={onBasePeriodChange}
                     size="md"
-                    ref={Ref}
-                    onOpen={onOpened}
-                    onSelect={onSelected}
                     style={dateRangePickerStyle}
                     onClean={onBasePeriodClean}
                     locale={dateRangePickerLocale}
@@ -887,15 +857,12 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="reportingPeriodDateRangePicker">{t('Reporting Period')}</Label>
                   <br/>
-                  <DateRangePicker
+                  <DatePicker
                     id='reportingPeriodDateRangePicker'
                     format="yyyy-MM-dd HH:mm:ss"
                     value={reportingPeriodDateRange}
                     onChange={onReportingPeriodChange}
                     size="md"
-                    ref={Ref}
-                    onOpen={onOpened}
-                    onSelect={onSelected}
                     style={dateRangePickerStyle}
                     onClean={onReportingPeriodClean}
                     locale={dateRangePickerLocale}
