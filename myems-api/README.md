@@ -300,7 +300,7 @@ systemctl start myems-api.service
 
 ### Installation Option 4: Install myems-api on macOS
 
-Please refer to [Installation on macOS (Chinese)](/installation_macos_zh.md)
+Please refer to [Installation on macOS (Chinese)](/myems-api/installation_macos_zh.md)
 
 
 ## API List

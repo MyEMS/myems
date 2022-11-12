@@ -3,7 +3,7 @@ import moment from 'moment';
 import { DateRangePicker } from 'rsuite';
 import PropTypes from 'prop-types';
 
-const DatePickerTest = ({id, disabled, format, value, onChange, size, style, onClean, locale, placeholder}) => {
+const DateRangePickerWrapper = ({id, disabled, format, value, onChange, size, style, onClean, locale, placeholder}) => {
 
     let flag = true;
     const Ref = React.useRef();
@@ -25,7 +25,7 @@ const DatePickerTest = ({id, disabled, format, value, onChange, size, style, onC
         flag = !flag;
       }
     
-    const onOpened = () => {
+    const onOpen = () => {
     flag = true;
     let calendarTitleObj = Ref.current.overlay.children[0].children[0].children[0].children[0].children[0];
     let calendarObj = Ref.current.overlay.children[0].children[0].children[0].children[0].children[1];
@@ -46,13 +46,13 @@ const DatePickerTest = ({id, disabled, format, value, onChange, size, style, onC
             locale={locale}
             placeholder={placeholder}
             onSelect={onSelected}
-            onOpen={onOpened}
+            onOpen={onOpen}
             ref={Ref}
         />
     )
 }
 
-DatePickerTest.propTypes = {
+DateRangePickerWrapper.propTypes = {
     ranges: PropTypes.array,
     value: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
     defaultValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
@@ -70,4 +70,4 @@ DatePickerTest.propTypes = {
     showMeridian: PropTypes.bool,
     showOneCalendar: PropTypes.bool
   };
-  export default DatePickerTest;
+  export default DateRangePickerWrapper;

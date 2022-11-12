@@ -33,7 +33,7 @@ import { comparisonTypeOptions } from '../common/ComparisonTypeOptions';
 import { endOfDay} from 'date-fns';
 import AppContext from '../../../context/Context';
 import { useLocation } from 'react-router-dom';
-import DatePicker from '../common/DatePicker';
+import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 
 
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
@@ -839,7 +839,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="basePeriodDateRangePicker">{t('Base Period')}{t('(Optional)')}</Label>
-                  <DatePicker 
+                  <DateRangePickerWrapper 
                     id='basePeriodDateRangePicker'
                     disabled={basePeriodDateRangePickerDisabled}
                     format="yyyy-MM-dd HH:mm:ss"
@@ -857,7 +857,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="reportingPeriodDateRangePicker">{t('Reporting Period')}</Label>
                   <br/>
-                  <DatePicker
+                  <DateRangePickerWrapper
                     id='reportingPeriodDateRangePicker'
                     format="yyyy-MM-dd HH:mm:ss"
                     value={reportingPeriodDateRange}
