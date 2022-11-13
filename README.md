@@ -26,6 +26,7 @@ MyEMS由资深专业团队开发维护，源代码基于MIT开源软件许可协
 
 ![MyEMS Architecture Site View](/docs/images/architecture-site-view-cn.png)
 
+![MyEMS Data Flow](/docs/images/myems-data-flow-cn.svg)
 
 ## MyEMS UI 展示
 

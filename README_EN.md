@@ -1,6 +1,6 @@
 # MyEMS
 
- [中文](./README.md) | [EN](./README_EN.md) | [DE](./README_DE.md)
+ [中文](/README.md) | [EN](/README_EN.md) | [DE](/README_DE.md)
 
  [![Documentation Status](https://readthedocs.org/projects/myems/badge/?version=latest)](https://myems.readthedocs.io/en/latest/?badge=latest)
  [![Maintainability](https://api.codeclimate.com/v1/badges/e01a2ca1e833d66040d0/maintainability)](https://codeclimate.com/github/MyEMS/myems/maintainability)
@@ -26,6 +26,7 @@ Using open source to help achieve carbon peak carbon neutrality goals.
 
 ![MyEMS Architecture Site View](/docs/images/architecture-site-view-en.png)
 
+![MyEMS Data Flow](/docs/images/myems-data-flow-en.svg)
 
 ## MyEMS UI Presentation
 
