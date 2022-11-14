@@ -364,8 +364,8 @@ def generate_excel(report,
 
         pie = PieChart()
         pie.title = name + ' ' + _('Electricity Consumption by Time-Of-Use')
-        labels = Reference(ws, min_col=2, min_row=14, max_row=17)
-        pie_data = Reference(ws, min_col=3, min_row=13, max_row=17)
+        labels = Reference(ws, min_col=2, min_row=15, max_row=18)
+        pie_data = Reference(ws, min_col=3, min_row=14, max_row=18)
         pie.add_data(pie_data, titles_from_data=True)
         pie.set_categories(labels)
         pie.height = 6.6
@@ -817,14 +817,16 @@ def generate_excel(report,
                     # line
                     line = LineChart()
                     line.title = _('Reporting Period Consumption') + ' - ' \
-                        + ws.cell(column=3 + base_period_data_ca_len + 1, row=table_start_row_number).value
+                        + ws.cell(column=3 + base_period_data_ca_len + 1 + i, row=table_start_row_number).value
                     labels = Reference(ws, min_col=2 + base_period_data_ca_len + 1,
-                                       min_row=table_start_row_number + 1, max_row=table_end_row_number)
+                                       min_row=table_start_row_number + 1,
+                                       max_row=table_start_row_number + len(reporting_period_timestamps[0]))
                     base_line_data = Reference(ws, min_col=3 + i, min_row=table_start_row_number,
-                                               max_row=table_end_row_number)
+                                               max_row=table_start_row_number + len(reporting_period_timestamps[0]))
                     reporting_line_data = Reference(ws, min_col=3 + base_period_data_ca_len + 1 + i,
                                                     min_row=table_start_row_number,
-                                                    max_row=table_end_row_number)
+                                                    max_row=table_start_row_number
+                                                    + len(reporting_period_timestamps[0]))
                     line.add_data(base_line_data, titles_from_data=True)
                     line.add_data(reporting_line_data, titles_from_data=True)
                     line.set_categories(labels)
