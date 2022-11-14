@@ -11,8 +11,12 @@ const DateRangePickerWrapper = ({id, disabled, format, value, onChange, size, st
     const onSelected = (date) => {
         let time = moment(date).format('YYYY-MM-DD');
         let calendarObj = Ref.current.overlay.children[0].children[0].children[0].children[0].children[1];
+        let calendarTitleObj = Ref.current.overlay.children[0].children[0].children[0].children[0].children[0];
         if(flag) {
           calendarObj.children[0].children[0].children[0].children[1].innerText = time;
+          setTimeout(() => {
+            calendarTitleObj.childNodes[0].nodeValue = time + ' ' + calendarObj.children[0].children[0].children[1].innerText; 
+          }, 0);
         }else{
           if (moment(calendarObj.children[0].children[0].children[0].children[1].innerText).isBefore(time)){
             calendarObj.children[1].children[0].children[0].children[1].innerText = time;
@@ -26,11 +30,14 @@ const DateRangePickerWrapper = ({id, disabled, format, value, onChange, size, st
       }
     
     const onOpen = () => {
-    flag = true;
-    let calendarTitleObj = Ref.current.overlay.children[0].children[0].children[0].children[0].children[0];
-    let calendarObj = Ref.current.overlay.children[0].children[0].children[0].children[0].children[1];
-    calendarObj.children[0].children[0].children[0].children[1].innerText = calendarTitleObj.firstChild.data.split(' ')[0];
-    calendarObj.children[1].children[0].children[0].children[1].innerText = calendarTitleObj.lastChild.data.split(' ')[0];
+      flag = true;
+      let calendarTitleObj = Ref.current.overlay.children[0].children[0].children[0].children[0].children[0];
+      let calendarObj = Ref.current.overlay.children[0].children[0].children[0].children[0].children[1];
+      calendarObj.children[0].children[0].children[0].children[1].innerText = calendarTitleObj.firstChild.data.split(' ')[0];
+      calendarObj.children[1].children[0].children[0].children[1].innerText = calendarTitleObj.lastChild.data.split(' ')[0];
+      calendarTitleObj.childNodes[0].nodeValue = placeholder;
+      calendarTitleObj.childNodes[1].nodeValue = '';
+      calendarTitleObj.childNodes[2].nodeValue = '';
     }
     
     return (
