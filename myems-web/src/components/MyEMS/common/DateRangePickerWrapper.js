@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { DateRangePicker } from 'rsuite';
+import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import PropTypes from 'prop-types';
 
 const DateRangePickerWrapper = ({id, disabled, format, value, onChange, size, style, onClean, locale, placeholder}) => {
@@ -41,7 +41,7 @@ const DateRangePickerWrapper = ({id, disabled, format, value, onChange, size, st
     }
     
     return (
-        <DateRangePicker 
+        <DateRangePickerWrapper 
             id={id}
             disabled={disabled}
             format={format}

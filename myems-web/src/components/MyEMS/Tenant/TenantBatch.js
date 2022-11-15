@@ -25,7 +25,7 @@ import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL } from '../../../config';
 import Appcontext from '../../../context/Context'
 
-import { DateRangePicker } from 'rsuite';
+import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import { endOfDay} from 'date-fns';
 
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
@@ -318,7 +318,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="reportingPeriodDateRangePicker">{t('Reporting Period')}</Label>
                   <br/>
-                  <DateRangePicker
+                  <DateRangePickerWrapper
                     id='reportingPeriodDateRangePicker'
                     format="yyyy-MM-dd HH:mm:ss"
                     value={reportingPeriodDateRange}

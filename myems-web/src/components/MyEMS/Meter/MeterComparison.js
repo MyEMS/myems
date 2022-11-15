@@ -29,7 +29,7 @@ import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL } from '../../../config';
 import { periodTypeOptions } from '../common/PeriodTypeOptions';
 import MultiTrendChart from '../common/MultiTrendChart';
-import { DateRangePicker } from 'rsuite';
+import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import { endOfDay} from 'date-fns';
 import AppContext from '../../../context/Context';
 
@@ -662,7 +662,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="reportingPeriodDateRangePicker">{t('Reporting Period')}</Label>
                   <br/>
-                  <DateRangePicker
+                  <DateRangePickerWrapper
                     id='reportingPeriodDateRangePicker'
                     format="yyyy-MM-dd HH:mm:ss"
                     value={reportingPeriodDateRange}

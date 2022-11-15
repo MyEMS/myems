@@ -29,7 +29,7 @@ import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL } from '../../../config';
 import { periodTypeOptions } from '../common/PeriodTypeOptions';
 import { comparisonTypeOptions } from '../common/ComparisonTypeOptions';
-import { DateRangePicker } from 'rsuite';
+import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import { endOfDay} from 'date-fns';
 import AppContext from '../../../context/Context';
 
@@ -557,7 +557,7 @@ const TenantLoad = ({ setRedirect, setRedirectUrl, t }) => {
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="basePeriodDateRangePicker">{t('Base Period')}{t('(Optional)')}</Label>
-                  <DateRangePicker 
+                  <DateRangePickerWrapper 
                     id='basePeriodDateRangePicker'
                     disabled={basePeriodDateRangePickerDisabled}
                     format="yyyy-MM-dd HH:mm:ss"
@@ -575,7 +575,7 @@ const TenantLoad = ({ setRedirect, setRedirectUrl, t }) => {
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="reportingPeriodDateRangePicker">{t('Reporting Period')}</Label>
                   <br/>
-                  <DateRangePicker
+                  <DateRangePickerWrapper
                     id='reportingPeriodDateRangePicker'
                     format="yyyy-MM-dd HH:mm:ss"
                     value={reportingPeriodDateRange}
