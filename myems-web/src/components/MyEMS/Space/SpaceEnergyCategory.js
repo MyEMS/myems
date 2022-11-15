@@ -20,7 +20,7 @@ import moment from 'moment';
 import loadable from '@loadable/component';
 import Cascader from 'rc-cascader';
 import CardSummary from '../common/CardSummary';
-import MultiTrendChart from '../common/MultiTrendChart_v2';
+import MultiTrendChart from '../common/MultiTrendChart';
 import LineChart from '../common/LineChart';
 import SharePie from '../common/SharePie';
 import { getCookieValue, createCookie } from '../../../helpers/utils';
@@ -107,15 +107,15 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
   const [childSpaceProportionList, setChildSpaceProportionList] = useState([]);
 
   const [spaceBaseAndReportingNames, setSpaceBaseAndReportingNames] = useState({"a0":""});
-  const [spaceBaseAndReportingUnits, setSpaceBaseAndReportingUnits] = useState({"a0":""});
+  const [spaceBaseAndReportingUnits, setSpaceBaseAndReportingUnits] = useState({"a0":"()"});
 
   const [spaceBaseLabels, setSpaceBaseLabels] = useState({});
   const [spaceBaseData, setSpaceBaseData] = useState({});
-  const [spaceBaseSubtotals, setSpaceBaseSubtotals] = useState({"a0":""});
+  const [spaceBaseSubtotals, setSpaceBaseSubtotals] = useState({"a0": (0).toFixed(2)});
 
   const [spaceReportingLabels, setSpaceReportingLabels] = useState({});
   const [spaceReportingData, setSpaceReportingData] = useState({});
-  const [spaceReportingSubtotals, setSpaceReportingSubtotals] = useState({"a0":""});
+  const [spaceReportingSubtotals, setSpaceReportingSubtotals] = useState({"a0": (0).toFixed(2)});
 
   const [spaceReportingRates, setSpaceReportingRates] = useState({});
   const [spaceReportingOptions, setSpaceReportingOptions] = useState([]);
