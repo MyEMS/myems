@@ -38,7 +38,6 @@ const MultiTrendChart = ({
   options,
   t
 }) => {
-  const [selectedLabel, setSelectedLabel] = useState('a0');
   const [option, setOption] = useState('a0');
   const { isDark } = useContext(AppContext);
   const chartRef = useRef(null);
@@ -57,7 +56,7 @@ const MultiTrendChart = ({
       
       const chartData = {
         datasets: [{
-            data: rates[option],
+            data: undefinedConvertsToEmptyArray(rates[option]),
             borderColor: rgbaColor(isDark ? themeColors.primary : '#000', 0.8) ,
             backgroundColor: gradientFill,
             type: 'line',
@@ -82,7 +81,7 @@ const MultiTrendChart = ({
             }
           },{
             //label: baseTitle,
-            data: baseData[option],
+            data: undefinedConvertsToEmptyArray(baseData[option]),
             backgroundColor: '#4463b6',
             stack: "base",
             tension: 0.4,
@@ -93,7 +92,7 @@ const MultiTrendChart = ({
             },
           },{
             //label: reportingTitle,
-            data: reportingData[option],
+            data: undefinedConvertsToEmptyArray(reportingData[option]),
             backgroundColor: '#e87637',
             stack: "reporting",
             tension: 0.4,
@@ -103,7 +102,7 @@ const MultiTrendChart = ({
                }
             },
           },],
-        labels: reportingLabels[selectedLabel],
+        labels: undefinedConvertsToEmptyArray(reportingLabels[option]),
       };
       setLineData(chartData);
     }
@@ -123,9 +122,9 @@ const MultiTrendChart = ({
             callbacks: {
             title: function(context){
                 if (context[0].datasetIndex - 1) {
-                    return `${reportingLabels[selectedLabel][context[0].dataIndex]}`;
+                    return `${reportingLabels[option][context[0].dataIndex]}`;
                 } else {
-                    return `${baseLabels[selectedLabel][context[0].dataIndex]}`;
+                    return `${baseLabels[option][context[0].dataIndex]}`;
                 }
             },
             label: function(context) {
@@ -182,6 +181,13 @@ const MultiTrendChart = ({
     }
   };
 
+  const undefinedConvertsToEmptyArray = (value) => {
+    if(value === undefined) {
+        return [];
+    }
+    return value;
+  };
+
   const parseTitleOrTooltipTitle = (title, key) => {
     const name = title["name"];
     const substitute = title["substitute"];
@@ -210,7 +216,7 @@ const MultiTrendChart = ({
                 bsSize="sm"
                 className="mb-3 shadow"
                 value={option}
-                onChange={({ target }) => {setOption(target.value); setSelectedLabel(target.value); chartRef.current.update();}}
+                onChange={({ target }) => {setOption(target.value); chartRef.current.update();}}
               >
                 {options.map(({ value, label }) => (
                     <option key={value} value={value}>{label}</option>
