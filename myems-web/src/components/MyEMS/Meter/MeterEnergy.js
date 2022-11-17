@@ -114,11 +114,11 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
   const [reportingPeriodEnergyConsumptionInTCE, setReportingPeriodEnergyConsumptionInTCE] = useState(0);
   const [reportingPeriodEnergyConsumptionInCO2, setReportingPeriodEnergyConsumptionInCO2] = useState(0);
   const [basePeriodEnergyConsumptionInCategory, setBasePeriodEnergyConsumptionInCategory] = useState(0);
-  const [meterBaseLabels, setMeterBaseLabels] = useState([]);
-  const [meterBaseData, setMeterBaseData] = useState({});
-  const [meterReportingRates, setMeterReportingRates] = useState({});
-  const [meterReportingLabels, setMeterReportingLabels] = useState([]);
-  const [meterReportingData, setMeterReportingData] = useState({});
+  const [meterBaseLabels, setMeterBaseLabels] = useState({'a0': []});
+  const [meterBaseData, setMeterBaseData] = useState({'a0': []});
+  const [meterReportingRates, setMeterReportingRates] = useState({'a0': []});
+  const [meterReportingLabels, setMeterReportingLabels] = useState({'a0': []});
+  const [meterReportingData, setMeterReportingData] = useState({'a0': []});
   const [meterReportingOptions, setMeterReportingOptions] = useState([]);
   const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
   const [parameterLineChartData, setParameterLineChartData] = useState({});

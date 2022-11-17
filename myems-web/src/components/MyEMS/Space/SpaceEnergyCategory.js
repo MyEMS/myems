@@ -109,15 +109,15 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
   const [spaceBaseAndReportingNames, setSpaceBaseAndReportingNames] = useState({"a0":""});
   const [spaceBaseAndReportingUnits, setSpaceBaseAndReportingUnits] = useState({"a0":"()"});
 
-  const [spaceBaseLabels, setSpaceBaseLabels] = useState({});
-  const [spaceBaseData, setSpaceBaseData] = useState({});
+  const [spaceBaseLabels, setSpaceBaseLabels] = useState({"a0": []});
+  const [spaceBaseData, setSpaceBaseData] = useState({"a0": []});
   const [spaceBaseSubtotals, setSpaceBaseSubtotals] = useState({"a0": (0).toFixed(2)});
 
-  const [spaceReportingLabels, setSpaceReportingLabels] = useState({});
-  const [spaceReportingData, setSpaceReportingData] = useState({});
+  const [spaceReportingLabels, setSpaceReportingLabels] = useState({"a0": []});
+  const [spaceReportingData, setSpaceReportingData] = useState({"a0": []});
   const [spaceReportingSubtotals, setSpaceReportingSubtotals] = useState({"a0": (0).toFixed(2)});
 
-  const [spaceReportingRates, setSpaceReportingRates] = useState({});
+  const [spaceReportingRates, setSpaceReportingRates] = useState({"a0": []});
   const [spaceReportingOptions, setSpaceReportingOptions] = useState([]);
 
   const [parameterLineChartLabels, setParameterLineChartLabels] = useState([]);
@@ -420,7 +420,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
 
         let base_subtotals = {}
         json['base_period']['subtotals'].forEach((currentValue, index) => {
-          base_subtotals['a' + index] = currentValue;
+          base_subtotals['a' + index] = currentValue.toFixed(2);
         });
         setSpaceBaseSubtotals(base_subtotals)
 
