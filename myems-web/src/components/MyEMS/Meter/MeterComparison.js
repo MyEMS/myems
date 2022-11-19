@@ -29,7 +29,7 @@ import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL } from '../../../config';
 import { periodTypeOptions } from '../common/PeriodTypeOptions';
 import MultiTrendChart from '../common/MultiTrendChart';
-import { DateRangePicker } from 'rsuite';
+import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import { endOfDay} from 'date-fns';
 import AppContext from '../../../context/Context';
 
@@ -453,15 +453,16 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
         setParameterLineChartLabels(timestamps1);
 
         index1 = 0
+        let values = {'a0': []};
         json['parameters1']['values'].forEach((currentValue, index) => {
-          values1['a' + index1] = currentValue;
+          values['a' + index1] = currentValue;
           index1 += 1
         });
         json['parameters2']['values'].forEach((currentValue, index) => {
-          values1['a' + index1] = currentValue;
+          values['a' + index1] = currentValue;
           index1 += 1
         });
-        setParameterLineChartData(values1);
+        setParameterLineChartData(values);
 
         setDetailedDataTableColumns([{
           dataField: 'startdatetime',
@@ -662,7 +663,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="reportingPeriodDateRangePicker">{t('Reporting Period')}</Label>
                   <br/>
-                  <DateRangePicker
+                  <DateRangePickerWrapper
                     id='reportingPeriodDateRangePicker'
                     format="yyyy-MM-dd HH:mm:ss"
                     value={reportingPeriodDateRange}
@@ -715,14 +716,16 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
           <CountUp end={reportingPeriodEnergyConsumptionInDifference} duration={2} prefix="" separator="," decimals={2} decimal="." />
         </CardSummary>
       </div>
-      <MultiTrendChart reportingTitle={t('METER CATEGORY VALUE UNIT', { 'METER': meter1['name'], 'CATEGORY': meter1['energy_category_name'], 'VALUE': reportingPeriodEnergyConsumptionInCategory1.toFixed(2), 'UNIT': '(' + meter1['unit_of_measure'] + ')' })}
-        baseTitle={t('METER CATEGORY VALUE UNIT', { 'METER': meter2['name'], 'CATEGORY': meter2['energy_category_name'], 'VALUE': reportingPeriodEnergyConsumptionInCategory2.toFixed(2), 'UNIT': '(' + meter2['unit_of_measure'] + ')' })}
-        reportingTooltipTitle={t('METER CATEGORY VALUE UNIT', { 'METER': meter1['name'], 'CATEGORY': meter1['energy_category_name'], 'VALUE': null, 'UNIT': '(' + meter1['unit_of_measure'] + ')' })}
-        baseTooltipTitle={t('METER CATEGORY VALUE UNIT', { 'METER': meter2['name'], 'CATEGORY': meter2['energy_category_name'], 'VALUE': null, 'UNIT': '(' + meter2['unit_of_measure'] + ')' })}
+
+      <MultiTrendChart baseTitle={{'name': 'METER CATEGORY VALUE UNIT', 'substitute': ["METER", "CATEGORY", "VALUE", "UNIT"], 'METER': {'a0': meter1['name']}, 'CATEGORY': {'a0': meter1['energy_category_name']}, 'VALUE': {'a0': reportingPeriodEnergyConsumptionInCategory1.toFixed(2)} , 'UNIT': {'a0' : '(' + meter1['unit_of_measure'] + ')'}  }}
+        reportingTitle={{'name': 'METER CATEGORY VALUE UNIT', 'substitute': ["METER", "CATEGORY", "VALUE", "UNIT"], 'METER': {'a0': meter2['name']} , 'CATEGORY': {'a0': meter2['energy_category_name']}, 'VALUE': {'a0': reportingPeriodEnergyConsumptionInCategory2.toFixed(2)} , 'UNIT': {'a0': '(' + meter2['unit_of_measure'] + ')'}}}
+        baseTooltipTitle={{'name': 'METER CATEGORY VALUE UNIT', 'substitute': ["METER", "CATEGORY", "VALUE", "UNIT"], 'METER': {'a0': meter1['name']}, 'CATEGORY': {'a0': meter1['energy_category_name']}, 'VALUE': null, 'UNIT': {'a0': '(' + meter1['unit_of_measure'] + ')'} }}
+        reportingTooltipTitle={{'name': 'METER CATEGORY VALUE UNIT', 'substitute': ["METER", "CATEGORY", "VALUE", "UNIT"], 'METER': {'a0': meter2['name']}, 'CATEGORY': {'a0': meter2['energy_category_name']} , 'VALUE': null, 'UNIT': {'a0': '(' + meter2['unit_of_measure'] + ')'}}}
         baseLabels={meterLineChartLabels1}
         baseData={meterLineChartData1}
         reportingLabels={meterLineChartLabels2}
-        reportingData={meterLineChartData2}>
+        reportingData={meterLineChartData2}
+        rates={{'a0': []}}>
       </MultiTrendChart>
 
       <MultipleLineChart reportingTitle={t('Related Parameters')}

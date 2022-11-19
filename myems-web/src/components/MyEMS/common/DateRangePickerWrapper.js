@@ -36,8 +36,12 @@ const DateRangePickerWrapper = ({id, disabled, format, value, onChange, size, st
       calendarObj.children[0].children[0].children[0].children[1].innerText = calendarTitleObj.firstChild.data.split(' ')[0];
       calendarObj.children[1].children[0].children[0].children[1].innerText = calendarTitleObj.lastChild.data.split(' ')[0];
       calendarTitleObj.childNodes[0].nodeValue = placeholder;
-      calendarTitleObj.childNodes[1].nodeValue = '';
-      calendarTitleObj.childNodes[2].nodeValue = '';
+      if (calendarTitleObj.childNodes[1]) {
+        calendarTitleObj.childNodes[1].nodeValue = '';
+      }
+      if (calendarTitleObj.childNodes[2]) {
+        calendarTitleObj.childNodes[2].nodeValue = '';
+      }
     }
     
     return (
