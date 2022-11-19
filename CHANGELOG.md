@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 ### Added
 - added DateRangePickerWrapper to myems-web
+- added base period data to Space Energy Category report
 - 
 ### Changed
 - Changed basePeriodDateRangePickerDisabled from readonly to disabled
