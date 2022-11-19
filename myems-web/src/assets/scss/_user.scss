@@ -191,3 +191,5 @@
 .rs-picker-toggle-active, .rs-picker-default:not(.rs-picker-disabled),
 .rs-picker-toggle:focus, .rs-picker-default:not(.rs-picker-disabled),
 .rs-picker-toggle:hover {border-color: $white !important;}
+
+.rs-picker-toggle-read-only {opacity: 1}
