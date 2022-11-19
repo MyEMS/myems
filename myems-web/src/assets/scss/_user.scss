@@ -161,15 +161,13 @@
   }
   
 .rs-btn,
-.rs-picker-toggle{color:$gray-300 !important;}
 
-.rs-picker-toggle-textbox {color: $gray-800;background-color: $white !important; font-family: sans-serif;}
+.rs-picker-toggle-textbox {color: $gray-800; font-family: sans-serif;}
 
 .rs-picker-toggle-value{font-size: 14px;line-height: 20px;color: $gray-900!important;}
 
 .rs-picker-has-value,
 .rs-picker-disabled,
-.rs-picker-toggle{color: $gray-900 !important;}
 
 
 .rs-picker-disabled{--rs-input-disabled-bg: $gray-900}
@@ -183,13 +181,12 @@
 .rs-picker-menu {background-color: $white;}
 .rs-picker-default {--rs-input-bg:$white;background-color: $white;border: 1px solid $gray-300 !important;}
 
-.rs-picker-default:not(.rs-picker-disabled),
 .rs-btn-active,
 .rs-picker-default:not(.rs-picker-disabled),
-.rs-btn:focus, .rs-picker-default:not(.rs-picker-disabled),
-.rs-btn:hover, .rs-picker-default:not(.rs-picker-disabled),
-.rs-picker-toggle-active, .rs-picker-default:not(.rs-picker-disabled),
-.rs-picker-toggle:focus, .rs-picker-default:not(.rs-picker-disabled),
+.rs-btn:focus, 
+.rs-btn:hover, 
+.rs-picker-toggle-active,
+.rs-picker-toggle:focus,
 .rs-picker-toggle:hover {border-color: $white !important;}
 
-.rs-picker-toggle-read-only {opacity: 1}
+
