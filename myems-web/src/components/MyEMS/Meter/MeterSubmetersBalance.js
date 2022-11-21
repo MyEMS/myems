@@ -31,6 +31,7 @@ import { periodTypeOptions } from '../common/PeriodTypeOptions';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import { endOfDay} from 'date-fns';
 import AppContext from '../../../context/Context';
+import MultipleLineChart from '../common/MultipleLineChart';
 
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
@@ -547,12 +548,12 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
           options={meterLineChartOptions}>
         </LineChart>
 
-        <LineChart reportingTitle={t('Related Parameters')}
+        <MultipleLineChart reportingTitle={t('Related Parameters')}
           baseTitle=''
           labels={parameterLineChartLabels}
           data={parameterLineChartData}
           options={parameterLineChartOptions}>
-        </LineChart>
+        </MultipleLineChart>
         <br />
         <DetailedDataTable data={detailedDataTableData} title={t('Detailed Data')} columns={detailedDataTableColumns} pagesize={50} >
         </DetailedDataTable>
