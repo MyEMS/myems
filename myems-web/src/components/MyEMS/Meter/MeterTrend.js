@@ -494,12 +494,12 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
         </CardBody>
       </Card>
 
-      <LineChart reportingTitle={t('Trend Values')}
+      <MultipleLineChart reportingTitle={t('Trend Values')}
         baseTitle
         labels={meterLineChartLabels}
         data={meterLineChartData}
         options={meterLineChartOptions}>
-      </LineChart>
+      </MultipleLineChart>
 
       <MultipleLineChart reportingTitle={t('Related Parameters')}
         baseTitle=''
