@@ -82,7 +82,7 @@ const MultiTrendChart = ({
           },{
             //label: baseTitle,
             data: undefinedConvertsToEmptyArray(baseData[option]),
-            backgroundColor: '#4463b6',
+            backgroundColor: '#2c7be5',
             stack: "base",
             tension: 0.4,
             datalabels: {
@@ -93,7 +93,7 @@ const MultiTrendChart = ({
           },{
             //label: reportingTitle,
             data: undefinedConvertsToEmptyArray(reportingData[option]),
-            backgroundColor: '#e87637',
+            backgroundColor: '#27bcfd',
             stack: "reporting",
             tension: 0.4,
             datalabels: {
