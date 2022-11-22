@@ -21,7 +21,7 @@ export default [
       }
     ],
     title: '高压制冷机CH-ZL-01',
-    category: '成都项目/公区商场/空调水系统/冷水机组',
+    category: '空调水系统/冷水机组',
     features: ['Brand: York', 'Manufactured: 2011', 'Ton:  800 Ton', 'Model#:  YKK8K3H9-CUG', 'Serial#:  SNXM-143960', 'Type:  Water-Cooled', 'Compressor Type:  Centrifugal', 'Power:  460 Volts / 60 Hz / 3 Ph', 'Refrigerant:  R-134a'],
     parameter1: 5.6,
     parameter2: 6.7,
@@ -44,7 +44,7 @@ export default [
       }
     ],
     title: '高压制冷机CH-ZL-02',
-    category: '成都项目/公区商场/空调水系统/冷水机组',
+    category: '空调水系统/冷水机组',
     features: ['Brand: York', 'Manufactured: 2011', 'Ton:  800 Ton', 'Model#:  YKK8K3H9-CUG', 'Serial#:  SNXM-143960', 'Type:  Water-Cooled', 'Compressor Type:  Centrifugal', 'Power:  460 Volts / 60 Hz / 3 Ph', 'Refrigerant:  R-134a'],
     parameter1: 5.6,
     parameter2: 6.7,
@@ -67,7 +67,7 @@ export default [
       }
     ],
     title: '高压制冷机CH-ZL-03',
-    category: '成都项目/公区商场/空调水系统/冷水机组',
+    category: '空调水系统/冷水机组',
     features: ['Brand: York', 'Manufactured: 2011', 'Ton:  800 Ton', 'Model#:  YKK8K3H9-CUG', 'Serial#:  SNXM-143960', 'Type:  Water-Cooled', 'Compressor Type:  Centrifugal', 'Power:  460 Volts / 60 Hz / 3 Ph', 'Refrigerant:  R-134a'],
     parameter1: 5.6,
     parameter2: 6.7,
@@ -90,7 +90,7 @@ export default [
       }
     ],
     title: '高压制冷机CH-ZL-04',
-    category: '成都项目/公区商场/空调水系统/冷水机组',
+    category: '空调水系统/冷水机组',
     features: ['Brand: York', 'Manufactured: 2011', 'Ton:  800 Ton', 'Model#:  YKK8K3H9-CUG', 'Serial#:  SNXM-143960', 'Type:  Water-Cooled', 'Compressor Type:  Centrifugal', 'Power:  460 Volts / 60 Hz / 3 Ph', 'Refrigerant:  R-134a'],
     parameter1: 5.6,
     parameter2: 6.7,
@@ -113,7 +113,7 @@ export default [
       }
     ],
     title: '高压制冷机CH-ZL-05',
-    category: '成都项目/公区商场/空调水系统/冷水机组',
+    category: '空调水系统/冷水机组',
     features: ['Brand: York', 'Manufactured: 2011', 'Ton:  800 Ton', 'Model#:  YKK8K3H9-CUG', 'Serial#:  SNXM-143960', 'Type:  Water-Cooled', 'Compressor Type:  Centrifugal', 'Power:  460 Volts / 60 Hz / 3 Ph', 'Refrigerant:  R-134a'],
     parameter1: 5.6,
     parameter2: 6.7,
@@ -136,7 +136,7 @@ export default [
       }
     ],
     title: '高压制冷机CH-ZL-06',
-    category: '成都项目/公区商场/空调水系统/冷水机组',
+    category: '空调水系统/冷水机组',
     features: ['Brand: York', 'Manufactured: 2011', 'Ton:  800 Ton', 'Model#:  YKK8K3H9-CUG', 'Serial#:  SNXM-143960', 'Type:  Water-Cooled', 'Compressor Type:  Centrifugal', 'Power:  460 Volts / 60 Hz / 3 Ph', 'Refrigerant:  R-134a'],
     parameter1: 5.6,
     parameter2: 6.7,
@@ -159,7 +159,7 @@ export default [
       }
     ],
     title: '高压制冷机CH-ZL-07',
-    category: '成都项目/公区商场/空调水系统/冷水机组',
+    category: '空调水系统/冷水机组',
     features: ['Brand: York', 'Manufactured: 2011', 'Ton:  800 Ton', 'Model#:  YKK8K3H9-CUG', 'Serial#:  SNXM-143960', 'Type:  Water-Cooled', 'Compressor Type:  Centrifugal', 'Power:  460 Volts / 60 Hz / 3 Ph', 'Refrigerant:  R-134a'],
     parameter1: 5.6,
     parameter2: 6.7,
@@ -182,7 +182,7 @@ export default [
       }
     ],
     title: '高压制冷机CH-ZL-08',
-    category: '成都项目/公区商场/空调水系统/冷水机组',
+    category: '空调水系统/冷水机组',
     features: ['Brand: York', 'Manufactured: 2011', 'Ton:  800 Ton', 'Model#:  YKK8K3H9-CUG', 'Serial#:  SNXM-143960', 'Type:  Water-Cooled', 'Compressor Type:  Centrifugal', 'Power:  460 Volts / 60 Hz / 3 Ph', 'Refrigerant:  R-134a'],
     parameter1: 5.6,
     parameter2: 6.7,
@@ -205,7 +205,7 @@ export default [
       }
     ],
     title: '高压制冷机CH-ZL-09',
-    category: '成都项目/公区商场/空调水系统/冷水机组',
+    category: '空调水系统/冷水机组',
     features: ['Brand: York', 'Manufactured: 2011', 'Ton:  800 Ton', 'Model#:  YKK8K3H9-CUG', 'Serial#:  SNXM-143960', 'Type:  Water-Cooled', 'Compressor Type:  Centrifugal', 'Power:  460 Volts / 60 Hz / 3 Ph', 'Refrigerant:  R-134a'],
     parameter1: 5.6,
     parameter2: 6.7,
