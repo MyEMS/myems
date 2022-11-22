@@ -28,6 +28,8 @@ import { APIBaseURL } from '../../../config';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import { endOfDay} from 'date-fns';
 import AppContext from '../../../context/Context';
+import MultipleLineChart from '../common/MultipleLineChart';
+
 
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
@@ -492,19 +494,19 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
         </CardBody>
       </Card>
 
-      <LineChart reportingTitle={t('Trend Values')}
+      <MultipleLineChart reportingTitle={t('Trend Values')}
         baseTitle
         labels={meterLineChartLabels}
         data={meterLineChartData}
         options={meterLineChartOptions}>
-      </LineChart>
+      </MultipleLineChart>
 
-      <LineChart reportingTitle={t('Related Parameters')}
+      <MultipleLineChart reportingTitle={t('Related Parameters')}
         baseTitle=''
         labels={parameterLineChartLabels}
         data={parameterLineChartData}
         options={parameterLineChartOptions}>
-      </LineChart>
+      </MultipleLineChart>
       <br />
       <DetailedDataTable data={detailedDataTableData} title={t('Detailed Data')} columns={detailedDataTableColumns} pagesize={50} >
       </DetailedDataTable>

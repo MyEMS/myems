@@ -12,7 +12,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Changed basePeriodDateRangePickerDisabled from readonly to disabled
 - Decreased web message drop down list length in myems-admin
 - Replaced LGTM with CodeQL for code scanning in README
-
+- Replaced LineChart with MultipleLineChart for related parameters of meter reports in myems-web
+- Replaced LineChart with MultipleLineChart for trend data of meter trend report in myems-web
+- 
 ### Fixed
 - 
 ### Removed
