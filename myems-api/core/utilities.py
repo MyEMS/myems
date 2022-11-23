@@ -1006,3 +1006,6 @@ def statistics_hourly_data_by_period(rows_hourly, start_datetime_utc, end_dateti
             variance = statistics.variance(sample_data)
 
         return result_rows_yearly, mean, median, minimum, maximum, stdev, variance
+
+    else:
+        return list(), None, None, None, None, None, None
