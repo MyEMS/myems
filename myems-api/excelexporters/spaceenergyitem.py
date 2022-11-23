@@ -448,8 +448,8 @@ def generate_excel(report,
 
             for i in range(0, ca_len):
                 line = LineChart()
-                line.title = _('Reporting Period Consumption') + ' - ' + \
-                    reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
+                line.title = _('Reporting Period Consumption') + ' - ' \
+                    + reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
                 labels = Reference(ws, min_col=2,
                                    min_row=table_start_row_number + 1,
                                    max_row=table_end_row_number)
@@ -638,9 +638,9 @@ def generate_excel(report,
 
             for i in range(0, reporting_period_data_ca_len):
                 line = LineChart()
-                line.title = _('Base Period Consumption') + ' / ' + \
-                    _('Reporting Period Consumption') + ' - ' + \
-                    reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
+                line.title = _('Base Period Consumption') + ' / ' \
+                    + _('Reporting Period Consumption') + ' - '  \
+                    + reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
                 labels = Reference(ws, min_col=2 + base_period_data_ca_len + 1,
                                    min_row=table_start_row_number + 1,
                                    max_row=table_start_row_number + len(reporting_period_timestamps[0]))
@@ -744,7 +744,6 @@ def generate_excel(report,
             s1.dLbls.showCatName = False
             s1.dLbls.showVal = True
             s1.dLbls.showPercent = True
-            chart_cell = ''
             if i % 2 == 0:
                 chart_cell = 'B' + str(pie_start_row_number)
             else:

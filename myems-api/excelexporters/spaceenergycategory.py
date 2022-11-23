@@ -195,7 +195,7 @@ def generate_excel(report,
     if "names" not in reporting_period_data.keys() or \
             reporting_period_data['names'] is None or \
             len(reporting_period_data['names']) == 0:
-        for i in range(6, 10 + 1):
+        for i in range(7, 11 + 1):
             ws.row_dimensions[i].height = 0.1
     else:
         ws['B7'].font = title_font
@@ -204,7 +204,7 @@ def generate_excel(report,
         category = reporting_period_data['names']
         ca_len = len(category)
 
-        ws.row_dimensions[7].height = 60
+        ws.row_dimensions[8].height = 60
         ws['B8'].fill = table_fill
 
         ws['B9'].font = title_font
@@ -305,7 +305,7 @@ def generate_excel(report,
     if "toppeaks" not in reporting_period_data.keys() or \
             reporting_period_data['toppeaks'] is None or \
             len(reporting_period_data['toppeaks']) == 0:
-        for i in range(12, 18 + 1):
+        for i in range(13, 19 + 1):
             ws.row_dimensions[i].height = 0.1
     else:
         ws['B13'].font = title_font
@@ -601,8 +601,10 @@ def generate_excel(report,
             ws['B' + str(current_row_number)].font = title_font
             ws['B' + str(current_row_number)] = name + ' ' + _('Detailed Data')
 
-            table_start_row_number = (current_row_number + 2) + ca_len * 6 + real_timestamps_len * 7
-            current_row_number = table_start_row_number
+            current_row_number += 1
+            # 1: Stand for blank line  2: Stand for title
+            current_row_number += ca_len * 6 + real_timestamps_len * 6 + 1 + 2
+            table_start_row_number = current_row_number
 
             time = times[0]
             has_data = False
@@ -664,7 +666,7 @@ def generate_excel(report,
                     # line
                     line = LineChart()
                     line.title = _('Reporting Period Consumption') + ' - ' \
-                        + ws.cell(column=3+i, row=table_start_row_number).value
+                        + reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
                     labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1, max_row=table_end_row_number)
                     base_line_data = Reference(ws, min_col=3 + i, min_row=table_start_row_number,
                                                max_row=table_end_row_number)
@@ -699,9 +701,10 @@ def generate_excel(report,
             ws['B' + str(current_row_number)].font = title_font
             ws['B' + str(current_row_number)] = name + ' ' + _('Detailed Data')
 
-            table_start_row_number = (current_row_number + 2) + \
-                reporting_period_data_ca_len * 6 + real_timestamps_len * 7
-            current_row_number = table_start_row_number
+            current_row_number += 1
+            # 1: Stand for blank line  2: Stand for title
+            current_row_number += reporting_period_data_ca_len * 6 + real_timestamps_len * 6 + 1 + 2
+            table_start_row_number = current_row_number
 
             has_data = False
 
@@ -710,7 +713,8 @@ def generate_excel(report,
 
             if has_data:
                 ws.row_dimensions[current_row_number].height = 60
-                col = 'B'
+                current_col_number = 2
+                col = format_cell.get_column_letter(current_col_number)
                 ws[col + str(current_row_number)].fill = table_fill
                 ws[col + str(current_row_number)].font = title_font
                 ws[col + str(current_row_number)].border = f_border
@@ -718,7 +722,8 @@ def generate_excel(report,
                 ws[col + str(current_row_number)] = _('Base Period') + " - " + _('Datetime')
 
                 for i in range(0, base_period_data_ca_len):
-                    col = chr(ord(col) + 1)
+                    current_col_number += 1
+                    col = format_cell.get_column_letter(current_col_number)
 
                     ws[col + str(current_row_number)].fill = table_fill
                     ws[col + str(current_row_number)].font = title_font
@@ -726,7 +731,8 @@ def generate_excel(report,
                     ws[col + str(current_row_number)] = _('Base Period') + " - " + base_period_data['names'][i] + \
                         " (" + base_period_data['units'][i] + ")"
                     ws[col + str(current_row_number)].border = f_border
-                col = chr(ord(col) + 1)
+                current_col_number += 1
+                col = format_cell.get_column_letter(current_col_number)
 
                 ws[col + str(current_row_number)].fill = table_fill
                 ws[col + str(current_row_number)].font = title_font
@@ -735,7 +741,8 @@ def generate_excel(report,
                 ws[col + str(current_row_number)] = _('Reporting Period') + " - " + _('Datetime')
 
                 for i in range(0, reporting_period_data_ca_len):
-                    col = chr(ord(col) + 1)
+                    current_col_number += 1
+                    col = format_cell.get_column_letter(current_col_number)
                     ws[col + str(current_row_number)].fill = table_fill
                     ws[col + str(current_row_number)].font = title_font
                     ws[col + str(current_row_number)].alignment = c_c_alignment
@@ -750,7 +757,8 @@ def generate_excel(report,
                     else len(reporting_period_timestamps[0])
 
                 for i in range(0, max_timestamps_len):
-                    col = 'B'
+                    current_col_number = 2
+                    col = format_cell.get_column_letter(current_col_number)
                     ws[col + str(current_row_number)].font = title_font
                     ws[col + str(current_row_number)].alignment = c_c_alignment
                     ws[col + str(current_row_number)] = base_period_timestamps[0][i] \
@@ -758,14 +766,16 @@ def generate_excel(report,
                     ws[col + str(current_row_number)].border = f_border
 
                     for j in range(0, base_period_data_ca_len):
-                        col = chr(ord(col) + 1)
+                        current_col_number += 1
+                        col = format_cell.get_column_letter(current_col_number)
 
                         ws[col + str(current_row_number)].font = title_font
                         ws[col + str(current_row_number)].alignment = c_c_alignment
                         ws[col + str(current_row_number)] = round(base_period_data['values'][j][i], 2) \
                             if i < len(base_period_data['values'][j]) else ""
                         ws[col + str(current_row_number)].border = f_border
-                    col = chr(ord(col) + 1)
+                    current_col_number += 1
+                    col = format_cell.get_column_letter(current_col_number)
 
                     ws[col + str(current_row_number)].font = title_font
                     ws[col + str(current_row_number)].alignment = c_c_alignment
@@ -774,7 +784,8 @@ def generate_excel(report,
                     ws[col + str(current_row_number)].border = f_border
 
                     for j in range(0, reporting_period_data_ca_len):
-                        col = chr(ord(col) + 1)
+                        current_col_number += 1
+                        col = format_cell.get_column_letter(current_col_number)
 
                         ws[col + str(current_row_number)].font = title_font
                         ws[col + str(current_row_number)].alignment = c_c_alignment
@@ -784,22 +795,23 @@ def generate_excel(report,
 
                     current_row_number += 1
 
-                table_end_row_number = current_row_number - 1
-
-                col = 'B'
+                current_col_number = 2
+                col = format_cell.get_column_letter(current_col_number)
                 ws[col + str(current_row_number)].font = title_font
                 ws[col + str(current_row_number)].alignment = c_c_alignment
                 ws[col + str(current_row_number)] = _('Subtotal')
                 ws[col + str(current_row_number)].border = f_border
 
                 for i in range(0, base_period_data_ca_len):
-                    col = chr(ord(col) + 1)
+                    current_col_number += 1
+                    col = format_cell.get_column_letter(current_col_number)
                     ws[col + str(current_row_number)].font = title_font
                     ws[col + str(current_row_number)].alignment = c_c_alignment
                     ws[col + str(current_row_number)] = round(base_period_data['subtotals'][i], 2)
                     ws[col + str(current_row_number)].border = f_border
 
-                col = chr(ord(col) + 1)
+                current_col_number += 1
+                col = format_cell.get_column_letter(current_col_number)
 
                 ws[col + str(current_row_number)].font = title_font
                 ws[col + str(current_row_number)].alignment = c_c_alignment
@@ -807,7 +819,8 @@ def generate_excel(report,
                 ws[col + str(current_row_number)].border = f_border
 
                 for i in range(0, reporting_period_data_ca_len):
-                    col = chr(ord(col) + 1)
+                    current_col_number += 1
+                    col = format_cell.get_column_letter(current_col_number)
                     ws[col + str(current_row_number)].font = title_font
                     ws[col + str(current_row_number)].alignment = c_c_alignment
                     ws[col + str(current_row_number)] = round(reporting_period_data['subtotals'][i], 2)
@@ -816,8 +829,9 @@ def generate_excel(report,
                 for i in range(0, reporting_period_data_ca_len):
                     # line
                     line = LineChart()
-                    line.title = _('Reporting Period Consumption') + ' - ' \
-                        + ws.cell(column=3 + base_period_data_ca_len + 1 + i, row=table_start_row_number).value
+                    line.title = _('Reporting Period Consumption') + ' / ' \
+                        + _('Reporting Period Consumption') + ' - ' \
+                        + reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
                     labels = Reference(ws, min_col=2 + base_period_data_ca_len + 1,
                                        min_row=table_start_row_number + 1,
                                        max_row=table_start_row_number + len(reporting_period_timestamps[0]))
