@@ -93,6 +93,9 @@ msgstr "Subtotal"
 msgid "Parameters"
 msgstr "Parameters"
 
+msgid "Base Period Carbon Dioxide Emissions"
+msgstr "Base Period Carbon Dioxide Emissions"
+
 msgid "Reporting Period Carbon Dioxide Emissions"
 msgstr "Reporting Period Carbon Dioxide Emissions"
 

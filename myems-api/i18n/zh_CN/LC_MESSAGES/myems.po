@@ -93,6 +93,9 @@ msgstr "小计"
 msgid "Parameters"
 msgstr "参数"
 
+msgid "Base Period Carbon Dioxide Emissions"
+msgstr "基准期二氧化碳排放"
+
 msgid "Reporting Period Carbon Dioxide Emissions"
 msgstr "报告期二氧化碳排放"
 

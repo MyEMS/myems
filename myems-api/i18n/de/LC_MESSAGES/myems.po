@@ -93,6 +93,9 @@ msgstr "Zwischensumme"
 msgid "Parameters"
 msgstr "Parameter"
 
+msgid "Base Period Carbon Dioxide Emissions"
+msgstr "Basiszeitraum Kohlendioxidemissionen"
+
 msgid "Reporting Period Carbon Dioxide Emissions"
 msgstr "Berichtszeitraum Kohlendioxidemissionen"
 
