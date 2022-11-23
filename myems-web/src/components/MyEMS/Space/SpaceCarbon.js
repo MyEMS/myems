@@ -573,7 +573,14 @@ const SpaceCarbon = ({ setRedirect, setRedirectUrl, t }) => {
           detailed_column_list.push({
             dataField: 'basePeriodTotal',
             text: t('Base Period') + ' - ' + t('Total') + ' (' + json['reporting_period']['total_unit'] + ')',
-            sort: true
+            sort: true,
+            formatter: function (decimalValue) {
+              if (typeof decimalValue === 'number') {
+                return decimalValue.toFixed(2);
+              } else {
+                return null;
+              }
+            }
           })
 
           detailed_column_list.push({
@@ -601,7 +608,14 @@ const SpaceCarbon = ({ setRedirect, setRedirectUrl, t }) => {
           detailed_column_list.push({
             dataField: 'reportingPeriodTotal',
             text: t('Reporting Period') + ' - ' + t('Total') + ' (' + json['reporting_period']['total_unit'] + ')',
-            sort: true
+            sort: true,
+            formatter: function (decimalValue) {
+              if (typeof decimalValue === 'number') {
+                return decimalValue.toFixed(2);
+              } else {
+                return null;
+              }
+            }
           })
 
           setDetailedDataTableColumns(detailed_column_list);
@@ -624,7 +638,6 @@ const SpaceCarbon = ({ setRedirect, setRedirectUrl, t }) => {
                   detailed_value['basePeriodTotal'] += detailed_value['a' + energyCategoryIndex];
                 }
               });
-              detailed_value['basePeriodTotal'] = detailed_value['basePeriodTotal'] == null? null: Number(detailed_value['basePeriodTotal'].toFixed(2));
               detailed_value['reportingPeriodDatetime'] = index < json['reporting_period']['timestamps'][0].length? json['reporting_period']['timestamps'][0][index] : null;
               detailed_value['reportingPeriodTotal'] = 0.0;
               if (detailed_value['reportingPeriodDatetime'] == null) {
@@ -636,7 +649,6 @@ const SpaceCarbon = ({ setRedirect, setRedirectUrl, t }) => {
                   detailed_value['reportingPeriodTotal'] += detailed_value['b' + energyCategoryIndex];
                 }
               });
-              detailed_value['reportingPeriodTotal'] = detailed_value['reportingPeriodTotal'] == null? null: Number(detailed_value['reportingPeriodTotal'].toFixed(2));
               detailed_value_list.push(detailed_value);
             }
 
@@ -648,7 +660,7 @@ const SpaceCarbon = ({ setRedirect, setRedirectUrl, t }) => {
               detailed_value['a' + index] = currentValue;
               total_of_subtotals_from_base_period += detailed_value['a' + index];
             });
-            detailed_value['basePeriodTotal'] = Number(total_of_subtotals_from_base_period.toFixed(2));
+            detailed_value['basePeriodTotal'] = total_of_subtotals_from_base_period;
 
             let total_of_subtotals_from_reporting_period = 0.0
             detailed_value['reportingPeriodDatetime'] = t('Subtotal');
@@ -656,7 +668,7 @@ const SpaceCarbon = ({ setRedirect, setRedirectUrl, t }) => {
               detailed_value['b' + index] = currentValue;
               total_of_subtotals_from_reporting_period += detailed_value['b' + index];
             });
-            detailed_value['reportingPeriodTotal'] = Number(total_of_subtotals_from_reporting_period.toFixed(2));
+            detailed_value['reportingPeriodTotal'] =total_of_subtotals_from_reporting_period;
             detailed_value_list.push(detailed_value);
             setTimeout( () => {
               setDetailedDataTableData(detailed_value_list);
