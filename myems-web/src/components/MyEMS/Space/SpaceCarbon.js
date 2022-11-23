@@ -925,13 +925,6 @@ const SpaceCarbon = ({ setRedirect, setRedirectUrl, t }) => {
         options={spaceReportingOptions}>
       </MultiTrendChart>
 
-      <LineChart reportingTitle={t('Reporting Period Carbon Dioxide Emissions CATEGORY VALUE UNIT', { 'CATEGORY': null, 'VALUE': null, 'UNIT': null })}
-         baseTitle=''
-        labels={spaceLineChartLabels}
-        data={spaceLineChartData}
-        options={spaceLineChartOptions}>
-      </LineChart>
-
       <LineChart reportingTitle={t('Related Parameters')}
         baseTitle=''
         labels={parameterLineChartLabels}
