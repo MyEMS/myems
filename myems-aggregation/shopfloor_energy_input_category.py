@@ -616,3 +616,4 @@ def worker(shopfloor):
         cursor_energy_db.close()
     if cnx_energy_db:
         cnx_energy_db.close()
+    return None
