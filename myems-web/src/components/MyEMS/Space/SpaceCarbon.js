@@ -99,9 +99,6 @@ const SpaceCarbon = ({ setRedirect, setRedirectUrl, t }) => {
   const [carbonShareData, setCarbonShareData] = useState([]);
 
   const [cardSummaryList, setCardSummaryList] = useState([]);
-  const [spaceLineChartLabels, setSpaceLineChartLabels] = useState([]);
-  const [spaceLineChartData, setSpaceLineChartData] = useState({});
-  const [spaceLineChartOptions, setSpaceLineChartOptions] = useState([]);
 
   const [spaceBaseAndReportingNames, setSpaceBaseAndReportingNames] = useState({"a0":""});
   const [spaceBaseAndReportingUnits, setSpaceBaseAndReportingUnits] = useState({"a0":"()"});
