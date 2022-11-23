@@ -38,7 +38,7 @@ def export(result, space_name, reporting_start_datetime_local, reporting_end_dat
         with open(filename, 'rb') as binary_file:
             binary_file_data = binary_file.read()
     except IOError as ex:
-        pass
+        print(str(ex))
 
     # Base64 encode the bytes
     base64_encoded_data = base64.b64encode(binary_file_data)
@@ -48,7 +48,7 @@ def export(result, space_name, reporting_start_datetime_local, reporting_end_dat
     try:
         os.remove(filename)
     except NotImplementedError as ex:
-        pass
+        print(str(ex))
     return base64_message
 
 
