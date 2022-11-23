@@ -68,15 +68,12 @@ class CostFileCollection:
             # Define file_path
             file_path = os.path.join(config.upload_path, file_uuid)
 
-            # Write to a temporary file to prevent incomplete files from
-            # being used.
-            temp_file_path = file_path + '~'
+            # Write to a temporary file to prevent incomplete files from being used.
+            with open(file_path + '~', 'wb') as f:
+                f.write(raw_blob)
 
-            open(temp_file_path, 'wb').write(raw_blob)
-
-            # Now that we know the file has been fully saved to disk
-            # move it into place.
-            os.rename(temp_file_path, file_path)
+            # Now that we know the file has been fully saved to disk move it into place.
+            os.rename(file_path + '~', file_path)
         except Exception as ex:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_UPLOAD_COST_FILE')
