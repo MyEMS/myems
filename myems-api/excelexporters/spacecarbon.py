@@ -537,7 +537,7 @@ def generate_excel(report,
 
             current_row_number += 1
             # 1: Stand for blank line  2: Stand for title
-            current_row_number += ca_len * 6 + real_timestamps_len * 6 + 1 + 2
+            current_row_number += reporting_period_data_ca_len * 6 + real_timestamps_len * 6 + 1 + 2
             table_start_row_number = current_row_number
 
             has_data = False
@@ -563,7 +563,7 @@ def generate_excel(report,
                     ws[col + str(current_row_number)].font = title_font
                     ws[col + str(current_row_number)].alignment = c_c_alignment
                     ws[col + str(current_row_number)] = _('Base Period') + " - " + base_period_data['names'][i] + \
-                                                        " (" + base_period_data['units'][i] + ")"
+                        " (" + base_period_data['units'][i] + ")"
                     ws[col + str(current_row_number)].border = f_border
                 current_col_number += 1
                 col = format_cell.get_column_letter(current_col_number)
@@ -675,7 +675,7 @@ def generate_excel(report,
                     reporting_line_data = Reference(ws, min_col=3 + base_period_data_ca_len + 1 + i,
                                                     min_row=table_start_row_number,
                                                     max_row=table_start_row_number
-                                                            + len(reporting_period_timestamps[0]))
+                                                    + len(reporting_period_timestamps[0]))
                     line.add_data(base_line_data, titles_from_data=True)
                     line.add_data(reporting_line_data, titles_from_data=True)
                     line.set_categories(labels)
@@ -785,7 +785,6 @@ def generate_excel(report,
             s1.dLbls.showCatName = False
             s1.dLbls.showVal = True
             s1.dLbls.showPercent = True
-            chart_cell = ''
             if i % 2 == 0:
                 chart_cell = 'B' + str(chart_start_row_number)
             else:
@@ -800,7 +799,7 @@ def generate_excel(report,
 
         current_row_number += 1
     ####################################################################################################################
-    current_sheet_parameters_row_number = table_start_draw_flag + ca_len * 6 + 1
+    current_sheet_parameters_row_number = table_start_draw_flag + len(reporting_period_data['names']) * 6 + 1
     if 'parameters' not in report.keys() or \
             report['parameters'] is None or \
             'names' not in report['parameters'].keys() or \
