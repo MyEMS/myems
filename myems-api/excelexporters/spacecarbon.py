@@ -197,7 +197,7 @@ def generate_excel(report,
     if "names" not in reporting_period_data.keys() or \
             reporting_period_data['names'] is None or \
             len(reporting_period_data['names']) == 0:
-        for i in range(6, 10 + 1):
+        for i in range(7, 11 + 1):
             ws.row_dimensions[i].height = 0.1
     else:
         ws['B7'].font = title_font
