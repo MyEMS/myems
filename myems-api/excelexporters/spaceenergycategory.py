@@ -678,13 +678,13 @@ def generate_excel(report,
                     line.title = _('Reporting Period Consumption') + ' - ' \
                         + reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
                     labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1, max_row=table_end_row_number)
-                    base_line_data = Reference(ws, min_col=3 + i, min_row=table_start_row_number,
-                                               max_row=table_end_row_number)
-                    line.add_data(base_line_data, titles_from_data=True)
+                    line_data = Reference(ws, min_col=3 + i, min_row=table_start_row_number,
+                                          max_row=table_end_row_number)
+                    line.add_data(line_data, titles_from_data=True)
                     line.set_categories(labels)
-                    base_line_data = line.series[0]
-                    base_line_data.marker.symbol = "circle"
-                    base_line_data.smooth = True
+                    line_data = line.series[0]
+                    line_data.marker.symbol = "circle"
+                    line_data.smooth = True
                     line.x_axis.crosses = 'min'
                     line.height = 8.25
                     line.width = 24
@@ -1024,14 +1024,14 @@ def generate_excel(report,
                 parameters_ws.cell(row=parameters_table_start_row_number, column=data_col).value
             labels = Reference(parameters_ws, min_col=labels_col, min_row=parameters_table_start_row_number + 1,
                                max_row=(len(parameters_data['timestamps'][i]) + parameters_table_start_row_number))
-            base_line_data = Reference(parameters_ws, min_col=data_col, min_row=parameters_table_start_row_number,
-                                       max_row=(len(parameters_data['timestamps'][i])
-                                                + parameters_table_start_row_number))
-            line.add_data(base_line_data, titles_from_data=True)
+            line_data = Reference(parameters_ws, min_col=data_col, min_row=parameters_table_start_row_number,
+                                  max_row=(len(parameters_data['timestamps'][i])
+                                           + parameters_table_start_row_number))
+            line.add_data(line_data, titles_from_data=True)
             line.set_categories(labels)
-            base_line_data = line.series[0]
-            base_line_data.marker.symbol = "circle"
-            base_line_data.smooth = True
+            line_data = line.series[0]
+            line_data.marker.symbol = "circle"
+            line_data.smooth = True
             line.x_axis.crosses = 'min'
             line.height = 8.25
             line.width = 24
