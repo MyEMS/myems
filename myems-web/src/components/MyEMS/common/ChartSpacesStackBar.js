@@ -27,6 +27,7 @@ ChartJS.register(
   );
 
 const ChartSpacesStackBar = ({ labels, inputData, costData, title, childSpaces, t}) => {
+    const colors = ['#2c7be5', '#00d27a', '#27bcfd', '#f5803e', '#e63757'];
     const [selectedLabel, setSelectedLabel] = useState('a0');
     const [option, setOption] = useState('a0');
     const { isDark } = useContext(AppContext);
@@ -50,12 +51,11 @@ const ChartSpacesStackBar = ({ labels, inputData, costData, title, childSpaces, 
                 let category = t('CATEGORY Consumption UNIT', {'CATEGORY': inputData['energy_category_names'][index], 'UNIT': inputData['units'][index]});
                 let childSpaceArray = inputData['child_space_names_array'][index];
                 inputData['subtotals_array'][index].forEach((item, itemIndex) => {
-                    let color = rgbaColor("#"+((1<<24)*Math.random()|0).toString(16), 0.8);
                     dataArray.push({
                         label:  childSpaceArray[itemIndex] + " " + category,
                         stack: category,
                         data: item,
-                        backgroundColor: color,
+                        backgroundColor: colors[itemIndex % 5],
                     })
                 })
             }
@@ -63,12 +63,11 @@ const ChartSpacesStackBar = ({ labels, inputData, costData, title, childSpaces, 
                 let category = t('CATEGORY Costs UNIT', {'CATEGORY': costData['energy_category_names'][index], 'UNIT': costData['units'][index]});
                 let childSpaceArray = costData['child_space_names_array'][index];
                 costData['subtotals_array'][index].forEach((item, itemIndex) => {
-                    let color = rgbaColor("#"+((1<<24)*Math.random()|0).toString(16), 0.8);
                     dataArray.push({
                         label:  childSpaceArray[itemIndex] + " " + category,
                         stack: category,
                         data: item,
-                        backgroundColor: color,
+                        backgroundColor: colors[itemIndex % 5],
                     })
                 })
             }

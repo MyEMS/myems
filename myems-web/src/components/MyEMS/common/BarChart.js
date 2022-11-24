@@ -61,8 +61,8 @@ const BarChart = ({
       });
       datasets.push({
         label: title,
+        backgroundColor: '#2c7be5',
         data: dataArray,
-        backgroundColor: 'rgb(75, 192, 192)',
         borderColor: 'rgb(75, 192, 192)',
         borderWidth: 1,
       });
@@ -72,8 +72,8 @@ const BarChart = ({
       });
       datasets.push({
         label: compareTitle,
+        backgroundColor: '#27bcfd',
         data: dataArray,
-        backgroundColor: 'rgb(53, 162, 235)',
         borderColor: 'rgb(53, 162, 235)',
         borderWidth: 1,
       });
