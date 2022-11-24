@@ -615,14 +615,17 @@ def generate_excel(report,
             if has_data:
 
                 ws.row_dimensions[current_row_number].height = 60
-                ws['B' + str(current_row_number)].fill = table_fill
-                ws['B' + str(current_row_number)].font = title_font
-                ws['B' + str(current_row_number)].border = f_border
-                ws['B' + str(current_row_number)].alignment = c_c_alignment
-                ws['B' + str(current_row_number)] = _('Datetime')
+                current_col_number = 2
+                col = format_cell.get_column_letter(current_col_number)
+                ws[col + str(current_row_number)].fill = table_fill
+                ws[col + str(current_row_number)].font = title_font
+                ws[col + str(current_row_number)].border = f_border
+                ws[col + str(current_row_number)].alignment = c_c_alignment
+                ws[col + str(current_row_number)] = _('Datetime')
 
                 for i in range(0, ca_len):
-                    col = chr(ord('C') + i)
+                    current_col_number += 1
+                    col = format_cell.get_column_letter(current_col_number)
 
                     ws[col + str(current_row_number)].fill = table_fill
                     ws[col + str(current_row_number)].font = title_font
@@ -634,13 +637,16 @@ def generate_excel(report,
                 current_row_number += 1
 
                 for i in range(0, len(time)):
-                    ws['B' + str(current_row_number)].font = title_font
-                    ws['B' + str(current_row_number)].alignment = c_c_alignment
-                    ws['B' + str(current_row_number)] = time[i]
-                    ws['B' + str(current_row_number)].border = f_border
+                    current_col_number = 2
+                    col = format_cell.get_column_letter(current_col_number)
+                    ws[col + str(current_row_number)].font = title_font
+                    ws[col + str(current_row_number)].alignment = c_c_alignment
+                    ws[col + str(current_row_number)] = time[i]
+                    ws[col + str(current_row_number)].border = f_border
 
                     for j in range(0, ca_len):
-                        col = chr(ord('C') + j)
+                        current_col_number += 1
+                        col = format_cell.get_column_letter(current_col_number)
 
                         ws[col + str(current_row_number)].font = title_font
                         ws[col + str(current_row_number)].alignment = c_c_alignment
@@ -651,13 +657,17 @@ def generate_excel(report,
 
                 table_end_row_number = current_row_number - 1
 
-                ws['B' + str(current_row_number)].font = title_font
-                ws['B' + str(current_row_number)].alignment = c_c_alignment
-                ws['B' + str(current_row_number)] = _('Subtotal')
-                ws['B' + str(current_row_number)].border = f_border
+                current_col_number = 2
+                col = format_cell.get_column_letter(current_col_number)
+                ws[col + str(current_row_number)].font = title_font
+                ws[col + str(current_row_number)].alignment = c_c_alignment
+                ws[col + str(current_row_number)] = _('Subtotal')
+                ws[col + str(current_row_number)].border = f_border
 
                 for i in range(0, ca_len):
-                    col = chr(ord('C') + i)
+                    current_col_number += 1
+                    col = format_cell.get_column_letter(current_col_number)
+
                     ws[col + str(current_row_number)].font = title_font
                     ws[col + str(current_row_number)].alignment = c_c_alignment
                     ws[col + str(current_row_number)] = round(reporting_period_data['subtotals'][i], 2)
