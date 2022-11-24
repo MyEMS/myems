@@ -442,7 +442,6 @@ class UserLogin:
 
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
-        result = dict()
 
         if 'name' in new_values['data']:
 
