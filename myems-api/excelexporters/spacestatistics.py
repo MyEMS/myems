@@ -21,10 +21,13 @@ from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 
 def export(report,
            name,
+           base_period_start_datetime_local,
+           base_period_end_datetime_local,
            reporting_start_datetime_local,
            reporting_end_datetime_local,
            period_type,
-           language):
+           language,
+           comparison_type):
     ####################################################################################################################
     # Step 1: Validate the report data
     ####################################################################################################################
@@ -37,10 +40,13 @@ def export(report,
     ####################################################################################################################
     filename = generate_excel(report,
                               name,
+                              base_period_start_datetime_local,
+                              base_period_end_datetime_local,
                               reporting_start_datetime_local,
                               reporting_end_datetime_local,
                               period_type,
-                              language)
+                              language,
+                              comparison_type)
     ####################################################################################################################
     # Step 3: Encode the excel file to Base64
     ####################################################################################################################
@@ -65,10 +71,13 @@ def export(report,
 
 def generate_excel(report,
                    name,
+                   base_period_start_datetime_local,
+                   base_period_end_datetime_local,
                    reporting_start_datetime_local,
                    reporting_end_datetime_local,
                    period_type,
-                   language):
+                   language,
+                   comparison_type):
     locale_path = './i18n/'
     if language == 'zh_CN':
         trans = gettext.translation('myems', locale_path, languages=['zh_CN'])
@@ -94,7 +103,7 @@ def generate_excel(report,
     ws.column_dimensions['A'].width = 1.5
     ws.column_dimensions['B'].width = 25.0
 
-    for i in range(ord('C'), ord('L')):
+    for i in range(ord('C'), ord('Z')):
         ws.column_dimensions[chr(i)].width = 15.0
 
     # Font
@@ -159,6 +168,19 @@ def generate_excel(report,
     ws['E4'].alignment = b_c_alignment
     ws['E4'] = reporting_end_datetime_local
 
+    if comparison_type != "none-comparison":
+        ws['B5'].alignment = b_r_alignment
+        ws['B5'] = _('Base Period Start Datetime') + ':'
+        ws['C5'].border = b_border
+        ws['C5'].alignment = b_c_alignment
+        ws['C5'] = base_period_start_datetime_local
+
+        ws['D5'].alignment = b_r_alignment
+        ws['D5'] = _('Base Period End Datetime') + ':'
+        ws['E5'].border = b_border
+        ws['E5'].alignment = b_c_alignment
+        ws['E5'] = base_period_end_datetime_local
+
     if "reporting_period" not in report.keys() or \
             "names" not in report['reporting_period'].keys() or len(report['reporting_period']['names']) == 0:
         filename = str(uuid.uuid4()) + '.xlsx'
@@ -180,52 +202,58 @@ def generate_excel(report,
         wb.save(filename)
         return filename
 
-    ws['B6'].font = title_font
-    ws['B6'] = name + ' ' + _('Statistics')
+    ws['B7'].font = title_font
+    ws['B7'] = name + ' ' + _('Statistics')
 
     category = reporting_period_data['names']
 
     # table_title
-    ws['B7'].fill = table_fill
-    ws['B7'].font = title_font
-    ws['B7'].alignment = c_c_alignment
-    ws['B7'] = _('Reporting Period')
-    ws['B7'].border = f_border
+    ws['B8'].fill = table_fill
+    ws['B8'].font = title_font
+    ws['B8'].alignment = c_c_alignment
+    ws['B8'] = _('Reporting Period')
+    ws['B8'].border = f_border
 
-    ws['C7'].font = title_font
-    ws['C7'].alignment = c_c_alignment
-    ws['C7'] = _('Arithmetic Mean')
-    ws['C7'].border = f_border
+    ws['C8'].fill = table_fill
+    ws['C8'].font = title_font
+    ws['C8'].alignment = c_c_alignment
+    ws['C8'] = _('Arithmetic Mean')
+    ws['C8'].border = f_border
 
-    ws['D7'].font = title_font
-    ws['D7'].alignment = c_c_alignment
-    ws['D7'] = _('Median (Middle Value)')
-    ws['D7'].border = f_border
+    ws['D8'].fill = table_fill
+    ws['D8'].font = title_font
+    ws['D8'].alignment = c_c_alignment
+    ws['D8'] = _('Median (Middle Value)')
+    ws['D8'].border = f_border
 
-    ws['E7'].font = title_font
-    ws['E7'].alignment = c_c_alignment
-    ws['E7'] = _('Minimum Value')
-    ws['E7'].border = f_border
+    ws['E8'].fill = table_fill
+    ws['E8'].font = title_font
+    ws['E8'].alignment = c_c_alignment
+    ws['E8'] = _('Minimum Value')
+    ws['E8'].border = f_border
 
-    ws['F7'].font = title_font
-    ws['F7'].alignment = c_c_alignment
-    ws['F7'] = _('Maximum Value')
-    ws['F7'].border = f_border
+    ws['F8'].fill = table_fill
+    ws['F8'].font = title_font
+    ws['F8'].alignment = c_c_alignment
+    ws['F8'] = _('Maximum Value')
+    ws['F8'].border = f_border
 
-    ws['G7'].font = title_font
-    ws['G7'].alignment = c_c_alignment
-    ws['G7'] = _('Sample Standard Deviation')
-    ws['G7'].border = f_border
+    ws['G8'].fill = table_fill
+    ws['G8'].font = title_font
+    ws['G8'].alignment = c_c_alignment
+    ws['G8'] = _('Sample Standard Deviation')
+    ws['G8'].border = f_border
 
-    ws['H7'].font = title_font
-    ws['H7'].alignment = c_c_alignment
-    ws['H7'] = _('Sample Variance')
-    ws['H7'].border = f_border
+    ws['H8'].fill = table_fill
+    ws['H8'].font = title_font
+    ws['H8'].alignment = c_c_alignment
+    ws['H8'] = _('Sample Variance')
+    ws['H8'].border = f_border
 
     # table_data
 
     for i, value in enumerate(category):
-        row = i*2 + 8
+        row = i*2 + 9
         ws['B' + str(row)].font = name_font
         ws['B' + str(row)].alignment = c_c_alignment
         ws['B' + str(row)] = reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + " )"
@@ -315,15 +343,15 @@ def generate_excel(report,
         ws['H' + str(row + 1)].border = f_border
     ####################################################################################################################
     # Second: Reporting Period Consumption
-    # 9 + ca_len * 2: title
-    # 10 + ca_len * 2: table title
+    # 10 + ca_len * 2: title
+    # 11 + ca_len * 2: table title
     # per_unit_area_start_row_number + 2 ~ per_unit_area_start_row_number + 2 + ca_len :  table_data
     ####################################################################################################################
 
     names = reporting_period_data['names']
     ca_len = len(names)
 
-    per_unit_area_start_row_number = 9 + ca_len * 2
+    per_unit_area_start_row_number = 10 + ca_len * 2
 
     ws['B' + str(per_unit_area_start_row_number)].font = title_font
     ws['B' + str(per_unit_area_start_row_number)] = name + ' ' + _('Per Unit Area')
@@ -339,31 +367,37 @@ def generate_excel(report,
     ws['B' + str(per_unit_area_start_row_number + 1)] = _('Reporting Period')
     ws['B' + str(per_unit_area_start_row_number + 1)].border = f_border
 
+    ws['C' + str(per_unit_area_start_row_number + 1)].fill = table_fill
     ws['C' + str(per_unit_area_start_row_number + 1)].font = title_font
     ws['C' + str(per_unit_area_start_row_number + 1)].alignment = c_c_alignment
     ws['C' + str(per_unit_area_start_row_number + 1)] = _('Arithmetic Mean')
     ws['C' + str(per_unit_area_start_row_number + 1)].border = f_border
 
+    ws['D' + str(per_unit_area_start_row_number + 1)].fill = table_fill
     ws['D' + str(per_unit_area_start_row_number + 1)].font = title_font
     ws['D' + str(per_unit_area_start_row_number + 1)].alignment = c_c_alignment
     ws['D' + str(per_unit_area_start_row_number + 1)] = _('Median (Middle Value)')
     ws['D' + str(per_unit_area_start_row_number + 1)].border = f_border
 
+    ws['E' + str(per_unit_area_start_row_number + 1)].fill = table_fill
     ws['E' + str(per_unit_area_start_row_number + 1)].font = title_font
     ws['E' + str(per_unit_area_start_row_number + 1)].alignment = c_c_alignment
     ws['E' + str(per_unit_area_start_row_number + 1)] = _('Minimum Value')
     ws['E' + str(per_unit_area_start_row_number + 1)].border = f_border
 
+    ws['F' + str(per_unit_area_start_row_number + 1)].fill = table_fill
     ws['F' + str(per_unit_area_start_row_number + 1)].font = title_font
     ws['F' + str(per_unit_area_start_row_number + 1)].alignment = c_c_alignment
     ws['F' + str(per_unit_area_start_row_number + 1)] = _('Maximum Value')
     ws['F' + str(per_unit_area_start_row_number + 1)].border = f_border
 
+    ws['G' + str(per_unit_area_start_row_number + 1)].fill = table_fill
     ws['G' + str(per_unit_area_start_row_number + 1)].font = title_font
     ws['G' + str(per_unit_area_start_row_number + 1)].alignment = c_c_alignment
     ws['G' + str(per_unit_area_start_row_number + 1)] = _('Sample Standard Deviation')
     ws['G' + str(per_unit_area_start_row_number + 1)].border = f_border
 
+    ws['H' + str(per_unit_area_start_row_number + 1)].fill = table_fill
     ws['H' + str(per_unit_area_start_row_number + 1)].font = title_font
     ws['H' + str(per_unit_area_start_row_number + 1)].alignment = c_c_alignment
     ws['H' + str(per_unit_area_start_row_number + 1)] = _('Sample Variance')
@@ -429,108 +463,295 @@ def generate_excel(report,
 
     ####################################################################################################################
     # Third: Detailed Data
-    # analysis_end_row_number~ analysis_end_row_number+time_len: line
-    # analysis_end_row_number+1+line_charts_row_number: table title
-    # i + analysis_end_row_number + 2 + 10 * ca_len~: table_data
     ####################################################################################################################
+    current_row_number = 22
+
+    table_start_draw_flag = current_row_number + 1
     if "timestamps" not in reporting_period_data.keys() or \
             reporting_period_data['timestamps'] is None or \
             len(reporting_period_data['timestamps']) == 0:
         pass
     else:
-        timestamps = reporting_period_data['timestamps'][0]
-        values = reporting_period_data['values']
-        names = reporting_period_data['names']
-        ca_len = len(names)
-        time_len = len(timestamps)
-        real_timestamps_len = timestamps_data_not_equal_0(report['parameters']['timestamps'])
-        # title
-        line_charts_row_number = 6 * ca_len + real_timestamps_len * 7
-        analysis_end_row_number = 12 + 3 * ca_len
-        detailed_start_row_number = analysis_end_row_number + line_charts_row_number + 1
+        if comparison_type == "none-comparison":
+            reporting_period_data = report['reporting_period']
+            times = reporting_period_data['timestamps']
+            ca_len = len(report['reporting_period']['names'])
+            real_timestamps_len = timestamps_data_not_equal_0(report['parameters']['timestamps'])
+            ws['B' + str(current_row_number)].font = title_font
+            ws['B' + str(current_row_number)] = name + ' ' + _('Detailed Data')
 
-        ws['B' + str(detailed_start_row_number)].font = title_font
-        ws['B' + str(detailed_start_row_number)] = name + ' ' + _('Detailed Data')
-        # table_title
-        ws['B' + str(detailed_start_row_number + 1)].fill = table_fill
-        ws['B' + str(detailed_start_row_number + 1)].font = name_font
-        ws['B' + str(detailed_start_row_number + 1)].alignment = c_c_alignment
-        ws['B' + str(detailed_start_row_number + 1)] = _('Datetime')
-        ws['B' + str(detailed_start_row_number + 1)].border = f_border
+            current_row_number += 1
+            # 1: Stand for blank line  2: Stand for title
+            current_row_number += ca_len * 6 + real_timestamps_len * 6 + 1 + 2
+            table_start_row_number = current_row_number
 
-        for i in range(0, ca_len):
-            col = chr(ord('C') + i)
+            time = times[0]
+            has_data = False
 
-            ws[col + str(detailed_start_row_number + 1)].font = name_font
-            ws[col + str(detailed_start_row_number + 1)].alignment = c_c_alignment
-            ws[col + str(detailed_start_row_number + 1)] = names[i] + " - (" + reporting_period_data['units'][i] + ")"
-            ws[col + str(detailed_start_row_number + 1)].border = f_border
-        # table_date
-        for i in range(0, time_len):
-            rows = i + detailed_start_row_number + 2
+            if len(time) > 0:
+                has_data = True
 
-            ws['B' + str(rows)].font = name_font
-            ws['B' + str(rows)].alignment = c_c_alignment
-            ws['B' + str(rows)] = timestamps[i]
-            ws['B' + str(rows)].border = f_border
+            if has_data:
 
-            for index in range(0, ca_len):
-                col = chr(ord('C') + index)
+                ws.row_dimensions[current_row_number].height = 60
+                current_col_number = 2
+                col = format_cell.get_column_letter(current_col_number)
+                ws[col + str(current_row_number)].fill = table_fill
+                ws[col + str(current_row_number)].font = title_font
+                ws[col + str(current_row_number)].border = f_border
+                ws[col + str(current_row_number)].alignment = c_c_alignment
+                ws[col + str(current_row_number)] = _('Datetime')
 
-                ws[col + str(rows)].font = name_font
-                ws[col + str(rows)].alignment = c_c_alignment
-                ws[col + str(rows)] = round(values[index][i], 2)
-                ws[col + str(rows)].number_format = '0.00'
-                ws[col + str(rows)].border = f_border
+                for i in range(0, ca_len):
+                    current_col_number += 1
+                    col = format_cell.get_column_letter(current_col_number)
 
-        # Subtotal
-        row_subtotals = detailed_start_row_number + 2 + time_len
-        ws['B' + str(row_subtotals)].font = name_font
-        ws['B' + str(row_subtotals)].alignment = c_c_alignment
-        ws['B' + str(row_subtotals)] = _('Subtotal')
-        ws['B' + str(row_subtotals)].border = f_border
+                    ws[col + str(current_row_number)].fill = table_fill
+                    ws[col + str(current_row_number)].font = title_font
+                    ws[col + str(current_row_number)].alignment = c_c_alignment
+                    ws[col + str(current_row_number)] = reporting_period_data['names'][i] + \
+                        " (" + reporting_period_data['units'][i] + ")"
+                    ws[col + str(current_row_number)].border = f_border
 
-        for i in range(0, ca_len):
-            col = chr(ord('C') + i)
+                current_row_number += 1
 
-            ws[col + str(row_subtotals)].font = name_font
-            ws[col + str(row_subtotals)].alignment = c_c_alignment
-            ws[col + str(row_subtotals)] = round(reporting_period_data['subtotals'][i], 2)
-            ws[col + str(row_subtotals)].border = f_border
-            ws[col + str(row_subtotals)].number_format = '0.00'
+                for i in range(0, len(time)):
+                    current_col_number = 2
+                    col = format_cell.get_column_letter(current_col_number)
+                    ws[col + str(current_row_number)].font = title_font
+                    ws[col + str(current_row_number)].alignment = c_c_alignment
+                    ws[col + str(current_row_number)] = time[i]
+                    ws[col + str(current_row_number)].border = f_border
+
+                    for j in range(0, ca_len):
+                        current_col_number += 1
+                        col = format_cell.get_column_letter(current_col_number)
+
+                        ws[col + str(current_row_number)].font = title_font
+                        ws[col + str(current_row_number)].alignment = c_c_alignment
+                        ws[col + str(current_row_number)] = round(reporting_period_data['values'][j][i], 2)
+                        ws[col + str(current_row_number)].border = f_border
+
+                    current_row_number += 1
+
+                table_end_row_number = current_row_number - 1
+
+                current_col_number = 2
+                col = format_cell.get_column_letter(current_col_number)
+                ws[col + str(current_row_number)].font = title_font
+                ws[col + str(current_row_number)].alignment = c_c_alignment
+                ws[col + str(current_row_number)] = _('Subtotal')
+                ws[col + str(current_row_number)].border = f_border
+
+                for i in range(0, ca_len):
+                    current_col_number += 1
+                    col = format_cell.get_column_letter(current_col_number)
+
+                    ws[col + str(current_row_number)].font = title_font
+                    ws[col + str(current_row_number)].alignment = c_c_alignment
+                    ws[col + str(current_row_number)] = round(reporting_period_data['subtotals'][i], 2)
+                    ws[col + str(current_row_number)].border = f_border
+
+                    # line
+                    line = LineChart()
+                    line.title = _('Reporting Period Consumption') + ' - ' \
+                        + reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
+                    labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1, max_row=table_end_row_number)
+                    base_line_data = Reference(ws, min_col=3 + i, min_row=table_start_row_number,
+                                               max_row=table_end_row_number)
+                    line.add_data(base_line_data, titles_from_data=True)
+                    line.set_categories(labels)
+                    base_line_data = line.series[0]
+                    base_line_data.marker.symbol = "circle"
+                    base_line_data.smooth = True
+                    line.x_axis.crosses = 'min'
+                    line.height = 8.25
+                    line.width = 24
+                    line.dLbls = DataLabelList()
+                    line.dLbls.dLblPos = 't'
+                    line.dLbls.showVal = True
+                    line.dLbls.showPercent = False
+                    chart_col = 'B'
+                    chart_cell = chart_col + str(table_start_draw_flag + 6 * i)
+                    ws.add_chart(line, chart_cell)
+
+                current_row_number += 2
+        else:
+            base_period_data = report['base_period']
+            reporting_period_data = report['reporting_period']
+            base_period_timestamps = base_period_data['timestamps']
+            reporting_period_timestamps = reporting_period_data['timestamps']
+            # Tip:
+            #     base_period_data['names'] == reporting_period_data['names']
+            #     base_period_data['units'] == reporting_period_data['units']
+            base_period_data_ca_len = len(base_period_data['names'])
+            reporting_period_data_ca_len = len(reporting_period_data['names'])
+            real_timestamps_len = timestamps_data_not_equal_0(report['parameters']['timestamps'])
+            ws['B' + str(current_row_number)].font = title_font
+            ws['B' + str(current_row_number)] = name + ' ' + _('Detailed Data')
+
+            current_row_number += 1
+            # 1: Stand for blank line  2: Stand for title
+            current_row_number += reporting_period_data_ca_len * 6 + real_timestamps_len * 6 + 1 + 2
+            table_start_row_number = current_row_number
+
+            has_data = False
+
+            if len(base_period_timestamps[0]) or len(reporting_period_timestamps[0]) > 0:
+                has_data = True
+
+            if has_data:
+                ws.row_dimensions[current_row_number].height = 60
+                current_col_number = 2
+                col = format_cell.get_column_letter(current_col_number)
+                ws[col + str(current_row_number)].fill = table_fill
+                ws[col + str(current_row_number)].font = title_font
+                ws[col + str(current_row_number)].border = f_border
+                ws[col + str(current_row_number)].alignment = c_c_alignment
+                ws[col + str(current_row_number)] = _('Base Period') + " - " + _('Datetime')
+
+                for i in range(0, base_period_data_ca_len):
+                    current_col_number += 1
+                    col = format_cell.get_column_letter(current_col_number)
+
+                    ws[col + str(current_row_number)].fill = table_fill
+                    ws[col + str(current_row_number)].font = title_font
+                    ws[col + str(current_row_number)].alignment = c_c_alignment
+                    ws[col + str(current_row_number)] = _('Base Period') + " - " + base_period_data['names'][i] + \
+                        " (" + base_period_data['units'][i] + ")"
+                    ws[col + str(current_row_number)].border = f_border
+                current_col_number += 1
+                col = format_cell.get_column_letter(current_col_number)
+
+                ws[col + str(current_row_number)].fill = table_fill
+                ws[col + str(current_row_number)].font = title_font
+                ws[col + str(current_row_number)].border = f_border
+                ws[col + str(current_row_number)].alignment = c_c_alignment
+                ws[col + str(current_row_number)] = _('Reporting Period') + " - " + _('Datetime')
+
+                for i in range(0, reporting_period_data_ca_len):
+                    current_col_number += 1
+                    col = format_cell.get_column_letter(current_col_number)
+                    ws[col + str(current_row_number)].fill = table_fill
+                    ws[col + str(current_row_number)].font = title_font
+                    ws[col + str(current_row_number)].alignment = c_c_alignment
+                    ws[col + str(current_row_number)] = _('Reporting Period') + " - " \
+                        + reporting_period_data['names'][i] + " (" + \
+                        reporting_period_data['units'][i] + ")"
+                    ws[col + str(current_row_number)].border = f_border
+
+                current_row_number += 1
+
+                max_timestamps_len = len(base_period_timestamps[0]) \
+                    if len(base_period_timestamps[0]) >= len(reporting_period_timestamps[0]) \
+                    else len(reporting_period_timestamps[0])
+
+                for i in range(0, max_timestamps_len):
+                    current_col_number = 2
+                    col = format_cell.get_column_letter(current_col_number)
+                    ws[col + str(current_row_number)].font = title_font
+                    ws[col + str(current_row_number)].alignment = c_c_alignment
+                    ws[col + str(current_row_number)] = base_period_timestamps[0][i] \
+                        if i < len(base_period_timestamps[0]) else ""
+                    ws[col + str(current_row_number)].border = f_border
+
+                    for j in range(0, base_period_data_ca_len):
+                        current_col_number += 1
+                        col = format_cell.get_column_letter(current_col_number)
+
+                        ws[col + str(current_row_number)].font = title_font
+                        ws[col + str(current_row_number)].alignment = c_c_alignment
+                        ws[col + str(current_row_number)] = round(base_period_data['values'][j][i], 2) \
+                            if i < len(base_period_data['values'][j]) else ""
+                        ws[col + str(current_row_number)].border = f_border
+                    current_col_number += 1
+                    col = format_cell.get_column_letter(current_col_number)
+
+                    ws[col + str(current_row_number)].font = title_font
+                    ws[col + str(current_row_number)].alignment = c_c_alignment
+                    ws[col + str(current_row_number)] = reporting_period_timestamps[0][i] \
+                        if i < len(reporting_period_timestamps[0]) else ""
+                    ws[col + str(current_row_number)].border = f_border
+
+                    for j in range(0, reporting_period_data_ca_len):
+                        current_col_number += 1
+                        col = format_cell.get_column_letter(current_col_number)
+
+                        ws[col + str(current_row_number)].font = title_font
+                        ws[col + str(current_row_number)].alignment = c_c_alignment
+                        ws[col + str(current_row_number)] = round(reporting_period_data['values'][j][i], 2) \
+                            if i < len(reporting_period_data['values'][j]) else ""
+                        ws[col + str(current_row_number)].border = f_border
+
+                    current_row_number += 1
+
+                current_col_number = 2
+                col = format_cell.get_column_letter(current_col_number)
+                ws[col + str(current_row_number)].font = title_font
+                ws[col + str(current_row_number)].alignment = c_c_alignment
+                ws[col + str(current_row_number)] = _('Subtotal')
+                ws[col + str(current_row_number)].border = f_border
+
+                for i in range(0, base_period_data_ca_len):
+                    current_col_number += 1
+                    col = format_cell.get_column_letter(current_col_number)
+                    ws[col + str(current_row_number)].font = title_font
+                    ws[col + str(current_row_number)].alignment = c_c_alignment
+                    ws[col + str(current_row_number)] = round(base_period_data['subtotals'][i], 2)
+                    ws[col + str(current_row_number)].border = f_border
+
+                current_col_number += 1
+                col = format_cell.get_column_letter(current_col_number)
+
+                ws[col + str(current_row_number)].font = title_font
+                ws[col + str(current_row_number)].alignment = c_c_alignment
+                ws[col + str(current_row_number)] = _('Subtotal')
+                ws[col + str(current_row_number)].border = f_border
+
+                for i in range(0, reporting_period_data_ca_len):
+                    current_col_number += 1
+                    col = format_cell.get_column_letter(current_col_number)
+                    ws[col + str(current_row_number)].font = title_font
+                    ws[col + str(current_row_number)].alignment = c_c_alignment
+                    ws[col + str(current_row_number)] = round(reporting_period_data['subtotals'][i], 2)
+                    ws[col + str(current_row_number)].border = f_border
+
+                for i in range(0, reporting_period_data_ca_len):
+                    # line
+                    line = LineChart()
+                    line.title = _('Reporting Period Consumption') + ' / ' \
+                        + _('Reporting Period Consumption') + ' - ' \
+                        + reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
+                    labels = Reference(ws, min_col=2 + base_period_data_ca_len + 1,
+                                       min_row=table_start_row_number + 1,
+                                       max_row=table_start_row_number + len(reporting_period_timestamps[0]))
+                    base_line_data = Reference(ws, min_col=3 + i, min_row=table_start_row_number,
+                                               max_row=table_start_row_number + len(reporting_period_timestamps[0]))
+                    reporting_line_data = Reference(ws, min_col=3 + base_period_data_ca_len + 1 + i,
+                                                    min_row=table_start_row_number,
+                                                    max_row=table_start_row_number
+                                                    + len(reporting_period_timestamps[0]))
+                    line.add_data(base_line_data, titles_from_data=True)
+                    line.add_data(reporting_line_data, titles_from_data=True)
+                    line.set_categories(labels)
+                    for j in range(len(line.series)):
+                        line.series[j].marker.symbol = "circle"
+                        line.series[j].smooth = True
+                    line.x_axis.crosses = 'min'
+                    line.height = 8.25
+                    line.width = 24
+                    line.dLbls = DataLabelList()
+                    line.dLbls.dLblPos = 't'
+                    line.dLbls.showVal = True
+                    line.dLbls.showPercent = False
+                    chart_col = 'B'
+                    chart_cell = chart_col + str(table_start_draw_flag + 6 * i)
+                    ws.add_chart(line, chart_cell)
+
+                current_row_number += 2
 
     ####################################################################################################################
-    # third: LineChart
-    # LineChart requires data from the detailed data table in the Excel file
-    # so print the detailed data table first and then print LineChart
-    ####################################################################################################################
-        for i in range(0, ca_len):
-
-            line = LineChart()
-            line.title = _("Reporting Period Consumption") + " - " + names[i] + \
-                "(" + reporting_period_data['units'][i] + ")"
-            line.style = 10
-            line.x_axis.majorTickMark = 'in'
-            line.y_axis.majorTickMark = 'in'
-            line.smooth = True
-            line.x_axis.crosses = 'min'
-            line.height = 8.25
-            line.width = 24
-            line.dLbls = DataLabelList()
-            line.dLbls.dLblPos = 't'
-            line.dLbls.showVal = True
-            times = Reference(ws, min_col=2, min_row=detailed_start_row_number + 2,
-                              max_row=detailed_start_row_number + 2 + time_len)
-            line_data = Reference(ws, min_col=3 + i, min_row=detailed_start_row_number + 1,
-                                  max_row=detailed_start_row_number + 1 + time_len)
-            line.add_data(line_data, titles_from_data=True)
-            line.set_categories(times)
-            ser = line.series[0]
-            ser.marker.symbol = "diamond"
-            ser.marker.size = 5
-            ws.add_chart(line, 'B' + str(analysis_end_row_number + 6 * i))
-    ####################################################################################################################
-    current_sheet_parameters_row_number = analysis_end_row_number + ca_len * 6 + 1
+    current_sheet_parameters_row_number = table_start_draw_flag + len(reporting_period_data['names']) * 6 + 1
     if 'parameters' not in report.keys() or \
             report['parameters'] is None or \
             'names' not in report['parameters'].keys() or \
