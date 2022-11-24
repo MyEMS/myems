@@ -647,8 +647,6 @@ def generate_excel(report,
 
         table_end_row_number = current_row_number - 1
 
-        col = 'B'
-
         for i in range(0, ca_len):
             pie = PieChart()
             labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1, max_row=table_end_row_number)

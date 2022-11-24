@@ -16,7 +16,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Replaced LineChart with MultipleLineChart for trend data of meter trend report in myems-web
 - 
 ### Fixed
-- 
+- fixed File is not always closed
+- fixed Explicit returns mixed with implicit (fall through) returns
+- fixed Empty except in myems-api
+- fixed Variable defined multiple times
+
 ### Removed
 -
 
