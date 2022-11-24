@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import { Row, Col, Card, CardBody } from 'reactstrap';
 import { CheckPicker } from 'rsuite';
-import { rgbaColor, themeColors, isIterableArray } from '../../../helpers/utils';
+import { rgbaColor, themeColors, isIterableArray, getGrays } from '../../../helpers/utils';
 import AppContext from '../../../context/Context';
 import moment from 'moment';
 import ReactEchartsCore from 'echarts-for-react/lib/core';
@@ -29,6 +29,7 @@ const MultipleLineChart = ({
   data,
   options
 }) => {
+  const colors = ['#2c7be5', '#00d27a', '#27bcfd', '#f5803e', '#e63757'];
   const [values, setValues] = useState(['a0']);
   const [oldValues, setOldValues] = useState(['a0']);
   const { isDark } = useContext(AppContext);
@@ -41,25 +42,31 @@ const MultipleLineChart = ({
       label:{
         color: rgbaColor(isDark ? '#fff' : '#000', 0.8),
       },
+      itemStyle: {
+        color: colors[0],
+      },
       data: [
         {
           type: 'max',
-          name: 'Max Value'
+          name: 'Max Value',
         },
         {
           type: 'min',
-          name: 'Min Value'
+          name: 'Min Value',
         }
       ]
     },
     markLine: {
+      lineStyle: {
+        color: colors[0],
+      },
       data: [{
           type: 'average',
           name: 'Average Value'
       }],
-      label:{
+      label: {
         color: rgbaColor(isDark ? '#fff' : '#000', 0.8),
-      }
+      },
     },
   }]);
   const [lastMoment, setLastMoment] = useState(moment());
@@ -85,34 +92,41 @@ const MultipleLineChart = ({
         type: 'line',
         smooth: true,
         name: options[0] ? options[index.slice(1)].label : '',
+        lineStyle: {
+          color: colors[0],
+        },
         itemStyle: {
-          lineStyle: {
-            color: rgbaColor("#"+((1<<24)*Math.random()|0).toString(16), 0.8),
-          }
+          color: colors[0],
         },
         markPoint: {
           data: [
            {
               type: 'max',
-              name: 'Max Value'
+              name: 'Max Value',
             },
             {
               type: 'min',
-              name: 'Min Value'
+              name: 'Min Value',
             }
           ],
           label:{
             color: rgbaColor(isDark ? '#fff' : '#000', 0.8),
-          }
+          },
+          itemStyle: {
+            color: colors[0],
+          },
         },
         markLine: {
+          lineStyle: {
+            color: colors[0],
+          },
           data: [{
               type: 'average',
               name: 'Average Value'
           }],
-          label:{
+          label: {
             color: rgbaColor(isDark ? '#fff' : '#000', 0.8),
-          }
+          },
         },
       }
     }
@@ -132,35 +146,42 @@ const MultipleLineChart = ({
         smooth: true,
         name: options[index.slice(1)].label,
         itemStyle: {
-          lineStyle: {
-            color: rgbaColor("#"+((1<<24)*Math.random()|0).toString(16), 0.8),
-          }
+          color: colors[index.slice(1) % 5],
+        },
+        lineStyle: {
+          color: colors[index.slice(1) % 5],
         },
         markPoint: {
           data: [
             {
               type: 'max',
-              name: 'Max Value'
+              name: 'Max Value',
             },
             {
               type: 'min',
-              name: 'Min Value'
+              name: 'Min Value',
             }
           ],
           label:{
             color: rgbaColor(isDark ? '#fff' : '#000', 0.8),
-          }
+          },
+          itemStyle: {
+            color: colors[index.slice(1) % 5],
+          },
         },
         markLine: {
+          lineStyle: {
+            color: colors[index.slice(1) % 5],
+          },
+          label: {
+            color: rgbaColor(isDark ? '#fff' : '#000', 0.8),
+          },
           data: [
             {
               type: 'average',
               name: 'Average Value'
             }
-          ],
-          label:{
-            color: rgbaColor(isDark ? '#fff' : '#000', 0.8),
-          }
+          ]
         },
       })
     } else {
@@ -173,14 +194,16 @@ const MultipleLineChart = ({
       tempNodes.splice(i, 1);
     }    
     setNodes(tempNodes);
-    console.log(tempNodes)
     setLinaLabels(labels[values[0]]);
   }, [lastMoment]);
 
   let getOption = () => {
     return {
       tooltip: {
-        trigger: 'axis'
+        trigger: 'axis',
+        backgroundColor: getGrays(isDark)[100],
+        borderColor: getGrays(isDark)[300],
+        textStyle: { color: isDark ? themeColors.light : themeColors.dark },
       },
       grid: {
         left: '5%',

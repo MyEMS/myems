@@ -190,6 +190,8 @@ def aggregate_hourly_data_by_period(rows_hourly, start_datetime_utc, end_datetim
             result_rows_yearly.append((current_datetime_utc, subtotal))
             current_datetime_utc = next_datetime_utc
         return result_rows_yearly
+    else:
+        return list()
 
 
 ########################################################################################################################
@@ -686,6 +688,8 @@ def averaging_hourly_data_by_period(rows_hourly, start_datetime_utc, end_datetim
 
         average = total / counter if counter > 0 else None
         return result_rows_yearly, average, maximum
+    else:
+        return list(), None, None
 
 
 ########################################################################################################################
@@ -1002,3 +1006,6 @@ def statistics_hourly_data_by_period(rows_hourly, start_datetime_utc, end_dateti
             variance = statistics.variance(sample_data)
 
         return result_rows_yearly, mean, median, minimum, maximum, stdev, variance
+
+    else:
+        return list(), None, None, None, None, None, None
