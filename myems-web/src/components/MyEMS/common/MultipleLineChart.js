@@ -84,8 +84,8 @@ const MultipleLineChart = ({
 
   useEffect(() => {
     let tempNodes = [...nodes];
-    if (options[0] && data['a0'] && tempNodes.length > 0 && tempNodes[0].label === undefined) {
-      let index = values[0];
+    let index = values[0];
+    if (options[index.slice(1)] && data[index] && tempNodes.length > 0 && tempNodes[0].label === undefined) {
       tempNodes = [];
       tempNodes[0] = {
         data: data[index],
