@@ -15,6 +15,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Replaced LineChart with MultipleLineChart for related parameters of meter reports in myems-web
 - Replaced LineChart with MultipleLineChart for trend data of meter trend report in myems-web
 - Replaced LineChart with MultipleLineChart for related parameters of equipment reports in myems-web
+- Replaced LineChart with MultipleLineChart for related parameters of store reports in myems-web
+- Replaced LineChart with MultipleLineChart for related parameters of shopfloor reports in myems-web
+- Replaced LineChart with MultipleLineChart for related parameters of tenant reports in myems-web
 - 
 ### Fixed
 - fixed File is not always closed
