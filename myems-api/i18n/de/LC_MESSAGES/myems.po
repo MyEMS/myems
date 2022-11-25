@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-09-13 17:25+0800\n"
-"PO-Revision-Date: 2022-11-24 10:42+0800\n"
+"PO-Revision-Date: 2022-11-25 11:09+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -144,11 +144,17 @@ msgstr "Einkommen"
 msgid "Proportion"
 msgstr "Anteil"
 
+msgid "Base Period Average Load"
+msgstr "Basiszeitraum Durchschnittliche Belastung"
+
 msgid "Reporting Period Average Load"
 msgstr "Berichtszeitraum Durchschnittliche Belastung"
 
 msgid "Average Load"
 msgstr "Durchschnittliche Belastung"
+
+msgid "Base Period Maximum Load"
+msgstr "Basiszeitraum Maximale Last"
 
 msgid "Reporting Period Maximum Load"
 msgstr "Berichtszeitraum Maximale Last"

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-09-09 16:37+0800\n"
-"PO-Revision-Date: 2022-11-24 10:44+0800\n"
+"PO-Revision-Date: 2022-11-25 11:08+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_CN\n"
@@ -144,11 +144,17 @@ msgstr "收入"
 msgid "Proportion"
 msgstr "占比"
 
+msgid "Base Period Average Load"
+msgstr "基准期平均负荷"
+
 msgid "Reporting Period Average Load"
 msgstr "报告期平均负荷"
 
 msgid "Average Load"
 msgstr "平均负荷"
+
+msgid "Base Period Maximum Load"
+msgstr "基准期最大负荷"
 
 msgid "Reporting Period Maximum Load"
 msgstr "报告期最大负荷"

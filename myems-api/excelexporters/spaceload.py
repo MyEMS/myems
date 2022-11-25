@@ -22,10 +22,13 @@ from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 
 def export(report,
            name,
+           base_period_start_datetime_local,
+           base_period_end_datetime_local,
            reporting_start_datetime_local,
            reporting_end_datetime_local,
            period_type,
-           language):
+           language,
+           comparison_type):
     ####################################################################################################################
     # Step 1: Validate the report data
     ####################################################################################################################
@@ -38,10 +41,13 @@ def export(report,
     ####################################################################################################################
     filename = generate_excel(report,
                               name,
+                              base_period_start_datetime_local,
+                              base_period_end_datetime_local,
                               reporting_start_datetime_local,
                               reporting_end_datetime_local,
                               period_type,
-                              language)
+                              language,
+                              comparison_type)
     ####################################################################################################################
     # Step 3: Encode the excel file to Base64
     ####################################################################################################################
@@ -64,7 +70,15 @@ def export(report,
     return base64_message
 
 
-def generate_excel(report, name, reporting_start_datetime_local, reporting_end_datetime_local, period_type, language):
+def generate_excel(report,
+                   name,
+                   base_period_start_datetime_local,
+                   base_period_end_datetime_local,
+                   reporting_start_datetime_local,
+                   reporting_end_datetime_local,
+                   period_type,
+                   language,
+                   comparison_type):
     locale_path = './i18n/'
     if language == 'zh_CN':
         trans = gettext.translation('myems', locale_path, languages=['zh_CN'])
@@ -91,7 +105,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
     ws.column_dimensions['B'].width = 25.0
 
-    for i in range(ord('C'), ord('L')):
+    for i in range(ord('C'), ord('Z')):
         ws.column_dimensions[chr(i)].width = 15.0
 
     # Font
@@ -156,6 +170,19 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
     ws['E4'].alignment = b_c_alignment
     ws['E4'] = reporting_end_datetime_local
 
+    if comparison_type != "none-comparison":
+        ws['B5'].alignment = b_r_alignment
+        ws['B5'] = _('Base Period Start Datetime') + ':'
+        ws['C5'].border = b_border
+        ws['C5'].alignment = b_c_alignment
+        ws['C5'] = base_period_start_datetime_local
+
+        ws['D5'].alignment = b_r_alignment
+        ws['D5'] = _('Base Period End Datetime') + ':'
+        ws['E5'].border = b_border
+        ws['E5'].alignment = b_c_alignment
+        ws['E5'] = base_period_end_datetime_local
+
     if "reporting_period" not in report.keys() or \
             "timestamps" not in report['reporting_period'].keys() or len(report['reporting_period']['timestamps']) == 0:
         filename = str(uuid.uuid4()) + '.xlsx'
@@ -164,7 +191,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         return filename
 
     ####################################################################################################################
-    current_row_number = 6
+    current_row_number = 7
     if "names" not in report['reporting_period'].keys() or len(report['reporting_period']['names']) == 0:
         pass
     else:
@@ -357,135 +384,419 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
     if "sub_averages" not in report['reporting_period'].keys() or len(report['reporting_period']['sub_averages']) == 0:
         has_sub_averages_data_flag = False
 
-    if "sub_averages" not in report['reporting_period'].keys() or len(report['reporting_period']['sub_averages']) == 0:
+    if "sub_maximums" not in report['reporting_period'].keys() or len(report['reporting_period']['sub_maximums']) == 0:
         has_sub_maximums_data_flag = False
 
+
+
     if has_sub_averages_data_flag or has_sub_maximums_data_flag:
-        reporting_period_data = report['reporting_period']
-        category = reporting_period_data['names']
-        ca_len = len(category)
-        times = reporting_period_data['timestamps']
-        time = times[0]
-        real_timestamps_len = timestamps_data_not_equal_0(report['parameters']['timestamps'])
-        ws['B' + str(current_row_number)].font = title_font
-        ws['B' + str(current_row_number)] = name + _('Detailed Data')
+        if comparison_type == "none-comparison":
+            reporting_period_data = report['reporting_period']
+            category = reporting_period_data['names']
+            ca_len = len(category)
+            times = reporting_period_data['timestamps']
+            time = times[0]
+            real_timestamps_len = timestamps_data_not_equal_0(report['parameters']['timestamps'])
+            ws['B' + str(current_row_number)].font = title_font
+            ws['B' + str(current_row_number)] = name + _('Detailed Data')
 
-        current_row_number += 1
-        chart_start_number = current_row_number
-        current_row_number += real_timestamps_len * 7 + 1
-        if has_sub_averages_data_flag:
-            current_row_number = (current_row_number + ca_len * 6)
-
-        if has_sub_maximums_data_flag:
-            current_row_number = (current_row_number + ca_len * 6)
-
-        table_start_number = current_row_number
-
-        ws.row_dimensions[current_row_number].height = 60
-        ws['B' + str(current_row_number)].fill = table_fill
-        ws['B' + str(current_row_number)].font = title_font
-        ws['B' + str(current_row_number)].alignment = c_c_alignment
-        ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)] = _('Datetime')
-
-        col = 'C'
-
-        for i in range(0, ca_len):
+            current_row_number += 1
+            chart_start_number = current_row_number
+            # 1: Stand for blank line  2: Stand for title
+            current_row_number += real_timestamps_len * 6 + 1 + 2
             if has_sub_averages_data_flag:
-                ws[col + str(current_row_number)].fill = table_fill
-                ws[col + str(current_row_number)].font = title_font
-                ws[col + str(current_row_number)].alignment = c_c_alignment
-                ws[col + str(current_row_number)].border = f_border
-                ws[col + str(current_row_number)] = reporting_period_data['names'][i] + \
-                    " " + _('Average Load') + "(" + reporting_period_data['units'][i] + "/H)"
-                col = chr(ord(col) + 1)
+                current_row_number = (current_row_number + ca_len * 6)
 
             if has_sub_maximums_data_flag:
-                ws[col + str(current_row_number)].fill = table_fill
-                ws[col + str(current_row_number)].font = title_font
-                ws[col + str(current_row_number)].alignment = c_c_alignment
-                ws[col + str(current_row_number)].border = f_border
-                ws[col + str(current_row_number)] = reporting_period_data['names'][i] + \
-                    " " + _('Maximum Load') + "(" + reporting_period_data['units'][i] + "/H)"
-                col = chr(ord(col) + 1)
+                current_row_number = (current_row_number + ca_len * 6)
 
-        current_row_number += 1
+            table_start_number = current_row_number
 
-        for i in range(0, len(time)):
-            ws['B' + str(current_row_number)].font = title_font
-            ws['B' + str(current_row_number)].alignment = c_c_alignment
-            ws['B' + str(current_row_number)].border = f_border
-            ws['B' + str(current_row_number)] = time[i]
+            ws.row_dimensions[current_row_number].height = 60
+            current_col_number = 2
+            col = format_cell.get_column_letter(current_col_number)
+            ws[col + str(current_row_number)].fill = table_fill
+            ws[col + str(current_row_number)].font = title_font
+            ws[col + str(current_row_number)].alignment = c_c_alignment
+            ws[col + str(current_row_number)].border = f_border
+            ws[col + str(current_row_number)] = _('Datetime')
 
-            col = 'C'
-            for j in range(0, ca_len):
+            current_col_number = 3
+            col = format_cell.get_column_letter(current_col_number)
 
+            for i in range(0, ca_len):
                 if has_sub_averages_data_flag:
+                    ws[col + str(current_row_number)].fill = table_fill
                     ws[col + str(current_row_number)].font = title_font
                     ws[col + str(current_row_number)].alignment = c_c_alignment
                     ws[col + str(current_row_number)].border = f_border
-                    ws[col + str(current_row_number)] = round(reporting_period_data['sub_averages'][j][i], 2) \
-                        if reporting_period_data['sub_averages'][j][i] is not None else 0.00
-                    col = chr(ord(col) + 1)
+                    ws[col + str(current_row_number)] = reporting_period_data['names'][i] + \
+                        " " + _('Average Load') + "(" + reporting_period_data['units'][i] + "/H)"
+
+                    current_col_number += 1
+                    col = format_cell.get_column_letter(current_col_number)
 
                 if has_sub_maximums_data_flag:
+                    ws[col + str(current_row_number)].fill = table_fill
                     ws[col + str(current_row_number)].font = title_font
                     ws[col + str(current_row_number)].alignment = c_c_alignment
                     ws[col + str(current_row_number)].border = f_border
-                    ws[col + str(current_row_number)] = round(reporting_period_data['sub_maximums'][j][i], 2) \
-                        if reporting_period_data['sub_maximums'][j][i] is not None else 0.00
-                    col = chr(ord(col) + 1)
+                    ws[col + str(current_row_number)] = reporting_period_data['names'][i] + \
+                        " " + _('Maximum Load') + "(" + reporting_period_data['units'][i] + "/H)"
+
+                    current_col_number += 1
+                    col = format_cell.get_column_letter(current_col_number)
 
             current_row_number += 1
 
-        table_end_number = current_row_number - 1
+            for i in range(0, len(time)):
+                current_col_number = 2
+                col = format_cell.get_column_letter(current_col_number)
+                ws['B' + str(current_row_number)].font = title_font
+                ws['B' + str(current_row_number)].alignment = c_c_alignment
+                ws['B' + str(current_row_number)].border = f_border
+                ws['B' + str(current_row_number)] = time[i]
 
-        current_chart_col_number = 3
-        current_chart_row_number = chart_start_number
+                current_col_number = 3
+                col = format_cell.get_column_letter(current_col_number)
+                for j in range(0, ca_len):
 
-        for i in range(0, ca_len):
-            labels = Reference(ws, min_col=2, min_row=table_start_number + 1, max_row=table_end_number)
+                    if has_sub_averages_data_flag:
+                        ws[col + str(current_row_number)].font = title_font
+                        ws[col + str(current_row_number)].alignment = c_c_alignment
+                        ws[col + str(current_row_number)].border = f_border
+                        ws[col + str(current_row_number)] = round(reporting_period_data['sub_averages'][j][i], 2) \
+                            if reporting_period_data['sub_averages'][j][i] is not None else ""
+                        current_col_number += 1
+                        col = format_cell.get_column_letter(current_col_number)
+
+                    if has_sub_maximums_data_flag:
+                        ws[col + str(current_row_number)].font = title_font
+                        ws[col + str(current_row_number)].alignment = c_c_alignment
+                        ws[col + str(current_row_number)].border = f_border
+                        ws[col + str(current_row_number)] = round(reporting_period_data['sub_maximums'][j][i], 2) \
+                            if reporting_period_data['sub_maximums'][j][i] is not None else ""
+                        current_col_number += 1
+                        col = format_cell.get_column_letter(current_col_number)
+
+                current_row_number += 1
+
+            table_end_number = current_row_number - 1
+
+            current_chart_col_number = 3
+            current_chart_row_number = chart_start_number
+
+            for i in range(0, ca_len):
+                labels = Reference(ws, min_col=2, min_row=table_start_number + 1, max_row=table_end_number)
+
+                if has_sub_averages_data_flag:
+                    line = LineChart()
+                    line.title = _('Reporting Period Average Load') + ' - ' \
+                        + reporting_period_data['names'][i] + \
+                        " " + _('Average Load') + "(" + reporting_period_data['units'][i] + "/H)"
+                    datas = Reference(ws, min_col=current_chart_col_number, min_row=table_start_number,
+                                      max_row=table_end_number)
+                    line.add_data(datas, titles_from_data=True)
+                    line.set_categories(labels)
+                    line_data = line.series[0]
+                    line_data.marker.symbol = "circle"
+                    line_data.smooth = True
+                    line.x_axis.crosses = 'min'
+                    line.height = 8.25
+                    line.width = 24
+                    line.dLbls = DataLabelList()
+                    line.dLbls.dLblPos = 't'
+                    line.dLbls.showVal = True
+                    ws.add_chart(line, "B" + str(current_chart_row_number))
+                    current_chart_row_number += 6
+                    current_chart_col_number += 1
+
+                if has_sub_maximums_data_flag:
+                    line = LineChart()
+                    line.title = _('Reporting Period Maximum Load') + ' - ' \
+                        + reporting_period_data['names'][i] + \
+                        " " + _('Maximum Load') + "(" + reporting_period_data['units'][i] + "/H)"
+                    datas = Reference(ws, min_col=current_chart_col_number, min_row=table_start_number,
+                                      max_row=table_end_number)
+                    line.add_data(datas, titles_from_data=True)
+                    line.set_categories(labels)
+                    line_data = line.series[0]
+                    line_data.marker.symbol = "circle"
+                    line_data.smooth = True
+                    line.x_axis.crosses = 'min'
+                    line.height = 8.25
+                    line.width = 24
+                    line.dLbls = DataLabelList()
+                    line.dLbls.dLblPos = 't'
+                    line.dLbls.showVal = True
+                    ws.add_chart(line, "B" + str(current_chart_row_number))
+                    current_chart_row_number += 6
+                    current_chart_col_number += 1
+        else:
+            base_period_data = report['base_period']
+            reporting_period_data = report['reporting_period']
+            base_period_timestamps = base_period_data['timestamps']
+            reporting_period_timestamps = reporting_period_data['timestamps']
+            # Tip:
+            #     base_period_data['names'] == reporting_period_data['names']
+            #     base_period_data['units'] == reporting_period_data['units']
+            base_period_data_ca_len = len(base_period_data['names'])
+            reporting_period_data_ca_len = len(reporting_period_data['names'])
+            real_timestamps_len = timestamps_data_not_equal_0(report['parameters']['timestamps'])
+            ws['B' + str(current_row_number)].font = title_font
+            ws['B' + str(current_row_number)] = name + ' ' + _('Detailed Data')
+
+            current_row_number += 1
+            chart_start_number = current_row_number
+
+            # 1: Stand for blank line  2: Stand for title
+            current_row_number += real_timestamps_len * 6 + 1 + 2
 
             if has_sub_averages_data_flag:
-                line = LineChart()
-                line.title = _('Reporting Period Average Load') + ' - ' + ws.cell(column=current_chart_col_number,
-                                                                                  row=table_start_number).value
-                datas = Reference(ws, min_col=current_chart_col_number, min_row=table_start_number,
-                                  max_row=table_end_number)
-                line.add_data(datas, titles_from_data=True)
-                line.set_categories(labels)
-                line_data = line.series[0]
-                line_data.marker.symbol = "circle"
-                line_data.smooth = True
-                line.x_axis.crosses = 'min'
-                line.height = 8.25
-                line.width = 24
-                line.dLbls = DataLabelList()
-                line.dLbls.dLblPos = 't'
-                line.dLbls.showVal = True
-                ws.add_chart(line, "B" + str(current_chart_row_number))
-                current_chart_row_number += 6
-                current_chart_col_number += 1
+                current_row_number = (current_row_number + reporting_period_data_ca_len * 6)
 
             if has_sub_maximums_data_flag:
-                line = LineChart()
-                line.title = _('Reporting Period Maximum Load') + ' - ' + ws.cell(column=current_chart_col_number,
-                                                                                  row=table_start_number).value
-                datas = Reference(ws, min_col=current_chart_col_number, min_row=table_start_number,
-                                  max_row=table_end_number)
-                line.add_data(datas, titles_from_data=True)
-                line.set_categories(labels)
-                line_data = line.series[0]
-                line_data.marker.symbol = "circle"
-                line_data.smooth = True
-                line.x_axis.crosses = 'min'
-                line.height = 8.25
-                line.width = 24
-                line.dLbls = DataLabelList()
-                line.dLbls.dLblPos = 't'
-                line.dLbls.showVal = True
-                ws.add_chart(line, "B" + str(current_chart_row_number))
-                current_chart_row_number += 6
+                current_row_number = (current_row_number + reporting_period_data_ca_len * 6)
+
+            table_start_row_number = current_row_number
+
+            has_data = False
+
+            if len(base_period_timestamps[0]) or len(reporting_period_timestamps[0]) > 0:
+                has_data = True
+
+            if has_data:
+                ws.row_dimensions[current_row_number].height = 60
+                current_col_number = 2
+                col = format_cell.get_column_letter(current_col_number)
+                ws[col + str(current_row_number)].fill = table_fill
+                ws[col + str(current_row_number)].font = title_font
+                ws[col + str(current_row_number)].border = f_border
+                ws[col + str(current_row_number)].alignment = c_c_alignment
+                ws[col + str(current_row_number)] = _('Base Period') + " - " + _('Datetime')
+
+                for i in range(0, base_period_data_ca_len):
+                    if has_sub_averages_data_flag:
+                        current_col_number += 1
+                        col = format_cell.get_column_letter(current_col_number)
+
+                        ws[col + str(current_row_number)].fill = table_fill
+                        ws[col + str(current_row_number)].font = title_font
+                        ws[col + str(current_row_number)].alignment = c_c_alignment
+                        ws[col + str(current_row_number)] = _('Base Period') + " - " \
+                            + base_period_data['names'][i] + \
+                            " " + _('Average Load') + "(" + base_period_data['units'][i] + "/H)"
+                        ws[col + str(current_row_number)].border = f_border
+
+                    if has_sub_maximums_data_flag:
+                        current_col_number += 1
+                        col = format_cell.get_column_letter(current_col_number)
+
+                        ws[col + str(current_row_number)].fill = table_fill
+                        ws[col + str(current_row_number)].font = title_font
+                        ws[col + str(current_row_number)].alignment = c_c_alignment
+                        ws[col + str(current_row_number)] = _('Base Period') + " - " \
+                            + base_period_data['names'][i] + \
+                            " " + _('Maximum Load') + "(" + base_period_data['units'][i] + "/H)"
+                        ws[col + str(current_row_number)].border = f_border
+
+                current_col_number += 1
+                col = format_cell.get_column_letter(current_col_number)
+
+                ws[col + str(current_row_number)].fill = table_fill
+                ws[col + str(current_row_number)].font = title_font
+                ws[col + str(current_row_number)].border = f_border
+                ws[col + str(current_row_number)].alignment = c_c_alignment
+                ws[col + str(current_row_number)] = _('Reporting Period') + " - " + _('Datetime')
+
+                for i in range(0, reporting_period_data_ca_len):
+                    if has_sub_averages_data_flag:
+                        current_col_number += 1
+                        col = format_cell.get_column_letter(current_col_number)
+                        ws[col + str(current_row_number)].fill = table_fill
+                        ws[col + str(current_row_number)].font = title_font
+                        ws[col + str(current_row_number)].alignment = c_c_alignment
+                        ws[col + str(current_row_number)] = _('Reporting Period') + " - " \
+                            + reporting_period_data['names'][i] + \
+                            " " + _('Average Load') + "(" + reporting_period_data['units'][i] + "/H)"
+                        ws[col + str(current_row_number)].border = f_border
+
+                    if has_sub_maximums_data_flag:
+                        current_col_number += 1
+                        col = format_cell.get_column_letter(current_col_number)
+                        ws[col + str(current_row_number)].fill = table_fill
+                        ws[col + str(current_row_number)].font = title_font
+                        ws[col + str(current_row_number)].alignment = c_c_alignment
+                        ws[col + str(current_row_number)] = _('Reporting Period') + " - " \
+                            + reporting_period_data['names'][i] + \
+                            " " + _('Maximum Load') + "(" + \
+                            reporting_period_data['units'][i] + "/H)"
+                        ws[col + str(current_row_number)].border = f_border
+
+                current_row_number += 1
+
+                max_timestamps_len = len(base_period_timestamps[0]) \
+                    if len(base_period_timestamps[0]) >= len(reporting_period_timestamps[0]) \
+                    else len(reporting_period_timestamps[0])
+
+                for i in range(0, max_timestamps_len):
+                    current_col_number = 2
+                    col = format_cell.get_column_letter(current_col_number)
+                    ws[col + str(current_row_number)].font = title_font
+                    ws[col + str(current_row_number)].alignment = c_c_alignment
+                    ws[col + str(current_row_number)] = base_period_timestamps[0][i] \
+                        if i < len(base_period_timestamps[0]) else ""
+                    ws[col + str(current_row_number)].border = f_border
+
+                    for j in range(0, base_period_data_ca_len):
+                        if has_sub_averages_data_flag:
+                            current_col_number += 1
+                            col = format_cell.get_column_letter(current_col_number)
+
+                            ws[col + str(current_row_number)].font = title_font
+                            ws[col + str(current_row_number)].alignment = c_c_alignment
+                            ws[col + str(current_row_number)] = round(base_period_data['sub_averages'][j][i], 2) \
+                                if i < len(base_period_data['sub_averages'][j]) \
+                                and base_period_data['sub_averages'][j][i] is not None else ""
+                            ws[col + str(current_row_number)].border = f_border
+
+                        if has_sub_maximums_data_flag:
+                            current_col_number += 1
+                            col = format_cell.get_column_letter(current_col_number)
+
+                            ws[col + str(current_row_number)].font = title_font
+                            ws[col + str(current_row_number)].alignment = c_c_alignment
+                            ws[col + str(current_row_number)] = round(base_period_data['sub_maximums'][j][i], 2) \
+                                if i < len(base_period_data['sub_maximums'][j]) \
+                                and base_period_data['sub_averages'][j][i] is not None else ""
+                            ws[col + str(current_row_number)].border = f_border
+
+                    current_col_number += 1
+                    col = format_cell.get_column_letter(current_col_number)
+
+                    ws[col + str(current_row_number)].font = title_font
+                    ws[col + str(current_row_number)].alignment = c_c_alignment
+                    ws[col + str(current_row_number)] = reporting_period_timestamps[0][i] \
+                        if i < len(reporting_period_timestamps[0]) else ""
+                    ws[col + str(current_row_number)].border = f_border
+
+                    for j in range(0, reporting_period_data_ca_len):
+                        if has_sub_averages_data_flag:
+                            current_col_number += 1
+                            col = format_cell.get_column_letter(current_col_number)
+
+                            ws[col + str(current_row_number)].font = title_font
+                            ws[col + str(current_row_number)].alignment = c_c_alignment
+                            ws[col + str(current_row_number)] = round(reporting_period_data['sub_averages'][j][i], 2) \
+                                if i < len(reporting_period_data['sub_averages'][j]) \
+                                and reporting_period_data['sub_averages'][j][i] is not None else ""
+                            ws[col + str(current_row_number)].border = f_border
+
+                        if has_sub_maximums_data_flag:
+                            current_col_number += 1
+                            col = format_cell.get_column_letter(current_col_number)
+
+                            ws[col + str(current_row_number)].font = title_font
+                            ws[col + str(current_row_number)].alignment = c_c_alignment
+                            ws[col + str(current_row_number)] = round(reporting_period_data['sub_maximums'][j][i], 2) \
+                                if i < len(reporting_period_data['sub_maximums'][j]) \
+                                and reporting_period_data['sub_maximums'][j][i] is not None else ""
+                            ws[col + str(current_row_number)].border = f_border
+
+                    current_row_number += 1
+
+                current_chart_col_number = 3
+                current_chart_row_number = chart_start_number
+
+                for i in range(0, reporting_period_data_ca_len):
+                    labels = Reference(ws, min_col=2 + base_period_data_ca_len + 1,
+                                       min_row=table_start_row_number + 1,
+                                       max_row=table_start_row_number + len(reporting_period_timestamps[0]))
+
+                    if has_sub_averages_data_flag:
+                        # line
+                        line = LineChart()
+                        line.title = _('Base Period Average Load') + ' / ' \
+                            + _('Reporting Period Average Load') + ' - ' \
+                            + reporting_period_data['names'][i] + \
+                            " " + _('Average Load') + "(" + reporting_period_data['units'][i] + "/H)"
+                        base_line_data = Reference(ws,
+                                                   min_col=current_chart_col_number,
+                                                   min_row=table_start_row_number,
+                                                   max_row=table_start_row_number
+                                                   + len(reporting_period_timestamps[0]))
+
+                        data_distance = base_period_data_ca_len
+                        if has_sub_maximums_data_flag:
+                            data_distance *= 2
+
+                        reporting_line_data = Reference(ws,
+                                                        min_col=current_chart_col_number + data_distance + 1,
+                                                        min_row=table_start_row_number,
+                                                        max_row=table_start_row_number
+                                                        + len(reporting_period_timestamps[0]))
+                        line.add_data(base_line_data, titles_from_data=True)
+                        line.add_data(reporting_line_data, titles_from_data=True)
+                        line.set_categories(labels)
+                        for j in range(len(line.series)):
+                            line.series[j].marker.symbol = "circle"
+                            line.series[j].smooth = True
+                        line.x_axis.crosses = 'min'
+                        line.height = 8.25
+                        line.width = 24
+                        line.dLbls = DataLabelList()
+                        line.dLbls.dLblPos = 't'
+                        line.dLbls.showVal = True
+                        line.dLbls.showPercent = False
+                        chart_col = 'B'
+                        chart_cell = chart_col + str(current_chart_row_number)
+                        ws.add_chart(line, chart_cell)
+                        current_chart_row_number += 6
+                        current_chart_col_number += 1
+
+                    if has_sub_maximums_data_flag:
+                        # line
+                        line = LineChart()
+                        line.title = _('Base Period Maximum Load') + ' / ' \
+                            + _('Reporting Period Maximum Load') + ' - ' \
+                            + reporting_period_data['names'][i] + \
+                            " " + _('Maximum Load') + "(" + reporting_period_data['units'][i] + "/H)"
+                        base_line_data = Reference(ws,
+                                                   min_col=current_chart_col_number,
+                                                   min_row=table_start_row_number,
+                                                   max_row=table_start_row_number
+                                                   + len(reporting_period_timestamps[0]))
+
+                        data_distance = base_period_data_ca_len
+                        if has_sub_averages_data_flag:
+                            data_distance *= 2
+
+                        reporting_line_data = Reference(ws,
+                                                        min_col=current_chart_col_number + data_distance + 1,
+                                                        min_row=table_start_row_number,
+                                                        max_row=table_start_row_number
+                                                        + len(reporting_period_timestamps[0]))
+                        line.add_data(base_line_data, titles_from_data=True)
+                        line.add_data(reporting_line_data, titles_from_data=True)
+                        line.set_categories(labels)
+                        for j in range(len(line.series)):
+                            line.series[j].marker.symbol = "circle"
+                            line.series[j].smooth = True
+                        line.x_axis.crosses = 'min'
+                        line.height = 8.25
+                        line.width = 24
+                        line.dLbls = DataLabelList()
+                        line.dLbls.dLblPos = 't'
+                        line.dLbls.showVal = True
+                        line.dLbls.showPercent = False
+                        chart_col = 'B'
+                        chart_cell = chart_col + str(current_chart_row_number)
+                        ws.add_chart(line, chart_cell)
+                        current_chart_row_number += 6
+                        current_chart_col_number += 1
+
+                current_row_number += 2
+
     ####################################################################################################################
     current_sheet_parameters_row_number = current_chart_row_number + 1
     if 'parameters' not in report.keys() or \
