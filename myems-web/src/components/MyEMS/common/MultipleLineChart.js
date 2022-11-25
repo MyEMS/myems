@@ -33,42 +33,7 @@ const MultipleLineChart = ({
   const [values, setValues] = useState(['a0']);
   const [oldValues, setOldValues] = useState(['a0']);
   const { isDark } = useContext(AppContext);
-  const [nodes, setNodes] = useState([{
-    name: options.label,
-    borderWidth: 2,
-    data: data['a0'],
-    type: 'line',
-    markPoint: {
-      label:{
-        color: rgbaColor(isDark ? '#fff' : '#000', 0.8),
-      },
-      itemStyle: {
-        color: colors[0],
-      },
-      data: [
-        {
-          type: 'max',
-          name: 'Max Value',
-        },
-        {
-          type: 'min',
-          name: 'Min Value',
-        }
-      ]
-    },
-    markLine: {
-      lineStyle: {
-        color: colors[0],
-      },
-      data: [{
-          type: 'average',
-          name: 'Average Value'
-      }],
-      label: {
-        color: rgbaColor(isDark ? '#fff' : '#000', 0.8),
-      },
-    },
-  }]);
+  const [nodes, setNodes] = useState([]);
   const [lastMoment, setLastMoment] = useState(moment());
   const [lineLabels, setLinaLabels] = useState([]);
 
@@ -83,12 +48,12 @@ const MultipleLineChart = ({
   }
 
   useEffect(() => {
-    let tempNodes = [...nodes];
-    if (options[0] && data['a0'] && tempNodes.length > 0 && tempNodes[0].label === undefined) {
+    let tempNodes = [];
+    if (options[0] && data['a0']) {
       let index = values[0];
       tempNodes = [];
       tempNodes[0] = {
-        data: data[index],
+        data: data['a0'],
         type: 'line',
         smooth: true,
         name: options[0] ? options[index.slice(1)].label : '',
@@ -129,12 +94,10 @@ const MultipleLineChart = ({
           },
         },
       }
+      setNodes(tempNodes);
+      setLinaLabels(labels[values[0]]);
     }
-    setNodes(tempNodes);
-    setLinaLabels(labels[values[0]]);
-    setValues(['a0']);
-    setOldValues(['a0'])
-  }, [data, labels]);
+  }, [data, labels, options]);
 
   useEffect(() => {
     let tempNodes = [...nodes];
