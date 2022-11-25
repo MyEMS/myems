@@ -563,9 +563,6 @@ class Reporting:
                                                                                         period_type)
 
                     for row_space_periodically in rows_space_periodically:
-                        current_datetime_local = row_space_periodically[0].replace(tzinfo=timezone.utc) + \
-                                                timedelta(minutes=timezone_offset)
-
                         actual_value = Decimal(0.0) if row_space_periodically[1] is None else row_space_periodically[1]
                         subtotal_list.append(actual_value)
                         subtotal += actual_value
