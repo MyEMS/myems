@@ -84,14 +84,14 @@ const MultipleLineChart = ({
 
   useEffect(() => {
     let tempNodes = [...nodes];
-    if (options[0] && data['a0'] && tempNodes.length > 0 && tempNodes[0].label === undefined) {
-      let index = values[0];
+    let index = values[0];
+    if (options[index.slice(1)] && data[index] && tempNodes.length > 0 && tempNodes[0].label === undefined) {
       tempNodes = [];
       tempNodes[0] = {
         data: data[index],
         type: 'line',
         smooth: true,
-        name: options[0] ? options[index.slice(1)].label : '',
+        name: options[index.slice(1)] ? options[index.slice(1)].label : '',
         lineStyle: {
           color: colors[0],
         },
@@ -134,7 +134,7 @@ const MultipleLineChart = ({
     setLinaLabels(labels[values[0]]);
     setValues(['a0']);
     setOldValues(['a0'])
-  }, [data, labels]);
+  }, [data, labels, options]);
 
   useEffect(() => {
     let tempNodes = [...nodes];
