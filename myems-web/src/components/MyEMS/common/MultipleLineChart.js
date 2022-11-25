@@ -91,7 +91,7 @@ const MultipleLineChart = ({
         data: data[index],
         type: 'line',
         smooth: true,
-        name: options[0] ? options[index.slice(1)].label : '',
+        name: options[index.slice(1)] ? options[index.slice(1)].label : '',
         lineStyle: {
           color: colors[0],
         },
