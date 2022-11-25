@@ -371,7 +371,6 @@ class SensorPointCollection:
         add_row = (" INSERT INTO tbl_sensors_points (sensor_id, point_id) "
                    " VALUES (%s, %s) ")
         cursor.execute(add_row, (id_, new_values['data']['point_id'],))
-        new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
         cnx.close()

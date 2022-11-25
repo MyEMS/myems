@@ -125,8 +125,7 @@ class OfflineMeterFileCollection:
                 cnx.close()
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_PLEASE_RE_LOGIN')
-        else:
-            user_id = row[0]
+
         try:
             cnx = mysql.connector.connect(**config.myems_historical_db)
             cursor = cnx.cursor()

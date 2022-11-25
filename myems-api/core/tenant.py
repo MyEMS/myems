@@ -827,7 +827,6 @@ class TenantMeterCollection:
         add_row = (" INSERT INTO tbl_tenants_meters (tenant_id, meter_id) "
                    " VALUES (%s, %s) ")
         cursor.execute(add_row, (id_, meter_id,))
-        new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -1011,7 +1010,6 @@ class TenantOfflineMeterCollection:
         add_row = (" INSERT INTO tbl_tenants_offline_meters (tenant_id, offline_meter_id) "
                    " VALUES (%s, %s) ")
         cursor.execute(add_row, (id_, offline_meter_id,))
-        new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -1195,7 +1193,6 @@ class TenantPointCollection:
         add_row = (" INSERT INTO tbl_tenants_points (tenant_id, point_id) "
                    " VALUES (%s, %s) ")
         cursor.execute(add_row, (id_, point_id,))
-        new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -1366,7 +1363,6 @@ class TenantSensorCollection:
         add_row = (" INSERT INTO tbl_tenants_sensors (tenant_id, sensor_id) "
                    " VALUES (%s, %s) ")
         cursor.execute(add_row, (id_, sensor_id,))
-        new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -1550,7 +1546,6 @@ class TenantVirtualMeterCollection:
         add_row = (" INSERT INTO tbl_tenants_virtual_meters (tenant_id, virtual_meter_id) "
                    " VALUES (%s, %s) ")
         cursor.execute(add_row, (id_, virtual_meter_id,))
-        new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
         cnx.close()

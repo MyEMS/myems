@@ -599,7 +599,6 @@ class ShopfloorEquipmentCollection:
         add_row = (" INSERT INTO tbl_shopfloors_equipments (shopfloor_id, equipment_id) "
                    " VALUES (%s, %s) ")
         cursor.execute(add_row, (id_, equipment_id,))
-        new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -784,7 +783,6 @@ class ShopfloorMeterCollection:
         add_row = (" INSERT INTO tbl_shopfloors_meters (shopfloor_id, meter_id) "
                    " VALUES (%s, %s) ")
         cursor.execute(add_row, (id_, meter_id,))
-        new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -968,7 +966,6 @@ class ShopfloorOfflineMeterCollection:
         add_row = (" INSERT INTO tbl_shopfloors_offline_meters (shopfloor_id, offline_meter_id) "
                    " VALUES (%s, %s) ")
         cursor.execute(add_row, (id_, offline_meter_id,))
-        new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -1152,7 +1149,6 @@ class ShopfloorPointCollection:
         add_row = (" INSERT INTO tbl_shopfloors_points (shopfloor_id, point_id) "
                    " VALUES (%s, %s) ")
         cursor.execute(add_row, (id_, point_id,))
-        new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -1323,7 +1319,6 @@ class ShopfloorSensorCollection:
         add_row = (" INSERT INTO tbl_shopfloors_sensors (shopfloor_id, sensor_id) "
                    " VALUES (%s, %s) ")
         cursor.execute(add_row, (id_, sensor_id,))
-        new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -1507,7 +1502,6 @@ class ShopfloorVirtualMeterCollection:
         add_row = (" INSERT INTO tbl_shopfloors_virtual_meters (shopfloor_id, virtual_meter_id) "
                    " VALUES (%s, %s) ")
         cursor.execute(add_row, (id_, virtual_meter_id,))
-        new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
         cnx.close()
