@@ -18,13 +18,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Replaced LineChart with MultipleLineChart for related parameters of store reports in myems-web
 - Replaced LineChart with MultipleLineChart for related parameters of shopfloor reports in myems-web
 - Replaced LineChart with MultipleLineChart for related parameters of tenant reports in myems-web
-- 
+- Upgraded angular.js to v1.8.3 in myems-admin
 ### Fixed
 - fixed File is not always closed
 - fixed Explicit returns mixed with implicit (fall through) returns
 - fixed Empty except in myems-api
 - fixed Variable defined multiple times
 - fixed Unused local variable in myems-api
+- 
 ### Removed
 -
 
