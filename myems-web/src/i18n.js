@@ -224,7 +224,9 @@ const resources = {
       'COMBINED_EQUIPMENT Instantaneous Comprehensive Efficiency UNIT':
         '{{COMBINED_EQUIPMENT}} Instantaneous Comprehensive Efficiency {{UNIT}}',
       'Reporting Period Cumulative Efficiency VALUE UNIT': 'Reporting Period Cumulative Efficiency {{VALUE}} {{UNIT}}',
+      'Reporting Period Cumulative Efficiency NAME VALUE UNIT': 'Reporting Period Cumulative Efficiency {{NAME}} {{VALUE}} {{UNIT}}',
       'Base Period Cumulative Efficiency VALUE UNIT': 'Base Period Cumulative Efficiency {{VALUE}} {{UNIT}}',
+      'Base Period Cumulative Efficiency NAME VALUE UNIT': 'Base Period Cumulative Efficiency {{NAME}} {{VALUE}} {{UNIT}}',
       'Base Period CATEGORY Maximum Load UNIT': 'Base Period {{CATEGORY}} Maximum Load {{UNIT}}',
       'Reporting Period CATEGORY Maximum Load UNIT': 'Reporting Period {{CATEGORY}} Maximum Load {{UNIT}}',
       'Reporting Period CATEGORY Average Load UNIT': 'Reporting Period {{CATEGORY}} Average Load {{UNIT}}',
@@ -1040,7 +1042,9 @@ const resources = {
       'COMBINED_EQUIPMENT Instantaneous Comprehensive Efficiency UNIT':
         '{{COMBINED_EQUIPMENT}} Sofortige umfassende Effizienz {{UNIT}}',
       'Reporting Period Cumulative Efficiency VALUE UNIT': 'Berichtszeitraum Kumulative Effizienz {{VALUE}} {{UNIT}}',
+      'Reporting Period Cumulative Efficiency NAME VALUE UNIT': 'Berichtszeitraum Kumulative Effizienz {{NAME}} {{VALUE}} {{UNIT}}',
       'Base Period Cumulative Efficiency VALUE UNIT': 'Kumulative Effizienz der Basisperiode {{VALUE}} {{UNIT}}',
+      'Base Period Cumulative Efficiency NAME VALUE UNIT': 'Kumulative Effizienz der Basisperiode {{NAME}} {{VALUE}} {{UNIT}}',
       'Base Period CATEGORY Maximum Load UNIT': 'Basiszeitraum {{CATEGORY}} Maximale Last {{UNIT}}',
       'Reporting Period CATEGORY Maximum Load UNIT': 'Berichtszeitraum {{CATEGORY}} Maximale Last {{UNIT}}',
       'Reporting Period CATEGORY Average Load UNIT':
@@ -1853,7 +1857,9 @@ const resources = {
       'EQUIPMENT Instantaneous Efficiency UNIT': '{{EQUIPMENT}} 瞬时效率 {{UNIT}}',
       'COMBINED_EQUIPMENT Instantaneous Comprehensive Efficiency UNIT': '{{COMBINED_EQUIPMENT}} 瞬时综合效率 {{UNIT}}',
       'Reporting Period Cumulative Efficiency VALUE UNIT': '报告期累积效率 {{VALUE}} {{UNIT}}',
+      'Reporting Period Cumulative Efficiency NAME VALUE UNIT': '报告期累积效率 {{NAME}} {{VALUE}} {{UNIT}}',
       'Base Period Cumulative Efficiency VALUE UNIT': '基准期累积效率 {{VALUE}} {{UNIT}}',
+      'Base Period Cumulative Efficiency NAME VALUE UNIT': '基准期累积效率 {{NAME}} {{VALUE}} {{UNIT}}',
       'Base Period CATEGORY Maximum Load UNIT': '基准期 {{CATEGORY}} 最大负荷 {{UNIT}}',
       'Reporting Period CATEGORY Maximum Load UNIT': '报告期 {{CATEGORY}} 最大负荷 {{UNIT}}',
       'Reporting Period CATEGORY Average Load UNIT': '报告期 {{CATEGORY}} 平均负荷 {{UNIT}}',

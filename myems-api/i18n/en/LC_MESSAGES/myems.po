@@ -126,6 +126,9 @@ msgstr "Electricity Cost by Time-Of-Use"
 msgid "Costs Proportion"
 msgstr "Costs Proportion"
 
+msgid "Base Period Cumulative Efficiency"
+msgstr "Base Period Cumulative Efficiency"
+
 msgid "Reporting Period Cumulative Efficiency"
 msgstr "Reporting Period Cumulative Efficiency"
 
