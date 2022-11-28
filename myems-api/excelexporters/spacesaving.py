@@ -675,7 +675,7 @@ def generate_excel(report,
                     ws[col + str(current_row_number)].font = title_font
                     ws[col + str(current_row_number)].alignment = c_c_alignment
                     ws[col + str(current_row_number)] = base_period_timestamps[0][i] \
-                        if i < len(base_period_timestamps[0]) else ""
+                        if i < len(base_period_timestamps[0]) else None
                     ws[col + str(current_row_number)].border = f_border
 
                     for j in range(0, base_period_data_ca_len):
@@ -685,7 +685,7 @@ def generate_excel(report,
                         ws[col + str(current_row_number)].font = title_font
                         ws[col + str(current_row_number)].alignment = c_c_alignment
                         ws[col + str(current_row_number)] = round(base_period_data['values_saving'][j][i], 2) \
-                            if i < len(base_period_data['values_saving'][j]) else ""
+                            if i < len(base_period_data['values_saving'][j]) else None
                         ws[col + str(current_row_number)].border = f_border
                     current_col_number += 1
                     col = format_cell.get_column_letter(current_col_number)
@@ -693,7 +693,7 @@ def generate_excel(report,
                     ws[col + str(current_row_number)].font = title_font
                     ws[col + str(current_row_number)].alignment = c_c_alignment
                     ws[col + str(current_row_number)] = reporting_period_timestamps[0][i] \
-                        if i < len(reporting_period_timestamps[0]) else ""
+                        if i < len(reporting_period_timestamps[0]) else None
                     ws[col + str(current_row_number)].border = f_border
 
                     for j in range(0, reporting_period_data_ca_len):
@@ -703,7 +703,7 @@ def generate_excel(report,
                         ws[col + str(current_row_number)].font = title_font
                         ws[col + str(current_row_number)].alignment = c_c_alignment
                         ws[col + str(current_row_number)] = round(reporting_period_data['values_saving'][j][i], 2) \
-                            if i < len(reporting_period_data['values_saving'][j]) else ""
+                            if i < len(reporting_period_data['values_saving'][j]) else None
                         ws[col + str(current_row_number)].border = f_border
 
                     current_row_number += 1

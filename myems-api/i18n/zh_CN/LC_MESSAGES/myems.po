@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-09-09 16:37+0800\n"
-"PO-Revision-Date: 2022-11-28 15:57+0800\n"
+"PO-Revision-Date: 2022-11-28 16:39+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_CN\n"
@@ -170,6 +170,9 @@ msgstr "报告期负荷系数"
 
 msgid "Load Factor"
 msgstr "负荷系数"
+
+msgid "Base Period Output"
+msgstr "基准期产出"
 
 msgid "Reporting Period Output"
 msgstr "报告期产出"

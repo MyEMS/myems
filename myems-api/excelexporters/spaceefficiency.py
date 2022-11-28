@@ -323,58 +323,62 @@ def generate_excel(report,
             table_start_row_number = current_row_number
 
             ws.row_dimensions[current_row_number].height = 85
-            ws['B' + str(current_row_number)].fill = table_fill
-            ws['B' + str(current_row_number)].font = title_font
-            ws['B' + str(current_row_number)].alignment = c_c_alignment
-            ws['B' + str(current_row_number)].border = f_border
-            ws['B' + str(current_row_number)] = _('Datetime')
-
-            col = 'C'
+            current_col_number = 2
+            col = format_cell.get_column_letter(current_col_number)
+            ws[col + str(current_row_number)].fill = table_fill
+            ws[col + str(current_row_number)].font = title_font
+            ws[col + str(current_row_number)].alignment = c_c_alignment
+            ws[col + str(current_row_number)].border = f_border
+            ws[col + str(current_row_number)] = _('Datetime')
 
             for i in range(0, ca_len):
+                current_col_number += 1
+                col = format_cell.get_column_letter(current_col_number)
                 ws[col + str(current_row_number)].fill = table_fill
                 ws[col + str(current_row_number)].font = title_font
                 ws[col + str(current_row_number)].alignment = c_c_alignment
                 ws[col + str(current_row_number)].border = f_border
                 ws[col + str(current_row_number)] = \
                     reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
-                col = chr(ord(col) + 1)
 
             current_row_number += 1
 
             for i in range(0, len(time)):
-                ws['B' + str(current_row_number)].font = title_font
-                ws['B' + str(current_row_number)].alignment = c_c_alignment
-                ws['B' + str(current_row_number)].border = f_border
-                ws['B' + str(current_row_number)] = time[i]
+                current_col_number = 2
+                col = format_cell.get_column_letter(current_col_number)
+                ws[col + str(current_row_number)].font = title_font
+                ws[col + str(current_row_number)].alignment = c_c_alignment
+                ws[col + str(current_row_number)].border = f_border
+                ws[col + str(current_row_number)] = time[i]
 
-                col = 'C'
                 for j in range(0, ca_len):
+                    current_col_number += 1
+                    col = format_cell.get_column_letter(current_col_number)
                     ws[col + str(current_row_number)].font = title_font
                     ws[col + str(current_row_number)].alignment = c_c_alignment
                     ws[col + str(current_row_number)].border = f_border
                     ws[col + str(current_row_number)] = round(reporting_period_data['values'][j][i], 2) \
                         if reporting_period_data['values'][j][i] is not None else None
-                    col = chr(ord(col) + 1)
 
                 current_row_number += 1
 
             table_end_row_number = current_row_number - 1
 
-            ws['B' + str(current_row_number)].font = title_font
-            ws['B' + str(current_row_number)].alignment = c_c_alignment
-            ws['B' + str(current_row_number)].border = f_border
-            ws['B' + str(current_row_number)] = _('Subtotal')
-
-            col = 'C'
+            current_col_number = 2
+            col = format_cell.get_column_letter(current_col_number)
+            ws[col + str(current_row_number)].font = title_font
+            ws[col + str(current_row_number)].alignment = c_c_alignment
+            ws[col + str(current_row_number)].border = f_border
+            ws[col + str(current_row_number)] = _('Subtotal')
 
             for i in range(0, ca_len):
+                current_col_number += 1
+                col = format_cell.get_column_letter(current_col_number)
                 ws[col + str(current_row_number)].font = title_font
                 ws[col + str(current_row_number)].alignment = c_c_alignment
                 ws[col + str(current_row_number)].border = f_border
                 ws[col + str(current_row_number)] = round(reporting_period_data['cumulations'][i], 2) \
                     if reporting_period_data['cumulations'][i] is not None else None
-                col = chr(ord(col) + 1)
 
             current_row_number += 2
 

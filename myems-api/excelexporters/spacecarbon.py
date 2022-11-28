@@ -655,7 +655,7 @@ def generate_excel(report,
                     ws[col + str(current_row_number)].font = title_font
                     ws[col + str(current_row_number)].alignment = c_c_alignment
                     ws[col + str(current_row_number)] = base_period_timestamps[0][i] \
-                        if i < len(base_period_timestamps[0]) else ""
+                        if i < len(base_period_timestamps[0]) else None
                     ws[col + str(current_row_number)].border = f_border
 
                     base_period_total = Decimal(0.0)
@@ -667,7 +667,7 @@ def generate_excel(report,
                         ws[col + str(current_row_number)].font = title_font
                         ws[col + str(current_row_number)].alignment = c_c_alignment
                         ws[col + str(current_row_number)] = round(base_period_data['values'][j][i], 2) \
-                            if i < len(base_period_data['values'][j]) else ""
+                            if i < len(base_period_data['values'][j]) else None
                         if i < len(base_period_timestamps[0]):
                             base_period_total += base_period_data['values'][j][i]
                         ws[col + str(current_row_number)].border = f_border
@@ -677,7 +677,7 @@ def generate_excel(report,
                     ws[col + str(current_row_number)].font = title_font
                     ws[col + str(current_row_number)].alignment = c_c_alignment
                     ws[col + str(current_row_number)] = round(base_period_total, 2) \
-                        if i < len(base_period_timestamps[0]) else ""
+                        if i < len(base_period_timestamps[0]) else None
                     ws[col + str(current_row_number)].border = f_border
 
                     current_col_number += 1
@@ -686,7 +686,7 @@ def generate_excel(report,
                     ws[col + str(current_row_number)].font = title_font
                     ws[col + str(current_row_number)].alignment = c_c_alignment
                     ws[col + str(current_row_number)] = reporting_period_timestamps[0][i] \
-                        if i < len(reporting_period_timestamps[0]) else ""
+                        if i < len(reporting_period_timestamps[0]) else None
                     ws[col + str(current_row_number)].border = f_border
 
                     reporting_period_total = Decimal(0.0)
@@ -698,7 +698,7 @@ def generate_excel(report,
                         ws[col + str(current_row_number)].font = title_font
                         ws[col + str(current_row_number)].alignment = c_c_alignment
                         ws[col + str(current_row_number)] = round(reporting_period_data['values'][j][i], 2) \
-                            if i < len(reporting_period_data['values'][j]) else ""
+                            if i < len(reporting_period_data['values'][j]) else None
                         if i < len(reporting_period_timestamps[0]):
                             reporting_period_total += reporting_period_data['values'][j][i]
                         ws[col + str(current_row_number)].border = f_border
@@ -708,7 +708,7 @@ def generate_excel(report,
                     ws[col + str(current_row_number)].font = title_font
                     ws[col + str(current_row_number)].alignment = c_c_alignment
                     ws[col + str(current_row_number)] = round(reporting_period_total, 2) \
-                        if i < len(reporting_period_timestamps[0]) else ""
+                        if i < len(reporting_period_timestamps[0]) else None
                     ws[col + str(current_row_number)].border = f_border
 
                     current_row_number += 1
