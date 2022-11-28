@@ -464,7 +464,7 @@ def generate_excel(report,
     ####################################################################################################################
     # Third: Detailed Data
     ####################################################################################################################
-    current_row_number = 22
+    current_row_number = per_unit_area_start_row_number + 2 + len(category) + 1
 
     table_start_draw_flag = current_row_number + 1
     if "timestamps" not in reporting_period_data.keys() or \
