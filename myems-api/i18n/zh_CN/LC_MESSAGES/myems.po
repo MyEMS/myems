@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-09-09 16:37+0800\n"
-"PO-Revision-Date: 2022-11-28 16:39+0800\n"
+"PO-Revision-Date: 2022-11-28 17:32+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_CN\n"
@@ -134,6 +134,9 @@ msgstr "报告期累积效率"
 
 msgid "Cumulative Efficiency"
 msgstr "累积效率"
+
+msgid "Base Period Income"
+msgstr "基准期收入"
 
 msgid "Reporting Period Income"
 msgstr "报告期收入"
