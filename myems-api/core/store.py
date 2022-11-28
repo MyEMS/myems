@@ -724,7 +724,6 @@ class StoreMeterCollection:
         add_row = (" INSERT INTO tbl_stores_meters (store_id, meter_id) "
                    " VALUES (%s, %s) ")
         cursor.execute(add_row, (id_, meter_id,))
-        new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -908,7 +907,6 @@ class StoreOfflineMeterCollection:
         add_row = (" INSERT INTO tbl_stores_offline_meters (store_id, offline_meter_id) "
                    " VALUES (%s, %s) ")
         cursor.execute(add_row, (id_, offline_meter_id,))
-        new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -1092,7 +1090,6 @@ class StorePointCollection:
         add_row = (" INSERT INTO tbl_stores_points (store_id, point_id) "
                    " VALUES (%s, %s) ")
         cursor.execute(add_row, (id_, point_id,))
-        new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -1263,7 +1260,6 @@ class StoreSensorCollection:
         add_row = (" INSERT INTO tbl_stores_sensors (store_id, sensor_id) "
                    " VALUES (%s, %s) ")
         cursor.execute(add_row, (id_, sensor_id,))
-        new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -1447,7 +1443,6 @@ class StoreVirtualMeterCollection:
         add_row = (" INSERT INTO tbl_stores_virtual_meters (store_id, virtual_meter_id) "
                    " VALUES (%s, %s) ")
         cursor.execute(add_row, (id_, virtual_meter_id,))
-        new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
         cnx.close()

@@ -925,7 +925,6 @@ class SpaceCombinedEquipmentCollection:
         add_row = (" INSERT INTO tbl_spaces_combined_equipments (space_id, combined_equipment_id) "
                    " VALUES (%s, %s) ")
         cursor.execute(add_row, (id_, combined_equipment_id,))
-        new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -1096,7 +1095,6 @@ class SpaceEquipmentCollection:
         add_row = (" INSERT INTO tbl_spaces_equipments (space_id, equipment_id) "
                    " VALUES (%s, %s) ")
         cursor.execute(add_row, (id_, equipment_id,))
-        new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -1280,7 +1278,6 @@ class SpaceMeterCollection:
         add_row = (" INSERT INTO tbl_spaces_meters (space_id, meter_id) "
                    " VALUES (%s, %s) ")
         cursor.execute(add_row, (id_, meter_id,))
-        new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -1466,7 +1463,6 @@ class SpaceOfflineMeterCollection:
         add_row = (" INSERT INTO tbl_spaces_offline_meters (space_id, offline_meter_id) "
                    " VALUES (%s, %s) ")
         cursor.execute(add_row, (id_, offline_meter_id,))
-        new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -1650,7 +1646,6 @@ class SpacePointCollection:
         add_row = (" INSERT INTO tbl_spaces_points (space_id, point_id) "
                    " VALUES (%s, %s) ")
         cursor.execute(add_row, (id_, point_id,))
-        new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -1821,7 +1816,6 @@ class SpaceSensorCollection:
         add_row = (" INSERT INTO tbl_spaces_sensors (space_id, sensor_id) "
                    " VALUES (%s, %s) ")
         cursor.execute(add_row, (id_, sensor_id,))
-        new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -1991,7 +1985,6 @@ class SpaceShopfloorCollection:
         add_row = (" INSERT INTO tbl_spaces_shopfloors (space_id, shopfloor_id) "
                    " VALUES (%s, %s) ")
         cursor.execute(add_row, (id_, shopfloor_id,))
-        new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -2161,7 +2154,6 @@ class SpaceStoreCollection:
         add_row = (" INSERT INTO tbl_spaces_stores (space_id, store_id) "
                    " VALUES (%s, %s) ")
         cursor.execute(add_row, (id_, store_id,))
-        new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -2331,7 +2323,6 @@ class SpaceTenantCollection:
         add_row = (" INSERT INTO tbl_spaces_tenants (space_id, tenant_id) "
                    " VALUES (%s, %s) ")
         cursor.execute(add_row, (id_, tenant_id,))
-        new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -2515,7 +2506,6 @@ class SpaceVirtualMeterCollection:
         add_row = (" INSERT INTO tbl_spaces_virtual_meters (space_id, virtual_meter_id) "
                    " VALUES (%s, %s) ")
         cursor.execute(add_row, (id_, virtual_meter_id,))
-        new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
         cnx.close()

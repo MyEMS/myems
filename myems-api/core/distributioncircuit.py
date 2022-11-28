@@ -491,7 +491,6 @@ class DistributionCircuitPointCollection:
         add_row = (" INSERT INTO tbl_distribution_circuits_points (distribution_circuit_id, point_id) "
                    " VALUES (%s, %s) ")
         cursor.execute(add_row, (id_, new_values['data']['point_id'],))
-        new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
         cnx.close()
