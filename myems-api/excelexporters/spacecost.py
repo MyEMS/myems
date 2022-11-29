@@ -281,6 +281,11 @@ def generate_excel(report,
         for i in range(13, 19 + 1):
             ws.row_dimensions[i].height = 0.1
     else:
+        electric_index = 0
+        for i in range(len(reporting_period_data['energy_category_ids'])):
+            if reporting_period_data['energy_category_ids'][i] == 1:
+                electric_index = i
+
         ws['B13'].font = title_font
         ws['B13'] = name + ' ' + _('Electricity Cost by Time-Of-Use')
 
@@ -304,7 +309,7 @@ def generate_excel(report,
         ws['C15'].font = title_font
         ws['C15'].alignment = c_c_alignment
         ws['C15'].border = f_border
-        ws['C15'] = round(reporting_period_data['toppeaks'][0], 2)
+        ws['C15'] = round(reporting_period_data['toppeaks'][electric_index], 2)
 
         ws['B16'].font = title_font
         ws['B16'].alignment = c_c_alignment
@@ -314,7 +319,7 @@ def generate_excel(report,
         ws['C16'].font = title_font
         ws['C16'].alignment = c_c_alignment
         ws['C16'].border = f_border
-        ws['C16'] = round(reporting_period_data['onpeaks'][0], 2)
+        ws['C16'] = round(reporting_period_data['onpeaks'][electric_index], 2)
 
         ws['B17'].font = title_font
         ws['B17'].alignment = c_c_alignment
@@ -324,7 +329,7 @@ def generate_excel(report,
         ws['C17'].font = title_font
         ws['C17'].alignment = c_c_alignment
         ws['C17'].border = f_border
-        ws['C17'] = round(reporting_period_data['midpeaks'][0], 2)
+        ws['C17'] = round(reporting_period_data['midpeaks'][electric_index], 2)
 
         ws['B18'].font = title_font
         ws['B18'].alignment = c_c_alignment
@@ -334,7 +339,7 @@ def generate_excel(report,
         ws['C18'].font = title_font
         ws['C18'].alignment = c_c_alignment
         ws['C18'].border = f_border
-        ws['C18'] = round(reporting_period_data['offpeaks'][0], 2)
+        ws['C18'] = round(reporting_period_data['offpeaks'][electric_index], 2)
 
         pie = PieChart()
         pie.title = name + _('Electricity Cost by Time-Of-Use')
