@@ -629,7 +629,6 @@ def generate_excel(report,
                 report['reporting_period']['names'][i] + " (" + report['reporting_period']['units'][i] + ")"
 
         associated_equipment_len = len(associated_equipment['associated_equipment_names_array'][0])
-
         for i in range(0, associated_equipment_len):
             current_row_number += 1
             row = str(current_row_number)
@@ -670,7 +669,7 @@ def generate_excel(report,
         else:
             ws['B' + str(current_row_number)].font = title_font
             ws['B' + str(current_row_number)] = \
-                str(report['associated_equipment']['associated_equipment_names_array'][0]
+                str(report['associated_equipment']['associated_equipment_names_array']
                     [associated_reporting_period_data_list.index(associated_reporting_period_data)]) + \
                 ' ' + _('Detailed Data')
 
@@ -957,4 +956,3 @@ def timestamps_data_not_equal_0(lists):
         if len(value) > 0:
             number += 1
     return number
-
