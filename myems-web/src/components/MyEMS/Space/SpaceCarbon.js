@@ -233,6 +233,21 @@ const SpaceCarbon = ({ setRedirect, setRedirectUrl, t }) => {
     setReportingPeriodDateRange([null, null]);
   };
 
+  const isBasePeriodTimestampExists = (base_period_data) => {
+    const timestamps = base_period_data['timestamps'];
+
+    if (timestamps.length === 0) {
+      return false;
+    }
+
+    for (let i = 0; i < timestamps.length; i++) {
+      if (timestamps[i].length > 0) {
+        return true;
+      }
+    }
+    return false
+  }
+
   // Handler
   const handleSubmit = e => {
     e.preventDefault();
@@ -259,7 +274,6 @@ const SpaceCarbon = ({ setRedirect, setRedirectUrl, t }) => {
     let isResponseOK = false;
     fetch(APIBaseURL + '/reports/spacecarbon?' +
       'spaceid=' + selectedSpaceID +
-      '&comparisontype=' + comparisonType +
       '&periodtype=' + periodType +
       '&baseperiodstartdatetime=' + (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
       '&baseperiodenddatetime=' + (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
@@ -476,7 +490,7 @@ const SpaceCarbon = ({ setRedirect, setRedirectUrl, t }) => {
         });
         setParameterLineChartOptions(names);
 
-        if(comparisonType === 'none-comparison') {
+        if(!isBasePeriodTimestampExists(json['base_period'])) {
           let detailed_value_list = [];
           if (json['reporting_period']['timestamps'].length > 0) {
             json['reporting_period']['timestamps'][0].forEach((currentTimestamp, timestampIndex) => {

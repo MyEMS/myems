@@ -40,7 +40,6 @@ class Reporting:
         print(req.params)
         space_id = req.params.get('spaceid')
         space_uuid = req.params.get('spaceuuid')
-        comparison_type = req.params.get('comparisontype')
         period_type = req.params.get('periodtype')
         base_period_start_datetime_local = req.params.get('baseperiodstartdatetime')
         base_period_end_datetime_local = req.params.get('baseperiodenddatetime')
@@ -699,7 +698,6 @@ class Reporting:
                                                                                  reporting_period_start_datetime_local,
                                                                                  reporting_period_end_datetime_local,
                                                                                  period_type,
-                                                                                 language,
-                                                                                 comparison_type)
+                                                                                 language)
 
         resp.text = json.dumps(result)

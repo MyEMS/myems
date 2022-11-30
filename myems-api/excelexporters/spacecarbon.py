@@ -28,8 +28,7 @@ def export(report,
            reporting_start_datetime_local,
            reporting_end_datetime_local,
            period_type,
-           language,
-           comparison_type):
+           language):
     ####################################################################################################################
     # Step 1: Validate the report data
     ####################################################################################################################
@@ -47,8 +46,7 @@ def export(report,
                               reporting_start_datetime_local,
                               reporting_end_datetime_local,
                               period_type,
-                              language,
-                              comparison_type)
+                              language)
     ####################################################################################################################
     # Step 3: Encode the excel file to Base64
     ####################################################################################################################
@@ -78,8 +76,7 @@ def generate_excel(report,
                    reporting_start_datetime_local,
                    reporting_end_datetime_local,
                    period_type,
-                   language,
-                   comparison_type):
+                   language):
     locale_path = './i18n/'
     if language == 'zh_CN':
         trans = gettext.translation('myems', locale_path, languages=['zh_CN'])
@@ -171,7 +168,9 @@ def generate_excel(report,
     ws['E4'].alignment = b_c_alignment
     ws['E4'] = reporting_end_datetime_local
 
-    if comparison_type != "none-comparison":
+    is_base_period_timestamp_exists_flag = is_base_period_timestamp_exists(report['base_period'])
+
+    if is_base_period_timestamp_exists_flag:
         ws['B5'].alignment = b_r_alignment
         ws['B5'] = _('Base Period Start Datetime') + ':'
         ws['C5'].border = b_border
@@ -432,7 +431,7 @@ def generate_excel(report,
             len(reporting_period_data['timestamps']) == 0:
         pass
     else:
-        if comparison_type == "none-comparison":
+        if not is_base_period_timestamp_exists_flag:
             reporting_period_data = report['reporting_period']
             times = reporting_period_data['timestamps']
             ca_len = len(report['reporting_period']['names'])
@@ -1120,3 +1119,16 @@ def timestamps_data_not_equal_0(lists):
         if len(value) > 0:
             number += 1
     return number
+
+
+def is_base_period_timestamp_exists(base_period_data):
+    timestamps = base_period_data['timestamps']
+
+    if len(timestamps) == 0:
+        return False
+
+    for timestamp in timestamps:
+        if len(timestamp) > 0:
+            return True
+
+    return False
