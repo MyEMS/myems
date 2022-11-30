@@ -424,27 +424,6 @@ def generate_excel(report,
 
             current_row_number += 2
 
-            format_time_width_number = 1.0
-            min_len_number = 1.0
-            min_width_number = 11.0
-
-            if period_type == 'hourly':
-                format_time_width_number = 4.0
-                min_len_number = 2
-                min_width_number = 12.0
-            elif period_type == 'daily':
-                format_time_width_number = 2.5
-                min_len_number = 4
-                min_width_number = 14.0
-            elif period_type == 'monthly':
-                format_time_width_number = 2.1
-                min_len_number = 4
-                min_width_number = 12.4
-            elif period_type == 'yearly':
-                format_time_width_number = 1.5
-                min_len_number = 5
-                min_width_number = 11.5
-
             for i in range(0, ca_len):
                 line = LineChart()
                 line.title = _('Reporting Period Consumption') + ' - ' \
@@ -462,9 +441,7 @@ def generate_excel(report,
                 reporting_line_data.smooth = True
                 line.x_axis.crosses = 'min'
                 line.height = 8.25
-                line.width = format_time_width_number * len(time) if len(time) > min_len_number else min_width_number
-                if line.width > 24:
-                    line.width = 24
+                line.width = 24
                 line.dLbls = DataLabelList()
                 line.dLbls.dLblPos = 't'
                 line.dLbls.showVal = True
@@ -614,27 +591,6 @@ def generate_excel(report,
 
             current_row_number += 2
 
-            format_time_width_number = 1.0
-            min_len_number = 1.0
-            min_width_number = 11.0
-
-            if period_type == 'hourly':
-                format_time_width_number = 4.0
-                min_len_number = 2
-                min_width_number = 12.0
-            elif period_type == 'daily':
-                format_time_width_number = 2.5
-                min_len_number = 4
-                min_width_number = 14.0
-            elif period_type == 'monthly':
-                format_time_width_number = 2.1
-                min_len_number = 4
-                min_width_number = 12.4
-            elif period_type == 'yearly':
-                format_time_width_number = 1.5
-                min_len_number = 5
-                min_width_number = 11.5
-
             for i in range(0, reporting_period_data_ca_len):
                 line = LineChart()
                 line.title = _('Base Period Consumption') + ' / ' \
@@ -657,10 +613,7 @@ def generate_excel(report,
                     line.series[j].smooth = True
                 line.x_axis.crosses = 'min'
                 line.height = 8.25
-                line.width = format_time_width_number * len(reporting_period_timestamps[0]) \
-                    if len(reporting_period_timestamps[0]) > min_len_number else min_width_number
-                if line.width > 24:
-                    line.width = 24
+                line.width = 24
                 line.dLbls = DataLabelList()
                 line.dLbls.dLblPos = 't'
                 line.dLbls.showVal = True
