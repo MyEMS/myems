@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+- 
+### Changed
+- 
+### Fixed
+- 
+### Removed
+-
+
+## [v2.8.0] - 2022-12-01
+### Added
 - added DateRangePickerWrapper to myems-web
 - added base period data to Space Energy Category report
 - added base period data to Space Energy Item report
@@ -1106,7 +1116,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v2.7.0...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v2.8.0...HEAD
+[2.8.0]: https://github.com/MyEMS/myems/compare/v2.7.0...v2.8.0
 [2.7.0]: https://github.com/MyEMS/myems/compare/v2.6.0...v2.7.0
 [2.6.0]: https://github.com/MyEMS/myems/compare/v2.5.0...v2.6.0
 [2.5.0]: https://github.com/MyEMS/myems/compare/v2.4.0...v2.5.0
