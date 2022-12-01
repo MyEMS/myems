@@ -3,14 +3,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-09-09 16:37+0800\n"
-"PO-Revision-Date: 2022-10-21 13:43+0800\n"
+"PO-Revision-Date: 2022-11-28 17:32+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 3.2.1\n"
 
 msgid "Space"
 msgstr "空间"
@@ -93,6 +93,9 @@ msgstr "小计"
 msgid "Parameters"
 msgstr "参数"
 
+msgid "Base Period Carbon Dioxide Emissions"
+msgstr "基准期二氧化碳排放"
+
 msgid "Reporting Period Carbon Dioxide Emissions"
 msgstr "报告期二氧化碳排放"
 
@@ -108,6 +111,9 @@ msgstr "二氧化碳排放占比"
 msgid "Total"
 msgstr "总计"
 
+msgid "Base Period Costs"
+msgstr "基准期成本"
+
 msgid "Reporting Period Costs"
 msgstr "报告期成本"
 
@@ -120,11 +126,17 @@ msgstr "分时用电成本"
 msgid "Costs Proportion"
 msgstr "成本占比"
 
+msgid "Base Period Cumulative Efficiency"
+msgstr "基准期累积效率"
+
 msgid "Reporting Period Cumulative Efficiency"
 msgstr "报告期累积效率"
 
 msgid "Cumulative Efficiency"
 msgstr "累积效率"
+
+msgid "Base Period Income"
+msgstr "基准期收入"
 
 msgid "Reporting Period Income"
 msgstr "报告期收入"
@@ -138,11 +150,17 @@ msgstr "收入"
 msgid "Proportion"
 msgstr "占比"
 
+msgid "Base Period Average Load"
+msgstr "基准期平均负荷"
+
 msgid "Reporting Period Average Load"
 msgstr "报告期平均负荷"
 
 msgid "Average Load"
 msgstr "平均负荷"
+
+msgid "Base Period Maximum Load"
+msgstr "基准期最大负荷"
 
 msgid "Reporting Period Maximum Load"
 msgstr "报告期最大负荷"
@@ -155,6 +173,9 @@ msgstr "报告期负荷系数"
 
 msgid "Load Factor"
 msgstr "负荷系数"
+
+msgid "Base Period Output"
+msgstr "基准期产出"
 
 msgid "Reporting Period Output"
 msgstr "报告期产出"

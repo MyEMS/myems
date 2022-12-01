@@ -129,9 +129,9 @@ const MultiTrendChart = ({
             },
             label: function(context) {
                 if (context.datasetIndex - 1) {
-                    return `${parseTitleOrTooltipTitle(reportingTooltipTitle, option)} - ${context.raw}`;
+                    return `${parseTitleOrTooltipTitle(reportingTooltipTitle, option)} - ${context.raw != null ? context.raw.toFixed(3) : null}`;
                 } else {
-                    return `${parseTitleOrTooltipTitle(baseTooltipTitle, option)} - ${context.raw}`;
+                    return `${parseTitleOrTooltipTitle(baseTooltipTitle, option)} - ${context.raw != null ? context.raw.toFixed(3) : null}`;
                 }
             }
             }

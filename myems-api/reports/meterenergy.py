@@ -39,7 +39,6 @@ class Reporting:
         # this procedure accepts meter id or meter uuid to identify a meter
         meter_id = req.params.get('meterid')
         meter_uuid = req.params.get('meteruuid')
-        comparison_type = req.params.get('comparisontype')
         period_type = req.params.get('periodtype')
         base_period_start_datetime_local = req.params.get('baseperiodstartdatetime')
         base_period_end_datetime_local = req.params.get('baseperiodenddatetime')
@@ -502,7 +501,6 @@ class Reporting:
                                                   base_period_start_datetime_local,
                                                   base_period_end_datetime_local,
                                                   period_type,
-                                                  language,
-                                                  comparison_type)
+                                                  language)
 
         resp.text = json.dumps(result)
