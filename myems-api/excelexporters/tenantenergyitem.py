@@ -333,7 +333,7 @@ def generate_excel(report,
 
         chart_start_row_number = current_row_number
 
-        current_row_number += ca_len * 6 + real_timestamps_len * 7
+        current_row_number += ca_len * 6 + real_timestamps_len * 7 + 1
         table_start_row_number = current_row_number
 
         ws.row_dimensions[current_row_number].height = 60
