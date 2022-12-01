@@ -7,6 +7,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - added DateRangePickerWrapper to myems-web
 - added base period data to Space Energy Category report
+- added base period data to Space Energy Item report
+- added base period data to Space Carbon report
+- added base period data to Space Cost report
+- added base period data to Space Efficiency report
+- added base period data to Space Income report
+- added base period data to Space Load report
+- added base period data to Space Output report
+- added base period data to Space Saving report
+- added base period data to Space Statistics report
 - 
 ### Changed
 - Changed basePeriodDateRangePickerDisabled from readonly to disabled
@@ -19,6 +28,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Replaced LineChart with MultipleLineChart for related parameters of shopfloor reports in myems-web
 - Replaced LineChart with MultipleLineChart for related parameters of tenant reports in myems-web
 - Upgraded angular.js to v1.8.3 in myems-admin
+- 
 ### Fixed
 - fixed File is not always closed
 - fixed Explicit returns mixed with implicit (fall through) returns
