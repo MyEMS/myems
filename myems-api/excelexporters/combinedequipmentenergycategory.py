@@ -618,7 +618,7 @@ def generate_excel(report,
         ws['B' + str(current_row_number)].border = f_border
         ws['B' + str(current_row_number)] = _('Associated Equipment')
         ca_len = len(associated_equipment['energy_category_names'])
-
+        print(associated_equipment['energy_category_names'])
         for i in range(0, ca_len):
             row = chr(ord('C') + i)
             ws[row + str(current_row_number)].fill = table_fill
@@ -640,7 +640,7 @@ def generate_excel(report,
                 ws['B' + row] = associated_equipment['associated_equipment_names_array'][i][j]
                 ws['B' + row].border = f_border
 
-                col = chr(ord('C') + j)
+                col = chr(ord('C') + i)
                 ws[col + row].font = title_font
                 ws[col + row].alignment = c_c_alignment
                 ws[col + row] = round(associated_equipment['subtotals_array'][i][j], 2)
