@@ -628,21 +628,22 @@ def generate_excel(report,
             ws[row + str(current_row_number)] = \
                 report['reporting_period']['names'][i] + " (" + report['reporting_period']['units'][i] + ")"
 
-        associated_equipment_len = len(associated_equipment['associated_equipment_names_array'][0])
+        associated_equipment_len = len(associated_equipment['associated_equipment_names_array'])
+
         for i in range(0, associated_equipment_len):
-            current_row_number += 1
-            row = str(current_row_number)
-
-            ws['B' + row].font = title_font
-            ws['B' + row].alignment = c_c_alignment
-            ws['B' + row] = associated_equipment['associated_equipment_names_array'][0][i]
-            ws['B' + row].border = f_border
-
+            ca_len = len(associated_equipment['associated_equipment_names_array'][i])
             for j in range(0, ca_len):
+                current_row_number += 1
+                row = str(current_row_number)
+                ws['B' + row].font = title_font
+                ws['B' + row].alignment = c_c_alignment
+                ws['B' + row] = associated_equipment['associated_equipment_names_array'][i][j]
+                ws['B' + row].border = f_border
+
                 col = chr(ord('C') + j)
                 ws[col + row].font = title_font
                 ws[col + row].alignment = c_c_alignment
-                ws[col + row] = round(associated_equipment['subtotals_array'][j][i], 2)
+                ws[col + row] = round(associated_equipment['subtotals_array'][i][j], 2)
                 ws[col + row].border = f_border
     ####################################################################################################################
     current_sheet_parameters_row_number = chart_start_row_number + ca_len * 6
@@ -655,6 +656,7 @@ def generate_excel(report,
     ####################################################################################################################
 
     associated_reporting_period_data_list = report['associated_report_period_list']
+    associated_equipment_names_list = sum(report['associated_equipment']['associated_equipment_names_array'], [])
     for associated_reporting_period_data in associated_reporting_period_data_list:
         current_row_number = current_row_number + 1 
         times = associated_reporting_period_data['timestamps']
@@ -669,7 +671,7 @@ def generate_excel(report,
         else:
             ws['B' + str(current_row_number)].font = title_font
             ws['B' + str(current_row_number)] = \
-                str(report['associated_equipment']['associated_equipment_names_array']
+                str(associated_equipment_names_list
                     [associated_reporting_period_data_list.index(associated_reporting_period_data)]) + \
                 ' ' + _('Detailed Data')
 

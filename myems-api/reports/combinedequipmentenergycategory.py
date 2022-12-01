@@ -294,16 +294,15 @@ class Reporting:
         # Step 5: query associated equipments
         ################################################################################################################
         associated_equipment_list = list()
-        cursor_system.execute(" SELECT e.id, e.name, m.energy_category_id "
-                              " FROM tbl_equipments e,tbl_combined_equipments_equipments ee,"
-                              " tbl_meters m, tbl_equipments_meters em"
+        cursor_system.execute(" SELECT e.id, e.name "
+                              " FROM tbl_equipments e,tbl_combined_equipments_equipments ee"
                               " WHERE ee.combined_equipment_id = %s AND e.id = ee.equipment_id"
-                              " AND e.id = em.id AND em.meter_id = m.id"
                               " ORDER BY id ", (combined_equipment['id'],))
         rows_associated_equipments = cursor_system.fetchall()
         if rows_associated_equipments is not None and len(rows_associated_equipments) > 0:
             for row in rows_associated_equipments:
-                associated_equipment_list.append({"id": row[0], "name": row[1], "energy_category_id": row[2]})
+                associated_equipment_list.append({"id": row[0], "name": row[1]})
+
         ################################################################################################################
         # Step 6: query base period energy input
         ################################################################################################################
@@ -541,24 +540,24 @@ class Reporting:
                 associated_equipment_data[energy_category_id]['associated_equipment_names'] = list()
                 associated_equipment_data[energy_category_id]['subtotals'] = list()
                 for associated_equipment in associated_equipment_list:
-                    if energy_category_id == associated_equipment['energy_category_id']:
+                    cursor_energy.execute(" SELECT SUM(actual_value) "
+                                          " FROM tbl_equipment_input_category_hourly "
+                                          " WHERE equipment_id = %s "
+                                          "     AND energy_category_id = %s "
+                                          "     AND start_datetime_utc >= %s "
+                                          "     AND start_datetime_utc < %s ",
+                                          (associated_equipment['id'],
+                                           energy_category_id,
+                                           reporting_start_datetime_utc,
+                                           reporting_end_datetime_utc))
+                    row_subtotal = cursor_energy.fetchone()
+                    
+                    if (row_subtotal is not None and row_subtotal[0] is not None):
                         associated_equipment_data[energy_category_id]['associated_equipment_names'].append(
                             associated_equipment['name'])
-
-                        cursor_energy.execute(" SELECT SUM(actual_value) "
-                                            " FROM tbl_equipment_input_category_hourly "
-                                            " WHERE equipment_id = %s "
-                                            "     AND energy_category_id = %s "
-                                            "     AND start_datetime_utc >= %s "
-                                            "     AND start_datetime_utc < %s ",
-                                            (associated_equipment['id'],
-                                            energy_category_id,
-                                            reporting_start_datetime_utc,
-                                            reporting_end_datetime_utc))
-                        row_subtotal = cursor_energy.fetchone()
-
-                        subtotal = Decimal(0.0) if (row_subtotal is None or row_subtotal[0] is None) else row_subtotal[0]
+                        subtotal = row_subtotal[0]
                         associated_equipment_data[energy_category_id]['subtotals'].append(subtotal)
+
 
         associated_report_list = list()
         if energy_category_set is not None and len(energy_category_set) > 0:
@@ -566,7 +565,19 @@ class Reporting:
                 kgce = energy_category_dict[energy_category_id]['kgce']
                 kgco2e = energy_category_dict[energy_category_id]['kgco2e']
                 for associated_equipment in associated_equipment_list:
-                    if energy_category_id == associated_equipment['energy_category_id']:
+                    cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
+                                          " FROM tbl_equipment_input_category_hourly "
+                                          " WHERE equipment_id = %s "
+                                          "     AND energy_category_id = %s "
+                                          "     AND start_datetime_utc >= %s "
+                                          "     AND start_datetime_utc < %s "
+                                          " ORDER BY start_datetime_utc ",
+                                          (associated_equipment['id'],
+                                           energy_category_id,
+                                           reporting_start_datetime_utc,
+                                           reporting_end_datetime_utc))
+                    rows_equipment_hourly = cursor_energy.fetchall()
+                    if (rows_equipment_hourly is not None and len(rows_equipment_hourly) > 0):
                         associated_report = dict()
                         associated_report[energy_category_id] = dict()
                         associated_report[energy_category_id]['timestamps'] = list()
@@ -574,18 +585,6 @@ class Reporting:
                         associated_report[energy_category_id]['subtotal'] = Decimal(0.0)
                         associated_report[energy_category_id]['subtotal_in_kgce'] = Decimal(0.0)
                         associated_report[energy_category_id]['subtotal_in_kgco2e'] = Decimal(0.0)
-                        cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
-                                            " FROM tbl_equipment_input_category_hourly "
-                                            " WHERE equipment_id = %s "
-                                            "     AND energy_category_id = %s "
-                                            "     AND start_datetime_utc >= %s "
-                                            "     AND start_datetime_utc < %s "
-                                            " ORDER BY start_datetime_utc ",
-                                            (associated_equipment['id'],
-                                            energy_category_id,
-                                            reporting_start_datetime_utc,
-                                            reporting_end_datetime_utc))
-                        rows_equipment_hourly = cursor_energy.fetchall()
                         rows_equipment_periodically = \
                             utilities.aggregate_hourly_data_by_period(rows_equipment_hourly,
                                                                     reporting_start_datetime_utc,
@@ -616,7 +615,6 @@ class Reporting:
                             associated_report[energy_category_id]['subtotal_in_kgco2e'] += actual_value * kgco2e
 
                         associated_report_list.append(associated_report)
-
         ################################################################################################################
         # Step 11: construct the report
         ################################################################################################################
@@ -666,8 +664,9 @@ class Reporting:
         if energy_category_set is not None and len(energy_category_set) > 0:
             for energy_category_id in energy_category_set:
                 for associated_report in associated_report_list:
-                    if energy_category_id in associated_report:
+                    if (energy_category_id in associated_report):
                         associated_report_period = dict()
+
                         associated_report_period['names'] = list()
                         associated_report_period['units'] = list()
                         associated_report_period['timestamps'] = list()
@@ -767,6 +766,7 @@ class Reporting:
                     associated_equipment_data[energy_category_id]['associated_equipment_names'])
                 result['associated_equipment']['subtotals_array'].append(
                     associated_equipment_data[energy_category_id]['subtotals'])
+        
         result['excel_bytes_base64'] = None
         if not is_quick_mode:
             result['excel_bytes_base64'] = \
