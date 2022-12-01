@@ -752,6 +752,7 @@ class Reporting:
         result['reporting_period_efficiency']['names'] = list()
         result['reporting_period_efficiency']['units'] = list()
         result['reporting_period_efficiency']['timestamps'] = list()
+        result['reporting_period_efficiency']['rates'] = list()
         result['reporting_period_efficiency']['values'] = list()
         result['reporting_period_efficiency']['cumulations'] = list()
         result['reporting_period_efficiency']['increment_rates'] = list()
@@ -792,6 +793,26 @@ class Reporting:
                          else None)
                     )
 
+        reporting_period_efficiency_values = result['reporting_period_efficiency']['values']
+        base_period_efficiency_values = result['base_period_efficiency']['values']
+
+        if len(reporting_period_efficiency_values) > 0:
+            for i in range(len(reporting_period_efficiency_values)):
+                rate = list()
+                if len(reporting_period_efficiency_values[i]) > 0 \
+                        and len(base_period_efficiency_values[i]) > 0:
+                    for j in range(len(reporting_period_efficiency_values[i])):
+                        if j < len(base_period_efficiency_values[i]) \
+                                and reporting_period_efficiency_values[i][j] != 0 \
+                                and base_period_efficiency_values[i][j] != 0 \
+                                and reporting_period_efficiency_values[i][j] is not None \
+                                and base_period_efficiency_values[i][j] is not None:
+                            rate.append((reporting_period_efficiency_values[i][j] -
+                                         base_period_efficiency_values[i][j]) / base_period_efficiency_values[i][j])
+                        else:
+                            rate.append(None)
+                result['reporting_period_efficiency']['rates'].append(rate)
+
         result['parameters'] = {
             "names": parameters_data['names'],
             "timestamps": parameters_data['timestamps'],
@@ -802,6 +823,8 @@ class Reporting:
         if not is_quick_mode:
             result['excel_bytes_base64'] = excelexporters.spaceefficiency.export(result,
                                                                                  space['name'],
+                                                                                 base_period_start_datetime_local,
+                                                                                 base_period_end_datetime_local,
                                                                                  reporting_period_start_datetime_local,
                                                                                  reporting_period_end_datetime_local,
                                                                                  period_type,

@@ -20,7 +20,7 @@ from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 ########################################################################################################################
 
 def export(report, name, reporting_start_datetime_local, reporting_end_datetime_local, base_period_start_datetime,
-           base_period_end_datetime, period_type, language, comparison_type):
+           base_period_end_datetime, period_type, language):
     ####################################################################################################################
     # Step 1: Validate the report data
     ####################################################################################################################
@@ -37,8 +37,7 @@ def export(report, name, reporting_start_datetime_local, reporting_end_datetime_
                               base_period_start_datetime,
                               base_period_end_datetime,
                               period_type,
-                              language,
-                              comparison_type)
+                              language)
     ####################################################################################################################
     # Step 3: Encode the excel file to Base64
     ####################################################################################################################
@@ -62,8 +61,7 @@ def export(report, name, reporting_start_datetime_local, reporting_end_datetime_
 
 
 def generate_excel(report, name, reporting_start_datetime_local, reporting_end_datetime_local,
-                   base_period_start_datetime, base_period_end_datetime, period_type, language,
-                   comparison_type):
+                   base_period_start_datetime, base_period_end_datetime, period_type, language):
     locale_path = './i18n/'
     if language == 'zh_CN':
         trans = gettext.translation('myems', locale_path, languages=['zh_CN'])
@@ -155,7 +153,9 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
     ws['E4'].alignment = b_c_alignment
     ws['E4'] = reporting_end_datetime_local
 
-    if comparison_type != 'none-comparison':
+    is_base_period_timestamp_exists_flag = is_base_period_timestamp_exists(report['base_period'])
+
+    if is_base_period_timestamp_exists_flag:
         ws['B5'].alignment = b_r_alignment
         ws['B5'] = _('Base Period Start Datetime') + ':'
         ws['C5'].border = b_border
@@ -277,7 +277,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
         ws.row_dimensions[start_detail_data_row_num].height = 60
 
-        if comparison_type == 'none-comparison':
+        if not is_base_period_timestamp_exists_flag:
             ws['B' + str(start_detail_data_row_num)].fill = table_fill
             ws['B' + str(start_detail_data_row_num)].font = title_font
             ws['B' + str(start_detail_data_row_num)].border = f_border
@@ -303,7 +303,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             max_row = start_detail_data_row_num + len(reporting_period_data['timestamps'])
 
         if has_data:
-            if comparison_type == 'none-comparison':
+            if not is_base_period_timestamp_exists_flag:
                 for i in range(0, len(reporting_period_data['timestamps'])):
                     col = 'B'
                     row = str(start_detail_data_row_num + 1 + i)
@@ -331,7 +331,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                     ws[col + row] = reporting_period_data['timestamps'][i]
                     ws[col + row].border = f_border
 
-            if comparison_type == 'none-comparison':
+            if not is_base_period_timestamp_exists_flag:
                 ws['C' + str(start_detail_data_row_num)].fill = table_fill
                 ws['C' + str(start_detail_data_row_num)].font = title_font
                 ws['C' + str(start_detail_data_row_num)].alignment = c_c_alignment
@@ -354,7 +354,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                 ws['E' + str(start_detail_data_row_num)].border = f_border
 
             # 13 data
-            if comparison_type == 'none-comparison':
+            if not is_base_period_timestamp_exists_flag:
                 for j in range(0, len(reporting_period_data['timestamps'])):
                     row = str(start_detail_data_row_num + 1 + j)
                     ws['C' + row].font = title_font
@@ -419,7 +419,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
             row = str(start_detail_data_row_num + 1 + len(reporting_period_data['timestamps']))
 
-            if comparison_type == 'none-comparison':
+            if not is_base_period_timestamp_exists_flag:
                 ws['B' + row].font = title_font
                 ws['B' + row].alignment = c_c_alignment
                 ws['B' + row] = _('Total')
@@ -674,3 +674,16 @@ def timestamps_data_not_equal_0(lists):
         if len(value) > 0:
             number += 1
     return number
+
+
+def is_base_period_timestamp_exists(base_period_data):
+    timestamps = base_period_data['timestamps']
+
+    if len(timestamps) == 0:
+        return False
+
+    for timestamp in timestamps:
+        if len(timestamp) > 0:
+            return True
+
+    return False
