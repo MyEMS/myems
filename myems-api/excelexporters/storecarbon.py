@@ -485,27 +485,6 @@ def generate_excel(report,
 
             col = 'B'
 
-            format_time_width_number = 1.0
-            min_len_number = 1.0
-            min_width_number = 11.0
-
-            if period_type == 'hourly':
-                format_time_width_number = 4.0
-                min_len_number = 2
-                min_width_number = 12.0
-            elif period_type == 'daily':
-                format_time_width_number = 2.5
-                min_len_number = 4
-                min_width_number = 14.0
-            elif period_type == 'monthly':
-                format_time_width_number = 2.1
-                min_len_number = 4
-                min_width_number = 12.4
-            elif period_type == 'yearly':
-                format_time_width_number = 1.5
-                min_len_number = 5
-                min_width_number = 11.5
-
             for i in range(0, ca_len):
                 col = chr(ord('C') + i)
                 ws[col + str(current_row_number)].font = title_font
@@ -526,9 +505,7 @@ def generate_excel(report,
                 line_data.marker.symbol = "circle"
                 line_data.smooth = True
                 line.height = 8.25
-                line.width = format_time_width_number * len(time) if len(time) > min_len_number else min_width_number
-                if line.width > 24:
-                    line.width = 24
+                line.width = 24
                 line.x_axis.crosses = 'min'
                 line.dLbls = DataLabelList()
                 line.dLbls.dLblPos = 't'
