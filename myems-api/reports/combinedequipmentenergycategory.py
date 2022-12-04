@@ -540,9 +540,6 @@ class Reporting:
                 associated_equipment_data[energy_category_id]['associated_equipment_names'] = list()
                 associated_equipment_data[energy_category_id]['subtotals'] = list()
                 for associated_equipment in associated_equipment_list:
-                    associated_equipment_data[energy_category_id]['associated_equipment_names'].append(
-                        associated_equipment['name'])
-
                     cursor_energy.execute(" SELECT SUM(actual_value) "
                                           " FROM tbl_equipment_input_category_hourly "
                                           " WHERE equipment_id = %s "
@@ -554,9 +551,13 @@ class Reporting:
                                            reporting_start_datetime_utc,
                                            reporting_end_datetime_utc))
                     row_subtotal = cursor_energy.fetchone()
+                    
+                    if (row_subtotal is not None and row_subtotal[0] is not None):
+                        associated_equipment_data[energy_category_id]['associated_equipment_names'].append(
+                            associated_equipment['name'])
+                        subtotal = row_subtotal[0]
+                        associated_equipment_data[energy_category_id]['subtotals'].append(subtotal)
 
-                    subtotal = Decimal(0.0) if (row_subtotal is None or row_subtotal[0] is None) else row_subtotal[0]
-                    associated_equipment_data[energy_category_id]['subtotals'].append(subtotal)
 
         associated_report_list = list()
         if energy_category_set is not None and len(energy_category_set) > 0:
@@ -564,13 +565,6 @@ class Reporting:
                 kgce = energy_category_dict[energy_category_id]['kgce']
                 kgco2e = energy_category_dict[energy_category_id]['kgco2e']
                 for associated_equipment in associated_equipment_list:
-                    associated_report = dict()
-                    associated_report[energy_category_id] = dict()
-                    associated_report[energy_category_id]['timestamps'] = list()
-                    associated_report[energy_category_id]['values'] = list()
-                    associated_report[energy_category_id]['subtotal'] = Decimal(0.0)
-                    associated_report[energy_category_id]['subtotal_in_kgce'] = Decimal(0.0)
-                    associated_report[energy_category_id]['subtotal_in_kgco2e'] = Decimal(0.0)
                     cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
                                           " FROM tbl_equipment_input_category_hourly "
                                           " WHERE equipment_id = %s "
@@ -583,37 +577,44 @@ class Reporting:
                                            reporting_start_datetime_utc,
                                            reporting_end_datetime_utc))
                     rows_equipment_hourly = cursor_energy.fetchall()
-                    rows_equipment_periodically = \
-                        utilities.aggregate_hourly_data_by_period(rows_equipment_hourly,
-                                                                  reporting_start_datetime_utc,
-                                                                  reporting_end_datetime_utc,
-                                                                  period_type)
+                    if (rows_equipment_hourly is not None and len(rows_equipment_hourly) > 0):
+                        associated_report = dict()
+                        associated_report[energy_category_id] = dict()
+                        associated_report[energy_category_id]['timestamps'] = list()
+                        associated_report[energy_category_id]['values'] = list()
+                        associated_report[energy_category_id]['subtotal'] = Decimal(0.0)
+                        associated_report[energy_category_id]['subtotal_in_kgce'] = Decimal(0.0)
+                        associated_report[energy_category_id]['subtotal_in_kgco2e'] = Decimal(0.0)
+                        rows_equipment_periodically = \
+                            utilities.aggregate_hourly_data_by_period(rows_equipment_hourly,
+                                                                    reporting_start_datetime_utc,
+                                                                    reporting_end_datetime_utc,
+                                                                    period_type)
 
-                    for row_equipment_periodically in rows_equipment_periodically:
-                        current_datetime_local = row_equipment_periodically[0].replace(tzinfo=timezone.utc) + \
-                                                 timedelta(minutes=timezone_offset)
-                        if period_type == 'hourly':
-                            current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
-                        elif period_type == 'daily':
-                            current_datetime = current_datetime_local.strftime('%Y-%m-%d')
-                        elif period_type == 'weekly':
-                            current_datetime = current_datetime_local.strftime('%Y-%m-%d')
-                        elif period_type == 'monthly':
-                            current_datetime = current_datetime_local.strftime('%Y-%m')
-                        elif period_type == 'yearly':
-                            current_datetime = current_datetime_local.strftime('%Y')
+                        for row_equipment_periodically in rows_equipment_periodically:
+                            current_datetime_local = row_equipment_periodically[0].replace(tzinfo=timezone.utc) + \
+                                                    timedelta(minutes=timezone_offset)
+                            if period_type == 'hourly':
+                                current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                            elif period_type == 'daily':
+                                current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                            elif period_type == 'weekly':
+                                current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                            elif period_type == 'monthly':
+                                current_datetime = current_datetime_local.strftime('%Y-%m')
+                            elif period_type == 'yearly':
+                                current_datetime = current_datetime_local.strftime('%Y')
 
-                        actual_value = Decimal(0.0) if row_equipment_periodically[1] is None \
-                            else row_equipment_periodically[1]
+                            actual_value = Decimal(0.0) if row_equipment_periodically[1] is None \
+                                else row_equipment_periodically[1]
 
-                        associated_report[energy_category_id]['timestamps'].append(current_datetime)
-                        associated_report[energy_category_id]['values'].append(actual_value)
-                        associated_report[energy_category_id]['subtotal'] += actual_value
-                        associated_report[energy_category_id]['subtotal_in_kgce'] += actual_value * kgce
-                        associated_report[energy_category_id]['subtotal_in_kgco2e'] += actual_value * kgco2e
+                            associated_report[energy_category_id]['timestamps'].append(current_datetime)
+                            associated_report[energy_category_id]['values'].append(actual_value)
+                            associated_report[energy_category_id]['subtotal'] += actual_value
+                            associated_report[energy_category_id]['subtotal_in_kgce'] += actual_value * kgce
+                            associated_report[energy_category_id]['subtotal_in_kgco2e'] += actual_value * kgco2e
 
-                    associated_report_list.append(associated_report)
-
+                        associated_report_list.append(associated_report)
         ################################################################################################################
         # Step 11: construct the report
         ################################################################################################################
@@ -663,33 +664,34 @@ class Reporting:
         if energy_category_set is not None and len(energy_category_set) > 0:
             for energy_category_id in energy_category_set:
                 for associated_report in associated_report_list:
-                    associated_report_period = dict()
+                    if (energy_category_id in associated_report):
+                        associated_report_period = dict()
 
-                    associated_report_period['names'] = list()
-                    associated_report_period['units'] = list()
-                    associated_report_period['timestamps'] = list()
-                    associated_report_period['values'] = list()
-                    associated_report_period['subtotals'] = list()
-                    associated_report_period['subtotals_in_kgce'] = list()
-                    associated_report_period['subtotals_in_kgco2e'] = list()
-                    associated_report_period['total_in_kgce'] = Decimal(0.0)
-                    associated_report_period['total_in_kgco2e'] = Decimal(0.0)
+                        associated_report_period['names'] = list()
+                        associated_report_period['units'] = list()
+                        associated_report_period['timestamps'] = list()
+                        associated_report_period['values'] = list()
+                        associated_report_period['subtotals'] = list()
+                        associated_report_period['subtotals_in_kgce'] = list()
+                        associated_report_period['subtotals_in_kgco2e'] = list()
+                        associated_report_period['total_in_kgce'] = Decimal(0.0)
+                        associated_report_period['total_in_kgco2e'] = Decimal(0.0)
 
-                    associated_report_period['names'].append(energy_category_dict[energy_category_id]['name'])
-                    associated_report_period['units'].append(
-                        energy_category_dict[energy_category_id]['unit_of_measure'])
-                    associated_report_period['timestamps'].append(associated_report[energy_category_id]['timestamps'])
-                    associated_report_period['values'].append(associated_report[energy_category_id]['values'])
-                    associated_report_period['subtotals'].append(associated_report[energy_category_id]['subtotal'])
-                    associated_report_period['subtotals_in_kgce'].append(associated_report[energy_category_id]
-                                                                         ['subtotal_in_kgce'])
-                    associated_report_period['subtotals_in_kgco2e'].append(associated_report[energy_category_id]
-                                                                           ['subtotal_in_kgco2e'])
-                    associated_report_period['total_in_kgce'] += \
-                        associated_report[energy_category_id]['subtotal_in_kgce']
-                    associated_report_period['total_in_kgco2e'] += \
-                        associated_report[energy_category_id]['subtotal_in_kgco2e']
-                    result['associated_report_period_list'].append(associated_report_period)
+                        associated_report_period['names'].append(energy_category_dict[energy_category_id]['name'])
+                        associated_report_period['units'].append(
+                            energy_category_dict[energy_category_id]['unit_of_measure'])
+                        associated_report_period['timestamps'].append(associated_report[energy_category_id]['timestamps'])
+                        associated_report_period['values'].append(associated_report[energy_category_id]['values'])
+                        associated_report_period['subtotals'].append(associated_report[energy_category_id]['subtotal'])
+                        associated_report_period['subtotals_in_kgce'].append(associated_report[energy_category_id]
+                                                                            ['subtotal_in_kgce'])
+                        associated_report_period['subtotals_in_kgco2e'].append(associated_report[energy_category_id]
+                                                                            ['subtotal_in_kgco2e'])
+                        associated_report_period['total_in_kgce'] += \
+                            associated_report[energy_category_id]['subtotal_in_kgce']
+                        associated_report_period['total_in_kgco2e'] += \
+                            associated_report[energy_category_id]['subtotal_in_kgco2e']
+                        result['associated_report_period_list'].append(associated_report_period)
 
         result['reporting_period'] = dict()
         result['reporting_period']['names'] = list()
@@ -764,7 +766,7 @@ class Reporting:
                     associated_equipment_data[energy_category_id]['associated_equipment_names'])
                 result['associated_equipment']['subtotals_array'].append(
                     associated_equipment_data[energy_category_id]['subtotals'])
-
+        
         result['excel_bytes_base64'] = None
         if not is_quick_mode:
             result['excel_bytes_base64'] = \
