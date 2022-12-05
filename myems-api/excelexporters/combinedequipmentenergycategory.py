@@ -618,7 +618,6 @@ def generate_excel(report,
         ws['B' + str(current_row_number)].border = f_border
         ws['B' + str(current_row_number)] = _('Associated Equipment')
         ca_len = len(associated_equipment['energy_category_names'])
-        print(associated_equipment['energy_category_names'])
         for i in range(0, ca_len):
             row = chr(ord('C') + i)
             ws[row + str(current_row_number)].fill = table_fill
@@ -628,22 +627,21 @@ def generate_excel(report,
             ws[row + str(current_row_number)] = \
                 report['reporting_period']['names'][i] + " (" + report['reporting_period']['units'][i] + ")"
 
-        associated_equipment_len = len(associated_equipment['associated_equipment_names_array'])
-
+        associated_equipment_len = len(associated_equipment['associated_equipment_names_array'][0])
         for i in range(0, associated_equipment_len):
-            ca_len = len(associated_equipment['associated_equipment_names_array'][i])
-            for j in range(0, ca_len):
-                current_row_number += 1
-                row = str(current_row_number)
-                ws['B' + row].font = title_font
-                ws['B' + row].alignment = c_c_alignment
-                ws['B' + row] = associated_equipment['associated_equipment_names_array'][i][j]
-                ws['B' + row].border = f_border
+            current_row_number += 1
+            row = str(current_row_number)
 
-                col = chr(ord('C') + i)
+            ws['B' + row].font = title_font
+            ws['B' + row].alignment = c_c_alignment
+            ws['B' + row] = associated_equipment['associated_equipment_names_array'][0][i]
+            ws['B' + row].border = f_border
+            for j in range(0, ca_len):
+                
+                col = chr(ord('C') + j)
                 ws[col + row].font = title_font
                 ws[col + row].alignment = c_c_alignment
-                ws[col + row] = round(associated_equipment['subtotals_array'][i][j], 2)
+                ws[col + row] = round(associated_equipment['subtotals_array'][j][i], 2) if associated_equipment['subtotals_array'][j][i] is not None else ''
                 ws[col + row].border = f_border
     ####################################################################################################################
     current_sheet_parameters_row_number = chart_start_row_number + ca_len * 6
