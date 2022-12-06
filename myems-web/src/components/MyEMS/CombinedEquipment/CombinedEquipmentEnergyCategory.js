@@ -512,13 +512,28 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
         });
         setDetailedDataTableColumns(detailed_column_list);
 
+        let associated_equipment_names_array = [];
+        if (json['associated_equipment']['associated_equipment_names_array'].length > 0) {
+          [].concat(...json['associated_equipment']['associated_equipment_names_array']).forEach(currentValue => {
+            if (associated_equipment_names_array.indexOf(currentValue) == -1) {
+              associated_equipment_names_array.push(currentValue);
+            }
+          })
+        };
+
         let associatedTimestampsList = []
         json['associated_report_period_list'].forEach((currentValue, index) => {
           timestamps = {}
           for(let i = 0; i < currentValue['timestamps'].length; i++){
             timestamps['a' + i] = currentValue['timestamps'][i];
           }
-          associatedTimestampsList.push(timestamps)
+          if (associatedTimestampsList[associated_equipment_names_array.indexOf(currentValue['associated_equipment_name'])] != null){
+            associatedTimestampsList[associated_equipment_names_array.indexOf(currentValue['associated_equipment_name'])]['a' + index] = 
+            currentValue['timestamps'][0]
+          }else {
+            timestamps['a' + index] = currentValue['timestamps'][0];
+            associatedTimestampsList.push(timestamps);
+          }
         });
         setAssociatedEquipmentLineChartLabelsList(associatedTimestampsList);
         
@@ -528,34 +543,43 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
           for(let i = 0; i < currentValue['values'].length; i++){
             values['a' + i] = currentValue['values'][i];
           }
-          associatedValuesList.push(values)
+          if (associatedValuesList[associated_equipment_names_array.indexOf(currentValue['associated_equipment_name'])] != null){
+            associatedValuesList[associated_equipment_names_array.indexOf(currentValue['associated_equipment_name'])]['a' + index] = 
+            currentValue['values'][0]
+          }else {
+            values['a' + index] = currentValue['values'][0];
+            associatedValuesList.push(values)
+          }
         });
         setAssociatedEquipmentLineChartDataList(associatedValuesList);
         
         let associatedNamesList = [];
-        json['associated_report_period_list'].forEach((currentValue, index) => {
+        associated_equipment_names_array.forEach(currentEquipment => {
           names = Array()
-          for(let i = 0; i < currentValue['names'].length; i++){
-            let unit = json['associated_report_period_list'][index]['units'][i];
-            names.push({ 'value': 'a' + i, 'label': currentValue['names'][i] + ' (' + unit + ')'});
-          }
+          json['associated_report_period_list'].forEach((currentValue, index) => {
+            for(let i = 0; i < currentValue['names'].length; i++){
+              if (currentValue['associated_equipment_name'] == currentEquipment) {
+                let unit = json['associated_report_period_list'][index]['units'][0];
+                names.push({ 'value': 'a' + index, 'label': currentValue['names'][0] + ' (' + unit + ')'});
+              }
+            }
+          });
           associatedNamesList.push(names)
-        });
+        })
         setAssociatedEquipmentLineChartOptionsList(associatedNamesList);
 
-        let associated_equipment_value_list = [];
-        if (json['associated_equipment']['associated_equipment_names_array'].length > 0) {
-          json['associated_equipment']['associated_equipment_names_array'][0].forEach((currentEquipmentName, equipmentIndex) => {
-            let associated_equipment_value = {};
-            associated_equipment_value['id'] = equipmentIndex;
-            associated_equipment_value['name'] = currentEquipmentName;
-            json['associated_equipment']['energy_category_names'].forEach((currentValue, energyCategoryIndex) => {
-              associated_equipment_value['a' + energyCategoryIndex] = json['associated_equipment']['subtotals_array'][energyCategoryIndex][equipmentIndex];
-            });
-            associated_equipment_value_list.push(associated_equipment_value);
-          });
-        };
 
+        let associated_equipment_value_list = [];
+
+        associated_equipment_names_array.forEach((currentEquipmentName, equipmentIndex) => {
+          let associated_equipment_value = {};
+          associated_equipment_value['id'] = equipmentIndex;
+          associated_equipment_value['name'] = currentEquipmentName;
+          json['associated_equipment']['energy_category_names'].forEach((currentValue, energyCategoryIndex) => {
+            associated_equipment_value['a' + energyCategoryIndex] = json['associated_equipment']['subtotals_array'][energyCategoryIndex][equipmentIndex];
+          });
+          associated_equipment_value_list.push(associated_equipment_value);
+        });
         setAssociatedEquipmentTableData(associated_equipment_value_list);
 
         let associated_equipment_column_list = [];
