@@ -33,6 +33,7 @@ import { comparisonTypeOptions } from '../common/ComparisonTypeOptions';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import { endOfDay} from 'date-fns';
 import AppContext from '../../../context/Context';
+import MultipleLineChart from '../common/MultipleLineChart';
 
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 const AssociatedEquipmentTable = loadable(() => import('../common/AssociatedEquipmentTable'));
@@ -815,12 +816,12 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
         options={combinedEquipmentLineChartOptions}>
       </LineChart>
 
-      <LineChart reportingTitle={t('Related Parameters')}
+      <MultipleLineChart reportingTitle={t('Related Parameters')}
         baseTitle=''
         labels={parameterLineChartLabels}
         data={parameterLineChartData}
         options={parameterLineChartOptions}>
-      </LineChart>
+      </MultipleLineChart>
 
       <dev>
       {associatedEquipmentTableData.map(associatedEquipmentTableData => (
