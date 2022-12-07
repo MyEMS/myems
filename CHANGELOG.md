@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - 
 ### Changed
 - updated format statements by period types in execel exporters 
+- Replaced LineChart with MultipleLineChart for related parameters of space reports in myems-web
+- Replaced LineChart with MultipleLineChart for related parameters of combined equipment reports in myems-web
 - 
 ### Fixed
 - 
