@@ -21,6 +21,7 @@ import loadable from '@loadable/component';
 import Cascader from 'rc-cascader';
 import CardSummary from '../common/CardSummary';
 import MultiTrendChart from '../common/MultiTrendChart';
+import MultipleLineChart from '../common/MultipleLineChart';
 import LineChart from '../common/LineChart';
 import { getCookieValue, createCookie } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
@@ -713,12 +714,12 @@ const SpaceEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
         options={spaceReportingOptions}>
       </MultiTrendChart>
 
-      <LineChart reportingTitle={t('Related Parameters')}
+      <MultipleLineChart reportingTitle={t('Related Parameters')}
         baseTitle=''
         labels={parameterLineChartLabels}
         data={parameterLineChartData}
         options={parameterLineChartOptions}>
-      </LineChart>
+      </MultipleLineChart>
       <DetailedDataTable data={detailedDataTableData} title={t('Detailed Data')} columns={detailedDataTableColumns} pagesize={50} >
       </DetailedDataTable>
       <br />
