@@ -6,7 +6,7 @@ import uuid
 
 import openpyxl.utils.cell as format_cell
 from openpyxl import Workbook
-from openpyxl.chart import LineChart, Reference, Series
+from openpyxl.chart import LineChart, Reference
 from openpyxl.chart.label import DataLabelList
 from openpyxl.drawing.image import Image
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
@@ -19,7 +19,14 @@ from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 # Step 3: Encode the excel file to Base64
 ########################################################################################################################
 
-def export(report, name, reporting_start_datetime_local, reporting_end_datetime_local, period_type, language):
+def export(report,
+           name,
+           base_period_start_datetime_local,
+           base_period_end_datetime_local,
+           reporting_start_datetime_local,
+           reporting_end_datetime_local,
+           period_type,
+           language):
     ####################################################################################################################
     # Step 1: Validate the report data
     ####################################################################################################################
@@ -34,6 +41,8 @@ def export(report, name, reporting_start_datetime_local, reporting_end_datetime_
     ####################################################################################################################
     filename = generate_excel(report,
                               name,
+                              base_period_start_datetime_local,
+                              base_period_end_datetime_local,
                               reporting_start_datetime_local,
                               reporting_end_datetime_local,
                               period_type,
@@ -60,7 +69,14 @@ def export(report, name, reporting_start_datetime_local, reporting_end_datetime_
     return base64_message
 
 
-def generate_excel(report, name, reporting_start_datetime_local, reporting_end_datetime_local, period_type, language):
+def generate_excel(report,
+                   name,
+                   base_period_start_datetime_local,
+                   base_period_end_datetime_local,
+                   reporting_start_datetime_local,
+                   reporting_end_datetime_local,
+                   period_type,
+                   language):
 
     locale_path = './i18n/'
     if language == 'zh_CN':
@@ -88,7 +104,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
     ws.column_dimensions['B'].width = 25.0
 
-    for i in range(ord('C'), ord('L')):
+    for i in range(ord('C'), ord('Z')):
         ws.column_dimensions[chr(i)].width = 15.0
 
     # Font
@@ -153,6 +169,21 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
     ws['E4'].alignment = b_c_alignment
     ws['E4'] = reporting_end_datetime_local
 
+    is_base_period_timestamp_exists_flag = is_base_period_timestamp_exists(report['base_period'])
+
+    if is_base_period_timestamp_exists_flag:
+        ws['B5'].alignment = b_r_alignment
+        ws['B5'] = _('Base Period Start Datetime') + ':'
+        ws['C5'].border = b_border
+        ws['C5'].alignment = b_c_alignment
+        ws['C5'] = base_period_start_datetime_local
+
+        ws['D5'].alignment = b_r_alignment
+        ws['D5'] = _('Base Period End Datetime') + ':'
+        ws['E5'].border = b_border
+        ws['E5'].alignment = b_c_alignment
+        ws['E5'] = base_period_end_datetime_local
+
     if "reporting_period" not in report.keys() or \
             "values" not in report['reporting_period'].keys() or len(report['reporting_period']['values']) == 0:
         filename = str(uuid.uuid4()) + '.xlsx'
@@ -162,179 +193,362 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
     ####################################################################################################################
     if "values" not in report['reporting_period'].keys() or len(report['reporting_period']['values']) == 0:
-        for i in range(6, 9 + 1):
+        for i in range(7, 10 + 1):
             ws.row_dimensions[i].height = 0.1
     else:
-        ws['B6'].font = title_font
-        ws['B6'] = name + _('Reporting Period Carbon Dioxide Emissions')
+        ws['B7'].font = title_font
+        ws['B7'] = name + _('Reporting Period Carbon Dioxide Emissions')
 
         reporting_period_data = report['reporting_period']
 
         ws.row_dimensions[7].height = 60
-        ws['B7'].fill = table_fill
-        ws['B7'].border = f_border
-
-        ws['B8'].font = title_font
-        ws['B8'].alignment = c_c_alignment
-        ws['B8'] = _('Carbon Dioxide Emissions')
+        ws['B8'].fill = table_fill
         ws['B8'].border = f_border
 
         ws['B9'].font = title_font
         ws['B9'].alignment = c_c_alignment
-        ws['B9'] = _('Increment Rate')
+        ws['B9'] = _('Carbon Dioxide Emissions')
         ws['B9'].border = f_border
 
-        ws['C' + '7'].fill = table_fill
-        ws['C' + '7'].font = name_font
-        ws['C' + '7'].alignment = c_c_alignment
-        ws['C' + '7'] = report['meter']['energy_category_name'] + " (" + report['meter']['unit_of_measure'] + ")"
-        ws['C' + '7'].border = f_border
+        ws['B10'].font = title_font
+        ws['B10'].alignment = c_c_alignment
+        ws['B10'] = _('Increment Rate')
+        ws['B10'].border = f_border
 
+        ws['C' + '8'].fill = table_fill
         ws['C' + '8'].font = name_font
         ws['C' + '8'].alignment = c_c_alignment
-        ws['C' + '8'] = round(reporting_period_data['total_in_category'], 2)
+        ws['C' + '8'] = report['meter']['energy_category_name'] + " (" + report['meter']['unit_of_measure'] + ")"
         ws['C' + '8'].border = f_border
 
         ws['C' + '9'].font = name_font
         ws['C' + '9'].alignment = c_c_alignment
-        ws['C' + '9'] = str(round(reporting_period_data['increment_rate'] * 100, 2)) + "%" \
-            if reporting_period_data['increment_rate'] is not None else "-"
+        ws['C' + '9'] = round(reporting_period_data['total_in_category'], 2)
         ws['C' + '9'].border = f_border
 
-        # TCE
-        ws['D7'].fill = table_fill
-        ws['D7'].font = name_font
-        ws['D7'].alignment = c_c_alignment
-        ws['D7'] = _('Ton of Standard Coal') + '(TCE)'
-        ws['D7'].border = f_border
+        ws['C' + '10'].font = name_font
+        ws['C' + '10'].alignment = c_c_alignment
+        ws['C' + '10'] = str(round(reporting_period_data['increment_rate'] * 100, 2)) + "%" \
+            if reporting_period_data['increment_rate'] is not None else "-"
+        ws['C' + '10'].border = f_border
 
+        # TCE
+        ws['D8'].fill = table_fill
         ws['D8'].font = name_font
         ws['D8'].alignment = c_c_alignment
-        ws['D8'] = round(reporting_period_data['total_in_kgce'] / 1000, 2)
+        ws['D8'] = _('Ton of Standard Coal') + '(TCE)'
         ws['D8'].border = f_border
 
         ws['D9'].font = name_font
         ws['D9'].alignment = c_c_alignment
-        ws['D9'] = str(round(reporting_period_data['increment_rate'] * 100, 2)) + "%" \
-            if reporting_period_data['increment_rate'] is not None else "-"
+        ws['D9'] = round(reporting_period_data['total_in_kgce'] / 1000, 2)
         ws['D9'].border = f_border
 
-        # TCO2E
-        ws['E7'].fill = table_fill
-        ws['E7'].font = name_font
-        ws['E7'].alignment = c_c_alignment
-        ws['E7'] = _('Ton of Carbon Dioxide Emissions') + '(TCO2E)'
-        ws['E7'].border = f_border
+        ws['D10'].font = name_font
+        ws['D10'].alignment = c_c_alignment
+        ws['D10'] = str(round(reporting_period_data['increment_rate'] * 100, 2)) + "%" \
+            if reporting_period_data['increment_rate'] is not None else "-"
+        ws['D10'].border = f_border
 
+        # TCO2E
+        ws['E8'].fill = table_fill
         ws['E8'].font = name_font
         ws['E8'].alignment = c_c_alignment
-        ws['E8'] = round(reporting_period_data['total_in_kgco2e'] / 1000, 2)
+        ws['E8'] = _('Ton of Carbon Dioxide Emissions') + '(TCO2E)'
         ws['E8'].border = f_border
 
         ws['E9'].font = name_font
         ws['E9'].alignment = c_c_alignment
-        ws['E9'] = str(round(reporting_period_data['increment_rate'] * 100, 2)) + "%" \
-            if reporting_period_data['increment_rate'] is not None else "-"
+        ws['E9'] = round(reporting_period_data['total_in_kgco2e'] / 1000, 2)
         ws['E9'].border = f_border
 
+        ws['E10'].font = name_font
+        ws['E10'].alignment = c_c_alignment
+        ws['E10'] = str(round(reporting_period_data['increment_rate'] * 100, 2)) + "%" \
+            if reporting_period_data['increment_rate'] is not None else "-"
+        ws['E10'].border = f_border
+
     ####################################################################################################################
+    current_row_number = 12
 
+    table_start_draw_flag = current_row_number + 1
     reporting_period_data = report['reporting_period']
-    times = reporting_period_data['timestamps']
-    parameters_names_len = len(report['parameters']['names'])
-    parameters_data = report['parameters']
-    parameters_parameters_datas_len = 0
-    for i in range(0, parameters_names_len):
-        if len(parameters_data['timestamps'][i]) == 0:
-            continue
-        parameters_parameters_datas_len += 1
 
-    if "values" not in reporting_period_data.keys() or len(reporting_period_data['values']) == 0:
-        for i in range(11, 43 + 1):
-            ws.row_dimensions[i].height = 0.0
+    if "timestamps" not in reporting_period_data.keys() or \
+            reporting_period_data['timestamps'] is None or \
+            len(reporting_period_data['timestamps']) == 0:
+        pass
     else:
-        start_detail_data_row_number = 13 + (parameters_parameters_datas_len + 1) * 6
+        if not is_base_period_timestamp_exists_flag:
+            reporting_period_data = report['reporting_period']
+            time = reporting_period_data['timestamps']
+            real_timestamps_len = timestamps_data_not_equal_0(report['parameters']['timestamps'])
+            ws['B' + str(current_row_number)].font = title_font
+            ws['B' + str(current_row_number)] = name + ' ' + _('Detailed Data')
 
-        ws['B11'].font = title_font
-        ws['B11'] = name + _('Detailed Data')
+            current_row_number += 1
+            # 1: Stand for blank line  2: Stand for title
+            current_row_number += 1 * 6 + real_timestamps_len * 6 + 1 + 2
+            table_start_row_number = current_row_number
 
-        ws.row_dimensions[start_detail_data_row_number].height = 60
-        ws['B' + str(start_detail_data_row_number)].fill = table_fill
-        ws['B' + str(start_detail_data_row_number)].font = title_font
-        ws['B' + str(start_detail_data_row_number)].border = f_border
-        ws['B' + str(start_detail_data_row_number)].alignment = c_c_alignment
-        ws['B' + str(start_detail_data_row_number)] = _('Datetime')
-        time = times
-        has_data = False
-        max_row = 0
-        if len(time) > 0:
-            has_data = True
-            max_row = start_detail_data_row_number + len(time)
+            has_data = False
 
-        if has_data:
+            if len(time) > 0:
+                has_data = True
 
-            end_data_row_number = start_detail_data_row_number
+            if has_data:
 
-            for i in range(0, len(time)):
-                col = 'B'
-                end_data_row_number += 1
-                row = str(end_data_row_number)
+                ws.row_dimensions[current_row_number].height = 60
+                current_col_number = 2
+                col = format_cell.get_column_letter(current_col_number)
+                ws[col + str(current_row_number)].fill = table_fill
+                ws[col + str(current_row_number)].font = title_font
+                ws[col + str(current_row_number)].border = f_border
+                ws[col + str(current_row_number)].alignment = c_c_alignment
+                ws[col + str(current_row_number)] = _('Datetime')
 
-                ws[col + row].font = title_font
-                ws[col + row].alignment = c_c_alignment
-                ws[col + row] = time[i]
-                ws[col + row].border = f_border
+                current_col_number += 1
+                col = format_cell.get_column_letter(current_col_number)
 
-            ws['B' + str(end_data_row_number + 1)].font = title_font
-            ws['B' + str(end_data_row_number + 1)].alignment = c_c_alignment
-            ws['B' + str(end_data_row_number + 1)] = _('Total')
-            ws['B' + str(end_data_row_number + 1)].border = f_border
+                ws[col + str(current_row_number)].fill = table_fill
+                ws[col + str(current_row_number)].font = title_font
+                ws[col + str(current_row_number)].alignment = c_c_alignment
+                ws[col + str(current_row_number)] = report['meter']['energy_category_name'] + \
+                    " (" + report['meter']['unit_of_measure'] + ")"
+                ws[col + str(current_row_number)].border = f_border
 
-            ws['C' + str(start_detail_data_row_number)].fill = table_fill
-            ws['C' + str(start_detail_data_row_number)].font = title_font
-            ws['C' + str(start_detail_data_row_number)].alignment = c_c_alignment
-            ws['C' + str(start_detail_data_row_number)] = \
-                report['meter']['energy_category_name']+" (" + report['meter']['unit_of_measure'] + ")"
-            ws['C' + str(start_detail_data_row_number)].border = f_border
+                current_row_number += 1
 
-            time = times
-            time_len = len(time)
+                for i in range(0, len(time)):
+                    current_col_number = 2
+                    col = format_cell.get_column_letter(current_col_number)
 
-            for j in range(0, time_len):
-                row = str(start_detail_data_row_number + 1 + j)
-                ws['C' + row].font = title_font
-                ws['C' + row].alignment = c_c_alignment
-                ws['C' + row] = round(reporting_period_data['values'][j], 2)
-                ws['C' + row].border = f_border
+                    ws[col + str(current_row_number)].font = title_font
+                    ws[col + str(current_row_number)].alignment = c_c_alignment
+                    ws[col + str(current_row_number)] = time[i]
+                    ws[col + str(current_row_number)].border = f_border
 
-            ws['C' + str(end_data_row_number + 1)].font = title_font
-            ws['C' + str(end_data_row_number + 1)].alignment = c_c_alignment
-            ws['C' + str(end_data_row_number + 1)] = round(reporting_period_data['total_in_category'], 2)
-            ws['C' + str(end_data_row_number + 1)].border = f_border
+                    current_col_number += 1
+                    col = format_cell.get_column_letter(current_col_number)
 
-            line = LineChart()
-            line.title = _('Reporting Period Carbon Dioxide Emissions') + ' - ' + \
-                report['meter']['energy_category_name'] + \
-                " (" + report['meter']['unit_of_measure'] + ")"
-            line_data = Reference(ws, min_col=3, min_row=start_detail_data_row_number, max_row=max_row)
-            line.series.append(Series(line_data, title_from_data=True))
-            labels = Reference(ws, min_col=2, min_row=start_detail_data_row_number + 1, max_row=max_row)
-            line.set_categories(labels)
-            line_data = line.series[0]
-            line_data.marker.symbol = "circle"
-            line_data.smooth = True
-            line.x_axis.crosses = 'min'
-            line.dLbls = DataLabelList()
-            line.dLbls.dLblPos = 't'
-            line.dLbls.showVal = True
-            line.height = 8.25
-            line.width = 24
-            ws.add_chart(line, "B12")
+                    ws[col + str(current_row_number)].font = title_font
+                    ws[col + str(current_row_number)].alignment = c_c_alignment
+                    ws[col + str(current_row_number)] = round(reporting_period_data['values'][i], 2)
+                    ws[col + str(current_row_number)].border = f_border
+
+                    current_row_number += 1
+
+                table_end_row_number = current_row_number - 1
+
+                current_col_number = 2
+                col = format_cell.get_column_letter(current_col_number)
+
+                ws[col + str(current_row_number)].font = title_font
+                ws[col + str(current_row_number)].alignment = c_c_alignment
+                ws[col + str(current_row_number)] = _('Total')
+                ws[col + str(current_row_number)].border = f_border
+
+                current_col_number += 1
+                col = format_cell.get_column_letter(current_col_number)
+                ws[col + str(current_row_number)].font = title_font
+                ws[col + str(current_row_number)].alignment = c_c_alignment
+                ws[col + str(current_row_number)] = round(reporting_period_data['total_in_category'], 2)
+                ws[col + str(current_row_number)].border = f_border
+
+                # line
+                line = LineChart()
+                line.title = _('Reporting Period Carbon Dioxide Emissions') + ' - ' \
+                    + report['meter']['energy_category_name'] + \
+                    " (" + report['meter']['unit_of_measure'] + ")"
+                labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1, max_row=table_end_row_number)
+                line_data = Reference(ws, min_col=3, min_row=table_start_row_number,
+                                      max_row=table_end_row_number)
+                line.add_data(line_data, titles_from_data=True)
+                line.set_categories(labels)
+                line_data = line.series[0]
+                line_data.marker.symbol = "circle"
+                line_data.smooth = True
+                line.x_axis.crosses = 'min'
+                line.height = 8.25
+                line.width = 24
+                line.dLbls = DataLabelList()
+                line.dLbls.dLblPos = 't'
+                line.dLbls.showVal = True
+                line.dLbls.showPercent = False
+                chart_col = 'B'
+                chart_cell = chart_col + str(table_start_draw_flag)
+                ws.add_chart(line, chart_cell)
+
+                current_row_number += 2
+        else:
+            base_period_data = report['base_period']
+            reporting_period_data = report['reporting_period']
+            base_period_timestamps = base_period_data['timestamps']
+            reporting_period_timestamps = reporting_period_data['timestamps']
+            real_timestamps_len = timestamps_data_not_equal_0(report['parameters']['timestamps'])
+            ws['B' + str(current_row_number)].font = title_font
+            ws['B' + str(current_row_number)] = name + ' ' + _('Detailed Data')
+
+            current_row_number += 1
+            # 1: Stand for blank line  2: Stand for title
+            current_row_number += 1 * 6 + real_timestamps_len * 6 + 1 + 2
+            table_start_row_number = current_row_number
+
+            has_data = False
+
+            if len(base_period_timestamps[0]) or len(reporting_period_timestamps[0]) > 0:
+                has_data = True
+
+            if has_data:
+                ws.row_dimensions[current_row_number].height = 60
+                current_col_number = 2
+                col = format_cell.get_column_letter(current_col_number)
+                ws[col + str(current_row_number)].fill = table_fill
+                ws[col + str(current_row_number)].font = title_font
+                ws[col + str(current_row_number)].border = f_border
+                ws[col + str(current_row_number)].alignment = c_c_alignment
+                ws[col + str(current_row_number)] = _('Base Period') + " - " + _('Datetime')
+
+                current_col_number += 1
+                col = format_cell.get_column_letter(current_col_number)
+
+                ws[col + str(current_row_number)].fill = table_fill
+                ws[col + str(current_row_number)].font = title_font
+                ws[col + str(current_row_number)].alignment = c_c_alignment
+                ws[col + str(current_row_number)] = _('Base Period') + " - " + \
+                    report['meter']['energy_category_name'] + \
+                    " (" + report['meter']['unit_of_measure'] + ")"
+                ws[col + str(current_row_number)].border = f_border
+
+                current_col_number += 1
+                col = format_cell.get_column_letter(current_col_number)
+
+                ws[col + str(current_row_number)].fill = table_fill
+                ws[col + str(current_row_number)].font = title_font
+                ws[col + str(current_row_number)].border = f_border
+                ws[col + str(current_row_number)].alignment = c_c_alignment
+                ws[col + str(current_row_number)] = _('Reporting Period') + " - " + _('Datetime')
+
+                current_col_number += 1
+                col = format_cell.get_column_letter(current_col_number)
+                ws[col + str(current_row_number)].fill = table_fill
+                ws[col + str(current_row_number)].font = title_font
+                ws[col + str(current_row_number)].alignment = c_c_alignment
+                ws[col + str(current_row_number)] = _('Reporting Period') + " - " \
+                    + report['meter']['energy_category_name'] + \
+                    " (" + report['meter']['unit_of_measure'] + ")"
+                ws[col + str(current_row_number)].border = f_border
+
+                current_row_number += 1
+
+                max_timestamps_len = len(base_period_timestamps) \
+                    if len(base_period_timestamps) >= len(reporting_period_timestamps) \
+                    else len(reporting_period_timestamps)
+
+                for i in range(0, max_timestamps_len):
+                    current_col_number = 2
+                    col = format_cell.get_column_letter(current_col_number)
+                    ws[col + str(current_row_number)].font = title_font
+                    ws[col + str(current_row_number)].alignment = c_c_alignment
+                    ws[col + str(current_row_number)] = base_period_timestamps[i] \
+                        if i < len(base_period_timestamps) else None
+                    ws[col + str(current_row_number)].border = f_border
+
+                    current_col_number += 1
+                    col = format_cell.get_column_letter(current_col_number)
+
+                    ws[col + str(current_row_number)].font = title_font
+                    ws[col + str(current_row_number)].alignment = c_c_alignment
+                    ws[col + str(current_row_number)] = round(base_period_data['values'][i], 2) \
+                        if i < len(base_period_data['values']) else None
+                    ws[col + str(current_row_number)].border = f_border
+
+                    current_col_number += 1
+                    col = format_cell.get_column_letter(current_col_number)
+
+                    ws[col + str(current_row_number)].font = title_font
+                    ws[col + str(current_row_number)].alignment = c_c_alignment
+                    ws[col + str(current_row_number)] = reporting_period_timestamps[i] \
+                        if i < len(reporting_period_timestamps) else None
+                    ws[col + str(current_row_number)].border = f_border
+
+                    current_col_number += 1
+                    col = format_cell.get_column_letter(current_col_number)
+
+                    ws[col + str(current_row_number)].font = title_font
+                    ws[col + str(current_row_number)].alignment = c_c_alignment
+                    ws[col + str(current_row_number)] = round(reporting_period_data['values'][i], 2) \
+                        if i < len(reporting_period_data['values']) else None
+                    ws[col + str(current_row_number)].border = f_border
+
+                    current_row_number += 1
+
+                current_col_number = 2
+                col = format_cell.get_column_letter(current_col_number)
+                ws[col + str(current_row_number)].font = title_font
+                ws[col + str(current_row_number)].alignment = c_c_alignment
+                ws[col + str(current_row_number)] = _('Total')
+                ws[col + str(current_row_number)].border = f_border
+
+                current_col_number += 1
+                col = format_cell.get_column_letter(current_col_number)
+                ws[col + str(current_row_number)].font = title_font
+                ws[col + str(current_row_number)].alignment = c_c_alignment
+                ws[col + str(current_row_number)] = round(base_period_data['total_in_category'], 2)
+                ws[col + str(current_row_number)].border = f_border
+
+                current_col_number += 1
+                col = format_cell.get_column_letter(current_col_number)
+
+                ws[col + str(current_row_number)].font = title_font
+                ws[col + str(current_row_number)].alignment = c_c_alignment
+                ws[col + str(current_row_number)] = _('Total')
+                ws[col + str(current_row_number)].border = f_border
+
+                current_col_number += 1
+                col = format_cell.get_column_letter(current_col_number)
+                ws[col + str(current_row_number)].font = title_font
+                ws[col + str(current_row_number)].alignment = c_c_alignment
+                ws[col + str(current_row_number)] = round(reporting_period_data['total_in_category'], 2)
+                ws[col + str(current_row_number)].border = f_border
+
+                # line
+                line = LineChart()
+                line.title = _('Base Period Carbon Dioxide Emissions') + " / " \
+                    + _('Reporting Period Carbon Dioxide Emissions') + ' - ' \
+                    + report['meter']['energy_category_name'] + \
+                    " (" + report['meter']['unit_of_measure'] + ")"
+                labels = Reference(ws, min_col=4,
+                                   min_row=table_start_row_number + 1,
+                                   max_row=table_start_row_number + len(reporting_period_timestamps))
+                base_line_data = Reference(ws, min_col=3, min_row=table_start_row_number,
+                                           max_row=table_start_row_number + len(reporting_period_timestamps))
+                reporting_line_data = Reference(ws, min_col=5,
+                                                min_row=table_start_row_number,
+                                                max_row=table_start_row_number
+                                                + len(reporting_period_timestamps))
+                line.add_data(base_line_data, titles_from_data=True)
+                line.add_data(reporting_line_data, titles_from_data=True)
+                line.set_categories(labels)
+                for j in range(len(line.series)):
+                    line.series[j].marker.symbol = "circle"
+                    line.series[j].smooth = True
+                line.x_axis.crosses = 'min'
+                line.height = 8.25
+                line.width = 24
+                line.dLbls = DataLabelList()
+                line.dLbls.dLblPos = 't'
+                line.dLbls.showVal = True
+                line.dLbls.showPercent = False
+                chart_col = 'B'
+                chart_cell = chart_col + str(table_start_draw_flag)
+                ws.add_chart(line, chart_cell)
+
+                current_row_number += 2
 
     ####################################################################################################################
     # 12 is the starting line number of the last line chart in the report period
-    time_len = len(reporting_period_data['timestamps'])
-    current_sheet_parameters_row_number = 12 + 1 * 6
+    current_sheet_parameters_row_number = table_start_draw_flag + 1 * 6 + 1
     if 'parameters' not in report.keys() or \
             report['parameters'] is None or \
             'names' not in report['parameters'].keys() or \
@@ -485,8 +699,8 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             data_col = 3 + col_index * 3
             labels_col = 2 + col_index * 3
             col_index += 1
-            line.title = 'Parameters - ' + \
-                         parameters_ws.cell(row=parameters_table_start_row_number, column=data_col).value
+            line.title = _('Parameters') + " - " + \
+                parameters_ws.cell(row=parameters_table_start_row_number, column=data_col).value
             labels = Reference(parameters_ws, min_col=labels_col, min_row=parameters_table_start_row_number + 1,
                                max_row=(len(parameters_data['timestamps'][i]) + parameters_table_start_row_number))
             line_data = Reference(parameters_ws, min_col=data_col, min_row=parameters_table_start_row_number,
@@ -541,3 +755,16 @@ def timestamps_data_not_equal_0(lists):
         if len(value) > 0:
             number += 1
     return number
+
+
+def is_base_period_timestamp_exists(base_period_data):
+    timestamps = base_period_data['timestamps']
+
+    if len(timestamps) == 0:
+        return False
+
+    for timestamp in timestamps:
+        if len(timestamp) > 0:
+            return True
+
+    return False
