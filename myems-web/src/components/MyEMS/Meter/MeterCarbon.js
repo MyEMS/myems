@@ -394,18 +394,12 @@ const MeterCarbon = ({ setRedirect, setRedirectUrl, t }) => {
         base_values['a0'] = json['base_period']['values'];
         setMeterBaseData(base_values)
 
-        /*
-        * Tip:
-        *     base_names === reporting_names
-        *     base_units === reporting_units
-        * */
-
         let base_and_reporting_names = {}
         base_and_reporting_names['a0'] = json['meter']['energy_category_name'];
         setMeterBaseAndReportingNames(base_and_reporting_names)
 
         let base_and_reporting_units = {}
-        base_and_reporting_units['a0'] = json['meter']['unit_of_measure'];
+        base_and_reporting_units['a0'] = "(" + json['meter']['unit_of_measure'] + ")";
         setMeterBaseAndReportingUnits(base_and_reporting_units)
 
         let base_subtotals = {}

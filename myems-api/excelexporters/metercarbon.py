@@ -547,7 +547,7 @@ def generate_excel(report,
                 current_row_number += 2
 
     ####################################################################################################################
-    # 12 is the starting line number of the last line chart in the report period
+    # table_start_draw_flag is the starting line number of the last line chart in the report period
     current_sheet_parameters_row_number = table_start_draw_flag + 1 * 6 + 1
     if 'parameters' not in report.keys() or \
             report['parameters'] is None or \
