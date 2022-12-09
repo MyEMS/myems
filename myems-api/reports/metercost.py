@@ -323,6 +323,7 @@ class Reporting:
         reporting = dict()
         reporting['timestamps'] = list()
         reporting['values'] = list()
+        reporting['rates'] = list()
         reporting['total_in_category'] = Decimal(0.0)
         reporting['total_in_kgce'] = Decimal(0.0)
         reporting['total_in_kgco2e'] = Decimal(0.0)
@@ -371,6 +372,12 @@ class Reporting:
 
             reporting['values'].append(actual_value)
             reporting['total_in_category'] += actual_value
+
+        for index, value in enumerate(reporting['values']):
+            if index < len(base['values']) and base['values'][index] != 0 and value != 0:
+                reporting['rates'].append((value - base['values'][index]) / base['values'][index])
+            else:
+                reporting['rates'].append(None)
 
         ################################################################################################################
         # Step 8: query tariff data
@@ -507,6 +514,7 @@ class Reporting:
             "total_in_kgco2e": reporting['total_in_kgco2e'],
             "timestamps": reporting['timestamps'],
             "values": reporting['values'],
+            "rates": reporting['rates'],
         }, "parameters": {
             "names": parameters_data['names'],
             "timestamps": parameters_data['timestamps'],
@@ -517,6 +525,8 @@ class Reporting:
             result['excel_bytes_base64'] = \
                 excelexporters.metercost.export(result,
                                                 meter['name'],
+                                                base_period_start_datetime_local,
+                                                base_period_end_datetime_local,
                                                 reporting_period_start_datetime_local,
                                                 reporting_period_end_datetime_local,
                                                 period_type,
