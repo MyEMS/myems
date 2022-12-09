@@ -684,6 +684,7 @@ class Reporting:
         result['reporting_period']['units'] = list()
         result['reporting_period']['timestamps'] = list()
         result['reporting_period']['values_saving'] = list()
+        result['reporting_period']['rates_saving'] = list()
         result['reporting_period']['subtotals_saving'] = list()
         result['reporting_period']['subtotals_in_kgce_saving'] = list()
         result['reporting_period']['subtotals_in_kgco2e_saving'] = list()
@@ -714,6 +715,16 @@ class Reporting:
                 result['reporting_period']['total_in_kgco2e_saving'] += \
                     reporting[energy_category_id]['subtotal_in_kgco2e_saving']
 
+                rate = list()
+                for index, value in enumerate(reporting[energy_category_id]['values_saving']):
+                    if index < len(base[energy_category_id]['values_saving']) \
+                            and base[energy_category_id]['values_saving'][index] != 0 and value != 0:
+                        rate.append((value - base[energy_category_id]['values_saving'][index])
+                                    / base[energy_category_id]['values_saving'][index])
+                    else:
+                        rate.append(None)
+                result['reporting_period']['rates_saving'].append(rate)
+
         result['reporting_period']['increment_rate_in_kgce_saving'] = \
             (result['reporting_period']['total_in_kgce_saving'] - result['base_period']['total_in_kgce_saving']) / \
             result['base_period']['total_in_kgce_saving'] \
@@ -735,6 +746,8 @@ class Reporting:
         if not is_quick_mode:
             result['excel_bytes_base64'] = excelexporters.equipmentsaving.export(result,
                                                                                  equipment['name'],
+                                                                                 base_period_start_datetime_local,
+                                                                                 base_period_end_datetime_local,
                                                                                  reporting_period_start_datetime_local,
                                                                                  reporting_period_end_datetime_local,
                                                                                  period_type,

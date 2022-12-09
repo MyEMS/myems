@@ -518,6 +518,7 @@ class Reporting:
         result['reporting_period']['units'] = list()
         result['reporting_period']['timestamps'] = list()
         result['reporting_period']['values'] = list()
+        result['reporting_period']['rates'] = list()
         result['reporting_period']['subtotals'] = list()
         result['reporting_period']['increment_rates'] = list()
 
@@ -534,6 +535,16 @@ class Reporting:
                     base[energy_category_id]['subtotal']
                     if base[energy_category_id]['subtotal'] > 0.0 else None)
 
+                rate = list()
+                for index, value in enumerate(reporting[energy_category_id]['values']):
+                    if index < len(base[energy_category_id]['values']) \
+                            and base[energy_category_id]['values'][index] != 0 and value != 0:
+                        rate.append((value - base[energy_category_id]['values'][index])
+                                    / base[energy_category_id]['values'][index])
+                    else:
+                        rate.append(None)
+                result['reporting_period']['rates'].append(rate)
+
         result['parameters'] = {
             "names": parameters_data['names'],
             "timestamps": parameters_data['timestamps'],
@@ -545,6 +556,8 @@ class Reporting:
         if not is_quick_mode:
             result['excel_bytes_base64'] = excelexporters.equipmentoutput.export(result,
                                                                                  equipment['name'],
+                                                                                 base_period_start_datetime_local,
+                                                                                 base_period_end_datetime_local,
                                                                                  reporting_period_start_datetime_local,
                                                                                  reporting_period_end_datetime_local,
                                                                                  period_type,
