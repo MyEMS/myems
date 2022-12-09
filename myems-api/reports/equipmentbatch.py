@@ -216,9 +216,9 @@ class Reporting:
             rows_equipment_energy = cursor_energy_db.fetchall()
             for energy_category in energy_category_list:
                 subtotal = Decimal(0.0)
-                for rows_equipment_energy in rows_equipment_energy:
-                    if energy_category['id'] == rows_equipment_energy[0]:
-                        subtotal = rows_equipment_energy[1]
+                for row_equipment_energy in rows_equipment_energy:
+                    if energy_category['id'] == row_equipment_energy[0]:
+                        subtotal = row_equipment_energy[1]
                         break
                 equipment_dict[equipment_id]['values'].append(subtotal)
 
