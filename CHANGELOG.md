@@ -13,7 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Replaced LineChart with MultipleLineChart for related parameters of combined equipment reports in myems-web
 - 
 ### Fixed
-- 
+- fixed user calendar cannot fully display issue
 ### Removed
 -
 
