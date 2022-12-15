@@ -204,7 +204,7 @@ def generate_excel(report,
 
         reporting_period_data = report['reporting_period']
 
-        ws.row_dimensions[7].height = 60
+        ws.row_dimensions[8].height = 60
 
         ws['B8'].fill = table_fill
         ws['B8'].border = f_border
