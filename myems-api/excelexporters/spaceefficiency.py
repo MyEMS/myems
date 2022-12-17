@@ -548,7 +548,8 @@ def generate_excel(report,
             ws[col + str(current_row_number)].border = f_border
 
             for i in range(0, reporting_period_data_ca_len):
-                col = chr(ord(col) + 1)
+                current_col_number += 1
+                col = format_cell.get_column_letter(current_col_number)
                 ws[col + str(current_row_number)].font = title_font
                 ws[col + str(current_row_number)].alignment = c_c_alignment
                 ws[col + str(current_row_number)] = round(reporting_period_data['cumulations'][i], 2) \
