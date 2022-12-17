@@ -20,7 +20,7 @@ import moment from 'moment';
 import loadable from '@loadable/component';
 import Cascader from 'rc-cascader';
 import CardSummary from '../common/CardSummary';
-import LineChart from '../common/LineChart';
+import MultiTrendChart from '../common/MultiTrendChart';
 import { getCookieValue, createCookie } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
@@ -101,10 +101,21 @@ const VirtualMeterCost = ({ setRedirect, setRedirectUrl, t }) => {
   const [reportingPeriodEnergyCostRate, setReportingPeriodEnergyCostRate] = useState('');
   const [reportingPeriodEnergyConsumptionInTCE, setReportingPeriodEnergyConsumptionInTCE] = useState(0);
   const [reportingPeriodEnergyConsumptionInCO2, setReportingPeriodEnergyConsumptionInCO2] = useState(0);
-  const [basePeriodEnergyCostInCategory, setBasePeriodEnergyCostInCategory] = useState(0);
-  const [virtualMeterLineChartOptions, setVirtualMeterLineChartOptions] = useState([]);
-  const [virtualMeterLineChartData, setVirtualMeterLineChartData] = useState({});
-  const [virtualMeterLineChartLabels, setVirtualMeterLineChartLabels] = useState([]);
+
+  const [virtualMeterBaseAndReportingNames, setVirtualMeterBaseAndReportingNames] = useState({"a0":""});
+  const [virtualMeterBaseAndReportingUnits, setVirtualMeterBaseAndReportingUnits] = useState({"a0":"()"});
+
+  const [virtualMeterBaseLabels, setVirtualMeterBaseLabels] = useState({"a0": []});
+  const [virtualMeterBaseData, setVirtualMeterBaseData] = useState({"a0": []});
+  const [virtualMeterBaseSubtotals, setVirtualMeterBaseSubtotals] = useState({"a0": (0).toFixed(2)});
+
+  const [virtualMeterReportingLabels, setVirtualMeterReportingLabels] = useState({"a0": []});
+  const [virtualMeterReportingData, setVirtualMeterReportingData] = useState({"a0": []});
+  const [virtualMeterReportingSubtotals, setVirtualMeterReportingSubtotals] = useState({"a0": (0).toFixed(2)});
+
+  const [virtualMeterReportingRates, setVirtualMeterReportingRates] = useState({"a0": []});
+  const [virtualMeterReportingOptions, setVirtualMeterReportingOptions] = useState([]);
+
   const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
   const [parameterLineChartData, setParameterLineChartData] = useState({});
   const [parameterLineChartLabels, setParameterLineChartLabels] = useState([]);
@@ -282,6 +293,22 @@ const VirtualMeterCost = ({ setRedirect, setRedirectUrl, t }) => {
   let onReportingPeriodClean = event => {
     setReportingPeriodDateRange([null, null]);
   };
+
+  const isBasePeriodTimestampExists = (base_period_data) => {
+    const timestamps = base_period_data['timestamps'];
+
+    if (timestamps.length === 0) {
+      return false;
+    }
+
+    for (let i = 0; i < timestamps.length; i++) {
+      if (timestamps[i].length > 0) {
+        return true;
+      }
+    }
+    return false
+  }
+
   // Handler
   const handleSubmit = e => {
     e.preventDefault();
@@ -338,75 +365,171 @@ const VirtualMeterCost = ({ setRedirect, setRedirectUrl, t }) => {
         setReportingPeriodEnergyCostInCategory(json['reporting_period']['total_in_category']);
         setReportingPeriodEnergyConsumptionInTCE(json['reporting_period']['total_in_kgce'] / 1000);
         setReportingPeriodEnergyConsumptionInCO2(json['reporting_period']['total_in_kgco2e'] / 1000);
-        setBasePeriodEnergyCostInCategory(json['base_period']['total_in_category']);
+
+        let base_timestamps = {}
+        base_timestamps['a0'] = json['base_period']['timestamps'];
+        setVirtualMeterBaseLabels(base_timestamps)
+
+        let base_values = {}
+        base_values['a0'] = json['base_period']['values'];
+        setVirtualMeterBaseData(base_values)
+
+        let base_and_reporting_names = {}
+        base_and_reporting_names['a0'] = json['virtual_meter']['energy_category_name'];
+        setVirtualMeterBaseAndReportingNames(base_and_reporting_names)
+
+        let base_and_reporting_units = {}
+        base_and_reporting_units['a0'] = "(" + json['virtual_meter']['unit_of_measure'] + ")";
+        setVirtualMeterBaseAndReportingUnits(base_and_reporting_units)
+
+        let base_subtotals = {}
+        base_subtotals['a0'] = json['base_period']['total_in_category'];
+        setVirtualMeterBaseSubtotals(base_subtotals)
+
+        let reporting_timestamps = {}
+        reporting_timestamps['a0'] = json['reporting_period']['timestamps']
+        setVirtualMeterReportingLabels(reporting_timestamps);
+
+        let reporting_values = {}
+        reporting_values['a0'] = json['reporting_period']['values'];
+        setVirtualMeterReportingData(reporting_values);
+
+        let reporting_subtotals = {}
+        reporting_subtotals['a0'] = json['reporting_period']['total_in_category'];
+        setVirtualMeterReportingSubtotals(reporting_subtotals);
+
+        let rates = {}
+        rates['a0'] = [];
+        json['reporting_period']['rates'].forEach((currentValue, index) => {
+          rates['a0'].push(currentValue ? parseFloat(currentValue * 100).toFixed(2) : '0.00');
+        });
+        setVirtualMeterReportingRates(rates)
+
+        let options = Array();
+        options.push({'value': 'a0', 'label': json['virtual_meter']['energy_category_name'] + ' (' + json['virtual_meter']['unit_of_measure'] + ')'})
+        setVirtualMeterReportingOptions(options);
 
         let names = Array();
-        names.push({ 'value': 'a0', 'label': json['virtual_meter']['energy_category_name'] });
-        setVirtualMeterLineChartOptions(names);
-        
-        let timestamps = {}
-        timestamps['a0'] = json['reporting_period']['timestamps'];
-        setVirtualMeterLineChartLabels(timestamps);
-
-        let values = {'a0':[]}
-        json['reporting_period']['values'].forEach((currentValue, index) => {
-          values['a0'][index] = currentValue.toFixed(2);
-        });
-        setVirtualMeterLineChartData(values)
-
-        names = Array();
         json['parameters']['names'].forEach((currentValue, index) => {
           
           names.push({ 'value': 'a' + index, 'label': currentValue });
         });
         setParameterLineChartOptions(names);
 
-        timestamps = {}
+        let timestamps = {}
         json['parameters']['timestamps'].forEach((currentValue, index) => {
           timestamps['a' + index] = currentValue;
         });
         setParameterLineChartLabels(timestamps);
 
-        values = {}
+        let values = {}
         json['parameters']['values'].forEach((currentValue, index) => {
           values['a' + index] = currentValue;
         });
         setParameterLineChartData(values);
 
-        setDetailedDataTableColumns([{
-          dataField: 'startdatetime',
-          text: t('Datetime'),
-          sort: true
-        }, {
-          dataField: 'a0',
-          text: json['virtual_meter']['energy_category_name'] + ' (' + json['virtual_meter']['unit_of_measure'] + ')',
-          sort: true,
-          formatter: function (decimalValue) {
-            if (typeof decimalValue === 'number') {
-              return decimalValue.toFixed(2);
-            } else {
-              return null;
+        if(!isBasePeriodTimestampExists(json['base_period'])) {
+          setDetailedDataTableColumns([{
+            dataField: 'startdatetime',
+            text: t('Datetime'),
+            sort: true
+          }, {
+            dataField: 'a0',
+            text: json['virtual_meter']['energy_category_name'] + ' (' + json['virtual_meter']['unit_of_measure'] + ')',
+            sort: true,
+            formatter: function (decimalValue) {
+              if (typeof decimalValue === 'number') {
+                return decimalValue.toFixed(2);
+              } else {
+                return null;
+              }
             }
-          }
-        }]);
+          }]);
 
-        let detailed_value_list = [];
-        json['reporting_period']['timestamps'].forEach((currentTimestamp, timestampIndex) => {
+          let detailed_value_list = [];
+          json['reporting_period']['timestamps'].forEach((currentTimestamp, timestampIndex) => {
+            let detailed_value = {};
+            detailed_value['id'] = timestampIndex;
+            detailed_value['startdatetime'] = currentTimestamp;
+            detailed_value['a0'] = json['reporting_period']['values'][timestampIndex];
+            detailed_value_list.push(detailed_value);
+          });
+
           let detailed_value = {};
-          detailed_value['id'] = timestampIndex;
-          detailed_value['startdatetime'] = currentTimestamp;
-          detailed_value['a0'] = json['reporting_period']['values'][timestampIndex];
+          detailed_value['id'] = detailed_value_list.length;
+          detailed_value['startdatetime'] = t('Total');
+          detailed_value['a0'] = json['reporting_period']['total_in_category'];
           detailed_value_list.push(detailed_value);
-        });
-        
-        let detailed_value = {};
-        detailed_value['id'] = detailed_value_list.length;
-        detailed_value['startdatetime'] = t('Total');
-        detailed_value['a0'] = json['reporting_period']['total_in_category'];
-        detailed_value_list.push(detailed_value);
-        setTimeout( () => {
-          setDetailedDataTableData(detailed_value_list);
-        }, 0)
+          setTimeout(() => {
+            setDetailedDataTableData(detailed_value_list);
+          }, 0)
+        }else {
+          setDetailedDataTableColumns([{
+            dataField: 'basePeriodDatetime',
+            text: t('Base Period') + ' - ' + t('Datetime'),
+            sort: true
+          }, {
+            dataField: 'a0',
+            text: t('Base Period') + ' - ' + json['virtual_meter']['energy_category_name'] + ' (' + json['virtual_meter']['unit_of_measure'] + ')',
+            sort: true,
+            formatter: function (decimalValue) {
+              if (typeof decimalValue === 'number') {
+                return decimalValue.toFixed(2);
+              } else {
+                return null;
+              }
+            }
+          }, {
+            dataField: 'reportingPeriodDatetime',
+            text: t('Reporting Period') + ' - ' + t('Datetime'),
+            sort: true
+          }, {
+            dataField: 'b0',
+            text: t('Reporting Period') + ' - ' + json['virtual_meter']['energy_category_name'] + ' (' + json['virtual_meter']['unit_of_measure'] + ')',
+            sort: true,
+            formatter: function (decimalValue) {
+              if (typeof decimalValue === 'number') {
+                return decimalValue.toFixed(2);
+              } else {
+                return null;
+              }
+            }
+          }]);
+
+          let detailed_value_list = [];
+          const max_timestamps_length = json['base_period']['timestamps'].length >= json['reporting_period']['timestamps'].length?
+                json['base_period']['timestamps'].length : json['reporting_period']['timestamps'].length;
+
+          for (let index = 0; index < max_timestamps_length; index++) {
+            let detailed_value = {};
+            detailed_value['id'] = index;
+            detailed_value['basePeriodDatetime'] = null;
+            detailed_value['a0'] = null;
+            detailed_value['reportingPeriodDatetime'] = null;
+            detailed_value['a0'] = null;
+            if (index < json['base_period']['timestamps'].length) {
+              detailed_value['basePeriodDatetime'] = json['base_period']['timestamps'][index];
+              detailed_value['a0'] = json['base_period']['values'][index];
+            }
+
+            if (index < json['reporting_period']['timestamps'].length) {
+              detailed_value['reportingPeriodDatetime'] = json['reporting_period']['timestamps'][index];
+              detailed_value['b0'] = json['reporting_period']['values'][index];
+            }
+            detailed_value_list.push(detailed_value);
+          }
+
+          let detailed_value = {};
+          detailed_value['id'] = detailed_value_list.length;
+          detailed_value['basePeriodDatetime'] = t('Total');
+          detailed_value['a0'] = json['base_period']['total_in_category'];
+          detailed_value['reportingPeriodDatetime'] = t('Total');
+          detailed_value['b0'] = json['reporting_period']['total_in_category'];
+          detailed_value_list.push(detailed_value);
+          setTimeout(() => {
+            setDetailedDataTableData(detailed_value_list);
+          }, 0)
+        }
         
         setExcelBytesBase64(json['excel_bytes_base64']);
 
@@ -590,12 +713,17 @@ const VirtualMeterCost = ({ setRedirect, setRedirectUrl, t }) => {
         </CardSummary>
       </div>
 
-      <LineChart reportingTitle={t('Reporting Period Costs CATEGORY VALUE UNIT', { 'CATEGORY': virtualMeterEnergyCategory['name'], 'VALUE': reportingPeriodEnergyCostInCategory.toFixed(2), 'UNIT': '(' + virtualMeterEnergyCategory['unit'] + ')' })}
-        baseTitle={t('Base Period Costs CATEGORY VALUE UNIT', { 'CATEGORY': virtualMeterEnergyCategory['name'], 'VALUE': basePeriodEnergyCostInCategory.toFixed(2), 'UNIT': '(' + virtualMeterEnergyCategory['unit'] + ')' })}
-        labels={virtualMeterLineChartLabels}
-        data={virtualMeterLineChartData}
-        options={virtualMeterLineChartOptions}>
-      </LineChart>
+      <MultiTrendChart reportingTitle = {{"name": "Reporting Period Costs CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": virtualMeterBaseAndReportingNames, "VALUE": virtualMeterReportingSubtotals, "UNIT": virtualMeterBaseAndReportingUnits}}
+        baseTitle = {{"name": "Base Period Costs CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": virtualMeterBaseAndReportingNames, "VALUE": virtualMeterBaseSubtotals, "UNIT": virtualMeterBaseAndReportingUnits}}
+        reportingTooltipTitle = {{"name": "Reporting Period Costs CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": virtualMeterBaseAndReportingNames, "VALUE": null, "UNIT": virtualMeterBaseAndReportingUnits}}
+        baseTooltipTitle = {{"name": "Base Period Costs CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": virtualMeterBaseAndReportingNames, "VALUE": null, "UNIT": virtualMeterBaseAndReportingUnits}}
+        reportingLabels={virtualMeterReportingLabels}
+        reportingData={virtualMeterReportingData}
+        baseLabels={virtualMeterBaseLabels}
+        baseData={virtualMeterBaseData}
+        rates={virtualMeterReportingRates}
+        options={virtualMeterReportingOptions}>
+      </MultiTrendChart>
 
       <MultipleLineChart reportingTitle={t('Related Parameters')}
         baseTitle=''

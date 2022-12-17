@@ -199,7 +199,7 @@ def generate_excel(report,
         category = reporting_period_data['names']
         ca_len = len(category)
 
-        ws.row_dimensions[7].height = 60
+        ws.row_dimensions[8].height = 60
         ws['B8'].fill = table_fill
         ws['B8'].border = f_border
 

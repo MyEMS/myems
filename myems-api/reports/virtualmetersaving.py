@@ -323,6 +323,7 @@ class Reporting:
         reporting['values_baseline'] = list()
         reporting['values_actual'] = list()
         reporting['values_saving'] = list()
+        reporting['values_rates'] = list()
         reporting['total_in_category_baseline'] = Decimal(0.0)
         reporting['total_in_category_actual'] = Decimal(0.0)
         reporting['total_in_category_saving'] = Decimal(0.0)
@@ -422,6 +423,12 @@ class Reporting:
         reporting['total_in_kgco2e_saving'] = \
             reporting['total_in_kgco2e_baseline'] - reporting['total_in_kgco2e_actual']
 
+        for index, value in enumerate(reporting['values_saving']):
+            if index < len(base['values_saving']) and base['values_saving'][index] != 0 and value != 0:
+                reporting['values_rates'].append((value - base['values_saving'][index]) / base['values_saving'][index])
+            else:
+                reporting['values_rates'].append(None)
+
         ################################################################################################################
         # Step 5: query tariff data
         ################################################################################################################
@@ -490,6 +497,7 @@ class Reporting:
                 "total_in_kgco2e_saving": reporting['total_in_kgco2e_saving'],
                 "timestamps": reporting['timestamps'],
                 "values_saving": reporting['values_saving'],
+                "values_rates": reporting['values_rates'],
             },
             "parameters": {
                 "names": parameters_data['names'],
@@ -503,6 +511,8 @@ class Reporting:
             result['excel_bytes_base64'] = \
                 excelexporters.virtualmetersaving.export(result,
                                                          virtual_meter['name'],
+                                                         base_period_start_datetime_local,
+                                                         base_period_end_datetime_local,
                                                          reporting_period_start_datetime_local,
                                                          reporting_period_end_datetime_local,
                                                          period_type,
