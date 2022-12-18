@@ -17,6 +17,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - 
 ### Fixed
 - fixed user calendar cannot fully display issue
+- fixed issues of comparing decimal with zero
+- 
 ### Removed
 -
 
