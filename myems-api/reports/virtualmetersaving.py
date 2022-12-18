@@ -491,7 +491,7 @@ class Reporting:
                 "increment_rate_saving":
                     (reporting['total_in_category_saving'] - base['total_in_category_saving']) /
                     base['total_in_category_saving']
-                    if base['total_in_category_saving'] > 0 else None,
+                    if base['total_in_category_saving'] != Decimal(0.0) else None,
                 "total_in_category_saving": reporting['total_in_category_saving'],
                 "total_in_kgce_saving": reporting['total_in_kgce_saving'],
                 "total_in_kgco2e_saving": reporting['total_in_kgco2e_saving'],

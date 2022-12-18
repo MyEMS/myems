@@ -335,7 +335,7 @@ class Reporting:
         }, "reporting_period": {
             "increment_rate":
                 (reporting['total_in_category'] - base['total_in_category']) / base['total_in_category']
-                if base['total_in_category'] > 0 else None,
+                if base['total_in_category'] != Decimal(0.0) else None,
             "total_in_category": reporting['total_in_category'],
             "total_in_kgce": reporting['total_in_kgce'],
             "total_in_kgco2e": reporting['total_in_kgco2e'],
