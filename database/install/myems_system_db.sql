@@ -1278,6 +1278,6 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '2.8.0', '2022-12-01');
+(1, '2.9.0', '2022-12-19');
 
 COMMIT;

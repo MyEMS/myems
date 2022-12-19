@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+- 
+### Changed
+- 
+### Fixed
+- 
+### Removed
+-
+
+## [v2.9.0] - 2022-12-19
+### Added
 - added base period data to Equipment reports
 - added base period data to Meter reports
 - added base period data to Virtual Meter reports
@@ -19,6 +29,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed user calendar cannot fully display issue
 - fixed issues of comparing decimal with zero
 - fixed issue of increment_rate_saving in meter saving report
+- 
 ### Removed
 -
 
@@ -1125,7 +1136,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v2.8.0...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v2.9.0...HEAD
+[2.9.0]: https://github.com/MyEMS/myems/compare/v2.8.0...v2.9.0
 [2.8.0]: https://github.com/MyEMS/myems/compare/v2.7.0...v2.8.0
 [2.7.0]: https://github.com/MyEMS/myems/compare/v2.6.0...v2.7.0
 [2.6.0]: https://github.com/MyEMS/myems/compare/v2.5.0...v2.6.0
