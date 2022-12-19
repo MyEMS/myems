@@ -65,7 +65,7 @@ class Reporting:
             if not bool(match):
                 raise falcon.HTTPError(falcon.HTTP_400,
                                        title='API.BAD_REQUEST',
-                                       description='API.INVALID_offline_meter_uuid')
+                                       description='API.INVALID_OFFLINE_METER_UUID')
 
         if period_type is None:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_PERIOD_TYPE')
