@@ -377,7 +377,8 @@ export const meterRoutes = {
     { to: '/meter/offlinemeterenergy', name: 'Offline Meter Energy' },
     { to: '/meter/offlinemetercarbon', name: 'Offline Meter Carbon' },
     { to: '/meter/offlinemetercost', name: 'Offline Meter Cost' },
-    { to: '/meter/offlinemeterbatch', name: 'Offline Meter Batch Analysis' }
+    { to: '/meter/offlinemeterbatch', name: 'Offline Meter Batch Analysis' },
+    { to: '/meter/offlinemetersaving', name: 'Offline Meter Saving' }
   ]
 };
 
