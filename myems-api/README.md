@@ -2812,6 +2812,16 @@ curl -i -X GET {{base_url}}/reports/offlinemeterenergy?offlinemeterid=1&periodty
 ```bash
 curl -i -X GET {{base_url}}/reports/offlinemeterenergy?offlinemeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
 ```
+*   GET Offline Meter Saving Report
+```bash
+curl -i -X GET {{base_url}}/reports/offlinemetersaving?offlinemeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00
+```
+*   GET Offline Meter Saving Report (Quick Mode)
+(It does not return parameters and Excel file in quick mode)
+
+```bash
+curl -i -X GET {{base_url}}/reports/offlinemetersaving?offlinemeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true
+```
 *   GET Shopfloor Batch Analysis Report
 ```bash
 curl -i -X GET {{base_url}}/reports/shopfloorbatch?spaceid=1&reportingperiodstartdatetime=2021-05-01T00:00:00&reportingperiodenddatetime=2021-05-20T11:41:09
