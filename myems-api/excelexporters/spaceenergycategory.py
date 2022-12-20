@@ -536,12 +536,19 @@ def generate_excel(report,
         col = ''
 
         for i in range(0, ca_len):
-            col = chr(ord('C') + i)
+            col = chr(ord('C') + 2 * i)
             ws[col + str(current_row_number)].fill = table_fill
             ws[col + str(current_row_number)].font = name_font
             ws[col + str(current_row_number)].alignment = c_c_alignment
             ws[col + str(current_row_number)].border = f_border
             ws[col + str(current_row_number)] = child['energy_category_names'][i] + ' ' + '(' + child['units'][i] + ')'
+
+            col = chr(ord('C') + 2 * i + 1)
+            ws[col + str(current_row_number)].fill = table_fill
+            ws[col + str(current_row_number)].font = name_font
+            ws[col + str(current_row_number)].alignment = c_c_alignment
+            ws[col + str(current_row_number)].border = f_border
+            ws[col + str(current_row_number)] = ""
 
         space_len = len(child['child_space_names_array'][0])
 
@@ -557,10 +564,18 @@ def generate_excel(report,
             col = ''
 
             for j in range(0, ca_len):
-                col = chr(ord('C') + j)
+                total = sum(child['subtotals_array'][j])
+
+                col = chr(ord('C') + 2 * j)
                 ws[col + row].font = name_font
                 ws[col + row].alignment = c_c_alignment
                 ws[col + row] = round(child['subtotals_array'][j][i], 2)
+                ws[col + row].border = f_border
+
+                col = chr(ord('C') + 2 * j + 1)
+                ws[col + row].font = name_font
+                ws[col + row].alignment = c_c_alignment
+                ws[col + row] = str(round(child['subtotals_array'][j][i] / total * 100, 2)) + '%' if total > 0 else '0.00%'
                 ws[col + row].border = f_border
 
         table_end_row_number = current_row_number
@@ -571,19 +586,19 @@ def generate_excel(report,
         for i in range(0, ca_len):
             pie = PieChart()
             labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1, max_row=table_end_row_number)
-            pie_data = Reference(ws, min_col=3 + i, min_row=table_start_row_number,
+            pie_data = Reference(ws, min_col=3 + 2 * i, min_row=table_start_row_number,
                                  max_row=table_end_row_number)
             pie.add_data(pie_data, titles_from_data=True)
             pie.set_categories(labels)
             pie.height = 6.6
             pie.width = 8
-            pie.title = ws.cell(column=3 + i, row=table_start_row_number).value
+            pie.title = ws.cell(column=3 + 2 * i, row=table_start_row_number).value
             s1 = pie.series[0]
             s1.dLbls = DataLabelList()
             s1.dLbls.showCatName = False
             s1.dLbls.showVal = True
             s1.dLbls.showPercent = True
-            char_col = chr(_col + i * 2)
+            char_col = chr(_col + i * 3)
 
             chart_cell = char_col + str(chart_start_row_number)
             ws.add_chart(pie, chart_cell)
