@@ -105,19 +105,19 @@ const TenantSaving = ({ setRedirect, setRedirectUrl, t }) => {
   const [totalInTCE, setTotalInTCE] = useState({});
   const [totalInTCO2E, setTotalInTCO2E] = useState({});
 
-  const [spaceBaseAndReportingNames, setSpaceBaseAndReportingNames] = useState({"a0":""});
-  const [spaceBaseAndReportingUnits, setSpaceBaseAndReportingUnits] = useState({"a0":"()"});
+  const [tenantBaseAndReportingNames, setTenantBaseAndReportingNames] = useState({"a0":""});
+  const [tenantBaseAndReportingUnits, setTenantBaseAndReportingUnits] = useState({"a0":"()"});
 
-  const [spaceBaseLabels, setSpaceBaseLabels] = useState({"a0": []});
-  const [spaceBaseData, setSpaceBaseData] = useState({"a0": []});
-  const [spaceBaseSubtotals, setSpaceBaseSubtotals] = useState({"a0": (0).toFixed(2)});
+  const [tenantBaseLabels, setTenantBaseLabels] = useState({"a0": []});
+  const [tenantBaseData, setTenantBaseData] = useState({"a0": []});
+  const [tenantBaseSubtotals, setTenantBaseSubtotals] = useState({"a0": (0).toFixed(2)});
 
-  const [spaceReportingLabels, setSpaceReportingLabels] = useState({"a0": []});
-  const [spaceReportingData, setSpaceReportingData] = useState({"a0": []});
-  const [spaceReportingSubtotals, setSpaceReportingSubtotals] = useState({"a0": (0).toFixed(2)});
+  const [tenantReportingLabels, setTenantReportingLabels] = useState({"a0": []});
+  const [tenantReportingData, setTenantReportingData] = useState({"a0": []});
+  const [tenantReportingSubtotals, setTenantReportingSubtotals] = useState({"a0": (0).toFixed(2)});
 
-  const [spaceReportingRates, setSpaceReportingRates] = useState({"a0": []});
-  const [spaceReportingOptions, setSpaceReportingOptions] = useState([]);
+  const [tenantReportingRates, setTenantReportingRates] = useState({"a0": []});
+  const [tenantReportingOptions, setTenantReportingOptions] = useState([]);
   
   const [parameterLineChartLabels, setParameterLineChartLabels] = useState([]);
   const [parameterLineChartData, setParameterLineChartData] = useState({});
@@ -415,13 +415,13 @@ const TenantSaving = ({ setRedirect, setRedirectUrl, t }) => {
         json['base_period']['timestamps'].forEach((currentValue, index) => {
           base_timestamps['a' + index] = currentValue;
         });
-        setSpaceBaseLabels(base_timestamps)
+        setTenantBaseLabels(base_timestamps)
 
         let base_values = {}
         json['base_period']['values_saving'].forEach((currentValue, index) => {
           base_values['a' + index] = currentValue;
         });
-        setSpaceBaseData(base_values)
+        setTenantBaseData(base_values)
 
         /*
         * Tip:
@@ -433,37 +433,37 @@ const TenantSaving = ({ setRedirect, setRedirectUrl, t }) => {
         json['reporting_period']['names'].forEach((currentValue, index) => {
           base_and_reporting_names['a' + index] = currentValue;
         });
-        setSpaceBaseAndReportingNames(base_and_reporting_names)
+        setTenantBaseAndReportingNames(base_and_reporting_names)
 
         let base_and_reporting_units = {}
         json['reporting_period']['units'].forEach((currentValue, index) => {
           base_and_reporting_units['a' + index] = "("+currentValue+")";
         });
-        setSpaceBaseAndReportingUnits(base_and_reporting_units)
+        setTenantBaseAndReportingUnits(base_and_reporting_units)
 
         let base_subtotals = {}
         json['base_period']['subtotals_saving'].forEach((currentValue, index) => {
           base_subtotals['a' + index] = currentValue.toFixed(2);
         });
-        setSpaceBaseSubtotals(base_subtotals)
+        setTenantBaseSubtotals(base_subtotals)
 
         let reporting_timestamps = {}
         json['reporting_period']['timestamps'].forEach((currentValue, index) => {
           reporting_timestamps['a' + index] = currentValue;
         });
-        setSpaceReportingLabels(reporting_timestamps);
+        setTenantReportingLabels(reporting_timestamps);
 
         let reporting_values = {}
         json['reporting_period']['values_saving'].forEach((currentValue, index) => {
           reporting_values['a' + index] = currentValue;
         });
-        setSpaceReportingData(reporting_values);
+        setTenantReportingData(reporting_values);
 
         let reporting_subtotals = {}
         json['reporting_period']['subtotals_saving'].forEach((currentValue, index) => {
           reporting_subtotals['a' + index] = currentValue.toFixed(2);
         });
-        setSpaceReportingSubtotals(reporting_subtotals);
+        setTenantReportingSubtotals(reporting_subtotals);
 
         let rates = {}
         json['reporting_period']['rates_saving'].forEach((currentValue, index) => {
@@ -473,14 +473,14 @@ const TenantSaving = ({ setRedirect, setRedirectUrl, t }) => {
           });
           rates['a' + index] = currentRate;
         });
-        setSpaceReportingRates(rates)
+        setTenantReportingRates(rates)
 
         let options = Array();
         json['reporting_period']['names'].forEach((currentValue, index) => {
           let unit = json['reporting_period']['units'][index];
           options.push({ 'value': 'a' + index, 'label': currentValue + ' (' + unit + ')'});
         });
-        setSpaceReportingOptions(options);
+        setTenantReportingOptions(options);
        
         let timestamps = {}
         json['parameters']['timestamps'].forEach((currentValue, index) => {
@@ -842,16 +842,16 @@ const TenantSaving = ({ setRedirect, setRedirectUrl, t }) => {
         </Col>
       </Row>
 
-      <MultiTrendChart reportingTitle = {{"name": "Reporting Period Saving CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": spaceBaseAndReportingNames, "VALUE": spaceReportingSubtotals, "UNIT": spaceBaseAndReportingUnits}}
-        baseTitle = {{"name": "Base Period Saving CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": spaceBaseAndReportingNames, "VALUE": spaceBaseSubtotals, "UNIT": spaceBaseAndReportingUnits}}
-        reportingTooltipTitle = {{"name": "Reporting Period Saving CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": spaceBaseAndReportingNames, "VALUE": null, "UNIT": spaceBaseAndReportingUnits}}
-        baseTooltipTitle = {{"name": "Base Period Saving CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": spaceBaseAndReportingNames, "VALUE": null, "UNIT": spaceBaseAndReportingUnits}}
-        reportingLabels={spaceReportingLabels}
-        reportingData={spaceReportingData}
-        baseLabels={spaceBaseLabels}
-        baseData={spaceBaseData}
-        rates={spaceReportingRates}
-        options={spaceReportingOptions}>
+      <MultiTrendChart reportingTitle = {{"name": "Reporting Period Saving CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": tenantBaseAndReportingNames, "VALUE": tenantReportingSubtotals, "UNIT": tenantBaseAndReportingUnits}}
+        baseTitle = {{"name": "Base Period Saving CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": tenantBaseAndReportingNames, "VALUE": tenantBaseSubtotals, "UNIT": tenantBaseAndReportingUnits}}
+        reportingTooltipTitle = {{"name": "Reporting Period Saving CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": tenantBaseAndReportingNames, "VALUE": null, "UNIT": tenantBaseAndReportingUnits}}
+        baseTooltipTitle = {{"name": "Base Period Saving CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": tenantBaseAndReportingNames, "VALUE": null, "UNIT": tenantBaseAndReportingUnits}}
+        reportingLabels={tenantReportingLabels}
+        reportingData={tenantReportingData}
+        baseLabels={tenantBaseLabels}
+        baseData={tenantBaseData}
+        rates={tenantReportingRates}
+        options={tenantReportingOptions}>
       </MultiTrendChart>
 
       <MultipleLineChart reportingTitle={t('Related Parameters')}
