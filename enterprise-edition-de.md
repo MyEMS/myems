@@ -12,6 +12,9 @@
 | Deploy on PostgreSQL Database    |  ✔️        | https://www.postgresql.org/ |
 | Space/Saving Data                |  ✔️        | Erfordert eine Komponente zur Vorhersage des Energieverbrauchs |
 | Equipment/Saving Data            | ✔️        | Erfordert eine Komponente zur Vorhersage des Energieverbrauchs |
+| Meter Saving Data                | ✔️        | Erfordert eine Komponente zur Vorhersage des Energieverbrauchs |
+| Virtual Meter Saving Data        | ✔️        | Erfordert eine Komponente zur Vorhersage des Energieverbrauchs |
+| Offline Meter Saving Data        | ✔️        | Erfordert eine Komponente zur Vorhersage des Energieverbrauchs |
 | Tenant/Saving Data               |  ✔️        | Erfordert eine Komponente zur Vorhersage des Energieverbrauchs |
 | Store/Saving Data                |  ✔️        |                      |
 | Shopfloor/Saving Data            |  ✔️        | Erfordert eine Komponente zur Vorhersage des Energieverbrauchs |

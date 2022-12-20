@@ -11,6 +11,9 @@
 | Deploy on Oracle Database        |  ✔️        | https://www.oracle.com/database/ |
 | Space/Saving Data                |  ✔️        | Enterprise version license, or customizable development |
 | Equipment/Saving Data            |  ✔️        | Enterprise version license, or customizable development |
+| Meter Saving Data                |  ✔️        | Enterprise version license, or customizable development |
+| Virtual Meter Saving Data        |  ✔️        | Enterprise version license, or customizable development |
+| Offline Meter Saving Data        |  ✔️        | Enterprise version license, or customizable development |
 | Tenant/Saving Data               |  ✔️        | Enterprise version license, or customizable development |
 | Store/Saving Data                |  ✔️        | Enterprise version license, or customizable development |
 | Shopfloor/Saving Data            |  ✔️        | Enterprise version license, or customizable development |
