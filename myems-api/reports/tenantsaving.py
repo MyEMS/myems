@@ -719,11 +719,12 @@ class Reporting:
                 result['reporting_period']['subtotals_in_kgco2e_saving'].append(
                     reporting[energy_category_id]['subtotal_in_kgco2e_saving'])
                 result['reporting_period']['subtotals_per_unit_area_saving'].append(
-                    reporting[energy_category_id]['subtotal_saving'] / tenant['area'] if tenant['area'] > 0.0 else None)
+                    reporting[energy_category_id]['subtotal_saving'] / tenant['area']
+                    if tenant['area'] != Decimal(0.0) else None)
                 result['reporting_period']['increment_rates_saving'].append(
                     (reporting[energy_category_id]['subtotal_saving'] - base[energy_category_id]['subtotal_saving']) /
                     base[energy_category_id]['subtotal_saving']
-                    if base[energy_category_id]['subtotal_saving'] > 0.0 else None)
+                    if base[energy_category_id]['subtotal_saving'] != Decimal(0.0) else None)
                 result['reporting_period']['total_in_kgce_saving'] += \
                     reporting[energy_category_id]['subtotal_in_kgce_saving']
                 result['reporting_period']['total_in_kgco2e_saving'] += \
@@ -732,7 +733,8 @@ class Reporting:
                 rate = list()
                 for index, value in enumerate(reporting[energy_category_id]['values_saving']):
                     if index < len(base[energy_category_id]['values_saving']) \
-                            and base[energy_category_id]['values_saving'][index] != 0 and value != 0:
+                            and base[energy_category_id]['values_saving'][index] != Decimal(0.0) \
+                            and value != Decimal(0.0):
                         rate.append((value - base[energy_category_id]['values_saving'][index])
                                     / base[energy_category_id]['values_saving'][index])
                     else:
@@ -740,12 +742,13 @@ class Reporting:
                 result['reporting_period']['rates_saving'].append(rate)
 
         result['reporting_period']['total_in_kgco2e_per_unit_area_saving'] = \
-            result['reporting_period']['total_in_kgce_saving'] / tenant['area'] if tenant['area'] > 0.0 else None
+            result['reporting_period']['total_in_kgce_saving'] / tenant['area'] \
+            if tenant['area'] != Decimal(0.0) else None
 
         result['reporting_period']['increment_rate_in_kgce_saving'] = \
             (result['reporting_period']['total_in_kgce_saving'] - result['base_period']['total_in_kgce_saving']) / \
             result['base_period']['total_in_kgce_saving'] \
-            if result['base_period']['total_in_kgce_saving'] > Decimal(0.0) else None
+            if result['base_period']['total_in_kgce_saving'] != Decimal(0.0) else None
 
         result['reporting_period']['total_in_kgce_per_unit_area_saving'] = \
             result['reporting_period']['total_in_kgco2e_saving'] / tenant['area'] if tenant['area'] > 0.0 else None
@@ -753,7 +756,7 @@ class Reporting:
         result['reporting_period']['increment_rate_in_kgco2e_saving'] = \
             (result['reporting_period']['total_in_kgco2e_saving'] - result['base_period']['total_in_kgco2e_saving']) / \
             result['base_period']['total_in_kgco2e_saving'] \
-            if result['base_period']['total_in_kgco2e_saving'] > Decimal(0.0) else None
+            if result['base_period']['total_in_kgco2e_saving'] != Decimal(0.0) else None
 
         result['parameters'] = {
             "names": parameters_data['names'],
