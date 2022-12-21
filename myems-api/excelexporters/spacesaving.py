@@ -733,7 +733,7 @@ def generate_excel(report,
                 for i in range(0, reporting_period_data_ca_len):
                     # line
                     line = LineChart()
-                    line.title = _('Reporting Period Saving') + ' / ' \
+                    line.title = _('Base Period Saving') + ' / ' \
                         + _('Reporting Period Saving') + ' - ' \
                         + reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
                     labels = Reference(ws, min_col=2 + base_period_data_ca_len + 1,
