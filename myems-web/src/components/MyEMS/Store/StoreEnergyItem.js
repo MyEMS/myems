@@ -20,7 +20,7 @@ import moment from 'moment';
 import loadable from '@loadable/component';
 import Cascader from 'rc-cascader';
 import CardSummary from '../common/CardSummary';
-import LineChart from '../common/LineChart';
+import MultiTrendChart from '../common/MultiTrendChart';
 import SharePie from '../common/SharePie';
 import { getCookieValue, createCookie } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
@@ -99,9 +99,20 @@ const StoreEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
   //Results
   const [cardSummaryList, setCardSummaryList] = useState([]);
   const [sharePieList, setSharePieList] = useState([]);
-  const [storeLineChartLabels, setStoreLineChartLabels] = useState([]);
-  const [storeLineChartData, setStoreLineChartData] = useState({});
-  const [storeLineChartOptions, setStoreLineChartOptions] = useState([]);
+
+  const [storeBaseAndReportingNames, setStoreBaseAndReportingNames] = useState({"a0":""});
+  const [storeBaseAndReportingUnits, setStoreBaseAndReportingUnits] = useState({"a0":"()"});
+
+  const [storeBaseLabels, setStoreBaseLabels] = useState({"a0": []});
+  const [storeBaseData, setStoreBaseData] = useState({"a0": []});
+  const [storeBaseSubtotals, setStoreBaseSubtotals] = useState({"a0": (0).toFixed(2)});
+
+  const [storeReportingLabels, setStoreReportingLabels] = useState({"a0": []});
+  const [storeReportingData, setStoreReportingData] = useState({"a0": []});
+  const [storeReportingSubtotals, setStoreReportingSubtotals] = useState({"a0": (0).toFixed(2)});
+
+  const [storeReportingRates, setStoreReportingRates] = useState({"a0": []});
+  const [storeReportingOptions, setStoreReportingOptions] = useState([]);
 
   const [parameterLineChartLabels, setParameterLineChartLabels] = useState([]);
   const [parameterLineChartData, setParameterLineChartData] = useState({});
@@ -286,6 +297,21 @@ const StoreEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
     setReportingPeriodDateRange([null, null]);
   };
 
+  const isBasePeriodTimestampExists = (base_period_data) => {
+    const timestamps = base_period_data['timestamps'];
+
+    if (timestamps.length === 0) {
+      return false;
+    }
+
+    for (let i = 0; i < timestamps.length; i++) {
+      if (timestamps[i].length > 0) {
+        return true;
+      }
+    }
+    return false
+  }
+
   // Handler
   const handleSubmit = e => {
     e.preventDefault();
@@ -382,90 +408,230 @@ const StoreEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
 
         setSharePieList(sharePieArray);
 
-        let timestamps = {}
-        json['reporting_period']['timestamps'].forEach((currentValue, index) => {
-          timestamps['a' + index] = currentValue;
+        let base_timestamps = {}
+        json['base_period']['timestamps'].forEach((currentValue, index) => {
+          base_timestamps['a' + index] = currentValue;
         });
-        setStoreLineChartLabels(timestamps);
+        setStoreBaseLabels(base_timestamps)
 
-        let values = {}
-        json['reporting_period']['values'].forEach((currentValue, index) => {
-          values['a' + index] = currentValue;
+        let base_values = {}
+        json['base_period']['values'].forEach((currentValue, index) => {
+          base_values['a' + index] = currentValue;
         });
-        setStoreLineChartData(values);
-        
-        let names = Array();
+        setStoreBaseData(base_values)
+
+        /*
+        * Tip:
+        *     base_names === reporting_names
+        *     base_units === reporting_units
+        * */
+
+        let base_and_reporting_names = {}
+        json['reporting_period']['names'].forEach((currentValue, index) => {
+          base_and_reporting_names['a' + index] = currentValue;
+        });
+        setStoreBaseAndReportingNames(base_and_reporting_names)
+
+        let base_and_reporting_units = {}
+        json['reporting_period']['units'].forEach((currentValue, index) => {
+          base_and_reporting_units['a' + index] = "("+currentValue+")";
+        });
+        setStoreBaseAndReportingUnits(base_and_reporting_units)
+
+        let base_subtotals = {}
+        json['base_period']['subtotals'].forEach((currentValue, index) => {
+          base_subtotals['a' + index] = currentValue.toFixed(2);
+        });
+        setStoreBaseSubtotals(base_subtotals)
+
+        let reporting_timestamps = {}
+        json['reporting_period']['timestamps'].forEach((currentValue, index) => {
+          reporting_timestamps['a' + index] = currentValue;
+        });
+        setStoreReportingLabels(reporting_timestamps);
+
+        let reporting_values = {}
+        json['reporting_period']['values'].forEach((currentValue, index) => {
+          reporting_values['a' + index] = currentValue;
+        });
+        setStoreReportingData(reporting_values);
+
+        let reporting_subtotals = {}
+        json['reporting_period']['subtotals'].forEach((currentValue, index) => {
+          reporting_subtotals['a' + index] = currentValue.toFixed(2);
+        });
+        setStoreReportingSubtotals(reporting_subtotals);
+
+        let rates = {}
+        json['reporting_period']['rates'].forEach((currentValue, index) => {
+          let currentRate = Array();
+          currentValue.forEach((rate) => {
+            currentRate.push(rate ? parseFloat(rate * 100).toFixed(2) : '0.00');
+          });
+          rates['a' + index] = currentRate;
+        });
+        setStoreReportingRates(rates)
+
+        let options = Array();
         json['reporting_period']['names'].forEach((currentValue, index) => {
           let unit = json['reporting_period']['units'][index];
-          names.push({ 'value': 'a' + index, 'label': currentValue + ' (' + unit + ')'});
+          options.push({ 'value': 'a' + index, 'label': currentValue + ' (' + unit + ')'});
         });
-        setStoreLineChartOptions(names);
+        setStoreReportingOptions(options);
 
-        timestamps = {}
+        let timestamps = {}
         json['parameters']['timestamps'].forEach((currentValue, index) => {
           timestamps['a' + index] = currentValue;
         });
         setParameterLineChartLabels(timestamps);
 
-        values = {}
+        let values = {}
         json['parameters']['values'].forEach((currentValue, index) => {
           values['a' + index] = currentValue;
         });
         setParameterLineChartData(values);
       
-        names = Array();
+        let names = Array();
         json['parameters']['names'].forEach((currentValue, index) => {
           
           names.push({ 'value': 'a' + index, 'label': currentValue });
         });
         setParameterLineChartOptions(names);
 
-        let detailed_value_list = [];
-        if (json['reporting_period']['timestamps'].length > 0) {
-          json['reporting_period']['timestamps'][0].forEach((currentTimestamp, timestampIndex) => {
-            let detailed_value = {};
-            detailed_value['id'] = timestampIndex;
-            detailed_value['startdatetime'] = currentTimestamp;
-            json['reporting_period']['values'].forEach((currentValue, energyCategoryIndex) => {
-              detailed_value['a' + energyCategoryIndex] = json['reporting_period']['values'][energyCategoryIndex][timestampIndex];
+        if(!isBasePeriodTimestampExists(json['base_period'])) {
+          let detailed_value_list = [];
+          if (json['reporting_period']['timestamps'].length > 0) {
+            json['reporting_period']['timestamps'][0].forEach((currentTimestamp, timestampIndex) => {
+              let detailed_value = {};
+              detailed_value['id'] = timestampIndex;
+              detailed_value['startdatetime'] = currentTimestamp;
+              json['reporting_period']['values'].forEach((currentValue, energyCategoryIndex) => {
+                detailed_value['a' + energyCategoryIndex] = json['reporting_period']['values'][energyCategoryIndex][timestampIndex];
+              });
+              detailed_value_list.push(detailed_value);
             });
-            detailed_value_list.push(detailed_value);
-          });
-        };
+          }
+          ;
 
-        let detailed_value = {};
-        detailed_value['id'] = detailed_value_list.length;
-        detailed_value['startdatetime'] = t('Subtotal');
-        json['reporting_period']['subtotals'].forEach((currentValue, index) => {
+          let detailed_value = {};
+          detailed_value['id'] = detailed_value_list.length;
+          detailed_value['startdatetime'] = t('Subtotal');
+          json['reporting_period']['subtotals'].forEach((currentValue, index) => {
             detailed_value['a' + index] = currentValue;
           });
-        detailed_value_list.push(detailed_value);
-        setTimeout( () => {
-          setDetailedDataTableData(detailed_value_list);
-        }, 0)
-        
-        let detailed_column_list = [];
-        detailed_column_list.push({
-          dataField: 'startdatetime',
-          text: t('Datetime'),
-          sort: true
-        });
-        json['reporting_period']['names'].forEach((currentValue, index) => {
-          let unit = json['reporting_period']['units'][index];
+          detailed_value_list.push(detailed_value);
+          setTimeout(() => {
+            setDetailedDataTableData(detailed_value_list);
+          }, 0)
+
+          let detailed_column_list = [];
           detailed_column_list.push({
-            dataField: 'a' + index,
-            text: currentValue + ' (' + unit + ')',
-            sort: true,
-            formatter: function (decimalValue) {
-              if (typeof decimalValue === 'number') {
-                return decimalValue.toFixed(2);
-              } else {
-                return null;
-              }
-            }
+            dataField: 'startdatetime',
+            text: t('Datetime'),
+            sort: true
           });
-        });
-        setDetailedDataTableColumns(detailed_column_list);
+          json['reporting_period']['names'].forEach((currentValue, index) => {
+            let unit = json['reporting_period']['units'][index];
+            detailed_column_list.push({
+              dataField: 'a' + index,
+              text: currentValue + ' (' + unit + ')',
+              sort: true,
+              formatter: function (decimalValue) {
+                if (typeof decimalValue === 'number') {
+                  return decimalValue.toFixed(2);
+                } else {
+                  return null;
+                }
+              }
+            });
+          });
+          setDetailedDataTableColumns(detailed_column_list);
+        }else {
+          /*
+          * Tip:
+          *     json['base_period']['names'] ===  json['reporting_period']['names']
+          *     json['base_period']['units'] ===  json['reporting_period']['units']
+          * */
+          let detailed_column_list = [];
+          detailed_column_list.push({
+            dataField: 'basePeriodDatetime',
+            text: t('Base Period') + ' - ' + t('Datetime'),
+            sort: true
+          })
+
+          json['base_period']['names'].forEach((currentValue, index) => {
+            let unit = json['base_period']['units'][index];
+            detailed_column_list.push({
+              dataField: 'a' + index,
+              text: t('Base Period') + ' - ' + currentValue + ' (' + unit + ')',
+              sort: true,
+              formatter: function (decimalValue) {
+                if (typeof decimalValue === 'number') {
+                  return decimalValue.toFixed(2);
+                } else {
+                  return null;
+                }
+              }
+            })
+          });
+
+          detailed_column_list.push({
+            dataField: 'reportingPeriodDatetime',
+            text: t('Reporting Period') + ' - ' + t('Datetime'),
+            sort: true
+          })
+
+          json['reporting_period']['names'].forEach((currentValue, index) => {
+            let unit = json['reporting_period']['units'][index];
+            detailed_column_list.push({
+              dataField: 'b' + index,
+              text: t('Reporting Period') + ' - ' + currentValue + ' (' + unit + ')',
+              sort: true,
+              formatter: function (decimalValue) {
+                if (typeof decimalValue === 'number') {
+                  return decimalValue.toFixed(2);
+                } else {
+                  return null;
+                }
+              }
+            })
+          });
+          setDetailedDataTableColumns(detailed_column_list);
+
+          let detailed_value_list = [];
+          if (json['base_period']['timestamps'].length > 0 || json['reporting_period']['timestamps'].length > 0) {
+            const max_timestamps_length = json['base_period']['timestamps'][0].length >= json['reporting_period']['timestamps'][0].length?
+                json['base_period']['timestamps'][0].length : json['reporting_period']['timestamps'][0].length;
+            for (let index = 0; index < max_timestamps_length; index++) {
+              let detailed_value = {};
+              detailed_value['id'] = index;
+              detailed_value['basePeriodDatetime'] = index < json['base_period']['timestamps'][0].length? json['base_period']['timestamps'][0][index] : null;
+              json['base_period']['values'].forEach((currentValue, energyCategoryIndex) => {
+                detailed_value['a' + energyCategoryIndex] = index < json['base_period']['values'][energyCategoryIndex].length? json['base_period']['values'][energyCategoryIndex][index] : null;
+              });
+              detailed_value['reportingPeriodDatetime'] = index < json['reporting_period']['timestamps'][0].length? json['reporting_period']['timestamps'][0][index] : null;
+              json['reporting_period']['values'].forEach((currentValue, energyCategoryIndex) => {
+                detailed_value['b' + energyCategoryIndex] = index < json['reporting_period']['values'][energyCategoryIndex].length? json['reporting_period']['values'][energyCategoryIndex][index] : null;
+              });
+              detailed_value_list.push(detailed_value);
+            }
+
+            let detailed_value = {};
+            detailed_value['id'] = detailed_value_list.length;
+            detailed_value['basePeriodDatetime'] = t('Subtotal');
+            json['base_period']['subtotals'].forEach((currentValue, index) => {
+              detailed_value['a' + index] = currentValue;
+            });
+            detailed_value['reportingPeriodDatetime'] = t('Subtotal');
+            json['reporting_period']['subtotals'].forEach((currentValue, index) => {
+              detailed_value['b' + index] = currentValue;
+            });
+            detailed_value_list.push(detailed_value);
+            setTimeout( () => {
+              setDetailedDataTableData(detailed_value_list);
+            }, 0)
+          }
+        }
         
         setExcelBytesBase64(json['excel_bytes_base64']);
 
@@ -656,12 +822,19 @@ const StoreEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
           </Col>
         ))}
       </Row>
-      <LineChart reportingTitle={t('Reporting Period Consumption ITEM CATEGORY VALUE UNIT', { 'ITEM': null, 'CATEGORY': null, 'VALUE': null, 'UNIT': null })}
-        baseTitle=''
-        labels={storeLineChartLabels}
-        data={storeLineChartData}
-        options={storeLineChartOptions}>
-      </LineChart>
+
+      <MultiTrendChart reportingTitle = {{"name": "Reporting Period Consumption CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": storeBaseAndReportingNames, "VALUE": storeReportingSubtotals, "UNIT": storeBaseAndReportingUnits}}
+        baseTitle = {{"name": "Base Period Consumption CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": storeBaseAndReportingNames, "VALUE": storeBaseSubtotals, "UNIT": storeBaseAndReportingUnits}}
+        reportingTooltipTitle = {{"name": "Reporting Period Consumption CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": storeBaseAndReportingNames, "VALUE": null, "UNIT": storeBaseAndReportingUnits}}
+        baseTooltipTitle = {{"name": "Base Period Consumption CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": storeBaseAndReportingNames, "VALUE": null, "UNIT": storeBaseAndReportingUnits}}
+        reportingLabels={storeReportingLabels}
+        reportingData={storeReportingData}
+        baseLabels={storeBaseLabels}
+        baseData={storeBaseData}
+        rates={storeReportingRates}
+        options={storeReportingOptions}>
+      </MultiTrendChart>
+
       <MultipleLineChart reportingTitle={t('Related Parameters')}
         baseTitle=''
         labels={parameterLineChartLabels}
