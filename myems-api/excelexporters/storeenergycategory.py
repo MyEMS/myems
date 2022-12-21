@@ -315,7 +315,7 @@ def generate_excel(report,
     if "toppeaks" not in reporting_period_data.keys() or \
             reporting_period_data['toppeaks'] is None or \
             len(reporting_period_data['toppeaks']) == 0:
-        for i in range(13, 18 + 1):
+        for i in range(13, 19 + 1):
             ws.row_dimensions[i].height = 0.1
     else:
         electric_index = -1
