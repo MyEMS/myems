@@ -274,7 +274,7 @@ def generate_excel(report,
         for i in range(12, 18 + 1):
             ws.row_dimensions[i].height = 0.1
     else:
-        electric_index = 0
+        electric_index = -1
         for i in range(len(reporting_period_data['energy_category_ids'])):
             if reporting_period_data['energy_category_ids'][i] == 1:
                 electric_index = i
@@ -303,7 +303,7 @@ def generate_excel(report,
         ws['C14'].font = title_font
         ws['C14'].alignment = c_c_alignment
         ws['C14'].border = f_border
-        ws['C14'] = round(reporting_period_data['toppeaks'][electric_index], 2)
+        ws['C14'] = round(reporting_period_data['toppeaks'][electric_index], 2) if electric_index >= 0 else "-"
 
         ws['B15'].font = title_font
         ws['B15'].alignment = c_c_alignment
@@ -313,7 +313,7 @@ def generate_excel(report,
         ws['C15'].font = title_font
         ws['C15'].alignment = c_c_alignment
         ws['C15'].border = f_border
-        ws['C15'] = round(reporting_period_data['onpeaks'][electric_index], 2)
+        ws['C15'] = round(reporting_period_data['onpeaks'][electric_index], 2) if electric_index >= 0 else "-"
 
         ws['B16'].font = title_font
         ws['B16'].alignment = c_c_alignment
@@ -323,7 +323,7 @@ def generate_excel(report,
         ws['C16'].font = title_font
         ws['C16'].alignment = c_c_alignment
         ws['C16'].border = f_border
-        ws['C16'] = round(reporting_period_data['midpeaks'][electric_index], 2)
+        ws['C16'] = round(reporting_period_data['midpeaks'][electric_index], 2) if electric_index >= 0 else "-"
 
         ws['B17'].font = title_font
         ws['B17'].alignment = c_c_alignment
@@ -333,7 +333,7 @@ def generate_excel(report,
         ws['C17'].font = title_font
         ws['C17'].alignment = c_c_alignment
         ws['C17'].border = f_border
-        ws['C17'] = round(reporting_period_data['offpeaks'][electric_index], 2)
+        ws['C17'] = round(reporting_period_data['offpeaks'][electric_index], 2) if electric_index >= 0 else "-"
 
         pie = PieChart()
         pie.title = name + ' ' + _('Electricity Cost by Time-Of-Use')
