@@ -621,7 +621,7 @@ def generate_excel(report,
                 current_chart_row_number = chart_start_number
 
                 for i in range(0, reporting_period_data_ca_len):
-                    labels = Reference(ws, min_col=2 + base_period_data_ca_len + 1,
+                    labels = Reference(ws, min_col=2 + base_period_data_ca_len * 2 + 1,
                                        min_row=table_start_row_number + 1,
                                        max_row=table_start_row_number + len(reporting_period_timestamps[0]))
 
