@@ -280,10 +280,10 @@ def generate_excel(report,
         for i in range(13, 19 + 1):
             ws.row_dimensions[i].height = 0.1
     else:
-        electric_index = -1
+        electricity_index = -1
         for i in range(len(reporting_period_data['energy_category_ids'])):
             if reporting_period_data['energy_category_ids'][i] == 1:
-                electric_index = i
+                electricity_index = i
                 break
 
         ws['B13'].font = title_font
@@ -309,11 +309,11 @@ def generate_excel(report,
 
         wssum = None
 
-        if electric_index >= 0:
-            wssum = round(reporting_period_data['toppeaks'][electric_index], 2) + \
-                    round(reporting_period_data['onpeaks'][electric_index], 2) + \
-                    round(reporting_period_data['midpeaks'][electric_index], 2) + \
-                    round(reporting_period_data['offpeaks'][electric_index], 2)
+        if electricity_index >= 0:
+            wssum = round(reporting_period_data['toppeaks'][electricity_index], 2) + \
+                    round(reporting_period_data['onpeaks'][electricity_index], 2) + \
+                    round(reporting_period_data['midpeaks'][electricity_index], 2) + \
+                    round(reporting_period_data['offpeaks'][electricity_index], 2)
 
         ws['B15'].font = title_font
         ws['B15'].alignment = c_c_alignment
@@ -323,12 +323,12 @@ def generate_excel(report,
         ws['C15'].font = title_font
         ws['C15'].alignment = c_c_alignment
         ws['C15'].border = f_border
-        ws['C15'] = round(reporting_period_data['toppeaks'][electric_index], 2) if electric_index >= 0 else "-"
+        ws['C15'] = round(reporting_period_data['toppeaks'][electricity_index], 2) if electricity_index >= 0 else "-"
 
         ws['D15'].font = title_font
         ws['D15'].alignment = c_c_alignment
         ws['D15'].border = f_border
-        ws['D15'] = '{:.2%}'.format(round(reporting_period_data['toppeaks'][electric_index], 2) / wssum) \
+        ws['D15'] = '{:.2%}'.format(round(reporting_period_data['toppeaks'][electricity_index], 2) / wssum) \
             if wssum is not None and wssum != 0 else "0.00%"
 
         ws['B16'].font = title_font
@@ -339,12 +339,12 @@ def generate_excel(report,
         ws['C16'].font = title_font
         ws['C16'].alignment = c_c_alignment
         ws['C16'].border = f_border
-        ws['C16'] = round(reporting_period_data['onpeaks'][electric_index], 2) if electric_index >= 0 else "-"
+        ws['C16'] = round(reporting_period_data['onpeaks'][electricity_index], 2) if electricity_index >= 0 else "-"
 
         ws['D16'].font = title_font
         ws['D16'].alignment = c_c_alignment
         ws['D16'].border = f_border
-        ws['D16'] = '{:.2%}'.format(round(reporting_period_data['onpeaks'][electric_index], 2) / wssum) \
+        ws['D16'] = '{:.2%}'.format(round(reporting_period_data['onpeaks'][electricity_index], 2) / wssum) \
             if wssum is not None and wssum != 0 else "0.00%"
 
         ws['B17'].font = title_font
@@ -355,12 +355,12 @@ def generate_excel(report,
         ws['C17'].font = title_font
         ws['C17'].alignment = c_c_alignment
         ws['C17'].border = f_border
-        ws['C17'] = round(reporting_period_data['midpeaks'][electric_index], 2) if electric_index >= 0 else "-"
+        ws['C17'] = round(reporting_period_data['midpeaks'][electricity_index], 2) if electricity_index >= 0 else "-"
 
         ws['D17'].font = title_font
         ws['D17'].alignment = c_c_alignment
         ws['D17'].border = f_border
-        ws['D17'] = '{:.2%}'.format(round(reporting_period_data['midpeaks'][electric_index], 2) / wssum) \
+        ws['D17'] = '{:.2%}'.format(round(reporting_period_data['midpeaks'][electricity_index], 2) / wssum) \
             if wssum is not None and wssum != 0 else "0.00%"
 
         ws['B18'].font = title_font
@@ -371,12 +371,12 @@ def generate_excel(report,
         ws['C18'].font = title_font
         ws['C18'].alignment = c_c_alignment
         ws['C18'].border = f_border
-        ws['C18'] = round(reporting_period_data['offpeaks'][electric_index], 2) if electric_index >= 0 else "-"
+        ws['C18'] = round(reporting_period_data['offpeaks'][electricity_index], 2) if electricity_index >= 0 else "-"
 
         ws['D18'].font = title_font
         ws['D18'].alignment = c_c_alignment
         ws['D18'].border = f_border
-        ws['D18'] = '{:.2%}'.format(round(reporting_period_data['offpeaks'][electric_index], 2) / wssum) \
+        ws['D18'] = '{:.2%}'.format(round(reporting_period_data['offpeaks'][electricity_index], 2) / wssum) \
             if wssum is not None and wssum != 0 else "0.00%"
 
         pie = PieChart()
