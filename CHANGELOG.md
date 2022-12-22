@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added offline meter saving report
 - added base period data to Tenant reports
 - added child spaces percentage data to excel of spaceenergycategory report
+- added base period data to Store reports
 - 
 ### Changed
 - 
@@ -16,6 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed issue of increment_rate_saving in equipment saving report
 - fixed issue of increment_rate_saving in space saving report
 - fixed issue of electricity time-of-use pie chart in Excel exporters
+- fixed issue of increment_rate_saving in store saving report
 - 
 ### Removed
 -
