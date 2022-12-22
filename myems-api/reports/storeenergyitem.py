@@ -556,6 +556,7 @@ class Reporting:
         result['reporting_period']['units'] = list()
         result['reporting_period']['timestamps'] = list()
         result['reporting_period']['values'] = list()
+        result['reporting_period']['rates'] = list()
         result['reporting_period']['subtotals'] = list()
         result['reporting_period']['subtotals_per_unit_area'] = list()
         result['reporting_period']['toppeaks'] = list()
@@ -587,6 +588,16 @@ class Reporting:
                     base[energy_item_id]['subtotal']
                     if base[energy_item_id]['subtotal'] > 0.0 else None)
 
+                rate = list()
+                for index, value in enumerate(reporting[energy_item_id]['values']):
+                    if index < len(base[energy_item_id]['values']) \
+                            and base[energy_item_id]['values'][index] != 0 and value != 0:
+                        rate.append((value - base[energy_item_id]['values'][index])
+                                    / base[energy_item_id]['values'][index])
+                    else:
+                        rate.append(None)
+                result['reporting_period']['rates'].append(rate)
+
         result['parameters'] = {
             "names": parameters_data['names'],
             "timestamps": parameters_data['timestamps'],
@@ -597,6 +608,8 @@ class Reporting:
         if not is_quick_mode:
             result['excel_bytes_base64'] = excelexporters.storeenergyitem.export(result,
                                                                                  store['name'],
+                                                                                 base_period_start_datetime_local,
+                                                                                 base_period_end_datetime_local,
                                                                                  reporting_period_start_datetime_local,
                                                                                  reporting_period_end_datetime_local,
                                                                                  period_type,
