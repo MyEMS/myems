@@ -634,8 +634,12 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
             child_space_value['id'] = spaceIndex;
             child_space_value['name'] = currentSpaceName;
             json['child_space']['energy_category_names'].forEach((currentValue, energyCategoryIndex) => {
-              child_space_value['a' + energyCategoryIndex] = json['child_space']['subtotals_array'][energyCategoryIndex][spaceIndex];
+              child_space_value['a' + (2 * energyCategoryIndex)] = json['child_space']['subtotals_array'][energyCategoryIndex][spaceIndex];
+              let total = json['child_space']['subtotals_array'][energyCategoryIndex].reduce((a, b) => a + b);
+              child_space_value['a' + (2 * energyCategoryIndex + 1)] = 
+                total > 0 ? json['child_space']['subtotals_array'][energyCategoryIndex][spaceIndex] / total * 100 : 0.00;
             });
+            console.log(child_space_value)
             child_space_value_list.push(child_space_value);
           });
         };
@@ -651,12 +655,24 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
         json['child_space']['energy_category_names'].forEach((currentValue, index) => {
           let unit = json['child_space']['units'][index];
           child_space_column_list.push({
-            dataField: 'a' + index,
+            dataField: 'a' + (2 * index),
             text: currentValue + ' (' + unit + ')',
             sort: true,
             formatter: function (decimalValue) {
               if (typeof decimalValue === 'number') {
                 return decimalValue.toFixed(2);
+              } else {
+                return null;
+              }
+            }
+          });
+          child_space_column_list.push({
+            dataField: 'a' + (2 * index + 1),
+            text: t('Percentage'),
+            sort: true,
+            formatter: function (decimalValue) {
+              if (typeof decimalValue === 'number') {
+                return decimalValue.toFixed(2) + '%';
               } else {
                 return null;
               }
