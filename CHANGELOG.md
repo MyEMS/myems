@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed issue of increment_rate_saving in tenant saving report
 - fixed issue of increment_rate_saving in equipment saving report
 - fixed issue of increment_rate_saving in space saving report
+- fixed issue of electricity time-of-use pie chart in Excel exporters
 - 
 ### Removed
 -
