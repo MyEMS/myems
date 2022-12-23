@@ -10,8 +10,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added child spaces percentage data to excel of spaceenergycategory report
 - added base period data to Store reports
 - added child spaces percentages to spaceenergycategory in myems-web
+- 
 ### Changed
-- add
+- 
 ### Fixed
 - fixed issue of increment_rate_saving in tenant saving report
 - fixed issue of increment_rate_saving in equipment saving report
