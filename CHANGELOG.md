@@ -29,6 +29,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added base period data to Meter reports
 - added base period data to Virtual Meter reports
 - added base period data to Offline Meter reports
+- added base period data to Shopfloor reports
 - 
 ### Changed
 - updated format statements by period types in execel exporters 
