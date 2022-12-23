@@ -243,6 +243,12 @@ def generate_excel(report,
         for i in range(12, 18 + 1):
             ws.row_dimensions[i].height = 0.1
     else:
+        electricity_index = -1
+        for i in range(len(reporting_period_data['energy_category_ids'])):
+            if reporting_period_data['energy_category_ids'][i] == 1:
+                electricity_index = i
+                break
+
         ws['B12'].font = title_font
         ws['B12'] = name + _('Electricity Carbon Dioxide Emissions by Time-Of-Use')
 
@@ -263,8 +269,13 @@ def generate_excel(report,
         ws['D13'].border = f_border
         ws['D13'] = _('Electricity Carbon Dioxide Emissions Proportion by Time-Of-Use')
 
-        carbonsum = round(reporting_period_data['toppeaks'][0], 2) + round(reporting_period_data['onpeaks'][0], 2) + \
-            round(reporting_period_data['midpeaks'][0], 2) + round(reporting_period_data['offpeaks'][0], 2)
+        carbonsum = None
+
+        if electricity_index >= 0:
+            carbonsum = round(reporting_period_data['toppeaks'][electricity_index], 2) + \
+                        round(reporting_period_data['onpeaks'][electricity_index], 2) + \
+                        round(reporting_period_data['midpeaks'][electricity_index], 2) + \
+                        round(reporting_period_data['offpeaks'][electricity_index], 2)
 
         ws['B14'].font = title_font
         ws['B14'].alignment = c_c_alignment
@@ -274,12 +285,12 @@ def generate_excel(report,
         ws['C14'].font = title_font
         ws['C14'].alignment = c_c_alignment
         ws['C14'].border = f_border
-        ws['C14'] = round(reporting_period_data['toppeaks'][0], 2)
+        ws['C14'] = round(reporting_period_data['toppeaks'][electricity_index], 2) if electricity_index >= 0 else "-"
 
         ws['D14'].font = title_font
         ws['D14'].alignment = c_c_alignment
         ws['D14'].border = f_border
-        ws['D14'] = '{:.2%}'.format(round(reporting_period_data['toppeaks'][0], 2) / carbonsum) \
+        ws['D14'] = '{:.2%}'.format(round(reporting_period_data['toppeaks'][electricity_index], 2) / carbonsum) \
             if carbonsum is not None and carbonsum != Decimal(0.0) else " "
 
         ws['B15'].font = title_font
@@ -290,12 +301,12 @@ def generate_excel(report,
         ws['C15'].font = title_font
         ws['C15'].alignment = c_c_alignment
         ws['C15'].border = f_border
-        ws['C15'] = round(reporting_period_data['onpeaks'][0], 2)
+        ws['C15'] = round(reporting_period_data['onpeaks'][electricity_index], 2) if electricity_index >= 0 else "-"
 
         ws['D15'].font = title_font
         ws['D15'].alignment = c_c_alignment
         ws['D15'].border = f_border
-        ws['D15'] = '{:.2%}'.format(round(reporting_period_data['onpeaks'][0], 2) / carbonsum) \
+        ws['D15'] = '{:.2%}'.format(round(reporting_period_data['onpeaks'][electricity_index], 2) / carbonsum) \
             if carbonsum is not None and carbonsum != Decimal(0.0) else " "
 
         ws['B16'].font = title_font
@@ -306,12 +317,12 @@ def generate_excel(report,
         ws['C16'].font = title_font
         ws['C16'].alignment = c_c_alignment
         ws['C16'].border = f_border
-        ws['C16'] = round(reporting_period_data['midpeaks'][0], 2)
+        ws['C16'] = round(reporting_period_data['midpeaks'][electricity_index], 2) if electricity_index >= 0 else "-"
 
         ws['D16'].font = title_font
         ws['D16'].alignment = c_c_alignment
         ws['D16'].border = f_border
-        ws['D16'] = '{:.2%}'.format(round(reporting_period_data['midpeaks'][0], 2) / carbonsum) \
+        ws['D16'] = '{:.2%}'.format(round(reporting_period_data['midpeaks'][electricity_index], 2) / carbonsum) \
             if carbonsum is not None and carbonsum != Decimal(0.0) else " "
 
         ws['B17'].font = title_font
@@ -322,12 +333,12 @@ def generate_excel(report,
         ws['C17'].font = title_font
         ws['C17'].alignment = c_c_alignment
         ws['C17'].border = f_border
-        ws['C17'] = round(reporting_period_data['offpeaks'][0], 2)
+        ws['C17'] = round(reporting_period_data['offpeaks'][electricity_index], 2) if electricity_index >= 0 else "-"
 
         ws['D17'].font = title_font
         ws['D17'].alignment = c_c_alignment
         ws['D17'].border = f_border
-        ws['D17'] = '{:.2%}'.format(round(reporting_period_data['offpeaks'][0], 2) / carbonsum) \
+        ws['D17'] = '{:.2%}'.format(round(reporting_period_data['offpeaks'][electricity_index], 2) / carbonsum) \
             if carbonsum is not None and carbonsum != Decimal(0.0) else " "
 
         pie = PieChart()
