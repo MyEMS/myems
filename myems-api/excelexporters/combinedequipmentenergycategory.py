@@ -280,6 +280,12 @@ def generate_excel(report,
         for i in range(12, 18 + 1):
             ws.row_dimensions[i].height = 0.1
     else:
+        electricity_index = -1
+        for i in range(len(report['reporting_period']['energy_category_ids'])):
+            if report['reporting_period']['energy_category_ids'][i] == 1:
+                electricity_index = i
+                break
+
         ws['B12'].font = title_font
         ws['B12'] = name + ' ' + _('Electricity Consumption by Time-Of-Use')
 
@@ -303,7 +309,8 @@ def generate_excel(report,
         ws['C14'].font = title_font
         ws['C14'].alignment = c_c_alignment
         ws['C14'].border = f_border
-        ws['C14'] = round(report['reporting_period']['toppeaks'][0], 2)
+        ws['C14'] = round(report['reporting_period']['toppeaks'][electricity_index], 2) \
+            if electricity_index >= 0 else "-"
 
         ws['B15'].font = title_font
         ws['B15'].alignment = c_c_alignment
@@ -313,7 +320,8 @@ def generate_excel(report,
         ws['C15'].font = title_font
         ws['C15'].alignment = c_c_alignment
         ws['C15'].border = f_border
-        ws['C15'] = round(report['reporting_period']['onpeaks'][0], 2)
+        ws['C15'] = round(report['reporting_period']['onpeaks'][electricity_index], 2) \
+            if electricity_index >= 0 else "-"
 
         ws['B16'].font = title_font
         ws['B16'].alignment = c_c_alignment
@@ -323,7 +331,8 @@ def generate_excel(report,
         ws['C16'].font = title_font
         ws['C16'].alignment = c_c_alignment
         ws['C16'].border = f_border
-        ws['C16'] = round(report['reporting_period']['midpeaks'][0], 2)
+        ws['C16'] = round(report['reporting_period']['midpeaks'][electricity_index], 2) \
+            if electricity_index >= 0 else "-"
 
         ws['B17'].font = title_font
         ws['B17'].alignment = c_c_alignment
@@ -333,7 +342,8 @@ def generate_excel(report,
         ws['C17'].font = title_font
         ws['C17'].alignment = c_c_alignment
         ws['C17'].border = f_border
-        ws['C17'] = round(report['reporting_period']['offpeaks'][0], 2)
+        ws['C17'] = round(report['reporting_period']['offpeaks'][electricity_index], 2) \
+            if electricity_index >= 0 else "-"
 
         pie = PieChart()
         pie.title = name + ' ' + _('Electricity Consumption by Time-Of-Use')
@@ -641,7 +651,8 @@ def generate_excel(report,
                 col = chr(ord('C') + j)
                 ws[col + row].font = title_font
                 ws[col + row].alignment = c_c_alignment
-                ws[col + row] = round(associated_equipment['subtotals_array'][j][i], 2) if associated_equipment['subtotals_array'][j][i] is not None else ''
+                ws[col + row] = round(associated_equipment['subtotals_array'][j][i], 2) \
+                    if associated_equipment['subtotals_array'][j][i] is not None else ''
                 ws[col + row].border = f_border
     ####################################################################################################################
     current_sheet_parameters_row_number = chart_start_row_number + ca_len * 6
