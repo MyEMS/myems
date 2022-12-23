@@ -39,6 +39,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed user calendar cannot fully display issue
 - fixed issues of comparing decimal with zero
 - fixed issue of increment_rate_saving in meter saving report
+- fixed quick mode issue in combinedequipmentoutput report
 - 
 ### Removed
 -
