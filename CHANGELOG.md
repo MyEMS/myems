@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+-
+### Changed
+- 
+### Fixed
+-
+### Removed
+-
+
+## [v2.10.0] - 2022-12-24
+### Added
 - added offline meter saving report
 - added base period data to Tenant reports
 - added child spaces percentage data to excel of spaceenergycategory report
@@ -1150,6 +1160,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 -   None.
 
 [Unreleased]: https://github.com/MyEMS/myems/compare/v2.9.0...HEAD
+[2.10.0]: https://github.com/MyEMS/myems/compare/v2.9.0...v2.10.0
 [2.9.0]: https://github.com/MyEMS/myems/compare/v2.8.0...v2.9.0
 [2.8.0]: https://github.com/MyEMS/myems/compare/v2.7.0...v2.8.0
 [2.7.0]: https://github.com/MyEMS/myems/compare/v2.6.0...v2.7.0
