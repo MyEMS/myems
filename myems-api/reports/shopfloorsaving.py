@@ -723,12 +723,12 @@ class Reporting:
                 result['reporting_period']['subtotals_in_kgco2e_saving'].append(
                     reporting[energy_category_id]['subtotal_in_kgco2e_saving'])
                 result['reporting_period']['subtotals_per_unit_area_saving'].append(
-                    reporting[energy_category_id]['subtotal_saving'] / shopfloor['area'] if shopfloor['area'] > 0.0
-                    else None)
+                    reporting[energy_category_id]['subtotal_saving'] / shopfloor['area']
+                    if shopfloor['area'] > Decimal(0.0) else None)
                 result['reporting_period']['increment_rates_saving'].append(
                     (reporting[energy_category_id]['subtotal_saving'] - base[energy_category_id]['subtotal_saving']) /
                     base[energy_category_id]['subtotal_saving']
-                    if base[energy_category_id]['subtotal_saving'] > 0.0 else None)
+                    if base[energy_category_id]['subtotal_saving'] != Decimal(0.0) else None)
                 result['reporting_period']['total_in_kgce_saving'] += \
                     reporting[energy_category_id]['subtotal_in_kgce_saving']
                 result['reporting_period']['total_in_kgco2e_saving'] += \
@@ -745,21 +745,22 @@ class Reporting:
                 result['reporting_period']['rates_saving'].append(rate)
 
         result['reporting_period']['total_in_kgco2e_per_unit_area_saving'] = \
-            result['reporting_period']['total_in_kgce_saving'] / shopfloor['area'] if shopfloor['area'] > 0.0 else None
+            result['reporting_period']['total_in_kgce_saving'] / shopfloor['area'] \
+            if shopfloor['area'] > 0.0 else None
 
         result['reporting_period']['increment_rate_in_kgce_saving'] = \
             (result['reporting_period']['total_in_kgce_saving'] - result['base_period']['total_in_kgce_saving']) / \
             result['base_period']['total_in_kgce_saving'] \
-            if result['base_period']['total_in_kgce_saving'] > Decimal(0.0) else None
+            if result['base_period']['total_in_kgce_saving'] != Decimal(0.0) else None
 
         result['reporting_period']['total_in_kgce_per_unit_area_saving'] = \
             result['reporting_period']['total_in_kgco2e_saving'] / shopfloor['area'] \
-            if shopfloor['area'] > 0.0 else None
+            if shopfloor['area'] > Decimal(0.0) else None
 
         result['reporting_period']['increment_rate_in_kgco2e_saving'] = \
             (result['reporting_period']['total_in_kgco2e_saving'] - result['base_period']['total_in_kgco2e_saving']) / \
             result['base_period']['total_in_kgco2e_saving'] \
-            if result['base_period']['total_in_kgco2e_saving'] > Decimal(0.0) else None
+            if result['base_period']['total_in_kgco2e_saving'] != Decimal(0.0) else None
 
         result['parameters'] = {
             "names": parameters_data['names'],

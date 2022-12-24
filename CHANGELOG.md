@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added child spaces percentage data to excel of spaceenergycategory report
 - added base period data to Store reports
 - added child spaces percentages to spaceenergycategory in myems-web
+- added base period data to Shopfloor reports
 - 
 ### Changed
 - 
@@ -19,6 +20,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed issue of increment_rate_saving in space saving report
 - fixed issue of electricity time-of-use pie chart in Excel exporters
 - fixed issue of increment_rate_saving in store saving report
+- fixed quick mode issue in combinedequipmentoutput report
+- fixed issue of increment_rate_saving in shopfloor saving report
 - 
 ### Removed
 -
@@ -29,7 +32,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added base period data to Meter reports
 - added base period data to Virtual Meter reports
 - added base period data to Offline Meter reports
-- added base period data to Shopfloor reports
 - 
 ### Changed
 - updated format statements by period types in execel exporters 
@@ -40,7 +42,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed user calendar cannot fully display issue
 - fixed issues of comparing decimal with zero
 - fixed issue of increment_rate_saving in meter saving report
-- fixed quick mode issue in combinedequipmentoutput report
 - 
 ### Removed
 -
