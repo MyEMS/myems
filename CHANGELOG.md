@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 -
 ### Changed
+- updated translations of API errors in myems-web
 - 
 ### Fixed
 - fixed pagination caused issue in DetailedDataTable of myems-web
