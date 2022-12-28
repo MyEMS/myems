@@ -43,6 +43,9 @@ const DetailedDataTable = ({ title, data, columns, pagesize, t }) => {
         <PaginationProvider pagination={paginationFactory(options)}>
             {({ paginationProps, paginationTableProps }) => {
               const lastIndex = paginationProps.page * paginationProps.sizePerPage;
+              while ((paginationProps.page - 1) * paginationProps.sizePerPage >= paginationProps.totalSize) {
+                paginationProps.page = paginationProps.page - 1;
+              };
               return (
                 <Fragment>
                   <Row>
