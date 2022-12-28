@@ -350,7 +350,11 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
     // Reinitialize tables
     setDetailedDataTableData([]);
     setAssociatedEquipmentTableData([]);
-    
+    setAssociatedEquipmentNamesOfAssociatedReportPeriodList([]);
+    setAssociatedEquipmentLineChartLabelsList([]);
+    setAssociatedEquipmentLineChartDataList([]);
+    setAssociatedEquipmentLineChartOptionsList([]);
+
     let isResponseOK = false;
     fetch(APIBaseURL + '/reports/combinedequipmentenergycategory?' +
       'combinedequipmentid=' + selectedCombinedEquipment +
