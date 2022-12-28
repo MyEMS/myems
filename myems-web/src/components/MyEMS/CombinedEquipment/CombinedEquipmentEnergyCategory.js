@@ -1003,8 +1003,7 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
           baseTitle=''
           labels={associatedEquipmentLineChartLabelsList[index]}
           data={associatedEquipmentLineChartDataList[index]}
-          options={associatedEquipmentLineChartOptionsList[index]}
-          defaultOption={associatedEquipmentLineChartOptionsList[index][0]}>
+          options={associatedEquipmentLineChartOptionsList[index]}>
           </LineChart>
         ))}
       </div>
