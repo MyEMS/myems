@@ -55,7 +55,7 @@ class UserCollection:
                                "uuid": row[3],
                                "email": row[4],
                                "is_admin": True if row[5] else False,
-                               "is_read_only": (True if row[6] else False) if row[6] is not None else None,
+                               "is_read_only": (True if row[6] else False) if row[5] else None,
                                "privilege": {
                                    "id": row[7],
                                    "name": row[8]} if row[7] is not None else None,
@@ -112,7 +112,7 @@ class UserCollection:
                                    description='API.INVALID_IS_ADMIN_VALUE')
         is_admin = new_values['data']['is_admin']
 
-        is_read_only = None
+        is_read_only = False
 
         if is_admin:
             if 'is_read_only' not in new_values['data'].keys() or \
@@ -254,7 +254,7 @@ class UserItem:
                   "uuid": row[3],
                   "email": row[4],
                   "is_admin": True if row[5] else False,
-                  "is_read_only": (True if row[6] else False) if row[6] is not None else None,
+                  "is_read_only": (True if row[6] else False) if row[5] else None,
                   "privilege": {
                       "id": row[7],
                       "name": row[8]} if row[7] is not None else None,
@@ -342,7 +342,7 @@ class UserItem:
                                    description='API.INVALID_IS_ADMIN_VALUE')
         is_admin = new_values['data']['is_admin']
 
-        is_read_only = None
+        is_read_only = False
 
         if is_admin:
             if 'is_read_only' not in new_values['data'].keys() or \
@@ -491,7 +491,7 @@ class UserLogin:
                       "salt": row[5],
                       "password": row[6],
                       "is_admin": True if row[7] else False,
-                      "is_read_only": (True if row[8] else False) if row[8] is not None else None,
+                      "is_read_only": (True if row[8] else False) if row[7] else None,
                       "account_expiration_datetime_utc": row[9],
                       "password_expiration_datetime_utc": row[10],
                       "failed_login_count": row[11]}
@@ -521,7 +521,7 @@ class UserLogin:
                       "salt": row[5],
                       "password": row[6],
                       "is_admin": True if row[7] else False,
-                      "is_read_only": (True if row[8] else False) if row[8] is not None else None,
+                      "is_read_only": (True if row[8] else False) if row[7] else None,
                       "account_expiration_datetime_utc": row[9],
                       "password_expiration_datetime_utc": row[10],
                       "failed_login_count": row[11]}
