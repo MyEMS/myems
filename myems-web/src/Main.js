@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import AppContext from './context/Context';
 import { settings } from './config';
 import toggleStylesheet from './helpers/toggleStylesheet';
-import { getItemFromStore, setItemToStore, themeColors } from './helpers/utils';
+import { getItemFromStore, setItemToStore, themeColors, createCookie } from './helpers/utils';
 import i18n from 'i18next';
 
 const Main = props => {
@@ -106,6 +106,21 @@ const Main = props => {
     i18n.changeLanguage(language);
     // eslint-disable-next-line
   }, [language]);
+
+  useEffect(() => {
+    const mousemove = () => {
+      createCookie('is_logged_in', true, 1000 * 60 * 5 * 1);
+    };
+    const mousedown = () => {
+      createCookie('is_logged_in', true, 1000 * 60 * 5 * 1);
+    };
+    window.addEventListener("mousemove", mousemove);
+    window.addEventListener("mousedown", mousedown);
+    return () => {
+      window.removeEventListener("mousedown", mousedown);
+      window.removeEventListener("mousemove", mousemove);
+    }
+  }, [])
 
   if (!isLoaded) {
     toggleStylesheet({ isRTL, isDark }, () => setIsLoaded(true));

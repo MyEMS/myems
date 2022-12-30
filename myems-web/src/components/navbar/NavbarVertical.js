@@ -38,6 +38,17 @@ const NavbarVertical = ({ setRedirectUrl, setRedirect, navbarStyle, t }) => {
     }
   });
 
+  useEffect(() => {
+    let timer = setInterval(() => {
+      let is_logged_in = getCookieValue('is_logged_in');
+      if (is_logged_in === null || !is_logged_in) {
+        setRedirectUrl(`/authentication/basic/login`);
+        setRedirect(true);
+      }
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [])
+
   const navBarRef = useRef(null);
 
   const {
