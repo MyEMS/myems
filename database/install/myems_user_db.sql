@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS `myems_user_db`.`tbl_users` (
   `salt` VARCHAR(128) NOT NULL,
   `password` VARCHAR(256) NOT NULL,
   `is_admin` BOOL NOT NULL ,
+  `is_read_only` BOOL NOT NULL DEFAULT 0,
   `privilege_id` BIGINT NULL,
   `account_expiration_datetime_utc` DATETIME NOT NULL,
   `password_expiration_datetime_utc` DATETIME NOT NULL,
