@@ -16,6 +16,7 @@
 											<th class="text-center">{{'USER.DISPLAY_NAME' | translate}}</th>
 											<th class="text-center">{{'USER.EMAIL' | translate}}</th>
 											<th class="text-center">{{'USER.IS_ADMIN' | translate}}</th>
+											<th class="text-center">{{'USER.IS_READ_ONLY' | translate}}</th>
 											<th class="text-center">{{'USER.PRIVILEGE' | translate}}</th>
 											<th class="text-center">{{'USER.ACCOUNT_EXPIRATION_DATETIME' | translate}}</th>
 											<th class="text-center">{{'USER.PASSWORD_EXPIRATION_DATETIME' | translate}}</th>
@@ -29,6 +30,7 @@
 											<td class="text-center">{{ user.display_name }}</td>
 											<td class="text-center">{{ user.email }}</td>
 											<td class="text-center">{{ user.is_admin==1?'Y':'N' }}</td>
+											<td class="text-center">{{ user.is_read_only==null? null:(user.is_read_only==1? 'Y': 'N') }}</td>
 											<td class="text-center">{{ user.privilege.name }}</td>
 											<td class="text-center">{{ user.account_expiration_datetime }}</td>
 											<td class="text-center">{{ user.password_expiration_datetime }}</td>

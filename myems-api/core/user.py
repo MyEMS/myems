@@ -28,7 +28,7 @@ class UserCollection:
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
         query = (" SELECT u.id, u.name, u.display_name, u.uuid, "
-                 "        u.email, u.is_admin, p.id, p.name, "
+                 "        u.email, u.is_admin, u.is_read_only, p.id, p.name, "
                  "        u.account_expiration_datetime_utc, u.password_expiration_datetime_utc, u.failed_login_count "
                  " FROM tbl_users u "
                  " LEFT JOIN tbl_privileges p ON u.privilege_id = p.id "
@@ -45,9 +45,9 @@ class UserCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                account_expiration_datetime_local = row[8].replace(tzinfo=timezone.utc) + \
+                account_expiration_datetime_local = row[9].replace(tzinfo=timezone.utc) + \
                     timedelta(minutes=timezone_offset)
-                password_expiration_datetime_local = row[9].replace(tzinfo=timezone.utc) + \
+                password_expiration_datetime_local = row[10].replace(tzinfo=timezone.utc) + \
                     timedelta(minutes=timezone_offset)
                 meta_result = {"id": row[0],
                                "name": row[1],
@@ -55,14 +55,15 @@ class UserCollection:
                                "uuid": row[3],
                                "email": row[4],
                                "is_admin": True if row[5] else False,
+                               "is_read_only": (True if row[6] else False) if row[6] is not None else None,
                                "privilege": {
-                                   "id": row[6],
-                                   "name": row[7]} if row[6] is not None else None,
+                                   "id": row[7],
+                                   "name": row[8]} if row[7] is not None else None,
                                "account_expiration_datetime":
                                    account_expiration_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
                                "password_expiration_datetime":
                                    password_expiration_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
-                               "is_locked": True if row[10] >= config.maximum_failed_login_count else False}
+                               "is_locked": True if row[11] >= config.maximum_failed_login_count else False}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -110,6 +111,15 @@ class UserCollection:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_ADMIN_VALUE')
         is_admin = new_values['data']['is_admin']
+
+        is_read_only = None
+
+        if is_admin:
+            if 'is_read_only' not in new_values['data'].keys() or \
+                   not isinstance(new_values['data']['is_read_only'], bool):
+                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.INVALID_IS_READ_ONLY_VALUE')
+            is_read_only = new_values['data']['is_read_only']
 
         if 'privilege_id' in new_values['data'].keys():
             if not isinstance(new_values['data']['privilege_id'], int) or \
@@ -167,9 +177,9 @@ class UserCollection:
                                        description='API.PRIVILEGE_NOT_FOUND')
 
         add_row = (" INSERT INTO tbl_users "
-                   "     (name, uuid, display_name, email, salt, password, is_admin, privilege_id, "
+                   "     (name, uuid, display_name, email, salt, password, is_admin, is_read_only, privilege_id, "
                    "      account_expiration_datetime_utc, password_expiration_datetime_utc, failed_login_count) "
-                   " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                   " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
 
         salt = uuid.uuid4().hex
         password = new_values['data']['password']
@@ -182,6 +192,7 @@ class UserCollection:
                                  salt,
                                  hashed_password,
                                  is_admin,
+                                 is_read_only,
                                  privilege_id,
                                  account_expiration_datetime,
                                  password_expiration_datetime,
@@ -216,7 +227,7 @@ class UserItem:
         cursor = cnx.cursor()
 
         query = (" SELECT u.id, u.name, u.display_name, u.uuid, "
-                 "        u.email, u.is_admin, p.id, p.name, "
+                 "        u.email, u.is_admin, u.is_read_only, p.id, p.name, "
                  "        u.account_expiration_datetime_utc, u.password_expiration_datetime_utc,"
                  "        u.failed_login_count "
                  " FROM tbl_users u "
@@ -234,8 +245,8 @@ class UserItem:
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
 
-        account_expiration_datetime_local = row[8].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
-        password_expiration_datetime_local = row[9].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
+        account_expiration_datetime_local = row[9].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
+        password_expiration_datetime_local = row[10].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
 
         result = {"id": row[0],
                   "name": row[1],
@@ -243,14 +254,15 @@ class UserItem:
                   "uuid": row[3],
                   "email": row[4],
                   "is_admin": True if row[5] else False,
+                  "is_read_only": (True if row[6] else False) if row[6] is not None else None,
                   "privilege": {
-                      "id": row[6],
-                      "name": row[7]} if row[6] is not None else None,
+                      "id": row[7],
+                      "name": row[8]} if row[7] is not None else None,
                   "account_expiration_datetime":
                       account_expiration_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
                   "password_expiration_datetime":
                       password_expiration_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
-                  "is_locked": True if row[10] >= config.maximum_failed_login_count else False}
+                  "is_locked": True if row[11] >= config.maximum_failed_login_count else False}
         resp.text = json.dumps(result)
 
     @staticmethod
@@ -330,6 +342,15 @@ class UserItem:
                                    description='API.INVALID_IS_ADMIN_VALUE')
         is_admin = new_values['data']['is_admin']
 
+        is_read_only = None
+
+        if is_admin:
+            if 'is_read_only' not in new_values['data'].keys() or \
+                   not isinstance(new_values['data']['is_read_only'], bool):
+                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.INVALID_IS_READ_ONLY_VALUE')
+            is_read_only = new_values['data']['is_read_only']
+
         if 'privilege_id' in new_values['data'].keys():
             if not isinstance(new_values['data']['privilege_id'], int) or \
                     new_values['data']['privilege_id'] <= 0:
@@ -396,7 +417,7 @@ class UserItem:
 
         update_row = (" UPDATE tbl_users "
                       " SET name = %s, display_name = %s, email = %s, "
-                      "     is_admin = %s, privilege_id = %s,"
+                      "     is_admin = %s, is_read_only = %s, privilege_id = %s,"
                       "     account_expiration_datetime_utc = %s, "
                       "     password_expiration_datetime_utc = %s "
                       " WHERE id = %s ")
@@ -404,6 +425,7 @@ class UserItem:
                                     display_name,
                                     email,
                                     is_admin,
+                                    is_read_only,
                                     privilege_id,
                                     account_expiration_datetime,
                                     password_expiration_datetime,
@@ -450,7 +472,7 @@ class UserLogin:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_USER_NAME')
 
-            query = (" SELECT id, name, uuid, display_name, email, salt, password, is_admin, "
+            query = (" SELECT id, name, uuid, display_name, email, salt, password, is_admin, is_read_only, "
                      "        account_expiration_datetime_utc, password_expiration_datetime_utc, failed_login_count "
                      " FROM tbl_users "
                      " WHERE name = %s ")
@@ -469,9 +491,10 @@ class UserLogin:
                       "salt": row[5],
                       "password": row[6],
                       "is_admin": True if row[7] else False,
-                      "account_expiration_datetime_utc": row[8],
-                      "password_expiration_datetime_utc": row[9],
-                      "failed_login_count": row[10]}
+                      "is_read_only": (True if row[8] else False) if row[8] is not None else None,
+                      "account_expiration_datetime_utc": row[9],
+                      "password_expiration_datetime_utc": row[10],
+                      "failed_login_count": row[11]}
 
         elif 'email' in new_values['data']:
             if not isinstance(new_values['data']['email'], str) or \
@@ -479,7 +502,7 @@ class UserLogin:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_EMAIL')
 
-            query = (" SELECT id, name, uuid, display_name, email, salt, password, is_admin, "
+            query = (" SELECT id, name, uuid, display_name, email, salt, password, is_admin, is_read_only, "
                      "        account_expiration_datetime_utc, password_expiration_datetime_utc,failed_login_count "
                      " FROM tbl_users "
                      " WHERE email = %s ")
@@ -498,9 +521,10 @@ class UserLogin:
                       "salt": row[5],
                       "password": row[6],
                       "is_admin": True if row[7] else False,
-                      "account_expiration_datetime_utc": row[8],
-                      "password_expiration_datetime_utc": row[9],
-                      "failed_login_count": row[10]}
+                      "is_read_only": (True if row[8] else False) if row[8] is not None else None,
+                      "account_expiration_datetime_utc": row[9],
+                      "password_expiration_datetime_utc": row[10],
+                      "failed_login_count": row[11]}
 
         else:
             cursor.close()
