@@ -5,12 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
--
+- added base period data to Combined Equipment reports
+- 
 ### Changed
 - updated translations of API errors in myems-web
 - 
 ### Fixed
 - fixed pagination caused issue in DetailedDataTable of myems-web
+- fixed issue of increment_rate_saving in combined equipment saving report
 - 
 ### Removed
 -
