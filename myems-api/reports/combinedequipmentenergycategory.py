@@ -557,7 +557,6 @@ class Reporting:
                     subtotal = row_subtotal[0]
                     associated_equipment_data[energy_category_id]['subtotals'].append(subtotal)
 
-
         associated_report_list = list()
         if energy_category_set is not None and len(energy_category_set) > 0:
             for energy_category_id in energy_category_set:
@@ -586,9 +585,9 @@ class Reporting:
                         associated_report[energy_category_id]['subtotal_in_kgco2e'] = Decimal(0.0)
                         rows_equipment_periodically = \
                             utilities.aggregate_hourly_data_by_period(rows_equipment_hourly,
-                                                                    reporting_start_datetime_utc,
-                                                                    reporting_end_datetime_utc,
-                                                                    period_type)
+                                                                      reporting_start_datetime_utc,
+                                                                      reporting_end_datetime_utc,
+                                                                      period_type)
 
                         for row_equipment_periodically in rows_equipment_periodically:
                             current_datetime_local = row_equipment_periodically[0].replace(tzinfo=timezone.utc) + \
@@ -612,7 +611,8 @@ class Reporting:
                             associated_report[energy_category_id]['subtotal'] += actual_value
                             associated_report[energy_category_id]['subtotal_in_kgce'] += actual_value * kgce
                             associated_report[energy_category_id]['subtotal_in_kgco2e'] += actual_value * kgco2e
-                            associated_report[energy_category_id]['associated_equipment_name'] = associated_equipment['name']
+                            associated_report[energy_category_id]['associated_equipment_name'] = \
+                                associated_equipment['name']
 
                         associated_report_list.append(associated_report)
         ################################################################################################################
@@ -679,16 +679,18 @@ class Reporting:
                         associated_report_period['total_in_kgco2e'] = Decimal(0.0)
 
                         associated_report_period['names'].append(energy_category_dict[energy_category_id]['name'])
-                        associated_report_period['associated_equipment_name'] = associated_report[energy_category_id]['associated_equipment_name']
+                        associated_report_period['associated_equipment_name'] = \
+                            associated_report[energy_category_id]['associated_equipment_name']
                         associated_report_period['units'].append(
                             energy_category_dict[energy_category_id]['unit_of_measure'])
-                        associated_report_period['timestamps'].append(associated_report[energy_category_id]['timestamps'])
+                        associated_report_period['timestamps'].\
+                            append(associated_report[energy_category_id]['timestamps'])
                         associated_report_period['values'].append(associated_report[energy_category_id]['values'])
                         associated_report_period['subtotals'].append(associated_report[energy_category_id]['subtotal'])
-                        associated_report_period['subtotals_in_kgce'].append(associated_report[energy_category_id]
-                                                                            ['subtotal_in_kgce'])
-                        associated_report_period['subtotals_in_kgco2e'].append(associated_report[energy_category_id]
-                                                                            ['subtotal_in_kgco2e'])
+                        associated_report_period['subtotals_in_kgce'].\
+                            append(associated_report[energy_category_id]['subtotal_in_kgce'])
+                        associated_report_period['subtotals_in_kgco2e'].\
+                            append(associated_report[energy_category_id]['subtotal_in_kgco2e'])
                         associated_report_period['total_in_kgce'] += \
                             associated_report[energy_category_id]['subtotal_in_kgce']
                         associated_report_period['total_in_kgco2e'] += \
@@ -701,6 +703,7 @@ class Reporting:
         result['reporting_period']['units'] = list()
         result['reporting_period']['timestamps'] = list()
         result['reporting_period']['values'] = list()
+        result['reporting_period']['rates'] = list()
         result['reporting_period']['subtotals'] = list()
         result['reporting_period']['subtotals_in_kgce'] = list()
         result['reporting_period']['subtotals_in_kgco2e'] = list()
@@ -736,6 +739,16 @@ class Reporting:
                     if base[energy_category_id]['subtotal'] > Decimal(0.0) else None)
                 result['reporting_period']['total_in_kgce'] += reporting[energy_category_id]['subtotal_in_kgce']
                 result['reporting_period']['total_in_kgco2e'] += reporting[energy_category_id]['subtotal_in_kgco2e']
+
+                rate = list()
+                for index, value in enumerate(reporting[energy_category_id]['values']):
+                    if index < len(base[energy_category_id]['values']) \
+                            and base[energy_category_id]['values'][index] != 0 and value != 0:
+                        rate.append((value - base[energy_category_id]['values'][index])
+                                    / base[energy_category_id]['values'][index])
+                    else:
+                        rate.append(None)
+                result['reporting_period']['rates'].append(rate)
 
         result['reporting_period']['increment_rate_in_kgce'] = \
             (result['reporting_period']['total_in_kgce'] - result['base_period']['total_in_kgce']) / \
@@ -773,6 +786,8 @@ class Reporting:
             result['excel_bytes_base64'] = \
                 excelexporters.combinedequipmentenergycategory.export(result,
                                                                       combined_equipment['name'],
+                                                                      base_period_start_datetime_local,
+                                                                      base_period_end_datetime_local,
                                                                       reporting_period_start_datetime_local,
                                                                       reporting_period_end_datetime_local,
                                                                       period_type,

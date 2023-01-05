@@ -607,6 +607,7 @@ class Reporting:
         result['reporting_period']['timestamps'] = list()
         result['reporting_period']['sub_averages'] = list()
         result['reporting_period']['sub_maximums'] = list()
+        result['reporting_period']['rates_of_sub_maximums'] = list()
         result['reporting_period']['averages'] = list()
         result['reporting_period']['averages_increment_rate'] = list()
         result['reporting_period']['maximums'] = list()
@@ -644,6 +645,17 @@ class Reporting:
                                                            base[energy_category_id]['factor'] > Decimal(0.0))
                     else None)
 
+                rate = list()
+                for index, value in enumerate(reporting[energy_category_id]['sub_maximums']):
+                    if index < len(base[energy_category_id]['sub_maximums']) \
+                            and base[energy_category_id]['sub_maximums'][index] != 0 and value != 0 \
+                            and base[energy_category_id]['sub_maximums'][index] is not None and value is not None:
+                        rate.append((value - base[energy_category_id]['sub_maximums'][index])
+                                    / base[energy_category_id]['sub_maximums'][index])
+                    else:
+                        rate.append(None)
+                result['reporting_period']['rates_of_sub_maximums'].append(rate)
+
         result['parameters'] = {
             "names": parameters_data['names'],
             "timestamps": parameters_data['timestamps'],
@@ -675,6 +687,8 @@ class Reporting:
             result['excel_bytes_base64'] = \
                 excelexporters.combinedequipmentload.export(result,
                                                             combined_equipment['name'],
+                                                            base_period_start_datetime_local,
+                                                            base_period_end_datetime_local,
                                                             reporting_period_start_datetime_local,
                                                             reporting_period_end_datetime_local,
                                                             period_type,
