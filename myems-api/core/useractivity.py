@@ -54,7 +54,7 @@ def access_control(req):
                                    description='API.ADMINISTRATOR_SESSION_TIMEOUT')
     query = (" SELECT name "
              " FROM tbl_users "
-             " WHERE uuid = %s AND is_admin = 1 ")
+             " WHERE uuid = %s AND is_admin = 1 AND is_read_only = 0 ")
     cursor.execute(query, (admin_user_uuid,))
     row = cursor.fetchone()
     cursor.close()

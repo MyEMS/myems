@@ -47,6 +47,15 @@
 
                 </div>
             </div>
+            <div class="hr-line-dashed" ng-show="user.is_admin"></div>
+            <div class="form-group" ng-show="user.is_admin"><label class="col-sm-3 control-label">{{'USER.IS_READ_ONLY' | translate}}</label>
+                <div class="col-sm-9">
+                    <div class="checkbox checkbox-success">
+                            <input id="chk_user_isreadonly" ng-model="user.is_read_only" type="checkbox" ng-checked="user.is_read_only">
+                            <label for="chk_user_isreadonly"></label>
+                    </div>
+                </div>
+            </div>
             <div class="hr-line-dashed" ng-hide="user.is_admin"></div>
             <div class="form-group" ng-hide="user.is_admin"><label class="col-sm-3 control-label">{{'USER.PRIVILEGE' | translate}}</label>
 
