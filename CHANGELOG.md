@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 ### Added
 - added base period data to Combined Equipment reports
+- added read only property to administrator
 - 
 ### Changed
 - updated translations of API errors in myems-web
