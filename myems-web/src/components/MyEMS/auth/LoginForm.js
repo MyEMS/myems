@@ -37,11 +37,11 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
       console.log(json);
       console.log(isResponseOK);
       if (isResponseOK) {
-        createCookie('user_name', json.name, 1000 * 60 * 60 * 8);
-        createCookie('user_display_name', json.display_name, 1000 * 60 * 60 * 8);
-        createCookie('user_uuid', json.uuid, 1000 * 60 * 60 * 8);
-        createCookie('token', json.token, 1000 * 60 * 60 * 8);
-        createCookie('is_logged_in', true, 1000 * 60 * 5 * 1);
+        createCookie('user_name', json.name, 1000 * 60 * 10 * 1);
+        createCookie('user_display_name', json.display_name, 1000 * 60 * 10 * 1);
+        createCookie('user_uuid', json.uuid, 1000 * 60 * 10 * 1);
+        createCookie('token', json.token, 1000 * 60 * 10 * 1);
+        createCookie('is_logged_in', true, 1000 * 60 * 10 * 1);
         console.log("display_name:");
         toast.success(t('Logged in as ') + json.display_name);
         if (remember) {

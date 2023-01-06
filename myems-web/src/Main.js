@@ -109,10 +109,10 @@ const Main = props => {
 
   useEffect(() => {
     const mousemove = () => {
-      createCookie('is_logged_in', true, 1000 * 60 * 5 * 1);
+      createCookie('is_logged_in', true, 1000 * 60 * 10 * 1);
     };
     const mousedown = () => {
-      createCookie('is_logged_in', true, 1000 * 60 * 5 * 1);
+      createCookie('is_logged_in', true, 1000 * 60 * 10 * 1);
     };
     window.addEventListener("mousemove", mousemove);
     window.addEventListener("mousedown", mousedown);

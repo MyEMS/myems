@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - 
 ### Changed
 - updated translations of API errors in myems-web
+- updated myems-web to redirect URL to login page after 10 minutes of user idling
 - 
 ### Fixed
 - fixed pagination caused issue in DetailedDataTable of myems-web
