@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+- 
+### Changed
+- 
+### Fixed
+- 
+### Removed
+-
+
+## [v2.11.0] - 2023-01-09
+### Added
 - added base period data to Combined Equipment reports
 - added read only property to administrator
 - 
@@ -1165,7 +1175,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v2.9.0...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v2.11.0...HEAD
+[2.11.0]: https://github.com/MyEMS/myems/compare/v2.10.0...v2.11.0
 [2.10.0]: https://github.com/MyEMS/myems/compare/v2.9.0...v2.10.0
 [2.9.0]: https://github.com/MyEMS/myems/compare/v2.8.0...v2.9.0
 [2.8.0]: https://github.com/MyEMS/myems/compare/v2.7.0...v2.8.0
