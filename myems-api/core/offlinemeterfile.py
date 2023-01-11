@@ -22,7 +22,6 @@ class OfflineMeterFileCollection:
 
     @staticmethod
     def on_get(req, resp):
-        access_control(req)
         cnx = mysql.connector.connect(**config.myems_historical_db)
         cursor = cnx.cursor()
 

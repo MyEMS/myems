@@ -11,7 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 - 
 ### Removed
--
+- removed access control from GET action of offlinemeterfile in myems-api
 
 ## [v2.11.0] - 2023-01-09
 ### Added
