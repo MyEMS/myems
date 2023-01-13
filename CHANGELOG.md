@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
-- 
+- added tbl_spaces_non_working_days to myems_system_db in database
 ### Changed
 - 
 ### Fixed

@@ -769,6 +769,18 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_spaces_equipments` (
 CREATE INDEX `tbl_spaces_equipments_index_1` ON  `myems_system_db`.`tbl_spaces_equipments`   (`space_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_spaces_non_working_days`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_spaces_non_working_days` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_spaces_non_working_days` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `space_id` BIGINT NOT NULL,
+  `date_local` DATE NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_spaces_non_working_days_index_1` ON  `myems_system_db`.`tbl_spaces_non_working_days`  (`space_id`, `date_local`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_spaces_meters`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_system_db`.`tbl_spaces_meters` ;
@@ -1278,6 +1290,6 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '2.11.0', '2023-01-09');
+(1, '2.12.0', '2023-01-16');
 
 COMMIT;
