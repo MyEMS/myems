@@ -67,7 +67,7 @@ const VirtualMeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
       }
     }, 1000);
     return () => clearInterval(timer);
-  }, [])
+  }, []);
 
   // State
   //Query Form

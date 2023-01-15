@@ -51,7 +51,8 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
       }
     }, 1000);
     return () => clearInterval(timer);
-  }, [])
+  }, []);
+  
   let table = createRef();
   // State
   // Query Parameters

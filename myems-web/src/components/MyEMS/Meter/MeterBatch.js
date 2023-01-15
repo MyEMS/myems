@@ -59,7 +59,8 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
       }
     }, 1000);
     return () => clearInterval(timer);
-  }, [])
+  }, []);
+  
   // State
   //Query Form
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);

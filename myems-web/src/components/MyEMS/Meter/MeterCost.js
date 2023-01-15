@@ -67,7 +67,7 @@ const MeterCost = ({ setRedirect, setRedirectUrl, t }) => {
       }
     }, 1000);
     return () => clearInterval(timer);
-  }, [])
+  }, []);
 
   // State
   //Query Form
