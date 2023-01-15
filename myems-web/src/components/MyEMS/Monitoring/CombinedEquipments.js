@@ -61,7 +61,7 @@ const CombinedEquipments = ({ setRedirect, setRedirectUrl, t }) => {
       }
     }, 1000);
     return () => clearInterval(timer);
-  }, [])
+  }, []);
   
   // State
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);

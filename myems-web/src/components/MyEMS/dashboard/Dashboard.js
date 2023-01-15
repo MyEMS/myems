@@ -415,7 +415,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
       }
     }, 1000);
     return () => clearInterval(timer);
-  }, [])
+  }, []);
 
   return (
     <Fragment>

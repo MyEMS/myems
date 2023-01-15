@@ -61,7 +61,8 @@ const SpaceEquipments = ({ setRedirect, setRedirectUrl, t }) => {
       }
     }, 1000);
     return () => clearInterval(timer);
-  }, [])
+  }, []);
+  
   // State
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
   const [selectedSpaceID, setSelectedSpaceID] = useState(undefined);

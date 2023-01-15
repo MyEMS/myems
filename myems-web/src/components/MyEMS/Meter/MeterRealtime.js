@@ -59,7 +59,8 @@ const MeterRealtime = ({ setRedirect, setRedirectUrl, t }) => {
       }
     }, 1000);
     return () => clearInterval(timer);
-  }, [])
+  }, []);
+  
   let table = createRef();
   // State
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
