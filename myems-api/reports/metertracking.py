@@ -203,8 +203,7 @@ class Reporting:
         integral_start_count = int(0)
         integral_end_count = int(0)
         integral_full_count = int(0)
-        is_integral_start_value = int(0)
-    
+
         for meter_id in meter_dict:
             cursor_system_db.execute(" SELECT point_id "
                                      " FROM tbl_meters_points mp, tbl_points p"

@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 - fixed make the implicitly inserted semicolon explicit in myems-web
 - fixed use of AngularJS markup in URL-valued attribute in myems-admin
+- fixed variable defined multiple times in myems-api
 
 ### Removed
 - removed access control from GET action of offlinemeterfile in myems-api

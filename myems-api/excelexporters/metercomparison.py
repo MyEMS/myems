@@ -238,9 +238,7 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
     # parameter_len: len(report['parameters1']['names']) + len(report['parameters1']['names'])
     # timestamps_len: reporting_period_data1['timestamps']
     ####################################################################################################################
-    reporting_period_data1 = report['reporting_period1']
-    reporting_period_data2 = report['reporting_period2']
-    times = reporting_period_data1['timestamps']
+    times = report['reporting_period1']['timestamps']
 
     if "values" not in report['reporting_period1'].keys() or \
             len(report['reporting_period1']['values']) == 0 or \
@@ -252,8 +250,6 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
         reporting_period_data1 = report['reporting_period1']
         reporting_period_data2 = report['reporting_period2']
         diff_data = report['diff']
-        category = report['meter1']['energy_category_name']
-        category = report['meter2']['energy_category_name']
         parameters_names_len = len(report['parameters1']['names'])
         parameters_data = report['parameters1']
         parameters_parameters_datas_len = 0
@@ -409,7 +405,6 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
     ####################################################################################################################
     has_parameters_names_and_timestamps_and_values_data = True
     # 12 is the starting line number of the last line chart in the report period
-    time_len = len(reporting_period_data1['timestamps'])
     current_sheet_parameters_row_number = 10 + (1 + 1) * 6
     if 'parameters1' not in report.keys() or \
             report['parameters1'] is None or \
@@ -502,8 +497,6 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
         parameters_ws['B' + str(parameters_ws_current_row_number)] = name1 + ' ' + _('Parameters')
 
         parameters_ws_current_row_number += 1
-
-        parameters_table_start_row_number = parameters_ws_current_row_number
 
         parameters_ws.row_dimensions[parameters_ws_current_row_number].height = 80
 
