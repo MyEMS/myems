@@ -258,8 +258,8 @@ const SpaceCost = ({ setRedirect, setRedirectUrl, t }) => {
         return true;
       }
     }
-    return false
-  }
+    return false;
+  };
 
 
   // Handler

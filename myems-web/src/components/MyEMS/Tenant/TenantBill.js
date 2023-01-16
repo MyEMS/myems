@@ -271,7 +271,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
     }).catch(err => {
       console.log(err);
     });
-  }
+  };
 
 
   // Callback fired when value changed

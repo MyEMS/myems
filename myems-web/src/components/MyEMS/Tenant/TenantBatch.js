@@ -146,7 +146,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
     setTenantList([]);
     setExportButtonHidden(true);
     setSubmitButtonDisabled(false);
-  }
+  };
   // Callback fired when value changed
   let onReportingPeriodChange = (DateRange) => {
     if(DateRange == null) {
@@ -274,7 +274,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
         setExportButtonHidden(false);
           
       } else {
-        toast.error(t(json.description))
+        toast.error(t(json.description));
       }
     }).catch(err => {
       console.log(err);

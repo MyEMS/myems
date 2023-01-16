@@ -248,7 +248,7 @@ const StoreSaving = ({ setRedirect, setRedirectUrl, t }) => {
     }).catch(err => {
       console.log(err);
     });
-  }
+  };
 
 
   let onComparisonTypeChange = ({ target }) => {
@@ -323,8 +323,8 @@ const StoreSaving = ({ setRedirect, setRedirectUrl, t }) => {
         return true;
       }
     }
-    return false
-  }
+    return false;
+  };
 
   // Handler
   const handleSubmit = e => {

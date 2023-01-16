@@ -244,7 +244,7 @@ const StoreEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
     }).catch(err => {
       console.log(err);
     });
-  }
+  };
 
 
   let onComparisonTypeChange = ({ target }) => {
@@ -319,8 +319,8 @@ const StoreEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
         return true;
       }
     }
-    return false
-  }
+    return false;
+  };
 
   // Handler
   const handleSubmit = e => {
