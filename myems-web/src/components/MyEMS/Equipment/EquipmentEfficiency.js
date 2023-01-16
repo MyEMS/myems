@@ -319,8 +319,8 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
         return true;
       }
     }
-    return false
-  }
+    return false;
+  };
 
   const sortByNumber = (originalArr, key) => {
     let sortArr = Array();
@@ -335,7 +335,7 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
     }
 
     return sortArr;
-  }
+  };
 
   // Handler
   const handleSubmit = e => {
@@ -388,7 +388,7 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
 
         let cardSummaryArray = []
         json['reporting_period_efficiency']['names'].forEach((currentValue, index) => {
-          let cardSummaryItem = {}
+          let cardSummaryItem = {};
           cardSummaryItem['name'] = json['reporting_period_efficiency']['names'][index];
           cardSummaryItem['unit'] = json['reporting_period_efficiency']['units'][index];
           cardSummaryItem['cumulation'] = json['reporting_period_efficiency']['cumulations'][index];

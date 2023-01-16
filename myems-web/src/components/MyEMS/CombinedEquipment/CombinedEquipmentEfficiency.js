@@ -326,8 +326,8 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
         return true;
       }
     }
-    return false
-  }
+    return false;
+  };
 
   const sortByNumber = (originalArr, key) => {
     let sortArr = Array();

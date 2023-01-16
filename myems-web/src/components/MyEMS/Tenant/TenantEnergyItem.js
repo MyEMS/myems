@@ -244,7 +244,7 @@ const TenantEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
     }).catch(err => {
       console.log(err);
     });
-  }
+  };
 
   let onComparisonTypeChange = ({ target }) => {
     console.log(target.value);
@@ -318,8 +318,8 @@ const TenantEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
         return true;
       }
     }
-    return false
-  }
+    return false;
+  };
 
   // Handler
   const handleSubmit = e => {

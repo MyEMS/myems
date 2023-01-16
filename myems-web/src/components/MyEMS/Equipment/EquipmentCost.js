@@ -321,8 +321,8 @@ const EquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
         return true;
       }
     }
-    return false
-  }
+    return false;
+  };
 
   // Handler
   const handleSubmit = e => {

@@ -316,8 +316,8 @@ const TenantStatistics = ({ setRedirect, setRedirectUrl, t }) => {
         return true;
       }
     }
-    return false
-  }
+    return false;
+  };
 
 
   // Handler
@@ -371,7 +371,7 @@ const TenantStatistics = ({ setRedirect, setRedirectUrl, t }) => {
 
         let cardSummaryArray = []
         json['reporting_period']['names'].forEach((currentValue, index) => {
-          let cardSummaryItem = {}
+          let cardSummaryItem = {};
           cardSummaryItem['name'] = json['reporting_period']['names'][index];
           cardSummaryItem['unit'] = json['reporting_period']['units'][index];
           cardSummaryItem['mean'] = json['reporting_period']['means'][index];
