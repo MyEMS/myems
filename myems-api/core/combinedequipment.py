@@ -387,12 +387,6 @@ class CombinedEquipmentItem:
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
-        try:
-            raw_json = req.stream.read().decode('utf-8')
-        except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
-
-        new_values = json.loads(raw_json)
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
