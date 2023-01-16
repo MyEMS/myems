@@ -303,7 +303,7 @@
 								<tbody>
 									<tr ng-repeat="offlinemeterfile in offlinemeterfiles">
 										<td class="text-center">{{ offlinemeterfile.id }}</td>
-										<td class="text-center"><a href="./upload/{{offlinemeterfile.uuid}}"
+										<td class="text-center"><a ng-href="./upload/{{offlinemeterfile.uuid}}"
 												download="{{offlinemeterfile.file_name}}">{{ offlinemeterfile.file_name }}</a>
 										</td>
 										<td class="text-center">{{ offlinemeterfile.status }}</td>

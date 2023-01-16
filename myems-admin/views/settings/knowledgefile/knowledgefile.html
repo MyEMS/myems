@@ -19,7 +19,7 @@
 								<tbody>
 									<tr ng-repeat="knowledgefile in knowledgefiles">
 										<td class="text-center">{{ knowledgefile.id }}</td>
-										<td class="text-center"><a href="./upload/{{knowledgefile.uuid}}" download="{{knowledgefile.file_name}}">{{ knowledgefile.file_name }}</a></td>
+										<td class="text-center"><a ng-href="./upload/{{knowledgefile.uuid}}" download="{{knowledgefile.file_name}}">{{ knowledgefile.file_name }}</a></td>
 										<td class="text-center">{{ knowledgefile.user_display_name }}</td>
 										<td class="text-center">{{ knowledgefile.upload_datetime }}</td>
 										<td class="text-center">

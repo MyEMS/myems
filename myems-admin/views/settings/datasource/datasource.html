@@ -117,7 +117,7 @@
 								<tbody>
 									<tr ng-repeat="datarepairfile in datarepairfiles">
 										<td class="text-center">{{ datarepairfile.id }}</td>
-										<td class="text-center"><a href="./upload/{{datarepairfile.uuid}}"
+										<td class="text-center"><a ng-href="./upload/{{datarepairfile.uuid}}"
 												download="{{datarepairfile.file_name}}">{{ datarepairfile.file_name }}</a>
 										</td>
 										<td class="text-center">{{ datarepairfile.status }}</td>

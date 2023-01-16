@@ -11,7 +11,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - 
 
 ### Fixed
-- Made the implicitly inserted semicolon explicit in myems-web
+- fixed make the implicitly inserted semicolon explicit in myems-web
+- fixed use of AngularJS markup in URL-valued attribute in myems-admin
 
 ### Removed
 - removed access control from GET action of offlinemeterfile in myems-api
