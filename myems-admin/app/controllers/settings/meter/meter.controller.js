@@ -321,8 +321,7 @@ app.controller('ModalAddMeterCtrl', function($scope, $uibModalInstance, params) 
 				delete $scope.meter.energy_item;
 			}
 		}
-	}
-
+	};
 });
 
 app.controller('ModalEditMeterCtrl', function($scope, $uibModalInstance, params) {
@@ -362,6 +361,6 @@ app.controller('ModalEditMeterCtrl', function($scope, $uibModalInstance, params)
 				delete $scope.meter.energy_item;
 			}
 		}
-	}
+	};
 	$scope.change_energyitems($scope.meter.energy_category.id);
 });

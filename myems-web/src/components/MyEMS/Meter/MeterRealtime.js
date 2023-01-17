@@ -29,7 +29,6 @@ const MeterRealtime = ({ setRedirect, setRedirectUrl, t }) => {
   const [maxCursor, setMaxCursor] = useState(0);
   const [selectMeterList, setSelectMeterList] = useState([]);
   const len = 8;
-  const ran = 1;
 
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
@@ -61,7 +60,6 @@ const MeterRealtime = ({ setRedirect, setRedirectUrl, t }) => {
     return () => clearInterval(timer);
   }, []);
   
-  let table = createRef();
   // State
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
   const [cascaderOptions, setCascaderOptions] = useState(undefined);

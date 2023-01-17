@@ -277,6 +277,6 @@ app.controller('ModalEditOfflineMeterCtrl', function($scope, $uibModalInstance, 
 				delete $scope.offlinemeter.energy_item;
 			}
 		}
-	}
+	};
 	$scope.change_energyitems($scope.offlinemeter.energy_category.id);
 });
