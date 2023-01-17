@@ -112,11 +112,9 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
 
   const [spaceBaseLabels, setSpaceBaseLabels] = useState({"a0": []});
   const [spaceBaseData, setSpaceBaseData] = useState({"a0": []});
-  const [spaceBaseSubtotals, setSpaceBaseSubtotals] = useState({"a0": (0).toFixed(2)});
 
   const [spaceReportingLabels, setSpaceReportingLabels] = useState({"a0": []});
   const [spaceReportingData, setSpaceReportingData] = useState({"a0": []});
-  const [spaceReportingSubtotals, setSpaceReportingSubtotals] = useState({"a0": (0).toFixed(2)});
 
   const [spaceReportingRates, setSpaceReportingRates] = useState({"a0": []});
   const [spaceReportingOptions, setSpaceReportingOptions] = useState([]);
@@ -343,12 +341,6 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
         });
         setSpaceBaseAndReportingUnits(base_and_reporting_units)
 
-        // let base_subtotals = {}
-        // json['base_period']['subtotals'].forEach((currentValue, index) => {
-        //   base_subtotals['a' + index] = currentValue.toFixed(2);
-        // });
-        // setSpaceBaseSubtotals(base_subtotals)
-
         let reporting_timestamps = {}
         json['reporting_period']['timestamps'].forEach((currentValue, index) => {
           reporting_timestamps['a' + index] = currentValue;
@@ -360,12 +352,6 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
           reporting_values['a' + index] = currentValue;
         });
         setSpaceReportingData(reporting_values);
-
-        // let reporting_subtotals = {}
-        // json['reporting_period']['subtotals'].forEach((currentValue, index) => {
-        //   reporting_subtotals['a' + index] = currentValue.toFixed(2);
-        // });
-        // setSpaceReportingSubtotals(reporting_subtotals);
 
         let rates = {}
         json['reporting_period']['rates_of_sub_maximums'].forEach((currentValue, index) => {
