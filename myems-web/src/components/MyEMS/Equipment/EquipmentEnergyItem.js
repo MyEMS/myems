@@ -239,12 +239,12 @@ const EquipmentEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
           setSubmitButtonDisabled(true);
         }
       } else {
-        toast.error(t(json.description))
+        toast.error(t(json.description));
       }
     }).catch(err => {
       console.log(err);
     });
-  }
+  };
 
 
   let onComparisonTypeChange = ({ target }) => {

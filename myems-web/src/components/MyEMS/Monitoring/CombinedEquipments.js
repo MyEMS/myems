@@ -194,7 +194,8 @@ const CombinedEquipments = ({ setRedirect, setRedirectUrl, t }) => {
     }).catch(err => {
       console.log(err);
     });
-  }
+  };
+  
   // Hook
   const { loading } = useFakeFetch(equipments);
   const { data: paginationData, meta: paginationMeta, handler: paginationHandler } = usePagination(equipmentIds, 4);

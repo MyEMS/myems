@@ -146,7 +146,8 @@ const CombinedEquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
     setCombinedEquipmentList([]);
     setExportButtonHidden(true);
     setSubmitButtonDisabled(false);
-  }
+  };
+  
   // Callback fired when value changed
   let onReportingPeriodChange = (DateRange) => {
     if(DateRange == null) {

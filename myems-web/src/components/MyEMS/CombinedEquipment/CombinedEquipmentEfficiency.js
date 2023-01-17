@@ -247,12 +247,12 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
         // hide export button
         setExportButtonHidden(true)
       } else {
-        toast.error(t(json.description))
+        toast.error(t(json.description));
       }
     }).catch(err => {
       console.log(err);
     });
-  }
+  };
 
   let onComparisonTypeChange = ({ target }) => {
     console.log(target.value);
@@ -341,7 +341,7 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
       index += 1
     }
     return sortArr;
-  }
+  };
 
   // Handler
   const handleSubmit = e => {
@@ -396,7 +396,7 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
 
         let cardSummaryArray = []
         json['reporting_period_efficiency']['names'].forEach((currentValue, index) => {
-          let cardSummaryItem = {}
+          let cardSummaryItem = {};
           cardSummaryItem['name'] = json['reporting_period_efficiency']['names'][index];
           cardSummaryItem['unit'] = json['reporting_period_efficiency']['units'][index];
           cardSummaryItem['cumulation'] = json['reporting_period_efficiency']['cumulations'][index];

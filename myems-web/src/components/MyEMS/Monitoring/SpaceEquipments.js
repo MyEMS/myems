@@ -120,7 +120,8 @@ const SpaceEquipments = ({ setRedirect, setRedirectUrl, t }) => {
     console.log(value, selectedOptions);
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
     setSelectedSpaceID(value[value.length - 1]);
-  }
+  };
+  
   // Hook
   const { loading } = useFakeFetch(equipments);
   const { data: paginationData, meta: paginationMeta, handler: paginationHandler } = usePagination(equipmentIds, 4);

@@ -249,8 +249,7 @@ const ShopfloorEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
     }).catch(err => {
       console.log(err);
     });
-  }
-
+  };
 
   let onComparisonTypeChange = ({ target }) => {
     console.log(target.value);
@@ -378,7 +377,7 @@ const ShopfloorEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
 
         let cardSummaryArray = []
         json['reporting_period']['names'].forEach((currentValue, index) => {
-          let cardSummaryItem = {}
+          let cardSummaryItem = {};
           cardSummaryItem['name'] = json['reporting_period']['names'][index];
           cardSummaryItem['unit'] = json['reporting_period']['units'][index];
           cardSummaryItem['subtotal'] = json['reporting_period']['subtotals'][index];

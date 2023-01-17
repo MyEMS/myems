@@ -146,7 +146,8 @@ const ShopfloorBatch = ({ setRedirect, setRedirectUrl, t }) => {
     setShopfloorList([]);
     setExportButtonHidden(true);
     setSubmitButtonDisabled(false);
-  }
+  };
+  
   // Callback fired when value changed
   let onReportingPeriodChange = (DateRange) => {
     if(DateRange == null) {
@@ -260,7 +261,7 @@ const ShopfloorBatch = ({ setRedirect, setRedirectUrl, t }) => {
         setExportButtonHidden(false);
           
       } else {
-        toast.error(t(json.description))
+        toast.error(t(json.description));
       }
     }).catch(err => {
       console.log(err);

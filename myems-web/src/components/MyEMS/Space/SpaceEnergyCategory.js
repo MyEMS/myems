@@ -22,7 +22,6 @@ import Cascader from 'rc-cascader';
 import CardSummary from '../common/CardSummary';
 import MultiTrendChart from '../common/MultiTrendChart';
 import MultipleLineChart from '../common/MultipleLineChart';
-import LineChart from '../common/LineChart';
 import SharePie from '../common/SharePie';
 import { getCookieValue, createCookie } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
@@ -184,7 +183,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
     console.log(value, selectedOptions);
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
     setSelectedSpaceID(value[value.length - 1]);
-  }
+  };
 
   let onComparisonTypeChange = ({ target }) => {
     console.log(target.value);

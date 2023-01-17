@@ -116,9 +116,7 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
         setSelectedDistributionSystemName(currentItem['label']);
       }
     });
-    
-  }
-
+  };
 
   return (
     <Fragment>
