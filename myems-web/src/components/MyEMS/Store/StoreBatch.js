@@ -145,7 +145,7 @@ const StoreBatch = ({ setRedirect, setRedirectUrl, t }) => {
     setStoreList([]);
     setExportButtonHidden(true);
     setSubmitButtonDisabled(false);
-  }
+  };
   // Callback fired when value changed
   let onReportingPeriodChange = (DateRange) => {
     if(DateRange == null) {

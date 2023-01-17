@@ -80,7 +80,7 @@ const BarChart = ({
       setChartData({
         labels: labels,
         datasets: datasets
-      })
+      });
     }
   }, [data, compareData]);
 

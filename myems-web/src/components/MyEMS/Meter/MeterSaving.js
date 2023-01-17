@@ -100,7 +100,7 @@ const MeterSaving = ({ setRedirect, setRedirectUrl, t }) => {
     formattedMonthPattern: 'yyyy-MM-dd'
   };
   const dateRangePickerStyle = { display: 'block', zIndex: 10};
-  const { language } = useContext(AppContext)
+  const { language } = useContext(AppContext);
 
   // buttons
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
@@ -250,7 +250,7 @@ const MeterSaving = ({ setRedirect, setRedirectUrl, t }) => {
     }).catch(err => {
       console.log(err);
     });
-  }
+  };
 
   const onSearchMeter = ({ target }) => {
     const keyword = target.value.toLowerCase();

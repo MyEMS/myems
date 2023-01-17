@@ -113,11 +113,9 @@ const ShopfloorLoad = ({ setRedirect, setRedirectUrl, t }) => {
 
   const [shopfloorBaseLabels, setShopfloorBaseLabels] = useState({"a0": []});
   const [shopfloorBaseData, setShopfloorBaseData] = useState({"a0": []});
-  const [shopfloorBaseSubtotals, setShopfloorBaseSubtotals] = useState({"a0": (0).toFixed(2)});
 
   const [shopfloorReportingLabels, setShopfloorReportingLabels] = useState({"a0": []});
   const [shopfloorReportingData, setShopfloorReportingData] = useState({"a0": []});
-  const [shopfloorReportingSubtotals, setShopfloorReportingSubtotals] = useState({"a0": (0).toFixed(2)});
 
   const [shopfloorReportingRates, setShopfloorReportingRates] = useState({"a0": []});
   const [shopfloorReportingOptions, setShopfloorReportingOptions] = useState([]);
@@ -242,8 +240,7 @@ const ShopfloorLoad = ({ setRedirect, setRedirectUrl, t }) => {
     }).catch(err => {
       console.log(err);
     });
-  }
-
+  };
 
   let onComparisonTypeChange = ({ target }) => {
     console.log(target.value);
@@ -371,7 +368,7 @@ const ShopfloorLoad = ({ setRedirect, setRedirectUrl, t }) => {
 
         let cardSummaryArray = []
         json['reporting_period']['names'].forEach((currentValue, index) => {
-          let cardSummaryItem = {}
+          let cardSummaryItem = {};
           cardSummaryItem['name'] = json['reporting_period']['names'][index];
           cardSummaryItem['unit'] = json['reporting_period']['units'][index];
           cardSummaryItem['average'] = json['reporting_period']['averages'][index];
@@ -416,12 +413,6 @@ const ShopfloorLoad = ({ setRedirect, setRedirectUrl, t }) => {
         });
         setShopfloorBaseAndReportingUnits(base_and_reporting_units)
 
-        // let base_subtotals = {}
-        // json['base_period']['subtotals'].forEach((currentValue, index) => {
-        //   base_subtotals['a' + index] = currentValue.toFixed(2);
-        // });
-        // setShopfloorBaseSubtotals(base_subtotals)
-
         let reporting_timestamps = {}
         json['reporting_period']['timestamps'].forEach((currentValue, index) => {
           reporting_timestamps['a' + index] = currentValue;
@@ -433,12 +424,6 @@ const ShopfloorLoad = ({ setRedirect, setRedirectUrl, t }) => {
           reporting_values['a' + index] = currentValue;
         });
         setShopfloorReportingData(reporting_values);
-
-        // let reporting_subtotals = {}
-        // json['reporting_period']['subtotals'].forEach((currentValue, index) => {
-        //   reporting_subtotals['a' + index] = currentValue.toFixed(2);
-        // });
-        // setShopfloorReportingSubtotals(reporting_subtotals);
 
         let rates = {}
         json['reporting_period']['rates_of_sub_maximums'].forEach((currentValue, index) => {

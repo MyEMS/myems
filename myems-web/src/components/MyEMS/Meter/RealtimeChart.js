@@ -115,7 +115,7 @@ class RealtimeChart extends Component {
           });
         }
       } else {
-        toast.error(t(json.description))
+        toast.error(t(json.description));
       }
     }).catch(err => {
       console.log(err);

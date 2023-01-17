@@ -113,11 +113,9 @@ const EquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
 
   const [equipmentBaseLabels, setEquipmentBaseLabels] = useState({"a0": []});
   const [equipmentBaseData, setEquipmentBaseData] = useState({"a0": []});
-  const [equipmentBaseSubtotals, setEquipmentBaseSubtotals] = useState({"a0": (0).toFixed(2)});
 
   const [equipmentReportingLabels, setEquipmentReportingLabels] = useState({"a0": []});
   const [equipmentReportingData, setEquipmentReportingData] = useState({"a0": []});
-  const [equipmentReportingSubtotals, setEquipmentReportingSubtotals] = useState({"a0": (0).toFixed(2)});
 
   const [equipmentReportingRates, setEquipmentReportingRates] = useState({"a0": []});
   const [equipmentReportingOptions, setEquipmentReportingOptions] = useState([]);
@@ -242,8 +240,7 @@ const EquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
     }).catch(err => {
       console.log(err);
     });
-  }
-
+  };
 
   let onComparisonTypeChange = ({ target }) => {
     console.log(target.value);
@@ -371,7 +368,7 @@ const EquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
 
         let cardSummaryArray = []
         json['reporting_period']['names'].forEach((currentValue, index) => {
-          let cardSummaryItem = {}
+          let cardSummaryItem = {};
           cardSummaryItem['name'] = json['reporting_period']['names'][index];
           cardSummaryItem['unit'] = json['reporting_period']['units'][index];
           cardSummaryItem['average'] = json['reporting_period']['averages'][index];
@@ -414,12 +411,6 @@ const EquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
         });
         setEquipmentBaseAndReportingUnits(base_and_reporting_units)
 
-        // let base_subtotals = {}
-        // json['base_period']['subtotals'].forEach((currentValue, index) => {
-        //   base_subtotals['a' + index] = currentValue.toFixed(2);
-        // });
-        // setEquipmentBaseSubtotals(base_subtotals)
-
         let reporting_timestamps = {}
         json['reporting_period']['timestamps'].forEach((currentValue, index) => {
           reporting_timestamps['a' + index] = currentValue;
@@ -431,12 +422,6 @@ const EquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
           reporting_values['a' + index] = currentValue;
         });
         setEquipmentReportingData(reporting_values);
-
-        // let reporting_subtotals = {}
-        // json['reporting_period']['subtotals'].forEach((currentValue, index) => {
-        //   reporting_subtotals['a' + index] = currentValue.toFixed(2);
-        // });
-        // setEquipmentReportingSubtotals(reporting_subtotals);
 
         let rates = {}
         json['reporting_period']['rates_of_sub_maximums'].forEach((currentValue, index) => {

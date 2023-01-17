@@ -146,7 +146,7 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
       labelTextBorderColor = 'rgba(0, 0, 0, 1)';
     }
 
-    let colorIndex = 0
+    let colorIndex = 0;
     for(let i = 0; i < energyFlowDiagramData.nodes.length; i++) {
       let item = energyFlowDiagramData.nodes[i];
       item.itemStyle = {color: colorArr[colorIndex%9]};

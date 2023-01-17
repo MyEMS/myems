@@ -246,8 +246,7 @@ const ShopfloorCarbon = ({ setRedirect, setRedirectUrl, t }) => {
     }).catch(err => {
       console.log(err);
     });
-  }
-
+  };
 
   let onComparisonTypeChange = ({ target }) => {
     console.log(target.value);
@@ -375,7 +374,7 @@ const ShopfloorCarbon = ({ setRedirect, setRedirectUrl, t }) => {
 
         let cardSummaryList = []
         json['reporting_period']['names'].forEach((currentValue, index) => {
-          let cardSummaryItem = {}
+          let cardSummaryItem = {};
           cardSummaryItem['name'] = json['reporting_period']['names'][index];
           cardSummaryItem['unit'] = json['reporting_period']['units'][index];
           cardSummaryItem['subtotal'] = json['reporting_period']['subtotals'][index];

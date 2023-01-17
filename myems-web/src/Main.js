@@ -120,7 +120,7 @@ const Main = props => {
       window.removeEventListener("mousedown", mousedown);
       window.removeEventListener("mousemove", mousemove);
     }
-  }, [])
+  }, []);
 
   if (!isLoaded) {
     toggleStylesheet({ isRTL, isDark }, () => setIsLoaded(true));

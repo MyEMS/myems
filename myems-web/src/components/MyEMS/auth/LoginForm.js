@@ -51,7 +51,7 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
         }
         setRedirect(true);
       } else {
-        toast.error(t(json.description))
+        toast.error(t(json.description));
       }
     }).catch(err => {
       console.log(err);

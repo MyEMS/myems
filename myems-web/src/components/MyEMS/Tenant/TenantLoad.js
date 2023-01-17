@@ -113,11 +113,9 @@ const TenantLoad = ({ setRedirect, setRedirectUrl, t }) => {
 
   const [tenantBaseLabels, setTenantBaseLabels] = useState({"a0": []});
   const [tenantBaseData, setTenantBaseData] = useState({"a0": []});
-  const [tenantBaseSubtotals, setTenantBaseSubtotals] = useState({"a0": (0).toFixed(2)});
 
   const [tenantReportingLabels, setTenantReportingLabels] = useState({"a0": []});
   const [tenantReportingData, setTenantReportingData] = useState({"a0": []});
-  const [tenantReportingSubtotals, setTenantReportingSubtotals] = useState({"a0": (0).toFixed(2)});
 
   const [tenantReportingRates, setTenantReportingRates] = useState({"a0": []});
   const [tenantReportingOptions, setTenantReportingOptions] = useState([]);
@@ -415,12 +413,6 @@ const TenantLoad = ({ setRedirect, setRedirectUrl, t }) => {
         });
         setSpaceBaseAndReportingUnits(base_and_reporting_units)
 
-        // let base_subtotals = {}
-        // json['base_period']['subtotals'].forEach((currentValue, index) => {
-        //   base_subtotals['a' + index] = currentValue.toFixed(2);
-        // });
-        // setTenantBaseSubtotals(base_subtotals)
-
         let reporting_timestamps = {}
         json['reporting_period']['timestamps'].forEach((currentValue, index) => {
           reporting_timestamps['a' + index] = currentValue;
@@ -432,12 +424,6 @@ const TenantLoad = ({ setRedirect, setRedirectUrl, t }) => {
           reporting_values['a' + index] = currentValue;
         });
         setTenantReportingData(reporting_values);
-
-        // let reporting_subtotals = {}
-        // json['reporting_period']['subtotals'].forEach((currentValue, index) => {
-        //   reporting_subtotals['a' + index] = currentValue.toFixed(2);
-        // });
-        // setTenantReportingSubtotals(reporting_subtotals);
 
         let rates = {}
         json['reporting_period']['rates_of_sub_maximums'].forEach((currentValue, index) => {

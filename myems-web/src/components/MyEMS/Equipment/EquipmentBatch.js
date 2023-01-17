@@ -145,7 +145,8 @@ const EquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
     setEquipmentList([]);
     setExportButtonHidden(true);
     setSubmitButtonDisabled(false);
-  }
+  };
+  
   // Callback fired when value changed
   let onReportingPeriodChange = (DateRange) => {
     if(DateRange == null) {

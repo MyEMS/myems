@@ -190,7 +190,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
               setSubmitButtonDisabled(true);
             }
           } else {
-            toast.error(t(json.description))
+            toast.error(t(json.description));
           }
         }).catch(err => {
           console.log(err);
@@ -248,7 +248,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
     }).catch(err => {
       console.log(err);
     });
-  }
+  };
 
   let onSpaceCascaderChange2 = (value, selectedOptions) => {
     setSelectedSpaceName2(selectedOptions.map(o => o.label).join('/'));
@@ -285,12 +285,12 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
           setSubmitButtonDisabled(true);
         }
       } else {
-        toast.error(t(json.description))
+        toast.error(t(json.description));
       }
     }).catch(err => {
       console.log(err);
     });
-  }
+  };
 
   const onSearchMeter1 = ({ target }) => {
     const keyword = target.value.toLowerCase();

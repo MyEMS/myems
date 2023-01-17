@@ -443,7 +443,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
     }).catch(err => {
       console.log(err);
     });
-  }
+  };
 
   const onSearchMeter = ({ target }) => {
     const keyword = target.value.toLowerCase();

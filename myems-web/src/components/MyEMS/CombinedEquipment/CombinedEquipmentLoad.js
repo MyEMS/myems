@@ -114,11 +114,9 @@ const CombinedEquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
 
   const [combinedEquipmentBaseLabels, setCombinedEquipmentBaseLabels] = useState({"a0": []});
   const [combinedEquipmentBaseData, setCombinedEquipmentBaseData] = useState({"a0": []});
-  const [combinedEquipmentBaseSubtotals, setCombinedEquipmentBaseSubtotals] = useState({"a0": (0).toFixed(2)});
 
   const [combinedEquipmentReportingLabels, setCombinedEquipmentReportingLabels] = useState({"a0": []});
   const [combinedEquipmentReportingData, setCombinedEquipmentReportingData] = useState({"a0": []});
-  const [combinedEquipmentReportingSubtotals, setCombinedEquipmentReportingSubtotals] = useState({"a0": (0).toFixed(2)});
 
   const [combinedEquipmentReportingRates, setCombinedEquipmentReportingRates] = useState({"a0": []});
   const [combinedEquipmentReportingOptions, setCombinedEquipmentReportingOptions] = useState([]);
@@ -242,13 +240,12 @@ const CombinedEquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
           setSubmitButtonDisabled(true);
         }
       } else {
-        toast.error(t(json.description))
+        toast.error(t(json.description));
       }
     }).catch(err => {
       console.log(err);
     });
-  }
-
+  };
 
   let onComparisonTypeChange = ({ target }) => {
     console.log(target.value);
@@ -373,11 +370,11 @@ const CombinedEquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
       return response.json();
     }).then(json => {
       if (isResponseOK) {
-        console.log(json)
+        console.log(json);
 
-        let cardSummaryArray = []
+        let cardSummaryArray = [];
         json['reporting_period']['names'].forEach((currentValue, index) => {
-          let cardSummaryItem = {}
+          let cardSummaryItem = {};
           cardSummaryItem['name'] = json['reporting_period']['names'][index];
           cardSummaryItem['unit'] = json['reporting_period']['units'][index];
           cardSummaryItem['average'] = json['reporting_period']['averages'][index];
@@ -420,12 +417,6 @@ const CombinedEquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
         });
         setCombinedEquipmentBaseAndReportingUnits(base_and_reporting_units)
 
-        // let base_subtotals = {}
-        // json['base_period']['subtotals'].forEach((currentValue, index) => {
-        //   base_subtotals['a' + index] = currentValue.toFixed(2);
-        // });
-        // setCombinedEquipmentBaseSubtotals(base_subtotals)
-
         let reporting_timestamps = {}
         json['reporting_period']['timestamps'].forEach((currentValue, index) => {
           reporting_timestamps['a' + index] = currentValue;
@@ -437,12 +428,6 @@ const CombinedEquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
           reporting_values['a' + index] = currentValue;
         });
         setCombinedEquipmentReportingData(reporting_values);
-
-        // let reporting_subtotals = {}
-        // json['reporting_period']['subtotals'].forEach((currentValue, index) => {
-        //   reporting_subtotals['a' + index] = currentValue.toFixed(2);
-        // });
-        // setCombinedEquipmentReportingSubtotals(reporting_subtotals);
 
         let rates = {}
         json['reporting_period']['rates_of_sub_maximums'].forEach((currentValue, index) => {

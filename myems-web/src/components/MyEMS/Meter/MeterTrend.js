@@ -18,7 +18,6 @@ import {
 import Cascader from 'rc-cascader';
 import moment from 'moment';
 import loadable from '@loadable/component';
-import LineChart from '../common/LineChart';
 import { getCookieValue, createCookie } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';

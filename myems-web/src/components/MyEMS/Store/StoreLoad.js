@@ -118,7 +118,6 @@ const StoreLoad = ({ setRedirect, setRedirectUrl, t }) => {
 
   const [storeReportingLabels, setStoreReportingLabels] = useState({"a0": []});
   const [storeReportingData, setStoreReportingData] = useState({"a0": []});
-  const [storeReportingSubtotals, setStoreReportingSubtotals] = useState({"a0": (0).toFixed(2)});
 
   const [storeReportingRates, setStoreReportingRates] = useState({"a0": []});
   const [storeReportingOptions, setStoreReportingOptions] = useState([]);
@@ -417,12 +416,6 @@ const StoreLoad = ({ setRedirect, setRedirectUrl, t }) => {
         });
         setStoreBaseAndReportingUnits(base_and_reporting_units)
 
-        // let base_subtotals = {}
-        // json['base_period']['subtotals'].forEach((currentValue, index) => {
-        //   base_subtotals['a' + index] = currentValue.toFixed(2);
-        // });
-        // setStoreBaseSubtotals(base_subtotals)
-
         let reporting_timestamps = {}
         json['reporting_period']['timestamps'].forEach((currentValue, index) => {
           reporting_timestamps['a' + index] = currentValue;
@@ -434,12 +427,6 @@ const StoreLoad = ({ setRedirect, setRedirectUrl, t }) => {
           reporting_values['a' + index] = currentValue;
         });
         setStoreReportingData(reporting_values);
-
-        // let reporting_subtotals = {}
-        // json['reporting_period']['subtotals'].forEach((currentValue, index) => {
-        //   reporting_subtotals['a' + index] = currentValue.toFixed(2);
-        // });
-        // setStoreReportingSubtotals(reporting_subtotals);
 
         let rates = {}
         json['reporting_period']['rates_of_sub_maximums'].forEach((currentValue, index) => {
@@ -501,12 +488,11 @@ const StoreLoad = ({ setRedirect, setRedirectUrl, t }) => {
               });
               detailed_value_list.push(detailed_value);
             });
-          }
-          ;
+          };
 
           setTimeout(() => {
             setDetailedDataTableData(detailed_value_list);
-          }, 0)
+          }, 0);
 
           let detailed_column_list = [];
           detailed_column_list.push({
@@ -587,7 +573,7 @@ const StoreLoad = ({ setRedirect, setRedirectUrl, t }) => {
             dataField: 'reportingPeriodDatetime',
             text: t('Reporting Period') + ' - ' + t('Datetime'),
             sort: true
-          })
+          });
 
           json['reporting_period']['names'].forEach((currentValue, index) => {
             let unit = json['reporting_period']['units'][index];
