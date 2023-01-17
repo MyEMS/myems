@@ -102,7 +102,6 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
 
-  const [loading, setLoading] = useState(false);
   //Results
   const [meterEnergyCategory, setMeterEnergyCategory] = useState({ 'name': '', 'unit': '' });
   const [reportingPeriodMasterMeterConsumptionInCategory, setReportingPeriodMasterMeterConsumptionInCategory] = useState(0);

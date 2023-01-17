@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import { rgbaColor, themeColors } from '../../../helpers/utils';
-import { Row, Col, Card, CardBody, CustomInput } from 'reactstrap';
+import { Card, CardBody } from 'reactstrap';
 import {
   Chart as ChartJS,
   CategoryScale,

@@ -53,7 +53,6 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
     return () => clearInterval(timer);
   }, []);
   
-  let table = createRef();
   // State
   // Query Parameters
   const [distributionSystemList, setDistributionSystemList] = useState([]);

@@ -17,7 +17,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed unused local variable in myems-api
 - fixed semicolon insertion in myems-web
 - fixed unused variable, import, function or class in myems-web
-- 
+- fixed unused variable, import, function or class in myems-admin
+- fixed semicolon insertion in myems-admin
+
 ### Removed
 - removed access control from GET action of offlinemeterfile in myems-api
 

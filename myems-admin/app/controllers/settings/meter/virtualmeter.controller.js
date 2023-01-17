@@ -301,7 +301,7 @@ app.controller('ModalAddVirtualMeterCtrl', function($timeout, $scope,
 				delete $scope.virtualmeter.energy_item;
 			}
 		}
-	}
+	};
 
 	$scope.add = function() {
 		var variable = {
@@ -333,7 +333,7 @@ app.controller('ModalAddVirtualMeterCtrl', function($timeout, $scope,
 
 	};
 
-	$scope.last_meter_type_select = null
+	$scope.last_meter_type_select = null;
 	$scope.changeMeterType = function() {
 		switch ($scope.currentMeterType.selected.sid) {
 			case 'meter':
@@ -357,9 +357,6 @@ app.controller('ModalAddVirtualMeterCtrl', function($timeout, $scope,
 			}
 		}
 	};
-
-
-
 });
 
 app.controller('ModalEditVirtualMeterCtrl', function($timeout, $scope, $uibModalInstance, params) {
@@ -430,7 +427,8 @@ app.controller('ModalEditVirtualMeterCtrl', function($timeout, $scope, $uibModal
 				delete $scope.virtualmeter.energy_item;
 			}
 		}
-	}
+	};
+
 	$scope.change_energyitems($scope.virtualmeter.energy_category.id);
 
 	$timeout(function() {

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useRef } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Row, Col, Card, CardBody } from 'reactstrap';
 import { CheckPicker } from 'rsuite';
 import { rgbaColor, themeColors, isIterableArray, getGrays } from '../../../helpers/utils';

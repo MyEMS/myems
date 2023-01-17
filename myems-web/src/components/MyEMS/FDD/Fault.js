@@ -46,8 +46,7 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
   const [endDatetime, setEndDatetime] = useState(current_moment);
   const [priority, setPriority] = useState('all');
   const [status, setStatus] = useState('all');
-  
-  const [fetchSuccess, setFetchSuccess] = useState(false);
+
   //Results
   const [faults, setFaults] = useState([]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
@@ -108,17 +107,6 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
   var getEndDatetime = function (currentDate) {
     return currentDate.isAfter(moment(startDatetime, 'MM/DD/YYYY, hh:mm:ss a'));
   }
-
-  const orderFormatter = (dataField, { id, name, email }) => (
-    <Fragment>
-      <Link to="/e-commerce/order-details">
-        <strong>#{id}</strong>
-      </Link>{' '}
-      by <strong>{name}</strong>
-      <br />
-      <a href={`mailto:${email}`}>{email}</a>
-    </Fragment>
-  );
 
   const subjectFormatter = (dataField, { url }) => (
     <Fragment>
@@ -291,7 +279,6 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
       return response.json();
     }).then(json => {
       if (isResponseOK) {
-        setFetchSuccess(true);
 
         let faultList = []
 
@@ -366,7 +353,6 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
         }).then(json => {
           if (isResponseOK) {
             console.log(json);
-            setFetchSuccess(true);
 
             let faultList = []
 
@@ -443,7 +429,6 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
         }).then(json => {
           if (isResponseOK) {
             console.log(json);
-            setFetchSuccess(true);
 
             let faultList = []
 
@@ -515,7 +500,6 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
         }).then(json => {
           if (isResponseOK) {
             console.log(json);
-            setFetchSuccess(true);
 
             let faultList = []
 
