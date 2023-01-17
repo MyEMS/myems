@@ -240,12 +240,12 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
         // hide export button
         setExportButtonHidden(true)
       } else {
-        toast.error(t(json.description))
+        toast.error(t(json.description));
       }
     }).catch(err => {
       console.log(err);
     });
-  }
+  };
 
   let onComparisonTypeChange = ({ target }) => {
     console.log(target.value);

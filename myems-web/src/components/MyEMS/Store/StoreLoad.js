@@ -114,7 +114,6 @@ const StoreLoad = ({ setRedirect, setRedirectUrl, t }) => {
 
   const [storeBaseLabels, setStoreBaseLabels] = useState({"a0": []});
   const [storeBaseData, setStoreBaseData] = useState({"a0": []});
-  const [storeBaseSubtotals, setStoreBaseSubtotals] = useState({"a0": (0).toFixed(2)});
 
   const [storeReportingLabels, setStoreReportingLabels] = useState({"a0": []});
   const [storeReportingData, setStoreReportingData] = useState({"a0": []});
@@ -666,8 +665,6 @@ const StoreLoad = ({ setRedirect, setRedirectUrl, t }) => {
             document.body.removeChild(link);
         });
   };
-
-
 
   return (
     <Fragment>
