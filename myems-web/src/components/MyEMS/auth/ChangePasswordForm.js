@@ -4,8 +4,7 @@ import { toast } from 'react-toastify';
 import { Button, 
   Card, 
   CardBody, 
-  Form,
-  Spinner } from 'reactstrap';
+  Form } from 'reactstrap';
 import FalconCardHeader from '../../common/FalconCardHeader';
 import FormGroupInput from '../../common/FormGroupInput';
 import { getCookieValue, createCookie } from '../../../helpers/utils';
