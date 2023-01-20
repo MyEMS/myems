@@ -1,4 +1,4 @@
-import { version } from './config';
+// import { version } from './config';
 import { Trans } from 'react-i18next';
 
 // export const homeRoutes = {

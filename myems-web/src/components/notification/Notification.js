@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
-import Avatar from '../common/Avatar';
 import createMarkup from '../../helpers/createMarkup';
 
 const Notification = ({ created_datetime, id, status, flush, message, subject}) => (
