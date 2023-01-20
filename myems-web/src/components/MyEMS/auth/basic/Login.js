@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import { Col, Row } from 'reactstrap';
-import { Link } from 'react-router-dom';
 import LoginForm from '../LoginForm';
 import { withTranslation } from 'react-i18next';
 
