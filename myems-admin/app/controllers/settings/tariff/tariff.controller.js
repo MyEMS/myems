@@ -259,8 +259,7 @@ app.controller('ModalAddTariffCtrl', function($scope, $timeout, $uibModalInstanc
 				angular.element('#blockTable').trigger('footable_redraw');
 			}, 10);
 		}
-
-	}
+	};
 });
 
 app.controller('ModalEditTariffCtrl', function($scope, $timeout, $uibModalInstance, TARIFF_TYPE, PEAK_TYPE, params) {
@@ -291,9 +290,11 @@ app.controller('ModalEditTariffCtrl', function($scope, $timeout, $uibModalInstan
 		timePickerIncrement: 1,
 		singleDatePicker: true,
 	};
+
 	$scope.showPeakType = function(type) {
 		return PEAK_TYPE[type];
 	};
+	
 	$timeout(function() {
 		if ($scope.tariff.tariff_type == 'timeofuse') {
 			angular.element('#touTable').trigger('footable_redraw');
@@ -311,6 +312,7 @@ app.controller('ModalEditTariffCtrl', function($scope, $timeout, $uibModalInstan
 	$scope.cancel = function() {
 		$uibModalInstance.dismiss('cancel');
 	};
+
 	$scope.add = function(t) {
 		if (t.peak_type == null || t.price == null || t.peak_type == ''){
 			return false;
@@ -348,8 +350,8 @@ app.controller('ModalEditTariffCtrl', function($scope, $timeout, $uibModalInstan
 				angular.element('#blockTable').trigger('footable_redraw');
 			}, 10);
 		}
-
 	};
+
 	$scope.delete = function(key) {
 		if($scope.tariff.tariff_type=='timeofuse'){
 			$scope.timeofuse.splice(key, 1);
@@ -362,6 +364,5 @@ app.controller('ModalEditTariffCtrl', function($scope, $timeout, $uibModalInstan
 				angular.element('#blockTable').trigger('footable_redraw');
 			}, 10);
 		}
-
-	}
+	};
 });

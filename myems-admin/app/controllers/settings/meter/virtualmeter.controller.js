@@ -464,7 +464,7 @@ app.controller('ModalEditVirtualMeterCtrl', function($timeout, $scope, $uibModal
 
 	};
 
-	$scope.last_meter_type_select = null
+	$scope.last_meter_type_select = null;
 	$scope.changeMeterType = function() {
 		switch ($scope.currentMeterType.selected.sid) {
 			case 'meter':
