@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added tbl_spaces_non_working_days to myems_system_db in database
 
 ### Changed
-- 
+- upgraded bootstrap to v3.4.1 in myems-admin
 
 ### Fixed
 - fixed make the implicitly inserted semicolon explicit in myems-web
