@@ -1,0 +1,307 @@
+<div class="wrapper wrapper-content" ng-controller="CombinedEquipmentMasterController">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="tabs-container">
+				<uib-tabset>
+					<uib-tab heading="{{'COMMON.COMBINED_EQUIPMENT' | translate}}">
+						<div class="panel-body" ng-controller="CombinedEquipmentController">
+							<a ng-click="addCombinedEquipment()" class="btn btn-primary btn-rounded  btn-outline"
+								href=""><i class="fa fa-plus-circle"></i>
+								{{'COMBINED_EQUIPMENT.ADD_COMBINED_EQUIPMENT' | translate}}</a>
+							<table class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
+										<th class="text-center">{{'SETTING.IS_INPUT_COUNTED' | translate}}</th>
+										<th class="text-center">{{'SETTING.IS_OUTPUT_COUNTED' | translate}}</th>
+										<th class="text-center">{{'COMBINED_EQUIPMENT.COST_CENTER' | translate}}</th>
+										<th class="text-center">{{'COMBINED_EQUIPMENT.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="combinedequipment in combinedequipments">
+										<td class="text-center">{{ combinedequipment.id }}</td>
+										<td class="text-center">{{ combinedequipment.name }}</td>
+										<td class="text-center">
+											{{ combinedequipment.is_input_counted==false?'SETTING.NO':'SETTING.YES' | translate }}
+										</td>
+										<td class="text-center">
+											{{ combinedequipment.is_output_counted==false?'SETTING.NO':'SETTING.YES' | translate }}
+										</td>
+										<td class="text-center">{{ combinedequipment.cost_center.name }}</td>
+										<td class="text-center">{{ combinedequipment.description }}</td>
+										<td class="text-center">
+											<a ng-click="editCombinedEquipment(combinedequipment)"
+												class="btn btn-primary btn-rounded btn-xs">{{'SETTING.EDIT' | translate}}</a>
+											<a ng-click="deleteCombinedEquipment(combinedequipment)"
+												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' | translate}}</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</uib-tab>
+					<uib-tab heading="{{'COMBINED_EQUIPMENT.BIND_EQUIPMENT' | translate}}">
+						<div class="panel-body" ng-controller="CombinedEquipmentEquipmentController">
+							<div class="row">
+								<div class="col-lg-3">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'COMMON.COMBINED_EQUIPMENT' | translate}}
+										</div>
+										<div class="panel-body">
+											<form role="form">
+												<div class="form-group no-margin">
+													<label>{{'COMBINED_EQUIPMENT.SELECT_COMBINED_EQUIPMENT' | translate}}</label>
+													<ui-select on-select="changeCombinedEquipment($item,$model)"
+														ng-model="currentCombinedEquipment.selected" theme="bootstrap">
+														<ui-select-match
+															placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
+															{{$select.selected.name}}</ui-select-match>
+														<ui-select-choices
+															repeat="combinedequipment.id as combinedequipment in combinedequipments | filter: $select.search">
+															<div
+																ng-bind-html="combinedequipment.name | highlight: $select.search">
+															</div>
+														</ui-select-choices>
+													</ui-select>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="panel panel-primary">
+										<div class="panel-heading">
+											{{currentCombinedEquipment.name}}{{'COMBINED_EQUIPMENT.N_S_EQUIPMENT' | translate}}
+										</div>
+										<div class="panel-body maxheight"
+											x-hjc-drop-target="true"
+											x-on-drop="pairEquipment(dragEl,dropEl)"
+											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}" >
+											<div class="btn btn-primary btn-rounded btn-block"
+											title="{{combinedequipmentequipment.name}}"
+											ng-repeat="combinedequipmentequipment in combinedequipmentequipments"
+											x-hjc-draggable="true"> {{combinedequipmentequipment.name}}</div>
+									</div>
+									</div>
+									<div class="panel panel-danger">
+										<div class="panel-heading">
+											{{'SETTING.TRASH' | translate}}
+										</div>
+										<div class="panel-body trash">
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+												x-on-drop="deleteEquipmentPair(dragEl,dropEl)">
+										</div>
+
+									</div>
+								</div>
+
+								<div class="col-lg-4">
+									<!-- according panel-->
+									<div class="panel panel-primary">
+										<div class="panel-heading"> {{'COMBINED_EQUIPMENT.EQUIPMENT_LIST' | translate}}	</div>
+										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}" 
+										slim-scroll box-height="765px">
+											<div class="source btn btn-info btn-rounded btn-block" 	ng-repeat="equipment in equipments" x-hjc-draggable="true">
+													 {{equipment.name}}
+										  </div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</uib-tab>
+					<uib-tab heading="{{'SETTING.BIND_METER' | translate}}">
+						<div class="panel-body" ng-controller="CombinedEquipmentMeterController">
+							<div class="row">
+								<div class="col-lg-3">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'COMMON.COMBINED_EQUIPMENT' | translate}}
+										</div>
+										<div class="panel-body">
+											<form role="form">
+												<div class="form-group no-margin">
+													<label>{{'COMBINED_EQUIPMENT.SELECT_COMBINED_EQUIPMENT' | translate}}</label>
+													<ui-select on-select="changeCombinedEquipment($item,$model)"
+														ng-model="currentCombinedEquipment.selected" theme="bootstrap">
+														<ui-select-match
+															placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
+															{{$select.selected.name}}</ui-select-match>
+														<ui-select-choices
+															repeat="combinedequipment.id as combinedequipment in combinedequipments | filter: $select.search">
+															<div
+																ng-bind-html="combinedequipment.name | highlight: $select.search">
+															</div>
+														</ui-select-choices>
+													</ui-select>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="panel panel-primary">
+										<div class="panel-heading">
+											{{currentCombinedEquipment.name}}{{'SETTING.N_S_METER' | translate}}
+										</div>
+										<div class="panel-body maxheight" 
+										    x-hjc-drop-target="true"
+											x-on-drop="pairMeter(dragEl,dropEl)"
+											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
+
+											<div class="btn btn-rounded btn-block"
+												ng-class="colorMeterType(combinedequipmentmeter.metertype)"
+												ng-repeat="combinedequipmentmeter in combinedequipmentmeters"
+												x-hjc-draggable="true"
+												title="{{combinedequipmentmeter.metertype}}|output:{{combinedequipmentmeter.is_output}}">
+												({{combinedequipmentmeter.energy_category.name}}){{combinedequipmentmeter.name}}
+											</div>
+										</div>
+									</div>
+									<div class="panel panel-danger">
+										<div class="panel-heading">
+											{{'SETTING.TRASH' | translate}}
+										</div>
+										<div class="panel-body trash">
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true" x-on-drop="deleteMeterPair(dragEl,dropEl)">
+										</div>
+									</div>
+								</div>
+
+								<div class="col-lg-4">
+									<!-- according panel-->
+									<div class="panel panel-primary">
+										<div class="panel-heading">
+											{{'SETTING.METER' | translate}}
+										</div>
+										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
+											slim-scroll box-height="765px">
+											<div class="form-group no-margin">
+												<label>{{'SETTING.METER_TYPE' | translate}}</label>
+												<select ng-change="changeMeterType()" ng-model="currentMeterType"
+													class="form-control m-b" name="metertype">
+													<option value="meters">{{'SETTING.METER' | translate}}</option>
+													<option value="virtualmeters">
+														{{'SETTING.VIRTUAL_METER' | translate}}</option>
+													<option value="offlinemeters">
+														{{'SETTING.OFFLINE_METER' | translate}}</option>
+												</select>
+											</div>
+											<div class="source btn btn-primary btn-rounded btn-block"
+												ng-repeat="meter in currentmeters" x-hjc-draggable="true"
+												ng-class="colorMeterType(currentMeterType)">
+												({{meter.energy_category.name}}){{meter.name}}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</uib-tab>
+					<uib-tab heading="{{'COMBINED_EQUIPMENT.BIND_PARAMETER' | translate}}">
+						<div class="panel-body" ng-controller="CombinedEquipmentParameterController">
+							<div class="row">
+								<div class="col-lg-3">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'COMMON.COMBINED_EQUIPMENT' | translate}}
+										</div>
+										<div class="panel-body">
+											<form role="form">
+												<div class="form-group no-margin">
+													<label>{{'COMBINED_EQUIPMENT.SELECT_COMBINED_EQUIPMENT' | translate}}</label>
+													<ui-select on-select="changeCombinedEquipment($item,$model)"
+														ng-model="currentCombinedEquipment.selected" theme="bootstrap">
+														<ui-select-match
+															placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
+															{{$select.selected.name}}</ui-select-match>
+														<ui-select-choices
+															repeat="combinedequipment.id as combinedequipment in combinedequipments | filter: $select.search">
+															<div
+																ng-bind-html="combinedequipment.name | highlight: $select.search">
+															</div>
+														</ui-select-choices>
+													</ui-select>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-9">
+									<div class="panel panel-primary">
+										<div class="panel-heading">
+											{{currentCombinedEquipment.name}}{{'COMBINED_EQUIPMENT.N_S_PARAMETER' | translate}}
+										</div>
+										<div class="panel-body">
+											<a ng-show="is_show_add_parameter"
+												ng-click="addCombinedEquipmentParameter()"
+												class="btn btn-primary btn-rounded  btn-outline" href=""><i
+													class="fa fa-plus-circle"></i>
+												{{'EQUIPMENT.ADD_PARAMETER' | translate}}</a>
+											<table class="table table-bordered table-hover">
+												<thead>
+													<tr>
+														<th class="text-center">
+															{{'COMBINED_EQUIPMENT.PARAMETER_ID' | translate}}</th>
+														<th class="text-center">
+															{{'COMBINED_EQUIPMENT.PARAMETER_NAME' | translate}}</th>
+														<th class="text-center">
+															{{'COMBINED_EQUIPMENT.PARAMETER_TYPE' | translate}}</th>
+														<th class="text-center">
+															{{'COMBINED_EQUIPMENT.PARAMETER_CONSTANT' | translate}}</th>
+														<th class="text-center">
+															{{'COMBINED_EQUIPMENT.PARAMETER_POINT' | translate}}</th>
+														<th class="text-center">
+															{{'COMBINED_EQUIPMENT.PARAMETER_NUMERATOR_METER' | translate}}
+														</th>
+														<th class="text-center">
+															{{'COMBINED_EQUIPMENT.PARAMETER_DENOMINATOR_METER' | translate}}
+														</th>
+														<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr
+														ng-repeat="combinedequipmentparameter in combinedequipmentparameters">
+														<td class="text-center">{{ combinedequipmentparameter.id }}</td>
+														<td class="text-center">{{ combinedequipmentparameter.name }}
+														</td>
+														<td class="text-center">
+															{{ showCombinedEquipmentParameterType(combinedequipmentparameter.parameter_type) | translate }}
+														</td>
+														<td class="text-center">
+															{{ combinedequipmentparameter.parameter_type == 'constant' ? combinedequipmentparameter.constant : '-' }}
+														</td>
+														<td class="text-center">
+															{{ combinedequipmentparameter.parameter_type == 'point' ?  combinedequipmentparameter.point.name : '-' }}
+														</td>
+														<td class="text-center">
+															{{ showCombinedEquipmentParameterNumerator(combinedequipmentparameter) }}
+														</td>
+														<td class="text-center">
+															{{ showCombinedEquipmentParameterDenominator(combinedequipmentparameter) }}
+														</td>
+														<td class="text-center">
+															<a class="btn btn-primary btn-rounded btn-xs"
+																ng-click="editCombinedEquipmentParameter(combinedequipmentparameter)">{{'SETTING.EDIT' | translate}}</a>
+															<a ng-click="deleteCombinedEquipmentParameter(combinedequipmentparameter)"
+																class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' | translate}}</a>
+
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</uib-tab>
+				</uib-tabset>
+			</div>
+		</div>
+	</div>
+</div>

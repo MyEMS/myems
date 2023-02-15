@@ -1,0 +1,117 @@
+<div class="wrapper wrapper-content" ng-controller="SensorMasterController">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="tabs-container">
+
+				<uib-tabset>
+					<uib-tab heading="{{'COMMON.SENSOR' | translate}}" >
+						<div class="panel-body" ng-controller="SensorController">
+							<a ng-click="addSensor()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SENSOR.ADD_SENSOR' | translate}}</a>
+							<table class="table table-bordered table-hover" >
+								<thead>
+									<tr>
+										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
+										<th class="text-center">{{'SENSOR.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="sensor in sensors">
+										<td class="text-center">{{ sensor.id }}</td>
+										<td class="text-center">{{ sensor.name }}</td>
+										<td class="text-center">{{ sensor.description}}</td>
+										<td class="text-center">
+											<a class="btn btn-primary btn-rounded btn-xs" ng-click="editSensor(sensor)" >{{'SETTING.EDIT' | translate}}</a>
+											<a ng-click="deleteSensor(sensor)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</uib-tab>
+					<uib-tab heading="{{'SETTING.BIND_POINT' | translate}}">
+							<div class="panel-body" ng-controller="SensorPointController">
+								<div class="row">
+									<div class="col-lg-3">
+										<div class="panel panel-info">
+											<div class="panel-heading">
+												{{'COMMON.SENSOR' | translate}}
+											</div>
+											<div class="panel-body" slim-scroll box-height="600px">
+													<form role="form">
+													<div class="form-group no-margin"><label>{{'SENSOR.SELECT_SENSOR' | translate}}</label>
+														<ui-select  on-select="changeSensor($item,$model)" ng-model="currentSensor.selected" theme="bootstrap">
+															<ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+															<ui-select-choices repeat="sensor.id as sensor in sensors | filter: $select.search">
+																<div ng-bind-html="sensor.name | highlight: $select.search"></div>
+															</ui-select-choices>
+														</ui-select>
+													</div>
+												</form>
+											</div>
+										</div>
+
+									</div>
+									<div class="col-lg-4">
+										<div class="panel panel-primary">
+											<div class="panel-heading">
+												{{currentSensor.name}}{{'SETTING.N_S_POINT' | translate}}
+											</div>
+											<div class="panel-body"
+											x-hjc-drop-target="true"
+											x-on-drop="pairPoint(dragEl,dropEl)"
+											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}" >
+											<div class="btn btn-primary btn-rounded btn-block"
+											title="DataSource:{{sensorpoint.data_source.name}}"
+											ng-repeat="sensorpoint in sensorpoints"
+											x-hjc-draggable="true"> {{sensorpoint.name}}</div>
+
+										</div>
+									</div>
+									<div class="panel panel-danger">
+										<div class="panel-heading">
+											{{'SETTING.TRASH' | translate}}
+										</div>
+										<div class="panel-body trash" >
+											<img class="trashcan"
+											src="img/trashcan.png"
+											x-hjc-drop-target="true"
+											x-on-drop="deletePointPair(dragEl,dropEl)">
+										</div>
+
+									</div>
+								</div>
+
+								<div class="col-lg-4">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'SETTING.POINT_LIST' | translate}}
+										</div>
+										<div class="panel-body" slim-scroll box-height="600px"
+										uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}">
+											<form role="form">
+												<div class="form-group no-margin"><label>{{'DATA_SOURCE.SELECT_DATA_SOURCE' | translate}}</label>
+													<ui-select on-select="changeDataSource($item, $model)" ng-model="currentDataSource" theme="bootstrap">
+														<ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+														<ui-select-choices repeat="datasource.id as datasource in datasources | filter: $select.search">
+															<div ng-bind-html="datasource.name | highlight: $select.search"></div>
+														</ui-select-choices>
+													</ui-select>
+												</div>
+											</form>
+											<h5>{{'SETTING.POINT_LIST' | translate}}</h5>
+											<div class="source btn btn-info btn-rounded btn-block"
+											ng-repeat="point in points"
+											x-hjc-draggable="true"> {{point.name}}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</uib-tab>
+				</uib-tabset>
+			</div>
+		</div>
+	</div>
+</div>

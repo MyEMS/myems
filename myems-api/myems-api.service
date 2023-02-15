@@ -1,0 +1,17 @@
+[Unit]
+Description=myems-api daemon
+Requires=myems-api.socket
+After=network.target
+
+[Service]
+PIDFile=/run/myems-api/pid
+User=root
+Group=root
+WorkingDirectory=/myems-api
+ExecStart=/usr/local/bin/gunicorn -b 0.0.0.0:8000 --pid /run/myems-api/pid --timeout 600 --workers=4 app:api
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

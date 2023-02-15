@@ -1,0 +1,104 @@
+<div ng-controller="WebMessageMasterController">
+    <div class="sidebard-panel" ng-controller="WebMessageOptionController">
+        <div>
+            <form role="form">
+                <div class="form-group no-margin">
+                    <label>{{'FDD.PRIORITY' | translate}}</label>
+                    <ui-select ng-model="$parent.priority" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.key}}</ui-select-match>
+                        <ui-select-choices repeat="item in prorities | filter: $select.search">
+                            <div ng-bind-html="item.key | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="form-group no-margin">
+                    <label>{{'SETTING.STATUS' | translate}}</label>
+                    <ui-select ng-model="$parent.status" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.key}}</ui-select-match>
+                        <ui-select-choices repeat="item in notificationStatus | filter: $select.search">
+                            <div ng-bind-html="item.key | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="form-group no-margin">
+                    <label>{{'COMMON.DATE' | translate}}</label>
+                    <textarea rows="2" date-range-picker class="form-control date-picker" type="text"
+                              ng-model="daterange" options="dtOptions"
+                              placeholder="{{'SETTING.SELECT_DATE' | translate}}"
+                              readonly="" />
+                </div>
+            </form>
+        </div>
+        <div class="m-t-md">
+            <div class="row">
+                <div class="col-sm-12">
+                    <button ng-click="execute()" class="btn btn-primary btn-rounded btn-block btn-outline" ><i class="fa fa-send"></i> <strong>{{'COMMON.EXECUTE' | translate}}</strong></button>
+                </div>
+            </div>
+        </div>
+        <div class="m-t-md">
+            <div class="row">
+                <div class="col-sm-12">
+                    <button ng-click="markAllWebMessageAsRead()" class="btn btn-default btn-rounded btn-block btn-outline" ><i class="fa fa-send"></i> <strong>{{'FDD.MARK_ALL_AS_READ' | translate}}</strong></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="wrapper sidebar-content wrapper-content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="tabs-container">
+                    <uib-tabset>
+                        <uib-tab heading="{{'FDD.WEB_ALARM_LIST' | translate}}">
+                            <div class="panel-body" ng-controller="WebMessageController">
+                                <input type="text" class="form-control m-b-xs" id="webmessagefilter"
+                                    placeholder="{{'SETTING.SEARCH' | translate}}">
+                                <table id="webmessageTable" class="footable table table-bordered table-hover" data-sort="true"
+                                    data-empty="There are no rows" data-page-size="20" data-filter="#webmessagefilter">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center">{{'FDD.ID' | translate}}</th>
+                                        <th class="text-center">{{'FDD.TOPIC' | translate}}</th>
+                                        <th data-sort-ignore="true" class="text-center">{{'FDD.ALARM_MESSAGE' | translate}}</th>
+                                        <th class="text-center">{{'FDD.ALARM_TIME' | translate}}</th>
+                                        <th data-sort-ignore="true" class="text-center">{{'FDD.ACKNOWLEDGE_MESSAGE' | translate}}</th>
+                                        <th class="text-center">{{'SETTING.STATUS' | translate}}</th>
+                                        <th data-sort-ignore="true" class="text-center">{{'SETTING.ACTION' | translate}}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="row in tabledata track by $index">
+                                        <td class="text-center sm">{{ row.id }}</td>
+                                        <td class="text-center sm">{{ row.subject }}</td>
+                                        <td class="text-center sm col-lg-3 col-md-3" title="{{row.message}}">{{ row.message.slice(0,50) }}
+                                            <small ng-show="{{row.message.length > 50 }}">...</small>
+                                        </td>
+                                        <td class="text-center sm">{{ row.created_datetime | date:'yyyy-MM-ddTHH:mm:ss'}}</td>
+                                        <td class="text-center sm col-lg-3 col-md-3" title="{{row.reply}}" >{{ row.reply.slice(0,50) }}
+                                            <small ng-show="{{row.reply.length > 50}}">...</small>
+                                        </td>
+                                        <td class="text-center sm">{{ row.status }}</td>
+                                        <td class="text-center">
+                                            <a class="btn btn-primary btn-rounded btn-xs"
+                                                ng-click="editWebMessage(row)" >{{'FDD.ACKNOWLEDGE' | translate}}</a>
+                                            <a ng-click="deleteWebMessage(row)"
+                                            class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' | translate}}</a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tfoot class="hide-if-no-paging">
+                                    <tr>
+                                        <td colspan="9">
+                                            <ul class="pagination pull-right"></ul>
+                                        </td>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </uib-tab>
+                    </uib-tabset>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

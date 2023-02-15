@@ -1,0 +1,45 @@
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+pythonenv*
+# Logs
+logs
+*.log
+*_build
+*_static
+*_templates
+#################
+## JetBrains
+#################
+.idea
+
+.vscode
+
+# System
+.DS_Store
+
+# VIM swap files
+.*.swp
+
+# VIM temp files
+*~
+
+#################
+## Sublime Text
+#################
+*.sublime-*
+
+############
+## Windows
+############
+
+# Windows image file caches
+Thumbs.db
+
+# Folder config file
+Desktop.ini

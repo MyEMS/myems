@@ -1,0 +1,74 @@
+.modal-fixed-right {
+  padding-right: 0 !important;
+  .modal-dialog {
+    margin: 0;
+    margin-left: auto;
+    margin-right: initial;
+    max-width: 350px;
+  }
+  // .modal-content {
+  //   border-radius: 0;
+  //   height: 100vh;
+  //   border-top: 0;
+  //   border-bottom: 0;
+  // }
+  &.fade .modal-dialog-vertical {
+    transform: translateX(100%);
+  }
+  &.show .modal-dialog-vertical {
+    transform: translateX(0%);
+  }
+}
+.modal-header-settings {
+  min-height: 69px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: none;
+  border-radius: 0;
+  padding: 0.5rem 1.25rem;
+  background-image: linear-gradient(-45deg, #4695ff, #1970e2);
+  overflow: hidden;
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    height: 12.5rem;
+    width: 12.5rem;
+    background-image: linear-gradient(45deg, #318aff, #247cef);
+  }
+  &:after {
+    left: 5.125rem;
+    top: 1.188rem;
+  }
+  &:before {
+    right: -6.25rem;
+    top: -7.938rem;
+  }
+
+  .close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: white;
+    opacity: 0.75;
+    padding-top: 0.75rem;
+    margin-top: 0;
+    margin-right: map_get($spacers, 1);
+    outline: 0;
+    font-weight: $font-weight-light;
+    @include hover-focus {
+      &:not(:disabled),
+      &:not(.disabled) {
+        opacity: 1;
+      }
+    }
+  }
+  .modal-title {
+    z-index: 1;
+  }
+}
+.theme-modal {
+  border: 0;
+}

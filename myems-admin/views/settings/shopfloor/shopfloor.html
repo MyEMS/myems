@@ -1,0 +1,370 @@
+<div class="wrapper wrapper-content" ng-controller="ShopfloorMasterController">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="tabs-container">
+				<uib-tabset>
+					<uib-tab heading="{{'COMMON.SHOPFLOOR' | translate}}">
+						<div class="panel-body" ng-controller="ShopfloorController">
+							<a ng-click="addShopfloor()" class="btn btn-primary btn-rounded  btn-outline" href="">
+								<i class="fa fa-plus-circle"></i> {{'SHOPFLOOR.ADD_SHOPFLOOR' | translate}}
+							</a>
+							<table class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
+										<th class="text-center">{{'SETTING.AREA' | translate}}</th>
+										<th class="text-center">{{'SETTING.CONTACT' | translate}}</th>
+										<th class="text-center">{{'SETTING.IS_INPUT_COUNTED' | translate}}</th>
+										<th class="text-center">{{'SETTING.COSTCENTER' | translate}}</th>
+										<th class="text-center">{{'SHOPFLOOR.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="shopfloor in shopfloors">
+										<td class="text-center">{{ shopfloor.id }}</td>
+										<td class="text-center">{{ shopfloor.name }}</td>
+										<td class="text-center">{{ shopfloor.area }}</td>
+										<td class="text-center">{{ shopfloor.contact.name }}</td>
+										<td class="text-center">
+											{{ shopfloor.is_input_counted==false?'SETTING.NO':'SETTING.YES' | translate }}
+										</td>
+										<td class="text-center">{{shopfloor.cost_center.name}}</td>
+										<td class="text-center">{{ shopfloor.description }}</td>
+										<td class="text-center">
+											<a ng-click="editShopfloor(shopfloor)"
+												class="btn btn-primary btn-rounded btn-xs">{{'SETTING.EDIT' | translate}}</a>
+											<a ng-click="deleteShopfloor(shopfloor)"
+												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' | translate}}</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</uib-tab>
+					<uib-tab heading="{{'SETTING.BIND_METER' | translate}}">
+						<div class="panel-body" ng-controller="ShopfloorMeterController">
+							<div class="row">
+								<div class="col-lg-3">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'COMMON.SHOPFLOOR' | translate}}
+										</div>
+										<div class="panel-body">
+											<form role="form">
+												<div class="form-group no-margin">
+													<label>{{'SHOPFLOOR.SELECT_SHOPFLOOR' | translate}}</label>
+													<ui-select on-select="changeShopfloor($item,$model)"
+														ng-model="currentShopfloor.selected" theme="bootstrap">
+														<ui-select-match
+															placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
+															{{$select.selected.name}}</ui-select-match>
+														<ui-select-choices
+															repeat="shopfloor.id as shopfloor in shopfloors | filter: $select.search">
+															<div
+																ng-bind-html="shopfloor.name | highlight: $select.search">
+															</div>
+														</ui-select-choices>
+													</ui-select>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="panel panel-primary">
+										<div class="panel-heading">
+											{{currentShopfloor.name}}{{'SETTING.N_S_METER' | translate}}
+										</div>
+										<div class="panel-body maxheight" 
+										    x-hjc-drop-target="true"
+											x-on-drop="pairMeter(dragEl,dropEl)"
+											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
+
+											<div class="btn btn-rounded btn-block"
+												ng-class="colorMeterType(shopfloormeter.metertype)"
+												ng-repeat="shopfloormeter in shopfloormeters" x-hjc-draggable="true"
+												title="{{shopfloormeter.metertype}}">
+												({{shopfloormeter.energy_category.name}}){{shopfloormeter.name}}</div>
+										</div>
+									</div>
+									<div class="panel panel-danger">
+										<div class="panel-heading">
+											{{'SETTING.TRASH' | translate}}
+										</div>
+										<div class="panel-body trash">
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+												x-on-drop="deleteMeterPair(dragEl,dropEl)">
+										</div>
+									</div>
+								</div>
+
+								<div class="col-lg-4">
+									<!-- according panel-->
+									<div class="panel panel-primary">
+										<div class="panel-heading">
+											{{'SETTING.METER' | translate}}
+										</div>
+										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
+											slim-scroll box-height="765px">
+											<div class="form-group no-margin">
+												<label>{{'SETTING.METER_TYPE' | translate}}</label>
+												<select ng-change="changeMeterType()" ng-model="currentMeterType"
+													class="form-control m-b" name="metertype">
+													<option value="meters">{{'SETTING.METER' | translate}}</option>
+													<option value="virtualmeters">
+														{{'SETTING.VIRTUAL_METER' | translate}}</option>
+													<option value="offlinemeters">
+														{{'SETTING.OFFLINE_METER' | translate}}</option>
+												</select>
+											</div>
+											<div class="source btn btn-primary btn-rounded btn-block"
+												ng-repeat="meter in currentmeters" x-hjc-draggable="true"
+												ng-class="colorMeterType(currentMeterType)">
+												({{meter.energy_category.name}}){{meter.name}}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</uib-tab>
+					<uib-tab heading="{{'SHOPFLOOR.BIND_EQUIPMENT' | translate}}">
+						<div class="panel-body" ng-controller="ShopfloorEquipmentController">
+							<div class="row">
+								<div class="col-lg-3">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'COMMON.SHOPFLOOR' | translate}}
+										</div>
+										<div class="panel-body">
+											<form role="form">
+												<div class="form-group no-margin">
+													<label>{{'SHOPFLOOR.SELECT_SHOPFLOOR' | translate}}</label>
+													<ui-select on-select="changeShopfloor($item,$model)"
+														ng-model="currentShopfloor.selected" theme="bootstrap">
+														<ui-select-match
+															placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
+															{{$select.selected.name}}</ui-select-match>
+														<ui-select-choices
+															repeat="shopfloor.id as shopfloor in shopfloors | filter: $select.search">
+															<div
+																ng-bind-html="shopfloor.name | highlight: $select.search">
+															</div>
+														</ui-select-choices>
+													</ui-select>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="panel panel-primary">
+										<div class="panel-heading">
+											{{currentShopfloor.name}}{{'SHOPFLOOR.N_S_EQUIPMENT' | translate}}
+										</div>
+										<div class="panel-body maxheight" 
+										    x-hjc-drop-target="true"
+											x-on-drop="pairEquipment(dragEl,dropEl)"
+											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
+											<div class="btn btn-primary btn-rounded btn-block"
+												title="{{shopfloorequipment.name}}"
+												ng-repeat="shopfloorequipment in shopfloorequipments"
+												x-hjc-draggable="true"> {{shopfloorequipment.name}}</div>
+										</div>
+									</div>
+									<div class="panel panel-danger">
+										<div class="panel-heading">
+											{{'SETTING.TRASH' | translate}}
+										</div>
+										<div class="panel-body trash">
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+												x-on-drop="deleteEquipmentPair(dragEl,dropEl)">
+										</div>
+
+									</div>
+								</div>
+
+								<div class="col-lg-4">
+									<!-- according panel-->
+									<div class="panel panel-primary">
+										<div class="panel-heading"> {{'SHOPFLOOR.EQUIPMENT_LIST' | translate}}
+										</div>
+										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
+											slim-scroll box-height="765px">
+											<div class="source btn btn-info btn-rounded btn-block"
+												ng-repeat="equipment in equipments" x-hjc-draggable="true">
+												{{equipment.name}}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</uib-tab>
+					<uib-tab heading="{{'SETTING.BIND_POINT' | translate}}">
+						<div class="panel-body" ng-controller="ShopfloorPointController">
+							<div class="row">
+								<div class="col-lg-3">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'COMMON.SHOPFLOOR' | translate}}
+										</div>
+										<div class="panel-body">
+											<form role="form">
+												<div class="form-group no-margin">
+													<label>{{'SHOPFLOOR.SELECT_SHOPFLOOR' | translate}}</label>
+													<ui-select on-select="changeShopfloor($item,$model)"
+														ng-model="currentShopfloor.selected" theme="bootstrap">
+														<ui-select-match
+															placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
+															{{$select.selected.name}}</ui-select-match>
+														<ui-select-choices
+															repeat="shopfloor.id as shopfloor in shopfloors | filter: $select.search">
+															<div
+																ng-bind-html="shopfloor.name | highlight: $select.search">
+															</div>
+														</ui-select-choices>
+													</ui-select>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="panel panel-primary">
+										<div class="panel-heading">
+											{{currentShopfloor.name}}{{'SETTING.N_S_POINT' | translate}}
+										</div>
+										<div class="panel-body maxheight" 
+										    x-hjc-drop-target="true"
+											x-on-drop="pairPoint(dragEl,dropEl)"
+											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
+											<div class="btn btn-primary btn-rounded btn-block"
+												title="{{'COMMON.SHOPFLOOR' | translate}}:{{shopfloorpoint.data_source.name}}"
+												ng-repeat="shopfloorpoint in shopfloorpoints" x-hjc-draggable="true">
+												{{shopfloorpoint.name}}
+											</div>
+										</div>
+									</div>
+									<div class="panel panel-danger">
+										<div class="panel-heading">
+											{{'SETTING.TRASH' | translate}}
+										</div>
+										<div class="panel-body trash">
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+												x-on-drop="deletePointPair(dragEl,dropEl)">
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'SETTING.POINT_LIST' | translate}}
+										</div>
+										<div class="panel-body" slim-scroll box-height="765px"
+											uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}">
+											<form role="form">
+												<div class="form-group no-margin">
+													<label>{{'DATA_SOURCE.SELECT_DATA_SOURCE' | translate}}</label>
+													<ui-select on-select="changeDataSource($item, $model)"
+														ng-model="currentDataSource" theme="bootstrap">
+														<ui-select-match
+															placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
+															{{$select.selected.name}}</ui-select-match>
+														<ui-select-choices
+															repeat="datasource.id as datasource in datasources | filter: $select.search">
+															<div
+																ng-bind-html="datasource.name | highlight: $select.search">
+															</div>
+														</ui-select-choices>
+													</ui-select>
+												</div>
+											</form>
+											<h5>{{'SETTING.POINT_LIST' | translate}}</h5>
+											<div class="source btn btn-info btn-rounded btn-block"
+												ng-repeat="point in points" x-hjc-draggable="true"> {{point.name}}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</uib-tab>
+					<uib-tab heading="{{'SETTING.BIND_SENSOR' | translate}}">
+						<div class="panel-body" ng-controller="ShopfloorSensorController">
+							<div class="row">
+								<div class="col-lg-3">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'COMMON.SHOPFLOOR' | translate}}
+										</div>
+										<div class="panel-body">
+											<form role="form">
+												<div class="form-group no-margin">
+													<label>{{'SHOPFLOOR.SELECT_SHOPFLOOR' | translate}}</label>
+													<ui-select on-select="changeShopfloor($item,$model)"
+														ng-model="currentShopfloor.selected" theme="bootstrap">
+														<ui-select-match
+															placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
+															{{$select.selected.name}}</ui-select-match>
+														<ui-select-choices
+															repeat="shopfloor.id as shopfloor in shopfloors | filter: $select.search">
+															<div
+																ng-bind-html="shopfloor.name | highlight: $select.search">
+															</div>
+														</ui-select-choices>
+													</ui-select>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="panel panel-primary">
+										<div class="panel-heading">
+											{{currentShopfloor.name}}{{'SETTING.N_S_SENSOR' | translate}}
+										</div>
+										<div class="panel-body maxheight" 
+										    x-hjc-drop-target="true"
+											x-on-drop="pairSensor(dragEl,dropEl)"
+											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
+											<div class="btn btn-primary btn-rounded btn-block"
+												title="{{'COMMON.SHOPFLOOR' | translate}}:{{shopfloorsensor.data_source.name}}"
+												ng-repeat="shopfloorsensor in shopfloorsensors" x-hjc-draggable="true">
+												{{shopfloorsensor.name}}
+											</div>
+										</div>
+									</div>
+									<div class="panel panel-danger">
+										<div class="panel-heading">
+											{{'SETTING.TRASH' | translate}}
+										</div>
+										<div class="panel-body trash">
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+												x-on-drop="deleteSensorPair(dragEl,dropEl)">
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'SENSOR.SELECT_SENSOR' | translate}}
+										</div>
+										<div class="panel-body" slim-scroll box-height="765px"
+											uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}">
+											<h5>{{'SETTING.SENSOR_LIST' | translate}}</h5>
+											<div class="source btn btn-info btn-rounded btn-block"
+												ng-repeat="sensor in sensors" x-hjc-draggable="true"> {{sensor.name}}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</uib-tab>
+
+				</uib-tabset>
+			</div>
+		</div>
+	</div>
+</div>

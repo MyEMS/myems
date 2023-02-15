@@ -1,0 +1,25 @@
+<div class="inmodal">
+    <div class="modal-body">
+        <form role="form"  class="form-horizontal">
+            <div class="form-group"><label class="col-sm-2 control-label"></label>
+                <div class="col-sm-8">
+                    <div class="radio radio-info radio-inline">
+                        <input ng-model="is_output"  id="radioOut1" type="radio" name="radioOut"  value="false">
+                        <label for="radioOut1">
+                            {{'EQUIPMENT.INPUT_METER' | translate}}
+                        </label>
+                    </div>
+                    <div class="radio radio-info radio-inline">
+                        <input ng-model="is_output"  id="radioOut2" type="radio" name="radioOut" value="true">
+                        <label for="radioOut2">
+                            {{'EQUIPMENT.OUTPUT_METER' | translate}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button"  class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
+    </div>
+</div>

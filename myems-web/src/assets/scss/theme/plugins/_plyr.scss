@@ -1,0 +1,22 @@
+/*-----------------------------------------------
+|   Plyr
+-----------------------------------------------*/
+.plyr__control--overlaid {
+
+  &,
+  &:hover,
+  &:focus {
+    background-color: map_get($theme-colors, danger) !important;
+  }
+}
+
+.plyr--video .plyr__controls .plyr__control.plyr__tab-focus,
+.plyr--video .plyr__controls .plyr__control:hover,
+.plyr--video .plyr__controls .plyr__control[aria-expanded=true],
+.plyr__menu__container label.plyr__control input[type=radio]:checked+span {
+  background-color: map_get($theme-colors, danger) !important;
+}
+
+.plyr--full-ui input[type=range] {
+  color: map_get($theme-colors, danger) !important;
+}

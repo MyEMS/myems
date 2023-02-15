@@ -1,0 +1,318 @@
+<div class="wrapper wrapper-content" ng-controller="TenantMasterController">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="tabs-container">
+				<uib-tabset>
+					<uib-tab heading="{{'COMMON.TENANT' | translate}}">
+						<div class="panel-body" ng-controller="TenantController">
+							<a ng-click="addTenant()" class="btn btn-primary btn-rounded  btn-outline" href=""><i
+									class="fa fa-plus-circle"></i> {{'SETTING.ADD_TENANT' | translate}}</a>
+							<table class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
+										<th class="text-center">{{'TENANT.BUILDINGS' | translate}}</th>
+										<th class="text-center">{{'TENANT.FLOORS' | translate}}</th>
+										<th class="text-center">{{'TENANT.ROOMS' | translate}}</th>
+										<th class="text-center">{{'SETTING.AREA' | translate}}</th>
+										<th class="text-center">{{'TENANT.TYPE' | translate}}</th>
+										<th class="text-center">{{'SETTING.CONTACT' | translate}}</th>
+										<th class="text-center">{{'SETTING.IS_INPUT_COUNTED' | translate}}</th>
+										<th class="text-center">{{'TENANT.IS_KEY_TENANT' | translate}}</th>
+										<th class="text-center">{{'TENANT.LEASE_NUMBER' | translate}}</th>
+										<th class="text-center">{{'TENANT.LEASE_START_DATETIME' | translate}}</th>
+										<th class="text-center">{{'TENANT.LEASE_END_DATETIME' | translate}}</th>
+										<th class="text-center">{{'TENANT.IS_IN_LEASE' | translate}}</th>
+										<th class="text-center">{{'SETTING.COSTCENTER' | translate}}</th>
+										<th class="text-center">{{'TENANT.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="tenant in tenants">
+										<td class="text-center">{{ tenant.id }}</td>
+										<td class="text-center">{{ tenant.name }}</td>
+										<td class="text-center">{{ tenant.buildings }}</td>
+										<td class="text-center">{{ tenant.floors }}</td>
+										<td class="text-center">{{ tenant.rooms }}</td>
+										<td class="text-center">{{ tenant.area }}</td>
+										<td class="text-center">{{ tenant.tenant_type.name }}</td>
+										<td class="text-center">{{ tenant.contact.name }}</td>
+										<td class="text-center">
+											{{ tenant.is_input_counted==false?'SETTING.NO':'SETTING.YES' | translate }}
+										</td>
+										<td class="text-center">
+											{{ tenant.is_key_tenant==false?'SETTING.NO':'SETTING.YES' | translate }}
+										</td>
+										<td class="text-center">{{ tenant.lease_number }}</td>
+										<td class="text-center">
+											{{ tenant.lease_start_datetime }}</td>
+										<td class="text-center">
+											{{ tenant.lease_end_datetime }}</td>
+										<td class="text-center">
+											{{ tenant.is_in_lease==false?'SETTING.NO':'SETTING.YES' | translate }}</td>
+										<td class="text-center">{{tenant.cost_center.name}}</td>
+										<td class="text-center">{{ tenant.description }}</td>
+										<td class="text-center">
+											<a ng-click="editTenant(tenant)"
+												class="btn btn-primary btn-rounded btn-xs">{{'SETTING.EDIT' | translate}}</a>
+											<a ng-click="deleteTenant(tenant)"
+												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' | translate}}</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</uib-tab>
+					<uib-tab heading="{{'SETTING.BIND_METER' | translate}}">
+						<div class="panel-body" ng-controller="TenantMeterController">
+							<div class="row">
+								<div class="col-lg-3">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'COMMON.TENANT' | translate}}
+										</div>
+										<div class="panel-body">
+											<form role="form">
+												<div class="form-group no-margin">
+													<label>{{'SETTING.SELECT_TENANT' | translate}}</label>
+													<ui-select on-select="changeTenant($item,$model)"
+														ng-model="currentTenant.selected" theme="bootstrap">
+														<ui-select-match
+															placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
+															{{$select.selected.name}}</ui-select-match>
+														<ui-select-choices
+															repeat="tenant.id as tenant in tenants | filter: $select.search">
+															<div ng-bind-html="tenant.name | highlight: $select.search">
+															</div>
+														</ui-select-choices>
+													</ui-select>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="panel panel-primary">
+										<div class="panel-heading">
+											{{currentTenant.name}}{{'SETTING.N_S_METER' | translate}}
+										</div>
+										<div class="panel-body maxheight" 
+										    x-hjc-drop-target="true"
+											x-on-drop="pairMeter(dragEl,dropEl)"
+											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
+
+											<div class="btn btn-rounded btn-block"
+												ng-class="colorMeterType(tenantmeter.metertype)"
+												ng-repeat="tenantmeter in tenantmeters" 
+												x-hjc-draggable="true"
+												title="{{tenantmeter.metertype}}">
+												({{tenantmeter.energy_category.name}}){{tenantmeter.name}}</div>
+										</div>
+									</div>
+									<div class="panel panel-danger">
+										<div class="panel-heading">
+											{{'SETTING.TRASH' | translate}}
+										</div>
+										<div class="panel-body trash">
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+												x-on-drop="deleteMeterPair(dragEl,dropEl)">
+										</div>
+									</div>
+								</div>
+
+								<div class="col-lg-4">
+									<!-- according panel-->
+									<div class="panel panel-primary">
+										<div class="panel-heading">
+											{{'SETTING.METER' | translate}}
+										</div>
+										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
+											slim-scroll box-height="765px">
+											<div class="form-group no-margin">
+												<label>{{'SETTING.METER_TYPE' | translate}}</label>
+												<select ng-change="changeMeterType()" ng-model="currentMeterType"
+													class="form-control m-b" name="metertype">
+													<option value="meters">{{'SETTING.METER' | translate}}</option>
+													<option value="virtualmeters">
+														{{'SETTING.VIRTUAL_METER' | translate}}</option>
+													<option value="offlinemeters">
+														{{'SETTING.OFFLINE_METER' | translate}}</option>
+												</select>
+											</div>
+											<div class="source btn btn-primary btn-rounded btn-block"
+												ng-repeat="meter in currentmeters" x-hjc-draggable="true"
+												ng-class="colorMeterType(currentMeterType)">
+												({{meter.energy_category.name}}){{meter.name}}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</uib-tab>
+					<uib-tab heading="{{'SETTING.BIND_POINT' | translate}}">
+						<div class="panel-body" ng-controller="TenantPointController">
+							<div class="row">
+								<div class="col-lg-3">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'COMMON.TENANT' | translate}}
+										</div>
+										<div class="panel-body">
+											<form role="form">
+												<div class="form-group no-margin">
+													<label>{{'SETTING.SELECT_TENANT' | translate}}</label>
+													<ui-select on-select="changeTenant($item,$model)"
+														ng-model="currentTenant.selected" theme="bootstrap">
+														<ui-select-match
+															placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
+															{{$select.selected.name}}</ui-select-match>
+														<ui-select-choices
+															repeat="tenant.id as tenant in tenants | filter: $select.search">
+															<div ng-bind-html="tenant.name | highlight: $select.search">
+															</div>
+														</ui-select-choices>
+													</ui-select>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="panel panel-primary">
+										<div class="panel-heading">
+											{{currentTenant.name}}{{'SETTING.N_S_POINT' | translate}}
+										</div>
+										<div class="panel-body maxheight" 
+										    x-hjc-drop-target="true"
+											x-on-drop="pairPoint(dragEl,dropEl)"
+											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
+											
+											<div class="btn btn-primary btn-rounded btn-block"
+												title="{{'COMMON.TENANT' | translate}}:{{tenantpoint.data_source.name}}"
+												ng-repeat="tenantpoint in tenantpoints" x-hjc-draggable="true">
+												{{tenantpoint.name}}
+											</div>
+										</div>
+									</div>
+									<div class="panel panel-danger">
+										<div class="panel-heading">
+											{{'SETTING.TRASH' | translate}}
+										</div>
+										<div class="panel-body trash">
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+												x-on-drop="deletePointPair(dragEl,dropEl)">
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'SETTING.POINT_LIST' | translate}}
+										</div>
+										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
+										slim-scroll box-height="765px">
+											<form role="form">
+												<div class="form-group no-margin">
+													<label>{{'DATA_SOURCE.SELECT_DATA_SOURCE' | translate}}</label>
+													<ui-select on-select="changeDataSource($item, $model)"
+														ng-model="currentDataSource" theme="bootstrap">
+														<ui-select-match
+															placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
+															{{$select.selected.name}}</ui-select-match>
+														<ui-select-choices
+															repeat="datasource.id as datasource in datasources | filter: $select.search">
+															<div
+																ng-bind-html="datasource.name | highlight: $select.search">
+															</div>
+														</ui-select-choices>
+													</ui-select>
+												</div>
+											</form>
+											<h5>{{'SETTING.POINT_LIST' | translate}}</h5>
+											<div class="source btn btn-info btn-rounded btn-block"
+												ng-repeat="point in points" x-hjc-draggable="true"> {{point.name}}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</uib-tab>
+					<uib-tab heading="{{'SETTING.BIND_SENSOR' | translate}}">
+						<div class="panel-body" ng-controller="TenantSensorController">
+							<div class="row">
+								<div class="col-lg-3">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'COMMON.TENANT' | translate}}
+										</div>
+										<div class="panel-body">
+											<form role="form">
+												<div class="form-group no-margin">
+													<label>{{'SETTING.SELECT_TENANT' | translate}}</label>
+													<ui-select on-select="changeTenant($item,$model)"
+														ng-model="currentTenant.selected" theme="bootstrap">
+														<ui-select-match
+															placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
+															{{$select.selected.name}}</ui-select-match>
+														<ui-select-choices
+															repeat="tenant.id as tenant in tenants | filter: $select.search">
+															<div ng-bind-html="tenant.name | highlight: $select.search">
+															</div>
+														</ui-select-choices>
+													</ui-select>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="panel panel-primary">
+										<div class="panel-heading">
+											{{currentTenant.name}}{{'SETTING.N_S_SENSOR' | translate}}
+										</div>
+										<div class="panel-body maxheight" 
+										    x-hjc-drop-target="true"
+											x-on-drop="pairSensor(dragEl,dropEl)"
+											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
+											<div class="btn btn-primary btn-rounded btn-block"
+												title="{{'COMMON.TENANT' | translate}}:{{tenantsensor.data_source.name}}"
+												ng-repeat="tenantsensor in tenantsensors" x-hjc-draggable="true">
+												{{tenantsensor.name}}
+											</div>
+										</div>
+									</div>
+									<div class="panel panel-danger">
+										<div class="panel-heading">
+											{{'SETTING.TRASH' | translate}}
+										</div>
+										<div class="panel-body trash">
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+												x-on-drop="deleteSensorPair(dragEl,dropEl)">
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'SENSOR.SELECT_SENSOR' | translate}}
+										</div>
+										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
+										slim-scroll box-height="765px">
+											<h5>{{'SETTING.SENSOR_LIST' | translate}}</h5>
+											<div class="source btn btn-info btn-rounded btn-block"
+												ng-repeat="sensor in sensors" x-hjc-draggable="true"> {{sensor.name}}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</uib-tab>
+
+				</uib-tabset>
+			</div>
+		</div>
+	</div>
+</div>

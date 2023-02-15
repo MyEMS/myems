@@ -1,0 +1,59 @@
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul side-navigation class="nav metismenu" id="side-menu">
+            <li class="nav-header">
+
+                <div class="profile-element" uib-dropdown>
+                    <img alt="image" class="logopng" src="img/myemslogo.png"/>
+                    <!-- <img alt="image" class="logopng" src="img/albertemslogo.png"/> -->
+                </div>
+                <div class="logo-element">
+                    {{'MY_EMS_NAME' | translate }}
+                </div>
+            </li>
+            <li ng-class="{active: $state.includes('settings')}">
+                <a href=""><i class="fa fa-gears"></i> <span class="nav-label">{{ 'MENU.SETTINGS.SETTINGS' | translate }}</span>  <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse" ng-class="{in: $state.includes('settings')}">
+                    <li ui-sref-active="active"><a ui-sref="settings.category">{{ 'MENU.SETTINGS.CATEGORY' | translate }}</a></li>
+                    <li ui-sref-active="active"><a ui-sref="settings.tariff">{{ 'MENU.SETTINGS.TARIFF' | translate }}</a></li>
+                    <li ui-sref-active="active"><a ui-sref="settings.costcenter">{{ 'MENU.SETTINGS.COSTCENTER' | translate }}</a></li>
+                    <li ui-sref-active="active"><a ui-sref="settings.contact">{{ 'MENU.SETTINGS.CONTACT' | translate }}</a></li>
+                    <li ui-sref-active="active"><a ui-sref="settings.gateway">{{ 'MENU.SETTINGS.GATEWAY' | translate }}</a></li>
+                    <li ui-sref-active="active"><a ui-sref="settings.datasource">{{ 'MENU.SETTINGS.DATASOURCE' | translate }}</a></li>
+                    <li ui-sref-active="active"><a ui-sref="settings.meter">{{ 'MENU.SETTINGS.METER' | translate }}</a></li>
+                    <li ui-sref-active="active"><a ui-sref="settings.sensor">{{ 'MENU.SETTINGS.SENSOR' | translate }}</a></li>
+                    <li ui-sref-active="active"><a ui-sref="settings.equipment">{{ 'MENU.SETTINGS.EQUIPMENT' | translate }}</a></li>
+                    <li ui-sref-active="active"><a ui-sref="settings.combinedequipment">{{ 'MENU.SETTINGS.COMBINED_EQUIPMENT' | translate }}</a></li>
+                    <li ui-sref-active="active"><a ui-sref="settings.space">{{ 'MENU.SETTINGS.SPACE' | translate }}</a></li>
+                    <li ui-sref-active="active"><a ui-sref="settings.tenant">{{ 'MENU.SETTINGS.TENANT' | translate }}</a></li>
+                    <li ui-sref-active="active"><a ui-sref="settings.store">{{ 'MENU.SETTINGS.STORE' | translate }}</a></li>
+                    <li ui-sref-active="active"><a ui-sref="settings.shopfloor">{{ 'MENU.SETTINGS.SHOPFLOOR' | translate }}</a></li>
+                    <li ui-sref-active="active"><a ui-sref="settings.energyflowdiagram">{{ 'MENU.SETTINGS.ENERGY_FLOW_DIAGRAM' | translate }}</a></li>
+                    <li ui-sref-active="active"><a ui-sref="settings.distributionsystem">{{ 'MENU.SETTINGS.DISTRIBUTION_SYSTEM' | translate }}</a></li>
+                    <li ui-sref-active="active"><a ui-sref="settings.menu">{{ 'MENU.SETTINGS.MENU' | translate }}</a></li>
+                    <li ui-sref-active="active"><a ui-sref="settings.emailserver">{{ 'MENU.SETTINGS.EMAIL_SERVER' | translate }}</a></li>
+                    <li ui-sref-active="active"><a ui-sref="settings.knowledgefile">{{ 'MENU.SETTINGS.KNOWLEDGEFILE' | translate }}</a></li>
+                </ul>
+            </li>
+            <li ng-class="{active: $state.includes('fdd')}">
+                <a href=""><i class="fa fa-bell-o"></i> <span class="nav-label">{{ 'MENU.FDD.FDD' | translate }} </span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse" ng-class="{in: $state.includes('fdd')}">
+                    <li ui-sref-active="active"><a ui-sref="fdd.rule">{{ 'MENU.FDD.RULE' | translate }}</a></li>
+                    <li ui-sref-active="active"><a ui-sref="fdd.textmessage">{{ 'MENU.FDD.MESSAGEALARM' | translate }}</a></li>
+                    <li ui-sref-active="active"><a ui-sref="fdd.emailmessage">{{ 'MENU.FDD.EMAILALARM' | translate }}</a></li>
+                    <li ui-sref-active="active"><a ui-sref="fdd.webmessage">{{ 'MENU.FDD.WEBALARM' | translate }}</a></li>
+                    <li ui-sref-active="active"><a ui-sref="fdd.wechatmessage">{{ 'MENU.FDD.WECHATALARM' | translate }}</a></li>
+                </ul>
+            </li>
+            <li ng-class="{active: $state.includes('users')}">
+                <a href=""><i class="fa fa-user"></i> <span class="nav-label">{{ 'MENU.USERSETTING.USERSETTING' | translate }}</span>  <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse" ng-class="{in: $state.includes('users')}">
+                    <li ui-sref-active="active"><a ui-sref="users.user">{{ 'MENU.USERSETTING.USER' | translate }}</a></li>
+                    <li ui-sref-active="active"><a ui-sref="users.privilege">{{ 'MENU.USERSETTING.PRIVILEGE' | translate }}</a></li>
+                </ul>
+            </li>
+
+        </ul>
+
+    </div>
+</nav>

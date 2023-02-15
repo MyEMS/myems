@@ -1,0 +1,154 @@
+<div class="inmodal">
+    <div class="modal-header">
+        <h4 class="modal-title">{{operation | translate}}(ID:{{virtualmeter.id}})</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-sm-4 b-r">
+                <form role="form" name="form_virtualmeter" novalidate class="form-horizontal">
+                    <div class="form-group"><label class="col-sm-5 control-label">{{'SETTING.NAME' | translate}}</label>
+
+                        <div class="col-sm-7"><input ng-model="virtualmeter.name" type="text" name="virtualmetername" class="form-control" required="">
+                            <div class="m-t-xs" ng-show="form_virtualmeter.virtualmetername.$invalid && form_virtualmeter.virtualmetername.$dirty">
+                                <small class="text-danger" ng-show="form_virtualmeter.virtualmetername.$error.required">{{'SETTING.INPUT_NAME' | translate}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group"><label class="col-sm-5 control-label">{{'SETTING.EXPRESSION' | translate}}</label>
+
+                        <div class="col-sm-7">
+                            <textarea ng-model="virtualmeter.expression.equation"  type="text" rows="2" name="virtualmeterexpression" class="form-control" required=""></textarea>
+                            <div class="m-t-xs" ng-show="form_virtualmeter.virtualmeterexpression.$invalid && form_virtualmeter.virtualmeterexpression.$dirty">
+                                <small class="text-danger" ng-show="form_virtualmeter.virtualmeterexpression.$error.required">{{'SETTING.INPUT_EXPRESSION' | translate}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group"><label class="col-sm-5 control-label">{{'SETTING.CATEGORY' | translate}}</label>
+                        <div class="col-sm-7">
+                            <ui-select ng-model="virtualmeter.energy_category.id" on-select="change_energyitems(virtualmeter.energy_category.id)" name="virtualmeter.energy_category_id" theme="bootstrap" required>
+                                <ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-choices repeat="category.id as category in categories | filter: $select.search">
+                                    <div ng-bind-html="category.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <div class="m-t-xs" ng-show="form_virtualmeter.virtualmeter.energy_category_id.$invalid && form_virtualmeter.virtualmeter.energy_category_id.$dirty">
+                                <small class="text-danger" ng-show="form_virtualmeter.virtualmeter.energy_category_id.$error.required">{{'SETTING.SELECT_CATEGORY' | translate}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group"><label class="col-sm-5 control-label">{{'SETTING.ENERGY_ITEM' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                        <div class="col-sm-7">
+                            <ui-select ng-model="virtualmeter.energy_item" name="virtualmeter.energy_item_id" theme="bootstrap">
+                                <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-choices repeat="energyitem in energyitems | filter: $select.search">
+                                    <div ng-bind-html="energyitem.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <div class="m-t-xs" ng-show="form_virtualmeter.virtualmeter.energy_item_id.$invalid && form_virtualmeter.virtualmeter.energy_item_id.$dirty">
+                                <small class="text-danger" ng-show="form_virtualmeter.virtualmeter.energy_item_id.$error.required">{{'SETTING.SELECT_ENERGY_ITEM' | translate}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group"><label class="col-sm-5 control-label">{{'SETTING.IS_INPUT_COUNTED' | translate}}</label>
+                        <div class="col-sm-7">
+                            <div class="checkbox checkbox-success">
+                                <input id="chk_virtualmeter_iscounted" type="checkbox" ng-model="virtualmeter.is_counted" ng-checked="virtualmeter.is_counted">
+                                <label for="chk_virtualmeter_iscounted">{{'SETTING.IS_INPUT_COUNTED' | translate}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group"><label class="col-sm-5 control-label">{{'SETTING.COSTCENTER' | translate}}</label>
+                        <div class="col-sm-7">
+                            <ui-select ng-model="virtualmeter.cost_center.id" theme="bootstrap" required>
+                                <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-choices repeat="costcenter.id as costcenter in costcenters | filter: $select.search">
+                                    <div ng-bind-html="costcenter.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group"><label class="col-sm-5 control-label">{{'METER.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                      <div class="col-sm-7">
+                          <input ng-model="virtualmeter.description" type="text" name="virtualmeterdescription" class="form-control" >
+                          <div class="m-t-xs" ng-show="form_virtualmeter.meterdescription.$invalid && form_virtualmeter.virtualmeterdescription.$dirty">
+                              <small class="text-danger" ng-show="form_virtualmeter.virtualmeterdescription.$error.required">{{'METER.INPUT_DESCRIPTION' | translate}}</small>
+                          </div>
+                      </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-8">
+                <table id="variablesTable"  class="footable table table-bordered table-hover" data-sort="false" data-page-size="20" >
+                    <thead>
+                        <tr>
+                            <th class="text-center">{{'SETTING.VARIABLE_NAME' | translate}}</th>
+                            <th class="text-center">{{'SETTING.METER_TYPE' | translate}}</th>
+                            <th class="text-center">{{'SETTING.ID' | translate}}</th>
+                            <th class="text-center">{{'SETTING.METER_NAME' | translate}}</th>
+                            <th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+
+                        </tr>
+                        <tr>
+                            <td class="text-center sm ">
+                                Auto
+                            </td>
+                            <td class="text-center sm">
+                                <ui-select on-select="changeMeterType($item, $model)" ng-model="currentMeterType.selected" theme="bootstrap">
+                                    <ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name | translate}}</ui-select-match>
+                                    <ui-select-choices repeat="metertype in metertypes | filter: $select.search">
+                                        <div ng-bind-html="metertype.name | translate | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </td>
+                            <td class="text-center sm">
+                               <!-- ID -->
+                            </td>
+                            <td class="text-center sm">
+                                <ui-select on-select="changeMeter($item, $model)" ng-model="currentMeter.selected" theme="bootstrap">
+                                    <ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                                    <ui-select-choices repeat="currentMeter in currentmeters | filter: $select.search">
+                                        <div ng-bind-html="currentMeter.name | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </td>
+                            <td class="text-center sm">
+                                <a class="btn btn-primary btn-rounded btn-xs" ng-click="add()" >{{'SETTING.ADD' | translate}}</a>
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr ng-repeat="variable in virtualmeter.expression.variables">
+                            <td class="text-center sm">{{ variable.name }}</td>
+                            <td class="text-center sm">{{ metertypemap[variable.meter_type] | translate }}</td>
+                            <td class="text-center sm">{{ variable.meter_id }}</td>
+                            <td class="text-center sm">{{ variable.meter_name }}</td>
+                            <td class="text-center sm">
+                                <a ng-click="delete($index)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot class="hide-if-no-paging">
+                        <tr>
+                            <td colspan="7">
+                                <ul class="pagination pull-right"></ul>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
+        <button type="button" ng-disabled="form_virtualmeter.$invalid" class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
+    </div>
+</div>

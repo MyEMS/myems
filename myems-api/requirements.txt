@@ -1,0 +1,12 @@
+anytree
+simplejson
+mysql-connector-python
+falcon
+falcon_cors
+falcon-multipart
+gunicorn
+et_xmlfile
+jdcal
+openpyxl
+pillow
+python-decouple

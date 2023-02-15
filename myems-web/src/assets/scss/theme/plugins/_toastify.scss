@@ -1,0 +1,33 @@
+.Toastify__toast {
+  min-height: 0 !important;
+  border-radius: $border-radius !important;
+  padding: $btn-padding-y $btn-padding-x !important;
+  overflow: hidden;
+  font-size: $font-size-sm;
+  .Toastify__close-button{ padding: $btn-padding-y 0 !important; }
+  .Toastify__progress-bar { height: 0.125rem !important; }
+}
+
+.Toastify__toast--info{ background-color: $info !important; }
+.Toastify__toast--success{ background-color: $success !important; }
+.Toastify__toast--error{ background-color: $danger !important; }
+.Toastify__toast--default{
+  background-color: $light !important;
+  color: $gray-800 !important;
+}
+.Toastify__toast-body{ padding: map_get($spacers, 2) 0 !important; }
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  50% { opacity: 1; }
+}
+.fadeIn { animation-name: fadeIn; }
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  50% { opacity: 0; }
+  to { opacity: 0; }
+}
+.fadeOut { animation-name: fadeOut; }
+
+.animate { animation-duration: 800ms; }

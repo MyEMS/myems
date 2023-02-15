@@ -1,0 +1,40 @@
+<div class="inmodal">
+        <div class="modal-header">
+            <h4 class="modal-title">{{'FDD.ACKNOWLEDGE_ALARM' | translate}}</h4>
+        </div>
+        <div class="modal-body">
+            <form role="form" name="form_webmessage" novalidate class="form-horizontal">
+                <div class="hr-line-dashed"></div>
+                <div class="form-group"><label class="col-sm-4 control-label">{{'FDD.TOPIC' | translate}}</label>
+
+                    <div class="col-sm-8"><textarea rows="2" ng-model="webmessage.subject" type="text" name="webmessagesubject" class="form-control" disabled required=""></textarea>
+                        <div class="m-t-xs" ng-show="form_webmessage.webmessagesubject.$invalid && form_webmessage.webmessagesubject.$dirty">
+                            <small class="text-danger" ng-show="form_webmessage.webmessagesubject.$error.required">{{'SETTING.NOT_NULLABLE' | translate}}</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="hr-line-dashed"></div>
+                <div class="form-group"><label class="col-sm-4 control-label">{{'FDD.ALARM_MESSAGE' | translate}}</label>
+
+                    <div class="col-sm-8"><textarea rows="4" ng-model="webmessage.message" type="text" name="webmessagemessage" class="form-control" disabled required=""></textarea>
+                        <div class="m-t-xs" ng-show="form_webmessage.webmessagemessage.$invalid && form_webmessage.webmessagemessage.$dirty">
+                            <small class="text-danger" ng-show="form_webmessage.webmessagemessage.$error.required">{{'SETTING.NOT_NULLABLE' | translate}}</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="hr-line-dashed"></div>
+                <div class="form-group"><label class="col-sm-4 control-label">{{'FDD.ACKNOWLEDGE_MESSAGE' | translate}}</label>
+
+                    <div class="col-sm-8"><textarea rows="３" ng-model="webmessage.reply" type="text" name="webmessagereply" class="form-control" required=""></textarea>
+                        <div class="m-t-xs" ng-show="form_webmessage.webmessagereply.$invalid && form_webmessage.webmessagereply.$dirty">
+                            <small class="text-danger" ng-show="form_webmessage.webmessagereply.$error.required">{{'SETTING.NOT_NULLABLE' | translate}}</small>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
+            <button type="button" ng-disabled="form_webmessage.$invalid" class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
+        </div>
+    </div>

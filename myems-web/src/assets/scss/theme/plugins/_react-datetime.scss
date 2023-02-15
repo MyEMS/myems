@@ -1,0 +1,25 @@
+.rdtPicker {
+  background-color: $white;
+  border-color: $gray-300;
+
+  th {
+    border-color: $gray-300;
+  }
+
+  thead tr:first-child th:hover {
+    background-color: $light;
+  }
+
+  td.rdtDay,
+  td.rdtHour,
+  td.rdtMinute,
+  td.rdtSecond,
+  .rdtTimeToggle,
+  td.rdtMonth,
+  td.rdtYear,
+  .rdtCounter .rdtBtn{
+    &:hover {
+      background-color: $light;
+    }
+  }
+}

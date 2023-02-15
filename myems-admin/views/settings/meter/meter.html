@@ -1,0 +1,328 @@
+<div class="wrapper wrapper-content" ng-controller="MeterMasterController">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="tabs-container">
+
+				<uib-tabset>
+					<uib-tab heading="{{'SETTING.METER' | translate}}">
+						<div class="panel-body" ng-controller="MeterController">
+							<a ng-click="addMeter()" class="btn btn-primary btn-rounded btn-outline" href=""><i
+									class="fa fa-plus-circle"></i> {{'SETTING.ADD_METER' | translate}}</a>
+							<table class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
+										<th class="text-center">{{'SETTING.CATEGORY' | translate}}</th>
+										<th class="text-center">{{'SETTING.ENERGY_ITEM' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
+										<th class="text-center">{{'SETTING.IS_INPUT_COUNTED' | translate}}</th>
+										<th class="text-center">{{'METER.HOURLY_LOW_LIMIT' | translate}}</th>
+										<th class="text-center">{{'METER.HOURLY_HIGH_LIMIT' | translate}}</th>
+										<th class="text-center">{{'SETTING.COSTCENTER' | translate}}</th>
+										<th class="text-center">{{'METER.MASTER_METER' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
+										<th class="text-center">{{'METER.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="meter in meters">
+										<td class="text-center">{{ meter.id }}</td>
+										<td class="text-center">{{ meter.name }}</td>
+										<td class="text-center">{{ meter.energy_category.name }}</td>
+										<td class="text-center">{{ meter.energy_item.name }}</td>
+										<td class="text-center">
+											{{ meter.is_counted==false?'SETTING.NO':'SETTING.YES' | translate }}</td>
+										<td class="text-center">{{ meter.hourly_low_limit }}</td>
+										<td class="text-center">{{ meter.hourly_high_limit }}</td>
+										<td class="text-center">{{meter.cost_center.name}}</td>
+										<td class="text-center">{{meter.master_meter.name}}</td>
+										<td class="text-center">{{meter.description}}</td>
+										<td class="text-center">
+											<a class="btn btn-primary btn-rounded btn-xs"
+												ng-click="editMeter(meter)">{{'SETTING.EDIT' | translate}}</a>
+											<a ng-click="deleteMeter(meter)"
+												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' | translate}}</a>
+
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</uib-tab>
+
+					<uib-tab heading="{{'SETTING.BIND_POINT' | translate}}">
+						<div class="panel-body" ng-controller="MeterPointController">
+							<div class="row">
+								<div class="col-lg-3">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'SETTING.METER' | translate}}
+										</div>
+										<div class="panel-body" slim-scroll box-height="600px">
+											<form role="form">
+												<div class="form-group no-margin">
+													<label>{{'SETTING.SELECT_METER' | translate}}</label>
+													<ui-select on-select="changeMeter($item,$model)"
+														ng-model="currentMeter.selected" theme="bootstrap">
+														<ui-select-match
+															placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
+															{{$select.selected.name}}</ui-select-match>
+														<ui-select-choices
+															repeat="meter.id as meter in meters | filter: $select.search">
+															<div ng-bind-html="meter.name | highlight: $select.search">
+															</div>
+														</ui-select-choices>
+													</ui-select>
+												</div>
+											</form>
+										</div>
+									</div>
+
+								</div>
+								<div class="col-lg-4">
+									<div class="panel panel-primary">
+										<div class="panel-heading">
+											{{currentMeter.name}}{{'SETTING.N_S_POINT' | translate}}
+										</div>
+										<div class="panel-body" x-hjc-drop-target="true"
+											x-on-drop="pairPoint(dragEl,dropEl)"
+											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
+											<div class="btn btn-primary btn-rounded btn-block"
+												title="DataSource:{{meterpoint.data_source.name}}"
+												ng-repeat="meterpoint in meterpoints" x-hjc-draggable="true">
+												{{meterpoint.name}}</div>
+
+										</div>
+									</div>
+									<div class="panel panel-danger">
+										<div class="panel-heading">
+											{{'SETTING.TRASH' | translate}}
+										</div>
+										<div class="panel-body trash">
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+												x-on-drop="deletePointPair(dragEl,dropEl)">
+										</div>
+
+									</div>
+								</div>
+
+								<div class="col-lg-4">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'SETTING.POINT_LIST' | translate}}
+										</div>
+										<div class="panel-body" slim-scroll box-height="600px"
+											uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}">
+											<form role="form">
+												<div class="form-group no-margin">
+													<label>{{'DATA_SOURCE.SELECT_DATA_SOURCE' | translate}}</label>
+													<ui-select on-select="changeDataSource($item, $model)"
+														ng-model="currentDataSource" theme="bootstrap">
+														<ui-select-match
+															placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
+															{{$select.selected.name}}</ui-select-match>
+														<ui-select-choices
+															repeat="datasource.id as datasource in datasources | filter: $select.search">
+															<div
+																ng-bind-html="datasource.name | highlight: $select.search">
+															</div>
+														</ui-select-choices>
+													</ui-select>
+												</div>
+											</form>
+											<h5>{{'SETTING.POINT_LIST' | translate}}</h5>
+											<div class="source btn btn-info btn-rounded btn-block"
+												ng-repeat="point in points" x-hjc-draggable="true"> {{point.name}}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</uib-tab>
+
+					<uib-tab heading="{{'METER.TREE_VIEW' | translate}}">
+						<div class="panel-body" ng-controller="MeterController">
+							<div class="row">
+								<div class="col-lg-3">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'SETTING.SELECT_METER' | translate}}
+										</div>
+										<div class="panel-body" style="overflow: auto; max-height: 700px;">
+											<div id="metertree"></div>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-9">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'METER.CHILD_METERS' | translate}}
+										</div>
+										<div class="panel-body">
+											<table class="table table-bordered table-hover">
+												<thead>
+													<tr>
+														<th class="text-center">{{'SETTING.ID' | translate}}</th>
+														<th class="text-center">{{'SETTING.NAME' | translate}}</th>
+														<th class="text-center">{{'SETTING.CATEGORY' | translate}}</th>
+														<th class="text-center">{{'SETTING.ENERGY_ITEM' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
+														<th class="text-center">{{'SETTING.IS_INPUT_COUNTED' | translate}}</th>
+														<th class="text-center">{{'METER.HOURLY_LOW_LIMIT' | translate}}</th>
+														<th class="text-center">{{'METER.HOURLY_HIGH_LIMIT' | translate}}</th>
+														<th class="text-center">{{'SETTING.COSTCENTER' | translate}}</th>
+														<th class="text-center">{{'METER.MASTER_METER' | translate}}</th>
+														<th class="text-center">{{'METER.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr ng-repeat="meter in currentMeterSubmeters">
+														<td class="text-center">{{ meter.id }}</td>
+														<td class="text-center">{{ meter.name }}</td>
+														<td class="text-center">{{ meter.energy_category.name }}</td>
+														<td class="text-center">{{ meter.energy_item.name }}</td>
+														<td class="text-center">
+															{{ meter.is_counted==false?'SETTING.NO':'SETTING.YES' | translate }}
+														</td>
+														<td class="text-center">{{ meter.hourly_low_limit }}</td>
+														<td class="text-center">{{ meter.hourly_high_limit }}</td>
+														<td class="text-center">{{meter.cost_center.name}}</td>
+														<td class="text-center">{{meter.master_meter.name}}</td>
+														<td class="text-center">{{meter.description}}</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</uib-tab>
+
+					<uib-tab heading="{{'SETTING.VIRTUAL_METER' | translate}}">
+						<div class="panel-body" ng-controller="VirtualMeterController">
+							<a ng-click="addVirtualMeter()" class="btn btn-primary btn-rounded  btn-outline" href=""><i
+									class="fa fa-plus-circle"></i> {{'SETTING.ADD_VIRTUAL_METER' | translate}}</a>
+							<!-- <div>`x = (-b +- sqrt(b^2-4ac))/(2a) .`</div>
+									<div>`x = (-b +- sqrt(b^2-4ac))/(2a) .`</div> -->
+							<table class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
+										<th class="text-center">{{'SETTING.CATEGORY' | translate}}</th>
+										<th class="text-center">{{'SETTING.ENERGY_ITEM' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
+										<th class="text-center">{{'SETTING.IS_INPUT_COUNTED' | translate}}</th>
+										<th class="text-center">{{'SETTING.COSTCENTER' | translate}}</th>
+										<th class="text-center">{{'METER.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="virtualmeter in virtualmeters">
+										<td class="text-center">{{ virtualmeter.id }}</td>
+										<td class="text-center">{{ virtualmeter.name }}</td>
+										<td class="text-center">{{ virtualmeter.energy_category.name }}</td>
+										<td class="text-center">{{ virtualmeter.energy_item.name }}</td>
+										<td class="text-center">
+											{{ virtualmeter.is_counted==false?'SETTING.NO':'SETTING.YES' | translate }}
+										</td>
+										<td class="text-center">{{ virtualmeter.cost_center.name }}</td>
+										<td class="text-center">{{ virtualmeter.description }}</td>
+										<td class="text-center">
+											<a ng-click="editVirtualMeter(virtualmeter)"
+												class="btn btn-primary btn-rounded btn-xs">{{'SETTING.EDIT' | translate}}</a>
+											<a ng-click="deleteVirtualMeter(virtualmeter)"
+												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' | translate}}</a>
+
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</uib-tab>
+
+					<uib-tab heading="{{'SETTING.OFFLINE_METER' | translate}}">
+						<div class="panel-body" ng-controller="OfflineMeterController">
+							<a ng-click="addOfflineMeter()" class="btn btn-primary btn-rounded  btn-outline" href=""><i
+									class="fa fa-plus-circle"></i> {{'SETTING.ADD_OFFLINE_METER' | translate}}</a>
+							<table class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
+										<th class="text-center">{{'SETTING.CATEGORY' | translate}}</th>
+										<th class="text-center">{{'SETTING.ENERGY_ITEM' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
+										<th class="text-center">{{'SETTING.IS_INPUT_COUNTED' | translate}}</th>
+										<th class="text-center">{{'METER.HOURLY_LOW_LIMIT' | translate}}</th>
+										<th class="text-center">{{'METER.HOURLY_HIGH_LIMIT' | translate}}</th>
+										<th class="text-center">{{'SETTING.COSTCENTER' | translate}}</th>
+										<th class="text-center">{{'METER.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="offlinemeter in offlinemeters">
+										<td class="text-center">{{ offlinemeter.id }}</td>
+										<td class="text-center">{{ offlinemeter.name }}</td>
+										<td class="text-center">{{ offlinemeter.energy_category.name }}</td>
+										<td class="text-center">{{ offlinemeter.energy_item.name }}</td>
+										<td class="text-center">
+											{{ offlinemeter.is_counted==false?'SETTING.NO':'SETTING.YES' | translate }}
+										</td>
+										<td class="text-center">{{ offlinemeter.hourly_low_limit }}</td>
+										<td class="text-center">{{ offlinemeter.hourly_high_limit }}</td>
+										<td class="text-center">{{ offlinemeter.cost_center.name }}</td>
+										<td class="text-center">{{ offlinemeter.description }}</td>
+										<td class="text-center">
+											<a ng-click="editOfflineMeter(offlinemeter)"
+												class="btn btn-primary btn-rounded btn-xs">{{'SETTING.EDIT' | translate}}</a>
+											<a ng-click="deleteOfflineMeter(offlinemeter)"
+												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' | translate}}</a>
+
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</uib-tab>
+
+					<uib-tab heading="{{'SETTING.OFFLINE_METER_FILE' | translate}}">
+						<div class="panel-body" ng-controller="OfflineMeterFileController">
+							<div id="dropzone1" class="dropzone" options="dzOptions" callbacks="dzCallbacks" ng-dropzone></div>
+							<table class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
+										<th class="text-center">{{'SETTING.STATUS' | translate}}</th>
+										<th class="text-center">{{'SETTING.UPLOAD_TIME' | translate}}</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="offlinemeterfile in offlinemeterfiles">
+										<td class="text-center">{{ offlinemeterfile.id }}</td>
+										<td class="text-center"><a ng-href="./upload/{{offlinemeterfile.uuid}}"
+												download="{{offlinemeterfile.file_name}}">{{ offlinemeterfile.file_name }}</a>
+										</td>
+										<td class="text-center">{{ offlinemeterfile.status }}</td>
+										<td class="text-center">
+											{{ offlinemeterfile.upload_datetime }}</td>
+
+										<td class="text-center">
+											<a ng-click="restoreOfflineMeterFile(offlinemeterfile)"
+												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.RESTORE' | translate}}</a>
+											<a ng-click="deleteOfflineMeterFile(offlinemeterfile)"
+												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' | translate}}</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</uib-tab>
+				</uib-tabset>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,44 @@
+<div class="wrapper wrapper-content">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="tabs-container">
+				<uib-tabset>
+					<uib-tab heading="{{'SETTING.TARIFF_LIST' | translate}}" >
+						<div class="panel-body" ng-controller="TariffController">
+							<a ng-click="addTariff()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.ADD_TARIFF' | translate}}</a>
+							<table class="table table-bordered table-hover" >
+								<thead>
+									<tr>
+										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'SETTING.TARIFF_NAME' | translate}}</th>
+										<th class="text-center">{{'SETTING.CATEGORY' | translate}}</th>
+										<th class="text-center">{{'SETTING.TARIFF_TYPE' | translate}}</th>
+										<th class="text-center">{{'SETTING.UNIT' | translate}}</th>
+										<th class="text-center">{{'SETTING.TARIFF_VALID_FROM' | translate}}</th>
+										<th class="text-center">{{'SETTING.TARIFF_VALID_THROUGH' | translate}}</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="tariff in tariffs">
+										<td class="text-center">{{ tariff.id }}</td>
+										<td class="text-center">{{ tariff.name }}</td>
+										<td class="text-center">{{ tariff.energy_category.name }}</td>
+										<td class="text-center">{{showTariffType(tariff.tariff_type) | translate}}</td>
+										<td class="text-center">{{ tariff.unit_of_price }}</td>
+										<td class="text-center">{{ tariff.valid_from }}</td>
+										<td class="text-center">{{ tariff.valid_through }}</td>
+										<td class="text-center">
+											<a class="btn btn-primary btn-rounded btn-xs" ng-click="editTariff(tariff)" >{{'SETTING.EDIT' | translate}}</a>
+											<a ng-click="deleteTariff(tariff)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</uib-tab>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

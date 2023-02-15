@@ -1,0 +1,222 @@
+<div class="wrapper wrapper-content" ng-controller="DistributionSystemMasterController">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="tabs-container">
+				<uib-tabset>
+					<uib-tab heading="{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_SYSTEM' | translate}}">
+						<div class="panel-body" ng-controller="DistributionSystemController">
+							<a ng-click="addDistributionSystem()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'DISTRIBUTION_SYSTEM.ADD_DISTRIBUTION_SYSTEM' | translate}}</a>
+							<table class="table table-bordered table-hover" >
+								<thead>
+									<tr>
+										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
+										<th class="text-center">{{'DISTRIBUTION_SYSTEM.SVG' | translate}}</th>
+										<th class="text-center">{{'DISTRIBUTION_SYSTEM.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat=" distributionsystem in distributionsystems">
+										<td class="text-center">{{  distributionsystem.id }}</td>
+										<td class="text-center">{{  distributionsystem.name }}</td>
+										<td class="text-center">{{  (distributionsystem.svg).substring(0, 128) + '...' }}</td>
+										<td class="text-center">{{  distributionsystem.description }}</td>
+										<td class="text-center">
+											<a ng-click="editDistributionSystem(distributionsystem)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
+											<a ng-click="deleteDistributionSystem(distributionsystem)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</uib-tab>
+          <uib-tab heading="{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT' | translate}}">
+            <div class="panel-body" ng-controller="DistributionCircuitController">
+              <div class="row">
+                <div class="col-lg-3">
+                  <div class="panel panel-info">
+                    <div class="panel-heading">
+                      {{'DISTRIBUTION_SYSTEM.DISTRIBUTION_SYSTEM' | translate}}
+                    </div>
+                    <div class="panel-body" >
+                      <form role="form">
+                        <div class="form-group no-margin"><label>{{'DISTRIBUTION_SYSTEM.SELECT_DISTRIBUTION_SYSTEM' | translate}}</label>
+                          <ui-select  on-select="changeDistributionSystem($item,$model)" ng-model="currentDistributionSystem.selected" theme="bootstrap">
+                            <ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices repeat="distributionsystem.id as distributionsystem in distributionsystems | filter: $select.search" >
+                              <div ng-bind-html="distributionsystem.name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                          </ui-select>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-9">
+                  <div class="panel panel-primary">
+                    <div class="panel-heading">
+                      {{currentDistributionSystem.name}}{{'DISTRIBUTION_SYSTEM.N_S_DISTRIBUTION_CIRCUIT' | translate}}
+                    </div>
+                    <div class="panel-body" >
+                      <a ng-show="is_show_add_distribution_circuit" ng-click="addDistributionCircuit()" class="btn btn-primary btn-rounded  btn-outline" href="">
+												<i class="fa fa-plus-circle"></i> {{'DISTRIBUTION_SYSTEM.ADD_DISTRIBUTION_CIRCUIT' | translate}}</a>
+                      <table class="table table-bordered table-hover" >
+                        <thead>
+                          <tr>
+                            <th class="text-center">{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_ID' | translate}}</th>
+                            <th class="text-center">{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_NAME' | translate}}</th>
+                            <th class="text-center">{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_DISTRIBUTION_ROOM' | translate}}</th>
+                            <th class="text-center">{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_SWITCHGEAR' | translate}}</th>
+                            <th class="text-center">{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_PEAK_LOAD' | translate}}</th>
+                            <th class="text-center">{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_PEAK_CURRENT' | translate}}</th>
+                            <th class="text-center">{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_CUSTOMERS' | translate}}</th>
+                            <th class="text-center">{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_METERS' | translate}}</th>
+                            <th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr ng-repeat="distributioncircuit in distributioncircuits">
+                            <td class="text-center">{{ distributioncircuit.id }}</td>
+                            <td class="text-center">{{ distributioncircuit.name }}</td>
+                            <td class="text-center">{{ distributioncircuit.distribution_room }}</td>
+                            <td class="text-center">{{ distributioncircuit.switchgear }}</td>
+                            <td class="text-center">{{ distributioncircuit.peak_load }}</td>
+                            <td class="text-center">{{ distributioncircuit.peak_current }}</td>
+                            <td class="text-center">{{ distributioncircuit.customers }}</td>
+                            <td class="text-center">{{ distributioncircuit.meters }}</td>
+                            <td class="text-center">
+                              <a ng-click="editDistributionCircuit(distributioncircuit)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
+                              <a ng-click="deleteDistributionCircuit(distributioncircuit)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                  </div>
+                </div>
+                </div>
+            </div>
+          </div>
+          </uib-tab>
+
+          <uib-tab heading="{{'SETTING.BIND_POINT' | translate}}" >
+              <div class="panel-body" ng-controller="DistributionCircuitPointController">
+                <div class="row">
+                  <div class="col-lg-3">
+                    <div class="panel panel-info">
+                      <div class="panel-heading">
+                        {{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT' | translate}}
+                      </div>
+                      <div class="panel-body" slim-scroll box-height="600px">
+                          <form role="form">
+                          <div class="form-group no-margin"><label>{{'DISTRIBUTION_SYSTEM.SELECT_DISTRIBUTION_CIRCUIT' | translate}}</label>
+                            <ui-select  on-select="changeDistributionCircuit($item,$model)" ng-model="currentDistributionCircuit.selected" theme="bootstrap">
+                              <ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                              <ui-select-choices repeat="distributioncircuit.id as distributioncircuit in distributioncircuits | filter: $select.search">
+                                <div ng-bind-html="distributioncircuit.name | highlight: $select.search"></div>
+                              </ui-select-choices>
+                            </ui-select>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="panel panel-primary">
+                      <div class="panel-heading">
+                        {{currentDistributionCircuit.name}}{{'SETTING.N_S_POINT' | translate}}
+                      </div>
+                      <div class="panel-body"
+                      x-hjc-drop-target="true"
+                      x-on-drop="pairPoint(dragEl,dropEl)"
+                      uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}" >
+                      <div class="btn btn-primary btn-rounded btn-block"
+                      title="DataSource:{{distributioncircuitpoint.data_source.name}}"
+                      ng-repeat="distributioncircuitpoint in distributioncircuitpoints"
+                      x-hjc-draggable="true"> {{distributioncircuitpoint.name}}</div>
+
+                    </div>
+                  </div>
+                  <div class="panel panel-danger">
+                    <div class="panel-heading">
+                      {{'SETTING.TRASH' | translate}}
+                    </div>
+                    <div class="panel-body trash" >
+                      <img class="trashcan"
+                      src="img/trashcan.png"
+                      x-hjc-drop-target="true"
+                      x-on-drop="deletePointPair(dragEl,dropEl)">
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="col-lg-4">
+                  <div class="panel panel-info">
+                    <div class="panel-heading">
+                      {{'SETTING.POINT_LIST' | translate}}
+                    </div>
+                    <div class="panel-body" slim-scroll box-height="600px"
+                    uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}">
+                      <form role="form">
+                        <div class="form-group no-margin"><label>{{'DATA_SOURCE.SELECT_DATA_SOURCE' | translate}}</label>
+                            <ui-select on-select="changeDataSource($item, $model)" ng-model="currentDataSource" theme="bootstrap">
+                                <ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-choices repeat="datasource.id as datasource in datasources | filter: $select.search">
+                                    <div ng-bind-html="datasource.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                      </form>
+                      <h5>{{'SETTING.POINT_LIST' | translate}}</h5>
+                      <div class="source btn btn-info btn-rounded btn-block"
+                      ng-repeat="point in points"
+                      x-hjc-draggable="true"> {{point.name}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </uib-tab>
+          <uib-tab heading="{{'DISTRIBUTION_SYSTEM.PREVIEW' | translate}}">
+            <div class="panel-body" ng-controller="DistributionSystemPreviewController">
+              <div class="row">
+                <div class="col-lg-3">
+                  <div class="panel panel-info">
+                    <div class="panel-heading">
+                      {{'DISTRIBUTION_SYSTEM.DISTRIBUTION_SYSTEM' | translate}}
+                    </div>
+                    <div class="panel-body" >
+                      <form role="form">
+                        <div class="form-group no-margin"><label>{{'DISTRIBUTION_SYSTEM.SELECT_DISTRIBUTION_SYSTEM' | translate}}</label>
+                          <ui-select  on-select="changeDistributionSystem($item,$model)" ng-model="currentDistributionSystem.selected" theme="bootstrap">
+                            <ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices repeat="distributionsystem.id as distributionsystem in distributionsystems | filter: $select.search">
+                              <div ng-bind-html="distributionsystem.name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                          </ui-select>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-9">
+                  <div class="panel panel-primary">
+                    <div class="panel-heading">
+                      {{currentDistributionSystem.name}}{{'DISTRIBUTION_SYSTEM.N_S_PREVIEW' | translate}}
+                    </div>
+                    <div class="panel-body" >
+                      <div style="height: 100%; width: 100%; zoom: 100%;" id="preview-svg"></div>
+                  </div>
+                </div>
+                </div>
+            </div>
+          </div>
+          </uib-tab>
+
+		    </uib-tabset>
+	</div>
+</div>
+</div>
+</div>

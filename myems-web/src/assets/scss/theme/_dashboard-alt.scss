@@ -1,0 +1,14 @@
+/*-----------------------------------------------
+|   Dashboard Alt
+-----------------------------------------------*/
+.file-thumbnail{
+  height: 2.25rem;
+  width: 2.25rem;
+}
+.dot{ 
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: map_get($spacers, 2);
+}

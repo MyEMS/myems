@@ -1,0 +1,136 @@
+<div class="inmodal">
+    <div class="modal-header">
+        <h4 class="modal-title">{{operation | translate}}(ID:{{rule.id}})</h4>
+    </div>
+    <div class="modal-body">
+        <form role="form" name="form_rule" novalidate class="form-horizontal">
+            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.NAME' | translate}}</label>
+
+                <div class="col-sm-5"><input ng-model="rule.name" type="text" name="rulename" class="form-control" required="">
+                    <div class="m-t-xs" ng-show="form_rule.rulename.$invalid && form_rule.rulename.$dirty">
+                        <small class="text-danger" ng-show="form_rule.rulename.$error.required">{{'SETTING.INPUT_NAME' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'FDD.CATEGORY' | translate}}</label>
+                <div class="col-sm-5">
+                    <select  name="category"  ng-model="rule.category" class="form-control m-b">
+                                <option value="SYSTEM">SYSTEM</option>
+                                <option value="REALTIME">REALTIME</option>
+                                <option value="SPACE">SPACE</option>
+                                <option value="METER">METER</option>
+                                <option value="TENANT">TENANT</option>
+                                <option value="STORE">STORE</option>
+                                <option value="SHOPFLOOR">SHOPFLOOR</option>
+                                <option value="EQUIPMENT">EQUIPMENT</option>
+                                <option value="COMBINEDEQUIPMENT">COMBINEDEQUIPMENT</option>
+                                <option value="VIRTUALMETER">VIRTUALMETER</option>
+                            </select>
+                    <div class="m-t-xs" ng-show="form_rule.category.$invalid && form_rule.category.$dirty">
+                        <small class="text-danger" ng-show="form_rule.category.$error.required">-</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'FDD.FDD_CODE' | translate}}</label>
+                <div class="col-sm-5">
+                    <select  name="fdd_code"  ng-model="rule.fdd_code" class="form-control m-b">
+                                <option value="SYSTEM01">SYSTEM01</option>
+                                <option value="SYSTEM02">SYSTEM02</option>
+                                <option value="REALTIME01">REALTIME01</option>
+                                <option value="REALTIME02">REALTIME02</option>
+                                <option value="SPACE01">SPACE01</option>
+                                <option value="SPACE02">SPACE02</option>
+                                <option value="SPACE03">SPACE03</option>
+                                <option value="SPACE04">SPACE04</option>
+                                <option value="METER01">METER01</option>
+                                <option value="METER02">METER02</option>
+                                <option value="METER03">METER03</option>
+                                <option value="METER04">METER04</option>
+                                <option value="TENANT01">TENANT01</option>
+                                <option value="TENANT02">TENANT02</option>
+                                <option value="TENANT03">TENANT03</option>
+                                <option value="TENANT04">TENANT04</option>
+                                <option value="STORE01">STORE01</option>
+                                <option value="STORE02">STORE02</option>
+                                <option value="STORE03">STORE03</option>
+                                <option value="STORE04">STORE04</option>
+                                <option value="SHOPFLOOR01">SHOPFLOOR01</option>
+                                <option value="SHOPFLOOR02">SHOPFLOOR02</option>
+                                <option value="SHOPFLOOR03">SHOPFLOOR03</option>
+                                <option value="SHOPFLOOR04">SHOPFLOOR04</option>
+                                <option value="EQUIPMENT01">EQUIPMENT01</option>
+                                <option value="EQUIPMENT02">EQUIPMENT02</option>
+                                <option value="EQUIPMENT03">EQUIPMENT03</option>
+                                <option value="EQUIPMENT04">EQUIPMENT04</option>
+                                <option value="COMBINEDEQUIPMENT01">COMBINEDEQUIPMENT01</option>
+                                <option value="COMBINEDEQUIPMENT02">COMBINEDEQUIPMENT02</option>
+                                <option value="COMBINEDEQUIPMENT03">COMBINEDEQUIPMENT03</option>
+                                <option value="COMBINEDEQUIPMENT04">COMBINEDEQUIPMENT04</option>
+                                <option value="VIRTUALMETER01">VIRTUALMETER01</option>
+                                <option value="VIRTUALMETER02">VIRTUALMETER02</option>
+                                <option value="VIRTUALMETER03">VIRTUALMETER03</option>
+                                <option value="VIRTUALMETER04">VIRTUALMETER04</option>
+                            </select>
+                    <div class="m-t-xs" ng-show="form_rule.fdd_code.$invalid && form_rule.fdd_code.$dirty">
+                        <small class="text-danger" ng-show="form_rule.fdd_code.$error.required">-</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'FDD.PRIORITY' | translate}}</label>
+                <div class="col-sm-5">
+                    <select  name="priority"  ng-model="rule.priority" class="form-control m-b">
+                                <option value="CRITICAL">CRITICAL</option>
+                                <option value="HIGH">HIGH</option>
+                                <option value="MEDIUM">MEDIUM</option>
+                                <option value="LOW">LOW</option>
+                            </select>
+                    <div class="m-t-xs" ng-show="form_rule.priority.$invalid && form_rule.priority.$dirty">
+                        <small class="text-danger" ng-show="form_rule.priority.$error.required">-</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'FDD.CHANNEL' | translate}}</label>
+                <div class="col-sm-5">
+                    <select  name="channel"  ng-model="rule.channel" class="form-control m-b">
+                                <option value="WEB">WEB</option>
+                                <option value="SMS">SMS</option>
+                                <option value="EMAIL">EMAIL</option>
+                                <option value="WECHAT">WECHAT</option>
+                                <option value="CALL">CALL</option>
+                            </select>
+                    <div class="m-t-xs" ng-show="form_rule.channel.$invalid && form_rule.channel.$dirty">
+                        <small class="text-danger" ng-show="form_rule.channel.$error.required">-</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'FDD.EXPRESSION' | translate}}</label>
+                <div class="col-sm-10"><textarea rows="4" ng-model="rule.expression" type="text" name="ruleexpression" class="form-control" required=""></textarea>
+                    <div class="m-t-xs" ng-show="form_rule.ruleexpression.$invalid && form_rule.ruleexpression.$dirty">
+                        <small class="text-danger" ng-show="form_rule.ruleexpression.$error.required">{{'SETTING.NOT_NULLABLE' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'FDD.MESSAGE_TEMPLATE' | translate}}</label>
+
+                <div class="col-sm-10"><textarea rows="2" ng-model="rule.message_template" type="text" name="rulemessagetemplate" class="form-control" required=""></textarea>
+                    <div class="m-t-xs" ng-show="form_rule.message_template.$invalid && form_rule.message_template.$dirty">
+                        <small class="text-danger" ng-show="form_rule.message_template.$error.required">{{'SETTING.NOT_NULLABLE' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'FDD.IS_ENABLED' | translate}}</label>
+                <div class="col-sm-10">
+                  <div class="checkbox checkbox-success">
+                      <input id="chk_rule_isenabled" type="checkbox" ng-model="rule.is_enabled" ng-checked="rule.is_enabled">
+                      <label for="chk_rule_isenabled">{{'FDD.IS_ENABLED' | translate}}</label>
+                  </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
+        <button type="button" ng-disabled="form_rule.$invalid" class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
+    </div>
+</div>

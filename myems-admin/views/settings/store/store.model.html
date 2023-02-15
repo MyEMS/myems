@@ -1,0 +1,114 @@
+<div class="inmodal">
+    <div class="modal-header">
+        <h4 class="modal-title">{{operation | translate}}(ID:{{store.id}})</h4>
+    </div>
+    <div class="modal-body">
+        <form role="form" name="form_store" novalidate class="form-horizontal">
+            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.NAME' | translate}}</label>
+              <div class="col-sm-10">
+                  <input ng-model="store.name" type="text" name="storename" class="form-control" required>
+                  <div class="m-t-xs" ng-show="form_store.storename.$invalid && form_store.storename.$dirty">
+                      <small class="text-danger" ng-show="form_store.storename.$error.required">{{'SETTING.INPUT_NAME' | translate}}</small>
+                  </div>
+              </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.AREA' | translate}}</label>
+                <div class="col-sm-10">
+                    <input ng-model="store.area" type="number" name="storearea" class="form-control" required>
+                    <div class="m-t-xs" ng-show="form_store.storearea.$invalid && form_store.storearea.$dirty">
+                        <small class="text-danger" ng-show="form_store.storearea.$error.required">{{'SETTING.INPUT_AREA' | translate}}</small>
+                        <small class="text-danger" ng-show="form_store.storearea.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'STORE.ADDRESS' | translate}}</label>
+              <div class="col-sm-10">
+                  <input ng-model="store.address" type="text" name="storeaddress" class="form-control" required>
+                  <div class="m-t-xs" ng-show="form_store.storeaddress.$invalid && form_store.storeaddress.$dirty">
+                      <small class="text-danger" ng-show="form_store.storeaddress.$error.required">{{'STORE.INPUT_ADDRESS' | translate}}</small>
+                  </div>
+              </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'STORE.LATITUDE' | translate}}</label>
+                <div class="col-sm-10">
+                    <input ng-model="store.latitude" type="number" name="storelatitude" class="form-control" required>
+                    <div class="m-t-xs" ng-show="form_store.storelatitude.$invalid && form_store.storelatitude.$dirty">
+                        <small class="text-danger" ng-show="form_store.storelatitude.$error.required">{{'STORE.INPUT_LATITUDE' | translate}}</small>
+                        <small class="text-danger" ng-show="form_store.storelatitude.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'STORE.LONGITUDE' | translate}}</label>
+                <div class="col-sm-10">
+                    <input ng-model="store.longitude" type="number" name="storelatitude" class="form-control" required>
+                    <div class="m-t-xs" ng-show="form_store.storelongitude.$invalid && form_store.storelongitude.$dirty">
+                        <small class="text-danger" ng-show="form_store.storelongitude.$error.required">{{'STORE.INPUT_LONGITUDE' | translate}}</small>
+                        <small class="text-danger" ng-show="form_store.storelongitude.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'STORE.TYPE' | translate}}</label>
+                <div class="col-sm-10">
+                    <ui-select ng-model="store.store_type.id" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="storetype.id as storetype in storetypes | filter: $select.search">
+                            <div ng-bind-html="storetype.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.CONTACT' | translate}}</label>
+                <div class="col-sm-10">
+                    <ui-select ng-model="store.contact.id" name="storecontact" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="contact.id as contact in contacts | filter: $select.search">
+                            <div ng-bind-html="contact.name | highlight: $select.search"></div>
+                            <small>{{contact.email}},{{contact.phone}}</small>
+                        </ui-select-choices>
+                    </ui-select>
+                    <div class="m-t-xs" ng-show="form_store.storecontact.$invalid && form_store.storecontact.$dirty">
+                        <small class="text-danger" ng-show="form_store.storecontact.$error.required">{{'SETTING.SELECT_CONTACT' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.IS_INPUT_COUNTED' | translate}}</label>
+                <div class="col-sm-10">
+                    <div class="checkbox checkbox-success">
+                        <input id="chk_store_isinputcounted" type="checkbox" ng-model="store.is_input_counted" ng-checked="store.is_input_counted" >
+                        <label for="chk_store_isinputcounted">{{'SETTING.IS_INPUT_COUNTED' | translate}}</label>
+                    </div>
+
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.COSTCENTER' | translate}}</label>
+                <div class="col-sm-10">
+                    <ui-select ng-model="store.cost_center.id" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="costcenter.id as costcenter in costcenters | filter: $select.search">
+                            <div ng-bind-html="costcenter.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'STORE.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+              <div class="col-sm-10">
+                  <input ng-model="store.description" type="text" name="storedescription" class="form-control">
+                  <div class="m-t-xs" ng-show="form_store.storedescription.$invalid && form_store.storedescription.$dirty">
+                      <small class="text-danger" ng-show="form_store.storedescription.$error.required">{{'STORE.INPUT_DESCRIPTION' | translate}}</small>
+                  </div>
+              </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'COMMON.QR_CODE' | translate}} </label>
+             <div class="col-sm-10">
+                  <div>
+                       <qrcode data="{{store.qrcode}}" version="1" error-correction-level="L" size="100" color="#fff" background="#000" download></qrcode>
+                  </div>
+              </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
+        <button type="button" ng-disabled="form_store.$invalid" class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
+    </div>
+</div>

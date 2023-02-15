@@ -1,0 +1,148 @@
+<div class="inmodal">
+    <div class="modal-header">
+        <h4 class="modal-title">{{operation | translate}}(ID:{{tenant.id}})</h4>
+    </div>
+    <div class="modal-body">
+        <form role="form" name="form_tenant" novalidate class="form-horizontal">
+            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.NAME' | translate}}</label>
+              <div class="col-sm-10">
+                  <input ng-model="tenant.name" type="text" name="tenantname" class="form-control" required>
+                  <div class="m-t-xs" ng-show="form_tenant.tenantname.$invalid && form_tenant.tenantname.$dirty">
+                      <small class="text-danger" ng-show="form_tenant.tenantname.$error.required">{{'SETTING.INPUT_NAME' | translate}}</small>
+                  </div>
+              </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.AREA' | translate}}</label>
+                <div class="col-sm-10">
+                    <input ng-model="tenant.area" type="number" name="tenantarea" class="form-control" required>
+                    <div class="m-t-xs" ng-show="form_tenant.tenantarea.$invalid && form_tenant.tenantarea.$dirty">
+                        <small class="text-danger" ng-show="form_tenant.tenantarea.$error.required">{{'SETTING.INPUT_AREA' | translate}}</small>
+                        <small class="text-danger" ng-show="form_tenant.tenantarea.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'TENANT.BUILDINGS' | translate}}</label>
+              <div class="col-sm-10">
+                  <input ng-model="tenant.buildings" type="text" name="tenantbuildings" class="form-control" required>
+                  <div class="m-t-xs" ng-show="form_tenant.tenantbuildings.$invalid && form_tenant.tenantbuildings.$dirty">
+                      <small class="text-danger" ng-show="form_tenant.tenantbuildings.$error.required">{{'TENANT.INPUT_BUILDINGS' | translate}}</small>
+                  </div>
+              </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'TENANT.FLOORS' | translate}}</label>
+              <div class="col-sm-10">
+                  <input ng-model="tenant.floors" type="text" name="tenantfloors" class="form-control" required>
+                  <div class="m-t-xs" ng-show="form_tenant.tenantfloors.$invalid && form_tenant.tenantfloors.$dirty">
+                      <small class="text-danger" ng-show="form_tenant.tenantfloors.$error.required">{{'TENANT.INPUT_FLOORS' | translate}}</small>
+                  </div>
+              </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'TENANT.ROOMS' | translate}}</label>
+              <div class="col-sm-10">
+                  <input ng-model="tenant.rooms" type="text" name="tenantrooms" class="form-control" required>
+                  <div class="m-t-xs" ng-show="form_tenant.tenantrooms.$invalid && form_tenant.tenantrooms.$dirty">
+                      <small class="text-danger" ng-show="form_tenant.tenantrooms.$error.required">{{'TENANT.INPUT_ROOMS' | translate}}</small>
+                  </div>
+              </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'TENANT.TYPE' | translate}}</label>
+                <div class="col-sm-10">
+                    <ui-select ng-model="tenant.tenant_type.id" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="tenanttype.id as tenanttype in tenanttypes | filter: $select.search">
+                            <div ng-bind-html="tenanttype.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.CONTACT' | translate}}</label>
+                <div class="col-sm-10">
+                    <ui-select ng-model="tenant.contact.id" name="tenantcontact" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="contact.id as contact in contacts | filter: $select.search">
+                            <div ng-bind-html="contact.name | highlight: $select.search"></div>
+                            <small>{{contact.email}},{{contact.phone}}</small>
+                        </ui-select-choices>
+                    </ui-select>
+                    <div class="m-t-xs" ng-show="form_tenant.tenantcontact.$invalid && form_tenant.tenantcontact.$dirty">
+                        <small class="text-danger" ng-show="form_tenant.tenantcontact.$error.required">{{'SETTING.SELECT_CONTACT' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.IS_INPUT_COUNTED' | translate}}</label>
+                <div class="col-sm-10">
+                    <div class="checkbox checkbox-success">
+                        <input id="chk_tenant_isinputcounted" type="checkbox" ng-model="tenant.is_input_counted" ng-checked="tenant.is_input_counted" >
+                        <label for="chk_tenant_isinputcounted">{{'SETTING.IS_INPUT_COUNTED' | translate}}</label>
+                    </div>
+
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'TENANT.IS_KEY_TENANT' | translate}}</label>
+                <div class="col-sm-10">
+                    <div class="checkbox checkbox-success">
+                        <input id="chk_tenant_iskeytenant" type="checkbox" ng-model="tenant.is_key_tenant" ng-checked="tenant.is_key_tenant">
+                        <label for="chk_tenant_iskeytenant">{{'TENANT.IS_KEY_TENANT' | translate}}</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'TENANT.LEASE_NUMBER' | translate}}</label>
+              <div class="col-sm-10">
+                  <input ng-model="tenant.lease_number" type="text" name="tenantleasenumber" class="form-control" required>
+                  <div class="m-t-xs" ng-show="form_tenant.tenantleasenumber.$invalid && form_tenant.tenantleasenumber.$dirty">
+                      <small class="text-danger" ng-show="form_tenant.tenantleasenumber.$error.required">{{'TENANT.INPUT_LEASE_NUMBER' | translate}}</small>
+                  </div>
+              </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'TENANT.LEASE_START_DATETIME' | translate}}</label>
+                <div class="col-sm-10">
+                    <input date-range-picker class="form-control date-picker" type="text" ng-model="tenant.lease_start_datetime" options="dtOptions"
+                    placeholder="{{'SETTING.SELECT_DATE' | translate}}" readonly="" />
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'TENANT.LEASE_END_DATETIME' | translate}}</label>
+                <div class="col-sm-10">
+                    <input date-range-picker class="form-control date-picker" type="text" ng-model="tenant.lease_end_datetime" options="dtOptions"
+                    placeholder="{{'SETTING.SELECT_DATE' | translate}}" readonly="" />
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'TENANT.IS_IN_LEASE' | translate}}</label>
+                <div class="col-sm-10">
+                    <div class="checkbox checkbox-success">
+                        <input id="chk_tenant_isinlease" type="checkbox" ng-model="tenant.is_in_lease" ng-checked="tenant.is_in_lease">
+                        <label for="chk_tenant_isinlease">{{'TENANT.IS_IN_LEASE' | translate}}</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.COSTCENTER' | translate}}</label>
+                <div class="col-sm-10">
+                    <ui-select ng-model="tenant.cost_center.id" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="costcenter.id as costcenter in costcenters | filter: $select.search">
+                            <div ng-bind-html="costcenter.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'TENANT.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+              <div class="col-sm-10">
+                  <input ng-model="tenant.description" type="text" name="tenantdescription" class="form-control">
+                  <div class="m-t-xs" ng-show="form_tenant.tenantdescription.$invalid && form_tenant.tenantdescription.$dirty">
+                      <small class="text-danger" ng-show="form_tenant.tenantdescription.$error.required">{{'TENANT.INPUT_DESCRIPTION' | translate}}</small>
+                  </div>
+              </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'COMMON.QR_CODE' | translate}} </label>
+              <div class="col-sm-10">
+                  <div>
+                       <qrcode data="{{tenant.qrcode}}" version="1" error-correction-level="L" size="100" color="#fff" background="#000" download></qrcode>
+                  </div>
+              </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
+        <button type="button" ng-disabled="form_tenant.$invalid" class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
+    </div>
+</div>

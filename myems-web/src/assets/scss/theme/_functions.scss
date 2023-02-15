@@ -1,0 +1,32 @@
+// pow() - Raise number to the nth power
+//
+// @param {number} $base      The base number
+// @param {number} $exponents The exponent to which to raise $base
+@function pow($base, $exponents) {
+  $raised: 1;
+  @for $i from 1 through $exponents {
+    $raised: $raised * $base;
+  }
+  @return $raised;
+}
+@function toRem($px) {
+  @return ($px / 16);
+}
+
+@mixin chrome-scrollbar {
+  overflow: auto;
+  &::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+    height: 7px;
+    background-color: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba($gray-600, 0.3);
+  }
+}
+@mixin firefox-scrollbar {
+  scrollbar-color: rgba($gray-600, 0.3) transparent;
+  scrollbar-width: thin;
+}
