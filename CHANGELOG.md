@@ -5,7 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
-- added tbl_spaces_non_working_days to myems_system_db in database
+- added tbl_spaces_non_working_days to myems_system_db database
+- added tbl_working_calendars_non_working_days to myems_system_db database
+- added tbl_shopfloors_working_calendars to myems_system_db database
+- added tbl_spaces_working_calendars to myems_system_db database
+- added tbl_stores_working_calendars to myems_system_db database
+- added tbl_tenants_working_calendars to myems_system_db database
 
 ### Changed
 - upgraded bootstrap to v3.4.1 in myems-admin
