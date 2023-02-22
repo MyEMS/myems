@@ -1,0 +1,30 @@
+<div class="inmodal">
+    <div class="modal-header">
+        <h4 class="modal-title">{{operation | translate}}(ID:{{workingcalendar.id}})</h4>
+    </div>
+    <div class="modal-body">
+        <form role="form" name="form_workingcalendar" novalidate class="form-horizontal">
+            <div class="form-group"><label class="col-sm-4 control-label">{{'SETTING.NAME' | translate}}</label>
+
+                <div class="col-sm-8"><input ng-model="workingcalendar.name" type="text" name="workingcalendarname" class="form-control" required="">
+                    <div class="m-t-xs" ng-show="form_workingcalendar.workingcalendarname.$invalid && form_workingcalendar.workingcalendarname.$dirty">
+                        <small class="text-danger" ng-show="form_workingcalendar.workingcalendarname.$error.required">{{'SETTING.INPUT_NAME' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group"><label class="col-sm-4 control-label">{{'WORKING_CALENDAR.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+              <div class="col-sm-8">
+                  <input ng-model="workingcalendar.description" type="text" name="workingcalendardescription" class="form-control" >
+                  <div class="m-t-xs" ng-show="form_workingcalendar.workingcalendardescription.$invalid && form_workingcalendar.workingcalendardescription.$dirty">
+                      <small class="text-danger" ng-show="form_workingcalendar.workingcalendardescription.$error.required">{{'WORKING_CALENDAR.DESCRIPTION' | translate}}</small>
+                  </div>
+              </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
+        <button type="button" ng-disabled="form_workingcalendar.$invalid" class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
+    </div>
+</div>

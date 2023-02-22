@@ -741,7 +741,7 @@ def generate_excel(report,
 
             if len(base_period_timestamps[0]) or len(reporting_period_timestamps[0]) > 0:
                 has_data = True
-
+ 
             if has_data:
                 ws.row_dimensions[current_row_number].height = 60
                 current_col_number = 2
@@ -890,6 +890,112 @@ def generate_excel(report,
                     ws.add_chart(line, chart_cell)
 
                 current_row_number += 2
+
+    if "non_working_days_subtotals" not in report['base_period'].keys() or \
+            report['base_period']['non_working_days_subtotals'] is None or \
+            "weekdays_subtotals" not in report['base_period'].keys() or \
+            report['base_period']['weekdays_subtotals'] is None:
+        pass
+    else:
+        ws['B' + str(current_row_number)].font = title_font
+        ws['B' + str(current_row_number)] = name + ' ' + _('Base Period Consumption')
+        
+        current_row_number += 1
+
+        ws.row_dimensions[current_row_number].height = 60
+        ws['B' + str(current_row_number)].fill = table_fill
+        ws['B' + str(current_row_number)].font = name_font
+        ws['B' + str(current_row_number)].alignment = c_c_alignment
+        ws['B' + str(current_row_number)].border = f_border
+
+        ws['C' + str(current_row_number)].fill = table_fill
+        ws['C' + str(current_row_number)].font = name_font
+        ws['C' + str(current_row_number)].alignment = c_c_alignment
+        ws['C' + str(current_row_number)].border = f_border
+        ws['C' + str(current_row_number)] = _('Non Working Days') + _('Consumption')
+
+        ws['D' + str(current_row_number)].fill = table_fill
+        ws['D' + str(current_row_number)].font = name_font
+        ws['D' + str(current_row_number)].alignment = c_c_alignment
+        ws['D' + str(current_row_number)].border = f_border
+        ws['D' + str(current_row_number)] = _('Weekdays') + _('Consumption')
+
+        current_row_number += 1
+
+        ca_len = len(report['base_period']['names'])
+
+        for i in range(0, ca_len):
+            ws['B' + str(current_row_number)].font = title_font
+            ws['B' + str(current_row_number)].alignment = c_c_alignment
+            ws['B' + str(current_row_number)] = report['base_period']['names'][i] + " (" + report['base_period']['units'][i] + ")"
+            ws['B' + str(current_row_number)].border = f_border
+
+            ws['C' + str(current_row_number)].font = title_font
+            ws['C' + str(current_row_number)].alignment = c_c_alignment
+            ws['C' + str(current_row_number)].border = f_border
+            ws['C' + str(current_row_number)] = report['base_period']['non_working_days_subtotals'][i]
+
+            ws['D' + str(current_row_number)].font = title_font
+            ws['D' + str(current_row_number)].alignment = c_c_alignment
+            ws['D' + str(current_row_number)].border = f_border
+            ws['D' + str(current_row_number)] = report['base_period']['weekdays_subtotals'][i]
+
+            current_row_number += 1
+        
+        current_row_number += 1
+
+    if "non_working_days_subtotals" not in report['reporting_period'].keys() or \
+            report['reporting_period']['non_working_days_subtotals'] is None or \
+            "weekdays_subtotals" not in report['reporting_period'].keys() or \
+            report['reporting_period']['weekdays_subtotals'] is None:
+        pass
+    else:
+        ws['B' + str(current_row_number)].font = title_font
+        ws['B' + str(current_row_number)] = name + ' ' + _('Reporting Period Consumption')
+        
+        current_row_number += 1
+
+        ws.row_dimensions[current_row_number].height = 60
+        ws['B' + str(current_row_number)].fill = table_fill
+        ws['B' + str(current_row_number)].font = name_font
+        ws['B' + str(current_row_number)].alignment = c_c_alignment
+        ws['B' + str(current_row_number)].border = f_border
+
+        ws['C' + str(current_row_number)].fill = table_fill
+        ws['C' + str(current_row_number)].font = name_font
+        ws['C' + str(current_row_number)].alignment = c_c_alignment
+        ws['C' + str(current_row_number)].border = f_border
+        ws['C' + str(current_row_number)] = _('Non Working Days') + _('Consumption')
+
+        ws['D' + str(current_row_number)].fill = table_fill
+        ws['D' + str(current_row_number)].font = name_font
+        ws['D' + str(current_row_number)].alignment = c_c_alignment
+        ws['D' + str(current_row_number)].border = f_border
+        ws['D' + str(current_row_number)] = _('Weekdays') + _('Consumption')
+
+        current_row_number += 1
+
+        ca_len = len(report['reporting_period']['names'])
+
+        for i in range(0, ca_len):
+            ws['B' + str(current_row_number)].font = title_font
+            ws['B' + str(current_row_number)].alignment = c_c_alignment
+            ws['B' + str(current_row_number)] = report['reporting_period']['names'][i] + " (" + report['reporting_period']['units'][i] + ")"
+            ws['B' + str(current_row_number)].border = f_border
+
+            ws['C' + str(current_row_number)].font = title_font
+            ws['C' + str(current_row_number)].alignment = c_c_alignment
+            ws['C' + str(current_row_number)].border = f_border
+            ws['C' + str(current_row_number)] = report['reporting_period']['non_working_days_subtotals'][i]
+
+            ws['D' + str(current_row_number)].font = title_font
+            ws['D' + str(current_row_number)].alignment = c_c_alignment
+            ws['D' + str(current_row_number)].border = f_border
+            ws['D' + str(current_row_number)] = report['reporting_period']['weekdays_subtotals'][i]
+
+            current_row_number += 1
+
+        current_row_number += 2
 
     ####################################################################################################################
     current_sheet_parameters_row_number = table_start_draw_flag + len(reporting_period_data['names']) * 6 + 1

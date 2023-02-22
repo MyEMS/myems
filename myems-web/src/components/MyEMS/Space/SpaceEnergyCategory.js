@@ -38,6 +38,7 @@ import AppContext from '../../../context/Context';
 
 const ChildSpacesTable = loadable(() => import('../common/ChildSpacesTable'));
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
+const WeekdaysConsumptionTable = loadable(() => import('../common/WeekdaysConsumptionTable'));
 
 const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
@@ -140,6 +141,9 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
   const [childSpacesTableData, setChildSpacesTableData] = useState([]);
   const [childSpacesTableColumns, setChildSpacesTableColumns] = useState([{dataField: 'name', text: t('Child Spaces'), sort: true }]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
+
+  const [weekdaysConsumptionTableData, setWeekdaysConsumptionTableData] = useState([]);
+  const [weekdaysConsumptionTableColumns, setWeekdaysConsumptionTableColumns] = useState([{dataField: 'name', text: t('Energy Category'), sort: true }]);
 
   useEffect(() => {
     let isResponseOK = false;
@@ -691,6 +695,78 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
 
         setChildSpacesTableColumns(child_space_column_list);
 
+        let weekdays_table_column_list = [];
+        weekdays_table_column_list.push({
+          dataField: 'name',
+          text: t('Energy Category'),
+          sort: true
+        });
+        weekdays_table_column_list.push({
+          dataField: 'a0',
+          text: t('Base Period') + ' - ' + t('Weekdays'),
+          sort: false,
+          formatter: function (decimalValue) {
+            if (typeof decimalValue === 'number') {
+              return decimalValue.toFixed(2);
+            } else {
+              return null;
+            }
+          }
+        });
+        weekdays_table_column_list.push({
+          dataField: 'a1',
+          text: t('Base Period') + ' - ' + t('Non Working Days'),
+          sort: false,
+          formatter: function (decimalValue) {
+            if (typeof decimalValue === 'number') {
+              return decimalValue.toFixed(2);
+            } else {
+              return null;
+            }
+          }
+        });
+        weekdays_table_column_list.push({
+          dataField: 'b0',
+          text: t('Reporting Period') + ' - ' + t('Weekdays'),
+          sort: false,
+          formatter: function (decimalValue) {
+            if (typeof decimalValue === 'number') {
+              return decimalValue.toFixed(2);
+            } else {
+              return null;
+            }
+          }
+        });
+        weekdays_table_column_list.push({
+          dataField: 'b1',
+          text: t('Reporting Period') + ' - ' + t('Non Working Days'),
+          sort: false,
+          formatter: function (decimalValue) {
+            if (typeof decimalValue === 'number') {
+              return decimalValue.toFixed(2);
+            } else {
+              return null;
+            }
+          }
+        });
+
+        setWeekdaysConsumptionTableColumns(weekdays_table_column_list);
+
+        let weekdays_table_value_list = [];
+        
+        json['base_period']['names'].forEach((currentValue, index) => {
+          let weekdays_table_value = {};
+          let unit = json['base_period']['units'][index];
+          weekdays_table_value['name'] = currentValue + ' (' + unit + ')';
+          weekdays_table_value['a0'] = json['base_period']['weekdays_subtotals'][index];
+          weekdays_table_value['a1'] = json['base_period']['non_working_days_subtotals'][index];
+          weekdays_table_value['b0'] = json['reporting_period']['weekdays_subtotals'][index];
+          weekdays_table_value['b1'] = json['reporting_period']['non_working_days_subtotals'][index];
+          weekdays_table_value_list.push(weekdays_table_value);
+        });
+
+        setWeekdaysConsumptionTableData(weekdays_table_value_list);
+
         setExcelBytesBase64(json['excel_bytes_base64']);
 
         // enable submit button
@@ -919,9 +995,15 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
       <DetailedDataTable data={detailedDataTableData} title={t('Detailed Data')} columns={detailedDataTableColumns} pagesize={50} >
       </DetailedDataTable>
       <br />
+
       <ChildSpacesTable data={childSpacesTableData} title={t('Child Spaces Data')} columns={childSpacesTableColumns}>
       </ChildSpacesTable>
 
+      <WeekdaysConsumptionTable
+       data={weekdaysConsumptionTableData}
+       title={t('CATEGORY Consumption UNIT', { 'CATEGORY': t('Weekdays') + '/' + t('Non Working Days') })}
+       columns={weekdaysConsumptionTableColumns}> 
+      </WeekdaysConsumptionTable>
     </Fragment>
   );
 };
