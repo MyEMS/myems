@@ -675,6 +675,18 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_shopfloors_offline_meters` (
 CREATE INDEX `tbl_shopfloors_offline_meters_index_1` ON  `myems_system_db`.`tbl_shopfloors_offline_meters`   (`shopfloor_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_shopfloors_points`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_shopfloors_points` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_shopfloors_points` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `shopfloor_id` BIGINT NOT NULL,
+  `point_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_shopfloors_points_index_1` ON  `myems_system_db`.`tbl_shopfloors_points`   (`shopfloor_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_shopfloors_sensors`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_system_db`.`tbl_shopfloors_sensors` ;
@@ -699,16 +711,16 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_shopfloors_virtual_meters` (
 CREATE INDEX `tbl_shopfloors_virtual_meters_index_1` ON  `myems_system_db`.`tbl_shopfloors_virtual_meters`   (`shopfloor_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
--- Table `myems_system_db`.`tbl_shopfloors_points`
+-- Table `myems_system_db`.`tbl_shopfloors_working_calendars`
 -- ---------------------------------------------------------------------------------------------------------------------
-DROP TABLE IF EXISTS `myems_system_db`.`tbl_shopfloors_points` ;
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_shopfloors_working_calendars` ;
 
-CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_shopfloors_points` (
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_shopfloors_working_calendars` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `shopfloor_id` BIGINT NOT NULL,
-  `point_id` BIGINT NOT NULL,
+  `working_calendar_id` BIGINT NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_shopfloors_points_index_1` ON  `myems_system_db`.`tbl_shopfloors_points`   (`shopfloor_id`);
+CREATE INDEX `tbl_shopfloors_working_calendars_index_1` ON  `myems_system_db`.`tbl_shopfloors_working_calendars` (`shopfloor_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_spaces`
@@ -1019,6 +1031,18 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_stores_virtual_meters` (
 CREATE INDEX `tbl_stores_virtual_meters_index_1` ON  `myems_system_db`.`tbl_stores_virtual_meters`   (`store_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_stores_working_calendars`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_stores_working_calendars` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_stores_working_calendars` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `store_id` BIGINT NOT NULL,
+  `working_calendar_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_stores_working_calendars_index_1` ON  `myems_system_db`.`tbl_stores_working_calendars` (`store_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_tenants`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_system_db`.`tbl_tenants` ;
@@ -1117,6 +1141,19 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_tenants_virtual_meters` (
   `virtual_meter_id` BIGINT NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_tenants_virtual_meters_index_1` ON  `myems_system_db`.`tbl_tenants_virtual_meters`   (`tenant_id`);
+
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_tenants_working_calendars`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_tenants_working_calendars` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_tenants_working_calendars` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `tenant_id` BIGINT NOT NULL,
+  `working_calendar_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_tenants_working_calendars_index_1` ON  `myems_system_db`.`tbl_tenants_working_calendars` (`tenant_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_timezones`
@@ -1302,7 +1339,7 @@ DROP TABLE IF EXISTS `myems_system_db`.`tbl_working_calendars` ;
 CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_working_calendars` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(64) NOT NULL,
-  `description` VARCHAR(64) NOT NULL,
+  `description` VARCHAR(64),
   PRIMARY KEY (`id`));
 
 CREATE INDEX `tbl_working_calendars_index_1` ON  `myems_system_db`.`tbl_working_calendars`   (`name`);
@@ -1316,5 +1353,6 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_working_calendars_non_working_
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `working_calendar_id` BIGINT NOT NULL,
   `date_local` DATE NOT NULL,
+  `description` VARCHAR(64),
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_working_calendars_non_working_days_index_1` ON  `myems_system_db`.`tbl_working_calendars_non_working_days`  (`working_calendar_id`);
