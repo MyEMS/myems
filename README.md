@@ -39,24 +39,24 @@ MyEMS由资深专业团队开发维护，源代码基于MIT开源软件许可协
 
 ## MyEMS社区版功能
 
-详见 [MyEMS社区版功能](https://myems.io/zh-Hans/docs/intro#myems-features)
+详见 [https://myems.io/zh-Hans/docs/intro#myems-features](https://myems.io/zh-Hans/docs/intro#myems-features)
 
 ## MyEMS企业版功能
 
-详见 [MyEMS企业版功能](https://myems.io/zh-Hans/docs/enterprise)
+详见 [https://myems.io/zh-Hans/docs/enterprise](https://myems.io/zh-Hans/docs/enterprise)
 
 
 ## MyEMS下载(社区版)
 
-[1]. [Gitee](https://gitee.com/myems/myems) https://gitee.com/myems/myems
+[1]. [https://gitee.com/myems/myems](https://gitee.com/myems/myems)
 
-[2]. [Github](https://github.com/myems/myems) https://github.com/myems/myems
+[2]. [https://github.com/myems/myems](https://github.com/myems/myems)
 
-[3]. [Bitbucket](https://bitbucket.org/myems/myems) https://bitbucket.org/myems/myems
+[3]. [https://bitbucket.org/myems/myems](https://bitbucket.org/myems/myems)
 
-[4]. [Gitlab](https://gitlab.com/myems/myems) https://gitlab.com/myems/myems
+[4]. [https://gitlab.com/myems/myems](https://gitlab.com/myems/myems)
 
-[5]. [GitCode](https://gitcode.net/myems/myems) https://gitcode.net/myems/myems
+[5]. [https://gitcode.net/myems/myems](https://gitcode.net/myems/myems)
 
 
 ## MyEMS安装(社区版)
