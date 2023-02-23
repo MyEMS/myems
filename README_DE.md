@@ -1,6 +1,6 @@
 # MyEMS
 
- [中文](/README.md) | [EN](/README_EN.md) | [DE](/README_DE.md)
+ [简体中文](./README.md) | [ENGLISH](./README_EN.md) | [DEUTSCH](./README_DE.md)
 
  [![Documentation Status](https://readthedocs.org/projects/myems/badge/?version=latest)](https://myems.readthedocs.io/en/latest/?badge=latest)
  [![Maintainability](https://api.codeclimate.com/v1/badges/e01a2ca1e833d66040d0/maintainability)](https://codeclimate.com/github/MyEMS/myems/maintainability)
@@ -20,7 +20,7 @@ Verwendung von Open Source, um die Ziele der CO2-Peak-Kohlenstoffneutralität zu
 
 ## MyEMS Architektur
 
-![MyEMS Architecture Function View](/docs/images/architecture-function-view.png)
+![MyEMS Architecture Function View](/docs/images/architecture-function-view-de.png)
 
 ![MyEMS Architecture Site View](/docs/images/architecture-site-view-de.png)
 
@@ -60,39 +60,41 @@ Sehen [Funktionen der MyEMS Enterprise Edition](https://myems.io/de/docs/enterpr
 
 ## MyEMS Installation (Community Edition)
 
-Dieses Projekt besteht aus folgenden Komponenten:
+Sehen [https://myems.io/docs/category/installation](https://myems.io/docs/category/installation)
+
+## Dieses Projekt besteht Komponenten:
 
 ### MyEMS Database (SQL)
 
-Sehen [database Introduction & Installation](./database/README.md)
+Sehen [database](./database/README.md) Einleitung
 
 ### MyEMS API (Python)
 
-Sehen [myems-api Introduction & Installation](./myems-api/README.md)
+Sehen [myems-api](./myems-api/README.md) Einleitung
 
 ### MyEMS Admin UI (AngularJS)
 
-Sehen [myems-admin Introduction & Installation](myems-admin/README.md)
+Sehen [myems-admin](myems-admin/README.md) Einleitung
 
 ### MyEMS Modbus TCP Acquisition Service (Python)
 
-Sehen [myems-modbus-tcp Introduction & Installation](./myems-modbus-tcp/README.md)
+Sehen [myems-modbus-tcp](./myems-modbus-tcp/README.md) Einleitung
 
 ### MyEMS Cleaning Service (Python)
 
-Sehen [myems-cleaning Introduction & Installation](./myems-cleaning/README.md)
+Sehen [myems-cleaning](./myems-cleaning/README.md) Einleitung
 
 ### MyEMS Normalization Service (Python)
 
-Sehen [myems-normalization Introduction & Installation](./myems-normalization/README.md)
+Sehen [myems-normalization](./myems-normalization/README.md) Einleitung
 
 ### MyEMS Aggregation Service (Python)
 
-Sehen [myems-aggregation Introduction & Installation](./myems-aggregation/README.md)
+Sehen [myems-aggregation](./myems-aggregation/README.md) Einleitung
 
 ### MyEMS Web UI (ReactJS)
 
-Sehen [myems-web Introduction & Installation](myems-web/README.md)
+Sehen [myems-web](myems-web/README.md) Einleitung
 
 ### Standardports
 
@@ -126,16 +128,16 @@ administrator@myems.io
 
 ### Docker Compose Schnelle Bereitstellung 
 
-Sehen [Docker Compose Schnelle Bereitstellung](https://myems.io/de/docs/installation/docker-compose)
+Sehen [https://myems.io/de/docs/installation/docker-compose](https://myems.io/de/docs/installation/docker-compose)
 
 ## MyEMS Projektmanagement
 
-[Community Edition Straßenkarte](https://github.com/orgs/MyEMS/projects?type=beta)
+[https://github.com/orgs/MyEMS/projects?type=beta](https://github.com/orgs/MyEMS/projects?type=beta)
 
 
 ## Kooperationsplan für Integrationstests
 
-Sehen [Kooperationsplan für Integrationstests](https://myems.io/de/docs/cooperation)
+Sehen [https://myems.io/de/docs/cooperation](https://myems.io/de/docs/cooperation)
 
 ## QQ-Gruppe
 
