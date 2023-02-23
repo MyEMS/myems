@@ -130,11 +130,6 @@ administrator@myems.io
 
 Sehen [https://myems.io/de/docs/installation/docker-compose](https://myems.io/de/docs/installation/docker-compose)
 
-## MyEMS Projektmanagement
-
-Sehen [https://github.com/orgs/MyEMS/projects?type=beta](https://github.com/orgs/MyEMS/projects?type=beta)
-
-
 ## Kooperationsplan für Integrationstests
 
 Sehen [https://myems.io/de/docs/cooperation](https://myems.io/de/docs/cooperation)

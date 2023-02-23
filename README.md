@@ -130,12 +130,6 @@ administrator@myems.io
 
 详见 [https://myems.io/zh-Hans/docs/installation/docker-compose](https://myems.io/zh-Hans/docs/installation/docker-compose)
 
-
-
-## MyEMS项目管理
-
-[https://github.com/orgs/MyEMS/projects?type=beta](https://github.com/orgs/MyEMS/projects?type=beta)
-
 ## 集成测试合作计划
 
 详见 [https://myems.io/zh-Hans/docs/cooperation](https://myems.io/zh-Hans/docs/cooperation)

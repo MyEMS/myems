@@ -130,21 +130,15 @@ administrator@myems.io
 
 See [https://myems.io/docs/installation/docker-compose)](https://myems.io/docs/installation/docker-compose)
 
-## MyEMS Project Management
-
-[https://github.com/orgs/MyEMS/projects?type=beta](https://github.com/orgs/MyEMS/projects?type=beta)
-
 ## Integration Testing Cooperation Plan
 
 See [https://myems.io/docs/cooperation](https://myems.io/docs/cooperation)
-
 
 ## QQ Group
 
 Group Number: 792528967
 
 ![QQ Group 1](/docs/images/qq-group-1.png)
-
 
 ## Videos
 
