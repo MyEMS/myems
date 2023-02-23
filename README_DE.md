@@ -66,35 +66,35 @@ Sehen [https://myems.io/docs/category/installation](https://myems.io/docs/catego
 
 ### MyEMS Database (SQL)
 
-Sehen [database Introduction](./database/README.md)
+Sehen [database](./database/README.md) Einleitung
 
 ### MyEMS API (Python)
 
-Sehen [myems-api Introduction](./myems-api/README.md)
+Sehen [myems-api](./myems-api/README.md) Einleitung
 
 ### MyEMS Admin UI (AngularJS)
 
-Sehen [myems-admin Introduction](myems-admin/README.md)
+Sehen [myems-admin](myems-admin/README.md) Einleitung
 
 ### MyEMS Modbus TCP Acquisition Service (Python)
 
-Sehen [myems-modbus-tcp Introduction](./myems-modbus-tcp/README.md)
+Sehen [myems-modbus-tcp](./myems-modbus-tcp/README.md) Einleitung
 
 ### MyEMS Cleaning Service (Python)
 
-Sehen [myems-cleaning Introduction](./myems-cleaning/README.md)
+Sehen [myems-cleaning](./myems-cleaning/README.md) Einleitung
 
 ### MyEMS Normalization Service (Python)
 
-Sehen [myems-normalization Introduction](./myems-normalization/README.md)
+Sehen [myems-normalization](./myems-normalization/README.md) Einleitung
 
 ### MyEMS Aggregation Service (Python)
 
-Sehen [myems-aggregation Introduction](./myems-aggregation/README.md)
+Sehen [myems-aggregation](./myems-aggregation/README.md) Einleitung
 
 ### MyEMS Web UI (ReactJS)
 
-Sehen [myems-web Introduction](myems-web/README.md)
+Sehen [myems-web](myems-web/README.md) Einleitung
 
 ### Standardports
 
@@ -128,16 +128,16 @@ administrator@myems.io
 
 ### Docker Compose Schnelle Bereitstellung 
 
-Sehen [Docker Compose Schnelle Bereitstellung](https://myems.io/de/docs/installation/docker-compose)
+Sehen [https://myems.io/de/docs/installation/docker-compose](https://myems.io/de/docs/installation/docker-compose)
 
 ## MyEMS Projektmanagement
 
-[Community Edition Straßenkarte](https://github.com/orgs/MyEMS/projects?type=beta)
+[https://github.com/orgs/MyEMS/projects?type=beta](https://github.com/orgs/MyEMS/projects?type=beta)
 
 
 ## Kooperationsplan für Integrationstests
 
-Sehen [Kooperationsplan für Integrationstests](https://myems.io/de/docs/cooperation)
+Sehen [https://myems.io/de/docs/cooperation](https://myems.io/de/docs/cooperation)
 
 ## QQ-Gruppe
 

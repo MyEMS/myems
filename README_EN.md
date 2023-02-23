@@ -67,35 +67,35 @@ See [https://myems.io/docs/category/installation](https://myems.io/docs/category
 
 ### MyEMS Database (SQL)
 
-See [database Introduction](./database/README.md)
+See [database](./database/README.md) Introduction
 
 ### MyEMS API (Python)
 
-See [myems-api Introduction](./myems-api/README.md)
+See [myems-api](./myems-api/README.md) Introduction
 
 ### MyEMS Admin UI (ReactJS)
 
-See [myems-admin Introduction](myems-admin/README.md)
+See [myems-admin](myems-admin/README.md) Introduction
 
 ### MyEMS Modbus TCP Acquisition Service (Python)
 
-See [myems-modbus-tcp Introduction](./myems-modbus-tcp/README.md)
+See [myems-modbus-tcp](./myems-modbus-tcp/README.md) Introduction
 
 ### MyEMS Cleaning Service (Python)
 
-See [myems-cleaning Introduction](./myems-cleaning/README.md)
+See [myems-cleaning](./myems-cleaning/README.md) Introduction
 
 ### MyEMS Normalization Service (Python)
 
-See [myems-normalization Introduction](./myems-normalization/README.md)
+See [myems-normalization](./myems-normalization/README.md) Introduction
 
 ### MyEMS Aggregation Service (Python)
 
-See [myems-aggregation Introduction](./myems-aggregation/README.md)
+See [myems-aggregation](./myems-aggregation/README.md) Introduction
 
 ### MyEMS Web UI (AngularJS)
 
-See [myems-web Introduction](myems-web/README.md)
+See [myems-web](myems-web/README.md) Introduction
 
 ### Default Ports
 
@@ -128,15 +128,15 @@ administrator@myems.io
 
 ### Docker Compose Repaid Deployment
 
-See [Docker Compose Repaid Deployment](https://myems.io/docs/installation/docker-compose)
+See [https://myems.io/docs/installation/docker-compose)](https://myems.io/docs/installation/docker-compose)
 
 ## MyEMS Project Management
 
-[Community Edition Roadmap](https://github.com/orgs/MyEMS/projects?type=beta)
+[https://github.com/orgs/MyEMS/projects?type=beta](https://github.com/orgs/MyEMS/projects?type=beta)
 
 ## Integration Testing Cooperation Plan
 
-See [Integration Testing Cooperation Plan](https://myems.io/docs/cooperation)
+See [https://myems.io/docs/cooperation](https://myems.io/docs/cooperation)
 
 
 ## QQ Group
