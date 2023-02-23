@@ -709,10 +709,10 @@ app
                             deps: [
                                 '$ocLazyLoad',
                                 function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'toaster']).then(
+                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'toaster', 'datepicker']).then(
                                         function () {
                                             return $ocLazyLoad.load([{
-                                                files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
+                                                files: ['js/plugins/sweetalert/sweetalert.min.js','css/plugins/sweetalert/sweetalert.css']
                                             }, {
                                                 name: 'oitozero.ngSweetAlert',
                                                 files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
@@ -733,6 +733,7 @@ app
                                                     'app/services/settings/store/store.service.js',
                                                     'app/services/settings/shopfloor/shopfloor.service.js',
                                                     'app/services/settings/sensor/sensor.service.js',
+                                                    'app/services/settings/workingcalendar/workingcalendar.service.js',
                                                     'app/services/settings/space/spacemeter.service.js',
                                                     'app/services/settings/space/spaceequipment.service.js',
                                                     'app/services/settings/space/spacecombinedequipment.service.js',
@@ -741,6 +742,7 @@ app
                                                     'app/services/settings/space/spaceshopfloor.service.js',
                                                     'app/services/settings/space/spacepoint.service.js',
                                                     'app/services/settings/space/spacesensor.service.js',
+                                                    'app/services/settings/space/spaceworkingcalendar.service.js',
                                                     'app/controllers/settings/space/space.controller.js',
                                                     'app/controllers/settings/space/spacemeter.controller.js',
                                                     'app/controllers/settings/space/spaceequipment.controller.js',
@@ -750,7 +752,8 @@ app
                                                     'app/controllers/settings/space/spaceshopfloor.controller.js',
                                                     'app/controllers/settings/space/spacepoint.controller.js',
                                                     'app/controllers/settings/space/spacesensor.controller.js',
-                                                    'app/controllers/settings/space/space.master.controller.js'
+                                                    'app/controllers/settings/space/space.master.controller.js',
+                                                    'app/controllers/settings/space/spaceworkingcalendar.controller.js',
                                                 ]
                                             }]);
                                         }
@@ -770,7 +773,7 @@ app
                             deps: [
                                 '$ocLazyLoad',
                                 function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'daterangepicker', 'toaster']).then(
+                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'daterangepicker', 'toaster', ]).then(
                                         function () {
                                             return $ocLazyLoad.load([{
                                                 serie: true,
@@ -1087,6 +1090,45 @@ app
                                                 files: [
                                                     'app/services/settings/knowledgefile/knowledgefile.service.js',
                                                     'app/controllers/settings/knowledgefile/knowledgefile.controller.js'
+                                                ]
+                                            }]);
+                                        }
+                                    );
+                                }
+                            ]
+                        }
+
+                    })
+                    .state('settings.workingcalendar', {
+                        url: "/workingcalendar",
+                        templateUrl: "views/settings/workingcalendar/workingcalendar.html",
+                        data: {
+                            pageTitle: 'MENU.SETTINGS.WORKING_CALENDAR',
+                        },
+                        resolve: {
+                            deps: [
+                                '$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'toaster', 'daterangepicker', ]).then(
+                                        function () {
+                                            return $ocLazyLoad.load([{
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
+                                            }, {
+                                                files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
+                                            }, {
+                                                name: 'oitozero.ngSweetAlert',
+                                                files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
+                                            }, {
+                                                serie: true,
+                                                files: [
+                                                    'app/services/settings/workingcalendar/workingcalendar.service.js',
+                                                    'app/services/settings/workingcalendar/workingcalendarnonworkingday.service.js',
+                                                    'app/controllers/settings/workingcalendar/workingcalendar.controller.js',
+                                                    'app/controllers/settings/workingcalendar/workingcalendar.master.controller.js',
+                                                    'app/controllers/settings/workingcalendar/workingcalendarnonworkingday.controller.js',
                                                 ]
                                             }]);
                                         }

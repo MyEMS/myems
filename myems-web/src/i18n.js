@@ -413,6 +413,9 @@ const resources = {
       'RMB Account': 'RMB Account',
       // button
       'Toggle Navigation': 'Toggle Navigation',
+      // working calendar
+      'Weekdays': 'Weekdays',
+      'Non Working Days': 'Non Working Days',
       //API
       'API.ADMINISTRATOR_SESSION_NOT_FOUND': 'Administrator session not found',
       'API.ADMINISTRATOR_SESSION_TIMEOUT': 'Administrator session timeout',
@@ -446,6 +449,8 @@ const resources = {
       'API.DISTRIBUTION_CIRCUIT_POINT_RELATION_NOT_FOUND': 'Distribution circuit point relation not found',
       'API.DISTRIBUTION_SYSTEM_NAME_IS_ALREADY_IN_USE': 'Distribution system name is already in use',
       'API.DISTRIBUTION_SYSTEM_NOT_FOUND': 'Distribution system not found',
+      'API.DATE_LOCAL_USED_IN_WORKING_CALENDAR': 'Date local used in working calendar',
+      'API.DATE_LOCAL_NOT_FOUND': 'Date local not found',
       'API.EMAIL_IS_ALREADY_IN_USE': 'Email is already in use',
       'API.EMAIL_MESSAGE_NOT_FOUND': 'Email message not found',
       'API.EMAIL_SERVER_HOST_IS_ALREADY_IN_USE': 'Email server host is already in use',
@@ -518,6 +523,7 @@ const resources = {
       'API.INVALID_DATA_SOURCE_ID': 'Invalid data source id',
       'API.INVALID_DATA_SOURCE_NAME': 'Invalid data source name',
       'API.INVALID_DATA_SOURCE_PROTOCOL': 'Invalid data source protocol',
+      'API.INVALID_DATE_LOCAL': 'Invalid date local',
       'API.INVALID_DENOMINATOR_METER_UUID': 'Invalid denominator meter uuid',
       'API.INVALID_DISPLAY_NAME': 'Invalid display name',
       'API.INVALID_DISTRIBUTION_CIRCUIT_ID': 'Invalid distribution circuit id',
@@ -666,6 +672,9 @@ const resources = {
       'API.INVALID_VIRTUAL_METER_UUID': 'Invalid virtual meter uuid',
       'API.INVALID_WEB_MESSAGE_ID': 'Invalid web message id',
       'API.INVALID_WECHAT_MESSAGE_ID': 'Invalid wechat message id',
+      'API.INVALID_WORKING_CALENDAR_ID': 'Invalid working calendar id ',
+      'API.INVALID_WORKING_CALENDAR_NAME': 'Invalid working calendar name',
+      'API.INVALID_NON_WORKING_DAY_ID': 'Invalid non working day ID',
       'API.KNOWLEDGE_FILE_CANNOT_BE_REMOVED_FROM_DISK': 'Knowledge File Cannot be Removed from Disk',
       'API.KNOWLEDGE_FILE_NOT_FOUND': 'Knowledge file not found',
       'API.MASTER_METER_DOES_NOT_BELONG_TO_SAME_ENERGY_CATEGORY':
@@ -679,6 +688,7 @@ const resources = {
       'API.METER_POINT_RELATION_NOT_FOUND': 'Meter point relation not found',
       'API.NOT_FOUND': 'Not found',
       'API.NOTIFICATION_NOT_FOUND': 'Notification not found',
+      'API.NON_WORKING_DAY_NOT_FOUND': 'Non working day non found',
       'API.OFFLINE_METER_FILE_NOT_FOUND': 'Offline meter file not found',
       'API.OFFLINE_METER_NAME_IS_ALREADY_IN_USE': 'Offline meter name is already in use',
       'API.OFFLINE_METER_NOT_FOUND': 'Offline meter not found',
@@ -732,6 +742,8 @@ const resources = {
       'API.SPACE_TENANT_RELATION_NOT_FOUND': 'Space tenant relation not found',
       'API.SPACE_VIRTUAL_METER_RELATION_EXISTS': 'Space virtual meter relation exists',
       'API.SPACE_VIRTUAL_METER_RELATION_NOT_FOUND': 'Space virtual meter relation not found',
+      'API.SPACE_WORKING_CALENDAR_RELATION_EXISTS': 'Space working calendar relation exists',
+      'API.SPACE_WORKING_CALENDAR_RELATION_NOT_FOUND': 'Space working calendar relation not found',
       'API.START_DATETIME_MUST_BE_EARLIER_THAN_END_DATETIME': 'Start datetime must be early than end datetime',
       'API.STORE_METER_RELATION_EXISTS': 'Store meter relation exists',
       'API.STORE_METER_RELATION_NOT_FOUND': 'Store meter relation not found',
@@ -820,6 +832,9 @@ const resources = {
       'API.VIRTUAL_POINT_SHOULD_BE_ANALOG_VALUE': 'Virtual point should be analog value',
       'API.WEB_MESSAGE_NOT_FOUND': 'Web message not found',
       'API.WECHAT_MESSAGE_NOT_FOUND': 'Wechat message not found',
+      'API.WORKING_CALENDAR_NOT_FOUND': 'Working calendar not found',
+      'API.WORKING_CALENDAR_NAME_IS_ALREADY_IN_USE': 'Working calendar name is already in use',
+      'API.THERE_IS_RELATION_WITH_NON_WORKING_DAYS': 'There is relation with non working days',
     }
   },
   de: {
@@ -1243,6 +1258,9 @@ const resources = {
       'RMB Account': 'RMB-Konto',
       // button
       'Toggle Navigation': 'Navigation umschalten',
+      // working calendar
+      'Weekdays': 'Wochentage',
+      'Non Working Days': 'Arbeitsfreie Tage',
       // API
       'API.ADMINISTRATOR_SESSION_NOT_FOUND': 'Administratorsitzung nicht gefunden',
       'API.ADMINISTRATOR_SESSION_TIMEOUT': 'Zeitüberschreitung für Administratorsitzungen',
@@ -1276,6 +1294,8 @@ const resources = {
       'API.DISTRIBUTION_CIRCUIT_POINT_RELATION_NOT_FOUND': 'Verteilungskreispunktbeziehung nicht gefunden',
       'API.DISTRIBUTION_SYSTEM_NAME_IS_ALREADY_IN_USE': 'Der Name des Verteilungssystems wird bereits verwendet',
       'API.DISTRIBUTION_SYSTEM_NOT_FOUND': 'Verteilungssystem nicht gefunden',
+      'API.DATE_LOCAL_USED_IN_WORKING_CALENDAR': 'Lokal verwendetes Datum im Arbeitskalender',
+      'API.DATE_LOCAL_NOT_FOUND': 'Datum lokal nicht gefunden',
       'API.EMAIL_IS_ALREADY_IN_USE': 'E-Mail wird bereits verwendet',
       'API.EMAIL_MESSAGE_NOT_FOUND': 'E-Mail-Nachricht nicht gefunden',
       'API.EMAIL_SERVER_HOST_IS_ALREADY_IN_USE': 'E-Mail-Server-Host wird bereits verwendet',
@@ -1348,6 +1368,7 @@ const resources = {
       'API.INVALID_DATA_SOURCE_ID': 'Ungültige Datenquellen-ID',
       'API.INVALID_DATA_SOURCE_NAME': 'Ungültiger Datenquellenname',
       'API.INVALID_DATA_SOURCE_PROTOCOL': 'Ungültiges Datenquellenprotokoll',
+      'API.INVALID_DATE_LOCAL': 'Ungültiges lokales Datum',
       'API.INVALID_DENOMINATOR_METER_UUID': 'Ungültiger Nenner Meter uuid',
       'API.INVALID_DISPLAY_NAME': 'Ungültiger Anzeigename',
       'API.INVALID_DISTRIBUTION_CIRCUIT_ID': 'Ungültige Verteilungskreis-ID',
@@ -1496,6 +1517,9 @@ const resources = {
       'API.INVALID_VIRTUAL_METER_UUID': 'Ungültige uuid des virtuellen Zählers',
       'API.INVALID_WEB_MESSAGE_ID': 'Ungültige Webnachrichten-ID',
       'API.INVALID_WECHAT_MESSAGE_ID': 'Ungültige wechat-Nachrichten-ID',
+      'API.INVALID_WORKING_CALENDAR_ID': 'Ungültige Arbeitskalender-ID ',
+      'API.INVALID_WORKING_CALENDAR_NAME': 'Ungültiger Arbeitskalender Name',
+      'API.INVALID_NON_WORKING_DAY_ID': 'Ungültige arbeitsfreie ID',
       'API.KNOWLEDGE_FILE_CANNOT_BE_REMOVED_FROM_DISK': 'Wissensdatei kann nicht vom Datenträger entfernt werden',
       'API.KNOWLEDGE_FILE_NOT_FOUND': 'Wissensdatei nicht gefunden',
       'API.MASTER_METER_DOES_NOT_BELONG_TO_SAME_ENERGY_CATEGORY':
@@ -1509,6 +1533,7 @@ const resources = {
       'API.METER_POINT_RELATION_NOT_FOUND': 'Meterpunktbeziehung nicht gefunden',
       'API.NOT_FOUND': 'Nicht gefunden',
       'API.NOTIFICATION_NOT_FOUND': 'Benachrichtigung nicht gefunden',
+      'API.NON_WORKING_DAY_NOT_FOUND': 'arbeitsfreier Tag nicht gefunden',
       'API.OFFLINE_METER_FILE_NOT_FOUND': 'Offline-Zählerdatei nicht gefunden',
       'API.OFFLINE_METER_NAME_IS_ALREADY_IN_USE': 'Der Name des Offline-Zählers wird bereits verwendet',
       'API.OFFLINE_METER_NOT_FOUND': 'Offline-Messgerät nicht gefunden',
@@ -1562,6 +1587,8 @@ const resources = {
       'API.SPACE_TENANT_RELATION_NOT_FOUND': 'Raummieterbeziehung nicht gefunden',
       'API.SPACE_VIRTUAL_METER_RELATION_EXISTS': 'Raumbezogene virtuelle Zählerbeziehung existiert',
       'API.SPACE_VIRTUAL_METER_RELATION_NOT_FOUND': 'Virtuelle Zählerbeziehung für den Weltraum nicht gefunden',
+      'API.SPACE_WORKING_CALENDAR_RELATION_EXISTS': 'Eine Raum-zu-Arbeit-Kalenderbeziehung ist bereits vorhanden',
+      'API.SPACE_WORKING_CALENDAR_RELATION_NOT_FOUND': 'Der Bereich hat keine Beziehung zum Arbeitskalender',
       'API.START_DATETIME_MUST_BE_EARLIER_THAN_END_DATETIME': 'StartdatumUhrzeit muss früher als Enddatumszeit sein',
       'API.STORE_METER_RELATION_EXISTS': 'Speicherzählerbeziehung vorhanden',
       'API.STORE_METER_RELATION_NOT_FOUND': 'Speicherzählerbeziehung nicht gefunden',
@@ -1650,6 +1677,9 @@ const resources = {
       'API.VIRTUAL_POINT_SHOULD_BE_ANALOG_VALUE': 'Virtueller Punkt sollte analoger Wert sein',
       'API.WEB_MESSAGE_NOT_FOUND': 'Webnachricht nicht gefunden',
       'API.WECHAT_MESSAGE_NOT_FOUND': 'Wechat-Nachricht nicht gefunden',
+      'API.WORKING_CALENDAR_NOT_FOUND': 'Arbeitskalender nicht gefunden',
+      'API.WORKING_CALENDAR_NAME_IS_ALREADY_IN_USE': 'Der Name des Arbeitskalenders wird bereits verwendet',
+      'API.THERE_IS_RELATION_WITH_NON_WORKING_DAYS': 'Es besteht ein Zusammenhang mit arbeitsfreien Tagen',
     }
   },
   zh_CN: {
@@ -2046,6 +2076,9 @@ const resources = {
       'RMB Account': '人民币账户',
       // button
       'Toggle Navigation': '切换导航',
+      // working calendar
+      'Weekdays': '工作日',
+      'Non Working Days': '非工作日',
       // API
       'API.ADMINISTRATOR_SESSION_NOT_FOUND': '管理员会话不存在',
       'API.ADMINISTRATOR_SESSION_TIMEOUT': '管理员会话已超时',
@@ -2079,6 +2112,8 @@ const resources = {
       'API.DISTRIBUTION_CIRCUIT_POINT_RELATION_NOT_FOUND': '配电回路与点位关系不存在',
       'API.DISTRIBUTION_SYSTEM_NAME_IS_ALREADY_IN_USE': '配电系统名称已使用',
       'API.DISTRIBUTION_SYSTEM_NOT_FOUND': '配电系统不存在',
+      'API.DATE_LOCAL_USED_IN_WORKING_CALENDAR': '本地日期在工作日历中已使用',
+      'API.DATE_LOCAL_NOT_FOUND': '未找到本地日期',
       'API.EMAIL_IS_ALREADY_IN_USE': '电子邮箱已使用',
       'API.EMAIL_MESSAGE_NOT_FOUND': '电子邮件消息不存在',
       'API.EMAIL_SERVER_HOST_IS_ALREADY_IN_USE': '邮件服务器主机已使用',
@@ -2151,6 +2186,7 @@ const resources = {
       'API.INVALID_DATA_SOURCE_ID': '无效的数据源ID',
       'API.INVALID_DATA_SOURCE_NAME': '无效的数据源名称',
       'API.INVALID_DATA_SOURCE_PROTOCOL': '无效的数据源协议',
+      'API.INVALID_DATE_LOCAL': '无效的本地日期',
       'API.INVALID_DENOMINATOR_METER_UUID': '无效的标准计量表UUID',
       'API.INVALID_DISPLAY_NAME': '无效的显示名称',
       'API.INVALID_DISTRIBUTION_CIRCUIT_ID': '无效的配电回路ID',
@@ -2299,6 +2335,9 @@ const resources = {
       'API.INVALID_VIRTUAL_METER_UUID': '无效的虚拟表UUID',
       'API.INVALID_WEB_MESSAGE_ID': '无效的web消息ID',
       'API.INVALID_WECHAT_MESSAGE_ID': '无效的微信消息ID',
+      'API.INVALID_WORKING_CALENDAR_ID': '无效的工作日历ID',
+      'API.INVALID_WORKING_CALENDAR_NAME': '无效的工作日历名称',
+      'API.INVALID_NON_WORKING_DAY_ID': '无效的非工作日ID',
       'API.KNOWLEDGE_FILE_CANNOT_BE_REMOVED_FROM_DISK': '无法从磁盘中删除知识文件',
       'API.KNOWLEDGE_FILE_NOT_FOUND': '知识库文件不存在',
       'API.MASTER_METER_DOES_NOT_BELONG_TO_SAME_ENERGY_CATEGORY':
@@ -2312,6 +2351,7 @@ const resources = {
       'API.METER_POINT_RELATION_NOT_FOUND': '计量表与数据点关系不存在',
       'API.NOT_FOUND': '不存在',
       'API.NOTIFICATION_NOT_FOUND': '通知不存在',
+      'API.NON_WORKING_DAY_NOT_FOUND': '非工作日不存在',
       'API.OFFLINE_METER_FILE_NOT_FOUND': '离线表文件不存在',
       'API.OFFLINE_METER_NAME_IS_ALREADY_IN_USE': '离线表名称已使用',
       'API.OFFLINE_METER_NOT_FOUND': '离线表不存在',
@@ -2365,6 +2405,8 @@ const resources = {
       'API.SPACE_TENANT_RELATION_NOT_FOUND': '空间与租户关系不存在',
       'API.SPACE_VIRTUAL_METER_RELATION_EXISTS': '空间与虚拟表关系已存在',
       'API.SPACE_VIRTUAL_METER_RELATION_NOT_FOUND': '空间与虚拟表关系不存在',
+      'API.SPACE_WORKING_CALENDAR_RELATION_EXISTS': '空间与工作日历关系已存在',
+      'API.SPACE_WORKING_CALENDAR_RELATION_NOT_FOUND': '空间与工作日历关系不存在',
       'API.START_DATETIME_MUST_BE_EARLIER_THAN_END_DATETIME': '开始日期时间必须早于结束日期时间',
       'API.STORE_METER_RELATION_EXISTS': '门店与计量表关系已存在',
       'API.STORE_METER_RELATION_NOT_FOUND': '门店与计量表关系不存在',
@@ -2453,6 +2495,9 @@ const resources = {
       'API.VIRTUAL_POINT_SHOULD_BE_ANALOG_VALUE': '虚拟数据点应该是模拟量',
       'API.WEB_MESSAGE_NOT_FOUND': 'web信息不存在',
       'API.WECHAT_MESSAGE_NOT_FOUND': '微信信息不存在',
+      'API.WORKING_CALENDAR_NOT_FOUND': '工作日历不存在',
+      'API.WORKING_CALENDAR_NAME_IS_ALREADY_IN_USE': '工作日历名称已使用',
+      'API.THERE_IS_RELATION_WITH_NON_WORKING_DAYS': '与非工作日有关系',
     }
   }
 };

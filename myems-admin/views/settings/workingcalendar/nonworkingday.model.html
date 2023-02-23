@@ -1,0 +1,19 @@
+<div class="inmodal">
+    <div class="modal-header">
+        <h4 class="modal-title">{{operation | translate}}</h4>
+    </div>
+    <div class="modal-body">
+        <form role="form" name="form_nonworkingday" novalidate class="form-horizontal">
+            <div class="form-group"><label class="col-sm-3 control-label">{{'WORKING_CALENDAR.DATE' | translate}}</label>
+                <div class="col-sm-5">
+                    <input date-range-picker class="form-control date-picker" type="text" ng-model="nonWorkingDay.date_local" options="dtOptions"
+                           placeholder="{{'SETTING.SELECT_DATE' | translate}}" name="datelocal" readonly="" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
+        <button type="button" class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
+    </div>
+</div>

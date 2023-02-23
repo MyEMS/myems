@@ -89,6 +89,8 @@ class Reporting:
             base_period_start_datetime_local = str.strip(base_period_start_datetime_local)
             try:
                 base_start_datetime_utc = datetime.strptime(base_period_start_datetime_local, '%Y-%m-%dT%H:%M:%S')
+                base_start_datetime_non_working_day = str(base_period_start_datetime_local).split('T')[0]
+
             except ValueError:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_BASE_PERIOD_START_DATETIME")
@@ -105,6 +107,8 @@ class Reporting:
             base_period_end_datetime_local = str.strip(base_period_end_datetime_local)
             try:
                 base_end_datetime_utc = datetime.strptime(base_period_end_datetime_local, '%Y-%m-%dT%H:%M:%S')
+                base_end_datetime_non_working_day = str(base_period_end_datetime_local).split('T')[0]
+
             except ValueError:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_BASE_PERIOD_END_DATETIME")
@@ -124,6 +128,8 @@ class Reporting:
             try:
                 reporting_start_datetime_utc = datetime.strptime(reporting_period_start_datetime_local,
                                                                  '%Y-%m-%dT%H:%M:%S')
+                reporting_start_datetime_non_working_day = str(reporting_period_start_datetime_local).split('T')[0]
+
             except ValueError:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_REPORTING_PERIOD_START_DATETIME")
@@ -144,6 +150,7 @@ class Reporting:
                 reporting_end_datetime_utc = datetime.strptime(reporting_period_end_datetime_local,
                                                                '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
                     timedelta(minutes=timezone_offset)
+                reporting_end_datetime_non_working_day = str(reporting_period_end_datetime_local).split('T')[0]
             except ValueError:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_REPORTING_PERIOD_END_DATETIME")
@@ -320,7 +327,23 @@ class Reporting:
         # Step 7: query base period energy input
         ################################################################################################################
         base = dict()
+        base['non_working_days'] = list()
         if energy_category_set is not None and len(energy_category_set) > 0:
+            cursor_system.execute(" SELECT nwd.date_local "
+                                  " FROM tbl_spaces sp, tbl_spaces_working_calendars spwc, "
+                                  " tbl_working_calendars_non_working_days nwd "
+                                  " WHERE sp.id = %s AND "
+                                  " sp.id = spwc.space_id AND "
+                                  " spwc.working_calendar_id = nwd.working_calendar_id AND"
+                                  " nwd.date_local >= %s AND"
+                                  " nwd.date_local <= %s ",
+                                  (space['id'],
+                                  base_start_datetime_non_working_day,
+                                  base_end_datetime_non_working_day))
+            rows = cursor_system.fetchall()
+            for row in rows:
+                row_datetime = row[0].strftime('%Y-%m-%d')
+                base['non_working_days'].append(row_datetime)
             for energy_category_id in energy_category_set:
                 kgce = energy_category_dict[energy_category_id]['kgce']
                 kgco2e = energy_category_dict[energy_category_id]['kgco2e']
@@ -331,6 +354,8 @@ class Reporting:
                 base[energy_category_id]['subtotal'] = Decimal(0.0)
                 base[energy_category_id]['subtotal_in_kgce'] = Decimal(0.0)
                 base[energy_category_id]['subtotal_in_kgco2e'] = Decimal(0.0)
+                base[energy_category_id]['non_working_days_subtotal'] = Decimal(0.0)
+                base[energy_category_id]['weekdays_subtotal'] = Decimal(0.0)
 
                 cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
                                       " FROM tbl_space_input_category_hourly "
@@ -369,12 +394,32 @@ class Reporting:
                     base[energy_category_id]['subtotal'] += actual_value
                     base[energy_category_id]['subtotal_in_kgce'] += actual_value * kgce
                     base[energy_category_id]['subtotal_in_kgco2e'] += actual_value * kgco2e
-
+                    if current_datetime in base['non_working_days']:
+                        base[energy_category_id]['non_working_days_subtotal'] += actual_value
+                    else:
+                        base[energy_category_id]['weekdays_subtotal'] += actual_value
+            
         ################################################################################################################
         # Step 8: query reporting period energy input
         ################################################################################################################
         reporting = dict()
+        reporting['non_working_days'] = list()
         if energy_category_set is not None and len(energy_category_set) > 0:
+            cursor_system.execute(" SELECT nwd.date_local "
+                                  " FROM tbl_spaces sp, tbl_spaces_working_calendars spwc, "
+                                  " tbl_working_calendars_non_working_days nwd "
+                                  " WHERE sp.id = %s AND "
+                                  " sp.id = spwc.space_id AND "
+                                  " spwc.working_calendar_id = nwd.working_calendar_id AND"
+                                  " nwd.date_local >= %s AND"
+                                  " nwd.date_local <= %s ",
+                                  (space['id'],
+                                  reporting_start_datetime_non_working_day,
+                                  reporting_end_datetime_non_working_day))
+            rows = cursor_system.fetchall()
+            for row in rows:
+                row_datetime = row[0].strftime('%Y-%m-%d')
+                reporting['non_working_days'].append(row_datetime)
             for energy_category_id in energy_category_set:
                 kgce = energy_category_dict[energy_category_id]['kgce']
                 kgco2e = energy_category_dict[energy_category_id]['kgco2e']
@@ -389,6 +434,8 @@ class Reporting:
                 reporting[energy_category_id]['onpeak'] = Decimal(0.0)
                 reporting[energy_category_id]['midpeak'] = Decimal(0.0)
                 reporting[energy_category_id]['offpeak'] = Decimal(0.0)
+                reporting[energy_category_id]['non_working_days_subtotal'] = Decimal(0.0)
+                reporting[energy_category_id]['weekdays_subtotal'] = Decimal(0.0)
 
                 cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
                                       " FROM tbl_space_input_category_hourly "
@@ -427,6 +474,10 @@ class Reporting:
                     reporting[energy_category_id]['subtotal'] += actual_value
                     reporting[energy_category_id]['subtotal_in_kgce'] += actual_value * kgce
                     reporting[energy_category_id]['subtotal_in_kgco2e'] += actual_value * kgco2e
+                    if current_datetime in reporting['non_working_days']:
+                        reporting[energy_category_id]['non_working_days_subtotal'] += actual_value
+                    else:
+                        reporting[energy_category_id]['weekdays_subtotal'] += actual_value
 
                 energy_category_tariff_dict = utilities.get_energy_category_peak_types(space['cost_center_id'],
                                                                                        energy_category_id,
@@ -442,7 +493,6 @@ class Reporting:
                         reporting[energy_category_id]['midpeak'] += row[1]
                     elif peak_type == 'offpeak':
                         reporting[energy_category_id]['offpeak'] += row[1]
-
         ################################################################################################################
         # Step 9: query tariff data
         ################################################################################################################
@@ -604,6 +654,10 @@ class Reporting:
         result['base_period']['subtotals_in_kgco2e'] = list()
         result['base_period']['total_in_kgce'] = Decimal(0.0)
         result['base_period']['total_in_kgco2e'] = Decimal(0.0)
+        result['base_period']['non_working_days_subtotals'] = list()
+        result['base_period']['weekdays_subtotals'] = list()
+        result['base_period']['non_working_days_total'] = Decimal(0.0)
+        result['base_period']['weekdays_total'] = Decimal(0.0)
         if energy_category_set is not None and len(energy_category_set) > 0:
             for energy_category_id in energy_category_set:
                 result['base_period']['names'].append(energy_category_dict[energy_category_id]['name'])
@@ -615,6 +669,10 @@ class Reporting:
                 result['base_period']['subtotals_in_kgco2e'].append(base[energy_category_id]['subtotal_in_kgco2e'])
                 result['base_period']['total_in_kgce'] += base[energy_category_id]['subtotal_in_kgce']
                 result['base_period']['total_in_kgco2e'] += base[energy_category_id]['subtotal_in_kgco2e']
+                result['base_period']['non_working_days_subtotals'].append(base[energy_category_id]['non_working_days_subtotal'])
+                result['base_period']['weekdays_subtotals'].append(base[energy_category_id]['weekdays_subtotal'])
+                result['base_period']['non_working_days_total'] += base[energy_category_id]['non_working_days_subtotal']
+                result['base_period']['weekdays_total'] += base[energy_category_id]['weekdays_subtotal']
 
         result['reporting_period'] = dict()
         result['reporting_period']['names'] = list()
@@ -636,6 +694,10 @@ class Reporting:
         result['reporting_period']['total_in_kgco2e'] = Decimal(0.0)
         result['reporting_period']['increment_rate_in_kgce'] = Decimal(0.0)
         result['reporting_period']['increment_rate_in_kgco2e'] = Decimal(0.0)
+        result['reporting_period']['non_working_days_subtotals'] = list()
+        result['reporting_period']['weekdays_subtotals'] = list()
+        result['reporting_period']['non_working_days_total'] = Decimal(0.0)
+        result['reporting_period']['weekdays_total'] = Decimal(0.0)
 
         if energy_category_set is not None and len(energy_category_set) > 0:
             for energy_category_id in energy_category_set:
@@ -661,6 +723,10 @@ class Reporting:
                     if base[energy_category_id]['subtotal'] > 0.0 else None)
                 result['reporting_period']['total_in_kgce'] += reporting[energy_category_id]['subtotal_in_kgce']
                 result['reporting_period']['total_in_kgco2e'] += reporting[energy_category_id]['subtotal_in_kgco2e']
+                result['reporting_period']['non_working_days_subtotals'].append(reporting[energy_category_id]['non_working_days_subtotal'])
+                result['reporting_period']['weekdays_subtotals'].append(reporting[energy_category_id]['weekdays_subtotal'])
+                result['reporting_period']['non_working_days_total'] += reporting[energy_category_id]['non_working_days_subtotal']
+                result['reporting_period']['weekdays_total'] += reporting[energy_category_id]['weekdays_subtotal']
 
                 rate = list()
                 for index, value in enumerate(reporting[energy_category_id]['values']):
