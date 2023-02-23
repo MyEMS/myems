@@ -11,6 +11,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added tbl_spaces_working_calendars to myems_system_db database
 - added tbl_stores_working_calendars to myems_system_db database
 - added tbl_tenants_working_calendars to myems_system_db database
+- added calendars and non-working-days settings to myems-admin
+- added working-days/non-working-days data into space energy categroy report
 
 ### Changed
 - upgraded bootstrap to v3.4.1 in myems-admin

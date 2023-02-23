@@ -6,7 +6,7 @@ from core import energyflowdiagram, privilege, textmessage, distributioncircuit,
     costcenter, point, knowledgefile, meter, tariff, user, storetype, timezone, \
     costfile, offlinemeterfile, version, contact, emailserver, combinedequipment, datasource, equipment, tenant, \
     shopfloor, webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, \
-    offlinemeter, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile
+    offlinemeter, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile, workingcalendar
 from reports import advancedreport
 from reports import combinedequipmentbatch
 from reports import combinedequipmentcarbon
@@ -397,6 +397,10 @@ api.add_route('/spaces/{id_}/virtualmeters',
               space.SpaceVirtualMeterCollection())
 api.add_route('/spaces/{id_}/virtualmeters/{mid}',
               space.SpaceVirtualMeterItem())
+api.add_route('/spaces/{id_}/workingcalendars',
+              space.SpaceWorkingCalendarCollection())
+api.add_route('/spaces/{id_}/workingcalendars/{wcid}',
+              space.SpaceWorkingCalendarItem())
 api.add_route('/spaces/tree',
               space.SpaceTreeCollection())
 
@@ -506,6 +510,15 @@ api.add_route('/wechatmessages',
               wechatmessage.WechatMessageCollection())
 api.add_route('/wechatmessages/{id_}',
               wechatmessage.WechatMessageItem())
+
+api.add_route('/workingcalendars',
+              workingcalendar.WorkingCalendarCollection())
+api.add_route('/workingcalendars/{id_}',
+              workingcalendar.WorkingCalendarItem())
+api.add_route('/workingcalendars/{id_}/nonworkingdays',
+              workingcalendar.NonWorkingDayCollection())
+api.add_route('/nonworkingdays/{id_}',
+              workingcalendar.NonWorkingDayItem())
 
 api.add_route('/version',
               version.VersionItem())
