@@ -61,38 +61,41 @@ MyEMS由资深专业团队开发维护，源代码基于MIT开源软件许可协
 
 ## MyEMS安装(社区版)
 
-MyEMS项目由下列组件构成:
+详见 [https://myems.io/docs/category/installation](https://myems.io/docs/category/installation)
+
+## MyEMS组件构成
+
 ### MyEMS 数据库 (SQL)
 
-详见 [database介绍与安装](./database/README.md) 
+详见 [database介绍](./database/README.md) 
 
 ### MyEMS API 应用程序接口 (Python)
 
-详见 [myems-api介绍与安装](./myems-api/README.md)
+详见 [myems-api介绍](./myems-api/README.md)
 
 ### MyEMS 管理 UI (AngularJS version 1.x)
 
-详见 [myems-admin介绍与安装](myems-admin/README.md)
+详见 [myems-admin介绍](myems-admin/README.md)
 
 ### MyEMS Modbus TCP 数据采集服务 (Python)
 
-详见 [myems-modbus-tcp介绍与安装](./myems-modbus-tcp/README.md)
+详见 [myems-modbus-tcp介绍](./myems-modbus-tcp/README.md)
 
 ### MyEMS 数据清洗服务 (Python)
 
-详见 [myems-cleaning介绍与安装](./myems-cleaning/README.md)
+详见 [myems-cleaning介绍](./myems-cleaning/README.md)
 
 ### MyEMS 数据规范化服务 (Python)
 
-详见 [myems-normalization介绍与安装](./myems-normalization/README.md)
+详见 [myems-normalization介绍](./myems-normalization/README.md)
 
 ### MyEMS 数据汇总服务 (Python)
 
-详见 [myems-aggregation介绍与安装](./myems-aggregation/README.md)
+详见 [myems-aggregation介绍](./myems-aggregation/README.md)
 
 ### MyEMS Web UI (ReactJS)
 
-详见 [myems-web介绍与安装](myems-web/README.md)
+详见 [myems-web介绍](myems-web/README.md)
 
 ### 默认端口号
 
