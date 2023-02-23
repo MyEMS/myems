@@ -60,39 +60,41 @@ Sehen [Funktionen der MyEMS Enterprise Edition](https://myems.io/de/docs/enterpr
 
 ## MyEMS Installation (Community Edition)
 
-Dieses Projekt besteht aus folgenden Komponenten:
+Sehen [https://myems.io/docs/category/installation](https://myems.io/docs/category/installation)
+
+## Dieses Projekt besteht Komponenten:
 
 ### MyEMS Database (SQL)
 
-Sehen [database Introduction & Installation](./database/README.md)
+Sehen [database Introduction](./database/README.md)
 
 ### MyEMS API (Python)
 
-Sehen [myems-api Introduction & Installation](./myems-api/README.md)
+Sehen [myems-api Introduction](./myems-api/README.md)
 
 ### MyEMS Admin UI (AngularJS)
 
-Sehen [myems-admin Introduction & Installation](myems-admin/README.md)
+Sehen [myems-admin Introduction](myems-admin/README.md)
 
 ### MyEMS Modbus TCP Acquisition Service (Python)
 
-Sehen [myems-modbus-tcp Introduction & Installation](./myems-modbus-tcp/README.md)
+Sehen [myems-modbus-tcp Introduction](./myems-modbus-tcp/README.md)
 
 ### MyEMS Cleaning Service (Python)
 
-Sehen [myems-cleaning Introduction & Installation](./myems-cleaning/README.md)
+Sehen [myems-cleaning Introduction](./myems-cleaning/README.md)
 
 ### MyEMS Normalization Service (Python)
 
-Sehen [myems-normalization Introduction & Installation](./myems-normalization/README.md)
+Sehen [myems-normalization Introduction](./myems-normalization/README.md)
 
 ### MyEMS Aggregation Service (Python)
 
-Sehen [myems-aggregation Introduction & Installation](./myems-aggregation/README.md)
+Sehen [myems-aggregation Introduction](./myems-aggregation/README.md)
 
 ### MyEMS Web UI (ReactJS)
 
-Sehen [myems-web Introduction & Installation](myems-web/README.md)
+Sehen [myems-web Introduction](myems-web/README.md)
 
 ### Standardports
 
