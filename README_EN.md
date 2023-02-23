@@ -138,7 +138,7 @@ See [https://myems.io/docs/cooperation](https://myems.io/docs/cooperation)
 
 Group Number: 792528967
 
-![QQ Group 1](/docs/images/qq-group-1.png)
+![QQ Group 1](/docs/images/qq-group.png)
 
 ## Videos
 
