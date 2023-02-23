@@ -39,25 +39,25 @@ Using open source to help achieve carbon peak carbon neutrality goals.
 
 ## Features of MyEMS Community Edition
 
-See [MyEMS Features(Community Edition)](https://myems.io/docs/intro#myems-features)
+See [https://myems.io/docs/intro#myems-features](https://myems.io/docs/intro#myems-features)
 
 
 ## Features of MyEMS Enterprise Edition
 
-See [Features of MyEMS Enterprise Edition](https://myems.io/docs/enterprise)
+See [https://myems.io/docs/enterprise](https://myems.io/docs/enterprise)
 
 
 ## MyEMS Downloads (Community Edition)
 
-[1]. [Github](https://github.com/myems/myems) https://github.com/myems/myems
+[1]. [https://github.com/myems/myems](https://github.com/myems/myems)
 
-[2]. [Gitee](https://gitee.com/myems/myems) https://gitee.com/myems/myems
+[2]. [https://gitee.com/myems/myems](https://gitee.com/myems/myems)
 
-[3]. [Bitbucket](https://bitbucket.org/myems/myems) https://bitbucket.org/myems/myems
+[3]. [https://bitbucket.org/myems/myems](https://bitbucket.org/myems/myems)
 
-[4]. [Gitlab](https://gitlab.com/myems/myems) https://gitlab.com/myems/myems
+[4]. [https://gitlab.com/myems/myems](https://gitlab.com/myems/myems)
 
-[5]. [GitCode](https://gitcode.net/myems/myems) https://gitcode.net/myems/myems
+[5]. [https://gitcode.net/myems/myems](https://gitcode.net/myems/myems)
 
 ## MyEMS Installation (Community Edition)
 
