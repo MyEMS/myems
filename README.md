@@ -67,35 +67,35 @@ MyEMS由资深专业团队开发维护，源代码基于MIT开源软件许可协
 
 ### MyEMS 数据库 (SQL)
 
-详见 [database介绍](./database/README.md) 
+详见 [database](./database/README.md)介绍
 
 ### MyEMS API 应用程序接口 (Python)
 
-详见 [myems-api介绍](./myems-api/README.md)
+详见 [myems-api](./myems-api/README.md)介绍
 
 ### MyEMS 管理 UI (AngularJS version 1.x)
 
-详见 [myems-admin介绍](myems-admin/README.md)
+详见 [myems-admin](myems-admin/README.md)介绍
 
 ### MyEMS Modbus TCP 数据采集服务 (Python)
 
-详见 [myems-modbus-tcp介绍](./myems-modbus-tcp/README.md)
+详见 [myems-modbus-tcp](./myems-modbus-tcp/README.md)介绍
 
 ### MyEMS 数据清洗服务 (Python)
 
-详见 [myems-cleaning介绍](./myems-cleaning/README.md)
+详见 [myems-cleaning](./myems-cleaning/README.md)介绍
 
 ### MyEMS 数据规范化服务 (Python)
 
-详见 [myems-normalization介绍](./myems-normalization/README.md)
+详见 [myems-normalization](./myems-normalization/README.md)介绍
 
 ### MyEMS 数据汇总服务 (Python)
 
-详见 [myems-aggregation介绍](./myems-aggregation/README.md)
+详见 [myems-aggregation](./myems-aggregation/README.md)介绍
 
 ### MyEMS Web UI (ReactJS)
 
-详见 [myems-web介绍](myems-web/README.md)
+详见 [myems-web](myems-web/README.md)介绍
 
 ### 默认端口号
 
@@ -128,17 +128,17 @@ administrator@myems.io
 
 ### Docker-Compose 快速部署
 
-详见 [Docker Compose 快速部署](https://myems.io/zh-Hans/docs/installation/docker-compose)
+详见 [https://myems.io/zh-Hans/docs/installation/docker-compose](https://myems.io/zh-Hans/docs/installation/docker-compose)
 
 
 
 ## MyEMS项目管理
 
-[社区版路线图](https://github.com/orgs/MyEMS/projects?type=beta)
+[https://github.com/orgs/MyEMS/projects?type=beta](https://github.com/orgs/MyEMS/projects?type=beta)
 
 ## 集成测试合作计划
 
-详见 [集成测试合作计划](https://myems.io/zh-Hans/docs/cooperation)
+详见 [https://myems.io/zh-Hans/docs/cooperation](https://myems.io/zh-Hans/docs/cooperation)
 
 ## QQ交流群
 
