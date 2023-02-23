@@ -29,126 +29,48 @@
 							</table>
 						</div>
 					</uib-tab>
-					<uib-tab heading="{{'WORKING_CALENDAR.BIND_NON_WORKING_DAY' | translate}}">
-							<div class="panel-body" ng-controller="WorkingCalendarNonWorkingDayController">
-								<div class="row">
-									<div class="col-lg-3">
-										<a ng-click="addNonWorkingDay()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'WORKING_CALENDAR.BIND_NON_WORKING_DAY' | translate}}</a>
-										<div class="panel panel-info">
-											<div class="panel-heading">
-												{{'COMMON.WORKING_CALENDAR' | translate}}
-											</div>
-											<div class="panel-body">
-													<form role="form">
-													<div class="form-group no-margin"><label>{{'WORKING_CALENDAR.SELECT_WORKING_CALENDAR' | translate}}</label>
-														<ui-select  on-select="changeWorkingCalendar($item,$model)" ng-model="currentWorkingCalendar.selected" theme="bootstrap">
-															<ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
-															<ui-select-choices repeat="workingcalendar.id as workingcalendar in workingcalendars | filter: $select.search">
-																<div ng-bind-html="workingcalendar.name | highlight: $select.search"></div>
-															</ui-select-choices>
-														</ui-select>
-													</div>
-												</form>
-											</div>
-										</div>
-
-									</div>
-									<div class="col-lg-4">
-										<div class="panel panel-primary"  
-										slim-scroll box-height="200px">
-											<div class="panel-heading">
-												{{currentWorkingCalendar.name}}{{'WORKING_CALENDAR.N_S_NON_WORKING_DAY' | translate}}
-											</div>
-											<div class="panel-body"
-											x-hjc-drop-target="true"
-											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}" >
-											<div class="btn btn-primary btn-rounded btn-block"
-											title="NonWorkingDay:{{nonWorkingDay.date_local}}"
-											ng-repeat="nonWorkingDay in nonworkingdays"
-											x-hjc-draggable="true"> {{nonWorkingDay.date_local}}</div>
-
-										</div>
-									</div>
-									<div class="panel panel-danger">
-										<div class="panel-heading">
-											{{'SETTING.TRASH' | translate}}
-										</div>
-										<div class="panel-body trash" >
-											<img class="trashcan"
-											src="img/trashcan.png"
-											x-hjc-drop-target="true"
-											x-on-drop="deleteNonWorkingDay(dragEl,dropEl)">
-										</div>
-
+					<uib-tab heading="{{'SETTING.NON_WORKING_DAY' | translate}}">
+						<div class="panel-body" ng-controller="WorkingCalendarNonWorkingDayController">
+							<form method="get" class="form-horizontal">
+								<div class="form-group"><label
+										class="col-sm-2 control-label">{{'WORKING_CALENDAR.SELECT_WORKING_CALENDAR' | translate}}:</label>
+									<div class="col-sm-3">
+										<ui-select on-select="changeWorkingCalendar($item, $model)"
+											ng-model="currentWorkingCalendar" theme="bootstrap">
+											<ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
+												{{$select.selected.name}}</ui-select-match>
+											<ui-select-choices
+												repeat="workingcalendar.id as workingcalendar in workingcalendars | filter: $select.search">
+												<div ng-bind-html="workingcalendar.name | highlight: $select.search"></div>
+											</ui-select-choices>
+										</ui-select>
 									</div>
 								</div>
-
-								<div class="col-lg-4">
-									<div class="panel panel-info">
-										<div class="panel-heading"> {{'WORKING_CALENDAR.NON_WORKING_DAYS_LIST' | translate}} </div>
-										<div class="panel-body" style="overflow: auto; max-height: 700px;">
-											<div class=>
-												<div class="row">
-													<div class="col-sm-4 pull-left">
-														<button ng-click="changeMonth(-1)" class="btn btn-primary btn-rounded btn-block btn-outline" ><i class="fa fa-angle-double-left"></i> <strong>{{'WORKING_CALENDAR.PREVIOUS' | translate}}</strong></button>
-													</div>
-													<div class="col-sm-4 pull-right">
-														<button ng-click="changeMonth(1)" class="btn btn-primary btn-rounded btn-block btn-outline" ><strong>{{'WORKING_CALENDAR.NEXT' | translate}} </strong><i class="fa fa-angle-double-right"></i></button>
-													</div>
-												</div>
-											</div>
-											<table class="table table-bordered table-hover">
-												<thead>
-													<tr>
-														<th class="text-center">{{'WORKING_CALENDAR.TIME' | translate}}</th>
-														<th class="text-center">{{'WORKING_CALENDAR.TYPE' | translate}}</th>
-														<th class="text-center">{{'WORKING_CALENDAR.TIME' | translate}}</th>
-														<th class="text-center">{{'WORKING_CALENDAR.TYPE' | translate}}</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr ng-repeat="day in days" ng-if="$index % 2 == 0">
-														<td class="text-center" >{{ days[$index] }}</td>
-														<td class="text-center">
-															<div class="col-sm-16">
-																<div class="radio radio-info radio-inline">
-																	<input ng-model="nonWorkingDaysFlagArray[$index]" id="radio{{$index}}True" type="radio" name="radio{{$index}}radioOut" ng-value="false">
-																	<label for="radio{{$index}}True">
-																		{{'WORKING_CALENDAR.WORK' | translate}}
-																	</label>
-																</div>
-																<div class="radio radio-info radio-inline">
-																	<input ng-model="nonWorkingDaysFlagArray[$index]" id="radio{{$index}}False" type="radio" name="radio{{$index}}radioOut" ng-value="true">
-																	<label for="radio{{$index}}False">
-																		{{'WORKING_CALENDAR.NON_WORKING' | translate}}
-																	</label>
-																</div>
-															</div>
-														</td>
-														<td class="text-center">{{ days[$index + 1] }}</td>
-														<td class="text-center" ng-if="!$last">
-															<div class="col-sm-16">
-																<div class="radio radio-info radio-inline">
-																	<input ng-model="nonWorkingDaysFlagArray[$index+1]" id="radio{{$index+1}}True" type="radio" name="radio{{$index+1}}radioOut" ng-disabled="true" ng-value="false">
-																	<label for="radio{{$index+1}}True">
-																		{{'WORKING_CALENDAR.WORK' | translate}}
-																	</label>
-																</div>
-																<div class="radio radio-info radio-inline">
-																	<input ng-model="nonWorkingDaysFlagArray[$index+1]" id="radio{{$index+1}}False" type="radio" name="radio{{$index+1}}radioOut" ng-disabled="true" ng-value="true">
-																	<label for="radio{{$index+1}}False">
-																		{{'WORKING_CALENDAR.NON_WORKING' | translate}}
-																	</label>
-																</div>
-															</div>
-														</td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
-									</div>
-								</div>
-							</div>
+							</form>
+							<div class="hr-line-dashed"></div>
+							<a ng-click="addNonWorkingDay()" class="btn btn-primary btn-rounded  btn-outline" href=""><i
+									class="fa fa-plus-circle"></i> {{'SETTING.ADD_NON_WORKING_DAY' | translate}}</a>
+							<table class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'WORKING_CALENDAR.DATE' | translate}}</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="nonworkingday in nonworkingdays">
+										<td class="text-center">{{ nonworkingday.id }}</td>
+										<td class="text-center">{{ nonworkingday.date_local }}</td>
+										<td class="text-center">
+											<a ng-click="editNonWorkingDay(nonworkingday)"
+												class="btn btn-primary btn-rounded btn-xs">{{'SETTING.EDIT' | translate}}</a>
+											<a ng-click="deleteNonWorkingDay(nonworkingday)"
+												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' | translate}}</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
 					</uib-tab>
 				</uib-tabset>

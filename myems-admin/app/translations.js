@@ -298,6 +298,9 @@ function config($translateProvider) {
                 EDIT_MENU: 'Edit Menu',
 
                 DATA_REPAIR_FILE: 'Data Repair File',
+
+                WORKING_CALENDAR: 'Working Calendar',
+                NON_WORKING_DAY: 'Non Working Day',
             },
             CONTACT: {
                 EMAIL: 'Email',
@@ -598,6 +601,7 @@ function config($translateProvider) {
                 N_S_NON_WORKING_DAY: 'Bound Non Working Day',
                 TIME: 'Time',
                 TYPE: 'Type',
+                DATE: 'Date',
                 NON_WORKING_DAYS_LIST: 'Non Working Days List',
                 PREVIOUS: 'Previous',
                 NEXT: 'Next',
@@ -1363,6 +1367,9 @@ function config($translateProvider) {
                 EDIT_MENU: '编辑菜单',
 
                 DATA_REPAIR_FILE: '数据修补文件',
+
+                WORKING_CALENDAR: '工作日历',
+                NON_WORKING_DAY: '非工作日',
             },
             CONTACT: {
                 EMAIL: '邮箱',
@@ -1665,6 +1672,7 @@ function config($translateProvider) {
                 N_S_NON_WORKING_DAY: '绑定非工作日',
                 TIME: '时间',
                 TYPE: '类型',
+                DATE: '日期',
                 NON_WORKING_DAYS_LIST: '非工作日列表',
                 PREVIOUS: '上一页',
                 NEXT: '下一页',
@@ -2431,6 +2439,9 @@ function config($translateProvider) {
                 EDIT_MENU: 'Menü bearbeiten',
 
                 DATA_REPAIR_FILE: 'Daten reparieren dateien',
+                
+                WORKING_CALENDAR: 'Working Calendar',
+                NON_WORKING_DAY: 'Non Working Day',
             },
             CONTACT: {
                 EMAIL: 'Briefkasten',
@@ -2709,6 +2720,7 @@ function config($translateProvider) {
                 N_S_NON_WORKING_DAY: 'Gebundener arbeitsfreier Tag',
                 TIME: 'Zeit',
                 TYPE: 'Art',
+                DATE: 'Datum',
                 NON_WORKING_DAYS_LIST: 'Liste der arbeitsfreien Tage',
                 PREVIOUS: 'Vorhergehend',
                 NEXT: 'Nächster',

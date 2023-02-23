@@ -19,6 +19,15 @@ app.factory('WorkingCalendarNonWorkingDayService', function($http) {
             });
         },
         
+        editNonWorkingDay: function(workingCalendarID, nonWorkingDay, headers, callback) {
+            $http.put(getAPI()+'nonworkingdays/'+workingCalendarID, {data:nonWorkingDay}, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+
         getNonWorkingDaysByWorkingCalendarID: function(id, callback) {
             $http.get(getAPI()+'workingcalendars/'+id+'/nonworkingdays')
             .then(function (response) {

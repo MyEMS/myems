@@ -129,15 +129,14 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
             resolve: {
 				params: function() {
 					return {
-                        workingCalendars: $scope.workingcalendars,
+                        workingCalendar: angular.copy($scope.currentWorkingCalendar),
 					};
 				}
 			}
 		});
 
-		modalInstance.result.then(function (nonWorkingDay) {
+		modalInstance.result.then(function(nonWorkingDay) {
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-            var nonWorkingDay = {"working_calendar_id": nonWorkingDay.working_calendar_id, "date_local": nonWorkingDay.date_local}
 			WorkingCalendarNonWorkingDayService.addNonWorkingDay(nonWorkingDay.working_calendar_id, nonWorkingDay,
                  headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
@@ -148,7 +147,6 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
 						showCloseButton: true,
 					});
 					$scope.getNonWorkingDaysByWorkingCalendarID($scope.currentWorkingCalendar.id);
-					$scope.$emit('handleEmitWorkingCalendarChanged');
 				} else {
 					toaster.pop({
 						type: "error",
@@ -162,6 +160,84 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
 
 		});
 	};
+
+    $scope.editNonWorkingDay = function(nonWorkingDay) {
+		var modalInstance = $uibModal.open({
+			windowClass: "animated fadeIn",
+			templateUrl: 'views/settings/workingcalendar/nonworkingday.model.html',
+			controller: 'ModalEditNonWorkingDayCtrl',
+			resolve: {
+				params: function() {
+					return {
+						nonWorkingDay: angular.copy(nonWorkingDay),
+                        workingCalendar: angular.copy($scope.currentWorkingCalendar),
+					};
+				}
+			}
+		});
+
+		modalInstance.result.then(function(nonWorkingDay) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			WorkingCalendarNonWorkingDayService.editNonWorkingDay(nonWorkingDay.id, nonWorkingDay, headers, function (response) {
+				if (angular.isDefined(response.status) && response.status === 200) {
+					toaster.pop({
+						type: "success",
+						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", {template: $translate.instant("SETTING.NON_WORKING_DAY")}),
+						showCloseButton: true,
+					});
+					$scope.getNonWorkingDaysByWorkingCalendarID($scope.currentWorkingCalendar.id);
+				} else {
+					toaster.pop({
+						type: "error",
+						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("SETTING.NON_WORKING_DAY")}),
+						body: $translate.instant(response.data.description),
+						showCloseButton: true,
+					});
+				}
+			});
+		}, function() {
+			//do nothing;
+		});
+	};
+
+	$scope.deleteNonWorkingDay = function(nonworkingday) {
+		SweetAlert.swal({
+				title: $translate.instant("SWEET.TITLE"),
+				text: $translate.instant("SWEET.TEXT"),
+				type: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#DD6B55",
+				confirmButtonText: $translate.instant("SWEET.CONFIRM_BUTTON_TEXT"),
+				cancelButtonText: $translate.instant("SWEET.CANCEL_BUTTON_TEXT"),
+				closeOnConfirm: true,
+				closeOnCancel: true
+			},
+			function(isConfirm) {
+				if (isConfirm) {
+					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+					WorkingCalendarNonWorkingDayService.deleteNonWorkingDay(nonworkingday.id, headers, function (response) {
+						if (angular.isDefined(response.status) && response.status === 204) {
+                            toaster.pop({
+                                type: "success",
+                                title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                                body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", {template: $translate.instant("SETTING.NON_WORKING_DAY")}),
+                                showCloseButton: true,
+                            });
+							$scope.getNonWorkingDaysByWorkingCalendarID($scope.currentWorkingCalendar.id);
+						} else {
+                            toaster.pop({
+                                type: "error",
+                                title: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("SETTING.NON_WORKING_DAY")}),
+                                body: $translate.instant(response.data.description),
+                                showCloseButton: true,
+                            });
+						}
+					});
+				}
+			});
+	};
+
 
     $scope.getAllWorkingCalendars();
 
@@ -186,9 +262,36 @@ app.controller('ModalAddNonWorkingDayCtrl', function ($scope, $uibModalInstance,
         timePickerIncrement: 15,
         singleDatePicker: true,
     };
-    $scope.workingCalendars = params.workingCalendars;
-    
+    $scope.workingCalendar = params.workingCalendar;
+
 	$scope.ok = function() {
+        $scope.nonWorkingDay.working_calendar_id = $scope.workingCalendar.id;
+        $scope.nonWorkingDay.date_local = moment($scope.nonWorkingDay.date_local).format('YYYY-MM-DD');
+		$uibModalInstance.close($scope.nonWorkingDay);
+	};
+
+	$scope.cancel = function() {
+		$uibModalInstance.dismiss('cancel');
+	};
+});
+
+app.controller('ModalEditNonWorkingDayCtrl', function($scope, $uibModalInstance, params) {
+	$scope.operation = "SETTING.EDIT_NON_WORKING_DAY";
+	$scope.nonWorkingDay = params.nonWorkingDay;
+    $scope.workingCalendar = params.workingCalendar;
+    $scope.dtOptions = {
+        locale: {
+            format: 'YYYY-MM-DD',
+            applyLabel: "OK",
+            cancelLabel: "Cancel",
+        },
+        timePicker: true,
+        timePicker24Hour: true,
+        timePickerIncrement: 15,
+        singleDatePicker: true,
+    };
+	$scope.ok = function() {
+        $scope.nonWorkingDay.working_calendar_id = $scope.workingCalendar.id;
         $scope.nonWorkingDay.date_local = moment($scope.nonWorkingDay.date_local).format('YYYY-MM-DD');
 		$uibModalInstance.close($scope.nonWorkingDay);
 	};
