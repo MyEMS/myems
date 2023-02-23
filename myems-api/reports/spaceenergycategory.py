@@ -329,11 +329,14 @@ class Reporting:
         base = dict()
         base['non_working_days'] = list()
         if energy_category_set is not None and len(energy_category_set) > 0:
-            cursor_system.execute(" SELECT date_local "
-                                  " FROM tbl_spaces_non_working_days "
-                                  " WHERE space_id = %s "
-                                  " AND date_local >= %s "
-                                  " AND date_local <= %s ",
+            cursor_system.execute(" SELECT nwd.date_local "
+                                  " FROM tbl_spaces sp, tbl_spaces_working_calendars spwc, "
+                                  " tbl_working_calendars_non_working_days nwd "
+                                  " WHERE sp.id = %s AND "
+                                  " sp.id = spwc.space_id AND "
+                                  " spwc.working_calendar_id = nwd.working_calendar_id AND"
+                                  " nwd.date_local >= %s AND"
+                                  " nwd.date_local <= %s ",
                                   (space['id'],
                                   base_start_datetime_non_working_day,
                                   base_end_datetime_non_working_day))
@@ -402,11 +405,14 @@ class Reporting:
         reporting = dict()
         reporting['non_working_days'] = list()
         if energy_category_set is not None and len(energy_category_set) > 0:
-            cursor_system.execute(" SELECT date_local "
-                                  " FROM tbl_spaces_non_working_days "
-                                  " WHERE space_id = %s "
-                                  " AND date_local >= %s "
-                                  " AND date_local <= %s ",
+            cursor_system.execute(" SELECT nwd.date_local "
+                                  " FROM tbl_spaces sp, tbl_spaces_working_calendars spwc, "
+                                  " tbl_working_calendars_non_working_days nwd "
+                                  " WHERE sp.id = %s AND "
+                                  " sp.id = spwc.space_id AND "
+                                  " spwc.working_calendar_id = nwd.working_calendar_id AND"
+                                  " nwd.date_local >= %s AND"
+                                  " nwd.date_local <= %s ",
                                   (space['id'],
                                   reporting_start_datetime_non_working_day,
                                   reporting_end_datetime_non_working_day))
