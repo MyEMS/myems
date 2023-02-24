@@ -369,7 +369,7 @@ class Reporting:
                 base[energy_category_id]['subtotal_in_kgce'] = Decimal(0.0)
                 base[energy_category_id]['subtotal_in_kgco2e'] = Decimal(0.0)
                 base[energy_category_id]['non_working_days_subtotal'] = Decimal(0.0)
-                base[energy_category_id]['weekdays_subtotal'] = Decimal(0.0)
+                base[energy_category_id]['working_days_subtotal'] = Decimal(0.0)
 
                 cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
                                       " FROM tbl_space_input_category_hourly "
@@ -411,7 +411,7 @@ class Reporting:
                     if current_datetime in base['non_working_days']:
                         base[energy_category_id]['non_working_days_subtotal'] += actual_value
                     else:
-                        base[energy_category_id]['weekdays_subtotal'] += actual_value
+                        base[energy_category_id]['working_days_subtotal'] += actual_value
             
         ################################################################################################################
         # Step 9: query reporting period energy input
@@ -449,7 +449,7 @@ class Reporting:
                 reporting[energy_category_id]['midpeak'] = Decimal(0.0)
                 reporting[energy_category_id]['offpeak'] = Decimal(0.0)
                 reporting[energy_category_id]['non_working_days_subtotal'] = Decimal(0.0)
-                reporting[energy_category_id]['weekdays_subtotal'] = Decimal(0.0)
+                reporting[energy_category_id]['working_days_subtotal'] = Decimal(0.0)
 
                 cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
                                       " FROM tbl_space_input_category_hourly "
@@ -491,7 +491,7 @@ class Reporting:
                     if current_datetime in reporting['non_working_days']:
                         reporting[energy_category_id]['non_working_days_subtotal'] += actual_value
                     else:
-                        reporting[energy_category_id]['weekdays_subtotal'] += actual_value
+                        reporting[energy_category_id]['working_days_subtotal'] += actual_value
 
                 energy_category_tariff_dict = utilities.get_energy_category_peak_types(space['cost_center_id'],
                                                                                        energy_category_id,
@@ -670,9 +670,9 @@ class Reporting:
         result['base_period']['total_in_kgce'] = Decimal(0.0)
         result['base_period']['total_in_kgco2e'] = Decimal(0.0)
         result['base_period']['non_working_days_subtotals'] = list()
-        result['base_period']['weekdays_subtotals'] = list()
+        result['base_period']['working_days_subtotals'] = list()
         result['base_period']['non_working_days_total'] = Decimal(0.0)
-        result['base_period']['weekdays_total'] = Decimal(0.0)
+        result['base_period']['working_days_total'] = Decimal(0.0)
         if energy_category_set is not None and len(energy_category_set) > 0:
             for energy_category_id in energy_category_set:
                 result['base_period']['names'].append(energy_category_dict[energy_category_id]['name'])
@@ -685,9 +685,9 @@ class Reporting:
                 result['base_period']['total_in_kgce'] += base[energy_category_id]['subtotal_in_kgce']
                 result['base_period']['total_in_kgco2e'] += base[energy_category_id]['subtotal_in_kgco2e']
                 result['base_period']['non_working_days_subtotals'].append(base[energy_category_id]['non_working_days_subtotal'])
-                result['base_period']['weekdays_subtotals'].append(base[energy_category_id]['weekdays_subtotal'])
+                result['base_period']['working_days_subtotals'].append(base[energy_category_id]['working_days_subtotal'])
                 result['base_period']['non_working_days_total'] += base[energy_category_id]['non_working_days_subtotal']
-                result['base_period']['weekdays_total'] += base[energy_category_id]['weekdays_subtotal']
+                result['base_period']['working_days_total'] += base[energy_category_id]['working_days_subtotal']
 
         result['reporting_period'] = dict()
         result['reporting_period']['names'] = list()
@@ -710,9 +710,9 @@ class Reporting:
         result['reporting_period']['increment_rate_in_kgce'] = Decimal(0.0)
         result['reporting_period']['increment_rate_in_kgco2e'] = Decimal(0.0)
         result['reporting_period']['non_working_days_subtotals'] = list()
-        result['reporting_period']['weekdays_subtotals'] = list()
+        result['reporting_period']['working_days_subtotals'] = list()
         result['reporting_period']['non_working_days_total'] = Decimal(0.0)
-        result['reporting_period']['weekdays_total'] = Decimal(0.0)
+        result['reporting_period']['working_days_total'] = Decimal(0.0)
 
         if energy_category_set is not None and len(energy_category_set) > 0:
             for energy_category_id in energy_category_set:
@@ -739,9 +739,9 @@ class Reporting:
                 result['reporting_period']['total_in_kgce'] += reporting[energy_category_id]['subtotal_in_kgce']
                 result['reporting_period']['total_in_kgco2e'] += reporting[energy_category_id]['subtotal_in_kgco2e']
                 result['reporting_period']['non_working_days_subtotals'].append(reporting[energy_category_id]['non_working_days_subtotal'])
-                result['reporting_period']['weekdays_subtotals'].append(reporting[energy_category_id]['weekdays_subtotal'])
+                result['reporting_period']['working_days_subtotals'].append(reporting[energy_category_id]['working_days_subtotal'])
                 result['reporting_period']['non_working_days_total'] += reporting[energy_category_id]['non_working_days_subtotal']
-                result['reporting_period']['weekdays_total'] += reporting[energy_category_id]['weekdays_subtotal']
+                result['reporting_period']['working_days_total'] += reporting[energy_category_id]['working_days_subtotal']
 
                 rate = list()
                 for index, value in enumerate(reporting[energy_category_id]['values']):

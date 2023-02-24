@@ -612,9 +612,9 @@ def generate_excel(report,
     if "non_working_days_subtotals" not in report['base_period'].keys() or \
             report['base_period']['non_working_days_subtotals'] is None or \
             len(report['base_period']['non_working_days_subtotals']) == 0 or \
-            "weekdays_subtotals" not in report['base_period'].keys() or \
-            report['base_period']['weekdays_subtotals'] is None or \
-            len(report['base_period']['weekdays_subtotals']) == 0:
+            "working_days_subtotals" not in report['base_period'].keys() or \
+            report['base_period']['working_days_subtotals'] is None or \
+            len(report['base_period']['working_days_subtotals']) == 0:
         pass
     else:
         ws['B' + str(current_row_number)].font = title_font
@@ -638,7 +638,7 @@ def generate_excel(report,
         ws['D' + str(current_row_number)].font = name_font
         ws['D' + str(current_row_number)].alignment = c_c_alignment
         ws['D' + str(current_row_number)].border = f_border
-        ws['D' + str(current_row_number)] = _('Weekdays') + _('Consumption')
+        ws['D' + str(current_row_number)] = _('Working Days') + _('Consumption')
 
         current_row_number += 1
 
@@ -659,7 +659,7 @@ def generate_excel(report,
             ws['D' + str(current_row_number)].font = title_font
             ws['D' + str(current_row_number)].alignment = c_c_alignment
             ws['D' + str(current_row_number)].border = f_border
-            ws['D' + str(current_row_number)] = report['base_period']['weekdays_subtotals'][i] if \
+            ws['D' + str(current_row_number)] = report['base_period']['working_days_subtotals'][i] if \
                 len(report['space']['working_calendars']) > 0 else '-'
 
             current_row_number += 1
@@ -669,9 +669,9 @@ def generate_excel(report,
     if "non_working_days_subtotals" not in report['reporting_period'].keys() or \
             report['reporting_period']['non_working_days_subtotals'] is None or \
             len(report['reporting_period']['non_working_days_subtotals']) == 0 or \
-            "weekdays_subtotals" not in report['reporting_period'].keys() or \
-            report['reporting_period']['weekdays_subtotals'] is None or \
-            len(report['reporting_period']['weekdays_subtotals']) == 0:
+            "working_days_subtotals" not in report['reporting_period'].keys() or \
+            report['reporting_period']['working_days_subtotals'] is None or \
+            len(report['reporting_period']['working_days_subtotals']) == 0:
         pass
     else:
         ws['B' + str(current_row_number)].font = title_font
@@ -695,7 +695,7 @@ def generate_excel(report,
         ws['D' + str(current_row_number)].font = name_font
         ws['D' + str(current_row_number)].alignment = c_c_alignment
         ws['D' + str(current_row_number)].border = f_border
-        ws['D' + str(current_row_number)] = _('Weekdays') + _('Consumption')
+        ws['D' + str(current_row_number)] = _('Working Days') + _('Consumption')
 
         current_row_number += 1
 
@@ -716,7 +716,7 @@ def generate_excel(report,
             ws['D' + str(current_row_number)].font = title_font
             ws['D' + str(current_row_number)].alignment = c_c_alignment
             ws['D' + str(current_row_number)].border = f_border
-            ws['D' + str(current_row_number)] = report['reporting_period']['weekdays_subtotals'][i] if \
+            ws['D' + str(current_row_number)] = report['reporting_period']['working_days_subtotals'][i] if \
                 len(report['space']['working_calendars']) > 0 else '-'
 
             current_row_number += 1

@@ -10,7 +10,7 @@ const defaultSorted = [{
   order: 'asc'
 }];
 
-const WeekdaysConsumptionTable = ({ title, data, columns, t }) => {
+const WorkingDaysConsumptionTable = ({ title, data, columns, t }) => {
   return (
     <Fragment>
       <Card>
@@ -35,4 +35,4 @@ const WeekdaysConsumptionTable = ({ title, data, columns, t }) => {
   );
 };
 
-export default withTranslation()(WeekdaysConsumptionTable);
+export default withTranslation()(WorkingDaysConsumptionTable);

@@ -38,7 +38,7 @@ import AppContext from '../../../context/Context';
 
 const ChildSpacesTable = loadable(() => import('../common/ChildSpacesTable'));
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
-const WeekdaysConsumptionTable = loadable(() => import('../common/WeekdaysConsumptionTable'));
+const WorkingDaysConsumptionTable = loadable(() => import('../common/WorkingDaysConsumptionTable'));
 
 const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
@@ -142,8 +142,8 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
   const [childSpacesTableColumns, setChildSpacesTableColumns] = useState([{dataField: 'name', text: t('Child Spaces'), sort: true }]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
 
-  const [weekdaysConsumptionTableData, setWeekdaysConsumptionTableData] = useState([]);
-  const [weekdaysConsumptionTableColumns, setWeekdaysConsumptionTableColumns] = useState([{dataField: 'name', text: t('Energy Category'), sort: true }]);
+  const [workingDaysConsumptionTableData, setWorkingDaysConsumptionTableData] = useState([]);
+  const [workingDaysConsumptionTableColumns, setWorkingDaysConsumptionTableColumns] = useState([{dataField: 'name', text: t('Energy Category'), sort: true }]);
 
   useEffect(() => {
     let isResponseOK = false;
@@ -695,15 +695,15 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
 
         setChildSpacesTableColumns(child_space_column_list);
 
-        let weekdays_table_column_list = [];
-        weekdays_table_column_list.push({
+        let workding_days_table_column_list = [];
+        workding_days_table_column_list.push({
           dataField: 'name',
           text: t('Energy Category'),
           sort: true
         });
-        weekdays_table_column_list.push({
+        workding_days_table_column_list.push({
           dataField: 'a0',
-          text: t('Base Period') + ' - ' + t('Weekdays'),
+          text: t('Base Period') + ' - ' + t('Working Days'),
           sort: false,
           formatter: function (decimalValue) {
             if (typeof decimalValue === 'number') {
@@ -713,7 +713,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
             }
           }
         });
-        weekdays_table_column_list.push({
+        workding_days_table_column_list.push({
           dataField: 'a1',
           text: t('Base Period') + ' - ' + t('Non Working Days'),
           sort: false,
@@ -725,9 +725,9 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
             }
           }
         });
-        weekdays_table_column_list.push({
+        workding_days_table_column_list.push({
           dataField: 'b0',
-          text: t('Reporting Period') + ' - ' + t('Weekdays'),
+          text: t('Reporting Period') + ' - ' + t('Working Days'),
           sort: false,
           formatter: function (decimalValue) {
             if (typeof decimalValue === 'number') {
@@ -737,7 +737,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
             }
           }
         });
-        weekdays_table_column_list.push({
+        workding_days_table_column_list.push({
           dataField: 'b1',
           text: t('Reporting Period') + ' - ' + t('Non Working Days'),
           sort: false,
@@ -750,22 +750,22 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
           }
         });
 
-        setWeekdaysConsumptionTableColumns(weekdays_table_column_list);
+        setWorkingDaysConsumptionTableColumns(workding_days_table_column_list);
 
-        let weekdays_table_value_list = [];
+        let working_days_table_value_list = [];
         
         json['base_period']['names'].forEach((currentValue, index) => {
-          let weekdays_table_value = {};
+          let working_days_table_value = {};
           let unit = json['base_period']['units'][index];
-          weekdays_table_value['name'] = currentValue + ' (' + unit + ')';
-          weekdays_table_value['a0'] = json['space']['working_calendars'].length > 0 ? json['base_period']['weekdays_subtotals'][index] : "-";
-          weekdays_table_value['a1'] = json['space']['working_calendars'].length > 0 ? json['base_period']['non_working_days_subtotals'][index] : "-";
-          weekdays_table_value['b0'] = json['space']['working_calendars'].length > 0 ? json['reporting_period']['weekdays_subtotals'][index] : "-";
-          weekdays_table_value['b1'] = json['space']['working_calendars'].length > 0 ? json['reporting_period']['non_working_days_subtotals'][index] : "-";
-          weekdays_table_value_list.push(weekdays_table_value);
+          working_days_table_value['name'] = currentValue + ' (' + unit + ')';
+          working_days_table_value['a0'] = json['space']['working_calendars'].length > 0 ? json['base_period']['working_days_subtotals'][index] : "-";
+          working_days_table_value['a1'] = json['space']['working_calendars'].length > 0 ? json['base_period']['non_working_days_subtotals'][index] : "-";
+          working_days_table_value['b0'] = json['space']['working_calendars'].length > 0 ? json['reporting_period']['working_days_subtotals'][index] : "-";
+          working_days_table_value['b1'] = json['space']['working_calendars'].length > 0 ? json['reporting_period']['non_working_days_subtotals'][index] : "-";
+          working_days_table_value_list.push(working_days_table_value);
         });
 
-        setWeekdaysConsumptionTableData(weekdays_table_value_list);
+        setWorkingDaysConsumptionTableData(working_days_table_value_list);
         setExcelBytesBase64(json['excel_bytes_base64']);
 
         // enable submit button
@@ -991,11 +991,11 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
         options={parameterLineChartOptions}>
       </MultipleLineChart>
 
-      <WeekdaysConsumptionTable
-       data={weekdaysConsumptionTableData}
-       title={t('CATEGORY Consumption UNIT', { 'CATEGORY': t('Weekdays') + '/' + t('Non Working Days') })}
-       columns={weekdaysConsumptionTableColumns}> 
-      </WeekdaysConsumptionTable>
+      <WorkingDaysConsumptionTable
+       data={workingDaysConsumptionTableData}
+       title={t('CATEGORY Consumption UNIT', { 'CATEGORY': t('Working Days') + '/' + t('Non Working Days') })}
+       columns={workingDaysConsumptionTableColumns}> 
+      </WorkingDaysConsumptionTable>
 
       <DetailedDataTable data={detailedDataTableData} title={t('Detailed Data')} columns={detailedDataTableColumns} pagesize={50} >
       </DetailedDataTable>
