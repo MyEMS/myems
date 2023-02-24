@@ -351,5 +351,5 @@ msgstr "Tarif"
 msgid "Non Working Days"
 msgstr "Arbeitsfreie Tage"
 
-msgid "Weekdays"
-msgstr "Wochentage"
+msgid "Working Days"
+msgstr "Arbeitstage"

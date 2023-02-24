@@ -414,7 +414,7 @@ const resources = {
       // button
       'Toggle Navigation': 'Toggle Navigation',
       // working calendar
-      'Weekdays': 'Weekdays',
+      'Working Days': 'Working Days',
       'Non Working Days': 'Non Working Days',
       //API
       'API.ADMINISTRATOR_SESSION_NOT_FOUND': 'Administrator session not found',
@@ -1259,7 +1259,7 @@ const resources = {
       // button
       'Toggle Navigation': 'Navigation umschalten',
       // working calendar
-      'Weekdays': 'Wochentage',
+      'Working Days': 'Arbeitstage',
       'Non Working Days': 'Arbeitsfreie Tage',
       // API
       'API.ADMINISTRATOR_SESSION_NOT_FOUND': 'Administratorsitzung nicht gefunden',
@@ -2077,7 +2077,7 @@ const resources = {
       // button
       'Toggle Navigation': '切换导航',
       // working calendar
-      'Weekdays': '工作日',
+      'Working Days': '工作日',
       'Non Working Days': '非工作日',
       // API
       'API.ADMINISTRATOR_SESSION_NOT_FOUND': '管理员会话不存在',
