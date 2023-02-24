@@ -351,5 +351,5 @@ msgstr "费率"
 msgid "Non Working Days"
 msgstr "非工作日"
 
-msgid "Weekdays"
+msgid "Working Days"
 msgstr "工作日"

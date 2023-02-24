@@ -351,5 +351,5 @@ msgstr "Tariff"
 msgid "Non Working Days"
 msgstr "Non Working Days"
 
-msgid "Weekdays"
-msgstr "Weekdays"
+msgid "Working Days"
+msgstr "Working Days"
