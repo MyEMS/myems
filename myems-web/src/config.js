@@ -1,4 +1,4 @@
-export const version = '2.11.0';
+export const version = '3.0.0';
 export const navbarBreakPoint = 'xl'; // Vertical navbar breakpoint
 export const topNavbarBreakpoint = 'lg';
 //export const APIBaseURL = 'http://127.0.0.1:8000';
