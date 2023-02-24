@@ -1,7 +1,7 @@
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- WARNING: BACKUP YOUR DATABASE BEFORE UPGRADING
--- THIS SCRIPT IS ONLY FOR UPGRADING 2.11.0 TO 3.0.0RC
+-- THIS SCRIPT IS ONLY FOR UPGRADING 2.11.0 TO 3.0.0
 -- THE CURRENT VERSION CAN BE FOUND AT `myems_system_db`.`tbl_versions`
 -- ---------------------------------------------------------------------------------------------------------------------
 
@@ -84,4 +84,4 @@ CREATE INDEX `tbl_tenants_working_calendars_index_1` ON  `myems_system_db`.`tbl_
 
 
 -- UPDATE VERSION NUMBER
-UPDATE `myems_system_db`.`tbl_versions` SET version='3.0.0RC', release_date='2023-02-22' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='3.0.0', release_date='2023-02-25' WHERE id=1;

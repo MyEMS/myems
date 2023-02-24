@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+
+### Changed
+
+### Fixed
+
+### Removed
+
+## [v3.0.0] - 2023-02-25
+### Added
 - added tbl_spaces_non_working_days to myems_system_db database
 - added tbl_working_calendars_non_working_days to myems_system_db database
 - added tbl_shopfloors_working_calendars to myems_system_db database
@@ -1192,7 +1201,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v2.11.0...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v3.0.0...HEAD
+[3.0.0]: https://github.com/MyEMS/myems/compare/v2.11.0...v3.0.0
 [2.11.0]: https://github.com/MyEMS/myems/compare/v2.10.0...v2.11.0
 [2.10.0]: https://github.com/MyEMS/myems/compare/v2.9.0...v2.10.0
 [2.9.0]: https://github.com/MyEMS/myems/compare/v2.8.0...v2.9.0
