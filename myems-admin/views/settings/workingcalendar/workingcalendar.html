@@ -55,6 +55,7 @@
 									<tr>
 										<th class="text-center">{{'SETTING.ID' | translate}}</th>
 										<th class="text-center">{{'WORKING_CALENDAR.DATE' | translate}}</th>
+										<th class="text-center">{{'WORKING_CALENDAR.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
 										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 									</tr>
 								</thead>
@@ -62,6 +63,7 @@
 									<tr ng-repeat="nonworkingday in nonworkingdays">
 										<td class="text-center">{{ nonworkingday.id }}</td>
 										<td class="text-center">{{ nonworkingday.date_local }}</td>
+										<td class="text-center">{{ nonworkingday.description}}</td>
 										<td class="text-center">
 											<a ng-click="editNonWorkingDay(nonworkingday)"
 												class="btn btn-primary btn-rounded btn-xs">{{'SETTING.EDIT' | translate}}</a>

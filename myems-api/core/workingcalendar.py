@@ -62,7 +62,7 @@ class WorkingCalendarCollection:
                 len(str(new_values['data']['description'])) > 0:
             description = str.strip(new_values['data']['description'])
         else:
-            description = ""
+            description = None
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -245,7 +245,7 @@ class NonWorkingDayCollection:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
-        cursor.execute( " SELECT id, working_calendar_id, date_local"
+        cursor.execute( " SELECT id, working_calendar_id, date_local, description"
                         " FROM tbl_working_calendars_non_working_days "
                         " WHERE working_calendar_id = %s ", (id_,))
         rows_date_local = cursor.fetchall()
@@ -255,7 +255,8 @@ class NonWorkingDayCollection:
             for row in rows_date_local:
                 date_local_dict = { 'id': row[0], 
                                     'working_calendar_id': row[1],
-                                    'date_local': row[2].strftime('%Y-%m-%d')}
+                                    'date_local': row[2].strftime('%Y-%m-%d'),
+                                    'description': row[3]}
                 meta_result.append(date_local_dict)
 
         cursor.close()
@@ -285,6 +286,13 @@ class NonWorkingDayCollection:
                                 description='API.INVALID_DATE_LOCAL')
         date_local = str.strip(new_values['data']['date_local'])
 
+        if 'description' in new_values['data'].keys() and \
+                new_values['data']['description'] is not None and \
+                len(str(new_values['data']['description'])) > 0:
+            description = str.strip(new_values['data']['description'])
+        else:
+            description = None
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -299,9 +307,9 @@ class NonWorkingDayCollection:
                                    description='API.DATE_LOCAL_IN_WORKING_CALENDAR')
 
         add_values = (" INSERT INTO tbl_working_calendars_non_working_days "
-                      " (working_calendar_id, date_local) "
-                      " VALUES (%s, %s) ")
-        cursor.execute(add_values, (working_calendar_id, date_local))
+                      " (working_calendar_id, date_local, description) "
+                      " VALUES (%s, %s, %s) ")
+        cursor.execute(add_values, (working_calendar_id, date_local, description))
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
@@ -329,7 +337,7 @@ class NonWorkingDayItem:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
-        cursor.execute(" SELECT id, working_calendar_id, date_local"
+        cursor.execute(" SELECT id, working_calendar_id, date_local, description"
                        " FROM tbl_working_calendars_non_working_days "
                        " WHERE id = %s ", (id_,))
         row = cursor.fetchone()
@@ -342,7 +350,8 @@ class NonWorkingDayItem:
         else:
             meta_result = {"id": row[0],
                            "working_calendar_id": row[1],
-                           "date_local": row[2].strftime('%Y-%m-%d')}
+                           "date_local": row[2].strftime('%Y-%m-%d'),
+                           "description": row[3],}
         resp.text = json.dumps(meta_result)
 
     @staticmethod
@@ -388,6 +397,13 @@ class NonWorkingDayItem:
                 len(str(new_values['data']['date_local'])) > 0:
             date_local = str.strip(new_values['data']['date_local'])
 
+        if 'description' in new_values['data'].keys() and \
+                new_values['data']['description'] is not None and \
+                len(str(new_values['data']['description'])) > 0:
+            description = str.strip(new_values['data']['description'])
+        else:
+            description = None
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -402,7 +418,8 @@ class NonWorkingDayItem:
 
         cursor.execute(" SELECT id "
                        " FROM tbl_working_calendars_non_working_days "
-                       " WHERE working_calendar_id = %s AND date_local = %s ", (working_calendar_id, date_local))
+                       " WHERE working_calendar_id = %s AND date_local = %s AND description = %s",
+                        (working_calendar_id, date_local, description))
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
@@ -410,9 +427,9 @@ class NonWorkingDayItem:
                                    description='API.DATE_LOCAL_IN_WORKING_CALENDAR')
 
         update_row = (" UPDATE tbl_working_calendars_non_working_days "
-                      " SET working_calendar_id = %s, date_local = %s "
+                      " SET working_calendar_id = %s, date_local = %s, description = %s "
                       " WHERE id = %s ")
-        cursor.execute(update_row, (working_calendar_id, date_local, id_))
+        cursor.execute(update_row, (working_calendar_id, date_local, description, id_))
         cnx.commit()
 
         cursor.close()
