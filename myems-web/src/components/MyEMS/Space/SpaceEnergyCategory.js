@@ -709,7 +709,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
             if (typeof decimalValue === 'number') {
               return decimalValue.toFixed(2);
             } else {
-              return null;
+              return decimalValue;
             }
           }
         });
@@ -721,7 +721,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
             if (typeof decimalValue === 'number') {
               return decimalValue.toFixed(2);
             } else {
-              return null;
+              return decimalValue;
             }
           }
         });
@@ -733,7 +733,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
             if (typeof decimalValue === 'number') {
               return decimalValue.toFixed(2);
             } else {
-              return null;
+              return decimalValue;
             }
           }
         });
@@ -745,7 +745,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
             if (typeof decimalValue === 'number') {
               return decimalValue.toFixed(2);
             } else {
-              return null;
+              return decimalValue;
             }
           }
         });
@@ -758,15 +758,14 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
           let weekdays_table_value = {};
           let unit = json['base_period']['units'][index];
           weekdays_table_value['name'] = currentValue + ' (' + unit + ')';
-          weekdays_table_value['a0'] = json['base_period']['weekdays_subtotals'][index];
-          weekdays_table_value['a1'] = json['base_period']['non_working_days_subtotals'][index];
-          weekdays_table_value['b0'] = json['reporting_period']['weekdays_subtotals'][index];
-          weekdays_table_value['b1'] = json['reporting_period']['non_working_days_subtotals'][index];
+          weekdays_table_value['a0'] = json['space']['working_calendars'].length > 0 ? json['base_period']['weekdays_subtotals'][index] : "-";
+          weekdays_table_value['a1'] = json['space']['working_calendars'].length > 0 ? json['base_period']['non_working_days_subtotals'][index] : "-";
+          weekdays_table_value['b0'] = json['space']['working_calendars'].length > 0 ? json['reporting_period']['weekdays_subtotals'][index] : "-";
+          weekdays_table_value['b1'] = json['space']['working_calendars'].length > 0 ? json['reporting_period']['non_working_days_subtotals'][index] : "-";
           weekdays_table_value_list.push(weekdays_table_value);
         });
 
         setWeekdaysConsumptionTableData(weekdays_table_value_list);
-
         setExcelBytesBase64(json['excel_bytes_base64']);
 
         // enable submit button
@@ -992,6 +991,12 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
         options={parameterLineChartOptions}>
       </MultipleLineChart>
 
+      <WeekdaysConsumptionTable
+       data={weekdaysConsumptionTableData}
+       title={t('CATEGORY Consumption UNIT', { 'CATEGORY': t('Weekdays') + '/' + t('Non Working Days') })}
+       columns={weekdaysConsumptionTableColumns}> 
+      </WeekdaysConsumptionTable>
+
       <DetailedDataTable data={detailedDataTableData} title={t('Detailed Data')} columns={detailedDataTableColumns} pagesize={50} >
       </DetailedDataTable>
       <br />
@@ -999,11 +1004,6 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
       <ChildSpacesTable data={childSpacesTableData} title={t('Child Spaces Data')} columns={childSpacesTableColumns}>
       </ChildSpacesTable>
 
-      <WeekdaysConsumptionTable
-       data={weekdaysConsumptionTableData}
-       title={t('CATEGORY Consumption UNIT', { 'CATEGORY': t('Weekdays') + '/' + t('Non Working Days') })}
-       columns={weekdaysConsumptionTableColumns}> 
-      </WeekdaysConsumptionTable>
     </Fragment>
   );
 };

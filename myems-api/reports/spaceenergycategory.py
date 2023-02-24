@@ -29,13 +29,14 @@ class Reporting:
     # Step 3: query energy categories
     # Step 4: query associated sensors
     # Step 5: query associated points
-    # Step 6: query child spaces
-    # Step 7: query base period energy input
-    # Step 8: query reporting period energy input
-    # Step 9: query tariff data
-    # Step 10: query associated sensors and points data
-    # Step 11: query child spaces energy input
-    # Step 12: construct the report
+    # Step 6: query associated working calendars
+    # Step 7: query child spaces
+    # Step 8: query base period energy input
+    # Step 9: query reporting period energy input
+    # Step 10: query tariff data
+    # Step 11: query associated sensors and points data
+    # Step 12: query child spaces energy input
+    # Step 13: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
@@ -311,7 +312,20 @@ class Reporting:
                 point_list.append({"id": row[0], "name": row[1], "units": row[2], "object_type": row[3]})
 
         ################################################################################################################
-        # Step 6: query child spaces
+        # Step 6: query associated working calendars
+        ################################################################################################################
+        working_calendar_list = list()
+        cursor_system.execute(" SELECT swc.id "
+                              " FROM tbl_spaces sp, tbl_spaces_working_calendars swc "
+                              " WHERE sp.id = %s AND sp.id = swc.space_id "
+                              , (space['id'], ))
+        rows = cursor_system.fetchall()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                working_calendar_list.append(row[0])        
+
+        ################################################################################################################
+        # Step 7: query child spaces
         ################################################################################################################
         child_space_list = list()
         cursor_system.execute(" SELECT id, name  "
@@ -324,7 +338,7 @@ class Reporting:
                 child_space_list.append({"id": row[0], "name": row[1]})
 
         ################################################################################################################
-        # Step 7: query base period energy input
+        # Step 8: query base period energy input
         ################################################################################################################
         base = dict()
         base['non_working_days'] = list()
@@ -400,7 +414,7 @@ class Reporting:
                         base[energy_category_id]['weekdays_subtotal'] += actual_value
             
         ################################################################################################################
-        # Step 8: query reporting period energy input
+        # Step 9: query reporting period energy input
         ################################################################################################################
         reporting = dict()
         reporting['non_working_days'] = list()
@@ -494,7 +508,7 @@ class Reporting:
                     elif peak_type == 'offpeak':
                         reporting[energy_category_id]['offpeak'] += row[1]
         ################################################################################################################
-        # Step 9: query tariff data
+        # Step 10: query tariff data
         ################################################################################################################
         parameters_data = dict()
         parameters_data['names'] = list()
@@ -521,7 +535,7 @@ class Reporting:
                     parameters_data['values'].append(tariff_value_list)
 
         ################################################################################################################
-        # Step 10: query associated sensors and points data
+        # Step 11: query associated sensors and points data
         ################################################################################################################
         if not is_quick_mode:
             for point in point_list:
@@ -587,7 +601,7 @@ class Reporting:
                 parameters_data['values'].append(point_values)
 
         ################################################################################################################
-        # Step 11: query child spaces energy input
+        # Step 12: query child spaces energy input
         ################################################################################################################
         child_space_data = dict()
 
@@ -621,7 +635,7 @@ class Reporting:
                     child_space_data[energy_category_id]['subtotals_in_kgco2e'].append(subtotal * kgco2e)
 
         ################################################################################################################
-        # Step 12: construct the report
+        # Step 13: construct the report
         ################################################################################################################
         if cursor_system:
             cursor_system.close()
@@ -643,6 +657,7 @@ class Reporting:
         result['space'] = dict()
         result['space']['name'] = space['name']
         result['space']['area'] = space['area']
+        result['space']['working_calendars'] = working_calendar_list
 
         result['base_period'] = dict()
         result['base_period']['names'] = list()
