@@ -473,7 +473,7 @@ VALUES
 -- BACnet Object Type
 -- analogValue, analogInput, analogOutput, binaryValue, binaryInput, binaryOutput
 
-(9, 'S7 Example Point1', 4, 'ANALOG_VALUE',  'kWh', 99999999999, 0, 1.000, 1,
+(9, 'S7 Example Point1', 4, 'ANALOG_VALUE',  'kWh', 99999999999, 0, 1.000, 1, 0,
   '{\"area\":\"DB\", \"db_number\":700, \"start\":8, \"size\":4}', null);
 -- # S7 Area
 -- 'PE', 'PA', 'MK', 'DB', 'CT', 'TM'
