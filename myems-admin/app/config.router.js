@@ -799,6 +799,8 @@ app
                                                     'app/services/settings/tenant/tenantmeter.service.js',
                                                     'app/services/settings/tenant/tenantpoint.service.js',
                                                     'app/services/settings/tenant/tenantsensor.service.js',
+                                                    'app/services/settings/tenant/tenantworkingcalendar.service.js',
+                                                    'app/services/settings/workingcalendar/workingcalendar.service.js',
                                                     'app/services/settings/datasource/datasource.service.js',
                                                     'app/services/settings/datasource/point.service.js',
                                                     'app/services/settings/sensor/sensor.service.js',
@@ -807,6 +809,7 @@ app
                                                     'app/controllers/settings/tenant/tenantmeter.controller.js',
                                                     'app/controllers/settings/tenant/tenantpoint.controller.js',
                                                     'app/controllers/settings/tenant/tenantsensor.controller.js',
+                                                    'app/controllers/settings/tenant/tenantworkingcalendar.controller.js',
                                                 ]
                                             }]);
                                         }

@@ -311,6 +311,79 @@
 						</div>
 					</uib-tab>
 
+					<uib-tab heading="{{'WORKING_CALENDAR.BIND_WORKING_CALENDAR' | translate}}">
+						<div class="panel-body" ng-controller="TenantWorkingCalendarController">
+							<div class="row">
+								<div class="col-lg-3">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'COMMON.TENANT' | translate}}
+										</div>
+										<div class="panel-body">
+											<form role="form">
+												<div class="form-group no-margin">
+													<label>{{'SETTING.SELECT_TENANT' | translate}}</label>
+													<ui-select on-select="changeTenant($item,$model)"
+														ng-model="currentTenant.selected" theme="bootstrap">
+														<ui-select-match
+															placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
+															{{$select.selected.name}}</ui-select-match>
+														<ui-select-choices
+															repeat="tenant.id as tenant in tenants | filter: $select.search">
+															<div ng-bind-html="tenant.name | highlight: $select.search">
+															</div>
+														</ui-select-choices>
+													</ui-select>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-lg-4">
+									<div class="panel panel-primary">
+										<div class="panel-heading">
+											{{'WORKING_CALENDAR.N_S_WORKING_CALENDAR' | translate}}
+										</div>
+										<div class="panel-body maxheight" 
+										    x-hjc-drop-target="true"
+											x-on-drop="pairWorkingCalendar(dragEl,dropEl)"
+											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
+											<div class="btn btn-primary btn-rounded btn-block"
+												ng-repeat="tenantworkingcalendar in tenantworkingcalendars" x-hjc-draggable="true"
+												title="{{tenantworkingcalendar.name}}">
+												({{tenantworkingcalendar.name}})</div>
+										</div>
+									</div>
+									<div class="panel panel-danger">
+										<div class="panel-heading">
+											{{'SETTING.TRASH' | translate}}
+										</div>
+										<div class="panel-body trash">
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+												x-on-drop="deleteWorkingCalendarPair(dragEl,dropEl)">
+										</div>
+
+									</div>
+								</div>
+
+								<div class="col-lg-4">
+									<!-- according panel-->
+									<div class="panel panel-primary">
+										<div class="panel-heading">
+											{{'SETTING.WORKING_CALENDAR' | translate}}
+										</div>
+										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
+											slim-scroll box-height="765px">
+											<div class="source btn btn-primary btn-rounded btn-block"
+												ng-repeat="workingcalendar in workingcalendars" x-hjc-draggable="true">
+												{{workingcalendar.name}}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</uib-tab>
 				</uib-tabset>
 			</div>
 		</div>
