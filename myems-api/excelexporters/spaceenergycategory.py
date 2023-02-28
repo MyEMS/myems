@@ -614,7 +614,11 @@ def generate_excel(report,
             len(report['base_period']['non_working_days_subtotals']) == 0 or \
             "working_days_subtotals" not in report['base_period'].keys() or \
             report['base_period']['working_days_subtotals'] is None or \
-            len(report['base_period']['working_days_subtotals']) == 0:
+            len(report['base_period']['working_days_subtotals']) == 0 or \
+            base_period_start_datetime_local is None or \
+            len(str.strip(base_period_start_datetime_local)) == 0 or \
+            base_period_end_datetime_local is None or \
+            len(str.strip(base_period_end_datetime_local)) == 0:
         pass
     else:
         ws['B' + str(current_row_number)].font = title_font
@@ -654,13 +658,15 @@ def generate_excel(report,
             ws['C' + str(current_row_number)].alignment = c_c_alignment
             ws['C' + str(current_row_number)].border = f_border
             ws['C' + str(current_row_number)] = report['base_period']['non_working_days_subtotals'][i] if \
-                len(report['space']['working_calendars']) > 0 else '-'
+                len(report['space']['working_calendars']) > 0 and \
+                report['base_period']['non_working_days_subtotals'][i] > 0 else '-'
 
             ws['D' + str(current_row_number)].font = title_font
             ws['D' + str(current_row_number)].alignment = c_c_alignment
             ws['D' + str(current_row_number)].border = f_border
             ws['D' + str(current_row_number)] = report['base_period']['working_days_subtotals'][i] if \
-                len(report['space']['working_calendars']) > 0 else '-'
+                len(report['space']['working_calendars']) > 0 and \
+                report['base_period']['working_days_subtotals'][i] > 0 else '-'
 
             current_row_number += 1
         
@@ -711,13 +717,15 @@ def generate_excel(report,
             ws['C' + str(current_row_number)].alignment = c_c_alignment
             ws['C' + str(current_row_number)].border = f_border
             ws['C' + str(current_row_number)] = report['reporting_period']['non_working_days_subtotals'][i] if \
-                len(report['space']['working_calendars']) > 0 else '-'
+                len(report['space']['working_calendars']) > 0 and \
+                report['reporting_period']['non_working_days_subtotals'][i] > 0 else '-'
 
             ws['D' + str(current_row_number)].font = title_font
             ws['D' + str(current_row_number)].alignment = c_c_alignment
             ws['D' + str(current_row_number)].border = f_border
             ws['D' + str(current_row_number)] = report['reporting_period']['working_days_subtotals'][i] if \
-                len(report['space']['working_calendars']) > 0 else '-'
+                len(report['space']['working_calendars']) > 0 and \
+                report['reporting_period']['working_days_subtotals'][i] > 0 else '-'
 
             current_row_number += 1
 

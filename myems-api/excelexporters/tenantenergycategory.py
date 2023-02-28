@@ -509,6 +509,130 @@ def generate_excel(report,
         current_row_number += 1
 
     ####################################################################################################################
+    
+    if "non_working_days_subtotals" not in report['base_period'].keys() or \
+            report['base_period']['non_working_days_subtotals'] is None or \
+            len(report['base_period']['non_working_days_subtotals']) == 0 or \
+            "working_days_subtotals" not in report['base_period'].keys() or \
+            report['base_period']['working_days_subtotals'] is None or \
+            len(report['base_period']['working_days_subtotals']) == 0 or \
+            base_period_start_datetime_local is None or \
+            len(str.strip(base_period_start_datetime_local)) == 0 or \
+            base_period_end_datetime_local is None or \
+            len(str.strip(base_period_end_datetime_local)) == 0:
+        pass
+    else:
+        ws['B' + str(current_row_number)].font = title_font
+        ws['B' + str(current_row_number)] = name + ' ' + _('Base Period Consumption')
+        
+        current_row_number += 1
+
+        ws.row_dimensions[current_row_number].height = 60
+        ws['B' + str(current_row_number)].fill = table_fill
+        ws['B' + str(current_row_number)].font = name_font
+        ws['B' + str(current_row_number)].alignment = c_c_alignment
+        ws['B' + str(current_row_number)].border = f_border
+
+        ws['C' + str(current_row_number)].fill = table_fill
+        ws['C' + str(current_row_number)].font = name_font
+        ws['C' + str(current_row_number)].alignment = c_c_alignment
+        ws['C' + str(current_row_number)].border = f_border
+        ws['C' + str(current_row_number)] = _('Non Working Days') + _('Consumption')
+
+        ws['D' + str(current_row_number)].fill = table_fill
+        ws['D' + str(current_row_number)].font = name_font
+        ws['D' + str(current_row_number)].alignment = c_c_alignment
+        ws['D' + str(current_row_number)].border = f_border
+        ws['D' + str(current_row_number)] = _('Working Days') + _('Consumption')
+
+        current_row_number += 1
+
+        ca_len = len(report['base_period']['names'])
+
+        for i in range(0, ca_len):
+            ws['B' + str(current_row_number)].font = title_font
+            ws['B' + str(current_row_number)].alignment = c_c_alignment
+            ws['B' + str(current_row_number)] = report['base_period']['names'][i] + " (" + report['base_period']['units'][i] + ")"
+            ws['B' + str(current_row_number)].border = f_border
+
+            ws['C' + str(current_row_number)].font = title_font
+            ws['C' + str(current_row_number)].alignment = c_c_alignment
+            ws['C' + str(current_row_number)].border = f_border
+            ws['C' + str(current_row_number)] = report['base_period']['non_working_days_subtotals'][i] if \
+                len(report['tenant']['working_calendars']) > 0 and \
+                report['base_period']['non_working_days_subtotals'][i] > 0 else '-'
+
+            ws['D' + str(current_row_number)].font = title_font
+            ws['D' + str(current_row_number)].alignment = c_c_alignment
+            ws['D' + str(current_row_number)].border = f_border
+            ws['D' + str(current_row_number)] = report['base_period']['working_days_subtotals'][i] if \
+                len(report['tenant']['working_calendars']) > 0 and \
+                report['base_period']['working_days_subtotals'][i] > 0 else '-'
+
+            current_row_number += 1
+        
+        current_row_number += 1
+
+    if "non_working_days_subtotals" not in report['reporting_period'].keys() or \
+            report['reporting_period']['non_working_days_subtotals'] is None or \
+            len(report['reporting_period']['non_working_days_subtotals']) == 0 or \
+            "working_days_subtotals" not in report['reporting_period'].keys() or \
+            report['reporting_period']['working_days_subtotals'] is None or \
+            len(report['reporting_period']['working_days_subtotals']) == 0:
+        pass
+    else:
+        ws['B' + str(current_row_number)].font = title_font
+        ws['B' + str(current_row_number)] = name + ' ' + _('Reporting Period Consumption')
+        
+        current_row_number += 1
+
+        ws.row_dimensions[current_row_number].height = 60
+        ws['B' + str(current_row_number)].fill = table_fill
+        ws['B' + str(current_row_number)].font = name_font
+        ws['B' + str(current_row_number)].alignment = c_c_alignment
+        ws['B' + str(current_row_number)].border = f_border
+
+        ws['C' + str(current_row_number)].fill = table_fill
+        ws['C' + str(current_row_number)].font = name_font
+        ws['C' + str(current_row_number)].alignment = c_c_alignment
+        ws['C' + str(current_row_number)].border = f_border
+        ws['C' + str(current_row_number)] = _('Non Working Days') + _('Consumption')
+
+        ws['D' + str(current_row_number)].fill = table_fill
+        ws['D' + str(current_row_number)].font = name_font
+        ws['D' + str(current_row_number)].alignment = c_c_alignment
+        ws['D' + str(current_row_number)].border = f_border
+        ws['D' + str(current_row_number)] = _('Working Days') + _('Consumption')
+
+        current_row_number += 1
+
+        ca_len = len(report['reporting_period']['names'])
+
+        for i in range(0, ca_len):
+            ws['B' + str(current_row_number)].font = title_font
+            ws['B' + str(current_row_number)].alignment = c_c_alignment
+            ws['B' + str(current_row_number)] = report['reporting_period']['names'][i] + " (" + report['reporting_period']['units'][i] + ")"
+            ws['B' + str(current_row_number)].border = f_border
+
+            ws['C' + str(current_row_number)].font = title_font
+            ws['C' + str(current_row_number)].alignment = c_c_alignment
+            ws['C' + str(current_row_number)].border = f_border
+            ws['C' + str(current_row_number)] = report['reporting_period']['non_working_days_subtotals'][i] if \
+                len(report['tenant']['working_calendars']) > 0 and \
+                report['reporting_period']['non_working_days_subtotals'][i] > 0 else '-'
+
+            ws['D' + str(current_row_number)].font = title_font
+            ws['D' + str(current_row_number)].alignment = c_c_alignment
+            ws['D' + str(current_row_number)].border = f_border
+            ws['D' + str(current_row_number)] = report['reporting_period']['working_days_subtotals'][i] if \
+                len(report['tenant']['working_calendars']) > 0 and \
+                report['reporting_period']['working_days_subtotals'][i] > 0 else '-'
+
+            current_row_number+= 1
+
+        current_row_number += 2
+
+    ####################################################################################################################
     table_start_draw_flag = current_row_number + 1
     if "timestamps" not in reporting_period_data.keys() or \
             reporting_period_data['timestamps'] is None or \
