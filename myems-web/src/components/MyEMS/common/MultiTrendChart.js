@@ -121,18 +121,22 @@ const MultiTrendChart = ({
             displayColors: false,
             callbacks: {
             title: function(context){
-                if (context[0].datasetIndex - 1) {
-                    return `${reportingLabels[option][context[0].dataIndex]}`;
-                } else {
-                    return `${baseLabels[option][context[0].dataIndex]}`;
-                }
+              if (context[0].datasetIndex - 1) {
+                  return `${reportingLabels[option][context[0].dataIndex]}`;
+              } else {
+                  return `${baseLabels[option][context[0].dataIndex]}`;
+              }
             },
             label: function(context) {
-                if (context.datasetIndex - 1) {
-                    return `${parseTitleOrTooltipTitle(reportingTooltipTitle, option)} - ${context.raw != null ? context.raw.toFixed(3) : null}`;
-                } else {
-                    return `${parseTitleOrTooltipTitle(baseTooltipTitle, option)} - ${context.raw != null ? context.raw.toFixed(3) : null}`;
-                }
+              let row = null;
+              if (context.raw != null && typeof context.raw === 'number'){
+                row = context.raw.toFixed(3)
+              }
+              if (context.datasetIndex - 1) {
+                return `${parseTitleOrTooltipTitle(reportingTooltipTitle, option)} - ${row}`;
+              } else {
+                return `${parseTitleOrTooltipTitle(baseTooltipTitle, option)} - ${row}`;
+              }
             }
             }
         },
