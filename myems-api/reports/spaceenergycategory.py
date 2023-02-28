@@ -343,21 +343,22 @@ class Reporting:
         base = dict()
         base['non_working_days'] = list()
         if energy_category_set is not None and len(energy_category_set) > 0:
-            cursor_system.execute(" SELECT nwd.date_local "
-                                  " FROM tbl_spaces sp, tbl_spaces_working_calendars spwc, "
-                                  " tbl_working_calendars_non_working_days nwd "
-                                  " WHERE sp.id = %s AND "
-                                  " sp.id = spwc.space_id AND "
-                                  " spwc.working_calendar_id = nwd.working_calendar_id AND"
-                                  " nwd.date_local >= %s AND"
-                                  " nwd.date_local <= %s ",
-                                  (space['id'],
-                                  base_start_datetime_non_working_day,
-                                  base_end_datetime_non_working_day))
-            rows = cursor_system.fetchall()
-            for row in rows:
-                row_datetime = row[0].strftime('%Y-%m-%d')
-                base['non_working_days'].append(row_datetime)
+            if base_start_datetime_utc is not None and base_end_datetime_utc is not None:
+                cursor_system.execute(" SELECT nwd.date_local "
+                                    " FROM tbl_spaces sp, tbl_spaces_working_calendars spwc, "
+                                    " tbl_working_calendars_non_working_days nwd "
+                                    " WHERE sp.id = %s AND "
+                                    " sp.id = spwc.space_id AND "
+                                    " spwc.working_calendar_id = nwd.working_calendar_id AND"
+                                    " nwd.date_local >= %s AND"
+                                    " nwd.date_local <= %s ",
+                                    (space['id'],
+                                    base_start_datetime_non_working_day,
+                                    base_end_datetime_non_working_day))
+                rows = cursor_system.fetchall()
+                for row in rows:
+                    row_datetime = row[0].strftime('%Y-%m-%d')
+                    base['non_working_days'].append(row_datetime)
             for energy_category_id in energy_category_set:
                 kgce = energy_category_dict[energy_category_id]['kgce']
                 kgco2e = energy_category_dict[energy_category_id]['kgco2e']

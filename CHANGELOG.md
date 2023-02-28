@@ -5,7 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
-
+- added working-days/non-working-days data into tenant energy categroy report
+- 
 ### Changed
 
 ### Fixed

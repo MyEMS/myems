@@ -553,6 +553,58 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
             })
           });
           setDetailedDataTableColumns(detailed_column_list);
+
+          let workding_days_table_column_list = [];
+          workding_days_table_column_list.push({
+            dataField: 'name',
+            text: t('Energy Category'),
+            sort: true
+          });
+          workding_days_table_column_list.push({
+            dataField: 'b0',
+            text: t('Reporting Period') + ' - ' + t('Working Days'),
+            sort: false,
+            formatter: function (decimalValue) {
+              if (typeof decimalValue === 'number') {
+                if (decimalValue === 0) {
+                  return '-'
+                }
+                return decimalValue.toFixed(2);
+              } else {
+                return decimalValue;
+              }
+            }
+          });
+          workding_days_table_column_list.push({
+            dataField: 'b1',
+            text: t('Reporting Period') + ' - ' + t('Non Working Days'),
+            sort: false,
+            formatter: function (decimalValue) {
+              if (typeof decimalValue === 'number') {
+                if (decimalValue === 0) {
+                  return '-'
+                }
+                return decimalValue.toFixed(2);
+              } else {
+                return decimalValue;
+              }
+            }
+          });
+
+          setWorkingDaysConsumptionTableColumns(workding_days_table_column_list);
+
+          let working_days_table_value_list = [];
+
+          json['reporting_period']['names'].forEach((currentValue, index) => {
+            let working_days_table_value = {};
+            let unit = json['reporting_period']['units'][index];
+            working_days_table_value['name'] = currentValue + ' (' + unit + ')';
+            working_days_table_value['b0'] = json['space']['working_calendars'].length > 0 ? json['reporting_period']['working_days_subtotals'][index] : "-";
+            working_days_table_value['b1'] = json['space']['working_calendars'].length > 0 ? json['reporting_period']['non_working_days_subtotals'][index] : "-";
+            working_days_table_value_list.push(working_days_table_value);
+          });
+  
+          setWorkingDaysConsumptionTableData(working_days_table_value_list);
         } else {
           /*
           * Tip:
@@ -638,6 +690,90 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
               setDetailedDataTableData(detailed_value_list);
             }, 0)
           }
+
+          let workding_days_table_column_list = [];
+          workding_days_table_column_list.push({
+            dataField: 'name',
+            text: t('Energy Category'),
+            sort: true
+          });
+          workding_days_table_column_list.push({
+            dataField: 'a0',
+            text: t('Base Period') + ' - ' + t('Working Days'),
+            sort: false,
+            formatter: function (decimalValue) {
+              if (typeof decimalValue === 'number') {
+                if (decimalValue === 0) {
+                  return '-'
+                }
+                return decimalValue.toFixed(2);
+              } else {
+                return decimalValue;
+              }
+            }
+          });
+          workding_days_table_column_list.push({
+            dataField: 'a1',
+            text: t('Base Period') + ' - ' + t('Non Working Days'),
+            sort: false,
+            formatter: function (decimalValue) {
+              if (typeof decimalValue === 'number') {
+                if (decimalValue === 0) {
+                  return '-'
+                }
+                return decimalValue.toFixed(2);
+              } else {
+                return decimalValue;
+              }
+            }
+          });
+          workding_days_table_column_list.push({
+            dataField: 'b0',
+            text: t('Reporting Period') + ' - ' + t('Working Days'),
+            sort: false,
+            formatter: function (decimalValue) {
+              if (typeof decimalValue === 'number') {
+                if (decimalValue === 0) {
+                  return '-'
+                }
+                return decimalValue.toFixed(2);
+              } else {
+                return decimalValue;
+              }
+            }
+          });
+          workding_days_table_column_list.push({
+            dataField: 'b1',
+            text: t('Reporting Period') + ' - ' + t('Non Working Days'),
+            sort: false,
+            formatter: function (decimalValue) {
+              if (typeof decimalValue === 'number') {
+                if (decimalValue === 0) {
+                  return '-'
+                }
+                return decimalValue.toFixed(2);
+              } else {
+                return decimalValue;
+              }
+            }
+          });
+
+          setWorkingDaysConsumptionTableColumns(workding_days_table_column_list);
+
+          let working_days_table_value_list = [];
+
+          json['base_period']['names'].forEach((currentValue, index) => {
+            let working_days_table_value = {};
+            let unit = json['base_period']['units'][index];
+            working_days_table_value['name'] = currentValue + ' (' + unit + ')';
+            working_days_table_value['a0'] = json['space']['working_calendars'].length > 0 ? json['base_period']['working_days_subtotals'][index] : "-";
+            working_days_table_value['a1'] = json['space']['working_calendars'].length > 0 ? json['base_period']['non_working_days_subtotals'][index] : "-";
+            working_days_table_value['b0'] = json['space']['working_calendars'].length > 0 ? json['reporting_period']['working_days_subtotals'][index] : "-";
+            working_days_table_value['b1'] = json['space']['working_calendars'].length > 0 ? json['reporting_period']['non_working_days_subtotals'][index] : "-";
+            working_days_table_value_list.push(working_days_table_value);
+          });
+
+          setWorkingDaysConsumptionTableData(working_days_table_value_list);
         }
 
         let child_space_value_list = [];
@@ -695,77 +831,6 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
 
         setChildSpacesTableColumns(child_space_column_list);
 
-        let workding_days_table_column_list = [];
-        workding_days_table_column_list.push({
-          dataField: 'name',
-          text: t('Energy Category'),
-          sort: true
-        });
-        workding_days_table_column_list.push({
-          dataField: 'a0',
-          text: t('Base Period') + ' - ' + t('Working Days'),
-          sort: false,
-          formatter: function (decimalValue) {
-            if (typeof decimalValue === 'number') {
-              return decimalValue.toFixed(2);
-            } else {
-              return decimalValue;
-            }
-          }
-        });
-        workding_days_table_column_list.push({
-          dataField: 'a1',
-          text: t('Base Period') + ' - ' + t('Non Working Days'),
-          sort: false,
-          formatter: function (decimalValue) {
-            if (typeof decimalValue === 'number') {
-              return decimalValue.toFixed(2);
-            } else {
-              return decimalValue;
-            }
-          }
-        });
-        workding_days_table_column_list.push({
-          dataField: 'b0',
-          text: t('Reporting Period') + ' - ' + t('Working Days'),
-          sort: false,
-          formatter: function (decimalValue) {
-            if (typeof decimalValue === 'number') {
-              return decimalValue.toFixed(2);
-            } else {
-              return decimalValue;
-            }
-          }
-        });
-        workding_days_table_column_list.push({
-          dataField: 'b1',
-          text: t('Reporting Period') + ' - ' + t('Non Working Days'),
-          sort: false,
-          formatter: function (decimalValue) {
-            if (typeof decimalValue === 'number') {
-              return decimalValue.toFixed(2);
-            } else {
-              return decimalValue;
-            }
-          }
-        });
-
-        setWorkingDaysConsumptionTableColumns(workding_days_table_column_list);
-
-        let working_days_table_value_list = [];
-        
-        json['base_period']['names'].forEach((currentValue, index) => {
-          let working_days_table_value = {};
-          let unit = json['base_period']['units'][index];
-          working_days_table_value['name'] = currentValue + ' (' + unit + ')';
-          working_days_table_value['a0'] = json['space']['working_calendars'].length > 0 ? json['base_period']['working_days_subtotals'][index] : "-";
-          working_days_table_value['a1'] = json['space']['working_calendars'].length > 0 ? json['base_period']['non_working_days_subtotals'][index] : "-";
-          working_days_table_value['b0'] = json['space']['working_calendars'].length > 0 ? json['reporting_period']['working_days_subtotals'][index] : "-";
-          working_days_table_value['b1'] = json['space']['working_calendars'].length > 0 ? json['reporting_period']['non_working_days_subtotals'][index] : "-";
-          working_days_table_value_list.push(working_days_table_value);
-        });
-
-        setWorkingDaysConsumptionTableData(working_days_table_value_list);
         setExcelBytesBase64(json['excel_bytes_base64']);
 
         // enable submit button

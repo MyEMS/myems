@@ -463,6 +463,10 @@ api.add_route('/tenants/{id_}/virtualmeters',
               tenant.TenantVirtualMeterCollection())
 api.add_route('/tenants/{id_}/virtualmeters/{mid}',
               tenant.TenantVirtualMeterItem())
+api.add_route('/tenants/{id_}/workingcalendars',
+              tenant.TenantWorkingCalendarCollection())
+api.add_route('/tenants/{id_}/workingcalendars/{wcid}',
+              tenant.TenantWorkingCalendarItem())
 
 api.add_route('/tenanttypes',
               tenanttype.TenantTypeCollection())
