@@ -600,6 +600,45 @@ const TenantEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
           });
           setDetailedDataTableColumns(detailed_column_list);
 
+          let workding_days_table_column_list = [];
+          workding_days_table_column_list.push({
+            dataField: 'name',
+            text: t('Energy Category'),
+            sort: true
+          });
+          workding_days_table_column_list.push({
+            dataField: 'b0',
+            text: t('Reporting Period') + ' - ' + t('Working Days'),
+            sort: false,
+            formatter: function (decimalValue) {
+              if (typeof decimalValue === 'number') {
+                if (decimalValue === 0) {
+                  return '-'
+                }
+                return decimalValue.toFixed(2);
+              } else {
+                return decimalValue;
+              }
+            }
+          });
+          workding_days_table_column_list.push({
+            dataField: 'b1',
+            text: t('Reporting Period') + ' - ' + t('Non Working Days'),
+            sort: false,
+            formatter: function (decimalValue) {
+              if (typeof decimalValue === 'number') {
+                if (decimalValue === 0) {
+                  return '-'
+                }
+                return decimalValue.toFixed(2);
+              } else {
+                return decimalValue;
+              }
+            }
+          });
+
+          setWorkingDaysConsumptionTableColumns(workding_days_table_column_list);
+
           let working_days_table_value_list = [];
 
           json['reporting_period']['names'].forEach((currentValue, index) => {
@@ -699,6 +738,75 @@ const TenantEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
             }, 0)
           }
 
+          let workding_days_table_column_list = [];
+          workding_days_table_column_list.push({
+            dataField: 'name',
+            text: t('Energy Category'),
+            sort: true
+          });
+          workding_days_table_column_list.push({
+            dataField: 'a0',
+            text: t('Base Period') + ' - ' + t('Working Days'),
+            sort: false,
+            formatter: function (decimalValue) {
+              if (typeof decimalValue === 'number') {
+                if (decimalValue === 0) {
+                  return '-'
+                }
+                return decimalValue.toFixed(2);
+              } else {
+                return decimalValue;
+              }
+            }
+          });
+          workding_days_table_column_list.push({
+            dataField: 'a1',
+            text: t('Base Period') + ' - ' + t('Non Working Days'),
+            sort: false,
+            formatter: function (decimalValue) {
+              if (typeof decimalValue === 'number') {
+                if (decimalValue === 0) {
+                  return '-'
+                }
+                return decimalValue.toFixed(2);
+              } else {
+                return decimalValue;
+              }
+            }
+          });
+          workding_days_table_column_list.push({
+            dataField: 'b0',
+            text: t('Reporting Period') + ' - ' + t('Working Days'),
+            sort: false,
+            formatter: function (decimalValue) {
+              if (typeof decimalValue === 'number') {
+                if (decimalValue === 0) {
+                  return '-'
+                }
+                return decimalValue.toFixed(2);
+              } else {
+                return decimalValue;
+              }
+            }
+          });
+          workding_days_table_column_list.push({
+            dataField: 'b1',
+            text: t('Reporting Period') + ' - ' + t('Non Working Days'),
+            sort: false,
+            formatter: function (decimalValue) {
+              if (typeof decimalValue === 'number') {
+                if (decimalValue === 0) {
+                  return '-'
+                }
+                return decimalValue.toFixed(2);
+              } else {
+                return decimalValue;
+              }
+            }
+          });
+
+          setWorkingDaysConsumptionTableColumns(workding_days_table_column_list);
+
           let working_days_table_value_list = [];
 
           json['base_period']['names'].forEach((currentValue, index) => {
@@ -715,63 +823,6 @@ const TenantEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
           setWorkingDaysConsumptionTableData(working_days_table_value_list);
 
         }
-
-        let workding_days_table_column_list = [];
-        workding_days_table_column_list.push({
-          dataField: 'name',
-          text: t('Energy Category'),
-          sort: true
-        });
-        workding_days_table_column_list.push({
-          dataField: 'a0',
-          text: t('Base Period') + ' - ' + t('Working Days'),
-          sort: false,
-          formatter: function (decimalValue) {
-            if (typeof decimalValue === 'number') {
-              return decimalValue.toFixed(2);
-            } else {
-              return decimalValue;
-            }
-          }
-        });
-        workding_days_table_column_list.push({
-          dataField: 'a1',
-          text: t('Base Period') + ' - ' + t('Non Working Days'),
-          sort: false,
-          formatter: function (decimalValue) {
-            if (typeof decimalValue === 'number') {
-              return decimalValue.toFixed(2);
-            } else {
-              return decimalValue;
-            }
-          }
-        });
-        workding_days_table_column_list.push({
-          dataField: 'b0',
-          text: t('Reporting Period') + ' - ' + t('Working Days'),
-          sort: false,
-          formatter: function (decimalValue) {
-            if (typeof decimalValue === 'number') {
-              return decimalValue.toFixed(2);
-            } else {
-              return decimalValue;
-            }
-          }
-        });
-        workding_days_table_column_list.push({
-          dataField: 'b1',
-          text: t('Reporting Period') + ' - ' + t('Non Working Days'),
-          sort: false,
-          formatter: function (decimalValue) {
-            if (typeof decimalValue === 'number') {
-              return decimalValue.toFixed(2);
-            } else {
-              return decimalValue;
-            }
-          }
-        });
-
-        setWorkingDaysConsumptionTableColumns(workding_days_table_column_list);
         
         setExcelBytesBase64(json['excel_bytes_base64']);
 
