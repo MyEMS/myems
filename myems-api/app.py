@@ -428,6 +428,10 @@ api.add_route('/stores/{id_}/virtualmeters',
               store.StoreVirtualMeterCollection())
 api.add_route('/stores/{id_}/virtualmeters/{mid}',
               store.StoreVirtualMeterItem())
+api.add_route('/stores/{id_}/workingcalendars',
+              store.StoreWorkingCalendarCollection())
+api.add_route('/stores/{id_}/workingcalendars/{wcid}',
+              store.StoreWorkingCalendarItem())
 
 api.add_route('/storetypes',
               storetype.StoreTypeCollection())

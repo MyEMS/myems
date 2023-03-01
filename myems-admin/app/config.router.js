@@ -855,6 +855,8 @@ app
                                                     'app/services/settings/store/storemeter.service.js',
                                                     'app/services/settings/store/storepoint.service.js',
                                                     'app/services/settings/store/storesensor.service.js',
+                                                    'app/services/settings/store/storeworkingcalendar.service.js',
+                                                    'app/services/settings/workingcalendar/workingcalendar.service.js',
                                                     'app/services/settings/datasource/datasource.service.js',
                                                     'app/services/settings/datasource/point.service.js',
                                                     'app/services/settings/sensor/sensor.service.js',
@@ -863,6 +865,7 @@ app
                                                     'app/controllers/settings/store/storemeter.controller.js',
                                                     'app/controllers/settings/store/storepoint.controller.js',
                                                     'app/controllers/settings/store/storesensor.controller.js',
+                                                    'app/controllers/settings/store/storeworkingcalendar.controller.js',
                                                 ]
                                             }]);
                                         }

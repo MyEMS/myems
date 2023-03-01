@@ -146,11 +146,7 @@ class WorkingCalendarItem:
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_SPACES')
 
-        # check relation with non working days
-        cursor.execute(" SELECT id FROM tbl_working_calendars_non_working_days"
-                       " WHERE working_calendar_id = %s ", (id_,))
-                
-        # check relation with tenants
+        # check relation with stores
         cursor.execute(" SELECT tenant_id "
                        " FROM tbl_tenants_working_calendars "
                        " WHERE working_calendar_id = %s ", (id_,))
@@ -162,6 +158,22 @@ class WorkingCalendarItem:
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_TENANTS')
 
+        # check relation with stores
+        cursor.execute(" SELECT store_id "
+                       " FROM tbl_stores_working_calendars "
+                       " WHERE working_calendar_id = %s ", (id_,))
+        rows_stores = cursor.fetchall()
+        if rows_stores is not None and len(rows_stores) > 0:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_STORES')
+
+        # check relation with non working days
+        cursor.execute(" SELECT id FROM tbl_working_calendars_non_working_days"
+                       " WHERE working_calendar_id = %s ", (id_,))
+                
         rows_non_working_days = cursor.fetchall()
         if rows_non_working_days is not None and len(rows_non_working_days) > 0:
             cursor.close()
