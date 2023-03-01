@@ -1513,3 +1513,171 @@ class StoreVirtualMeterItem:
         resp.status = falcon.HTTP_204
 
 
+
+class StoreWorkingCalendarCollection:
+    @staticmethod
+    def __init__():
+        """Initializes StoreWorkingCalendarCollection Class"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_get(req, resp, id_):
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_STORE_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_stores "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.STORE_NOT_FOUND')
+
+        query = (" SELECT wc.id, wc.name, wc.description "
+                 " FROM tbl_stores s, tbl_stores_working_calendars swc, tbl_working_calendars wc "
+                 " WHERE swc.store_id = s.id AND wc.id = swc.working_calendar_id AND s.id = %s "
+                 " ORDER BY wc.id ")
+        cursor.execute(query, (id_,))
+        rows = cursor.fetchall()
+
+        result = list()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                meta_result = {"id": row[0], "name": row[1], "description": row[2]}
+                result.append(meta_result)
+
+        resp.text = json.dumps(result)
+
+    @staticmethod
+    @user_logger
+    def on_post(req, resp, id_):
+        """Handles POST requests"""
+        access_control(req)
+        try:
+            raw_json = req.stream.read().decode('utf-8')
+        except Exception as ex:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
+
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_STORE_ID')
+
+        new_values = json.loads(raw_json)
+
+        if 'working_calendar_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['working_calendar_id'], int) or \
+                new_values['data']['working_calendar_id'] <= 0:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_WORKING_CALENDAR_ID')
+        working_calendar_id = new_values['data']['working_calendar_id']
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " from tbl_stores "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.STORE_NOT_FOUND')
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_working_calendars "
+                       " WHERE id = %s ", (working_calendar_id,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.WORKING_CALENDAR_NOT_FOUND')
+
+        query = (" SELECT id " 
+                 " FROM tbl_stores_working_calendars "
+                 " WHERE store_id = %s AND working_calendar_id = %s")
+        cursor.execute(query, (id_, working_calendar_id,))
+        if cursor.fetchone() is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
+                                   description='API.STORE_WORKING_CALENDAR_RELATION_EXISTS')
+
+        add_row = (" INSERT INTO tbl_stores_working_calendars (store_id, working_calendar_id) "
+                   " VALUES (%s, %s) ")
+        cursor.execute(add_row, (id_, working_calendar_id,))
+        cnx.commit()
+        cursor.close()
+        cnx.close()
+
+        resp.status = falcon.HTTP_201
+        resp.location = '/stores/' + str(id_) + '/workingcalendars/' + str(working_calendar_id)
+
+
+class StoreWorkingCalendarItem:
+    @staticmethod
+    def __init__():
+        """Initializes StoreWorkingCalendarItem Class"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_, wcid):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    @user_logger
+    def on_delete(req, resp, id_, wcid):
+        access_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_STORE_ID')
+
+        if not wcid.isdigit() or int(wcid) <= 0:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_WORKING_CALENDAR_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_stores "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.STORE_NOT_FOUND')
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_working_calendars "
+                       " WHERE id = %s ", (wcid,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.WORKING_CALENDAR_NOT_FOUND')
+
+        cursor.execute(" SELECT id "
+                       " FROM tbl_stores_working_calendars "
+                       " WHERE store_id = %s AND working_calendar_id = %s ", (id_, wcid))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.STORE_WORKING_CALENDAR_RELATION_NOT_FOUND')
+
+        cursor.execute(" DELETE FROM tbl_stores_working_calendars WHERE store_id = %s AND working_calendar_id = %s ", (id_, wcid))
+        cnx.commit()
+
+        cursor.close()
+        cnx.close()
+
+        resp.status = falcon.HTTP_204
