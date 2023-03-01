@@ -6,11 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 ### Added
 - added working-days/non-working-days data into tenant energy categroy report
+- added working-days/non-working-days data into store energy categroy report
 - 
 ### Changed
 
 ### Fixed
-
+- fixed null tooltip issue in MultiTrendChart.js 
+- 
 ### Removed
 
 ## [v3.0.0] - 2023-02-25
