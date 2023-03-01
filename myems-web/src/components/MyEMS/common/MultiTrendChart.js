@@ -14,6 +14,7 @@ import { withTranslation } from 'react-i18next';
 import { Chart } from 'react-chartjs-2';
 import AppContext from '../../../context/Context';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { number } from 'is_js';
 
 
 ChartJS.register(
@@ -128,14 +129,16 @@ const MultiTrendChart = ({
               }
             },
             label: function(context) {
-              let row = null;
-              if (context.raw != null && typeof context.raw === 'number'){
-                row = context.raw.toFixed(3)
+              let raw = Number(context.raw);
+              if (context.raw != null && !isNaN(raw)){
+                raw = raw.toFixed(3)
+              } else {
+                raw = null;
               }
               if (context.datasetIndex - 1) {
-                return `${parseTitleOrTooltipTitle(reportingTooltipTitle, option)} - ${row}`;
+                return `${parseTitleOrTooltipTitle(reportingTooltipTitle, option)} - ${raw}`;
               } else {
-                return `${parseTitleOrTooltipTitle(baseTooltipTitle, option)} - ${row}`;
+                return `${parseTitleOrTooltipTitle(baseTooltipTitle, option)} - ${raw}`;
               }
             }
             }
