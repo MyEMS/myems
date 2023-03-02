@@ -29,11 +29,12 @@ class Reporting:
     # Step 3: query energy categories
     # Step 4: query associated sensors
     # Step 5: query associated points
-    # Step 6: query base period energy input
-    # Step 7: query reporting period energy input
-    # Step 8: query tariff data
-    # Step 9: query associated sensors and points data
-    # Step 10: construct the report
+    # Step 6: query associated working calendars
+    # Step 7: query base period energy input
+    # Step 8: query reporting period energy input
+    # Step 9: query tariff data
+    # Step 10: query associated sensors and points data
+    # Step 11: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
@@ -87,6 +88,7 @@ class Reporting:
             base_period_start_datetime_local = str.strip(base_period_start_datetime_local)
             try:
                 base_start_datetime_utc = datetime.strptime(base_period_start_datetime_local, '%Y-%m-%dT%H:%M:%S')
+                base_start_datetime_non_working_day = str(base_period_start_datetime_local).split('T')[0]
             except ValueError:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_BASE_PERIOD_START_DATETIME")
@@ -103,6 +105,7 @@ class Reporting:
             base_period_end_datetime_local = str.strip(base_period_end_datetime_local)
             try:
                 base_end_datetime_utc = datetime.strptime(base_period_end_datetime_local, '%Y-%m-%dT%H:%M:%S')
+                base_end_datetime_non_working_day = str(base_period_end_datetime_local).split('T')[0]
             except ValueError:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_BASE_PERIOD_END_DATETIME")
@@ -122,6 +125,7 @@ class Reporting:
             try:
                 reporting_start_datetime_utc = datetime.strptime(reporting_period_start_datetime_local,
                                                                  '%Y-%m-%dT%H:%M:%S')
+                reporting_start_datetime_non_working_day = str(reporting_period_start_datetime_local).split('T')[0]
             except ValueError:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_REPORTING_PERIOD_START_DATETIME")
@@ -142,6 +146,7 @@ class Reporting:
                 reporting_end_datetime_utc = datetime.strptime(reporting_period_end_datetime_local,
                                                                '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
                                              timedelta(minutes=timezone_offset)
+                reporting_end_datetime_non_working_day = str(reporting_period_end_datetime_local).split('T')[0]
             except ValueError:
                 raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_REPORTING_PERIOD_END_DATETIME")
@@ -302,10 +307,40 @@ class Reporting:
                 point_list.append({"id": row[0], "name": row[1], "units": row[2], "object_type": row[3]})
 
         ################################################################################################################
-        # Step 6: query base period energy input
+        # Step 6: query associated working calendars
+        ################################################################################################################
+        working_calendar_list = list()
+        cursor_system.execute(" SELECT swc.id "
+                              " FROM tbl_shopfloors sp, tbl_shopfloors_working_calendars swc "
+                              " WHERE sp.id = %s AND sp.id = swc.shopfloor_id "
+                              , (shopfloor['id'], ))
+        rows = cursor_system.fetchall()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                working_calendar_list.append(row[0])        
+
+        ################################################################################################################
+        # Step 7: query base period energy input
         ################################################################################################################
         base = dict()
+        base['non_working_days'] = list()
         if energy_category_set is not None and len(energy_category_set) > 0:
+            if base_start_datetime_utc is not None and base_end_datetime_utc is not None:
+                cursor_system.execute(" SELECT nwd.date_local "
+                                    " FROM tbl_shopfloors sp, tbl_shopfloors_working_calendars spwc, "
+                                    " tbl_working_calendars_non_working_days nwd "
+                                    " WHERE sp.id = %s AND "
+                                    " sp.id = spwc.shopfloor_id AND "
+                                    " spwc.working_calendar_id = nwd.working_calendar_id AND"
+                                    " nwd.date_local >= %s AND"
+                                    " nwd.date_local <= %s ",
+                                    (shopfloor['id'],
+                                    base_start_datetime_non_working_day,
+                                    base_end_datetime_non_working_day))
+                rows = cursor_system.fetchall()
+                for row in rows:
+                    row_datetime = row[0].strftime('%Y-%m-%d')
+                    base['non_working_days'].append(row_datetime)
             for energy_category_id in energy_category_set:
                 kgce = energy_category_dict[energy_category_id]['kgce']
                 kgco2e = energy_category_dict[energy_category_id]['kgco2e']
@@ -316,6 +351,8 @@ class Reporting:
                 base[energy_category_id]['subtotal'] = Decimal(0.0)
                 base[energy_category_id]['subtotal_in_kgce'] = Decimal(0.0)
                 base[energy_category_id]['subtotal_in_kgco2e'] = Decimal(0.0)
+                base[energy_category_id]['non_working_days_subtotal'] = Decimal(0.0)
+                base[energy_category_id]['working_days_subtotal'] = Decimal(0.0)
 
                 cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
                                       " FROM tbl_shopfloor_input_category_hourly "
@@ -355,12 +392,32 @@ class Reporting:
                     base[energy_category_id]['subtotal'] += actual_value
                     base[energy_category_id]['subtotal_in_kgce'] += actual_value * kgce
                     base[energy_category_id]['subtotal_in_kgco2e'] += actual_value * kgco2e
+                    if current_datetime in base['non_working_days']:
+                        base[energy_category_id]['non_working_days_subtotal'] += actual_value
+                    else:
+                        base[energy_category_id]['working_days_subtotal'] += actual_value
 
         ################################################################################################################
         # Step 8: query reporting period energy input
         ################################################################################################################
         reporting = dict()
+        reporting['non_working_days'] = list()
         if energy_category_set is not None and len(energy_category_set) > 0:
+            cursor_system.execute(" SELECT nwd.date_local "
+                                  " FROM tbl_shopfloors sp, tbl_shopfloors_working_calendars spwc, "
+                                  " tbl_working_calendars_non_working_days nwd "
+                                  " WHERE sp.id = %s AND "
+                                  " sp.id = spwc.shopfloor_id AND "
+                                  " spwc.working_calendar_id = nwd.working_calendar_id AND"
+                                  " nwd.date_local >= %s AND"
+                                  " nwd.date_local <= %s ",
+                                  (shopfloor['id'],
+                                  reporting_start_datetime_non_working_day,
+                                  reporting_end_datetime_non_working_day))
+            rows = cursor_system.fetchall()
+            for row in rows:
+                row_datetime = row[0].strftime('%Y-%m-%d')
+                reporting['non_working_days'].append(row_datetime)
             for energy_category_id in energy_category_set:
                 kgce = energy_category_dict[energy_category_id]['kgce']
                 kgco2e = energy_category_dict[energy_category_id]['kgco2e']
@@ -375,6 +432,8 @@ class Reporting:
                 reporting[energy_category_id]['onpeak'] = Decimal(0.0)
                 reporting[energy_category_id]['midpeak'] = Decimal(0.0)
                 reporting[energy_category_id]['offpeak'] = Decimal(0.0)
+                reporting[energy_category_id]['non_working_days_subtotal'] = Decimal(0.0)
+                reporting[energy_category_id]['working_days_subtotal'] = Decimal(0.0)
 
                 cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
                                       " FROM tbl_shopfloor_input_category_hourly "
@@ -414,6 +473,10 @@ class Reporting:
                     reporting[energy_category_id]['subtotal'] += actual_value
                     reporting[energy_category_id]['subtotal_in_kgce'] += actual_value * kgce
                     reporting[energy_category_id]['subtotal_in_kgco2e'] += actual_value * kgco2e
+                    if current_datetime in reporting['non_working_days']:
+                        reporting[energy_category_id]['non_working_days_subtotal'] += actual_value
+                    else:
+                        reporting[energy_category_id]['working_days_subtotal'] += actual_value
 
                 energy_category_tariff_dict = utilities.get_energy_category_peak_types(shopfloor['cost_center_id'],
                                                                                        energy_category_id,
@@ -523,7 +586,7 @@ class Reporting:
                 parameters_data['values'].append(point_values)
 
         ################################################################################################################
-        # Step 12: construct the report
+        # Step 11: construct the report
         ################################################################################################################
         if cursor_system:
             cursor_system.close()
@@ -545,6 +608,7 @@ class Reporting:
         result['shopfloor'] = dict()
         result['shopfloor']['name'] = shopfloor['name']
         result['shopfloor']['area'] = shopfloor['area']
+        result['shopfloor']['working_calendars'] = working_calendar_list
 
         result['base_period'] = dict()
         result['base_period']['names'] = list()
@@ -556,6 +620,10 @@ class Reporting:
         result['base_period']['subtotals_in_kgco2e'] = list()
         result['base_period']['total_in_kgce'] = Decimal(0.0)
         result['base_period']['total_in_kgco2e'] = Decimal(0.0)
+        result['base_period']['non_working_days_subtotals'] = list()
+        result['base_period']['working_days_subtotals'] = list()
+        result['base_period']['non_working_days_total'] = Decimal(0.0)
+        result['base_period']['working_days_total'] = Decimal(0.0)
         if energy_category_set is not None and len(energy_category_set) > 0:
             for energy_category_id in energy_category_set:
                 result['base_period']['names'].append(energy_category_dict[energy_category_id]['name'])
@@ -567,6 +635,10 @@ class Reporting:
                 result['base_period']['subtotals_in_kgco2e'].append(base[energy_category_id]['subtotal_in_kgco2e'])
                 result['base_period']['total_in_kgce'] += base[energy_category_id]['subtotal_in_kgce']
                 result['base_period']['total_in_kgco2e'] += base[energy_category_id]['subtotal_in_kgco2e']
+                result['base_period']['non_working_days_subtotals'].append(base[energy_category_id]['non_working_days_subtotal'])
+                result['base_period']['working_days_subtotals'].append(base[energy_category_id]['working_days_subtotal'])
+                result['base_period']['non_working_days_total'] += base[energy_category_id]['non_working_days_subtotal']
+                result['base_period']['working_days_total'] += base[energy_category_id]['working_days_subtotal']
 
         result['reporting_period'] = dict()
         result['reporting_period']['names'] = list()
@@ -588,6 +660,10 @@ class Reporting:
         result['reporting_period']['total_in_kgco2e'] = Decimal(0.0)
         result['reporting_period']['increment_rate_in_kgce'] = Decimal(0.0)
         result['reporting_period']['increment_rate_in_kgco2e'] = Decimal(0.0)
+        result['reporting_period']['non_working_days_subtotals'] = list()
+        result['reporting_period']['working_days_subtotals'] = list()
+        result['reporting_period']['non_working_days_total'] = Decimal(0.0)
+        result['reporting_period']['working_days_total'] = Decimal(0.0)
 
         if energy_category_set is not None and len(energy_category_set) > 0:
             for energy_category_id in energy_category_set:
@@ -613,6 +689,10 @@ class Reporting:
                     if base[energy_category_id]['subtotal'] > 0.0 else None)
                 result['reporting_period']['total_in_kgce'] += reporting[energy_category_id]['subtotal_in_kgce']
                 result['reporting_period']['total_in_kgco2e'] += reporting[energy_category_id]['subtotal_in_kgco2e']
+                result['reporting_period']['non_working_days_subtotals'].append(reporting[energy_category_id]['non_working_days_subtotal'])
+                result['reporting_period']['working_days_subtotals'].append(reporting[energy_category_id]['working_days_subtotal'])
+                result['reporting_period']['non_working_days_total'] += reporting[energy_category_id]['non_working_days_subtotal']
+                result['reporting_period']['working_days_total'] += reporting[energy_category_id]['working_days_subtotal']
 
                 rate = list()
                 for index, value in enumerate(reporting[energy_category_id]['values']):

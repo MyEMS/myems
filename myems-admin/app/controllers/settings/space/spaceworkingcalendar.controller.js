@@ -77,7 +77,7 @@ app.controller('SpaceWorkingCalendarController', function(
 					toaster.pop({
 						type: "success",
 						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-						body: $translate.instant("TOASTER.BIND_METER_SUCCESS"),
+						body: $translate.instant("TOASTER.BIND_WORKING_CALENDAR_SUCCESS"),
 						showCloseButton: true,
 					});
 					$scope.getWorkingCalendarsBySpaceID(spaceid);
@@ -104,7 +104,7 @@ app.controller('SpaceWorkingCalendarController', function(
                 toaster.pop({
                     type: "success",
                     title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-                    body: $translate.instant("TOASTER.UNBIND_METER_SUCCESS"),
+                    body: $translate.instant("TOASTER.UNBIND_WORKING_CALENDAR_SUCCESS"),
                     showCloseButton: true,
                 });
                 $scope.getWorkingCalendarsBySpaceID(spaceid);
