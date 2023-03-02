@@ -134,6 +134,15 @@ class WorkingCalendarItem:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
+        cursor.execute(" SELECT id "
+                       " FROM tbl_working_calendars "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.WORKING_CALENDAR_NOT_FOUND')
+
         # check relation with space
         cursor.execute(" SELECT id FROM tbl_spaces_working_calendars"
                        " WHERE working_calendar_id = %s ", (id_,))
@@ -399,6 +408,15 @@ class NonWorkingDayItem:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
+        cursor.execute(" SELECT id "
+                       " FROM tbl_working_calendars_non_working_days "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.NON_WORKING_DAY_NOT_FOUND')
+
         cursor.execute(" DELETE FROM tbl_working_calendars_non_working_days WHERE id = %s ", (id_,))
         cnx.commit()
 
@@ -425,7 +443,7 @@ class NonWorkingDayItem:
                 not isinstance(new_values['data']['working_calendar_id'], int) or \
                 new_values['data']['working_calendar_id'] <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_WORKING_CALENDAR_NAME')
+                                   description='API.INVALID_WORKING_CALENDAR_ID')
         working_calendar_id = new_values['data']['working_calendar_id']
 
         if 'date_local' in new_values['data'].keys() and \
