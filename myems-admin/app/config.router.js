@@ -911,6 +911,8 @@ app
                                                     'app/services/settings/shopfloor/shopfloormeter.service.js',
                                                     'app/services/settings/shopfloor/shopfloorpoint.service.js',
                                                     'app/services/settings/shopfloor/shopfloorsensor.service.js',
+                                                    'app/services/settings/shopfloor/shopfloorworkingcalendar.service.js',
+                                                    'app/services/settings/workingcalendar/workingcalendar.service.js',
                                                     'app/services/settings/datasource/datasource.service.js',
                                                     'app/services/settings/datasource/point.service.js',
                                                     'app/services/settings/equipment/equipment.service.js',
@@ -921,6 +923,7 @@ app
                                                     'app/controllers/settings/shopfloor/shopfloormeter.controller.js',
                                                     'app/controllers/settings/shopfloor/shopfloorpoint.controller.js',
                                                     'app/controllers/settings/shopfloor/shopfloorsensor.controller.js',
+                                                    'app/controllers/settings/shopfloor/shopfloorworkingcalendar.controller.js',
                                                 ]
                                             }]);
                                         }

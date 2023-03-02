@@ -345,6 +345,10 @@ api.add_route('/shopfloors/{id_}/virtualmeters',
               shopfloor.ShopfloorVirtualMeterCollection())
 api.add_route('/shopfloors/{id_}/virtualmeters/{mid}',
               shopfloor.ShopfloorVirtualMeterItem())
+api.add_route('/shopfloors/{id_}/workingcalendars',
+              shopfloor.ShopfloorWorkingCalendarCollection())
+api.add_route('/shopfloors/{id_}/workingcalendars/{wcid}',
+              shopfloor.ShopfloorWorkingCalendarItem())
 
 api.add_route('/spaces',
               space.SpaceCollection())

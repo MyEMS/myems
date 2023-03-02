@@ -1,39 +1,39 @@
 'use strict';
 
-app.controller('TenantWorkingCalendarController', function(
+app.controller('ShopfloorWorkingCalendarController', function(
     $scope ,
     $window,
     $timeout,
     $translate,
-    TenantService,
+    ShopfloorService,
     WorkingCalendarService,
-    TenantWorkingCalendarService, toaster,SweetAlert) {
-    $scope.tenants = [];
-    $scope.currentTenantID = 1;
-    $scope.tenantworkingcalendars = [];
+    ShopfloorWorkingCalendarService, toaster,SweetAlert) {
+    $scope.shopfloors = [];
+    $scope.currentShopfloorID = 1;
+    $scope.shopfloorworkingcalendars = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 
-    $scope.changeTenant=function(item,model){
-      $scope.currentTenant=item;
-      $scope.currentTenant.selected=model;
-      $scope.getWorkingCalendarsByTenantID($scope.currentTenant.id);
+    $scope.changeShopfloor=function(item,model){
+      $scope.currentShopfloor=item;
+      $scope.currentShopfloor.selected=model;
+      $scope.getWorkingCalendarsByShopfloorID($scope.currentShopfloor.id);
     };
 
-  $scope.getAllTenants = function(id) {
-		TenantService.getAllTenants(function (response) {
+  $scope.getAllShopfloors = function(id) {
+		ShopfloorService.getAllShopfloors(function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
-				$scope.tenants = response.data;
+				$scope.shopfloors = response.data;
 				} else {
-				$scope.tenants = [];
+				$scope.shopfloors = [];
 			 }
 		});
 	};
 
-	$scope.getWorkingCalendarsByTenantID = function(id) {
-		$scope.tenantworkingcalendars=[];
-      TenantWorkingCalendarService.getWorkingCalendarsByTenantID(id, function (response) {
+	$scope.getWorkingCalendarsByShopfloorID = function(id) {
+		$scope.shopfloorworkingcalendars=[];
+      ShopfloorWorkingCalendarService.getWorkingCalendarsByShopfloorID(id, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
-              $scope.tenantworkingcalendars = response.data;
+              $scope.shopfloorworkingcalendars = response.data;
             }
       });
 	};
@@ -51,9 +51,9 @@ app.controller('TenantWorkingCalendarController', function(
 
 	$scope.pairWorkingCalendar=function(dragEl,dropEl){
 		var workingcalendarid=angular.element('#'+dragEl).scope().workingcalendar.id;
-    var tenantid = $scope.currentTenant.id;
+    var shopfloorid = $scope.currentShopfloor.id;
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-		TenantWorkingCalendarService.addPair(tenantid, workingcalendarid, headers, function (response) {
+		ShopfloorWorkingCalendarService.addPair(shopfloorid, workingcalendarid, headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
@@ -61,7 +61,7 @@ app.controller('TenantWorkingCalendarController', function(
 						body: $translate.instant("TOASTER.BIND_WORKING_CALENDAR_SUCCESS"),
 						showCloseButton: true,
 					});
-					$scope.getWorkingCalendarsByTenantID(tenantid);
+					$scope.getWorkingCalendarsByShopfloorID(shopfloorid);
 				} else {
           toaster.pop({
               type: "error",
@@ -77,10 +77,10 @@ app.controller('TenantWorkingCalendarController', function(
 		if(angular.element('#'+dragEl).hasClass('source')){
 			return;
         }
-        var tenantworkingcalendarid = angular.element('#' + dragEl).scope().tenantworkingcalendar.id;
-        var tenantid = $scope.currentTenant.id;
+        var shopfloorworkingcalendarid = angular.element('#' + dragEl).scope().shopfloorworkingcalendar.id;
+        var shopfloorid = $scope.currentShopfloor.id;
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-        TenantWorkingCalendarService.deletePair(tenantid, tenantworkingcalendarid, headers, function (response) {
+        ShopfloorWorkingCalendarService.deletePair(shopfloorid, shopfloorworkingcalendarid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
                     type: "success",
@@ -88,7 +88,7 @@ app.controller('TenantWorkingCalendarController', function(
                     body: $translate.instant("TOASTER.UNBIND_WORKING_CALENDAR_SUCCESS"),
                     showCloseButton: true,
                 });
-                $scope.getWorkingCalendarsByTenantID(tenantid);
+                $scope.getWorkingCalendarsByShopfloorID(shopfloorid);
             } else {
                 toaster.pop({
                     type: "error",
@@ -100,12 +100,12 @@ app.controller('TenantWorkingCalendarController', function(
 		});
 	};
 
-    $scope.getAllTenants();
+    $scope.getAllShopfloors();
     $scope.getAllWorkingCalendars();
 
-	$scope.$on('handleBroadcastTenantChanged', function(event) {
-    $scope.tenantworkingcalendars = [];
-    $scope.getAllTenants();
+	$scope.$on('handleBroadcastShopfloorChanged', function(event) {
+    $scope.shopfloorworkingcalendars = [];
+    $scope.getAllShopfloors();
 	});
 
 });

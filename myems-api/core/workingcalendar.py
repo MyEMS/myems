@@ -169,6 +169,18 @@ class WorkingCalendarItem:
             raise falcon.HTTPError(falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_STORES')
+        
+        # check relation with shopfloors
+        cursor.execute(" SELECT shopfloor_id "
+                       " FROM tbl_shopfloors_working_calendars "
+                       " WHERE working_calendar_id = %s ", (id_,))
+        rows_shopfloors = cursor.fetchall()
+        if rows_shopfloors is not None and len(rows_shopfloors) > 0:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_SHOPFLOORS')
 
         # check relation with non working days
         cursor.execute(" SELECT id FROM tbl_working_calendars_non_working_days"
