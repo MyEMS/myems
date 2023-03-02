@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "c2fdcb34-c076-474d-a62e-3a485f7869ea",
+		"_postman_id": "bd0a9e37-486d-4575-b91a-bdbdcddae6b3",
 		"name": "MyEMS",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9079920"
 	},
 	"item": [
 		{
@@ -6356,6 +6357,90 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "GET All Working Calendars of a Shopfloor",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/shopfloors/1/workingcalendars",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"shopfloors",
+										"1",
+										"workingcalendars"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Bind a Working Calendar to a Shopfloor",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "5a759a0fe75695e4fbd561ce2494769f141bbbf6055f1f5eb4b0afe3d7d22f12200df2c0174011d5938e5ecd0bae978427e871c6290ca0e4161c6457250b13c7",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"working_calendar_id\":6}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/shopfloors/1/workingcalendars",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"shopfloors",
+										"1",
+										"workingcalendars"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Working Calendar from Shopfloor",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "5a759a0fe75695e4fbd561ce2494769f141bbbf6055f1f5eb4b0afe3d7d22f12200df2c0174011d5938e5ecd0bae978427e871c6290ca0e4161c6457250b13c7",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/shopfloors/1/workingcalendars/6",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"shopfloors",
+										"1",
+										"workingcalendars",
+										"6"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -7432,6 +7517,92 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "GET All Working Calendars of a Space",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/spaces/1/workingcalendars",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"workingcalendars"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Bind a Working Calendar to a Space",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "5a759a0fe75695e4fbd561ce2494769f141bbbf6055f1f5eb4b0afe3d7d22f12200df2c0174011d5938e5ecd0bae978427e871c6290ca0e4161c6457250b13c7",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"working_calendar_id\":6}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/spaces/1/workingcalendars",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"workingcalendars"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE Unbind a Working Calendar from Space",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "5a759a0fe75695e4fbd561ce2494769f141bbbf6055f1f5eb4b0afe3d7d22f12200df2c0174011d5938e5ecd0bae978427e871c6290ca0e4161c6457250b13c7",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/spaces/1/workingcalendars/6",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"workingcalendars",
+										"6"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -7982,6 +8153,90 @@
 										"1",
 										"virtualmeters",
 										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Working Calendars of Store by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/stores/1/workingcalendars",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"stores",
+										"1",
+										"workingcalendars"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Bind a Working Calendar to a Store",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "5a759a0fe75695e4fbd561ce2494769f141bbbf6055f1f5eb4b0afe3d7d22f12200df2c0174011d5938e5ecd0bae978427e871c6290ca0e4161c6457250b13c7",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"working_calendar_id\":6}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/stores/1/workingcalendars",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"stores",
+										"1",
+										"workingcalendars"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Working Calendar from Stores",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "5a759a0fe75695e4fbd561ce2494769f141bbbf6055f1f5eb4b0afe3d7d22f12200df2c0174011d5938e5ecd0bae978427e871c6290ca0e4161c6457250b13c7",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/stores/1/workingcalendars/6",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"stores",
+										"1",
+										"workingcalendars",
+										"6"
 									]
 								}
 							},
@@ -8869,6 +9124,90 @@
 										"1",
 										"virtualmeters",
 										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Working Calendars of Tenant by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/tenants/1/workingcalendars",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tenants",
+										"1",
+										"workingcalendars"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Bind a Working Calendar to a Tenant",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "5a759a0fe75695e4fbd561ce2494769f141bbbf6055f1f5eb4b0afe3d7d22f12200df2c0174011d5938e5ecd0bae978427e871c6290ca0e4161c6457250b13c7",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"working_calendar_id\":6}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/tenants/1/workingcalendars",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tenants",
+										"1",
+										"workingcalendars"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Working Calendar from Tenant",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "5a759a0fe75695e4fbd561ce2494769f141bbbf6055f1f5eb4b0afe3d7d22f12200df2c0174011d5938e5ecd0bae978427e871c6290ca0e4161c6457250b13c7",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/tenants/1/workingcalendars/6",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tenants",
+										"1",
+										"workingcalendars",
+										"6"
 									]
 								}
 							},
@@ -10261,6 +10600,308 @@
 									"path": [
 										"wechatmessages",
 										"2"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Working Calendar",
+					"item": [
+						{
+							"name": "GET All Working Calendars",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9ac434f394c735092cfeb083612e533ca33ca6db4815ebb0c3ff47896d7eaa610e7dc312c04279253f817d65d1ef379378d4a5d07150faee5f6d899adb8b7ca7",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/workingcalendars",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"workingcalendars"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET a Working Calendar by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/workingcalendars/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"workingcalendars",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create New Working Calendar",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "cb0c43bc302b478e938395f8a135239dd3a1e14668bbde0efc8f91e3648c55f1321b4ac1abe9fa8572e33544aacb70f1a1102d220d6092c91ced0b87fa4f651c",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"data\": {\n        \"name\": \"new_working_calendar\",\n        \"description\":\"test\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/workingcalendars",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"workingcalendars"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Update a Working Calendar",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "5d1b5f4e71b230b4153ebffd326670da37a937c89c596acb167db1989d69bf188d96f4204290b9ccfe16510d83a6daee9ce1e683ca69eb5f67ddce298236431c",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"data\": {\n        \"name\": \"测试日历\",\n        \"description\":\"test_update\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/workingcalendars/2",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"workingcalendars",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Working Calendar by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "5d1b5f4e71b230b4153ebffd326670da37a937c89c596acb167db1989d69bf188d96f4204290b9ccfe16510d83a6daee9ce1e683ca69eb5f67ddce298236431c",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/workingcalendars/8",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"workingcalendars",
+										"8"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Non Working Day",
+					"item": [
+						{
+							"name": "GET All Non Working Days by Working Calendar ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9ac434f394c735092cfeb083612e533ca33ca6db4815ebb0c3ff47896d7eaa610e7dc312c04279253f817d65d1ef379378d4a5d07150faee5f6d899adb8b7ca7",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/workingcalendars/2/nonworkingdays",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"workingcalendars",
+										"2",
+										"nonworkingdays"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET a Non Working Day by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/nonworkingdays/42",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"nonworkingdays",
+										"42"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create New Non Working Day  by Working Calendar ID",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "cb0c43bc302b478e938395f8a135239dd3a1e14668bbde0efc8f91e3648c55f1321b4ac1abe9fa8572e33544aacb70f1a1102d220d6092c91ced0b87fa4f651c",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"data\": {\n        \"date_local\": \"2023-03-01\",\n        \"description\":\"test\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/workingcalendars/2/nonworkingdays",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"workingcalendars",
+										"2",
+										"nonworkingdays"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Update a Non Working Day by ID",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "5d1b5f4e71b230b4153ebffd326670da37a937c89c596acb167db1989d69bf188d96f4204290b9ccfe16510d83a6daee9ce1e683ca69eb5f67ddce298236431c",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"data\": {\n        \"date_local\": \"2023-03-01\",\n        \"working_calendar_id\": 2,\n        \"description\":\"test_update3\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/nonworkingdays/42",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"nonworkingdays",
+										"42"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Non Working Day by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "5d1b5f4e71b230b4153ebffd326670da37a937c89c596acb167db1989d69bf188d96f4204290b9ccfe16510d83a6daee9ce1e683ca69eb5f67ddce298236431c",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/nonworkingdays/41",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"nonworkingdays",
+										"41"
 									]
 								}
 							},
@@ -17514,6 +18155,12 @@
 					""
 				]
 			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "127.0.0.1:8000"
 		}
 	]
 }
