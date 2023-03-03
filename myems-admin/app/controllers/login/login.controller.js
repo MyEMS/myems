@@ -223,9 +223,6 @@ app.controller('LoginController', function (
 		if ($cookies.get('is_logged_in') == null || $cookies.get('is_logged_in') == undefined ) {
 			$scope.logout();
 		}
-		else {
-		    console.log($cookies.get('is_logged_in'));
-	   	}
 	}
 
 	// web message alarm section end
