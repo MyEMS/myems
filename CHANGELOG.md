@@ -14,7 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - None 
 
 ### Removed
-- None
+- Removed table `tbl_shopfloor_working_days` from `myems_production_db`
 
 ## [v3.1.0] - 2023-03-03
 ### Added

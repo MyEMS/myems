@@ -57,18 +57,6 @@ CREATE TABLE IF NOT EXISTS `myems_production_db`.`tbl_shopfloor_hourly` (
 CREATE INDEX `tbl_shopfloor_hourly_index_1` ON  `myems_production_db`.`tbl_shopfloor_hourly`  (`shopfloor_id`,  `product_id`, `start_datetime_utc`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
--- Table `myems_production_db`.`tbl_shopfloor_working_days`
--- ---------------------------------------------------------------------------------------------------------------------
-DROP TABLE IF EXISTS `myems_production_db`.`tbl_shopfloor_working_days` ;
-
-CREATE TABLE IF NOT EXISTS `myems_production_db`.`tbl_shopfloor_working_days` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `shopfloor_id` BIGINT NOT NULL,
-  `date_local` DATE NOT NULL,
-  PRIMARY KEY (`id`));
-CREATE INDEX `tbl_shopfloor_working_days_index_1` ON  `myems_production_db`.`tbl_shopfloor_working_days`  (`shopfloor_id`, `date_local`);
-
--- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_production_db`.`tbl_shopfloors_products`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_production_db`.`tbl_shopfloors_products` ;
