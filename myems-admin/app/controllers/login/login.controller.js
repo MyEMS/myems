@@ -7,6 +7,7 @@ app.controller('LoginController', function (
 	$window,
 	$uibModal,
 	$scope,
+	$cookies,
 	$interval,
 	LoginService,
 	UserService,
@@ -32,6 +33,7 @@ app.controller('LoginController', function (
 				});
 				$window.localStorage.setItem("myems_admin_ui_current_user", JSON.stringify(response.data));
 				
+				$scope.createCookie('is_logged_in', true, 1000 * 60 * 5 * 1);
 				$location.path('/settings/space');
 				$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 			} else {
@@ -210,6 +212,19 @@ app.controller('LoginController', function (
 		}
 	};
 
+	$scope.createCookie = (name, value, cookieExpireTime) => {
+		const date = new Date();
+		date.setTime(date.getTime() + cookieExpireTime);
+		const expires = '; expires=' + date.toUTCString();
+		document.cookie = name + '=' + value + expires + '; path=/';
+	  };
+
+	$scope.getTime = function () {
+		if ($cookies.get('is_logged_in') == null || $cookies.get('is_logged_in') == undefined ) {
+			$scope.logout();
+		}
+	}
+
 	// web message alarm section end
 
 	$scope.fullscreenChangeHandle();
@@ -219,10 +234,27 @@ app.controller('LoginController', function (
 	if ($location.$$path.indexOf('login') == -1 && $location.$$path.indexOf('dashboard') == -1) {
 		$scope.refresh = $interval($scope.getWebMessage, 1000 * 60 * 1);
 	};
+	
+	if ($location.$$path.indexOf('login') == -1) {
+		$scope.isLoggedIn = $interval($scope.getTime, 1000 * 1 * 1);
+	}
+
+	document.mousemove = () => {
+		$scope.createCookie('is_logged_in', true, 1000 * 60 * 5 * 1);
+	};
+	document.mousedown = () => {
+		$scope.createCookie('is_logged_in', true, 1000 * 60 * 5 * 1);
+	};
+	$window.addEventListener("mousemove", document.mousemove);
+	$window.addEventListener("mousedown", document.mousedown);
 
 	$scope.$on('$destroy', function () {
 		if (angular.isDefined($scope.refresh)) {
 			$interval.cancel($scope.refresh);
+			$interval.cancel($scope.isLoggedIn);
+			$window.removeEventListener("mousemove", document.mousemove);
+			$window.removeEventListener("mousedown", document.mousedown);
+			$cookies.remove("is_logged_in")
 			$scope.refresh = undefined;
 		}
 	});

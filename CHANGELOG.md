@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added working-days/non-working-days data into tenant energy categroy report
 - added working-days/non-working-days data into store energy categroy report
 - added working-days/non-working-days data into shopfloor energy categroy report
+- added automatic logout action when myems-admin is idle for more than 5 minutes
 
 ### Changed
 - None
