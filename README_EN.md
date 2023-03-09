@@ -134,6 +134,10 @@ See [https://myems.io/docs/installation/docker-compose)](https://myems.io/docs/i
 
 See [https://myems.io/docs/cooperation](https://myems.io/docs/cooperation)
 
+## Weixin Official Subscription Account
+
+![Open Source Energy Management System](/docs/images/qrcode_for_mp_weixin.jpg)
+
 ## QQ Group
 
 Group Number: 792528967
