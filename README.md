@@ -134,6 +134,10 @@ administrator@myems.io
 
 详见 [https://myems.io/zh-Hans/docs/cooperation](https://myems.io/zh-Hans/docs/cooperation)
 
+## 微信公众号
+
+![开源能源管理系统](/docs/images/qrcode_for_mp_weixin.jpg)
+
 ## QQ交流群
 
 群号: 792528967
