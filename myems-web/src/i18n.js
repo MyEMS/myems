@@ -62,6 +62,9 @@ const resources = {
       'Tenant Equipments': 'Tenant Equipments',
       'Store Equipments': 'Store Equipments',
       'Shopfloor Equipments': 'Shopfloor Equipments',
+      'Environment Monitor': 'environment monitor',
+      'Sensor Realtime': 'sensor realtime',
+      'Sensor Data': 'Sensor',
       // Dashboard
       'Welcome to MyEMS': 'Welcome to MyEMS',
       'An Industry Leading Open Source Energy Management System':
@@ -901,6 +904,9 @@ const resources = {
       'Tenant Equipments': 'Mieter Ausrüstung',
       'Store Equipments': 'Geschäft Ausrüstung',
       'Shopfloor Equipments': 'Werkstatt Ausrüstung',
+      'Environment Monitor': 'Umgebungsmonitor',
+      'Sensor Realtime': 'Sensor Echtzeit',
+      'Sensor Data': 'Sensor',
       // Dashboard
       'Welcome to MyEMS': 'Willkommen bei MyEMS',
       'An Industry Leading Open Source Energy Management System': 'Ein branchenführendes Open Source Energie Management System',
@@ -1752,6 +1758,9 @@ const resources = {
       'Tenant Equipments': '租户设备',
       'Store Equipments': '门店设备',
       'Shopfloor Equipments': '车间设备',
+      'Environment Monitor': '环境监测',
+      'Sensor Realtime': '传感器实时数据',
+      'Sensor Data': '传感器数据',
       // Dashboard
       'Welcome to MyEMS': '欢迎使用MyEMS',
       'An Industry Leading Open Source Energy Management System': '行业领先的开源能源管理系统',
