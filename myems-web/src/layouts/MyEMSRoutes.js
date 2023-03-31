@@ -113,6 +113,7 @@ import SpaceEfficiency from '../components/MyEMS/Space/SpaceEfficiency';
 import SpaceLoad from '../components/MyEMS/Space/SpaceLoad';
 import SpaceStatistics from '../components/MyEMS/Space/SpaceStatistics';
 import SpaceSaving from '../components/MyEMS/Space/SpaceSaving';
+import SpaceEnvironmentMonitor from '../components/MyEMS/Space/SpaceEnvironmentMonitor';
 // Equipment
 import EquipmentBatch from '../components/MyEMS/Equipment/EquipmentBatch';
 import EquipmentCarbon from '../components/MyEMS/Equipment/EquipmentCarbon';
@@ -133,7 +134,7 @@ import MeterComparison from '../components/MyEMS/Meter/MeterComparison';
 import MeterCost from '../components/MyEMS/Meter/MeterCost';
 import MeterEnergy from '../components/MyEMS/Meter/MeterEnergy';
 import MeterRealtime from '../components/MyEMS/Meter/MeterRealtime';
-import MeterSaving from  '../components/MyEMS/Meter/MeterSaving'
+import MeterSaving from '../components/MyEMS/Meter/MeterSaving';
 import MeterSubmetersBalance from '../components/MyEMS/Meter/MeterSubmetersBalance';
 import MeterTracking from '../components/MyEMS/Meter/MeterTracking';
 import MeterTrend from '../components/MyEMS/Meter/MeterTrend';
@@ -359,6 +360,7 @@ const MyEMSRoutes = () => (
     <Route path="/space/load" exact component={SpaceLoad} />
     <Route path="/space/statistics" exact component={SpaceStatistics} />
     <Route path="/space/saving" exact component={SpaceSaving} />
+    <Route path="/space/environmentmonitor" exact component={SpaceEnvironmentMonitor} />
 
     {/*Equipment*/}
     <Route path="/equipment/batch" exact component={EquipmentBatch} />

@@ -63,6 +63,7 @@ from reports import spacecost
 from reports import spaceefficiency
 from reports import spaceenergycategory
 from reports import spaceenergyitem
+from reports import spaceenvironmentmonitor
 from reports import spaceincome
 from reports import spaceload
 from reports import spaceoutput
@@ -673,6 +674,8 @@ api.add_route('/reports/storeenergycategory',
               storeenergycategory.Reporting())
 api.add_route('/reports/storeenergyitem',
               storeenergyitem.Reporting())
+api.add_route('/reports/spaceenvironmentmonitor',
+              spaceenvironmentmonitor.Reporting())
 api.add_route('/reports/storeload',
               storeload.Reporting())
 api.add_route('/reports/storesaving',

@@ -431,6 +431,7 @@ VALUES
 (108,'Statistics','/space/statistics',100,0),
 (109,'Saving','/space/saving',100,0),
 (110,'Carbon','/space/carbon',100,0),
+(111,'Environment Monitor','/space/environmentmonitor',100,0),
 (200,'Equipment Data','/equipment',NULL,0),
 (201,'Energy Category Data','/equipment/energycategory',200,0),
 (202,'Energy Item Data','/equipment/energyitem',200,0),
@@ -1327,7 +1328,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '3.2.0RC', '2023-03-10');
+(1, '3.2.0', '2023-03-31');
 
 COMMIT;
 
