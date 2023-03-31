@@ -14,6 +14,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - None 
 
 ### Removed
+- None
+
+## [v3.2.0] - 2023-03-31
+### Added
+- added automatic logout action when myems-admin is idle for more than 5 minutes
+- Add Environment Monitor to Space Data
+
+### Changed
+- None
+
+### Fixed
+- None 
+
+### Removed
 - Removed table `tbl_shopfloor_working_days` from `myems_production_db`
 
 ## [v3.1.0] - 2023-03-03
@@ -1221,7 +1235,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v3.1.0...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v3.2.0...HEAD
+[3.2.0]: https://github.com/MyEMS/myems/compare/v3.1.0...v3.2.0
 [3.1.0]: https://github.com/MyEMS/myems/compare/v3.0.0...v3.1.0
 [3.0.0]: https://github.com/MyEMS/myems/releases/tag/v3.0.0
 
