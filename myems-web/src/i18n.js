@@ -32,6 +32,7 @@ const resources = {
       'Batch Analysis': 'Batch Analysis',
       'Saving': 'Saving',
       'Equipment Tracking': 'Equipment Tracking',
+      'Environment Monitor': 'Environment Monitor',
       'Meter Energy': 'Meter Energy',
       'Meter Carbon': 'Meter Carbon Dioxide Emissions',
       'Meter Cost': 'Meter Cost',
@@ -62,9 +63,6 @@ const resources = {
       'Tenant Equipments': 'Tenant Equipments',
       'Store Equipments': 'Store Equipments',
       'Shopfloor Equipments': 'Shopfloor Equipments',
-      'Environment Monitor': 'environment monitor',
-      'Sensor Realtime': 'sensor realtime',
-      'Sensor Data': 'Sensor',
       // Dashboard
       'Welcome to MyEMS': 'Welcome to MyEMS',
       'An Industry Leading Open Source Energy Management System':
@@ -874,6 +872,7 @@ const resources = {
       'Batch Analysis': 'Charge Analyse',
       'Saving': 'Sparen',
       'Equipment Tracking': 'Ausrüstung Datei',
+      'Environment Monitor': 'Umgebungsmonitor',
       'Meter Energy': 'Meter Energie ',
       'Meter Carbon': 'Meter Kohlendioxidemission',
       'Meter Cost': 'Meter Kosten',
@@ -904,9 +903,6 @@ const resources = {
       'Tenant Equipments': 'Mieter Ausrüstung',
       'Store Equipments': 'Geschäft Ausrüstung',
       'Shopfloor Equipments': 'Werkstatt Ausrüstung',
-      'Environment Monitor': 'Umgebungsmonitor',
-      'Sensor Realtime': 'Sensor Echtzeit',
-      'Sensor Data': 'Sensor',
       // Dashboard
       'Welcome to MyEMS': 'Willkommen bei MyEMS',
       'An Industry Leading Open Source Energy Management System': 'Ein branchenführendes Open Source Energie Management System',
@@ -1728,6 +1724,7 @@ const resources = {
       'Batch Analysis': '批量分析',
       'Saving': '节能分析',
       'Equipment Tracking': '设备台账',
+      'Environment Monitor': '环境监测',
       'Meter Energy': '计量表能耗分析',
       'Meter Carbon': '计量表碳排放分析',
       'Meter Cost': '计量表成本分析',
@@ -1758,9 +1755,6 @@ const resources = {
       'Tenant Equipments': '租户设备',
       'Store Equipments': '门店设备',
       'Shopfloor Equipments': '车间设备',
-      'Environment Monitor': '环境监测',
-      'Sensor Realtime': '传感器实时数据',
-      'Sensor Data': '传感器数据',
       // Dashboard
       'Welcome to MyEMS': '欢迎使用MyEMS',
       'An Industry Leading Open Source Energy Management System': '行业领先的开源能源管理系统',

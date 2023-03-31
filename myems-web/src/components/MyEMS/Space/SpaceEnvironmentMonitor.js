@@ -228,8 +228,8 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
     <Fragment>
       <div>
         <Breadcrumb>
-          <BreadcrumbItem>{t('Sensor Data')}</BreadcrumbItem>
-          <BreadcrumbItem active>{t('Sensor Realtime')}</BreadcrumbItem>
+          <BreadcrumbItem>{t('Space Data')}</BreadcrumbItem>
+          <BreadcrumbItem active>{t('Environment Monitor')}</BreadcrumbItem>
         </Breadcrumb>
       </div>
       <Card className="bg-light mb-3">
