@@ -14,7 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - None 
 
 ### Removed
-- None
+- Removed legacy docs for readthedocs, and replaced with https://myems.io
 
 ## [v3.2.0] - 2023-03-31
 ### Added
