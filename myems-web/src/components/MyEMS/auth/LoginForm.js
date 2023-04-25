@@ -93,7 +93,7 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
           />
           <InputGroupAddon addonType="append">
             <Button color="secondary" onClick={toggleVisibility}>
-              {inputType === 'password' ? <FaEye /> : <FaEyeSlash />}
+              {inputType === 'password' ? <FaEyeSlash /> : <FaEye />}
             </Button>
           </InputGroupAddon>
         </InputGroup>
