@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import AppContext from '../../../context/Context';
-import { Button, Form, Row, Col, FormGroup, Input, CustomInput, Label } from 'reactstrap';
+import { Button, Form, Row, Col, FormGroup, Input, CustomInput, Label, InputGroup, InputGroupAddon } from 'reactstrap';
 import { createCookie, getItemFromStore, setItemToStore } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { APIBaseURL } from '../../../config';
-
+import {FaEye, FaEyeSlash} from 'react-icons/fa'
+ 
 
 const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
   // State
@@ -16,6 +17,7 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
   const [password, setPassword] = useState('');
   const [remember, setRemember] = useState(true);
   const [isDisabled, setIsDisabled] = useState(true);
+  const [inputType, setInputType] = useState('password');
   // Context
   const { language, setLanguage } = useContext(AppContext);
 
@@ -63,6 +65,10 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
     setIsDisabled(!email || !password);
   }, [email, password]);
 
+  const toggleVisibility = () => {
+    setInputType(inputType === 'password' ? 'text' : 'password');
+  };
+
   return (
     <Form onSubmit={handleSubmit}>
       <FormGroup>
@@ -77,12 +83,20 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
       </FormGroup>
       <FormGroup>
         {hasLabel && <Label>{t('Password')}</Label>}
-        <Input
-          placeholder={!hasLabel ? t('Password') : ''}
-          value={password}
-          onChange={({ target }) => setPassword(target.value)}
-          type="password"
-        />
+        <InputGroup>
+          <Input
+            placeholder={!hasLabel ? t('Password') : ''}
+            value={password}
+            className="password-input"
+            onChange={({ target }) => setPassword(target.value)}
+            type={inputType}
+          />
+          <InputGroupAddon addonType="append">
+            <Button color="secondary" onClick={toggleVisibility}>
+              {inputType === 'password' ? <FaEye /> : <FaEyeSlash />}
+            </Button>
+          </InputGroupAddon>
+        </InputGroup>
       </FormGroup>
       <Row className="justify-content-between align-items-center">
         <Col xs="auto">

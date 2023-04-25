@@ -59,6 +59,7 @@
     "react-flatpickr": "^3.10.6",
     "react-hook-form": "^4.10.2",
     "react-i18next": "^11.7.0",
+    "react-icons": "^4.8.0",
     "react-image-lightbox": "^5.1.1",
     "react-image-video-lightbox": "^3.0.0",
     "react-leaflet": "^2.7.0",
