@@ -314,6 +314,8 @@ const resources = {
       'Log in': 'Log in',
       'Email address': 'Email address',
       'Password': 'Password',
+      'CaptchaCode': 'Captcha',
+      'Refresh': 'Refresh',
       'Remember me': 'Remember me',
       'Logged in as ': 'Logged in as ',
       'Forget Password?': 'Forget Password?',
@@ -386,6 +388,7 @@ const resources = {
       'Try refreshing the page, or going back and attempting the action again. ':
         'Try refreshing the page, or going back and attempting the action again. ',
       'If this problem persists,': 'If this problem persists,',
+      'Captcha Error': 'Captcha Error',
       //Tenant Bill
       'Lease Contract Number': 'Lease Contract Number',
       'Download': 'Download',
@@ -1161,6 +1164,8 @@ const resources = {
       'Log in': 'Anmeldung',
       'Email address': 'E-Mail-Addresse',
       'Password': 'Passwort',
+      'CaptchaCode': 'Captcha',
+      'Refresh': 'Auffrischen',
       'Remember me': 'Behalte mich in Erinnerung',
       'Logged in as ': 'Angemeldet als ',
       'Forget Password?': 'Passwort vergessen?',
@@ -1238,6 +1243,7 @@ const resources = {
       'Try refreshing the page, or going back and attempting the action again. ':
         'Versuchen Sie, die Seite zu aktualisieren, oder gehen Sie zurück und versuchen Sie die Aktion erneut. ',
       'If this problem persists,': 'Wenn dieses Problem weiterhin besteht,',
+      'Captcha Error': 'Captcha-Fehler',
       //Tenant Bill
       'Lease Contract Number': 'Mietvertragsnummer',
       'Download': 'Herunterladen',
@@ -1991,6 +1997,8 @@ const resources = {
       'Log in': '登录',
       'Email address': '电子邮件地址',
       'Password': '密码',
+      'CaptchaCode': '验证码',
+      'Refresh': '刷新',
       'Remember me': '记住我',
       'Logged in as ': '已登录 ',
       'Forget Password?': '忘记密码?',
@@ -2064,6 +2072,7 @@ const resources = {
       'Try refreshing the page, or going back and attempting the action again':
         '请尝试刷新页面, 或回退并再次尝试执行这个操作',
       'If this problem persists,': '如果问题依然存在,',
+      'Captcha Error': '验证码错误',
       //Tenant Bill
       'Lease Contract Number': '租赁合同号码',
       'Download': '下载',

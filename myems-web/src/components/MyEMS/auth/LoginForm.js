@@ -1,30 +1,39 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import AppContext from '../../../context/Context';
 import { Button, Form, Row, Col, FormGroup, Input, CustomInput, Label, InputGroup, InputGroupAddon } from 'reactstrap';
-import { createCookie, getItemFromStore, setItemToStore } from '../../../helpers/utils';
+import { createCookie, getItemFromStore, setItemToStore, themeColors } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { APIBaseURL } from '../../../config';
 import {FaEye, FaEyeSlash} from 'react-icons/fa'
+import Captcha from 'react-captcha-code';
  
 
 const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
   // State
   const [email, setEmail] = useState(getItemFromStore('email', ''));
   const [password, setPassword] = useState('');
+  const [code, setCode] = useState('');
+  const [captchaCode, setCaptchaCode] = useState('');
   const [remember, setRemember] = useState(true);
   const [isDisabled, setIsDisabled] = useState(true);
   const [inputType, setInputType] = useState('password');
+  const captchaRef = useRef(null);
   // Context
-  const { language, setLanguage } = useContext(AppContext);
+  const { language, setLanguage, isDark } = useContext(AppContext);
 
   // Handler
   const handleSubmit = e => {
     e.preventDefault();
     let isResponseOK = false;
+    if (captchaCode !== code) {
+      toast.error(t('Captcha Error'));
+      handleRefreshCaptcha();
+      return false;
+    }
     fetch(APIBaseURL + '/users/login', {
       method: 'PUT',
       body: JSON.stringify({ "data": { "email": email, "password": password } }),
@@ -33,6 +42,7 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
       console.log(response);
       if (response.ok) {
         isResponseOK = true;
+        handleRefreshCaptcha();
       }
       return response.json();
     }).then(json => {
@@ -53,20 +63,33 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
         }
         setRedirect(true);
       } else {
+        handleRefreshCaptcha();
         toast.error(t(json.description));
       }
     }).catch(err => {
       console.log(err);
     });
-
   };
+  
 
   useEffect(() => {
-    setIsDisabled(!email || !password);
-  }, [email, password]);
+    setIsDisabled(!email || !password || !code);
+  }, [email, password, code]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      handleRefreshCaptcha();
+    }, 1000 * 60);
+    return () => clearInterval(interval);
+  }, []);
 
   const toggleVisibility = () => {
     setInputType(inputType === 'password' ? 'text' : 'password');
+  };
+
+  const handleRefreshCaptcha = () => {
+    setCode('');
+    captchaRef.current.refresh()
   };
 
   return (
@@ -97,6 +120,33 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
             </Button>
           </InputGroupAddon>
         </InputGroup>
+      </FormGroup>
+      <FormGroup>
+        <Row className="justify-content-between align-items-center">
+          <Col xs="6" className='pr-0'>
+            {hasLabel && <Label>{t('CaptchaCode')}</Label>}
+            <Input
+              placeholder={!hasLabel ? t('CaptchaCode') : ''}
+              value={code}
+              onChange={({ target }) => setCode(target.value)}
+              type="text"
+            />
+          </Col>
+          <Col xs="3" className='d-flex pr-0 pl-0'>
+            <Captcha
+              codeType={2}
+              charNum={5}
+              width={100}
+              height={36}
+              bgColor={!isDark ? themeColors.light : themeColors.dark}
+              onChange={(value) => setCaptchaCode(value)}
+              ref={captchaRef}
+            />
+          </Col>
+          <Col xs="auto" className='d-flex justify-items-right pl-0'>
+            <Button onClick={handleRefreshCaptcha}>{t('Refresh')}</Button>
+          </Col>
+        </Row>
       </FormGroup>
       <Row className="justify-content-between align-items-center">
         <Col xs="auto">

@@ -50,6 +50,7 @@
     "react-beautiful-dnd": "^13.0.0",
     "react-bootstrap-table-next": "^4.0.3",
     "react-bootstrap-table2-paginator": "^2.1.2",
+    "react-captcha-code": "^1.0.7",
     "react-chartjs-2": "^4.3.1",
     "react-countup": "^6.1.0",
     "react-datetime": "^2.16.3",
@@ -83,8 +84,8 @@
     "uuid": "^9.0.0"
   },
   "scripts": {
-    "start": "react-scripts --openssl-legacy-provider start",
-    "build": "react-scripts --openssl-legacy-provider build",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
     "eject": "react-scripts eject",
     "scss": "gulp",
     "analyze": "npx source-map-explorer 'build/static/js/*.js'"
