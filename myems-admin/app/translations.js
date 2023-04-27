@@ -135,6 +135,7 @@ function config($translateProvider) {
                 PASSWORD: 'Password',
                 LOGIN: 'Login',
                 TITLE: 'Energy Management System',
+                CAPTCHA: 'Captcha',
             },
             SETTING: {
                 KNOWLEDGEFILE: 'Knowledge File',
@@ -645,6 +646,8 @@ function config($translateProvider) {
                 UNBIND_WORKING_CALENDAR_SUCCESS: 'Unbind Working Calendar Success',
                 BIND_NON_WORKING_DAY_SUCCESS: 'Bind Non Working Day Success',
                 UNBIND_NON_WORKING_DAY_SUCCESS: 'Unbind Non Working Day Success',
+
+                CAPTCHA_ERROR: 'Captcha Error'
             },
             SWEET: {
                 TITLE: 'Please confirm to delete?',
@@ -1206,6 +1209,7 @@ function config($translateProvider) {
                 PASSWORD: '密 码',
                 LOGIN: '登 录',
                 TITLE: '能 源 管 理 系 统',
+                CAPTCHA: '验证码',
             },
             SETTING: {
                 KNOWLEDGEFILE: '知识文件',
@@ -1724,6 +1728,8 @@ function config($translateProvider) {
                 UNBIND_WORKING_CALENDAR_SUCCESS: '解绑工作日历成功',
                 BIND_NON_WORKING_DAY_SUCCESS: '绑定非工作日成功',
                 UNBIND_NON_WORKING_DAY_SUCCESS: '解绑非工作日成功',
+
+                CAPTCHA_ERROR: '验证码错误',
             },
             SWEET: {
                 TITLE: '请确认是否删除?',
@@ -2285,6 +2291,7 @@ function config($translateProvider) {
                 PASSWORD: 'Passwort',
                 LOGIN: 'Einloggen',
                 TITLE: 'Energiemanagementsystem',
+                CAPTCHA: 'Captcha',
             },
             SETTING: {
                 KNOWLEDGEFILE: 'Wissensdatei',
@@ -2778,6 +2785,8 @@ function config($translateProvider) {
                 UNBIND_WORKING_CALENDAR_SUCCESS: 'Unverbindlicher Arbeitstag gelungen',
                 BIND_NON_WORKING_DAY_SUCCESS: 'Den Erfolg des Arbeitstages binden',
                 UNBIND_NON_WORKING_DAY_SUCCESS: 'Unverbindlicher Arbeitstag gelungen',
+
+                CAPTCHA_ERROR: 'Captcha-Fehler',
             },
             SWEET: {
                 TITLE: 'Bitte bestätigen, um zu löschen?',

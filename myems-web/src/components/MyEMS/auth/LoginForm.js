@@ -29,7 +29,7 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
   const handleSubmit = e => {
     e.preventDefault();
     let isResponseOK = false;
-    if (captchaCode !== code) {
+    if (captchaCode.toLowerCase() !== code.toLowerCase()) {
       toast.error(t('Captcha Error'));
       handleRefreshCaptcha();
       return false;
