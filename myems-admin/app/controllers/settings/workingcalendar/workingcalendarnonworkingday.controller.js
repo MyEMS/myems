@@ -15,12 +15,13 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
     $scope.date_local = moment().format('YYYY-MM-DD'),
     $scope.month = moment().format('YYYY-MM'),
     $scope.days = [],
-    $scope.nonworkingdays = [],
+    $scope.nonWorkingDaysFlagArray = [],
 
     $scope.getNonWorkingDaysByWorkingCalendarID = function (id) {
         WorkingCalendarNonWorkingDayService.getNonWorkingDaysByWorkingCalendarID(id, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.nonworkingdays = response.data.filter((item) => {return item.date_local.indexOf($scope.month) > -1});
+                $scope.handleDays();
             } else {
                 $scope.nonworkingdays = [];
             }
@@ -98,6 +99,22 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
             }
         });
     };
+
+    $scope.handleDays = function() {
+        $scope.days = [];
+        $scope.nonWorkingDaysFlagArray = [];
+        let non_working_days = $scope.nonworkingdays.map((item) => {return item.date_local})
+        let range = moment($scope.month).endOf('month').date();
+        for(let i = 0; i < range; i++){
+          let date = moment($scope.month).startOf('month').add(i, 'd').format('YYYY-MM-DD');
+          $scope.days.push(date)
+          if(non_working_days.indexOf(date) != -1) {
+            $scope.nonWorkingDaysFlagArray.push(true);
+          }else{
+            $scope.nonWorkingDaysFlagArray.push(false);
+          }
+        }
+      }
 
     $scope.changeMonth = function(num) {
         $scope.month = moment($scope.month).add(num, 'months').format('YYYY-MM');
