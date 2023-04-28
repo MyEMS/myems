@@ -189,4 +189,26 @@
 .rs-picker-toggle:focus,
 .rs-picker-toggle:hover {border-color: $white !important;}
 
+.password-input {
+  padding-right: 40px;
+}
 
+.password-input + .input-group-append {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 3;
+}
+
+.password-input + .input-group-append .btn {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  margin-left: -1px;
+  background: transparent;
+  border: 0;
+}
+
+.password-input + .input-group-append .btn:active {
+  background: transparent;
+}

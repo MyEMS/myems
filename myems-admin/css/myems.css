@@ -710,3 +710,22 @@ li span.divider{
 .dashboard .panel-body{
 	padding: 1px;
 }
+.table-parent{
+	width: 100%;
+	height: 100%;
+	display: flex;
+}
+.cell-span{
+	display: table-cell;
+	width: 34%;
+	height: 34px;
+	text-align: center;
+	vertical-align: middle;
+}
+.cell-input{
+	display: table-cell;
+	width: 60% !important;
+	height: 34px !important;
+	vertical-align: middle;
+}
+
