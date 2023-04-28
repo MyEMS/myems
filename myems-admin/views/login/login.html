@@ -16,6 +16,11 @@
                                 <span class="input-group-addon"> {{'LOGIN.PASSWORD' | translate}}</span>
                                 <input ng-keypress="onKeypress($event)" ng-model="user.password" type="password" placeholder="Password" class="form-control" required="">
                             </div>
+                            <div class="input-group m-b table-parent">
+                                <span class="input-group-addon cell-span"> {{'LOGIN.CAPTCHA' | translate}}</span>
+                                <input ng-keypress="onKeypress($event)" ng-model="captcha" type="text" placeholder="Captcha" class="form-control cell-input" required="">
+                                <captcha refresh="refreshCaptcha" captcha-text="captchaText"></captcha>
+                            </div>
                             <div class="input-group m-x">
                                 <span class="input-group-addon"> {{'LANGUAGE' | translate}}</span>
                                 <select ng-change="changeLanguage(language)"  ng-model="language" class="form-control" >
@@ -25,7 +30,7 @@
                                 </select>
                             </div>
                             <div>
-                                <button  ng-click="login(user)" type="submit" class="btn btn-block " >{{'LOGIN' | translate}}</button>
+                                <button  ng-click="login(user, captcha, captchaText, refreshCaptcha)" type="submit" class="btn btn-block " >{{'LOGIN' | translate}}</button>
 
                             </div>
                             

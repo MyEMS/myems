@@ -563,6 +563,56 @@ function markdownEditor() {
     }
 };
 
+// 创建一个名为 captcha 的指令
+function captcha() {
+    return {
+        restrict: 'AE',
+        replace: true,
+        name: 'captcha',
+        scope: {
+            captchaText: '=captchaText',
+            refreshCaptcha: '=refresh'
+        },
+        template: '<canvas height="34" ng-click="refreshCaptcha()" width="86" class="cell-captcha-canvas" ng-model="text"></canvas>',
+        link: function(scope, elem, attrs) {
+            // 生成随机字符串作为验证码
+            function generateCode() {
+            var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
+            var codeLength = 5;
+            var code = '';
+            for (var i = 0; i < codeLength; i++) {
+                var randomIndex = Math.floor(Math.random() * chars.length);
+                code += chars.substring(randomIndex, randomIndex + 1);
+                scope.captchaText = code;
+            }
+            return code;
+            }
+    
+            // 绘制验证码
+            function draw(canvas, code) {
+            var context = canvas.getContext('2d');
+            context.fillStyle = '#EEE';
+            context.fillRect(0, 0, canvas.width, canvas.height);
+            context.font = '24px Arial';
+            context.fillStyle = 'black';
+            context.textAlign = 'center';
+            context.fillText(code, canvas.width / 2, canvas.height / 2 + 10);
+            }
+            
+            // 初始化生成验证码
+            var canvas = elem[0];
+            var code = generateCode();
+            draw(canvas, code);
+    
+            // 刷新验证码
+            scope.refreshCaptcha = function() {
+            code = generateCode();
+            draw(canvas, code);
+            };
+
+    }};
+};
+
 /**
  *
  * Pass all functions into module
@@ -590,3 +640,4 @@ app
     .directive('truncate', truncate)
     .directive('touchSpin', touchSpin)
     .directive('markdownEditor', markdownEditor)
+    .directive('captcha', captcha)

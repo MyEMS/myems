@@ -20,7 +20,18 @@ app.controller('LoginController', function (
 	$scope.fullScreenTitle = "FULLSCREEN";
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	// login section start
-	$scope.login = function (user) {
+	$scope.login = function (user, captcha, captchaText, refreshCaptcha) {
+		if(captcha.toLowerCase() !== captchaText.toLowerCase()){
+			$scope.captcha = '';
+			refreshCaptcha();
+			toaster.pop({
+				type: "error",
+				title: $translate.instant('TOASTER.CAPTCHA_ERROR'),
+				body: '',
+				showCloseButton: true,
+			});
+			return false;
+		}
 		$scope.dataLoading = true;
 		LoginService.login(user, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
@@ -44,6 +55,7 @@ app.controller('LoginController', function (
 					showCloseButton: true,
 				});
 			}
+			refreshCaptcha();
 			$scope.dataLoading = false;
 		});
 	};
