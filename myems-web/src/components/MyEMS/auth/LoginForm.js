@@ -132,7 +132,7 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
               type="text"
             />
           </Col>
-          <Col xs="3" className='d-flex pr-0 pl-0'>
+          <Col xs="6" className='d-flex pr-0 pl-0'>
             <Captcha
               codeType={2}
               charNum={5}
@@ -143,9 +143,7 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
               ref={captchaRef}
             />
           </Col>
-          <Col xs="auto" className='d-flex justify-items-right pl-0'>
-            <Button onClick={handleRefreshCaptcha}>{t('Refresh')}</Button>
-          </Col>
+         
         </Row>
       </FormGroup>
       <Row className="justify-content-between align-items-center">

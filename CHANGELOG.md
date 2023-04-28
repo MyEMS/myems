@@ -5,7 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
-- None
+- Added captcha to myems-web login form
+- Added captcha to myems-admin login form
 
 ### Changed
 - None
