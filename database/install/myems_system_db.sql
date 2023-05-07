@@ -587,6 +587,8 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_points` (
   `units` VARCHAR(32) NOT NULL,
   `high_limit` DECIMAL(18, 3) NOT NULL,
   `low_limit` DECIMAL(18, 3) NOT NULL ,
+  `higher_limit` DECIMAL(18, 3) NULL,
+  `lower_limit` DECIMAL(18, 3) NULL ,
   `ratio` DECIMAL(18, 3) DEFAULT 1.000 NOT NULL,
   `is_trend` BOOL NOT NULL,
   `is_virtual` BOOL DEFAULT FALSE NOT NULL,
@@ -1328,7 +1330,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '3.2.0', '2023-03-31');
+(1, '3.3.0RC', '2023-05-18');
 
 COMMIT;
 
