@@ -107,7 +107,7 @@ class PointCollection:
                 not (isinstance(new_values['data']['high_limit'], float) or
                      isinstance(new_values['data']['high_limit'], int)):
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_LOW_LIMIT_VALUE')
+                                   description='API.INVALID_HIGH_LIMIT_VALUE')
         high_limit = new_values['data']['high_limit']
 
         if 'low_limit' not in new_values['data'].keys() or \
@@ -446,7 +446,7 @@ class PointItem:
                 not (isinstance(new_values['data']['high_limit'], float) or
                      isinstance(new_values['data']['high_limit'], int)):
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_LOW_LIMIT_VALUE')
+                                   description='API.INVALID_HIGH_LIMIT_VALUE')
         high_limit = new_values['data']['high_limit']
 
         if 'low_limit' not in new_values['data'].keys() or \
