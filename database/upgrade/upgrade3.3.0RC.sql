@@ -6,8 +6,9 @@
 
 START TRANSACTION;
 
-ALTER TABLE `myems_system_db`.`tbl_points` ADD `lower_limit` DECIMAL(18, 3) NULL AFTER `low_limit`;
-ALTER TABLE `myems_system_db`.`tbl_points` ADD `higher_limit` DECIMAL(18, 3) NULL AFTER `low_limit`;
+ALTER TABLE `myems_system_db`.`tbl_points` ADD `is_in_alarm` DECIMAL(18, 3) NULL COMMENT 'Used in FDD Service' AFTER `low_limit`;
+ALTER TABLE `myems_system_db`.`tbl_points` ADD `lower_limit` DECIMAL(18, 3) NULL COMMENT 'Used in FDD Service' AFTER `low_limit`;
+ALTER TABLE `myems_system_db`.`tbl_points` ADD `higher_limit` DECIMAL(18, 3) NULL COMMENT 'Used in FDD Service' AFTER `low_limit`;
 
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='3.3.0RC', release_date='2023-05-18' WHERE id=1;
