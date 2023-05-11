@@ -7,12 +7,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - Added captcha to myems-web login form
 - Added captcha to myems-admin login form
+- Added higher limit and lower limit to tbl_points in database
+- Added is_in_alarm to tbl_points in database
+- Added new rule fdd codes to myems-admin
 
 ### Changed
-- None
+- Updated English Translation in myems-admin 
 
 ### Fixed
-- None 
+- Fixed typo in database
+- Fixed typo of error description in myems-api
 
 ### Removed
 - Removed legacy docs for readthedocs, and replaced with https://myems.io

@@ -496,6 +496,9 @@ function config($translateProvider) {
                 BIND_TENANT: 'Bind Tenant',
                 N_S_TENANT: 'Bound Tenants',
                 TENANT_LIST: 'Tenant List',
+                BIND_SHOPFLOOR: 'Bind Shopfloor',
+                N_S_SHOPFLOOR: 'Bound Shopfloor',
+                SHOPFLOOR_LIST: 'Shopfloor List',
             },
             STORE: {
                 ADDRESS: 'Address',
