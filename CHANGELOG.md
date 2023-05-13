@@ -13,7 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 - Updated English Translation in myems-admin 
-- Updated Meter and Point editor dialogs in myems-admin
+- Updated Meter, Point and Space editor dialogs in myems-admin
 
 ### Fixed
 - Fixed typo in database
