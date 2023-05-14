@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 - Fixed typo in database
 - Fixed typo of error description in myems-api
+- Fixed errors when marking as read, acknowledging and deleteing alarms from myems-web
 
 ### Removed
 - Removed legacy docs for readthedocs, and replaced with https://myems.io
