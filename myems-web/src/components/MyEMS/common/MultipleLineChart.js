@@ -245,15 +245,31 @@ const MultipleLineChart = ({
       toolbox: {
         right: 10,
         feature: {
-          dataZoom: {
-            yAxisIndex: 'none'
-          },
+          // dataZoom: {
+          //   yAxisIndex: 'none'
+          // },
         },
         show: false
       },
       dataZoom: [
         {
-         
+          type: 'slider',
+          show: true,
+          xAxisIndex: [0],
+        },
+        {
+          type: 'slider',
+          show: true,
+          yAxisIndex: [0],
+          left: '2%',
+        },
+        {
+          type: 'inside',
+          xAxisIndex: [0],
+        },
+        {
+          type: 'inside',
+          yAxisIndex: [0],
         }
       ],
     };
