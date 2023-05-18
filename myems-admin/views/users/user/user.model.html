@@ -18,7 +18,7 @@
                     <input ng-model="user.password" type="password" name="userpassword" class="form-control" ng-disabled="operation=='USER.EDIT_USER'">
                 </div>
             </div>
-            <div class="hr-line-dashed"></div>
+            
             <div class="form-group"><label class="col-sm-3 control-label">{{'USER.DISPLAY_NAME' | translate}}</label>
                 <div class="col-sm-9">
                     <input ng-model="user.display_name" type="text" name="userdispaly_name" class="form-control" required>
@@ -27,7 +27,7 @@
                         </div>
                 </div>
             </div>
-            <div class="hr-line-dashed"></div>
+            
             <div class="form-group"><label class="col-sm-3 control-label">{{'USER.EMAIL' | translate}}</label>
                 <div class="col-sm-9">
                     <input ng-model="user.email" type="email" name="useremail" class="form-control" required>
@@ -37,7 +37,7 @@
                         </div>
                 </div>
             </div>
-            <div class="hr-line-dashed"></div>
+            
             <div class="form-group"><label class="col-sm-3 control-label">{{'USER.IS_ADMIN' | translate}}</label>
                 <div class="col-sm-9">
                     <div class="checkbox checkbox-success">
@@ -47,7 +47,7 @@
 
                 </div>
             </div>
-            <div class="hr-line-dashed" ng-show="user.is_admin"></div>
+            
             <div class="form-group" ng-show="user.is_admin"><label class="col-sm-3 control-label">{{'USER.IS_READ_ONLY' | translate}}</label>
                 <div class="col-sm-9">
                     <div class="checkbox checkbox-success">
@@ -56,7 +56,7 @@
                     </div>
                 </div>
             </div>
-            <div class="hr-line-dashed" ng-hide="user.is_admin"></div>
+            
             <div class="form-group" ng-hide="user.is_admin"><label class="col-sm-3 control-label">{{'USER.PRIVILEGE' | translate}}</label>
 
                 <div class="col-sm-9">
@@ -68,14 +68,14 @@
                     </ui-select>
                 </div>
             </div>
-            <div class="hr-line-dashed"></div>
+            
             <div class="form-group"><label class="col-sm-3 control-label">{{'USER.ACCOUNT_EXPIRATION_DATETIME' | translate}}</label>
                 <div class="col-sm-5">
                     <input date-range-picker class="form-control date-picker" type="text" ng-model="user.account_expiration_datetime" options="dtOptions"
                            placeholder="{{'SETTING.SELECT_DATE' | translate}}" readonly="" />
                 </div>
             </div>
-            <div class="hr-line-dashed"></div>
+            
             <div class="form-group"><label class="col-sm-3 control-label">{{'USER.PASSWORD_EXPIRATION_DATETIME' | translate}}</label>
                 <div class="col-sm-5">
                     <input date-range-picker class="form-control date-picker" type="text" ng-model="user.password_expiration_datetime" options="dtOptions"
