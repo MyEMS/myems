@@ -1,5 +1,6 @@
 import sys
-import telnetlib
+import telnetlib3
+import asyncio
 
 from modbus_tk import modbus_tcp
 
@@ -15,7 +16,7 @@ def main():
 
     port = 502
     try:
-        telnetlib.Telnet(host, port, 10)
+        asyncio.run(connect_and_close(host, port))
         print("Succeeded to telnet %s:%s ", host, port)
     except Exception as e:
         print("Failed to telnet %s:%s : %s  ", host, port, str(e))
@@ -93,6 +94,12 @@ def main():
         master.close()
     except Exception as e:
         print(str(e))
+
+
+async def connect_and_close(host, port):
+    reader, writer = await telnetlib3.open_connection(host, port)
+    # Close the connection
+    writer.close()
 
 
 if __name__ == "__main__":
