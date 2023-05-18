@@ -335,7 +335,9 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
         let isResponseOK = false;
         fetch(APIBaseURL + '/webmessages?' +
             'startdatetime=' + startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-            '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss'), {
+            '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+            '&priority=' + priority + 
+            '&status=' + status, {
           method: 'GET',
           headers: {
             "Content-type": "application/json",
@@ -411,7 +413,9 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
         let isResponseOK = false;
         fetch(APIBaseURL + '/webmessages?' +
             'startdatetime=' + startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-            '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss'), {
+            '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+            '&priority=' + priority + 
+            '&status=' + status,  {
           method: 'GET',
           headers: {
             "Content-type": "application/json",
@@ -482,7 +486,9 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
         let isResponseOK = false;
         fetch(APIBaseURL + '/webmessages?' +
             'startdatetime=' + startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-            '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss'), {
+            '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss') + 
+            '&priority=' + priority + 
+            '&status=' + status,  {
           method: 'GET',
           headers: {
             "Content-type": "application/json",

@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Added higher limit and lower limit to tbl_points in database
 - Added is_in_alarm to tbl_points in database
 - Added new rule fdd codes to myems-admin
+- Added data zoom to y axis of MultipleLineChart in myems-web
 
 ### Changed
 - Updated English Translation in myems-admin 
@@ -18,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 - Fixed typo in database
 - Fixed typo of error description in myems-api
+- Fixed errors when marking as read, acknowledging and deleteing alarms from myems-web
 
 ### Removed
 - Removed legacy docs for readthedocs, and replaced with https://myems.io
