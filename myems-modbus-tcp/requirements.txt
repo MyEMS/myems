@@ -2,3 +2,4 @@ mysql-connector-python
 modbus_tk
 schedule
 python-decouple
+telnetlib3
