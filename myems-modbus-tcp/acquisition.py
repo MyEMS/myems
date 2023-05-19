@@ -5,17 +5,23 @@ import asyncio
 import time
 from datetime import datetime
 from decimal import Decimal
-
 import mysql.connector
 from modbus_tk import modbus_tcp
-
 import config
 from byte_swap import byte_swap_32_bit, byte_swap_64_bit
 
 
 ########################################################################################################################
+# Check connectivity to the host and port
+########################################################################################################################
+async def check_connectivity(host, port):
+    reader, writer = await telnetlib3.open_connection(host, port)
+    # Close the connection
+    writer.close()
+
+########################################################################################################################
 # Acquisition Procedures
-# Step 1: telnet the host
+# Step 1: Check connectivity to the host and port
 # Step 2: Get point list
 # Step 3: Read point values from Modbus slaves
 # Step 4: Bulk insert point values and update latest values in historical database
@@ -27,13 +33,13 @@ def process(logger, data_source_id, host, port):
         # begin of the outermost while loop
 
         ################################################################################################################
-        # Step 1: telnet the host
+        # Step 1: Check connectivity to the host and port
         ################################################################################################################
         try:
-            asyncio.run(connect_and_close(host, port))
-            print("Succeeded to telnet %s:%s in acquisition process ", host, port)
+            asyncio.run(check_connectivity(host, port))
+            print("Succeeded to connect %s:%s in acquisition process ", host, port)
         except Exception as e:
-            logger.error("Failed to telnet %s:%s in acquisition process: %s  ", host, port, str(e))
+            logger.error("Failed to connect %s:%s in acquisition process: %s  ", host, port, str(e))
             # go to begin of the outermost while loop
             time.sleep(300)
             continue
@@ -449,7 +455,7 @@ def process(logger, data_source_id, host, port):
             # update data source last seen datetime
             update_row = (" UPDATE tbl_data_sources "
                           " SET last_seen_datetime_utc = '" + current_datetime_utc.isoformat() + "' "
-                                                                                                 " WHERE id = %s ")
+                          " WHERE id = %s ")
             try:
                 cursor_system_db.execute(update_row, (data_source_id,))
                 cnx_system_db.commit()
@@ -469,9 +475,3 @@ def process(logger, data_source_id, host, port):
         # end of the inner while loop
 
     # end of the outermost while loop
-
-
-async def connect_and_close(host, port):
-    reader, writer = await telnetlib3.open_connection(host, port)
-    # Close the connection
-    writer.close()
