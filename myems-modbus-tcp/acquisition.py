@@ -1,20 +1,27 @@
 import json
 import math
-import telnetlib
+import telnetlib3
+import asyncio
 import time
 from datetime import datetime
 from decimal import Decimal
-
 import mysql.connector
 from modbus_tk import modbus_tcp
-
 import config
 from byte_swap import byte_swap_32_bit, byte_swap_64_bit
 
 
 ########################################################################################################################
+# Check connectivity to the host and port
+########################################################################################################################
+async def check_connectivity(host, port):
+    reader, writer = await telnetlib3.open_connection(host, port)
+    # Close the connection
+    writer.close()
+
+########################################################################################################################
 # Acquisition Procedures
-# Step 1: telnet the host
+# Step 1: Check connectivity to the host and port
 # Step 2: Get point list
 # Step 3: Read point values from Modbus slaves
 # Step 4: Bulk insert point values and update latest values in historical database
@@ -22,18 +29,17 @@ from byte_swap import byte_swap_32_bit, byte_swap_64_bit
 
 
 def process(logger, data_source_id, host, port):
-
     while True:
         # begin of the outermost while loop
 
         ################################################################################################################
-        # Step 1: telnet the host
+        # Step 1: Check connectivity to the host and port
         ################################################################################################################
         try:
-            telnetlib.Telnet(host, port, 10)
-            print("Succeeded to telnet %s:%s in acquisition process ", host, port)
+            asyncio.run(check_connectivity(host, port))
+            print("Succeeded to connect %s:%s in acquisition process ", host, port)
         except Exception as e:
-            logger.error("Failed to telnet %s:%s in acquisition process: %s  ", host, port, str(e))
+            logger.error("Failed to connect %s:%s in acquisition process: %s  ", host, port, str(e))
             # go to begin of the outermost while loop
             time.sleep(300)
             continue
@@ -61,7 +67,7 @@ def process(logger, data_source_id, host, port):
                      " FROM tbl_points "
                      " WHERE data_source_id = %s AND is_virtual = 0 "
                      " ORDER BY id ")
-            cursor_system_db.execute(query, (data_source_id, ))
+            cursor_system_db.execute(query, (data_source_id,))
             rows_point = cursor_system_db.fetchall()
         except Exception as e:
             logger.error("Error in step 2.2 of acquisition process: " + str(e))
@@ -142,18 +148,17 @@ def process(logger, data_source_id, host, port):
                     continue
 
                 if 'slave_id' not in address.keys() \
-                    or 'function_code' not in address.keys() \
-                    or 'offset' not in address.keys() \
-                    or 'number_of_registers' not in address.keys() \
-                    or 'format' not in address.keys() \
-                    or 'byte_swap' not in address.keys() \
-                    or address['slave_id'] < 1 \
-                    or address['function_code'] not in (1, 2, 3, 4) \
-                    or address['offset'] < 0 \
-                    or address['number_of_registers'] < 0 \
-                    or len(address['format']) < 1 \
+                        or 'function_code' not in address.keys() \
+                        or 'offset' not in address.keys() \
+                        or 'number_of_registers' not in address.keys() \
+                        or 'format' not in address.keys() \
+                        or 'byte_swap' not in address.keys() \
+                        or address['slave_id'] < 1 \
+                        or address['function_code'] not in (1, 2, 3, 4) \
+                        or address['offset'] < 0 \
+                        or address['number_of_registers'] < 0 \
+                        or len(address['format']) < 1 \
                         or not isinstance(address['byte_swap'], bool):
-
                     logger.error('Data Source(ID=%s), Point(ID=%s) Invalid address data.',
                                  data_source_id, point['id'])
                     # invalid point is found
@@ -452,7 +457,7 @@ def process(logger, data_source_id, host, port):
                           " SET last_seen_datetime_utc = '" + current_datetime_utc.isoformat() + "' "
                           " WHERE id = %s ")
             try:
-                cursor_system_db.execute(update_row, (data_source_id, ))
+                cursor_system_db.execute(update_row, (data_source_id,))
                 cnx_system_db.commit()
             except Exception as e:
                 logger.error("Error in step 4.6 of acquisition process " + str(e))

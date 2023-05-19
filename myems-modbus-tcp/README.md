@@ -14,6 +14,7 @@ schedule
 
 python-decouple
 
+telnetlib3
 
 ### Quick Run for Development
 
