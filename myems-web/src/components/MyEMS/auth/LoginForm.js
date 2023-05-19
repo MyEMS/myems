@@ -157,7 +157,7 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
           />
         </Col>
         <Col xs="auto">
-          <Link className="fs--1" to={`/authentication/${layout}/forget-password`}>
+          <Link className="fs--1" to={`/authentication/${layout}/sent-forget-email`}>
             {t('Forget Password?')}
           </Link>
         </Col>

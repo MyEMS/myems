@@ -13,17 +13,19 @@ import PasswordReset from './PasswordReset';
 import ConfirmMail from '../../MyEMS/auth/basic/ConfirmMail';
 import LockScreen from './LockScreen';
 import ChangePassword from '../../MyEMS/auth/basic/ChangePassword';
+import SentForgetPasswordEmailMessage from '../../MyEMS/auth/basic/SentForgetPasswordEmailMessage';
 
 const AuthBasicRoutes = ({ match: { url } }) => (
   <Switch>
     <Route path={`${url}/login`} exact component={Login} />
     <Route path={`${url}/logout`} exact component={Logout} />
     <Route path={`${url}/register`} exact component={Registration} />
-    <Route path={`${url}/forget-password`} exact component={ForgetPassword} />
+    <Route path={`${url}/sent-forget-email`} exact component={SentForgetPasswordEmailMessage} />
     <Route path={`${url}/confirm-mail`} exact component={ConfirmMail} />
     <Route path={`${url}/password-reset`} exact component={PasswordReset} />
     <Route path={`${url}/lock-screen`} exact component={LockScreen} />
     <Route path={`${url}/change-password`} exact component={ChangePassword} />
+    <Route pash={`${url}/forget-password`} exact component={ForgetPassword}/>
 
     {/*Redirect*/}
     <Redirect to="/errors/404" />
