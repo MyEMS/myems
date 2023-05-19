@@ -1,11 +1,24 @@
 import sys
-import telnetlib
+import telnetlib3
+import asyncio
 
 from modbus_tk import modbus_tcp
 
 import byte_swap
 
 
+########################################################################################################################
+# Check connectivity to the host and port
+########################################################################################################################
+async def check_connectivity(host, port):
+    reader, writer = await telnetlib3.open_connection(host, port)
+    # Close the connection
+    writer.close()
+
+
+########################################################################################################################
+# main procedure
+########################################################################################################################
 def main():
     if len(sys.argv) > 1:
         host = sys.argv[1]
@@ -15,7 +28,7 @@ def main():
 
     port = 502
     try:
-        telnetlib.Telnet(host, port, 10)
+        asyncio.run(check_connectivity(host, port))
         print("Succeeded to telnet %s:%s ", host, port)
     except Exception as e:
         print("Failed to telnet %s:%s : %s  ", host, port, str(e))
@@ -56,40 +69,17 @@ def main():
         master.set_timeout(5.0)
         print("Connected to %s:%s ", host, port)
         print("read registers...")
-        result = master.execute(slave=1, function_code=3, starting_address=6401, quantity_of_x=2, data_format='<l')
-        print("51AL1-1-KWHimp = " + str(byte_swap.byte_swap_32_bit(result[0])))
-        result = master.execute(slave=1, function_code=3, starting_address=6403, quantity_of_x=2, data_format='<l')
-        print("51AL2-1-KWHimp = " + str(byte_swap.byte_swap_32_bit(result[0])))
-        result = master.execute(slave=1, function_code=3, starting_address=6405, quantity_of_x=2, data_format='<l')
-        print("51AL3-1-KWHimp = " + str(byte_swap.byte_swap_32_bit(result[0])))
-        result = master.execute(slave=1, function_code=3, starting_address=6407, quantity_of_x=2, data_format='<l')
-        print("51AL4-1-KWHimp  = " + str(byte_swap.byte_swap_32_bit(result[0])))
-        result = master.execute(slave=1, function_code=3, starting_address=6409, quantity_of_x=2, data_format='<l')
-        print("51AL5-1-KWHimp = " + str(byte_swap.byte_swap_32_bit(result[0])))
-        # result = master.execute(slave=1, function_code=3, starting_address=11, quantity_of_x=2, data_format='>f')
-        # print("Volatage Vc-a = " + str(result))
-        # result = master.execute(slave=1, function_code=3, starting_address=13, quantity_of_x=2, data_format='>f')
-        # print("Current a     = " + str(result))
-        # result = master.execute(slave=1, function_code=3, starting_address=15, quantity_of_x=2, data_format='>f')
-        # print("Current b     = " + str(result))
-        # result = master.execute(slave=1, function_code=3, starting_address=17, quantity_of_x=2, data_format='>f')
-        # print("Current c     = " + str(result))
-        # result = master.execute(slave=1, function_code=3, starting_address=19, quantity_of_x=2, data_format='>f')
-        # print("Active Power a = " + str(result))
-        # result = master.execute(slave=1, function_code=3, starting_address=25, quantity_of_x=2, data_format='>f')
-        # print("Active Power b = " + str(result))
-        # result = master.execute(slave=1, function_code=3, starting_address=27, quantity_of_x=2, data_format='>f')
-        # print("Active Power c = " + str(result))
-        # result = master.execute(slave=1, function_code=3, starting_address=29, quantity_of_x=2, data_format='>f')
-        # print("Total Active Power = " + str(result))
-        # result = master.execute(slave=1, function_code=3, starting_address=65, quantity_of_x=2, data_format='>f')
-        # print("Total Power Factor = " + str(result))
-        # result = master.execute(slave=1, function_code=3, starting_address=71, quantity_of_x=2, data_format='>f')
-        # print("Amplitude Unbalance - Volatage = " + str(result))
-        # result = master.execute(slave=1, function_code=3, starting_address=73, quantity_of_x=2, data_format='>f')
-        # print("Amplitude Unbalance - Current = " + str(result))
-        # result = master.execute(slave=1, function_code=3, starting_address=801, quantity_of_x=4, data_format='>d')
-        # print("Active Energy Import Tariff 1 = " + str(result))
+        result = master.execute(slave=1, function_code=3, starting_address=1, quantity_of_x=2, data_format='<f')
+        print("51AL1 = " + str(byte_swap.byte_swap_32_bit(result[0])))
+        result = master.execute(slave=1, function_code=3, starting_address=3, quantity_of_x=2, data_format='<f')
+        print("51AL2 = " + str(byte_swap.byte_swap_32_bit(result[0])))
+        result = master.execute(slave=1, function_code=3, starting_address=5, quantity_of_x=2, data_format='<f')
+        print("51AL3 = " + str(byte_swap.byte_swap_32_bit(result[0])))
+        result = master.execute(slave=1, function_code=3, starting_address=7, quantity_of_x=2, data_format='<f')
+        print("51AL4 = " + str(byte_swap.byte_swap_32_bit(result[0])))
+        result = master.execute(slave=1, function_code=3, starting_address=9, quantity_of_x=2, data_format='<f')
+        print("51AL5 = " + str(byte_swap.byte_swap_32_bit(result[0])))
+
         master.close()
     except Exception as e:
         print(str(e))
