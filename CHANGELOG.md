@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated English Translation in myems-admin 
 - Updated Meter, Point, User and Space editor dialogs in myems-admin
 - Replaced telnetlib with telentlib3 in myems-modbus-tcp
+- Added maximum limit of user password length
 
 ### Fixed
 - Fixed typo in database
