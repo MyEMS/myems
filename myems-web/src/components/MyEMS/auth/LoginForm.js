@@ -110,6 +110,7 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
           <Input
             placeholder={!hasLabel ? t('Password') : ''}
             value={password}
+            maxLength={100}
             className="password-input"
             onChange={({ target }) => setPassword(target.value)}
             type={inputType}
