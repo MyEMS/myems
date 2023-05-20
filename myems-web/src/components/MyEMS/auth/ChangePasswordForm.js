@@ -102,6 +102,7 @@ const ChangePasswordForm = ({ setRedirect, setRedirectUrl, layout, t }) => {
             id="old-password"
             label={t('Old Password')}
             value={oldPassword}
+            maxLength={100}
             onChange={({ target }) => setOldPassword(target.value)}
             type="password"
           />
@@ -109,6 +110,7 @@ const ChangePasswordForm = ({ setRedirect, setRedirectUrl, layout, t }) => {
             id="new-password"
             label={t('New Password')}
             value={newPassword}
+            maxLength={100}
             onChange={({ target }) => setNewPassword(target.value)}
             type="password"
           />

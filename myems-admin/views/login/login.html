@@ -14,7 +14,7 @@
                             </div>
                             <div class="input-group m-b">
                                 <span class="input-group-addon"> {{'LOGIN.PASSWORD' | translate}}</span>
-                                <input ng-keypress="onKeypress($event)" ng-model="user.password" type="password" placeholder="Password" class="form-control" required="">
+                                <input ng-keypress="onKeypress($event)" ng-model="user.password" type="password" placeholder="Password" class="form-control" required="" maxlength="100">
                             </div>
                             <div class="input-group m-b table-parent">
                                 <span class="input-group-addon cell-span"> {{'LOGIN.CAPTCHA' | translate}}</span>
