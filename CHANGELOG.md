@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+
+### Changed
+
+### Fixed
+
+### Removed
+
+
+## [v3.3.0] - 2023-05-21
+### Added
 - Added captcha to myems-web login form
 - Added captcha to myems-admin login form
 - Added higher limit and lower limit to tbl_points in database
@@ -1245,7 +1255,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v3.2.0...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v3.3.0...HEAD
+[3.3.0]: https://github.com/MyEMS/myems/compare/v3.3.0...v3.2.0
 [3.2.0]: https://github.com/MyEMS/myems/compare/v3.1.0...v3.2.0
 [3.1.0]: https://github.com/MyEMS/myems/compare/v3.0.0...v3.1.0
 [3.0.0]: https://github.com/MyEMS/myems/releases/tag/v3.0.0
