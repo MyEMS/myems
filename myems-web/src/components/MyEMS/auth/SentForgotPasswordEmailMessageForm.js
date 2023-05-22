@@ -11,7 +11,7 @@ import {v4 as uuid} from 'uuid';
 import moment from 'moment';
 import { APIBaseURL } from '../../../config';
 
-const ForgetPasswordForm = ({ setRedirect, setRedirectUrl, hasLabel, layout, t }) => {
+const ForgotPasswordForm = ({ setRedirect, setRedirectUrl, hasLabel, layout, t }) => {
   // State
   const [email, setEmail] = useState(getItemFromStore('email', ''));
   const [code, setCode] = useState('');
@@ -167,12 +167,12 @@ const ForgetPasswordForm = ({ setRedirect, setRedirectUrl, hasLabel, layout, t }
   );
 };
 
-ForgetPasswordForm.propTypes = {
+ForgotPasswordForm.propTypes = {
   setRedirect: PropTypes.func.isRequired,
   setRedirectUrl: PropTypes.func.isRequired,
   layout: PropTypes.string
 };
 
-ForgetPasswordForm.defaultProps = { layout: 'basic' };
+ForgotPasswordForm.defaultProps = { layout: 'basic' };
 
-export default withTranslation()(withRedirect(ForgetPasswordForm));
+export default withTranslation()(withRedirect(ForgotPasswordForm));

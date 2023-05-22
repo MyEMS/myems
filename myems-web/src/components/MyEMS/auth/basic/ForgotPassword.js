@@ -1,10 +1,10 @@
 import React from 'react';
-import ForgetPasswordForm from '../ForgetPasswordForm';
+import ForgotPasswordForm from '../ForgotPasswordForm';
 import { withTranslation } from 'react-i18next';
 
 const ForgetPassword = ({ t }) => {
   return (
-    <ForgetPasswordForm />
+    <ForgotPasswordForm />
   );
 };
 

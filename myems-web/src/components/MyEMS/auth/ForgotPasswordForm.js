@@ -21,7 +21,7 @@ import {FaEye, FaEyeSlash} from 'react-icons/fa'
 import { APIBaseURL } from '../../../config';
 
 
-const ForgetPasswordForm = ({ setRedirect, setRedirectUrl,hasLabel, layout, t }) => {
+const ForgotPasswordForm = ({ setRedirect, setRedirectUrl,hasLabel, layout, t }) => {
   const [email, setEmail] = useState(getItemFromStore('email', ''));
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -60,7 +60,7 @@ const ForgetPasswordForm = ({ setRedirect, setRedirectUrl,hasLabel, layout, t })
       return false;
     }
     let isResponseOK = false;
-    fetch(APIBaseURL + '/users/forgetpassword', {
+    fetch(APIBaseURL + '/users/Forgotpassword', {
       method: 'PUT',
       body: JSON.stringify({
         "data": {
@@ -196,12 +196,12 @@ const ForgetPasswordForm = ({ setRedirect, setRedirectUrl,hasLabel, layout, t })
   );
 };
 
-ForgetPasswordForm.propTypes = {
+ForgotPasswordForm.propTypes = {
   setRedirect: PropTypes.func.isRequired,
   setRedirectUrl: PropTypes.func.isRequired,
   layout: PropTypes.string
 };
 
-ForgetPasswordForm.defaultProps = { layout: 'basic' };
+ForgotPasswordForm.defaultProps = { layout: 'basic' };
 
-export default withTranslation()(withRedirect(ForgetPasswordForm));
+export default withTranslation()(withRedirect(ForgotPasswordForm));

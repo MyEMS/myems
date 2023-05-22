@@ -989,7 +989,7 @@ class Unlock:
                   resource_id=id_, request_body=None)
 
 
-class ForgetPassword:
+class ForgotPassword:
     @staticmethod
     def __init__():
         """Initializes Class"""
@@ -1081,7 +1081,7 @@ class ForgetPassword:
         cnx.close()
 
         resp.status = falcon.HTTP_200
-        write_log(user_uuid=result['uuid'], request_method='PUT', resource_type='ForgetPassword',
+        write_log(user_uuid=result['uuid'], request_method='PUT', resource_type='ForgotPassword',
                   resource_id=result['id'], request_body=None)
 
     
