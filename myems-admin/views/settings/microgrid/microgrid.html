@@ -1,0 +1,124 @@
+<div class="wrapper wrapper-content" ng-controller="MicrogridMasterController">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="tabs-container">
+				<uib-tabset>
+					<uib-tab heading="{{'COMMON.MICROGRID' | translate}}">
+						<div class="panel-body" ng-controller="MicrogridController">
+							<a ng-click="addM()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.ADD_MICROGRID' | translate}}</a>
+							<table class="table table-bordered table-hover" >
+								<thead>
+									<tr>
+										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
+										<th class="text-center">{{'MICROGRID.ADDRESS' | translate}}</th>
+										<th class="text-center">{{'MICROGRID.LATITUDE' | translate}}</th>
+										<th class="text-center">{{'MICROGRID.LONGITUDE' | translate}}</th>
+										<th class="text-center">{{'MICROGRID.CAPACITY' | translate}}</th>
+										<th class="text-center">{{'MICROGRID.ARCHITECTURE_TYPE' | translate}}</th>
+										<th class="text-center">{{'MICROGRID.OWNER_TYPE' | translate}}</th>
+										<th class="text-center">{{'SETTING.CONTACT' | translate}}</th>
+										<th class="text-center">{{'SETTING.IS_INPUT_COUNTED' | translate}}</th>
+										<th class="text-center">{{'SETTING.IS_OUTPUT_COUNTED' | translate}}</th>
+										<th class="text-center">{{'SETTING.COSTCENTER' | translate}}</th>
+										<th class="text-center">{{'MICROGRID.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="microgrid in microgrids">
+										<td class="text-center">{{ microgrid.id }}</td>
+										<td class="text-center">{{ microgrid.name }}</td>
+										<td class="text-center">{{ microgrid.address }}</td>
+										<td class="text-center">{{ microgrid.latitude }}</td>
+										<td class="text-center">{{ microgrid.longitude }}</td>
+										<td class="text-center">{{ microgrid.capacity }}</td>
+										<td class="text-center">{{ microgrid.architecture_type.name }}</td>
+										<td class="text-center">{{ microgrid.owner_type.name }}</td>
+										<td class="text-center">{{ microgrid.contact.name }}</td>
+										<td class="text-center">{{ microgrid.is_input_counted==false?'SETTING.NO':'SETTING.YES' | translate }}</td>
+										<td class="text-center">{{ microgrid.is_output_counted==false?'SETTING.NO':'SETTING.YES' | translate }}</td>
+										<td class="text-center">{{ microgrid.cost_center.name }}</td>
+										<td class="text-center">{{ microgrid.description }}</td>
+										<td class="text-center">
+											<a ng-click="editMicrogrid(microgrid)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
+											<a ng-click="deleteMicrogrid(microgrid)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</uib-tab>
+					<uib-tab heading="{{'SETTING.BIND_SENSOR' | translate}}">
+							<div class="panel-body" ng-controller="MicrogridSensorController">
+								<div class="row">
+									<div class="col-lg-3">
+										<div class="panel panel-info">
+											<div class="panel-heading">
+												{{'COMMON.MICROGRID' | translate}}
+											</div>
+											<div class="panel-body">
+													<form role="form">
+													<div class="form-group no-margin"><label>{{'SETTING.SELECT_MICROGRID' | translate}}</label>
+														<ui-select  on-select="changeMicrogrid($item,$model)" ng-model="currentMicrogrid.selected" theme="bootstrap">
+															<ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+															<ui-select-choices repeat="microgrid.id as microgrid in microgrids | filter: $select.search">
+																<div ng-bind-html="microgrid.name | highlight: $select.search"></div>
+															</ui-select-choices>
+														</ui-select>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-4">
+										<div class="panel panel-primary">
+											<div class="panel-heading">
+												{{currentMicrogrid.name}}{{'SETTING.N_S_SENSOR' | translate}}
+											</div>
+											<div class="panel-body"
+											    x-hjc-drop-target="true"
+											    x-on-drop="pairSensor(dragEl,dropEl)"
+											    uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}" >
+												
+												<div class="btn btn-primary btn-rounded btn-block"
+												    title="{{'COMMON.MICROGRID' | translate}}:{{microgridsensor.data_source.name}}"
+												    ng-repeat="microgridsensor in microgridsensors"
+												    x-hjc-draggable="true"> {{microgridsensor.name}}
+											</div>
+										</div>
+									</div>
+									<div class="panel panel-danger">
+										<div class="panel-heading">
+											{{'SETTING.TRASH' | translate}}
+										</div>
+										<div class="panel-body trash" >
+											<img class="trashcan"
+											src="img/trashcan.png"
+											x-hjc-drop-target="true"
+											x-on-drop="deleteSensorPair(dragEl,dropEl)">
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'SENSOR.SELECT_SENSOR' | translate}}
+										</div>
+										<div class="panel-body" slim-scroll box-height="765px"
+										uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}">
+											<h5>{{'SETTING.SENSOR_LIST' | translate}}</h5>
+											<div class="source btn btn-info btn-rounded btn-block"
+											ng-repeat="sensor in sensors"
+											x-hjc-draggable="true"> {{sensor.name}}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</uib-tab>
+				</uib-tabset>
+			</div>
+		</div>
+	</div>
+</div>
