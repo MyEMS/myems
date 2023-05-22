@@ -561,8 +561,7 @@ class UserLogin:
         if failed_login_count >= config.maximum_failed_login_count:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.USER_ACCOUNT_HAS_BEEN_LOCKED')
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.USER_ACCOUNT_HAS_BEEN_LOCKED')
 
         salt = result['salt']
         password = str.strip(new_values['data']['password'])
@@ -590,14 +589,12 @@ class UserLogin:
         if result['account_expiration_datetime_utc'] <= datetime.utcnow():
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.USER_ACCOUNT_HAS_EXPIRED')
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.USER_ACCOUNT_HAS_EXPIRED')
 
         if result['password_expiration_datetime_utc'] <= datetime.utcnow():
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.USER_PASSWORD_HAS_EXPIRED')
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.USER_PASSWORD_HAS_EXPIRED')
 
         add_session = (" INSERT INTO tbl_sessions "
                        "             (user_uuid, token, utc_expires) "
