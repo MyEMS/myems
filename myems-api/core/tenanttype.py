@@ -48,14 +48,14 @@ class TenantTypeCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
 
         new_values = json.loads(raw_json)
 
         if 'name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_TYPE_NAME')
 
         name = str.strip(new_values['data']['name'])
@@ -63,7 +63,7 @@ class TenantTypeCollection:
         if 'description' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['description'], str) or \
                 len(str.strip(new_values['data']['description'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_TYPE_DESCRIPTION')
 
         description = str.strip(new_values['data']['description'])
@@ -71,7 +71,7 @@ class TenantTypeCollection:
         if 'simplified_code' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['simplified_code'], str) or \
                 len(str.strip(new_values['data']['simplified_code'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_TYPE_SIMPLIFIED_CODE')
 
         simplified_code = str.strip(new_values['data']['simplified_code'])
@@ -85,7 +85,7 @@ class TenantTypeCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.TENANT_TYPE_NAME_IS_ALREADY_IN_USE')
 
         cursor.execute(" SELECT simplified_code "
@@ -94,7 +94,7 @@ class TenantTypeCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.TENANT_TYPE_SIMPLIFIED_CODE_IS_ALREADY_IN_USE')
 
         add_value = (" INSERT INTO tbl_tenant_types "
@@ -126,7 +126,7 @@ class TenantTypeItem:
     @staticmethod
     def on_get(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_TYPE_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -140,7 +140,7 @@ class TenantTypeItem:
         cursor.close()
         cnx.close()
         if row is None:
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TENANT_TYPE_NOT_FOUND')
 
         result = {"id": row[0],
@@ -156,7 +156,7 @@ class TenantTypeItem:
         """Handles DELETE requests"""
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_TYPE_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -168,7 +168,7 @@ class TenantTypeItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TENANT_TYPE_NOT_FOUND')
 
         cursor.execute(" SELECT id "
@@ -178,7 +178,7 @@ class TenantTypeItem:
         if rows_tenants is not None and len(rows_tenants) > 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.TENANT_TYPE_USED_IN_TENANT')
 
@@ -197,17 +197,17 @@ class TenantTypeItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_TYPE_ID')
 
         new_values = json.loads(raw_json)
         if 'name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_TYPE_NAME')
 
         name = str.strip(new_values['data']['name'])
@@ -215,7 +215,7 @@ class TenantTypeItem:
         if 'description' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['description'], str) or \
                 len(str.strip(new_values['data']['description'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_TYPE_DESCRIPTION')
 
         description = str.strip(new_values['data']['description'])
@@ -223,7 +223,7 @@ class TenantTypeItem:
         if 'simplified_code' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['simplified_code'], str) or \
                 len(str.strip(new_values['data']['simplified_code'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_TYPE_SIMPLIFIED_CODE')
 
         simplified_code = str.strip(new_values['data']['simplified_code'])
@@ -237,7 +237,7 @@ class TenantTypeItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TENANT_TYPE_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -246,7 +246,7 @@ class TenantTypeItem:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.TENANT_TYPE_NAME_IS_ALREADY_IN_USE')
 
         cursor.execute(" SELECT simplified_code "
@@ -255,7 +255,7 @@ class TenantTypeItem:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.BAD_REQUEST',
                                    description='API.TENANT_TYPE_SIMPLIFIED_CODE_IS_ALREADY_IN_USE')
 
         update_row = (" UPDATE tbl_tenant_types "

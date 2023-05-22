@@ -20,14 +20,14 @@ def access_control(req):
     if 'USER-UUID' not in req.headers or \
             not isinstance(req.headers['USER-UUID'], str) or \
             len(str.strip(req.headers['USER-UUID'])) == 0:
-        raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                description='API.INVALID_USER_UUID')
     admin_user_uuid = str.strip(req.headers['USER-UUID'])
 
     if 'TOKEN' not in req.headers or \
             not isinstance(req.headers['TOKEN'], str) or \
             len(str.strip(req.headers['TOKEN'])) == 0:
-        raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                description='API.INVALID_TOKEN')
     admin_token = str.strip(req.headers['TOKEN'])
 
@@ -43,14 +43,14 @@ def access_control(req):
     if row is None:
         cursor.close()
         cnx.close()
-        raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+        raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                description='API.ADMINISTRATOR_SESSION_NOT_FOUND')
     else:
         utc_expires = row[0]
         if datetime.utcnow() > utc_expires:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.ADMINISTRATOR_SESSION_TIMEOUT')
     query = (" SELECT name "
              " FROM tbl_users "
@@ -60,7 +60,7 @@ def access_control(req):
     cursor.close()
     cnx.close()
     if row is None:
-        raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.INVALID_PRIVILEGE')
+        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_PRIVILEGE')
 
 
 def write_log(user_uuid, request_method, resource_type, resource_id, request_body):

@@ -30,7 +30,7 @@ class WebMessageCollection:
             timezone_offset = -timezone_offset
 
         if start_datetime_local is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description="API.INVALID_START_DATETIME_FORMAT")
         else:
             start_datetime_local = str.strip(start_datetime_local)
@@ -39,11 +39,11 @@ class WebMessageCollection:
                                                        '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
                                      timedelta(minutes=timezone_offset)
             except ValueError:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_START_DATETIME_FORMAT")
 
         if end_datetime_local is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description="API.INVALID_END_DATETIME_FORMAT")
         else:
             end_datetime_local = str.strip(end_datetime_local)
@@ -52,21 +52,21 @@ class WebMessageCollection:
                                                      '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
                                    timedelta(minutes=timezone_offset)
             except ValueError:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_END_DATETIME_FORMAT")
 
         if start_datetime_utc >= end_datetime_utc:
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.START_DATETIME_MUST_BE_EARLIER_THAN_END_DATETIME')
 
         if status is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description="API.INVALID_STATUS")
         else:
             status = str.lower(str.strip(status))
             if status not in ['new', 'read', 'acknowledged', 'all']:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_STATUS')
             else:
                 if status == 'all':
@@ -75,12 +75,12 @@ class WebMessageCollection:
                     status_query = "status = '" + status + "' AND "
 
         if priority is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description="API.INVALID_PRIORITY")
         else:
             priority = str.upper(str.strip(priority))
             if priority not in ['LOW', 'MEDIUM', 'HIGH', 'CRITICAL', 'ALL']:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_PRIORITY')
             else:
                 if priority == 'ALL':
@@ -92,10 +92,10 @@ class WebMessageCollection:
         token = req.headers.get('TOKEN')
         user_uuid = req.headers.get('USER-UUID')
         if token is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.TOKEN_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
         if user_uuid is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.USER_UUID_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
 
         cnx = mysql.connector.connect(**config.myems_user_db)
@@ -112,7 +112,7 @@ class WebMessageCollection:
                 cursor.close()
             if cnx:
                 cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
         else:
             utc_expires = row[0]
@@ -121,7 +121,7 @@ class WebMessageCollection:
                     cursor.close()
                 if cnx:
                     cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.USER_SESSION_TIMEOUT')
 
         cursor.execute(" SELECT id "
@@ -134,7 +134,7 @@ class WebMessageCollection:
                 cursor.close()
             if cnx:
                 cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_PLEASE_RE_LOGIN')
         else:
             user_id = row[0]
@@ -195,10 +195,10 @@ class WebMessageStatusNewCollection:
         token = req.headers.get('TOKEN')
         user_uuid = req.headers.get('USER-UUID')
         if token is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.TOKEN_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
         if user_uuid is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.USER_UUID_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
 
         cnx = mysql.connector.connect(**config.myems_user_db)
@@ -215,7 +215,7 @@ class WebMessageStatusNewCollection:
                 cursor.close()
             if cnx:
                 cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
         else:
             utc_expires = row[0]
@@ -224,7 +224,7 @@ class WebMessageStatusNewCollection:
                     cursor.close()
                 if cnx:
                     cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.USER_SESSION_TIMEOUT')
 
         cursor.execute(" SELECT id "
@@ -237,7 +237,7 @@ class WebMessageStatusNewCollection:
                 cursor.close()
             if cnx:
                 cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_PLEASE_RE_LOGIN')
         else:
             user_id = row[0]
@@ -285,7 +285,7 @@ class WebMessageStatusNewCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         new_values = json.loads(raw_json)
 
@@ -293,7 +293,7 @@ class WebMessageStatusNewCollection:
                 not isinstance(new_values['data']['status'], str) or \
                 len(str.strip(new_values['data']['status'])) == 0 or \
                 str.strip(new_values['data']['status']) not in ('new', 'acknowledged', 'read'):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STATUS')
         status = str.strip(new_values['data']['status'])
 
@@ -302,7 +302,7 @@ class WebMessageStatusNewCollection:
             if 'reply' not in new_values['data'].keys() or \
                     not isinstance(new_values['data']['reply'], str) or \
                     len(str.strip(new_values['data']['reply'])) == 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_REPLY')
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_REPLY')
             else:
                 reply = str.strip(new_values['data']['reply'])
         else:
@@ -312,10 +312,10 @@ class WebMessageStatusNewCollection:
         token = req.headers.get('TOKEN')
         user_uuid = req.headers.get('USER-UUID')
         if token is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.TOKEN_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
         if user_uuid is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.USER_UUID_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
 
         cnx = mysql.connector.connect(**config.myems_user_db)
@@ -332,7 +332,7 @@ class WebMessageStatusNewCollection:
                 cursor.close()
             if cnx:
                 cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
         else:
             utc_expires = row[0]
@@ -341,7 +341,7 @@ class WebMessageStatusNewCollection:
                     cursor.close()
                 if cnx:
                     cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.USER_SESSION_TIMEOUT')
 
         cursor.execute(" SELECT id "
@@ -354,7 +354,7 @@ class WebMessageStatusNewCollection:
                 cursor.close()
             if cnx:
                 cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_PLEASE_RE_LOGIN')
         else:
             user_id = row[0]
@@ -373,7 +373,7 @@ class WebMessageStatusNewCollection:
         if cursor.fetchall() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.WEB_MESSAGE_NOT_FOUND')
 
         update_row = (" UPDATE tbl_web_messages "
@@ -405,17 +405,17 @@ class WebMessageItem:
     def on_get(req, resp, id_):
         """Handles GET requests"""
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_WEB_MESSAGE_ID')
 
         # Verify User Session
         token = req.headers.get('TOKEN')
         user_uuid = req.headers.get('USER-UUID')
         if token is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.TOKEN_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
         if user_uuid is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.USER_UUID_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
 
         cnx = mysql.connector.connect(**config.myems_user_db)
@@ -432,7 +432,7 @@ class WebMessageItem:
                 cursor.close()
             if cnx:
                 cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
         else:
             utc_expires = row[0]
@@ -441,7 +441,7 @@ class WebMessageItem:
                     cursor.close()
                 if cnx:
                     cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.USER_SESSION_TIMEOUT')
 
         cursor.execute(" SELECT id "
@@ -454,7 +454,7 @@ class WebMessageItem:
                 cursor.close()
             if cnx:
                 cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_PLEASE_RE_LOGIN')
         else:
             user_id = row[0]
@@ -482,7 +482,7 @@ class WebMessageItem:
             cnx.close()
 
         if row is None:
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.WEB_MESSAGE_NOT_FOUND')
 
         meta_result = {"id": row[0],
@@ -501,10 +501,10 @@ class WebMessageItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_WEB_MESSAGE_ID')
 
         new_values = json.loads(raw_json)
@@ -513,7 +513,7 @@ class WebMessageItem:
                 not isinstance(new_values['data']['status'], str) or \
                 len(str.strip(new_values['data']['status'])) == 0 or \
                 str.strip(new_values['data']['status']) not in ('new', 'acknowledged', 'read'):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STATUS')
         status = str.strip(new_values['data']['status'])
 
@@ -522,7 +522,7 @@ class WebMessageItem:
             if 'reply' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['reply'], str) or \
                     len(str.strip(new_values['data']['reply'])) == 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_REPLY')
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_REPLY')
             else:
                 reply = str.strip(new_values['data']['reply'])
         else:
@@ -532,10 +532,10 @@ class WebMessageItem:
         token = req.headers.get('TOKEN')
         user_uuid = req.headers.get('USER-UUID')
         if token is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.TOKEN_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
         if user_uuid is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.USER_UUID_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
 
         cnx = mysql.connector.connect(**config.myems_user_db)
@@ -552,7 +552,7 @@ class WebMessageItem:
                 cursor.close()
             if cnx:
                 cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
         else:
             utc_expires = row[0]
@@ -561,7 +561,7 @@ class WebMessageItem:
                     cursor.close()
                 if cnx:
                     cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.USER_SESSION_TIMEOUT')
 
         cursor.execute(" SELECT id "
@@ -574,7 +574,7 @@ class WebMessageItem:
                 cursor.close()
             if cnx:
                 cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_PLEASE_RE_LOGIN')
         else:
             user_id = row[0]
@@ -593,7 +593,7 @@ class WebMessageItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.WEB_MESSAGE_NOT_FOUND')
 
         update_row = (" UPDATE tbl_web_messages "
@@ -613,17 +613,17 @@ class WebMessageItem:
     @user_logger
     def on_delete(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_WEB_MESSAGE_ID')
 
         # Verify User Session
         token = req.headers.get('TOKEN')
         user_uuid = req.headers.get('USER-UUID')
         if token is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.TOKEN_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
         if user_uuid is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.USER_UUID_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
 
         cnx = mysql.connector.connect(**config.myems_user_db)
@@ -640,7 +640,7 @@ class WebMessageItem:
                 cursor.close()
             if cnx:
                 cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
         else:
             utc_expires = row[0]
@@ -649,7 +649,7 @@ class WebMessageItem:
                     cursor.close()
                 if cnx:
                     cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.USER_SESSION_TIMEOUT')
 
         cursor.execute(" SELECT id "
@@ -662,7 +662,7 @@ class WebMessageItem:
                 cursor.close()
             if cnx:
                 cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_PLEASE_RE_LOGIN')
         else:
             user_id = row[0]
@@ -685,7 +685,7 @@ class WebMessageItem:
                 cursor.close()
             if cnx:
                 cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.WEB_MESSAGE_NOT_FOUND')
 
         cursor.execute(" DELETE FROM tbl_web_messages WHERE id = %s ", (id_,))

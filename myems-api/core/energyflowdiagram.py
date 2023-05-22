@@ -131,14 +131,14 @@ class EnergyFlowDiagramCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
 
         new_values = json.loads(raw_json)
 
         if 'name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_NAME')
         name = str.strip(new_values['data']['name'])
 
@@ -151,7 +151,7 @@ class EnergyFlowDiagramCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.ENERGY_FLOW_DIAGRAM_NAME_IS_ALREADY_IN_USE')
 
         add_values = (" INSERT INTO tbl_energy_flow_diagrams "
@@ -181,7 +181,7 @@ class EnergyFlowDiagramItem:
     @staticmethod
     def on_get(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -275,7 +275,7 @@ class EnergyFlowDiagramItem:
         cnx.close()
 
         if row is None:
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_NOT_FOUND')
         else:
             meta_result = {"id": row[0],
@@ -292,7 +292,7 @@ class EnergyFlowDiagramItem:
     def on_delete(req, resp, id_):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -323,19 +323,19 @@ class EnergyFlowDiagramItem:
         """Handles PUT requests"""
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         new_values = json.loads(raw_json)
 
         if 'name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_NAME')
         name = str.strip(new_values['data']['name'])
 
@@ -348,7 +348,7 @@ class EnergyFlowDiagramItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -357,7 +357,7 @@ class EnergyFlowDiagramItem:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.ENERGY_FLOW_DIAGRAM_NAME_IS_ALREADY_IN_USE')
 
         update_row = (" UPDATE tbl_energy_flow_diagrams "
@@ -386,7 +386,7 @@ class EnergyFlowDiagramLinkCollection:
     @staticmethod
     def on_get(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -448,7 +448,7 @@ class EnergyFlowDiagramLinkCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_NOT_FOUND')
 
         query = (" SELECT id, source_node_id, target_node_id, meter_uuid "
@@ -486,12 +486,12 @@ class EnergyFlowDiagramLinkCollection:
         """Handles POST requests"""
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
 
         new_values = json.loads(raw_json)
 
@@ -499,7 +499,7 @@ class EnergyFlowDiagramLinkCollection:
         if 'source_node_id' in new_values['data'].keys():
             if new_values['data']['source_node_id'] is not None and \
                     new_values['data']['source_node_id'] <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_SOURCE_NODE_ID')
             source_node_id = new_values['data']['source_node_id']
 
@@ -507,7 +507,7 @@ class EnergyFlowDiagramLinkCollection:
         if 'target_node_id' in new_values['data'].keys():
             if new_values['data']['target_node_id'] is not None and \
                     new_values['data']['target_node_id'] <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_TARGET_NODE_ID')
             target_node_id = new_values['data']['target_node_id']
 
@@ -527,7 +527,7 @@ class EnergyFlowDiagramLinkCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_NOT_FOUND')
 
         cursor.execute(" SELECT id "
@@ -539,7 +539,7 @@ class EnergyFlowDiagramLinkCollection:
         if row is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_LINK_IS_ALREADY_IN_USE')
 
@@ -550,7 +550,7 @@ class EnergyFlowDiagramLinkCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.SOURCE_NODE_NOT_FOUND')
 
         query = (" SELECT id, name "
@@ -560,7 +560,7 @@ class EnergyFlowDiagramLinkCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.TARGET_NODE_NOT_FOUND')
 
         query = (" SELECT id, name, uuid "
@@ -606,7 +606,7 @@ class EnergyFlowDiagramLinkCollection:
         if meter_dict.get(meter_uuid) is None and \
                 virtual_meter_dict.get(meter_uuid) is None and \
                 offline_meter_dict.get(meter_uuid) is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_METER_UUID')
 
         add_values = (" INSERT INTO tbl_energy_flow_diagrams_links "
@@ -638,11 +638,11 @@ class EnergyFlowDiagramLinkItem:
     @staticmethod
     def on_get(req, resp, id_, lid):
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
 
         if not lid.isdigit() or int(lid) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_LINK_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -707,7 +707,7 @@ class EnergyFlowDiagramLinkItem:
         cnx.close()
 
         if row is None:
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_LINK_NOT_FOUND_OR_NOT_MATCH')
         else:
             source_node = node_dict.get(row[1], None)
@@ -730,11 +730,11 @@ class EnergyFlowDiagramLinkItem:
     def on_delete(req, resp, id_, lid):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
 
         if not lid.isdigit() or int(lid) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_LINK_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -748,7 +748,7 @@ class EnergyFlowDiagramLinkItem:
         if row is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_NOT_FOUND')
 
@@ -760,7 +760,7 @@ class EnergyFlowDiagramLinkItem:
         if row is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_LINK_NOT_FOUND_OR_NOT_MATCH')
 
@@ -779,17 +779,17 @@ class EnergyFlowDiagramLinkItem:
         """Handles PUT requests"""
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
 
         if not lid.isdigit() or int(lid) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_LINK_ID')
 
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
 
         new_values = json.loads(raw_json)
 
@@ -797,7 +797,7 @@ class EnergyFlowDiagramLinkItem:
         if 'source_node_id' in new_values['data'].keys():
             if new_values['data']['source_node_id'] is not None and \
                     new_values['data']['source_node_id'] <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_SOURCE_NODE_ID')
             source_node_id = new_values['data']['source_node_id']
 
@@ -805,7 +805,7 @@ class EnergyFlowDiagramLinkItem:
         if 'target_node_id' in new_values['data'].keys():
             if new_values['data']['target_node_id'] is not None and \
                     new_values['data']['target_node_id'] <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_TARGET_NODE_ID')
             target_node_id = new_values['data']['target_node_id']
 
@@ -825,7 +825,7 @@ class EnergyFlowDiagramLinkItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_NOT_FOUND')
 
         cursor.execute(" SELECT id "
@@ -836,7 +836,7 @@ class EnergyFlowDiagramLinkItem:
         if row is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_LINK_NOT_FOUND_OR_NOT_MATCH')
 
@@ -849,7 +849,7 @@ class EnergyFlowDiagramLinkItem:
         if row is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_LINK_IS_ALREADY_IN_USE')
 
@@ -860,7 +860,7 @@ class EnergyFlowDiagramLinkItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.SOURCE_NODE_NOT_FOUND')
 
         query = (" SELECT id, name "
@@ -870,7 +870,7 @@ class EnergyFlowDiagramLinkItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.TARGET_NODE_NOT_FOUND')
 
         query = (" SELECT id, name, uuid "
@@ -916,7 +916,7 @@ class EnergyFlowDiagramLinkItem:
         if meter_dict.get(meter_uuid) is None and \
                 virtual_meter_dict.get(meter_uuid) is None and \
                 offline_meter_dict.get(meter_uuid) is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_METER_UUID')
 
         add_values = (" UPDATE tbl_energy_flow_diagrams_links "
@@ -947,7 +947,7 @@ class EnergyFlowDiagramNodeCollection:
     @staticmethod
     def on_get(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -959,7 +959,7 @@ class EnergyFlowDiagramNodeCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_NOT_FOUND')
 
         query = (" SELECT id, name "
@@ -986,19 +986,19 @@ class EnergyFlowDiagramNodeCollection:
         """Handles POST requests"""
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
 
         new_values = json.loads(raw_json)
 
         if 'name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_NODE_NAME')
         name = str.strip(new_values['data']['name'])
 
@@ -1011,7 +1011,7 @@ class EnergyFlowDiagramNodeCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -1020,7 +1020,7 @@ class EnergyFlowDiagramNodeCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.ENERGY_FLOW_DIAGRAM_NAME_IS_ALREADY_IN_USE')
 
         add_values = (" INSERT INTO tbl_energy_flow_diagrams_nodes "
@@ -1050,11 +1050,11 @@ class EnergyFlowDiagramNodeItem:
     @staticmethod
     def on_get(req, resp, id_, nid):
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
 
         if not nid.isdigit() or int(nid) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_NODE_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -1069,7 +1069,7 @@ class EnergyFlowDiagramNodeItem:
         cnx.close()
 
         if row is None:
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_NODE_NOT_FOUND_OR_NOT_MATCH')
         else:
             meta_result = {"id": row[0],
@@ -1082,11 +1082,11 @@ class EnergyFlowDiagramNodeItem:
     def on_delete(req, resp, id_, nid):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
 
         if not nid.isdigit() or int(nid) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_NODE_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -1100,7 +1100,7 @@ class EnergyFlowDiagramNodeItem:
         if row is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_NOT_FOUND')
 
@@ -1112,7 +1112,7 @@ class EnergyFlowDiagramNodeItem:
         if row is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_NODE_NOT_FOUND_OR_NOT_MATCH')
 
@@ -1131,24 +1131,24 @@ class EnergyFlowDiagramNodeItem:
         """Handles PUT requests"""
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
 
         if not nid.isdigit() or int(nid) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_NODE_ID')
 
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
 
         new_values = json.loads(raw_json)
 
         if 'name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_NODE_NAME')
         name = str.strip(new_values['data']['name'])
 
@@ -1161,7 +1161,7 @@ class EnergyFlowDiagramNodeItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -1172,7 +1172,7 @@ class EnergyFlowDiagramNodeItem:
         if row is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_NODE_NOT_FOUND_OR_NOT_MATCH')
 
@@ -1183,7 +1183,7 @@ class EnergyFlowDiagramNodeItem:
         if row is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.ENERGY_FLOW_DIAGRAM_NODE_NAME_IS_ALREADY_IN_USE')
 
         add_values = (" UPDATE tbl_energy_flow_diagrams_nodes "

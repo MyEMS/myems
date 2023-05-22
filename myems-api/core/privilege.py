@@ -48,19 +48,19 @@ class PrivilegeCollection:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if 'name' not in new_values['data'] or \
             not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_PRIVILEGE_NAME')
         name = str.strip(new_values['data']['name'])
 
         if 'data' not in new_values['data'] or \
             not isinstance(new_values['data']['data'], str) or \
                 len(str.strip(new_values['data']['data'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_PRIVILEGE_DATA')
         data = str.strip(new_values['data']['data'])
 
@@ -73,7 +73,7 @@ class PrivilegeCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.PRIVILEGE_NAME_IS_ALREADY_IN_USE')
 
         add_row = (" INSERT INTO tbl_privileges "
@@ -105,7 +105,7 @@ class PrivilegeItem:
     def on_delete(req, resp, id_):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_PRIVILEGE_ID')
 
         cnx = mysql.connector.connect(**config.myems_user_db)
@@ -119,7 +119,7 @@ class PrivilegeItem:
         if rows_users is not None and len(rows_users) > 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_USERS')
 
@@ -129,7 +129,7 @@ class PrivilegeItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.PRIVILEGE_NOT_FOUND')
 
         # TODO: delete associated objects
@@ -150,22 +150,22 @@ class PrivilegeItem:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_PRIVILEGE_ID')
         if 'name' not in new_values['data'] or \
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_PRIVILEGE_NAME')
         name = str.strip(new_values['data']['name'])
 
         if 'data' not in new_values['data'] or \
                 not isinstance(new_values['data']['data'], str) or \
                 len(str.strip(new_values['data']['data'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_PRIVILEGE_DATA')
         data = str.strip(new_values['data']['data'])
 
@@ -178,7 +178,7 @@ class PrivilegeItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.PRIVILEGE_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -187,7 +187,7 @@ class PrivilegeItem:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.PRIVILEGE_NAME_IS_ALREADY_IN_USE')
 
         update_row = (" UPDATE tbl_privileges "
