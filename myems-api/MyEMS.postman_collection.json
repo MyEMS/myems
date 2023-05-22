@@ -1,9 +1,8 @@
 {
 	"info": {
-		"_postman_id": "bd0a9e37-486d-4575-b91a-bdbdcddae6b3",
+		"_postman_id": "cf01b0e4-707f-4eab-9532-96586e805515",
 		"name": "MyEMS",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "9079920"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -4580,6 +4579,224 @@
 										"1",
 										"points",
 										"3"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Microgrid",
+					"item": [
+						{
+							"name": "GET All Microgrids",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/microgrids",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgrids"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET a Microgrid by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/microgrids/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgrids",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Create New Microgrids",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"latitude\":39.909429, \"longitude\":116.416993, \"capacity\":600.000, \"microgrid_type_id\":1, \"microgrid_owner_type_id\":1, \"is_input_counted\":true, \"is_output_counted\":true, \"contact_id\":1, \"cost_center_id\":1, \"description\":\"Classic\"}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/microgrids",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgrids"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Update a Microgrid",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"latitude\":39.909429, \"longitude\":116.416993, \"capacity\":600.000, \"microgrid_type_id\":1, \"microgrid_owner_type_id\":1, \"is_input_counted\":true, \"is_output_counted\":true, \"contact_id\":1, \"cost_center_id\":1, \"description\":\"New\"}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/microgrids/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgrids",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Microgrid by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/microgrids/2",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgrids",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Sensors of Microgrid by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/microgrids/1/sensors",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgrids",
+										"1",
+										"sensors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Bind a Sensor to a Microgrid",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"sensor_id\":1}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/microgrids/1/sensors",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgrids",
+										"1",
+										"sensors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Sensor from Stores",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/microgrids/1/sensors/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgrids",
+										"1",
+										"sensors",
+										"1"
 									]
 								}
 							},
