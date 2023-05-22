@@ -106,6 +106,16 @@ class UserCollection:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EMAIL')
 
+        if 'password' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['password'], str) or \
+                len(str.strip(new_values['data']['password'])) == 0:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_PASSWORD')
+
+        if len(str.strip(new_values['data']['password'])) > 100:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.PASSWORD_LENGTH_CANNOT_EXCEED_100_CHARACTERS')
+
         if 'is_admin' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['is_admin'], bool):
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -336,6 +346,16 @@ class UserItem:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EMAIL')
 
+        if 'password' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['password'], str) or \
+                len(str.strip(new_values['data']['password'])) == 0:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_PASSWORD')
+
+        if len(str.strip(new_values['data']['password'])) > 100:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.PASSWORD_LENGTH_CANNOT_EXCEED_100_CHARACTERS')
+
         if 'is_admin' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['is_admin'], bool):
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -461,6 +481,10 @@ class UserLogin:
                 len(str.strip(new_values['data']['password'])) == 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_PASSWORD')
+
+        if len(str.strip(new_values['data']['password'])) > 100:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.PASSWORD_LENGTH_CANNOT_EXCEED_100_CHARACTERS')
 
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
@@ -692,12 +716,20 @@ class ChangePassword:
                                    description='API.INVALID_OLD_PASSWORD')
         old_password = str.strip(new_values['data']['old_password'])
 
+        if len(str.strip(new_values['data']['old_password'])) > 100:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.OLD_PASSWORD_LENGTH_CANNOT_EXCEED_100_CHARACTERS')
+
         if 'new_password' not in new_values['data'] or \
                 not isinstance(new_values['data']['new_password'], str) or \
                 len(str.strip(new_values['data']['new_password'])) == 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_NEW_PASSWORD')
         new_password = str.strip(new_values['data']['new_password'])
+
+        if len(str.strip(new_values['data']['new_password'])) > 100:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.NEW_PASSWORD_LENGTH_CANNOT_EXCEED_100_CHARACTERS')
 
         # Verify User Session
 
@@ -814,6 +846,11 @@ class ResetPassword:
                 len(str.strip(new_values['data']['password'])) == 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_PASSWORD')
+
+        if len(str.strip(new_values['data']['password'])) > 100:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.PASSWORD_LENGTH_CANNOT_EXCEED_100_CHARACTERS')
+
         new_password = str.strip(new_values['data']['password'])
 
         # Verify Administrator
