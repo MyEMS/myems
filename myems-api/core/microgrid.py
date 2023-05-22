@@ -24,27 +24,25 @@ class MicrogridCollection:
         cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid "
-                 " FROM tbl_microgrid_types ")
+                 " FROM tbl_microgrid_architecture_types ")
         cursor.execute(query)
-        rows_microgrid_types = cursor.fetchall()
+        rows_architecture_types = cursor.fetchall()
 
-        microgrid_type_dict = dict()
-        if rows_microgrid_types is not None and len(rows_microgrid_types) > 0:
-            for row in rows_microgrid_types:
-                microgrid_type_dict[row[0]] = {"id": row[0],
-                                               "name": row[1],
-                                               "uuid": row[2]}
+        architecture_type_dict = dict()
+        if rows_architecture_types is not None and len(rows_architecture_types) > 0:
+            for row in rows_architecture_types:
+                architecture_type_dict[row[0]] = {"id": row[0],
+                                                  "name": row[1],
+                                                  "uuid": row[2]}
         query = (" SELECT id, name, uuid "
                  " FROM tbl_microgrid_owner_types ")
         cursor.execute(query)
-        rows_microgrid_owner_types = cursor.fetchall()
+        rows_owner_types = cursor.fetchall()
 
-        microgrid_owner_type_dict = dict()
-        if rows_microgrid_owner_types is not None and len(rows_microgrid_owner_types) > 0:
-            for row in rows_microgrid_owner_types:
-                microgrid_owner_type_dict[row[0]] = {"id": row[0],
-                                                     "name": row[1],
-                                                     "uuid": row[2]}
+        owner_type_dict = dict()
+        if rows_owner_types is not None and len(rows_owner_types) > 0:
+            for row in rows_owner_types:
+                owner_type_dict[row[0]] = {"id": row[0], "name": row[1], "uuid": row[2]}
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_contacts ")
@@ -72,7 +70,7 @@ class MicrogridCollection:
 
         query = (" SELECT id, name, uuid, "
                  "        address, latitude, longitude, capacity, "
-                 "        microgrid_type_id, microgrid_owner_type_id, "
+                 "        architecture_type_id, owner_type_id, "
                  "        is_input_counted, is_output_counted, contact_id, cost_center_id, description "
                  " FROM tbl_microgrids "
                  " ORDER BY id ")
@@ -82,8 +80,8 @@ class MicrogridCollection:
         result = list()
         if rows_spaces is not None and len(rows_spaces) > 0:
             for row in rows_spaces:
-                microgrid_type = microgrid_type_dict.get(row[7], None)
-                microgrid_owner_type = microgrid_owner_type_dict.get(row[8], None)
+                architecture_type = architecture_type_dict.get(row[7], None)
+                owner_type = owner_type_dict.get(row[8], None)
                 contact = contact_dict.get(row[11], None)
                 cost_center = cost_center_dict.get(row[12], None)
 
@@ -93,9 +91,9 @@ class MicrogridCollection:
                                "address": row[3],
                                "latitude": row[4],
                                "longitude": row[5],
-                               "installed_capacity": row[6],
-                               "microgrid_type": microgrid_type,
-                               "microgrid_owner_type": microgrid_owner_type,
+                               "capacity": row[6],
+                               "architecture_type": architecture_type,
+                               "owner_type": owner_type,
                                "is_input_counted": bool(row[9]),
                                "is_output_counted": bool(row[10]),
                                "contact": contact,
@@ -160,19 +158,19 @@ class MicrogridCollection:
                                    description='API.INVALID_CAPACITY_VALUE')
         capacity = new_values['data']['capacity']
 
-        if 'microgrid_type_id' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['microgrid_type_id'], int) or \
-                new_values['data']['microgrid_type_id'] <= 0:
+        if 'architecture_type_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['architecture_type_id'], int) or \
+                new_values['data']['architecture_type_id'] <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_MICROGRID_TYPE_ID')
-        microgrid_type_id = new_values['data']['microgrid_type_id']
+                                   description='API.INVALID_ARCHITECTURE_TYPE_ID')
+        architecture_type_id = new_values['data']['architecture_type_id']
 
-        if 'microgrid_owner_type_id' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['microgrid_owner_type_id'], int) or \
-                new_values['data']['microgrid_owner_type_id'] <= 0:
+        if 'owner_type_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['owner_type_id'], int) or \
+                new_values['data']['owner_type_id'] <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_MICROGRID_OWNER_TYPE_ID')
-        microgrid_owner_type_id = new_values['data']['microgrid_owner_type_id']
+                                   description='API.INVALID_OWNER_TYPE_ID')
+        owner_type_id = new_values['data']['owner_type_id']
 
         if 'is_input_counted' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['is_input_counted'], bool):
@@ -220,18 +218,18 @@ class MicrogridCollection:
                                    description='API.MICROGRID_NAME_IS_ALREADY_IN_USE')
 
         cursor.execute(" SELECT name "
-                       " FROM tbl_microgrid_types "
+                       " FROM tbl_microgrid_architecture_types "
                        " WHERE id = %s ",
-                       (microgrid_type_id,))
+                       (architecture_type_id,))
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_TYPE_NOT_FOUND')
+                                   description='API.MICROGRID_ARCHITECTURE_TYPE_NOT_FOUND')
         cursor.execute(" SELECT name "
                        " FROM tbl_microgrid_owner_types "
                        " WHERE id = %s ",
-                       (microgrid_type_id,))
+                       (owner_type_id,))
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
@@ -262,7 +260,7 @@ class MicrogridCollection:
 
         add_values = (" INSERT INTO tbl_microgrids "
                       "    (name, uuid, address, latitude, longitude, capacity, "
-                      "     microgrid_type_id, microgrid_owner_type_id, "
+                      "     architecture_type_id, owner_type_id, "
                       "     is_input_counted, is_output_counted, "
                       "     contact_id, cost_center_id, description) "
                       " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
@@ -272,8 +270,8 @@ class MicrogridCollection:
                                     latitude,
                                     longitude,
                                     capacity,
-                                    microgrid_type_id,
-                                    microgrid_owner_type_id,
+                                    architecture_type_id,
+                                    owner_type_id,
                                     is_input_counted,
                                     is_output_counted,
                                     contact_id,
@@ -308,16 +306,15 @@ class MicrogridItem:
         cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid "
-                 " FROM tbl_microgrid_types ")
+                 " FROM tbl_microgrid_architecture_types ")
         cursor.execute(query)
-        rows_microgrid_types = cursor.fetchall()
+        rows_architecture_types = cursor.fetchall()
 
-        microgrid_type_dict = dict()
-        if rows_microgrid_types is not None and len(rows_microgrid_types) > 0:
-            for row in rows_microgrid_types:
-                microgrid_type_dict[row[0]] = {"id": row[0],
-                                               "name": row[1],
-                                               "uuid": row[2]}
+        architecture_type_dict = dict()
+        if rows_architecture_types is not None and len(rows_architecture_types) > 0:
+            for row in rows_architecture_types:
+                architecture_type_dict[row[0]] = {"id": row[0], "name": row[1], "uuid": row[2]}
+
         query = (" SELECT id, name, uuid "
                  " FROM tbl_microgrid_owner_types ")
         cursor.execute(query)
@@ -356,7 +353,7 @@ class MicrogridItem:
 
         query = (" SELECT id, name, uuid, "
                  "        address, latitude, longitude, capacity, "
-                 "        microgrid_type_id, microgrid_owner_type_id, "
+                 "        architecture_type_id, owner_type_id, "
                  "        is_input_counted, is_output_counted, "
                  "        contact_id, cost_center_id, description "
                  " FROM tbl_microgrids "
@@ -370,8 +367,8 @@ class MicrogridItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.MICROGRID_NOT_FOUND')
         else:
-            microgrid_type = microgrid_type_dict.get(row[7], None)
-            microgrid_owner_type = microgrid_owner_type_dict.get(row[8], None)
+            architecture_type = architecture_type_dict.get(row[7], None)
+            owner_type = microgrid_owner_type_dict.get(row[8], None)
             contact = contact_dict.get(row[11], None)
             cost_center = cost_center_dict.get(row[12], None)
             meta_result = {"id": row[0],
@@ -381,8 +378,8 @@ class MicrogridItem:
                            "latitude": row[4],
                            "longitude": row[5],
                            "capacity": row[6],
-                           "microgrid_type": microgrid_type,
-                           "microgrid_owner_type": microgrid_owner_type,
+                           "architecture_type": architecture_type,
+                           "owner_type": owner_type,
                            "is_input_counted": bool(row[9]),
                            "is_output_counted": bool(row[10]),
                            "contact": contact,
@@ -512,19 +509,19 @@ class MicrogridItem:
                                    description='API.INVALID_CAPACITY_VALUE')
         capacity = new_values['data']['capacity']
 
-        if 'microgrid_type_id' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['microgrid_type_id'], int) or \
-                new_values['data']['microgrid_type_id'] <= 0:
+        if 'architecture_type_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['architecture_type_id'], int) or \
+                new_values['data']['architecture_type_id'] <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_MICROGRID_TYPE_ID')
-        microgrid_type_id = new_values['data']['microgrid_type_id']
+                                   description='API.INVALID_MICROGRID_ARCHITECTURE_TYPE_ID')
+        architecture_type_id = new_values['data']['architecture_type_id']
 
-        if 'microgrid_owner_type_id' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['microgrid_owner_type_id'], int) or \
-                new_values['data']['microgrid_owner_type_id'] <= 0:
+        if 'owner_type_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['owner_type_id'], int) or \
+                new_values['data']['owner_type_id'] <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_OWNER_TYPE_ID')
-        microgrid_owner_type_id = new_values['data']['microgrid_owner_type_id']
+        owner_type_id = new_values['data']['owner_type_id']
 
         if 'is_input_counted' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['is_input_counted'], bool):
@@ -581,18 +578,18 @@ class MicrogridItem:
                                    description='API.MICROGRID_NAME_IS_ALREADY_IN_USE')
 
         cursor.execute(" SELECT name "
-                       " FROM tbl_microgrid_types "
+                       " FROM tbl_microgrid_architecture_types "
                        " WHERE id = %s ",
-                       (microgrid_type_id,))
+                       (architecture_type_id,))
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_TYPE_NOT_FOUND')
+                                   description='API.MICROGRID_ARCHITECTURE_TYPE_NOT_FOUND')
         cursor.execute(" SELECT name "
                        " FROM tbl_microgrid_owner_types "
                        " WHERE id = %s ",
-                       (microgrid_type_id,))
+                       (owner_type_id,))
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
@@ -623,7 +620,7 @@ class MicrogridItem:
 
         update_row = (" UPDATE tbl_microgrids "
                       " SET name = %s, address = %s, latitude = %s, longitude = %s, capacity = %s, "
-                      "     microgrid_type_id = %s, microgrid_owner_type_id = %s, "
+                      "     architecture_type_id = %s, owner_type_id = %s, "
                       "     is_input_counted = %s, is_output_counted = %s, "
                       "     contact_id = %s, cost_center_id = %s, "
                       "     description = %s "
@@ -633,8 +630,8 @@ class MicrogridItem:
                                     latitude,
                                     longitude,
                                     capacity,
-                                    microgrid_type_id,
-                                    microgrid_owner_type_id,
+                                    architecture_type_id,
+                                    owner_type_id,
                                     is_input_counted,
                                     is_output_counted,
                                     contact_id,

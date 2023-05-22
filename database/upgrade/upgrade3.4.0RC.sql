@@ -31,24 +31,25 @@ CREATE INDEX `tbl_microgrids_index_1` ON  `myems_system_db`.`tbl_microgrids`   (
 
 
 -- ---------------------------------------------------------------------------------------------------------------------
--- Table `myems_system_db`.`tbl_microgrid_types`
+-- Table `myems_system_db`.`tbl_microgrid_architecture_types`
 -- ---------------------------------------------------------------------------------------------------------------------
-DROP TABLE IF EXISTS `myems_system_db`.`tbl_microgrid_types` ;
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_microgrid_architecture_types` ;
 
-CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrid_types` (
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrid_architecture_types` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
   `uuid` CHAR(36) NOT NULL,
   `description` VARCHAR(255) NOT NULL,
   `simplified_code` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_microgrid_types_index_1` ON  `myems_system_db`.`tbl_microgrid_types`   (`name`);
+CREATE INDEX `tbl_microgrid_architecture_types_index_1` ON  `myems_system_db`.`tbl_microgrid_architecture_types`   (`name`);
+
 
 -- ---------------------------------------------------------------------------------------------------------------------
--- Default data for table `myems_system_db`.`tbl_microgrid_types`
+-- Default data for table `myems_system_db`.`tbl_microgrid_architecture_types`
 -- ---------------------------------------------------------------------------------------------------------------------
 
-INSERT INTO `myems_system_db`.`tbl_microgrid_types`
+INSERT INTO `myems_system_db`.`tbl_microgrid_architecture_types`
 (`id`, `name`, `uuid`, `description`, `simplified_code`)
 VALUES
 (1, 'Battery+PV+Load+Grid', '0683741e-df76-4b43-b0c3-4851d20767ca', 'Battery+PV+Load+Grid', 'BPLG'),
