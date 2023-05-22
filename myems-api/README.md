@@ -35,7 +35,7 @@ python-decouple
 Quick run on Linux (NOT for production use):
 ```bash
 cd myems/myems-api
-sudo pip install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+sudo pip install -r requirements.txt
 cp example.env .env
 sudo chmod +x run.sh
 ./run.sh
