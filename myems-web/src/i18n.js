@@ -336,6 +336,11 @@ const resources = {
       'Confirm Password': 'Confirm Password',
       'Update Password': 'Update Password',
       'Password has been changed!': 'Password has been changed!',
+      'The link to reset your password is as follows. \
+      Please click the link within 10 minutes to proceed with the next step. \
+      If you did not request this action, please disregard this email.': 'The link to reset your password is as follows. \
+      Please click the link within 10 minutes to proceed with the next step. \
+      If you did not request this action, please disregard this email.',
       //notification
       'Notifications': 'Notifications',
       'Mark all as read': 'Mark all as read',
@@ -389,6 +394,7 @@ const resources = {
         'Try refreshing the page, or going back and attempting the action again. ',
       'If this problem persists,': 'If this problem persists,',
       'Captcha Error': 'Captcha Error',
+      'Confirm Password Error': 'The confirm password does not match',
       //Tenant Bill
       'Lease Contract Number': 'Lease Contract Number',
       'Download': 'Download',
@@ -456,6 +462,7 @@ const resources = {
       'API.DATE_LOCAL_USED_IN_WORKING_CALENDAR': 'Date local used in working calendar',
       'API.DATE_LOCAL_NOT_FOUND': 'Date local not found',
       'API.EMAIL_IS_ALREADY_IN_USE': 'Email is already in use',
+      'API.EMAIL_NOT_FOUND': 'Email not found',
       'API.EMAIL_MESSAGE_NOT_FOUND': 'Email message not found',
       'API.EMAIL_SERVER_HOST_IS_ALREADY_IN_USE': 'Email server host is already in use',
       'API.EMAIL_SERVER_NOT_FOUND': 'Email server not found',
@@ -848,6 +855,7 @@ const resources = {
       'API.WORKING_CALENDAR_NOT_FOUND': 'Working calendar not found',
       'API.WORKING_CALENDAR_NAME_IS_ALREADY_IN_USE': 'Working calendar name is already in use',
       'API.THERE_IS_RELATION_WITH_NON_WORKING_DAYS': 'There is relation with non working days',
+      'API.PASSWORDS_MATCH': 'New password is the same as the old password',
     }
   },
   de: {
@@ -1191,6 +1199,11 @@ const resources = {
       'Confirm Password': 'Bestätige das Passwort',
       'Update Password': 'Kennwort aktualisieren',
       'Password has been changed!': 'Das Passwort wurde geändert!',
+      'The link to reset your password is as follows. \
+      Please click the link within 10 minutes to proceed with the next step. \
+      If you did not request this action, please disregard this email.': 'Der Link zum Zurücksetzen \
+      Ihres Passworts lautet wie folgt. Bitte klicken Sie innerhalb von 10 Minuten auf den Link, um mit dem nächsten \
+      Schritt fortzufahren. Wenn Sie diese Aktion nicht angefordert haben, ignorieren Sie diese E-Mail bitte.',
       //notification
       'Notifications': 'Benachrichtigungen',
       'Mark all as read': 'Markiere alle als gelesen',
@@ -1247,6 +1260,7 @@ const resources = {
         'Versuchen Sie, die Seite zu aktualisieren, oder gehen Sie zurück und versuchen Sie die Aktion erneut. ',
       'If this problem persists,': 'Wenn dieses Problem weiterhin besteht,',
       'Captcha Error': 'Captcha-Fehler',
+      'Confirm Password Error': 'Das Bestätigungspasswort stimmt nicht überein',
       //Tenant Bill
       'Lease Contract Number': 'Mietvertragsnummer',
       'Download': 'Herunterladen',
@@ -1314,6 +1328,7 @@ const resources = {
       'API.DATE_LOCAL_USED_IN_WORKING_CALENDAR': 'Lokal verwendetes Datum im Arbeitskalender',
       'API.DATE_LOCAL_NOT_FOUND': 'Datum lokal nicht gefunden',
       'API.EMAIL_IS_ALREADY_IN_USE': 'E-Mail wird bereits verwendet',
+      'API.EMAIL_NOT_FOUND': 'Die E-Mail-Adresse existiert nicht',
       'API.EMAIL_MESSAGE_NOT_FOUND': 'E-Mail-Nachricht nicht gefunden',
       'API.EMAIL_SERVER_HOST_IS_ALREADY_IN_USE': 'E-Mail-Server-Host wird bereits verwendet',
       'API.EMAIL_SERVER_NOT_FOUND': 'E-Mail-Server nicht gefunden',
@@ -1706,6 +1721,7 @@ const resources = {
       'API.WORKING_CALENDAR_NOT_FOUND': 'Arbeitskalender nicht gefunden',
       'API.WORKING_CALENDAR_NAME_IS_ALREADY_IN_USE': 'Der Name des Arbeitskalenders wird bereits verwendet',
       'API.THERE_IS_RELATION_WITH_NON_WORKING_DAYS': 'Es besteht ein Zusammenhang mit arbeitsfreien Tagen',
+      'API.PASSWORDS_MATCH': 'Das neue Passwort ist das gleiche wie das alte Passwort',
     }
   },
   zh_CN: {
@@ -2024,6 +2040,10 @@ const resources = {
       'Confirm Password': '重复新密码',
       'Update Password': '更新密码',
       'Password has been changed!': '密码已修改!',
+      'The link to reset your password is as follows. \
+      Please click the link within 10 minutes to proceed with the next step. \
+      If you did not request this action, please disregard this email.': '你此次重置密码的链接如下，\
+      请在 10 分钟内点击链接进行下一步操作。 如非你本人操作，请忽略此邮件。',
       //notification
       'Notifications': '通知',
       'Mark all as read': '全部设为已读',
@@ -2079,6 +2099,7 @@ const resources = {
         '请尝试刷新页面, 或回退并再次尝试执行这个操作',
       'If this problem persists,': '如果问题依然存在,',
       'Captcha Error': '验证码错误',
+      'Confirm Password Error': '两次密码不一致',
       //Tenant Bill
       'Lease Contract Number': '租赁合同号码',
       'Download': '下载',
@@ -2145,6 +2166,7 @@ const resources = {
       'API.DATE_LOCAL_USED_IN_WORKING_CALENDAR': '本地日期在工作日历中已使用',
       'API.DATE_LOCAL_NOT_FOUND': '未找到本地日期',
       'API.EMAIL_IS_ALREADY_IN_USE': '电子邮箱已使用',
+      'API.EMAIL_NOT_FOUND': '电子邮箱不存在',
       'API.EMAIL_MESSAGE_NOT_FOUND': '电子邮件消息不存在',
       'API.EMAIL_SERVER_HOST_IS_ALREADY_IN_USE': '邮件服务器主机已使用',
       'API.EMAIL_SERVER_NOT_FOUND': '邮件服务器主机不存在',
@@ -2537,6 +2559,7 @@ const resources = {
       'API.WORKING_CALENDAR_NOT_FOUND': '工作日历不存在',
       'API.WORKING_CALENDAR_NAME_IS_ALREADY_IN_USE': '工作日历名称已使用',
       'API.THERE_IS_RELATION_WITH_NON_WORKING_DAYS': '与非工作日有关系',
+      'API.PASSWORDS_MATCH': '新密码与旧密码一致',
     }
   }
 };

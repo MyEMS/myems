@@ -517,6 +517,12 @@ api.add_route('/users/changepassword',
               user.ChangePassword())
 api.add_route('/users/unlock/{id_}',
               user.Unlock())
+api.add_route('/users/Forgotpassword',
+              user.ForgotPassword())
+api.add_route('/users/emailmessages',
+              user.EmailMessageCollection())
+api.add_route('/users/emailmessages/{id_}',
+              user.EmailMessageItem())
 
 api.add_route('/virtualmeters',
               virtualmeter.VirtualMeterCollection())
