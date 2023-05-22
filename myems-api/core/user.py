@@ -76,49 +76,49 @@ class UserCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         new_values = json.loads(raw_json)
 
         if 'name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_NAME')
         name = str.strip(new_values['data']['name'])
 
         if 'display_name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['display_name'], str) or \
                 len(str.strip(new_values['data']['display_name'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DISPLAY_NAME')
         display_name = str.strip(new_values['data']['display_name'])
 
         if 'email' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['email'], str) or \
                 len(str.strip(new_values['data']['email'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EMAIL')
         email = str.lower(str.strip(new_values['data']['email']))
 
         match = re.match(r'^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', email)
         if match is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EMAIL')
 
         if 'password' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['password'], str) or \
                 len(str.strip(new_values['data']['password'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_PASSWORD')
 
         if len(str.strip(new_values['data']['password'])) > 100:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.PASSWORD_LENGTH_CANNOT_EXCEED_100_CHARACTERS')
 
         if 'is_admin' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['is_admin'], bool):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_ADMIN_VALUE')
         is_admin = new_values['data']['is_admin']
 
@@ -127,14 +127,14 @@ class UserCollection:
         if is_admin:
             if 'is_read_only' not in new_values['data'].keys() or \
                    not isinstance(new_values['data']['is_read_only'], bool):
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_IS_READ_ONLY_VALUE')
             is_read_only = new_values['data']['is_read_only']
 
         if 'privilege_id' in new_values['data'].keys():
             if not isinstance(new_values['data']['privilege_id'], int) or \
                     new_values['data']['privilege_id'] <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_PRIVILEGE_ID')
             privilege_id = new_values['data']['privilege_id']
         else:
@@ -163,7 +163,7 @@ class UserCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.USER_NAME_IS_ALREADY_IN_USE')
 
         cursor.execute(" SELECT name "
@@ -172,7 +172,7 @@ class UserCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.BAD_REQUEST',
                                    description='API.EMAIL_IS_ALREADY_IN_USE')
 
         if privilege_id is not None:
@@ -183,7 +183,7 @@ class UserCollection:
             if cursor.fetchone() is None:
                 cursor.close()
                 cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.PRIVILEGE_NOT_FOUND')
 
         add_row = (" INSERT INTO tbl_users "
@@ -230,7 +230,7 @@ class UserItem:
     def on_get(req, resp, id_):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_ID')
 
         cnx = mysql.connector.connect(**config.myems_user_db)
@@ -249,7 +249,7 @@ class UserItem:
         cnx.close()
 
         if row is None:
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.USER_NOT_FOUND')
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -280,7 +280,7 @@ class UserItem:
     def on_delete(req, resp, id_):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_ID')
 
         cnx = mysql.connector.connect(**config.myems_user_db)
@@ -292,7 +292,7 @@ class UserItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.USER_NOT_FOUND')
 
         # TODO: delete associated objects
@@ -312,10 +312,10 @@ class UserItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_ID')
 
         new_values = json.loads(raw_json)
@@ -323,42 +323,42 @@ class UserItem:
         if 'name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_NAME')
         name = str.strip(new_values['data']['name'])
 
         if 'display_name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['display_name'], str) or \
                 len(str.strip(new_values['data']['display_name'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DISPLAY_NAME')
         display_name = str.strip(new_values['data']['display_name'])
 
         if 'email' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['email'], str) or \
                 len(str.strip(new_values['data']['email'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EMAIL')
         email = str.lower(str.strip(new_values['data']['email']))
 
         match = re.match(r'^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', email)
         if match is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EMAIL')
 
         if 'password' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['password'], str) or \
                 len(str.strip(new_values['data']['password'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_PASSWORD')
 
         if len(str.strip(new_values['data']['password'])) > 100:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.PASSWORD_LENGTH_CANNOT_EXCEED_100_CHARACTERS')
 
         if 'is_admin' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['is_admin'], bool):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_ADMIN_VALUE')
         is_admin = new_values['data']['is_admin']
 
@@ -367,14 +367,14 @@ class UserItem:
         if is_admin:
             if 'is_read_only' not in new_values['data'].keys() or \
                    not isinstance(new_values['data']['is_read_only'], bool):
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_IS_READ_ONLY_VALUE')
             is_read_only = new_values['data']['is_read_only']
 
         if 'privilege_id' in new_values['data'].keys():
             if not isinstance(new_values['data']['privilege_id'], int) or \
                     new_values['data']['privilege_id'] <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_PRIVILEGE_ID')
             privilege_id = new_values['data']['privilege_id']
         else:
@@ -403,7 +403,7 @@ class UserItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.USER_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -412,7 +412,7 @@ class UserItem:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.USER_NAME_IS_ALREADY_IN_USE')
 
         cursor.execute(" SELECT name "
@@ -421,7 +421,7 @@ class UserItem:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.BAD_REQUEST',
                                    description='API.EMAIL_IS_ALREADY_IN_USE')
 
         if privilege_id is not None:
@@ -432,7 +432,7 @@ class UserItem:
             if cursor.fetchone() is None:
                 cursor.close()
                 cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.PRIVILEGE_NOT_FOUND')
 
         update_row = (" UPDATE tbl_users "
@@ -475,15 +475,15 @@ class UserLogin:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not isinstance(new_values['data']['password'], str) or \
                 len(str.strip(new_values['data']['password'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_PASSWORD')
 
         if len(str.strip(new_values['data']['password'])) > 100:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.PASSWORD_LENGTH_CANNOT_EXCEED_100_CHARACTERS')
 
         cnx = mysql.connector.connect(**config.myems_user_db)
@@ -493,7 +493,7 @@ class UserLogin:
 
             if not isinstance(new_values['data']['name'], str) or \
                     len(str.strip(new_values['data']['name'])) == 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_USER_NAME')
 
             query = (" SELECT id, name, uuid, display_name, email, salt, password, is_admin, is_read_only, "
@@ -505,7 +505,7 @@ class UserLogin:
             if row is None:
                 cursor.close()
                 cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_404, 'API.ERROR', 'API.USER_NOT_FOUND')
+                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.ERROR', description='API.USER_NOT_FOUND')
 
             result = {"id": row[0],
                       "name": row[1],
@@ -523,7 +523,7 @@ class UserLogin:
         elif 'email' in new_values['data']:
             if not isinstance(new_values['data']['email'], str) or \
                     len(str.strip(new_values['data']['email'])) == 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_EMAIL')
 
             query = (" SELECT id, name, uuid, display_name, email, salt, password, is_admin, is_read_only, "
@@ -535,7 +535,7 @@ class UserLogin:
             if row is None:
                 cursor.close()
                 cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_404, 'API.ERROR', 'API.USER_NOT_FOUND')
+                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.ERROR', description='API.USER_NOT_FOUND')
 
             result = {"id": row[0],
                       "name": row[1],
@@ -553,7 +553,7 @@ class UserLogin:
         else:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_NAME_OR_EMAIL')
 
         failed_login_count = result['failed_login_count']
@@ -561,7 +561,7 @@ class UserLogin:
         if failed_login_count >= config.maximum_failed_login_count:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.USER_ACCOUNT_HAS_BEEN_LOCKED')
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.USER_ACCOUNT_HAS_BEEN_LOCKED')
 
         salt = result['salt']
         password = str.strip(new_values['data']['password'])
@@ -576,7 +576,7 @@ class UserLogin:
             cnx.commit()
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.INVALID_PASSWORD')
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_PASSWORD')
 
         if failed_login_count != 0:
             update_failed_login_count = (" UPDATE tbl_users "
@@ -589,12 +589,12 @@ class UserLogin:
         if result['account_expiration_datetime_utc'] <= datetime.utcnow():
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.USER_ACCOUNT_HAS_EXPIRED')
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.USER_ACCOUNT_HAS_EXPIRED')
 
         if result['password_expiration_datetime_utc'] <= datetime.utcnow():
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.USER_PASSWORD_HAS_EXPIRED')
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.USER_PASSWORD_HAS_EXPIRED')
 
         add_session = (" INSERT INTO tbl_sessions "
                        "             (user_uuid, token, utc_expires) "
@@ -649,14 +649,14 @@ class UserLogout:
         if 'USER-UUID' not in req.headers or \
                 not isinstance(req.headers['USER-UUID'], str) or \
                 len(str.strip(req.headers['USER-UUID'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_UUID')
         user_uuid = str.strip(req.headers['USER-UUID'])
 
         if 'TOKEN' not in req.headers or \
                 not isinstance(req.headers['TOKEN'], str) or \
                 len(str.strip(req.headers['TOKEN'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TOKEN')
         token = str.strip(req.headers['TOKEN'])
 
@@ -670,7 +670,7 @@ class UserLogout:
         cursor.close()
         cnx.close()
         if rowcount is None or rowcount == 0:
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.USER_SESSION_NOT_FOUND')
         resp.text = json.dumps("OK")
         resp.status = falcon.HTTP_200
@@ -692,14 +692,14 @@ class ChangePassword:
         if 'USER-UUID' not in req.headers or \
                 not isinstance(req.headers['USER-UUID'], str) or \
                 len(str.strip(req.headers['USER-UUID'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_UUID')
         user_uuid = str.strip(req.headers['USER-UUID'])
 
         if 'TOKEN' not in req.headers or \
                 not isinstance(req.headers['TOKEN'], str) or \
                 len(str.strip(req.headers['TOKEN'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TOKEN')
         token = str.strip(req.headers['TOKEN'])
 
@@ -707,28 +707,28 @@ class ChangePassword:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, 'API.ERROR', ex.args)
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=ex.args)
 
         if 'old_password' not in new_values['data'] or \
                 not isinstance(new_values['data']['old_password'], str) or \
                 len(str.strip(new_values['data']['old_password'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_OLD_PASSWORD')
         old_password = str.strip(new_values['data']['old_password'])
 
         if len(str.strip(new_values['data']['old_password'])) > 100:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.OLD_PASSWORD_LENGTH_CANNOT_EXCEED_100_CHARACTERS')
 
         if 'new_password' not in new_values['data'] or \
                 not isinstance(new_values['data']['new_password'], str) or \
                 len(str.strip(new_values['data']['new_password'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_NEW_PASSWORD')
         new_password = str.strip(new_values['data']['new_password'])
 
         if len(str.strip(new_values['data']['new_password'])) > 100:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.NEW_PASSWORD_LENGTH_CANNOT_EXCEED_100_CHARACTERS')
 
         # Verify User Session
@@ -744,14 +744,14 @@ class ChangePassword:
         if row is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.USER_SESSION_NOT_FOUND')
         else:
             utc_expires = row[0]
             if datetime.utcnow() > utc_expires:
                 cursor.close()
                 cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.USER_SESSION_TIMEOUT')
 
         query = (" SELECT salt, password "
@@ -762,7 +762,7 @@ class ChangePassword:
         if row is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, 'API.NOT_FOUND', 'API.USER_NOT_FOUND')
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND', description='API.USER_NOT_FOUND')
 
         result = {'salt': row[0], 'password': row[1]}
 
@@ -773,7 +773,7 @@ class ChangePassword:
         if hashed_password != result['password']:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.INVALID_OLD_PASSWORD')
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_OLD_PASSWORD')
 
         # Update User password
         salt = uuid.uuid4().hex
@@ -817,14 +817,14 @@ class ResetPassword:
         if 'USER-UUID' not in req.headers or \
                 not isinstance(req.headers['USER-UUID'], str) or \
                 len(str.strip(req.headers['USER-UUID'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_UUID')
         admin_user_uuid = str.strip(req.headers['USER-UUID'])
 
         if 'TOKEN' not in req.headers or \
                 not isinstance(req.headers['TOKEN'], str) or \
                 len(str.strip(req.headers['TOKEN'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TOKEN')
         admin_token = str.strip(req.headers['TOKEN'])
 
@@ -832,23 +832,23 @@ class ResetPassword:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, 'API.ERROR', ex.args)
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=ex.args)
 
         if 'name' not in new_values['data'] or \
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_NAME')
         user_name = str.strip(new_values['data']['name'])
 
         if 'password' not in new_values['data'] or \
                 not isinstance(new_values['data']['password'], str) or \
                 len(str.strip(new_values['data']['password'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_PASSWORD')
 
         if len(str.strip(new_values['data']['password'])) > 100:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.PASSWORD_LENGTH_CANNOT_EXCEED_100_CHARACTERS')
 
         new_password = str.strip(new_values['data']['password'])
@@ -865,14 +865,14 @@ class ResetPassword:
         if row is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ADMINISTRATOR_SESSION_NOT_FOUND')
         else:
             utc_expires = row[0]
             if datetime.utcnow() > utc_expires:
                 cursor.close()
                 cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.ADMINISTRATOR_SESSION_TIMEOUT')
 
         query = (" SELECT name "
@@ -883,7 +883,7 @@ class ResetPassword:
         if row is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.INVALID_PRIVILEGE')
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_PRIVILEGE')
 
         salt = uuid.uuid4().hex
         hashed_password = hashlib.sha512(salt.encode() + new_password.encode()).hexdigest()
@@ -902,7 +902,7 @@ class ResetPassword:
         if row is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.INVALID_USERNAME')
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_USERNAME')
 
         user_id = row[0]
 
@@ -938,12 +938,12 @@ class Unlock:
         if 'USER-UUID' not in req.headers or \
                 not isinstance(req.headers['USER-UUID'], str) or \
                 len(str.strip(req.headers['USER-UUID'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_UUID')
         admin_user_uuid = str.strip(req.headers['USER-UUID'])
 
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_ID')
 
         cnx = mysql.connector.connect(**config.myems_user_db)
@@ -957,13 +957,13 @@ class Unlock:
         if row is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.INVALID_Id')
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_Id')
 
         failed_login_count = row[0]
         if failed_login_count < config.maximum_failed_login_count:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.USER_ACCOUNT_IS_NOT_LOCKED')
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.USER_ACCOUNT_IS_NOT_LOCKED')
 
         update_user = (" UPDATE tbl_users "
                        " SET failed_login_count = 0"
@@ -979,7 +979,7 @@ class Unlock:
         if row is None or row[0] != 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, 'API.BAD_REQUEST', 'API.ACCOUNT_UNLOCK_FAILED')
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.ACCOUNT_UNLOCK_FAILED')
 
         cursor.close()
         cnx.close()

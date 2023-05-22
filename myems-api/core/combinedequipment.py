@@ -69,33 +69,33 @@ class CombinedEquipmentCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
 
         new_values = json.loads(raw_json)
 
         if 'name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_NAME')
         name = str.strip(new_values['data']['name'])
 
         if 'is_input_counted' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['is_input_counted'], bool):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_INPUT_COUNTED_VALUE')
         is_input_counted = new_values['data']['is_input_counted']
 
         if 'is_output_counted' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['is_output_counted'], bool):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_OUTPUT_COUNTED_VALUE')
         is_output_counted = new_values['data']['is_output_counted']
 
         if 'cost_center_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['cost_center_id'], int) or \
                 new_values['data']['cost_center_id'] <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COST_CENTER_ID')
         cost_center_id = new_values['data']['cost_center_id']
 
@@ -115,7 +115,7 @@ class CombinedEquipmentCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.COMBINED_EQUIPMENT_NAME_IS_ALREADY_IN_USE')
 
         if cost_center_id is not None:
@@ -127,7 +127,7 @@ class CombinedEquipmentCollection:
             if row is None:
                 cursor.close()
                 cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.COST_CENTER_NOT_FOUND')
 
         add_values = (" INSERT INTO tbl_combined_equipments "
@@ -162,7 +162,7 @@ class CombinedEquipmentItem:
     @staticmethod
     def on_get(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -191,7 +191,7 @@ class CombinedEquipmentItem:
         cnx.close()
 
         if row is None:
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_NOT_FOUND')
         else:
             cost_center = cost_center_dict.get(row[5], None)
@@ -211,7 +211,7 @@ class CombinedEquipmentItem:
     def on_delete(req, resp, id_):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -226,7 +226,7 @@ class CombinedEquipmentItem:
         if rows_combined_equipments is not None and len(rows_combined_equipments) > 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_SPACES')
 
@@ -239,7 +239,7 @@ class CombinedEquipmentItem:
         if rows_meters is not None and len(rows_meters) > 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_METER')
 
@@ -252,7 +252,7 @@ class CombinedEquipmentItem:
         if rows_offline_meters is not None and len(rows_offline_meters) > 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_OFFLINE_METER')
 
@@ -265,7 +265,7 @@ class CombinedEquipmentItem:
         if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_VIRTUAL_METER')
 
@@ -287,38 +287,38 @@ class CombinedEquipmentItem:
         """Handles PUT requests"""
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         new_values = json.loads(raw_json)
 
         if 'name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_NAME')
         name = str.strip(new_values['data']['name'])
 
         if 'is_input_counted' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['is_input_counted'], bool):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_INPUT_COUNTED_VALUE')
         is_input_counted = new_values['data']['is_input_counted']
 
         if 'is_output_counted' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['is_output_counted'], bool):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_OUTPUT_COUNTED_VALUE')
         is_output_counted = new_values['data']['is_output_counted']
 
         if 'cost_center_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['cost_center_id'], int) or \
                 new_values['data']['cost_center_id'] <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COST_CENTER_ID')
         cost_center_id = new_values['data']['cost_center_id']
 
@@ -338,7 +338,7 @@ class CombinedEquipmentItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -347,7 +347,7 @@ class CombinedEquipmentItem:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.COMBINED_EQUIPMENT_NAME_IS_ALREADY_IN_USE')
 
         cursor.execute(" SELECT name "
@@ -358,7 +358,7 @@ class CombinedEquipmentItem:
         if row is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
 
         update_row = (" UPDATE tbl_combined_equipments "
@@ -385,7 +385,7 @@ class CombinedEquipmentItem:
         """Handles POST requests"""
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -396,7 +396,7 @@ class CombinedEquipmentItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
         query = (" SELECT name, is_input_counted, is_output_counted, "
@@ -409,7 +409,7 @@ class CombinedEquipmentItem:
         if row is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_NOT_FOUND')
         else:
 
@@ -536,7 +536,7 @@ class CombinedEquipmentEquipmentCollection:
     @staticmethod
     def on_get(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -548,7 +548,7 @@ class CombinedEquipmentEquipmentCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
         query = (" SELECT e.id, e.name, e.uuid "
@@ -576,10 +576,10 @@ class CombinedEquipmentEquipmentCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
 
         new_values = json.loads(raw_json)
@@ -587,7 +587,7 @@ class CombinedEquipmentEquipmentCollection:
         if 'equipment_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['equipment_id'], int) or \
                 new_values['data']['equipment_id'] <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EQUIPMENT_ID')
         equipment_id = new_values['data']['equipment_id']
 
@@ -600,7 +600,7 @@ class CombinedEquipmentEquipmentCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -609,7 +609,7 @@ class CombinedEquipmentEquipmentCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.EQUIPMENT_NOT_FOUND')
 
         query = (" SELECT id "
@@ -619,7 +619,7 @@ class CombinedEquipmentEquipmentCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.COMBINED_EQUIPMENT_EQUIPMENT_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_combined_equipments_equipments (combined_equipment_id, equipment_id) "
@@ -648,11 +648,11 @@ class CombinedEquipmentEquipmentItem:
     def on_delete(req, resp, id_, eid):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
 
         if not eid.isdigit() or int(eid) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EQUIPMENT_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -664,7 +664,7 @@ class CombinedEquipmentEquipmentItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -673,7 +673,7 @@ class CombinedEquipmentEquipmentItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.EQUIPMENT_NOT_FOUND')
 
         cursor.execute(" SELECT id "
@@ -682,7 +682,7 @@ class CombinedEquipmentEquipmentItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_EQUIPMENT_RELATION_NOT_FOUND')
 
         cursor.execute(" DELETE FROM tbl_combined_equipments_equipments "
@@ -708,7 +708,7 @@ class CombinedEquipmentParameterCollection:
     @staticmethod
     def on_get(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -720,7 +720,7 @@ class CombinedEquipmentParameterCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
         query = (" SELECT id, name "
@@ -833,32 +833,32 @@ class CombinedEquipmentParameterCollection:
         """Handles POST requests"""
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
 
         new_values = json.loads(raw_json)
 
         if 'name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_PARAMETER_NAME')
         name = str.strip(new_values['data']['name'])
 
         if 'parameter_type' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['parameter_type'], str) or \
                 len(str.strip(new_values['data']['parameter_type'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_PARAMETER_TYPE')
 
         parameter_type = str.strip(new_values['data']['parameter_type'])
 
         if parameter_type not in ('constant', 'point', 'fraction'):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_PARAMETER_TYPE')
 
         constant = None
@@ -872,7 +872,7 @@ class CombinedEquipmentParameterCollection:
         if 'point_id' in new_values['data'].keys():
             if new_values['data']['point_id'] is not None and \
                     new_values['data']['point_id'] <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_POINT_ID')
             point_id = new_values['data']['point_id']
 
@@ -899,7 +899,7 @@ class CombinedEquipmentParameterCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -908,7 +908,7 @@ class CombinedEquipmentParameterCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.COMBINED_EQUIPMENT_PARAMETER_NAME_IS_ALREADY_IN_USE')
 
         # validate by parameter type
@@ -916,7 +916,7 @@ class CombinedEquipmentParameterCollection:
             if point_id is None:
                 cursor.close()
                 cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_POINT_ID')
 
             query = (" SELECT id, name "
@@ -926,14 +926,14 @@ class CombinedEquipmentParameterCollection:
             if cursor.fetchone() is None:
                 cursor.close()
                 cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.POINT_NOT_FOUND')
 
         elif parameter_type == 'constant':
             if constant is None:
                 cursor.close()
                 cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_CONSTANT_VALUE')
 
         elif parameter_type == 'fraction':
@@ -983,14 +983,14 @@ class CombinedEquipmentParameterCollection:
                     offline_meter_dict.get(numerator_meter_uuid) is None:
                 cursor.close()
                 cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_NUMERATOR_METER_UUID')
 
             # validate denominator meter uuid
             if denominator_meter_uuid == numerator_meter_uuid:
                 cursor.close()
                 cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_DENOMINATOR_METER_UUID')
 
             if denominator_meter_uuid not in meter_dict and \
@@ -998,7 +998,7 @@ class CombinedEquipmentParameterCollection:
                     denominator_meter_uuid not in offline_meter_dict:
                 cursor.close()
                 cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_DENOMINATOR_METER_UUID')
 
         add_values = (" INSERT INTO tbl_combined_equipments_parameters "
@@ -1034,11 +1034,11 @@ class CombinedEquipmentParameterItem:
     @staticmethod
     def on_get(req, resp, id_, pid):
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
 
         if not pid.isdigit() or int(pid) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_PARAMETER_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -1104,7 +1104,7 @@ class CombinedEquipmentParameterItem:
         cnx.close()
 
         if row is None:
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_PARAMETER_NOT_FOUND_OR_NOT_MATCH')
         else:
             constant = None
@@ -1152,11 +1152,11 @@ class CombinedEquipmentParameterItem:
     def on_delete(req, resp, id_, pid):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
 
         if not pid.isdigit() or int(pid) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_PARAMETER_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -1170,7 +1170,7 @@ class CombinedEquipmentParameterItem:
         if row is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
@@ -1182,7 +1182,7 @@ class CombinedEquipmentParameterItem:
         if row is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_PARAMETER_NOT_FOUND_OR_NOT_MATCH')
 
@@ -1201,37 +1201,37 @@ class CombinedEquipmentParameterItem:
         """Handles PUT requests"""
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
 
         if not pid.isdigit() or int(pid) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_PARAMETER_ID')
 
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
 
         new_values = json.loads(raw_json)
 
         if 'name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_PARAMETER_NAME')
         name = str.strip(new_values['data']['name'])
 
         if 'parameter_type' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['parameter_type'], str) or \
                 len(str.strip(new_values['data']['parameter_type'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_PARAMETER_TYPE')
 
         parameter_type = str.strip(new_values['data']['parameter_type'])
 
         if parameter_type not in ('constant', 'point', 'fraction'):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_PARAMETER_TYPE')
 
         constant = None
@@ -1245,7 +1245,7 @@ class CombinedEquipmentParameterItem:
         if 'point_id' in new_values['data'].keys():
             if new_values['data']['point_id'] is not None and \
                     new_values['data']['point_id'] <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_POINT_ID')
             point_id = new_values['data']['point_id']
 
@@ -1272,7 +1272,7 @@ class CombinedEquipmentParameterItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -1283,7 +1283,7 @@ class CombinedEquipmentParameterItem:
         if row is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_PARAMETER_NOT_FOUND_OR_NOT_MATCH')
 
@@ -1294,7 +1294,7 @@ class CombinedEquipmentParameterItem:
         if row is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.COMBINED_EQUIPMENT_PARAMETER_NAME_IS_ALREADY_IN_USE')
 
         # validate by parameter type
@@ -1302,7 +1302,7 @@ class CombinedEquipmentParameterItem:
             if point_id is None:
                 cursor.close()
                 cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_POINT_ID')
 
             query = (" SELECT id, name "
@@ -1313,14 +1313,14 @@ class CombinedEquipmentParameterItem:
             if row is None:
                 cursor.close()
                 cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.POINT_NOT_FOUND')
 
         elif parameter_type == 'constant':
             if constant is None:
                 cursor.close()
                 cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_CONSTANT_VALUE')
 
         elif parameter_type == 'fraction':
@@ -1370,14 +1370,14 @@ class CombinedEquipmentParameterItem:
                     offline_meter_dict.get(numerator_meter_uuid) is None:
                 cursor.close()
                 cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_NUMERATOR_METER_UUID')
 
             # validate denominator meter uuid
             if denominator_meter_uuid == numerator_meter_uuid:
                 cursor.close()
                 cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_DENOMINATOR_METER_UUID')
 
             if denominator_meter_uuid not in meter_dict and \
@@ -1385,7 +1385,7 @@ class CombinedEquipmentParameterItem:
                     denominator_meter_uuid not in offline_meter_dict:
                 cursor.close()
                 cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_DENOMINATOR_METER_UUID')
 
         add_values = (" UPDATE tbl_combined_equipments_parameters "
@@ -1420,7 +1420,7 @@ class CombinedEquipmentMeterCollection:
     @staticmethod
     def on_get(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -1432,7 +1432,7 @@ class CombinedEquipmentMeterCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
         query = (" SELECT id, name, uuid "
@@ -1476,10 +1476,10 @@ class CombinedEquipmentMeterCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
 
         new_values = json.loads(raw_json)
@@ -1487,13 +1487,13 @@ class CombinedEquipmentMeterCollection:
         if 'meter_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['meter_id'], int) or \
                 new_values['data']['meter_id'] <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_METER_ID')
         meter_id = new_values['data']['meter_id']
 
         if 'is_output' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['is_output'], bool):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_OUTPUT_VALUE')
         is_output = new_values['data']['is_output']
 
@@ -1506,7 +1506,7 @@ class CombinedEquipmentMeterCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -1515,7 +1515,7 @@ class CombinedEquipmentMeterCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.METER_NOT_FOUND')
 
         query = (" SELECT id "
@@ -1525,7 +1525,7 @@ class CombinedEquipmentMeterCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.COMBINED_EQUIPMENT_METER_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_combined_equipments_meters (combined_equipment_id, meter_id, is_output ) "
@@ -1554,11 +1554,11 @@ class CombinedEquipmentMeterItem:
     def on_delete(req, resp, id_, mid):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
 
         if not mid.isdigit() or int(mid) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_METER_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -1570,7 +1570,7 @@ class CombinedEquipmentMeterItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -1579,7 +1579,7 @@ class CombinedEquipmentMeterItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.METER_NOT_FOUND')
 
         cursor.execute(" SELECT id "
@@ -1588,7 +1588,7 @@ class CombinedEquipmentMeterItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_METER_RELATION_NOT_FOUND')
 
         cursor.execute(" DELETE FROM tbl_combined_equipments_meters "
@@ -1614,7 +1614,7 @@ class CombinedEquipmentOfflineMeterCollection:
     @staticmethod
     def on_get(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -1626,7 +1626,7 @@ class CombinedEquipmentOfflineMeterCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
         query = (" SELECT id, name, uuid "
@@ -1670,10 +1670,10 @@ class CombinedEquipmentOfflineMeterCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
 
         new_values = json.loads(raw_json)
@@ -1681,13 +1681,13 @@ class CombinedEquipmentOfflineMeterCollection:
         if 'offline_meter_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['offline_meter_id'], int) or \
                 new_values['data']['offline_meter_id'] <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_OFFLINE_METER_ID')
         offline_meter_id = new_values['data']['offline_meter_id']
 
         if 'is_output' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['is_output'], bool):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_OUTPUT_VALUE')
         is_output = new_values['data']['is_output']
 
@@ -1700,7 +1700,7 @@ class CombinedEquipmentOfflineMeterCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -1709,7 +1709,7 @@ class CombinedEquipmentOfflineMeterCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.OFFLINE_METER_NOT_FOUND')
 
         query = (" SELECT id "
@@ -1719,7 +1719,7 @@ class CombinedEquipmentOfflineMeterCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.COMBINED_EQUIPMENT_OFFLINE_METER_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_combined_equipments_offline_meters "
@@ -1749,11 +1749,11 @@ class CombinedEquipmentOfflineMeterItem:
     def on_delete(req, resp, id_, mid):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
 
         if not mid.isdigit() or int(mid) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_OFFLINE_METER_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -1765,7 +1765,7 @@ class CombinedEquipmentOfflineMeterItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -1774,7 +1774,7 @@ class CombinedEquipmentOfflineMeterItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.OFFLINE_METER_NOT_FOUND')
 
         cursor.execute(" SELECT id "
@@ -1783,7 +1783,7 @@ class CombinedEquipmentOfflineMeterItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_OFFLINE_METER_RELATION_NOT_FOUND')
 
         cursor.execute(" DELETE FROM tbl_combined_equipments_offline_meters "
@@ -1809,7 +1809,7 @@ class CombinedEquipmentVirtualMeterCollection:
     @staticmethod
     def on_get(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -1821,7 +1821,7 @@ class CombinedEquipmentVirtualMeterCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
         query = (" SELECT id, name, uuid "
@@ -1864,10 +1864,10 @@ class CombinedEquipmentVirtualMeterCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
 
         new_values = json.loads(raw_json)
@@ -1875,13 +1875,13 @@ class CombinedEquipmentVirtualMeterCollection:
         if 'virtual_meter_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['virtual_meter_id'], int) or \
                 new_values['data']['virtual_meter_id'] <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_VIRTUAL_METER_ID')
         virtual_meter_id = new_values['data']['virtual_meter_id']
 
         if 'is_output' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['is_output'], bool):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_OUTPUT_VALUE')
         is_output = new_values['data']['is_output']
 
@@ -1894,7 +1894,7 @@ class CombinedEquipmentVirtualMeterCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -1903,7 +1903,7 @@ class CombinedEquipmentVirtualMeterCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.VIRTUAL_METER_NOT_FOUND')
 
         query = (" SELECT id "
@@ -1913,7 +1913,7 @@ class CombinedEquipmentVirtualMeterCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.COMBINED_EQUIPMENT_VIRTUAL_METER_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_combined_equipments_virtual_meters "
@@ -1943,11 +1943,11 @@ class CombinedEquipmentVirtualMeterItem:
     def on_delete(req, resp, id_, mid):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
 
         if not mid.isdigit() or int(mid) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_VIRTUAL_METER_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -1959,7 +1959,7 @@ class CombinedEquipmentVirtualMeterItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -1968,7 +1968,7 @@ class CombinedEquipmentVirtualMeterItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.VIRTUAL_METER_NOT_FOUND')
 
         cursor.execute(" SELECT id "
@@ -1977,7 +1977,7 @@ class CombinedEquipmentVirtualMeterItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_VIRTUAL_METER_RELATION_NOT_FOUND')
 
         cursor.execute(" DELETE FROM tbl_combined_equipments_virtual_meters "

@@ -97,17 +97,17 @@ class KnowledgeFileCollection:
             # Now that we know the file has been fully saved to disk move it into place.
             os.rename(file_path + '~', file_path)
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_UPLOAD_KNOWLEDGE_FILE')
 
         # Verify User Session
         token = req.headers.get('TOKEN')
         user_uuid = req.headers.get('USER-UUID')
         if token is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.TOKEN_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
         if user_uuid is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.USER_UUID_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
 
         cnx = mysql.connector.connect(**config.myems_user_db)
@@ -124,7 +124,7 @@ class KnowledgeFileCollection:
                 cursor.close()
             if cnx:
                 cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
         else:
             utc_expires = row[0]
@@ -133,7 +133,7 @@ class KnowledgeFileCollection:
                     cursor.close()
                 if cnx:
                     cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.USER_SESSION_TIMEOUT')
 
         cursor.execute(" SELECT id "
@@ -146,7 +146,7 @@ class KnowledgeFileCollection:
                 cursor.close()
             if cnx:
                 cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_PLEASE_RE_LOGIN')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -182,7 +182,7 @@ class KnowledgeFileItem:
     @staticmethod
     def on_get(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_KNOWLEDGE_FILE_ID')
 
         cnx = mysql.connector.connect(**config.myems_user_db)
@@ -212,7 +212,7 @@ class KnowledgeFileItem:
         cnx.close()
 
         if row is None:
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.KNOWLEDGE_FILE_NOT_FOUND')
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
@@ -234,7 +234,7 @@ class KnowledgeFileItem:
         """Handles DELETE requests"""
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_KNOWLEDGE_FILE_ID')
 
@@ -248,7 +248,7 @@ class KnowledgeFileItem:
         if row is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404,
+            raise falcon.HTTPError(status=falcon.HTTP_404,
                                    title='API.NOT_FOUND',
                                    description='API.KNOWLEDGE_FILE_NOT_FOUND')
 
@@ -259,7 +259,7 @@ class KnowledgeFileItem:
             # remove the file from disk
             os.remove(file_path)
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.KNOWLEDGE_FILE_CANNOT_BE_REMOVED_FROM_DISK')
 
         cursor.execute(" DELETE FROM tbl_knowledge_files WHERE id = %s ", (id_,))
@@ -285,7 +285,7 @@ class KnowledgeFileRestore:
     def on_get(req, resp, id_):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_KNOWLEDGE_FILE_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -300,7 +300,7 @@ class KnowledgeFileRestore:
         cnx.close()
 
         if row is None:
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.KNOWLEDGE_FILE_NOT_FOUND')
 
         result = {"uuid": row[0],
@@ -322,7 +322,7 @@ class KnowledgeFileRestore:
             # move it into place.
             os.replace(temp_file_path, file_path)
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_RESTORE_KNOWLEDGE_FILE')
         resp.text = json.dumps('success')
 

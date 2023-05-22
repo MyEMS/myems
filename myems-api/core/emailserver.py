@@ -55,14 +55,14 @@ class EmailServerCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
 
         new_values = json.loads(raw_json)
 
         if 'host' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['host'], str) or \
                 len(str.strip(new_values['data']['host'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EMAIL_SERVER_HOST')
 
         host = str.strip(new_values['data']['host'])
@@ -70,13 +70,13 @@ class EmailServerCollection:
         if 'port' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['port'], int) or \
                 new_values['data']['port'] <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_PORT')
         port = float(new_values['data']['port'])
 
         if 'requires_authentication' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['requires_authentication'], bool):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_REQUIRES_AUTHENTICATION')
         requires_authentication = new_values['data']['requires_authentication']
 
@@ -84,7 +84,7 @@ class EmailServerCollection:
             if 'user_name' not in new_values['data'].keys() or \
                     not isinstance(new_values['data']['user_name'], str) or \
                     len(str.strip(new_values['data']['user_name'])) == 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_USER_NAME')
             user_name = new_values['data']['user_name']
         else:
@@ -94,7 +94,7 @@ class EmailServerCollection:
             if 'password' not in new_values['data'].keys() or \
                     not isinstance(new_values['data']['password'], str) or \
                     len(str.strip(new_values['data']['password'])) == 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_PASSWORD')
             password = base64.b64encode(bytearray(new_values['data']['password'], 'utf-8'))
         else:
@@ -103,14 +103,14 @@ class EmailServerCollection:
         if 'from_addr' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['from_addr'], str) or \
                 len(str.strip(new_values['data']['from_addr'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_FROM_ADDR')
         from_addr = new_values['data']['from_addr']
 
         match = re.match(r'^[_A-Za-z0-9-]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*(\.[A-Za-z]{2,4})$',
                          from_addr)
         if match is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_FROM_ADDR')
 
         cnx = mysql.connector.connect(**config.myems_fdd_db)
@@ -122,7 +122,7 @@ class EmailServerCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.BAD_REQUEST',
                                    description='API.EMAIL_SERVER_HOST_IS_ALREADY_IN_USE')
 
         add_value = (" INSERT INTO tbl_email_servers "
@@ -157,7 +157,7 @@ class EmailServerItem:
     def on_get(req, resp, id_):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, '400 Bad Request')
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='400 Bad Request')
 
         cnx = mysql.connector.connect(**config.myems_fdd_db)
         cursor = cnx.cursor()
@@ -170,7 +170,7 @@ class EmailServerItem:
         cursor.close()
         cnx.close()
         if row is None:
-            raise falcon.HTTPError(falcon.HTTP_404, 'API.NOT_FOUND')
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND')
 
         result = {"id": row[0],
                   "host": row[1],
@@ -188,7 +188,7 @@ class EmailServerItem:
         """Handles DELETE requests"""
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EMAIL_SERVER_ID')
 
         cnx = mysql.connector.connect(**config.myems_fdd_db)
@@ -200,7 +200,7 @@ class EmailServerItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.EMAIL_SERVER_NOT_FOUND')
 
         cursor.execute(" DELETE FROM tbl_email_servers WHERE id = %s ", (id_,))
@@ -219,17 +219,17 @@ class EmailServerItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EMAIL_SERVER_ID')
 
         new_values = json.loads(raw_json)
         if 'host' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['host'], str) or \
                 len(str.strip(new_values['data']['host'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EMAIL_SERVER_HOST')
 
         host = str.strip(new_values['data']['host'])
@@ -237,13 +237,13 @@ class EmailServerItem:
         if 'port' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['port'], int) or \
                 new_values['data']['port'] <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_PORT')
         port = float(new_values['data']['port'])
 
         if 'requires_authentication' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['requires_authentication'], bool):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_REQUIRES_AUTHENTICATION')
         requires_authentication = new_values['data']['requires_authentication']
 
@@ -251,7 +251,7 @@ class EmailServerItem:
             if 'user_name' not in new_values['data'].keys() or \
                     not isinstance(new_values['data']['user_name'], str) or \
                     len(str.strip(new_values['data']['user_name'])) == 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_USER_NAME')
             user_name = new_values['data']['user_name']
         else:
@@ -261,7 +261,7 @@ class EmailServerItem:
             if 'password' not in new_values['data'].keys() or \
                     not isinstance(new_values['data']['password'], str) or \
                     len(str.strip(new_values['data']['password'])) == 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_PASSWORD')
             password = base64.b64encode(bytearray(new_values['data']['password'], 'utf-8'))
         else:
@@ -270,14 +270,14 @@ class EmailServerItem:
         if 'from_addr' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['from_addr'], str) or \
                 len(str.strip(new_values['data']['from_addr'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_FROM_ADDR')
         from_addr = new_values['data']['from_addr']
 
         match = re.match(r'^[_A-Za-z0-9-]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*(\.[A-Za-z]{2,4})$',
                          from_addr)
         if match is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_FROM_ADDR')
 
         cnx = mysql.connector.connect(**config.myems_fdd_db)
@@ -290,7 +290,7 @@ class EmailServerItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.EMAIL_SERVER_NOT_FOUND')
 
         cursor.execute(" SELECT host "
@@ -299,7 +299,7 @@ class EmailServerItem:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.BAD_REQUEST',
                                    description='API.EMAIL_SERVER_HOST_IS_ALREADY_IN_USE')
 
         update_row = (" UPDATE tbl_email_servers "

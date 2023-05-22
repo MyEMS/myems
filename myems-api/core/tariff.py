@@ -86,7 +86,7 @@ class TariffCollection:
                 else:
                     cursor.close()
                     cnx.close()
-                    raise falcon.HTTPError(falcon.HTTP_400,
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
                                            title='API.ERROR',
                                            description='API.INVALID_TARIFF_TYPE')
 
@@ -105,13 +105,13 @@ class TariffCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
         new_values = json.loads(raw_json)
 
         if 'name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_METER_NAME')
         name = str.strip(new_values['data']['name'])
 
@@ -119,31 +119,31 @@ class TariffCollection:
                 'id' not in new_values['data']['energy_category'].keys() or \
                 not isinstance(new_values['data']['energy_category']['id'], int) or \
                 new_values['data']['energy_category']['id'] <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_CATEGORY_ID')
         energy_category_id = new_values['data']['energy_category']['id']
 
         if 'tariff_type' not in new_values['data'].keys() \
            or str.strip(new_values['data']['tariff_type']) not in ('block', 'timeofuse'):
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_TARIFF_TYPE')
         tariff_type = str.strip(new_values['data']['tariff_type'])
 
         if new_values['data']['tariff_type'] == 'block':
             if new_values['data']['block'] is None:
-                raise falcon.HTTPError(falcon.HTTP_400,
+                raise falcon.HTTPError(status=falcon.HTTP_400,
                                        title='API.BAD_REQUEST',
                                        description='API.INVALID_TARIFF_BLOCK_PRICING')
         elif new_values['data']['tariff_type'] == 'timeofuse':
             if new_values['data']['timeofuse'] is None:
-                raise falcon.HTTPError(falcon.HTTP_400,
+                raise falcon.HTTPError(status=falcon.HTTP_400,
                                        title='API.BAD_REQUEST',
                                        description='API.INVALID_TARIFF_TIME_OF_USE_PRICING')
         if 'unit_of_price' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['unit_of_price'], str) or \
                 len(str.strip(new_values['data']['unit_of_price'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_UNIT_OF_PRICE')
         unit_of_price = str.strip(new_values['data']['unit_of_price'])
 
@@ -160,7 +160,7 @@ class TariffCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.TARIFF_NAME_IS_ALREADY_IN_USE')
 
         cursor.execute(" SELECT name "
@@ -169,7 +169,7 @@ class TariffCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_CATEGORY_NOT_FOUND')
 
         # todo: validate datetime values
@@ -235,7 +235,7 @@ class TariffItem:
     def on_get(req, resp, id_):
         """Handles GET requests"""
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TARIFF_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -253,7 +253,7 @@ class TariffItem:
         if row is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TARIFF_NOT_FOUND')
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
@@ -314,7 +314,7 @@ class TariffItem:
         """Handles DELETE requests"""
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TARIFF_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -326,7 +326,7 @@ class TariffItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TARIFF_NOT_FOUND')
 
         cursor.execute(" SELECT id "
@@ -336,7 +336,7 @@ class TariffItem:
         if rows is not None and len(rows) > 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.TARIFF_NOT_EMPTY')
 
         cursor.execute(" SELECT id "
@@ -346,7 +346,7 @@ class TariffItem:
         if rows is not None and len(rows) > 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.TARIFF_NOT_EMPTY')
 
         cursor.execute(" SELECT id "
@@ -356,7 +356,7 @@ class TariffItem:
         if rows is not None and len(rows) > 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.TARIFF_IN_USE')
 
         cursor.execute(" DELETE FROM tbl_tariffs WHERE id = %s ", (id_,))
@@ -375,10 +375,10 @@ class TariffItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TARIFF_ID')
 
         new_values = json.loads(raw_json)
@@ -386,7 +386,7 @@ class TariffItem:
         if 'name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_METER_NAME')
         name = str.strip(new_values['data']['name'])
 
@@ -394,32 +394,32 @@ class TariffItem:
                 'id' not in new_values['data']['energy_category'].keys() or \
                 not isinstance(new_values['data']['energy_category']['id'], int) or \
                 new_values['data']['energy_category']['id'] <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_CATEGORY_ID')
         energy_category_id = new_values['data']['energy_category']['id']
 
         if 'tariff_type' not in new_values['data'].keys() \
            or str.strip(new_values['data']['tariff_type']) not in ('block', 'timeofuse'):
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_TARIFF_TYPE')
         tariff_type = str.strip(new_values['data']['tariff_type'])
 
         if new_values['data']['tariff_type'] == 'block':
             if new_values['data']['block'] is None:
-                raise falcon.HTTPError(falcon.HTTP_400,
+                raise falcon.HTTPError(status=falcon.HTTP_400,
                                        title='API.BAD_REQUEST',
                                        description='API.INVALID_TARIFF_BLOCK_PRICING')
         elif new_values['data']['tariff_type'] == 'timeofuse':
             if new_values['data']['timeofuse'] is None:
-                raise falcon.HTTPError(falcon.HTTP_400,
+                raise falcon.HTTPError(status=falcon.HTTP_400,
                                        title='API.BAD_REQUEST',
                                        description='API.INVALID_TARIFF_TIME_OF_USE_PRICING')
 
         if 'unit_of_price' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['unit_of_price'], str) or \
                 len(str.strip(new_values['data']['unit_of_price'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_UNIT_OF_PRICE')
         unit_of_price = str.strip(new_values['data']['unit_of_price'])
 
@@ -440,7 +440,7 @@ class TariffItem:
         if cursor.rowcount != 1:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TARIFF_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -449,7 +449,7 @@ class TariffItem:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.TARIFF_NAME_IS_ALREADY_IN_USE')
 
         valid_from = datetime.strptime(new_values['data']['valid_from'], '%Y-%m-%dT%H:%M:%S')
@@ -478,7 +478,7 @@ class TariffItem:
             if 'block' not in new_values['data'].keys() or new_values['data']['block'] is None:
                 cursor.close()
                 cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_400,
+                raise falcon.HTTPError(status=falcon.HTTP_400,
                                        title='API.BAD_REQUEST',
                                        description='API.INVALID_TARIFF_BLOCK_PRICING')
             else:
@@ -502,7 +502,7 @@ class TariffItem:
             if 'timeofuse' not in new_values['data'].keys() or new_values['data']['timeofuse'] is None:
                 cursor.close()
                 cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_400,
+                raise falcon.HTTPError(status=falcon.HTTP_400,
                                        title='API.BAD_REQUEST',
                                        description='API.INVALID_TARIFF_TIME_OF_USE_PRICING')
             else:

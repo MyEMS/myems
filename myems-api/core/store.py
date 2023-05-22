@@ -101,21 +101,21 @@ class StoreCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
 
         new_values = json.loads(raw_json)
 
         if 'name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STORE_NAME')
         name = str.strip(new_values['data']['name'])
 
         if 'address' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['address'], str) or \
                 len(str.strip(new_values['data']['address'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ADDRESS_VALUE')
         address = str.strip(new_values['data']['address'])
 
@@ -124,7 +124,7 @@ class StoreCollection:
                      isinstance(new_values['data']['latitude'], int)) or \
                 new_values['data']['latitude'] < -90.0 or \
                 new_values['data']['latitude'] > 90.0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_LATITUDE_VALUE')
         latitude = new_values['data']['latitude']
 
@@ -133,7 +133,7 @@ class StoreCollection:
                      isinstance(new_values['data']['longitude'], int)) or \
                 new_values['data']['longitude'] < -180.0 or \
                 new_values['data']['longitude'] > 180.0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_LONGITUDE_VALUE')
         longitude = new_values['data']['longitude']
 
@@ -141,34 +141,34 @@ class StoreCollection:
                 not (isinstance(new_values['data']['area'], float) or
                      isinstance(new_values['data']['area'], int)) or \
                 new_values['data']['area'] <= 0.0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_AREA_VALUE')
         area = new_values['data']['area']
 
         if 'store_type_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['store_type_id'], int) or \
                 new_values['data']['store_type_id'] <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STORE_TYPE_ID')
         store_type_id = new_values['data']['store_type_id']
 
         if 'is_input_counted' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['is_input_counted'], bool):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_INPUT_COUNTED_VALUE')
         is_input_counted = new_values['data']['is_input_counted']
 
         if 'contact_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['contact_id'], int) or \
                 new_values['data']['contact_id'] <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_CONTACT_ID')
         contact_id = new_values['data']['contact_id']
 
         if 'cost_center_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['cost_center_id'], int) or \
                 new_values['data']['cost_center_id'] <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COST_CENTER_ID')
         cost_center_id = new_values['data']['cost_center_id']
 
@@ -188,7 +188,7 @@ class StoreCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.STORE_NAME_IS_ALREADY_IN_USE')
 
         cursor.execute(" SELECT name "
@@ -198,7 +198,7 @@ class StoreCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_TYPE_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -209,7 +209,7 @@ class StoreCollection:
         if row is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.CONTACT_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -220,7 +220,7 @@ class StoreCollection:
         if row is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
 
         add_values = (" INSERT INTO tbl_stores "
@@ -261,7 +261,7 @@ class StoreItem:
     @staticmethod
     def on_get(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STORE_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -315,7 +315,7 @@ class StoreItem:
         cnx.close()
 
         if row is None:
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_NOT_FOUND')
         else:
             store_type = store_type_dict.get(row[7], None)
@@ -342,7 +342,7 @@ class StoreItem:
     def on_delete(req, resp, id_):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STORE_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -354,7 +354,7 @@ class StoreItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_NOT_FOUND')
 
         # check relation with space
@@ -366,7 +366,7 @@ class StoreItem:
         if rows_spaces is not None and len(rows_spaces) > 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_SPACES')
 
@@ -379,7 +379,7 @@ class StoreItem:
         if rows_meters is not None and len(rows_meters) > 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_METERS')
 
@@ -392,7 +392,7 @@ class StoreItem:
         if rows_offline_meters is not None and len(rows_offline_meters) > 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_OFFLINE_METERS')
 
@@ -404,7 +404,7 @@ class StoreItem:
         if rows_points is not None and len(rows_points) > 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_POINTS')
 
@@ -417,7 +417,7 @@ class StoreItem:
         if rows_sensors is not None and len(rows_sensors) > 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_SENSORS')
 
@@ -430,7 +430,7 @@ class StoreItem:
         if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_VIRTUAL_METERS')
 
@@ -450,10 +450,10 @@ class StoreItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STORE_ID')
 
         new_values = json.loads(raw_json)
@@ -461,14 +461,14 @@ class StoreItem:
         if 'name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STORE_NAME')
         name = str.strip(new_values['data']['name'])
 
         if 'address' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['address'], str) or \
                 len(str.strip(new_values['data']['address'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ADDRESS_VALUE')
         address = str.strip(new_values['data']['address'])
 
@@ -477,7 +477,7 @@ class StoreItem:
                      isinstance(new_values['data']['latitude'], int)) or \
                 new_values['data']['latitude'] < -90.0 or \
                 new_values['data']['latitude'] > 90.0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_LATITUDE_VALUE')
         latitude = new_values['data']['latitude']
 
@@ -486,7 +486,7 @@ class StoreItem:
                      isinstance(new_values['data']['longitude'], int)) or \
                 new_values['data']['longitude'] < -180.0 or \
                 new_values['data']['longitude'] > 180.0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_LONGITUDE_VALUE')
         longitude = new_values['data']['longitude']
 
@@ -494,34 +494,34 @@ class StoreItem:
                 not (isinstance(new_values['data']['area'], float) or
                      isinstance(new_values['data']['area'], int)) or \
                 new_values['data']['area'] <= 0.0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_AREA_VALUE')
         area = new_values['data']['area']
 
         if 'store_type_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['store_type_id'], int) or \
                 new_values['data']['store_type_id'] <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STORE_TYPE_ID')
         store_type_id = new_values['data']['store_type_id']
 
         if 'is_input_counted' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['is_input_counted'], bool):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_INPUT_COUNTED_VALUE')
         is_input_counted = new_values['data']['is_input_counted']
 
         if 'contact_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['contact_id'], int) or \
                 new_values['data']['contact_id'] <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_CONTACT_ID')
         contact_id = new_values['data']['contact_id']
 
         if 'cost_center_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['cost_center_id'], int) or \
                 new_values['data']['cost_center_id'] <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COST_CENTER_ID')
         cost_center_id = new_values['data']['cost_center_id']
 
@@ -541,7 +541,7 @@ class StoreItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -550,7 +550,7 @@ class StoreItem:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.STORE_NAME_IS_ALREADY_IN_USE')
 
         cursor.execute(" SELECT name "
@@ -560,7 +560,7 @@ class StoreItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_TYPE_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -571,7 +571,7 @@ class StoreItem:
         if row is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.CONTACT_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -582,7 +582,7 @@ class StoreItem:
         if row is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
 
         update_row = (" UPDATE tbl_stores "
@@ -623,7 +623,7 @@ class StoreMeterCollection:
     @staticmethod
     def on_get(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STORE_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -635,7 +635,7 @@ class StoreMeterCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_NOT_FOUND')
 
         query = (" SELECT id, name, uuid "
@@ -675,10 +675,10 @@ class StoreMeterCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STORE_ID')
 
         new_values = json.loads(raw_json)
@@ -686,7 +686,7 @@ class StoreMeterCollection:
         if 'meter_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['meter_id'], int) or \
                 new_values['data']['meter_id'] <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_METER_ID')
         meter_id = new_values['data']['meter_id']
 
@@ -699,7 +699,7 @@ class StoreMeterCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -708,7 +708,7 @@ class StoreMeterCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.METER_NOT_FOUND')
 
         query = (" SELECT id " 
@@ -718,7 +718,7 @@ class StoreMeterCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.STORE_METER_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_stores_meters (store_id, meter_id) "
@@ -747,11 +747,11 @@ class StoreMeterItem:
     def on_delete(req, resp, id_, mid):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STORE_ID')
 
         if not mid.isdigit() or int(mid) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_METER_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -763,7 +763,7 @@ class StoreMeterItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -772,7 +772,7 @@ class StoreMeterItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.METER_NOT_FOUND')
 
         cursor.execute(" SELECT id "
@@ -781,7 +781,7 @@ class StoreMeterItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_METER_RELATION_NOT_FOUND')
 
         cursor.execute(" DELETE FROM tbl_stores_meters WHERE store_id = %s AND meter_id = %s ", (id_, mid))
@@ -806,7 +806,7 @@ class StoreOfflineMeterCollection:
     @staticmethod
     def on_get(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STORE_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -818,7 +818,7 @@ class StoreOfflineMeterCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_NOT_FOUND')
 
         query = (" SELECT id, name, uuid "
@@ -858,10 +858,10 @@ class StoreOfflineMeterCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STORE_ID')
 
         new_values = json.loads(raw_json)
@@ -869,7 +869,7 @@ class StoreOfflineMeterCollection:
         if 'offline_meter_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['offline_meter_id'], int) or \
                 new_values['data']['offline_meter_id'] <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_OFFLINE_METER_ID')
         offline_meter_id = new_values['data']['offline_meter_id']
 
@@ -882,7 +882,7 @@ class StoreOfflineMeterCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -891,7 +891,7 @@ class StoreOfflineMeterCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.OFFLINE_METER_NOT_FOUND')
 
         query = (" SELECT id " 
@@ -901,7 +901,7 @@ class StoreOfflineMeterCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.STORE_OFFLINE_METER_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_stores_offline_meters (store_id, offline_meter_id) "
@@ -930,11 +930,11 @@ class StoreOfflineMeterItem:
     def on_delete(req, resp, id_, mid):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STORE_ID')
 
         if not mid.isdigit() or int(mid) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_OFFLINE_METER_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -946,7 +946,7 @@ class StoreOfflineMeterItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -955,7 +955,7 @@ class StoreOfflineMeterItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.OFFLINE_METER_NOT_FOUND')
 
         cursor.execute(" SELECT id "
@@ -964,7 +964,7 @@ class StoreOfflineMeterItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_OFFLINE_METER_RELATION_NOT_FOUND')
 
         cursor.execute(" DELETE FROM tbl_stores_offline_meters "
@@ -990,7 +990,7 @@ class StorePointCollection:
     @staticmethod
     def on_get(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STORE_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -1002,7 +1002,7 @@ class StorePointCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_NOT_FOUND')
 
         query = (" SELECT id, name, uuid "
@@ -1041,10 +1041,10 @@ class StorePointCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STORE_ID')
 
         new_values = json.loads(raw_json)
@@ -1052,7 +1052,7 @@ class StorePointCollection:
         if 'point_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['point_id'], int) or \
                 new_values['data']['point_id'] <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_POINT_ID')
         point_id = new_values['data']['point_id']
 
@@ -1065,7 +1065,7 @@ class StorePointCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -1074,7 +1074,7 @@ class StorePointCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
 
         query = (" SELECT id " 
@@ -1084,7 +1084,7 @@ class StorePointCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.STORE_POINT_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_stores_points (store_id, point_id) "
@@ -1113,11 +1113,11 @@ class StorePointItem:
     def on_delete(req, resp, id_, pid):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STORE_ID')
 
         if not pid.isdigit() or int(pid) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_POINT_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -1129,7 +1129,7 @@ class StorePointItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -1138,7 +1138,7 @@ class StorePointItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
 
         cursor.execute(" SELECT id "
@@ -1147,7 +1147,7 @@ class StorePointItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_POINT_RELATION_NOT_FOUND')
 
         cursor.execute(" DELETE FROM tbl_stores_points "
@@ -1173,7 +1173,7 @@ class StoreSensorCollection:
     @staticmethod
     def on_get(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STORE_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -1185,7 +1185,7 @@ class StoreSensorCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_NOT_FOUND')
 
         query = (" SELECT s.id, s.name, s.uuid "
@@ -1211,10 +1211,10 @@ class StoreSensorCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STORE_ID')
 
         new_values = json.loads(raw_json)
@@ -1222,7 +1222,7 @@ class StoreSensorCollection:
         if 'sensor_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['sensor_id'], int) or \
                 new_values['data']['sensor_id'] <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SENSOR_ID')
         sensor_id = new_values['data']['sensor_id']
 
@@ -1235,7 +1235,7 @@ class StoreSensorCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -1244,7 +1244,7 @@ class StoreSensorCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SENSOR_NOT_FOUND')
 
         query = (" SELECT id " 
@@ -1254,7 +1254,7 @@ class StoreSensorCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.STORE_SENSOR_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_stores_sensors (store_id, sensor_id) "
@@ -1283,11 +1283,11 @@ class StoreSensorItem:
     def on_delete(req, resp, id_, sid):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STORE_ID')
 
         if not sid.isdigit() or int(sid) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SENSOR_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -1299,7 +1299,7 @@ class StoreSensorItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -1308,7 +1308,7 @@ class StoreSensorItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SENSOR_NOT_FOUND')
 
         cursor.execute(" SELECT id "
@@ -1317,7 +1317,7 @@ class StoreSensorItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_SENSOR_RELATION_NOT_FOUND')
 
         cursor.execute(" DELETE FROM tbl_stores_sensors WHERE store_id = %s AND sensor_id = %s ", (id_, sid))
@@ -1342,7 +1342,7 @@ class StoreVirtualMeterCollection:
     @staticmethod
     def on_get(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STORE_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -1354,7 +1354,7 @@ class StoreVirtualMeterCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_NOT_FOUND')
 
         query = (" SELECT id, name, uuid "
@@ -1394,10 +1394,10 @@ class StoreVirtualMeterCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STORE_ID')
 
         new_values = json.loads(raw_json)
@@ -1405,7 +1405,7 @@ class StoreVirtualMeterCollection:
         if 'virtual_meter_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['virtual_meter_id'], int) or \
                 new_values['data']['virtual_meter_id'] <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_VIRTUAL_METER_ID')
         virtual_meter_id = new_values['data']['virtual_meter_id']
 
@@ -1418,7 +1418,7 @@ class StoreVirtualMeterCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -1427,7 +1427,7 @@ class StoreVirtualMeterCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.VIRTUAL_METER_NOT_FOUND')
 
         query = (" SELECT id " 
@@ -1437,7 +1437,7 @@ class StoreVirtualMeterCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.STORE_VIRTUAL_METER_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_stores_virtual_meters (store_id, virtual_meter_id) "
@@ -1466,11 +1466,11 @@ class StoreVirtualMeterItem:
     def on_delete(req, resp, id_, mid):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STORE_ID')
 
         if not mid.isdigit() or int(mid) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_VIRTUAL_METER_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -1482,7 +1482,7 @@ class StoreVirtualMeterItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -1491,7 +1491,7 @@ class StoreVirtualMeterItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.VIRTUAL_METER_NOT_FOUND')
 
         cursor.execute(" SELECT id "
@@ -1500,7 +1500,7 @@ class StoreVirtualMeterItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_VIRTUAL_METER_RELATION_NOT_FOUND')
 
         cursor.execute(" DELETE FROM tbl_stores_virtual_meters "
@@ -1527,7 +1527,7 @@ class StoreWorkingCalendarCollection:
     @staticmethod
     def on_get(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STORE_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -1539,7 +1539,7 @@ class StoreWorkingCalendarCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_NOT_FOUND')
 
         query = (" SELECT wc.id, wc.name, wc.description "
@@ -1565,10 +1565,10 @@ class StoreWorkingCalendarCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STORE_ID')
 
         new_values = json.loads(raw_json)
@@ -1576,7 +1576,7 @@ class StoreWorkingCalendarCollection:
         if 'working_calendar_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['working_calendar_id'], int) or \
                 new_values['data']['working_calendar_id'] <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_WORKING_CALENDAR_ID')
         working_calendar_id = new_values['data']['working_calendar_id']
 
@@ -1589,7 +1589,7 @@ class StoreWorkingCalendarCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -1598,7 +1598,7 @@ class StoreWorkingCalendarCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.WORKING_CALENDAR_NOT_FOUND')
 
         query = (" SELECT id " 
@@ -1608,7 +1608,7 @@ class StoreWorkingCalendarCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.STORE_WORKING_CALENDAR_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_stores_working_calendars (store_id, working_calendar_id) "
@@ -1637,11 +1637,11 @@ class StoreWorkingCalendarItem:
     def on_delete(req, resp, id_, wcid):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STORE_ID')
 
         if not wcid.isdigit() or int(wcid) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_WORKING_CALENDAR_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -1653,7 +1653,7 @@ class StoreWorkingCalendarItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -1662,7 +1662,7 @@ class StoreWorkingCalendarItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.WORKING_CALENDAR_NOT_FOUND')
 
         cursor.execute(" SELECT id "
@@ -1671,7 +1671,7 @@ class StoreWorkingCalendarItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_WORKING_CALENDAR_RELATION_NOT_FOUND')
 
         cursor.execute(" DELETE FROM tbl_stores_working_calendars WHERE store_id = %s AND working_calendar_id = %s ", (id_, wcid))

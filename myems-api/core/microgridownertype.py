@@ -8,10 +8,10 @@ import config
 from core.useractivity import user_logger, access_control
 
 
-class TenantTypeCollection:
+class MicrogridOwnerTypeCollection:
     @staticmethod
     def __init__():
-        """Initializes Class"""
+        """ Initializes MicrogridOwnerTypeCollection"""
         pass
 
     @staticmethod
@@ -24,7 +24,7 @@ class TenantTypeCollection:
         cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid, description, simplified_code "
-                 " FROM tbl_tenant_types "
+                 " FROM tbl_microgrid_owner_types "
                  " ORDER BY id ")
         cursor.execute(query)
         rows = cursor.fetchall()
@@ -56,7 +56,7 @@ class TenantTypeCollection:
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_TENANT_TYPE_NAME')
+                                   description='API.INVALID_MICROGRID_OWNER_TYPE_NAME')
 
         name = str.strip(new_values['data']['name'])
 
@@ -64,7 +64,7 @@ class TenantTypeCollection:
                 not isinstance(new_values['data']['description'], str) or \
                 len(str.strip(new_values['data']['description'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_TENANT_TYPE_DESCRIPTION')
+                                   description='API.INVALID_MICROGRID_OWNER_TYPE_DESCRIPTION')
 
         description = str.strip(new_values['data']['description'])
 
@@ -72,7 +72,7 @@ class TenantTypeCollection:
                 not isinstance(new_values['data']['simplified_code'], str) or \
                 len(str.strip(new_values['data']['simplified_code'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_TENANT_TYPE_SIMPLIFIED_CODE')
+                                   description='API.INVALID_MICROGRID_OWNER_TYPE_SIMPLIFIED_CODE')
 
         simplified_code = str.strip(new_values['data']['simplified_code'])
 
@@ -80,24 +80,24 @@ class TenantTypeCollection:
         cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
-                       " FROM tbl_tenant_types "
+                       " FROM tbl_microgrid_owner_types "
                        " WHERE name = %s ", (name,))
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.TENANT_TYPE_NAME_IS_ALREADY_IN_USE')
+                                   description='API.MICROGRID_OWNER_TYPE_NAME_IS_ALREADY_IN_USE')
 
         cursor.execute(" SELECT simplified_code "
-                       " FROM tbl_tenant_types "
+                       " FROM tbl_microgrid_Owner_types "
                        " WHERE simplified_code = %s ", (simplified_code,))
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.TENANT_TYPE_SIMPLIFIED_CODE_IS_ALREADY_IN_USE')
+                                   description='API.MICROGRID_OWNER_TYPE_SIMPLIFIED_CODE_IS_ALREADY_IN_USE')
 
-        add_value = (" INSERT INTO tbl_tenant_types "
+        add_value = (" INSERT INTO tbl_microgrid_owner_types "
                      "    (name, uuid, description, simplified_code) "
                      " VALUES (%s, %s, %s, %s) ")
         cursor.execute(add_value, (name,
@@ -110,13 +110,13 @@ class TenantTypeCollection:
         cnx.close()
 
         resp.status = falcon.HTTP_201
-        resp.location = '/tenanttypes/' + str(new_id)
+        resp.location = '/microgridownertypes/' + str(new_id)
 
 
-class TenantTypeItem:
+class MicrogridOwnerTypeItem:
     @staticmethod
     def __init__():
-        """Initializes Class"""
+        """ Initializes MicrogridOwnerTypeItem"""
         pass
 
     @staticmethod
@@ -127,13 +127,13 @@ class TenantTypeItem:
     def on_get(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_TENANT_TYPE_ID')
+                                   description='API.INVALID_MICROGRID_OWNER_TYPE_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid, description, simplified_code "
-                 " FROM tbl_tenant_types "
+                 " FROM tbl_microgrid_owner_types "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
@@ -141,7 +141,7 @@ class TenantTypeItem:
         cnx.close()
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.TENANT_TYPE_NOT_FOUND')
+                                   description='API.MICROGRID_OWNER_TYPE_NOT_FOUND')
 
         result = {"id": row[0],
                   "name": row[1],
@@ -157,32 +157,32 @@ class TenantTypeItem:
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_TENANT_TYPE_ID')
+                                   description='API.INVALID_MICROGRID_OWNER_TYPE_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
-                       " FROM tbl_tenant_types "
+                       " FROM tbl_microgrid_owner_types "
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.TENANT_TYPE_NOT_FOUND')
+                                   description='API.MICROGRID_OWNER_TYPE_NOT_FOUND')
 
         cursor.execute(" SELECT id "
-                       " FROM tbl_tenants "
-                       " WHERE tenant_type_id = %s ", (id_,))
-        rows_tenants = cursor.fetchall()
-        if rows_tenants is not None and len(rows_tenants) > 0:
+                       " FROM tbl_stores "
+                       " WHERE microgrid_owner_type_id = %s ", (id_,))
+        rows_stores = cursor.fetchall()
+        if rows_stores is not None and len(rows_stores) > 0:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
-                                   description='API.TENANT_TYPE_USED_IN_TENANT')
+                                   description='API.MICROGRID_OWNER_TYPE_USED_IN_STORE')
 
-        cursor.execute(" DELETE FROM tbl_tenant_types WHERE id = %s ", (id_,))
+        cursor.execute(" DELETE FROM tbl_microgrid_owner_types WHERE id = %s ", (id_,))
         cnx.commit()
 
         cursor.close()
@@ -201,14 +201,14 @@ class TenantTypeItem:
 
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_TENANT_TYPE_ID')
+                                   description='API.INVALID_MICROGRID_OWNER_TYPE_ID')
 
         new_values = json.loads(raw_json)
         if 'name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_TENANT_TYPE_NAME')
+                                   description='API.INVALID_MICROGRID_OWNER_TYPE_NAME')
 
         name = str.strip(new_values['data']['name'])
 
@@ -216,7 +216,7 @@ class TenantTypeItem:
                 not isinstance(new_values['data']['description'], str) or \
                 len(str.strip(new_values['data']['description'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_TENANT_TYPE_DESCRIPTION')
+                                   description='API.INVALID_MICROGRID_OWNER_TYPE_DESCRIPTION')
 
         description = str.strip(new_values['data']['description'])
 
@@ -224,7 +224,7 @@ class TenantTypeItem:
                 not isinstance(new_values['data']['simplified_code'], str) or \
                 len(str.strip(new_values['data']['simplified_code'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_TENANT_TYPE_SIMPLIFIED_CODE')
+                                   description='API.INVALID_MICROGRID_OWNER_TYPE_SIMPLIFIED_CODE')
 
         simplified_code = str.strip(new_values['data']['simplified_code'])
 
@@ -232,33 +232,33 @@ class TenantTypeItem:
         cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
-                       " FROM tbl_tenant_types "
+                       " FROM tbl_microgrid_owner_types "
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.TENANT_TYPE_NOT_FOUND')
+                                   description='API.MICROGRID_OWNER_TYPE_NOT_FOUND')
 
         cursor.execute(" SELECT name "
-                       " FROM tbl_tenant_types "
+                       " FROM tbl_microgrid_owner_types "
                        " WHERE name = %s AND id != %s ", (name, id_))
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.TENANT_TYPE_NAME_IS_ALREADY_IN_USE')
+                                   description='API.MICROGRID_OWNER_TYPE_NAME_IS_ALREADY_IN_USE')
 
         cursor.execute(" SELECT simplified_code "
-                       " FROM tbl_tenant_types "
+                       " FROM tbl_microgrid_Owner_types "
                        " WHERE simplified_code = %s  AND id != %s ", (simplified_code, id_))
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.BAD_REQUEST',
-                                   description='API.TENANT_TYPE_SIMPLIFIED_CODE_IS_ALREADY_IN_USE')
+                                   description='API.MICROGRID_OWNER_TYPE_SIMPLIFIED_CODE_IS_ALREADY_IN_USE')
 
-        update_row = (" UPDATE tbl_tenant_types "
+        update_row = (" UPDATE tbl_microgrid_owner_types "
                       " SET name = %s, description = %s, simplified_code = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,

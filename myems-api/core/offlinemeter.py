@@ -97,48 +97,48 @@ class OfflineMeterCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
 
         new_values = json.loads(raw_json)
 
         if 'name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_OFFLINE_METER_NAME')
         name = str.strip(new_values['data']['name'])
 
         if 'energy_category_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['energy_category_id'], int) or \
                 new_values['data']['energy_category_id'] <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_CATEGORY_ID')
         energy_category_id = new_values['data']['energy_category_id']
 
         if 'is_counted' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['is_counted'], bool):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_COUNTED_VALUE')
         is_counted = new_values['data']['is_counted']
 
         if 'hourly_low_limit' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['hourly_low_limit'], float) or
                      isinstance(new_values['data']['hourly_low_limit'], int)):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_HOURLY_LOW_LIMIT_VALUE')
         hourly_low_limit = new_values['data']['hourly_low_limit']
 
         if 'hourly_high_limit' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['hourly_high_limit'], float) or
                      isinstance(new_values['data']['hourly_high_limit'], int)):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_HOURLY_HIGH_LIMIT_VALUE')
         hourly_high_limit = new_values['data']['hourly_high_limit']
 
         if 'cost_center_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['cost_center_id'], int) or \
                 new_values['data']['cost_center_id'] <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COST_CENTER_ID')
 
         cost_center_id = new_values['data']['cost_center_id']
@@ -147,7 +147,7 @@ class OfflineMeterCollection:
                 new_values['data']['energy_item_id'] is not None:
             if not isinstance(new_values['data']['energy_item_id'], int) or \
                     new_values['data']['energy_item_id'] <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_ENERGY_ITEM_ID')
             energy_item_id = new_values['data']['energy_item_id']
         else:
@@ -169,7 +169,7 @@ class OfflineMeterCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.OFFLINE_METER_NAME_IS_ALREADY_IN_USE')
 
         cursor.execute(" SELECT name "
@@ -179,7 +179,7 @@ class OfflineMeterCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_CATEGORY_NOT_FOUND')
         if energy_item_id is not None:
             cursor.execute(" SELECT name, energy_category_id "
@@ -190,13 +190,13 @@ class OfflineMeterCollection:
             if row is None:
                 cursor.close()
                 cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.ENERGY_ITEM_NOT_FOUND')
             else:
                 if row[1] != energy_category_id:
                     cursor.close()
                     cnx.close()
-                    raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.BAD_REQUEST',
                                            description='API.ENERGY_ITEM_IS_NOT_BELONG_TO_ENERGY_CATEGORY')
 
         cursor.execute(" SELECT name "
@@ -207,7 +207,7 @@ class OfflineMeterCollection:
         if row is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
 
         add_values = (" INSERT INTO tbl_offline_meters "
@@ -246,7 +246,7 @@ class OfflineMeterItem:
     @staticmethod
     def on_get(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_OFFLINE_METER_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -299,7 +299,7 @@ class OfflineMeterItem:
         cnx.close()
 
         if row is None:
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.OFFLINE_METER_NOT_FOUND')
         else:
             energy_category = energy_category_dict.get(row[3], None)
@@ -323,7 +323,7 @@ class OfflineMeterItem:
     def on_delete(req, resp, id_):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_OFFLINE_METER_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -336,7 +336,7 @@ class OfflineMeterItem:
         if row is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.OFFLINE_METER_NOT_FOUND')
         else:
             offline_meter_uuid = row[0]
@@ -350,7 +350,7 @@ class OfflineMeterItem:
         if row_virtual_meter is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THIS_OFFLINE_METER_IS_BEING_USED_BY_A_VIRTUAL_METER')
 
@@ -362,7 +362,7 @@ class OfflineMeterItem:
         if rows_companies is not None and len(rows_companies) > 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_SPACES')
 
@@ -375,7 +375,7 @@ class OfflineMeterItem:
         if rows_combined_equipments is not None and len(rows_combined_equipments) > 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_COMBINED_EQUIPMENTS')
 
@@ -388,7 +388,7 @@ class OfflineMeterItem:
         if rows_combined_equipments is not None and len(rows_combined_equipments) > 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_COMBINED_EQUIPMENT_PARAMETERS')
 
@@ -400,7 +400,7 @@ class OfflineMeterItem:
         if rows_tenants is not None and len(rows_tenants) > 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_TENANTS')
 
@@ -412,7 +412,7 @@ class OfflineMeterItem:
         if rows_stores is not None and len(rows_stores) > 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_STORES')
 
@@ -424,7 +424,7 @@ class OfflineMeterItem:
         if rows_shopfloors is not None and len(rows_shopfloors) > 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_SHOPFLOORS')
 
@@ -436,7 +436,7 @@ class OfflineMeterItem:
         if rows_equipments is not None and len(rows_equipments) > 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_EQUIPMENTS')
 
@@ -449,7 +449,7 @@ class OfflineMeterItem:
         if rows_equipments is not None and len(rows_equipments) > 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_EQUIPMENT_PARAMETERS')
 
@@ -461,7 +461,7 @@ class OfflineMeterItem:
         if rows_links is not None and len(rows_links) > 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_ENERGY_FLOW_DIAGRAM_LINKS')
 
@@ -481,10 +481,10 @@ class OfflineMeterItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_OFFLINE_METER_ID')
 
         new_values = json.loads(raw_json)
@@ -492,41 +492,41 @@ class OfflineMeterItem:
         if 'name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_OFFLINE_METER_NAME')
         name = str.strip(new_values['data']['name'])
 
         if 'energy_category_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['energy_category_id'], int) or \
                 new_values['data']['energy_category_id'] <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_CATEGORY_ID')
         energy_category_id = new_values['data']['energy_category_id']
 
         if 'is_counted' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['is_counted'], bool):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_COUNTED_VALUE')
         is_counted = new_values['data']['is_counted']
 
         if 'hourly_low_limit' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['hourly_low_limit'], float) or
                      isinstance(new_values['data']['hourly_low_limit'], int)):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_HOURLY_LOW_LIMIT_VALUE')
         hourly_low_limit = new_values['data']['hourly_low_limit']
 
         if 'hourly_high_limit' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['hourly_high_limit'], float) or
                      isinstance(new_values['data']['hourly_high_limit'], int)):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_HOURLY_HIGH_LIMIT_VALUE')
         hourly_high_limit = new_values['data']['hourly_high_limit']
 
         if 'cost_center_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['cost_center_id'], int) or \
                 new_values['data']['cost_center_id'] <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COST_CENTER_ID')
 
         cost_center_id = new_values['data']['cost_center_id']
@@ -535,7 +535,7 @@ class OfflineMeterItem:
                 new_values['data']['energy_item_id'] is not None:
             if not isinstance(new_values['data']['energy_item_id'], int) or \
                     new_values['data']['energy_item_id'] <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_ENERGY_ITEM_ID')
             energy_item_id = new_values['data']['energy_item_id']
         else:
@@ -557,7 +557,7 @@ class OfflineMeterItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.OFFLINE_METER_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -566,7 +566,7 @@ class OfflineMeterItem:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.OFFLINE_METER_NAME_IS_ALREADY_IN_USE')
 
         cursor.execute(" SELECT name "
@@ -576,7 +576,7 @@ class OfflineMeterItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_CATEGORY_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -587,7 +587,7 @@ class OfflineMeterItem:
         if row is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
 
         if energy_item_id is not None:
@@ -599,13 +599,13 @@ class OfflineMeterItem:
             if row is None:
                 cursor.close()
                 cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.ENERGY_ITEM_NOT_FOUND')
             else:
                 if row[1] != energy_category_id:
                     cursor.close()
                     cnx.close()
-                    raise falcon.HTTPError(falcon.HTTP_404, title='API.BAD_REQUEST',
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.BAD_REQUEST',
                                            description='API.ENERGY_ITEM_IS_NOT_BELONG_TO_ENERGY_CATEGORY')
 
         update_row = (" UPDATE tbl_offline_meters "

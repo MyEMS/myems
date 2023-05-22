@@ -71,27 +71,27 @@ class PointCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, 'API.ERROR', ex)
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=ex)
 
         new_values = json.loads(raw_json)
 
         if 'name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_POINT_NAME')
         name = str.strip(new_values['data']['name'])
 
         if 'data_source_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['data_source_id'], int) or \
                 new_values['data']['data_source_id'] <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DATA_SOURCE_ID')
         data_source_id = new_values['data']['data_source_id']
 
         if 'object_type' not in new_values['data'].keys() \
            or str.strip(new_values['data']['object_type']) not in ('ENERGY_VALUE', 'ANALOG_VALUE', 'DIGITAL_VALUE'):
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_OBJECT_TYPE')
         object_type = str.strip(new_values['data']['object_type'])
@@ -99,50 +99,50 @@ class PointCollection:
         if 'units' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['units'], str) or \
                 len(str.strip(new_values['data']['units'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_UNITS')
         units = str.strip(new_values['data']['units'])
 
         if 'high_limit' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['high_limit'], float) or
                      isinstance(new_values['data']['high_limit'], int)):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_HIGH_LIMIT_VALUE')
         high_limit = new_values['data']['high_limit']
 
         if 'low_limit' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['low_limit'], float) or
                      isinstance(new_values['data']['low_limit'], int)):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_LOW_LIMIT_VALUE')
         low_limit = new_values['data']['low_limit']
 
         if 'ratio' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['ratio'], float) or
                      isinstance(new_values['data']['ratio'], int)):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RATIO_VALUE')
         ratio = new_values['data']['ratio']
 
         if 'is_trend' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['is_trend'], bool):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_TREND_VALUE')
         is_trend = new_values['data']['is_trend']
 
         if 'is_virtual' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['is_virtual'], bool):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_VIRTUAL_VALUE')
         if new_values['data']['is_virtual'] is True and object_type != 'ANALOG_VALUE':
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.VIRTUAL_POINT_SHOULD_BE_ANALOG_VALUE')
         is_virtual = new_values['data']['is_virtual']
 
         if 'address' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['address'], str) or \
                 len(str.strip(new_values['data']['address'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ADDRESS')
         address = str.strip(new_values['data']['address'])
 
@@ -162,7 +162,7 @@ class PointCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.POINT_NAME_IS_ALREADY_IN_USE')
 
         cursor.execute(" SELECT name "
@@ -171,7 +171,7 @@ class PointCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DATA_SOURCE_ID')
 
         add_value = (" INSERT INTO tbl_points (name, data_source_id, "
@@ -213,7 +213,7 @@ class PointItem:
         """Handles GET requests"""
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_POINT_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -240,7 +240,7 @@ class PointItem:
         cursor.close()
         cnx.close()
         if row is None:
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
 
         data_source = data_source_dict.get(row[2], None)
@@ -263,7 +263,7 @@ class PointItem:
     def on_delete(req, resp, id_):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_POINT_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -275,7 +275,7 @@ class PointItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
 
         # check if this point is being used by meters
@@ -288,7 +288,7 @@ class PointItem:
         if row_meter is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_METERS')
 
@@ -302,7 +302,7 @@ class PointItem:
         if row_sensor is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_SENSORS')
 
@@ -316,7 +316,7 @@ class PointItem:
         if row_shopfloor is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_SHOPFLOORS')
 
@@ -330,7 +330,7 @@ class PointItem:
         if row_store is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_STORES')
 
@@ -344,7 +344,7 @@ class PointItem:
         if row_space is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_SPACES')
 
@@ -358,7 +358,7 @@ class PointItem:
         if row_tenant is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_TENANTS')
 
@@ -372,7 +372,7 @@ class PointItem:
         if row_equipment is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_EQUIPMENT_PARAMETERS')
 
@@ -386,7 +386,7 @@ class PointItem:
         if row_combined_equipment is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_COMBINED_EQUIPMENT_PARAMETERS')
 
@@ -406,10 +406,10 @@ class PointItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_POINT_ID')
 
         new_values = json.loads(raw_json)
@@ -417,20 +417,20 @@ class PointItem:
         if 'name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_POINT_NAME')
         name = str.strip(new_values['data']['name'])
 
         if 'data_source_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['data_source_id'], int) or \
                 new_values['data']['data_source_id'] <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DATA_SOURCE_ID')
         data_source_id = new_values['data']['data_source_id']
 
         if 'object_type' not in new_values['data'].keys() \
            or str.strip(new_values['data']['object_type']) not in ('ENERGY_VALUE', 'ANALOG_VALUE', 'DIGITAL_VALUE'):
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_OBJECT_TYPE')
         object_type = str.strip(new_values['data']['object_type'])
@@ -438,50 +438,50 @@ class PointItem:
         if 'units' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['units'], str) or \
                 len(str.strip(new_values['data']['units'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_UNITS')
         units = str.strip(new_values['data']['units'])
 
         if 'high_limit' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['high_limit'], float) or
                      isinstance(new_values['data']['high_limit'], int)):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_HIGH_LIMIT_VALUE')
         high_limit = new_values['data']['high_limit']
 
         if 'low_limit' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['low_limit'], float) or
                      isinstance(new_values['data']['low_limit'], int)):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_LOW_LIMIT_VALUE')
         low_limit = new_values['data']['low_limit']
 
         if 'ratio' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['ratio'], float) or
                      isinstance(new_values['data']['ratio'], int)):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RATIO_VALUE')
         ratio = new_values['data']['ratio']
 
         if 'is_trend' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['is_trend'], bool):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_TREND_VALUE')
         is_trend = new_values['data']['is_trend']
 
         if 'is_virtual' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['is_virtual'], bool):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_VIRTUAL_VALUE')
         if new_values['data']['is_virtual'] is True and object_type != 'ANALOG_VALUE':
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.VIRTUAL_POINT_SHOULD_BE_ANALOG_VALUE')
         is_virtual = new_values['data']['is_virtual']
 
         if 'address' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['address'], str) or \
                 len(str.strip(new_values['data']['address'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ADDRESS')
         address = str.strip(new_values['data']['address'])
 
@@ -501,7 +501,7 @@ class PointItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -510,7 +510,7 @@ class PointItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DATA_SOURCE_ID')
 
         cursor.execute(" SELECT name "
@@ -519,7 +519,7 @@ class PointItem:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.POINT_NAME_IS_ALREADY_IN_USE')
 
         update_row = (" UPDATE tbl_points "
