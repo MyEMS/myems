@@ -50,7 +50,7 @@ class TimezoneItem:
     @staticmethod
     def on_get(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TIMEZONE_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -64,7 +64,7 @@ class TimezoneItem:
         if row is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TIMEZONE_NOT_FOUND')
 
         result = {"id": row[0], "name": row[1], "description": row[2], "utc_offset": row[3]}
@@ -82,10 +82,10 @@ class TimezoneItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, 'API.ERROR', ex)
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=ex)
 
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TIMEZONE_ID')
 
         new_values = json.loads(raw_json)
@@ -99,7 +99,7 @@ class TimezoneItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TIMEZONE_NOT_FOUND')
 
         update_row = (" UPDATE tbl_timezones "

@@ -26,7 +26,7 @@ class NotificationCollection:
         if status is not None:
             status = str.strip(status)
             if status not in ['unread', 'read', 'archived']:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_STATUS')
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
@@ -40,7 +40,7 @@ class NotificationCollection:
                                                        '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
                                      timedelta(minutes=timezone_offset)
             except ValueError:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_START_DATETIME")
 
         end_datetime_utc = None
@@ -51,22 +51,22 @@ class NotificationCollection:
                                                      '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
                                         timedelta(minutes=timezone_offset)
             except ValueError:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_END_DATETIME")
 
         if start_datetime_utc is not None and end_datetime_utc is not None and \
                 start_datetime_utc >= end_datetime_utc:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_END_DATETIME')
 
         # Verify User Session
         token = req.headers.get('TOKEN')
         user_uuid = req.headers.get('USER-UUID')
         if token is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.TOKEN_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
         if user_uuid is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.USER_UUID_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
 
         cnx = mysql.connector.connect(**config.myems_user_db)
@@ -83,7 +83,7 @@ class NotificationCollection:
                 cursor.close()
             if cnx:
                 cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
         else:
             utc_expires = row[0]
@@ -92,7 +92,7 @@ class NotificationCollection:
                     cursor.close()
                 if cnx:
                     cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.USER_SESSION_TIMEOUT')
 
         cursor.execute(" SELECT id "
@@ -105,7 +105,7 @@ class NotificationCollection:
                 cursor.close()
             if cnx:
                 cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_PLEASE_RE_LOGIN')
         else:
             user_id = row[0]
@@ -164,17 +164,17 @@ class NotificationItem:
     def on_get(req, resp, id_):
         """Handles GET requests"""
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_NOTIFICATION_ID')
 
         # Verify User Session
         token = req.headers.get('TOKEN')
         user_uuid = req.headers.get('USER-UUID')
         if token is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.TOKEN_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
         if user_uuid is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.USER_UUID_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
 
         cnx = mysql.connector.connect(**config.myems_user_db)
@@ -191,7 +191,7 @@ class NotificationItem:
                 cursor.close()
             if cnx:
                 cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
         else:
             utc_expires = row[0]
@@ -200,7 +200,7 @@ class NotificationItem:
                     cursor.close()
                 if cnx:
                     cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.USER_SESSION_TIMEOUT')
 
         cursor.execute(" SELECT id "
@@ -213,7 +213,7 @@ class NotificationItem:
                 cursor.close()
             if cnx:
                 cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_PLEASE_RE_LOGIN')
         else:
             user_id = row[0]
@@ -231,7 +231,7 @@ class NotificationItem:
             cnx.close()
 
         if row is None:
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.NOTIFICATION_NOT_FOUND')
 
         meta_result = {"id": row[0],
@@ -252,10 +252,10 @@ class NotificationItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_NOTIFICATION_ID')
 
         new_values = json.loads(raw_json)
@@ -264,7 +264,7 @@ class NotificationItem:
                 not isinstance(new_values['data']['status'], str) or \
                 len(str.strip(new_values['data']['status'])) == 0 or \
                 str.strip(new_values['data']['status']) not in ('unread', 'read', 'archived'):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STATUS')
         status = str.strip(new_values['data']['status'])
 
@@ -272,10 +272,10 @@ class NotificationItem:
         token = req.headers.get('TOKEN')
         user_uuid = req.headers.get('USER-UUID')
         if token is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.TOKEN_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
         if user_uuid is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.USER_UUID_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
 
         cnx = mysql.connector.connect(**config.myems_user_db)
@@ -292,7 +292,7 @@ class NotificationItem:
                 cursor.close()
             if cnx:
                 cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
         else:
             utc_expires = row[0]
@@ -301,7 +301,7 @@ class NotificationItem:
                     cursor.close()
                 if cnx:
                     cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.USER_SESSION_TIMEOUT')
 
         cursor.execute(" SELECT id "
@@ -314,7 +314,7 @@ class NotificationItem:
                 cursor.close()
             if cnx:
                 cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_PLEASE_RE_LOGIN')
         else:
             user_id = row[0]
@@ -327,7 +327,7 @@ class NotificationItem:
                 cursor.close()
             if cnx:
                 cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.NOTIFICATION_NOT_FOUND')
 
         update_row = (" UPDATE tbl_notifications "
@@ -347,17 +347,17 @@ class NotificationItem:
     @user_logger
     def on_delete(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_NOTIFICATION_ID')
 
         # Verify User Session
         token = req.headers.get('TOKEN')
         user_uuid = req.headers.get('USER-UUID')
         if token is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.TOKEN_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
         if user_uuid is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.USER_UUID_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
 
         cnx = mysql.connector.connect(**config.myems_user_db)
@@ -374,7 +374,7 @@ class NotificationItem:
                 cursor.close()
             if cnx:
                 cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
         else:
             utc_expires = row[0]
@@ -383,7 +383,7 @@ class NotificationItem:
                     cursor.close()
                 if cnx:
                     cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.USER_SESSION_TIMEOUT')
 
         cursor.execute(" SELECT id "
@@ -396,7 +396,7 @@ class NotificationItem:
                 cursor.close()
             if cnx:
                 cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_PLEASE_RE_LOGIN')
         else:
             user_id = row[0]
@@ -411,7 +411,7 @@ class NotificationItem:
                 cursor.close()
             if cnx:
                 cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.NOTIFICATION_NOT_FOUND')
 
         cursor.execute(" DELETE FROM tbl_notifications WHERE id = %s ", (id_,))

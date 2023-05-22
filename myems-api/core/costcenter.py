@@ -49,12 +49,12 @@ class CostCenterCollection:
             raw_json = req.stream.read().decode('utf-8')
 
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, 'API.ERROR', ex)
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=ex)
 
         new_values = json.loads(raw_json)
 
         if 'name' not in new_values['data'].keys() or len(new_values['data']['name']) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_NAME_VALUE')
         name = str.strip(new_values['data']['name'])
 
@@ -74,7 +74,7 @@ class CostCenterCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.COST_CENTER_NAME_EXISTS')
         if external_id is not None:
@@ -84,7 +84,7 @@ class CostCenterCollection:
             if cursor.fetchone() is not None:
                 cursor.close()
                 cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.COST_CENTER_EXTERNAL_ID_EXISTS')
 
         add_row = (" INSERT INTO tbl_cost_centers "
@@ -116,7 +116,7 @@ class CostCenterItem:
     def on_get(req, resp, id_):
         """Handles GET requests"""
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COST_CENTER_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -131,7 +131,7 @@ class CostCenterItem:
         cnx.close()
 
         if row is None:
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
 
         result = {"id": row[0], "name": row[1], "uuid": row[2], "external_id": row[3]}
@@ -143,7 +143,7 @@ class CostCenterItem:
         """Handles DELETE requests"""
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COST_CENTER_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -155,7 +155,7 @@ class CostCenterItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
 
         # check relation with equipments
@@ -166,7 +166,7 @@ class CostCenterItem:
         if rows_equipments is not None and len(rows_equipments) > 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_EQUIPMENTS')
 
@@ -178,7 +178,7 @@ class CostCenterItem:
         if rows_combined_equipments is not None and len(rows_combined_equipments) > 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_COMBINED_EQUIPMENTS')
 
@@ -190,7 +190,7 @@ class CostCenterItem:
         if rows_tariffs is not None and len(rows_tariffs) > 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_TARIFFS')
 
@@ -202,7 +202,7 @@ class CostCenterItem:
         if rows_meters is not None and len(rows_meters) > 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_METERS')
 
@@ -214,7 +214,7 @@ class CostCenterItem:
         if rows_offline_meters is not None and len(rows_offline_meters) > 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_OFFLINE_METERS')
 
@@ -226,7 +226,7 @@ class CostCenterItem:
         if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_OFFLINE_METERS')
 
@@ -238,7 +238,7 @@ class CostCenterItem:
         if rows_tenants is not None and len(rows_tenants) > 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_TENANTS')
 
@@ -250,7 +250,7 @@ class CostCenterItem:
         if rows_stores is not None and len(rows_stores) > 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_STORES')
 
@@ -262,7 +262,7 @@ class CostCenterItem:
         if rows_factories is not None and len(rows_factories) > 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_SPACES')
 
@@ -274,7 +274,7 @@ class CostCenterItem:
         if rows_shopfloors is not None and len(rows_shopfloors) > 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_SHOPFLOORS')
 
@@ -293,16 +293,16 @@ class CostCenterItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COST_CENTER_ID')
 
         new_values = json.loads(raw_json)
 
         if 'name' not in new_values['data'].keys() or len(new_values['data']['name']) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_NAME_VALUE')
         name = str.strip(new_values['data']['name'])
 
@@ -322,7 +322,7 @@ class CostCenterItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -332,7 +332,7 @@ class CostCenterItem:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.COST_CENTER_NAME_EXISTS')
         if external_id is not None:
@@ -343,7 +343,7 @@ class CostCenterItem:
             if cursor.fetchone() is not None:
                 cursor.close()
                 cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_400,
+                raise falcon.HTTPError(status=falcon.HTTP_400,
                                        title='API.BAD_REQUEST',
                                        description='API.COST_CENTER_EXTERNAL_ID_EXISTS')
 
@@ -353,7 +353,7 @@ class CostCenterItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404,
+            raise falcon.HTTPError(status=falcon.HTTP_404,
                                    title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
 
@@ -386,7 +386,7 @@ class CostCenterTariffCollection:
     def on_get(req, resp, id_):
         """Handles GET requests"""
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COST_CENTER_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -423,10 +423,10 @@ class CostCenterTariffCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COST_CENTER_ID')
 
         new_values = json.loads(raw_json)
@@ -440,7 +440,7 @@ class CostCenterTariffCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -449,7 +449,7 @@ class CostCenterTariffCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TARIFF_NOT_FOUND')
 
         cursor.execute(" SELECT id "
@@ -459,7 +459,7 @@ class CostCenterTariffCollection:
         if rows is not None and len(rows) > 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.TARIFF_IS_ALREADY_ASSOCIATED_WITH_COST_CENTER')
 
         add_row = (" INSERT INTO tbl_cost_centers_tariffs "
@@ -491,11 +491,11 @@ class CostCenterTariffItem:
         """Handles DELETE requests"""
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COST_CENTER_ID')
 
         if not tid.isdigit() or int(tid) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TARIFF_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -507,7 +507,7 @@ class CostCenterTariffItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -516,7 +516,7 @@ class CostCenterTariffItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TARIFF_NOT_FOUND')
 
         cursor.execute(" SELECT id "
@@ -525,7 +525,7 @@ class CostCenterTariffItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TARIFF_IS_NOT_ASSOCIATED_WITH_COST_CENTER')
 
         cursor.execute(" DELETE FROM tbl_cost_centers_tariffs "
