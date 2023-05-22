@@ -2632,7 +2632,7 @@ class SpaceTreeCollection:
         if row is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, 'API.NOT_FOUND', 'API.USER_NOT_FOUND')
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND', description='API.USER_NOT_FOUND')
         else:
             is_admin = bool(row[0])
             privilege_id = row[1]
