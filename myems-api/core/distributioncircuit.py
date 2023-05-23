@@ -69,49 +69,49 @@ class DistributionCircuitCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
 
         new_values = json.loads(raw_json)
 
         if 'name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DISTRIBUTION_CIRCUIT_NAME')
         name = str.strip(new_values['data']['name'])
 
         if 'distribution_system_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['distribution_system_id'], int) or \
                 new_values['data']['distribution_system_id'] <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DISTRIBUTION_SYSTEM_ID')
         distribution_system_id = new_values['data']['distribution_system_id']
 
         if 'distribution_room' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['distribution_room'], str) or \
                 len(str.strip(new_values['data']['distribution_room'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DISTRIBUTION_ROOM')
         distribution_room = str.strip(new_values['data']['distribution_room'])
 
         if 'switchgear' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['switchgear'], str) or \
                 len(str.strip(new_values['data']['switchgear'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SWITCHGEAR')
         switchgear = str.strip(new_values['data']['switchgear'])
 
         if 'peak_load' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['peak_load'], float) or
                      isinstance(new_values['data']['peak_load'], int)):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_PEAK_LOAD')
         peak_load = float(new_values['data']['peak_load'])
 
         if 'peak_current' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['peak_current'], float) or
                      isinstance(new_values['data']['peak_current'], int)):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_PEAK_CURRENT')
         peak_current = float(new_values['data']['peak_current'])
 
@@ -139,7 +139,7 @@ class DistributionCircuitCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DISTRIBUTION_SYSTEM_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -149,7 +149,7 @@ class DistributionCircuitCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.DISTRIBUTION_CIRCUIT_NAME_IS_ALREADY_IN_USE')
 
         add_values = (" INSERT INTO tbl_distribution_circuits "
@@ -187,7 +187,7 @@ class DistributionCircuitItem:
     @staticmethod
     def on_get(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_METER_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -215,7 +215,7 @@ class DistributionCircuitItem:
         cnx.close()
 
         if row is None:
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DISTRIBUTION_CIRCUIT_NOT_FOUND')
         else:
             distribution_system = distribution_system_dict.get(row[3])
@@ -237,7 +237,7 @@ class DistributionCircuitItem:
     def on_delete(req, resp, id_):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DISTRIBUTION_CIRCUIT_ID')
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -248,7 +248,7 @@ class DistributionCircuitItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DISTRIBUTION_CIRCUIT_NOT_FOUND')
 
         # delete relation with points
@@ -272,10 +272,10 @@ class DistributionCircuitItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DISTRIBUTION_CIRCUIT_ID')
 
         new_values = json.loads(raw_json)
@@ -283,42 +283,42 @@ class DistributionCircuitItem:
         if 'name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DISTRIBUTION_CIRCUIT_NAME')
         name = str.strip(new_values['data']['name'])
 
         if 'distribution_system_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['distribution_system_id'], int) or \
                 new_values['data']['distribution_system_id'] <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DISTRIBUTION_SYSTEM_ID')
         distribution_system_id = new_values['data']['distribution_system_id']
 
         if 'distribution_room' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['distribution_room'], str) or \
                 len(str.strip(new_values['data']['distribution_room'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DISTRIBUTION_ROOM')
         distribution_room = str.strip(new_values['data']['distribution_room'])
 
         if 'switchgear' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['switchgear'], str) or \
                 len(str.strip(new_values['data']['switchgear'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SWITCHGEAR')
         switchgear = str.strip(new_values['data']['switchgear'])
 
         if 'peak_load' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['peak_load'], float) or
                      isinstance(new_values['data']['peak_load'], int)):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_PEAK_LOAD')
         peak_load = float(new_values['data']['peak_load'])
 
         if 'peak_current' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['peak_current'], float) or
                      isinstance(new_values['data']['peak_current'], int)):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_PEAK_CURRENT')
         peak_current = float(new_values['data']['peak_current'])
 
@@ -346,7 +346,7 @@ class DistributionCircuitItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DISTRIBUTION_SYSTEM_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -356,7 +356,7 @@ class DistributionCircuitItem:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.DISTRIBUTION_CIRCUIT_NAME_IS_ALREADY_IN_USE')
 
         update_row = (" UPDATE tbl_distribution_circuits "
@@ -393,7 +393,7 @@ class DistributionCircuitPointCollection:
     @staticmethod
     def on_get(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DISTRIBUTION_CIRCUIT_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -417,7 +417,7 @@ class DistributionCircuitPointCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DISTRIBUTION_CIRCUIT_NOT_FOUND')
 
         query = (" SELECT p.id AS point_id, p.name AS point_name, p.address AS point_address, "
@@ -449,10 +449,10 @@ class DistributionCircuitPointCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DISTRIBUTION_CIRCUIT_ID')
 
         new_values = json.loads(raw_json)
@@ -466,7 +466,7 @@ class DistributionCircuitPointCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DISTRIBUTION_CIRCUIT_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -475,7 +475,7 @@ class DistributionCircuitPointCollection:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
 
         query = (" SELECT id " 
@@ -485,7 +485,7 @@ class DistributionCircuitPointCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.DISTRIBUTION_CIRCUIT_POINT_RELATION_EXISTS')
 
         add_row = (" INSERT INTO tbl_distribution_circuits_points (distribution_circuit_id, point_id) "
@@ -514,11 +514,11 @@ class DistributionCircuitPointItem:
     def on_delete(req, resp, id_, pid):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DISTRIBUTION_CIRCUIT_ID')
 
         if not pid.isdigit() or int(pid) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_POINT_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
@@ -530,7 +530,7 @@ class DistributionCircuitPointItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DISTRIBUTION_CIRCUIT_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -539,7 +539,7 @@ class DistributionCircuitPointItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
 
         cursor.execute(" SELECT id "
@@ -548,7 +548,7 @@ class DistributionCircuitPointItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DISTRIBUTION_CIRCUIT_POINT_RELATION_NOT_FOUND')
 
         cursor.execute(" DELETE FROM tbl_distribution_circuits_points "

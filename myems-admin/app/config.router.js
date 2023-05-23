@@ -1010,6 +1010,51 @@ app
                             ]
                         }
                     })
+                    .state('settings.microgrid', {
+                        url: "/microgrid",
+                        templateUrl: "views/settings/microgrid/microgrid.html",
+                        data: {
+                            pageTitle: 'MENU.SETTINGS.MICROGRID',
+                        },
+                        resolve: {
+                            deps: [
+                                '$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'daterangepicker', 'toaster']).then(
+                                        function () {
+                                            return $ocLazyLoad.load([{
+                                                serie: true,
+                                                files: ['js/daterangepicker/daterangepicker.min.js', 'js/daterangepicker/daterangepicker.min.css']
+                                            }, {
+                                                name: 'daterangepicker',
+                                                files: ['js/daterangepicker/angular-daterangepicker.min.js']
+                                            }, {
+                                                files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
+                                            }, {
+                                                name: 'oitozero.ngSweetAlert',
+                                                files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
+                                            }, {
+                                                serie: true,
+                                                files: [
+                                                    'app/services/settings/microgrid/microgrid.service.js',
+                                                    'app/services/settings/microgrid/microgridarchitecturetype.service.js',
+                                                    'app/services/settings/microgrid/microgridownertype.service.js',
+                                                    'app/services/settings/microgrid/microgridsensor.service.js',
+                                                    'app/services/settings/costcenter/costcenter.service.js',
+                                                    'app/services/settings/contact/contact.service.js',
+                                                    'app/services/settings/sensor/sensor.service.js',
+                                                    'app/controllers/settings/microgrid/microgrid.master.controller.js',
+                                                    'app/controllers/settings/microgrid/microgrid.controller.js',
+                                                    'app/controllers/settings/microgrid/microgridsensor.controller.js',
+                                                ]
+                                            }]);
+                                        }
+                                    );
+                                }
+                            ]
+                        }
+
+                    })
                     .state('settings.menu', {
                         url: "/menu",
                         templateUrl: "views/settings/menu/menu.html",

@@ -78,13 +78,13 @@ class RuleCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         new_values = json.loads(raw_json)
         if 'name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RULE_NAME')
         name = str.strip(new_values['data']['name'])
 
@@ -94,7 +94,7 @@ class RuleCollection:
                 str.strip(new_values['data']['category']) not in \
                 ('SYSTEM', 'REALTIME', 'SPACE', 'METER', 'TENANT', 'STORE', 'SHOPFLOOR', 'EQUIPMENT',
                  'COMBINEDEQUIPMENT', 'VIRTUALMETER'):
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_CATEGORY')
         category = str.strip(new_values['data']['category'])
@@ -102,7 +102,7 @@ class RuleCollection:
         if 'fdd_code' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['fdd_code'], str) or \
                 len(str.strip(new_values['data']['fdd_code'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_FDD_CODE')
         fdd_code = str.strip(new_values['data']['fdd_code'])
@@ -112,7 +112,7 @@ class RuleCollection:
                 len(str.strip(new_values['data']['priority'])) == 0 or \
                 str.strip(new_values['data']['priority']) not in \
                 ('CRITICAL', 'HIGH', 'MEDIUM', 'LOW'):
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_PRIORITY')
         priority = str.strip(new_values['data']['priority'])
@@ -121,7 +121,7 @@ class RuleCollection:
                 not isinstance(new_values['data']['channel'], str) or \
                 len(str.strip(new_values['data']['channel'])) == 0 or \
                 str.strip(new_values['data']['channel']) not in ('WEB', 'EMAIL', 'SMS', 'WECHAT', 'CALL'):
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_CHANNEL')
         channel = str.strip(new_values['data']['channel'])
@@ -129,7 +129,7 @@ class RuleCollection:
         if 'expression' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['expression'], str) or \
                 len(str.strip(new_values['data']['expression'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_EXPRESSION')
         expression = str.strip(new_values['data']['expression'])
@@ -137,19 +137,19 @@ class RuleCollection:
         try:
             json.loads(expression)
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description=str(ex))
 
         if 'message_template' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['message_template'], str) or \
                 len(str.strip(new_values['data']['message_template'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_MESSAGE_TEMPLATE')
         message_template = str.strip(new_values['data']['message_template'])
 
         if 'is_enabled' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['is_enabled'], bool):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_ENABLED')
         is_enabled = new_values['data']['is_enabled']
 
@@ -162,7 +162,7 @@ class RuleCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.RULE_NAME_IS_ALREADY_IN_USE')
 
         add_row = (" INSERT INTO tbl_rules "
@@ -202,7 +202,7 @@ class RuleItem:
         """Handles GET requests"""
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RULE_ID')
 
         cnx = mysql.connector.connect(**config.myems_fdd_db)
@@ -219,7 +219,7 @@ class RuleItem:
         cursor.close()
         cnx.close()
         if row is None:
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.RULE_NOT_FOUND')
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -255,7 +255,7 @@ class RuleItem:
         """Handles DELETE requests"""
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RULE_ID')
 
         cnx = mysql.connector.connect(**config.myems_fdd_db)
@@ -268,7 +268,7 @@ class RuleItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.RULE_NOT_FOUND')
 
         cursor.execute(" DELETE FROM tbl_rules WHERE id = %s ", (id_,))
@@ -287,17 +287,17 @@ class RuleItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RULE_ID')
 
         new_values = json.loads(raw_json)
         if 'name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RULE_NAME')
         name = str.strip(new_values['data']['name'])
 
@@ -307,7 +307,7 @@ class RuleItem:
                 str.strip(new_values['data']['category']) not in \
                 ('SYSTEM', 'REALTIME', 'SPACE', 'METER', 'TENANT', 'STORE', 'SHOPFLOOR', 'EQUIPMENT',
                  'COMBINEDEQUIPMENT', 'VIRTUALMETER'):
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_CATEGORY')
         category = str.strip(new_values['data']['category'])
@@ -315,7 +315,7 @@ class RuleItem:
         if 'fdd_code' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['fdd_code'], str) or \
                 len(str.strip(new_values['data']['fdd_code'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_FDD_CODE')
         fdd_code = str.strip(new_values['data']['fdd_code'])
@@ -325,7 +325,7 @@ class RuleItem:
                 len(str.strip(new_values['data']['priority'])) == 0 or \
                 str.strip(new_values['data']['priority']) not in \
                 ('CRITICAL', 'HIGH', 'MEDIUM', 'LOW'):
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_PRIORITY')
         priority = str.strip(new_values['data']['priority'])
@@ -334,7 +334,7 @@ class RuleItem:
                 not isinstance(new_values['data']['channel'], str) or \
                 len(str.strip(new_values['data']['channel'])) == 0 or \
                 str.strip(new_values['data']['channel']) not in ('WEB', 'EMAIL', 'SMS', 'WECHAT', 'CALL'):
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_CHANNEL')
         channel = str.strip(new_values['data']['channel'])
@@ -342,7 +342,7 @@ class RuleItem:
         if 'expression' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['expression'], str) or \
                 len(str.strip(new_values['data']['expression'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_EXPRESSION')
         expression = str.strip(new_values['data']['expression'])
@@ -350,19 +350,19 @@ class RuleItem:
         try:
             json.loads(expression)
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description=str(ex))
 
         if 'message_template' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['message_template'], str) or \
                 len(str.strip(new_values['data']['message_template'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_MESSAGE_TEMPLATE')
         message_template = str.strip(new_values['data']['message_template'])
 
         if 'is_enabled' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['is_enabled'], bool):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_ENABLED')
         is_enabled = new_values['data']['is_enabled']
 
@@ -375,7 +375,7 @@ class RuleItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.RULE_NOT_FOUND')
 
         cursor.execute(" SELECT name "
@@ -384,7 +384,7 @@ class RuleItem:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.RULE_NAME_IS_ALREADY_IN_USE')
 
         update_row = (" UPDATE tbl_rules "
