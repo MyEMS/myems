@@ -48,7 +48,9 @@ class WorkingCalendarCollection:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)
         except Exception as ex:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.FAILED_TO_READ_REQUEST_STREAM')
 
         if 'name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['name'], str) or \
@@ -217,7 +219,9 @@ class WorkingCalendarItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.FAILED_TO_READ_REQUEST_STREAM')
 
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -317,7 +321,9 @@ class NonWorkingDayCollection:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)
         except Exception as ex:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.FAILED_TO_READ_REQUEST_STREAM')
 
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -430,8 +436,10 @@ class NonWorkingDayItem:
         """Handles PUT requests"""
         try:
             raw_json = req.stream.read().decode('utf-8')
-        except Exception as ex:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
+        except Exception as ex:git 
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.FAILED_TO_READ_REQUEST_STREAM')
 
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
