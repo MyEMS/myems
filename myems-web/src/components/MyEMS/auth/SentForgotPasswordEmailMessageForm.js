@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import AppContext from '../../../context/Context';
-import { Button, Form, FormGroup, Input, Row, Col, Label} from 'reactstrap';
+import { Button, Form, FormGroup, Input, Row, Col, Label } from 'reactstrap';
 import withRedirect from '../../../hoc/withRedirect';
 import { getItemFromStore, setItemToStore, themeColors } from '../../../helpers/utils';
 import { withTranslation } from 'react-i18next';
@@ -29,7 +29,7 @@ const ForgotPasswordForm = ({ setRedirect, setRedirectUrl, hasLabel, layout, t }
       handleRefreshCaptcha();
       return false;
     }
-    let subject = t("Forget Password");
+    let subject = t("Forgot Password");
     let token = uuid();
     let created_datetime = moment().clone().format('YYYY-MM-DDTHH:mm:ss');
     let scheduled_datetime = moment().clone().format('YYYY-MM-DDTHH:mm:ss');
@@ -54,7 +54,7 @@ const ForgotPasswordForm = ({ setRedirect, setRedirectUrl, hasLabel, layout, t }
         <td colspan="2">
         <div style="margin-top: 20px;margin-bottom: 20px;width: 100%;height: 1px;background-color: #acbdd4;"><br></div></td></tr>
         <tr><td colspan="2">&nbsp;&nbsp;&nbsp;&nbsp; 
-     <a href="${window.location.href.split(layout)[0]}${layout}/forget-password?token=${token}" style="display: block;" target="_blank">
+     <a href="${window.location.href.split(layout)[0]}${layout}/forgot-password?token=${token}" style="display: block;" target="_blank">
     ${t('Please click on the included link to reset your password')}
     </a><br></td></tr>
         </tbody></table>
@@ -151,7 +151,7 @@ const ForgotPasswordForm = ({ setRedirect, setRedirectUrl, hasLabel, layout, t }
               ref={captchaRef}
             />
           </Col>
-         
+        
         </Row>
       </FormGroup>
       <FormGroup>

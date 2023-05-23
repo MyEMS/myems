@@ -25,7 +25,7 @@ const AuthBasicRoutes = ({ match: { url } }) => (
     <Route path={`${url}/password-reset`} exact component={PasswordReset} />
     <Route path={`${url}/lock-screen`} exact component={LockScreen} />
     <Route path={`${url}/change-password`} exact component={ChangePassword} />
-    <Route pash={`${url}/Forget-password`} exact component={ForgotPassword}/>
+    <Route pash={`${url}/Forgot-password`} exact component={ForgotPassword}/>
 
     {/*Redirect*/}
     <Redirect to="/errors/404" />

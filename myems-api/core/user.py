@@ -1010,6 +1010,50 @@ class ForgotPassword:
         resp.status = falcon.HTTP_200   
 
     @staticmethod
+    def on_get(req, resp):
+        token = req.params.get('token')
+        email = req.params.get('email')
+        
+        if token is None or len(token) <= 0: 
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description="API.INVALID_TOKEN")
+
+        if email is None or len(token) <= 0:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description="API.INVALID_EMAIL")
+
+        cnx = mysql.connector.connect(**config.myems_user_db)
+        cursor = cnx.cursor()
+
+        query = (" SELECT utc_expires "
+                 " FROM tbl_email_message_sessions "
+                 " WHERE recipient_email = %s AND token = %s")
+        cursor.execute(query, (email, token,))
+        row = cursor.fetchone()
+
+        if row is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.ADMINISTRATOR_SESSION_NOT_FOUND')
+        else:
+            utc_expires = row[0]
+            if datetime.utcnow() > utc_expires:
+                cursor.close()
+                cnx.close()
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.ADMINISTRATOR_SESSION_TIMEOUT')
+
+        if cursor:
+            cursor.close()
+        if cnx:
+            cnx.close()
+
+        result = {"utc_expires": utc_expires}
+
+        resp.text = json.dumps(result, default=str)
+
+    @staticmethod
     def on_put(req, resp):
         """Handles PUT requests"""
         try:
@@ -1058,6 +1102,12 @@ class ForgotPassword:
                 cursor.close()
                 cnx.close()
                 raise falcon.HTTPError(falcon.HTTP_404, 'API.ERROR', 'API.INVALID_TOKEN')
+            else:
+                if datetime.utcnow() > row[2]:
+                    cursor.close()
+                    cnx.close()
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                        description='API.ADMINISTRATOR_SESSION_TIMEOUT')
         else:
             cursor.close()
             cnx.close()
@@ -1188,7 +1238,7 @@ class EmailMessageCollection:
         except Exception as ex:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
-        utc_expires = datetime.utcnow() + timedelta(seconds=60 * 10 * 1)
+        utc_expires = datetime.utcnow() + timedelta(seconds=60 * 60 * 1)
 
         if 'token' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['token'], str) or \

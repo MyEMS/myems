@@ -318,7 +318,7 @@ const resources = {
       'Refresh': 'Refresh',
       'Remember me': 'Remember me',
       'Logged in as ': 'Logged in as ',
-      'Forget Password?': 'Forget Password?',
+      'Forgot Password?': 'Forgot Password?',
       'Forgot your password?': 'Forgot your password?',
       "Enter your email and we'll send you a reset link": "Enter your email and we'll send you a reset link",
       'Send reset link': 'Send reset link',
@@ -395,6 +395,8 @@ const resources = {
       'If this problem persists,': 'If this problem persists,',
       'Captcha Error': 'Captcha Error',
       'Confirm Password Error': 'The confirm password does not match',
+      "It looks like you clicked on an invalid password reset link. Please tryagain.": "It looks like you clicked \
+      on an invalid password reset link. Please tryagain.",
       //Tenant Bill
       'Lease Contract Number': 'Lease Contract Number',
       'Download': 'Download',
@@ -1179,7 +1181,7 @@ const resources = {
       'Refresh': 'Auffrischen',
       'Remember me': 'Behalte mich in Erinnerung',
       'Logged in as ': 'Angemeldet als ',
-      'Forget Password?': 'Passwort vergessen?',
+      'Forgot Password?': 'Passwort vergessen?',
       'Forgot your password?': 'Passwort vergessen?',
       "Enter your email and we'll send you a reset link":
         'Geben Sie Ihre E-Mail-Adresse ein und wir senden Ihnen einen Link zum Zurücksetzen',
@@ -1261,6 +1263,8 @@ const resources = {
       'If this problem persists,': 'Wenn dieses Problem weiterhin besteht,',
       'Captcha Error': 'Captcha-Fehler',
       'Confirm Password Error': 'Das Bestätigungspasswort stimmt nicht überein',
+      "It looks like you clicked on an invalid password reset link. Please tryagain.": 'Es scheint, als hättest \
+      du auf einen ungültigen Link zur Passwortrücksetzung geklickt. Bitte versuche es erneut.',
       //Tenant Bill
       'Lease Contract Number': 'Mietvertragsnummer',
       'Download': 'Herunterladen',
@@ -2023,7 +2027,7 @@ const resources = {
       'Refresh': '刷新',
       'Remember me': '记住我',
       'Logged in as ': '已登录 ',
-      'Forget Password?': '忘记密码?',
+      'Forgot Password?': '忘记密码?',
       'Forgot your password?': '忘记你的密码?',
       "Enter your email and we'll send you a reset link": '输入电子邮件地址，我们会把重置链接发送给您',
       'Send reset link': '发送重置连接',
@@ -2100,6 +2104,7 @@ const resources = {
       'If this problem persists,': '如果问题依然存在,',
       'Captcha Error': '验证码错误',
       'Confirm Password Error': '两次密码不一致',
+      "It looks like you clicked on an invalid password reset link. Please tryagain.": '看起来你点击了一个无效的重置密码链接。请再试一次。',
       //Tenant Bill
       'Lease Contract Number': '租赁合同号码',
       'Download': '下载',

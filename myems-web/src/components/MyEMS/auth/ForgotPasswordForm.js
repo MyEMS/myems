@@ -34,10 +34,37 @@ const ForgotPasswordForm = ({ setRedirect, setRedirectUrl,hasLabel, layout, t })
   const captchaRef = useRef(null);
 
   const { isDark } = useContext(AppContext);
+
   useEffect(() => {
+    let isResponseOK = false;
     const searchParams = new URLSearchParams(window.location.search);
     setToken(searchParams.get('token'));
-  });
+    fetch(APIBaseURL + '/users/Forgotpassword?token='+searchParams.get('token')+'&email='+email, {
+      method: 'GET',
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: null,
+
+    }).then(response => {
+      console.log(response);
+      if (response.ok) {
+        isResponseOK = true;
+      }
+      return response.json();
+    }).then(json => {
+      if (isResponseOK) {
+
+      } else {
+        setRedirectUrl(`/authentication/${layout}/sent-forgot-email?expires=true`);
+        setRedirect(true);
+      }
+    }).catch(err => {
+      setRedirectUrl(`/authentication/${layout}/sent-forgot-email?expires=true`);
+      setRedirect(true);
+      console.log(err);
+    });
+  }, []);
 
   useEffect(() => {
     if (email === '' || newPassword === '' || confirmPassword === '') {
@@ -83,7 +110,11 @@ const ForgotPasswordForm = ({ setRedirect, setRedirectUrl,hasLabel, layout, t })
         toast.success(t('Password has been changed!'));
         setRedirect(true);
       } else {
-        toast.error(t(json.description))
+        if(json.description == 'API.ADMINISTRATOR_SESSION_TIMEOUT') {
+          toast.error(t('It looks like you clicked on an invalid password reset link. Please tryagain.'));
+        } else {
+          toast.error(t(json.description));
+        }
       }
     }).catch(err => {
       console.log(err);
