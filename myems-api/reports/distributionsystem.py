@@ -35,12 +35,12 @@ class Reporting:
         # Step 1: valid parameters
         ################################################################################################################
         if distribution_system_id is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DISTRIBUTION_SYSTEM_ID')
         else:
             distribution_system_id = str.strip(distribution_system_id)
             if not distribution_system_id.isdigit() or int(distribution_system_id) <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_DISTRIBUTION_SYSTEM_ID')
         # set the earliest datetime of valid actual value
         # if the utc_date_time is less than reporting_start_datetime_utc, then the value is None because of timeout
@@ -60,7 +60,7 @@ class Reporting:
                 cursor_system.close()
             if cnx_system:
                 cnx_system.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DISTRIBUTION_SYSTEM_NOT_FOUND')
 
         ################################################################################################################

@@ -34,11 +34,11 @@ class Reporting:
         # Step 1: valid parameters
         ################################################################################################################
         if space_id is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_SPACE_ID')
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_SPACE_ID')
         else:
             space_id = str.strip(space_id)
             if not space_id.isdigit() or int(space_id) <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_SPACE_ID')
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_SPACE_ID')
             else:
                 space_id = int(space_id)
 
@@ -62,7 +62,7 @@ class Reporting:
                 cursor.close()
             if cnx:
                 cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
         else:
             space_name = row[0]

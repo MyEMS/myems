@@ -46,18 +46,18 @@ class Reporting:
         # Step 1: valid parameters
         ################################################################################################################
         if user_uuid is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_USER_UUID')
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_USER_UUID')
         else:
             user_uuid = str.strip(user_uuid)
             if len(user_uuid) != 36:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_USER_UUID')
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_USER_UUID')
 
         if period_type is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_PERIOD_TYPE')
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_PERIOD_TYPE')
         else:
             period_type = str.strip(period_type)
             if period_type not in ['hourly', 'daily', 'weekly', 'monthly', 'yearly']:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_PERIOD_TYPE')
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_PERIOD_TYPE')
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -69,7 +69,7 @@ class Reporting:
             try:
                 base_start_datetime_utc = datetime.strptime(base_period_start_datetime_local, '%Y-%m-%dT%H:%M:%S')
             except ValueError:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_BASE_PERIOD_START_DATETIME")
             base_start_datetime_utc = \
                 base_start_datetime_utc.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
@@ -85,18 +85,18 @@ class Reporting:
             try:
                 base_end_datetime_utc = datetime.strptime(base_period_end_datetime_local, '%Y-%m-%dT%H:%M:%S')
             except ValueError:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_BASE_PERIOD_END_DATETIME")
             base_end_datetime_utc = \
                 base_end_datetime_utc.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
 
         if base_start_datetime_utc is not None and base_end_datetime_utc is not None and \
                 base_start_datetime_utc >= base_end_datetime_utc:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_BASE_PERIOD_END_DATETIME')
 
         if reporting_period_start_datetime_local is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description="API.INVALID_REPORTING_PERIOD_START_DATETIME")
         else:
             reporting_period_start_datetime_local = str.strip(reporting_period_start_datetime_local)
@@ -104,7 +104,7 @@ class Reporting:
                 reporting_start_datetime_utc = datetime.strptime(reporting_period_start_datetime_local,
                                                                  '%Y-%m-%dT%H:%M:%S')
             except ValueError:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_REPORTING_PERIOD_START_DATETIME")
             reporting_start_datetime_utc = \
                 reporting_start_datetime_utc.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
@@ -115,7 +115,7 @@ class Reporting:
                 reporting_start_datetime_utc = reporting_start_datetime_utc.replace(minute=0, second=0, microsecond=0)
 
         if reporting_period_end_datetime_local is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description="API.INVALID_REPORTING_PERIOD_END_DATETIME")
         else:
             reporting_period_end_datetime_local = str.strip(reporting_period_end_datetime_local)
@@ -124,11 +124,11 @@ class Reporting:
                                                                '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
                     timedelta(minutes=timezone_offset)
             except ValueError:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_REPORTING_PERIOD_END_DATETIME")
 
         if reporting_start_datetime_utc >= reporting_end_datetime_utc:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_REPORTING_PERIOD_END_DATETIME')
 
         ################################################################################################################
@@ -148,7 +148,8 @@ class Reporting:
             if cnx_user:
                 cnx_user.close()
 
-            raise falcon.HTTPError(falcon.HTTP_404, 'API.NOT_FOUND', 'API.USER_NOT_FOUND')
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.USER_NOT_FOUND')
 
         user = {'id': row_user[0], 'is_admin': row_user[1], 'privilege_id': row_user[2]}
         if user['is_admin']:
@@ -165,7 +166,8 @@ class Reporting:
                 if cnx_user:
                     cnx_user.close()
 
-                raise falcon.HTTPError(falcon.HTTP_404, 'API.NOT_FOUND', 'API.USER_PRIVILEGE_NOT_FOUND')
+                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                       description='API.USER_PRIVILEGE_NOT_FOUND')
 
             privilege_data = json.loads(row_privilege[0])
             if 'spaces' not in privilege_data.keys() \
@@ -176,7 +178,8 @@ class Reporting:
                 if cnx_user:
                     cnx_user.close()
 
-                raise falcon.HTTPError(falcon.HTTP_404, 'API.NOT_FOUND', 'API.USER_PRIVILEGE_NOT_FOUND')
+                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                       description='API.USER_PRIVILEGE_NOT_FOUND')
             # todo: how to deal with multiple spaces in privilege data
             space_id = privilege_data['spaces'][0]
 
@@ -198,7 +201,7 @@ class Reporting:
             if cnx_system:
                 cnx_system.close()
 
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND', description='API.SPACE_NOT_FOUND')
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND', description='API.SPACE_NOT_FOUND')
 
         space = dict()
         space['id'] = row_space[0]
@@ -261,7 +264,7 @@ class Reporting:
             if cnx_billing:
                 cnx_billing.close()
 
-            raise falcon.HTTPError(falcon.HTTP_404,
+            raise falcon.HTTPError(status=falcon.HTTP_404,
                                    title='API.NOT_FOUND',
                                    description='API.ENERGY_CATEGORY_NOT_FOUND')
         energy_category_dict = dict()
