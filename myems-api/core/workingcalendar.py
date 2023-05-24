@@ -1,12 +1,9 @@
-import re
-from datetime import datetime, timedelta, timezone
-
 import falcon
 import mysql.connector
 import simplejson as json
 
 import config
-from core.useractivity import user_logger, access_control
+
 
 class WorkingCalendarCollection:
     @staticmethod
@@ -91,6 +88,7 @@ class WorkingCalendarCollection:
         resp.status = falcon.HTTP_201
         resp.location = '/workingcalendar/' + str(new_id)
 
+
 class WorkingCalendarItem:
     @staticmethod
     def __init__():
@@ -123,8 +121,8 @@ class WorkingCalendarItem:
                                    description='API.WORKING_CALENDAR_NOT_FOUND')
     
         meta_result = {"id": row[0],
-                        "name": row[1],
-                        "description": row[2]}
+                       "name": row[1],
+                       "description": row[2]}
         resp.text = json.dumps(meta_result)
 
     @staticmethod
@@ -275,6 +273,7 @@ class WorkingCalendarItem:
 
         resp.status = falcon.HTTP_200
 
+
 class NonWorkingDayCollection:
     @staticmethod
     def __init__():
@@ -294,23 +293,22 @@ class NonWorkingDayCollection:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
-        cursor.execute( " SELECT id, working_calendar_id, date_local, description"
-                        " FROM tbl_working_calendars_non_working_days "
-                        " WHERE working_calendar_id = %s ", (id_,))
+        cursor.execute(" SELECT id, working_calendar_id, date_local, description"
+                       " FROM tbl_working_calendars_non_working_days "
+                       " WHERE working_calendar_id = %s ", (id_,))
         rows_date_local = cursor.fetchall()
 
         meta_result = list()
         if rows_date_local is not None and len(rows_date_local) > 0:
             for row in rows_date_local:
-                date_local_dict = { 'id': row[0], 
-                                    'working_calendar_id': row[1],
-                                    'date_local': row[2].strftime('%Y-%m-%d'),
-                                    'description': row[3]}
+                date_local_dict = {'id': row[0],
+                                   'working_calendar_id': row[1],
+                                   'date_local': row[2].strftime('%Y-%m-%d'),
+                                   'description': row[3]}
                 meta_result.append(date_local_dict)
 
         cursor.close()
         cnx.close()
-       
 
         resp.text = json.dumps(meta_result)
 
@@ -334,7 +332,7 @@ class NonWorkingDayCollection:
                 new_values['data']['date_local'] is None or \
                 len(str(new_values['data']['date_local'])) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                description='API.INVALID_DATE_LOCAL')
+                                   description='API.INVALID_DATE_LOCAL')
         date_local = str.strip(new_values['data']['date_local'])
 
         if 'description' in new_values['data'].keys() and \
@@ -350,7 +348,7 @@ class NonWorkingDayCollection:
         cursor.execute(" SELECT id "
                        " FROM tbl_working_calendars_non_working_days "
                        " WHERE working_calendar_id = %s AND date_local = %s ",
-                        (working_calendar_id, date_local))
+                       (working_calendar_id, date_local))
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
@@ -368,6 +366,7 @@ class NonWorkingDayCollection:
 
         resp.status = falcon.HTTP_201
         resp.location = '/nonworkingday/' + str(new_id)
+
 
 class NonWorkingDayItem:
     @staticmethod
@@ -402,7 +401,7 @@ class NonWorkingDayItem:
             meta_result = {"id": row[0],
                            "working_calendar_id": row[1],
                            "date_local": row[2].strftime('%Y-%m-%d'),
-                           "description": row[3],}
+                           "description": row[3]}
         resp.text = json.dumps(meta_result)
 
     @staticmethod
@@ -481,7 +480,7 @@ class NonWorkingDayItem:
         cursor.execute(" SELECT id "
                        " FROM tbl_working_calendars_non_working_days "
                        " WHERE working_calendar_id = %s AND date_local = %s AND description = %s",
-                        (working_calendar_id, date_local, description))
+                       (working_calendar_id, date_local, description))
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
