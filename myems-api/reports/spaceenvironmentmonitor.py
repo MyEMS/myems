@@ -36,14 +36,14 @@ class Reporting:
         # Step 1: valid parameters
         ################################################################################################################
         if sensor_id is None and sensor_uuid is None:
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_SENSOR_ID')
         
         if sensor_id is not None:
             sensor_id = str.strip(sensor_id)
             if not sensor_id.isdigit() or int(sensor_id) <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400,
+                raise falcon.HTTPError(status=falcon.HTTP_400,
                                        title='API.BAD_REQUEST',
                                        description='API.INVALID_SENSOR_UUID')
             
@@ -90,7 +90,7 @@ class Reporting:
                 cursor_historical.close()
             if cnx_historical:
                 cnx_historical.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND', description='API.SENSOR_NOT_FOUND')
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND', description='API.SENSOR_NOT_FOUND')
 
         sensor = dict()
         sensor['id'] = row_sensor[0]

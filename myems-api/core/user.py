@@ -350,16 +350,6 @@ class UserItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EMAIL')
 
-        if 'password' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['password'], str) or \
-                len(str.strip(new_values['data']['password'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_PASSWORD')
-
-        if len(str.strip(new_values['data']['password'])) > 100:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.PASSWORD_LENGTH_CANNOT_EXCEED_100_CHARACTERS')
-
         if 'is_admin' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['is_admin'], bool):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
