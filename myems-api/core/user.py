@@ -1051,11 +1051,6 @@ class ForgotPassword:
             new_values = json.loads(raw_json)
         except Exception as ex:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
-
-        if not isinstance(new_values['data']['password'], str) or \
-                len(str.strip(new_values['data']['password'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_PASSWORD')
         
         if 'token' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['token'], str) or \
@@ -1148,7 +1143,6 @@ class EmailMessageCollection:
     @staticmethod
     def on_get(req, resp):
         access_control(req)
-        print(req.params)
         start_datetime_local = req.params.get('startdatetime')
         end_datetime_local = req.params.get('enddatetime')
 
@@ -1405,9 +1399,10 @@ class EmailMessageItem:
                                    description='API.INVALID_EMAIL_MESSAGE_ID')
 
         try:
-            raw_json = req.get_param('req')
+            raw_json = req.stream.read().decode('utf-8')
+            new_values = json.loads(raw_json)
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.ERROR', description=str(ex))
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
 
         new_values = json.loads(raw_json)
 

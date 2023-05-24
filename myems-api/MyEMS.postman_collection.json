@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "cf01b0e4-707f-4eab-9532-96586e805515",
+		"_postman_id": "875f7a86-50e8-4d77-8df9-fd97e82f491c",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -10182,6 +10182,252 @@
 										"users",
 										"unlock",
 										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Create New User",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "b422ef869a947eb8dd058f5c9464b11769db7be3232b327fb8a4edac28118df876a5d7d3ab1d8175ef81169126d01fbe3b38baa6da62edf4cbf49b2bef0ed9a7",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"albert1\", \"display_name\":\"Mr. Albert\", \"email\":\"albert1@myems.io\", \"is_admin\":false, \"privilege_id\":1, \"password\":\"!MyEMS1\", \"account_expiration_datetime\":\"2100-01-01T00:00:00\",\"password_expiration_datetime\":\"2100-01-01T00:00:00\"}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/users",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Forgot Password",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"data\":{\"password\": \"123456\",\n    \"email\": \"administrator@myems.io\",\"token\":\"8b10f3d6-6d32-4d67-b82d-2042e762d6ae\"}\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/users/forgotpassword",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"forgotpassword"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Expires by Email and Token",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{base_url}}/users/forgotpassword?email=administrator@myems.io&token=15bff32e-172d-4989-a061-f506d3302094",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"forgotpassword"
+									],
+									"query": [
+										{
+											"key": "email",
+											"value": "administrator@myems.io"
+										},
+										{
+											"key": "token",
+											"value": "15bff32e-172d-4989-a061-f506d3302094"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Create New Email Message",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"data\": {\n        \"token\":\"8b10f3d6-6d32-4d67-b82d-2042e762d6ae\",\n        \"recipient_email\": \"administrator@myems.io\",\n        \"subject\": \"Forgot Password\",\n        \"message\": \"test\",\n        \"scheduled_datetime\": \"2023-05-24T11:10:53\",\n        \"created_datetime\": \"2023-05-24T11:10:53\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/users/emailmessages",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"emailmessages"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Update New Email Message",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "TOKEN",
+										"value": "69562a5ef66cde21823715f3584e87e67339858c52732e2e3d32a839d35419d579919ebec080577d153f3505c075081f3a7417a5eba125f65e2ac1f9f2578b41",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"data\": {\n        \"token\":\"8b10f3d6-6d32-4d67-b82d-2042e762d6ae\",\n        \"recipient_email\": \"administrator@myems.io\",\n        \"recipient_name\": \"administrator\",\n        \"subject\": \"Forgot Password\",\n        \"message\": \"test1\",\n        \"scheduled_datetime\": \"2023-05-24T11:10:53\",\n        \"created_datetime\": \"2023-05-24T11:10:53\",\n        \"status\": \"acknowledged\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/users/emailmessages/20",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"emailmessages",
+										"20"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Emailmessages",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "TOKEN",
+										"value": "69562a5ef66cde21823715f3584e87e67339858c52732e2e3d32a839d35419d579919ebec080577d153f3505c075081f3a7417a5eba125f65e2ac1f9f2578b41",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/users/emailmessages?startdatetime=2023-05-01T00:00:00&enddatetime=2023-05-31T00:00:00",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"emailmessages"
+									],
+									"query": [
+										{
+											"key": "startdatetime",
+											"value": "2023-05-01T00:00:00"
+										},
+										{
+											"key": "enddatetime",
+											"value": "2023-05-31T00:00:00"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Emailmessages by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "TOKEN",
+										"value": "69562a5ef66cde21823715f3584e87e67339858c52732e2e3d32a839d35419d579919ebec080577d153f3505c075081f3a7417a5eba125f65e2ac1f9f2578b41",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/users/emailmessages/20",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"emailmessages",
+										"20"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE Emailmessages by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "TOKEN",
+										"value": "69562a5ef66cde21823715f3584e87e67339858c52732e2e3d32a839d35419d579919ebec080577d153f3505c075081f3a7417a5eba125f65e2ac1f9f2578b41",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/users/emailmessages/20",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"emailmessages",
+										"20"
 									]
 								}
 							},

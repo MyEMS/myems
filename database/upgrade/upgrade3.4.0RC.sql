@@ -122,6 +122,39 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_sensors` (
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_microgrids_sensors_index_1` ON  `myems_system_db`.`tbl_microgrids_sensors`   (`microgrid_id`);
 
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_user_db`.`tbl_email_messages`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_user_db`.`tbl_email_messages`;
+
+CREATE TABLE `tbl_email_messages`  (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `rule_id` BIGINT NULL DEFAULT NULL,
+  `recipient_name` VARCHAR(128) NOT NULL,
+  `recipient_email` VARCHAR(128) NOT NULL,
+  `subject` VARCHAR(128) NOT NULL,
+  `message` LONGTEXT NOT NULL,
+  `attachment_file_name` VARCHAR(128) NULL DEFAULT NULL,
+  `attachment_file_object` LONGBLOB NULL,
+  `created_datetime_utc` DATETIME NOT NULL,
+  `scheduled_datetime_utc` DATETIME NOT NULL,
+  `status` VARCHAR(32) NOT NULL COMMENT 'new, sent, timeout',
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_email_messages_index_1` ON  `myems_fdd_db`.`tbl_email_messages`  (`status`,   `scheduled_datetime_utc`);
+
+-- ----------------------------
+-- Table `myems_user_db`.`tbl_email_message_sessions`
+-- ----------------------------
+DROP TABLE IF EXISTS `myems_user_db`.`tbl_email_message_sessions`;
+
+CREATE TABLE `tbl_email_message_sessions`  (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `recipient_email` VARCHAR(128) NOT NULL,
+  `token` VARCHAR(128) NOT NULL,
+  `utc_expires` DATETIME NOT NULL,
+  PRIMARY KEY (`id`)); 
+CREATE INDEX `tbl_email_message_sessions_index_1` ON  `myems_fdd_db`.`tbl_email_message_sessions`  (`recipient_email`);
+
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='3.4.0RC', release_date='2023-06-16' WHERE id=1;
 
