@@ -52,14 +52,14 @@ class Reporting:
         # Step 1: valid parameters
         ################################################################################################################
         if store_id is None and store_uuid is None:
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_STORE_ID')
 
         if store_id is not None:
             store_id = str.strip(store_id)
             if not store_id.isdigit() or int(store_id) <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400,
+                raise falcon.HTTPError(status=falcon.HTTP_400,
                                        title='API.BAD_REQUEST',
                                        description='API.INVALID_STORE_ID')
 
@@ -67,16 +67,16 @@ class Reporting:
             regex = re.compile(r'^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}\Z', re.I)
             match = regex.match(str.strip(store_uuid))
             if not bool(match):
-                raise falcon.HTTPError(falcon.HTTP_400,
+                raise falcon.HTTPError(status=falcon.HTTP_400,
                                        title='API.BAD_REQUEST',
                                        description='API.INVALID_STORE_UUID')
 
         if period_type is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_PERIOD_TYPE')
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_PERIOD_TYPE')
         else:
             period_type = str.strip(period_type)
             if period_type not in ['hourly', 'daily', 'weekly', 'monthly', 'yearly']:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_PERIOD_TYPE')
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_PERIOD_TYPE')
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -89,7 +89,7 @@ class Reporting:
                 base_start_datetime_utc = datetime.strptime(base_period_start_datetime_local, '%Y-%m-%dT%H:%M:%S')
                 base_start_datetime_non_working_day = str(base_period_start_datetime_local).split('T')[0]
             except ValueError:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_BASE_PERIOD_START_DATETIME")
             base_start_datetime_utc = \
                 base_start_datetime_utc.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
@@ -106,18 +106,18 @@ class Reporting:
                 base_end_datetime_utc = datetime.strptime(base_period_end_datetime_local, '%Y-%m-%dT%H:%M:%S')
                 base_end_datetime_non_working_day = str(base_period_end_datetime_local).split('T')[0]
             except ValueError:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_BASE_PERIOD_END_DATETIME")
             base_end_datetime_utc = \
                 base_end_datetime_utc.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
 
         if base_start_datetime_utc is not None and base_end_datetime_utc is not None and \
                 base_start_datetime_utc >= base_end_datetime_utc:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_BASE_PERIOD_END_DATETIME')
 
         if reporting_period_start_datetime_local is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description="API.INVALID_REPORTING_PERIOD_START_DATETIME")
         else:
             reporting_period_start_datetime_local = str.strip(reporting_period_start_datetime_local)
@@ -126,7 +126,7 @@ class Reporting:
                                                                  '%Y-%m-%dT%H:%M:%S')
                 reporting_start_datetime_non_working_day = str(reporting_period_start_datetime_local).split('T')[0]
             except ValueError:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_REPORTING_PERIOD_START_DATETIME")
             reporting_start_datetime_utc = \
                 reporting_start_datetime_utc.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
@@ -137,7 +137,7 @@ class Reporting:
                 reporting_start_datetime_utc = reporting_start_datetime_utc.replace(minute=0, second=0, microsecond=0)
 
         if reporting_period_end_datetime_local is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description="API.INVALID_REPORTING_PERIOD_END_DATETIME")
         else:
             reporting_period_end_datetime_local = str.strip(reporting_period_end_datetime_local)
@@ -147,11 +147,11 @@ class Reporting:
                                              timedelta(minutes=timezone_offset)
                 reporting_end_datetime_non_working_day = str(reporting_period_end_datetime_local).split('T')[0]
             except ValueError:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_REPORTING_PERIOD_END_DATETIME")
 
         if reporting_start_datetime_utc >= reporting_end_datetime_utc:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_REPORTING_PERIOD_END_DATETIME')
 
         # if turn quick mode on, do not return parameters data and excel file
@@ -211,7 +211,7 @@ class Reporting:
                 cursor_historical.close()
             if cnx_historical:
                 cnx_historical.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND', description='API.STORE_NOT_FOUND')
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND', description='API.STORE_NOT_FOUND')
 
         store = dict()
         store['id'] = row_store[0]
@@ -267,7 +267,7 @@ class Reporting:
                 cursor_historical.close()
             if cnx_historical:
                 cnx_historical.close()
-            raise falcon.HTTPError(falcon.HTTP_404,
+            raise falcon.HTTPError(status=falcon.HTTP_404,
                                    title='API.NOT_FOUND',
                                    description='API.ENERGY_CATEGORY_NOT_FOUND')
         energy_category_dict = dict()

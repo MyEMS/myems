@@ -39,13 +39,13 @@ class Reporting:
         # Step 1: valid parameters
         ################################################################################################################
         if energy_flow_diagram_id is None:
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
         else:
             energy_flow_diagram_id = str.strip(energy_flow_diagram_id)
             if not energy_flow_diagram_id.isdigit() or int(energy_flow_diagram_id) <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400,
+                raise falcon.HTTPError(status=falcon.HTTP_400,
                                        title='API.BAD_REQUEST',
                                        description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
 
@@ -54,7 +54,7 @@ class Reporting:
             timezone_offset = -timezone_offset
 
         if reporting_period_start_datetime_local is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description="API.INVALID_REPORTING_PERIOD_START_DATETIME")
         else:
             reporting_period_start_datetime_local = str.strip(reporting_period_start_datetime_local)
@@ -62,7 +62,7 @@ class Reporting:
                 reporting_start_datetime_utc = datetime.strptime(reporting_period_start_datetime_local,
                                                                  '%Y-%m-%dT%H:%M:%S')
             except ValueError:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_REPORTING_PERIOD_START_DATETIME")
             reporting_start_datetime_utc = \
                 reporting_start_datetime_utc.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
@@ -73,7 +73,7 @@ class Reporting:
                 reporting_start_datetime_utc = reporting_start_datetime_utc.replace(minute=0, second=0, microsecond=0)
 
         if reporting_period_end_datetime_local is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description="API.INVALID_REPORTING_PERIOD_END_DATETIME")
         else:
             reporting_period_end_datetime_local = str.strip(reporting_period_end_datetime_local)
@@ -82,11 +82,11 @@ class Reporting:
                                                                '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
                     timedelta(minutes=timezone_offset)
             except ValueError:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_REPORTING_PERIOD_END_DATETIME")
 
         if reporting_start_datetime_utc >= reporting_end_datetime_utc:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_REPORTING_PERIOD_END_DATETIME')
         ################################################################################################################
         # Step 2: query the energy flow diagram
@@ -106,7 +106,7 @@ class Reporting:
                 cursor_system.close()
             if cnx_system:
                 cnx_system.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_NOT_FOUND')
         else:
             energy_flow_diagram_name = row[0]
