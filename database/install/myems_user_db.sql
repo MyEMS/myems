@@ -113,7 +113,7 @@ CREATE TABLE `tbl_email_messages`  (
   `scheduled_datetime_utc` DATETIME NOT NULL,
   `status` VARCHAR(32) NOT NULL COMMENT 'new, sent, timeout',
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_email_messages_index_1` ON  `myems_fdd_db`.`tbl_email_messages`  (`status`,   `scheduled_datetime_utc`);
+CREATE INDEX `tbl_email_messages_index_1` ON  `myems_user_db`.`tbl_email_messages`  (`status`,   `scheduled_datetime_utc`);
 
 -- ----------------------------
 -- Table `myems_user_db`.`tbl_email_message_sessions`
@@ -126,4 +126,4 @@ CREATE TABLE `tbl_email_message_sessions`  (
   `token` VARCHAR(128) NOT NULL,
   `utc_expires` DATETIME NOT NULL,
   PRIMARY KEY (`id`)); 
-CREATE INDEX `tbl_email_message_sessions_index_1` ON  `myems_fdd_db`.`tbl_email_message_sessions`  (`recipient_email`);
+CREATE INDEX `tbl_email_message_sessions_index_1` ON  `myems_user_db`.`tbl_email_message_sessions`  (`recipient_email`);
