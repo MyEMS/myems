@@ -337,9 +337,9 @@ const resources = {
       'Update Password': 'Update Password',
       'Password has been changed!': 'Password has been changed!',
       'The link to reset your password is as follows. \
-      Please click the link within 10 minutes to proceed with the next step. \
+      Please click the link within 60 minutes to proceed with the next step. \
       If you did not request this action, please disregard this email.': 'The link to reset your password is as follows. \
-      Please click the link within 10 minutes to proceed with the next step. \
+      Please click the link within 60 minutes to proceed with the next step. \
       If you did not request this action, please disregard this email.',
       //notification
       'Notifications': 'Notifications',
@@ -1202,9 +1202,9 @@ const resources = {
       'Update Password': 'Kennwort aktualisieren',
       'Password has been changed!': 'Das Passwort wurde geändert!',
       'The link to reset your password is as follows. \
-      Please click the link within 10 minutes to proceed with the next step. \
+      Please click the link within 60 minutes to proceed with the next step. \
       If you did not request this action, please disregard this email.': 'Der Link zum Zurücksetzen \
-      Ihres Passworts lautet wie folgt. Bitte klicken Sie innerhalb von 10 Minuten auf den Link, um mit dem nächsten \
+      Ihres Passworts lautet wie folgt. Bitte klicken Sie innerhalb von 60 Minuten auf den Link, um mit dem nächsten \
       Schritt fortzufahren. Wenn Sie diese Aktion nicht angefordert haben, ignorieren Sie diese E-Mail bitte.',
       //notification
       'Notifications': 'Benachrichtigungen',
@@ -2045,9 +2045,9 @@ const resources = {
       'Update Password': '更新密码',
       'Password has been changed!': '密码已修改!',
       'The link to reset your password is as follows. \
-      Please click the link within 10 minutes to proceed with the next step. \
+      Please click the link within 60 minutes to proceed with the next step. \
       If you did not request this action, please disregard this email.': '你此次重置密码的链接如下，\
-      请在 10 分钟内点击链接进行下一步操作。 如非你本人操作，请忽略此邮件。',
+      请在 60 分钟内点击链接进行下一步操作。 如非你本人操作，请忽略此邮件。',
       //notification
       'Notifications': '通知',
       'Mark all as read': '全部设为已读',

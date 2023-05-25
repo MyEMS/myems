@@ -39,6 +39,7 @@ const ForgotPasswordForm = ({ setRedirect, setRedirectUrl,hasLabel, layout, t })
     let isResponseOK = false;
     const searchParams = new URLSearchParams(window.location.search);
     setToken(searchParams.get('token'));
+    setEmail(searchParams.get('email'))
     fetch(APIBaseURL + '/users/forgotpassword?token='+searchParams.get('token')+'&email='+email, {
       method: 'GET',
       headers: {
