@@ -7,7 +7,6 @@ import withRedirect from '../../../hoc/withRedirect';
 import { getItemFromStore, setItemToStore, themeColors } from '../../../helpers/utils';
 import { withTranslation } from 'react-i18next';
 import Captcha from 'react-captcha-code';
-import {v4 as uuid} from 'uuid';
 import moment from 'moment';
 import { APIBaseURL } from '../../../config';
 
@@ -30,7 +29,6 @@ const ForgotPasswordForm = ({ setRedirect, setRedirectUrl, hasLabel, layout, t }
       return false;
     }
     let subject = t("Forgot Password");
-    let token = uuid();
     let created_datetime = moment().clone().format('YYYY-MM-DDTHH:mm:ss');
     let scheduled_datetime = moment().clone().format('YYYY-MM-DDTHH:mm:ss');
     let message = 
@@ -54,7 +52,7 @@ const ForgotPasswordForm = ({ setRedirect, setRedirectUrl, hasLabel, layout, t }
         <td colspan="2">
         <div style="margin-top: 20px;margin-bottom: 20px;width: 100%;height: 1px;background-color: #acbdd4;"><br></div></td></tr>
         <tr><td colspan="2">&nbsp;&nbsp;&nbsp;&nbsp; 
-     <a href="${window.location.href.split(layout)[0]}${layout}/forgot-password?token=${token}&email=${email}" style="display: block;" target="_blank">
+     <a href="${window.location.href.split(layout)[0]}${layout}/forgot-password?token={token}&email=${email}" style="display: block;" target="_blank">
     ${t('Please click on the included link to reset your password')}
     </a><br></td></tr>
         </tbody></table>
@@ -72,7 +70,6 @@ const ForgotPasswordForm = ({ setRedirect, setRedirectUrl, hasLabel, layout, t }
           "created_datetime": created_datetime,
           "scheduled_datetime": scheduled_datetime,
           "message": message,
-          "token": token,
         }
       }),
       headers: { "Content-Type": "application/json" }
