@@ -1008,7 +1008,7 @@ class ForgotPassword:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description="API.INVALID_TOKEN")
 
-        if email is None or len(token) <= 0:
+        if email is None or len(email) <= 0:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description="API.INVALID_EMAIL")
 
