@@ -78,7 +78,7 @@ function config($translateProvider) {
                 WECHAT_ID: 'WeChat ID',
                 MESSAGE_FORMAT: 'Message Format',
                 ACKNOWLEDGE_ALARM: 'Acknowledge Alarm?',
-                
+
                 ALL: 'All',
                 LOW: 'Low',
                 MEDIUM: 'Medium',
@@ -967,7 +967,7 @@ function config($translateProvider) {
                 INVALID_USER_PHONE: 'Invalid User Phone',
                 INVALID_USER_PLEASE_RE_LOGIN: 'Invalid User Please Re-Login',
                 INVALID_USER_UUID: 'Invalid User UUID',
-                INVALID_USERNAME: 'Invalid Username',dy In Use',
+                INVALID_USERNAME: 'Invalid Username',
                 INVALID_VARIABLE_METER_ID: 'Invalid Variable Meter ID',
                 INVALID_VARIABLE_METER_TYPE: 'Invalid Variable Meter Type',
                 INVALID_VARIABLE_NAME: 'Invalid Variable Name',
@@ -1191,7 +1191,7 @@ function config($translateProvider) {
                     OFFPEAK: '谷',
                     MIDPEAK: '平'
                 },
-                QR_CODE:"二维码",
+                QR_CODE: "二维码",
                 WORKING_CALENDAR: '工作日历',
                 NON_WORKING_DAY: '非工作日',
             },
@@ -2131,7 +2131,7 @@ function config($translateProvider) {
                 INVALID_USER_PHONE: 'Invalid User Phone',
                 INVALID_USER_PLEASE_RE_LOGIN: 'Invalid User Please Re-Login',
                 INVALID_USER_UUID: 'Invalid User UUID',
-                INVALID_USERNAME: 'Invalid Username',dy In Use',
+                INVALID_USERNAME: 'Invalid Username',
                 INVALID_VARIABLE_METER_ID: 'Invalid Variable Meter ID',
                 INVALID_VARIABLE_METER_TYPE: 'Invalid Variable Meter Type',
                 INVALID_VARIABLE_NAME: 'Invalid Variable Name',
@@ -2155,7 +2155,7 @@ function config($translateProvider) {
                 METER_POINT_RELATION_NOT_FOUND: 'Meter Point Relation Not Found',
                 MICROGRID_ARCHITECTURE_TYPE_NAME_IS_ALREADY_IN_USE: 'Microgrid Architecture Type Name Is Already In Use',
                 MICROGRID_ARCHITECTURE_TYPE_NOT_FOUND: 'Microgrid Architecture Type Not Found',
-                MICROGRID_ARCHITECTURE_TYPE_SIMPLIFIED_CODE_IS_ALREADY_IN_USE: 'Microgrid Architecture Type Simplified Code Is Already In Us
+                MICROGRID_ARCHITECTURE_TYPE_SIMPLIFIED_CODE_IS_ALREADY_IN_USE: 'Microgrid Architecture Type Simplified Code Is Already In Use',
                 MICROGRID_ARCHITECTURE_TYPE_USED_IN_MICROGRID: 'Microgrid Architecture Type Used In Microgrid',
                 MICROGRID_ARCHITECTURE_TYPE_USED_IN_STORE: 'Microgrid Architecture Type Used In Store',
                 MICROGRID_NAME_IS_ALREADY_IN_USE: 'Microgrid Name Is Already In Use',
@@ -2329,7 +2329,7 @@ function config($translateProvider) {
                 WORKING_CALENDAR_NOT_FOUND: '工作日历不存在',
             },
         })
-	    .translations('de', {
+        .translations('de', {
             MY_EMS_NAME: 'MyEMS',
             LANGUAGE: 'Sprache',
             FULLSCREEN: 'Vollbildanzeige',
@@ -2628,7 +2628,7 @@ function config($translateProvider) {
                 EDIT_MENU: 'Menü bearbeiten',
 
                 DATA_REPAIR_FILE: 'Daten reparieren dateien',
-                
+
                 WORKING_CALENDAR: 'Working Calendar',
                 NON_WORKING_DAY: 'Non Working Day',
             },
@@ -3268,7 +3268,7 @@ function config($translateProvider) {
                 INVALID_USER_PHONE: 'Invalid User Phone',
                 INVALID_USER_PLEASE_RE_LOGIN: 'Invalid User Please Re-Login',
                 INVALID_USER_UUID: 'Invalid User UUID',
-                INVALID_USERNAME: 'Invalid Username',dy In Use',
+                INVALID_USERNAME: 'Invalid Username',
                 INVALID_VARIABLE_METER_ID: 'Invalid Variable Meter ID',
                 INVALID_VARIABLE_METER_TYPE: 'Invalid Variable Meter Type',
                 INVALID_VARIABLE_NAME: 'Invalid Variable Name',
@@ -3292,7 +3292,7 @@ function config($translateProvider) {
                 METER_POINT_RELATION_NOT_FOUND: 'Meter Point Relation Not Found',
                 MICROGRID_ARCHITECTURE_TYPE_NAME_IS_ALREADY_IN_USE: 'Microgrid Architecture Type Name Is Already In Use',
                 MICROGRID_ARCHITECTURE_TYPE_NOT_FOUND: 'Microgrid Architecture Type Not Found',
-                MICROGRID_ARCHITECTURE_TYPE_SIMPLIFIED_CODE_IS_ALREADY_IN_USE: 'Microgrid Architecture Type Simplified Code Is Already In Us
+                MICROGRID_ARCHITECTURE_TYPE_SIMPLIFIED_CODE_IS_ALREADY_IN_USE: 'Microgrid Architecture Type Simplified Code Is Already In Use',
                 MICROGRID_ARCHITECTURE_TYPE_USED_IN_MICROGRID: 'Microgrid Architecture Type Used In Microgrid',
                 MICROGRID_ARCHITECTURE_TYPE_USED_IN_STORE: 'Microgrid Architecture Type Used In Store',
                 MICROGRID_NAME_IS_ALREADY_IN_USE: 'Microgrid Name Is Already In Use',
