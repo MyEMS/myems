@@ -1224,13 +1224,6 @@ class EmailMessageCollection:
 
         utc_expires = datetime.utcnow() + timedelta(seconds=60 * 60 * 1)
 
-        if 'token' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['token'], str) or \
-                len(str.strip(new_values['data']['token'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_TOKEN')
-        token = str.strip(new_values['data']['token'])
-
         if 'recipient_email' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['recipient_email'], str) or \
                 len(str.strip(new_values['data']['recipient_email'])) == 0:
@@ -1255,7 +1248,10 @@ class EmailMessageCollection:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MESSAGE_VALUE')
 
+        token = hashlib.sha512(os.urandom(24)).hexdigest()
         message = str.strip(new_values['data']['message'])
+        message = re.sub(r'{token}', token, message)
+        print(message)
 
         if 'created_datetime' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['created_datetime'], str) or \
