@@ -1251,7 +1251,6 @@ class EmailMessageCollection:
         token = hashlib.sha512(os.urandom(24)).hexdigest()
         message = str.strip(new_values['data']['message'])
         message = re.sub(r'{token}', token, message)
-        print(message)
 
         if 'created_datetime' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['created_datetime'], str) or \
