@@ -46,8 +46,8 @@ const ForgotPasswordForm = ({ setRedirect, setRedirectUrl, hasLabel, layout, t }
         <b>
     ${email} :</b><br><br>
     ${t("The link to reset your password is as follows. \
-            Please click the link within 10 minutes to proceed with the next step. \
-            If you did not request this action, please disregard this email.")}
+      Please click the link within 10 minutes to proceed with the next step. \
+      If you did not request this action, please disregard this email.")}
     </td>
         </tr>
         <tr>
