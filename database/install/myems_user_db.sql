@@ -100,7 +100,7 @@ CREATE INDEX `tbl_notifications_index_1` ON  `myems_user_db`.`tbl_notifications`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_user_db`.`tbl_email_messages`;
 
-CREATE TABLE `tbl_email_messages`  (
+CREATE TABLE IF NOT EXISTS `myems_user_db`.`tbl_email_messages`  (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `rule_id` BIGINT NULL DEFAULT NULL,
   `recipient_name` VARCHAR(128) NOT NULL,
@@ -120,7 +120,7 @@ CREATE INDEX `tbl_email_messages_index_1` ON  `myems_user_db`.`tbl_email_message
 -- ----------------------------
 DROP TABLE IF EXISTS `myems_user_db`.`tbl_email_message_sessions`;
 
-CREATE TABLE `tbl_email_message_sessions`  (
+CREATE TABLE IF NOT EXISTS `myems_user_db`.`tbl_email_message_sessions`  (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `recipient_email` VARCHAR(128) NOT NULL,
   `token` VARCHAR(128) NOT NULL,
