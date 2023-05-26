@@ -81,6 +81,13 @@ myems_carbon_db = {
     'password': config('MYEMS_CARBON_DB_PASSWORD', default='!MyEMS1'),
 }
 
+myems_mqtt_broker = {
+    'host': config('MYEMS_MQTT_BROKER_HOST', default='127.0.0.1'),
+    'port': config('MYEMS_MQTT_BROKER_PORT', default=1883, cast=int),
+    'username': config('MYEMS_MQTT_BROKER_USERNAME', default='admin'),
+    'password': config('MYEMS_MQTT_BROKER_PASSWORD', default='!MyEMS123'),
+}
+
 # indicated in how many minutes to calculate meter energy consumption
 # 30 for half hourly period
 # 60 for hourly period

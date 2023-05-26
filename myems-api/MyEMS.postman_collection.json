@@ -976,6 +976,253 @@
 					]
 				},
 				{
+					"name": "Command",
+					"item": [
+						{
+							"name": "Get All Commands",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/commands",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"commands"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET a Comand by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/commands/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"commands",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Send a Command by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "aaaa27328292c4f5b6367a6d0f4db5c627a1231877f23cf80659956ddf96ad89ff06bfa804feff04cf3dafebab8ae165b23a887264a8ade69d689b7df8526c4",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/commands/1/send",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"commands",
+										"1",
+										"send"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Create New Command (without set_value)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "aaaaa27328292c4f5b6367a6d0f4db5c627a1231877f23cf80659956ddf96ad89ff06bfa804feff04cf3dafebab8ae165b23a887264a8ade69d689b7df8526c4",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"turn_off_light\", \"topic\":\"myems/point/2\", \"payload\":\"{address:1, slave_id:1}\", \"description\":\"turn off light\"}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/commands",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"commands"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Create New Command (with set_value)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "aaaaa27328292c4f5b6367a6d0f4db5c627a1231877f23cf80659956ddf96ad89ff06bfa804feff04cf3dafebab8ae165b23a887264a8ade69d689b7df8526c4",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"turn_up_light\", \"topic\":\"myems/point/2\", \"payload\":\"{address:1, slave_id:1, set_value: $s1}\", \n\"set_value\": 2.0, \"description\":\"turn up light\"}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/commands",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"commands"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Update a Command (without set_value)",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "b472e27328292c4f5b6367a6d0f4db5c627a1231877f23cf80659956ddf96ad89ff06bfa804feff04cf3dafebab8ae165b23a887264a8ade69d689b7df8526c4",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"turn_up_light\", \"topic\":\"myems/point/2\", \"payload\":\"{address:1, slave_id:1}\", \n \"description\":\"turn up light\"}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/commands/3",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"commands",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Update a Command (with set_value)",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "b472e27328292c4f5b6367a6d0f4db5c627a1231877f23cf80659956ddf96ad89ff06bfa804feff04cf3dafebab8ae165b23a887264a8ade69d689b7df8526c4",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"turn_up_light\", \"topic\":\"myems/point/2\", \"payload\":\"{address:1, slave_id:1, set_value: $s1}\", \n\"set_value\": 2.0, \"description\":\"turn up light\"}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/commands/3",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"commands",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Command by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "b472e27328292c4f5b6367a6d0f4db5c627a1231877f23cf80659956ddf96ad89ff06bfa804feff04cf3dafebab8ae165b23a887264a8ade69d689b7df8526c4",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/commands/7",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"commands",
+										"7"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "Cost Center",
 					"item": [
 						{
