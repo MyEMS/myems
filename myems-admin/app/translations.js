@@ -1161,8 +1161,8 @@ function config($translateProvider) {
                 VIRTUAL_POINT_SHOULD_BE_ANALOG_VALUE: 'Virtual Point Should Be Analog Value',
                 WEB_MESSAGE_NOT_FOUND: 'Web Message Not Found',
                 WECHAT_MESSAGE_NOT_FOUND: 'Wechat Message Not Found',
-                WORKING_CALENDAR_NAME_IS_ALREADY_IN_USE: '工作日历名称已使用',
-                WORKING_CALENDAR_NOT_FOUND: '工作日历不存在',
+                WORKING_CALENDAR_NAME_IS_ALREADY_IN_USE: 'Working Calendar Name Is Already In Use',
+                WORKING_CALENDAR_NOT_FOUND: 'Working Calendar Not Found',
             },
         })
         .translations('zh_CN', {
@@ -2325,8 +2325,8 @@ function config($translateProvider) {
                 VIRTUAL_POINT_SHOULD_BE_ANALOG_VALUE: 'Virtual Point Should Be Analog Value',
                 WEB_MESSAGE_NOT_FOUND: 'Web Message Not Found',
                 WECHAT_MESSAGE_NOT_FOUND: 'Wechat Message Not Found',
-                WORKING_CALENDAR_NAME_IS_ALREADY_IN_USE: '工作日历名称已使用',
-                WORKING_CALENDAR_NOT_FOUND: '工作日历不存在',
+                WORKING_CALENDAR_NAME_IS_ALREADY_IN_USE: 'Working Calendar Name Is Already In Use',
+                WORKING_CALENDAR_NOT_FOUND: 'Working Calendar Not Found',
             },
         })
         .translations('de', {
