@@ -238,14 +238,14 @@ class CommandItem:
                                    description='API.INVALID_PAYLOAD')
         payload = str.strip(new_values['data']['payload'])
 
-        if 'set_value' in new_values['data'].keys() and \
-                not (isinstance(new_values['data']['set_value'], float) or
-                     isinstance(new_values['data']['set_value'], int)):
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_SET_VALUE')
+        if 'set_value' not in new_values['data'].keys():
+            set_value = None
+        elif isinstance(new_values['data']['set_value'], float) or \
+                isinstance(new_values['data']['set_value'], int):
             set_value = float(new_values['data']['set_value'])
         else:
-            set_value = None
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_SET_VALUE')
 
         if 'description' in new_values['data'].keys() and \
                 new_values['data']['description'] is not None and \
@@ -303,7 +303,7 @@ class CommandSend:
         resp.status = falcon.HTTP_200
 
     @staticmethod
-    def on_get(req, resp, id_):
+    def on_put(req, resp, id_):
         """Handles GET requests"""
         access_control(req)
         # Get command by ID
@@ -311,10 +311,28 @@ class CommandSend:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMMAND_ID')
 
+        try:
+            raw_json = req.stream.read().decode('utf-8')
+        except Exception as ex:
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.FAILED_TO_READ_REQUEST_STREAM')
+
+        new_values = json.loads(raw_json)
+
+        if 'set_value' not in new_values['data'].keys():
+            set_value = None
+        elif isinstance(new_values['data']['set_value'], float) or \
+                isinstance(new_values['data']['set_value'], int):
+            set_value = float(new_values['data']['set_value'])
+        else:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_SET_VALUE')
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid, topic, payload, set_value, description "
+        query = (" SELECT id, name, uuid, topic, payload, set_value "
                  " FROM tbl_commands "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -331,8 +349,7 @@ class CommandSend:
                    "uuid": row[2],
                    "topic": row[3],
                    "payload": row[4],
-                   "set_value": row[5],
-                   "description": row[6]}
+                   "set_value": set_value if set_value else row[5]}
 
         mqc = None
         try:
