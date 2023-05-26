@@ -7,7 +7,7 @@ from core import energyflowdiagram, privilege, textmessage, distributioncircuit,
     costfile, offlinemeterfile, version, contact, emailserver, combinedequipment, datasource, equipment, tenant, \
     shopfloor, webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, \
     offlinemeter, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile, workingcalendar, \
-    microgrid, microgridarchitecturetype, microgridownertype
+    microgrid, microgridarchitecturetype, microgridownertype, command
 
 from reports import advancedreport
 from reports import combinedequipmentbatch
@@ -139,6 +139,13 @@ api.add_route('/combinedequipments/{id_}/virtualmeters',
               combinedequipment.CombinedEquipmentVirtualMeterCollection())
 api.add_route('/combinedequipments/{id_}/virtualmeters/{mid}',
               combinedequipment.CombinedEquipmentVirtualMeterItem())
+
+api.add_route('/commands',
+              command.CommandCollection())
+api.add_route('/commands/{id_}',
+              command.CommandItem())
+api.add_route('/commands/{id_}/send',
+              command.CommandSend())
 
 api.add_route('/contacts',
               contact.ContactCollection())
