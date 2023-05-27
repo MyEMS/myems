@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 - fixed HTTPError Deprecated Warning in myems-api
 - fixed edit user issue in myems-api
+- fixed save button issue of energy item dialog in myems-admin
 
 ### Removed
 
