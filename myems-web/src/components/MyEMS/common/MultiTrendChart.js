@@ -83,7 +83,7 @@ const MultiTrendChart = ({
           },{
             //label: baseTitle,
             data: undefinedConvertsToEmptyArray(baseData[option]),
-            backgroundColor: '#2c7be5',
+            backgroundColor: '#1a3a64',
             stack: "base",
             tension: 0.4,
             datalabels: {
@@ -91,10 +91,12 @@ const MultiTrendChart = ({
                 return false;
                }
             },
+            borderWidth: 0.1,
+            borderRadius: 4
           },{
             //label: reportingTitle,
             data: undefinedConvertsToEmptyArray(reportingData[option]),
-            backgroundColor: '#27bcfd',
+            backgroundColor: '#2c7be5',
             stack: "reporting",
             tension: 0.4,
             datalabels: {
@@ -102,6 +104,8 @@ const MultiTrendChart = ({
                 return false;
                }
             },
+            borderWidth: 0.1,
+            borderRadius: 4
           },],
         labels: undefinedConvertsToEmptyArray(reportingLabels[option]),
       };
