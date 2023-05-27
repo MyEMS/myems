@@ -61,10 +61,11 @@ const BarChart = ({
       });
       datasets.push({
         label: title,
-        backgroundColor: '#2c7be5',
+        backgroundColor: '#1a3a64',
         data: dataArray,
         borderColor: 'rgb(75, 192, 192)',
-        borderWidth: 1,
+        borderWidth: 0.1,
+        borderRadius: 4
       });
       dataArray = [];
       compareData.forEach(element => {
@@ -72,10 +73,11 @@ const BarChart = ({
       });
       datasets.push({
         label: compareTitle,
-        backgroundColor: '#27bcfd',
+        backgroundColor: '#2c7be5',
         data: dataArray,
         borderColor: 'rgb(53, 162, 235)',
-        borderWidth: 1,
+        borderWidth: 0.1,
+        borderRadius: 4
       });
       setChartData({
         labels: labels,
