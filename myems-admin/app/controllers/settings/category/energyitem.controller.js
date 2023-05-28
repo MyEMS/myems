@@ -41,7 +41,7 @@ app.controller('EnergyItemController', function(
 		        params:function(){
                     return {
                         energyItems:angular.copy($scope.energyItems),
-		                    categories:angular.copy($scope.categories)
+		                categories:angular.copy($scope.categories)
                     };
                 }
 		    }

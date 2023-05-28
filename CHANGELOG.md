@@ -7,7 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - added tbl_commands to system database
 - added command actions to myems-api
-- 
+- added command feature to myems-admin
 ### Changed
 - updated tranlations of myems-admin
 - changed theme of BarChart and MultiTrendChart in myems-web

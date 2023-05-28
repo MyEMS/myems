@@ -380,6 +380,37 @@ app
                             ]
                         }
                     })
+                    .state('settings.command', {
+                        url: "/command",
+                        templateUrl: "views/settings/command/command.html",
+                        data: {
+                            pageTitle: 'MENU.SETTINGS.COMMAND'
+                        },
+                        resolve: {
+                            deps: [
+                                '$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'toaster']).then(
+                                        function () {
+                                            return $ocLazyLoad.load([{
+                                                files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
+                                            }, {
+                                                name: 'oitozero.ngSweetAlert',
+                                                files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
+                                            }, {
+                                                serie: true,
+                                                files: [
+                                                    'app/services/settings/command/command.service.js',
+                                                    'app/controllers/settings/command/command.master.controller.js',
+                                                    'app/controllers/settings/command/command.controller.js'
+                                                ]
+                                            }]);
+                                        }
+                                    );
+                                }
+                            ]
+                        }
+                    })
                     .state('settings.tariff', {
                         url: "/tariff",
                         templateUrl: "views/settings/tariff/tariff.html",

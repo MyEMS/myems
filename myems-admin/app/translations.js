@@ -35,6 +35,7 @@ function config($translateProvider) {
                 QR_CODE: 'QR Code',
                 WORKING_CALENDAR: 'Working Calendar',
                 NON_WORKING_DAY: 'Non Working Day',
+                COMMAND: 'Command',
             },
             FDD: {
                 ID: 'ID',
@@ -96,6 +97,7 @@ function config($translateProvider) {
                     CATEGORY: 'Energy Categories',
                     TARIFF: 'Tariffs',
                     COSTCENTER: 'Cost Centers',
+                    COMMAND: 'Commands',
                     CONTACT: 'Contacts',
                     GATEWAY: 'Gateways',
                     DATASOURCE: 'Data Sources',
@@ -177,6 +179,7 @@ function config($translateProvider) {
                 ADD_WORKING_CALENDAR: 'Add Working Calendar',
                 ADD_NON_WORKING_DAY: 'Add Non Working Day',
                 ADD_MICROGRID: 'Add Microgrid',
+                ADD_COMMAND: 'Add Command',
 
                 EDIT_SPACE: 'Edit Space',
                 EDIT_TENANT: 'Edit Tenant',
@@ -193,6 +196,7 @@ function config($translateProvider) {
                 EDIT_WORKING_CALENDAR: 'Edit Working Calendar',
                 EDIT_NON_WORKING_DAY: 'Edit Non Working Day',
                 EDIT_MICROGRID: 'Edit Microgrid',
+                EDIT_COMMAND: 'Edit Command',
 
                 REQUIRES_AUTHENTICATION: 'Requires Authentication',
                 SELECT_DATE: 'Please Select Date',
@@ -307,6 +311,8 @@ function config($translateProvider) {
 
                 WORKING_CALENDAR: 'Working Calendar',
                 NON_WORKING_DAY: 'Non Working Day',
+
+                COMMAND: 'Command',
             },
             CONTACT: {
                 EMAIL: 'Email',
@@ -320,6 +326,18 @@ function config($translateProvider) {
             COSTCENTER: {
                 EXTERNAL_ID: 'External ID',
                 INPUT_EXTERNAL_ID: 'Please Input External ID',
+            },
+            COMMAND: {
+                TOPIC: 'Topic',
+                PAYLOAD: 'Payload',
+                SET_VALUE: 'Set Value',
+                DESCRIPTION: 'Description',
+                INPUT_TOPIC: 'Please Input Topic',
+                INPUT_PAYLOAD: 'Please Input Payload',
+                INPUT_SET_VALUE: 'Please Input Set Value',
+                INPUT_DESCRIPTION: 'Please Input Description',
+                SEND: 'Send',
+                SEND_SUCCESS: 'Send Success',
             },
             ENERGY_FLOW_DIAGRAM: {
                 ADD_ENERGY_FLOW_DIAGRAM: 'Add Energy Flow Diagram',
@@ -1194,6 +1212,7 @@ function config($translateProvider) {
                 QR_CODE: "二维码",
                 WORKING_CALENDAR: '工作日历',
                 NON_WORKING_DAY: '非工作日',
+                COMMAND: '命令',
             },
             FDD: {
                 ID: 'ID',
@@ -1255,6 +1274,7 @@ function config($translateProvider) {
                     CATEGORY: '能源分类',
                     TARIFF: '能源费率',
                     COSTCENTER: '成本中心',
+                    COMMAND: '命令',
                     CONTACT: '联系人',
                     GATEWAY: '网关',
                     DATASOURCE: '数据源',
@@ -1336,12 +1356,12 @@ function config($translateProvider) {
                 ADD_WORKING_CALENDAR: '新增工作日历',
                 ADD_NON_WORKING_DAY: '新增非工作日',
                 ADD_MICROGRID: '新增微电网',
+                ADD_COMMAND: '添加命令',
 
                 EDIT_SPACE: '编辑空间',
                 EDIT_TENANT: '编辑租户',
                 EDIT_STORE: '编辑门店',
                 EDIT_METER: '编辑计量表',
-                EDIT_MICROGRID: '编辑微电网',
                 EDIT_VIRTUAL_METER: '编辑虚拟表',
                 EDIT_OFFLINE_METER: '编辑离线表',
                 EDIT_POINT: '编辑数据点',
@@ -1353,6 +1373,8 @@ function config($translateProvider) {
                 EDIT_EMAIL_SERVER: '编辑邮箱服务器',
                 EDIT_WORKING_CALENDAR: '编辑工作日历',
                 EDIT_NON_WORKING_DAY: '编辑非工作日',
+                EDIT_MICROGRID: '编辑微电网',
+                EDIT_COMMAND: '编辑命令',
 
                 REQUIRES_AUTHENTICATION: '需要身份验证',
                 SELECT_DATE: '请选择日期',
@@ -1470,6 +1492,8 @@ function config($translateProvider) {
 
                 WORKING_CALENDAR: '工作日历',
                 NON_WORKING_DAY: '非工作日',
+
+                COMMAND: '命令',
             },
             CONTACT: {
                 EMAIL: '邮箱',
@@ -1483,6 +1507,18 @@ function config($translateProvider) {
             COSTCENTER: {
                 EXTERNAL_ID: '外部ID',
                 INPUT_EXTERNAL_ID: '请输入外部ID',
+            },
+            COMMAND: {
+                TOPIC: '主题',
+                PAYLOAD: '载荷',
+                SET_VALUE: '设定值',
+                DESCRIPTION: '描述',
+                INPUT_TOPIC: '请输入主题',
+                INPUT_PAYLOAD: '请输入载荷',
+                INPUT_SET_VALUE: '请输入设定值',
+                INPUT_DESCRIPTION: '请输入描述',
+                SEND: '发送',
+                SEND_SUCCESS: '发送成功',
             },
             GATEWAY: {
                 GATEWAY: '网关',
@@ -2357,6 +2393,7 @@ function config($translateProvider) {
                 QR_CODE: 'QR Code',
                 WORKING_CALENDAR: 'Arbeitskalender',
                 NON_WORKING_DAY: 'Arbeitsfreie Tage',
+                COMMAND: 'Befehl',
             },
             FDD: {
                 ID: 'ID',
@@ -2418,6 +2455,7 @@ function config($translateProvider) {
                     CATEGORY: 'Energiekategorien',
                     TARIFF: 'Energietarife',
                     COSTCENTER: 'Kostenstellen',
+                    COMMAND: 'Befehle',
                     CONTACT: 'Kontakte',
                     GATEWAY: 'Gateways',
                     DATASOURCE: 'Datenquellen',
@@ -2499,6 +2537,7 @@ function config($translateProvider) {
                 ADD_WORKING_CALENDAR: 'Hinzufügen eines neuen Arbeitskalenders',
                 ADD_NON_WORKING_DAY: 'Arbeitsfreie Tage hinzugefügt',
                 ADD_MICROGRID: 'Add Microgrid',
+                ADD_COMMAND: 'Befehl hinzufügen',
 
                 EDIT_SPACE: 'Leerzeichen bearbeiten',
                 EDIT_TENANT: 'Mieter bearbeiten',
@@ -2515,6 +2554,8 @@ function config($translateProvider) {
                 EDIT_EMAIL_SERVER: 'Postfachserver bearbeiten',
                 EDIT_WORKING_CALENDAR: 'Bearbeiten des Arbeitskalenders',
                 EDIT_NON_WORKING_DAY: 'Arbeitsfreie Tage bearbeiten',
+                EDIT_MICROGRID: 'Mikronetz bearbeiten',
+                EDIT_COMMAND: 'Befehl bearbeiten',
 
                 REQUIRES_AUTHENTICATION: 'Authentifizierung erforderlich',
                 SELECT_DATE: 'Bitte wählen Sie ein Datum',
@@ -2631,6 +2672,8 @@ function config($translateProvider) {
 
                 WORKING_CALENDAR: 'Working Calendar',
                 NON_WORKING_DAY: 'Non Working Day',
+
+                COMMAND: 'Befehl',
             },
             CONTACT: {
                 EMAIL: 'Briefkasten',
@@ -2640,6 +2683,18 @@ function config($translateProvider) {
                 INPUT_PHONE: 'Bitte geben Sie das Telefon ein',
                 INPUT_DESCRIPTION: 'Bitte geben Sie eine Beschreibung ein',
                 INVALID_EMAIL: 'Falsches E-Mail-Format (xxx@xxx.xx)',
+            },
+            COMMAND: {
+                TOPIC: 'Thema',
+                PAYLOAD: 'Nutzlast',
+                SET_VALUE: 'Sollwert',
+                DESCRIPTION: 'Beschreibung',
+                INPUT_TOPIC: 'Bitte geben Sie Thema ein',
+                INPUT_PAYLOAD: 'Bitte Nutzlast eingeben',
+                INPUT_SET_VALUE: 'Bitte geben Sie den eingestellten Wert ein',
+                INPUT_DESCRIPTION: 'Bitte geben Sie eine Beschreibung ein',
+                SEND: 'Senden',
+                SEND_SUCCESS: 'Erfolg senden',
             },
             COSTCENTER: {
                 EXTERNAL_ID: 'Externe ID',
