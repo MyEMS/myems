@@ -3,8 +3,8 @@
 app.controller('CostCenterController', function(
 	$scope,
 	$window,
-	$translate,
 	$uibModal,
+	$translate,
 	CostCenterService,
 	toaster,
 	SweetAlert) {
@@ -102,7 +102,8 @@ app.controller('CostCenterController', function(
 		        confirmButtonText: $translate.instant("SWEET.CONFIRM_BUTTON_TEXT"),
 		        cancelButtonText: $translate.instant("SWEET.CANCEL_BUTTON_TEXT"),
 		        closeOnConfirm: true,
-		        closeOnCancel: true },
+		        closeOnCancel: true 
+			},
 		    function (isConfirm) {
 		        if (isConfirm) {
 					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -134,7 +135,6 @@ app.controller('CostCenterController', function(
 });
 
 app.controller('ModalAddCostCenterCtrl', function ($scope, $uibModalInstance) {
-
     $scope.operation="SETTING.ADD_COSTCENTER";
     $scope.ok = function () {
         $uibModalInstance.close($scope.costcenter);
@@ -150,11 +150,11 @@ app.controller('ModalEditCostCenterCtrl', function ($scope, $uibModalInstance, p
     $scope.costcenter = params.costcenter;
     $scope.costcenters=params.costcenters;
 
-    $scope.ok = function () {
+    $scope.ok = function() {
         $uibModalInstance.close($scope.costcenter);
     };
 
-    $scope.cancel = function () {
+    $scope.cancel = function() {
         $uibModalInstance.dismiss('cancel');
     };
 });

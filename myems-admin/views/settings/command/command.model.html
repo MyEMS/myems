@@ -1,0 +1,49 @@
+<div class="inmodal">
+    <div class="modal-header">
+        <h4 class="modal-title">{{operation | translate}}(ID:{{command.id}})</h4>
+    </div>
+    <div class="modal-body">
+        <form role="form" name="form_command" novalidate class="form-horizontal">
+            <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.NAME' | translate}}</label>
+
+                <div class="col-sm-9"><input ng-model="command.name" type="text" name="commandname" class="form-control" required="">
+                    <div class="m-t-xs" ng-show="form_command.commandname.$invalid && form_command.commandname.$dirty">
+                        <small class="text-danger" ng-show="form_command.commandname.$error.required">{{'SETTING.INPUT_NAME' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group"><label class="col-sm-3 control-label">{{'COMMAND.TOPIC' | translate}}</label>
+                <div class="col-sm-9"><input ng-model="command.topic" type="text" name="commandtopic" class="form-control">
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-3 control-label">{{'COMMAND.PAYLOAD' | translate}}</label>
+
+                <div class="col-sm-9"><textarea rows="3" ng-model="command.payload" type="text" name="commandpayload" class="form-control" required=""></textarea>
+                    <div class="m-t-xs" ng-show="form_command.commandpayload.$invalid && form_command.commandpayload.$dirty">
+                        <small class="text-danger" ng-show="form_command.commandpayload.$error.required">{{'COMMAND.INPUT_PAYLOAD' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-3 control-label">{{'COMMAND.SET_VALUE' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-9"><input ng-model="command.set_value" type="number" name="commandset_value" class="form-control" >
+                    <div class="m-t-xs" ng-show="form_command.commandset_value.$invalid && form_command.commandset_value.$dirty">
+                        <small class="text-danger" ng-show="form_command.commandset_value.$error.required">{{'COMMAND.INPUT_SET_VALUE' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-3 control-label">{{'COMMAND.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-9">
+                    <input ng-model="command.description" type="text" name="commanddescription" class="form-control">
+                    <div class="m-t-xs" ng-show="form_command.commanddescription.$invalid && form_command.commanddescription.$dirty">
+                        <small class="text-danger" ng-show="form_command.commanddescription.$error.required">{{'COMMAND.INPUT_DESCRIPTION' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
+        <button type="button" ng-disabled="form_command.$invalid" class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
+    </div>
+</div>
