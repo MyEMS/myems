@@ -95,6 +95,24 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_combined_equipments_virtual_me
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_combined_equipments_virtual_meters_index_1` ON  `myems_system_db`.`tbl_combined_equipments_virtual_meters`   (`combined_equipment_id`);
 
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_commands`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_commands` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_commands` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `uuid` CHAR(36) NOT NULL,
+  `topic` VARCHAR(255) NOT NULL,
+  `payload` LONGTEXT NOT NULL COMMENT 'MUST be in JSON format',
+  `set_value` DECIMAL(18, 3) NULL COMMENT 'If not null, the $s1 in payload will be replaced with this value',
+  `description` VARCHAR(255) ,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_commands_index_1` ON  `myems_system_db`.`tbl_commands` (`name`);
+
+
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_contacts`
 -- ---------------------------------------------------------------------------------------------------------------------
