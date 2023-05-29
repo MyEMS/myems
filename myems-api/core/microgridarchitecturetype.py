@@ -58,7 +58,7 @@ class MicrogridArchitectureTypeCollection:
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_microgrid_architecture_type_NAME')
+                                   description='API.INVALID_MICROGRID_ARCHITECTURE_TYPE_NAME')
 
         name = str.strip(new_values['data']['name'])
 
@@ -66,7 +66,7 @@ class MicrogridArchitectureTypeCollection:
                 not isinstance(new_values['data']['description'], str) or \
                 len(str.strip(new_values['data']['description'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_microgrid_architecture_type_DESCRIPTION')
+                                   description='API.INVALID_MICROGRID_ARCHITECTURE_TYPE_DESCRIPTION')
 
         description = str.strip(new_values['data']['description'])
 
@@ -74,7 +74,7 @@ class MicrogridArchitectureTypeCollection:
                 not isinstance(new_values['data']['simplified_code'], str) or \
                 len(str.strip(new_values['data']['simplified_code'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_microgrid_architecture_type_SIMPLIFIED_CODE')
+                                   description='API.INVALID_MICROGRID_ARCHITECTURE_TYPE_SIMPLIFIED_CODE')
 
         simplified_code = str.strip(new_values['data']['simplified_code'])
 
@@ -88,7 +88,7 @@ class MicrogridArchitectureTypeCollection:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.microgrid_architecture_type_NAME_IS_ALREADY_IN_USE')
+                                   description='API.MICROGRID_ARCHITECTURE_TYPE_NAME_IS_ALREADY_IN_USE')
 
         cursor.execute(" SELECT simplified_code "
                        " FROM tbl_microgrid_architecture_types "
@@ -97,7 +97,7 @@ class MicrogridArchitectureTypeCollection:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.microgrid_architecture_type_SIMPLIFIED_CODE_IS_ALREADY_IN_USE')
+                                   description='API.MICROGRID_ARCHITECTURE_TYPE_SIMPLIFIED_CODE_IS_ALREADY_IN_USE')
 
         add_value = (" INSERT INTO tbl_microgrid_architecture_types "
                      "    (name, uuid, description, simplified_code) "
@@ -129,7 +129,7 @@ class MicrogridArchitectureTypeItem:
     def on_get(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_microgrid_architecture_type_ID')
+                                   description='API.INVALID_MICROGRID_ARCHITECTURE_TYPE_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -174,15 +174,15 @@ class MicrogridArchitectureTypeItem:
                                    description='API.MICROGRID_ARCHITECTURE_TYPE_NOT_FOUND')
 
         cursor.execute(" SELECT id "
-                       " FROM tbl_stores "
-                       " WHERE microgrid_architecture_type_id = %s ", (id_,))
-        rows_stores = cursor.fetchall()
-        if rows_stores is not None and len(rows_stores) > 0:
+                       " FROM tbl_microgrids "
+                       " WHERE architecture_type_id = %s ", (id_,))
+        rows_microgrids = cursor.fetchall()
+        if rows_microgrids is not None and len(rows_microgrids) > 0:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
-                                   description='API.MICROGRID_ARCHITECTURE_TYPE_USED_IN_STORE')
+                                   description='API.MICROGRID_ARCHITECTURE_TYPE_USED_IN_MICROGRID')
 
         cursor.execute(" DELETE FROM tbl_microgrid_architecture_types WHERE id = %s ", (id_,))
         cnx.commit()

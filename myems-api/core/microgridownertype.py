@@ -174,15 +174,15 @@ class MicrogridOwnerTypeItem:
                                    description='API.MICROGRID_OWNER_TYPE_NOT_FOUND')
 
         cursor.execute(" SELECT id "
-                       " FROM tbl_stores "
-                       " WHERE microgrid_owner_type_id = %s ", (id_,))
-        rows_stores = cursor.fetchall()
-        if rows_stores is not None and len(rows_stores) > 0:
+                       " FROM tbl_microgrids "
+                       " WHERE owner_type_id = %s ", (id_,))
+        rows_microgrids = cursor.fetchall()
+        if rows_microgrids is not None and len(rows_microgrids) > 0:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
-                                   description='API.MICROGRID_OWNER_TYPE_USED_IN_STORE')
+                                   description='API.MICROGRID_OWNER_TYPE_USED_IN_microgrid')
 
         cursor.execute(" DELETE FROM tbl_microgrid_owner_types WHERE id = %s ", (id_,))
         cnx.commit()
@@ -254,7 +254,7 @@ class MicrogridOwnerTypeItem:
                                    description='API.MICROGRID_OWNER_TYPE_NAME_IS_ALREADY_IN_USE')
 
         cursor.execute(" SELECT simplified_code "
-                       " FROM tbl_microgrid_Owner_types "
+                       " FROM tbl_microgrid_owner_types "
                        " WHERE simplified_code = %s  AND id != %s ", (simplified_code, id_))
         if cursor.fetchone() is not None:
             cursor.close()
