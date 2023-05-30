@@ -453,10 +453,10 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
       <div className='card-deck'>
           <BarChart
             labels={barLabels}
-            data={thisYearBarList}
-            compareData={lastYearBarList}
-            title={t('This Year')}
-            compareTitle={t('The Same Period Last Year')}
+            data={lastYearBarList}
+            compareData={thisYearBarList}
+            title={t('The Same Period Last Year')}
+            compareTitle={t('This Year')}
             footnote={t('Per Unit Area')}
             footunit={"/M²"} >
           </BarChart>

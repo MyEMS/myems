@@ -1202,7 +1202,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "49338f0c8b985ac7bf9ee8d53c2bdf1d51d0ab98da6835bd6b8a814e1f703e308a703e9273e6376532f7f03e11bb92dcbe24f7fc99ef3c9b0d57c608b5f7ff04",
+										"value": "bdf165755fdd709153b2496a876f1382fc83808ba8cb63144359fadfe58c64fb0f318687052c342b882753a4d360fe2a75ac2928a71521ad59433d06f8d31643",
 										"type": "default"
 									}
 								],
@@ -5048,6 +5048,274 @@
 										"1",
 										"sensors",
 										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "MicrogridArchitectureType",
+					"item": [
+						{
+							"name": "GET All Architecture Types",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/microgridarchitecturetypes",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgridarchitecturetypes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET an Architecture Type by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/microgridarchitecturetypes/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgridarchitecturetypes",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Create New Architecture Type",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "11111aa4be0fc56698faeb6f634f66b3ffec7f69ea58f32826c38b456109d8174b9a4f8537d1ffe111b83ffadf7b96639314e47bb79fd3e9ce4c7694d5334885",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\": \"Battery+PV+Load+Grid1\", \"description\":\"Battery+PV+Load+Grid\", \"simplified_code\":\"BPLG1\"}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/microgridarchitecturetypes",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgridarchitecturetypes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Update an Architecture Type",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "11111aa4be0fc56698faeb6f634f66b3ffec7f69ea58f32826c38b456109d8174b9a4f8537d1ffe111b83ffadf7b96639314e47bb79fd3e9ce4c7694d5334885",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\": \"Battery+PV+Load+Grid2\", \"description\":\"Battery+PV+Load+Grid\", \"simplified_code\":\"BPLG2\"}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/microgridarchitecturetypes/4",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgridarchitecturetypes",
+										"4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE an Architecture Type by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "11111aa4be0fc56698faeb6f634f66b3ffec7f69ea58f32826c38b456109d8174b9a4f8537d1ffe111b83ffadf7b96639314e47bb79fd3e9ce4c7694d5334885",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/microgridarchitecturetypes/5",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgridarchitecturetypes",
+										"5"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "MicrogridOwnerType",
+					"item": [
+						{
+							"name": "GET All Microgrid Owner Types",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/microgridownertypes",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgridownertypes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET a Microgrid Owner Type by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/microgridownertypes/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgridownertypes",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Create New Microgrid Owner Type",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "1111582b84e3973da97819e522e75d65005b053de2ddecc71d8adbc8d0b5a285c7f74d025f626c56cb1d9718a8b2083cb81e03f1c97ebccf440b10a25cf53a44",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\": \"New Type\", \"description\":\"New Type\", \"simplified_code\":\"NT\"}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/microgridownertypes",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgridownertypes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Update a Microgrid Owner Type",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "1111582b84e3973da97819e522e75d65005b053de2ddecc71d8adbc8d0b5a285c7f74d025f626c56cb1d9718a8b2083cb81e03f1c97ebccf440b10a25cf53a44",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\": \"New Type2\", \"description\":\"New Type2\", \"simplified_code\":\"NT2\"}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/microgridownertypes/4",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgridownertypes",
+										"4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Microgrid Owner Type by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "1111582b84e3973da97819e522e75d65005b053de2ddecc71d8adbc8d0b5a285c7f74d025f626c56cb1d9718a8b2083cb81e03f1c97ebccf440b10a25cf53a44",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/microgridownertypes/4",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgridownertypes",
+										"4"
 									]
 								}
 							},
