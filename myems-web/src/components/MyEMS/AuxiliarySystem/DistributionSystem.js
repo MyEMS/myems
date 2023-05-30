@@ -56,7 +56,6 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
   // State
   // Query Parameters
   const [distributionSystemList, setDistributionSystemList] = useState([]);
-  const [selectedDistributionSystemName, setSelectedDistributionSystemName] = useState(undefined);
   const [selectedDistributionSystemID, setSelectedDistributionSystemID] = useState(undefined);
   
   //Results
@@ -89,7 +88,6 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
         console.log(json);
         setDistributionSystemList(json);
         setSelectedDistributionSystemID([json[0]].map(o => o.value));
-        setSelectedDistributionSystemName([json[0]].map(o => o.label));
         
         let images = {};
         json.forEach((currentValue, index) => {
@@ -110,11 +108,6 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
 
   let onDistributionSystemChange = (event) => {
     setSelectedDistributionSystemID(event.target.value);
-    distributionSystemList.forEach((currentItem, index) => {
-      if (currentItem['value'] === event.target.value) {
-        setSelectedDistributionSystemName(currentItem['label']);
-      }
-    });
   };
 
   return (
@@ -127,12 +120,9 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
       <Card className="bg-light mb-3">
         <CardBody className="p-3">
           <Form >
-            <Row form>
-              <Col xs={6} sm={3}>
+            <Row form style={{height:"38px"}}>
+              <Col xs={6} sm={3} style={{height:"37px"}}>
                 <FormGroup>
-                  <Label className={labelClasses} for="distributionSystemSelect">
-                    {t('Distribution System')}
-                  </Label>
                   <CustomInput type="select" id="distributionSystemSelect" name="distributionSystemSelect"
                     value={selectedDistributionSystemID} onChange={onDistributionSystemChange}
                   >
@@ -159,7 +149,6 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
         <Col lg="4" className="pr-lg-2" key={uuid()}>
           <RealtimeChart 
             distributionSystemID={selectedDistributionSystemID} 
-            distributionSystemName={selectedDistributionSystemName}  
           />
         </Col>
         
