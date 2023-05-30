@@ -123,10 +123,6 @@ class RealtimeChart extends Component {
     
     return (
       <Card className="h-100 bg-gradient">
-        <CardHeader className="bg-transparent">
-          <h5 className="text-white">{this.props.distributionSystemName}</h5>
-          <div className="real-time-user display-1 font-weight-normal text-white">{this.state.latestUpdateDatetime}</div>
-        </CardHeader>
         <CardBody className="text-white fs--1">
           <ListGroup flush className="mt-4">
           
