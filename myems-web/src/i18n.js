@@ -343,6 +343,7 @@ const resources = {
       If you did not request this action, please disregard this email.',
       'New to MyEMS': 'New to MyEMS',
       'Create an account': 'Create an account',
+      'EMAIL Account registration successful': '{{EMAIL}} Account registration successful',
       //notification
       'Notifications': 'Notifications',
       'Mark all as read': 'Mark all as read',
@@ -1210,6 +1211,7 @@ const resources = {
       Schritt fortzufahren. Wenn Sie diese Aktion nicht angefordert haben, ignorieren Sie diese E-Mail bitte.',
       'New to MyEMS': 'Neu bei MyEMS',
       'Create an account': 'Ein Konto erstellen',
+      'EMAIL Account registration successful': '{{EMAIL}} Konto erfolgreich registriert',
       //notification
       'Notifications': 'Benachrichtigungen',
       'Mark all as read': 'Markiere alle als gelesen',
@@ -2054,6 +2056,7 @@ const resources = {
       请在 60 分钟内点击链接进行下一步操作。 如非你本人操作，请忽略此邮件。',
       'New to MyEMS': '初次使用MyEMS',
       'Create an account': '注册账户',
+      'EMAIL Account registration successful': '{{EMAIL}}账号注册成功',
       //notification
       'Notifications': '通知',
       'Mark all as read': '全部设为已读',

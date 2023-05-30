@@ -13,6 +13,7 @@ import PasswordReset from './PasswordReset';
 import ConfirmMail from '../../MyEMS/auth/basic/ConfirmMail';
 import LockScreen from './LockScreen';
 import ChangePassword from '../../MyEMS/auth/basic/ChangePassword';
+import RegisterAccount from '../../MyEMS/auth/basic/RegisterAccount';
 
 const AuthBasicRoutes = ({ match: { url } }) => (
   <Switch>
@@ -24,6 +25,7 @@ const AuthBasicRoutes = ({ match: { url } }) => (
     <Route path={`${url}/password-reset`} exact component={PasswordReset} />
     <Route path={`${url}/lock-screen`} exact component={LockScreen} />
     <Route path={`${url}/change-password`} exact component={ChangePassword} />
+    <Route path={`${url}/register-account`} exact component={RegisterAccount} />
 
     {/*Redirect*/}
     <Redirect to="/errors/404" />
