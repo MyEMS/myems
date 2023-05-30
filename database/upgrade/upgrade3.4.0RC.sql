@@ -138,6 +138,21 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_sensors` (
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_microgrids_sensors_index_1` ON  `myems_system_db`.`tbl_microgrids_sensors`   (`microgrid_id`);
 
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_user_db`.`tbl_new_users`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_user_db`.`tbl_new_users` ;
+
+CREATE TABLE IF NOT EXISTS `myems_user_db`.`tbl_new_users` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(128) NOT NULL,
+  `uuid` CHAR(36) NOT NULL,
+  `display_name` VARCHAR(128) NOT NULL,
+  `email` VARCHAR(128) NOT NULL,
+  `salt` VARCHAR(128) NOT NULL,
+  `password` VARCHAR(256) NOT NULL,
+  PRIMARY KEY (`id`));
+
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='3.4.0RC', release_date='2023-06-16' WHERE id=1;
 
