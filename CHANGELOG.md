@@ -11,11 +11,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 - updated tranlations of myems-admin
 - changed theme of BarChart and MultiTrendChart in myems-web
-- 
+- swapped cloumns color in dashboard of myems-web
+
 ### Fixed
 - fixed HTTPError Deprecated Warning in myems-api
 - fixed edit user issue in myems-api
 - fixed save button issue of energy item dialog in myems-admin
+- fixed validator issue of equipment parameter form in myems-admin
+- fixed validator issue of combined equipment parameter form in myems-admin
 
 ### Removed
 

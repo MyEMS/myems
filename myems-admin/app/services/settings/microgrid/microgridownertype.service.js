@@ -17,24 +17,24 @@ app.factory('MicrogridOwnerTypeService', function($http) {
                 callback(response);
             });
         },
-        addMicrogridOwnerType: function(store_type, headers, callback) {
-            $http.post(getAPI()+'microgridownertypes',{data:store}, {headers})
+        addMicrogridOwnerType: function(microgrid_owner_type, headers, callback) {
+            $http.post(getAPI()+'microgridownertypes',{data:microgrid_owner_type}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        editMicrogridOwnerType: function(store_type, headers, callback) {
-            $http.put(getAPI()+'microgridownertypes/'+store_type.id,{data:store_type}, {headers})
+        editMicrogridOwnerType: function(microgrid_owner_type, headers, callback) {
+            $http.put(getAPI()+'microgridownertypes/'+microgrid_owner_type.id,{data:microgrid_owner_type}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        deleteMicrogridOwnerType: function(store_type, headers, callback) {
-            $http.delete(getAPI()+'microgridownertypes/'+store_type.id, {headers})
+        deleteMicrogridOwnerType: function(microgrid_owner_type, headers, callback) {
+            $http.delete(getAPI()+'microgridownertypes/'+microgrid_owner_type.id, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
