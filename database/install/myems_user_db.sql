@@ -28,9 +28,9 @@ CREATE TABLE IF NOT EXISTS `myems_user_db`.`tbl_users` (
   `failed_login_count` INT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`));
 
-  -- --------------------------------------------------------------------------------------------------------------------
-  -- Example Data for table `myems_user_db`.`tbl_users`
-  -- --------------------------------------------------------------------------------------------------------------------
+-- --------------------------------------------------------------------------------------------------------------------
+-- Example Data for table `myems_user_db`.`tbl_users`
+-- --------------------------------------------------------------------------------------------------------------------
 START TRANSACTION;
 USE `myems_user_db`;
 -- default username: administrator
@@ -78,6 +78,21 @@ CREATE TABLE IF NOT EXISTS `myems_user_db`.`tbl_logs` (
   `request_body` LONGTEXT NULL COMMENT 'MUST be in JSON format',
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_logs_index_1` ON  `myems_user_db`.`tbl_logs`  (`user_uuid`, `request_datetime_utc`, `request_method`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_user_db`.`tbl_new_users`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_user_db`.`tbl_new_users` ;
+
+CREATE TABLE IF NOT EXISTS `myems_user_db`.`tbl_new_users` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(128) NOT NULL,
+  `uuid` CHAR(36) NOT NULL,
+  `display_name` VARCHAR(128) NOT NULL,
+  `email` VARCHAR(128) NOT NULL,
+  `salt` VARCHAR(128) NOT NULL,
+  `password` VARCHAR(256) NOT NULL,
+  PRIMARY KEY (`id`));
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_user_db`.`tbl_notifications`
