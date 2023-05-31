@@ -1304,12 +1304,10 @@ class EmailMessageCollection:
         cursor.execute("select display_name from tbl_users where email = %s", (recipient_email,))
         row = cursor.fetchone()
         
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.EMAIL_NOT_FOUND')
-        
+        if row is not None:
+            recipient_name = row[0]
+        else: 
+            recipient_name = recipient_email.split('@')[0]
         add_session =  (" INSERT INTO tbl_email_message_sessions "
                         " (recipient_email, token, utc_expires) "
                         " VALUES (%s, %s, %s) ")
@@ -1320,7 +1318,7 @@ class EmailMessageCollection:
                    "             created_datetime_utc, scheduled_datetime_utc, status) "
                    " VALUES (%s, %s, %s, %s, %s, %s, %s) ")
 
-        cursor.execute(add_row, (row[0],
+        cursor.execute(add_row, (recipient_name,
                                  recipient_email,
                                  subject,
                                  message,
