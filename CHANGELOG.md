@@ -22,6 +22,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed save button issue of energy item dialog in myems-admin
 - fixed validator issue of equipment parameter form in myems-admin
 - fixed validator issue of combined equipment parameter form in myems-admin
+- fixed webpack-dev-server version 4.12.0 caused compile errors
 
 ### Removed
 
