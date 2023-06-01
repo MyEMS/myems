@@ -282,6 +282,6 @@ CREATE TABLE IF NOT EXISTS `myems_user_db`.`tbl_email_message_sessions`  (
 CREATE INDEX `tbl_email_message_sessions_index_1` ON  `myems_user_db`.`tbl_email_message_sessions` (`recipient_email`);
 
 -- UPDATE VERSION NUMBER
-UPDATE `myems_system_db`.`tbl_versions` SET version='3.4.0RC', release_date='2023-06-16' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='3.4.0', release_date='2023-06-01' WHERE id=1;
 
 COMMIT;
