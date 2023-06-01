@@ -23,6 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - changed theme of BarChart and MultiTrendChart in myems-web
 - swapped cloumns color in dashboard of myems-web
 - compacted distribuition system in myems-web
+- updated supported protocols of datasoure in myems-api
 
 ### Fixed
 - fixed HTTPError Deprecated Warning in myems-api
