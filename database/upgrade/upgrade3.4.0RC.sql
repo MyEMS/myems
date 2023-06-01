@@ -23,6 +23,102 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_commands` (
 CREATE INDEX `tbl_commands_index_1` ON  `myems_system_db`.`tbl_commands` (`name`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_combined_equipments_commands`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_combined_equipments_commands` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_combined_equipments_commands` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `combined_equipment_id` BIGINT NOT NULL,
+  `command_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_combined_equipments_comands_index_1` ON  `myems_system_db`.`tbl_combined_equipments_commands`   (`combined_equipment_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_equipments_commands`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_equipments_commands` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_equipments_commands` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `equipment_id` BIGINT NOT NULL,
+  `command_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_equipments_comands_index_1` ON  `myems_system_db`.`tbl_equipments_commands`   (`equipment_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_meters_commands`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_meters_commands` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_meters_commands` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `meter_id` BIGINT NOT NULL,
+  `command_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_meters_commands_index_1` ON  `myems_system_db`.`tbl_meters_commands`   (`meter_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_microgrids_commands`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_microgrids_commands` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_commands` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `command_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrids_commands_index_1` ON  `myems_system_db`.`tbl_microgrids_commands`   (`microgrid_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_spaces_commands`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_spaces_commands` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_spaces_commands` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `space_id` BIGINT NOT NULL,
+  `command_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_spaces_commands_index_1` ON  `myems_system_db`.`tbl_spaces_commands`   (`space_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_tenants_commands`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_tenants_commands` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_tenants_commands` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `tenant_id` BIGINT NOT NULL,
+  `command_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_tenants_commands_index_1` ON  `myems_system_db`.`tbl_tenants_commands`   (`tenant_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_shopfloors_commands`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_shopfloors_commands` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_shopfloors_commands` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `shopfloor_id` BIGINT NOT NULL,
+  `command_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_shopfloors_commands_index_1` ON  `myems_system_db`.`tbl_shopfloors_commands`   (`shopfloor_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_stores_commands`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_stores_commands` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_stores_commands` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `store_id` BIGINT NOT NULL,
+  `command_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_stores_commands_index_1` ON  `myems_system_db`.`tbl_stores_commands`   (`store_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_microgrids`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_system_db`.`tbl_microgrids` ;

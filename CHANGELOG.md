@@ -5,10 +5,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
-- added tbl_commands to myems_system_db in database
+- added tbl_commands to myems_system_db database
+- added tbl_combianed_equipments_commands to myems_system_db database
+- added tbl_equipments_commands to myems_system_db database
+- added tbl_meters_commands to myems_system_db database
+- added tbl_microgrids_commands to myems_system_db database
+- added tbl_spaces_commands to myems_system_db database
+- added tbl_stores_commands to myems_system_db database
+- added tbl_shopfloors_commands to myems_system_db database
+- added tbl_tenants_commands to myems_system_db database
 - added command actions to myems-api
 - added command feature to myems-admin
-- added tbl_new_users to myems_user_db in database
+- added tbl_new_users to myems_user_db database
 
 ### Changed
 - updated tranlations of myems-admin
