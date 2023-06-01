@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+
+### Changed
+
+### Fixed
+
+### Removed
+
+## [v3.4.0] - 2023-06-01
+### Added
 - added tbl_commands to myems_system_db database
 - added tbl_combianed_equipments_commands to myems_system_db database
 - added tbl_equipments_commands to myems_system_db database
@@ -17,12 +26,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added command actions to myems-api
 - added command feature to myems-admin
 - added tbl_new_users to myems_user_db database
+- added tbl_email_messages and tbl_email_message_sessions to myems_user_db database
 
 ### Changed
 - updated tranlations of myems-admin
 - changed theme of BarChart and MultiTrendChart in myems-web
 - swapped cloumns color in dashboard of myems-web
 - compacted distribuition system in myems-web
+- updated supported protocols of datasoure in myems-api
 
 ### Fixed
 - fixed HTTPError Deprecated Warning in myems-api
@@ -31,9 +42,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed validator issue of equipment parameter form in myems-admin
 - fixed validator issue of combined equipment parameter form in myems-admin
 - fixed webpack-dev-server version 4.12.0 caused compile errors
+- fixed save button issue of non-working-day dialog in myems-admin
 
 ### Removed
-
+- None
 
 ## [v3.3.0] - 2023-05-21
 ### Added
@@ -1277,7 +1289,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v3.3.0...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v3.4.0...HEAD
+[3.4.0]: https://github.com/MyEMS/myems/compare/v3.4.0...v3.3.0
 [3.3.0]: https://github.com/MyEMS/myems/compare/v3.3.0...v3.2.0
 [3.2.0]: https://github.com/MyEMS/myems/compare/v3.1.0...v3.2.0
 [3.1.0]: https://github.com/MyEMS/myems/compare/v3.0.0...v3.1.0

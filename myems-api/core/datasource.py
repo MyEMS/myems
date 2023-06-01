@@ -99,25 +99,31 @@ class DataSourceCollection:
 
         if 'protocol' not in new_values['data'].keys() \
                 or new_values['data']['protocol'] not in \
-                ('modbus-tcp',
+                ('bacnet-ip',
+                 'cassandra',
+                 'clickhouse',
+                 'coap'
+                 'controllogix',
+                 'dlt645',
+                 'iec104',
+                 'influxdb',
+                 'lora',
                  'modbus-rtu',
-                 'bacnet-ip',
-                 's7',
+                 'modbus-tcp',
+                 'mongodb',
+                 'mqtt-seg'
+                 'mqtt',
+                 'mysql',
+                 'opc-ua',
+                 'oracle',
+                 'postgresql',
                  'profibus',
                  'profinet',
-                 'opc-ua',
-                 'lora',
+                 's7',
                  'simulation',
-                 'controllogix',
-                 'weather',
-                 'mysql',
                  'sqlserver',
-                 'postgresql',
-                 'oracle',
-                 'mongodb',
-                 'influxdb',
-                 'mqtt',
-                 'mqtt-seg'):
+                 'tdengine',
+                 'weather',):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DATA_SOURCE_PROTOCOL')
         protocol = new_values['data']['protocol']
@@ -307,25 +313,31 @@ class DataSourceItem:
 
         if 'protocol' not in new_values['data'].keys() \
                 or new_values['data']['protocol'] not in \
-                ('modbus-tcp',
+                ('bacnet-ip',
+                 'cassandra',
+                 'clickhouse',
+                 'coap'
+                 'controllogix',
+                 'dlt645',
+                 'iec104',
+                 'influxdb',
+                 'lora',
                  'modbus-rtu',
-                 'bacnet-ip',
-                 's7',
+                 'modbus-tcp',
+                 'mongodb',
+                 'mqtt-seg'
+                 'mqtt',
+                 'mysql',
+                 'opc-ua',
+                 'oracle',
+                 'postgresql',
                  'profibus',
                  'profinet',
-                 'opc-ua',
-                 'lora',
+                 's7',
                  'simulation',
-                 'controllogix',
-                 'weather',
-                 'mysql',
                  'sqlserver',
-                 'postgresql',
-                 'oracle',
-                 'mongodb',
-                 'influxdb',
-                 'mqtt',
-                 'mqtt-seg'):
+                 'tdengine',
+                 'weather',):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DATA_SOURCE_PROTOCOL')
         protocol = new_values['data']['protocol']
