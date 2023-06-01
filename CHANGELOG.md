@@ -17,6 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added command actions to myems-api
 - added command feature to myems-admin
 - added tbl_new_users to myems_user_db database
+- added tbl_email_messages and tbl_email_message_sessions to myems_user_db database
 
 ### Changed
 - updated tranlations of myems-admin
