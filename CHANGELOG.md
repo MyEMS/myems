@@ -29,11 +29,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added tbl_email_messages and tbl_email_message_sessions to myems_user_db database
 
 ### Changed
-- updated tranlations of myems-admin
+- updated translations of myems-admin
 - changed theme of BarChart and MultiTrendChart in myems-web
-- swapped cloumns color in dashboard of myems-web
-- compacted distribuition system in myems-web
-- updated supported protocols of datasoure in myems-api
+- swapped columns color in dashboard of myems-web
+- compacted distribution system in myems-web
+- updated supported protocols of datasource in myems-api
 
 ### Fixed
 - fixed HTTPError Deprecated Warning in myems-api
