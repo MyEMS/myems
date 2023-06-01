@@ -1704,19 +1704,19 @@ class NewUserCollection:
                                    description='API.EMAIL_IS_ALREADY_IN_USE')
 
         add_row = (" INSERT INTO tbl_new_users "
-                   "     (name, uuid, display_name, email, password "
-                   " VALUES (%s, %s, %s, %s, %s) ")
+                   "     (name, uuid, display_name, email, salt, password) "
+                   " VALUES (%s, %s, %s, %s, %s, %s) ")
 
         salt = uuid.uuid4().hex
         password = new_values['data']['password']
         hashed_password = hashlib.sha512(salt.encode() + password.encode()).hexdigest()
-
+        
         cursor.execute(add_row, (name,
                                  str(uuid.uuid4()),
                                  display_name,
                                  email,
                                  salt,
-                                 hashed_password,))
+                                 hashed_password))
         new_id = cursor.lastrowid
         cnx.commit()
 
@@ -1892,7 +1892,7 @@ class NewUserItem:
                                    description='API.EMAIL_IS_ALREADY_IN_USE')
 
         update_row = (" UPDATE tbl_new_users "
-                      " SET name = %s, display_name = %s, email = %s, "
+                      " SET name = %s, display_name = %s, email = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     display_name,
@@ -2008,8 +2008,9 @@ class NewUserApprove:
                 raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.PRIVILEGE_NOT_FOUND')
             
-        row = (" SELECT password, salt, uuid FROM tbl_new_users "
+        cursor.execute(" SELECT password, salt, uuid FROM tbl_new_users "
                " WHERE email = %s ", (email,))
+        row = cursor.fetchone()
         if row is None:
             cursor.close()
             cnx.close()

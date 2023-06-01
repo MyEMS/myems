@@ -221,10 +221,127 @@ app.controller('UserController', function ($scope,
 		});
 	};
 
+	$scope.$on('handleBroadcastNewUserChanged', function(event) {
+		$scope.getAllUsers();
+	});
+
 	$scope.getAllUsers();
 	$scope.getAllPrivileges();
 
 });
+
+app.controller('NewUserController', function ($scope,
+	$window,
+	$uibModal,
+	UserService,
+	PrivilegeService,
+	toaster,
+	$translate,
+	SweetAlert) {
+	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+	$scope.getAllNewUsers = function () {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		UserService.getAllNewUsers(headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.users = response.data;
+			} else {
+				$scope.users = [];
+			}
+		});
+	};
+
+	$scope.getAllPrivileges = function () {
+		PrivilegeService.getAllPrivileges(function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.privileges = response.data;
+			} else {
+				$scope.privileges = [];
+			}
+		});
+
+	};
+
+	$scope.approveUser = function (user) {
+		var modalInstance = $uibModal.open({
+			templateUrl: 'views/users/user/approve-user.html',
+			controller: 'ModalApproveUserCtrl',
+			windowClass: "animated fadeIn",
+			resolve: {
+				params: function () {
+					return {
+						user: angular.copy(user),
+						privileges: angular.copy($scope.privileges)
+					};
+				}
+			}
+		});
+		modalInstance.result.then(function (user) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			UserService.approveUser(user, headers, function (response) {
+				if (angular.isDefined(response.status) && response.status === 201) {
+					toaster.pop({
+						type: "success",
+						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", { template: $translate.instant("SETTING.USER") }),
+						showCloseButton: true,
+					});
+					$scope.$emit('handleEmitNewUserChanged');
+					$scope.getAllNewUsers();
+				} else {
+					toaster.pop({
+						type: "error",
+						title: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("SETTING.USER") }),
+						body: $translate.instant(response.data.description),
+						showCloseButton: true,
+					});
+				}
+			});
+		}, function () {
+
+		});
+	};
+
+	$scope.deleteUser = function (user) {
+		SweetAlert.swal({
+			title: $translate.instant("SWEET.TITLE"),
+			text: $translate.instant("SWEET.TEXT"),
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#DD6B55",
+			confirmButtonText: $translate.instant("SWEET.CONFIRM_BUTTON_TEXT"),
+			cancelButtonText: $translate.instant("SWEET.CANCEL_BUTTON_TEXT"),
+			closeOnConfirm: true,
+			closeOnCancel: true
+		},
+		function (isConfirm) {
+			if (isConfirm) {
+				let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+				UserService.deleteNewUser(user, headers, function (response) {
+					if (angular.isDefined(response.status) && response.status === 204) {
+						toaster.pop({
+							type: "success",
+							title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+							body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", { template: $translate.instant("SETTING.USER") }),
+							showCloseButton: true,
+						});
+						$scope.getAllNewUsers();
+					} else {
+						toaster.pop({
+							type: "error",
+							title: $translate.instant("TOASTER.ERROR_DELETE_BODY", { template: $translate.instant("SETTING.USER") }),
+							body: $translate.instant(response.data.description),
+							showCloseButton: true,
+						});
+					}
+				});
+			}
+		});
+	};
+
+	$scope.getAllNewUsers();
+	$scope.getAllPrivileges();
+});
+
 
 app.controller('ModalAddUserCtrl', function ($scope, $uibModalInstance, params) {
 
@@ -321,6 +438,45 @@ app.controller('ModalChangePasswordCtrl', function ($scope, $uibModalInstance, p
 	$scope.user = params.user;
 
 	$scope.ok = function () {
+		$uibModalInstance.close($scope.user);
+	};
+
+	$scope.cancel = function () {
+		$uibModalInstance.dismiss('cancel');
+	};
+});
+
+app.controller('ModalApproveUserCtrl', function ($scope, $uibModalInstance, params) {
+
+	$scope.operation = "USER.APPROVE_USER";
+	$scope.privileges = params.privileges;
+	$scope.user = {
+		...params.user,
+		is_admin: false,
+		is_read_only: false,
+		account_expiration_datetime:moment().add(1,'years'),
+        password_expiration_datetime:moment().add(1,'years')
+	};
+	$scope.dtOptions = {
+        locale:{
+            format: 'YYYY-MM-DD HH:mm:ss',
+            applyLabel: "OK",
+            cancelLabel: "Cancel",
+        },
+		drops: "up",
+        timePicker: true,
+        timePicker24Hour: true,
+        timePickerIncrement: 15,
+        singleDatePicker: true,
+    };
+	$scope.ok = function () {
+		if ($scope.user.is_admin) {
+			$scope.user.privilege_id = undefined;
+		}else {
+			$scope.user.is_read_only = undefined;
+		}
+		$scope.user.account_expiration_datetime = $scope.user.account_expiration_datetime.format().slice(0,19);
+        $scope.user.password_expiration_datetime = $scope.user.password_expiration_datetime.format().slice(0,19);
 		$uibModalInstance.close($scope.user);
 	};
 

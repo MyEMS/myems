@@ -72,6 +72,46 @@ app.factory('UserService', function($http) {
             }, function (response) {
                 callback(response);
             });
+        },
+        deleteNewUser: function(user, headers, callback) {  
+            $http.delete(getAPI()+'users/new/'+user.id, {headers})  
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        editNewUser: function(user, headers, callback) {  
+            $http.put(getAPI()+'users/new/'+user.id, {"data":user}, {headers})  
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        getAllNewUsers: function(headers, callback) {  
+            $http.get(getAPI()+'users/new', {headers})  
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            }); 
+        },
+        getNewUser: function(id, headers, callback) {  
+            $http.get(getAPI()+'users/new/'+id, {headers})  
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            }); 
+        },
+        approveUser: function(user, headers, callback){
+            $http.post(getAPI()+'users/approve', {"data":user}, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         }
     };
 });  

@@ -600,7 +600,9 @@ function config($translateProvider) {
             },
             USER: {
                 USER_LIST: 'User List',
+                NEW_USER_LIST: 'New User List',
                 PRIVILEGE_LIST: 'Privilege List',
+                APPROVE_USER: 'Approve User',
                 ADD_USER: 'Add User',
                 EDIT_USER: 'Edit User',
                 PRIVILEGE: 'Privilege',
@@ -1778,7 +1780,9 @@ function config($translateProvider) {
             },
             USER: {
                 USER_LIST: '用户列表',
+                NEW_USER_LIST: '新用户列表',
                 PRIVILEGE_LIST: '权限列表',
+                APPROVE_USER: '审核用户',
                 ADD_USER: '添加用户',
                 EDIT_USER: '编辑用户',
                 PRIVILEGE: '权限',
@@ -2932,7 +2936,9 @@ function config($translateProvider) {
             },
             USER: {
                 USER_LIST: 'Benutzerliste',
+                NEW_USER_LIST: 'Neue Benutzerliste',
                 PRIVILEGE_LIST: 'Berechtigungsliste',
+                APPROVE_USER: 'Benutzer genehmigen',
                 ADD_USER: 'Nutzer hinzufügen',
                 EDIT_USER: 'Benutzer bearbeiten',
                 PRIVILEGE: 'Behörde',

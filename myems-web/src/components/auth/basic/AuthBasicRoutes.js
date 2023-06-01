@@ -14,6 +14,7 @@ import ConfirmMail from '../../MyEMS/auth/basic/ConfirmMail';
 import LockScreen from './LockScreen';
 import ChangePassword from '../../MyEMS/auth/basic/ChangePassword';
 import RegisterAccount from '../../MyEMS/auth/basic/RegisterAccount';
+import SentRegisterEmailMessage from '../../MyEMS/auth/basic/SentRegisterEmailMessage';
 
 const AuthBasicRoutes = ({ match: { url } }) => (
   <Switch>
@@ -26,6 +27,7 @@ const AuthBasicRoutes = ({ match: { url } }) => (
     <Route path={`${url}/lock-screen`} exact component={LockScreen} />
     <Route path={`${url}/change-password`} exact component={ChangePassword} />
     <Route path={`${url}/register-account`} exact component={RegisterAccount} />
+    <Route path={`${url}/sent-register-email`} exact component={SentRegisterEmailMessage} />
 
     {/*Redirect*/}
     <Redirect to="/errors/404" />

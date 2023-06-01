@@ -183,7 +183,7 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
       <Row className="justify-content-center align-items-center">
         <Col xs="auto">
           {t('New to MyEMS')}?&nbsp;
-          <Link className="fs--1" to={`/authentication/${layout}/register-account`}>
+          <Link className="fs--1" to={`/authentication/${layout}/sent-register-email`}>
             {t('Create an account')}
           </Link>
         </Col>
