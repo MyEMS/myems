@@ -1143,7 +1143,7 @@ class MeterCommandCollection:
         cnx.close()
 
         resp.status = falcon.HTTP_201
-        resp.location = '/spaces/' + str(id_) + '/commands/' + str(command_id)
+        resp.location = '/meters/' + str(id_) + '/commands/' + str(command_id)
 
 
 class MeterCommandItem:
