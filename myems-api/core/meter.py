@@ -534,6 +534,19 @@ class MeterItem:
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_POINTS')
 
+        # check relation with command
+        cursor.execute(" SELECT command_id "
+                       " FROM tbl_meters_commands "
+                       " WHERE meter_id = %s ",
+                       (id_,))
+        rows_commands = cursor.fetchall()
+        if rows_commands is not None and len(rows_commands) > 0:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_COMMANDS')
+
         # check relation with energy flow diagram links
         cursor.execute(" SELECT id "
                        " FROM tbl_energy_flow_diagrams_links "
