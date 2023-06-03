@@ -6,7 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 ### Added
 - added bind command to meter feature to myems-api and myems-admin
-- 
+- added spaces-commands actions to myems-api
+
 ### Changed
 
 ### Fixed

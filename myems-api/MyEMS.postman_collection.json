@@ -8414,15 +8414,101 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/spaces/1/workingcalendars/6",
+									"raw": "{{base_url}}/spaces/1/commands/6",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"spaces",
 										"1",
-										"workingcalendars",
+										"commands",
 										"6"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Commands of a Space",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/spaces/1/commands",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"commands"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Bind a Command to a Space",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "4e34d61790be5ef7e66ace3ecbd4c485881f825bfe05b7a9b2460a3770833f070330eaa1b74e81ba40f231eaaeb249c3a6ca9e5375e92ad4577bf80a21aa72dc",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"command_id\":1}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/spaces/1/commands",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"commands"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE Unbind a Command from Space",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "4e34d61790be5ef7e66ace3ecbd4c485881f825bfe05b7a9b2460a3770833f070330eaa1b74e81ba40f231eaaeb249c3a6ca9e5375e92ad4577bf80a21aa72dc",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/spaces/1/commands/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"commands",
+										"1"
 									]
 								}
 							},

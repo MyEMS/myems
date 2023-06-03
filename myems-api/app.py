@@ -438,6 +438,10 @@ api.add_route('/spaces/{id_}/workingcalendars',
               space.SpaceWorkingCalendarCollection())
 api.add_route('/spaces/{id_}/workingcalendars/{wcid}',
               space.SpaceWorkingCalendarItem())
+api.add_route('/spaces/{id_}/commands',
+              space.SpaceCommandCollection())
+api.add_route('/spaces/{id_}/commands/{cid}',
+              space.SpaceCommandItem())
 api.add_route('/spaces/tree',
               space.SpaceTreeCollection())
 
