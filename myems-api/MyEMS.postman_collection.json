@@ -4834,6 +4834,94 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "GET All Commands associated with Meter ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/meters/1/commands",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"meters",
+										"1",
+										"commands"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Bind Command to Meter",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "aa5fdf44687dc8c9bc537db7bc8cc90090ad6ccb10f95e1da24faadaf8f2e78df00f9a42691f3c8e974f8af77b46b38cb5d81831a0fe3a55c01e7cb01b848196",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"command_id\":3}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/meters/1/commands",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"meters",
+										"1",
+										"commands"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE Unbind Command from Meter",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "aa5fdf44687dc8c9bc537db7bc8cc90090ad6ccb10f95e1da24faadaf8f2e78df00f9a42691f3c8e974f8af77b46b38cb5d81831a0fe3a55c01e7cb01b848196",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/meters/1/commands/3",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"meters",
+										"1",
+										"commands",
+										"3"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
