@@ -69,7 +69,7 @@
                                 <input ng-model="b.price" class="form-control input-sm">
                             </td>
                             <td class="text-center sm">
-                                <a class="btn btn-primary btn-rounded btn-xs" ng-click="add(b)" >{{'SETTING.ADD' | translate}}</a>
+                                <a class="btn btn-primary btn-rounded btn-xs" ng-disabled="!(b.start_amount && b.end_amount && b.price)" ng-click="add(b)" >{{'SETTING.ADD' | translate}}</a>
                             </td>
                         </tr>
                     </thead>
@@ -457,6 +457,6 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
-        <button type="button" class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
+        <button type="button" ng-disabled="!((tariff.tariff_type === 'block' && tariff.name && tariff.energy_category.id && tariff.unit_of_price) || (tariff.tariff_type === 'timeofuse' && tariff.name && tariff.energy_category.id && tariff.unit_of_price && timeofuse.length > 0))" class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
     </div>
 </div>
