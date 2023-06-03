@@ -768,6 +768,7 @@ app
                                                     'app/services/settings/shopfloor/shopfloor.service.js',
                                                     'app/services/settings/sensor/sensor.service.js',
                                                     'app/services/settings/workingcalendar/workingcalendar.service.js',
+                                                    'app/services/settings/command/command.service.js',
                                                     'app/services/settings/space/spacemeter.service.js',
                                                     'app/services/settings/space/spaceequipment.service.js',
                                                     'app/services/settings/space/spacecombinedequipment.service.js',
@@ -777,6 +778,7 @@ app
                                                     'app/services/settings/space/spacepoint.service.js',
                                                     'app/services/settings/space/spacesensor.service.js',
                                                     'app/services/settings/space/spaceworkingcalendar.service.js',
+                                                    'app/services/settings/space/spacecommand.service.js',
                                                     'app/controllers/settings/space/space.controller.js',
                                                     'app/controllers/settings/space/spacemeter.controller.js',
                                                     'app/controllers/settings/space/spaceequipment.controller.js',
@@ -788,6 +790,7 @@ app
                                                     'app/controllers/settings/space/spacesensor.controller.js',
                                                     'app/controllers/settings/space/space.master.controller.js',
                                                     'app/controllers/settings/space/spaceworkingcalendar.controller.js',
+                                                    'app/controllers/settings/space/spacecommand.controller.js',
                                                 ]
                                             }]);
                                         }
