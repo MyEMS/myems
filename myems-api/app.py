@@ -285,6 +285,10 @@ api.add_route('/meters/{id_}/points',
               meter.MeterPointCollection())
 api.add_route('/meters/{id_}/points/{pid}',
               meter.MeterPointItem())
+api.add_route('/meters/{id_}/commands',
+              meter.MeterCommandCollection())
+api.add_route('/meters/{id_}/commands/{cid}',
+              meter.MeterCommandItem())
 
 api.add_route('/microgrids',
               microgrid.MicrogridCollection())

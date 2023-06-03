@@ -589,14 +589,17 @@ app
                                                     'app/services/settings/meter/offlinemeterfile.service.js',
                                                     'app/services/settings/meter/virtualmeter.service.js',
                                                     'app/services/settings/meter/meterpoint.service.js',
+                                                    'app/services/settings/meter/metercommand.service.js',
                                                     'app/services/settings/datasource/datasource.service.js',
                                                     'app/services/settings/datasource/point.service.js',
+                                                    'app/services/settings/command/command.service.js',
                                                     'app/controllers/settings/meter/meter.master.controller.js',
                                                     'app/controllers/settings/meter/meter.controller.js',
                                                     'app/controllers/settings/meter/offlinemeter.controller.js',
                                                     'app/controllers/settings/meter/offlinemeterfile.controller.js',
                                                     'app/controllers/settings/meter/virtualmeter.controller.js',
-                                                    'app/controllers/settings/meter/meterpoint.controller.js'
+                                                    'app/controllers/settings/meter/meterpoint.controller.js',
+                                                    'app/controllers/settings/meter/metercommand.controller.js',
                                                 ]
                                             }]);
                                         }
