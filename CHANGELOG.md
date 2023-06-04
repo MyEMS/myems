@@ -7,7 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - added bind command to meter feature to myems-api and myems-admin
 - added bind command to space feature to myems-api and myems-admin
-- 
+- added forgot pssword function to myems-api
 ### Changed
 
 ### Fixed
