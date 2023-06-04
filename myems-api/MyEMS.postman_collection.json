@@ -10525,7 +10525,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create New User",
+							"name": "POST Create New User (by Administrator)",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -10901,7 +10901,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"token\":\"100d4d9f1a262b3169bf5ca49d66121823856bec4d6b18b09ddeb0afbc14207246de906705e8788ae42633095eb1cad2eb991cd96f73b885cfa0b93569c1f34e\", \"recipient_email\":\"demo@myems.io\", \"subject\":\"Forgot Password\", \"message\":\"demo message\", \"scheduled_datetime\":\"2023-05-24T11:10:53\", \"created_datetime\":\"2023-05-24T11:10:53\"}}"
+									"raw": "{\"data\":{\"token\":\"f2f1956d1951a9ba7cabb33307b8beaa4c252434aa1378a4766133a46eb1b5c28cb28da7120795596b494f4000a5a718289f20382120ca455beafde74551851a\", \"recipient_email\":\"demo@myems.io\", \"subject\":\"Forgot Password\", \"message\":\"demo message\", \"scheduled_datetime\":\"2023-05-24T11:10:53\", \"created_datetime\":\"2023-05-24T11:10:53\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/users/emailmessages",
@@ -11044,6 +11044,186 @@
 										"users",
 										"emailmessages",
 										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Create New Register User",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"demo1\", \"display_name\":\"Demo1\", \"email\":\"demo1@myems.io\", \"password\":\"!MyEMS1\", \"token\":\"f2f1956d1951a9ba7cabb33307b8beaa4c252434aa1378a4766133a46eb1b5c28cb28da7120795596b494f4000a5a718289f20382120ca455beafde74551851a\"}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/users/newusers",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"newusers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All New Register Users",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "TOKEN",
+										"value": "78db9827ed65729c4b3ba7dc3acc39913d50d24909a29b6c779e46d31cab47cba2a64ce0c6cabbffad712857317463af38c5699a04e2f4a7ba3b19860de767a0",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/users/newusers",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"newusers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET a New Register User by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "TOKEN",
+										"value": "78db9827ed65729c4b3ba7dc3acc39913d50d24909a29b6c779e46d31cab47cba2a64ce0c6cabbffad712857317463af38c5699a04e2f4a7ba3b19860de767a0",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/users/newusers/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"newusers",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Update a New Register User",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "TOKEN",
+										"value": "78db9827ed65729c4b3ba7dc3acc39913d50d24909a29b6c779e46d31cab47cba2a64ce0c6cabbffad712857317463af38c5699a04e2f4a7ba3b19860de767a0",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"demo2\", \"display_name\":\"Demo2\", \"email\":\"demo2@myems.io\"}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/users/newusers/2",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"newusers",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a New Register User",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "TOKEN",
+										"value": "8f788e66f2f5df1029eeffa46f3aafb800b8a96db2cd3821d862d2d569188e92efdf44badb6863668f9cc1b73d3042faed173def0f00dcc89d092014e9a52ea0",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/users/newusers/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"newusers",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Approve a New Register User (by Administrator)",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "TOKEN",
+										"value": "78db9827ed65729c4b3ba7dc3acc39913d50d24909a29b6c779e46d31cab47cba2a64ce0c6cabbffad712857317463af38c5699a04e2f4a7ba3b19860de767a0",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"is_admin\":true, \"is_read_only\":false, \"privilege_id\":1, \"account_expiration_datetime\":\"2024-05-31T16:00:00\", \"password_expiration_datetime\":\"2024-05-31T16:00:00\"}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/users/newusers/2/approve",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"newusers",
+										"2",
+										"approve"
 									]
 								}
 							},

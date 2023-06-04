@@ -548,6 +548,12 @@ api.add_route('/users/emailmessages',
               user.EmailMessageCollection())
 api.add_route('/users/emailmessages/{id_}',
               user.EmailMessageItem())
+api.add_route('/users/newusers',
+              user.NewUserCollection())
+api.add_route('/users/newusers/{id_}',
+              user.NewUserItem())
+api.add_route('/users/newusers/{id_}/approve',
+              user.NewUserApprove())
 
 api.add_route('/virtualmeters',
               virtualmeter.VirtualMeterCollection())
