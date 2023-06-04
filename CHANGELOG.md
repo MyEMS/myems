@@ -14,7 +14,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed save button issue of tariff dialog in myems-admin
 
 ### Removed
-
+- removed tariff type 'block'(or tiered) from database, myems-api and myems-admin
+- 
 ## [v3.4.0] - 2023-06-01
 ### Added
 - added tbl_commands to myems_system_db database
