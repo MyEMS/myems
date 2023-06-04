@@ -166,7 +166,6 @@ app.controller('ModalAddTariffCtrl', function($scope, $timeout, $uibModalInstanc
 	$scope.disable=false;
 	$scope.categories = params.categories;
 	$scope.timeofuse = [];
-	$scope.block=[];
 	$scope.tariff={valid_from:moment(),valid_through:moment()};
 	$scope.t={};
 	$scope.t.start_hour = '00';
@@ -197,8 +196,6 @@ app.controller('ModalAddTariffCtrl', function($scope, $timeout, $uibModalInstanc
 	$scope.ok = function() {
 		if($scope.tariff.tariff_type=='timeofuse'){
 			$scope.tariff.timeofuse=$scope.timeofuse;
-		}else if($scope.tariff.tariff_type=='block'){
-			$scope.tariff.block=$scope.block;
 		}
 		$scope.tariff.valid_from=$scope.tariff.valid_from.format().slice(0,19);
 		$scope.tariff.valid_through=$scope.tariff.valid_through.format().slice(0,19);
@@ -233,30 +230,13 @@ app.controller('ModalAddTariffCtrl', function($scope, $timeout, $uibModalInstanc
 			$timeout(function() {
 				angular.element('#touTable').trigger('footable_redraw');
 			}, 10);
-		} else if($scope.tariff.tariff_type=='block'){
-			if ($scope.block.length > 0) {
-				$scope.block.unshift(angular.copy(t));
-			} else {
-				$scope.block.push(angular.copy(t));
-			}
-			$scope.b = {};
-
-			$timeout(function() {
-				angular.element('#blockTable').trigger('footable_redraw');
-			}, 10);
 		}
-
 	};
 	$scope.delete = function(key) {
 		if($scope.tariff.tariff_type=='timeofuse'){
 			$scope.timeofuse.splice(key, 1);
 			$timeout(function() {
 				angular.element('#touTable').trigger('footable_redraw');
-			}, 10);
-		}else if($scope.tariff.tariff_type=='block'){
-			$scope.block.splice(key, 1);
-			$timeout(function() {
-				angular.element('#blockTable').trigger('footable_redraw');
 			}, 10);
 		}
 	};
@@ -268,7 +248,6 @@ app.controller('ModalEditTariffCtrl', function($scope, $timeout, $uibModalInstan
 	$scope.tariff = params.tariff;
 	$scope.categories = params.categories;
 	$scope.timeofuse = $scope.tariff.timeofuse;
-	$scope.block=$scope.tariff.block;
 	$scope.t={};
 	$scope.t.start_hour = '00';
 	$scope.t.start_min = '00';
@@ -298,8 +277,6 @@ app.controller('ModalEditTariffCtrl', function($scope, $timeout, $uibModalInstan
 	$timeout(function() {
 		if ($scope.tariff.tariff_type == 'timeofuse') {
 			angular.element('#touTable').trigger('footable_redraw');
-		} else if ($scope.tariff.tariff_type == 'block') {
-			angular.element('#blockTable').trigger('footable_redraw');
 		}
 	}, 100);
 
@@ -338,17 +315,6 @@ app.controller('ModalEditTariffCtrl', function($scope, $timeout, $uibModalInstan
 			$timeout(function() {
 				angular.element('#touTable').trigger('footable_redraw');
 			}, 10);
-		} else if($scope.tariff.tariff_type=='block'){
-			if ($scope.block.length > 0) {
-				$scope.block.unshift(angular.copy(t));
-			} else {
-				$scope.block.push(angular.copy(t));
-			}
-			$scope.b = {};
-
-			$timeout(function() {
-				angular.element('#blockTable').trigger('footable_redraw');
-			}, 10);
 		}
 	};
 
@@ -357,11 +323,6 @@ app.controller('ModalEditTariffCtrl', function($scope, $timeout, $uibModalInstan
 			$scope.timeofuse.splice(key, 1);
 			$timeout(function() {
 				angular.element('#touTable').trigger('footable_redraw');
-			}, 10);
-		}else if($scope.tariff.tariff_type=='block'){
-			$scope.block.splice(key, 1);
-			$timeout(function() {
-				angular.element('#blockTable').trigger('footable_redraw');
 			}, 10);
 		}
 	};

@@ -1110,7 +1110,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_tariffs` (
   `name` VARCHAR(128) NOT NULL,
   `uuid` CHAR(36) NOT NULL,
   `energy_category_id` BIGINT NOT NULL,
-  `tariff_type` VARCHAR(45) NOT NULL COMMENT 'Tariff Type: timeofuse - Time of Use Pricing分时费率（单一费率按平设置）\nblock - Block Pricing 分量阶梯费率\n',
+  `tariff_type` VARCHAR(45) NOT NULL COMMENT 'Tariff Type: timeofuse - Time of Use Pricing分时费率(单一费率按平设置)\n',
   `unit_of_price` VARCHAR(45) NOT NULL,
   `valid_from_datetime_utc` DATETIME NOT NULL,
   `valid_through_datetime_utc` DATETIME NOT NULL,
@@ -1132,20 +1132,6 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_tariffs_timeofuses` (
   `price` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_tariffs_timeofuses_index_1` ON  `myems_system_db`.`tbl_tariffs_timeofuses`   (`tariff_id`, `start_time_of_day`);
-
--- ---------------------------------------------------------------------------------------------------------------------
--- Table `myems_system_db`.`tbl_tariffs_blocks`
--- ---------------------------------------------------------------------------------------------------------------------
-DROP TABLE IF EXISTS `myems_system_db`.`tbl_tariffs_blocks` ;
-
-CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_tariffs_blocks` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `tariff_id` BIGINT NOT NULL,
-  `start_amount` DECIMAL(18, 3) NOT NULL,
-  `end_amount` DECIMAL(18, 3) NOT NULL,
-  `price` DECIMAL(18, 3) NOT NULL,
-  PRIMARY KEY (`id`));
-CREATE INDEX `tbl_tariffs_blocks_index_1` ON  `myems_system_db`.`tbl_tariffs_blocks`   (`tariff_id`, `start_amount`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_stores`
@@ -1563,7 +1549,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '3.4.0', '2023-06-01');
+(1, '3.5.0RC', '2023-06-06');
 
 COMMIT;
 
