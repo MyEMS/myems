@@ -9309,38 +9309,6 @@
 							"response": []
 						},
 						{
-							"name": "POST Create a Tariff (Tiered)",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
-									},
-									{
-										"key": "Token",
-										"value": "dca233ce58b2bf881e862e994f392dd27dd286c6135eff14da111137023b6c5625864300b269048036dcec310d4f61fa89021e5a3462512de2852493227187a0",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"new阶梯电价\",\"energy_category\":{\"id\":1}, \"tariff_type\":\"block\", \"unit_of_price\":\"元/千瓦时\", \"valid_from\":\"2020-01-01T00:00:00\", \"valid_through\":\"2021-01-01T00:00:00\", \"block\":[{\"start_amount\":\"0\", \"end_amount\":\"10000\", \"price\":\"0.567\"}, {\"start_amount\":\"10000\", \"end_amount\":\"30000\", \"price\":\"0.678\"}, {\"start_amount\":\"30000\", \"end_amount\":\"100000\", \"price\":\"0.789\"}]}}"
-								},
-								"url": {
-									"raw": "{{base_url}}/tariffs",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"tariffs"
-									]
-								}
-							},
-							"response": []
-						},
-						{
 							"name": "GET a Tariff by ID",
 							"request": {
 								"method": "GET",
@@ -9353,39 +9321,6 @@
 									"path": [
 										"tariffs",
 										"1"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "PUT Update a Tariff (Tiered)",
-							"request": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
-									},
-									{
-										"key": "Token",
-										"value": "dca233ce58b2bf881e862e994f392dd27dd286c6135eff14da111137023b6c5625864300b269048036dcec310d4f61fa89021e5a3462512de2852493227187a0",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"new阶梯电价\",\"energy_category\":{\"id\":1}, \"tariff_type\":\"block\", \"unit_of_price\":\"元/千瓦时\", \"valid_from\":\"2020-01-01T00:00:00\", \"valid_through\":\"2021-01-01T00:00:00\", \"block\":[{\"start_amount\":\"0\", \"end_amount\":\"20000\", \"price\":\"0.567\"}, {\"start_amount\":\"20000\", \"end_amount\":\"30000\", \"price\":\"0.678\"}, {\"start_amount\":\"30000\", \"end_amount\":\"100000\", \"price\":\"0.789\"}]}}"
-								},
-								"url": {
-									"raw": "{{base_url}}/tariffs/17",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"tariffs",
-										"17"
 									]
 								}
 							},

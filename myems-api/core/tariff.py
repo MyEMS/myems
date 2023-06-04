@@ -53,22 +53,7 @@ class TariffCollection:
                                "valid_from": valid_from.strftime('%Y-%m-%dT%H:%M:%S'),
                                "valid_through": valid_through.strftime('%Y-%m-%dT%H:%M:%S')}
 
-                if meta_result['tariff_type'] == 'block':
-                    meta_result['block'] = list()
-                    query = (" SELECT start_amount, end_amount, price "
-                             " FROM tbl_tariffs_blocks "
-                             " WHERE tariff_id = %s "
-                             " ORDER BY id ")
-                    cursor.execute(query, (meta_result['id'],))
-                    rows_block = cursor.fetchall()
-                    if rows_block is not None and len(rows_block) > 0:
-                        for row_block in rows_block:
-                            meta_data = {"start_amount": row_block[0],
-                                         "end_amount": row_block[1],
-                                         "price": row_block[2]}
-                            meta_result['block'].append(meta_data)
-
-                elif meta_result['tariff_type'] == 'timeofuse':
+                if meta_result['tariff_type'] == 'timeofuse':
                     meta_result['timeofuse'] = list()
                     query = (" SELECT start_time_of_day, end_time_of_day, peak_type, price "
                              " FROM tbl_tariffs_timeofuses "
@@ -126,22 +111,18 @@ class TariffCollection:
         energy_category_id = new_values['data']['energy_category']['id']
 
         if 'tariff_type' not in new_values['data'].keys() \
-           or str.strip(new_values['data']['tariff_type']) not in ('block', 'timeofuse'):
+           or str.strip(new_values['data']['tariff_type']) not in ('timeofuse',):
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_TARIFF_TYPE')
         tariff_type = str.strip(new_values['data']['tariff_type'])
 
-        if new_values['data']['tariff_type'] == 'block':
-            if new_values['data']['block'] is None:
-                raise falcon.HTTPError(status=falcon.HTTP_400,
-                                       title='API.BAD_REQUEST',
-                                       description='API.INVALID_TARIFF_BLOCK_PRICING')
-        elif new_values['data']['tariff_type'] == 'timeofuse':
+        if new_values['data']['tariff_type'] == 'timeofuse':
             if new_values['data']['timeofuse'] is None:
                 raise falcon.HTTPError(status=falcon.HTTP_400,
                                        title='API.BAD_REQUEST',
                                        description='API.INVALID_TARIFF_TIME_OF_USE_PRICING')
+
         if 'unit_of_price' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['unit_of_price'], str) or \
                 len(str.strip(new_values['data']['unit_of_price'])) == 0:
@@ -195,16 +176,8 @@ class TariffCollection:
                                  valid_through))
         new_id = cursor.lastrowid
         cnx.commit()
-        # insert block prices
-        if tariff_type == 'block':
-            for block in new_values['data']['block']:
-                add_block = (" INSERT INTO tbl_tariffs_blocks "
-                             "             (tariff_id, start_amount, end_amount, price) "
-                             " VALUES (%s, %s, %s, %s) ")
-                cursor.execute(add_block, (new_id, block['start_amount'], block['end_amount'], block['price']))
-                cnx.commit()
         # insert time of use prices
-        elif tariff_type == 'timeofuse':
+        if tariff_type == 'timeofuse':
             for timeofuse in new_values['data']['timeofuse']:
                 add_timeofuse = (" INSERT INTO tbl_tariffs_timeofuses "
                                  "             (tariff_id, start_time_of_day, end_time_of_day, peak_type, price) "
@@ -275,22 +248,7 @@ class TariffItem:
                   "valid_from": valid_from.strftime('%Y-%m-%dT%H:%M:%S'),
                   "valid_through": valid_through.strftime('%Y-%m-%dT%H:%M:%S')}
 
-        if result['tariff_type'] == 'block':
-            result['block'] = list()
-            query = (" SELECT start_amount, end_amount, price "
-                     " FROM tbl_tariffs_blocks "
-                     " WHERE tariff_id = %s "
-                     " ORDER BY id")
-            cursor.execute(query, (result['id'],))
-            rows_block = cursor.fetchall()
-            if rows_block is not None and len(rows_block) > 0:
-                for row_block in rows_block:
-                    meta_data = {"start_amount": row_block[0],
-                                 "end_amount": row_block[1],
-                                 "price": row_block[2]}
-                    result['block'].append(meta_data)
-
-        elif result['tariff_type'] == 'timeofuse':
+        if result['tariff_type'] == 'timeofuse':
             result['timeofuse'] = list()
             query = (" SELECT start_time_of_day, end_time_of_day, peak_type, price "
                      " FROM tbl_tariffs_timeofuses"
@@ -330,16 +288,6 @@ class TariffItem:
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TARIFF_NOT_FOUND')
-
-        cursor.execute(" SELECT id "
-                       " FROM tbl_tariffs_blocks "
-                       " WHERE tariff_id = %s ", (id_,))
-        rows = cursor.fetchall()
-        if rows is not None and len(rows) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.TARIFF_NOT_EMPTY')
 
         cursor.execute(" SELECT id "
                        " FROM tbl_tariffs_timeofuses "
@@ -403,18 +351,13 @@ class TariffItem:
         energy_category_id = new_values['data']['energy_category']['id']
 
         if 'tariff_type' not in new_values['data'].keys() \
-           or str.strip(new_values['data']['tariff_type']) not in ('block', 'timeofuse'):
+           or str.strip(new_values['data']['tariff_type']) not in ('timeofuse',):
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_TARIFF_TYPE')
         tariff_type = str.strip(new_values['data']['tariff_type'])
 
-        if new_values['data']['tariff_type'] == 'block':
-            if new_values['data']['block'] is None:
-                raise falcon.HTTPError(status=falcon.HTTP_400,
-                                       title='API.BAD_REQUEST',
-                                       description='API.INVALID_TARIFF_BLOCK_PRICING')
-        elif new_values['data']['tariff_type'] == 'timeofuse':
+        if new_values['data']['tariff_type'] == 'timeofuse':
             if new_values['data']['timeofuse'] is None:
                 raise falcon.HTTPError(status=falcon.HTTP_400,
                                        title='API.BAD_REQUEST',
@@ -478,31 +421,7 @@ class TariffItem:
         cnx.commit()
 
         # update prices of the tariff
-        if tariff_type == 'block':
-            if 'block' not in new_values['data'].keys() or new_values['data']['block'] is None:
-                cursor.close()
-                cnx.close()
-                raise falcon.HTTPError(status=falcon.HTTP_400,
-                                       title='API.BAD_REQUEST',
-                                       description='API.INVALID_TARIFF_BLOCK_PRICING')
-            else:
-                # remove all (possible) exist prices
-                cursor.execute(" DELETE FROM tbl_tariffs_blocks "
-                               " WHERE tariff_id = %s ",
-                               (id_,))
-
-                cursor.execute(" DELETE FROM tbl_tariffs_timeofuses "
-                               " WHERE tariff_id = %s ",
-                               (id_,))
-                cnx.commit()
-
-                for block in new_values['data']['block']:
-                    cursor.execute(" INSERT INTO tbl_tariffs_blocks "
-                                   "             (tariff_id, start_amount, end_amount, price) "
-                                   " VALUES (%s, %s, %s, %s) ",
-                                   (id_, block['start_amount'], block['end_amount'], block['price']))
-                    cnx.commit()
-        elif tariff_type == 'timeofuse':
+        if tariff_type == 'timeofuse':
             if 'timeofuse' not in new_values['data'].keys() or new_values['data']['timeofuse'] is None:
                 cursor.close()
                 cnx.close()
@@ -511,10 +430,6 @@ class TariffItem:
                                        description='API.INVALID_TARIFF_TIME_OF_USE_PRICING')
             else:
                 # remove all (possible) exist prices
-                cursor.execute(" DELETE FROM tbl_tariffs_blocks "
-                               " WHERE tariff_id = %s ",
-                               (id_,))
-
                 cursor.execute(" DELETE FROM tbl_tariffs_timeofuses "
                                " WHERE tariff_id = %s ",
                                (id_,))
