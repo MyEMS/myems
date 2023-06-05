@@ -12,6 +12,9 @@ DELETE FROM myems_system_db.tbl_tariffs WHERE tariff_type  = 'block';
 
 DROP TABLE IF EXISTS `myems_system_db`.`tbl_tariffs_blocks` ;
 
+ALTER TABLE `myems_system_db`.`tbl_microgrids` ADD `postal_code` VARCHAR(16) NOT NULL AFTER `address`;
+
+
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='3.5.0', release_date='2023-06-06' WHERE id=1;
 
