@@ -46,9 +46,9 @@ app.controller('MicrogridController', function(
     $scope.getAllMicrogridArchitectureTypes = function() {
         MicrogridArchitectureTypeService.getAllMicrogridArchitectureTypes(function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
-                $scope.architecturetypes = response.data;
+                $scope.microgridarchitecturetypes = response.data;
             } else {
-                $scope.architecturetypes = [];
+                $scope.microgridarchitecturetypes = [];
             }
         });
     };
@@ -56,9 +56,9 @@ app.controller('MicrogridController', function(
     $scope.getAllMicrogridOwnerTypes = function() {
         MicrogridOwnerTypeService.getAllMicrogridOwnerTypes(function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
-                $scope.ownertypes = response.data;
+                $scope.microgridownertypes = response.data;
             } else {
-                $scope.ownertypes = [];
+                $scope.microgridownertypes = [];
             }
         });
     };
@@ -72,8 +72,8 @@ app.controller('MicrogridController', function(
 				params: function() {
 					return {
 						microgrids:angular.copy($scope.microgrids),
-						architecturetypes: angular.copy($scope.architecturetypes),
-						ownertypes: angular.copy($scope.ownertypes),
+						microgridarchitecturetypes: angular.copy($scope.microgridarchitecturetypes),
+						microgridownertypes: angular.copy($scope.microgridownertypes),
 						costcenters: angular.copy($scope.costcenters),
 						contacts: angular.copy($scope.contacts),
 					};
@@ -82,6 +82,8 @@ app.controller('MicrogridController', function(
 		});
 		modalInstance.result.then(function(microgrid) {
 	    	microgrid.microgrid_type_id=microgrid.microgrid_type.id;
+			microgrid.architecture_type_id=microgrid.architecture_type.id;
+			microgrid.owner_type_id=microgrid.owner_type.id;
 			microgrid.cost_center_id=microgrid.cost_center.id;
 			microgrid.contact_id=microgrid.contact.id;
 			if (angular.isDefined(microgrid.is_input_counted) == false) {
@@ -120,8 +122,8 @@ app.controller('MicrogridController', function(
 				params: function() {
 					return {
 						microgrid: angular.copy(microgrid),
-						architecturetypes:angular.copy($scope.architecturetypes),
-						ownertypes:angular.copy($scope.ownertypes),
+						microgridarchitecturetypes:angular.copy($scope.microgridarchitecturetypes),
+						microgridownertypes:angular.copy($scope.microgridownertypes),
 						costcenters:angular.copy($scope.costcenters),
 						contacts:angular.copy($scope.contacts)
 					};
@@ -131,6 +133,8 @@ app.controller('MicrogridController', function(
 
 		modalInstance.result.then(function(modifiedMicrogrid) {
 	    	modifiedMicrogrid.microgrid_type_id=modifiedMicrogrid.microgrid_type.id;
+			modifiedMicrogrid.architecture_type_id=modifiedMicrogrid.architecture_type.id;
+			modifiedMicrogrid.owner_type_id=modifiedMicrogrid.owner_type.id;
 			modifiedMicrogrid.cost_center_id=modifiedMicrogrid.cost_center.id;
 			modifiedMicrogrid.contact_id=modifiedMicrogrid.contact.id;
 			if (angular.isDefined(microgrid.is_input_counted) == false) {
@@ -209,6 +213,8 @@ app.controller('ModalAddMicrogridCtrl', function($scope, $uibModalInstance,param
 
 	$scope.operation = "SETTING.ADD_MICROGRID";
 	$scope.microgridtypes=params.microgridtypes;
+	$scope.microgridarchitecturetypes=params.microgridarchitecturetypes;
+	$scope.microgridownertypes=params.microgridownertypes;
 	$scope.costcenters=params.costcenters;
 	$scope.contacts=params.contacts;
 	$scope.ok = function() {
@@ -223,8 +229,8 @@ app.controller('ModalAddMicrogridCtrl', function($scope, $uibModalInstance,param
 app.controller('ModalEditMicrogridCtrl', function($scope, $uibModalInstance, params) {
 	$scope.operation = "SETTING.EDIT_MICROGRID";
 	$scope.microgrid = params.microgrid;
-	$scope.architecturetypes=params.architecturetypes;
-	$scope.ownertypes=params.ownertypes;
+	$scope.microgridarchitecturetypes=params.microgridarchitecturetypes;
+	$scope.microgridownertypes=params.microgridownertypes;
 	$scope.costcenters=params.costcenters;
 	$scope.contacts=params.contacts;
 	$scope.ok = function() {
