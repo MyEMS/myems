@@ -718,16 +718,19 @@ app
                                                     'app/services/settings/datasource/point.service.js',
                                                     'app/services/settings/equipment/equipment.service.js',
                                                     'app/services/settings/meter/meter.service.js',
+                                                    'app/services/settings/command/command.service.js',
                                                     'app/services/settings/meter/offlinemeter.service.js',
                                                     'app/services/settings/meter/virtualmeter.service.js',
                                                     'app/services/settings/combinedequipment/combinedequipmentequipment.service.js',
                                                     'app/services/settings/combinedequipment/combinedequipmentmeter.service.js',
                                                     'app/services/settings/combinedequipment/combinedequipmentparameter.service.js',
+                                                    'app/services/settings/combinedequipment/combinedequipmentcommand.service.js',
                                                     'app/controllers/settings/combinedequipment/combinedequipment.master.controller.js',
                                                     'app/controllers/settings/combinedequipment/combinedequipment.controller.js',
                                                     'app/controllers/settings/combinedequipment/combinedequipmentequipment.controller.js',
                                                     'app/controllers/settings/combinedequipment/combinedequipmentmeter.controller.js',
-                                                    'app/controllers/settings/combinedequipment/combinedequipmentparameter.controller.js'
+                                                    'app/controllers/settings/combinedequipment/combinedequipmentparameter.controller.js',
+                                                    'app/controllers/settings/combinedequipment/combinedequipmentcommand.controller.js'
                                                 ]
                                             }]);
                                         }
