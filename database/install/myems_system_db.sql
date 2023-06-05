@@ -618,6 +618,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids` (
   `name` VARCHAR(255) NOT NULL,
   `uuid` CHAR(36) NOT NULL,
   `address` VARCHAR(255) NOT NULL,
+  `postal_code` VARCHAR(255) NOT NULL,
   `latitude` DECIMAL(9, 6) NOT NULL,
   `longitude` DECIMAL(9, 6) NOT NULL,
   `capacity` DECIMAL(18, 3) NOT NULL,
