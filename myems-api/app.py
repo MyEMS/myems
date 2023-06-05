@@ -251,6 +251,10 @@ api.add_route('/equipments/{id_}/virtualmeters',
               equipment.EquipmentVirtualMeterCollection())
 api.add_route('/equipments/{id_}/virtualmeters/{mid}',
               equipment.EquipmentVirtualMeterItem())
+api.add_route('/equipments/{id_}/commands',
+              equipment.EquipmentCommandCollection())
+api.add_route('/equipments/{id_}/commands/{cid}',
+              equipment.EquipmentCommandItem())
 
 api.add_route('/gateways',
               gateway.GatewayCollection())

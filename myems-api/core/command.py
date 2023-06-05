@@ -215,6 +215,19 @@ class CommandItem:
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_SPACES')
 
+        # check relation with equipment
+        cursor.execute(" SELECT equipment_id "
+                       " FROM tbl_equipments_commands "
+                       " WHERE command_id = %s ",
+                       (id_,))
+        rows_equipments = cursor.fetchall()
+        if rows_equipments is not None and len(rows_equipments) > 0:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_EQUIPMENTS')
+
         # todo: check relation with points
 
         cursor.execute(" DELETE FROM tbl_commands WHERE id = %s ", (id_,))
