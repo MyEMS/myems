@@ -5,13 +5,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
-
+- added bind command to meter feature to myems-api and myems-admin
+- added bind command to space feature to myems-api and myems-admin
+- added forgot pssword function to myems-api and myems-web
+- added user register function to myems-api
+- 
 ### Changed
 
 ### Fixed
+- fixed save button issue of tariff dialog in myems-admin
 
 ### Removed
-
+- removed tariff type 'block'(or tiered) from database, myems-api and myems-admin
+- 
 ## [v3.4.0] - 2023-06-01
 ### Added
 - added tbl_commands to myems_system_db database
@@ -29,11 +35,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added tbl_email_messages and tbl_email_message_sessions to myems_user_db database
 
 ### Changed
-- updated tranlations of myems-admin
+- updated translations of myems-admin
 - changed theme of BarChart and MultiTrendChart in myems-web
-- swapped cloumns color in dashboard of myems-web
-- compacted distribuition system in myems-web
-- updated supported protocols of datasoure in myems-api
+- swapped columns color in dashboard of myems-web
+- compacted distribution system in myems-web
+- updated supported protocols of datasource in myems-api
 
 ### Fixed
 - fixed HTTPError Deprecated Warning in myems-api

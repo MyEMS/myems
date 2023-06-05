@@ -6,6 +6,5 @@ app.constant('PEAK_TYPE',{
 	midpeak:'COMMON.TARIFF.MIDPEAK'
 });
 app.constant('TARIFF_TYPE',{
-	block:'SETTING.BLOCK',
 	timeofuse:'SETTING.TIMEOFUSE'
 });

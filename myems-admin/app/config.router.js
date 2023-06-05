@@ -589,14 +589,17 @@ app
                                                     'app/services/settings/meter/offlinemeterfile.service.js',
                                                     'app/services/settings/meter/virtualmeter.service.js',
                                                     'app/services/settings/meter/meterpoint.service.js',
+                                                    'app/services/settings/meter/metercommand.service.js',
                                                     'app/services/settings/datasource/datasource.service.js',
                                                     'app/services/settings/datasource/point.service.js',
+                                                    'app/services/settings/command/command.service.js',
                                                     'app/controllers/settings/meter/meter.master.controller.js',
                                                     'app/controllers/settings/meter/meter.controller.js',
                                                     'app/controllers/settings/meter/offlinemeter.controller.js',
                                                     'app/controllers/settings/meter/offlinemeterfile.controller.js',
                                                     'app/controllers/settings/meter/virtualmeter.controller.js',
-                                                    'app/controllers/settings/meter/meterpoint.controller.js'
+                                                    'app/controllers/settings/meter/meterpoint.controller.js',
+                                                    'app/controllers/settings/meter/metercommand.controller.js',
                                                 ]
                                             }]);
                                         }
@@ -765,6 +768,7 @@ app
                                                     'app/services/settings/shopfloor/shopfloor.service.js',
                                                     'app/services/settings/sensor/sensor.service.js',
                                                     'app/services/settings/workingcalendar/workingcalendar.service.js',
+                                                    'app/services/settings/command/command.service.js',
                                                     'app/services/settings/space/spacemeter.service.js',
                                                     'app/services/settings/space/spaceequipment.service.js',
                                                     'app/services/settings/space/spacecombinedequipment.service.js',
@@ -774,6 +778,7 @@ app
                                                     'app/services/settings/space/spacepoint.service.js',
                                                     'app/services/settings/space/spacesensor.service.js',
                                                     'app/services/settings/space/spaceworkingcalendar.service.js',
+                                                    'app/services/settings/space/spacecommand.service.js',
                                                     'app/controllers/settings/space/space.controller.js',
                                                     'app/controllers/settings/space/spacemeter.controller.js',
                                                     'app/controllers/settings/space/spaceequipment.controller.js',
@@ -785,6 +790,7 @@ app
                                                     'app/controllers/settings/space/spacesensor.controller.js',
                                                     'app/controllers/settings/space/space.master.controller.js',
                                                     'app/controllers/settings/space/spaceworkingcalendar.controller.js',
+                                                    'app/controllers/settings/space/spacecommand.controller.js',
                                                 ]
                                             }]);
                                         }

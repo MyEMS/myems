@@ -4583,6 +4583,94 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "GET All Commands associated with Meter ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/meters/1/commands",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"meters",
+										"1",
+										"commands"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Bind Command to Meter",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "aa5fdf44687dc8c9bc537db7bc8cc90090ad6ccb10f95e1da24faadaf8f2e78df00f9a42691f3c8e974f8af77b46b38cb5d81831a0fe3a55c01e7cb01b848196",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"command_id\":3}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/meters/1/commands",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"meters",
+										"1",
+										"commands"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE Unbind Command from Meter",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "aa5fdf44687dc8c9bc537db7bc8cc90090ad6ccb10f95e1da24faadaf8f2e78df00f9a42691f3c8e974f8af77b46b38cb5d81831a0fe3a55c01e7cb01b848196",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/meters/1/commands/3",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"meters",
+										"1",
+										"commands",
+										"3"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -7807,15 +7895,101 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/spaces/1/workingcalendars/6",
+									"raw": "{{base_url}}/spaces/1/commands/6",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"spaces",
 										"1",
-										"workingcalendars",
+										"commands",
 										"6"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Commands of a Space",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/spaces/1/commands",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"commands"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Bind a Command to a Space",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "4e34d61790be5ef7e66ace3ecbd4c485881f825bfe05b7a9b2460a3770833f070330eaa1b74e81ba40f231eaaeb249c3a6ca9e5375e92ad4577bf80a21aa72dc",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"command_id\":1}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/spaces/1/commands",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"commands"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE Unbind a Command from Space",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "4e34d61790be5ef7e66ace3ecbd4c485881f825bfe05b7a9b2460a3770833f070330eaa1b74e81ba40f231eaaeb249c3a6ca9e5375e92ad4577bf80a21aa72dc",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/spaces/1/commands/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"commands",
+										"1"
 									]
 								}
 							},
@@ -8616,38 +8790,6 @@
 							"response": []
 						},
 						{
-							"name": "POST Create a Tariff (Tiered)",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
-									},
-									{
-										"key": "Token",
-										"value": "dca233ce58b2bf881e862e994f392dd27dd286c6135eff14da111137023b6c5625864300b269048036dcec310d4f61fa89021e5a3462512de2852493227187a0",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"new阶梯电价\",\"energy_category\":{\"id\":1}, \"tariff_type\":\"block\", \"unit_of_price\":\"元/千瓦时\", \"valid_from\":\"2020-01-01T00:00:00\", \"valid_through\":\"2021-01-01T00:00:00\", \"block\":[{\"start_amount\":\"0\", \"end_amount\":\"10000\", \"price\":\"0.567\"}, {\"start_amount\":\"10000\", \"end_amount\":\"30000\", \"price\":\"0.678\"}, {\"start_amount\":\"30000\", \"end_amount\":\"100000\", \"price\":\"0.789\"}]}}"
-								},
-								"url": {
-									"raw": "{{base_url}}/tariffs",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"tariffs"
-									]
-								}
-							},
-							"response": []
-						},
-						{
 							"name": "GET a Tariff by ID",
 							"request": {
 								"method": "GET",
@@ -8660,39 +8802,6 @@
 									"path": [
 										"tariffs",
 										"1"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "PUT Update a Tariff (Tiered)",
-							"request": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
-									},
-									{
-										"key": "Token",
-										"value": "dca233ce58b2bf881e862e994f392dd27dd286c6135eff14da111137023b6c5625864300b269048036dcec310d4f61fa89021e5a3462512de2852493227187a0",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"new阶梯电价\",\"energy_category\":{\"id\":1}, \"tariff_type\":\"block\", \"unit_of_price\":\"元/千瓦时\", \"valid_from\":\"2020-01-01T00:00:00\", \"valid_through\":\"2021-01-01T00:00:00\", \"block\":[{\"start_amount\":\"0\", \"end_amount\":\"20000\", \"price\":\"0.567\"}, {\"start_amount\":\"20000\", \"end_amount\":\"30000\", \"price\":\"0.678\"}, {\"start_amount\":\"30000\", \"end_amount\":\"100000\", \"price\":\"0.789\"}]}}"
-								},
-								"url": {
-									"raw": "{{base_url}}/tariffs/17",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"tariffs",
-										"17"
 									]
 								}
 							},
@@ -9897,7 +10006,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create New User",
+							"name": "POST Create New User (by Administrator)",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -9909,14 +10018,14 @@
 									},
 									{
 										"key": "Token",
-										"value": "b422ef869a947eb8dd058f5c9464b11769db7be3232b327fb8a4edac28118df876a5d7d3ab1d8175ef81169126d01fbe3b38baa6da62edf4cbf49b2bef0ed9a7",
+										"value": "3a3cb44bc16dd56e0e2f4d76db5361c222b72a4f468fc7d7fdc3e08b81896ecc35a5e27ca37de5eeea8d871c548a00fb2264753f82b62187c58d2a4b9e126cc7",
 										"description": "Login to get a valid token",
 										"type": "text"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"albert1\", \"display_name\":\"Mr. Albert\", \"email\":\"albert1@myems.io\", \"is_admin\":false, \"privilege_id\":1, \"password\":\"!MyEMS1\", \"account_expiration_datetime\":\"2100-01-01T00:00:00\",\"password_expiration_datetime\":\"2100-01-01T00:00:00\"}}"
+									"raw": "{\"data\":{\"name\":\"demo\", \"display_name\":\"Demo\", \"email\":\"demo@myems.io\", \"is_admin\":false, \"privilege_id\":1, \"password\":\"!MyEMS1\", \"account_expiration_datetime\":\"2100-01-01T00:00:00\",\"password_expiration_datetime\":\"2100-01-01T00:00:00\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/users",

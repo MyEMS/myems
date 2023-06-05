@@ -6,8 +6,8 @@ import Login from '../../MyEMS/auth/basic/Login';
 // import Logout from './Logout';
 import Logout from '../../MyEMS/auth/basic/Logout';
 import Registration from './Registration';
-// import ForgetPassword from './ForgetPassword';
-import ForgetPassword from '../../MyEMS/auth/basic/ForgetPassword';
+// import ForgotPassword from './ForgotPassword';
+import ForgotPassword from '../../MyEMS/auth/basic/ForgotPassword';
 import PasswordReset from './PasswordReset';
 // import ConfirmMail from './ConfirmMail';
 import ConfirmMail from '../../MyEMS/auth/basic/ConfirmMail';
@@ -21,7 +21,7 @@ const AuthBasicRoutes = ({ match: { url } }) => (
     <Route path={`${url}/login`} exact component={Login} />
     <Route path={`${url}/logout`} exact component={Logout} />
     <Route path={`${url}/register`} exact component={Registration} />
-    <Route path={`${url}/forget-password`} exact component={ForgetPassword} />
+    <Route path={`${url}/sent-Forgot-email`} exact component={SentForgotPasswordEmailMessage} />
     <Route path={`${url}/confirm-mail`} exact component={ConfirmMail} />
     <Route path={`${url}/password-reset`} exact component={PasswordReset} />
     <Route path={`${url}/lock-screen`} exact component={LockScreen} />

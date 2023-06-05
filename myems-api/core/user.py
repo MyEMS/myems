@@ -75,12 +75,11 @@ class UserCollection:
         # todo: add user log
         try:
             raw_json = req.stream.read().decode('utf-8')
+            new_values = json.loads(raw_json)
         except Exception as ex:
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
-
-        new_values = json.loads(raw_json)
 
         if 'name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['name'], str) or \
@@ -313,6 +312,7 @@ class UserItem:
         access_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+            new_values = json.loads(raw_json)
         except Exception as ex:
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
@@ -321,8 +321,6 @@ class UserItem:
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_ID')
-
-        new_values = json.loads(raw_json)
 
         if 'name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['name'], str) or \
@@ -557,7 +555,9 @@ class UserLogin:
         if failed_login_count >= config.maximum_failed_login_count:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.USER_ACCOUNT_HAS_BEEN_LOCKED')
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.USER_ACCOUNT_HAS_BEEN_LOCKED')
 
         salt = result['salt']
         password = str.strip(new_values['data']['password'])
@@ -585,12 +585,16 @@ class UserLogin:
         if result['account_expiration_datetime_utc'] <= datetime.utcnow():
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.USER_ACCOUNT_HAS_EXPIRED')
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.USER_ACCOUNT_HAS_EXPIRED')
 
         if result['password_expiration_datetime_utc'] <= datetime.utcnow():
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.USER_PASSWORD_HAS_EXPIRED')
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.USER_PASSWORD_HAS_EXPIRED')
 
         add_session = (" INSERT INTO tbl_sessions "
                        "             (user_uuid, token, utc_expires) "
@@ -771,7 +775,9 @@ class ChangePassword:
         if hashed_password != result['password']:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_OLD_PASSWORD')
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_OLD_PASSWORD')
 
         # Update User password
         salt = uuid.uuid4().hex
@@ -963,7 +969,9 @@ class Unlock:
         if failed_login_count < config.maximum_failed_login_count:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.USER_ACCOUNT_IS_NOT_LOCKED')
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.USER_ACCOUNT_IS_NOT_LOCKED')
 
         update_user = (" UPDATE tbl_users "
                        " SET failed_login_count = 0"
@@ -979,7 +987,9 @@ class Unlock:
         if row is None or row[0] != 0:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.ACCOUNT_UNLOCK_FAILED')
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.ACCOUNT_UNLOCK_FAILED')
 
         cursor.close()
         cnx.close()
