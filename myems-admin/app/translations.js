@@ -431,6 +431,7 @@ function config($translateProvider) {
             },
             MICROGRID: {
                 ADDRESS: 'Address',
+                POSTAL_CODE: 'Postal Code',
                 CAPACITY: 'Capacity',
                 LATITUDE: 'Latitude',
                 LONGITUDE: 'Longitude',
@@ -438,6 +439,7 @@ function config($translateProvider) {
                 OWNER_TYPE: 'Owner Type',
                 DESCRIPTION: 'Description',
                 INPUT_ADDRESS: 'Please Input Address',
+                INPUT_POSTAL_CODE: 'Please Input Postal Code',
                 INPUT_CAPACITY: 'Please Input Capacity',
                 INPUT_LATITUDE: 'Please Input Latitude',
                 INPUT_LONGITUDE: 'Please Input Longitude',
@@ -1599,6 +1601,7 @@ function config($translateProvider) {
             },
             MICROGRID: {
                 ADDRESS: '地址',
+                POSTAL_CODE: '邮编',
                 CAPACITY: '容量',
                 LATITUDE: '纬度',
                 LONGITUDE: '经度',
@@ -1606,6 +1609,7 @@ function config($translateProvider) {
                 OWNER_TYPE: '业主类型',
                 DESCRIPTION: '描述',
                 INPUT_ADDRESS: '请输入地址',
+                INPUT_POSTAL_CODE: '请输入邮编',
                 INPUT_CAPACITY: '请输入容量',
                 INPUT_LATITUDE: '请输入纬度',
                 INPUT_LONGITUDE: '请输入经度',
@@ -2765,6 +2769,7 @@ function config($translateProvider) {
             },
             MICROGRID: {
                 ADDRESS: 'Adresse',
+                POSTAL_CODE: 'Postleitzahl',
                 CAPACITY: 'Kapazität',
                 LATITUDE: 'Breitengrad',
                 LONGITUDE: 'Längengrad',
@@ -2772,6 +2777,7 @@ function config($translateProvider) {
                 OWNER_TYPE: 'Eigentümertyp',
                 DESCRIPTION: 'Beschreibung',
                 INPUT_ADDRESS: 'Bitte Adresse eingeben',
+                INPUT_POSTAL_CODE: 'Bitte geben Sie Postleitzahl ein',
                 INPUT_CAPACITY: 'Bitte Eingabekapazität',
                 INPUT_LATITUDE: 'Bitte Breitengrad eingeben',
                 INPUT_LONGITUDE: 'Bitte Längengrad eingeben',
