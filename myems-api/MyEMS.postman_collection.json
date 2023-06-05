@@ -5007,13 +5007,13 @@
 									},
 									{
 										"key": "Token",
-										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"value": "1cf311a2df42615feaefb5f54a3cc86bfb85a1775e98111b1044fdee2cfd5c90cc196ac6b3e17fff990fa4dafeaab97c8b394133186ba8bfcefe02463e88811f",
 										"type": "text"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"latitude\":39.909429, \"longitude\":116.416993, \"capacity\":600.000, \"architecture_type_id\":1, \"owner_type_id\":1, \"is_input_counted\":true, \"is_output_counted\":true, \"contact_id\":1, \"cost_center_id\":1, \"description\":\"New\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100001\", \"latitude\":39.909429, \"longitude\":116.416993, \"capacity\":600.000, \"architecture_type_id\":1, \"owner_type_id\":1, \"is_input_counted\":true, \"is_output_counted\":true, \"contact_id\":1, \"cost_center_id\":1, \"description\":\"New\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgrids/1",
