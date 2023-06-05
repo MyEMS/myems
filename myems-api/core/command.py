@@ -189,6 +189,32 @@ class CommandItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMMAND_NOT_FOUND')
 
+        # check relation with meter
+        cursor.execute(" SELECT meter_id "
+                       " FROM tbl_meters_commands "
+                       " WHERE command_id = %s ",
+                       (id_,))
+        rows_meters = cursor.fetchall()
+        if rows_meters is not None and len(rows_meters) > 0:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_METERS')
+
+        # check relation with space
+        cursor.execute(" SELECT space_id "
+                       " FROM tbl_spaces_commands "
+                       " WHERE command_id = %s ",
+                       (id_,))
+        rows_spaces = cursor.fetchall()
+        if rows_spaces is not None and len(rows_spaces) > 0:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_SPACES')
+
         # todo: check relation with points
 
         cursor.execute(" DELETE FROM tbl_commands WHERE id = %s ", (id_,))

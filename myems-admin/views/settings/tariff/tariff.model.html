@@ -24,8 +24,7 @@
                     <div class="form-group"><label class="col-sm-5 control-label">{{'SETTING.TARIFF_TYPE' | translate}}</label>
                         <div class="col-sm-7">
                             <select ng-disabled="disable"  ng-model="tariff.tariff_type" class="form-control m-b" name="tariff">
-                                <option value="block">{{'SETTING.BLOCK' | translate}}</option>
-                                <option value="timeofuse">{{'SETTING.TIMEOFUSE' | translate}}</option>
+                                <option value="timeofuse" selected>{{'SETTING.TIMEOFUSE' | translate}} </option>
                             </select>
                         </div>
                     </div>
@@ -50,49 +49,6 @@
                 </form>
             </div>
             <div class="col-sm-8">
-                <table id="blockTable" ng-show="tariff.tariff_type=='block'" class="footable table table-bordered table-hover" data-sort="false" data-page-size="10" >
-                    <thead>
-                        <tr>
-                            <th class="text-center">{{'SETTING.START_AMOUNT' | translate}}</th>
-                            <th class="text-center">{{'SETTING.END_AMOUNT' | translate}}</th>
-                            <th class="text-center">{{'SETTING.PRICE' | translate}}</th>
-                            <th class="text-center">{{'SETTING.ACTION' | translate}}</th>
-                        </tr>
-                        <tr>
-                            <td class="text-center sm ">
-                                <input ng-model="b.start_amount" class="form-control input-sm">
-                            </td>
-                            <td class="text-center sm">
-                                <input ng-model="b.end_amount"  class="form-control input-sm">
-                            </td>
-                            <td class="text-center sm">
-                                <input ng-model="b.price" class="form-control input-sm">
-                            </td>
-                            <td class="text-center sm">
-                                <a class="btn btn-primary btn-rounded btn-xs" ng-click="add(b)" >{{'SETTING.ADD' | translate}}</a>
-                            </td>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        <tr ng-repeat="bl in block">
-                            <td class="text-center sm">{{ bl.start_amount }}</td>
-                            <td class="text-center sm">{{ bl.end_amount }}</td>
-                            <td class="text-center sm">{{ bl.price }}</td>
-                            <td class="text-center sm">
-                                <a ng-click="delete($index)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tfoot class="hide-if-no-paging">
-                    <tr>
-                        <td colspan="7">
-                            <ul class="pagination pull-right"></ul>
-                        </td>
-                    </tr>
-                    </tfoot>
-                </table>
-
                 <table id="touTable" ng-show="tariff.tariff_type=='timeofuse'" class="footable table table-bordered table-hover" data-sort="false" data-page-size="10" >
                     <thead>
                         <tr>
@@ -457,6 +413,6 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
-        <button type="button" class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
+        <button type="button" ng-disabled="!(tariff.tariff_type === 'timeofuse' && tariff.name && tariff.energy_category.id && tariff.unit_of_price && timeofuse.length > 0)" class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
     </div>
 </div>

@@ -48,7 +48,7 @@
 								</div>
 							</form>
 							<div class="hr-line-dashed"></div>
-							<a ng-click="addNonWorkingDay()" class="btn btn-primary btn-rounded  btn-outline" href=""><i
+							<a ng-click="currentWorkingCalendar.id?addNonWorkingDay():''" ng-disabled="!currentWorkingCalendar.id" class="btn btn-primary btn-rounded  btn-outline" href=""><i
 									class="fa fa-plus-circle"></i> {{'SETTING.ADD_NON_WORKING_DAY' | translate}}</a>
 							<table class="table table-bordered table-hover">
 								<thead>

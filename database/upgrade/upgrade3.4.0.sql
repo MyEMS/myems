@@ -1,6 +1,6 @@
 -- ---------------------------------------------------------------------------------------------------------------------
 -- WARNING: BACKUP YOUR DATABASE BEFORE UPGRADING
--- THIS SCRIPT IS ONLY FOR UPGRADING 3.3.0 TO 3.4.0RC
+-- THIS SCRIPT IS ONLY FOR UPGRADING 3.3.0 TO 3.4.0
 -- THE CURRENT VERSION CAN BE FOUND AT `myems_system_db`.`tbl_versions`
 -- ---------------------------------------------------------------------------------------------------------------------
 
@@ -21,6 +21,102 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_commands` (
   `description` VARCHAR(255) ,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_commands_index_1` ON  `myems_system_db`.`tbl_commands` (`name`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_combined_equipments_commands`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_combined_equipments_commands` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_combined_equipments_commands` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `combined_equipment_id` BIGINT NOT NULL,
+  `command_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_combined_equipments_comands_index_1` ON  `myems_system_db`.`tbl_combined_equipments_commands`   (`combined_equipment_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_equipments_commands`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_equipments_commands` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_equipments_commands` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `equipment_id` BIGINT NOT NULL,
+  `command_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_equipments_comands_index_1` ON  `myems_system_db`.`tbl_equipments_commands`   (`equipment_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_meters_commands`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_meters_commands` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_meters_commands` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `meter_id` BIGINT NOT NULL,
+  `command_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_meters_commands_index_1` ON  `myems_system_db`.`tbl_meters_commands`   (`meter_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_microgrids_commands`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_microgrids_commands` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_commands` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `command_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrids_commands_index_1` ON  `myems_system_db`.`tbl_microgrids_commands`   (`microgrid_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_spaces_commands`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_spaces_commands` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_spaces_commands` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `space_id` BIGINT NOT NULL,
+  `command_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_spaces_commands_index_1` ON  `myems_system_db`.`tbl_spaces_commands`   (`space_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_tenants_commands`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_tenants_commands` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_tenants_commands` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `tenant_id` BIGINT NOT NULL,
+  `command_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_tenants_commands_index_1` ON  `myems_system_db`.`tbl_tenants_commands`   (`tenant_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_shopfloors_commands`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_shopfloors_commands` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_shopfloors_commands` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `shopfloor_id` BIGINT NOT NULL,
+  `command_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_shopfloors_commands_index_1` ON  `myems_system_db`.`tbl_shopfloors_commands`   (`shopfloor_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_stores_commands`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_stores_commands` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_stores_commands` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `store_id` BIGINT NOT NULL,
+  `command_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_stores_commands_index_1` ON  `myems_system_db`.`tbl_stores_commands`   (`store_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_microgrids`
@@ -219,7 +315,39 @@ CREATE TABLE IF NOT EXISTS `myems_user_db`.`tbl_new_users` (
   `password` VARCHAR(256) NOT NULL,
   PRIMARY KEY (`id`));
 
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_user_db`.`tbl_email_messages`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_user_db`.`tbl_email_messages`;
+
+CREATE TABLE IF NOT EXISTS `myems_user_db`.`tbl_email_messages`  (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `recipient_name` VARCHAR(128) NOT NULL,
+  `recipient_email` VARCHAR(128) NOT NULL,
+  `subject` VARCHAR(128) NOT NULL,
+  `message` LONGTEXT NOT NULL,
+  `attachment_file_name` VARCHAR(128) NULL DEFAULT NULL,
+  `attachment_file_object` LONGBLOB NULL,
+  `created_datetime_utc` DATETIME NOT NULL,
+  `scheduled_datetime_utc` DATETIME NOT NULL,
+  `status` VARCHAR(32) NOT NULL COMMENT 'new, sent, timeout',
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_email_messages_index_1` ON  `myems_user_db`.`tbl_email_messages` (`status`, `scheduled_datetime_utc`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_user_db`.`tbl_email_message_sessions`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_user_db`.`tbl_email_message_sessions`;
+
+CREATE TABLE IF NOT EXISTS `myems_user_db`.`tbl_email_message_sessions`  (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `recipient_email` VARCHAR(128) NOT NULL,
+  `token` VARCHAR(128) NOT NULL,
+  `expires_datetime_utc` DATETIME NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_email_message_sessions_index_1` ON  `myems_user_db`.`tbl_email_message_sessions` (`recipient_email`);
+
 -- UPDATE VERSION NUMBER
-UPDATE `myems_system_db`.`tbl_versions` SET version='3.4.0RC', release_date='2023-06-16' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='3.4.0', release_date='2023-06-01' WHERE id=1;
 
 COMMIT;

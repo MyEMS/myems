@@ -9,3 +9,5 @@ const ForgotPassword = ({ t }) => {
 };
 
 export default withTranslation()(ForgotPassword);
+
+export default withTranslation()(ForgotPassword);

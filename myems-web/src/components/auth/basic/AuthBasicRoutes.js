@@ -8,6 +8,8 @@ import Logout from '../../MyEMS/auth/basic/Logout';
 import Registration from './Registration';
 // import ForgotPassword from './ForgotPassword';
 import ForgotPassword from '../../MyEMS/auth/basic/ForgotPassword';
+// import ForgotPassword from './ForgotPassword';
+import ForgotPassword from '../../MyEMS/auth/basic/ForgotPassword';
 import PasswordReset from './PasswordReset';
 // import ConfirmMail from './ConfirmMail';
 import ConfirmMail from '../../MyEMS/auth/basic/ConfirmMail';

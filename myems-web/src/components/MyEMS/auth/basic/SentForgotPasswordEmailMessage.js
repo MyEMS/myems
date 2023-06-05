@@ -28,3 +28,5 @@ const SentForgotPasswordEmailMessage = ({ t }) => {
 };
 
 export default withTranslation()(SentForgotPasswordEmailMessage);
+
+export default withTranslation()(SentForgotPasswordEmailMessage);

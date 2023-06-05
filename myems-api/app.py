@@ -285,6 +285,10 @@ api.add_route('/meters/{id_}/points',
               meter.MeterPointCollection())
 api.add_route('/meters/{id_}/points/{pid}',
               meter.MeterPointItem())
+api.add_route('/meters/{id_}/commands',
+              meter.MeterCommandCollection())
+api.add_route('/meters/{id_}/commands/{cid}',
+              meter.MeterCommandItem())
 
 api.add_route('/microgrids',
               microgrid.MicrogridCollection())
@@ -434,6 +438,10 @@ api.add_route('/spaces/{id_}/workingcalendars',
               space.SpaceWorkingCalendarCollection())
 api.add_route('/spaces/{id_}/workingcalendars/{wcid}',
               space.SpaceWorkingCalendarItem())
+api.add_route('/spaces/{id_}/commands',
+              space.SpaceCommandCollection())
+api.add_route('/spaces/{id_}/commands/{cid}',
+              space.SpaceCommandItem())
 api.add_route('/spaces/tree',
               space.SpaceTreeCollection())
 

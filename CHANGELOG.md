@@ -5,16 +5,41 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
-- added tbl_commands to myems_system_db in database
+- added bind command to meter feature to myems-api and myems-admin
+- added bind command to space feature to myems-api and myems-admin
+- added forgot pssword function to myems-api and myems-web
+- added user register function to myems-api
+- 
+### Changed
+
+### Fixed
+- fixed save button issue of tariff dialog in myems-admin
+
+### Removed
+- removed tariff type 'block'(or tiered) from database, myems-api and myems-admin
+- 
+## [v3.4.0] - 2023-06-01
+### Added
+- added tbl_commands to myems_system_db database
+- added tbl_combianed_equipments_commands to myems_system_db database
+- added tbl_equipments_commands to myems_system_db database
+- added tbl_meters_commands to myems_system_db database
+- added tbl_microgrids_commands to myems_system_db database
+- added tbl_spaces_commands to myems_system_db database
+- added tbl_stores_commands to myems_system_db database
+- added tbl_shopfloors_commands to myems_system_db database
+- added tbl_tenants_commands to myems_system_db database
 - added command actions to myems-api
 - added command feature to myems-admin
-- added tbl_new_users to myems_user_db in database
+- added tbl_new_users to myems_user_db database
+- added tbl_email_messages and tbl_email_message_sessions to myems_user_db database
 
 ### Changed
-- updated tranlations of myems-admin
+- updated translations of myems-admin
 - changed theme of BarChart and MultiTrendChart in myems-web
-- swapped cloumns color in dashboard of myems-web
-- compacted distribuition system in myems-web
+- swapped columns color in dashboard of myems-web
+- compacted distribution system in myems-web
+- updated supported protocols of datasource in myems-api
 
 ### Fixed
 - fixed HTTPError Deprecated Warning in myems-api
@@ -23,9 +48,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed validator issue of equipment parameter form in myems-admin
 - fixed validator issue of combined equipment parameter form in myems-admin
 - fixed webpack-dev-server version 4.12.0 caused compile errors
+- fixed save button issue of non-working-day dialog in myems-admin
 
 ### Removed
-
+- None
 
 ## [v3.3.0] - 2023-05-21
 ### Added
@@ -1269,7 +1295,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v3.3.0...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v3.4.0...HEAD
+[3.4.0]: https://github.com/MyEMS/myems/compare/v3.4.0...v3.3.0
 [3.3.0]: https://github.com/MyEMS/myems/compare/v3.3.0...v3.2.0
 [3.2.0]: https://github.com/MyEMS/myems/compare/v3.1.0...v3.2.0
 [3.1.0]: https://github.com/MyEMS/myems/compare/v3.0.0...v3.1.0
