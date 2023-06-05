@@ -673,14 +673,17 @@ app
                                                     'app/services/settings/costcenter/costcenter.service.js',
                                                     'app/services/settings/datasource/point.service.js',
                                                     'app/services/settings/meter/meter.service.js',
+                                                    'app/services/settings/command/command.service.js',
                                                     'app/services/settings/meter/offlinemeter.service.js',
                                                     'app/services/settings/meter/virtualmeter.service.js',
                                                     'app/services/settings/equipment/equipmentmeter.service.js',
                                                     'app/services/settings/equipment/equipmentparameter.service.js',
+                                                    'app/services/settings/equipment/equipmentcommand.service.js',
                                                     'app/controllers/settings/equipment/equipment.master.controller.js',
                                                     'app/controllers/settings/equipment/equipment.controller.js',
                                                     'app/controllers/settings/equipment/equipmentmeter.controller.js',
-                                                    'app/controllers/settings/equipment/equipmentparameter.controller.js'
+                                                    'app/controllers/settings/equipment/equipmentparameter.controller.js',
+                                                    'app/controllers/settings/equipment/equipmentcommand.controller.js'
                                                 ]
                                             }]);
                                         }
