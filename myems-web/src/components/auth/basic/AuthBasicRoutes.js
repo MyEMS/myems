@@ -21,7 +21,6 @@ const AuthBasicRoutes = ({ match: { url } }) => (
     <Route path={`${url}/login`} exact component={Login} />
     <Route path={`${url}/logout`} exact component={Logout} />
     <Route path={`${url}/register`} exact component={Registration} />
-    <Route path={`${url}/sent-Forgot-email`} exact component={SentForgotPasswordEmailMessage} />
     <Route path={`${url}/confirm-mail`} exact component={ConfirmMail} />
     <Route path={`${url}/password-reset`} exact component={PasswordReset} />
     <Route path={`${url}/lock-screen`} exact component={LockScreen} />

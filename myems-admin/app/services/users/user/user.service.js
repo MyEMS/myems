@@ -74,7 +74,7 @@ app.factory('UserService', function($http) {
             });
         },
         deleteNewUser: function(user, headers, callback) {  
-            $http.delete(getAPI()+'users/new/'+user.id, {headers})  
+            $http.delete(getAPI()+'users/newusers/'+user.id, {headers})  
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -82,7 +82,7 @@ app.factory('UserService', function($http) {
             });
         },
         editNewUser: function(user, headers, callback) {  
-            $http.put(getAPI()+'users/new/'+user.id, {"data":user}, {headers})  
+            $http.put(getAPI()+'users/newusers/'+user.id, {"data":user}, {headers})  
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -90,7 +90,7 @@ app.factory('UserService', function($http) {
             });
         },
         getAllNewUsers: function(headers, callback) {  
-            $http.get(getAPI()+'users/new', {headers})  
+            $http.get(getAPI()+'users/newusers', {headers})  
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -98,7 +98,7 @@ app.factory('UserService', function($http) {
             }); 
         },
         getNewUser: function(id, headers, callback) {  
-            $http.get(getAPI()+'users/new/'+id, {headers})  
+            $http.get(getAPI()+'users/newusers/'+id, {headers})  
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -106,7 +106,7 @@ app.factory('UserService', function($http) {
             }); 
         },
         approveUser: function(user, headers, callback){
-            $http.post(getAPI()+'users/approve', {"data":user}, {headers})
+            $http.post(getAPI()+'users/newusers/'+user.id+'/approve', {"data":user}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

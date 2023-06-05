@@ -27,7 +27,7 @@ const RegisterAccountForm = ({ setRedirect, setRedirectUrl, hasLabel, layout, t 
   const handleSubmit = e => {
     e.preventDefault();
     let isResponseOK = false;
-    fetch(APIBaseURL + '/users/new', {
+    fetch(APIBaseURL + '/users/newusers', {
       method: 'POST',
       body: JSON.stringify({ "data":
         { "name": name,

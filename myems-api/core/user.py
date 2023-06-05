@@ -1738,7 +1738,7 @@ class NewUserCollection:
         cnx.close()
 
         resp.status = falcon.HTTP_201
-        resp.location = '/users/new/' + str(new_id)
+        resp.location = '/users/newusers/' + str(new_id)
 
 
 class NewUserItem:
@@ -1927,7 +1927,7 @@ class NewUserApprove:
         resp.status = falcon.HTTP_200
 
     @staticmethod
-    def on_post(req, resp):
+    def on_post(req, resp, id_):
         """Handles POST requests"""
         access_control(req)
         # todo: add user log
@@ -1940,31 +1940,9 @@ class NewUserApprove:
 
         new_values = json.loads(raw_json)
 
-        if 'name' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['name'], str) or \
-                len(str.strip(new_values['data']['name'])) == 0:
+        if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_USER_NAME')
-        name = str.strip(new_values['data']['name'])
-
-        if 'display_name' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['display_name'], str) or \
-                len(str.strip(new_values['data']['display_name'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_DISPLAY_NAME')
-        display_name = str.strip(new_values['data']['display_name'])
-
-        if 'email' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['email'], str) or \
-                len(str.strip(new_values['data']['email'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_EMAIL')
-        email = str.lower(str.strip(new_values['data']['email']))
-
-        match = re.match(r'^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', email)
-        if match is None:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_EMAIL')
+                                   description='API.INVALID_USER_ID')
 
         if 'is_admin' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['is_admin'], bool):
@@ -2018,8 +1996,8 @@ class NewUserApprove:
                 raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.PRIVILEGE_NOT_FOUND')
             
-        cursor.execute(" SELECT password, salt, uuid FROM tbl_new_users "
-               " WHERE email = %s ", (email,))
+        cursor.execute(" SELECT name, display_name, email, password, salt, uuid FROM tbl_new_users "
+               " WHERE id = %s ", (id_,))
         row = cursor.fetchone()
         if row is None:
             cursor.close()
@@ -2027,9 +2005,12 @@ class NewUserApprove:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.USER_NOT_FOUND')
         else:
-            passowrd = row[0]
-            salt = row[1]
-            uuid = row[2]
+            name = row[0]
+            display_name = row[1]
+            email = row[2]
+            passowrd = row[3]
+            salt = row[4]
+            uuid = row[5]
 
         add_row = (" INSERT INTO tbl_users "
                    "     (name, uuid, display_name, email, salt, password, is_admin, is_read_only, privilege_id, "
