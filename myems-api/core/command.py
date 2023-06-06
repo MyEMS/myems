@@ -228,6 +228,19 @@ class CommandItem:
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_EQUIPMENTS')
 
+        # check relation with combined equipment
+        cursor.execute(" SELECT combined_equipment_id "
+                       " FROM tbl_combined_equipments_commands "
+                       " WHERE command_id = %s ",
+                       (id_,))
+        rows_combined_equipments = cursor.fetchall()
+        if rows_combined_equipments is not None and len(rows_combined_equipments) > 0:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_COMBINED_EQUIPMENTS')
+
         # todo: check relation with points
 
         cursor.execute(" DELETE FROM tbl_commands WHERE id = %s ", (id_,))
