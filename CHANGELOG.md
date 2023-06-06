@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added user register function to myems-api
 - added postal code to microgrid in database, myems-api, myems-admin
 - added bind command to equipment feature to myems-api and myems-admin
+- added bind command to combined equipment feature to myems-api and myems-admin
 - 
 ### Changed
 
