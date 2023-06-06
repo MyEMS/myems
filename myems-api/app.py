@@ -139,6 +139,10 @@ api.add_route('/combinedequipments/{id_}/virtualmeters',
               combinedequipment.CombinedEquipmentVirtualMeterCollection())
 api.add_route('/combinedequipments/{id_}/virtualmeters/{mid}',
               combinedequipment.CombinedEquipmentVirtualMeterItem())
+api.add_route('/combinedequipments/{id_}/commands',
+              combinedequipment.CombinedEquipmentCommandCollection())
+api.add_route('/combinedequipments/{id_}/commands/{cid}',
+              combinedequipment.CombinedEquipmentCommandItem())
 
 api.add_route('/commands',
               command.CommandCollection())
