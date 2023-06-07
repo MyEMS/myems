@@ -1,0 +1,85 @@
+<div class="inmodal">
+    <div class="modal-header">
+        <h4 class="modal-title">{{operation | translate}}(ID:{{user.id}})</h4>
+    </div>
+    <div class="modal-body">
+        <form role="form" name="form_user" novalidate class="form-horizontal">
+            <div class="form-group"><label class="col-sm-3 control-label">{{'USER.USERNAME' | translate}}</label>
+                <div class="col-sm-9">
+                    <input ng-model="user.name" readonly="true" type="text" name="username" class="form-control" required>
+                    <div class="m-t-xs" ng-show="form_user.username.$invalid && form_user.username.$dirty">
+                            <small class="text-danger" ng-show="form_user.username.$error.required">{{'USER.INPUT_NAME' | translate}}</small>
+                        </div>
+                </div>
+            </div>
+            
+            <div class="form-group"><label class="col-sm-3 control-label">{{'USER.DISPLAY_NAME' | translate}}</label>
+                <div class="col-sm-9">
+                    <input ng-model="user.display_name" readonly="true" type="text" name="userdispaly_name" class="form-control" required>
+                    <div class="m-t-xs" ng-show="form_user.userdisplay_name.$invalid && form_user.userdisplay_name.$dirty">
+                            <small class="text-danger" ng-show="form_user.userdisplay_name.$error.required">{{'SETTING.NOT_NULLABLE' | translate}}</small>
+                        </div>
+                </div>
+            </div>
+            
+            <div class="form-group"><label class="col-sm-3 control-label">{{'USER.EMAIL' | translate}}</label>
+                <div class="col-sm-9">
+                    <input ng-model="user.email" readonly="true" type="email" name="useremail" class="form-control" required>
+                    <div class="m-t-xs" ng-show="form_user.useremail.$invalid && form_user.useremail.$dirty">
+                            <small class="text-danger" ng-show="form_user.useremail.$error.required">{{'USER.INPUT_EMAIL' | translate}}</small>
+                            <small class="text-danger" ng-show="form_user.useremail.$error">{{'USER.INVALID_EMAIL' | translate}}</small>
+                        </div>
+                </div>
+            </div>
+            
+            <div class="form-group"><label class="col-sm-3 control-label">{{'USER.IS_ADMIN' | translate}}</label>
+                <div class="col-sm-9">
+                    <div class="checkbox checkbox-success">
+                            <input id="chk_user_isadmin" ng-model="user.is_admin" type="checkbox" ng-checked="user.is_admin">
+                            <label for="chk_user_isadmin"></label>
+                    </div>
+
+                </div>
+            </div>
+            
+            <div class="form-group" ng-show="user.is_admin"><label class="col-sm-3 control-label">{{'USER.IS_READ_ONLY' | translate}}</label>
+                <div class="col-sm-9">
+                    <div class="checkbox checkbox-success">
+                            <input id="chk_user_isreadonly" ng-model="user.is_read_only" type="checkbox" ng-checked="user.is_read_only">
+                            <label for="chk_user_isreadonly"></label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group" ng-hide="user.is_admin"><label class="col-sm-3 control-label">{{'USER.PRIVILEGE' | translate}}</label>
+
+                <div class="col-sm-9">
+                    <ui-select ng-model="user.privilege_id" theme="bootstrap" >
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="privilege.id as privilege in privileges | filter: $select.search">
+                            <div ng-bind-html="privilege.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            
+            <div class="form-group"><label class="col-sm-3 control-label">{{'USER.ACCOUNT_EXPIRATION_DATETIME' | translate}}</label>
+                <div class="col-sm-5">
+                    <input date-range-picker class="form-control date-picker" type="text" ng-model="user.account_expiration_datetime" options="dtOptions"
+                           placeholder="{{'SETTING.SELECT_DATE' | translate}}" readonly="" />
+                </div>
+            </div>
+            
+            <div class="form-group"><label class="col-sm-3 control-label">{{'USER.PASSWORD_EXPIRATION_DATETIME' | translate}}</label>
+                <div class="col-sm-5">
+                    <input date-range-picker class="form-control date-picker" type="text" ng-model="user.password_expiration_datetime" options="dtOptions"
+                           placeholder="{{'SETTING.SELECT_DATE' | translate}}" readonly="" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
+        <button type="button" ng-disabled="form_user.$invalid" class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
+    </div>
+</div>
