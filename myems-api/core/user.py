@@ -1025,7 +1025,7 @@ class ForgotPassword:
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
 
-        query = (" SELECT utc_expires "
+        query = (" SELECT expires_datetime_utc "
                  " FROM tbl_email_message_sessions "
                  " WHERE recipient_email = %s AND token = %s")
         cursor.execute(query, (email, token,))
@@ -1087,7 +1087,7 @@ class ForgotPassword:
             
             email = str.strip(new_values['data']['email']).lower()
 
-            query = (" SELECT recipient_email, token, utc_expires"
+            query = (" SELECT recipient_email, token, expires_datetime_utc"
                      " FROM tbl_email_message_sessions "
                      " WHERE recipient_email = %s and token = %s")
             cursor.execute(query, (email, token))
@@ -1320,7 +1320,7 @@ class EmailMessageCollection:
             recipient_name = recipient_email.split('@')[0]
         
         add_session =  (" INSERT INTO tbl_email_message_sessions "
-                        " (recipient_email, token, utc_expires) "
+                        " (recipient_email, token, expires_datetime_utc) "
                         " VALUES (%s, %s, %s) ")
         cursor.execute(add_session, (recipient_email, token, utc_expires))
 

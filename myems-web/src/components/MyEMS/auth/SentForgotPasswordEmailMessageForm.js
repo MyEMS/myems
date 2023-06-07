@@ -10,7 +10,7 @@ import Captcha from 'react-captcha-code';
 import moment from 'moment';
 import { APIBaseURL } from '../../../config';
 
-const ForgotPasswordForm = ({ setRedirect, setRedirectUrl, hasLabel, layout, t }) => {
+const SentForgotPasswordEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, layout, t }) => {
   // State
   const [email, setEmail] = useState(getItemFromStore('email', ''));
   const [code, setCode] = useState('');
@@ -164,12 +164,12 @@ const ForgotPasswordForm = ({ setRedirect, setRedirectUrl, hasLabel, layout, t }
   );
 };
 
-ForgotPasswordForm.propTypes = {
+SentForgotPasswordEmailMessageForm.propTypes = {
   setRedirect: PropTypes.func.isRequired,
   setRedirectUrl: PropTypes.func.isRequired,
   layout: PropTypes.string
 };
 
-ForgotPasswordForm.defaultProps = { layout: 'basic' };
+SentForgotPasswordEmailMessageForm.defaultProps = { layout: 'basic' };
 
-export default withTranslation()(withRedirect(ForgotPasswordForm));
+export default withTranslation()(withRedirect(SentForgotPasswordEmailMessageForm));
