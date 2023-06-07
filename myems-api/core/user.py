@@ -1532,7 +1532,7 @@ class EmailMessageItem:
     def on_delete(req, resp, id_):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EMAIL_MESSAGE_ID')
 
         cnx = mysql.connector.connect(**config.myems_user_db)
@@ -1548,7 +1548,7 @@ class EmailMessageItem:
                 cursor.close()
             if cnx:
                 cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.EMAIL_MESSAGE_NOT_FOUND')
 
         cursor.execute(" DELETE FROM tbl_email_messages WHERE id = %s ", (id_,))
@@ -1577,17 +1577,13 @@ class NewUserCollection:
         access_control(req)
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
-        query = (" SELECT u.id, u.name, u.display_name, u.uuid, "
-                 " u.email FROM tbl_new_users u "
-                 " ORDER BY u.name ")
+        query = (" SELECT id, name, display_name, uuid, email "
+                 " FROM tbl_new_users "
+                 " ORDER BY name ")
         cursor.execute(query)
         rows = cursor.fetchall()
         cursor.close()
         cnx.close()
-
-        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
-        if config.utc_offset[0] == '-':
-            timezone_offset = -timezone_offset
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -1596,7 +1592,7 @@ class NewUserCollection:
                                "name": row[1],
                                "display_name": row[2],
                                "uuid": row[3],
-                               "email": row[4],}
+                               "email": row[4], }
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -1604,21 +1600,14 @@ class NewUserCollection:
     @staticmethod
     def on_post(req, resp):
         # todo: add user log
-        if 'TOKEN' not in req.headers or \
-                not isinstance(req.headers['TOKEN'], str) or \
-                len(str.strip(req.headers['TOKEN'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_TOKEN')
-        token = str.strip(req.headers['TOKEN'])
-        
+
         try:
             raw_json = req.stream.read().decode('utf-8')
+            new_values = json.loads(raw_json)
         except Exception as ex:
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
-
-        new_values = json.loads(raw_json)
 
         if 'name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['name'], str) or \
@@ -1656,25 +1645,36 @@ class NewUserCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.PASSWORD_LENGTH_CANNOT_EXCEED_100_CHARACTERS')
 
+        if 'token' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['token'], str) or \
+                len(str.strip(new_values['data']['token'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_TOKEN')
+        token = str.lower(str.strip(new_values['data']['token']))
+
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
 
-        cursor.execute(" SELECT utc_expires "
+        cursor.execute(" SELECT expires_datetime_utc "
                        " FROM tbl_email_message_sessions "
-                       " WHERE recipient_email = %s and token = %s", (email, token))
+                       " WHERE recipient_email = %s and token = %s ",
+                       (email, token))
         row = cursor.fetchone()
         if row is not None:
-            utc_expires = row[0]
-            if datetime.utcnow() > utc_expires:
+            expires_datetime_utc = row[0]
+            if datetime.utcnow() > expires_datetime_utc:
                 cursor.close()
                 cnx.close()
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.USER_SESSION_TIMEOUT')
-        else :
-            cursor.close()            
+                raise falcon.HTTPError(status=falcon.HTTP_400,
+                                       title='API.BAD_REQUEST',
+                                       description='API.NEW_USER_SESSION_TIMEOUT')
+        else:
+            cursor.close()
             cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.USER_SESSION_NOT_FOUND')
+            raise falcon.HTTPError(status=falcon.HTTP_404,
+                                   title='API.NOT_FOUND',
+                                   description='API.NEW_USER_SESSION_NOT_FOUND')
 
         cursor.execute(" SELECT name "
                        " FROM tbl_new_users "
@@ -1684,7 +1684,7 @@ class NewUserCollection:
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.USER_NAME_IS_ALREADY_IN_USE')
-        
+
         cursor.execute(" SELECT name "
                        " FROM tbl_users "
                        " WHERE name = %s ", (name,))
@@ -1693,7 +1693,6 @@ class NewUserCollection:
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.USER_NAME_IS_ALREADY_IN_USE')
-
 
         cursor.execute(" SELECT name "
                        " FROM tbl_new_users "
@@ -1720,7 +1719,7 @@ class NewUserCollection:
         salt = uuid.uuid4().hex
         password = new_values['data']['password']
         hashed_password = hashlib.sha512(salt.encode() + password.encode()).hexdigest()
-        
+
         cursor.execute(add_row, (name,
                                  str(uuid.uuid4()),
                                  display_name,
@@ -1731,7 +1730,8 @@ class NewUserCollection:
         cnx.commit()
 
         cursor.execute(" DELETE FROM tbl_email_message_sessions "
-                       " WHERE recipient_email = %s and token = %s", (email, token))
+                       " WHERE recipient_email = %s and token = %s",
+                       (email, token))
         cnx.commit()
 
         cursor.close()
@@ -1761,9 +1761,9 @@ class NewUserItem:
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
 
-        query = (" SELECT u.id, u.name, u.display_name, u.uuid, u.email "
-                 " FROM tbl_new_users u "
-                 " WHERE u.id =%s ")
+        query = (" SELECT id, name, display_name, uuid, email "
+                 " FROM tbl_new_users "
+                 " WHERE id = %s ")
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
         cursor.close()
@@ -1814,8 +1814,10 @@ class NewUserItem:
     def on_put(req, resp, id_):
         """Handles PUT requests"""
         access_control(req)
+
         try:
             raw_json = req.stream.read().decode('utf-8')
+            new_values = json.loads(raw_json)
         except Exception as ex:
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
@@ -1824,8 +1826,6 @@ class NewUserItem:
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_ID')
-
-        new_values = json.loads(raw_json)
 
         if 'name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['name'], str) or \
@@ -1866,15 +1866,6 @@ class NewUserItem:
                                    description='API.USER_NOT_FOUND')
 
         cursor.execute(" SELECT name "
-                       " FROM tbl_new_users "
-                       " WHERE name = %s AND id != %s ", (name, id_))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.USER_NAME_IS_ALREADY_IN_USE')
-        
-        cursor.execute(" SELECT name "
                        " FROM tbl_users "
                        " WHERE name = %s ", (name,))
         if cursor.fetchone() is not None:
@@ -1885,7 +1876,16 @@ class NewUserItem:
 
         cursor.execute(" SELECT name "
                        " FROM tbl_new_users "
-                       " WHERE email = %s AND id != %s ", (email, id_))
+                       " WHERE name = %s AND id != %s ", (name, id_))
+        if cursor.fetchone() is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.USER_NAME_IS_ALREADY_IN_USE')
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_users "
+                       " WHERE email = %s ", (email, ))
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
@@ -1893,8 +1893,8 @@ class NewUserItem:
                                    description='API.EMAIL_IS_ALREADY_IN_USE')
 
         cursor.execute(" SELECT name "
-                       " FROM tbl_users "
-                       " WHERE email = %s ", (email,))
+                       " FROM tbl_new_users "
+                       " WHERE email = %s AND id != %s ", (email, id_))
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
@@ -1927,18 +1927,18 @@ class NewUserApprove:
         resp.status = falcon.HTTP_200
 
     @staticmethod
-    def on_post(req, resp, id_):
+    @user_logger
+    def on_put(req, resp, id_):
         """Handles POST requests"""
         access_control(req)
-        # todo: add user log
+
         try:
             raw_json = req.stream.read().decode('utf-8')
+            new_values = json.loads(raw_json)
         except Exception as ex:
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
-
-        new_values = json.loads(raw_json)
 
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1954,7 +1954,7 @@ class NewUserApprove:
 
         if is_admin:
             if 'is_read_only' not in new_values['data'].keys() or \
-                   not isinstance(new_values['data']['is_read_only'], bool):
+                    not isinstance(new_values['data']['is_read_only'], bool):
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_IS_READ_ONLY_VALUE')
             is_read_only = new_values['data']['is_read_only']
@@ -1985,6 +1985,15 @@ class NewUserApprove:
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
 
+        cursor.execute(" SELECT name "
+                       " FROM tbl_new_users "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.USER_NOT_FOUND')
+
         if privilege_id is not None:
             cursor.execute(" SELECT name "
                            " FROM tbl_privileges "
@@ -1995,9 +2004,10 @@ class NewUserApprove:
                 cnx.close()
                 raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.PRIVILEGE_NOT_FOUND')
-            
-        cursor.execute(" SELECT name, display_name, email, password, salt, uuid FROM tbl_new_users "
-               " WHERE id = %s ", (id_,))
+
+        cursor.execute(" SELECT name, uuid, display_name, email, salt, password"
+                       " FROM tbl_new_users "
+                       " WHERE id = %s ", (id_,))
         row = cursor.fetchone()
         if row is None:
             cursor.close()
@@ -2006,11 +2016,11 @@ class NewUserApprove:
                                    description='API.USER_NOT_FOUND')
         else:
             name = row[0]
-            display_name = row[1]
-            email = row[2]
-            passowrd = row[3]
+            user_uuid = row[1]
+            display_name = row[2]
+            email = row[3]
             salt = row[4]
-            uuid = row[5]
+            passowrd = row[5]
 
         add_row = (" INSERT INTO tbl_users "
                    "     (name, uuid, display_name, email, salt, password, is_admin, is_read_only, privilege_id, "
@@ -2018,7 +2028,7 @@ class NewUserApprove:
                    " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
 
         cursor.execute(add_row, (name,
-                                 uuid,
+                                 user_uuid,
                                  display_name,
                                  email,
                                  salt,
@@ -2032,10 +2042,10 @@ class NewUserApprove:
         new_id = cursor.lastrowid
         cnx.commit()
 
-        cursor.execute(" DELETE FROM tbl_new_users WHERE email = %s", (email,))
+        cursor.execute(" DELETE FROM tbl_new_users WHERE id = %s", (id_,))
         cnx.commit()
         cursor.close()
         cnx.close()
 
         resp.status = falcon.HTTP_201
-        resp.location = '/users/approve/' + str(new_id)
+        resp.location = '/users/' + str(new_id)

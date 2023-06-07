@@ -106,7 +106,7 @@ app.factory('UserService', function($http) {
             }); 
         },
         approveUser: function(user, headers, callback){
-            $http.post(getAPI()+'users/newusers/'+user.id+'/approve', {"data":user}, {headers})
+            $http.put(getAPI()+'users/newusers/'+user.id+'/approve', {"data":user}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

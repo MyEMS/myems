@@ -34,9 +34,10 @@ const RegisterAccountForm = ({ setRedirect, setRedirectUrl, hasLabel, layout, t 
           "display_name": displayName,
           "email": email,
           "password": password,
+          "token": token,
         }
       }),
-      headers: { "Content-Type": "application/json", "TOKEN": token }
+      headers: { "Content-Type": "application/json" }
     }).then(response => {
       if (response.ok) {
         isResponseOK = true;

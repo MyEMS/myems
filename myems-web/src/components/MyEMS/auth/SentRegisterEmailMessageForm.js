@@ -153,7 +153,7 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
       </FormGroup>
       <FormGroup>
         <Button color="primary" block disabled={!email}>
-          {t('Send reset link')}
+          {t('Submit')}
         </Button>
       </FormGroup>
       {/* <Link className="fs--1 text-600" to="#!">
