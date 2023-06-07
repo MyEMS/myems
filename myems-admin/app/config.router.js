@@ -1292,6 +1292,7 @@ app
                                                     'app/services/users/user/user.service.js',
                                                     'app/services/users/privilege/privilege.service.js',
                                                     'app/controllers/users/user/user.controller.js',
+                                                    'app/controllers/users/user/user.master.controller.js',
                                                 ]
                                             }]);
                                         }
