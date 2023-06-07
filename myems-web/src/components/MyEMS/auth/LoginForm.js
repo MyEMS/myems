@@ -180,6 +180,14 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
         <option value="en">{t('language-en')}</option>
         <option value="de">{t('language-de')}</option>
       </CustomInput>
+      <Row className="justify-content-center align-items-center">
+        <Col xs="auto">
+          {t('New to MyEMS')}?&nbsp;
+          <Link className="fs--1" to={`/authentication/${layout}/sent-register-email`}>
+            {t('Create an account')}
+          </Link>
+        </Col>
+      </Row>
     </Form>
   );
 };
