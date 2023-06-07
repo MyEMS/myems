@@ -4,15 +4,15 @@ import { toast } from 'react-toastify';
 import AppContext from '../../../context/Context';
 import { Button, Form, FormGroup, Input, Row, Col, Label } from 'reactstrap';
 import withRedirect from '../../../hoc/withRedirect';
-import { getItemFromStore, setItemToStore, themeColors } from '../../../helpers/utils';
+import { setItemToStore, themeColors } from '../../../helpers/utils';
 import { withTranslation } from 'react-i18next';
 import Captcha from 'react-captcha-code';
 import moment from 'moment';
 import { APIBaseURL } from '../../../config';
 
-const SentForgotPasswordEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, layout, t }) => {
+const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, layout, t }) => {
   // State
-  const [email, setEmail] = useState(getItemFromStore('email', ''));
+  const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
   const [captchaCode, setCaptchaCode] = useState('');
   const captchaRef = useRef(null);
@@ -28,7 +28,7 @@ const SentForgotPasswordEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLa
       handleRefreshCaptcha();
       return false;
     }
-    let subject = t("Forgot Password");
+    let subject = t("Create an account");
     let created_datetime = moment().clone().format('YYYY-MM-DDTHH:mm:ss');
     let scheduled_datetime = moment().clone().format('YYYY-MM-DDTHH:mm:ss');
     let message = 
@@ -43,7 +43,7 @@ const SentForgotPasswordEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLa
         <td style="padding-top: 60px;padding-left: 20px;padding-right: 20px;font-size: 14px;line-height:1.4;color: #525967;" colspan="2">
         <b>
     ${email} :</b><br><br>
-    ${t("The link to reset your password is as follows. \
+    ${t("The link to register your account is as follows. \
       Please click the link within 60 minutes to proceed with the next step. \
       If you did not request this action, please disregard this email.")}
     </td>
@@ -52,8 +52,8 @@ const SentForgotPasswordEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLa
         <td colspan="2">
         <div style="margin-top: 20px;margin-bottom: 20px;width: 100%;height: 1px;background-color: #acbdd4;"><br></div></td></tr>
         <tr><td colspan="2">&nbsp;&nbsp;&nbsp;&nbsp; 
-     <a href="${window.location.href.split(layout)[0]}${layout}/forgot-password?token={token}&email=${email}" style="display: block;" target="_blank">
-    ${t('Please click on the included link to reset your password')}
+     <a href="${window.location.href.split(layout)[0]}${layout}/register-account?token={token}&email=${email}" style="display: block;" target="_blank">
+    ${t('Please click on the included link to register your account')}
     </a><br></td></tr>
         </tbody></table>
         </td>
@@ -83,7 +83,7 @@ const SentForgotPasswordEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLa
       }
     }).then(json => {
       if (isResponseOK) {
-        toast.success(t('An email with password reset link is sent to ') + email );
+        toast.success(t('An email has been sent to ') + email );
         setRedirect(true);
       } else {
         handleRefreshCaptcha();
@@ -153,7 +153,7 @@ const SentForgotPasswordEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLa
       </FormGroup>
       <FormGroup>
         <Button color="primary" block disabled={!email}>
-          {t('Send reset link')}
+          {t('Submit')}
         </Button>
       </FormGroup>
       {/* <Link className="fs--1 text-600" to="#!">
@@ -164,12 +164,12 @@ const SentForgotPasswordEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLa
   );
 };
 
-SentForgotPasswordEmailMessageForm.propTypes = {
+SentRegisterEmailMessageForm.propTypes = {
   setRedirect: PropTypes.func.isRequired,
   setRedirectUrl: PropTypes.func.isRequired,
   layout: PropTypes.string
 };
 
-SentForgotPasswordEmailMessageForm.defaultProps = { layout: 'basic' };
+SentRegisterEmailMessageForm.defaultProps = { layout: 'basic' };
 
-export default withTranslation()(withRedirect(SentForgotPasswordEmailMessageForm));
+export default withTranslation()(withRedirect(SentRegisterEmailMessageForm));
