@@ -254,6 +254,19 @@ class CommandItem:
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_TENANTS')
 
+        # check relation with store
+        cursor.execute(" SELECT store_id "
+                       " FROM tbl_stores_commands "
+                       " WHERE command_id = %s ",
+                       (id_,))
+        rows_stores = cursor.fetchall()
+        if rows_stores is not None and len(rows_stores) > 0:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_STORES')
+
         # todo: check relation with points
 
         cursor.execute(" DELETE FROM tbl_commands WHERE id = %s ", (id_,))
