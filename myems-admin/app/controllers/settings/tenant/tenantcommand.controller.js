@@ -2,7 +2,7 @@
 
 app.controller('TenantCommandController', function (
     $scope,
-	$window,
+    $window,
     $timeout,
     $translate,
     TenantService,

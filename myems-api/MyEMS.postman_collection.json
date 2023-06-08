@@ -9327,6 +9327,92 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "GET All Commands of a Store",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/stores/1/commands",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"stores",
+										"1",
+										"commands"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Bind a Command to a Store",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "1662d2484cfb9f0f16c8f55d644385821e2367580e4a0b428567237db3fb06014a720c7996fe938ea0075e02560cd7c316c7d8680734899de85ef608cfcacbef",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"command_id\":1}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/stores/1/commands",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"stores",
+										"1",
+										"commands"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE Unbind a Command from Store",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "1662d2484cfb9f0f16c8f55d644385821e2367580e4a0b428567237db3fb06014a720c7996fe938ea0075e02560cd7c316c7d8680734899de85ef608cfcacbef",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/stores/1/commands/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"stores",
+										"1",
+										"commands",
+										"1"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},

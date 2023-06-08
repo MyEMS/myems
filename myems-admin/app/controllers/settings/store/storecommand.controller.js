@@ -2,7 +2,7 @@
 
 app.controller('StoreCommandController', function (
     $scope,
-	$window,
+    $window,
     $timeout,
     $translate,
     StoreService,

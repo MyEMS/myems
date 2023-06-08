@@ -2,7 +2,7 @@
 
 app.controller('CombinedEquipmentCommandController', function (
     $scope,
-	$window,
+    $window,
     $timeout,
     $translate,
     CombinedEquipmentService,
