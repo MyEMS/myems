@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added bind command to combined equipment feature to myems-api and myems-admin
 - added new user approval function to myems-admin
 - added bind command to tenant feature to myems-api and myems-admin
+- added bind command to store feature to myems-api and myems-admin
 
 ### Changed
 - updated the default tariff type and default tariff valid through date time in tariff editor

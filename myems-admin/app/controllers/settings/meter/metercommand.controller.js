@@ -2,7 +2,7 @@
 
 app.controller('MeterCommandController', function (
     $scope,
-	$window,
+    $window,
     $timeout,
     $translate,
     MeterService,

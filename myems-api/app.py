@@ -481,6 +481,10 @@ api.add_route('/stores/{id_}/workingcalendars',
               store.StoreWorkingCalendarCollection())
 api.add_route('/stores/{id_}/workingcalendars/{wcid}',
               store.StoreWorkingCalendarItem())
+api.add_route('/stores/{id_}/commands',
+              store.StoreCommandCollection())
+api.add_route('/stores/{id_}/commands/{cid}',
+              store.StoreCommandItem())
 
 api.add_route('/storetypes',
               storetype.StoreTypeCollection())

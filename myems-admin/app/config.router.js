@@ -894,6 +894,7 @@ app
                                                     'app/services/settings/store/store.service.js',
                                                     'app/services/settings/store/storetype.service.js',
                                                     'app/services/settings/meter/meter.service.js',
+                                                    'app/services/settings/command/command.service.js',
                                                     'app/services/settings/meter/virtualmeter.service.js',
                                                     'app/services/settings/meter/offlinemeter.service.js',
                                                     'app/services/settings/costcenter/costcenter.service.js',
@@ -902,6 +903,7 @@ app
                                                     'app/services/settings/store/storepoint.service.js',
                                                     'app/services/settings/store/storesensor.service.js',
                                                     'app/services/settings/store/storeworkingcalendar.service.js',
+                                                    'app/services/settings/store/storecommand.service.js',
                                                     'app/services/settings/workingcalendar/workingcalendar.service.js',
                                                     'app/services/settings/datasource/datasource.service.js',
                                                     'app/services/settings/datasource/point.service.js',
@@ -912,6 +914,7 @@ app
                                                     'app/controllers/settings/store/storepoint.controller.js',
                                                     'app/controllers/settings/store/storesensor.controller.js',
                                                     'app/controllers/settings/store/storeworkingcalendar.controller.js',
+                                                    'app/controllers/settings/store/storecommand.controller.js',
                                                 ]
                                             }]);
                                         }
