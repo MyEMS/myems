@@ -829,6 +829,94 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "GET All Commands associated with Combined Equipment ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/combinedequipments/1/commands",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"combinedequipments",
+										"1",
+										"commands"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Bind Command to Combined Equipment",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "053d50fc67f6abac052883728fef670b96b472c692ef412452cb990ffc4a4e985be89dc971f6be34236338238ede3ee405f43861823c4b5cefed6dbfd3e41ed2",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"command_id\":3}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/combinedequipments/1/commands",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"combinedequipments",
+										"1",
+										"commands"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE Unbind Command from Combined Equipment",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "053d50fc67f6abac052883728fef670b96b472c692ef412452cb990ffc4a4e985be89dc971f6be34236338238ede3ee405f43861823c4b5cefed6dbfd3e41ed2",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/combinedequipments/1/commands/3",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"combinedequipments",
+										"1",
+										"commands",
+										"3"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -4130,6 +4218,94 @@
 										"1",
 										"virtualmeters",
 										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Commands associated with Equipment ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/equipments/1/commands",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"equipments",
+										"1",
+										"commands"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Bind Command to Equipment",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "596d699a66de55774218b619db04fe989ddbb71554f066f55b41a39da444dfcd1fafd319f24312cac1abc80e073135ba34a6a8f289d617cf049602b50015cf15",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"command_id\":3}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/equipments/1/commands",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"equipments",
+										"1",
+										"commands"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE Unbind Command from Equipment",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "596d699a66de55774218b619db04fe989ddbb71554f066f55b41a39da444dfcd1fafd319f24312cac1abc80e073135ba34a6a8f289d617cf049602b50015cf15",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/equipments/1/commands/3",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"equipments",
+										"1",
+										"commands",
+										"3"
 									]
 								}
 							},

@@ -139,6 +139,10 @@ api.add_route('/combinedequipments/{id_}/virtualmeters',
               combinedequipment.CombinedEquipmentVirtualMeterCollection())
 api.add_route('/combinedequipments/{id_}/virtualmeters/{mid}',
               combinedequipment.CombinedEquipmentVirtualMeterItem())
+api.add_route('/combinedequipments/{id_}/commands',
+              combinedequipment.CombinedEquipmentCommandCollection())
+api.add_route('/combinedequipments/{id_}/commands/{cid}',
+              combinedequipment.CombinedEquipmentCommandItem())
 
 api.add_route('/commands',
               command.CommandCollection())
@@ -251,6 +255,10 @@ api.add_route('/equipments/{id_}/virtualmeters',
               equipment.EquipmentVirtualMeterCollection())
 api.add_route('/equipments/{id_}/virtualmeters/{mid}',
               equipment.EquipmentVirtualMeterItem())
+api.add_route('/equipments/{id_}/commands',
+              equipment.EquipmentCommandCollection())
+api.add_route('/equipments/{id_}/commands/{cid}',
+              equipment.EquipmentCommandItem())
 
 api.add_route('/gateways',
               gateway.GatewayCollection())

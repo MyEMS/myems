@@ -673,14 +673,17 @@ app
                                                     'app/services/settings/costcenter/costcenter.service.js',
                                                     'app/services/settings/datasource/point.service.js',
                                                     'app/services/settings/meter/meter.service.js',
+                                                    'app/services/settings/command/command.service.js',
                                                     'app/services/settings/meter/offlinemeter.service.js',
                                                     'app/services/settings/meter/virtualmeter.service.js',
                                                     'app/services/settings/equipment/equipmentmeter.service.js',
                                                     'app/services/settings/equipment/equipmentparameter.service.js',
+                                                    'app/services/settings/equipment/equipmentcommand.service.js',
                                                     'app/controllers/settings/equipment/equipment.master.controller.js',
                                                     'app/controllers/settings/equipment/equipment.controller.js',
                                                     'app/controllers/settings/equipment/equipmentmeter.controller.js',
-                                                    'app/controllers/settings/equipment/equipmentparameter.controller.js'
+                                                    'app/controllers/settings/equipment/equipmentparameter.controller.js',
+                                                    'app/controllers/settings/equipment/equipmentcommand.controller.js'
                                                 ]
                                             }]);
                                         }
@@ -715,16 +718,19 @@ app
                                                     'app/services/settings/datasource/point.service.js',
                                                     'app/services/settings/equipment/equipment.service.js',
                                                     'app/services/settings/meter/meter.service.js',
+                                                    'app/services/settings/command/command.service.js',
                                                     'app/services/settings/meter/offlinemeter.service.js',
                                                     'app/services/settings/meter/virtualmeter.service.js',
                                                     'app/services/settings/combinedequipment/combinedequipmentequipment.service.js',
                                                     'app/services/settings/combinedequipment/combinedequipmentmeter.service.js',
                                                     'app/services/settings/combinedequipment/combinedequipmentparameter.service.js',
+                                                    'app/services/settings/combinedequipment/combinedequipmentcommand.service.js',
                                                     'app/controllers/settings/combinedequipment/combinedequipment.master.controller.js',
                                                     'app/controllers/settings/combinedequipment/combinedequipment.controller.js',
                                                     'app/controllers/settings/combinedequipment/combinedequipmentequipment.controller.js',
                                                     'app/controllers/settings/combinedequipment/combinedequipmentmeter.controller.js',
-                                                    'app/controllers/settings/combinedequipment/combinedequipmentparameter.controller.js'
+                                                    'app/controllers/settings/combinedequipment/combinedequipmentparameter.controller.js',
+                                                    'app/controllers/settings/combinedequipment/combinedequipmentcommand.controller.js'
                                                 ]
                                             }]);
                                         }
@@ -1286,7 +1292,7 @@ app
                                                     'app/services/users/user/user.service.js',
                                                     'app/services/users/privilege/privilege.service.js',
                                                     'app/controllers/users/user/user.controller.js',
-                                                    'app/controllers/users/user/user.master.controller.js'
+                                                    'app/controllers/users/user/user.master.controller.js',
                                                 ]
                                             }]);
                                         }
