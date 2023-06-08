@@ -390,12 +390,12 @@
 								<div class="col-lg-3">
 									<div class="panel panel-info">
 										<div class="panel-heading">
-											{{'COMMON.EQUIPMENT' | translate}}
+											{{'COMMON.TENANT' | translate}}
 										</div>
 										<div class="panel-body" slim-scroll box-height="600px">
 											<form role="form">
 												<div class="form-group no-margin">
-													<label>{{'EQUIPMENT.SELECT_EQUIPMENT' | translate}}</label>
+													<label>{{'SETTING.SELECT_TENANT' | translate}}</label>
 													<ui-select on-select="changeTenant($item,$model)"
 														ng-model="currentTenant.selected" theme="bootstrap">
 														<ui-select-match
