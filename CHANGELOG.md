@@ -15,7 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added new user approval function to myems-admin
 
 ### Changed
-- updated the default tariff type and default tariff valid through datetime in tariff editor
+- updated the default tariff type and default tariff valid through date time in tariff editor
 
 ### Fixed
 - fixed save button issue of tariff dialog in myems-admin
