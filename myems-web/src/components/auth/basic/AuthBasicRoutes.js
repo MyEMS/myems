@@ -9,13 +9,13 @@ import Registration from './Registration';
 // import ForgotPassword from './ForgotPassword';
 import ForgotPassword from '../../MyEMS/auth/basic/ForgotPassword';
 import PasswordReset from './PasswordReset';
+import SentForgotPasswordEmailMessage from '../../MyEMS/auth/basic/SentForgotPasswordEmailMessage';
 // import ConfirmMail from './ConfirmMail';
 import ConfirmMail from '../../MyEMS/auth/basic/ConfirmMail';
 import LockScreen from './LockScreen';
 import ChangePassword from '../../MyEMS/auth/basic/ChangePassword';
 import RegisterAccount from '../../MyEMS/auth/basic/RegisterAccount';
 import SentRegisterEmailMessage from '../../MyEMS/auth/basic/SentRegisterEmailMessage';
-import SentForgotPasswordEmailMessage from '../../MyEMS/auth/basic/SentForgotPasswordEmailMessage';
 
 const AuthBasicRoutes = ({ match: { url } }) => (
   <Switch>

@@ -34,7 +34,7 @@ const RegisterAccountForm = ({ setRedirect, setRedirectUrl, hasLabel, layout, t 
           "display_name": displayName,
           "email": email,
           "password": password,
-          "token": token,
+          "token": token
         }
       }),
       headers: { "Content-Type": "application/json" }

@@ -8,11 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added bind command to meter feature to myems-api and myems-admin
 - added bind command to space feature to myems-api and myems-admin
 - added forgot pssword function to myems-api and myems-web
-- added user register function to myems-api
+- added user register function to myems-api and myems-web
 - added postal code to microgrid in database, myems-api, myems-admin
 - added bind command to equipment feature to myems-api and myems-admin
 - added bind command to combined equipment feature to myems-api and myems-admin
 - added new user approval function to myems-admin
+
 ### Changed
 
 ### Fixed
