@@ -166,7 +166,11 @@ app.controller('ModalAddTariffCtrl', function($scope, $timeout, $uibModalInstanc
 	$scope.disable=false;
 	$scope.categories = params.categories;
 	$scope.timeofuse = [];
-	$scope.tariff={valid_from:moment(),valid_through:moment()};
+	$scope.tariff = {
+		tariff_type: 'timeofuse',
+		valid_from: moment(),
+		valid_through: new Date(new Date().getFullYear(), 11, 31, 23, 59, 59)
+	};
 	$scope.t={};
 	$scope.t.start_hour = '00';
 	$scope.t.start_min = '00';
