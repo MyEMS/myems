@@ -520,6 +520,10 @@ api.add_route('/tenants/{id_}/workingcalendars',
               tenant.TenantWorkingCalendarCollection())
 api.add_route('/tenants/{id_}/workingcalendars/{wcid}',
               tenant.TenantWorkingCalendarItem())
+api.add_route('/tenants/{id_}/commands',
+              tenant.TenantCommandCollection())
+api.add_route('/tenants/{id_}/commands/{cid}',
+              tenant.TenantCommandItem())
 
 api.add_route('/tenanttypes',
               tenanttype.TenantTypeCollection())
