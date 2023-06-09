@@ -190,7 +190,7 @@ class DistributionCircuitItem:
     def on_get(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_METER_ID')
+                                   description='API.INVALID_DISTRIBUTION_CIRCUIT_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -352,6 +352,14 @@ class DistributionCircuitItem:
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DISTRIBUTION_SYSTEM_NOT_FOUND')
+        cursor.execute(" SELECT name "
+                       " FROM tbl_distribution_circuits "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.DISTRIBUTION_CIRCUIT_NOT_FOUND')
 
         cursor.execute(" SELECT name "
                        " FROM tbl_distribution_circuits "
