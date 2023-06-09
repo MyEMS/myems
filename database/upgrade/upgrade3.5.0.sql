@@ -1,6 +1,6 @@
 -- ---------------------------------------------------------------------------------------------------------------------
 -- WARNING: BACKUP YOUR DATABASE BEFORE UPGRADING
--- THIS SCRIPT IS ONLY FOR UPGRADING 3.4.0 TO 3.5.0RC
+-- THIS SCRIPT IS ONLY FOR UPGRADING 3.4.0 TO 3.5.0
 -- THE CURRENT VERSION CAN BE FOUND AT `myems_system_db`.`tbl_versions`
 -- ---------------------------------------------------------------------------------------------------------------------
 
