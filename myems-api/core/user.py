@@ -1007,19 +1007,21 @@ class ForgotPassword:
 
     @staticmethod
     def on_options(req, resp):
-        resp.status = falcon.HTTP_200   
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_get(req, resp):
         token = req.params.get('token')
         email = req.params.get('email')
-        
-        if token is None or len(token) <= 0: 
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+
+        if token is None or len(token) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
                                    description="API.INVALID_TOKEN")
 
         if email is None or len(email) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
                                    description="API.INVALID_EMAIL")
 
         cnx = mysql.connector.connect(**config.myems_user_db)
@@ -1034,14 +1036,16 @@ class ForgotPassword:
         if row is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ADMINISTRATOR_SESSION_NOT_FOUND')
+            raise falcon.HTTPError(status=falcon.HTTP_404,
+                                   title='API.NOT_FOUND',
+                                   description='API.FORGOT_PASSWORD_SESSION_NOT_FOUND')
         else:
-            utc_expires = row[0]
-            if datetime.utcnow() > utc_expires:
+            expires_datetime_utc = row[0]
+            if datetime.utcnow() > expires_datetime_utc:
                 cursor.close()
                 cnx.close()
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400,
+                                       title='API.BAD_REQUEST',
                                        description='API.ADMINISTRATOR_SESSION_TIMEOUT')
 
         if cursor:
@@ -1049,7 +1053,7 @@ class ForgotPassword:
         if cnx:
             cnx.close()
 
-        result = {"utc_expires": utc_expires}
+        result = {"expires_datetime_utc": expires_datetime_utc}
 
         resp.text = json.dumps(result, default=str)
 
@@ -1060,19 +1064,21 @@ class ForgotPassword:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
-        
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.FAILED_TO_READ_REQUEST_STREAM')
+
         if 'token' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['token'], str) or \
                 len(str.strip(new_values['data']['token'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TOKEN')
         token = str.strip(new_values['data']['token'])
 
         if 'password' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['password'], str) or \
                 len(str.strip(new_values['data']['password'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_PASSWORD')
         password = str.strip(new_values['data']['password'])
 
@@ -1082,9 +1088,9 @@ class ForgotPassword:
         if 'email' in new_values['data']:
             if not isinstance(new_values['data']['email'], str) or \
                     len(str.strip(new_values['data']['email'])) == 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_EMAIL')
-            
+
             email = str.strip(new_values['data']['email']).lower()
 
             query = (" SELECT recipient_email, token, expires_datetime_utc"
@@ -1096,41 +1102,52 @@ class ForgotPassword:
             if row is None:
                 cursor.close()
                 cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_404, 'API.ERROR', 'API.INVALID_TOKEN')
+                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.ERROR', description='API.INVALID_TOKEN')
             else:
                 if datetime.utcnow() > row[2]:
                     cursor.close()
                     cnx.close()
                     raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                        description='API.ADMINISTRATOR_SESSION_TIMEOUT')
+                                           description='API.ADMINISTRATOR_SESSION_TIMEOUT')
         else:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
                                    description='API.INVALID_EMAIL')
-        query = (" SELECT salt, uuid, id FROM tbl_users WHERE email = %s")
-        cursor.execute(query, (email,))
+
+        cursor.execute(" SELECT salt, uuid, id "
+                       " FROM tbl_users "
+                       " WHERE email = %s",
+                       (email,))
         row = cursor.fetchone()
         if row is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, 'API.ERROR', 'API.USER_NOT_FOUND')
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.ERROR', description='API.USER_NOT_FOUND')
         else:
             result = {"salt": row[0], "uuid": row[1], "id": row[2]}
 
-        query = (" SELECT uuid, id FROM tbl_users WHERE email = %s and password = %s")
         hashed_password = hashlib.sha512(result['salt'].encode() + password.encode()).hexdigest()
-        cursor.execute(query, (email, hashed_password))
+        cursor.execute(" SELECT uuid, id "
+                       " FROM tbl_users "
+                       " WHERE email = %s and password = %s",
+                       (email, hashed_password))
         row = cursor.fetchone()
         if row is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, 'API.ERROR', 'API.PASSWORDS_MATCH')
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.ERROR', description='API.PASSWORDS_MATCH')
 
-        cursor.execute(" UPDATE tbl_users set password = %s Where email = %s", (hashed_password, email))
+        cursor.execute(" UPDATE tbl_users "
+                       " SET password = %s "
+                       " Where email = %s",
+                       (hashed_password, email))
         cnx.commit()
-        
-        cursor.execute(" DELETE FROM tbl_email_message_sessions WHERE recipient_email = %s and token = %s ", (email, token))
+
+        cursor.execute(" DELETE FROM tbl_email_message_sessions "
+                       " WHERE recipient_email = %s and token = %s ",
+                       (email, token))
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -1139,7 +1156,7 @@ class ForgotPassword:
         write_log(user_uuid=result['uuid'], request_method='PUT', resource_type='ForgotPassword',
                   resource_id=result['id'], request_body=None)
 
-    
+
 class EmailMessageCollection:
     @staticmethod
     def __init__():
@@ -1161,33 +1178,33 @@ class EmailMessageCollection:
             timezone_offset = -timezone_offset
 
         if start_datetime_local is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description="API.INVALID_START_DATETIME_FORMAT")
         else:
             start_datetime_local = str.strip(start_datetime_local)
             try:
                 start_datetime_utc = datetime.strptime(start_datetime_local,
                                                        '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
-                    timedelta(minutes=timezone_offset)
+                                     timedelta(minutes=timezone_offset)
             except ValueError:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_START_DATETIME_FORMAT")
 
         if end_datetime_local is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description="API.INVALID_END_DATETIME_FORMAT")
         else:
             end_datetime_local = str.strip(end_datetime_local)
             try:
                 end_datetime_utc = datetime.strptime(end_datetime_local,
                                                      '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
-                    timedelta(minutes=timezone_offset)
+                                   timedelta(minutes=timezone_offset)
             except ValueError:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_END_DATETIME_FORMAT")
 
         if start_datetime_utc >= end_datetime_utc:
-            raise falcon.HTTPError(falcon.HTTP_400,
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.START_DATETIME_MUST_BE_EARLIER_THAN_END_DATETIME')
 
@@ -1195,8 +1212,8 @@ class EmailMessageCollection:
         cursor = cnx.cursor()
 
         query = (" SELECT id, recipient_name, recipient_email, "
-                 " subject, message, created_datetime_utc, "
-                 " scheduled_datetime_utc, status "
+                 "        subject, message, created_datetime_utc, "
+                 "        scheduled_datetime_utc, status "
                  " FROM tbl_email_messages "
                  " WHERE created_datetime_utc >= %s AND created_datetime_utc < %s "
                  " ORDER BY created_datetime_utc ")
@@ -1230,32 +1247,34 @@ class EmailMessageCollection:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.FAILED_TO_READ_REQUEST_STREAM')
 
-        utc_expires = datetime.utcnow() + timedelta(seconds=60 * 60 * 1)
+        expires_datetime_utc = datetime.utcnow() + timedelta(seconds=60 * 60 * 1)
 
         if 'recipient_email' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['recipient_email'], str) or \
                 len(str.strip(new_values['data']['recipient_email'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RECIPIENT_EMAIL')
         recipient_email = str.strip(new_values['data']['recipient_email'])
         match = re.match(r'^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', recipient_email)
         if match is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EMAIL')
 
         if 'subject' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['subject'], str) or \
                 len(str.strip(new_values['data']['subject'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SUBJECT_VALUE')
         subject = str.strip(new_values['data']['subject'])
 
         if 'message' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['message'], str) or \
                 len(str.strip(new_values['data']['message'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MESSAGE_VALUE')
 
         token = hashlib.sha512(os.urandom(24)).hexdigest()
@@ -1265,14 +1284,14 @@ class EmailMessageCollection:
         if 'created_datetime' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['created_datetime'], str) or \
                 len(str.strip(new_values['data']['created_datetime'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_CREATED_DATETIME')
         created_datetime_local = str.strip(new_values['data']['created_datetime'])
 
         if 'scheduled_datetime' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['scheduled_datetime'], str) or \
                 len(str.strip(new_values['data']['scheduled_datetime'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SCHEDULED_DATETIME')
         scheduled_datetime_local = str.strip(new_values['data']['scheduled_datetime'])
 
@@ -1281,29 +1300,29 @@ class EmailMessageCollection:
             timezone_offset = -timezone_offset
 
         if created_datetime_local is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description="API.INVALID_CREATED_DATETIME")
         else:
             created_datetime_local = str.strip(created_datetime_local)
             try:
                 created_datetime_utc = datetime.strptime(created_datetime_local,
                                                          '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
-                                     timedelta(minutes=timezone_offset)
+                                       timedelta(minutes=timezone_offset)
             except ValueError:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_CREATED_DATETIME")
 
         if scheduled_datetime_local is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description="API.INVALID_SCHEDULED_DATETIME")
         else:
             scheduled_datetime_local = str.strip(scheduled_datetime_local)
             try:
                 scheduled_datetime_utc = datetime.strptime(scheduled_datetime_local,
                                                            '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
-                                     timedelta(minutes=timezone_offset)
+                                         timedelta(minutes=timezone_offset)
             except ValueError:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_SCHEDULED_DATETIME")
 
         status = 'new'
@@ -1317,7 +1336,8 @@ class EmailMessageCollection:
             if row is None:
                 cursor.close()
                 cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_404, 'API.ERROR', 'API.USER_NOT_FOUND')
+                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.ERROR', 
+                                       description='API.USER_NOT_FOUND')
             else:
                 recipient_name = row[0]
         
@@ -1327,21 +1347,23 @@ class EmailMessageCollection:
             if row is not None:
                 cursor.close()
                 cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_404, 'API.ERROR', 'API.EMAIL_IS_ALREADY_IN_USE')
+                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.ERROR',
+                                       description='API.EMAIL_IS_ALREADY_IN_USE')
             
             cursor.execute("select name from tbl_new_users where email = %s", (recipient_email,))
             row = cursor.fetchone()
             if row is not None:
                 cursor.close()
                 cnx.close()
-                raise falcon.HTTPError(falcon.HTTP_404, 'API.ERROR', 'API.EMAIL_IS_ALREADY_IN_USE')
+                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.ERROR',
+                                       description='API.EMAIL_IS_ALREADY_IN_USE')
             
             recipient_name = recipient_email.split('@')[0]
 
-        add_session =  (" INSERT INTO tbl_email_message_sessions "
-                        " (recipient_email, token, expires_datetime_utc) "
-                        " VALUES (%s, %s, %s) ")
-        cursor.execute(add_session, (recipient_email, token, utc_expires))
+        add_session = (" INSERT INTO tbl_email_message_sessions "
+                       "             (recipient_email, token, expires_datetime_utc) "
+                       " VALUES (%s, %s, %s) ")
+        cursor.execute(add_session, (recipient_email, token, expires_datetime_utc))
 
         add_row = (" INSERT INTO tbl_email_messages "
                    "             (recipient_name, recipient_email, subject, message, "
@@ -1354,9 +1376,9 @@ class EmailMessageCollection:
                                  message,
                                  created_datetime_utc,
                                  scheduled_datetime_utc,
-                                 status))             
+                                 status))
         cnx.commit()
-        
+
         cursor.close()
         cnx.close()
 
@@ -1377,7 +1399,7 @@ class EmailMessageItem:
     def on_get(req, resp, id_):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EMAIL_MESSAGE_ID')
 
         cnx = mysql.connector.connect(**config.myems_user_db)
@@ -1397,7 +1419,7 @@ class EmailMessageItem:
             cnx.close()
 
         if row is None:
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.EMAIL_MESSAGE_NOT_FOUND')
 
         result = {"id": row[0],
@@ -1418,46 +1440,46 @@ class EmailMessageItem:
         access_control(req)
 
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EMAIL_MESSAGE_ID')
 
         try:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)
         except Exception as ex:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
-
-        new_values = json.loads(raw_json)
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.FAILED_TO_READ_REQUEST_STREAM')
 
         if 'recipient_name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['recipient_name'], str) or \
                 len(str.strip(new_values['data']['recipient_name'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RECIPIENT_NAME')
         recipient_name = str.strip(new_values['data']['recipient_name'])
 
         if 'recipient_email' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['recipient_email'], str) or \
                 len(str.strip(new_values['data']['recipient_email'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RECIPIENT_EMAIL')
         recipient_email = str.strip(new_values['data']['recipient_email'])
         match = re.match(r'^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', recipient_email)
         if match is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EMAIL')
 
         if 'subject' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['subject'], str) or \
                 len(str.strip(new_values['data']['subject'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SUBJECT_VALUE')
         subject = str.strip(new_values['data']['subject'])
 
         if 'message' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['message'], str) or \
                 len(str.strip(new_values['data']['message'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MESSAGE_VALUE')
         message = str.strip(new_values['data']['message'])
 
@@ -1465,21 +1487,21 @@ class EmailMessageItem:
                 not isinstance(new_values['data']['status'], str) or \
                 len(str.strip(new_values['data']['status'])) == 0 or \
                 str.strip(new_values['data']['status']) not in ('new', 'acknowledged', 'timeout'):
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STATUS')
         status = str.strip(new_values['data']['status'])
 
         if 'created_datetime' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['created_datetime'], str) or \
                 len(str.strip(new_values['data']['created_datetime'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_CREATED_DATETIME')
         created_datetime_local = str.strip(new_values['data']['created_datetime'])
 
         if 'scheduled_datetime' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['scheduled_datetime'], str) or \
                 len(str.strip(new_values['data']['scheduled_datetime'])) == 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SCHEDULED_DATETIME')
         scheduled_datetime_local = str.strip(new_values['data']['scheduled_datetime'])
 
@@ -1488,29 +1510,29 @@ class EmailMessageItem:
             timezone_offset = -timezone_offset
 
         if created_datetime_local is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description="API.INVALID_CREATED_DATETIME")
         else:
             created_datetime_local = str.strip(created_datetime_local)
             try:
                 created_datetime_utc = datetime.strptime(created_datetime_local,
                                                          '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
-                                     timedelta(minutes=timezone_offset)
+                                       timedelta(minutes=timezone_offset)
             except ValueError:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_CREATED_DATETIME")
 
         if scheduled_datetime_local is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description="API.INVALID_SCHEDULED_DATETIME")
         else:
             scheduled_datetime_local = str.strip(scheduled_datetime_local)
             try:
                 scheduled_datetime_utc = datetime.strptime(scheduled_datetime_local,
                                                            '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
-                                     timedelta(minutes=timezone_offset)
+                                         timedelta(minutes=timezone_offset)
             except ValueError:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_SCHEDULED_DATETIME")
 
         cnx = mysql.connector.connect(**config.myems_user_db)
@@ -1523,7 +1545,7 @@ class EmailMessageItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.EMAIL_MESSAGE_NOT_FOUND')
 
         update_row = (" UPDATE tbl_email_messages "
@@ -2081,11 +2103,11 @@ class EmailMessageSessionCollection:
         email = req.params.get('email')
         
         if token is None or len(token) <= 0: 
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description="API.INVALID_TOKEN")
 
         if email is None or len(email) <= 0:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description="API.INVALID_EMAIL")
 
         cnx = mysql.connector.connect(**config.myems_user_db)

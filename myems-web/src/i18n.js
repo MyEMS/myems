@@ -321,7 +321,6 @@ const resources = {
       'Remember me': 'Remember me',
       'Logged in as ': 'Logged in as ',
       'Forgot Password?': 'Forgot Password?',
-      'Forgot Password?': 'Forgot Password?',
       'Forgot your password?': 'Forgot your password?',
       "Enter your email and we'll send you a reset link": "Enter your email and we'll send you a reset link",
       "Enter your email and we'll send you a registration link": "Enter your email and we'll send you a registration link",
