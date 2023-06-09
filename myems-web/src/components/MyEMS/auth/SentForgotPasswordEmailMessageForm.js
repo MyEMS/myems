@@ -28,7 +28,7 @@ const SentForgotPasswordEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLa
       handleRefreshCaptcha();
       return false;
     }
-    let subject = t("Forgot Password");
+    let subject = "Forgot Password";
     let created_datetime = moment().clone().format('YYYY-MM-DDTHH:mm:ss');
     let scheduled_datetime = moment().clone().format('YYYY-MM-DDTHH:mm:ss');
     let message = 

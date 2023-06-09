@@ -39,8 +39,8 @@ const ForgotPasswordForm = ({ setRedirect, setRedirectUrl,hasLabel, layout, t })
     let isResponseOK = false;
     const searchParams = new URLSearchParams(window.location.search);
     setToken(searchParams.get('token') ? searchParams.get('token') : '');
-    setEmail(searchParams.get('email') ? searchParams.get('email') : '');
-    fetch(APIBaseURL + '/users/forgotpassword?token='+searchParams.get('token')+'&email='+searchParams.get('email'), {
+    setEmail(searchParams.get('email').split('"')[0] ? searchParams.get('email').split('"')[0] : '');
+    fetch(APIBaseURL + '/users/emailmessagesessions?token='+searchParams.get('token')+'&email='+searchParams.get('email').split('"')[0], {
       method: 'GET',
       headers: {
         "Content-type": "application/json",
