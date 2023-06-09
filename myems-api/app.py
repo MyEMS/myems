@@ -390,6 +390,10 @@ api.add_route('/shopfloors/{id_}/workingcalendars',
               shopfloor.ShopfloorWorkingCalendarCollection())
 api.add_route('/shopfloors/{id_}/workingcalendars/{wcid}',
               shopfloor.ShopfloorWorkingCalendarItem())
+api.add_route('/shopfloors/{id_}/commands',
+              shopfloor.ShopfloorCommandCollection())
+api.add_route('/shopfloors/{id_}/commands/{cid}',
+              shopfloor.ShopfloorCommandItem())
 
 api.add_route('/spaces',
               space.SpaceCollection())

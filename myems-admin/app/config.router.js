@@ -952,6 +952,7 @@ app
                                                 files: [
                                                     'app/services/settings/shopfloor/shopfloor.service.js',
                                                     'app/services/settings/meter/meter.service.js',
+                                                    'app/services/settings/command/command.service.js',
                                                     'app/services/settings/meter/virtualmeter.service.js',
                                                     'app/services/settings/meter/offlinemeter.service.js',
                                                     'app/services/settings/costcenter/costcenter.service.js',
@@ -961,6 +962,7 @@ app
                                                     'app/services/settings/shopfloor/shopfloorpoint.service.js',
                                                     'app/services/settings/shopfloor/shopfloorsensor.service.js',
                                                     'app/services/settings/shopfloor/shopfloorworkingcalendar.service.js',
+                                                    'app/services/settings/shopfloor/shopfloorcommand.service.js',
                                                     'app/services/settings/workingcalendar/workingcalendar.service.js',
                                                     'app/services/settings/datasource/datasource.service.js',
                                                     'app/services/settings/datasource/point.service.js',
@@ -973,6 +975,7 @@ app
                                                     'app/controllers/settings/shopfloor/shopfloorpoint.controller.js',
                                                     'app/controllers/settings/shopfloor/shopfloorsensor.controller.js',
                                                     'app/controllers/settings/shopfloor/shopfloorworkingcalendar.controller.js',
+                                                    'app/controllers/settings/shopfloor/shopfloorcommand.controller.js',
                                                 ]
                                             }]);
                                         }
