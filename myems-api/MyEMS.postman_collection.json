@@ -7441,6 +7441,92 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "POST Bind a Command to a Shopfloor",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "a4a505cee954ed802cfb8223bd914d0b0dda64ef8b5884cb1f877745886dfdd4137524cc57a67932757936ca957b62ca976aaae2a2952ba13a9a0cc467d459a7",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"command_id\":1}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/shopfloors/1/commands",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"shopfloors",
+										"1",
+										"commands"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Commands of a Shopfloor",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/shopfloors/1/commands",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"shopfloors",
+										"1",
+										"commands"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE Unbind a Command from Shopfloor",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "a4a505cee954ed802cfb8223bd914d0b0dda64ef8b5884cb1f877745886dfdd4137524cc57a67932757936ca957b62ca976aaae2a2952ba13a9a0cc467d459a7",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/shopfloors/1/commands/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"shopfloors",
+										"1",
+										"commands",
+										"1"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -9327,6 +9413,92 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "GET All Commands of a Store",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/stores/1/commands",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"stores",
+										"1",
+										"commands"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Bind a Command to a Store",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "1662d2484cfb9f0f16c8f55d644385821e2367580e4a0b428567237db3fb06014a720c7996fe938ea0075e02560cd7c316c7d8680734899de85ef608cfcacbef",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"command_id\":1}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/stores/1/commands",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"stores",
+										"1",
+										"commands"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE Unbind a Command from Store",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "1662d2484cfb9f0f16c8f55d644385821e2367580e4a0b428567237db3fb06014a720c7996fe938ea0075e02560cd7c316c7d8680734899de85ef608cfcacbef",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/stores/1/commands/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"stores",
+										"1",
+										"commands",
+										"1"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -10229,6 +10401,92 @@
 										"1",
 										"workingcalendars",
 										"6"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Commands of a Tenant",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/tenants/1/commands",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tenants",
+										"1",
+										"commands"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Bind a Command to a Tenant",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "ff5fdc4eaa8c0b6c2f655692693fd4ce4004a1247ffbb6aacf4f4dd198977d11cffa89ae50a2c2118de5ca5412038e87f45b721f9649fd092af52279bd13d74f",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"command_id\":1}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/tenants/1/commands",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tenants",
+										"1",
+										"commands"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE Unbind a Command from Tenant",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "ff5fdc4eaa8c0b6c2f655692693fd4ce4004a1247ffbb6aacf4f4dd198977d11cffa89ae50a2c2118de5ca5412038e87f45b721f9649fd092af52279bd13d74f",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/tenants/1/commands/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tenants",
+										"1",
+										"commands",
+										"1"
 									]
 								}
 							},
@@ -11259,7 +11517,7 @@
 									},
 									{
 										"key": "TOKEN",
-										"value": "78db9827ed65729c4b3ba7dc3acc39913d50d24909a29b6c779e46d31cab47cba2a64ce0c6cabbffad712857317463af38c5699a04e2f4a7ba3b19860de767a0",
+										"value": "c1095df4643415861d45e9b8b2af910d69f451388fce0414214f8a7b49aa2ffd628dfef58968ffab28135349d77264e460855e4463dfc7c32c425f1a7869217a",
 										"type": "default"
 									}
 								],
@@ -11288,7 +11546,7 @@
 									},
 									{
 										"key": "TOKEN",
-										"value": "78db9827ed65729c4b3ba7dc3acc39913d50d24909a29b6c779e46d31cab47cba2a64ce0c6cabbffad712857317463af38c5699a04e2f4a7ba3b19860de767a0",
+										"value": "c1095df4643415861d45e9b8b2af910d69f451388fce0414214f8a7b49aa2ffd628dfef58968ffab28135349d77264e460855e4463dfc7c32c425f1a7869217a",
 										"type": "default"
 									}
 								],

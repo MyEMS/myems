@@ -390,6 +390,10 @@ api.add_route('/shopfloors/{id_}/workingcalendars',
               shopfloor.ShopfloorWorkingCalendarCollection())
 api.add_route('/shopfloors/{id_}/workingcalendars/{wcid}',
               shopfloor.ShopfloorWorkingCalendarItem())
+api.add_route('/shopfloors/{id_}/commands',
+              shopfloor.ShopfloorCommandCollection())
+api.add_route('/shopfloors/{id_}/commands/{cid}',
+              shopfloor.ShopfloorCommandItem())
 
 api.add_route('/spaces',
               space.SpaceCollection())
@@ -481,6 +485,10 @@ api.add_route('/stores/{id_}/workingcalendars',
               store.StoreWorkingCalendarCollection())
 api.add_route('/stores/{id_}/workingcalendars/{wcid}',
               store.StoreWorkingCalendarItem())
+api.add_route('/stores/{id_}/commands',
+              store.StoreCommandCollection())
+api.add_route('/stores/{id_}/commands/{cid}',
+              store.StoreCommandItem())
 
 api.add_route('/storetypes',
               storetype.StoreTypeCollection())
@@ -520,6 +528,10 @@ api.add_route('/tenants/{id_}/workingcalendars',
               tenant.TenantWorkingCalendarCollection())
 api.add_route('/tenants/{id_}/workingcalendars/{wcid}',
               tenant.TenantWorkingCalendarItem())
+api.add_route('/tenants/{id_}/commands',
+              tenant.TenantCommandCollection())
+api.add_route('/tenants/{id_}/commands/{cid}',
+              tenant.TenantCommandItem())
 
 api.add_route('/tenanttypes',
               tenanttype.TenantTypeCollection())
