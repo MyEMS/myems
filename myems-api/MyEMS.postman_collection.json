@@ -5734,6 +5734,146 @@
 					]
 				},
 				{
+					"name": "Microgrid Generator",
+					"item": [
+						{
+							"name": "GET All Microgrid Generators",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/microgridgenerators",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgridgenerators"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET a Microgrid Generator by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/microgridgenerators/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgridgenerators",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Create new Microgrid Geratror",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "d4af151d182e325bda23f89cef3a385e519f601b40ed3158d0b306c2dcaa1b0b190f3a5945b39e9534a25f891270bbe250a38872920f975949ef33becb908198",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"Generator\", \"microgrid_id\":1, \"capacity\": 30}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/microgridgenerators",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgridgenerators"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Microgrid Generator by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "d4af151d182e325bda23f89cef3a385e519f601b40ed3158d0b306c2dcaa1b0b190f3a5945b39e9534a25f891270bbe250a38872920f975949ef33becb908198",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/microgridgenerators/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgridgenerators",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Update Microgrid Generator by ID",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "d4af151d182e325bda23f89cef3a385e519f601b40ed3158d0b306c2dcaa1b0b190f3a5945b39e9534a25f891270bbe250a38872920f975949ef33becb908198",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"Generator\", \"microgrid_id\":1, \"capacity\": 50}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/microgridgenerators/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgridgenerators",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "MicrogridOwnerType",
 					"item": [
 						{

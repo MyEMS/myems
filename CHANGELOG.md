@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - added microgrid battery actions to myems-api
 - added microgrid evcharger actions to myems-api
+- added microgrid generator actions to myems-api
 ### Changed
 
 ### Fixed
