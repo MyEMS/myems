@@ -2343,7 +2343,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "bd16461ce31dca5c026ee17b1e6e10167d7558230fc6387b4149819a1a2b0d19b87b72687fa488ee41b358b7d229ab44f1011968308c0cf3e9d379e6ae6b2565",
+										"value": "d4af151d182e325bda23f89cef3a385e519f601b40ed3158d0b306c2dcaa1b0b190f3a5945b39e9534a25f891270bbe250a38872920f975949ef33becb908198",
 										"type": "text",
 										"description": "Login to get a valid token"
 									}
@@ -5454,6 +5454,146 @@
 					]
 				},
 				{
+					"name": "Microgrid Battery",
+					"item": [
+						{
+							"name": "GET All Microgrid Batteries",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/microgridbatteries",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgridbatteries"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET a Microgrid Battery by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/microgridbatteries/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgridbatteries",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Create new Microgrid Battery",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "d4af151d182e325bda23f89cef3a385e519f601b40ed3158d0b306c2dcaa1b0b190f3a5945b39e9534a25f891270bbe250a38872920f975949ef33becb908198",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"Battery\", \"microgrid_id\":1, \"capacity\": 30}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/microgridbatteries",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgridbatteries"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Microgrid Battery by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "d4af151d182e325bda23f89cef3a385e519f601b40ed3158d0b306c2dcaa1b0b190f3a5945b39e9534a25f891270bbe250a38872920f975949ef33becb908198",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/microgridbatteries/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgridbatteries",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Update Microgrid Battery by ID",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "d4af151d182e325bda23f89cef3a385e519f601b40ed3158d0b306c2dcaa1b0b190f3a5945b39e9534a25f891270bbe250a38872920f975949ef33becb908198",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"Battery\", \"microgrid_id\":1, \"capacity\": 50}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/microgridbatteries/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgridbatteries",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "MicrogridOwnerType",
 					"item": [
 						{
@@ -6063,7 +6203,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "44e05939a3c8a545fef506ca42d51c13fc934af45b57346247697ac0b4797ca30d3d950f54d5e16d51876abc0f48b8b5db4894841b56dbfdb2ac9b8162c4e6d1",
+										"value": "90f47834e17bbf364b5b45f55193914944843f82aa0c81724fbe465e6747e626881f79f6b055c54a027ad8a7c6daf0abde2509594aef3a8aac06195f9efff253",
 										"type": "text",
 										"description": "Login to get a valid token"
 									}
