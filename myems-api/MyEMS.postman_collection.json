@@ -5316,6 +5316,158 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "GET All Batteries of Microgrid by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/microgrids/1/batteries",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgrids",
+										"1",
+										"batteries"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All EVChargers of Microgrid by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/microgrids/1/evchargers",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgrids",
+										"1",
+										"evchargers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Generators of Microgrid by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/microgrids/1/generators",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgrids",
+										"1",
+										"generators"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Grids of Microgrid by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/microgrids/1/grids",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgrids",
+										"1",
+										"grids"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Heatpumps of Microgrid by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/microgrids/1/heatpumps",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgrids",
+										"1",
+										"heatpumps"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Loads of Microgrid by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/microgrids/1/loads",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgrids",
+										"1",
+										"loads"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Photovoltaics of Microgrid by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/microgrids/1/photovoltaics",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgrids",
+										"1",
+										"photovoltaics"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Windturbines of Microgrid by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/microgrids/1/windturbines",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgrids",
+										"1",
+										"windturbines"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},

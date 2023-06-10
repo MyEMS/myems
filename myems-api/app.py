@@ -308,6 +308,22 @@ api.add_route('/microgrids/{id_}/sensors',
               microgrid.MicrogridSensorCollection())
 api.add_route('/microgrids/{id_}/sensors/{sid}',
               microgrid.MicrogridSensorItem())
+api.add_route('/microgrids/{id_}/batteries',
+              microgrid.MicrogridBatteryCollection())
+api.add_route('/microgrids/{id_}/evchargers',
+              microgrid.MicrogridEVChargerCollection())
+api.add_route('/microgrids/{id_}/generators',
+              microgrid.MicrogridGeneratorCollection())
+api.add_route('/microgrids/{id_}/grids',
+              microgrid.MicrogridGridCollection())
+api.add_route('/microgrids/{id_}/heatpumps',
+              microgrid.MicrogridHeatpumpCollection())
+api.add_route('/microgrids/{id_}/loads',
+              microgrid.MicrogridLoadCollection())
+api.add_route('/microgrids/{id_}/photovoltaics',
+              microgrid.MicrogridPhotovoltaicCollection())
+api.add_route('/microgrids/{id_}/windturbines',
+              microgrid.MicrogridWindturbineCollection())
 
 api.add_route('/microgridarchitecturetypes',
               microgridarchitecturetype.MicrogridArchitectureTypeCollection())
