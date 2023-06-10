@@ -8,10 +8,10 @@ import config
 from core.useractivity import user_logger, access_control
 
 
-class MicrogridBatteryCollection:
+class MicrogridLoadCollection:
     @staticmethod
     def __init__():
-        """Initializes MicrogridBatteryCollection"""
+        """Initializes MicrogridLoadCollection"""
         pass
 
     @staticmethod
@@ -35,14 +35,14 @@ class MicrogridBatteryCollection:
                                           "name": row[1],
                                           "uuid": row[2]}
         query = (" SELECT id, name, uuid, microgrid_id, capacity "
-                 " FROM tbl_microgrids_batteries "
+                 " FROM tbl_microgrids_loads "
                  " ORDER BY id ")
         cursor.execute(query)
-        rows_microgrid_batteries = cursor.fetchall()
+        rows_microgrid_loads = cursor.fetchall()
 
         result = list()
-        if rows_microgrid_batteries is not None and len(rows_microgrid_batteries) > 0:
-            for row in rows_microgrid_batteries:
+        if rows_microgrid_loads is not None and len(rows_microgrid_loads) > 0:
+            for row in rows_microgrid_loads:
                 microgrid = microgrid_dict.get(row[3])
                 meta_result = {"id": row[0],
                                "name": row[1],
@@ -73,7 +73,7 @@ class MicrogridBatteryCollection:
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_MICROGRID_BATTERY_NAME')
+                                   description='API.INVALID_MICROGRID_LOAD_NAME')
         name = str.strip(new_values['data']['name'])
 
         if 'microgrid_id' not in new_values['data'].keys() or \
@@ -104,16 +104,16 @@ class MicrogridBatteryCollection:
                                    description='API.MICROGRID_NOT_FOUND')
 
         cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_batteries "
+                       " FROM tbl_microgrids_loads "
                        " WHERE microgrid_id = %s AND name = %s ",
                        (microgrid_id, name,))
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.MICROGRID_BATTERY_NAME_IS_ALREADY_IN_USE')
+                                   description='API.MICROGRID_LOAD_NAME_IS_ALREADY_IN_USE')
 
-        add_values = (" INSERT INTO tbl_microgrids_batteries "
+        add_values = (" INSERT INTO tbl_microgrids_loads "
                       "    (name, uuid, microgrid_id, capacity) "
                       " VALUES (%s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
@@ -126,13 +126,13 @@ class MicrogridBatteryCollection:
         cnx.close()
 
         resp.status = falcon.HTTP_201
-        resp.location = '/microgridbatteries/' + str(new_id)
+        resp.location = '/microgridloads/' + str(new_id)
 
 
-class MicrogridBatteryItem:
+class MicrogridLoadItem:
     @staticmethod
     def __init__():
-        """Initializes MicrogridBatteryItem"""
+        """Initializes MicrogridLoadItem"""
         pass
 
     @staticmethod
@@ -143,7 +143,7 @@ class MicrogridBatteryItem:
     def on_get(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_MICROGRID_BATTERY_ID')
+                                   description='API.INVALID_MICROGRID_LOAD_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -161,7 +161,7 @@ class MicrogridBatteryItem:
                                           "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, microgrid_id, capacity "
-                 " FROM tbl_microgrids_batteries "
+                 " FROM tbl_microgrids_loads "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
@@ -170,7 +170,7 @@ class MicrogridBatteryItem:
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_BATTERY_NOT_FOUND')
+                                   description='API.MICROGRID_LOAD_NOT_FOUND')
         else:
             microgrid = microgrid_dict.get(row[3])
             meta_result = {"id": row[0],
@@ -187,21 +187,21 @@ class MicrogridBatteryItem:
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_MICROGRID_BATTERY_ID')
+                                   description='API.INVALID_MICROGRID_LOAD_ID')
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_batteries "
+                       " FROM tbl_microgrids_loads "
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_BATTERY_NOT_FOUND')
-        # todo: delete objects associated with this microgrid battery
-        # delete microgrid battery itself
-        cursor.execute(" DELETE FROM tbl_microgrids_batteries "
+                                   description='API.MICROGRID_LOAD_NOT_FOUND')
+        # todo: delete objects associated with this microgrid load
+        # delete microgrid load itself
+        cursor.execute(" DELETE FROM tbl_microgrids_loads "
                        " WHERE id = %s ", (id_,))
         cnx.commit()
 
@@ -224,7 +224,7 @@ class MicrogridBatteryItem:
 
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_MICROGRID_BATTERY_ID')
+                                   description='API.INVALID_MICROGRID_LOAD_ID')
 
         new_values = json.loads(raw_json)
 
@@ -232,7 +232,7 @@ class MicrogridBatteryItem:
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_MICROGRID_BATTERY_NAME')
+                                   description='API.INVALID_MICROGRID_LOAD_NAME')
         name = str.strip(new_values['data']['name'])
 
         if 'microgrid_id' not in new_values['data'].keys() or \
@@ -263,25 +263,25 @@ class MicrogridBatteryItem:
                                    description='API.MICROGRID_NOT_FOUND')
 
         cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_batteries "
+                       " FROM tbl_microgrids_loads "
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_BATTERY_NOT_FOUND')
+                                   description='API.MICROGRID_LOAD_NOT_FOUND')
 
         cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_batteries "
+                       " FROM tbl_microgrids_loads "
                        " WHERE microgrid_id = %s AND name = %s AND id != %s ",
                        (microgrid_id, name, id_))
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.MICROGRID_BATTERY_NAME_IS_ALREADY_IN_USE')
+                                   description='API.MICROGRID_LOAD_NAME_IS_ALREADY_IN_USE')
 
-        update_row = (" UPDATE tbl_microgrids_batteries "
+        update_row = (" UPDATE tbl_microgrids_loads "
                       " SET name = %s, microgrid_id = %s, capacity = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
