@@ -5320,7 +5320,7 @@
 					]
 				},
 				{
-					"name": "MicrogridArchitectureType",
+					"name": "Microgrid Architecture Type",
 					"item": [
 						{
 							"name": "GET All Architecture Types",
@@ -6294,7 +6294,147 @@
 					]
 				},
 				{
-					"name": "MicrogridOwnerType",
+					"name": "Microgrid Photovoltaic",
+					"item": [
+						{
+							"name": "GET All Microgrid Photovoltaics",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/microgridphotovoltaics",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgridphotovoltaics"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET a Microgrid Photovoltaic by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/microgridphotovoltaics/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgridphotovoltaics",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Create new Microgrid Photovoltaic",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "08c913a4e5eccc96d590c52002b2ed225dbbf0de52b260d41b912bf989fe9c0bd47a09de0ee0a3b527cac427603b28c73450e08d9084289ecedaaf88cdd865db",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"Photovoltaic\", \"microgrid_id\":1, \"capacity\": 30}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/microgridphotovoltaics",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgridphotovoltaics"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Microgrid Photovoltaic by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "08c913a4e5eccc96d590c52002b2ed225dbbf0de52b260d41b912bf989fe9c0bd47a09de0ee0a3b527cac427603b28c73450e08d9084289ecedaaf88cdd865db",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/microgridphotovoltaics/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgridphotovoltaics",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Update Microgrid Photovoltaic by ID",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "08c913a4e5eccc96d590c52002b2ed225dbbf0de52b260d41b912bf989fe9c0bd47a09de0ee0a3b527cac427603b28c73450e08d9084289ecedaaf88cdd865db",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"Photovoltaic\", \"microgrid_id\":1, \"capacity\": 50}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/microgridphotovoltaics/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgridphotovoltaics",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Microgrid Owner Type",
 					"item": [
 						{
 							"name": "GET All Microgrid Owner Types",
