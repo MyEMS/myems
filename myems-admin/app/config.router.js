@@ -1095,6 +1095,7 @@ app
                                                     'app/services/settings/microgrid/microgridgenerator.service.js',
                                                     'app/services/settings/microgrid/microgridgrid.service.js',
                                                     'app/services/settings/microgrid/microgridheatpump.service.js',
+                                                    'app/services/settings/microgrid/microgridload.service.js',
                                                     'app/services/settings/microgrid/microgridownertype.service.js',
                                                     'app/services/settings/microgrid/microgridsensor.service.js',
                                                     'app/services/settings/costcenter/costcenter.service.js',
@@ -1107,6 +1108,7 @@ app
                                                     'app/controllers/settings/microgrid/microgridgenerator.controller.js',
                                                     'app/controllers/settings/microgrid/microgridgrid.controller.js',
                                                     'app/controllers/settings/microgrid/microgridheatpump.controller.js',
+                                                    'app/controllers/settings/microgrid/microgridload.controller.js',
                                                     'app/controllers/settings/microgrid/microgridsensor.controller.js',
                                                 ]
                                             }]);
