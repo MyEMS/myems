@@ -8,7 +8,7 @@ from core import energyflowdiagram, privilege, textmessage, distributioncircuit,
     shopfloor, webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, \
     offlinemeter, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile, workingcalendar, \
     microgrid, microgridarchitecturetype, microgridbattery, microgridownertype, \
-    microgridevcharger, microgridgenerator, microgridgrid, command
+    microgridevcharger, microgridgenerator, microgridheatpumps, microgridgrid, command
 
 from reports import advancedreport
 from reports import combinedequipmentbatch
@@ -332,6 +332,11 @@ api.add_route('/microgridgrids',
               microgridgrid.MicrogridGridCollection())
 api.add_route('/microgridgrids/{id_}',
               microgridgrid.MicrogridGridItem())
+
+api.add_route('/microgridheatpumps',
+              microgridheatpumps.MicrogridHeatpumpCollection())
+api.add_route('/microgridheatpumps/{id_}',
+              microgridheatpumps.MicrogridHeatpumpItem())
 
 api.add_route('/microgridownertypes',
               microgridownertype.MicrogridOwnerTypeCollection())
