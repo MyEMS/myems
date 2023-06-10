@@ -1092,6 +1092,7 @@ app
                                                     'app/services/settings/microgrid/microgridarchitecturetype.service.js',
                                                     'app/services/settings/microgrid/microgridbattery.service.js',
                                                     'app/services/settings/microgrid/microgridevcharger.service.js',
+                                                    'app/services/settings/microgrid/microgridgenerator.service.js',
                                                     'app/services/settings/microgrid/microgridownertype.service.js',
                                                     'app/services/settings/microgrid/microgridsensor.service.js',
                                                     'app/services/settings/costcenter/costcenter.service.js',
@@ -1101,6 +1102,7 @@ app
                                                     'app/controllers/settings/microgrid/microgrid.controller.js',
                                                     'app/controllers/settings/microgrid/microgridbattery.controller.js',
                                                     'app/controllers/settings/microgrid/microgridevcharger.controller.js',
+                                                    'app/controllers/settings/microgrid/microgridgenerator.controller.js',
                                                     'app/controllers/settings/microgrid/microgridsensor.controller.js',
                                                 ]
                                             }]);

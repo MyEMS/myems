@@ -1,0 +1,29 @@
+<div class="inmodal">
+    <div class="modal-header">
+        <h4 class="modal-title">{{operation | translate}}(ID:{{microgridgenerator.id}})</h4>
+    </div>
+    <div class="modal-body">
+        <form role="form" name="form_microgridgenerator" novalidate class="form-horizontal">
+            <div class="form-group">
+              <label class="col-sm-2 control-label">{{'MICROGRID.MICROGRID_GENERATOR_NAME' | translate}}</label>
+                <div class="col-sm-10"><input ng-model="microgridgenerator.name" type="text" name="microgridgeneratorname" class="form-control" required="">
+                    <div class="m-t-xs" ng-show="form_microgridgenerator.microgridgeneratorname.$invalid && form_microgridgenerator.microgridgeneratorname.$dirty">
+                        <small class="text-danger" ng-show="form_microgridgenerator.microgridgeneratorname.$error.required">{{'MICROGRID.INPUT_MICROGRID_GENERATOR_NAME' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'MICROGRID.MICROGRID_GENERATOR_CAPACITY' | translate}}</label>
+                <div class="col-sm-10"><input ng-model="microgridgenerator.capacity" type="number" name="microgridgeneratorcapacity" class="form-control" required="">
+                    <div class="m-t-xs" ng-show="form_microgridgenerator.microgridgeneratorcapacity.$invalid && form_microgridgenerator.microgridgeneratorcapacity.$dirty">
+                        <small class="text-danger" ng-show="form_microgridgenerator.microgridgeneratorcapacity.$error.required">{{'MICROGRID.INPUT_MICROGRID_GENERATOR_CAPACITY' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
+        <button type="button" ng-disabled="form_microgridgenerator.$invalid" class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
+    </div>
+</div>
