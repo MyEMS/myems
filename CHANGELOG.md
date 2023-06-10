@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added microgrid evcharger actions to myems-api and myems-admin
 - added microgrid generator actions to myems-api and myems-admin
 - added microgrid grid actions to myems-api and myems-admin
-- added microgrid heatpump actions to myems-api
+- added microgrid heatpump actions to myems-api and myems-admin
 - added microgrid load actions to myems-api
 - added microgrid photovoltaic actions to myems-api
 - added microgrid windturbine to system database
