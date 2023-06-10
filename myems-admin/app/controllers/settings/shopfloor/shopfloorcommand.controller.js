@@ -1,16 +1,16 @@
 'use strict';
 
-app.controller('CombinedEquipmentCommandController', function (
+app.controller('ShopfloorCommandController', function (
     $scope,
-    $window,
+	$window,
     $timeout,
     $translate,
-    CombinedEquipmentService,
+    ShopfloorService,
     CommandService,
-    CombinedEquipmentCommandService,
+    ShopfloorCommandService,
     toaster) {
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
-    $scope.currentCombinedEquipment = {selected:undefined};
+    $scope.currentShopfloor = {selected:undefined};
     $scope.getAllCommands = function() {
 		CommandService.getAllCommands(function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
@@ -21,31 +21,31 @@ app.controller('CombinedEquipmentCommandController', function (
 		});
 	};
 
-    $scope.getCommandsByCombinedEquipmentID = function (id) {
-        CombinedEquipmentCommandService.getCommandsByCombinedEquipmentID(id, function (response) {
+    $scope.getCommandsByShopfloorID = function (id) {
+        ShopfloorCommandService.getCommandsByShopfloorID(id, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
-                $scope.combinedequipmentcommands = response.data;
+                $scope.shopfloorcommands = response.data;
             } else {
-                $scope.combinedequipmentcommands = [];
+                $scope.shopfloorcommands = [];
             }
         });
     };
 
-    $scope.changeCombinedEquipment=function(item,model){
-  	  $scope.currentCombinedEquipment=item;
-  	  $scope.currentCombinedEquipment.selected=model;
-  	  $scope.getCommandsByCombinedEquipmentID($scope.currentCombinedEquipment.id);
+    $scope.changeShopfloor=function(item,model){
+  	  $scope.currentShopfloor=item;
+  	  $scope.currentShopfloor.selected=model;
+  	  $scope.getCommandsByShopfloorID($scope.currentShopfloor.id);
     };
 
-    $scope.getAllCombinedEquipments = function () {
-        CombinedEquipmentService.getAllCombinedEquipments(function (response) {
+    $scope.getAllShopfloors = function () {
+        ShopfloorService.getAllShopfloors(function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
-                $scope.combinedequipments = response.data;
+                $scope.shopfloors = response.data;
                 $timeout(function () {
-                    $scope.getCommandsByCombinedEquipmentID($scope.currentCombinedEquipment.id);
+                    $scope.getCommandsByShopfloorID($scope.currentShopfloor.id);
                 }, 1000);
             } else {
-                $scope.combinedequipments = [];
+                $scope.shopfloors = [];
             }
         });
 
@@ -53,9 +53,9 @@ app.controller('CombinedEquipmentCommandController', function (
 
     $scope.pairCommand = function (dragEl, dropEl) {
         var commandid = angular.element('#' + dragEl).scope().command.id;
-        var combinedequipmentid = $scope.currentCombinedEquipment.id;
+        var shopfloorid = $scope.currentShopfloor.id;
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-        CombinedEquipmentCommandService.addPair(combinedequipmentid, commandid, headers, function (response) {
+        ShopfloorCommandService.addPair(shopfloorid, commandid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 201) {
                 toaster.pop({
                     type: "success",
@@ -63,7 +63,7 @@ app.controller('CombinedEquipmentCommandController', function (
                     body: $translate.instant("TOASTER.BIND_COMMAND_SUCCESS"),
                     showCloseButton: true,
                 });
-                $scope.getCommandsByCombinedEquipmentID($scope.currentCombinedEquipment.id);
+                $scope.getCommandsByShopfloorID($scope.currentShopfloor.id);
             } else {
                 toaster.pop({
                     type: "error",
@@ -79,10 +79,10 @@ app.controller('CombinedEquipmentCommandController', function (
         if (angular.element('#' + dragEl).hasClass('source')) {
             return;
         }
-        var combinedequipmentcommandid = angular.element('#' + dragEl).scope().combinedequipmentcommand.id;
-        var combinedequipmentid = $scope.currentCombinedEquipment.id;
+        var shopfloorcommandid = angular.element('#' + dragEl).scope().shopfloorcommand.id;
+        var shopfloorid = $scope.currentShopfloor.id;
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-        CombinedEquipmentCommandService.deletePair(combinedequipmentid, combinedequipmentcommandid, headers, function (response) {
+        ShopfloorCommandService.deletePair(shopfloorid, shopfloorcommandid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
                     type: "success",
@@ -90,7 +90,7 @@ app.controller('CombinedEquipmentCommandController', function (
                     body: $translate.instant("TOASTER.UNBIND_COMMAND_SUCCESS"),
                     showCloseButton: true,
                 });
-                $scope.getCommandsByCombinedEquipmentID($scope.currentCombinedEquipment.id);
+                $scope.getCommandsByShopfloorID($scope.currentShopfloor.id);
             } else {
                 toaster.pop({
                     type: "error",
@@ -103,9 +103,9 @@ app.controller('CombinedEquipmentCommandController', function (
     };
 
     $scope.getAllCommands();
-    $scope.getAllCombinedEquipments();
+    $scope.getAllShopfloors();
 
-  	$scope.$on('handleBroadcastCombinedEquipmentChanged', function(event) {
-      $scope.getAllCombinedEquipments();
+  	$scope.$on('handleBroadcastShopfloorChanged', function(event) {
+      $scope.getAllShopfloors();
   	});
 });

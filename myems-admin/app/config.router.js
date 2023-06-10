@@ -835,6 +835,7 @@ app
                                                     'app/services/settings/tenant/tenant.service.js',
                                                     'app/services/settings/tenant/tenanttype.service.js',
                                                     'app/services/settings/meter/meter.service.js',
+                                                    'app/services/settings/command/command.service.js',
                                                     'app/services/settings/meter/virtualmeter.service.js',
                                                     'app/services/settings/meter/offlinemeter.service.js',
                                                     'app/services/settings/costcenter/costcenter.service.js',
@@ -843,6 +844,7 @@ app
                                                     'app/services/settings/tenant/tenantpoint.service.js',
                                                     'app/services/settings/tenant/tenantsensor.service.js',
                                                     'app/services/settings/tenant/tenantworkingcalendar.service.js',
+                                                    'app/services/settings/tenant/tenantcommand.service.js',
                                                     'app/services/settings/workingcalendar/workingcalendar.service.js',
                                                     'app/services/settings/datasource/datasource.service.js',
                                                     'app/services/settings/datasource/point.service.js',
@@ -853,6 +855,7 @@ app
                                                     'app/controllers/settings/tenant/tenantpoint.controller.js',
                                                     'app/controllers/settings/tenant/tenantsensor.controller.js',
                                                     'app/controllers/settings/tenant/tenantworkingcalendar.controller.js',
+                                                    'app/controllers/settings/tenant/tenantcommand.controller.js',
                                                 ]
                                             }]);
                                         }
@@ -891,6 +894,7 @@ app
                                                     'app/services/settings/store/store.service.js',
                                                     'app/services/settings/store/storetype.service.js',
                                                     'app/services/settings/meter/meter.service.js',
+                                                    'app/services/settings/command/command.service.js',
                                                     'app/services/settings/meter/virtualmeter.service.js',
                                                     'app/services/settings/meter/offlinemeter.service.js',
                                                     'app/services/settings/costcenter/costcenter.service.js',
@@ -899,6 +903,7 @@ app
                                                     'app/services/settings/store/storepoint.service.js',
                                                     'app/services/settings/store/storesensor.service.js',
                                                     'app/services/settings/store/storeworkingcalendar.service.js',
+                                                    'app/services/settings/store/storecommand.service.js',
                                                     'app/services/settings/workingcalendar/workingcalendar.service.js',
                                                     'app/services/settings/datasource/datasource.service.js',
                                                     'app/services/settings/datasource/point.service.js',
@@ -909,6 +914,7 @@ app
                                                     'app/controllers/settings/store/storepoint.controller.js',
                                                     'app/controllers/settings/store/storesensor.controller.js',
                                                     'app/controllers/settings/store/storeworkingcalendar.controller.js',
+                                                    'app/controllers/settings/store/storecommand.controller.js',
                                                 ]
                                             }]);
                                         }
@@ -946,6 +952,7 @@ app
                                                 files: [
                                                     'app/services/settings/shopfloor/shopfloor.service.js',
                                                     'app/services/settings/meter/meter.service.js',
+                                                    'app/services/settings/command/command.service.js',
                                                     'app/services/settings/meter/virtualmeter.service.js',
                                                     'app/services/settings/meter/offlinemeter.service.js',
                                                     'app/services/settings/costcenter/costcenter.service.js',
@@ -955,6 +962,7 @@ app
                                                     'app/services/settings/shopfloor/shopfloorpoint.service.js',
                                                     'app/services/settings/shopfloor/shopfloorsensor.service.js',
                                                     'app/services/settings/shopfloor/shopfloorworkingcalendar.service.js',
+                                                    'app/services/settings/shopfloor/shopfloorcommand.service.js',
                                                     'app/services/settings/workingcalendar/workingcalendar.service.js',
                                                     'app/services/settings/datasource/datasource.service.js',
                                                     'app/services/settings/datasource/point.service.js',
@@ -967,6 +975,7 @@ app
                                                     'app/controllers/settings/shopfloor/shopfloorpoint.controller.js',
                                                     'app/controllers/settings/shopfloor/shopfloorsensor.controller.js',
                                                     'app/controllers/settings/shopfloor/shopfloorworkingcalendar.controller.js',
+                                                    'app/controllers/settings/shopfloor/shopfloorcommand.controller.js',
                                                 ]
                                             }]);
                                         }
@@ -1081,6 +1090,9 @@ app
                                                 files: [
                                                     'app/services/settings/microgrid/microgrid.service.js',
                                                     'app/services/settings/microgrid/microgridarchitecturetype.service.js',
+                                                    'app/services/settings/microgrid/microgridbattery.service.js',
+                                                    'app/services/settings/microgrid/microgridevcharger.service.js',
+                                                    'app/services/settings/microgrid/microgridgenerator.service.js',
                                                     'app/services/settings/microgrid/microgridownertype.service.js',
                                                     'app/services/settings/microgrid/microgridsensor.service.js',
                                                     'app/services/settings/costcenter/costcenter.service.js',
@@ -1088,6 +1100,9 @@ app
                                                     'app/services/settings/sensor/sensor.service.js',
                                                     'app/controllers/settings/microgrid/microgrid.master.controller.js',
                                                     'app/controllers/settings/microgrid/microgrid.controller.js',
+                                                    'app/controllers/settings/microgrid/microgridbattery.controller.js',
+                                                    'app/controllers/settings/microgrid/microgridevcharger.controller.js',
+                                                    'app/controllers/settings/microgrid/microgridgenerator.controller.js',
                                                     'app/controllers/settings/microgrid/microgridsensor.controller.js',
                                                 ]
                                             }]);

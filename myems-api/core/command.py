@@ -241,6 +241,45 @@ class CommandItem:
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_COMBINED_EQUIPMENTS')
 
+        # check relation with tenant
+        cursor.execute(" SELECT tenant_id "
+                       " FROM tbl_tenants_commands "
+                       " WHERE command_id = %s ",
+                       (id_,))
+        rows_tenants = cursor.fetchall()
+        if rows_tenants is not None and len(rows_tenants) > 0:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_TENANTS')
+
+        # check relation with store
+        cursor.execute(" SELECT store_id "
+                       " FROM tbl_stores_commands "
+                       " WHERE command_id = %s ",
+                       (id_,))
+        rows_stores = cursor.fetchall()
+        if rows_stores is not None and len(rows_stores) > 0:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_STORES')
+
+        # check relation with shopfloor
+        cursor.execute(" SELECT shopfloor_id "
+                       " FROM tbl_shopfloors_commands "
+                       " WHERE command_id = %s ",
+                       (id_,))
+        rows_shopfloors = cursor.fetchall()
+        if rows_shopfloors is not None and len(rows_shopfloors) > 0:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_SHOPFLOORS')
+
         # todo: check relation with points
 
         cursor.execute(" DELETE FROM tbl_commands WHERE id = %s ", (id_,))

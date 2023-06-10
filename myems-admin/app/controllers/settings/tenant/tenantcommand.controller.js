@@ -1,16 +1,16 @@
 'use strict';
 
-app.controller('CombinedEquipmentCommandController', function (
+app.controller('TenantCommandController', function (
     $scope,
     $window,
     $timeout,
     $translate,
-    CombinedEquipmentService,
+    TenantService,
     CommandService,
-    CombinedEquipmentCommandService,
+    TenantCommandService,
     toaster) {
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
-    $scope.currentCombinedEquipment = {selected:undefined};
+    $scope.currentTenant = {selected:undefined};
     $scope.getAllCommands = function() {
 		CommandService.getAllCommands(function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
@@ -21,31 +21,31 @@ app.controller('CombinedEquipmentCommandController', function (
 		});
 	};
 
-    $scope.getCommandsByCombinedEquipmentID = function (id) {
-        CombinedEquipmentCommandService.getCommandsByCombinedEquipmentID(id, function (response) {
+    $scope.getCommandsByTenantID = function (id) {
+        TenantCommandService.getCommandsByTenantID(id, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
-                $scope.combinedequipmentcommands = response.data;
+                $scope.tenantcommands = response.data;
             } else {
-                $scope.combinedequipmentcommands = [];
+                $scope.tenantcommands = [];
             }
         });
     };
 
-    $scope.changeCombinedEquipment=function(item,model){
-  	  $scope.currentCombinedEquipment=item;
-  	  $scope.currentCombinedEquipment.selected=model;
-  	  $scope.getCommandsByCombinedEquipmentID($scope.currentCombinedEquipment.id);
+    $scope.changeTenant=function(item,model){
+  	  $scope.currentTenant=item;
+  	  $scope.currentTenant.selected=model;
+  	  $scope.getCommandsByTenantID($scope.currentTenant.id);
     };
 
-    $scope.getAllCombinedEquipments = function () {
-        CombinedEquipmentService.getAllCombinedEquipments(function (response) {
+    $scope.getAllTenants = function () {
+        TenantService.getAllTenants(function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
-                $scope.combinedequipments = response.data;
+                $scope.tenants = response.data;
                 $timeout(function () {
-                    $scope.getCommandsByCombinedEquipmentID($scope.currentCombinedEquipment.id);
+                    $scope.getCommandsByTenantID($scope.currentTenant.id);
                 }, 1000);
             } else {
-                $scope.combinedequipments = [];
+                $scope.tenants = [];
             }
         });
 
@@ -53,9 +53,9 @@ app.controller('CombinedEquipmentCommandController', function (
 
     $scope.pairCommand = function (dragEl, dropEl) {
         var commandid = angular.element('#' + dragEl).scope().command.id;
-        var combinedequipmentid = $scope.currentCombinedEquipment.id;
+        var tenantid = $scope.currentTenant.id;
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-        CombinedEquipmentCommandService.addPair(combinedequipmentid, commandid, headers, function (response) {
+        TenantCommandService.addPair(tenantid, commandid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 201) {
                 toaster.pop({
                     type: "success",
@@ -63,7 +63,7 @@ app.controller('CombinedEquipmentCommandController', function (
                     body: $translate.instant("TOASTER.BIND_COMMAND_SUCCESS"),
                     showCloseButton: true,
                 });
-                $scope.getCommandsByCombinedEquipmentID($scope.currentCombinedEquipment.id);
+                $scope.getCommandsByTenantID($scope.currentTenant.id);
             } else {
                 toaster.pop({
                     type: "error",
@@ -79,10 +79,10 @@ app.controller('CombinedEquipmentCommandController', function (
         if (angular.element('#' + dragEl).hasClass('source')) {
             return;
         }
-        var combinedequipmentcommandid = angular.element('#' + dragEl).scope().combinedequipmentcommand.id;
-        var combinedequipmentid = $scope.currentCombinedEquipment.id;
+        var tenantcommandid = angular.element('#' + dragEl).scope().tenantcommand.id;
+        var tenantid = $scope.currentTenant.id;
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-        CombinedEquipmentCommandService.deletePair(combinedequipmentid, combinedequipmentcommandid, headers, function (response) {
+        TenantCommandService.deletePair(tenantid, tenantcommandid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
                     type: "success",
@@ -90,7 +90,7 @@ app.controller('CombinedEquipmentCommandController', function (
                     body: $translate.instant("TOASTER.UNBIND_COMMAND_SUCCESS"),
                     showCloseButton: true,
                 });
-                $scope.getCommandsByCombinedEquipmentID($scope.currentCombinedEquipment.id);
+                $scope.getCommandsByTenantID($scope.currentTenant.id);
             } else {
                 toaster.pop({
                     type: "error",
@@ -103,9 +103,9 @@ app.controller('CombinedEquipmentCommandController', function (
     };
 
     $scope.getAllCommands();
-    $scope.getAllCombinedEquipments();
+    $scope.getAllTenants();
 
-  	$scope.$on('handleBroadcastCombinedEquipmentChanged', function(event) {
-      $scope.getAllCombinedEquipments();
+  	$scope.$on('handleBroadcastTenantChanged', function(event) {
+      $scope.getAllTenants();
   	});
 });
