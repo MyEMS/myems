@@ -1090,6 +1090,7 @@ app
                                                 files: [
                                                     'app/services/settings/microgrid/microgrid.service.js',
                                                     'app/services/settings/microgrid/microgridarchitecturetype.service.js',
+                                                    'app/services/settings/microgrid/microgridbattery.service.js',
                                                     'app/services/settings/microgrid/microgridownertype.service.js',
                                                     'app/services/settings/microgrid/microgridsensor.service.js',
                                                     'app/services/settings/costcenter/costcenter.service.js',
@@ -1097,6 +1098,7 @@ app
                                                     'app/services/settings/sensor/sensor.service.js',
                                                     'app/controllers/settings/microgrid/microgrid.master.controller.js',
                                                     'app/controllers/settings/microgrid/microgrid.controller.js',
+                                                    'app/controllers/settings/microgrid/microgridbattery.controller.js',
                                                     'app/controllers/settings/microgrid/microgridsensor.controller.js',
                                                 ]
                                             }]);
