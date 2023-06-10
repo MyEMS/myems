@@ -709,7 +709,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_batteries` (
   `microgrid_id` BIGINT NOT NULL,
   `capacity` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_microgrids_batteries_index_1` ON  `myems_system_db`.`tbl_microgrids_batteries`   (`name`);
+CREATE INDEX `tbl_microgrids_batteries_index_1` ON  `myems_system_db`.`tbl_microgrids_batteries` (`name`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_microgrids_evchargers`
@@ -723,7 +723,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_evchargers` (
   `microgrid_id` BIGINT NOT NULL,
   `capacity` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_microgrids_evchargers_index_1` ON  `myems_system_db`.`tbl_microgrids_evchargers`   (`name`);
+CREATE INDEX `tbl_microgrids_evchargers_index_1` ON  `myems_system_db`.`tbl_microgrids_evchargers` (`name`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_microgrids_generators`
@@ -737,7 +737,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_generators` (
   `microgrid_id` BIGINT NOT NULL,
   `capacity` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_microgrids_generators_index_1` ON  `myems_system_db`.`tbl_microgrids_generators`   (`name`);
+CREATE INDEX `tbl_microgrids_generators_index_1` ON  `myems_system_db`.`tbl_microgrids_generators` (`name`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_microgrids_heatpumps`
@@ -751,7 +751,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_heatpumps` (
   `microgrid_id` BIGINT NOT NULL,
   `capacity` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_microgrids_heatpumps_index_1` ON  `myems_system_db`.`tbl_microgrids_heatpumps`   (`name`);
+CREATE INDEX `tbl_microgrids_heatpumps_index_1` ON  `myems_system_db`.`tbl_microgrids_heatpumps` (`name`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_microgrids_grids`
@@ -765,7 +765,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_grids` (
   `microgrid_id` BIGINT NOT NULL,
   `capacity` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_microgrids_grids_index_1` ON  `myems_system_db`.`tbl_microgrids_grids`   (`name`);
+CREATE INDEX `tbl_microgrids_grids_index_1` ON  `myems_system_db`.`tbl_microgrids_grids` (`name`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_microgrids_loads`
@@ -779,7 +779,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_loads` (
   `microgrid_id` BIGINT NOT NULL,
   `capacity` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_microgrids_grids_index_1` ON  `myems_system_db`.`tbl_microgrids_loads`   (`name`);
+CREATE INDEX `tbl_microgrids_grids_index_1` ON  `myems_system_db`.`tbl_microgrids_loads` (`name`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_microgrids_photovoltaics`
@@ -793,7 +793,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_photovoltaics` (
   `microgrid_id` BIGINT NOT NULL,
   `capacity` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_microgrids_photovoltaics_index_1` ON  `myems_system_db`.`tbl_microgrids_photovoltaics`   (`name`);
+CREATE INDEX `tbl_microgrids_photovoltaics_index_1` ON  `myems_system_db`.`tbl_microgrids_photovoltaics` (`name`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_microgrids_sensors`
@@ -805,7 +805,21 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_sensors` (
   `microgrid_id` BIGINT NOT NULL,
   `sensor_id` BIGINT NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_microgrids_sensors_index_1` ON  `myems_system_db`.`tbl_microgrids_sensors`   (`microgrid_id`);
+CREATE INDEX `tbl_microgrids_sensors_index_1` ON  `myems_system_db`.`tbl_microgrids_sensors` (`microgrid_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_microgrids_windturbines`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_microgrids_windturbines` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_windturbines` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `uuid` CHAR(36) NOT NULL,
+  `microgrid_id` BIGINT NOT NULL,
+  `capacity` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrids_windturbines_index_1` ON  `myems_system_db`.`tbl_microgrids_windturbines` (`name`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_offline_meters`
@@ -1619,7 +1633,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '3.5.0', '2023-06-09');
+(1, '3.6.0RC', '2023-06-18');
 
 COMMIT;
 

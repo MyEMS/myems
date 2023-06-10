@@ -12,6 +12,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added microgrid heatpump actions to myems-api
 - added microgrid load actions to myems-api
 - added microgrid photovoltaic actions to myems-api
+- added microgrid windturbine to system database
+- added microgrid windturbine actions to myems-api
 ### Changed
 
 ### Fixed

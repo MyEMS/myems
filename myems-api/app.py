@@ -9,7 +9,7 @@ from core import energyflowdiagram, privilege, textmessage, distributioncircuit,
     offlinemeter, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile, workingcalendar, \
     microgrid, microgridarchitecturetype, microgridbattery, microgridownertype, \
     microgridevcharger, microgridgenerator, microgridgrid, microgridheatpump, microgridload, microgridphotovoltaic, \
-    command
+    microgridwindturbine, command
 
 from reports import advancedreport
 from reports import combinedequipmentbatch
@@ -353,6 +353,11 @@ api.add_route('/microgridphotovoltaics',
               microgridphotovoltaic.MicrogridPhotovoltaicCollection())
 api.add_route('/microgridphotovoltaics/{id_}',
               microgridphotovoltaic.MicrogridPhotovoltaicItem())
+
+api.add_route('/microgridwindturbines',
+              microgridwindturbine.MicrogridWindturbineCollection())
+api.add_route('/microgridwindturbines/{id_}',
+              microgridwindturbine.MicrogridWindturbineItem())
 
 api.add_route('/notifications',
               notification.NotificationCollection())
