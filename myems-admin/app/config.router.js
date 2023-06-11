@@ -1099,6 +1099,7 @@ app
                                                     'app/services/settings/microgrid/microgridownertype.service.js',
                                                     'app/services/settings/microgrid/microgridphotovoltaic.service.js',
                                                     'app/services/settings/microgrid/microgridsensor.service.js',
+                                                    'app/services/settings/microgrid/microgridwindturbine.service.js',
                                                     'app/services/settings/costcenter/costcenter.service.js',
                                                     'app/services/settings/contact/contact.service.js',
                                                     'app/services/settings/sensor/sensor.service.js',
@@ -1112,6 +1113,7 @@ app
                                                     'app/controllers/settings/microgrid/microgridload.controller.js',
                                                     'app/controllers/settings/microgrid/microgridphotovoltaic.controller.js',
                                                     'app/controllers/settings/microgrid/microgridsensor.controller.js',
+                                                    'app/controllers/settings/microgrid/microgridwindturbine.controller.js',
                                                 ]
                                             }]);
                                         }
