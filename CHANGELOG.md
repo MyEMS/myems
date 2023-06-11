@@ -13,7 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added microgrid load actions to myems-api and myems-admin
 - added microgrid photovoltaic actions to myems-api and myems-admin
 - added microgrid windturbine to system database
-- added microgrid windturbine actions to myems-api
+- added microgrid windturbine actions to myems-api and myems-admin
 - added get all associated objects of microgrid to myems-api
 ### Changed
 
