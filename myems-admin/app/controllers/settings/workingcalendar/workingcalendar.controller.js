@@ -1,7 +1,8 @@
 'use strict';
 
 app.controller('WorkingCalendarController', function(
-    $scope,
+	$scope,
+	$rootScope,
     $window,
     $translate,
     $uibModal,
@@ -56,6 +57,7 @@ app.controller('WorkingCalendarController', function(
 		}, function() {
 
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.editWorkingCalendar = function(workingcalendar) {
