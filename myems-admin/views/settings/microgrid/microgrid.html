@@ -51,6 +51,348 @@
 							</table>
 						</div>
 					</uib-tab>
+					<uib-tab heading="{{'MICROGRID.MICROGRID_PHOTOVOLTAIC' | translate}}">
+						<div class="panel-body" ng-controller="MicrogridPhotovoltaicController">
+						  <div class="row">
+							<div class="col-lg-3">
+							  <div class="panel panel-info">
+								<div class="panel-heading">
+								  {{'COMMON.MICROGRID' | translate}}
+								</div>
+								<div class="panel-body" >
+								  <form role="form">
+									<div class="form-group no-margin"><label>{{'SETTING.SELECT_MICROGRID' | translate}}</label>
+									  <ui-select  on-select="changeMicrogrid($item,$model)" ng-model="currentMicrogrid.selected" theme="bootstrap">
+										<ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+										<ui-select-choices repeat="microgrid.id as microgrid in microgrids | filter: $select.search" >
+										  <div ng-bind-html="microgrid.name | highlight: $select.search"></div>
+										</ui-select-choices>
+									  </ui-select>
+									</div>
+								  </form>
+								</div>
+							  </div>
+							</div>
+							<div class="col-lg-9">
+							  <div class="panel panel-primary">
+								<div class="panel-heading">
+								  {{currentMicrogrid.name}}{{'MICROGRID.N_S_MICROGRID_PHOTOVOLTAIC' | translate}}
+								</div>
+								<div class="panel-body" >
+								  <a ng-show="is_show_add_microgrid_photovoltaic" ng-click="addMicrogridPhotovoltaic()" class="btn btn-primary btn-rounded  btn-outline" href="">
+															<i class="fa fa-plus-circle"></i> {{'MICROGRID.ADD_MICROGRID_PHOTOVOLTAIC' | translate}}</a>
+								  <table class="table table-bordered table-hover" >
+									<thead>
+									  <tr>
+										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'MICROGRID.MICROGRID_PHOTOVOLTAIC_NAME' | translate}}</th>
+										<th class="text-center">{{'MICROGRID.MICROGRID_PHOTOVOLTAIC_CAPACITY' | translate}}</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+									  </tr>
+									</thead>
+									<tbody>
+									  <tr ng-repeat="microgridphotovoltaic in microgridphotovoltaics">
+										<td class="text-center">{{ microgridphotovoltaic.id }}</td>
+										<td class="text-center">{{ microgridphotovoltaic.name }}</td>
+										<td class="text-center">{{ microgridphotovoltaic.capacity }}</td>
+										<td class="text-center">
+										  <a ng-click="editMicrogridPhotovoltaic(microgridphotovoltaic)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
+										  <a ng-click="deleteMicrogridPhotovoltaic(microgridphotovoltaic)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+										</td>
+									  </tr>
+									</tbody>
+								  </table>
+							  </div>
+							</div>
+							</div>
+						</div>
+					  </div>
+					</uib-tab>
+					<uib-tab heading="{{'MICROGRID.MICROGRID_BATTERY' | translate}}">
+						<div class="panel-body" ng-controller="MicrogridBatteryController">
+						  <div class="row">
+							<div class="col-lg-3">
+							  <div class="panel panel-info">
+								<div class="panel-heading">
+								  {{'COMMON.MICROGRID' | translate}}
+								</div>
+								<div class="panel-body" >
+								  <form role="form">
+									<div class="form-group no-margin"><label>{{'SETTING.SELECT_MICROGRID' | translate}}</label>
+									  <ui-select  on-select="changeMicrogrid($item,$model)" ng-model="currentMicrogrid.selected" theme="bootstrap">
+										<ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+										<ui-select-choices repeat="microgrid.id as microgrid in microgrids | filter: $select.search" >
+										  <div ng-bind-html="microgrid.name | highlight: $select.search"></div>
+										</ui-select-choices>
+									  </ui-select>
+									</div>
+								  </form>
+								</div>
+							  </div>
+							</div>
+							<div class="col-lg-9">
+							  <div class="panel panel-primary">
+								<div class="panel-heading">
+								  {{currentMicrogrid.name}}{{'MICROGRID.N_S_MICROGRID_BATTERY' | translate}}
+								</div>
+								<div class="panel-body" >
+								  <a ng-show="is_show_add_microgrid_battery" ng-click="addMicrogridBattery()" class="btn btn-primary btn-rounded  btn-outline" href="">
+															<i class="fa fa-plus-circle"></i> {{'MICROGRID.ADD_MICROGRID_BATTERY' | translate}}</a>
+								  <table class="table table-bordered table-hover" >
+									<thead>
+									  <tr>
+										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'MICROGRID.MICROGRID_BATTERY_NAME' | translate}}</th>
+										<th class="text-center">{{'MICROGRID.MICROGRID_BATTERY_CAPACITY' | translate}}</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+									  </tr>
+									</thead>
+									<tbody>
+									  <tr ng-repeat="microgridbattery in microgridbatteries">
+										<td class="text-center">{{ microgridbattery.id }}</td>
+										<td class="text-center">{{ microgridbattery.name }}</td>
+										<td class="text-center">{{ microgridbattery.capacity }}</td>
+										<td class="text-center">
+										  <a ng-click="editMicrogridBattery(microgridbattery)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
+										  <a ng-click="deleteMicrogridBattery(microgridbattery)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+										</td>
+									  </tr>
+									</tbody>
+								  </table>
+							  </div>
+							</div>
+							</div>
+						</div>
+					  </div>
+					</uib-tab>
+					<uib-tab heading="{{'MICROGRID.MICROGRID_EVCHARGER' | translate}}">
+						<div class="panel-body" ng-controller="MicrogridEVChargerController">
+						  <div class="row">
+							<div class="col-lg-3">
+							  <div class="panel panel-info">
+								<div class="panel-heading">
+								  {{'COMMON.MICROGRID' | translate}}
+								</div>
+								<div class="panel-body" >
+								  <form role="form">
+									<div class="form-group no-margin"><label>{{'SETTING.SELECT_MICROGRID' | translate}}</label>
+									  <ui-select  on-select="changeMicrogrid($item,$model)" ng-model="currentMicrogrid.selected" theme="bootstrap">
+										<ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+										<ui-select-choices repeat="microgrid.id as microgrid in microgrids | filter: $select.search" >
+										  <div ng-bind-html="microgrid.name | highlight: $select.search"></div>
+										</ui-select-choices>
+									  </ui-select>
+									</div>
+								  </form>
+								</div>
+							  </div>
+							</div>
+							<div class="col-lg-9">
+							  <div class="panel panel-primary">
+								<div class="panel-heading">
+								  {{currentMicrogrid.name}}{{'MICROGRID.N_S_MICROGRID_EVCHARGER' | translate}}
+								</div>
+								<div class="panel-body" >
+								  <a ng-show="is_show_add_microgrid_evcharger" ng-click="addMicrogridEVCharger()" class="btn btn-primary btn-rounded  btn-outline" href="">
+															<i class="fa fa-plus-circle"></i> {{'MICROGRID.ADD_MICROGRID_EVCHARGER' | translate}}</a>
+								  <table class="table table-bordered table-hover" >
+									<thead>
+									  <tr>
+										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'MICROGRID.MICROGRID_EVCHARGER_NAME' | translate}}</th>
+										<th class="text-center">{{'MICROGRID.MICROGRID_EVCHARGER_CAPACITY' | translate}}</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+									  </tr>
+									</thead>
+									<tbody>
+									  <tr ng-repeat="microgridevcharger in microgridevchargers">
+										<td class="text-center">{{ microgridevcharger.id }}</td>
+										<td class="text-center">{{ microgridevcharger.name }}</td>
+										<td class="text-center">{{ microgridevcharger.capacity }}</td>
+										<td class="text-center">
+										  <a ng-click="editMicrogridEVCharger(microgridevcharger)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
+										  <a ng-click="deleteMicrogridEVCharger(microgridevcharger)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+										</td>
+									  </tr>
+									</tbody>
+								  </table>
+							  </div>
+							</div>
+							</div>
+						</div>
+					  </div>
+					</uib-tab>
+					<uib-tab heading="{{'MICROGRID.MICROGRID_GRID' | translate}}">
+						<div class="panel-body" ng-controller="MicrogridGridController">
+						  <div class="row">
+							<div class="col-lg-3">
+							  <div class="panel panel-info">
+								<div class="panel-heading">
+								  {{'COMMON.MICROGRID' | translate}}
+								</div>
+								<div class="panel-body" >
+								  <form role="form">
+									<div class="form-group no-margin"><label>{{'SETTING.SELECT_MICROGRID' | translate}}</label>
+									  <ui-select  on-select="changeMicrogrid($item,$model)" ng-model="currentMicrogrid.selected" theme="bootstrap">
+										<ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+										<ui-select-choices repeat="microgrid.id as microgrid in microgrids | filter: $select.search" >
+										  <div ng-bind-html="microgrid.name | highlight: $select.search"></div>
+										</ui-select-choices>
+									  </ui-select>
+									</div>
+								  </form>
+								</div>
+							  </div>
+							</div>
+							<div class="col-lg-9">
+							  <div class="panel panel-primary">
+								<div class="panel-heading">
+								  {{currentMicrogrid.name}}{{'MICROGRID.N_S_MICROGRID_GRID' | translate}}
+								</div>
+								<div class="panel-body" >
+								  <a ng-show="is_show_add_microgrid_grid" ng-click="addMicrogridGrid()" class="btn btn-primary btn-rounded  btn-outline" href="">
+															<i class="fa fa-plus-circle"></i> {{'MICROGRID.ADD_MICROGRID_GRID' | translate}}</a>
+								  <table class="table table-bordered table-hover" >
+									<thead>
+									  <tr>
+										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'MICROGRID.MICROGRID_GRID_NAME' | translate}}</th>
+										<th class="text-center">{{'MICROGRID.MICROGRID_GRID_CAPACITY' | translate}}</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+									  </tr>
+									</thead>
+									<tbody>
+									  <tr ng-repeat="microgridgrid in microgridgrids">
+										<td class="text-center">{{ microgridgrid.id }}</td>
+										<td class="text-center">{{ microgridgrid.name }}</td>
+										<td class="text-center">{{ microgridgrid.capacity }}</td>
+										<td class="text-center">
+										  <a ng-click="editMicrogridGrid(microgridgrid)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
+										  <a ng-click="deleteMicrogridGrid(microgridgrid)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+										</td>
+									  </tr>
+									</tbody>
+								  </table>
+							  </div>
+							</div>
+							</div>
+						</div>
+					  </div>
+					</uib-tab>
+					<uib-tab heading="{{'MICROGRID.MICROGRID_LOAD' | translate}}">
+						<div class="panel-body" ng-controller="MicrogridLoadController">
+						  <div class="row">
+							<div class="col-lg-3">
+							  <div class="panel panel-info">
+								<div class="panel-heading">
+								  {{'COMMON.MICROGRID' | translate}}
+								</div>
+								<div class="panel-body" >
+								  <form role="form">
+									<div class="form-group no-margin"><label>{{'SETTING.SELECT_MICROGRID' | translate}}</label>
+									  <ui-select  on-select="changeMicrogrid($item,$model)" ng-model="currentMicrogrid.selected" theme="bootstrap">
+										<ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+										<ui-select-choices repeat="microgrid.id as microgrid in microgrids | filter: $select.search" >
+										  <div ng-bind-html="microgrid.name | highlight: $select.search"></div>
+										</ui-select-choices>
+									  </ui-select>
+									</div>
+								  </form>
+								</div>
+							  </div>
+							</div>
+							<div class="col-lg-9">
+							  <div class="panel panel-primary">
+								<div class="panel-heading">
+								  {{currentMicrogrid.name}}{{'MICROGRID.N_S_MICROGRID_LOAD' | translate}}
+								</div>
+								<div class="panel-body" >
+								  <a ng-show="is_show_add_microgrid_load" ng-click="addMicrogridLoad()" class="btn btn-primary btn-rounded  btn-outline" href="">
+															<i class="fa fa-plus-circle"></i> {{'MICROGRID.ADD_MICROGRID_LOAD' | translate}}</a>
+								  <table class="table table-bordered table-hover" >
+									<thead>
+									  <tr>
+										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'MICROGRID.MICROGRID_LOAD_NAME' | translate}}</th>
+										<th class="text-center">{{'MICROGRID.MICROGRID_LOAD_CAPACITY' | translate}}</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+									  </tr>
+									</thead>
+									<tbody>
+									  <tr ng-repeat="microgridload in microgridloads">
+										<td class="text-center">{{ microgridload.id }}</td>
+										<td class="text-center">{{ microgridload.name }}</td>
+										<td class="text-center">{{ microgridload.capacity }}</td>
+										<td class="text-center">
+										  <a ng-click="editMicrogridLoad(microgridload)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
+										  <a ng-click="deleteMicrogridLoad(microgridload)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+										</td>
+									  </tr>
+									</tbody>
+								  </table>
+							  </div>
+							</div>
+							</div>
+						</div>
+					  </div>
+					</uib-tab>
+					<uib-tab heading="{{'MICROGRID.MICROGRID_HEATPUMP' | translate}}">
+						<div class="panel-body" ng-controller="MicrogridHeatpumpController">
+						  <div class="row">
+							<div class="col-lg-3">
+							  <div class="panel panel-info">
+								<div class="panel-heading">
+								  {{'COMMON.MICROGRID' | translate}}
+								</div>
+								<div class="panel-body" >
+								  <form role="form">
+									<div class="form-group no-margin"><label>{{'SETTING.SELECT_MICROGRID' | translate}}</label>
+									  <ui-select  on-select="changeMicrogrid($item,$model)" ng-model="currentMicrogrid.selected" theme="bootstrap">
+										<ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+										<ui-select-choices repeat="microgrid.id as microgrid in microgrids | filter: $select.search" >
+										  <div ng-bind-html="microgrid.name | highlight: $select.search"></div>
+										</ui-select-choices>
+									  </ui-select>
+									</div>
+								  </form>
+								</div>
+							  </div>
+							</div>
+							<div class="col-lg-9">
+							  <div class="panel panel-primary">
+								<div class="panel-heading">
+								  {{currentMicrogrid.name}}{{'MICROGRID.N_S_MICROGRID_HEATPUMP' | translate}}
+								</div>
+								<div class="panel-body" >
+								  <a ng-show="is_show_add_microgrid_heatpump" ng-click="addMicrogridHeatpump()" class="btn btn-primary btn-rounded  btn-outline" href="">
+															<i class="fa fa-plus-circle"></i> {{'MICROGRID.ADD_MICROGRID_HEATPUMP' | translate}}</a>
+								  <table class="table table-bordered table-hover" >
+									<thead>
+									  <tr>
+										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'MICROGRID.MICROGRID_HEATPUMP_NAME' | translate}}</th>
+										<th class="text-center">{{'MICROGRID.MICROGRID_HEATPUMP_CAPACITY' | translate}}</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+									  </tr>
+									</thead>
+									<tbody>
+									  <tr ng-repeat="microgridheatpump in microgridheatpumps">
+										<td class="text-center">{{ microgridheatpump.id }}</td>
+										<td class="text-center">{{ microgridheatpump.name }}</td>
+										<td class="text-center">{{ microgridheatpump.capacity }}</td>
+										<td class="text-center">
+										  <a ng-click="editMicrogridHeatpump(microgridheatpump)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
+										  <a ng-click="deleteMicrogridHeatpump(microgridheatpump)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+										</td>
+									  </tr>
+									</tbody>
+								  </table>
+							  </div>
+							</div>
+							</div>
+						</div>
+					  </div>
+					</uib-tab>
 					<uib-tab heading="{{'SETTING.BIND_SENSOR' | translate}}">
 							<div class="panel-body" ng-controller="MicrogridSensorController">
 								<div class="row">
@@ -118,6 +460,120 @@
 								</div>
 							</div>
 						</div>
+					</uib-tab>
+					<uib-tab heading="{{'MICROGRID.MICROGRID_GENERATOR' | translate}}">
+						<div class="panel-body" ng-controller="MicrogridGeneratorController">
+						  <div class="row">
+							<div class="col-lg-3">
+							  <div class="panel panel-info">
+								<div class="panel-heading">
+								  {{'COMMON.MICROGRID' | translate}}
+								</div>
+								<div class="panel-body" >
+								  <form role="form">
+									<div class="form-group no-margin"><label>{{'SETTING.SELECT_MICROGRID' | translate}}</label>
+									  <ui-select  on-select="changeMicrogrid($item,$model)" ng-model="currentMicrogrid.selected" theme="bootstrap">
+										<ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+										<ui-select-choices repeat="microgrid.id as microgrid in microgrids | filter: $select.search" >
+										  <div ng-bind-html="microgrid.name | highlight: $select.search"></div>
+										</ui-select-choices>
+									  </ui-select>
+									</div>
+								  </form>
+								</div>
+							  </div>
+							</div>
+							<div class="col-lg-9">
+							  <div class="panel panel-primary">
+								<div class="panel-heading">
+								  {{currentMicrogrid.name}}{{'MICROGRID.N_S_MICROGRID_GENERATOR' | translate}}
+								</div>
+								<div class="panel-body" >
+								  <a ng-show="is_show_add_microgrid_generator" ng-click="addMicrogridGenerator()" class="btn btn-primary btn-rounded  btn-outline" href="">
+															<i class="fa fa-plus-circle"></i> {{'MICROGRID.ADD_MICROGRID_GENERATOR' | translate}}</a>
+								  <table class="table table-bordered table-hover" >
+									<thead>
+									  <tr>
+										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'MICROGRID.MICROGRID_GENERATOR_NAME' | translate}}</th>
+										<th class="text-center">{{'MICROGRID.MICROGRID_GENERATOR_CAPACITY' | translate}}</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+									  </tr>
+									</thead>
+									<tbody>
+									  <tr ng-repeat="microgridgenerator in microgridgenerators">
+										<td class="text-center">{{ microgridgenerator.id }}</td>
+										<td class="text-center">{{ microgridgenerator.name }}</td>
+										<td class="text-center">{{ microgridgenerator.capacity }}</td>
+										<td class="text-center">
+										  <a ng-click="editMicrogridGenerator(microgridgenerator)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
+										  <a ng-click="deleteMicrogridGenerator(microgridgenerator)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+										</td>
+									  </tr>
+									</tbody>
+								  </table>
+							  </div>
+							</div>
+							</div>
+						</div>
+					  </div>
+					</uib-tab>
+					<uib-tab heading="{{'MICROGRID.MICROGRID_WINDTURBINE' | translate}}">
+						<div class="panel-body" ng-controller="MicrogridWindturbineController">
+						  <div class="row">
+							<div class="col-lg-3">
+							  <div class="panel panel-info">
+								<div class="panel-heading">
+								  {{'COMMON.MICROGRID' | translate}}
+								</div>
+								<div class="panel-body" >
+								  <form role="form">
+									<div class="form-group no-margin"><label>{{'SETTING.SELECT_MICROGRID' | translate}}</label>
+									  <ui-select  on-select="changeMicrogrid($item,$model)" ng-model="currentMicrogrid.selected" theme="bootstrap">
+										<ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+										<ui-select-choices repeat="microgrid.id as microgrid in microgrids | filter: $select.search" >
+										  <div ng-bind-html="microgrid.name | highlight: $select.search"></div>
+										</ui-select-choices>
+									  </ui-select>
+									</div>
+								  </form>
+								</div>
+							  </div>
+							</div>
+							<div class="col-lg-9">
+							  <div class="panel panel-primary">
+								<div class="panel-heading">
+								  {{currentMicrogrid.name}}{{'MICROGRID.N_S_MICROGRID_WINDTURBINE' | translate}}
+								</div>
+								<div class="panel-body" >
+								  <a ng-show="is_show_add_microgrid_windturbine" ng-click="addMicrogridWindturbine()" class="btn btn-primary btn-rounded  btn-outline" href="">
+															<i class="fa fa-plus-circle"></i> {{'MICROGRID.ADD_MICROGRID_WINDTURBINE' | translate}}</a>
+								  <table class="table table-bordered table-hover" >
+									<thead>
+									  <tr>
+										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'MICROGRID.MICROGRID_WINDTURBINE_NAME' | translate}}</th>
+										<th class="text-center">{{'MICROGRID.MICROGRID_WINDTURBINE_CAPACITY' | translate}}</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+									  </tr>
+									</thead>
+									<tbody>
+									  <tr ng-repeat="microgridwindturbine in microgridwindturbines">
+										<td class="text-center">{{ microgridwindturbine.id }}</td>
+										<td class="text-center">{{ microgridwindturbine.name }}</td>
+										<td class="text-center">{{ microgridwindturbine.capacity }}</td>
+										<td class="text-center">
+										  <a ng-click="editMicrogridWindturbine(microgridwindturbine)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
+										  <a ng-click="deleteMicrogridWindturbine(microgridwindturbine)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+										</td>
+									  </tr>
+									</tbody>
+								  </table>
+							  </div>
+							</div>
+							</div>
+						</div>
+					  </div>
 					</uib-tab>
 				</uib-tabset>
 			</div>
