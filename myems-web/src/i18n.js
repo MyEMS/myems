@@ -341,19 +341,17 @@ const resources = {
       'Confirm Password': 'Confirm Password',
       'Update Password': 'Update Password',
       'Password has been changed!': 'Password has been changed!',
-      'The link to reset your password is as follows. \
-      Please click the link within 60 minutes to proceed with the next step. \
-      If you did not request this action, please disregard this email.': 'The link to reset your password is as follows. \
-      Please click the link within 60 minutes to proceed with the next step. \
-      If you did not request this action, please disregard this email.',
-      'The link to register your account is as follows. \
-      Please click the link within 60 minutes to proceed with the next step. \
-      If you did not request this action, please disregard this email.':  'The link to register your account is as follows. \
-      Please click the link within 60 minutes to proceed with the next step. \
-      If you did not request this action, please disregard this email.',
+      'Verification code has been sent to your inbox. \
+      Please copy it to the input box below..': 'Verification code has been sent to your inbox. \
+      Please copy it to the input box below.',
       'New to MyEMS': 'New to MyEMS',
       'Create an account': 'Create an account',
       'EMAIL Account registration successful': '{{EMAIL}} Account registration successful',
+      'Thanks for verifying your account!': 'Thanks for verifying your account!',
+      'Your code is': 'Your code is',
+      'Sent new code': 'Sent new code',
+      'Please wait for NUMBER seconds': 'Please wait for {{NUMBER}} seconds',
+      'Password reset': 'Password reset',
       //notification
       'Notifications': 'Notifications',
       'Mark all as read': 'Mark all as read',
@@ -698,6 +696,7 @@ const resources = {
       'API.INVALID_VARIABLE_METER_ID': 'Invalid variable meter id',
       'API.INVALID_VARIABLE_METER_TYPE': 'Invalid variable meter type',
       'API.INVALID_VARIABLE_NAME': 'Invalid variable name',
+      'API.INVALID_VERIFICATION_CODE': 'Invalid verification code',
       'API.INVALID_VIRTUAL_METER_ID': 'Invalid virtual meter id',
       'API.INVALID_VIRTUAL_METER_NAME': 'Invalid virtual meter name',
       'API.INVALID_VIRTUAL_METER_UUID': 'Invalid virtual meter uuid',
@@ -1224,19 +1223,17 @@ const resources = {
       'Confirm Password': 'Bestätige das Passwort',
       'Update Password': 'Kennwort aktualisieren',
       'Password has been changed!': 'Das Passwort wurde geändert!',
-      'The link to reset your password is as follows. \
-      Please click the link within 60 minutes to proceed with the next step. \
-      If you did not request this action, please disregard this email.': 'Der Link zum Zurücksetzen \
-      Ihres Passworts lautet wie folgt. Bitte klicken Sie innerhalb von 60 Minuten auf den Link, um mit dem nächsten \
-      Schritt fortzufahren. Wenn Sie diese Aktion nicht angefordert haben, ignorieren Sie diese E-Mail bitte.',
-      'The link to register your account is as follows. \
-      Please click the link within 60 minutes to proceed with the next step. \
-      If you did not request this action, please disregard this email.':  'Der Link zur Registrierung Ihres Kontos \
-      lautet wie folgt. Klicken Sie bitte innerhalb von 60 Minuten auf den Link, um mit dem nächsten Schritt \
-      fortzufahren. Wenn Sie diese Aktion nicht angefordert haben, ignorieren Sie bitte diese E-Mail.',
+      'Verification code has been sent to your inbox. \
+      Please copy it to the input box below.': 'Der Bestätigungscode wurde an Ihr Postfach gesendet. \
+      Bitte kopieren Sie ihn in das Eingabefeld unten.',
       'New to MyEMS': 'Neu bei MyEMS',
       'Create an account': 'Ein Konto erstellen',
       'EMAIL Account registration successful': '{{EMAIL}} Konto erfolgreich registriert',
+      'Thanks for verifying your account!': 'Vielen Dank, dass Sie Ihr Konto verifiziert haben!',
+      'Your code is': 'Ihr Code lautet',
+      'Sent new code': 'Neuer Code gesendet',
+      'Please wait for NUMBER seconds': 'Bitte warten Sie {{NUMBER}} Sekunden',
+      'Password reset': 'Passwort zurücksetzen',
       //notification
       'Notifications': 'Benachrichtigungen',
       'Mark all as read': 'Markiere alle als gelesen',
@@ -1585,6 +1582,7 @@ const resources = {
       'API.INVALID_VARIABLE_METER_ID': 'Ungültige variable Zähler-ID',
       'API.INVALID_VARIABLE_METER_TYPE': 'Ungültiger variabler Zählertyp',
       'API.INVALID_VARIABLE_NAME': 'Ungültiger Variablenname',
+      'API.INVALID_VERIFICATION_CODE': 'Ungültiger Bestätigungscode',
       'API.INVALID_VIRTUAL_METER_ID': 'Ungültige ID des virtuellen Zählers',
       'API.INVALID_VIRTUAL_METER_NAME': 'Ungültiger Name des virtuellen Zählers',
       'API.INVALID_VIRTUAL_METER_UUID': 'Ungültige uuid des virtuellen Zählers',
@@ -2082,17 +2080,16 @@ const resources = {
       'Confirm Password': '重复新密码',
       'Update Password': '更新密码',
       'Password has been changed!': '密码已修改!',
-      'The link to reset your password is as follows. \
-      Please click the link within 60 minutes to proceed with the next step. \
-      If you did not request this action, please disregard this email.': '你此次重置密码的链接如下，\
-      请在 60 分钟内点击链接进行下一步操作。 如非你本人操作，请忽略此邮件。',
-      'The link to register your account is as follows. \
-      Please click the link within 60 minutes to proceed with the next step. \
-      If you did not request this action, please disregard this email.': '你此次注册账户的链接如下，\
-      请在 60 分钟内点击链接进行下一步操作。 如非你本人操作，请忽略此邮件。',
+      'Verification code has been sent to your inbox. \
+      Please copy it to the input box below.': '验证码已发送到您的收件箱，请将其复制到下面的输入框中。',
       'New to MyEMS': '初次使用MyEMS',
       'Create an account': '注册账户',
       'EMAIL Account registration successful': '{{EMAIL}}账号注册成功',
+      'Thanks for verifying your account!': '感谢您验证您的账户！',
+      'Your code is': '您的代码是',
+      'Sent new code': '发送新的验证码',
+      'Please wait for NUMBER seconds': '请等待{{NUMBER}}秒',
+      'Password reset': '密码重置',
       //notification
       'Notifications': '通知',
       'Mark all as read': '全部设为已读',
@@ -2436,6 +2433,7 @@ const resources = {
       'API.INVALID_VARIABLE_METER_ID': '无效的变量计量表ID',
       'API.INVALID_VARIABLE_METER_TYPE': '无效的变量计量表类型',
       'API.INVALID_VARIABLE_NAME': '无效的变量名称',
+      'API.INVALID_VERIFICATION_CODE': '无效的验证码',
       'API.INVALID_VIRTUAL_METER_ID': '无效的虚拟表ID',
       'API.INVALID_VIRTUAL_METER_NAME': '无效的虚拟表名称',
       'API.INVALID_VIRTUAL_METER_UUID': '无效的虚拟表UUID',
