@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 
 ### Fixed
+- fixed dialog doesn't close after myems-admin logging out automatically
 
 ### Removed
 
