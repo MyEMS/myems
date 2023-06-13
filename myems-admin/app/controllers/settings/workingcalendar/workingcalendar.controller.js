@@ -1,8 +1,8 @@
 'use strict';
 
 app.controller('WorkingCalendarController', function(
-	$scope,
-	$rootScope,
+    $scope,
+    $rootScope,
     $window,
     $translate,
     $uibModal,
