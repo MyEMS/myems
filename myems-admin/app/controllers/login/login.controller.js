@@ -7,6 +7,7 @@ app.controller('LoginController', function (
 	$window,
 	$uibModal,
 	$scope,
+	$rootScope,
 	$cookies,
 	$interval,
 	LoginService,
@@ -61,6 +62,10 @@ app.controller('LoginController', function (
 	};
 
 	$scope.logout = function () {
+		// close modal modalInstance(if present)
+		if ($rootScope.modalInstance) {
+			$rootScope.modalInstance.close();
+		}
 		let data = null;
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		LoginService.logout(data, headers, function (response) {

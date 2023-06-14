@@ -87,6 +87,8 @@ const resources = {
       'Combined Equipment': 'Combined Equipment',
       'Cost Center': 'Cost Center',
       'Name': 'Name',
+      'DisplayName': 'Display Name',
+      'UserName': 'User Name',
       'Description': 'Description',
       'Energy Category': 'Energy Category',
       'Child Spaces': 'Child Spaces',
@@ -319,9 +321,9 @@ const resources = {
       'Remember me': 'Remember me',
       'Logged in as ': 'Logged in as ',
       'Forgot Password?': 'Forgot Password?',
-      'Forgot Password?': 'Forgot Password?',
       'Forgot your password?': 'Forgot your password?',
       "Enter your email and we'll send you a reset link": "Enter your email and we'll send you a reset link",
+      "Enter your email and we'll send you a registration link": "Enter your email and we'll send you a registration link",
       'Send reset link': 'Send reset link',
       'Thanks for using MyEMS!': 'Thanks for using MyEMS!',
       'You are now successfully signed out': 'You are now successfully signed out',
@@ -330,6 +332,8 @@ const resources = {
       'An email has been sent to ': 'An email has been sent to ',
       'Please click on the included link to reset your password':
         'Please click on the included link to reset your password',
+      'Please click on the included link to register your account':
+        'Please click on the included link to register your account',
       'An email with password reset link is sent to ': 'An email with password reset link is sent to ',
       'Change Password': 'Change Password',
       'Old Password': 'Old Password',
@@ -342,6 +346,14 @@ const resources = {
       If you did not request this action, please disregard this email.': 'The link to reset your password is as follows. \
       Please click the link within 60 minutes to proceed with the next step. \
       If you did not request this action, please disregard this email.',
+      'The link to register your account is as follows. \
+      Please click the link within 60 minutes to proceed with the next step. \
+      If you did not request this action, please disregard this email.':  'The link to register your account is as follows. \
+      Please click the link within 60 minutes to proceed with the next step. \
+      If you did not request this action, please disregard this email.',
+      'New to MyEMS': 'New to MyEMS',
+      'Create an account': 'Create an account',
+      'EMAIL Account registration successful': '{{EMAIL}} Account registration successful',
       //notification
       'Notifications': 'Notifications',
       'Mark all as read': 'Mark all as read',
@@ -398,6 +410,8 @@ const resources = {
       'Confirm Password Error': 'The confirm password does not match',
       "It looks like you clicked on an invalid password reset link. Please tryagain.": "It looks like you clicked \
       on an invalid password reset link. Please tryagain.",
+      "It looks like you clicked on an invalid registration account link. Please tryagain.": "It looks like you clicked \
+      on an invalid registration account link. Please tryagain.",
       //Tenant Bill
       'Lease Contract Number': 'Lease Contract Number',
       'Download': 'Download',
@@ -943,6 +957,8 @@ const resources = {
       'Combined Equipment': 'Kombinierte Ausrüstung',
       'Cost Center': 'Kostenstelle',
       'Name': 'Name',
+      'DisplayName': 'Anzeigename',
+      'UserName': 'Nutzername',
       'Description': 'Beschreibung',
       'Energy Category': 'Energiekategorie',
       'Child Spaces': 'Teil Platz',
@@ -1186,6 +1202,8 @@ const resources = {
       'Forgot your password?': 'Passwort vergessen?',
       "Enter your email and we'll send you a reset link":
         'Geben Sie Ihre E-Mail-Adresse ein und wir senden Ihnen einen Link zum Zurücksetzen',
+      "Enter your email and we'll send you a registration link":
+        "Geben Sie Ihre E-Mail-Adresse ein und wir senden Ihnen den Registrierungslink zu",
       'Send reset link': 'Reset-Link senden',
       'Thanks for using MyEMS!': 'Vielen Dank, dass Sie MyEMS verwenden!',
       'You are now successfully signed out': 'Sie sind jetzt erfolgreich abgemeldet',
@@ -1196,6 +1214,8 @@ const resources = {
         'Bitte klicken Sie auf den enthaltenen Link, um Ihr Passwort zurückzusetzen',
       'An email with password reset link is sent to ':
         'Eine E-Mail mit einem Link zum Zurücksetzen des Passworts wird an gesendet ',
+      'Please click on the included link to register your account':
+        'Bitte klicken Sie auf den beigefügten Link, um Ihr Konto zu registrieren.',
       'Change Password': 'Ändere das Passwort',
       'Old Password': 'Altes Passwort',
       'New Password': 'Neues Kennwort',
@@ -1207,6 +1227,14 @@ const resources = {
       If you did not request this action, please disregard this email.': 'Der Link zum Zurücksetzen \
       Ihres Passworts lautet wie folgt. Bitte klicken Sie innerhalb von 60 Minuten auf den Link, um mit dem nächsten \
       Schritt fortzufahren. Wenn Sie diese Aktion nicht angefordert haben, ignorieren Sie diese E-Mail bitte.',
+      'The link to register your account is as follows. \
+      Please click the link within 60 minutes to proceed with the next step. \
+      If you did not request this action, please disregard this email.':  'Der Link zur Registrierung Ihres Kontos \
+      lautet wie folgt. Klicken Sie bitte innerhalb von 60 Minuten auf den Link, um mit dem nächsten Schritt \
+      fortzufahren. Wenn Sie diese Aktion nicht angefordert haben, ignorieren Sie bitte diese E-Mail.',
+      'New to MyEMS': 'Neu bei MyEMS',
+      'Create an account': 'Ein Konto erstellen',
+      'EMAIL Account registration successful': '{{EMAIL}} Konto erfolgreich registriert',
       //notification
       'Notifications': 'Benachrichtigungen',
       'Mark all as read': 'Markiere alle als gelesen',
@@ -1266,6 +1294,8 @@ const resources = {
       'Confirm Password Error': 'Das Bestätigungspasswort stimmt nicht überein',
       "It looks like you clicked on an invalid password reset link. Please tryagain.": 'Es scheint, als hättest \
       du auf einen ungültigen Link zur Passwortrücksetzung geklickt. Bitte versuche es erneut.',
+      "It looks like you clicked on an invalid registration account link. Please tryagain.": "Es sieht so aus, als hätten \
+      Sie auf einen ungültigen Registrierungslink geklickt. Bitte versuchen Sie es erneut.",
       //Tenant Bill
       'Lease Contract Number': 'Mietvertragsnummer',
       'Download': 'Herunterladen',
@@ -1333,7 +1363,6 @@ const resources = {
       'API.DATE_LOCAL_USED_IN_WORKING_CALENDAR': 'Lokal verwendetes Datum im Arbeitskalender',
       'API.DATE_LOCAL_NOT_FOUND': 'Datum lokal nicht gefunden',
       'API.EMAIL_IS_ALREADY_IN_USE': 'E-Mail wird bereits verwendet',
-      'API.EMAIL_NOT_FOUND': 'Die E-Mail-Adresse existiert nicht',
       'API.EMAIL_MESSAGE_NOT_FOUND': 'E-Mail-Nachricht nicht gefunden',
       'API.EMAIL_NOT_FOUND': 'Die E-Mail-Adresse existiert nicht',
       'API.EMAIL_SERVER_HOST_IS_ALREADY_IN_USE': 'E-Mail-Server-Host wird bereits verwendet',
@@ -1812,6 +1841,8 @@ const resources = {
       'Combined Equipment': '组合设备',
       'Cost Center': '成本中心',
       'Name': '名称',
+      'DisplayName': '显示名',
+      'UserName': '用户名',
       'Description': '描述',
       'Energy Category': '能源分类',
       'Child Spaces': '子空间',
@@ -2032,6 +2063,7 @@ const resources = {
       'Forgot Password?': '忘记密码?',
       'Forgot your password?': '忘记你的密码?',
       "Enter your email and we'll send you a reset link": '输入电子邮件地址，我们会把重置链接发送给您',
+      "Enter your email and we'll send you a registration link": '输入电子邮件地址，我们会把注册链接发送给您',
       'Send reset link': '发送重置连接',
       'Thanks for using MyEMS!': '感谢您使用MyEMS!',
       'You are now successfully signed out': '您已成功退出',
@@ -2039,6 +2071,7 @@ const resources = {
       'Please check your email!': '请查收您的电子邮件!',
       'An email has been sent to ': '一封电子邮件已经发送至 ',
       'Please click on the included link to reset your password': '请点击里面的链接重置您的密码',
+      'Please click on the included link to register your account': '请点击里面的链接注册您的账户',
       'An email with password reset link is sent to ': '一封包含密码重置链接的电子邮件已经发送至 ',
       'Change Password': '修改密码',
       'Old Password': '原密码',
@@ -2050,6 +2083,13 @@ const resources = {
       Please click the link within 60 minutes to proceed with the next step. \
       If you did not request this action, please disregard this email.': '你此次重置密码的链接如下，\
       请在 60 分钟内点击链接进行下一步操作。 如非你本人操作，请忽略此邮件。',
+      'The link to register your account is as follows. \
+      Please click the link within 60 minutes to proceed with the next step. \
+      If you did not request this action, please disregard this email.': '你此次注册账户的链接如下，\
+      请在 60 分钟内点击链接进行下一步操作。 如非你本人操作，请忽略此邮件。',
+      'New to MyEMS': '初次使用MyEMS',
+      'Create an account': '注册账户',
+      'EMAIL Account registration successful': '{{EMAIL}}账号注册成功',
       //notification
       'Notifications': '通知',
       'Mark all as read': '全部设为已读',
@@ -2107,6 +2147,7 @@ const resources = {
       'Captcha Error': '验证码错误',
       'Confirm Password Error': '两次密码不一致',
       "It looks like you clicked on an invalid password reset link. Please tryagain.": '看起来你点击了一个无效的重置密码链接。请再试一次。',
+      "It looks like you clicked on an invalid registration account link. Please tryagain.": '看起来你点击了一个无效的注册账号链接。请再试一次。',
       //Tenant Bill
       'Lease Contract Number': '租赁合同号码',
       'Download': '下载',

@@ -5,16 +5,45 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
-- added bind command to meter feature to myems-api and myems-admin
-- added bind command to space feature to myems-api and myems-admin
-- added forgot pssword function to myems-api and myems-web
-- added user register function to myems-api
-- 
+- added microgrid battery actions to myems-api and myems-admin
+- added microgrid evcharger actions to myems-api and myems-admin
+- added microgrid generator actions to myems-api and myems-admin
+- added microgrid grid actions to myems-api and myems-admin
+- added microgrid heatpump actions to myems-api and myems-admin
+- added microgrid load actions to myems-api and myems-admin
+- added microgrid photovoltaic actions to myems-api and myems-admin
+- added microgrid windturbine to system database
+- added microgrid windturbine actions to myems-api and myems-admin
+- added get all associated objects of microgrid to myems-api
 ### Changed
 
 ### Fixed
-- fixed save button issue of tariff dialog in myems-admin
+- fixed dialog doesn't close after myems-admin logging out automatically
 
+### Removed
+
+## [v3.5.0] - 2023-06-09
+### Added
+- added bind command to meter feature to myems-api and myems-admin
+- added bind command to space feature to myems-api and myems-admin
+- added forgot password function to myems-api and myems-web
+- added user register function to myems-api and myems-web
+- added postal code to microgrid in database, myems-api, myems-admin
+- added bind command to equipment feature to myems-api and myems-admin
+- added bind command to combined equipment feature to myems-api and myems-admin
+- added new user approval function to myems-admin
+- added bind command to tenant feature to myems-api and myems-admin
+- added bind command to store feature to myems-api and myems-admin
+- added bind command to shopfloor feature to myems-api and myems-admin
+- added new tables for microgrids to system database
+- 
+### Changed
+- updated the default tariff type and default tariff valid through date time in tariff editor
+
+### Fixed
+- fixed save button issue of tariff dialog in myems-admin
+- fixed save button issue of email server dialog in myems-admin
+- 
 ### Removed
 - removed tariff type 'block'(or tiered) from database, myems-api and myems-admin
 - 
@@ -1295,7 +1324,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v3.4.0...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v3.5.0...HEAD
+[3.5.0]: https://github.com/MyEMS/myems/compare/v3.5.0...v3.4.0
 [3.4.0]: https://github.com/MyEMS/myems/compare/v3.4.0...v3.3.0
 [3.3.0]: https://github.com/MyEMS/myems/compare/v3.3.0...v3.2.0
 [3.2.0]: https://github.com/MyEMS/myems/compare/v3.1.0...v3.2.0

@@ -69,7 +69,7 @@ class MicrogridCollection:
                                             "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, "
-                 "        address, latitude, longitude, capacity, "
+                 "        address, postal_code, latitude, longitude, capacity, "
                  "        architecture_type_id, owner_type_id, "
                  "        is_input_counted, is_output_counted, contact_id, cost_center_id, description "
                  " FROM tbl_microgrids "
@@ -80,25 +80,26 @@ class MicrogridCollection:
         result = list()
         if rows_spaces is not None and len(rows_spaces) > 0:
             for row in rows_spaces:
-                architecture_type = architecture_type_dict.get(row[7], None)
-                owner_type = owner_type_dict.get(row[8], None)
-                contact = contact_dict.get(row[11], None)
-                cost_center = cost_center_dict.get(row[12], None)
+                architecture_type = architecture_type_dict.get(row[8], None)
+                owner_type = owner_type_dict.get(row[9], None)
+                contact = contact_dict.get(row[12], None)
+                cost_center = cost_center_dict.get(row[13], None)
 
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
                                "address": row[3],
-                               "latitude": row[4],
-                               "longitude": row[5],
-                               "capacity": row[6],
+                               "postal_code": row[4],
+                               "latitude": row[5],
+                               "longitude": row[6],
+                               "capacity": row[7],
                                "architecture_type": architecture_type,
                                "owner_type": owner_type,
-                               "is_input_counted": bool(row[9]),
-                               "is_output_counted": bool(row[10]),
+                               "is_input_counted": bool(row[10]),
+                               "is_output_counted": bool(row[11]),
                                "contact": contact,
                                "cost_center": cost_center,
-                               "description": row[13],
+                               "description": row[14],
                                "qrcode": 'microgrid:' + row[2]}
                 result.append(meta_result)
 
@@ -133,6 +134,13 @@ class MicrogridCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ADDRESS_VALUE')
         address = str.strip(new_values['data']['address'])
+
+        if 'postal_code' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['postal_code'], str) or \
+                len(str.strip(new_values['data']['postal_code'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_POSTAL_CODE_VALUE')
+        postal_code = str.strip(new_values['data']['postal_code'])
 
         if 'latitude' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['latitude'], float) or
@@ -261,14 +269,15 @@ class MicrogridCollection:
                                    description='API.COST_CENTER_NOT_FOUND')
 
         add_values = (" INSERT INTO tbl_microgrids "
-                      "    (name, uuid, address, latitude, longitude, capacity, "
+                      "    (name, uuid, address, postal_code, latitude, longitude, capacity, "
                       "     architecture_type_id, owner_type_id, "
                       "     is_input_counted, is_output_counted, "
                       "     contact_id, cost_center_id, description) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     address,
+                                    postal_code,
                                     latitude,
                                     longitude,
                                     capacity,
@@ -354,7 +363,7 @@ class MicrogridItem:
                                             "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, "
-                 "        address, latitude, longitude, capacity, "
+                 "        address, postal_code, latitude, longitude, capacity, "
                  "        architecture_type_id, owner_type_id, "
                  "        is_input_counted, is_output_counted, "
                  "        contact_id, cost_center_id, description "
@@ -369,24 +378,25 @@ class MicrogridItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.MICROGRID_NOT_FOUND')
         else:
-            architecture_type = architecture_type_dict.get(row[7], None)
-            owner_type = microgrid_owner_type_dict.get(row[8], None)
-            contact = contact_dict.get(row[11], None)
-            cost_center = cost_center_dict.get(row[12], None)
+            architecture_type = architecture_type_dict.get(row[8], None)
+            owner_type = microgrid_owner_type_dict.get(row[9], None)
+            contact = contact_dict.get(row[12], None)
+            cost_center = cost_center_dict.get(row[13], None)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
                            "address": row[3],
-                           "latitude": row[4],
-                           "longitude": row[5],
-                           "capacity": row[6],
+                           "postal_code": row[4],
+                           "latitude": row[5],
+                           "longitude": row[6],
+                           "capacity": row[7],
                            "architecture_type": architecture_type,
                            "owner_type": owner_type,
-                           "is_input_counted": bool(row[9]),
-                           "is_output_counted": bool(row[10]),
+                           "is_input_counted": bool(row[10]),
+                           "is_output_counted": bool(row[11]),
                            "contact": contact,
                            "cost_center": cost_center,
-                           "description": row[13],
+                           "description": row[14],
                            "qrcode": 'microgrid:' + row[2]}
 
         resp.text = json.dumps(meta_result)
@@ -411,7 +421,7 @@ class MicrogridItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.MICROGRID_NOT_FOUND')
 
-        # # check relation with space
+        # todo: check relation with space
         # cursor.execute(" SELECT space_id "
         #                " FROM tbl_spaces_microgrids "
         #                " WHERE microgrid_id = %s ",
@@ -486,6 +496,13 @@ class MicrogridItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ADDRESS_VALUE')
         address = str.strip(new_values['data']['address'])
+
+        if 'postal_code' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['postal_code'], str) or \
+                len(str.strip(new_values['data']['postal_code'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_POSTAL_CODE_VALUE')
+        postal_code = str.strip(new_values['data']['postal_code'])
 
         if 'latitude' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['latitude'], float) or
@@ -623,7 +640,7 @@ class MicrogridItem:
                                    description='API.COST_CENTER_NOT_FOUND')
 
         update_row = (" UPDATE tbl_microgrids "
-                      " SET name = %s, address = %s, latitude = %s, longitude = %s, capacity = %s, "
+                      " SET name = %s, address = %s, postal_code = %s, latitude = %s, longitude = %s, capacity = %s, "
                       "     architecture_type_id = %s, owner_type_id = %s, "
                       "     is_input_counted = %s, is_output_counted = %s, "
                       "     contact_id = %s, cost_center_id = %s, "
@@ -631,6 +648,7 @@ class MicrogridItem:
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     address,
+                                    postal_code,
                                     latitude,
                                     longitude,
                                     capacity,
@@ -820,3 +838,414 @@ class MicrogridSensorItem:
 
         resp.status = falcon.HTTP_204
 
+
+class MicrogridBatteryCollection:
+    @staticmethod
+    def __init__():
+        """Initializes MicrogridBatteryCollection"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_get(req, resp, id_):
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_MICROGRID_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_microgrids "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.MICROGRID_NOT_FOUND')
+
+        query = (" SELECT id, name, uuid, "
+                 "        capacity "
+                 " FROM tbl_microgrids_batteries "
+                 " WHERE microgrid_id = %s "
+                 " ORDER BY name ")
+        cursor.execute(query, (id_,))
+        rows = cursor.fetchall()
+
+        result = list()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
+                               "capacity": row[3]}
+                result.append(meta_result)
+
+        resp.text = json.dumps(result)
+
+
+class MicrogridCommandCollection:
+    @staticmethod
+    def __init__():
+        """Initializes Class"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_get(req, resp, id_):
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_MICROGRID_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_microgrids "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.MICROGRID_NOT_FOUND')
+
+        query = (" SELECT c.id, c.name, c.uuid "
+                 " FROM tbl_microgrids m, tbl_microgrids_commands mc, tbl_commands c "
+                 " WHERE mc.microgrid_id = m.id AND c.id = mc.command_id AND m.id = %s "
+                 " ORDER BY c.id ")
+        cursor.execute(query, (id_,))
+        rows = cursor.fetchall()
+
+        result = list()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                meta_result = {"id": row[0], "name": row[1], "uuid": row[2]}
+                result.append(meta_result)
+
+        resp.text = json.dumps(result)
+
+
+class MicrogridEVChargerCollection:
+    @staticmethod
+    def __init__():
+        """Initializes MicrogridEVChargerCollection"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_get(req, resp, id_):
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_MICROGRID_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_microgrids "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.MICROGRID_NOT_FOUND')
+
+        query = (" SELECT id, name, uuid, "
+                 "        capacity "
+                 " FROM tbl_microgrids_evchargers "
+                 " WHERE microgrid_id = %s "
+                 " ORDER BY name ")
+        cursor.execute(query, (id_,))
+        rows = cursor.fetchall()
+
+        result = list()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
+                               "capacity": row[3]}
+                result.append(meta_result)
+
+        resp.text = json.dumps(result)
+
+
+class MicrogridGeneratorCollection:
+    @staticmethod
+    def __init__():
+        """Initializes MicrogridGeneratorCollection"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_get(req, resp, id_):
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_MICROGRID_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_microgrids "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.MICROGRID_NOT_FOUND')
+
+        query = (" SELECT id, name, uuid, "
+                 "        capacity "
+                 " FROM tbl_microgrids_generators "
+                 " WHERE microgrid_id = %s "
+                 " ORDER BY name ")
+        cursor.execute(query, (id_,))
+        rows = cursor.fetchall()
+
+        result = list()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
+                               "capacity": row[3]}
+                result.append(meta_result)
+
+        resp.text = json.dumps(result)
+
+
+class MicrogridGridCollection:
+    @staticmethod
+    def __init__():
+        """Initializes MicrogridGridCollection"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_get(req, resp, id_):
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_MICROGRID_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_microgrids "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.MICROGRID_NOT_FOUND')
+
+        query = (" SELECT id, name, uuid, "
+                 "        capacity "
+                 " FROM tbl_microgrids_grids "
+                 " WHERE microgrid_id = %s "
+                 " ORDER BY name ")
+        cursor.execute(query, (id_,))
+        rows = cursor.fetchall()
+
+        result = list()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
+                               "capacity": row[3]}
+                result.append(meta_result)
+
+        resp.text = json.dumps(result)
+
+
+class MicrogridHeatpumpCollection:
+    @staticmethod
+    def __init__():
+        """Initializes MicrogridHeatpumpCollection"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_get(req, resp, id_):
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_MICROGRID_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_microgrids "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.MICROGRID_NOT_FOUND')
+
+        query = (" SELECT id, name, uuid, "
+                 "        capacity "
+                 " FROM tbl_microgrids_heatpumps "
+                 " WHERE microgrid_id = %s "
+                 " ORDER BY name ")
+        cursor.execute(query, (id_,))
+        rows = cursor.fetchall()
+
+        result = list()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
+                               "capacity": row[3]}
+                result.append(meta_result)
+
+        resp.text = json.dumps(result)
+
+
+class MicrogridLoadCollection:
+    @staticmethod
+    def __init__():
+        """Initializes MicrogridLoadCollection"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_get(req, resp, id_):
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_MICROGRID_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_microgrids "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.MICROGRID_NOT_FOUND')
+
+        query = (" SELECT id, name, uuid, "
+                 "        capacity "
+                 " FROM tbl_microgrids_loads "
+                 " WHERE microgrid_id = %s "
+                 " ORDER BY name ")
+        cursor.execute(query, (id_,))
+        rows = cursor.fetchall()
+
+        result = list()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
+                               "capacity": row[3]}
+                result.append(meta_result)
+
+        resp.text = json.dumps(result)
+
+
+class MicrogridPhotovoltaicCollection:
+    @staticmethod
+    def __init__():
+        """Initializes MicrogridPhotovoltaicCollection"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_get(req, resp, id_):
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_MICROGRID_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_microgrids "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.MICROGRID_NOT_FOUND')
+
+        query = (" SELECT id, name, uuid, "
+                 "        capacity "
+                 " FROM tbl_microgrids_photovoltaics "
+                 " WHERE microgrid_id = %s "
+                 " ORDER BY name ")
+        cursor.execute(query, (id_,))
+        rows = cursor.fetchall()
+
+        result = list()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
+                               "capacity": row[3]}
+                result.append(meta_result)
+
+        resp.text = json.dumps(result)
+
+
+class MicrogridWindturbineCollection:
+    @staticmethod
+    def __init__():
+        """Initializes MicrogridWindturbineCollection"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_get(req, resp, id_):
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_MICROGRID_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_microgrids "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.MICROGRID_NOT_FOUND')
+
+        query = (" SELECT id, name, uuid, "
+                 "        capacity "
+                 " FROM tbl_microgrids_windturbines "
+                 " WHERE microgrid_id = %s "
+                 " ORDER BY name ")
+        cursor.execute(query, (id_,))
+        rows = cursor.fetchall()
+
+        result = list()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
+                               "capacity": row[3]}
+                result.append(meta_result)
+
+        resp.text = json.dumps(result)
