@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('VirtualMeterController', function($scope, $window, $uibModal, $translate,
+app.controller('VirtualMeterController', function($scope, $rootScope, $window, $uibModal, $translate,
 	MeterService,
 	VirtualMeterService,
 	OfflineMeterService,
@@ -121,6 +121,7 @@ app.controller('VirtualMeterController', function($scope, $window, $uibModal, $t
 		}, function() {
 
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.editVirtualMeter = function(virtualmeter) {
@@ -175,6 +176,7 @@ app.controller('VirtualMeterController', function($scope, $window, $uibModal, $t
 		}, function() {
 			//do nothing;
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.deleteVirtualMeter = function(virtualmeter) {

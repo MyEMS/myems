@@ -2,6 +2,7 @@
 
 app.controller('CombinedEquipmentMeterController', function (
     $scope,
+    $rootScope,
     $window,
     $timeout,
     $uibModal,
@@ -146,6 +147,7 @@ app.controller('CombinedEquipmentMeterController', function (
             });
         }, function () {
         });
+        $rootScope.modalInstance = modalInstance;
     };
 
     $scope.deleteMeterPair = function (dragEl, dropEl) {

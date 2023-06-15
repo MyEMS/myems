@@ -2,6 +2,7 @@
 
 app.controller('CombinedEquipmentController', function (
     $scope,
+    $rootScope,
     $window,
     $translate,
     $uibModal,
@@ -67,6 +68,7 @@ app.controller('CombinedEquipmentController', function (
 		}, function () {
 
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.editCombinedEquipment = function (combinedequipment) {
@@ -109,6 +111,7 @@ app.controller('CombinedEquipmentController', function (
 		}, function () {
 			//do nothing;
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.deleteCombinedEquipment = function (combinedequipment) {

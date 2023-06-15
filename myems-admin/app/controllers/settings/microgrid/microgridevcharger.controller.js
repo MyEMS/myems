@@ -2,6 +2,7 @@
 
 app.controller('MicrogridEVChargerController', function(
 	$scope,
+	$rootScope,
 	$window,
 	$translate,
 	$uibModal,
@@ -79,6 +80,7 @@ app.controller('MicrogridEVChargerController', function(
   		}, function() {
 
   		});
+		$rootScope.modalInstance = modalInstance;
   	};
 
   	$scope.editMicrogridEVCharger = function(microgridevcharger) {
@@ -120,6 +122,7 @@ app.controller('MicrogridEVChargerController', function(
   		}, function() {
   			//do nothing;
   		});
+		$rootScope.modalInstance = modalInstance;
   	};
 
   	$scope.deleteMicrogridEVCharger = function(microgridevcharger) {

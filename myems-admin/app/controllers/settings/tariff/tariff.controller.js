@@ -2,6 +2,7 @@
 
 app.controller('TariffController', function(
 	$scope,
+	$rootScope,
 	$window,
 	$uibModal,
 	$translate,
@@ -74,6 +75,7 @@ app.controller('TariffController', function(
 		}, function() {
 
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.editTariff = function(tariff) {
@@ -115,6 +117,7 @@ app.controller('TariffController', function(
 		}, function() {
 			//do nothing;
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.deleteTariff = function(tariff) {
