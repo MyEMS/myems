@@ -1284,17 +1284,10 @@ class EmailMessageCollection:
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
 
-        cursor.execute(" select created_datetime_utc from "
-                       " tbl_verification_codes where recipient_email = %s "
-                       " order by created_datetime_utc desc limit 1", (recipient_email,))
-        row = cursor.fetchone()
-        if row is not None:
-            created_datetime_utc = row[0] + timedelta(seconds=59 * 1 * 1)
-            if datetime.utcnow() < created_datetime_utc :
-                cursor.close()
-                cnx.close()
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                        description='API.BAD_REQUEST')
+        cursor.execute(" DELETE FROM tbl_verification_codes "
+                       " WHERE recipient_email = %s ",
+                       (recipient_email,))
+        cnx.commit()
 
         cursor.execute(" select name "
                        " from tbl_new_users "
