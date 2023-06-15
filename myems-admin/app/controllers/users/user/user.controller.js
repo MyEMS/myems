@@ -1,6 +1,7 @@
 'use strict';
 
 app.controller('UserController', function ($scope,
+	$rootScope,
 	$window,
 	$uibModal,
 	UserService,
@@ -67,6 +68,7 @@ app.controller('UserController', function ($scope,
 		}, function () {
 
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.editUser = function (user) {
@@ -107,6 +109,7 @@ app.controller('UserController', function ($scope,
 		}, function () {
 			//do nothing;
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.resetPassword = function (user) {
@@ -147,6 +150,7 @@ app.controller('UserController', function ($scope,
 		}, function () {
 			//do nothing;
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.deleteUser = function (user) {

@@ -2,6 +2,7 @@
 
 app.controller('TenantController', function (
     $scope,
+    $rootScope,
     $window,
     $translate,
     $uibModal,
@@ -102,6 +103,7 @@ app.controller('TenantController', function (
 		}, function () {
 
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.editTenant = function (tenant) {
@@ -156,6 +158,7 @@ app.controller('TenantController', function (
 		}, function () {
 			//do nothing;
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.deleteTenant = function (tenant) {

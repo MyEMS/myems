@@ -99,6 +99,7 @@ app.controller('WorkingCalendarController', function(
 		}, function() {
 			//do nothing;
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.deleteWorkingCalendar = function(workingcalendar) {

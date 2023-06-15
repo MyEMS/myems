@@ -1,6 +1,7 @@
 'use strict';
 
 app.controller('GatewayController', function($scope,  
+	$rootScope,
 	$window,
 	$translate, 
 	$uibModal, 
@@ -57,6 +58,7 @@ app.controller('GatewayController', function($scope,
 		}, function() {
 
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.editGateway = function(gateway) {
@@ -98,6 +100,7 @@ app.controller('GatewayController', function($scope,
 		}, function() {
 			//do nothing;
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.deleteGateway = function(gateway) {

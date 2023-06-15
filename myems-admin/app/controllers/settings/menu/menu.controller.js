@@ -2,6 +2,7 @@
 
 app.controller('MenuController', function (
     $scope,
+    $rootScope,
     $window,
     $uibModal,
     MenuService,
@@ -132,6 +133,7 @@ app.controller('MenuController', function (
 		}, function () {
 			//do nothing;
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.getAllMenus();

@@ -2,6 +2,7 @@
 
 app.controller('MicrogridGeneratorController', function(
 	$scope,
+	$rootScope,
 	$window,
 	$translate,
 	$uibModal,
@@ -79,6 +80,7 @@ app.controller('MicrogridGeneratorController', function(
   		}, function() {
 
   		});
+		$rootScope.modalInstance = modalInstance;
   	};
 
   	$scope.editMicrogridGenerator = function(microgridgenerator) {
@@ -120,6 +122,7 @@ app.controller('MicrogridGeneratorController', function(
   		}, function() {
   			//do nothing;
   		});
+		$rootScope.modalInstance = modalInstance;
   	};
 
   	$scope.deleteMicrogridGenerator = function(microgridgenerator) {

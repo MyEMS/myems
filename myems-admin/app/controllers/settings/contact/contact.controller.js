@@ -2,6 +2,7 @@
 
 app.controller('ContactController', function(
     $scope,
+    $rootScope,
     $window,
     $translate,
     $uibModal,
@@ -57,6 +58,7 @@ app.controller('ContactController', function(
 		}, function() {
 
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.editContact=function(contact){
@@ -97,6 +99,7 @@ app.controller('ContactController', function(
 		}, function () {
 	        //do nothing;
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.deleteContact=function(contact){

@@ -1,6 +1,7 @@
 'use strict';
 
 app.controller('EmailServerController', function($scope,
+	$rootScope,
 	$window,
     $translate,
     $uibModal,
@@ -56,6 +57,7 @@ app.controller('EmailServerController', function($scope,
 		}, function() {
 
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.editEmailServer=function(emailserver){
@@ -96,6 +98,7 @@ app.controller('EmailServerController', function($scope,
 		}, function () {
 	        //do nothing;
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.deleteEmailServer=function(emailserver){

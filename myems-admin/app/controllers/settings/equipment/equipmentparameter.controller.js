@@ -2,6 +2,7 @@
 
 app.controller('EquipmentParameterController', function(
     $scope,
+    $rootScope,
     $window,
     $uibModal,
     $translate,
@@ -95,6 +96,7 @@ app.controller('EquipmentParameterController', function(
 	}, function() {
 
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.editEquipmentParameter = function(equipmentparameter) {
@@ -146,6 +148,7 @@ app.controller('EquipmentParameterController', function(
 		}, function() {
 			//do nothing;
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.deleteEquipmentParameter = function(equipmentparameter) {
