@@ -1101,7 +1101,7 @@ class ForgotPassword:
 
         cursor.execute(" DELETE FROM tbl_verification_codes "
                        " WHERE recipient_email = %s ",
-                       (email))
+                       (email,))
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -1286,7 +1286,7 @@ class EmailMessageCollection:
 
         cursor.execute(" select created_datetime_utc from "
                        " tbl_verification_codes where recipient_email = %s "
-                       " order by created_datetime_utc desc", (recipient_email,))
+                       " order by created_datetime_utc desc limit 1", (recipient_email,))
         row = cursor.fetchone()
         if row is not None:
             created_datetime_utc = row[0] + timedelta(seconds=59 * 1 * 1)
@@ -1296,7 +1296,9 @@ class EmailMessageCollection:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                         description='API.BAD_REQUEST')
 
-        cursor.execute("select name from tbl_new_users where email = %s", (recipient_email,))
+        cursor.execute(" select name "
+                       " from tbl_new_users "
+                       " where email = %s ", (recipient_email,))
         row = cursor.fetchone()
         if row is not None:
             recipient_name = row[0]
