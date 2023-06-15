@@ -9,7 +9,7 @@ from core import energyflowdiagram, privilege, textmessage, distributioncircuit,
     offlinemeter, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile, workingcalendar, \
     microgrid, microgridarchitecturetype, microgridbattery, microgridownertype, \
     microgridevcharger, microgridgenerator, microgridgrid, microgridheatpump, microgridload, microgridphotovoltaic, \
-    microgridwindturbine, command
+    microgridwindturbine, command, personaltoken
 
 from reports import advancedreport
 from reports import combinedequipmentbatch
@@ -401,6 +401,9 @@ api.add_route('/privileges',
               privilege.PrivilegeCollection())
 api.add_route('/privileges/{id_}',
               privilege.PrivilegeItem())
+
+api.add_route('/classes',
+              personaltoken.ClassCollection())
 
 api.add_route('/rules',
               rule.RuleCollection())
