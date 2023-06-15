@@ -7,7 +7,7 @@ import mysql.connector
 import simplejson as json
 
 import config
-from core.useractivity import user_logger, access_control
+from core.useractivity import user_logger, admin_control
 
 
 class CostFileCollection:
@@ -23,7 +23,7 @@ class CostFileCollection:
     @staticmethod
     def on_get(req, resp):
         """Handles GET requests"""
-        access_control(req)
+        admin_control(req)
         cnx = mysql.connector.connect(**config.myems_historical_db)
         cursor = cnx.cursor()
 
@@ -56,7 +56,7 @@ class CostFileCollection:
     @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
-        access_control(req)
+        admin_control(req)
         try:
             upload = req.get_param('file')
             # Read upload file as binary
@@ -160,7 +160,7 @@ class CostFileItem:
     @staticmethod
     def on_get(req, resp, id_):
         """Handles GET requests"""
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
@@ -196,7 +196,7 @@ class CostFileItem:
     @user_logger
     def on_delete(req, resp, id_):
         """Handles DELETE requests"""
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COST_FILE_ID')
@@ -248,7 +248,7 @@ class CostFileRestore:
     @staticmethod
     def on_get(req, resp, id_):
         """Handles GET requests"""
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COST_FILE_ID')

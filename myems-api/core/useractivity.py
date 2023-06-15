@@ -11,7 +11,7 @@ from gunicorn.http.body import Body
 import config
 
 
-def access_control(req):
+def admin_control(req):
     """
     Check administrator privilege in request headers to protect resources from invalid access
     :param req: HTTP request

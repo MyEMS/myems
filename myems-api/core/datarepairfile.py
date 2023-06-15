@@ -7,7 +7,7 @@ import mysql.connector
 import simplejson as json
 
 import config
-from core.useractivity import user_logger, access_control
+from core.useractivity import user_logger, admin_control
 
 
 class DataRepairFileCollection:
@@ -22,7 +22,7 @@ class DataRepairFileCollection:
 
     @staticmethod
     def on_get(req, resp):
-        access_control(req)
+        admin_control(req)
         cnx = mysql.connector.connect(**config.myems_historical_db)
         cursor = cnx.cursor()
 
@@ -55,7 +55,7 @@ class DataRepairFileCollection:
     @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
-        access_control(req)
+        admin_control(req)
         try:
             upload = req.get_param('file')
             # Read upload file as binary
@@ -159,7 +159,7 @@ class DataRepairFileItem:
 
     @staticmethod
     def on_get(req, resp, id_):
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
@@ -195,7 +195,7 @@ class DataRepairFileItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_):
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DATA_REPAIR_FILE_ID')
@@ -246,7 +246,7 @@ class DataRepairFileRestore:
 
     @staticmethod
     def on_get(req, resp, id_):
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DATA_REPAIR_FILE_ID')
