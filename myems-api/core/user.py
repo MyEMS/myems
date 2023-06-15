@@ -1030,7 +1030,8 @@ class ForgotPassword:
 
         if 'password' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['password'], str) or \
-                len(str.strip(new_values['data']['password'])) == 0:
+                len(str.strip(new_values['data']['password'])) == 0 or \
+                len(str.strip(new_values['data']['password'])) > 100:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_PASSWORD')
         password = str.strip(new_values['data']['password'])
@@ -1097,7 +1098,6 @@ class ForgotPassword:
                        " SET password = %s "
                        " Where email = %s",
                        (hashed_password, email))
-        cnx.commit()
 
         cursor.execute(" DELETE FROM tbl_verification_codes "
                        " WHERE recipient_email = %s ",
@@ -1614,7 +1614,8 @@ class NewUserCollection:
 
         if 'password' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['password'], str) or \
-                len(str.strip(new_values['data']['password'])) == 0:
+                len(str.strip(new_values['data']['password'])) == 0 or \
+                len(str.strip(new_values['data']['password'])) > 100:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_PASSWORD')
 
