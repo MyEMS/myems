@@ -2,6 +2,7 @@
 
 app.controller('EnergyFlowDiagramNodeController', function(
 	$scope,
+	$rootScope,
 	$window,
 	$translate,
 	$uibModal,
@@ -79,6 +80,7 @@ app.controller('EnergyFlowDiagramNodeController', function(
   		}, function() {
 
   		});
+		$rootScope.modalInstance = modalInstance;
   	};
 
   	$scope.editEnergyFlowDiagramNode = function(energyflowdiagramnode) {
@@ -119,6 +121,7 @@ app.controller('EnergyFlowDiagramNodeController', function(
   		}, function() {
   			//do nothing;
   		});
+		$rootScope.modalInstance = modalInstance;
   	};
 
   	$scope.deleteEnergyFlowDiagramNode = function(energyflowdiagramnode) {

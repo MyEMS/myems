@@ -2,6 +2,7 @@
 
 app.controller('RuleController', function(
     $scope,
+    $rootScope,
     $window,
     $uibModal,
     $translate,
@@ -71,6 +72,7 @@ app.controller('RuleController', function(
 		}, function() {
 
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.editRule = function(rule) {
@@ -112,6 +114,7 @@ app.controller('RuleController', function(
 		}, function() {
 			//do nothing;
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.deleteRule = function(rule) {

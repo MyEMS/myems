@@ -2,6 +2,7 @@
 
 app.controller('SensorController', function(
     $scope,
+    $rootScope,
     $window,
     $translate,
     $uibModal,
@@ -57,6 +58,7 @@ app.controller('SensorController', function(
 		}, function() {
 
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.editSensor = function(sensor) {
@@ -98,6 +100,7 @@ app.controller('SensorController', function(
 		}, function() {
 			//do nothing;
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.deleteSensor = function(sensor) {

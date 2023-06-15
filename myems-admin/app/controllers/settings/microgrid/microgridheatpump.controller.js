@@ -2,6 +2,7 @@
 
 app.controller('MicrogridHeatpumpController', function(
 	$scope,
+	$rootScope,
 	$window,
 	$translate,
 	$uibModal,
@@ -79,6 +80,7 @@ app.controller('MicrogridHeatpumpController', function(
   		}, function() {
 
   		});
+		$rootScope.modalInstance = modalInstance;
   	};
 
   	$scope.editMicrogridHeatpump = function(microgridheatpump) {
@@ -120,6 +122,7 @@ app.controller('MicrogridHeatpumpController', function(
   		}, function() {
   			//do nothing;
   		});
+		$rootScope.modalInstance = modalInstance;
   	};
 
   	$scope.deleteMicrogridHeatpump = function(microgridheatpump) {

@@ -2,6 +2,7 @@
 
 app.controller('DataSourceController', function(
 	$scope, 
+	$rootScope,
 	$window,
 	$uibModal, 
 	$translate, 
@@ -72,6 +73,7 @@ app.controller('DataSourceController', function(
 		}, function() {
 
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.editDataSource = function(datasource) {
@@ -113,6 +115,7 @@ app.controller('DataSourceController', function(
 		}, function() {
 			//do nothing;
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.deleteDataSource = function(datasource) {

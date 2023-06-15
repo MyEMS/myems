@@ -2,6 +2,7 @@
 
 app.controller('WorkingCalendarNonWorkingDayController', function (
     $scope, 
+    $rootScope,
     $window,
     $timeout, 
     $translate, 
@@ -159,6 +160,7 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
 		}, function() {
 
 		});
+        $rootScope.modalInstance = modalInstance;
 	};
 
     $scope.editNonWorkingDay = function(nonWorkingDay) {
@@ -199,6 +201,7 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
 		}, function() {
 			//do nothing;
 		});
+        $rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.deleteNonWorkingDay = function(nonworkingday) {

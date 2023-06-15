@@ -2,6 +2,7 @@
 
 app.controller('StoreController', function(
     $scope,
+    $rootScope,
     $window,
     $translate,
     $uibModal,
@@ -97,6 +98,7 @@ app.controller('StoreController', function(
 		}, function() {
 
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.editStore = function(store) {
@@ -145,6 +147,7 @@ app.controller('StoreController', function(
 		}, function() {
 			//do nothing;
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.deleteStore=function(store){

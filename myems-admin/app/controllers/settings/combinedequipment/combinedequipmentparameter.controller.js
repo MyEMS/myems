@@ -2,6 +2,7 @@
 
 app.controller('CombinedEquipmentParameterController', function (
     $scope,
+    $rootScope,
     $window,
     $uibModal,
     $translate,
@@ -95,6 +96,7 @@ app.controller('CombinedEquipmentParameterController', function (
 		}, function () {
 
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.editCombinedEquipmentParameter = function (combinedequipmentparameter) {
@@ -145,6 +147,7 @@ app.controller('CombinedEquipmentParameterController', function (
 		}, function () {
 			//do nothing;
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.deleteCombinedEquipmentParameter = function (combinedequipmentparameter) {

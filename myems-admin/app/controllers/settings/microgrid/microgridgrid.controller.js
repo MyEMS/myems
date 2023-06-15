@@ -2,6 +2,7 @@
 
 app.controller('MicrogridGridController', function(
 	$scope,
+	$rootScope,
 	$window,
 	$translate,
 	$uibModal,
@@ -79,6 +80,7 @@ app.controller('MicrogridGridController', function(
   		}, function() {
 
   		});
+		$rootScope.modalInstance = modalInstance;
   	};
 
   	$scope.editMicrogridGrid = function(microgridgrid) {
@@ -120,6 +122,7 @@ app.controller('MicrogridGridController', function(
   		}, function() {
   			//do nothing;
   		});
+		$rootScope.modalInstance = modalInstance;
   	};
 
   	$scope.deleteMicrogridGrid = function(microgridgrid) {

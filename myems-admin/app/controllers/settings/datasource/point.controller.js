@@ -2,6 +2,7 @@
 
 app.controller('PointController', function(
 	$scope, 
+	$rootScope,
 	$window,
 	$uibModal, 
 	$translate, 
@@ -77,6 +78,7 @@ app.controller('PointController', function(
 		}, function() {
 
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.editPoint = function(point) {
@@ -120,6 +122,7 @@ app.controller('PointController', function(
 		}, function() {
 			//do nothing;
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.deletePoint = function(point) {

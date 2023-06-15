@@ -2,6 +2,7 @@
 
 app.controller('DistributionSystemController', function(
 	$scope,
+	$rootScope,
 	$window,
 	$translate,
 	$uibModal,
@@ -49,6 +50,7 @@ app.controller('DistributionSystemController', function(
 		}, function() {
 
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.editDistributionSystem = function(distributionsystem) {
@@ -89,6 +91,7 @@ app.controller('DistributionSystemController', function(
 		}, function() {
 			//do nothing;
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.deleteDistributionSystem=function(distributionsystem){

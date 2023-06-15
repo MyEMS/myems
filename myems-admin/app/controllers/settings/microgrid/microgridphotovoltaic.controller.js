@@ -2,6 +2,7 @@
 
 app.controller('MicrogridPhotovoltaicController', function(
 	$scope,
+	$rootScope,
 	$window,
 	$translate,
 	$uibModal,
@@ -79,6 +80,7 @@ app.controller('MicrogridPhotovoltaicController', function(
   		}, function() {
 
   		});
+		$rootScope.modalInstance = modalInstance;
   	};
 
   	$scope.editMicrogridPhotovoltaic = function(microgridphotovoltaic) {
@@ -120,6 +122,7 @@ app.controller('MicrogridPhotovoltaicController', function(
   		}, function() {
   			//do nothing;
   		});
+		$rootScope.modalInstance = modalInstance;
   	};
 
   	$scope.deleteMicrogridPhotovoltaic = function(microgridphotovoltaic) {

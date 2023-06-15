@@ -143,6 +143,7 @@ app.controller('LoginController', function (
 		}, function () {
 			//do nothing;
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 	// change pwd section end
 
