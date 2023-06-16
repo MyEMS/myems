@@ -5,7 +5,7 @@ import mysql.connector
 import simplejson as json
 
 import config
-from core.useractivity import user_logger, access_control
+from core.useractivity import user_logger, admin_control
 
 
 class EnergyFlowDiagramCollection:
@@ -127,7 +127,7 @@ class EnergyFlowDiagramCollection:
     @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
-        access_control(req)
+        admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -292,7 +292,7 @@ class EnergyFlowDiagramItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_):
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
@@ -323,7 +323,7 @@ class EnergyFlowDiagramItem:
     @user_logger
     def on_put(req, resp, id_):
         """Handles PUT requests"""
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
@@ -488,7 +488,7 @@ class EnergyFlowDiagramLinkCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
@@ -734,7 +734,7 @@ class EnergyFlowDiagramLinkItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, lid):
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
@@ -783,7 +783,7 @@ class EnergyFlowDiagramLinkItem:
     @user_logger
     def on_put(req, resp, id_, lid):
         """Handles PUT requests"""
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
@@ -992,7 +992,7 @@ class EnergyFlowDiagramNodeCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
@@ -1090,7 +1090,7 @@ class EnergyFlowDiagramNodeItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, nid):
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
@@ -1139,7 +1139,7 @@ class EnergyFlowDiagramNodeItem:
     @user_logger
     def on_put(req, resp, id_, nid):
         """Handles PUT requests"""
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')

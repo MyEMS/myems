@@ -1,6 +1,7 @@
 'use strict';
 
 app.controller('EnergyCategoryController', function($scope,
+	$rootScope,
 	$window,
 	$translate,
 	$uibModal,
@@ -56,6 +57,7 @@ app.controller('EnergyCategoryController', function($scope,
 		}, function() {
 
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.editCategory=function(category){
@@ -98,6 +100,7 @@ app.controller('EnergyCategoryController', function($scope,
 		}, function () {
 	        //do nothing;
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.deleteCategory=function(category){

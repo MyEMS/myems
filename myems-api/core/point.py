@@ -3,7 +3,7 @@ import mysql.connector
 import simplejson as json
 
 import config
-from core.useractivity import user_logger, access_control
+from core.useractivity import user_logger, admin_control
 
 
 class PointCollection:
@@ -19,7 +19,7 @@ class PointCollection:
     @staticmethod
     def on_get(req, resp):
         """Handles GET requests"""
-        access_control(req)
+        admin_control(req)
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -67,7 +67,7 @@ class PointCollection:
     @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
-        access_control(req)
+        admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -213,7 +213,7 @@ class PointItem:
     @staticmethod
     def on_get(req, resp, id_):
         """Handles GET requests"""
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_POINT_ID')
@@ -263,7 +263,7 @@ class PointItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_):
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_POINT_ID')
@@ -404,7 +404,7 @@ class PointItem:
     @user_logger
     def on_put(req, resp, id_):
         """Handles PUT requests"""
-        access_control(req)
+        admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:

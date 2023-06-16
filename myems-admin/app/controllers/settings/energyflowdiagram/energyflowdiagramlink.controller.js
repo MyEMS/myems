@@ -2,6 +2,7 @@
 
 app.controller('EnergyFlowDiagramLinkController', function(
 	$scope,
+	$rootScope,
 	$window,
 	$uibModal,
 	$translate,
@@ -112,6 +113,7 @@ app.controller('EnergyFlowDiagramLinkController', function(
 		}, function() {
 
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.editEnergyFlowDiagramLink = function(energyflowdiagramlink) {
@@ -163,6 +165,7 @@ app.controller('EnergyFlowDiagramLinkController', function(
 		}, function() {
 			//do nothing;
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.deleteEnergyFlowDiagramLink = function(energyflowdiagramlink) {

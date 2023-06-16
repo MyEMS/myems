@@ -2,6 +2,7 @@
 
 app.controller('PrivilegeController', function (
     $scope,
+    $rootScope,
 	$window,
 	$uibModal,
 	PrivilegeService,
@@ -56,6 +57,7 @@ app.controller('PrivilegeController', function (
 		}, function () {
 
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.editPrivilege = function (privilege) {
@@ -96,6 +98,7 @@ app.controller('PrivilegeController', function (
 		}, function () {
 			//do nothing;
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.deletePrivilege = function (privilege) {

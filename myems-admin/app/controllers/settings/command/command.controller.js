@@ -2,6 +2,7 @@
 
 app.controller('CommandController', function(
 	$scope,
+	$rootScope,
 	$window,
 	$uibModal,
 	$translate,
@@ -49,6 +50,7 @@ app.controller('CommandController', function(
 		}, function() {
 
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.editCommand=function(command){
@@ -90,6 +92,7 @@ app.controller('CommandController', function(
 		}, function () {
 	        //do nothing;
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.deleteCommand=function(command){
