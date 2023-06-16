@@ -17,6 +17,37 @@ def admin_control(req):
     :param req: HTTP request
     :return: HTTPError if invalid else None
     """
+    if 'API-KEY' in req.headers and \
+            isinstance(req.headers['API-KEY'], str) and \
+            len(str.strip(req.headers['API-KEY'])) > 0:
+        api_key = str.strip(req.headers['API-KEY'])
+        # Check administrator privilege
+        cnx = mysql.connector.connect(**config.myems_user_db)
+        cursor = cnx.cursor()
+
+        query = (" SELECT expires_datetime_utc "
+                 " FROM tbl_personal_tokens "
+                 " WHERE token = %s")
+        cursor.execute(query, (api_key,))
+        row = cursor.fetchone()
+
+        if row is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                description='API.PERSONAL_TOKEN_NOT_FOUND')
+        else:
+            expires_datetime_utc = row[0]
+            if datetime.utcnow() > expires_datetime_utc:
+                cursor.close()
+                cnx.close()
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                    description='API.PERSONAL_TOKEN_TIMEOUT')
+        
+        cursor.close()
+        cnx.close()
+        return
+
     if 'USER-UUID' not in req.headers or \
             not isinstance(req.headers['USER-UUID'], str) or \
             len(str.strip(req.headers['USER-UUID'])) == 0:

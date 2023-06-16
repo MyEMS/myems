@@ -1,0 +1,45 @@
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="tabs-container">
+                <uib-tabset>
+                    <uib-tab heading="{{'USER.PERSONAL_TOKEN_LIST' | translate}}">
+                        <div class="panel-body" ng-controller="PersonalTokenController">
+                            <a ng-click="addPersonalToken()" class="btn btn-primary btn-rounded btn-outline" href=""><i
+                                    class="fa fa-plus-circle"></i> {{'USER.ADD_PERSONAL_TOKEN' | translate}}</a>
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">{{'SETTING.ID' | translate}}</th>
+                                        <th class="text-center">{{'GATEWAY.TOKEN' | translate}}</th>
+                                        <th class="text-center">{{'SETTING.CREATED_TIME' | translate}}</th>
+                                        <th class="text-center">{{'SETTING.EXPIRES_TIME' | translate}}</th>
+                                        <th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="personalToken in personalTokens">
+                                        <td class="text-center">{{ personalToken.id }}</td>
+                                        <td class="text-center">{{ personalToken.token }}</td>
+                                        <td class="text-center">{{ personalToken.created_datetime_utc }}</td>
+                                        <td class="text-center">{{ personalToken.expires_datetime_utc }}</td>
+                                        <td class="text-center">
+                                            <a class="btn btn-primary btn-rounded btn-xs"
+                                                ng-click="editPersonalToken(personalToken)">{{'SETTING.EDIT' | translate}}</a>
+                                            <a ng-click="deletePersonalToken(personalToken)"
+                                                class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' | translate}}</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </uib-tab>
+                </uib-tabset>
+
+            </div>
+        </div>
+    </div>
+
+
+
+</div>

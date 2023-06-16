@@ -118,6 +118,7 @@ function config($translateProvider) {
                     PRODUCT: 'Products',
                     SVG_SYSTEM: 'SCADA Visualization Systems',
                     WORKING_CALENDAR: 'Working Calendar',
+                    PERSONAL_TOKEN: 'Personal Token',
                 },
                 FDD: {
                     FDD: 'FDD',
@@ -130,7 +131,8 @@ function config($translateProvider) {
                 USERSETTING: {
                     USERSETTING: 'Users & Privileges',
                     USER: 'Users',
-                    PRIVILEGE: 'Privileges'
+                    PRIVILEGE: 'Privileges',
+                    PERSONAL_TOKEN: 'Personal Token',
                 }
             },
             LOGIN: {
@@ -315,6 +317,9 @@ function config($translateProvider) {
                 NON_WORKING_DAY: 'Non Working Day',
 
                 COMMAND: 'Command',
+
+                CREATED_TIME: 'Created Time',
+                EXPIRES_TIME: 'Expires Time',
             },
             CONTACT: {
                 EMAIL: 'Email',
@@ -693,6 +698,10 @@ function config($translateProvider) {
                 INVALID_EMAIL: 'Invalid Email Format(xxx@xxx.xx)',
                 ACCOUNT_EXPIRATION_DATETIME: 'Account Expiration Datetime',
                 PASSWORD_EXPIRATION_DATETIME: 'Password Expiration Datetime',
+                PERSONAL_TOKEN: 'Personal Token',
+                PERSONAL_TOKEN_LIST: 'Personal Token List',
+                ADD_PERSONAL_TOKEN: 'Add Personal Token',
+                EDIT_PERSONAL_TOKEN: 'Edit Personal Token',
             },
             KNOWLEDGEFILE: {
                 KNOWLEDGE_FILE_LIST: 'Knowledge File List',
@@ -922,6 +931,7 @@ function config($translateProvider) {
                 INVALID_ENERGY_FLOW_DIAGRAM_NODE_NAME: 'Invalid Energy Flow Diagram Node Name',
                 INVALID_ENERGY_ITEM_ID: 'Invalid Energy Item ID',
                 INVALID_ENERGY_ITEM_NAME: 'Invalid Energy Item Name',
+                INVALID_EXPIRES_DATETIME: 'Invalid Expires Datetime',
                 INVALID_EQUATION_IN_EXPRESSION: 'Invalid Equation In Expression',
                 INVALID_EQUIPMENT_ID: 'Invalid Equipment ID',
                 INVALID_EQUIPMENT_NAME: 'Invalid Equipment Name',
@@ -1120,6 +1130,7 @@ function config($translateProvider) {
                 POINT_NOT_FOUND: 'Point Not Found',
                 PRIVILEGE_NAME_IS_ALREADY_IN_USE: 'Privilege Name Is Already In Use',
                 PRIVILEGE_NOT_FOUND: 'Privilege Not Found',
+                PERSONAL_TOKEN_NOT_FOUND: 'Personal Token Not Found',
                 RULE_NAME_IS_ALREADY_IN_USE: 'Rule Name Is Already In Use',
                 RULE_NOT_FOUND: 'Rule Not Found',
                 SENSOR_NAME_IS_ALREADY_IN_USE: 'Sensor Name Is Already In Use',
@@ -1382,6 +1393,7 @@ function config($translateProvider) {
                     PRODUCT: '产品',
                     SVG_SYSTEM: '组态可视化系统',
                     WORKING_CALENDAR: '工作日历',
+                    PERSONAL_TOKEN: '个人令牌',
                 },
                 FDD: {
                     FDD: '故障检测与诊断',
@@ -1394,7 +1406,8 @@ function config($translateProvider) {
                 USERSETTING: {
                     USERSETTING: '用户与权限',
                     USER: '用户设置',
-                    PRIVILEGE: '权限设置'
+                    PRIVILEGE: '权限设置',
+                    PERSONAL_TOKEN: '个人令牌',
                 }
             },
             LOGIN: {
@@ -1583,6 +1596,9 @@ function config($translateProvider) {
                 NON_WORKING_DAY: '非工作日',
 
                 COMMAND: '命令',
+
+                CREATED_TIME: '创建时间',
+                EXPIRES_TIME: '失效时间',
             },
             CONTACT: {
                 EMAIL: '邮箱',
@@ -1960,6 +1976,10 @@ function config($translateProvider) {
                 INVALID_EMAIL: '邮箱格式不正确(xxx@xxx.xx)',
                 ACCOUNT_EXPIRATION_DATETIME: '账户失效时间',
                 PASSWORD_EXPIRATION_DATETIME: '密码失效时间',
+                PERSONAL_TOKEN: '个人令牌',
+                PERSONAL_TOKEN_LIST: '个人令牌列表',
+                ADD_PERSONAL_TOKEN: '添加个人令牌',
+                EDIT_PERSONAL_TOKEN: '编辑个人令牌',
             },
             KNOWLEDGEFILE: {
                 KNOWLEDGE_FILE_LIST: '知识文件列表',
@@ -2191,6 +2211,7 @@ function config($translateProvider) {
                 INVALID_ENERGY_FLOW_DIAGRAM_NODE_NAME: 'Invalid Energy Flow Diagram Node Name',
                 INVALID_ENERGY_ITEM_ID: 'Invalid Energy Item ID',
                 INVALID_ENERGY_ITEM_NAME: 'Invalid Energy Item Name',
+                INVALID_EXPIRES_DATETIME: '无效的失效时间',
                 INVALID_EQUATION_IN_EXPRESSION: 'Invalid Equation In Expression',
                 INVALID_EQUIPMENT_ID: 'Invalid Equipment ID',
                 INVALID_EQUIPMENT_NAME: 'Invalid Equipment Name',
@@ -2274,6 +2295,7 @@ function config($translateProvider) {
                 INVALID_PRIVILEGE: 'Invalid Privilege',
                 INVALID_PRIVILEGE_DATA: 'Invalid Privilege Data',
                 INVALID_PRIVILEGE_ID: 'Invalid Privilege ID',
+                INVALID_PERSONAL_TOKEN_ID: '无效的个人令牌ID',
                 INVALID_PRIVILEGE_NAME: 'Invalid Privilege Name',
                 INVALID_RATIO_VALUE: 'Invalid Ratio Value',
                 INVALID_RECIPIENT_EMAIL: 'Invalid Recipient Email',
@@ -2389,6 +2411,7 @@ function config($translateProvider) {
                 POINT_NOT_FOUND: 'Point Not Found',
                 PRIVILEGE_NAME_IS_ALREADY_IN_USE: 'Privilege Name Is Already In Use',
                 PRIVILEGE_NOT_FOUND: 'Privilege Not Found',
+                PERSONAL_TOKEN_NOT_FOUND: '未找到个人令牌',
                 RULE_NAME_IS_ALREADY_IN_USE: 'Rule Name Is Already In Use',
                 RULE_NOT_FOUND: 'Rule Not Found',
                 SENSOR_NAME_IS_ALREADY_IN_USE: 'Sensor Name Is Already In Use',
@@ -2650,6 +2673,7 @@ function config($translateProvider) {
                     PRODUCT: 'Produkt',
                     SVG_SYSTEM: 'SCADA-Visualisierungssystem',
                     WORKING_CALENDAR: 'Arbeitskalender',
+                    PERSONAL_TOKEN: 'persönlicher Token'
                 },
                 FDD: {
                     FDD: 'Fehlererkennung und -diagnose',
@@ -2662,7 +2686,8 @@ function config($translateProvider) {
                 USERSETTING: {
                     USERSETTING: 'Benutzer und Berechtigungen',
                     USER: 'Benutzer',
-                    PRIVILEGE: 'Privilegien'
+                    PRIVILEGE: 'Privilegien',
+                    PERSONAL_TOKEN: 'persönlicher Token'
                 }
             },
             LOGIN: {
@@ -2850,6 +2875,9 @@ function config($translateProvider) {
                 NON_WORKING_DAY: 'Non Working Day',
 
                 COMMAND: 'Befehl',
+
+                CREATED_TIME: 'Erstellungszeit',
+                EXPIRES_TIME: 'Verfallszeit',
             },
             CONTACT: {
                 EMAIL: 'Briefkasten',
@@ -3203,6 +3231,10 @@ function config($translateProvider) {
                 INVALID_EMAIL: 'Falsches E-Mail-Format (xxx@xxx.xx)',
                 ACCOUNT_EXPIRATION_DATETIME: 'Ablaufdatum des Kontos',
                 PASSWORD_EXPIRATION_DATETIME: 'Ablaufdatum des Passworts',
+                PERSONAL_TOKEN: 'persönlicher Token',
+                PERSONAL_TOKEN_LIST: 'Liste persönlicher Token',
+                ADD_PERSONAL_TOKEN: 'Persönlichen Token hinzufügen',
+                EDIT_PERSONAL_TOKEN: 'Persönlichen Token bearbeiten',
             },
             KNOWLEDGEFILE: {
                 KNOWLEDGE_FILE_LIST: 'Liste der Wissensdateien',
@@ -3432,6 +3464,7 @@ function config($translateProvider) {
                 INVALID_ENERGY_FLOW_DIAGRAM_NODE_NAME: 'Invalid Energy Flow Diagram Node Name',
                 INVALID_ENERGY_ITEM_ID: 'Invalid Energy Item ID',
                 INVALID_ENERGY_ITEM_NAME: 'Invalid Energy Item Name',
+                INVALID_EXPIRES_DATETIME: 'Ungültiges Verfallsdatum',
                 INVALID_EQUATION_IN_EXPRESSION: 'Invalid Equation In Expression',
                 INVALID_EQUIPMENT_ID: 'Invalid Equipment ID',
                 INVALID_EQUIPMENT_NAME: 'Invalid Equipment Name',
@@ -3515,6 +3548,7 @@ function config($translateProvider) {
                 INVALID_PRIVILEGE: 'Invalid Privilege',
                 INVALID_PRIVILEGE_DATA: 'Invalid Privilege Data',
                 INVALID_PRIVILEGE_ID: 'Invalid Privilege ID',
+                INVALID_PERSONAL_TOKEN_ID: 'Ungültige persönliche Token-ID',
                 INVALID_PRIVILEGE_NAME: 'Invalid Privilege Name',
                 INVALID_RATIO_VALUE: 'Invalid Ratio Value',
                 INVALID_RECIPIENT_EMAIL: 'Invalid Recipient Email',
@@ -3630,6 +3664,7 @@ function config($translateProvider) {
                 POINT_NOT_FOUND: 'Point Not Found',
                 PRIVILEGE_NAME_IS_ALREADY_IN_USE: 'Privilege Name Is Already In Use',
                 PRIVILEGE_NOT_FOUND: 'Privilege Not Found',
+                PERSONAL_TOKEN_NOT_FOUND: 'Persönliches Token nicht gefunden',
                 RULE_NAME_IS_ALREADY_IN_USE: 'Rule Name Is Already In Use',
                 RULE_NOT_FOUND: 'Rule Not Found',
                 SENSOR_NAME_IS_ALREADY_IN_USE: 'Sensor Name Is Already In Use',

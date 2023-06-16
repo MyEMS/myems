@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "cf01b0e4-707f-4eab-9532-96586e805515",
+		"_postman_id": "2bdffbc9-c719-4fb9-8d28-f6c2f5f818b3",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -13867,6 +13867,103 @@
 									"path": [
 										"nonworkingdays",
 										"41"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Personal Token",
+					"item": [
+						{
+							"name": "POST Create a new personal token",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/personaltokens",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"personaltokens"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET a personal token by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/personaltokens/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"personaltokens",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All personal token",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/personaltokens",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"personaltokens"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Update a personal token by ID",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"data\":{\n        \"created_datetime_utc\":\"2023-06-16 08:15:02\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/personaltokens/2",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"personaltokens",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE personal token by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/personaltokens/2",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"personaltokens",
+										"2"
 									]
 								}
 							},
