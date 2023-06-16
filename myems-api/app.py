@@ -637,8 +637,6 @@ api.add_route('/users/newusers/{id_}',
               user.NewUserItem())
 api.add_route('/users/newusers/{id_}/approve',
               user.NewUserApprove())
-api.add_route('/users/emailmessagesessions',
-              user.EmailMessageSessionCollection())
 
 api.add_route('/virtualmeters',
               virtualmeter.VirtualMeterCollection())
