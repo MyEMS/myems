@@ -21,6 +21,7 @@ const SentRegisterEmailMessage = ({ t }) => {
         <></>
       )}
       <h5 className="mb-0"> {t('Create an account')}</h5>
+      <small>{t("Enter your email and we'll send you a registration link")}.</small>
       <SentRegisterEmailMessageForm />
     </div>
   );

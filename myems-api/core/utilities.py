@@ -1,1035 +1,178 @@
-import collections
-import statistics
-from datetime import datetime, timedelta
-from decimal import Decimal
 import os
-import importlib.util
+import uuid
+from datetime import datetime
+from functools import wraps
+
+import falcon
 import mysql.connector
+import simplejson as json
+from gunicorn.http.body import Body
 
 import config
 
 
-########################################################################################################################
-# Aggregate hourly data by period
-# rows_hourly: list of (start_datetime_utc, actual_value), should belong to one energy_category_id
-# start_datetime_utc: start datetime in utc
-# end_datetime_utc: end datetime in utc
-# period_type: use one of the period types, 'hourly', 'daily', 'weekly', 'monthly' and 'yearly'
-# Note: this procedure doesn't work with multiple energy categories
-########################################################################################################################
-def aggregate_hourly_data_by_period(rows_hourly, start_datetime_utc, end_datetime_utc, period_type):
-    # todo: validate parameters
-    if start_datetime_utc is None or \
-            end_datetime_utc is None or \
-            start_datetime_utc >= end_datetime_utc or \
-            period_type not in ('hourly', 'daily', 'weekly', 'monthly', 'yearly'):
-        return list()
+def admin_control(req):
+    """
+    Check administrator privilege in request headers to protect resources from invalid access
+    :param req: HTTP request
+    :return: HTTPError if invalid else None
+    """
+    if 'USER-UUID' not in req.headers or \
+            not isinstance(req.headers['USER-UUID'], str) or \
+            len(str.strip(req.headers['USER-UUID'])) == 0:
+        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                               description='API.INVALID_USER_UUID')
+    admin_user_uuid = str.strip(req.headers['USER-UUID'])
 
-    start_datetime_utc = start_datetime_utc.replace(tzinfo=None)
-    end_datetime_utc = end_datetime_utc.replace(tzinfo=None)
+    if 'TOKEN' not in req.headers or \
+            not isinstance(req.headers['TOKEN'], str) or \
+            len(str.strip(req.headers['TOKEN'])) == 0:
+        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                               description='API.INVALID_TOKEN')
+    admin_token = str.strip(req.headers['TOKEN'])
 
-    if period_type == "hourly":
-        result_rows_hourly = list()
-        # todo: add config.working_day_start_time_local
-        # todo: add config.minutes_to_count
-        current_datetime_utc = start_datetime_utc.replace(minute=0, second=0, microsecond=0, tzinfo=None)
-        while current_datetime_utc <= end_datetime_utc:
-            subtotal = Decimal(0.0)
-            for row in rows_hourly:
-                if current_datetime_utc <= row[0] < current_datetime_utc + \
-                        timedelta(minutes=config.minutes_to_count):
-                    subtotal += row[1]
-            result_rows_hourly.append((current_datetime_utc, subtotal))
-            current_datetime_utc += timedelta(minutes=config.minutes_to_count)
+    # Check administrator privilege
+    cnx = mysql.connector.connect(**config.myems_user_db)
+    cursor = cnx.cursor()
+    query = (" SELECT utc_expires "
+             " FROM tbl_sessions "
+             " WHERE user_uuid = %s AND token = %s")
+    cursor.execute(query, (admin_user_uuid, admin_token,))
+    row = cursor.fetchone()
 
-        return result_rows_hourly
-
-    elif period_type == "daily":
-        result_rows_daily = list()
-        # todo: add config.working_day_start_time_local
-        # todo: add config.minutes_to_count
-        # calculate the start datetime in utc of the first day in local
-        start_datetime_local = start_datetime_utc + timedelta(hours=int(config.utc_offset[1:3]))
-        current_datetime_utc = start_datetime_local.replace(hour=0) - timedelta(hours=int(config.utc_offset[1:3]))
-        while current_datetime_utc <= end_datetime_utc:
-            subtotal = Decimal(0.0)
-            for row in rows_hourly:
-                if current_datetime_utc <= row[0] < current_datetime_utc + timedelta(days=1):
-                    subtotal += row[1]
-            result_rows_daily.append((current_datetime_utc, subtotal))
-            current_datetime_utc += timedelta(days=1)
-
-        return result_rows_daily
-
-    elif period_type == 'weekly':
-        result_rows_weekly = list()
-        # todo: add config.working_day_start_time_local
-        # todo: add config.minutes_to_count
-        # calculate the start datetime in utc of the monday in the first week in local
-        start_datetime_local = start_datetime_utc + timedelta(hours=int(config.utc_offset[1:3]))
-        weekday = start_datetime_local.weekday()
-        current_datetime_utc = \
-            start_datetime_local.replace(hour=0) - timedelta(days=weekday, hours=int(config.utc_offset[1:3]))
-        while current_datetime_utc <= end_datetime_utc:
-
-            next_datetime_utc = current_datetime_utc + timedelta(days=7)
-            subtotal = Decimal(0.0)
-            for row in rows_hourly:
-                if current_datetime_utc <= row[0] < next_datetime_utc:
-                    subtotal += row[1]
-            result_rows_weekly.append((current_datetime_utc, subtotal))
-            current_datetime_utc = next_datetime_utc
-
-        return result_rows_weekly
-
-    elif period_type == "monthly":
-        result_rows_monthly = list()
-        # todo: add config.working_day_start_time_local
-        # todo: add config.minutes_to_count
-        # calculate the start datetime in utc of the first day in the first month in local
-        start_datetime_local = start_datetime_utc + timedelta(hours=int(config.utc_offset[1:3]))
-        current_datetime_utc = \
-            start_datetime_local.replace(day=1, hour=0) - timedelta(hours=int(config.utc_offset[1:3]))
-
-        while current_datetime_utc <= end_datetime_utc:
-            # calculate the next datetime in utc
-            if current_datetime_utc.month == 1:
-                temp_day = 28
-                ny = current_datetime_utc.year
-                if (ny % 100 != 0 and ny % 4 == 0) or (ny % 100 == 0 and ny % 400 == 0):
-                    temp_day = 29
-
-                next_datetime_utc = datetime(year=current_datetime_utc.year,
-                                             month=current_datetime_utc.month + 1,
-                                             day=temp_day,
-                                             hour=current_datetime_utc.hour,
-                                             minute=current_datetime_utc.minute,
-                                             second=0,
-                                             microsecond=0,
-                                             tzinfo=None)
-            elif current_datetime_utc.month == 2:
-                next_datetime_utc = datetime(year=current_datetime_utc.year,
-                                             month=current_datetime_utc.month + 1,
-                                             day=31,
-                                             hour=current_datetime_utc.hour,
-                                             minute=current_datetime_utc.minute,
-                                             second=0,
-                                             microsecond=0,
-                                             tzinfo=None)
-            elif current_datetime_utc.month in [3, 5, 8, 10]:
-                next_datetime_utc = datetime(year=current_datetime_utc.year,
-                                             month=current_datetime_utc.month + 1,
-                                             day=30,
-                                             hour=current_datetime_utc.hour,
-                                             minute=current_datetime_utc.minute,
-                                             second=0,
-                                             microsecond=0,
-                                             tzinfo=None)
-            elif current_datetime_utc.month == 7:
-                next_datetime_utc = datetime(year=current_datetime_utc.year,
-                                             month=current_datetime_utc.month + 1,
-                                             day=31,
-                                             hour=current_datetime_utc.hour,
-                                             minute=current_datetime_utc.minute,
-                                             second=0,
-                                             microsecond=0,
-                                             tzinfo=None)
-            elif current_datetime_utc.month in [4, 6, 9, 11]:
-                next_datetime_utc = datetime(year=current_datetime_utc.year,
-                                             month=current_datetime_utc.month + 1,
-                                             day=31,
-                                             hour=current_datetime_utc.hour,
-                                             minute=current_datetime_utc.minute,
-                                             second=0,
-                                             microsecond=0,
-                                             tzinfo=None)
-            elif current_datetime_utc.month == 12:
-                next_datetime_utc = datetime(year=current_datetime_utc.year + 1,
-                                             month=1,
-                                             day=31,
-                                             hour=current_datetime_utc.hour,
-                                             minute=current_datetime_utc.minute,
-                                             second=0,
-                                             microsecond=0,
-                                             tzinfo=None)
-
-            subtotal = Decimal(0.0)
-            for row in rows_hourly:
-                if current_datetime_utc <= row[0] < next_datetime_utc:
-                    subtotal += row[1]
-
-            result_rows_monthly.append((current_datetime_utc, subtotal))
-            current_datetime_utc = next_datetime_utc
-
-        return result_rows_monthly
-
-    elif period_type == "yearly":
-        result_rows_yearly = list()
-        # todo: add config.working_day_start_time_local
-        # todo: add config.minutes_to_count
-        # calculate the start datetime in utc of the first day in the first year in local
-        start_datetime_local = start_datetime_utc + timedelta(hours=int(config.utc_offset[1:3]))
-        current_datetime_utc = start_datetime_local.replace(month=1, day=1, hour=0) - timedelta(
-            hours=int(config.utc_offset[1:3]))
-
-        while current_datetime_utc <= end_datetime_utc:
-            # calculate the next datetime in utc
-            # todo: timedelta of year
-            next_datetime_utc = datetime(year=current_datetime_utc.year + 2,
-                                         month=1,
-                                         day=1,
-                                         hour=current_datetime_utc.hour,
-                                         minute=current_datetime_utc.minute,
-                                         second=current_datetime_utc.second,
-                                         microsecond=current_datetime_utc.microsecond,
-                                         tzinfo=current_datetime_utc.tzinfo) - timedelta(days=1)
-            subtotal = Decimal(0.0)
-            for row in rows_hourly:
-                if current_datetime_utc <= row[0] < next_datetime_utc:
-                    subtotal += row[1]
-
-            result_rows_yearly.append((current_datetime_utc, subtotal))
-            current_datetime_utc = next_datetime_utc
-        return result_rows_yearly
+    if row is None:
+        cursor.close()
+        cnx.close()
+        raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                               description='API.ADMINISTRATOR_SESSION_NOT_FOUND')
     else:
-        return list()
+        utc_expires = row[0]
+        if datetime.utcnow() > utc_expires:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.ADMINISTRATOR_SESSION_TIMEOUT')
+    query = (" SELECT name "
+             " FROM tbl_users "
+             " WHERE uuid = %s AND is_admin = 1 AND is_read_only = 0 ")
+    cursor.execute(query, (admin_user_uuid,))
+    row = cursor.fetchone()
+    cursor.close()
+    cnx.close()
+    if row is None:
+        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_PRIVILEGE')
 
 
-########################################################################################################################
-# Get tariffs by energy category
-########################################################################################################################
-def get_energy_category_tariffs(cost_center_id, energy_category_id, start_datetime_utc, end_datetime_utc):
-    # todo: validate parameters
-    if cost_center_id is None:
-        return dict()
-
-    start_datetime_utc = start_datetime_utc.replace(tzinfo=None)
-    end_datetime_utc = end_datetime_utc.replace(tzinfo=None)
-
-    # get timezone offset in minutes, this value will be returned to client
-    timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
-    if config.utc_offset[0] == '-':
-        timezone_offset = -timezone_offset
-
-    tariff_dict = collections.OrderedDict()
-
+def write_log(user_uuid, request_method, resource_type, resource_id, request_body):
+    """
+    :param user_uuid: user_uuid
+    :param request_method: 'POST', 'PUT', 'DELETE'
+    :param resource_type: class_name
+    :param resource_id: int
+    :param request_body: json in raw string
+    """
     cnx = None
     cursor = None
     try:
-        cnx = mysql.connector.connect(**config.myems_system_db)
+        cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
-        query_tariffs = (" SELECT t.id, t.valid_from_datetime_utc, t.valid_through_datetime_utc "
-                         " FROM tbl_tariffs t, tbl_cost_centers_tariffs cct "
-                         " WHERE t.energy_category_id = %s AND "
-                         "       t.id = cct.tariff_id AND "
-                         "       cct.cost_center_id = %s AND "
-                         "       t.valid_through_datetime_utc >= %s AND "
-                         "       t.valid_from_datetime_utc <= %s "
-                         " ORDER BY t.valid_from_datetime_utc ")
-        cursor.execute(query_tariffs, (energy_category_id, cost_center_id, start_datetime_utc, end_datetime_utc,))
-        rows_tariffs = cursor.fetchall()
+        add_row = (" INSERT INTO tbl_logs "
+                   "    (user_uuid, request_datetime_utc, request_method, resource_type, resource_id, request_body) "
+                   " VALUES (%s, %s, %s, %s, %s , %s) ")
+        cursor.execute(add_row, (user_uuid,
+                                 datetime.utcnow(),
+                                 request_method,
+                                 resource_type,
+                                 resource_id if resource_id else None,
+                                 request_body if request_body else None,
+                                 ))
+        cnx.commit()
     except Exception as e:
-        print(str(e))
-        if cnx:
-            cnx.close()
-        if cursor:
-            cursor.close()
-        return dict()
-
-    if rows_tariffs is None or len(rows_tariffs) == 0:
+        print('write_log:' + str(e))
+    finally:
         if cursor:
             cursor.close()
         if cnx:
             cnx.close()
-        return dict()
 
-    for row in rows_tariffs:
-        tariff_dict[row[0]] = {'valid_from_datetime_utc': row[1],
-                               'valid_through_datetime_utc': row[2],
-                               'rates': list()}
 
-    try:
-        query_timeofuse_tariffs = (" SELECT tariff_id, start_time_of_day, end_time_of_day, price "
-                                   " FROM tbl_tariffs_timeofuses "
-                                   " WHERE tariff_id IN ( " + ', '.join(map(str, tariff_dict.keys())) + ")"
-                                   " ORDER BY tariff_id, start_time_of_day ")
-        cursor.execute(query_timeofuse_tariffs, )
-        rows_timeofuse_tariffs = cursor.fetchall()
-    except Exception as e:
-        print(str(e))
-        if cnx:
-            cnx.close()
-        if cursor:
-            cursor.close()
-        return dict()
-
-    if cursor:
-        cursor.close()
-    if cnx:
-        cnx.close()
-
-    if rows_timeofuse_tariffs is None or len(rows_timeofuse_tariffs) == 0:
-        return dict()
-
-    for row in rows_timeofuse_tariffs:
-        tariff_dict[row[0]]['rates'].append({'start_time_of_day': row[1],
-                                             'end_time_of_day': row[2],
-                                             'price': row[3]})
-
-    result = dict()
-    for tariff_id, tariff_value in tariff_dict.items():
-        current_datetime_utc = tariff_value['valid_from_datetime_utc']
-        while current_datetime_utc < tariff_value['valid_through_datetime_utc']:
-            for rate in tariff_value['rates']:
-                current_datetime_local = current_datetime_utc + timedelta(minutes=timezone_offset)
-                seconds_since_midnight = (current_datetime_local -
-                                          current_datetime_local.replace(hour=0,
-                                                                         second=0,
-                                                                         microsecond=0,
-                                                                         tzinfo=None)).total_seconds()
-                if rate['start_time_of_day'].total_seconds() <= \
-                        seconds_since_midnight < rate['end_time_of_day'].total_seconds():
-                    result[current_datetime_utc] = rate['price']
-                    break
-
-            # start from the next time slot
-            current_datetime_utc += timedelta(minutes=config.minutes_to_count)
-
-    return {k: v for k, v in result.items() if start_datetime_utc <= k <= end_datetime_utc}
-
-
-########################################################################################################################
-# Get peak types of tariff by energy category
-# peak types: toppeak, onpeak, midpeak, offpeak
-########################################################################################################################
-def get_energy_category_peak_types(cost_center_id, energy_category_id, start_datetime_utc, end_datetime_utc):
-    # todo: validate parameters
-    if cost_center_id is None:
-        return dict()
-
-    start_datetime_utc = start_datetime_utc.replace(tzinfo=None)
-    end_datetime_utc = end_datetime_utc.replace(tzinfo=None)
-
-    # get timezone offset in minutes, this value will be returned to client
-    timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
-    if config.utc_offset[0] == '-':
-        timezone_offset = -timezone_offset
-
-    tariff_dict = collections.OrderedDict()
-
-    cnx = None
-    cursor = None
-    try:
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
-        query_tariffs = (" SELECT t.id, t.valid_from_datetime_utc, t.valid_through_datetime_utc "
-                         " FROM tbl_tariffs t, tbl_cost_centers_tariffs cct "
-                         " WHERE t.energy_category_id = %s AND "
-                         "       t.id = cct.tariff_id AND "
-                         "       cct.cost_center_id = %s AND "
-                         "       t.valid_through_datetime_utc >= %s AND "
-                         "       t.valid_from_datetime_utc <= %s "
-                         " ORDER BY t.valid_from_datetime_utc ")
-        cursor.execute(query_tariffs, (energy_category_id, cost_center_id, start_datetime_utc, end_datetime_utc,))
-        rows_tariffs = cursor.fetchall()
-    except Exception as e:
-        print(str(e))
-        if cnx:
-            cnx.close()
-        if cursor:
-            cursor.close()
-        return dict()
-
-    if rows_tariffs is None or len(rows_tariffs) == 0:
-        if cursor:
-            cursor.close()
-        if cnx:
-            cnx.close()
-        return dict()
-
-    for row in rows_tariffs:
-        tariff_dict[row[0]] = {'valid_from_datetime_utc': row[1],
-                               'valid_through_datetime_utc': row[2],
-                               'rates': list()}
-
-    try:
-        query_timeofuse_tariffs = (" SELECT tariff_id, start_time_of_day, end_time_of_day, peak_type "
-                                   " FROM tbl_tariffs_timeofuses "
-                                   " WHERE tariff_id IN ( " + ', '.join(map(str, tariff_dict.keys())) + ")"
-                                   " ORDER BY tariff_id, start_time_of_day ")
-        cursor.execute(query_timeofuse_tariffs, )
-        rows_timeofuse_tariffs = cursor.fetchall()
-    except Exception as e:
-        print(str(e))
-        if cnx:
-            cnx.close()
-        if cursor:
-            cursor.close()
-        return dict()
-
-    if cursor:
-        cursor.close()
-    if cnx:
-        cnx.close()
-
-    if rows_timeofuse_tariffs is None or len(rows_timeofuse_tariffs) == 0:
-        return dict()
-
-    for row in rows_timeofuse_tariffs:
-        tariff_dict[row[0]]['rates'].append({'start_time_of_day': row[1],
-                                             'end_time_of_day': row[2],
-                                             'peak_type': row[3]})
-
-    result = dict()
-    for tariff_id, tariff_value in tariff_dict.items():
-        current_datetime_utc = tariff_value['valid_from_datetime_utc']
-        while current_datetime_utc < tariff_value['valid_through_datetime_utc']:
-            for rate in tariff_value['rates']:
-                current_datetime_local = current_datetime_utc + timedelta(minutes=timezone_offset)
-                seconds_since_midnight = (current_datetime_local -
-                                          current_datetime_local.replace(hour=0,
-                                                                         second=0,
-                                                                         microsecond=0,
-                                                                         tzinfo=None)).total_seconds()
-                if rate['start_time_of_day'].total_seconds() <= \
-                        seconds_since_midnight < rate['end_time_of_day'].total_seconds():
-                    result[current_datetime_utc] = rate['peak_type']
-                    break
-
-            # start from the next time slot
-            current_datetime_utc += timedelta(minutes=config.minutes_to_count)
-
-    return {k: v for k, v in result.items() if start_datetime_utc <= k <= end_datetime_utc}
-
-
-########################################################################################################################
-# Averaging calculator of hourly data by period
-#   rows_hourly: list of (start_datetime_utc, actual_value), should belong to one energy_category_id
-#   start_datetime_utc: start datetime in utc
-#   end_datetime_utc: end datetime in utc
-#   period_type: use one of the period types, 'hourly', 'daily', 'weekly', 'monthly' and 'yearly'
-# Returns: periodically data of average and maximum
-# Note: this procedure doesn't work with multiple energy categories
-########################################################################################################################
-def averaging_hourly_data_by_period(rows_hourly, start_datetime_utc, end_datetime_utc, period_type):
-    # todo: validate parameters
-    if start_datetime_utc is None or \
-            end_datetime_utc is None or \
-            start_datetime_utc >= end_datetime_utc or \
-            period_type not in ('hourly', 'daily', 'weekly', 'monthly', 'yearly'):
-        return list(), None, None
-
-    start_datetime_utc = start_datetime_utc.replace(tzinfo=None)
-    end_datetime_utc = end_datetime_utc.replace(tzinfo=None)
-
-    if period_type == "hourly":
-        result_rows_hourly = list()
-        # todo: add config.working_day_start_time_local
-        # todo: add config.minutes_to_count
-        total = Decimal(0.0)
-        maximum = None
-        counter = 0
-        current_datetime_utc = start_datetime_utc.replace(minute=0, second=0, microsecond=0, tzinfo=None)
-        while current_datetime_utc <= end_datetime_utc:
-            sub_total = Decimal(0.0)
-            sub_maximum = None
-            sub_counter = 0
-            for row in rows_hourly:
-                if current_datetime_utc <= row[0] < current_datetime_utc + \
-                        timedelta(minutes=config.minutes_to_count):
-                    sub_total += row[1]
-                    if sub_maximum is None:
-                        sub_maximum = row[1]
-                    elif sub_maximum < row[1]:
-                        sub_maximum = row[1]
-                    sub_counter += 1
-
-            sub_average = (sub_total / sub_counter) if sub_counter > 0 else None
-            result_rows_hourly.append((current_datetime_utc, sub_average, sub_maximum))
-
-            total += sub_total
-            counter += sub_counter
-            if sub_maximum is None:
-                pass
-            elif maximum is None:
-                maximum = sub_maximum
-            elif maximum < sub_maximum:
-                maximum = sub_maximum
-
-            current_datetime_utc += timedelta(minutes=config.minutes_to_count)
-
-        average = total / counter if counter > 0 else None
-        return result_rows_hourly, average, maximum
-
-    elif period_type == "daily":
-        result_rows_daily = list()
-        # todo: add config.working_day_start_time_local
-        # todo: add config.minutes_to_count
-        total = Decimal(0.0)
-        maximum = None
-        counter = 0
-        # calculate the start datetime in utc of the first day in local
-        start_datetime_local = start_datetime_utc + timedelta(hours=int(config.utc_offset[1:3]))
-        current_datetime_utc = start_datetime_local.replace(hour=0) - timedelta(hours=int(config.utc_offset[1:3]))
-        while current_datetime_utc <= end_datetime_utc:
-            sub_total = Decimal(0.0)
-            sub_maximum = None
-            sub_counter = 0
-            for row in rows_hourly:
-                if current_datetime_utc <= row[0] < current_datetime_utc + timedelta(days=1):
-                    sub_total += row[1]
-                    if sub_maximum is None:
-                        sub_maximum = row[1]
-                    elif sub_maximum < row[1]:
-                        sub_maximum = row[1]
-                    sub_counter += 1
-
-            sub_average = (sub_total / sub_counter) if sub_counter > 0 else None
-            result_rows_daily.append((current_datetime_utc, sub_average, sub_maximum))
-            total += sub_total
-            counter += sub_counter
-            if sub_maximum is None:
-                pass
-            elif maximum is None:
-                maximum = sub_maximum
-            elif maximum < sub_maximum:
-                maximum = sub_maximum
-            current_datetime_utc += timedelta(days=1)
-
-        average = total / counter if counter > 0 else None
-        return result_rows_daily, average, maximum
-
-    elif period_type == 'weekly':
-        result_rows_weekly = list()
-        # todo: add config.working_day_start_time_local
-        # todo: add config.minutes_to_count
-        total = Decimal(0.0)
-        maximum = None
-        counter = 0
-        # calculate the start datetime in utc of the monday in the first week in local
-        start_datetime_local = start_datetime_utc + timedelta(hours=int(config.utc_offset[1:3]))
-        weekday = start_datetime_local.weekday()
-        current_datetime_utc = \
-            start_datetime_local.replace(hour=0) - timedelta(days=weekday, hours=int(config.utc_offset[1:3]))
-        while current_datetime_utc <= end_datetime_utc:
-            sub_total = Decimal(0.0)
-            sub_maximum = None
-            sub_counter = 0
-            for row in rows_hourly:
-                if current_datetime_utc <= row[0] < current_datetime_utc + timedelta(days=7):
-                    sub_total += row[1]
-                    if sub_maximum is None:
-                        sub_maximum = row[1]
-                    elif sub_maximum < row[1]:
-                        sub_maximum = row[1]
-                    sub_counter += 1
-
-            sub_average = (sub_total / sub_counter) if sub_counter > 0 else None
-            result_rows_weekly.append((current_datetime_utc, sub_average, sub_maximum))
-            total += sub_total
-            counter += sub_counter
-            if sub_maximum is None:
-                pass
-            elif maximum is None:
-                maximum = sub_maximum
-            elif maximum < sub_maximum:
-                maximum = sub_maximum
-            current_datetime_utc += timedelta(days=7)
-
-        average = total / counter if counter > 0 else None
-        return result_rows_weekly, average, maximum
-
-    elif period_type == "monthly":
-        result_rows_monthly = list()
-        # todo: add config.working_day_start_time_local
-        # todo: add config.minutes_to_count
-        total = Decimal(0.0)
-        maximum = None
-        counter = 0
-        # calculate the start datetime in utc of the first day in the first month in local
-        start_datetime_local = start_datetime_utc + timedelta(hours=int(config.utc_offset[1:3]))
-        current_datetime_utc = \
-            start_datetime_local.replace(day=1, hour=0) - timedelta(hours=int(config.utc_offset[1:3]))
-
-        while current_datetime_utc <= end_datetime_utc:
-            # calculate the next datetime in utc
-            if current_datetime_utc.month == 1:
-                temp_day = 28
-                ny = current_datetime_utc.year
-                if (ny % 100 != 0 and ny % 4 == 0) or (ny % 100 == 0 and ny % 400 == 0):
-                    temp_day = 29
-
-                next_datetime_utc = datetime(year=current_datetime_utc.year,
-                                             month=current_datetime_utc.month + 1,
-                                             day=temp_day,
-                                             hour=current_datetime_utc.hour,
-                                             minute=current_datetime_utc.minute,
-                                             second=0,
-                                             microsecond=0,
-                                             tzinfo=None)
-            elif current_datetime_utc.month == 2:
-                next_datetime_utc = datetime(year=current_datetime_utc.year,
-                                             month=current_datetime_utc.month + 1,
-                                             day=31,
-                                             hour=current_datetime_utc.hour,
-                                             minute=current_datetime_utc.minute,
-                                             second=0,
-                                             microsecond=0,
-                                             tzinfo=None)
-            elif current_datetime_utc.month in [3, 5, 8, 10]:
-                next_datetime_utc = datetime(year=current_datetime_utc.year,
-                                             month=current_datetime_utc.month + 1,
-                                             day=30,
-                                             hour=current_datetime_utc.hour,
-                                             minute=current_datetime_utc.minute,
-                                             second=0,
-                                             microsecond=0,
-                                             tzinfo=None)
-            elif current_datetime_utc.month == 7:
-                next_datetime_utc = datetime(year=current_datetime_utc.year,
-                                             month=current_datetime_utc.month + 1,
-                                             day=31,
-                                             hour=current_datetime_utc.hour,
-                                             minute=current_datetime_utc.minute,
-                                             second=0,
-                                             microsecond=0,
-                                             tzinfo=None)
-            elif current_datetime_utc.month in [4, 6, 9, 11]:
-                next_datetime_utc = datetime(year=current_datetime_utc.year,
-                                             month=current_datetime_utc.month + 1,
-                                             day=31,
-                                             hour=current_datetime_utc.hour,
-                                             minute=current_datetime_utc.minute,
-                                             second=0,
-                                             microsecond=0,
-                                             tzinfo=None)
-            elif current_datetime_utc.month == 12:
-                next_datetime_utc = datetime(year=current_datetime_utc.year + 1,
-                                             month=1,
-                                             day=31,
-                                             hour=current_datetime_utc.hour,
-                                             minute=current_datetime_utc.minute,
-                                             second=0,
-                                             microsecond=0,
-                                             tzinfo=None)
-
-            sub_total = Decimal(0.0)
-            sub_maximum = None
-            sub_counter = 0
-            for row in rows_hourly:
-                if current_datetime_utc <= row[0] < next_datetime_utc:
-                    sub_total += row[1]
-                    if sub_maximum is None:
-                        sub_maximum = row[1]
-                    elif sub_maximum < row[1]:
-                        sub_maximum = row[1]
-                    sub_counter += 1
-
-            sub_average = (sub_total / sub_counter) if sub_counter > 0 else None
-            result_rows_monthly.append((current_datetime_utc, sub_average, sub_maximum))
-            total += sub_total
-            counter += sub_counter
-            if sub_maximum is None:
-                pass
-            elif maximum is None:
-                maximum = sub_maximum
-            elif maximum < sub_maximum:
-                maximum = sub_maximum
-            current_datetime_utc = next_datetime_utc
-
-        average = total / counter if counter > 0 else None
-        return result_rows_monthly, average, maximum
-
-    elif period_type == "yearly":
-        result_rows_yearly = list()
-        # todo: add config.working_day_start_time_local
-        # todo: add config.minutes_to_count
-        total = Decimal(0.0)
-        maximum = None
-        counter = 0
-        # calculate the start datetime in utc of the first day in the first month in local
-        start_datetime_local = start_datetime_utc + timedelta(hours=int(config.utc_offset[1:3]))
-        current_datetime_utc = start_datetime_local.replace(month=1, day=1, hour=0) - timedelta(
-            hours=int(config.utc_offset[1:3]))
-
-        while current_datetime_utc <= end_datetime_utc:
-            # calculate the next datetime in utc
-            # todo: timedelta of year
-            next_datetime_utc = datetime(year=current_datetime_utc.year + 2,
-                                         month=1,
-                                         day=1,
-                                         hour=current_datetime_utc.hour,
-                                         minute=current_datetime_utc.minute,
-                                         second=current_datetime_utc.second,
-                                         microsecond=current_datetime_utc.microsecond,
-                                         tzinfo=current_datetime_utc.tzinfo) - timedelta(days=1)
-            sub_total = Decimal(0.0)
-            sub_maximum = None
-            sub_counter = 0
-            for row in rows_hourly:
-                if current_datetime_utc <= row[0] < next_datetime_utc:
-                    sub_total += row[1]
-                    if sub_maximum is None:
-                        sub_maximum = row[1]
-                    elif sub_maximum < row[1]:
-                        sub_maximum = row[1]
-                    sub_counter += 1
-
-            sub_average = (sub_total / sub_counter) if sub_counter > 0 else None
-            result_rows_yearly.append((current_datetime_utc, sub_average, sub_maximum))
-            total += sub_total
-            counter += sub_counter
-            if sub_maximum is None:
-                pass
-            elif maximum is None:
-                maximum = sub_maximum
-            elif maximum < sub_maximum:
-                maximum = sub_maximum
-            current_datetime_utc = next_datetime_utc
-
-        average = total / counter if counter > 0 else None
-        return result_rows_yearly, average, maximum
-    else:
-        return list(), None, None
-
-
-########################################################################################################################
-# Statistics calculator of hourly data by period
-#   rows_hourly: list of (start_datetime_utc, actual_value), should belong to one energy_category_id
-#   start_datetime_utc: start datetime in utc
-#   end_datetime_utc: end datetime in utc
-#   period_type: use one of the period types, 'hourly', 'daily', 'weekly', 'monthly' and 'yearly'
-# Returns: periodically data of values and statistics of mean, median, minimum, maximum, stdev and variance
-# Note: this procedure doesn't work with multiple energy categories
-########################################################################################################################
-def statistics_hourly_data_by_period(rows_hourly, start_datetime_utc, end_datetime_utc, period_type):
-    # todo: validate parameters
-    if start_datetime_utc is None or \
-            end_datetime_utc is None or \
-            start_datetime_utc >= end_datetime_utc or \
-            period_type not in ('hourly', 'daily', 'weekly', 'monthly', 'yearly'):
-        return list(), None, None, None, None, None, None
-
-    start_datetime_utc = start_datetime_utc.replace(tzinfo=None)
-    end_datetime_utc = end_datetime_utc.replace(tzinfo=None)
-
-    if period_type == "hourly":
-        result_rows_hourly = list()
-        sample_data = list()
-        # todo: add config.working_day_start_time_local
-        # todo: add config.minutes_to_count
-        counter = 0
-        mean = None
-        median = None
-        minimum = None
-        maximum = None
-        stdev = None
-        variance = None
-        current_datetime_utc = start_datetime_utc.replace(minute=0, second=0, microsecond=0, tzinfo=None)
-        while current_datetime_utc <= end_datetime_utc:
-            sub_total = Decimal(0.0)
-            for row in rows_hourly:
-                if current_datetime_utc <= row[0] < current_datetime_utc + \
-                        timedelta(minutes=config.minutes_to_count):
-                    sub_total += row[1]
-
-            result_rows_hourly.append((current_datetime_utc, sub_total))
-            sample_data.append(sub_total)
-
-            counter += 1
-            if minimum is None:
-                minimum = sub_total
-            elif minimum > sub_total:
-                minimum = sub_total
-
-            if maximum is None:
-                maximum = sub_total
-            elif maximum < sub_total:
-                maximum = sub_total
-
-            current_datetime_utc += timedelta(minutes=config.minutes_to_count)
-
-        if len(sample_data) > 1:
-            mean = statistics.mean(sample_data)
-            median = statistics.median(sample_data)
-            stdev = statistics.stdev(sample_data)
-            variance = statistics.variance(sample_data)
-
-        return result_rows_hourly, mean, median, minimum, maximum, stdev, variance
-
-    elif period_type == "daily":
-        result_rows_daily = list()
-        sample_data = list()
-        # todo: add config.working_day_start_time_local
-        # todo: add config.minutes_to_count
-        counter = 0
-        mean = None
-        median = None
-        minimum = None
-        maximum = None
-        stdev = None
-        variance = None
-        # calculate the start datetime in utc of the first day in local
-        start_datetime_local = start_datetime_utc + timedelta(hours=int(config.utc_offset[1:3]))
-        current_datetime_utc = start_datetime_local.replace(hour=0) - timedelta(hours=int(config.utc_offset[1:3]))
-        while current_datetime_utc <= end_datetime_utc:
-            sub_total = Decimal(0.0)
-            for row in rows_hourly:
-                if current_datetime_utc <= row[0] < current_datetime_utc + timedelta(days=1):
-                    sub_total += row[1]
-
-            result_rows_daily.append((current_datetime_utc, sub_total))
-            sample_data.append(sub_total)
-
-            counter += 1
-            if minimum is None:
-                minimum = sub_total
-            elif minimum > sub_total:
-                minimum = sub_total
-
-            if maximum is None:
-                maximum = sub_total
-            elif maximum < sub_total:
-                maximum = sub_total
-            current_datetime_utc += timedelta(days=1)
-
-        if len(sample_data) > 1:
-            mean = statistics.mean(sample_data)
-            median = statistics.median(sample_data)
-            stdev = statistics.stdev(sample_data)
-            variance = statistics.variance(sample_data)
-
-        return result_rows_daily, mean, median, minimum, maximum, stdev, variance
-
-    elif period_type == "weekly":
-        result_rows_weekly = list()
-        sample_data = list()
-        # todo: add config.working_day_start_time_local
-        # todo: add config.minutes_to_count
-        counter = 0
-        mean = None
-        median = None
-        minimum = None
-        maximum = None
-        stdev = None
-        variance = None
-        # calculate the start datetime in utc of the monday in the first week in local
-        start_datetime_local = start_datetime_utc + timedelta(hours=int(config.utc_offset[1:3]))
-        weekday = start_datetime_local.weekday()
-        current_datetime_utc = \
-            start_datetime_local.replace(hour=0) - timedelta(days=weekday, hours=int(config.utc_offset[1:3]))
-        while current_datetime_utc <= end_datetime_utc:
-            sub_total = Decimal(0.0)
-            for row in rows_hourly:
-                if current_datetime_utc <= row[0] < current_datetime_utc + timedelta(days=7):
-                    sub_total += row[1]
-
-            result_rows_weekly.append((current_datetime_utc, sub_total))
-            sample_data.append(sub_total)
-
-            counter += 1
-            if minimum is None:
-                minimum = sub_total
-            elif minimum > sub_total:
-                minimum = sub_total
-
-            if maximum is None:
-                maximum = sub_total
-            elif maximum < sub_total:
-                maximum = sub_total
-            current_datetime_utc += timedelta(days=7)
-
-        if len(sample_data) > 1:
-            mean = statistics.mean(sample_data)
-            median = statistics.median(sample_data)
-            stdev = statistics.stdev(sample_data)
-            variance = statistics.variance(sample_data)
-
-        return result_rows_weekly, mean, median, minimum, maximum, stdev, variance
-
-    elif period_type == "monthly":
-        result_rows_monthly = list()
-        sample_data = list()
-        # todo: add config.working_day_start_time_local
-        # todo: add config.minutes_to_count
-        counter = 0
-        mean = None
-        median = None
-        minimum = None
-        maximum = None
-        stdev = None
-        variance = None
-        # calculate the start datetime in utc of the first day in the first month in local
-        start_datetime_local = start_datetime_utc + timedelta(hours=int(config.utc_offset[1:3]))
-        current_datetime_utc = \
-            start_datetime_local.replace(day=1, hour=0) - timedelta(hours=int(config.utc_offset[1:3]))
-
-        while current_datetime_utc <= end_datetime_utc:
-            # calculate the next datetime in utc
-            if current_datetime_utc.month == 1:
-                temp_day = 28
-                ny = current_datetime_utc.year
-                if (ny % 100 != 0 and ny % 4 == 0) or (ny % 100 == 0 and ny % 400 == 0):
-                    temp_day = 29
-
-                next_datetime_utc = datetime(year=current_datetime_utc.year,
-                                             month=current_datetime_utc.month + 1,
-                                             day=temp_day,
-                                             hour=current_datetime_utc.hour,
-                                             minute=current_datetime_utc.minute,
-                                             second=0,
-                                             microsecond=0,
-                                             tzinfo=None)
-            elif current_datetime_utc.month == 2:
-                next_datetime_utc = datetime(year=current_datetime_utc.year,
-                                             month=current_datetime_utc.month + 1,
-                                             day=31,
-                                             hour=current_datetime_utc.hour,
-                                             minute=current_datetime_utc.minute,
-                                             second=0,
-                                             microsecond=0,
-                                             tzinfo=None)
-            elif current_datetime_utc.month in [3, 5, 8, 10]:
-                next_datetime_utc = datetime(year=current_datetime_utc.year,
-                                             month=current_datetime_utc.month + 1,
-                                             day=30,
-                                             hour=current_datetime_utc.hour,
-                                             minute=current_datetime_utc.minute,
-                                             second=0,
-                                             microsecond=0,
-                                             tzinfo=None)
-            elif current_datetime_utc.month == 7:
-                next_datetime_utc = datetime(year=current_datetime_utc.year,
-                                             month=current_datetime_utc.month + 1,
-                                             day=31,
-                                             hour=current_datetime_utc.hour,
-                                             minute=current_datetime_utc.minute,
-                                             second=0,
-                                             microsecond=0,
-                                             tzinfo=None)
-            elif current_datetime_utc.month in [4, 6, 9, 11]:
-                next_datetime_utc = datetime(year=current_datetime_utc.year,
-                                             month=current_datetime_utc.month + 1,
-                                             day=31,
-                                             hour=current_datetime_utc.hour,
-                                             minute=current_datetime_utc.minute,
-                                             second=0,
-                                             microsecond=0,
-                                             tzinfo=None)
-            elif current_datetime_utc.month == 12:
-                next_datetime_utc = datetime(year=current_datetime_utc.year + 1,
-                                             month=1,
-                                             day=31,
-                                             hour=current_datetime_utc.hour,
-                                             minute=current_datetime_utc.minute,
-                                             second=0,
-                                             microsecond=0,
-                                             tzinfo=None)
-
-            sub_total = Decimal(0.0)
-            for row in rows_hourly:
-                if current_datetime_utc <= row[0] < next_datetime_utc:
-                    sub_total += row[1]
-
-            result_rows_monthly.append((current_datetime_utc, sub_total))
-            sample_data.append(sub_total)
-
-            counter += 1
-            if minimum is None:
-                minimum = sub_total
-            elif minimum > sub_total:
-                minimum = sub_total
-
-            if maximum is None:
-                maximum = sub_total
-            elif maximum < sub_total:
-                maximum = sub_total
-            current_datetime_utc = next_datetime_utc
-
-        if len(sample_data) > 1:
-            mean = statistics.mean(sample_data)
-            median = statistics.median(sample_data)
-            stdev = statistics.stdev(sample_data)
-            variance = statistics.variance(sample_data)
-
-        return result_rows_monthly, mean, median, minimum, maximum, stdev, variance
-
-    elif period_type == "yearly":
-        result_rows_yearly = list()
-        sample_data = list()
-        # todo: add config.working_day_start_time_local
-        # todo: add config.minutes_to_count
-        mean = None
-        median = None
-        minimum = None
-        maximum = None
-        stdev = None
-        variance = None
-        # calculate the start datetime in utc of the first day in the first month in local
-        start_datetime_local = start_datetime_utc + timedelta(hours=int(config.utc_offset[1:3]))
-        current_datetime_utc = start_datetime_local.replace(month=1, day=1, hour=0) - timedelta(
-            hours=int(config.utc_offset[1:3]))
-
-        while current_datetime_utc <= end_datetime_utc:
-            # calculate the next datetime in utc
-            # todo: timedelta of year
-            next_datetime_utc = datetime(year=current_datetime_utc.year + 2,
-                                         month=1,
-                                         day=1,
-                                         hour=current_datetime_utc.hour,
-                                         minute=current_datetime_utc.minute,
-                                         second=current_datetime_utc.second,
-                                         microsecond=current_datetime_utc.microsecond,
-                                         tzinfo=current_datetime_utc.tzinfo) - timedelta(days=1)
-            sub_total = Decimal(0.0)
-            for row in rows_hourly:
-                if current_datetime_utc <= row[0] < next_datetime_utc:
-                    sub_total += row[1]
-
-            result_rows_yearly.append((current_datetime_utc, sub_total))
-            sample_data.append(sub_total)
-
-            if minimum is None:
-                minimum = sub_total
-            elif minimum > sub_total:
-                minimum = sub_total
-            if maximum is None:
-                maximum = sub_total
-            elif maximum < sub_total:
-                maximum = sub_total
-
-            current_datetime_utc = next_datetime_utc
-
-        if len(sample_data) > 1:
-            mean = statistics.mean(sample_data)
-            median = statistics.median(sample_data)
-            stdev = statistics.stdev(sample_data)
-            variance = statistics.variance(sample_data)
-
-        return result_rows_yearly, mean, median, minimum, maximum, stdev, variance
-
-    else:
-        return list(), None, None, None, None, None, None
-
-########################################################################################################################
-# get all class names in the parent directory
-#   file_path: file path of the calling method
-# Returns: All class names in the directory where the calling method file is located
-########################################################################################################################
-def get_class_names_in_the_parent_directory(file_path):
-        class_names = []
-        current_file_path = os.path.abspath(file_path)
-        parent_folder = os.path.dirname(current_file_path)
-        for foldername, subfolders, filenames in os.walk(parent_folder):
-            for filename in filenames:
-                if filename.endswith('.py'):
-                    file_path = os.path.join(foldername, filename)
-                    spec = importlib.util.spec_from_file_location(filename, file_path)
-                    module = importlib.util.module_from_spec(spec)
-                    spec.loader.exec_module(module)
-                    for name in dir(module):
-                        obj = getattr(module, name)
-                        if hasattr(obj, '__bases__') and object in obj.__bases__:
-                            class_names.append(name)
-        
-        return class_names
+def user_logger(func):
+    """
+    Decorator for logging user activities
+    :param func: the decorated function
+    :return: the decorator
+    """
+    @wraps(func)
+    def logger(*args, **kwargs):
+        qualified_name = func.__qualname__
+        class_name = qualified_name.split(".")[0]
+        func_name = qualified_name.split(".")[1]
+
+        if func_name not in ("on_post", "on_put", "on_delete"):
+            # do not log for other HTTP Methods
+            func(*args, **kwargs)
+            return
+        req, resp = args
+        headers = req.headers
+        if headers is not None and 'USER-UUID' in headers.keys():
+            user_uuid = headers['USER-UUID']
+        else:
+            # todo: deal with requests with NULL user_uuid
+            print('user_logger: USER-UUID is NULL')
+            # do not log for NULL user_uuid
+            func(*args, **kwargs)
+            return
+
+        if func_name == "on_post":
+            try:
+                file_name = str(uuid.uuid4())
+                with open(file_name, "wb") as fw:
+                    reads = req.stream.read()
+                    fw.write(reads)
+                raw_json = reads.decode('utf-8')
+                with open(file_name, "rb") as fr:
+                    req.stream = Body(fr)
+                    func(*args, **kwargs)
+                    write_log(user_uuid=user_uuid, request_method='POST', resource_type=class_name,
+                              resource_id=kwargs.get('id_'), request_body=raw_json)
+                os.remove(file_name)
+            except Exception as e:
+                if isinstance(e, falcon.HTTPError):
+                    raise e
+                else:
+                    print('user_logger:' + str(e))
+            return
+        elif func_name == "on_put":
+            try:
+                file_name = str(uuid.uuid4())
+
+                with open(file_name, "wb") as fw:
+                    reads = req.stream.read()
+                    fw.write(reads)
+                raw_json = reads.decode('utf-8')
+                with open(file_name, "rb") as fr:
+                    req.stream = Body(fr)
+                    func(*args, **kwargs)
+                    write_log(user_uuid=user_uuid, request_method='PUT', resource_type=class_name,
+                              resource_id=kwargs.get('id_'), request_body=raw_json)
+                os.remove(file_name)
+            except Exception as e:
+                if isinstance(e, falcon.HTTPError):
+                    raise e
+                else:
+                    print('user_logger:' + str(e))
+
+            return
+        elif func_name == "on_delete":
+            try:
+                func(*args, **kwargs)
+                write_log(user_uuid=user_uuid, request_method="DELETE", resource_type=class_name,
+                          resource_id=kwargs.get('id_'), request_body=json.dumps(kwargs))
+            except Exception as e:
+                if isinstance(e, falcon.HTTPError):
+                    raise e
+                else:
+                    print('user_logger:' + str(e))
+            return
+
+    return logger
