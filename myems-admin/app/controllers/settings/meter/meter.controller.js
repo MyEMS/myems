@@ -1,6 +1,7 @@
 'use strict';
 
 app.controller('MeterController', function($scope,  
+	$rootScope,
 	$window,
 	$translate, 
 	$uibModal, 
@@ -174,6 +175,7 @@ app.controller('MeterController', function($scope,
 		}, function() {
 
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.editMeter = function(meter) {
@@ -231,6 +233,7 @@ app.controller('MeterController', function($scope,
 		}, function() {
 			//do nothing;
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.deleteMeter = function(meter) {

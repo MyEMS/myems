@@ -2,6 +2,7 @@
 
 app.controller('WebMessageController', function(
 	$scope, 
+	$rootScope,
 	$window,
 	$timeout, 
 	$translate, 
@@ -64,6 +65,7 @@ app.controller('WebMessageController', function(
 		}, function() {
 			//do nothing;
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.deleteWebMessage = function(webmessage) {

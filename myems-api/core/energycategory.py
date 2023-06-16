@@ -5,7 +5,7 @@ import mysql.connector
 import simplejson as json
 
 import config
-from core.useractivity import user_logger, access_control
+from core.useractivity import user_logger, admin_control
 
 
 class EnergyCategoryCollection:
@@ -44,7 +44,7 @@ class EnergyCategoryCollection:
     @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
-        access_control(req)
+        admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -154,7 +154,7 @@ class EnergyCategoryItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_):
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_CATEGORY_ID')
@@ -237,7 +237,7 @@ class EnergyCategoryItem:
     @user_logger
     def on_put(req, resp, id_):
         """Handles PUT requests"""
-        access_control(req)
+        admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:

@@ -2,6 +2,7 @@
 
 app.controller('EnergyItemController', function(
     $scope,
+    $rootScope,
     $window,
     $translate,
     $uibModal,
@@ -69,6 +70,7 @@ app.controller('EnergyItemController', function(
 		}, function() {
 
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.editEnergyItem=function(energyItem){
@@ -110,6 +112,7 @@ app.controller('EnergyItemController', function(
 		}, function () {
 	        //do nothing;
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.deleteEnergyItem=function(energyItem){

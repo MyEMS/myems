@@ -2,6 +2,7 @@
 
 app.controller('SpaceController', function (
 	$scope,
+	$rootScope,
 	$window,
 	$uibModal,
 	SpaceService,
@@ -173,6 +174,7 @@ app.controller('SpaceController', function (
 		}, function () {
 
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.editSpace = function (space) {
@@ -227,6 +229,7 @@ app.controller('SpaceController', function (
 		}, function () {
 			//do nothing;
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.deleteSpace = function (space) {

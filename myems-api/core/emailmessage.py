@@ -6,7 +6,7 @@ import mysql.connector
 import simplejson as json
 
 import config
-from core.useractivity import user_logger, access_control
+from core.useractivity import user_logger, admin_control
 
 
 class EmailMessageCollection:
@@ -21,7 +21,7 @@ class EmailMessageCollection:
 
     @staticmethod
     def on_get(req, resp):
-        access_control(req)
+        admin_control(req)
         print(req.params)
         start_datetime_local = req.params.get('startdatetime')
         end_datetime_local = req.params.get('enddatetime')
@@ -99,7 +99,7 @@ class EmailMessageCollection:
     @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
-        access_control(req)
+        admin_control(req)
         try:
             upload = req.get_param('file')
             # Read upload file as binary
@@ -254,7 +254,7 @@ class EmailMessageItem:
 
     @staticmethod
     def on_get(req, resp, id_):
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EMAIL_MESSAGE_ID')
@@ -295,7 +295,7 @@ class EmailMessageItem:
     @user_logger
     def on_put(req, resp, id_):
         """Handles PUT requests"""
-        access_control(req)
+        admin_control(req)
 
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -461,7 +461,7 @@ class EmailMessageItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_):
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EMAIL_MESSAGE_ID')

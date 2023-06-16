@@ -5,7 +5,7 @@ import mysql.connector
 import simplejson as json
 
 import config
-from core.useractivity import user_logger, access_control
+from core.useractivity import user_logger, admin_control
 
 
 class TextMessageCollection:
@@ -20,7 +20,7 @@ class TextMessageCollection:
 
     @staticmethod
     def on_get(req, resp):
-        access_control(req)
+        admin_control(req)
 
         start_datetime_local = req.params.get('startdatetime')
         end_datetime_local = req.params.get('enddatetime')
@@ -95,7 +95,7 @@ class TextMessageCollection:
     @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
-        access_control(req)
+        admin_control(req)
 
         try:
             raw_json = req.stream.read().decode('utf-8')
@@ -238,7 +238,7 @@ class TextMessageItem:
 
     @staticmethod
     def on_get(req, resp, id_):
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TEXT_MESSAGE_ID')
@@ -277,7 +277,7 @@ class TextMessageItem:
     @user_logger
     def on_put(req, resp, id_):
         """Handles PUT requests"""
-        access_control(req)
+        admin_control(req)
 
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -430,7 +430,7 @@ class TextMessageItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_):
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TEXT_MESSAGE_ID')
