@@ -65,7 +65,7 @@ def admin_control(req):
 
 def access_control(req):
     """
-        Check administrator privilege in request headers to protect resources from invalid access
+        Check ordinary user privilege in request headers to protect resources from invalid access
         :param req: HTTP request
         :return: HTTPError if invalid else None
         """
@@ -74,40 +74,40 @@ def access_control(req):
             len(str.strip(req.headers['USER-UUID'])) == 0:
         raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                description='API.INVALID_USER_UUID')
-    admin_user_uuid = str.strip(req.headers['USER-UUID'])
+    ordinary_user_uuid = str.strip(req.headers['USER-UUID'])
 
     if 'TOKEN' not in req.headers or \
             not isinstance(req.headers['TOKEN'], str) or \
             len(str.strip(req.headers['TOKEN'])) == 0:
         raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                description='API.INVALID_TOKEN')
-    admin_token = str.strip(req.headers['TOKEN'])
+    ordinary_token = str.strip(req.headers['TOKEN'])
 
-    # Check administrator privilege
+    # Check ordinary user privilege
     cnx = mysql.connector.connect(**config.myems_user_db)
     cursor = cnx.cursor()
     query = (" SELECT utc_expires "
              " FROM tbl_sessions "
              " WHERE user_uuid = %s AND token = %s")
-    cursor.execute(query, (admin_user_uuid, admin_token,))
+    cursor.execute(query, (ordinary_user_uuid, ordinary_token,))
     row = cursor.fetchone()
 
     if row is None:
         cursor.close()
         cnx.close()
         raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                               description='API.ADMINISTRATOR_SESSION_NOT_FOUND')
+                               description='API.ORDINARY_USER_SESSION_NOT_FOUND')
     else:
         utc_expires = row[0]
         if datetime.utcnow() > utc_expires:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.ADMINISTRATOR_SESSION_TIMEOUT')
+                                   description='API.ORDINARY_USER_SESSION_TIMEOUT')
     query = (" SELECT name "
              " FROM tbl_users "
              " WHERE uuid = %s ")
-    cursor.execute(query, (admin_user_uuid,))
+    cursor.execute(query, (ordinary_user_uuid,))
     row = cursor.fetchone()
     cursor.close()
     cnx.close()
