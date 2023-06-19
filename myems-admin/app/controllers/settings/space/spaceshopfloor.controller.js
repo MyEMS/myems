@@ -59,7 +59,8 @@ app.controller('SpaceShopfloorController', function(
 		};
 
 	$scope.getAllShopfloors = function() {
-		ShopfloorService.getAllShopfloors(function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		ShopfloorService.getAllShopfloors(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.shopfloors = response.data;
 			} else {

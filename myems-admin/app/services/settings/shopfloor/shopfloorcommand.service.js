@@ -18,8 +18,8 @@ app.factory('ShopfloorCommandService', function($http) {
                 callback(response);
             });
         },
-        getCommandsByShopfloorID: function(id, callback) {
-            $http.get(getAPI()+'shopfloors/'+id+'/commands')
+        getCommandsByShopfloorID: function(id, headers, callback) {
+            $http.get(getAPI()+'shopfloors/'+id+'/commands', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
