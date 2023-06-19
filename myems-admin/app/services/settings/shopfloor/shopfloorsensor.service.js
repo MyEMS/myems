@@ -18,8 +18,8 @@ app.factory('ShopfloorSensorService', function($http) {
                 callback(response);
             });
         },
-        getSensorsByShopfloorID: function(id, callback) {
-            $http.get(getAPI()+'shopfloors/'+id+'/sensors')
+        getSensorsByShopfloorID: function(id, headers, callback) {
+            $http.get(getAPI()+'shopfloors/'+id+'/sensors', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

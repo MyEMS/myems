@@ -18,8 +18,8 @@ app.factory('ShopfloorWorkingCalendarService', function($http) {
                 callback(response);
             });
         },
-        getWorkingCalendarsByShopfloorID: function(id,  callback) {
-            $http.get(getAPI()+'shopfloors/'+id+'/workingcalendars')
+        getWorkingCalendarsByShopfloorID: function(id, headers,  callback) {
+            $http.get(getAPI()+'shopfloors/'+id+'/workingcalendars', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

@@ -14,7 +14,8 @@ app.controller('ShopfloorMeterController', function(
     $scope.currentShopfloor = {selected:undefined};
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	  $scope.getAllShopfloors = function(id) {
-		ShopfloorService.getAllShopfloors(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		ShopfloorService.getAllShopfloors(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.shopfloors = response.data;
 				} else {
@@ -33,7 +34,8 @@ app.controller('ShopfloorMeterController', function(
 		var metertypes=['meters','virtualmeters','offlinemeters'];
 		$scope.shopfloormeters=[];
 		angular.forEach(metertypes,function(value,index){
-			ShopfloorMeterService.getMetersByShopfloorID(id, value, function (response) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			ShopfloorMeterService.getMetersByShopfloorID(id, headers, value, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					angular.forEach(response.data, function (item, indx){
 						response.data[indx].metertype = value;
