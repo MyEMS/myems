@@ -62,7 +62,7 @@ def admin_control(req):
                                description='API.INVALID_TOKEN')
     admin_token = str.strip(req.headers['TOKEN'])
 
-    # Check administrator privilege
+    # Check administrator session
     cnx = mysql.connector.connect(**config.myems_user_db)
     cursor = cnx.cursor()
     query = (" SELECT utc_expires "
@@ -83,6 +83,7 @@ def admin_control(req):
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.ADMINISTRATOR_SESSION_TIMEOUT')
+    # check administrator privilege
     query = (" SELECT name "
              " FROM tbl_users "
              " WHERE uuid = %s AND is_admin = 1 AND is_read_only = 0 ")
@@ -91,7 +92,68 @@ def admin_control(req):
     cursor.close()
     cnx.close()
     if row is None:
-        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_PRIVILEGE')
+        raise falcon.HTTPError(status=falcon.HTTP_400,
+                               title='API.BAD_REQUEST',
+                               description='API.INVALID_PRIVILEGE')
+
+
+def access_control(req):
+    """
+        Check user privilege in request headers to protect resources from invalid access
+        :param req: HTTP request
+        :return: HTTPError if invalid else None
+        """
+    if 'USER-UUID' not in req.headers or \
+            not isinstance(req.headers['USER-UUID'], str) or \
+            len(str.strip(req.headers['USER-UUID'])) == 0:
+        raise falcon.HTTPError(status=falcon.HTTP_400,
+                               title='API.BAD_REQUEST',
+                               description='API.INVALID_USER_UUID')
+    user_uuid = str.strip(req.headers['USER-UUID'])
+
+    if 'TOKEN' not in req.headers or \
+            not isinstance(req.headers['TOKEN'], str) or \
+            len(str.strip(req.headers['TOKEN'])) == 0:
+        raise falcon.HTTPError(status=falcon.HTTP_400,
+                               title='API.BAD_REQUEST',
+                               description='API.INVALID_TOKEN')
+    ordinary_token = str.strip(req.headers['TOKEN'])
+
+    # Check user session
+    cnx = mysql.connector.connect(**config.myems_user_db)
+    cursor = cnx.cursor()
+    query = (" SELECT utc_expires "
+             " FROM tbl_sessions "
+             " WHERE user_uuid = %s AND token = %s")
+    cursor.execute(query, (user_uuid, ordinary_token,))
+    row = cursor.fetchone()
+
+    if row is None:
+        cursor.close()
+        cnx.close()
+        raise falcon.HTTPError(status=falcon.HTTP_404,
+                               title='API.NOT_FOUND',
+                               description='API.USER_SESSION_NOT_FOUND')
+    else:
+        utc_expires = row[0]
+        if datetime.utcnow() > utc_expires:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.USER_SESSION_TIMEOUT')
+    # todo: check user privilege
+    query = (" SELECT name "
+             " FROM tbl_users "
+             " WHERE uuid = %s ")
+    cursor.execute(query, (user_uuid,))
+    row = cursor.fetchone()
+    cursor.close()
+    cnx.close()
+    if row is None:
+        raise falcon.HTTPError(status=falcon.HTTP_400,
+                               title='API.BAD_REQUEST',
+                               description='API.INVALID_PRIVILEGE')
 
 
 def write_log(user_uuid, request_method, resource_type, resource_id, request_body):

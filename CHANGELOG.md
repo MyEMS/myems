@@ -17,6 +17,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added get all associated objects of microgrid to myems-api
 ### Changed
 - renamed access_control to admin_control in myems-api
+- added new access_control procedure to mymes-api
+- added access_contorl to shopfloor GETS action in myems-api
 - 
 ### Fixed
 - fixed dialog doesn't close after myems-admin logging out automatically
