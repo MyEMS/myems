@@ -27,8 +27,8 @@ app.factory('ShopfloorMeterService', function($http) {
                 callback(response);
             });
         },
-        getMetersByShopfloorID: function(id, metertype, callback) {
-            $http.get(getAPI()+'shopfloors/'+id+'/'+metertype)
+        getMetersByShopfloorID: function(id, headers, metertype, callback) {
+            $http.get(getAPI()+'shopfloors/'+id+'/'+metertype, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

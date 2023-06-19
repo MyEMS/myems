@@ -8009,7 +8009,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "1111173c15d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d3016535",
+										"value": "80caac0ed28e901b3bc35e37707d69c5df5410830373682451d2ab2862641cb6dbcec16bbde227437963a1191faa5dcaeecf839fc422566744eaf3c75e14f840",
 										"type": "text"
 									}
 								],
@@ -8029,7 +8029,18 @@
 							"name": "GET a Shopfloor by ID",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "80caac0ed28e901b3bc35e37707d69c5df5410830373682451d2ab2862641cb6dbcec16bbde227437963a1191faa5dcaeecf839fc422566744eaf3c75e14f840",
+										"type": "default"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/shopfloors/1",
 									"host": [
@@ -8141,7 +8152,18 @@
 							"name": "GET All Equipments of a Shopfloor",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "80caac0ed28e901b3bc35e37707d69c5df5410830373682451d2ab2862641cb6dbcec16bbde227437963a1191faa5dcaeecf839fc422566744eaf3c75e14f840",
+										"type": "default"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/shopfloors/1/equipments",
 									"host": [
@@ -8225,7 +8247,18 @@
 							"name": "GET All Meters of a Shopfloor",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "80caac0ed28e901b3bc35e37707d69c5df5410830373682451d2ab2862641cb6dbcec16bbde227437963a1191faa5dcaeecf839fc422566744eaf3c75e14f840",
+										"type": "default"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/shopfloors/1/meters",
 									"host": [
@@ -8309,7 +8342,18 @@
 							"name": "GET All OfflineMeters of a Shopfloor",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "80caac0ed28e901b3bc35e37707d69c5df5410830373682451d2ab2862641cb6dbcec16bbde227437963a1191faa5dcaeecf839fc422566744eaf3c75e14f840",
+										"type": "default"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/shopfloors/1/offlinemeters",
 									"host": [
@@ -8393,7 +8437,18 @@
 							"name": "GET All Points of a Shopfloor",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "80caac0ed28e901b3bc35e37707d69c5df5410830373682451d2ab2862641cb6dbcec16bbde227437963a1191faa5dcaeecf839fc422566744eaf3c75e14f840",
+										"type": "default"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/shopfloors/1/points",
 									"host": [
@@ -8477,7 +8532,18 @@
 							"name": "GET All Sensors of a Shopfloor",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "80caac0ed28e901b3bc35e37707d69c5df5410830373682451d2ab2862641cb6dbcec16bbde227437963a1191faa5dcaeecf839fc422566744eaf3c75e14f840",
+										"type": "default"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/shopfloors/1/sensors",
 									"host": [
@@ -8561,7 +8627,18 @@
 							"name": "GET All Virtual Meters of a Shopfloor",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "80caac0ed28e901b3bc35e37707d69c5df5410830373682451d2ab2862641cb6dbcec16bbde227437963a1191faa5dcaeecf839fc422566744eaf3c75e14f840",
+										"type": "default"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/shopfloors/1/virtualmeters",
 									"host": [
@@ -8645,7 +8722,18 @@
 							"name": "GET All Working Calendars of a Shopfloor",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "80caac0ed28e901b3bc35e37707d69c5df5410830373682451d2ab2862641cb6dbcec16bbde227437963a1191faa5dcaeecf839fc422566744eaf3c75e14f840",
+										"type": "default"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/shopfloors/1/workingcalendars",
 									"host": [
@@ -8764,7 +8852,18 @@
 							"name": "GET All Commands of a Shopfloor",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "80caac0ed28e901b3bc35e37707d69c5df5410830373682451d2ab2862641cb6dbcec16bbde227437963a1191faa5dcaeecf839fc422566744eaf3c75e14f840",
+										"type": "default"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/shopfloors/1/commands",
 									"host": [

@@ -22,7 +22,8 @@ app.controller('ShopfloorSensorController', function (
     };
 
     $scope.getSensorsByShopfloorID = function (id) {
-        ShopfloorSensorService.getSensorsByShopfloorID(id, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        ShopfloorSensorService.getSensorsByShopfloorID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.shopfloorsensors = response.data;
             } else {
@@ -38,7 +39,8 @@ app.controller('ShopfloorSensorController', function (
     };
 
     $scope.getAllShopfloors = function () {
-        ShopfloorService.getAllShopfloors(function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        ShopfloorService.getAllShopfloors(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.shopfloors = response.data;
             } else {
