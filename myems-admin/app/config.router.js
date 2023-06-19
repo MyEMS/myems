@@ -1359,11 +1359,11 @@ app
                             ]
                         }
                     })
-                    .state('users.personaltoken', {
-                        url: "/personaltoken",
-                        templateUrl: "views/users/personaltoken/personaltoken.html",
+                    .state('users.apikey', {
+                        url: "/apikey",
+                        templateUrl: "views/users/apikey/apikey.html",
                         data: {
-                            pageTitle: 'MENU.USERSETTING.PERSONAL_TOKEN'
+                            pageTitle: 'MENU.USERSETTING.API_KEY'
                         },
 
                         resolve: {
@@ -1387,8 +1387,8 @@ app
                                             }, {
                                                 serie: true,
                                                 files: [
-                                                    'app/services/users/personaltoken/personaltoken.service.js',
-                                                    'app/controllers/users/personaltoken/personaltoken.controller.js'
+                                                    'app/services/users/apikey/apikey.service.js',
+                                                    'app/controllers/users/apikey/apikey.controller.js'
                                                 ]
                                             }]);
                                         }

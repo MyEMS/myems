@@ -26,7 +26,7 @@ def admin_control(req):
         cursor = cnx.cursor()
 
         query = (" SELECT expires_datetime_utc "
-                 " FROM tbl_personal_tokens "
+                 " FROM tbl_api_keys "
                  " WHERE token = %s")
         cursor.execute(query, (api_key,))
         row = cursor.fetchone()

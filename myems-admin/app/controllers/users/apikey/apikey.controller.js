@@ -1,45 +1,45 @@
 'use strict';
-app.controller('PersonalTokenController', function (
+app.controller('ApiKeyController', function (
     $scope,
 	$window,
 	$uibModal,
-	PersonalTokenService,
+	ApiKeyService,
 	toaster,
 	$translate,
 	SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
-	$scope.getAllPersonalTokens = function () {
-		PersonalTokenService.getAllPersonalTokens(function (response) {
+	$scope.getAllApiKeys = function () {
+		ApiKeyService.getAllApiKeys(function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
-				$scope.personalTokens = response.data;
+				$scope.apiKeys = response.data;
 			} else {
-				$scope.personalTokens = [];
+				$scope.apiKeys = [];
 			}
 		});
 
 	};
 
-	$scope.addPersonalToken = function () {
+	$scope.addApiKey = function () {
 		var modalInstance = $uibModal.open({
-			templateUrl: 'views/users/personaltoken/personaltoken.model.html',
-			controller: 'ModalAddPersonalTokenCtrl',
+			templateUrl: 'views/users/apikey/apikey.model.html',
+			controller: 'ModalAddApiKeyCtrl',
 			windowClass: "animated fadeIn",
 		});
-		modalInstance.result.then(function (personalToken) {
+		modalInstance.result.then(function (apiKey) {
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-			PersonalTokenService.addPersonalToken(personalToken, headers, function (response) {
+			ApiKeyService.addApiKey(apiKey, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
 						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", { template: $translate.instant("USER.PERSONAL_TOKEN") }),
+						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", { template: $translate.instant("USER.API_KEY") }),
 						showCloseButton: true,
 					});
-					$scope.getAllPersonalTokens();
+					$scope.getAllApiKeys();
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("USER.PERSONAL_TOKEN") }),
+						title: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("USER.API_KEY") }),
 						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
@@ -50,34 +50,34 @@ app.controller('PersonalTokenController', function (
 		});
 	};
 
-	$scope.editPersonalToken = function (personalToken) {
+	$scope.editApiKey = function (apiKey) {
 		var modalInstance = $uibModal.open({
 			windowClass: "animated fadeIn",
-			templateUrl: 'views/users/personaltoken/personaltoken.model.html',
-			controller: 'ModalEditPersonalTokenCtrl',
+			templateUrl: 'views/users/apikey/apikey.model.html',
+			controller: 'ModalEditApiKeyCtrl',
 			resolve: {
 				params: function () {
 					return {
-						personalToken: angular.copy(personalToken)
+						apiKey: angular.copy(apiKey)
 					};
 				}
 			}
 		});
-		modalInstance.result.then(function (modifiedPersonalToken) {
+		modalInstance.result.then(function (modifiedApiKey) {
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-			PersonalTokenService.editPersonalToken(modifiedPersonalToken, headers, function (response) {
+			ApiKeyService.editApiKey(modifiedApiKey, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
 						type: "success",
 						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", { template: $translate.instant("USER.PERSONAL_TOKEN") }),
+						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", { template: $translate.instant("USER.API_KEY") }),
 						showCloseButton: true,
 					});
-					$scope.getAllPersonalTokens();
+					$scope.getAllApiKeys();
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", { template: $translate.instant("USER.PERSONAL_TOKEN") }),
+						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", { template: $translate.instant("USER.API_KEY") }),
 						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
@@ -88,7 +88,7 @@ app.controller('PersonalTokenController', function (
 		});
 	};
 
-	$scope.deletePersonalToken = function (personalToken) {
+	$scope.deleteApiKey = function (apiKey) {
 		SweetAlert.swal({
 			title: $translate.instant("SWEET.TITLE"),
 			text: $translate.instant("SWEET.TEXT"),
@@ -103,19 +103,19 @@ app.controller('PersonalTokenController', function (
 		function (isConfirm) {
 			if (isConfirm) {
 				let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-				PersonalTokenService.deletePersonalToken(personalToken, headers, function (response) {
+				ApiKeyService.deleteApiKey(apiKey, headers, function (response) {
 					if (angular.isDefined(response.status) && response.status === 204) {
 						toaster.pop({
 							type: "success",
 							title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-							body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", { template: $translate.instant("USER.PERSONAL_TOKEN") }),
+							body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", { template: $translate.instant("USER.API_KEY") }),
 							showCloseButton: true,
 						});
-						$scope.getAllPersonalTokens();
+						$scope.getAllApiKeys();
 					} else {
 						toaster.pop({
 							type: "error",
-							title: $translate.instant("TOASTER.ERROR_DELETE_BODY", { template: $translate.instant("USER.PERSONAL_TOKEN") }),
+							title: $translate.instant("TOASTER.ERROR_DELETE_BODY", { template: $translate.instant("USER.API_KEY") }),
 							body: $translate.instant(response.data.description),
 							showCloseButton: true,
 						});
@@ -125,13 +125,13 @@ app.controller('PersonalTokenController', function (
 		});
 	};
 
-	$scope.getAllPersonalTokens();
+	$scope.getAllApiKeys();
 
 });
 
-app.controller('ModalAddPersonalTokenCtrl', function ($scope, $uibModalInstance) {
-	$scope.operation = "USER.ADD_PERSONAL_TOKEN";
-	$scope.personalToken = {
+app.controller('ModalAddApiKeyCtrl', function ($scope, $uibModalInstance) {
+	$scope.operation = "USER.ADD_API_KEY";
+	$scope.apiKey = {
 		created_datetime_utc:moment(),
         expires_datetime_utc:moment().add(1,'years'),
 	};
@@ -148,9 +148,9 @@ app.controller('ModalAddPersonalTokenCtrl', function ($scope, $uibModalInstance)
         singleDatePicker: true,
     };
 	$scope.ok = function () {
-		$scope.personalToken.created_datetime_utc = $scope.personalToken.created_datetime_utc.format().slice(0,19);
-        $scope.personalToken.expires_datetime_utc = $scope.personalToken.expires_datetime_utc.format().slice(0,19);
-		$uibModalInstance.close($scope.personalToken);
+		$scope.apiKey.created_datetime_utc = $scope.apiKey.created_datetime_utc.format().slice(0,19);
+        $scope.apiKey.expires_datetime_utc = $scope.apiKey.expires_datetime_utc.format().slice(0,19);
+		$uibModalInstance.close($scope.apiKey);
 	};
 
 	$scope.cancel = function () {
@@ -158,11 +158,11 @@ app.controller('ModalAddPersonalTokenCtrl', function ($scope, $uibModalInstance)
 	};
 });
 
-app.controller('ModalEditPersonalTokenCtrl', function ($scope, 
+app.controller('ModalEditApiKeyCtrl', function ($scope, 
 	$uibModalInstance, 
 	params) {
-	$scope.operation = "USER.EDIT_PERSONAL_TOKEN";
-	$scope.personalToken = params.personalToken;
+	$scope.operation = "USER.EDIT_API_KEY";
+	$scope.apiKey = params.apiKey;
 	$scope.flag = false;
 	$scope.dtOptions = {
         locale:{
@@ -177,9 +177,9 @@ app.controller('ModalEditPersonalTokenCtrl', function ($scope,
     };
 
 	$scope.ok = function () {
-		$scope.personalToken.created_datetime_utc = moment($scope.personalToken.created_datetime_utc).format().slice(0,19);
-        $scope.personalToken.expires_datetime_utc = moment($scope.personalToken.expires_datetime_utc).format().slice(0,19);
-		$uibModalInstance.close($scope.personalToken);
+		$scope.apiKey.created_datetime_utc = moment($scope.apiKey.created_datetime_utc).format().slice(0,19);
+        $scope.apiKey.expires_datetime_utc = moment($scope.apiKey.expires_datetime_utc).format().slice(0,19);
+		$uibModalInstance.close($scope.apiKey);
 	};
 
 	$scope.cancel = function () {

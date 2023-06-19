@@ -1,30 +1,36 @@
 <div class="inmodal">
     <div class="modal-header">
-        <h4 class="modal-title">{{operation | translate}}(ID:{{personalToken.id}})</h4>
+        <h4 class="modal-title">{{operation | translate}}(ID:{{apiKey.id}})</h4>
     </div>
     <div class="modal-body">
-        <form role="form" name="form_personaltoken" novalidate class="form-horizontal">
+        <form role="form" name="form_apikey" novalidate class="form-horizontal">
             <div class="form-group" ng-show="$scope.flag"><label class="col-sm-3 control-label">{{'GATEWAY.TOKEN' | translate}}</label>
                 <div class="col-sm-7">
-                    <input ng-model="personalToken.token" type="text" name="personaltokentoken" class="form-control" disabled required>
+                    <input ng-model="apiKey.token" type="text" name="apikeytoken" class="form-control" disabled required>
                     <div class="m-t-xs"
-                        ng-show="form_personaltoken.personaltokentoken.$dirty">
+                        ng-show="form_apikey.apikeytoken.$dirty">
                         <small class="text-danger"
-                            ng-show="form_personaltoken.personaltokentoken.$error.required">{{'GATEWAY.TOKEN' | translate}}</small>
+                            ng-show="form_apikey.apikeytoken.$error.required">{{'GATEWAY.TOKEN' | translate}}</small>
                     </div>
+                </div>
+            </div>
+
+            <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.NAME' | translate}}</label>
+                <div class="col-sm-7">
+                    <input ng-model="apiKey.name" type="text" name="apikeyname" class="form-control" required>
                 </div>
             </div>
             
             <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.CREATED_TIME' | translate}}</label>
                 <div class="col-sm-7">
-                    <input date-range-picker class="form-control date-picker" disabled type="text" ng-model="personalToken.created_datetime_utc" options="dtOptions"
+                    <input date-range-picker class="form-control date-picker" disabled type="text" ng-model="apiKey.created_datetime_utc" options="dtOptions"
                         placeholder="{{'SETTING.SELECT_DATE' | translate}}" readonly="" />
                 </div>
             </div>
             
             <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.EXPIRES_TIME' | translate}}</label>
                 <div class="col-sm-7">
-                    <input date-range-picker class="form-control date-picker" type="text" ng-model="personalToken.expires_datetime_utc" options="dtOptions"
+                    <input date-range-picker class="form-control date-picker" type="text" ng-model="apiKey.expires_datetime_utc" options="dtOptions"
                         placeholder="{{'SETTING.SELECT_DATE' | translate}}" readonly="" />
                 </div>
             </div>

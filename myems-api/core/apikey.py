@@ -9,10 +9,10 @@ import simplejson as json
 import config
 from core.useractivity import user_logger, write_log, access_control
 
-class PersonalTokenCollection:
+class ApiKeyCollection:
     @staticmethod
     def __init__():
-        """Initializes PersonalTokenCollection"""
+        """Initializes ApiKeyCollection"""
         pass
 
     @staticmethod
@@ -24,9 +24,9 @@ class PersonalTokenCollection:
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
 
-        query = (" select id, token, created_datetime_utc, "
+        query = (" select id, name, token, created_datetime_utc, "
                  " expires_datetime_utc "
-                 " from tbl_personal_tokens ")
+                 " from tbl_api_keys ")
         cursor.execute(query)
         rows = cursor.fetchall()
         
@@ -36,12 +36,13 @@ class PersonalTokenCollection:
             if config.utc_offset[0] == '-':
                 timezone_offset = -timezone_offset
             for row in rows:
-                created_datetime_utc = row[2].replace(tzinfo=timezone.utc) + \
+                created_datetime_utc = row[3].replace(tzinfo=timezone.utc) + \
                                         timedelta(minutes=timezone_offset)
-                expires_datetime_utc = row[3].replace(tzinfo=timezone.utc) + \
+                expires_datetime_utc = row[4].replace(tzinfo=timezone.utc) + \
                                         timedelta(minutes=timezone_offset)
                 token_list.append({ "id": row[0],
-                                    "token": row[1],
+                                    "name": row[1],
+                                    "token": row[2],
                                     "created_datetime_utc": created_datetime_utc.strftime("%Y-%m-%d %H:%M:%S"),
                                     "expires_datetime_utc": expires_datetime_utc.strftime("%Y-%m-%d %H:%M:%S")})
 
@@ -59,6 +60,14 @@ class PersonalTokenCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
+
+        if 'name' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['name'], str) or \
+                len(str.strip(new_values['data']['name'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_API_KEY_NAME')
+        name = str.strip(new_values['data']['name'])
+
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
@@ -76,10 +85,20 @@ class PersonalTokenCollection:
         token = hashlib.sha512(os.urandom(16)).hexdigest()
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name FROM tbl_api_keys"
+                       " WHERE name = %s ", (name,))
+        rows = cursor.fetchall()
+
+        if rows is not None and len(rows) > 0:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                   description='API.API_KEY_NAME_IS_ALREADY_IN_USE')            
         
-        cursor.execute(" INSERT INTO tbl_personal_tokens "
-                       " (token, created_datetime_utc, expires_datetime_utc) "
-                       " VALUES(%s, %s, %s) ", (token, created_datetime_utc, expires_datetime_utc))
+        cursor.execute(" INSERT INTO tbl_api_keys "
+                       " (name, token, created_datetime_utc, expires_datetime_utc) "
+                       " VALUES(%s, %s, %s, %s) ", (name, token, created_datetime_utc, expires_datetime_utc))
         
         new_id = cursor.lastrowid
         cnx.commit()
@@ -87,13 +106,13 @@ class PersonalTokenCollection:
         cnx.close()
 
         resp.status = falcon.HTTP_201
-        resp.location = '/personaltokens/' + str(new_id)
+        resp.location = '/apikeys/' + str(new_id)
 
 
-class PersonalTokenItem:
+class ApiKeyItem:
     @staticmethod
     def __init__():
-        """Initializes PersonalTokenItem"""
+        """Initializes ApiKeyItem"""
         pass
 
     @staticmethod
@@ -104,13 +123,13 @@ class PersonalTokenItem:
     def on_get(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title="API.INVALID_PERSONAL_TOKEN_ID")
+                                   title="API.INVALID_API_KEY_ID")
         
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
 
-        query = (" SELECT id, token, created_datetime_utc, expires_datetime_utc "
-                 " FROM tbl_personal_tokens "
+        query = (" SELECT id, name, token, created_datetime_utc, expires_datetime_utc "
+                 " FROM tbl_api_keys "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
@@ -119,17 +138,18 @@ class PersonalTokenItem:
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.PERSONAL_TOKEN_NOT_FOUND')
+                                   description='API.API_KEY_NOT_FOUND')
         else:
             timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
             if config.utc_offset[0] == '-':
                 timezone_offset = -timezone_offset
-            created_datetime_utc = row[2].replace(tzinfo=timezone.utc) + \
+            created_datetime_utc = row[3].replace(tzinfo=timezone.utc) + \
                                     timedelta(minutes=timezone_offset)
-            expires_datetime_utc = row[3].replace(tzinfo=timezone.utc) + \
+            expires_datetime_utc = row[4].replace(tzinfo=timezone.utc) + \
                                     timedelta(minutes=timezone_offset)
             meta_result = {"id": row[0],
-                           "token": row[1],
+                           "name": row[1],
+                           "token": row[2],
                            "created_datetime_utc": created_datetime_utc.strftime('%Y-%m-%dT%H:%M:%S'),
                            "expires_datetime_utc": expires_datetime_utc.strftime('%Y-%m-%dT%H:%M:%S')}
 
@@ -146,9 +166,16 @@ class PersonalTokenItem:
 
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title="API.INVALID_PERSONAL_TOKEN_ID")
+                                   title="API.INVALID_API_KEY_ID")
         
         new_values = json.loads(raw_json)
+
+        if 'name' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['name'], str) or \
+                len(str.strip(new_values['data']['name'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_API_KEY_NAME')
+        name = str.strip(new_values['data']['name'])        
 
         if 'created_datetime_utc' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['created_datetime_utc'], str) or \
@@ -175,7 +202,7 @@ class PersonalTokenItem:
             created_datetime_utc -= timedelta(minutes=timezone_offset)
         except ValueError:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                    description="API.INVALID_CREATED_DATETIME2")
+                                    description="API.INVALID_CREATED_DATETIME")
         
         try:
             expires_datetime_utc = datetime.strptime(expires_datetime_local,
@@ -190,18 +217,28 @@ class PersonalTokenItem:
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
 
+        cursor.execute(" SELECT name "
+                       " FROM tbl_api_keys "
+                       " WHERE name = %s ", (name,))
+        if cursor.fetchall() is not None and \
+            len(cursor.fetchall()) > 0:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.API_KEY_NAME_IS_ALREADY_IN_USE')
+
         cursor.execute(" SELECT token "
-                       " FROM tbl_personal_tokens "
+                       " FROM tbl_api_keys "
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.PERSONAL_TOKEN_NOT_FOUND')
+                                   description='API.API_KEY_NOT_FOUND')
 
-        cursor.execute(" UPDATE tbl_personal_tokens "
-                       " SET created_datetime_utc = %s, expires_datetime_utc = %s "
-                       " WHERE id = %s ", (created_datetime_utc, expires_datetime_utc, id_))
+        cursor.execute(" UPDATE tbl_api_keys "
+                       " SET name = %s, created_datetime_utc = %s, expires_datetime_utc = %s "
+                       " WHERE id = %s ", (name, created_datetime_utc, expires_datetime_utc, id_))
         cnx.commit()
         
         cursor.close()
@@ -213,21 +250,21 @@ class PersonalTokenItem:
     def on_delete(req, resp, id_):
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_PERSONAL_TOKEN_ID')
+                                   description='API.INVALID_API_KEY_ID')
 
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
 
         cursor.execute(" SELECT token "
-                       " FROM tbl_personal_tokens "
+                       " FROM tbl_api_keys "
                        " WHERE id = %s ", (id_,))
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.PERSONAL_TOKEN_NOT_FOUND')
+                                   description='API.API_KEY_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_personal_tokens WHERE id = %s ", (id_,))
+        cursor.execute(" DELETE FROM tbl_api_keys WHERE id = %s ", (id_,))
         cnx.commit()
 
         cursor.close()

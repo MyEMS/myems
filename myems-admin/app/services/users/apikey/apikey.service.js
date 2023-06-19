@@ -1,40 +1,40 @@
 'use strict';
-app.factory('PersonalTokenService', function($http) {
+app.factory('ApiKeyService', function($http) {
     return {
-        getAllPersonalTokens:function(callback){
-            $http.get(getAPI()+'personaltokens')
+        getAllApiKeys:function(callback){
+            $http.get(getAPI()+'apikeys')
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        addPersonalToken: function(personaltoken, headers, callback) {
-            $http.post(getAPI()+'personaltokens', {data:personaltoken}, {headers})
+        addApiKey: function(apikey, headers, callback) {
+            $http.post(getAPI()+'apikeys', {data:apikey}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        editPersonalToken: function(personaltoken, headers, callback) {
-            $http.put(getAPI()+'personaltokens/'+personaltoken.id, {data:personaltoken}, {headers})
+        editApiKey: function(apikey, headers, callback) {
+            $http.put(getAPI()+'apikeys/'+apikey.id, {data:apikey}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        deletePersonalToken: function(personaltoken, headers, callback) {
-            $http.delete(getAPI()+'personaltokens/'+personaltoken.id, {headers})
+        deleteApiKey: function(apikey, headers, callback) {
+            $http.delete(getAPI()+'apikeys/'+apikey.id, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        getPersonalToken: function(id, callback) {
-            $http.get(getAPI()+'personaltokens/'+id)
+        getApiKey: function(id, callback) {
+            $http.get(getAPI()+'apikeys/'+id)
             .then(function (response) {
                 callback(response);
             }, function (response) {

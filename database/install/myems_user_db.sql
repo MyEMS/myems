@@ -143,14 +143,15 @@ CREATE TABLE IF NOT EXISTS `myems_user_db`.`tbl_notifications` (
 CREATE INDEX `tbl_notifications_index_1` ON  `myems_user_db`.`tbl_notifications`  (`user_id`, `created_datetime_utc`, `status`);
 
 -- ----------------------------
--- Table structure for `myems_user_db`.tbl_personal_tokens
+-- Table structure for `myems_user_db`.tbl_api_keys
 -- ----------------------------
-DROP TABLE IF EXISTS `myems_user_db`.`tbl_personal_tokens`;
+DROP TABLE IF EXISTS `myems_user_db`.`tbl_api_keys`;
 
-CREATE TABLE IF NOT EXISTS `myems_user_db`.`tbl_personal_tokens`  (
+CREATE TABLE IF NOT EXISTS `myems_user_db`.`tbl_api_keys`  (
   `id` int NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(128) NOT NULL,
   `token` VARCHAR(255) NOT NULL,
   `created_datetime_utc` DATETIME NOT NULL,
   `expires_datetime_utc` DATETIME NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_personal_tokens_index_1` ON `myems_user_db`.`tbl_personal_tokens` (`created_datetime_utc`);
+CREATE INDEX `tbl_api_keys_index_1` ON `myems_user_db`.`tbl_api_keys` (`created_datetime_utc`, `name`);
