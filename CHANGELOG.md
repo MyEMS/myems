@@ -15,6 +15,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added microgrid windturbine to system database
 - added microgrid windturbine actions to myems-api and myems-admin
 - added get all associated objects of microgrid to myems-api
+- added new access_control procedure to mymes-api
+- added access_contorl to shopfloor GET actions in myems-api and myems-admin
+- 
 ### Changed
 - renamed access_control to admin_control in myems-api
 - 

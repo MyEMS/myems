@@ -20,7 +20,8 @@ app.controller('ShopfloorWorkingCalendarController', function(
     };
 
   $scope.getAllShopfloors = function(id) {
-		ShopfloorService.getAllShopfloors(function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		ShopfloorService.getAllShopfloors(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.shopfloors = response.data;
 				} else {
@@ -30,8 +31,9 @@ app.controller('ShopfloorWorkingCalendarController', function(
 	};
 
 	$scope.getWorkingCalendarsByShopfloorID = function(id) {
-		$scope.shopfloorworkingcalendars=[];
-      ShopfloorWorkingCalendarService.getWorkingCalendarsByShopfloorID(id, function (response) {
+      $scope.shopfloorworkingcalendars=[];
+      let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+      ShopfloorWorkingCalendarService.getWorkingCalendarsByShopfloorID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
               $scope.shopfloorworkingcalendars = response.data;
             }
