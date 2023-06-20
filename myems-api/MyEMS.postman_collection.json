@@ -17655,7 +17655,18 @@
 					"name": "GET Shopfloor Batch Analysis Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/shopfloorbatch?spaceid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00",
 							"host": [
@@ -17687,7 +17698,18 @@
 					"name": "GET Shopfloor Batch Analysis Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/shopfloorbatch?spaceid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00&quickmode=true",
 							"host": [
@@ -17723,7 +17745,18 @@
 					"name": "GET Shopfloor Cost Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/shopfloorcost?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -17774,7 +17807,18 @@
 					"name": "GET Shopfloor Cost Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/shopfloorcost?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -17829,7 +17873,18 @@
 					"name": "GET Shopfloor Energy Category Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/shopfloorenergycategory?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -17880,7 +17935,18 @@
 					"name": "GET Shopfloor Energy Category Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/shopfloorenergycategory?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -17935,7 +18001,18 @@
 					"name": "GET Shopfloor Energy Item Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+								"type": "text"
+							},
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/shopfloorenergyitem?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -17986,7 +18063,18 @@
 					"name": "GET Shopfloor Energy Item Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/shopfloorenergyitem?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -18041,7 +18129,18 @@
 					"name": "GET Shopfloor Load Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/shopfloorload?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -18092,7 +18191,18 @@
 					"name": "GET Shopfloor Load Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/shopfloorload?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -18147,7 +18257,18 @@
 					"name": "GET Shopfloor Saving Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/shopfloorsaving?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -18198,7 +18319,18 @@
 					"name": "GET Shopfloor Saving Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/shopfloorsaving?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -18253,7 +18385,18 @@
 					"name": "GET Shopfloor tatistics Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/shopfloorstatistics?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -18304,7 +18447,18 @@
 					"name": "GET Shopfloor tatistics Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/shopfloorstatistics?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
