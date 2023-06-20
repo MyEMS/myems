@@ -197,14 +197,14 @@ const SentForgotPasswordEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLa
             <Button color="primary"
             onClick={handleCodeSubmit}  
             disabled={isdisabled}>
-              {isdisabled ? t('Please wait for NUMBER seconds', {'NUMBER': number}) : t('Sent new code')} 
+              {isdisabled ? t('Please wait for NUMBER seconds', {'NUMBER': number}) : t('Send verification code')} 
             </Button>
           </Col>
         </Row>
       </FormGroup>
       <FormGroup>
         <Button color="primary" block disabled={isSubmitDisabled}>
-          {t('Send reset link')}
+          {t('Reset Password')}
         </Button>
       </FormGroup>
       {/* <Link className="fs--1 text-600" to="#!">

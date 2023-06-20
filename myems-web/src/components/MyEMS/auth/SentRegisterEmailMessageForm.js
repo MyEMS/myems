@@ -225,7 +225,7 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
             <Button color="primary"
             onClick={handleCodeSubmit}  
             disabled={isdisabled}>
-              {isdisabled ? t('Please wait for NUMBER seconds', {'NUMBER': number}) : t('Sent new code')} 
+              {isdisabled ? t('Please wait for NUMBER seconds', {'NUMBER': number}) : t('Send verification code')} 
             </Button>
           </Col>
         </Row>

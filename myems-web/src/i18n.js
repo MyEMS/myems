@@ -324,7 +324,7 @@ const resources = {
       'Forgot your password?': 'Forgot your password?',
       "Enter your email and we'll send you a reset link": "Enter your email and we'll send you a reset link",
       "Enter your email and we'll send you a registration link": "Enter your email and we'll send you a registration link",
-      'Send reset link': 'Send reset link',
+      'Reset Password': 'Reset Password',
       'Thanks for using MyEMS!': 'Thanks for using MyEMS!',
       'You are now successfully signed out': 'You are now successfully signed out',
       'Return to Login': 'Return to Login',
@@ -349,7 +349,7 @@ const resources = {
       'EMAIL Account registration successful': '{{EMAIL}} Account registration successful',
       'Thanks for verifying your account!': 'Thanks for verifying your account!',
       'Your code is': 'Your code is',
-      'Sent new code': 'Sent new code',
+      'Send verification code': 'Send verification code',
       'Please wait for NUMBER seconds': 'Please wait for {{NUMBER}} seconds',
       'Password reset': 'Password reset',
       //notification
@@ -1203,7 +1203,7 @@ const resources = {
         'Geben Sie Ihre E-Mail-Adresse ein und wir senden Ihnen einen Link zum Zurücksetzen',
       "Enter your email and we'll send you a registration link":
         "Geben Sie Ihre E-Mail-Adresse ein und wir senden Ihnen den Registrierungslink zu",
-      'Send reset link': 'Reset-Link senden',
+      'Reset Password': 'Passwort zurücksetzen',
       'Thanks for using MyEMS!': 'Vielen Dank, dass Sie MyEMS verwenden!',
       'You are now successfully signed out': 'Sie sind jetzt erfolgreich abgemeldet',
       'Return to Login': 'Zurück zum Login',
@@ -1231,7 +1231,7 @@ const resources = {
       'EMAIL Account registration successful': '{{EMAIL}} Konto erfolgreich registriert',
       'Thanks for verifying your account!': 'Vielen Dank, dass Sie Ihr Konto verifiziert haben!',
       'Your code is': 'Ihr Code lautet',
-      'Sent new code': 'Neuer Code gesendet',
+      'Send verification code': 'Verifizierungscode gesendet',
       'Please wait for NUMBER seconds': 'Bitte warten Sie {{NUMBER}} Sekunden',
       'Password reset': 'Passwort zurücksetzen',
       //notification
@@ -2065,7 +2065,7 @@ const resources = {
       'Forgot your password?': '忘记你的密码?',
       "Enter your email and we'll send you a reset link": '输入电子邮件地址，我们会把重置链接发送给您',
       "Enter your email and we'll send you a registration link": '输入电子邮件地址，我们会把注册链接发送给您',
-      'Send reset link': '发送重置连接',
+      'Reset Password': '重置密码',
       'Thanks for using MyEMS!': '感谢您使用MyEMS!',
       'You are now successfully signed out': '您已成功退出',
       'Return to Login': '返回登录',
@@ -2087,7 +2087,7 @@ const resources = {
       'EMAIL Account registration successful': '{{EMAIL}}账号注册成功',
       'Thanks for verifying your account!': '感谢您验证您的账户！',
       'Your code is': '您的代码是',
-      'Sent new code': '发送新的验证码',
+      'Send verification code': '发送验证码',
       'Please wait for NUMBER seconds': '请等待{{NUMBER}}秒',
       'Password reset': '密码重置',
       //notification
