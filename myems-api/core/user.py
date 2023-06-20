@@ -1330,11 +1330,22 @@ class EmailMessageCollection:
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
 
-        cursor.execute(" SELECT display_name "
-                       " FROM tbl_users "
-                       " WHERE email = %s",
+        cursor.execute(" DELETE FROM tbl_verification_codes "
+                       " WHERE recipient_email = %s ",
                        (recipient_email,))
+        cnx.commit()
+
+        cursor.execute(" select created_datetime_utc from "
+                       " tbl_verification_codes where recipient_email = %s "
+                       " order by created_datetime_utc desc limit 1", (recipient_email,))
         row = cursor.fetchone()
+        if row is not None:
+            created_datetime_utc = row[0] + timedelta(seconds=59 * 1 * 1)
+            if datetime.utcnow() < created_datetime_utc :
+                cursor.close()
+                cnx.close()
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                        description='API.BAD_REQUEST')
 
         if row is not None:
             recipient_name = row[0]
@@ -1685,6 +1696,8 @@ class NewUserCollection:
         row = cursor.fetchone()
         if row is not None:
             expires_datetime_utc = row[0]
+            print(expires_datetime_utc)
+            print(datetime.utcnow())
             if datetime.utcnow() > expires_datetime_utc:
                 cursor.close()
                 cnx.close()
@@ -1751,9 +1764,9 @@ class NewUserCollection:
         new_id = cursor.lastrowid
         cnx.commit()
 
-        cursor.execute(" DELETE FROM tbl_email_message_sessions "
-                       " WHERE recipient_email = %s and token = %s",
-                       (email, token))
+        cursor.execute(" DELETE FROM tbl_verification_codes "
+                       " WHERE recipient_email = %s",
+                       (email,))
         cnx.commit()
 
         cursor.close()
@@ -2071,3 +2084,4 @@ class NewUserApprove:
 
         resp.status = falcon.HTTP_201
         resp.location = '/users/' + str(new_id)
+

@@ -137,23 +137,19 @@ const SentForgotPasswordEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLa
               type="text"
             />
           </Col>
-          <Col xs="6" className='d-flex pr-0 pl-0'>
-            <Captcha
-              codeType={2}
-              charNum={5}
-              width={100}
-              height={36}
-              bgColor={!isDark ? themeColors.light : themeColors.dark}
-              onChange={(value) => setCaptchaCode(value)}
-              ref={captchaRef}
-            />
+          <Col xs="6" className='align-items-center d-flex'>
+            <Button color="primary"
+            onClick={handleCodeSubmit}  
+            disabled={isdisabled}>
+              {isdisabled ? t('Please wait for NUMBER seconds', {'NUMBER': number}) : t('Send verification code')} 
+            </Button>
           </Col>
         
         </Row>
       </FormGroup>
       <FormGroup>
-        <Button color="primary" block disabled={!email}>
-          {t('Send reset link')}
+        <Button color="primary" block disabled={isSubmitDisabled}>
+          {t('Reset Password')}
         </Button>
       </FormGroup>
       {/* <Link className="fs--1 text-600" to="#!">

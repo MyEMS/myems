@@ -14,21 +14,67 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
   // State
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
-  const [captchaCode, setCaptchaCode] = useState('');
-  const captchaRef = useRef(null);
-
-  const { isDark } = useContext(AppContext);
+  const [isdisabled, setIsDisabled] = useState(false);
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [displayName, setDisplayName] = useState('');
+  const [inputType, setInputType] = useState('password');
+  const [number, setNumber] = useState(60);
 
   // Handler
   const handleSubmit = e => {
     e.preventDefault();
     let isResponseOK = false;
-    if (captchaCode.toLowerCase() !== code.toLowerCase()) {
-      toast.error(t('Captcha Error'));
-      handleRefreshCaptcha();
-      return false;
-    }
-    let subject = t("Create an account");
+    fetch(APIBaseURL + '/users/newusers', {
+      method: 'POST',
+      body: JSON.stringify({ "data":
+        { "name": name,
+          "display_name": displayName,
+          "email": email,
+          "password": password,
+          "verification_code": code
+        }
+      }),
+      headers: { "Content-Type": "application/json" }
+    }).then(response => {
+      const interval = setInterval(() => {
+        setNumber((prevNumber) => prevNumber - 1)
+      }, 1000);
+      const timerId = setTimeout(() => {
+        setIsDisabled(false);
+        setNumber(60);
+        clearTimeout(timerId);
+        clearInterval(interval);
+      }, 1000 * 60);
+      if (response.ok) {
+        isResponseOK = true;
+        return null
+      } else {
+        return response.json();
+      }
+    }).then(json => {
+      if (isResponseOK) {
+        toast.success(t('EMAIL Account registration successful', {'EMAIL': email}));
+        setRedirect(true);
+      } else {
+        toast.error(t(json.description));
+      }
+    }).catch(err => {
+      console.log(err);
+    });
+  };
+
+  // Handler
+  const handleCodeSubmit = e => {
+    setIsDisabled(true);
+    const timeId = setTimeout(() => {
+      setIsDisabled(false);
+      clearTimeout(timeId);
+    }, 1000 * 60);
+    e.preventDefault();
+    let isResponseOK = false;
+    let subject = "Create an account";
     let created_datetime = moment().clone().format('YYYY-MM-DDTHH:mm:ss');
     let scheduled_datetime = moment().clone().format('YYYY-MM-DDTHH:mm:ss');
     let message = 
@@ -137,16 +183,12 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
               type="text"
             />
           </Col>
-          <Col xs="6" className='d-flex pr-0 pl-0'>
-            <Captcha
-              codeType={2}
-              charNum={5}
-              width={100}
-              height={36}
-              bgColor={!isDark ? themeColors.light : themeColors.dark}
-              onChange={(value) => setCaptchaCode(value)}
-              ref={captchaRef}
-            />
+          <Col xs="6" className='align-items-center d-flex'>
+            <Button color="primary"
+            onClick={handleCodeSubmit}  
+            disabled={isdisabled}>
+              {isdisabled ? t('Please wait for NUMBER seconds', {'NUMBER': number}) : t('Send verification code')} 
+            </Button>
           </Col>
         
         </Row>
