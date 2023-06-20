@@ -22,6 +22,7 @@
 										<th class="text-center">{{'SETTING.IS_INPUT_COUNTED' | translate}}</th>
 										<th class="text-center">{{'SETTING.IS_OUTPUT_COUNTED' | translate}}</th>
 										<th class="text-center">{{'SETTING.COSTCENTER' | translate}}</th>
+										<th class="text-center">{{'MICROGRID.SVG' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
 										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 									</tr>
@@ -41,6 +42,7 @@
 										<td class="text-center">{{ microgrid.is_input_counted==false?'SETTING.NO':'SETTING.YES' | translate }}</td>
 										<td class="text-center">{{ microgrid.is_output_counted==false?'SETTING.NO':'SETTING.YES' | translate }}</td>
 										<td class="text-center">{{ microgrid.cost_center.name }}</td>
+										<td class="text-center">{{(microgrid.svg).substring(0, 128) + '...' }}</td>
 										<td class="text-center">{{ microgrid.description }}</td>
 										<td class="text-center">
 											<a ng-click="editMicrogrid(microgrid)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
