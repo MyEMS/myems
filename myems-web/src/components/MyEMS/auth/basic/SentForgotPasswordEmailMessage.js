@@ -20,8 +20,7 @@ const SentForgotPasswordEmailMessage = ({ t }) => {
       ) : (
         <></>
       )}
-      <h5 className="mb-0"> {t('Forgot your password?')}</h5>
-      <small>{t("Enter your email and we'll send you a reset link.")}</small>
+      <h5 className="mb-0"> {t('Password reset')}</h5>
       <SentForgotPasswordEmailMessageForm />
     </div>
   );
