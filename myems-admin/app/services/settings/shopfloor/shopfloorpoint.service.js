@@ -18,7 +18,7 @@ app.factory('ShopfloorPointService', function($http) {
                 callback(response);
             });
         },
-        getPointsByShopfloorID: function(id, callback) {
+        getPointsByShopfloorID: function(id, headers, callback) {
             $http.get(getAPI()+'shopfloors/'+id+'/points')
             .then(function (response) {
                 callback(response);

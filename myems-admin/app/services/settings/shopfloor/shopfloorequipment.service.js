@@ -18,8 +18,8 @@ app.factory('ShopfloorEquipmentService', function($http) {
                 callback(response);
             });
         },
-        getEquipmentsByShopfloorID: function(id, callback) {
-            $http.get(getAPI()+'shopfloors/'+id+'/equipments')
+        getEquipmentsByShopfloorID: function(id, headers, callback) {
+            $http.get(getAPI()+'shopfloors/'+id+'/equipments', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
