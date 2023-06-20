@@ -19,6 +19,7 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
   const [name, setName] = useState('');
   const [displayName, setDisplayName] = useState('');
   const [inputType, setInputType] = useState('password');
+  const [number, setNumber] = useState(60);
 
    // Handler
    const handleSubmit = e => {
@@ -36,6 +37,15 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
       }),
       headers: { "Content-Type": "application/json" }
     }).then(response => {
+      const interval = setInterval(() => {
+        setNumber((prevNumber) => prevNumber - 1)
+      }, 1000);
+      const timerId = setTimeout(() => {
+        setIsDisabled(false);
+        setNumber(60);
+        clearTimeout(timerId);
+        clearInterval(interval);
+      }, 1000 * 60);
       if (response.ok) {
         isResponseOK = true;
         return null
@@ -215,7 +225,7 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
             <Button color="primary"
             onClick={handleCodeSubmit}  
             disabled={isdisabled}>
-              {isdisabled ? t('Please wait for NUMBER seconds', {'NUMBER': '60'}) : t('Sent new code')} 
+              {isdisabled ? t('Please wait for NUMBER seconds', {'NUMBER': number}) : t('Sent new code')} 
             </Button>
           </Col>
         </Row>
