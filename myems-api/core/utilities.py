@@ -2,8 +2,7 @@ import collections
 import statistics
 from datetime import datetime, timedelta
 from decimal import Decimal
-import os
-import importlib.util
+
 import mysql.connector
 
 import config
@@ -1010,26 +1009,3 @@ def statistics_hourly_data_by_period(rows_hourly, start_datetime_utc, end_dateti
 
     else:
         return list(), None, None, None, None, None, None
-
-########################################################################################################################
-# get all class names in the parent directory
-#   file_path: file path of the calling method
-# Returns: All class names in the directory where the calling method file is located
-########################################################################################################################
-def get_class_names_in_the_parent_directory(file_path):
-        class_names = []
-        current_file_path = os.path.abspath(file_path)
-        parent_folder = os.path.dirname(current_file_path)
-        for foldername, subfolders, filenames in os.walk(parent_folder):
-            for filename in filenames:
-                if filename.endswith('.py'):
-                    file_path = os.path.join(foldername, filename)
-                    spec = importlib.util.spec_from_file_location(filename, file_path)
-                    module = importlib.util.module_from_spec(spec)
-                    spec.loader.exec_module(module)
-                    for name in dir(module):
-                        obj = getattr(module, name)
-                        if hasattr(obj, '__bases__') and object in obj.__bases__:
-                            class_names.append(name)
-        
-        return class_names
