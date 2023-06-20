@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "816153e5-a3a6-494b-a5c0-394a899e778d",
+		"_postman_id": "e71ec1b6-5177-4d36-b962-c7726840ed5a",
 		"name": "MyEMS",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9597038"
 	},
 	"item": [
 		{
@@ -10167,7 +10168,18 @@
 							"name": "GET All Sotres",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/stores",
 									"host": [
@@ -10184,7 +10196,18 @@
 							"name": "GET a Store by ID",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/stores/1",
 									"host": [
@@ -10296,7 +10319,18 @@
 							"name": "GET All Meters of Store by ID",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/stores/1/meters",
 									"host": [
@@ -10380,7 +10414,18 @@
 							"name": "GET All OfflineMeters of Store",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/stores/1/offlinemeters",
 									"host": [
@@ -10464,7 +10509,18 @@
 							"name": "GET All Points of Store by ID",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/stores/1/points",
 									"host": [
@@ -10548,7 +10604,18 @@
 							"name": "GET All Sensors of Store by ID",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/stores/1/sensors",
 									"host": [
@@ -10632,7 +10699,18 @@
 							"name": "GET All Virtual Meters of Store by ID",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/stores/1/virtualmeters",
 									"host": [
@@ -10716,7 +10794,18 @@
 							"name": "GET All Working Calendars of Store by ID",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/stores/1/workingcalendars",
 									"host": [
@@ -10800,7 +10889,18 @@
 							"name": "GET All Commands of a Store",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/stores/1/commands",
 									"host": [
@@ -10891,7 +10991,18 @@
 							"name": "GET All Store Types",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/storetypes",
 									"host": [
@@ -10908,7 +11019,18 @@
 							"name": "GET a Store Type by ID",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/storetypes/1",
 									"host": [
@@ -19467,7 +19589,18 @@
 					"name": "GET Store Batch Analysis Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/storebatch?spaceid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00",
 							"host": [
@@ -19499,7 +19632,18 @@
 					"name": "GET Store Batch Analysis Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/storebatch?spaceid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00&quickmode=true",
 							"host": [
@@ -19535,7 +19679,18 @@
 					"name": "GET Store Cost Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/storecost?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -19586,7 +19741,18 @@
 					"name": "GET Store Cost Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/storecost?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -19641,7 +19807,18 @@
 					"name": "GET Store Energy Category Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/storeenergycategory?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -19692,7 +19869,18 @@
 					"name": "GET Store Energy Category Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/storeenergycategory?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -19747,7 +19935,18 @@
 					"name": "GET Store Energy Item Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/storeenergyitem?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -19798,7 +19997,18 @@
 					"name": "GET Store Energy Item Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/storeenergyitem?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -19853,7 +20063,18 @@
 					"name": "GET Store Load Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/storeload?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -19904,7 +20125,18 @@
 					"name": "GET Store Load Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/storeload?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -19959,7 +20191,18 @@
 					"name": "GET Store Saving Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/storesaving?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -20010,7 +20253,18 @@
 					"name": "GET Store Saving Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/storesaving?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -20065,7 +20319,18 @@
 					"name": "GET Store Statistics Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/storestatistics?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -20116,7 +20381,18 @@
 					"name": "GET Store Statistics Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/storestatistics?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [

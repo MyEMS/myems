@@ -14,7 +14,8 @@ app.controller('StoreMeterController', function(
     $scope.currentStore = {selected:undefined};
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	  $scope.getAllStores = function(id) {
-		StoreService.getAllStores(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		StoreService.getAllStores(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.stores = response.data;
 			} else {
@@ -32,8 +33,9 @@ app.controller('StoreMeterController', function(
 	$scope.getMetersByStoreID = function(id) {
 		var metertypes=['meters','virtualmeters','offlinemeters'];
 		$scope.storemeters=[];
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		angular.forEach(metertypes,function(value,index){
-			StoreMeterService.getMetersByStoreID(id, value, function (response) {
+			StoreMeterService.getMetersByStoreID(id, value, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					angular.forEach(response.data,function(item,indx){
 						response.data[indx].metertype = value;

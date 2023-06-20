@@ -39,7 +39,8 @@ app.controller('StorePointController', function (
     };
 
     $scope.getPointsByStoreID = function (id) {
-        StorePointService.getPointsByStoreID(id, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        StorePointService.getPointsByStoreID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.storepoints = response.data;
             } else {
@@ -61,7 +62,8 @@ app.controller('StorePointController', function (
     };
 
     $scope.getAllStores = function () {
-        StoreService.getAllStores(function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        StoreService.getAllStores(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.stores = response.data;
             } else {

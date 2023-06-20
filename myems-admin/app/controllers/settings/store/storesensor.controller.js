@@ -22,7 +22,8 @@ app.controller('StoreSensorController', function (
     };
 
     $scope.getSensorsByStoreID = function (id) {
-        StoreSensorService.getSensorsByStoreID(id, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        StoreSensorService.getSensorsByStoreID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.storesensors = response.data;
             } else {
@@ -38,7 +39,8 @@ app.controller('StoreSensorController', function (
     };
 
     $scope.getAllStores = function () {
-        StoreService.getAllStores(function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        StoreService.getAllStores(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.stores = response.data;
             } else {
