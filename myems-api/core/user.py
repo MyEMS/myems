@@ -1008,7 +1008,7 @@ class ForgotPassword:
 
     @staticmethod
     def on_options(req, resp):
-        resp.status = falcon.HTTP_200   
+        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_put(req, resp):
@@ -1109,6 +1109,7 @@ class ForgotPassword:
         resp.status = falcon.HTTP_200
         write_log(user_uuid=result['uuid'], request_method='PUT', resource_type='ForgotPassword',
                   resource_id=result['id'], request_body=None)
+
 
 class EmailMessageCollection:
     @staticmethod
