@@ -118,6 +118,7 @@ function config($translateProvider) {
                     PRODUCT: 'Products',
                     SVG_SYSTEM: 'SCADA Visualization Systems',
                     WORKING_CALENDAR: 'Working Calendar',
+                    API_KEY: 'API Key',
                 },
                 FDD: {
                     FDD: 'FDD',
@@ -130,7 +131,8 @@ function config($translateProvider) {
                 USERSETTING: {
                     USERSETTING: 'Users & Privileges',
                     USER: 'Users',
-                    PRIVILEGE: 'Privileges'
+                    PRIVILEGE: 'Privileges',
+                    API_KEY: 'API Key',
                 }
             },
             LOGIN: {
@@ -315,6 +317,9 @@ function config($translateProvider) {
                 NON_WORKING_DAY: 'Non Working Day',
 
                 COMMAND: 'Command',
+
+                CREATED_TIME: 'Created Time',
+                EXPIRES_TIME: 'Expires Time',
             },
             CONTACT: {
                 EMAIL: 'Email',
@@ -693,6 +698,10 @@ function config($translateProvider) {
                 INVALID_EMAIL: 'Invalid Email Format(xxx@xxx.xx)',
                 ACCOUNT_EXPIRATION_DATETIME: 'Account Expiration Datetime',
                 PASSWORD_EXPIRATION_DATETIME: 'Password Expiration Datetime',
+                API_KEY: 'API Key',
+                API_KEY_LIST: 'API Key List',
+                ADD_API_KEY: 'Add API Key',
+                EDIT_API_KEY: 'Edit API Key',
             },
             KNOWLEDGEFILE: {
                 KNOWLEDGE_FILE_LIST: 'Knowledge File List',
@@ -774,6 +783,8 @@ function config($translateProvider) {
                 ADMINISTRATOR_SESSION_NOT_FOUND: 'Administrator Session Not Found',
                 ADMINISTRATOR_SESSION_TIMEOUT: 'Administrator Session Timeout',
                 ADVANCED_REPORT_NOT_FOUND: 'Advanced Report Not Found',
+                API_KEY_NAME_IS_ALREADY_IN_USE: 'API Key name is already in use',
+                API_KEY_NOT_FOUND: 'API Key Not Found',
                 BAD_REQUEST: 'Bad Request',
                 CANNOT_SET_EXISTING_SUBMETER_AS_MASTER_METER: 'Cannot Set Existing Submeter As Master Meter',
                 COMBINED_EQUIPMENT_EQUIPMENT_RELATION_EXISTS: 'Combined Equipment Equipment Relation Exists',
@@ -874,6 +885,8 @@ function config($translateProvider) {
                 INVALID_ADVANCED_REPORT_ID: 'Invalid Advanced Report ID',
                 INVALID_ARCHITECTURE_TYPE_ID: 'Invalid Architecture Type ID',
                 INVALID_AREA_VALUE: 'Invalid Area Value',
+                INVALID_API_KEY_ID: 'Invalid API Key ID',
+                INVALID_API_KEY_NAME: 'Invalid API Key Name',
                 INVALID_BASE_PERIOD_END_DATETIME: 'Invalid Base Period End Datetime',
                 INVALID_BASE_PERIOD_START_DATETIME: 'Invalid Base Period Start Datetime',
                 INVALID_BAUD_RATE: 'Invalid Baud Rate',
@@ -922,6 +935,7 @@ function config($translateProvider) {
                 INVALID_ENERGY_FLOW_DIAGRAM_NODE_NAME: 'Invalid Energy Flow Diagram Node Name',
                 INVALID_ENERGY_ITEM_ID: 'Invalid Energy Item ID',
                 INVALID_ENERGY_ITEM_NAME: 'Invalid Energy Item Name',
+                INVALID_EXPIRES_DATETIME: 'Invalid Expires Datetime',
                 INVALID_EQUATION_IN_EXPRESSION: 'Invalid Equation In Expression',
                 INVALID_EQUIPMENT_ID: 'Invalid Equipment ID',
                 INVALID_EQUIPMENT_NAME: 'Invalid Equipment Name',
@@ -1382,6 +1396,7 @@ function config($translateProvider) {
                     PRODUCT: '产品',
                     SVG_SYSTEM: '组态可视化系统',
                     WORKING_CALENDAR: '工作日历',
+                    API_KEY: 'API密钥',
                 },
                 FDD: {
                     FDD: '故障检测与诊断',
@@ -1394,7 +1409,8 @@ function config($translateProvider) {
                 USERSETTING: {
                     USERSETTING: '用户与权限',
                     USER: '用户设置',
-                    PRIVILEGE: '权限设置'
+                    PRIVILEGE: '权限设置',
+                    API_KEY: 'API密钥',
                 }
             },
             LOGIN: {
@@ -1583,6 +1599,9 @@ function config($translateProvider) {
                 NON_WORKING_DAY: '非工作日',
 
                 COMMAND: '命令',
+
+                CREATED_TIME: '创建时间',
+                EXPIRES_TIME: '失效时间',
             },
             CONTACT: {
                 EMAIL: '邮箱',
@@ -1962,6 +1981,10 @@ function config($translateProvider) {
                 INVALID_EMAIL: '邮箱格式不正确(xxx@xxx.xx)',
                 ACCOUNT_EXPIRATION_DATETIME: '账户失效时间',
                 PASSWORD_EXPIRATION_DATETIME: '密码失效时间',
+                API_KEY: 'API密钥',
+                API_KEY_LIST: 'API密钥列表',
+                ADD_API_KEY: '添加API密钥',
+                EDIT_API_KEY: '编辑API密钥',
             },
             KNOWLEDGEFILE: {
                 KNOWLEDGE_FILE_LIST: '知识文件列表',
@@ -2045,6 +2068,8 @@ function config($translateProvider) {
                 ADMINISTRATOR_SESSION_NOT_FOUND: 'Administrator Session Not Found',
                 ADMINISTRATOR_SESSION_TIMEOUT: 'Administrator Session Timeout',
                 ADVANCED_REPORT_NOT_FOUND: 'Advanced Report Not Found',
+                API_KEY_NAME_IS_ALREADY_IN_USE: 'API密钥名称已使用',
+                API_KEY_NOT_FOUND: 'API密钥未找到',
                 BAD_REQUEST: 'Bad Request',
                 CANNOT_SET_EXISTING_SUBMETER_AS_MASTER_METER: 'Cannot Set Existing Submeter As Master Meter',
                 COMBINED_EQUIPMENT_EQUIPMENT_RELATION_EXISTS: 'Combined Equipment Equipment Relation Exists',
@@ -2145,6 +2170,8 @@ function config($translateProvider) {
                 INVALID_ADVANCED_REPORT_ID: 'Invalid Advanced Report ID',
                 INVALID_ARCHITECTURE_TYPE_ID: 'Invalid Architecture Type ID',
                 INVALID_AREA_VALUE: 'Invalid Area Value',
+                INVALID_API_KEY_ID: '无效的API密钥ID',
+                INVALID_API_KEY_NAME: '无效的API密钥名称',
                 INVALID_BASE_PERIOD_END_DATETIME: 'Invalid Base Period End Datetime',
                 INVALID_BASE_PERIOD_START_DATETIME: 'Invalid Base Period Start Datetime',
                 INVALID_BAUD_RATE: 'Invalid Baud Rate',
@@ -2193,6 +2220,7 @@ function config($translateProvider) {
                 INVALID_ENERGY_FLOW_DIAGRAM_NODE_NAME: 'Invalid Energy Flow Diagram Node Name',
                 INVALID_ENERGY_ITEM_ID: 'Invalid Energy Item ID',
                 INVALID_ENERGY_ITEM_NAME: 'Invalid Energy Item Name',
+                INVALID_EXPIRES_DATETIME: '无效的失效时间',
                 INVALID_EQUATION_IN_EXPRESSION: 'Invalid Equation In Expression',
                 INVALID_EQUIPMENT_ID: 'Invalid Equipment ID',
                 INVALID_EQUIPMENT_NAME: 'Invalid Equipment Name',
@@ -2652,6 +2680,7 @@ function config($translateProvider) {
                     PRODUCT: 'Produkt',
                     SVG_SYSTEM: 'SCADA-Visualisierungssystem',
                     WORKING_CALENDAR: 'Arbeitskalender',
+                    API_KEY: 'API-Schlüssel'
                 },
                 FDD: {
                     FDD: 'Fehlererkennung und -diagnose',
@@ -2664,7 +2693,8 @@ function config($translateProvider) {
                 USERSETTING: {
                     USERSETTING: 'Benutzer und Berechtigungen',
                     USER: 'Benutzer',
-                    PRIVILEGE: 'Privilegien'
+                    PRIVILEGE: 'Privilegien',
+                    API_KEY: 'API-Schlüssel'
                 }
             },
             LOGIN: {
@@ -2852,6 +2882,9 @@ function config($translateProvider) {
                 NON_WORKING_DAY: 'Non Working Day',
 
                 COMMAND: 'Befehl',
+
+                CREATED_TIME: 'Erstellungszeit',
+                EXPIRES_TIME: 'Verfallszeit',
             },
             CONTACT: {
                 EMAIL: 'Briefkasten',
@@ -3230,6 +3263,10 @@ function config($translateProvider) {
                 INVALID_EMAIL: 'Falsches E-Mail-Format (xxx@xxx.xx)',
                 ACCOUNT_EXPIRATION_DATETIME: 'Ablaufdatum des Kontos',
                 PASSWORD_EXPIRATION_DATETIME: 'Ablaufdatum des Passworts',
+                API_KEY: 'API-Schlüssel',
+                API_KEY_LIST: 'Liste der API-Schlüssel',
+                ADD_API_KEY: 'API-Schlüssel hinzufügen',
+                EDIT_API_KEY: 'API-Schlüssel bearbeiten',
             },
             KNOWLEDGEFILE: {
                 KNOWLEDGE_FILE_LIST: 'Liste der Wissensdateien',
@@ -3311,6 +3348,8 @@ function config($translateProvider) {
                 ADMINISTRATOR_SESSION_NOT_FOUND: 'Administrator Session Not Found',
                 ADMINISTRATOR_SESSION_TIMEOUT: 'Administrator Session Timeout',
                 ADVANCED_REPORT_NOT_FOUND: 'Advanced Report Not Found',
+                API_KEY_NAME_IS_ALREADY_IN_USE: 'Der API-Schlüssel-Name wird bereits verwendet',
+                API_KEY_NOT_FOUND: 'API-Schlüssel nicht gefunden',
                 BAD_REQUEST: 'Bad Request',
                 CANNOT_SET_EXISTING_SUBMETER_AS_MASTER_METER: 'Cannot Set Existing Submeter As Master Meter',
                 COMBINED_EQUIPMENT_EQUIPMENT_RELATION_EXISTS: 'Combined Equipment Equipment Relation Exists',
@@ -3411,6 +3450,8 @@ function config($translateProvider) {
                 INVALID_ADVANCED_REPORT_ID: 'Invalid Advanced Report ID',
                 INVALID_ARCHITECTURE_TYPE_ID: 'Invalid Architecture Type ID',
                 INVALID_AREA_VALUE: 'Invalid Area Value',
+                INVALID_API_KEY_ID: 'Ungültige API-Schlüssel-ID',
+                INVALID_API_KEY_NAME: 'Ungültiger API-Schlüssel-Name',
                 INVALID_BASE_PERIOD_END_DATETIME: 'Invalid Base Period End Datetime',
                 INVALID_BASE_PERIOD_START_DATETIME: 'Invalid Base Period Start Datetime',
                 INVALID_BAUD_RATE: 'Invalid Baud Rate',
@@ -3459,6 +3500,7 @@ function config($translateProvider) {
                 INVALID_ENERGY_FLOW_DIAGRAM_NODE_NAME: 'Invalid Energy Flow Diagram Node Name',
                 INVALID_ENERGY_ITEM_ID: 'Invalid Energy Item ID',
                 INVALID_ENERGY_ITEM_NAME: 'Invalid Energy Item Name',
+                INVALID_EXPIRES_DATETIME: 'Ungültiges Verfallsdatum',
                 INVALID_EQUATION_IN_EXPRESSION: 'Invalid Equation In Expression',
                 INVALID_EQUIPMENT_ID: 'Invalid Equipment ID',
                 INVALID_EQUIPMENT_NAME: 'Invalid Equipment Name',

@@ -1359,6 +1359,44 @@ app
                             ]
                         }
                     })
+                    .state('users.apikey', {
+                        url: "/apikey",
+                        templateUrl: "views/users/apikey/apikey.html",
+                        data: {
+                            pageTitle: 'MENU.USERSETTING.API_KEY'
+                        },
+
+                        resolve: {
+                            deps: [
+                                '$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['ui.select', 'toaster', 'integralui']).then(
+                                        function () {
+                                            return $ocLazyLoad.load([{
+                                                files: [
+                                                    'js/plugins/sweetalert/sweetalert.min.js',
+                                                    'css/plugins/sweetalert/sweetalert.css',
+                                                    'js/daterangepicker/daterangepicker.min.js',
+                                                    'js/daterangepicker/daterangepicker.min.css']
+                                            }, {
+                                                name: 'oitozero.ngSweetAlert',
+                                                files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
+                                            }, {
+                                                name: 'daterangepicker',
+                                                files: ['js/daterangepicker/angular-daterangepicker.min.js']
+                                            }, {
+                                                serie: true,
+                                                files: [
+                                                    'app/services/users/apikey/apikey.service.js',
+                                                    'app/controllers/users/apikey/apikey.controller.js'
+                                                ]
+                                            }]);
+                                        }
+                                    );
+                                }
+                            ]
+                        }
+                    })
                     .state('login', {
                         abstract: true,
                         url: "/login",
