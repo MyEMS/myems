@@ -1,8 +1,8 @@
 'use strict';
 app.factory('StoreService', function($http) {
     return {
-        getAllStores:function(callback){
-            $http.get(getAPI()+'stores')
+        getAllStores:function(headers, callback){
+            $http.get(getAPI()+'stores', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

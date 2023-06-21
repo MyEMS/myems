@@ -18,8 +18,8 @@ app.factory('StoreCommandService', function($http) {
                 callback(response);
             });
         },
-        getCommandsByStoreID: function(id, callback) {
-            $http.get(getAPI()+'stores/'+id+'/commands')
+        getCommandsByStoreID: function(id, headers, callback) {
+            $http.get(getAPI()+'stores/'+id+'/commands', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
