@@ -63,6 +63,6 @@ CREATE TABLE IF NOT EXISTS `myems_user_db`.`tbl_api_keys`  (
 CREATE INDEX `tbl_api_keys_index_1` ON `myems_user_db`.`tbl_api_keys` (`created_datetime_utc`, `name`);
 
 -- UPDATE VERSION NUMBER
-UPDATE `myems_system_db`.`tbl_versions` SET version='3.6.0RC', release_date='2023-06-18' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='3.6.0', release_date='2023-06-22' WHERE id=1;
 
 COMMIT;
