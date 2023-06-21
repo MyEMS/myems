@@ -352,6 +352,7 @@ const resources = {
       'Send verification code': 'Send verification code',
       'Please wait for NUMBER seconds': 'Please wait for {{NUMBER}} seconds',
       'Password reset': 'Password reset',
+      'Please wait for approval': 'Please wait for approval',
       //notification
       'Notifications': 'Notifications',
       'Mark all as read': 'Mark all as read',
@@ -1234,6 +1235,7 @@ const resources = {
       'Send verification code': 'Verifizierungscode gesendet',
       'Please wait for NUMBER seconds': 'Bitte warten Sie {{NUMBER}} Sekunden',
       'Password reset': 'Passwort zurücksetzen',
+      'Please wait for approval': 'Bitte warten Sie auf Genehmigung',
       //notification
       'Notifications': 'Benachrichtigungen',
       'Mark all as read': 'Markiere alle als gelesen',
@@ -2090,6 +2092,7 @@ const resources = {
       'Send verification code': '发送验证码',
       'Please wait for NUMBER seconds': '请等待{{NUMBER}}秒',
       'Password reset': '密码重置',
+      'Please wait for approval': '请等待审核',
       //notification
       'Notifications': '通知',
       'Mark all as read': '全部设为已读',
