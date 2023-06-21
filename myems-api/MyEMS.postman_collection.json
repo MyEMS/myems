@@ -1,8 +1,8 @@
 {
 	"info": {
-		"_postman_id": "816153e5-a3a6-494b-a5c0-394a899e778d",
+		"_postman_id": "2bdffbc9-c719-4fb9-8d28-f6c2f5f818b3",
 		"name": "MyEMS",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 	},
 	"item": [
 		{
@@ -2640,6 +2640,12 @@
 										"value": "0f62b7a53f57c5ad3b8b6c40e816daebfa657ec73ba508e5fe2b9446a72db98a3efa1867ce81830b7e547cb0572007e1083612850151621040ab7ae2579b18c4",
 										"type": "text",
 										"description": "Login to get a valid token"
+									},
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -4820,6 +4826,12 @@
 										"value": "073b43c05dadd89b833c0595b81c49cb9c1a54ca52b024b301a001720e52c5bf3b95951d5c54766de1028d20301cbd2bb6ec3fb62f9e14d9658cbf3811fe6c93",
 										"type": "text",
 										"description": "Login to get a valid token"
+									},
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -8001,18 +8013,7 @@
 							"name": "GET All Shopfloors",
 							"request": {
 								"method": "GET",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
-									},
-									{
-										"key": "Token",
-										"value": "80caac0ed28e901b3bc35e37707d69c5df5410830373682451d2ab2862641cb6dbcec16bbde227437963a1191faa5dcaeecf839fc422566744eaf3c75e14f840",
-										"type": "text"
-									}
-								],
+								"header": [],
 								"url": {
 									"raw": "{{base_url}}/shopfloors",
 									"host": [
@@ -8029,18 +8030,7 @@
 							"name": "GET a Shopfloor by ID",
 							"request": {
 								"method": "GET",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "default"
-									},
-									{
-										"key": "Token",
-										"value": "80caac0ed28e901b3bc35e37707d69c5df5410830373682451d2ab2862641cb6dbcec16bbde227437963a1191faa5dcaeecf839fc422566744eaf3c75e14f840",
-										"type": "default"
-									}
-								],
+								"header": [],
 								"url": {
 									"raw": "{{base_url}}/shopfloors/1",
 									"host": [
@@ -8152,18 +8142,7 @@
 							"name": "GET All Equipments of a Shopfloor",
 							"request": {
 								"method": "GET",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "default"
-									},
-									{
-										"key": "Token",
-										"value": "80caac0ed28e901b3bc35e37707d69c5df5410830373682451d2ab2862641cb6dbcec16bbde227437963a1191faa5dcaeecf839fc422566744eaf3c75e14f840",
-										"type": "default"
-									}
-								],
+								"header": [],
 								"url": {
 									"raw": "{{base_url}}/shopfloors/1/equipments",
 									"host": [
@@ -8247,18 +8226,7 @@
 							"name": "GET All Meters of a Shopfloor",
 							"request": {
 								"method": "GET",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "default"
-									},
-									{
-										"key": "Token",
-										"value": "80caac0ed28e901b3bc35e37707d69c5df5410830373682451d2ab2862641cb6dbcec16bbde227437963a1191faa5dcaeecf839fc422566744eaf3c75e14f840",
-										"type": "default"
-									}
-								],
+								"header": [],
 								"url": {
 									"raw": "{{base_url}}/shopfloors/1/meters",
 									"host": [
@@ -8342,18 +8310,7 @@
 							"name": "GET All OfflineMeters of a Shopfloor",
 							"request": {
 								"method": "GET",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "default"
-									},
-									{
-										"key": "Token",
-										"value": "80caac0ed28e901b3bc35e37707d69c5df5410830373682451d2ab2862641cb6dbcec16bbde227437963a1191faa5dcaeecf839fc422566744eaf3c75e14f840",
-										"type": "default"
-									}
-								],
+								"header": [],
 								"url": {
 									"raw": "{{base_url}}/shopfloors/1/offlinemeters",
 									"host": [
@@ -8437,18 +8394,7 @@
 							"name": "GET All Points of a Shopfloor",
 							"request": {
 								"method": "GET",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "default"
-									},
-									{
-										"key": "Token",
-										"value": "80caac0ed28e901b3bc35e37707d69c5df5410830373682451d2ab2862641cb6dbcec16bbde227437963a1191faa5dcaeecf839fc422566744eaf3c75e14f840",
-										"type": "default"
-									}
-								],
+								"header": [],
 								"url": {
 									"raw": "{{base_url}}/shopfloors/1/points",
 									"host": [
@@ -8532,18 +8478,7 @@
 							"name": "GET All Sensors of a Shopfloor",
 							"request": {
 								"method": "GET",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "default"
-									},
-									{
-										"key": "Token",
-										"value": "80caac0ed28e901b3bc35e37707d69c5df5410830373682451d2ab2862641cb6dbcec16bbde227437963a1191faa5dcaeecf839fc422566744eaf3c75e14f840",
-										"type": "default"
-									}
-								],
+								"header": [],
 								"url": {
 									"raw": "{{base_url}}/shopfloors/1/sensors",
 									"host": [
@@ -8627,18 +8562,7 @@
 							"name": "GET All Virtual Meters of a Shopfloor",
 							"request": {
 								"method": "GET",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "default"
-									},
-									{
-										"key": "Token",
-										"value": "80caac0ed28e901b3bc35e37707d69c5df5410830373682451d2ab2862641cb6dbcec16bbde227437963a1191faa5dcaeecf839fc422566744eaf3c75e14f840",
-										"type": "default"
-									}
-								],
+								"header": [],
 								"url": {
 									"raw": "{{base_url}}/shopfloors/1/virtualmeters",
 									"host": [
@@ -8722,18 +8646,7 @@
 							"name": "GET All Working Calendars of a Shopfloor",
 							"request": {
 								"method": "GET",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "default"
-									},
-									{
-										"key": "Token",
-										"value": "80caac0ed28e901b3bc35e37707d69c5df5410830373682451d2ab2862641cb6dbcec16bbde227437963a1191faa5dcaeecf839fc422566744eaf3c75e14f840",
-										"type": "default"
-									}
-								],
+								"header": [],
 								"url": {
 									"raw": "{{base_url}}/shopfloors/1/workingcalendars",
 									"host": [
@@ -8852,18 +8765,7 @@
 							"name": "GET All Commands of a Shopfloor",
 							"request": {
 								"method": "GET",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "default"
-									},
-									{
-										"key": "Token",
-										"value": "80caac0ed28e901b3bc35e37707d69c5df5410830373682451d2ab2862641cb6dbcec16bbde227437963a1191faa5dcaeecf839fc422566744eaf3c75e14f840",
-										"type": "default"
-									}
-								],
+								"header": [],
 								"url": {
 									"raw": "{{base_url}}/shopfloors/1/commands",
 									"host": [
@@ -12584,7 +12486,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"email\":\"administrator@myems.io\", \"password\":\"!MyEMS1\"}}"
+									"raw": "{\"data\":{\"email\":\"administrator@myems.io\", \"password\":\"123456\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/users/login",
@@ -13985,95 +13887,110 @@
 					]
 				},
 				{
-					"name": "Personal Token",
+					"name": "API KEY",
 					"item": [
 						{
-							"name": "POST Create a new personal token",
+							"name": "POST Create a new api key",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "a990b8ad811b10292d7291a6ecc1ffacb9d1e2b282bf79f8036519999d894b6b4e97bdb4709c22502ac48f01672a6a9fcf1b91ede1ab1e6ceb59b694f42d0a8f",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"data\": {\"name\": \"myems\",\"created_datetime_utc\": \"2023-05-30T12:00:00\", \"expires_datetime_utc\": \"2023-06-30T12:00:00\"}\n}"
+								},
 								"url": {
-									"raw": "{{base_url}}/personaltokens",
+									"raw": "{{base_url}}/apikeys",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"personaltokens"
+										"apikeys"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "GET a personal token by ID",
+							"name": "GET a api key by ID",
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/personaltokens/1",
+									"raw": "{{base_url}}/apikeys/7",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"personaltokens",
-										"1"
+										"apikeys",
+										"7"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "GET All personal token",
+							"name": "GET All api key",
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/personaltokens",
+									"raw": "{{base_url}}/apikeys",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"personaltokens"
+										"apikeys"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "PUT Update a personal token by ID",
+							"name": "PUT Update a api key by ID",
 							"request": {
 								"method": "PUT",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"data\":{\n        \"created_datetime_utc\":\"2023-06-16 08:15:02\"\n    }\n}"
+									"raw": "{\n    \"data\":{\n        \"name\": \"ydyw\",\n        \"expires_datetime_utc\": \"2024-06-06T12:00:00\",\n        \"created_datetime_utc\":\"2023-06-16T08:15:02\"\n    }\n}"
 								},
 								"url": {
-									"raw": "{{base_url}}/personaltokens/2",
+									"raw": "{{base_url}}/apikeys/7",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"personaltokens",
-										"2"
+										"apikeys",
+										"7"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "DELETE personal token by ID",
+							"name": "DELETE api key by ID",
 							"request": {
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/personaltokens/2",
+									"raw": "{{base_url}}/apikeys/7",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"personaltokens",
-										"2"
+										"apikeys",
+										"7"
 									]
 								}
 							},
@@ -17752,18 +17669,7 @@
 					"name": "GET Shopfloor Batch Analysis Report",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "User-UUID",
-								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-								"type": "text"
-							},
-							{
-								"key": "Token",
-								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"url": {
 							"raw": "{{base_url}}/reports/shopfloorbatch?spaceid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00",
 							"host": [
@@ -17795,18 +17701,7 @@
 					"name": "GET Shopfloor Batch Analysis Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "User-UUID",
-								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-								"type": "text"
-							},
-							{
-								"key": "Token",
-								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"url": {
 							"raw": "{{base_url}}/reports/shopfloorbatch?spaceid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00&quickmode=true",
 							"host": [
@@ -17842,18 +17737,7 @@
 					"name": "GET Shopfloor Cost Report",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "User-UUID",
-								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-								"type": "text"
-							},
-							{
-								"key": "Token",
-								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"url": {
 							"raw": "{{base_url}}/reports/shopfloorcost?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -17904,18 +17788,7 @@
 					"name": "GET Shopfloor Cost Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "User-UUID",
-								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-								"type": "text"
-							},
-							{
-								"key": "Token",
-								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"url": {
 							"raw": "{{base_url}}/reports/shopfloorcost?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -17970,18 +17843,7 @@
 					"name": "GET Shopfloor Energy Category Report",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "User-UUID",
-								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-								"type": "text"
-							},
-							{
-								"key": "Token",
-								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"url": {
 							"raw": "{{base_url}}/reports/shopfloorenergycategory?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -18032,18 +17894,7 @@
 					"name": "GET Shopfloor Energy Category Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "User-UUID",
-								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-								"type": "text"
-							},
-							{
-								"key": "Token",
-								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"url": {
 							"raw": "{{base_url}}/reports/shopfloorenergycategory?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -18098,18 +17949,7 @@
 					"name": "GET Shopfloor Energy Item Report",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "Token",
-								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
-								"type": "text"
-							},
-							{
-								"key": "User-UUID",
-								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"url": {
 							"raw": "{{base_url}}/reports/shopfloorenergyitem?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -18160,18 +18000,7 @@
 					"name": "GET Shopfloor Energy Item Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "User-UUID",
-								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-								"type": "text"
-							},
-							{
-								"key": "Token",
-								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"url": {
 							"raw": "{{base_url}}/reports/shopfloorenergyitem?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -18226,18 +18055,7 @@
 					"name": "GET Shopfloor Load Report",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "User-UUID",
-								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-								"type": "text"
-							},
-							{
-								"key": "Token",
-								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"url": {
 							"raw": "{{base_url}}/reports/shopfloorload?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -18288,18 +18106,7 @@
 					"name": "GET Shopfloor Load Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "User-UUID",
-								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-								"type": "text"
-							},
-							{
-								"key": "Token",
-								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"url": {
 							"raw": "{{base_url}}/reports/shopfloorload?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -18354,18 +18161,7 @@
 					"name": "GET Shopfloor Saving Report",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "User-UUID",
-								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-								"type": "text"
-							},
-							{
-								"key": "Token",
-								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"url": {
 							"raw": "{{base_url}}/reports/shopfloorsaving?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -18416,18 +18212,7 @@
 					"name": "GET Shopfloor Saving Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "User-UUID",
-								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-								"type": "text"
-							},
-							{
-								"key": "Token",
-								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"url": {
 							"raw": "{{base_url}}/reports/shopfloorsaving?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -18482,18 +18267,7 @@
 					"name": "GET Shopfloor tatistics Report",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "User-UUID",
-								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-								"type": "text"
-							},
-							{
-								"key": "Token",
-								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"url": {
 							"raw": "{{base_url}}/reports/shopfloorstatistics?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -18544,18 +18318,7 @@
 					"name": "GET Shopfloor tatistics Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "User-UUID",
-								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-								"type": "text"
-							},
-							{
-								"key": "Token",
-								"value": "1111111115d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d301111",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"url": {
 							"raw": "{{base_url}}/reports/shopfloorstatistics?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
