@@ -56,6 +56,7 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
     }).then(json => {
       if (isResponseOK) {
         toast.success(t('EMAIL Account registration successful', {'EMAIL': email}));
+        toast.success(t('Please wait for approval'));
         setRedirect(true);
       } else {
         toast.error(t(json.description));
@@ -136,6 +137,15 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
         toast.error(t(json.description));
       }
     }).catch(err => {
+      const interval = setInterval(() => {
+        setNumber((prevNumber) => prevNumber - 1)
+      }, 1000);
+      const timerId = setTimeout(() => {
+        setIsDisabled(false);
+        setNumber(60);
+        clearTimeout(timerId);
+        clearInterval(interval);
+      }, 1000 * 60);
       console.log(err);
     });
   };

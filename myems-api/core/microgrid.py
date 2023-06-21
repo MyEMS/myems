@@ -71,7 +71,7 @@ class MicrogridCollection:
         query = (" SELECT id, name, uuid, "
                  "        address, postal_code, latitude, longitude, capacity, "
                  "        architecture_type_id, owner_type_id, "
-                 "        is_input_counted, is_output_counted, contact_id, cost_center_id, description "
+                 "        is_input_counted, is_output_counted, contact_id, cost_center_id, svg, description "
                  " FROM tbl_microgrids "
                  " ORDER BY id ")
         cursor.execute(query)
@@ -99,7 +99,8 @@ class MicrogridCollection:
                                "is_output_counted": bool(row[11]),
                                "contact": contact,
                                "cost_center": cost_center,
-                               "description": row[14],
+                               "svg": row[14],
+                               "description": row[15],
                                "qrcode": 'microgrid:' + row[2]}
                 result.append(meta_result)
 
@@ -208,6 +209,13 @@ class MicrogridCollection:
                                    description='API.INVALID_COST_CENTER_ID')
         cost_center_id = new_values['data']['cost_center_id']
 
+        if 'svg' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['svg'], str) or \
+                len(str.strip(new_values['data']['svg'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_SVG')
+        svg = str.strip(new_values['data']['svg'])
+
         if 'description' in new_values['data'].keys() and \
                 new_values['data']['description'] is not None and \
                 len(str(new_values['data']['description'])) > 0:
@@ -272,8 +280,8 @@ class MicrogridCollection:
                       "    (name, uuid, address, postal_code, latitude, longitude, capacity, "
                       "     architecture_type_id, owner_type_id, "
                       "     is_input_counted, is_output_counted, "
-                      "     contact_id, cost_center_id, description) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                      "     contact_id, cost_center_id, svg, description) "
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     address,
@@ -287,6 +295,7 @@ class MicrogridCollection:
                                     is_output_counted,
                                     contact_id,
                                     cost_center_id,
+                                    svg,
                                     description))
         new_id = cursor.lastrowid
         cnx.commit()
@@ -366,7 +375,7 @@ class MicrogridItem:
                  "        address, postal_code, latitude, longitude, capacity, "
                  "        architecture_type_id, owner_type_id, "
                  "        is_input_counted, is_output_counted, "
-                 "        contact_id, cost_center_id, description "
+                 "        contact_id, cost_center_id, svg, description "
                  " FROM tbl_microgrids "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -396,7 +405,8 @@ class MicrogridItem:
                            "is_output_counted": bool(row[11]),
                            "contact": contact,
                            "cost_center": cost_center,
-                           "description": row[14],
+                           "svg": row[14],
+                           "description": row[15],
                            "qrcode": 'microgrid:' + row[2]}
 
         resp.text = json.dumps(meta_result)
@@ -570,6 +580,13 @@ class MicrogridItem:
                                    description='API.INVALID_COST_CENTER_ID')
         cost_center_id = new_values['data']['cost_center_id']
 
+        if 'svg' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['svg'], str) or \
+                len(str.strip(new_values['data']['svg'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_SVG')
+        svg = str.strip(new_values['data']['svg'])
+
         if 'description' in new_values['data'].keys() and \
                 new_values['data']['description'] is not None and \
                 len(str(new_values['data']['description'])) > 0:
@@ -644,7 +661,7 @@ class MicrogridItem:
                       "     architecture_type_id = %s, owner_type_id = %s, "
                       "     is_input_counted = %s, is_output_counted = %s, "
                       "     contact_id = %s, cost_center_id = %s, "
-                      "     description = %s "
+                      "     svg = %s, description = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     address,
@@ -658,6 +675,7 @@ class MicrogridItem:
                                     is_output_counted,
                                     contact_id,
                                     cost_center_id,
+                                    svg,
                                     description,
                                     id_))
         cnx.commit()

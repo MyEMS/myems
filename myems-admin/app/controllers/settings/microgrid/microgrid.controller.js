@@ -82,7 +82,6 @@ app.controller('MicrogridController', function(
 			}
 		});
 		modalInstance.result.then(function(microgrid) {
-	    	microgrid.microgrid_type_id=microgrid.microgrid_type.id;
 			microgrid.architecture_type_id=microgrid.architecture_type.id;
 			microgrid.owner_type_id=microgrid.owner_type.id;
 			microgrid.cost_center_id=microgrid.cost_center.id;
@@ -134,7 +133,6 @@ app.controller('MicrogridController', function(
 		});
 
 		modalInstance.result.then(function(modifiedMicrogrid) {
-	    	modifiedMicrogrid.microgrid_type_id=modifiedMicrogrid.microgrid_type.id;
 			modifiedMicrogrid.architecture_type_id=modifiedMicrogrid.architecture_type.id;
 			modifiedMicrogrid.owner_type_id=modifiedMicrogrid.owner_type.id;
 			modifiedMicrogrid.cost_center_id=modifiedMicrogrid.cost_center.id;
