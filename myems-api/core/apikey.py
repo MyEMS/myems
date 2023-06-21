@@ -72,11 +72,6 @@ class ApiKeyCollection:
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
 
-        created_datetime_utc = datetime.strptime(new_values['data']['created_datetime_utc'],
-                                                        '%Y-%m-%dT%H:%M:%S')
-        created_datetime_utc = created_datetime_utc.replace(tzinfo=timezone.utc)
-        created_datetime_utc -= timedelta(minutes=timezone_offset)
-
         expires_datetime_utc = datetime.strptime(new_values['data']['expires_datetime_utc'],
                                                          '%Y-%m-%dT%H:%M:%S')
         expires_datetime_utc = expires_datetime_utc.replace(tzinfo=timezone.utc)
@@ -98,7 +93,7 @@ class ApiKeyCollection:
         
         cursor.execute(" INSERT INTO tbl_api_keys "
                        " (name, token, created_datetime_utc, expires_datetime_utc) "
-                       " VALUES(%s, %s, %s, %s) ", (name, token, created_datetime_utc, expires_datetime_utc))
+                       " VALUES(%s, %s, %s, %s) ", (name, token, datetime.utcnow(), expires_datetime_utc))
         
         new_id = cursor.lastrowid
         cnx.commit()
@@ -177,13 +172,6 @@ class ApiKeyItem:
                                    description='API.INVALID_API_KEY_NAME')
         name = str.strip(new_values['data']['name'])        
 
-        if 'created_datetime_utc' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['created_datetime_utc'], str) or \
-                len(str.strip(new_values['data']['created_datetime_utc'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_CREATED_DATETIME')
-        created_datetime_local = str.strip(new_values['data']['created_datetime_utc'])
-
         if 'expires_datetime_utc' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['expires_datetime_utc'], str) or \
                 len(str.strip(new_values['data']['expires_datetime_utc'])) == 0:
@@ -195,15 +183,6 @@ class ApiKeyItem:
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
 
-        try:
-            created_datetime_utc = datetime.strptime(created_datetime_local,
-                                                    '%Y-%m-%dT%H:%M:%S')
-            created_datetime_utc = created_datetime_utc.replace(tzinfo=timezone.utc)
-            created_datetime_utc -= timedelta(minutes=timezone_offset)
-        except ValueError:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                    description="API.INVALID_CREATED_DATETIME")
-        
         try:
             expires_datetime_utc = datetime.strptime(expires_datetime_local,
                                                     '%Y-%m-%dT%H:%M:%S')
@@ -237,8 +216,8 @@ class ApiKeyItem:
                                    description='API.API_KEY_NOT_FOUND')
 
         cursor.execute(" UPDATE tbl_api_keys "
-                       " SET name = %s, created_datetime_utc = %s, expires_datetime_utc = %s "
-                       " WHERE id = %s ", (name, created_datetime_utc, expires_datetime_utc, id_))
+                       " SET name = %s, expires_datetime_utc = %s "
+                       " WHERE id = %s ", (name, expires_datetime_utc, id_))
         cnx.commit()
         
         cursor.close()

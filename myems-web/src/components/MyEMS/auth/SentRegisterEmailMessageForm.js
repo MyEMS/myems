@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
-import AppContext from '../../../context/Context';
-import { Button, Form, FormGroup, Input, Row, Col, Label } from 'reactstrap';
+import { Button, Form, FormGroup, Input, Row, Col, Label, InputGroup, InputGroupAddon } from 'reactstrap';
 import withRedirect from '../../../hoc/withRedirect';
 import { setItemToStore, themeColors } from '../../../helpers/utils';
 import { withTranslation } from 'react-i18next';
-import Captcha from 'react-captcha-code';
+import {FaEye, FaEyeSlash} from 'react-icons/fa';
 import moment from 'moment';
 import { APIBaseURL } from '../../../config';
 
@@ -22,8 +21,8 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
   const [inputType, setInputType] = useState('password');
   const [number, setNumber] = useState(60);
 
-  // Handler
-  const handleSubmit = e => {
+   // Handler
+   const handleSubmit = e => {
     e.preventDefault();
     let isResponseOK = false;
     fetch(APIBaseURL + '/users/newusers', {
@@ -90,18 +89,15 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
         <td style="padding-top: 60px;padding-left: 20px;padding-right: 20px;font-size: 14px;line-height:1.4;color: #525967;" colspan="2">
         <b>
     ${email} :</b><br><br>
-    ${t("The link to register your account is as follows. \
-      Please click the link within 60 minutes to proceed with the next step. \
-      If you did not request this action, please disregard this email.")}
+    ${t("Thanks for verifying your account!.")}
     </td>
         </tr>
         <tr>
         <td colspan="2">
         <div style="margin-top: 20px;margin-bottom: 20px;width: 100%;height: 1px;background-color: #acbdd4;"><br></div></td></tr>
         <tr><td colspan="2">&nbsp;&nbsp;&nbsp;&nbsp; 
-     <a href="${window.location.href.split(layout)[0]}${layout}/register-account?token={token}&email=${email}" style="display: block;" target="_blank">
-    ${t('Please click on the included link to register your account')}
-    </a><br></td></tr>
+        <b>${t("Your code is")} {verification_code}.</b>
+    <br></td></tr>
         </tbody></table>
         </td>
         </tr>
@@ -123,7 +119,6 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
     }).then(response => {
       if (response.ok) {
         isResponseOK = true;
-        handleRefreshCaptcha();
         return null
       } else {
         return response.json();
@@ -131,9 +126,7 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
     }).then(json => {
       if (isResponseOK) {
         toast.success(t('An email has been sent to ') + email );
-        setRedirect(true);
       } else {
-        handleRefreshCaptcha();
         toast.error(t(json.description));
       }
     }).catch(err => {
@@ -151,7 +144,7 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
   };
 
   useEffect(() => {
-    setRedirectUrl(`/authentication/${layout}/confirm-mail`);
+    setRedirectUrl(`/authentication/${layout}/login`);
   }, [setRedirectUrl, layout]);
 
   useEffect(() => {
@@ -159,17 +152,23 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
     // eslint-disable-next-line
   }, [email]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      handleRefreshCaptcha();
-    }, 1000 * 60);
-    return () => clearInterval(interval);
-  }, []);
 
-  const handleRefreshCaptcha = () => {
-    setCode('');
-    captchaRef.current.refresh()
+  useEffect(() => {
+    setIsSubmitDisabled(!email || !password || !displayName || !name || !code);
+  }, [email, password, displayName, name, code]);
+
+  const toggleVisibility = () => {
+    setInputType(inputType === 'password' ? 'text' : 'password');
   };
+
+  const validateEmail = (email) => {
+    const regExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (regExp.test(email)) {
+      setIsSubmitDisabled(true);
+    } else {
+      setIsSubmitDisabled(false);
+    }
+  }
 
   return (
     <Form className="mt-4" onSubmit={handleSubmit}>
@@ -178,8 +177,46 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
           className="form-control"
           placeholder={t('Email address')}
           value={email}
-          onChange={({ target }) => setEmail(target.value)}
+          onChange={({ target }) =>{validateEmail(target.value); setEmail(target.value)}}
           type="email"
+        />
+      </FormGroup>
+      <FormGroup>
+        <InputGroup>
+          <Input
+              id="password"
+              placeholder={!hasLabel ? t('Password') : ''}
+              value={password}
+              maxLength={100}
+              className="password-input"
+              onChange={({ target }) => setPassword(target.value)}
+              type={inputType}
+          />
+          <InputGroupAddon addonType="append">
+            <Button color="secondary" onClick={toggleVisibility}>
+              {inputType === 'password' ? <FaEyeSlash /> : <FaEye />}
+            </Button>
+          </InputGroupAddon>
+        </InputGroup>
+      </FormGroup>
+      <FormGroup>
+        <Input
+            id="name"
+            placeholder={t('UserName')}
+            value={name}
+            maxLength={30}
+            onChange={({ target }) => setName(target.value)}
+            type="text"
+        />
+      </FormGroup>
+      <FormGroup>
+        <Input
+            id="display_name"
+            placeholder={t('DisplayName')}
+            value={displayName}
+            maxLength={30}
+            onChange={({ target }) => setDisplayName(target.value)}
+            type="text"
         />
       </FormGroup>
       <FormGroup>
@@ -191,6 +228,7 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
               value={code}
               onChange={({ target }) => setCode(target.value)}
               type="text"
+              maxLength={6}
             />
           </Col>
           <Col xs="6" className='align-items-center d-flex'>
@@ -200,11 +238,10 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
               {isdisabled ? t('Please wait for NUMBER seconds', {'NUMBER': number}) : t('Send verification code')} 
             </Button>
           </Col>
-        
         </Row>
       </FormGroup>
       <FormGroup>
-        <Button color="primary" block disabled={!email}>
+        <Button color="primary" block disabled={isSubmitDisabled}>
           {t('Submit')}
         </Button>
       </FormGroup>
