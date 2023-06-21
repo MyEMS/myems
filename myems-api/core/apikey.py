@@ -7,7 +7,8 @@ import mysql.connector
 import simplejson as json
 
 import config
-from core.useractivity import user_logger, write_log, access_control
+from core.useractivity import user_logger, write_log, admin_control
+
 
 class ApiKeyCollection:
     @staticmethod
@@ -21,6 +22,7 @@ class ApiKeyCollection:
 
     @staticmethod
     def on_get(req, resp):
+        admin_control(req)
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
 
@@ -36,10 +38,8 @@ class ApiKeyCollection:
             if config.utc_offset[0] == '-':
                 timezone_offset = -timezone_offset
             for row in rows:
-                created_datetime_utc = row[3].replace(tzinfo=timezone.utc) + \
-                                        timedelta(minutes=timezone_offset)
-                expires_datetime_utc = row[4].replace(tzinfo=timezone.utc) + \
-                                        timedelta(minutes=timezone_offset)
+                created_datetime_utc = row[3].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
+                expires_datetime_utc = row[4].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
                 token_list.append({ "id": row[0],
                                     "name": row[1],
                                     "token": row[2],
@@ -52,7 +52,7 @@ class ApiKeyCollection:
 
     @staticmethod
     def on_post(req, resp):        
-        access_control(req)
+        admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)
@@ -72,8 +72,7 @@ class ApiKeyCollection:
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
 
-        expires_datetime_utc = datetime.strptime(new_values['data']['expires_datetime_utc'],
-                                                         '%Y-%m-%dT%H:%M:%S')
+        expires_datetime_utc = datetime.strptime(new_values['data']['expires_datetime_utc'], '%Y-%m-%dT%H:%M:%S')
         expires_datetime_utc = expires_datetime_utc.replace(tzinfo=timezone.utc)
         expires_datetime_utc -= timedelta(minutes=timezone_offset)
         
@@ -116,6 +115,7 @@ class ApiKeyItem:
 
     @staticmethod
     def on_get(req, resp, id_):
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title="API.INVALID_API_KEY_ID")
@@ -138,10 +138,8 @@ class ApiKeyItem:
             timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
             if config.utc_offset[0] == '-':
                 timezone_offset = -timezone_offset
-            created_datetime_utc = row[3].replace(tzinfo=timezone.utc) + \
-                                    timedelta(minutes=timezone_offset)
-            expires_datetime_utc = row[4].replace(tzinfo=timezone.utc) + \
-                                    timedelta(minutes=timezone_offset)
+            created_datetime_utc = row[3].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
+            expires_datetime_utc = row[4].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "token": row[2],
@@ -152,6 +150,7 @@ class ApiKeyItem:
 
     @staticmethod
     def on_put(req, resp, id_):
+        admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -176,7 +175,7 @@ class ApiKeyItem:
                 not isinstance(new_values['data']['expires_datetime_utc'], str) or \
                 len(str.strip(new_values['data']['expires_datetime_utc'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_EXPIRES_DATETIME1')
+                                   description='API.INVALID_EXPIRES_DATETIME')
         expires_datetime_local = str.strip(new_values['data']['expires_datetime_utc'])
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
@@ -184,15 +183,13 @@ class ApiKeyItem:
             timezone_offset = -timezone_offset
 
         try:
-            expires_datetime_utc = datetime.strptime(expires_datetime_local,
-                                                    '%Y-%m-%dT%H:%M:%S')
+            expires_datetime_utc = datetime.strptime(expires_datetime_local, '%Y-%m-%dT%H:%M:%S')
             expires_datetime_utc = expires_datetime_utc.replace(tzinfo=timezone.utc)
             expires_datetime_utc -= timedelta(minutes=timezone_offset)
         except ValueError:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                    description="API.INVALID_EXPIRES_DATETIME")
-            
-            
+                                   description="API.INVALID_EXPIRES_DATETIME")
+
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
 
@@ -227,6 +224,7 @@ class ApiKeyItem:
 
     @staticmethod
     def on_delete(req, resp, id_):
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_API_KEY_ID')

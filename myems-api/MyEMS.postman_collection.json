@@ -1,8 +1,8 @@
 {
 	"info": {
-		"_postman_id": "85f05155-49da-4bb3-89b4-5dbda4ac5dca",
+		"_postman_id": "5f46812f-e0db-4bbc-a09c-8bd70e53e93f",
 		"name": "MyEMS",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -13988,7 +13988,7 @@
 					"name": "API KEY",
 					"item": [
 						{
-							"name": "POST Create a new api key",
+							"name": "POST Create New API Key",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -13999,7 +13999,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"value": "4a85e6ff829b7f56d42a105a3cd537d537858b57e12d1b410b4a3903204ad0ca67cefa62c51f2de0e0334fa48f9b2b9106b8bbdacdd708fa45738af9cddf6efe",
 										"type": "text"
 									}
 								],
@@ -14020,28 +14020,50 @@
 							"response": []
 						},
 						{
-							"name": "GET a api key by ID",
+							"name": "GET an API Key by ID",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "4a85e6ff829b7f56d42a105a3cd537d537858b57e12d1b410b4a3903204ad0ca67cefa62c51f2de0e0334fa48f9b2b9106b8bbdacdd708fa45738af9cddf6efe",
+										"type": "default"
+									}
+								],
 								"url": {
-									"raw": "{{base_url}}/apikeys/7",
+									"raw": "{{base_url}}/apikeys/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"apikeys",
-										"7"
+										"1"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "GET All api key",
+							"name": "GET All API Keys",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "4a85e6ff829b7f56d42a105a3cd537d537858b57e12d1b410b4a3903204ad0ca67cefa62c51f2de0e0334fa48f9b2b9106b8bbdacdd708fa45738af9cddf6efe",
+										"type": "default"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/apikeys",
 									"host": [
@@ -14055,40 +14077,62 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a api key by ID",
+							"name": "PUT Update an API Key by ID",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "4a85e6ff829b7f56d42a105a3cd537d537858b57e12d1b410b4a3903204ad0ca67cefa62c51f2de0e0334fa48f9b2b9106b8bbdacdd708fa45738af9cddf6efe",
+										"type": "default"
+									}
+								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"data\":{\n        \"name\": \"ydyw\",\n        \"expires_datetime_utc\": \"2024-06-06T12:00:00\"\n    }\n}"
+									"raw": "{\n    \"data\":{\n        \"name\": \"myems\",\n        \"expires_datetime_utc\": \"2024-06-06T12:00:00\"\n    }\n}"
 								},
 								"url": {
-									"raw": "{{base_url}}/apikeys/7",
+									"raw": "{{base_url}}/apikeys/3",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"apikeys",
-										"7"
+										"3"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "DELETE api key by ID",
+							"name": "DELETE an API Key by ID",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "4a85e6ff829b7f56d42a105a3cd537d537858b57e12d1b410b4a3903204ad0ca67cefa62c51f2de0e0334fa48f9b2b9106b8bbdacdd708fa45738af9cddf6efe",
+										"type": "default"
+									}
+								],
 								"url": {
-									"raw": "{{base_url}}/apikeys/7",
+									"raw": "{{base_url}}/apikeys/3",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"apikeys",
-										"7"
+										"3"
 									]
 								}
 							},

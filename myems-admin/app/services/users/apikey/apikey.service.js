@@ -1,8 +1,8 @@
 'use strict';
 app.factory('ApiKeyService', function($http) {
     return {
-        getAllApiKeys:function(callback){
-            $http.get(getAPI()+'apikeys')
+        getAllApiKeys:function(headers, callback){
+            $http.get(getAPI()+'apikeys',  {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
