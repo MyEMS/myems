@@ -1,8 +1,8 @@
 {
 	"info": {
-		"_postman_id": "816153e5-a3a6-494b-a5c0-394a899e778d",
+		"_postman_id": "85f05155-49da-4bb3-89b4-5dbda4ac5dca",
 		"name": "MyEMS",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 	},
 	"item": [
 		{
@@ -13977,6 +13977,118 @@
 									"path": [
 										"nonworkingdays",
 										"41"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "API KEY",
+					"item": [
+						{
+							"name": "POST Create a new api key",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"data\": {\"name\": \"myems\", \"expires_datetime_utc\": \"2023-06-30T12:00:00\"}\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/apikeys",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"apikeys"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET a api key by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/apikeys/7",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"apikeys",
+										"7"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All api key",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/apikeys",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"apikeys"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Update a api key by ID",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"data\":{\n        \"name\": \"ydyw\",\n        \"expires_datetime_utc\": \"2024-06-06T12:00:00\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/apikeys/7",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"apikeys",
+										"7"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE api key by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/apikeys/7",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"apikeys",
+										"7"
 									]
 								}
 							},

@@ -2,7 +2,7 @@ import falcon
 from falcon_cors import CORS
 from falcon_multipart.middleware import MultipartMiddleware
 
-from core import energyflowdiagram, privilege, textmessage, distributioncircuit, virtualmeter, \
+from core import apikey, energyflowdiagram, privilege, textmessage, distributioncircuit, virtualmeter, \
     costcenter, point, knowledgefile, meter, tariff, user, storetype, timezone, \
     costfile, offlinemeterfile, version, contact, emailserver, combinedequipment, datasource, equipment, tenant, \
     shopfloor, webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, \
@@ -396,6 +396,11 @@ api.add_route('/points',
               point.PointCollection())
 api.add_route('/points/{id_}',
               point.PointItem())
+
+api.add_route('/apikeys',
+              apikey.ApiKeyCollection())
+api.add_route('/apikeys/{id_}',
+              apikey.ApiKeyItem())
 
 api.add_route('/privileges',
               privilege.PrivilegeCollection())
