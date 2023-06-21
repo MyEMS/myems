@@ -109,6 +109,7 @@
     "postcss": "^8.0.0",
     "prettier": "1.17.1",
     "sass": "^1.43.4",
-    "webpack-dev-server": "4.11.1"
+    "webpack-dev-server": "4.11.1",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
 }
