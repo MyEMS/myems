@@ -5,7 +5,7 @@ import mysql.connector
 import simplejson as json
 
 import config
-from core.useractivity import user_logger, access_control
+from core.useractivity import user_logger, admin_control, access_control
 
 
 class ShopfloorCollection:
@@ -20,6 +20,7 @@ class ShopfloorCollection:
 
     @staticmethod
     def on_get(req, resp):
+        access_control(req)
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -79,7 +80,7 @@ class ShopfloorCollection:
     @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
-        access_control(req)
+        admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -201,6 +202,7 @@ class ShopfloorItem:
 
     @staticmethod
     def on_get(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SHOPFLOOR_ID')
@@ -262,7 +264,7 @@ class ShopfloorItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_):
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SHOPFLOOR_ID')
@@ -394,7 +396,7 @@ class ShopfloorItem:
     @user_logger
     def on_put(req, resp, id_):
         """Handles PUT requests"""
-        access_control(req)
+        admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -528,6 +530,7 @@ class ShopfloorEquipmentCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SHOPFLOOR_ID')
@@ -563,7 +566,7 @@ class ShopfloorEquipmentCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
-        access_control(req)
+        admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -639,7 +642,7 @@ class ShopfloorEquipmentItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, eid):
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SHOPFLOOR_ID')
@@ -700,6 +703,7 @@ class ShopfloorMeterCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SHOPFLOOR_ID')
@@ -749,7 +753,7 @@ class ShopfloorMeterCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
-        access_control(req)
+        admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -825,7 +829,7 @@ class ShopfloorMeterItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, mid):
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SHOPFLOOR_ID')
@@ -885,6 +889,7 @@ class ShopfloorOfflineMeterCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SHOPFLOOR_ID')
@@ -934,7 +939,7 @@ class ShopfloorOfflineMeterCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
-        access_control(req)
+        admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -1010,7 +1015,7 @@ class ShopfloorOfflineMeterItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, mid):
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SHOPFLOOR_ID')
@@ -1071,6 +1076,7 @@ class ShopfloorPointCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SHOPFLOOR_ID')
@@ -1119,7 +1125,7 @@ class ShopfloorPointCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
-        access_control(req)
+        admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -1195,7 +1201,7 @@ class ShopfloorPointItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, pid):
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SHOPFLOOR_ID')
@@ -1256,6 +1262,7 @@ class ShopfloorSensorCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SHOPFLOOR_ID')
@@ -1291,7 +1298,7 @@ class ShopfloorSensorCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
-        access_control(req)
+        admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -1367,7 +1374,7 @@ class ShopfloorSensorItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, sid):
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SHOPFLOOR_ID')
@@ -1427,6 +1434,7 @@ class ShopfloorVirtualMeterCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SHOPFLOOR_ID')
@@ -1476,7 +1484,7 @@ class ShopfloorVirtualMeterCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
-        access_control(req)
+        admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -1552,7 +1560,7 @@ class ShopfloorVirtualMeterItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, mid):
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SHOPFLOOR_ID')
@@ -1613,6 +1621,7 @@ class ShopfloorWorkingCalendarCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SHOPFLOOR_ID')
@@ -1648,7 +1657,7 @@ class ShopfloorWorkingCalendarCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
-        access_control(req)
+        admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -1724,7 +1733,7 @@ class ShopfloorWorkingCalendarItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, wcid):
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SHOPFLOOR_ID')
@@ -1784,6 +1793,7 @@ class ShopfloorCommandCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STORE_ID')
@@ -1819,7 +1829,7 @@ class ShopfloorCommandCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
-        access_control(req)
+        admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -1895,7 +1905,7 @@ class ShopfloorCommandItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, cid):
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SHOPFLOOR_ID')

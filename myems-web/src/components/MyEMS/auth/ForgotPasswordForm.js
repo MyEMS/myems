@@ -237,3 +237,4 @@ ForgotPasswordForm.propTypes = {
 ForgotPasswordForm.defaultProps = { layout: 'basic' };
 
 export default withTranslation()(withRedirect(ForgotPasswordForm));
+

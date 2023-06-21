@@ -2,6 +2,7 @@
 
 app.controller('DistributionCircuitController', function(
 	$scope,
+	$rootScope,
 	$window,
 	$translate,
 	$uibModal,
@@ -79,6 +80,7 @@ app.controller('DistributionCircuitController', function(
   		}, function() {
 
   		});
+		$rootScope.modalInstance = modalInstance;
   	};
 
   	$scope.editDistributionCircuit = function(distributioncircuit) {
@@ -120,6 +122,7 @@ app.controller('DistributionCircuitController', function(
   		}, function() {
   			//do nothing;
   		});
+		$rootScope.modalInstance = modalInstance;
   	};
 
   	$scope.deleteDistributionCircuit = function(distributioncircuit) {

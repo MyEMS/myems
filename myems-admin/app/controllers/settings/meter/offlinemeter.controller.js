@@ -2,6 +2,7 @@
 
 app.controller('OfflineMeterController', function(
 	$scope,
+	$rootScope,
 	$window,
 	$translate,
 	$uibModal,
@@ -101,6 +102,7 @@ app.controller('OfflineMeterController', function(
 		}, function() {
 
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.editOfflineMeter = function(offlinemeter) {
@@ -152,6 +154,7 @@ app.controller('OfflineMeterController', function(
 		}, function() {
 			//do nothing;
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.deleteOfflineMeter = function(offlinemeter) {

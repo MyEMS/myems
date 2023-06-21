@@ -2,6 +2,7 @@
 
 app.controller('CostCenterController', function(
 	$scope,
+	$rootScope,
 	$window,
 	$uibModal,
 	$translate,
@@ -49,6 +50,7 @@ app.controller('CostCenterController', function(
 		}, function() {
 
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.editCostCenter=function(costcenter){
@@ -90,6 +92,7 @@ app.controller('CostCenterController', function(
 		}, function () {
 	        //do nothing;
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.deleteCostCenter=function(costcenter){

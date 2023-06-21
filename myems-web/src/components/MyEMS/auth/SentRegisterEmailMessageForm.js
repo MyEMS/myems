@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
-import AppContext from '../../../context/Context';
-import { Button, Form, FormGroup, Input, Row, Col, Label } from 'reactstrap';
+import { Button, Form, FormGroup, Input, Row, Col, Label, InputGroup, InputGroupAddon } from 'reactstrap';
 import withRedirect from '../../../hoc/withRedirect';
 import { setItemToStore, themeColors } from '../../../helpers/utils';
 import { withTranslation } from 'react-i18next';
-import Captcha from 'react-captcha-code';
+import {FaEye, FaEyeSlash} from 'react-icons/fa';
 import moment from 'moment';
 import { APIBaseURL } from '../../../config';
 
@@ -14,21 +13,68 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
   // State
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
-  const [captchaCode, setCaptchaCode] = useState('');
-  const captchaRef = useRef(null);
+  const [isdisabled, setIsDisabled] = useState(false);
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [displayName, setDisplayName] = useState('');
+  const [inputType, setInputType] = useState('password');
+  const [number, setNumber] = useState(60);
 
-  const { isDark } = useContext(AppContext);
-
-  // Handler
-  const handleSubmit = e => {
+   // Handler
+   const handleSubmit = e => {
     e.preventDefault();
     let isResponseOK = false;
-    if (captchaCode.toLowerCase() !== code.toLowerCase()) {
-      toast.error(t('Captcha Error'));
-      handleRefreshCaptcha();
-      return false;
-    }
-    let subject = t("Create an account");
+    fetch(APIBaseURL + '/users/newusers', {
+      method: 'POST',
+      body: JSON.stringify({ "data":
+        { "name": name,
+          "display_name": displayName,
+          "email": email,
+          "password": password,
+          "verification_code": code
+        }
+      }),
+      headers: { "Content-Type": "application/json" }
+    }).then(response => {
+      const interval = setInterval(() => {
+        setNumber((prevNumber) => prevNumber - 1)
+      }, 1000);
+      const timerId = setTimeout(() => {
+        setIsDisabled(false);
+        setNumber(60);
+        clearTimeout(timerId);
+        clearInterval(interval);
+      }, 1000 * 60);
+      if (response.ok) {
+        isResponseOK = true;
+        return null
+      } else {
+        return response.json();
+      }
+    }).then(json => {
+      if (isResponseOK) {
+        toast.success(t('EMAIL Account registration successful', {'EMAIL': email}));
+        toast.success(t('Please wait for approval'));
+        setRedirect(true);
+      } else {
+        toast.error(t(json.description));
+      }
+    }).catch(err => {
+      console.log(err);
+    });
+  };
+
+  // Handler
+  const handleCodeSubmit = e => {
+    setIsDisabled(true);
+    const timeId = setTimeout(() => {
+      setIsDisabled(false);
+      clearTimeout(timeId);
+    }, 1000 * 60);
+    e.preventDefault();
+    let isResponseOK = false;
+    let subject = "Create an account";
     let created_datetime = moment().clone().format('YYYY-MM-DDTHH:mm:ss');
     let scheduled_datetime = moment().clone().format('YYYY-MM-DDTHH:mm:ss');
     let message = 
@@ -43,18 +89,15 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
         <td style="padding-top: 60px;padding-left: 20px;padding-right: 20px;font-size: 14px;line-height:1.4;color: #525967;" colspan="2">
         <b>
     ${email} :</b><br><br>
-    ${t("The link to register your account is as follows. \
-      Please click the link within 60 minutes to proceed with the next step. \
-      If you did not request this action, please disregard this email.")}
+    ${t("Thanks for verifying your account!.")}
     </td>
         </tr>
         <tr>
         <td colspan="2">
         <div style="margin-top: 20px;margin-bottom: 20px;width: 100%;height: 1px;background-color: #acbdd4;"><br></div></td></tr>
         <tr><td colspan="2">&nbsp;&nbsp;&nbsp;&nbsp; 
-     <a href="${window.location.href.split(layout)[0]}${layout}/register-account?token={token}&email=${email}" style="display: block;" target="_blank">
-    ${t('Please click on the included link to register your account')}
-    </a><br></td></tr>
+        <b>${t("Your code is")} {verification_code}.</b>
+    <br></td></tr>
         </tbody></table>
         </td>
         </tr>
@@ -76,7 +119,6 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
     }).then(response => {
       if (response.ok) {
         isResponseOK = true;
-        handleRefreshCaptcha();
         return null
       } else {
         return response.json();
@@ -84,18 +126,25 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
     }).then(json => {
       if (isResponseOK) {
         toast.success(t('An email has been sent to ') + email );
-        setRedirect(true);
       } else {
-        handleRefreshCaptcha();
         toast.error(t(json.description));
       }
     }).catch(err => {
+      const interval = setInterval(() => {
+        setNumber((prevNumber) => prevNumber - 1)
+      }, 1000);
+      const timerId = setTimeout(() => {
+        setIsDisabled(false);
+        setNumber(60);
+        clearTimeout(timerId);
+        clearInterval(interval);
+      }, 1000 * 60);
       console.log(err);
     });
   };
 
   useEffect(() => {
-    setRedirectUrl(`/authentication/${layout}/confirm-mail`);
+    setRedirectUrl(`/authentication/${layout}/login`);
   }, [setRedirectUrl, layout]);
 
   useEffect(() => {
@@ -103,17 +152,23 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
     // eslint-disable-next-line
   }, [email]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      handleRefreshCaptcha();
-    }, 1000 * 60);
-    return () => clearInterval(interval);
-  }, []);
 
-  const handleRefreshCaptcha = () => {
-    setCode('');
-    captchaRef.current.refresh()
+  useEffect(() => {
+    setIsSubmitDisabled(!email || !password || !displayName || !name || !code);
+  }, [email, password, displayName, name, code]);
+
+  const toggleVisibility = () => {
+    setInputType(inputType === 'password' ? 'text' : 'password');
   };
+
+  const validateEmail = (email) => {
+    const regExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (regExp.test(email)) {
+      setIsSubmitDisabled(true);
+    } else {
+      setIsSubmitDisabled(false);
+    }
+  }
 
   return (
     <Form className="mt-4" onSubmit={handleSubmit}>
@@ -122,8 +177,46 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
           className="form-control"
           placeholder={t('Email address')}
           value={email}
-          onChange={({ target }) => setEmail(target.value)}
+          onChange={({ target }) =>{validateEmail(target.value); setEmail(target.value)}}
           type="email"
+        />
+      </FormGroup>
+      <FormGroup>
+        <InputGroup>
+          <Input
+              id="password"
+              placeholder={!hasLabel ? t('Password') : ''}
+              value={password}
+              maxLength={100}
+              className="password-input"
+              onChange={({ target }) => setPassword(target.value)}
+              type={inputType}
+          />
+          <InputGroupAddon addonType="append">
+            <Button color="secondary" onClick={toggleVisibility}>
+              {inputType === 'password' ? <FaEyeSlash /> : <FaEye />}
+            </Button>
+          </InputGroupAddon>
+        </InputGroup>
+      </FormGroup>
+      <FormGroup>
+        <Input
+            id="name"
+            placeholder={t('UserName')}
+            value={name}
+            maxLength={30}
+            onChange={({ target }) => setName(target.value)}
+            type="text"
+        />
+      </FormGroup>
+      <FormGroup>
+        <Input
+            id="display_name"
+            placeholder={t('DisplayName')}
+            value={displayName}
+            maxLength={30}
+            onChange={({ target }) => setDisplayName(target.value)}
+            type="text"
         />
       </FormGroup>
       <FormGroup>
@@ -135,24 +228,20 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
               value={code}
               onChange={({ target }) => setCode(target.value)}
               type="text"
+              maxLength={6}
             />
           </Col>
-          <Col xs="6" className='d-flex pr-0 pl-0'>
-            <Captcha
-              codeType={2}
-              charNum={5}
-              width={100}
-              height={36}
-              bgColor={!isDark ? themeColors.light : themeColors.dark}
-              onChange={(value) => setCaptchaCode(value)}
-              ref={captchaRef}
-            />
+          <Col xs="6" className='align-items-center d-flex'>
+            <Button color="primary"
+            onClick={handleCodeSubmit}  
+            disabled={isdisabled}>
+              {isdisabled ? t('Please wait for NUMBER seconds', {'NUMBER': number}) : t('Send verification code')} 
+            </Button>
           </Col>
-        
         </Row>
       </FormGroup>
       <FormGroup>
-        <Button color="primary" block disabled={!email}>
+        <Button color="primary" block disabled={isSubmitDisabled}>
           {t('Submit')}
         </Button>
       </FormGroup>

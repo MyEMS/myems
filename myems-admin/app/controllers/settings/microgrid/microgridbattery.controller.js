@@ -2,6 +2,7 @@
 
 app.controller('MicrogridBatteryController', function(
 	$scope,
+	$rootScope,
 	$window,
 	$translate,
 	$uibModal,
@@ -79,6 +80,7 @@ app.controller('MicrogridBatteryController', function(
   		}, function() {
 
   		});
+		$rootScope.modalInstance = modalInstance;
   	};
 
   	$scope.editMicrogridBattery = function(microgridbattery) {
@@ -120,6 +122,7 @@ app.controller('MicrogridBatteryController', function(
   		}, function() {
   			//do nothing;
   		});
+		$rootScope.modalInstance = modalInstance;
   	};
 
   	$scope.deleteMicrogridBattery = function(microgridbattery) {

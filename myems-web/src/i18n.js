@@ -324,7 +324,7 @@ const resources = {
       'Forgot your password?': 'Forgot your password?',
       "Enter your email and we'll send you a reset link": "Enter your email and we'll send you a reset link",
       "Enter your email and we'll send you a registration link": "Enter your email and we'll send you a registration link",
-      'Send reset link': 'Send reset link',
+      'Reset Password': 'Reset Password',
       'Thanks for using MyEMS!': 'Thanks for using MyEMS!',
       'You are now successfully signed out': 'You are now successfully signed out',
       'Return to Login': 'Return to Login',
@@ -341,19 +341,18 @@ const resources = {
       'Confirm Password': 'Confirm Password',
       'Update Password': 'Update Password',
       'Password has been changed!': 'Password has been changed!',
-      'The link to reset your password is as follows. \
-      Please click the link within 60 minutes to proceed with the next step. \
-      If you did not request this action, please disregard this email.': 'The link to reset your password is as follows. \
-      Please click the link within 60 minutes to proceed with the next step. \
-      If you did not request this action, please disregard this email.',
-      'The link to register your account is as follows. \
-      Please click the link within 60 minutes to proceed with the next step. \
-      If you did not request this action, please disregard this email.':  'The link to register your account is as follows. \
-      Please click the link within 60 minutes to proceed with the next step. \
-      If you did not request this action, please disregard this email.',
+      'Verification code has been sent to your inbox. \
+      Please copy it to the input box below..': 'Verification code has been sent to your inbox. \
+      Please copy it to the input box below.',
       'New to MyEMS': 'New to MyEMS',
       'Create an account': 'Create an account',
       'EMAIL Account registration successful': '{{EMAIL}} Account registration successful',
+      'Thanks for verifying your account!': 'Thanks for verifying your account!',
+      'Your code is': 'Your code is',
+      'Send verification code': 'Send verification code',
+      'Please wait for NUMBER seconds': 'Please wait for {{NUMBER}} seconds',
+      'Password reset': 'Password reset',
+      'Please wait for approval': 'Please wait for approval',
       //notification
       'Notifications': 'Notifications',
       'Mark all as read': 'Mark all as read',
@@ -698,6 +697,7 @@ const resources = {
       'API.INVALID_VARIABLE_METER_ID': 'Invalid variable meter id',
       'API.INVALID_VARIABLE_METER_TYPE': 'Invalid variable meter type',
       'API.INVALID_VARIABLE_NAME': 'Invalid variable name',
+      'API.INVALID_VERIFICATION_CODE': 'Invalid verification code',
       'API.INVALID_VIRTUAL_METER_ID': 'Invalid virtual meter id',
       'API.INVALID_VIRTUAL_METER_NAME': 'Invalid virtual meter name',
       'API.INVALID_VIRTUAL_METER_UUID': 'Invalid virtual meter uuid',
@@ -1204,7 +1204,7 @@ const resources = {
         'Geben Sie Ihre E-Mail-Adresse ein und wir senden Ihnen einen Link zum Zurücksetzen',
       "Enter your email and we'll send you a registration link":
         "Geben Sie Ihre E-Mail-Adresse ein und wir senden Ihnen den Registrierungslink zu",
-      'Send reset link': 'Reset-Link senden',
+      'Reset Password': 'Passwort zurücksetzen',
       'Thanks for using MyEMS!': 'Vielen Dank, dass Sie MyEMS verwenden!',
       'You are now successfully signed out': 'Sie sind jetzt erfolgreich abgemeldet',
       'Return to Login': 'Zurück zum Login',
@@ -1212,6 +1212,8 @@ const resources = {
       'An email has been sent to ': 'Eine email wurde gesendet an ',
       'Please click on the included link to reset your password':
         'Bitte klicken Sie auf den enthaltenen Link, um Ihr Passwort zurückzusetzen',
+      'Please click on the included link to register your account':
+        'Bitte klicken Sie auf den beigefügten Link, um Ihr Konto zu registrieren.',
       'An email with password reset link is sent to ':
         'Eine E-Mail mit einem Link zum Zurücksetzen des Passworts wird an gesendet ',
       'Please click on the included link to register your account':
@@ -1222,19 +1224,18 @@ const resources = {
       'Confirm Password': 'Bestätige das Passwort',
       'Update Password': 'Kennwort aktualisieren',
       'Password has been changed!': 'Das Passwort wurde geändert!',
-      'The link to reset your password is as follows. \
-      Please click the link within 60 minutes to proceed with the next step. \
-      If you did not request this action, please disregard this email.': 'Der Link zum Zurücksetzen \
-      Ihres Passworts lautet wie folgt. Bitte klicken Sie innerhalb von 60 Minuten auf den Link, um mit dem nächsten \
-      Schritt fortzufahren. Wenn Sie diese Aktion nicht angefordert haben, ignorieren Sie diese E-Mail bitte.',
-      'The link to register your account is as follows. \
-      Please click the link within 60 minutes to proceed with the next step. \
-      If you did not request this action, please disregard this email.':  'Der Link zur Registrierung Ihres Kontos \
-      lautet wie folgt. Klicken Sie bitte innerhalb von 60 Minuten auf den Link, um mit dem nächsten Schritt \
-      fortzufahren. Wenn Sie diese Aktion nicht angefordert haben, ignorieren Sie bitte diese E-Mail.',
+      'Verification code has been sent to your inbox. \
+      Please copy it to the input box below.': 'Der Bestätigungscode wurde an Ihr Postfach gesendet. \
+      Bitte kopieren Sie ihn in das Eingabefeld unten.',
       'New to MyEMS': 'Neu bei MyEMS',
       'Create an account': 'Ein Konto erstellen',
       'EMAIL Account registration successful': '{{EMAIL}} Konto erfolgreich registriert',
+      'Thanks for verifying your account!': 'Vielen Dank, dass Sie Ihr Konto verifiziert haben!',
+      'Your code is': 'Ihr Code lautet',
+      'Send verification code': 'Verifizierungscode gesendet',
+      'Please wait for NUMBER seconds': 'Bitte warten Sie {{NUMBER}} Sekunden',
+      'Password reset': 'Passwort zurücksetzen',
+      'Please wait for approval': 'Bitte warten Sie auf Genehmigung',
       //notification
       'Notifications': 'Benachrichtigungen',
       'Mark all as read': 'Markiere alle als gelesen',
@@ -1363,6 +1364,7 @@ const resources = {
       'API.DATE_LOCAL_USED_IN_WORKING_CALENDAR': 'Lokal verwendetes Datum im Arbeitskalender',
       'API.DATE_LOCAL_NOT_FOUND': 'Datum lokal nicht gefunden',
       'API.EMAIL_IS_ALREADY_IN_USE': 'E-Mail wird bereits verwendet',
+      'API.EMAIL_NOT_FOUND': 'Die E-Mail-Adresse existiert nicht',
       'API.EMAIL_MESSAGE_NOT_FOUND': 'E-Mail-Nachricht nicht gefunden',
       'API.EMAIL_NOT_FOUND': 'Die E-Mail-Adresse existiert nicht',
       'API.EMAIL_SERVER_HOST_IS_ALREADY_IN_USE': 'E-Mail-Server-Host wird bereits verwendet',
@@ -1582,6 +1584,7 @@ const resources = {
       'API.INVALID_VARIABLE_METER_ID': 'Ungültige variable Zähler-ID',
       'API.INVALID_VARIABLE_METER_TYPE': 'Ungültiger variabler Zählertyp',
       'API.INVALID_VARIABLE_NAME': 'Ungültiger Variablenname',
+      'API.INVALID_VERIFICATION_CODE': 'Ungültiger Bestätigungscode',
       'API.INVALID_VIRTUAL_METER_ID': 'Ungültige ID des virtuellen Zählers',
       'API.INVALID_VIRTUAL_METER_NAME': 'Ungültiger Name des virtuellen Zählers',
       'API.INVALID_VIRTUAL_METER_UUID': 'Ungültige uuid des virtuellen Zählers',
@@ -2064,7 +2067,7 @@ const resources = {
       'Forgot your password?': '忘记你的密码?',
       "Enter your email and we'll send you a reset link": '输入电子邮件地址，我们会把重置链接发送给您',
       "Enter your email and we'll send you a registration link": '输入电子邮件地址，我们会把注册链接发送给您',
-      'Send reset link': '发送重置连接',
+      'Reset Password': '重置密码',
       'Thanks for using MyEMS!': '感谢您使用MyEMS!',
       'You are now successfully signed out': '您已成功退出',
       'Return to Login': '返回登录',
@@ -2079,17 +2082,17 @@ const resources = {
       'Confirm Password': '重复新密码',
       'Update Password': '更新密码',
       'Password has been changed!': '密码已修改!',
-      'The link to reset your password is as follows. \
-      Please click the link within 60 minutes to proceed with the next step. \
-      If you did not request this action, please disregard this email.': '你此次重置密码的链接如下，\
-      请在 60 分钟内点击链接进行下一步操作。 如非你本人操作，请忽略此邮件。',
-      'The link to register your account is as follows. \
-      Please click the link within 60 minutes to proceed with the next step. \
-      If you did not request this action, please disregard this email.': '你此次注册账户的链接如下，\
-      请在 60 分钟内点击链接进行下一步操作。 如非你本人操作，请忽略此邮件。',
+      'Verification code has been sent to your inbox. \
+      Please copy it to the input box below.': '验证码已发送到您的收件箱，请将其复制到下面的输入框中。',
       'New to MyEMS': '初次使用MyEMS',
       'Create an account': '注册账户',
       'EMAIL Account registration successful': '{{EMAIL}}账号注册成功',
+      'Thanks for verifying your account!': '感谢您验证您的账户！',
+      'Your code is': '您的代码是',
+      'Send verification code': '发送验证码',
+      'Please wait for NUMBER seconds': '请等待{{NUMBER}}秒',
+      'Password reset': '密码重置',
+      'Please wait for approval': '请等待审核',
       //notification
       'Notifications': '通知',
       'Mark all as read': '全部设为已读',
@@ -2433,6 +2436,7 @@ const resources = {
       'API.INVALID_VARIABLE_METER_ID': '无效的变量计量表ID',
       'API.INVALID_VARIABLE_METER_TYPE': '无效的变量计量表类型',
       'API.INVALID_VARIABLE_NAME': '无效的变量名称',
+      'API.INVALID_VERIFICATION_CODE': '无效的验证码',
       'API.INVALID_VIRTUAL_METER_ID': '无效的虚拟表ID',
       'API.INVALID_VIRTUAL_METER_NAME': '无效的虚拟表名称',
       'API.INVALID_VIRTUAL_METER_UUID': '无效的虚拟表UUID',

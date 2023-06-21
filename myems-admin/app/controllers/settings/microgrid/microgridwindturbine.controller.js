@@ -2,6 +2,7 @@
 
 app.controller('MicrogridWindturbineController', function(
 	$scope,
+	$rootScope,
 	$window,
 	$translate,
 	$uibModal,
@@ -79,6 +80,7 @@ app.controller('MicrogridWindturbineController', function(
   		}, function() {
 
   		});
+		$rootScope.modalInstance = modalInstance;
   	};
 
   	$scope.editMicrogridWindturbine = function(microgridwindturbine) {
@@ -120,6 +122,7 @@ app.controller('MicrogridWindturbineController', function(
   		}, function() {
   			//do nothing;
   		});
+		$rootScope.modalInstance = modalInstance;
   	};
 
   	$scope.deleteMicrogridWindturbine = function(microgridwindturbine) {

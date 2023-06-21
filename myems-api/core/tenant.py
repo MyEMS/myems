@@ -6,7 +6,7 @@ import mysql.connector
 import simplejson as json
 
 import config
-from core.useractivity import user_logger, access_control
+from core.useractivity import user_logger, admin_control
 
 
 class TenantCollection:
@@ -114,7 +114,7 @@ class TenantCollection:
     @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
-        access_control(req)
+        admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -409,7 +409,7 @@ class TenantItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_):
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_ID')
@@ -528,7 +528,7 @@ class TenantItem:
     @user_logger
     def on_put(req, resp, id_):
         """Handles PUT requests"""
-        access_control(req)
+        admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -791,7 +791,7 @@ class TenantMeterCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
-        access_control(req)
+        admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -867,7 +867,7 @@ class TenantMeterItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, mid):
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_ID')
@@ -976,7 +976,7 @@ class TenantOfflineMeterCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
-        access_control(req)
+        admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -1052,7 +1052,7 @@ class TenantOfflineMeterItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, mid):
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_ID')
@@ -1161,7 +1161,7 @@ class TenantPointCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
-        access_control(req)
+        admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -1237,7 +1237,7 @@ class TenantPointItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, pid):
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_ID')
@@ -1333,7 +1333,7 @@ class TenantSensorCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
-        access_control(req)
+        admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -1409,7 +1409,7 @@ class TenantSensorItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, sid):
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_ID')
@@ -1518,7 +1518,7 @@ class TenantVirtualMeterCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
-        access_control(req)
+        admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -1594,7 +1594,7 @@ class TenantVirtualMeterItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, mid):
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_ID')
@@ -1690,7 +1690,7 @@ class TenantWorkingCalendarCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
-        access_control(req)
+        admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -1766,7 +1766,7 @@ class TenantWorkingCalendarItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, wcid):
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_ID')
@@ -1861,7 +1861,7 @@ class TenantCommandCollection:
     @user_logger
     def on_post(req, resp, id_):
         """Handles POST requests"""
-        access_control(req)
+        admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -1937,7 +1937,7 @@ class TenantCommandItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, cid):
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_ID')
