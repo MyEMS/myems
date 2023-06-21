@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+- 
+### Changed
+- 
+### Fixed
+- 
+### Removed
+- 
+
+## [v3.6.0] - 2023-06-22
+### Added
 - added microgrid battery actions to myems-api and myems-admin
 - added microgrid evcharger actions to myems-api and myems-admin
 - added microgrid generator actions to myems-api and myems-admin
@@ -21,16 +31,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added API Key to database, myems-api and myems-admin
 - added access control to shopfloor in myems-api, myems-admin and myems-web
 - added access control to store in myems-api, myems-admin and myems-web
-- 
+
 ### Changed
 - renamed access_control to admin_control in myems-api
 - changed forgot password and user register processes
-- 
+
 ### Fixed
 - fixed dialog doesn't close after myems-admin logging out automatically
 - fixed warning of dependencies in myems-web
 
 ### Removed
+- None
 
 ## [v3.5.0] - 2023-06-09
 ### Added
@@ -1334,7 +1345,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v3.5.0...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v3.6.0...HEAD
+[3.6.0]: https://github.com/MyEMS/myems/compare/v3.6.0...v3.5.0
 [3.5.0]: https://github.com/MyEMS/myems/compare/v3.5.0...v3.4.0
 [3.4.0]: https://github.com/MyEMS/myems/compare/v3.4.0...v3.3.0
 [3.3.0]: https://github.com/MyEMS/myems/compare/v3.3.0...v3.2.0
