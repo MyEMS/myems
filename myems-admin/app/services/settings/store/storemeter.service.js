@@ -27,8 +27,8 @@ app.factory('StoreMeterService', function($http) {
                 callback(response);
             });
         },
-        getMetersByStoreID: function(id, metertype, callback) {
-            $http.get(getAPI()+'stores/'+id+'/'+metertype)
+        getMetersByStoreID: function(id, metertype, headers, callback) {
+            $http.get(getAPI()+'stores/'+id+'/'+metertype, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

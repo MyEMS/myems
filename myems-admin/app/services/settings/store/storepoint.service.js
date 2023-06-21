@@ -18,8 +18,8 @@ app.factory('StorePointService', function($http) {
                 callback(response);
             });
         },
-        getPointsByStoreID: function(id, callback) {
-            $http.get(getAPI()+'stores/'+id+'/points')
+        getPointsByStoreID: function(id, headers, callback) {
+            $http.get(getAPI()+'stores/'+id+'/points', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
