@@ -1,34 +1,80 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
-import AppContext from '../../../context/Context';
-import { Button, Form, FormGroup, Input, Row, Col, Label } from 'reactstrap';
+import { Button, Form, FormGroup, Input, Row, Col, Label, InputGroup, InputGroupAddon } from 'reactstrap';
 import withRedirect from '../../../hoc/withRedirect';
-import { getItemFromStore, setItemToStore, themeColors } from '../../../helpers/utils';
+import { setItemToStore, themeColors } from '../../../helpers/utils';
 import { withTranslation } from 'react-i18next';
-import Captcha from 'react-captcha-code';
+import {FaEye, FaEyeSlash} from 'react-icons/fa';
 import moment from 'moment';
 import { APIBaseURL } from '../../../config';
 
-const SentForgotPasswordEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, layout, t }) => {
+const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, layout, t }) => {
   // State
-  const [email, setEmail] = useState(getItemFromStore('email', ''));
+  const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
-  const [captchaCode, setCaptchaCode] = useState('');
-  const captchaRef = useRef(null);
+  const [isdisabled, setIsDisabled] = useState(false);
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [displayName, setDisplayName] = useState('');
+  const [inputType, setInputType] = useState('password');
+  const [number, setNumber] = useState(60);
 
-  const { isDark } = useContext(AppContext);
-
-  // Handler
-  const handleSubmit = e => {
+   // Handler
+   const handleSubmit = e => {
     e.preventDefault();
     let isResponseOK = false;
-    if (captchaCode.toLowerCase() !== code.toLowerCase()) {
-      toast.error(t('Captcha Error'));
-      handleRefreshCaptcha();
-      return false;
-    }
-    let subject = t("Forgot Password");
+    fetch(APIBaseURL + '/users/newusers', {
+      method: 'POST',
+      body: JSON.stringify({ "data":
+        { "name": name,
+          "display_name": displayName,
+          "email": email,
+          "password": password,
+          "verification_code": code
+        }
+      }),
+      headers: { "Content-Type": "application/json" }
+    }).then(response => {
+      const interval = setInterval(() => {
+        setNumber((prevNumber) => prevNumber - 1)
+      }, 1000);
+      const timerId = setTimeout(() => {
+        setIsDisabled(false);
+        setNumber(60);
+        clearTimeout(timerId);
+        clearInterval(interval);
+      }, 1000 * 60);
+      if (response.ok) {
+        isResponseOK = true;
+        return null
+      } else {
+        return response.json();
+      }
+    }).then(json => {
+      if (isResponseOK) {
+        toast.success(t('EMAIL Account registration successful', {'EMAIL': email}));
+        toast.success(t('Please wait for approval'));
+        setRedirect(true);
+      } else {
+        toast.error(t(json.description));
+      }
+    }).catch(err => {
+      console.log(err);
+    });
+  };
+
+  // Handler
+  const handleCodeSubmit = e => {
+    setIsDisabled(true);
+    const timeId = setTimeout(() => {
+      setIsDisabled(false);
+      clearTimeout(timeId);
+    }, 1000 * 60);
+    e.preventDefault();
+    let isResponseOK = false;
+    let subject = "Create an account";
     let created_datetime = moment().clone().format('YYYY-MM-DDTHH:mm:ss');
     let scheduled_datetime = moment().clone().format('YYYY-MM-DDTHH:mm:ss');
     let message = 
@@ -43,18 +89,15 @@ const SentForgotPasswordEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLa
         <td style="padding-top: 60px;padding-left: 20px;padding-right: 20px;font-size: 14px;line-height:1.4;color: #525967;" colspan="2">
         <b>
     ${email} :</b><br><br>
-    ${t("The link to reset your password is as follows. \
-      Please click the link within 60 minutes to proceed with the next step. \
-      If you did not request this action, please disregard this email.")}
+    ${t("Thanks for verifying your account!.")}
     </td>
         </tr>
         <tr>
         <td colspan="2">
         <div style="margin-top: 20px;margin-bottom: 20px;width: 100%;height: 1px;background-color: #acbdd4;"><br></div></td></tr>
         <tr><td colspan="2">&nbsp;&nbsp;&nbsp;&nbsp; 
-     <a href="${window.location.href.split(layout)[0]}${layout}/forgot-password?token={token}&email=${email}" style="display: block;" target="_blank">
-    ${t('Please click on the included link to reset your password')}
-    </a><br></td></tr>
+        <b>${t("Your code is")} {verification_code}.</b>
+    <br></td></tr>
         </tbody></table>
         </td>
         </tr>
@@ -76,17 +119,14 @@ const SentForgotPasswordEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLa
     }).then(response => {
       if (response.ok) {
         isResponseOK = true;
-        handleRefreshCaptcha();
         return null
       } else {
         return response.json();
       }
     }).then(json => {
       if (isResponseOK) {
-        toast.success(t('An email with password reset link is sent to ') + email );
-        setRedirect(true);
+        toast.success(t('An email has been sent to ') + email );
       } else {
-        handleRefreshCaptcha();
         toast.error(t(json.description));
       }
     }).catch(err => {
@@ -104,7 +144,7 @@ const SentForgotPasswordEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLa
   };
 
   useEffect(() => {
-    setRedirectUrl(`/authentication/${layout}/confirm-mail`);
+    setRedirectUrl(`/authentication/${layout}/login`);
   }, [setRedirectUrl, layout]);
 
   useEffect(() => {
@@ -112,17 +152,23 @@ const SentForgotPasswordEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLa
     // eslint-disable-next-line
   }, [email]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      handleRefreshCaptcha();
-    }, 1000 * 60);
-    return () => clearInterval(interval);
-  }, []);
 
-  const handleRefreshCaptcha = () => {
-    setCode('');
-    captchaRef.current.refresh()
+  useEffect(() => {
+    setIsSubmitDisabled(!email || !password || !displayName || !name || !code);
+  }, [email, password, displayName, name, code]);
+
+  const toggleVisibility = () => {
+    setInputType(inputType === 'password' ? 'text' : 'password');
   };
+
+  const validateEmail = (email) => {
+    const regExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (regExp.test(email)) {
+      setIsSubmitDisabled(true);
+    } else {
+      setIsSubmitDisabled(false);
+    }
+  }
 
   return (
     <Form className="mt-4" onSubmit={handleSubmit}>
@@ -131,8 +177,46 @@ const SentForgotPasswordEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLa
           className="form-control"
           placeholder={t('Email address')}
           value={email}
-          onChange={({ target }) => setEmail(target.value)}
+          onChange={({ target }) =>{validateEmail(target.value); setEmail(target.value)}}
           type="email"
+        />
+      </FormGroup>
+      <FormGroup>
+        <InputGroup>
+          <Input
+              id="password"
+              placeholder={!hasLabel ? t('Password') : ''}
+              value={password}
+              maxLength={100}
+              className="password-input"
+              onChange={({ target }) => setPassword(target.value)}
+              type={inputType}
+          />
+          <InputGroupAddon addonType="append">
+            <Button color="secondary" onClick={toggleVisibility}>
+              {inputType === 'password' ? <FaEyeSlash /> : <FaEye />}
+            </Button>
+          </InputGroupAddon>
+        </InputGroup>
+      </FormGroup>
+      <FormGroup>
+        <Input
+            id="name"
+            placeholder={t('UserName')}
+            value={name}
+            maxLength={30}
+            onChange={({ target }) => setName(target.value)}
+            type="text"
+        />
+      </FormGroup>
+      <FormGroup>
+        <Input
+            id="display_name"
+            placeholder={t('DisplayName')}
+            value={displayName}
+            maxLength={30}
+            onChange={({ target }) => setDisplayName(target.value)}
+            type="text"
         />
       </FormGroup>
       <FormGroup>
@@ -144,6 +228,7 @@ const SentForgotPasswordEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLa
               value={code}
               onChange={({ target }) => setCode(target.value)}
               type="text"
+              maxLength={6}
             />
           </Col>
           <Col xs="6" className='align-items-center d-flex'>
@@ -153,12 +238,11 @@ const SentForgotPasswordEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLa
               {isdisabled ? t('Please wait for NUMBER seconds', {'NUMBER': number}) : t('Send verification code')} 
             </Button>
           </Col>
-        
         </Row>
       </FormGroup>
       <FormGroup>
         <Button color="primary" block disabled={isSubmitDisabled}>
-          {t('Reset Password')}
+          {t('Submit')}
         </Button>
       </FormGroup>
       {/* <Link className="fs--1 text-600" to="#!">
@@ -169,12 +253,12 @@ const SentForgotPasswordEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLa
   );
 };
 
-SentForgotPasswordEmailMessageForm.propTypes = {
+SentRegisterEmailMessageForm.propTypes = {
   setRedirect: PropTypes.func.isRequired,
   setRedirectUrl: PropTypes.func.isRequired,
   layout: PropTypes.string
 };
 
-SentForgotPasswordEmailMessageForm.defaultProps = { layout: 'basic' };
+SentRegisterEmailMessageForm.defaultProps = { layout: 'basic' };
 
-export default withTranslation()(withRedirect(SentForgotPasswordEmailMessageForm));
+export default withTranslation()(withRedirect(SentRegisterEmailMessageForm));
