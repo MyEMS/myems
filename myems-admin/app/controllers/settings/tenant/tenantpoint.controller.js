@@ -39,7 +39,8 @@ app.controller('TenantPointController', function (
     };
 
     $scope.getPointsByTenantID = function (id) {
-        TenantPointService.getPointsByTenantID(id, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        TenantPointService.getPointsByTenantID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.tenantpoints = response.data;
             } else {
@@ -61,7 +62,8 @@ app.controller('TenantPointController', function (
     };
 
     $scope.getAllTenants = function () {
-        TenantService.getAllTenants(function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        TenantService.getAllTenants(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.tenants = response.data;
             } else {
