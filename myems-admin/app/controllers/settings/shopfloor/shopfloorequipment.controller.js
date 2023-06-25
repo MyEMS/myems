@@ -12,7 +12,8 @@ app.controller('ShopfloorEquipmentController', function (
     $scope.currentShopfloor = {selected:undefined};
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.getAllEquipments = function () {
-        EquipmentService.getAllEquipments(function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        EquipmentService.getAllEquipments(headers, function (response) {
           if (angular.isDefined(response.status) && response.status === 200) {
               $scope.equipments = response.data;
           } else {

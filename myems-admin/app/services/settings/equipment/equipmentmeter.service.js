@@ -26,8 +26,8 @@ app.factory('EquipmentMeterService', function($http) {
                 callback(response);
             }); 
         },
-        getMetersByEquipmentID: function(id,metertype, callback) {  
-            $http.get(getAPI()+'equipments/'+id+'/'+ metertype)  
+        getMetersByEquipmentID: function(id,metertype, headers, callback) {
+            $http.get(getAPI()+'equipments/'+id+'/'+ metertype, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

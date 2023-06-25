@@ -22,7 +22,8 @@ app.controller('EquipmentCommandController', function (
 	};
 
     $scope.getCommandsByEquipmentID = function (id) {
-        EquipmentCommandService.getCommandsByEquipmentID(id, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        EquipmentCommandService.getCommandsByEquipmentID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.equipmentcommands = response.data;
             } else {
@@ -38,7 +39,8 @@ app.controller('EquipmentCommandController', function (
     };
 
     $scope.getAllEquipments = function () {
-        EquipmentService.getAllEquipments(function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        EquipmentService.getAllEquipments(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.equipments = response.data;
                 $timeout(function () {
