@@ -59,7 +59,8 @@ app.controller('SpaceTenantController', function(
 		};
 
 	$scope.getAllTenants = function() {
-		TenantService.getAllTenants(function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		TenantService.getAllTenants(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.tenants = response.data;
 			} else {

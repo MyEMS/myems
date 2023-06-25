@@ -27,8 +27,8 @@ app.factory('TenantMeterService', function($http) {
                 callback(response);
             });
         },
-        getMetersByTenantID: function(id, metertype, callback) {
-            $http.get(getAPI()+'tenants/'+id+'/'+metertype)
+        getMetersByTenantID: function(id, metertype, headers, callback) {
+            $http.get(getAPI()+'tenants/'+id+'/'+metertype, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

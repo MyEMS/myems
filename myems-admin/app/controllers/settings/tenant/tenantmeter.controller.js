@@ -14,7 +14,8 @@ app.controller('TenantMeterController', function(
     $scope.currentTenant = {selected:undefined};
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	  $scope.getAllTenants = function(id) {
-		TenantService.getAllTenants(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		TenantService.getAllTenants(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.tenants = response.data;
 				} else {
@@ -32,8 +33,9 @@ app.controller('TenantMeterController', function(
 	$scope.getMetersByTenantID = function(id) {
 		var metertypes=['meters','virtualmeters','offlinemeters'];
 		$scope.tenantmeters=[];
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		angular.forEach(metertypes,function(value,index){
-			TenantMeterService.getMetersByTenantID(id, value, function (response) {
+			TenantMeterService.getMetersByTenantID(id, value, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					angular.forEach(response.data,function(item,indx){
 						response.data[indx].metertype = value;
