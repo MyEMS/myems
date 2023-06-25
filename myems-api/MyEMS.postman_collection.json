@@ -1,9 +1,8 @@
 {
 	"info": {
-		"_postman_id": "b11cda65-395d-4174-be87-687c12b66bf6",
+		"_postman_id": "f7a0a5cd-5a4d-4e90-9cff-bdac52dbb238",
 		"name": "MyEMS",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "9597038"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -11402,7 +11401,7 @@
 						{
 							"name": "DELETE a Tenant by ID",
 							"request": {
-								"method": "GET",
+								"method": "DELETE",
 								"header": [
 									{
 										"key": "User-UUID",
