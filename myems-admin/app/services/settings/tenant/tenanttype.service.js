@@ -1,8 +1,8 @@
 'use strict';
 app.factory('TenantTypeService', function($http) {
     return {
-        getAllTenantTypes:function(callback){
-            $http.get(getAPI()+'tenanttypes')
+        getAllTenantTypes:function(headers, callback){
+            $http.get(getAPI()+'tenanttypes', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

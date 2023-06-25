@@ -18,8 +18,8 @@ app.factory('TenantCommandService', function($http) {
                 callback(response);
             });
         },
-        getCommandsByTenantID: function(id, callback) {
-            $http.get(getAPI()+'tenants/'+id+'/commands')
+        getCommandsByTenantID: function(id, headers, callback) {
+            $http.get(getAPI()+'tenants/'+id+'/commands', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

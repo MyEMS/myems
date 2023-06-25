@@ -22,7 +22,8 @@ app.controller('TenantCommandController', function (
 	};
 
     $scope.getCommandsByTenantID = function (id) {
-        TenantCommandService.getCommandsByTenantID(id, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        TenantCommandService.getCommandsByTenantID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.tenantcommands = response.data;
             } else {
@@ -38,7 +39,8 @@ app.controller('TenantCommandController', function (
     };
 
     $scope.getAllTenants = function () {
-        TenantService.getAllTenants(function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        TenantService.getAllTenants(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.tenants = response.data;
                 $timeout(function () {

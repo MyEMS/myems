@@ -10,6 +10,7 @@ import simplejson as json
 import config
 import excelexporters.tenantenergyitem
 from core import utilities
+from core.useractivity import access_control
 
 
 class Reporting:
@@ -37,6 +38,7 @@ class Reporting:
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
+        access_control(req)
         print(req.params)
         tenant_id = req.params.get('tenantid')
         tenant_uuid = req.params.get('tenantuuid')

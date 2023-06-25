@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "5f46812f-e0db-4bbc-a09c-8bd70e53e93f",
+		"_postman_id": "b11cda65-395d-4174-be87-687c12b66bf6",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "9597038"
@@ -11281,7 +11281,18 @@
 							"name": "GET All Tenants",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "11111173c15d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d11111",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/tenants",
 									"host": [
@@ -11298,7 +11309,18 @@
 							"name": "GET a Tenant by ID",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "11111173c15d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d11111",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/tenants/1",
 									"host": [
@@ -11410,7 +11432,18 @@
 							"name": "GET All Meters of Tenant by ID",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "11111173c15d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d11111",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/tenants/1/meters",
 									"host": [
@@ -11494,7 +11527,18 @@
 							"name": "GET All OfflineMeters of Tenant",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "11111173c15d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d11111",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/tenants/1/offlinemeters",
 									"host": [
@@ -11578,7 +11622,18 @@
 							"name": "GET All Points of Tenant by ID",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "11111173c15d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d11111",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/tenants/1/points",
 									"host": [
@@ -11662,7 +11717,18 @@
 							"name": "GET All Sensors of Tenant by ID",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "11111173c15d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d11111",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/tenants/1/sensors",
 									"host": [
@@ -11746,7 +11812,18 @@
 							"name": "GET All Virtual Meters of Tenant by ID",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "11111173c15d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d11111",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/tenants/1/virtualmeters",
 									"host": [
@@ -11830,7 +11907,18 @@
 							"name": "GET All Working Calendars of Tenant by ID",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "11111173c15d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d11111",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/tenants/1/workingcalendars",
 									"host": [
@@ -11914,7 +12002,18 @@
 							"name": "GET All Commands of a Tenant",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "11111173c15d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d11111",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/tenants/1/commands",
 									"host": [
@@ -12005,7 +12104,18 @@
 							"name": "GET All Tenant Types",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "11111173c15d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d11111",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/tenanttypes",
 									"host": [
@@ -12022,7 +12132,18 @@
 							"name": "GET a Tenant Type by ID",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "11111173c15d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d11111",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/tenanttypes/1",
 									"host": [
@@ -20603,7 +20724,18 @@
 					"name": "GET Tenant Batch Analysis Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "11111173c15d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d11111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/tenantbatch?spaceid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00",
 							"host": [
@@ -20635,7 +20767,18 @@
 					"name": "GET Tenant Batch Analysis Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "11111173c15d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d11111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/tenantbatch?spaceid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00&quickmode=true",
 							"host": [
@@ -20671,7 +20814,18 @@
 					"name": "GET Tenant Bill Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "11111173c15d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d11111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/tenantbill?tenantid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00",
 							"host": [
@@ -20710,7 +20864,18 @@
 					"name": "GET Tenant Cost Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "11111173c15d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d11111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/tenantcost?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -20761,7 +20926,18 @@
 					"name": "GET Tenant Cost Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "11111173c15d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d11111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/tenantcost?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -20816,7 +20992,18 @@
 					"name": "GET Tenant Energy Category Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "11111173c15d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d11111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/tenantenergycategory?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -20867,7 +21054,18 @@
 					"name": "GET Tenant Energy Category Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "11111173c15d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d11111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/tenantenergycategory?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -20922,7 +21120,18 @@
 					"name": "GET Tenant Energy Item Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "11111173c15d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d11111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/tenantenergyitem?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -20973,7 +21182,18 @@
 					"name": "GET Tenant Energy Item Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "11111173c15d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d11111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/tenantenergyitem?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -21028,7 +21248,18 @@
 					"name": "GET Tenant Load Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "11111173c15d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d11111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/tenantload?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -21079,7 +21310,18 @@
 					"name": "GET Tenant Load Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "11111173c15d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d11111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/tenantload?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -21134,7 +21376,18 @@
 					"name": "GET Tenant Saving Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "11111173c15d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d11111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/tenantsaving?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -21185,7 +21438,18 @@
 					"name": "GET Tenant Saving Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "11111173c15d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d11111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/tenantsaving?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -21240,7 +21504,18 @@
 					"name": "GET Tenant Statistics Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "11111173c15d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d11111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/tenantstatistics?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -21291,7 +21566,18 @@
 					"name": "GET Tenant Statistics Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "11111173c15d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d11111",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/tenantstatistics?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [

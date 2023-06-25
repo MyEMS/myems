@@ -18,8 +18,8 @@ app.factory('TenantWorkingCalendarService', function($http) {
                 callback(response);
             });
         },
-        getWorkingCalendarsByTenantID: function(id,  callback) {
-            $http.get(getAPI()+'tenants/'+id+'/workingcalendars')
+        getWorkingCalendarsByTenantID: function(id, headers, callback) {
+            $http.get(getAPI()+'tenants/'+id+'/workingcalendars', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
