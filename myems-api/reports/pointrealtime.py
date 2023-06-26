@@ -2,6 +2,7 @@ from datetime import datetime, timedelta, timezone
 import falcon
 import mysql.connector
 import simplejson as json
+from core.useractivity import access_control
 import config
 
 
@@ -25,7 +26,7 @@ class Reporting:
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
-        print(req.params)
+        access_control(req)
         ################################################################################################################
         # Step 1: valid parameters
         ################################################################################################################
