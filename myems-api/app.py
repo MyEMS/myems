@@ -81,6 +81,7 @@ from reports import storeenergyitem
 from reports import storeload
 from reports import storesaving
 from reports import storestatistics
+from reports import pointrealtime
 from reports import tenantbatch
 from reports import tenantbill
 from reports import tenantcarbon
@@ -759,6 +760,8 @@ api.add_route('/reports/offlinemeterenergy',
               offlinemeterenergy.Reporting())
 api.add_route('/reports/offlinemetersaving',
               offlinemetersaving.Reporting())
+api.add_route('/reports/pointrealtime',
+              pointrealtime.Reporting())
 api.add_route('/reports/shopfloorcarbon',
               shopfloorcarbon.Reporting())
 api.add_route('/reports/shopfloorcost',

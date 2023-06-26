@@ -18050,6 +18050,35 @@
 					"response": []
 				},
 				{
+					"name": "GET Point Realtime Report",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+								"type": "default"
+							},
+							{
+								"key": "Token",
+								"value": "0e202bb851941dcd6c9355430af884fb86112dee515f922df9565b98fe3fa2290b2646bd09185ad515bfcdb8d30f44d72b907320c786fb05251f858cde2d8ce6",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reports/pointrealtime",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"pointrealtime"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Shopfloor Batch Analysis Report",
 					"request": {
 						"method": "GET",

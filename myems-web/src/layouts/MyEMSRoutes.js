@@ -191,6 +191,8 @@ import CombinedEquipmentStatistics from '../components/MyEMS/CombinedEquipment/C
 // Auxiliary System
 import EnergyFlowDiagram from '../components/MyEMS/AuxiliarySystem/EnergyFlowDiagram';
 import DistributionSystem from '../components/MyEMS/AuxiliarySystem/DistributionSystem';
+// Microgrid
+import Microgrid from '../components/MyEMS/Microgrid/Microgrid';
 // FDD
 import FDDFault from '../components/MyEMS/FDD/Fault';
 // Monitoring
@@ -445,6 +447,9 @@ const MyEMSRoutes = () => (
     {/*Auxiliary System*/}
     <Route path="/auxiliarysystem/energyflowdiagram" exact component={EnergyFlowDiagram} />
     <Route path="/auxiliarysystem/distributionsystem" exact component={DistributionSystem} />
+    
+    {/*Microgrid*/}
+    <Route path="/microgrid" exact component={Microgrid} />
 
     {/*FDD*/}
     <Route path="/fdd" exact component={FDDFault} />
