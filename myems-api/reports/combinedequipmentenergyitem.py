@@ -9,6 +9,7 @@ import simplejson as json
 import config
 import excelexporters.combinedequipmentenergyitem
 from core import utilities
+from core.useractivity import access_control
 
 
 class Reporting:
@@ -37,6 +38,7 @@ class Reporting:
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
+        access_control(req)
         print(req.params)
         combined_equipment_id = req.params.get('combinedequipmentid')
         combined_equipment_uuid = req.params.get('combinedequipmentuuid')
