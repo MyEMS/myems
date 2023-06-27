@@ -3496,7 +3496,18 @@
 							"name": "GET All Equipments",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/equipments",
 									"host": [
@@ -3547,7 +3558,18 @@
 							"name": "GET an Equipment by ID",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/equipments/1",
 									"host": [
@@ -3702,7 +3724,18 @@
 							"name": "GET All Meters of an Equipment",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/equipments/1/meters",
 									"host": [
@@ -3790,7 +3823,18 @@
 							"name": "GET All Offline Meters of an Equipment",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/equipments/1/offlinemeters",
 									"host": [
@@ -3842,7 +3886,18 @@
 							"name": "GET All Parameters of an Equipment",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/equipments/1/parameters",
 									"host": [
@@ -3861,7 +3916,18 @@
 							"name": "GET a Parameter of an Equipment",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/equipments/1/parameters/2",
 									"host": [
@@ -4175,7 +4241,18 @@
 							"name": "GET All Virtual Meters of an Equipment",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/equipments/1/virtualmeters",
 									"host": [
@@ -4227,7 +4304,18 @@
 							"name": "GET All Commands associated with Equipment ID",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/equipments/1/commands",
 									"host": [
@@ -15685,7 +15773,18 @@
 					"name": "GET Equipment Batch Analysis Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/equipmentbatch?spaceid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00",
 							"host": [
@@ -15717,7 +15816,18 @@
 					"name": "GET Equipment Batch Analysis Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/equipmentbatch?spaceid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00&quickmode=true",
 							"host": [
@@ -15753,7 +15863,18 @@
 					"name": "GET Equipment Cost Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/equipmentcost?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -15804,7 +15925,18 @@
 					"name": "GET Equipment Cost Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/equipmentcost?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -15859,7 +15991,18 @@
 					"name": "GET Equipment Efficiency Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/equipmentefficiency?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -15910,7 +16053,18 @@
 					"name": "GET Equipment Efficiency Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/equipmentefficiency?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -15965,7 +16119,18 @@
 					"name": "GET Equipment Energy Category Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/equipmentenergycategory?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -16016,7 +16181,18 @@
 					"name": "GET Equipment Energy Category Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/equipmentenergycategory?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -16071,7 +16247,18 @@
 					"name": "GET Equipment Energy Item Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/equipmentenergyitem?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -16122,7 +16309,18 @@
 					"name": "GET Equipment Energy Item Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/equipmentenergyitem?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -16177,7 +16375,18 @@
 					"name": "GET Equipment Income Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/equipmentincome?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -16228,7 +16437,18 @@
 					"name": "GET Equipment Income Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/equipmentincome?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -16283,7 +16503,18 @@
 					"name": "GET Equipment Load Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/equipmentload?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -16334,7 +16565,18 @@
 					"name": "GET Equipment Load Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/equipmentload?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -16389,7 +16631,18 @@
 					"name": "GET Equipment Output Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/equipmentoutput?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -16440,7 +16693,18 @@
 					"name": "GET Equipment Output Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/equipmentoutput?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -16495,7 +16759,18 @@
 					"name": "GET Equipment Saving Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/equipmentsaving?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -16546,7 +16821,18 @@
 					"name": "GET Equipment Saving Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/equipmentsaving?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -16597,7 +16883,18 @@
 					"name": "GET Equipment Statistics Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/equipmentstatistics?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -16648,7 +16945,18 @@
 					"name": "GET Equipment Statistics Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/equipmentstatistics?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [

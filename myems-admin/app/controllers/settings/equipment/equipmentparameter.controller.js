@@ -23,7 +23,8 @@ app.controller('EquipmentParameterController', function(
     $scope.mergedMeters = [];
 
 	$scope.getAllEquipments = function() {
-		EquipmentService.getAllEquipments(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		EquipmentService.getAllEquipments(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.equipments = response.data;
 			} else {
@@ -41,7 +42,8 @@ app.controller('EquipmentParameterController', function(
 
 	$scope.getParametersByEquipmentID = function(id) {
 		$scope.equipmentparameters=[];
-		EquipmentParameterService.getParametersByEquipmentID(id, function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		EquipmentParameterService.getParametersByEquipmentID(id, headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.equipmentparameters = response.data;
 			}
