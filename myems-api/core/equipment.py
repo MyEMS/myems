@@ -5,7 +5,7 @@ import mysql.connector
 import simplejson as json
 
 import config
-from core.useractivity import user_logger, admin_control
+from core.useractivity import user_logger, admin_control, access_control
 
 
 class EquipmentCollection:
@@ -20,6 +20,7 @@ class EquipmentCollection:
 
     @staticmethod
     def on_get(req, resp):
+        access_control(req)
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -163,6 +164,7 @@ class EquipmentItem:
 
     @staticmethod
     def on_get(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EQUIPMENT_ID')
@@ -413,6 +415,7 @@ class EquipmentItem:
     @staticmethod
     @user_logger
     def on_post(req, resp, id_):
+        admin_control(req)
         """Handles POST requests"""
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -560,6 +563,7 @@ class EquipmentParameterCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EQUIPMENT_ID')
@@ -875,6 +879,7 @@ class EquipmentParameterItem:
 
     @staticmethod
     def on_get(req, resp, id_, pid):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EQUIPMENT_ID')
@@ -1253,6 +1258,7 @@ class EquipmentMeterCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EQUIPMENT_ID')
@@ -1445,6 +1451,7 @@ class EquipmentOfflineMeterCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EQUIPMENT_ID')
@@ -1638,6 +1645,7 @@ class EquipmentVirtualMeterCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EQUIPMENT_ID')
@@ -1831,6 +1839,7 @@ class EquipmentCommandCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EQUIPMENT_ID')

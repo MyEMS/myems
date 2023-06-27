@@ -18,7 +18,8 @@ app.controller('EquipmentMeterController', function(
     $scope.currentEquipment = {selected:undefined};
 
 	$scope.getAllEquipments = function(id) {
-		EquipmentService.getAllEquipments(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		EquipmentService.getAllEquipments(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.equipments = response.data;
 				} else {
@@ -36,8 +37,9 @@ app.controller('EquipmentMeterController', function(
 	$scope.getMetersByEquipmentID = function(id) {
 		var metertypes=['meters','virtualmeters','offlinemeters'];
 		$scope.equipmentmeters=[];
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		angular.forEach(metertypes,function(value,index){
-			EquipmentMeterService.getMetersByEquipmentID(id, value, function (response) {
+			EquipmentMeterService.getMetersByEquipmentID(id, value, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					angular.forEach(response.data,function(item, indx){
 						response.data[indx].metertype = value;
