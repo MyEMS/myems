@@ -34,7 +34,8 @@ app.controller('TenantController', function (
 	};
 
 	$scope.getAllTenants = function () {
-		TenantService.getAllTenants(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		TenantService.getAllTenants(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.tenants = response.data;
 			} else {
@@ -44,7 +45,8 @@ app.controller('TenantController', function (
 	};
 
 	$scope.getAllTenantTypes = function () {
-		TenantTypeService.getAllTenantTypes(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		TenantTypeService.getAllTenantTypes(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.tenanttypes = response.data;
 			} else {

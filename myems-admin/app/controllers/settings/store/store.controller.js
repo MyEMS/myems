@@ -34,7 +34,8 @@ app.controller('StoreController', function(
 	};
 
 	$scope.getAllStores = function() {
-		StoreService.getAllStores(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		StoreService.getAllStores(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.stores = response.data;
 			} else {
@@ -44,7 +45,8 @@ app.controller('StoreController', function(
 	};
 
     $scope.getAllStoreTypes = function() {
-        StoreTypeService.getAllStoreTypes(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        StoreTypeService.getAllStoreTypes(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.storetypes = response.data;
             } else {

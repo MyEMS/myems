@@ -2,7 +2,7 @@ import falcon
 from falcon_cors import CORS
 from falcon_multipart.middleware import MultipartMiddleware
 
-from core import energyflowdiagram, privilege, textmessage, distributioncircuit, virtualmeter, \
+from core import apikey, energyflowdiagram, privilege, textmessage, distributioncircuit, virtualmeter, \
     costcenter, point, knowledgefile, meter, tariff, user, storetype, timezone, \
     costfile, offlinemeterfile, version, contact, emailserver, combinedequipment, datasource, equipment, tenant, \
     shopfloor, webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, \
@@ -81,6 +81,7 @@ from reports import storeenergyitem
 from reports import storeload
 from reports import storesaving
 from reports import storestatistics
+from reports import pointrealtime
 from reports import tenantbatch
 from reports import tenantbill
 from reports import tenantcarbon
@@ -396,6 +397,11 @@ api.add_route('/points',
               point.PointCollection())
 api.add_route('/points/{id_}',
               point.PointItem())
+
+api.add_route('/apikeys',
+              apikey.ApiKeyCollection())
+api.add_route('/apikeys/{id_}',
+              apikey.ApiKeyItem())
 
 api.add_route('/privileges',
               privilege.PrivilegeCollection())
@@ -754,6 +760,8 @@ api.add_route('/reports/offlinemeterenergy',
               offlinemeterenergy.Reporting())
 api.add_route('/reports/offlinemetersaving',
               offlinemetersaving.Reporting())
+api.add_route('/reports/pointrealtime',
+              pointrealtime.Reporting())
 api.add_route('/reports/shopfloorcarbon',
               shopfloorcarbon.Reporting())
 api.add_route('/reports/shopfloorcost',

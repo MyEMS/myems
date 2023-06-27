@@ -5,6 +5,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+- added access control to tenant in myems-api, myems-admin and myems-web
+- added point real time report to myems-api
+- added access control to equipment in myems-api, myems-admin and myems-web
+- 
+### Changed
+- 
+### Fixed
+- 
+### Removed
+- 
+
+## [v3.6.0] - 2023-06-22
+### Added
 - added microgrid battery actions to myems-api and myems-admin
 - added microgrid evcharger actions to myems-api and myems-admin
 - added microgrid generator actions to myems-api and myems-admin
@@ -16,20 +29,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added microgrid windturbine actions to myems-api and myems-admin
 - added get all associated objects of microgrid to myems-api
 - added new access_control procedure to mymes-api
-- added access_contorl to shopfloor GET actions in myems-api and myems-admin
-- added access_contorl to shopfloor reports actions in myems-api
 - added svg, inverters and converters to microgrid in system database
 - added svg to microgrid in myems-api and myems-admin
+- added API Key to database, myems-api and myems-admin
+- added access control to shopfloor in myems-api, myems-admin and myems-web
+- added access control to store in myems-api, myems-admin and myems-web
 
 ### Changed
 - renamed access_control to admin_control in myems-api
 - changed forgot password and user register processes
-- 
+
 ### Fixed
 - fixed dialog doesn't close after myems-admin logging out automatically
 - fixed warning of dependencies in myems-web
 
 ### Removed
+- None
 
 ## [v3.5.0] - 2023-06-09
 ### Added
@@ -1333,7 +1348,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v3.5.0...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v3.6.0...HEAD
+[3.6.0]: https://github.com/MyEMS/myems/compare/v3.6.0...v3.5.0
 [3.5.0]: https://github.com/MyEMS/myems/compare/v3.5.0...v3.4.0
 [3.4.0]: https://github.com/MyEMS/myems/compare/v3.4.0...v3.3.0
 [3.3.0]: https://github.com/MyEMS/myems/compare/v3.3.0...v3.2.0

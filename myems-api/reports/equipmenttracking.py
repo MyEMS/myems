@@ -5,6 +5,7 @@ from anytree import AnyNode, LevelOrderIter
 
 import config
 import excelexporters.equipmenttracking
+from core.useractivity import access_control
 
 
 class Reporting:
@@ -26,6 +27,7 @@ class Reporting:
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
+        access_control(req)
         print(req.params)
         space_id = req.params.get('spaceid')
         language = req.params.get('language')

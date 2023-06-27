@@ -9,6 +9,7 @@ import gettext
 import config
 import excelexporters.storeenergyitem
 from core import utilities
+from core.useractivity import access_control
 
 
 class Reporting:
@@ -36,6 +37,7 @@ class Reporting:
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
+        access_control(req)
         print(req.params)
         store_id = req.params.get('storeid')
         store_uuid = req.params.get('storeuuid')

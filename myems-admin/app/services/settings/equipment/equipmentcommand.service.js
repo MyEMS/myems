@@ -18,8 +18,8 @@ app.factory('EquipmentCommandService', function($http) {
                 callback(response);
             });
         },
-        getCommandsByEquipmentID: function(id, callback) {
-            $http.get(getAPI()+'equipments/'+id+'/commands')
+        getCommandsByEquipmentID: function(id, headers, callback) {
+            $http.get(getAPI()+'equipments/'+id+'/commands', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

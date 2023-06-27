@@ -18,8 +18,8 @@ app.factory('TenantPointService', function($http) {
                 callback(response);
             });
         },
-        getPointsByTenantID: function(id, callback) {
-            $http.get(getAPI()+'tenants/'+id+'/points')
+        getPointsByTenantID: function(id, headers, callback) {
+            $http.get(getAPI()+'tenants/'+id+'/points', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

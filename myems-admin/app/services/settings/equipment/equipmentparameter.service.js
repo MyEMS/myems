@@ -2,8 +2,8 @@
 app.factory('EquipmentParameterService', function($http) {
     return {
 
-        getParametersByEquipmentID: function(id, callback) {
-            $http.get(getAPI()+'equipments/'+id+'/parameters')
+        getParametersByEquipmentID: function(id, headers, callback) {
+            $http.get(getAPI()+'equipments/'+id+'/parameters', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

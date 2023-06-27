@@ -461,6 +461,12 @@ export const auxiliarySystemRoutes = {
   ]
 };
 
+export const microgridRoutes = {
+  name: 'Microgrid',
+  to: '/microgrid',
+  icon: 'building',
+};
+
 export const fddRoutes = {
   name: 'Fault Alarm',
   to: '/fdd',
@@ -518,6 +524,7 @@ export default [
   shopfloorRoutes,
   combinedEquipmentRoutes,
   auxiliarySystemRoutes,
+  microgridRoutes,
   fddRoutes,
   monitoringRoutes,
   advancedReportingRoutes,

@@ -22,7 +22,8 @@ app.controller('StoreCommandController', function (
 	};
 
     $scope.getCommandsByStoreID = function (id) {
-        StoreCommandService.getCommandsByStoreID(id, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        StoreCommandService.getCommandsByStoreID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.storecommands = response.data;
             } else {
@@ -38,7 +39,8 @@ app.controller('StoreCommandController', function (
     };
 
     $scope.getAllStores = function () {
-        StoreService.getAllStores(function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        StoreService.getAllStores(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.stores = response.data;
                 $timeout(function () {

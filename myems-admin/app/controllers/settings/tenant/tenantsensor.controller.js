@@ -22,7 +22,8 @@ app.controller('TenantSensorController', function (
     };
 
     $scope.getSensorsByTenantID = function (id) {
-        TenantSensorService.getSensorsByTenantID(id, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        TenantSensorService.getSensorsByTenantID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.tenantsensors = response.data;
             } else {
@@ -38,7 +39,8 @@ app.controller('TenantSensorController', function (
     };
 
     $scope.getAllTenants = function () {
-        TenantService.getAllTenants(function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        TenantService.getAllTenants(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.tenants = response.data;
             } else {

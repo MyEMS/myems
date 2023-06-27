@@ -20,7 +20,8 @@ app.controller('TenantWorkingCalendarController', function(
     };
 
   $scope.getAllTenants = function(id) {
-		TenantService.getAllTenants(function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		TenantService.getAllTenants(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.tenants = response.data;
 				} else {
@@ -30,8 +31,9 @@ app.controller('TenantWorkingCalendarController', function(
 	};
 
 	$scope.getWorkingCalendarsByTenantID = function(id) {
-		$scope.tenantworkingcalendars=[];
-      TenantWorkingCalendarService.getWorkingCalendarsByTenantID(id, function (response) {
+      $scope.tenantworkingcalendars=[];
+      let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+      TenantWorkingCalendarService.getWorkingCalendarsByTenantID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
               $scope.tenantworkingcalendars = response.data;
             }

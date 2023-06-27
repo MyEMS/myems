@@ -20,7 +20,8 @@ app.controller('StoreWorkingCalendarController', function(
     };
 
   $scope.getAllStores = function(id) {
-		StoreService.getAllStores(function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		StoreService.getAllStores(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.stores = response.data;
 				} else {
@@ -30,8 +31,9 @@ app.controller('StoreWorkingCalendarController', function(
 	};
 
 	$scope.getWorkingCalendarsByStoreID = function(id) {
-		$scope.storeworkingcalendars=[];
-      StoreWorkingCalendarService.getWorkingCalendarsByStoreID(id, function (response) {
+      $scope.storeworkingcalendars=[];
+      let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+      StoreWorkingCalendarService.getWorkingCalendarsByStoreID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
               $scope.storeworkingcalendars = response.data;
             }

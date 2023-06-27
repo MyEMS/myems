@@ -13,7 +13,8 @@ app.controller('CombinedEquipmentEquipmentController', function (
     $scope.currentCombinedEquipment = {selected:undefined};
 
     $scope.getAllEquipments = function () {
-      EquipmentService.getAllEquipments(function (response) {
+      let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+      EquipmentService.getAllEquipments(headers, function (response) {
           if (angular.isDefined(response.status) && response.status === 200) {
               $scope.equipments = response.data;
           } else {
