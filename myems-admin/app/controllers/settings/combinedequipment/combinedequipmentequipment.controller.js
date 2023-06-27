@@ -24,7 +24,8 @@ app.controller('CombinedEquipmentEquipmentController', function (
     };
 
     $scope.getEquipmentsByCombinedEquipmentID = function (id) {
-        CombinedEquipmentEquipmentService.getEquipmentsByCombinedEquipmentID(id, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        CombinedEquipmentEquipmentService.getEquipmentsByCombinedEquipmentID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.combinedequipmentequipments = response.data;
             } else {
@@ -40,7 +41,8 @@ app.controller('CombinedEquipmentEquipmentController', function (
   };
 
   $scope.getAllCombinedEquipments = function () {
-    CombinedEquipmentService.getAllCombinedEquipments(function (response) {
+    let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+    CombinedEquipmentService.getAllCombinedEquipments(headers, function (response) {
         if (angular.isDefined(response.status) && response.status === 200) {
             $scope.combinedequipments = response.data;
         } else {

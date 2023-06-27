@@ -1,8 +1,8 @@
 'use strict';
 app.factory('CombinedEquipmentParameterService', function($http) {
     return {
-        getParametersByCombinedEquipmentID: function(id, callback) {
-            $http.get(getAPI()+'combinedequipments/'+id+'/parameters')
+        getParametersByCombinedEquipmentID: function(id, headers, callback) {
+            $http.get(getAPI()+'combinedequipments/'+id+'/parameters', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

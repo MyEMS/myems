@@ -24,7 +24,8 @@ app.controller('CombinedEquipmentParameterController', function (
 	$scope.mergedMeters = [];
 
 	$scope.getAllCombinedEquipments = function () {
-		CombinedEquipmentService.getAllCombinedEquipments(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		CombinedEquipmentService.getAllCombinedEquipments(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.combinedequipments = response.data;
 			} else {
@@ -42,7 +43,8 @@ app.controller('CombinedEquipmentParameterController', function (
 
 	$scope.getParametersByCombinedEquipmentID = function (id) {
 		$scope.combinedequipmentparameters = [];
-		CombinedEquipmentParameterService.getParametersByCombinedEquipmentID(id, function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		CombinedEquipmentParameterService.getParametersByCombinedEquipmentID(id, headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.combinedequipmentparameters = response.data;
 			}
