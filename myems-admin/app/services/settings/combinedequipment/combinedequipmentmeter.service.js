@@ -26,8 +26,8 @@ app.factory('CombinedEquipmentMeterService', function ($http) {
                 callback(response);
             });
         },
-        getMetersByCombinedEquipmentID: function (id, metertype, callback) {
-            $http.get(getAPI() + 'combinedequipments/' + id + '/' + metertype)
+        getMetersByCombinedEquipmentID: function (id, metertype, headers, callback) {
+            $http.get(getAPI() + 'combinedequipments/' + id + '/' + metertype, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

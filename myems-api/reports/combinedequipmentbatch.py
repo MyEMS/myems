@@ -8,6 +8,7 @@ from anytree import AnyNode, LevelOrderIter
 
 import config
 import excelexporters.combinedequipmentbatch
+from core.useractivity import access_control
 
 
 class Reporting:
@@ -31,6 +32,7 @@ class Reporting:
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
+        access_control(req)
         print(req.params)
         space_id = req.params.get('spaceid')
         reporting_period_start_datetime_local = req.params.get('reportingperiodstartdatetime')
