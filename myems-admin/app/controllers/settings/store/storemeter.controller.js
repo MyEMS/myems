@@ -72,7 +72,8 @@ app.controller('StoreMeterController', function(
 
 
 	$scope.getAllMeters = function() {
-		MeterService.getAllMeters(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		MeterService.getAllMeters(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.meters = response.data;
 				$scope.currentMeterType="meters";
@@ -88,7 +89,8 @@ app.controller('StoreMeterController', function(
 
 
 	$scope.getAllOfflineMeters = function() {
-		OfflineMeterService.getAllOfflineMeters(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		OfflineMeterService.getAllOfflineMeters(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.offlinemeters = response.data;
 			} else {
@@ -99,7 +101,8 @@ app.controller('StoreMeterController', function(
 	};
 
 	$scope.getAllVirtualMeters = function() {
-		VirtualMeterService.getAllVirtualMeters(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		VirtualMeterService.getAllVirtualMeters(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.virtualmeters = response.data;
 			} else {

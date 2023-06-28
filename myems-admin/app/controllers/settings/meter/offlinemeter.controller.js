@@ -45,7 +45,8 @@ app.controller('OfflineMeterController', function(
 	};
 
 	$scope.getAllOfflineMeters = function() {
-		OfflineMeterService.getAllOfflineMeters(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		OfflineMeterService.getAllOfflineMeters(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.offlinemeters = response.data;
 			} else {

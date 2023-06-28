@@ -1,16 +1,16 @@
 'use strict';
 app.factory('MeterService', function($http) {
     return {
-        getAllMeters:function(callback){
-            $http.get(getAPI()+'meters')
+        getAllMeters:function(headers, callback){
+            $http.get(getAPI()+'meters', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        getMeterSubmeters:function(meterid, callback){
-            $http.get(getAPI()+'meters/'+meterid+'/submeters')
+        getMeterSubmeters:function(meterid, headers, callback){
+            $http.get(getAPI()+'meters/'+meterid+'/submeters', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

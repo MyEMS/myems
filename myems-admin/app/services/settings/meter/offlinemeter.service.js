@@ -1,8 +1,8 @@
 'use strict';
 app.factory('OfflineMeterService', function($http) {  
     return {  
-        getAllOfflineMeters:function(callback){
-            $http.get(getAPI()+'offlinemeters')  
+        getAllOfflineMeters:function(headers, callback){
+            $http.get(getAPI()+'offlinemeters', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

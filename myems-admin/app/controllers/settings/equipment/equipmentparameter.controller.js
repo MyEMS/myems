@@ -234,7 +234,8 @@ app.controller('EquipmentParameterController', function(
 		$scope.meters = [];
 		$scope.offlinemeters = [];
 		$scope.virtualmeters = [];
-		MeterService.getAllMeters(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		MeterService.getAllMeters(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.meters = response.data;
 				for(var i = 0; i < $scope.meters.length; i++) {
@@ -246,7 +247,7 @@ app.controller('EquipmentParameterController', function(
 			}
 	});
 
-	OfflineMeterService.getAllOfflineMeters(function (response) {
+	OfflineMeterService.getAllOfflineMeters(headers, function (response) {
 		if (angular.isDefined(response.status) && response.status === 200) {
 			$scope.offlinemeters = response.data;
 			for(var i = 0; i < $scope.offlinemeters.length; i++) {
@@ -258,7 +259,7 @@ app.controller('EquipmentParameterController', function(
 		}
 	});
 
-    VirtualMeterService.getAllVirtualMeters(function (response) {
+    VirtualMeterService.getAllVirtualMeters(headers, function (response) {
 		if (angular.isDefined(response.status) && response.status === 200) {
 			$scope.virtualmeters = response.data;
 			for(var i = 0; i < $scope.virtualmeters.length; i++) {

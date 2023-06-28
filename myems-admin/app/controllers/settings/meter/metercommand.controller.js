@@ -22,7 +22,8 @@ app.controller('MeterCommandController', function (
 	};
 
     $scope.getCommandsByMeterID = function (id) {
-        MeterCommandService.getCommandsByMeterID(id, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        MeterCommandService.getCommandsByMeterID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.metercommands = response.data;
             } else {
@@ -38,7 +39,8 @@ app.controller('MeterCommandController', function (
     };
 
     $scope.getAllMeters = function () {
-        MeterService.getAllMeters(function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        MeterService.getAllMeters(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.meters = response.data;
                 $timeout(function () {

@@ -39,7 +39,8 @@ app.controller('MeterPointController', function (
     };
 
     $scope.getPointsByMeterID = function (id) {
-        MeterPointService.getPointsByMeterID(id, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        MeterPointService.getPointsByMeterID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.meterpoints = response.data;
             } else {
@@ -60,7 +61,8 @@ app.controller('MeterPointController', function (
     };
 
     $scope.getAllMeters = function () {
-        MeterService.getAllMeters(function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        MeterService.getAllMeters(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.meters = response.data;
                 $timeout(function () {
