@@ -9,6 +9,7 @@ import simplejson as json
 import config
 import excelexporters.offlinemeterenergy
 from core import utilities
+from core.useractivity import access_control
 
 
 class Reporting:
@@ -32,6 +33,7 @@ class Reporting:
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
+        access_control(req)
         print(req.params)
         offline_meter_id = req.params.get('offlinemeterid')
         period_type = req.params.get('periodtype')
