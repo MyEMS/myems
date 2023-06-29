@@ -12,7 +12,8 @@ app.controller('CombinedEquipmentController', function (
     SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllCombinedEquipments = function () {
-		CombinedEquipmentService.getAllCombinedEquipments(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		CombinedEquipmentService.getAllCombinedEquipments(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.combinedequipments = response.data;
 			} else {
