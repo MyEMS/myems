@@ -54,6 +54,7 @@ const DateRangePickerWrapper = ({id, disabled, format, value, onChange, size, st
             size={size}
             style={style}
             onClean={onClean}
+            cleanable={false}
             locale={locale}
             placeholder={placeholder}
             onSelect={onSelected}
