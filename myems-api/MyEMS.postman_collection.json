@@ -4960,7 +4960,18 @@
 							"name": "GET All Meters",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/meters",
 									"host": [
@@ -4977,7 +4988,18 @@
 							"name": "GET Meter by ID",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/meters/1",
 									"host": [
@@ -5095,7 +5117,18 @@
 							"name": "GET All Submeters of a Meter",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/meters/1/submeters",
 									"host": [
@@ -5150,7 +5183,18 @@
 							"name": "GET All Points associated with Meter ID",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/meters/1/points",
 									"host": [
@@ -5202,7 +5246,18 @@
 							"name": "GET All Commands associated with Meter ID",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/meters/1/commands",
 									"host": [
@@ -7207,7 +7262,18 @@
 							"name": "GET All Offline Meters",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/offlinemeters",
 									"host": [
@@ -7224,7 +7290,18 @@
 							"name": "GET Offline Meter by ID",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/offlinemeters/1",
 									"host": [
@@ -13483,7 +13560,18 @@
 							"name": "GET All Virtual Meters",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/virtualmeters",
 									"host": [
@@ -13500,7 +13588,18 @@
 							"name": "GET a Virtual Meter by ID",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/virtualmeters/1",
 									"host": [
@@ -17352,7 +17451,18 @@
 					"name": "GET Meter Batch Analysis Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/meterbatch?spaceid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00&language=zh_CN",
 							"host": [
@@ -17389,7 +17499,18 @@
 					"name": "GET Meter Batch Analysis Report (QuickMode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/meterbatch?spaceid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00&language=zh_CN&quickmode=true",
 							"host": [
@@ -17430,7 +17551,18 @@
 					"name": "GET Meter Carbon Dioxide Emission Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/metercarbon?meterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -17480,7 +17612,18 @@
 					"name": "GET Meter Carbon Dioxide Emission Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/metercarbon?meterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -17534,7 +17677,18 @@
 					"name": "GET Meter Comparison",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/metercomparison?meterid1=1&meterid2=2&reportingperiodstartdatetime=2022-09-01T00:00:00&reportingperiodenddatetime=2022-09-02T00:00:00&periodtype=hourly",
 							"host": [
@@ -17586,7 +17740,18 @@
 					"name": "GET Meter Comparison Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/metercomparison?meterid1=1&meterid2=2&quickmode=true&periodtype=hourly&reportingperiodstartdatetime=2022-09-01T00:00:00&reportingperiodenddatetime=2022-09-02T00:00:00",
 							"host": [
@@ -17642,7 +17807,18 @@
 					"name": "GET Meter Cost Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/metercost?meterid=6&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -17693,7 +17869,18 @@
 					"name": "GET Meter Cost Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/metercost?meterid=6&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -17748,7 +17935,18 @@
 					"name": "GET Meter Energy Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/meterenergy?meterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -17799,7 +17997,18 @@
 					"name": "GET Meter Energy Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/meterenergy?meterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -17854,7 +18063,18 @@
 					"name": "GET Meter Saving Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/metersaving?meterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -17905,7 +18125,18 @@
 					"name": "GET Meter Saving Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/metersaving?meterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -17960,7 +18191,18 @@
 					"name": "GET Meter Realtime Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/meterrealtime?meterid=1",
 							"host": [
@@ -17991,7 +18233,18 @@
 					"name": "GET Meter Realtime Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/meterrealtime?meterid=1&quickmode=true",
 							"host": [
@@ -18026,7 +18279,18 @@
 					"name": "GET Meter Submeters Balance Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/metersubmetersbalance?meterid=1&periodtype=daily&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -18069,7 +18333,18 @@
 					"name": "GET Meter Submeters Balance Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/metersubmetersbalance?meterid=1&periodtype=daily&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -18116,7 +18391,18 @@
 					"name": "GET Meter Trend Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/metertrend?meterid=6&reportingperiodstartdatetime=2020-09-10T00:00:00&reportingperiodenddatetime=2020-09-11T00:00:00",
 							"host": [
@@ -18155,7 +18441,18 @@
 					"name": "GET Meter Trend Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/metertrend?meterid=1&reportingperiodstartdatetime=2020-09-10T00:00:00&reportingperiodenddatetime=2020-09-11T00:00:00&quickmode=true",
 							"host": [
@@ -18198,7 +18495,18 @@
 					"name": "GET Meter Tracking Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/metertracking?spaceid=1&reportingperiodstartdatetime=2022-05-01T00:00:00&reportingperiodenddatetime=2022-05-31T23:59:59",
 							"host": [
@@ -18230,7 +18538,18 @@
 					"name": "GET Meter Tracking Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/metertracking?spaceid=1&reportingperiodstartdatetime=2022-05-01T00:00:00&reportingperiodenddatetime=2022-05-31T23:59:59&quickmode=true",
 							"host": [
@@ -18266,7 +18585,18 @@
 					"name": "GET Offline Meter Batch Analysis Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/offlinemeterbatch?spaceid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00",
 							"host": [
@@ -18298,7 +18628,18 @@
 					"name": "GET Offline Meter Batch Analysis Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/offlinemeterbatch?spaceid=1&reportingperiodstartdatetime=2020-10-01T00:00:00&reportingperiodenddatetime=2020-11-01T00:00:00&quickmode=true",
 							"host": [
@@ -18334,7 +18675,18 @@
 					"name": "GET Offline Meter Carbon Dioxide Emission Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/offlinemetercarbon?offlinemeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -18378,9 +18730,20 @@
 					"name": "GET Offline Meter Carbon Dioxide Emission Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "{{base_url}}/reports/offlinemetercarbon?offlinemeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"raw": "{{base_url}}/reports/offlinemetercarbon?offlinemeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true&&",
 							"host": [
 								"{{base_url}}"
 							],
@@ -18416,6 +18779,14 @@
 								{
 									"key": "quickmode",
 									"value": "true"
+								},
+								{
+									"key": "",
+									"value": null
+								},
+								{
+									"key": "",
+									"value": null
 								}
 							]
 						}
@@ -18426,7 +18797,18 @@
 					"name": "GET Offline Meter Cost Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/offlinemetercost?offlinemeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -18470,7 +18852,18 @@
 					"name": "GET Offline Meter Cost Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/offlinemetercost?offlinemeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -18518,7 +18911,18 @@
 					"name": "GET Offline Meter Energy Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/offlinemeterenergy?offlinemeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -18562,7 +18966,18 @@
 					"name": "GET Offline Meter Energy Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/offlinemeterenergy?offlinemeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -18610,7 +19025,18 @@
 					"name": "GET Offline Meter Saving Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/offlinemetersaving?offlinemeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -18654,7 +19080,18 @@
 					"name": "GET Offline Meter Saving Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/offlinemetersaving?offlinemeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -22377,7 +22814,18 @@
 					"name": "GET Virtual Meter Carbon Dioxide Emission Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/virtualmetercarbon?virtualmeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -22421,7 +22869,18 @@
 					"name": "GET Virtual Meter Carbon Dioxide Emission Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/virtualmetercarbon?virtualmeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -22469,7 +22928,18 @@
 					"name": "GET Virtual Meter Cost Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/virtualmetercost?virtualmeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -22513,7 +22983,18 @@
 					"name": "GET Virtual Meter Cost Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/virtualmetercost?virtualmeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -22561,7 +23042,18 @@
 					"name": "GET Virtual Meter Energy Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/virtualmeterenergy?virtualmeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -22605,7 +23097,18 @@
 					"name": "GET Virtual Meter Energy Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/virtualmeterenergy?virtualmeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [
@@ -22653,7 +23156,18 @@
 					"name": "GET Virtual Meter Saving Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/virtualmetersaving?virtualmeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -22697,7 +23211,18 @@
 					"name": "GET Virtual Meter Saving Report (Quick Mode)",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/virtualmetersaving?virtualmeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
 							"host": [

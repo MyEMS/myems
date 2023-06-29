@@ -44,7 +44,8 @@ app.controller('MeterController', function($scope,
 
 };
 	$scope.getAllMeters = function() {
-		MeterService.getAllMeters(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		MeterService.getAllMeters(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.meters = response.data;
 				$scope.parentmeters = response.data;
@@ -81,7 +82,8 @@ app.controller('MeterController', function($scope,
 	};
 
 	$scope.refreshMeterTree = function() {
-		MeterService.getAllMeters(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		MeterService.getAllMeters(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.meters = response.data;
 				$scope.parentmeters = response.data;
@@ -113,7 +115,8 @@ app.controller('MeterController', function($scope,
 	};
 
 	$scope.getMeterSubmeters = function(meterid) {
-		MeterService.getMeterSubmeters(meterid, function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		MeterService.getMeterSubmeters(meterid, headers, function (response) {
 		if (angular.isDefined(response.status) && response.status === 200) {
 			$scope.currentMeterSubmeters = response.data;
 		} else {

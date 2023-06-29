@@ -18,8 +18,8 @@ app.factory('MeterPointService', function($http) {
                 callback(response);
             });
         },
-        getPointsByMeterID: function(id, callback) {
-            $http.get(getAPI() + 'meters/' + id + '/points')
+        getPointsByMeterID: function(id, headers, callback) {
+            $http.get(getAPI() + 'meters/' + id + '/points', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

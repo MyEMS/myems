@@ -10,6 +10,7 @@ import config
 import excelexporters.meterenergy
 from core import utilities
 import gettext
+from core.useractivity import access_control
 
 
 class Reporting:
@@ -35,6 +36,7 @@ class Reporting:
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
+        access_control(req)
         print(req.params)
         # this procedure accepts meter id or meter uuid to identify a meter
         meter_id = req.params.get('meterid')

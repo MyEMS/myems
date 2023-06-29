@@ -18,8 +18,8 @@ app.factory('MeterCommandService', function($http) {
                 callback(response);
             });
         },
-        getCommandsByMeterID: function(id, callback) {
-            $http.get(getAPI()+'meters/'+id+'/commands')
+        getCommandsByMeterID: function(id, headers, callback) {
+            $http.get(getAPI()+'meters/'+id+'/commands', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
