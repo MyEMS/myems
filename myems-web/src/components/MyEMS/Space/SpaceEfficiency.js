@@ -185,6 +185,8 @@ const SpaceEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
         moment(reportingPeriodDateRange[1]).subtract(1, 'months').toDate()]);
     } else if (target.value === 'free-comparison') {
       setBasePeriodDateRangePickerDisabled(false);
+      setBasePeriodDateRange([moment(reportingPeriodDateRange[0]).subtract(1, 'days').toDate(),
+        moment(reportingPeriodDateRange[1]).subtract(1, 'days').toDate()]);
     } else if (target.value === 'none-comparison') {
       setBasePeriodDateRange([null, null]);
       setBasePeriodDateRangePickerDisabled(true);
