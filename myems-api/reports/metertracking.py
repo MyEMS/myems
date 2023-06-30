@@ -8,6 +8,7 @@ from anytree import AnyNode, LevelOrderIter
 
 import config
 import excelexporters.metertracking
+from core.useractivity import access_control
 
 
 class Reporting:
@@ -30,6 +31,7 @@ class Reporting:
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
+        access_control(req)
         print(req.params)
         space_id = req.params.get('spaceid')
         energy_category = req.params.get('energyCategory')

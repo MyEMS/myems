@@ -1,8 +1,8 @@
 'use strict';
 app.factory('VirtualMeterService', function($http) {
     return {
-        getAllVirtualMeters:function(callback){
-            $http.get(getAPI()+'virtualmeters')
+        getAllVirtualMeters:function(headers, callback){
+            $http.get(getAPI()+'virtualmeters', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

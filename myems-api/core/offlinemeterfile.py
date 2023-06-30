@@ -7,7 +7,7 @@ import mysql.connector
 import simplejson as json
 
 import config
-from core.useractivity import user_logger, admin_control
+from core.useractivity import user_logger, admin_control, access_control
 
 
 class OfflineMeterFileCollection:
@@ -22,6 +22,7 @@ class OfflineMeterFileCollection:
 
     @staticmethod
     def on_get(req, resp):
+        access_control(req)
         cnx = mysql.connector.connect(**config.myems_historical_db)
         cursor = cnx.cursor()
 

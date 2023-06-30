@@ -9,6 +9,7 @@ import simplejson as json
 import config
 import excelexporters.metercomparison
 from core import utilities
+from core.useractivity import access_control
 
 
 class Reporting:
@@ -32,6 +33,7 @@ class Reporting:
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
+        access_control(req)
         print(req.params)
         # this procedure accepts meter id or meter uuid to identify a meter
         meter_id1 = req.params.get('meterid1')
