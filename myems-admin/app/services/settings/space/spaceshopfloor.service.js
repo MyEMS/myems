@@ -18,8 +18,8 @@ app.factory('SpaceShopfloorService', function($http) {
                 callback(response);
             });
         },
-        getShopfloorsBySpaceID: function(id, callback) {
-            $http.get(getAPI()+'spaces/'+id+'/shopfloors')
+        getShopfloorsBySpaceID: function(id, headers, callback) {
+            $http.get(getAPI()+'spaces/'+id+'/shopfloors', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

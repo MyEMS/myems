@@ -15,7 +15,8 @@ app.controller('SpaceMeterController', function(
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 
     $scope.getAllSpaces = function() {
-    SpaceService.getAllSpaces(function (response) {
+    let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+    SpaceService.getAllSpaces(headers, function (response) {
       if (angular.isDefined(response.status) && response.status === 200) {
         $scope.spaces = response.data;
       } else {
@@ -52,8 +53,9 @@ app.controller('SpaceMeterController', function(
 	$scope.getMetersBySpaceID = function(id) {
 		var metertypes=['meters','virtualmeters','offlinemeters'];
 		$scope.spacemeters=[];
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		angular.forEach(metertypes,function(value,index){
-    			SpaceMeterService.getMetersBySpaceID(id,value, function (response) {
+    			SpaceMeterService.getMetersBySpaceID(id,value, headers, function (response) {
         				if (angular.isDefined(response.status) && response.status === 200) {
         					angular.forEach(response.data, function(item,indx) {
                       response.data[indx].metertype = value;
@@ -186,7 +188,8 @@ app.controller('SpaceMeterController', function(
     $scope.getAllOfflineMeters();
 
     $scope.refreshSpaceTree = function() {
-    SpaceService.getAllSpaces(function (response) {
+    let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+    SpaceService.getAllSpaces(headers, function (response) {
       if (angular.isDefined(response.status) && response.status === 200) {
         $scope.spaces = response.data;
       } else {

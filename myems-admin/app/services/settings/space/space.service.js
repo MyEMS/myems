@@ -1,24 +1,24 @@
 'use strict';
 app.factory('SpaceService', function($http) {
     return {
-        getAllSpaces:function(callback){
-            $http.get(getAPI()+'spaces')
+        getAllSpaces:function(headers, callback){
+            $http.get(getAPI()+'spaces', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        getSpaceChildren:function(spaceid, callback){
-            $http.get(getAPI()+'spaces/'+spaceid+'/children')
+        getSpaceChildren:function(spaceid, headers, callback){
+            $http.get(getAPI()+'spaces/'+spaceid+'/children', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        getAllTimezones:function(callback){
-            $http.get(getAPI()+'timezones')
+        getAllTimezones:function(headers, callback){
+            $http.get(getAPI()+'timezones', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

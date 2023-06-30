@@ -24,7 +24,8 @@ app.controller('SpaceSensorController', function (
     };
 
     $scope.getAllSpaces = function() {
-      SpaceService.getAllSpaces(function (response) {
+      let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+      SpaceService.getAllSpaces(headers, function (response) {
         if (angular.isDefined(response.status) && response.status === 200) {
           $scope.spaces = response.data;
         } else {
@@ -58,7 +59,8 @@ app.controller('SpaceSensorController', function (
     };
 
     $scope.getSensorsBySpaceID = function (id) {
-        SpaceSensorService.getSensorsBySpaceID(id, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        SpaceSensorService.getSensorsBySpaceID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.spacesensors = response.data;
             } else {
@@ -121,7 +123,8 @@ app.controller('SpaceSensorController', function (
     $scope.getAllSpaces();
 
     $scope.refreshSpaceTree = function() {
-      SpaceService.getAllSpaces(function (response) {
+      let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+      SpaceService.getAllSpaces(headers, function (response) {
         if (angular.isDefined(response.status) && response.status === 200) {
           $scope.spaces = response.data;
         } else {
