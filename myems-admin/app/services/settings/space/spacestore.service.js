@@ -18,8 +18,8 @@ app.factory('SpaceStoreService', function($http) {
                 callback(response);
             });
         },
-        getStoresBySpaceID: function(id, callback) {
-            $http.get(getAPI()+'spaces/'+id+'/stores')
+        getStoresBySpaceID: function(id, headers, callback) {
+            $http.get(getAPI()+'spaces/'+id+'/stores', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

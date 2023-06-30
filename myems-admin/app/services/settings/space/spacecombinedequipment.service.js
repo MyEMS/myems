@@ -18,8 +18,8 @@ app.factory('SpaceCombinedEquipmentService', function($http) {
                 callback(response);
             });
         },
-        getCombinedEquipmentsBySpaceID: function(id, callback) {
-            $http.get(getAPI()+'spaces/'+id+'/combinedequipments')
+        getCombinedEquipmentsBySpaceID: function(id, headers, callback) {
+            $http.get(getAPI()+'spaces/'+id+'/combinedequipments', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

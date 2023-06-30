@@ -155,7 +155,8 @@ app.controller('ModalAddPrivilegeCtrl', function ($scope,
 	$scope.privilege = {};
 
 	$scope.getAllSpaces = function () {
-		SpaceService.getAllSpaces(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		SpaceService.getAllSpaces(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.spaces = response.data;
 			} else {
@@ -213,7 +214,8 @@ app.controller('ModalEditPrivilegeCtrl', function ($scope,
 	$scope.currentSpaceID = privilege_data['spaces'][0];
 	
 	$scope.getAllSpaces = function () {
-		SpaceService.getAllSpaces(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		SpaceService.getAllSpaces(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.spaces = response.data;
 			} else {

@@ -14,7 +14,8 @@ app.controller('SpaceCommandController', function(
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 
     $scope.getAllSpaces = function() {
-    SpaceService.getAllSpaces(function (response) {
+    let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+    SpaceService.getAllSpaces(headers, function (response) {
       if (angular.isDefined(response.status) && response.status === 200) {
         $scope.spaces = response.data;
       } else {
@@ -49,7 +50,8 @@ app.controller('SpaceCommandController', function(
 
 	$scope.getCommandsBySpaceID = function(id) {
     $scope.spacecommands=[];
-    SpaceCommandService.getCommandsBySpaceID(id, function (response) {
+    let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+    SpaceCommandService.getCommandsBySpaceID(id, headers, function (response) {
       				if (angular.isDefined(response.status) && response.status === 200) {
       					$scope.spacecommands = $scope.spacecommands.concat(response.data);
       				} else {
@@ -123,7 +125,8 @@ app.controller('SpaceCommandController', function(
 	$scope.getAllCommands();
 
   $scope.refreshSpaceTree = function() {
-    SpaceService.getAllSpaces(function (response) {
+    let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+    SpaceService.getAllSpaces(headers, function (response) {
       if (angular.isDefined(response.status) && response.status === 200) {
         $scope.spaces = response.data;
       } else {

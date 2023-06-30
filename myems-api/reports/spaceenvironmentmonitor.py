@@ -6,6 +6,7 @@ import mysql.connector
 import simplejson as json
 
 import config
+from core.useractivity import access_control
 
 
 class Reporting:
@@ -27,6 +28,7 @@ class Reporting:
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
+        access_control(req)
         print(req.params)
         sensor_id = req.params.get('sensorid')
         sensor_uuid = req.params.get('sensoruuid')

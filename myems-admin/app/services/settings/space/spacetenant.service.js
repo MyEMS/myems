@@ -18,8 +18,8 @@ app.factory('SpaceTenantService', function($http) {
                 callback(response);
             });
         },
-        getTenantsBySpaceID: function(id, callback) {
-            $http.get(getAPI()+'spaces/'+id+'/tenants')
+        getTenantsBySpaceID: function(id, headers, callback) {
+            $http.get(getAPI()+'spaces/'+id+'/tenants', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

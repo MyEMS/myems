@@ -18,8 +18,8 @@ app.factory('SpaceSensorService', function($http) {
                 callback(response);
             });
         },
-        getSensorsBySpaceID: function(id, callback) {
-            $http.get(getAPI()+'spaces/'+id+'/sensors')
+        getSensorsBySpaceID: function(id, headers, callback) {
+            $http.get(getAPI()+'spaces/'+id+'/sensors', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
