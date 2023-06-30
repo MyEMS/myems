@@ -27,8 +27,8 @@ app.factory('SpaceMeterService', function($http) {
                 callback(response);
             });
         },
-        getMetersBySpaceID: function(id, metertype, callback) {
-            $http.get(getAPI()+'spaces/'+id+'/'+metertype)
+        getMetersBySpaceID: function(id, metertype, headers, callback) {
+            $http.get(getAPI()+'spaces/'+id+'/'+metertype, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

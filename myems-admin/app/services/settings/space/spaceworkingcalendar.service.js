@@ -18,8 +18,8 @@ app.factory('SpaceWorkingCalendarService', function($http) {
                 callback(response);
             });
         },
-        getWorkingCalendarsBySpaceID: function(id,  callback) {
-            $http.get(getAPI()+'spaces/'+id+'/workingcalendars')
+        getWorkingCalendarsBySpaceID: function(id, headers, callback) {
+            $http.get(getAPI()+'spaces/'+id+'/workingcalendars', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

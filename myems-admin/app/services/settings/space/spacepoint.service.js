@@ -18,8 +18,8 @@ app.factory('SpacePointService', function($http) {
                 callback(response);
             });
         },
-        getPointsBySpaceID: function(id, callback) {
-            $http.get(getAPI()+'spaces/'+id+'/points')
+        getPointsBySpaceID: function(id, headers, callback) {
+            $http.get(getAPI()+'spaces/'+id+'/points', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

@@ -38,7 +38,8 @@ app.controller('SpaceController', function (
 	};
 
 	$scope.getAllSpaces = function () {
-		SpaceService.getAllSpaces(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		SpaceService.getAllSpaces(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.spaces = response.data;
 			} else {
@@ -76,7 +77,8 @@ app.controller('SpaceController', function (
 	};
 
 	$scope.refreshSpaceTree = function () {
-		SpaceService.getAllSpaces(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		SpaceService.getAllSpaces(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.spaces = response.data;
 			} else {
@@ -108,7 +110,8 @@ app.controller('SpaceController', function (
 	};
 
 	$scope.getSpaceChildren = function (spaceid) {
-		SpaceService.getSpaceChildren(spaceid, function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		SpaceService.getSpaceChildren(spaceid, headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.currentSpace = response.data["current"];
 				$scope.currentSpaceChildren = response.data["children"];
@@ -120,7 +123,8 @@ app.controller('SpaceController', function (
 	};
 
 	$scope.getAllTimezones = function () {
-		SpaceService.getAllTimezones(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		SpaceService.getAllTimezones(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.timezones = response.data;
 			} else {

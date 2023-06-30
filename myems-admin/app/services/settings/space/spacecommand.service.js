@@ -18,8 +18,8 @@ app.factory('SpaceCommandService', function($http) {
                 callback(response);
             });
         },
-        getCommandsBySpaceID: function(id, callback) {
-            $http.get(getAPI()+'spaces/'+id+'/commands')
+        getCommandsBySpaceID: function(id, headers, callback) {
+            $http.get(getAPI()+'spaces/'+id+'/commands', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
