@@ -5,7 +5,7 @@ import mysql.connector
 import simplejson as json
 
 import config
-from core.useractivity import user_logger, admin_control
+from core.useractivity import user_logger, admin_control, access_control
 
 
 class DistributionSystemCollection:
@@ -20,6 +20,7 @@ class DistributionSystemCollection:
 
     @staticmethod
     def on_get(req, resp):
+        access_control(req)
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -120,6 +121,7 @@ class DistributionSystemItem:
 
     @staticmethod
     def on_get(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_METER_ID')
@@ -266,6 +268,7 @@ class DistributionSystemDistributionCircuitCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DISTRIBUTION_SYSTEM_ID')
