@@ -15,7 +15,8 @@ app.controller('MicrogridGeneratorController', function(
       $scope.currentMicrogrid = null;
 	  $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
       $scope.getAllMicrogrids = function() {
-  		MicrogridService.getAllMicrogrids(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+  		MicrogridService.getAllMicrogrids(headers, function (response) {
   			if (angular.isDefined(response.status) && response.status === 200) {
   				$scope.microgrids = response.data;
   			} else {
@@ -25,25 +26,24 @@ app.controller('MicrogridGeneratorController', function(
   	};
 
   	$scope.getMicrogridGeneratorsByMicrogridID = function(id) {
-
-  		MicrogridGeneratorService.getMicrogridGeneratorsByMicrogridID(id, function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+  		MicrogridGeneratorService.getMicrogridGeneratorsByMicrogridID(id, headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.microgridgenerators = response.data;
 			} else {
           	$scope.microgridgenerators=[];
-        }
-			});
+        	}
+		});
   	};
 
   	$scope.changeMicrogrid=function(item,model){
-    		$scope.currentMicrogrid=item;
-    		$scope.currentMicrogrid.selected=model;
+    	$scope.currentMicrogrid=item;
+    	$scope.currentMicrogrid.selected=model;
         $scope.is_show_add_microgrid_generator = true;
-    		$scope.getMicrogridGeneratorsByMicrogridID($scope.currentMicrogrid.id);
+    	$scope.getMicrogridGeneratorsByMicrogridID($scope.currentMicrogrid.id);
   	};
 
   	$scope.addMicrogridGenerator = function() {
-
   		var modalInstance = $uibModal.open({
   			templateUrl: 'views/settings/microgrid/microgridgenerator.model.html',
   			controller: 'ModalAddMicrogridGeneratorCtrl',

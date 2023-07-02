@@ -1,19 +1,20 @@
 'use strict';
 
-app.controller('MeterController', function($scope,  
+app.controller('MeterController', function($scope,
 	$rootScope,
 	$window,
-	$translate, 
-	$uibModal, 
-	MeterService, 
-	CategoryService, 
-	CostCenterService, 
+	$translate,
+	$uibModal,
+	MeterService,
+	CategoryService,
+	CostCenterService,
 	EnergyItemService,
-	toaster, 
+	toaster,
 	SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllCostCenters = function() {
-		CostCenterService.getAllCostCenters(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		CostCenterService.getAllCostCenters(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.costcenters = response.data;
 			} else {
@@ -23,7 +24,8 @@ app.controller('MeterController', function($scope,
 	};
 
 	$scope.getAllCategories = function() {
-		CategoryService.getAllCategories(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		CategoryService.getAllCategories(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.categories = response.data;
 			} else {
@@ -34,7 +36,8 @@ app.controller('MeterController', function($scope,
 	};
 
 	$scope.getAllEnergyItems = function() {
-		EnergyItemService.getAllEnergyItems(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		EnergyItemService.getAllEnergyItems(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.energyitems = response.data;
 			} else {

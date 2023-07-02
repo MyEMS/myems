@@ -1,14 +1,12 @@
 import uuid
 from datetime import datetime
-
 import falcon
 import mysql.connector
 import simplejson as json
 from anytree import AnyNode, LevelOrderIter
 from anytree.exporter import JsonExporter
-
-import config
 from core.useractivity import user_logger, admin_control, access_control
+import config
 
 
 class SpaceCollection:

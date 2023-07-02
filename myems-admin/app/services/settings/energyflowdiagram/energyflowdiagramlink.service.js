@@ -2,8 +2,8 @@
 app.factory('EnergyFlowDiagramLinkService', function($http) {
     return {
 
-        getLinksByEnergyFlowDiagramID: function(id, callback) {
-            $http.get(getAPI()+'energyflowdiagrams/'+id+'/links')
+        getLinksByEnergyFlowDiagramID: function(id, headers, callback) {
+            $http.get(getAPI()+'energyflowdiagrams/'+id+'/links', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -26,7 +26,6 @@ app.factory('EnergyFlowDiagramLinkService', function($http) {
                 callback(response);
             });
         },
-
         deleteEnergyFlowDiagramLink: function(energyflowdiagramID, linkID, headers, callback) {
             $http.delete(getAPI()+'energyflowdiagrams/'+energyflowdiagramID+'/links/'+linkID, {headers})
             .then(function (response) {

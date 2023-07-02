@@ -1,11 +1,9 @@
 from datetime import datetime, timedelta, timezone
-
 import falcon
 import mysql.connector
 import simplejson as json
-
 import config
-from core.useractivity import user_logger
+from core.useractivity import user_logger, admin_control, access_control
 
 
 class NotificationCollection:
@@ -20,6 +18,7 @@ class NotificationCollection:
 
     @staticmethod
     def on_get(req, resp):
+        access_control(req)
         status = req.params.get('status')
         start_datetime_local = req.params.get('startdatetime')
         end_datetime_local = req.params.get('enddatetime')
@@ -163,6 +162,7 @@ class NotificationItem:
     @staticmethod
     def on_get(req, resp, id_):
         """Handles GET requests"""
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_NOTIFICATION_ID')
@@ -249,6 +249,7 @@ class NotificationItem:
     @user_logger
     def on_put(req, resp, id_):
         """Handles PUT requests"""
+        admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -348,6 +349,7 @@ class NotificationItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_):
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_NOTIFICATION_ID')

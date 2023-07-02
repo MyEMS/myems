@@ -1,9 +1,8 @@
 import falcon
 import mysql.connector
 import simplejson as json
-
-import config
 from core.useractivity import user_logger, admin_control
+import config
 
 
 class PrivilegeCollection:
@@ -18,6 +17,7 @@ class PrivilegeCollection:
 
     @staticmethod
     def on_get(req, resp):
+        admin_control(req)
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
 

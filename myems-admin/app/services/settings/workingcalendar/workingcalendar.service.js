@@ -1,8 +1,8 @@
 'use strict';
 app.factory('WorkingCalendarService', function($http) {
     return {
-        getAllWorkingCalendars:function(callback){
-            $http.get(getAPI()+'workingcalendars')
+        getAllWorkingCalendars:function(headers, callback){
+            $http.get(getAPI()+'workingcalendars', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

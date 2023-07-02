@@ -9,8 +9,8 @@ app.factory('CombinedEquipmentService', function($http) {
                 callback(response);
             });
         },
-        searchCombinedEquipments: function(query, callback) {
-            $http.get(getAPI()+'combinedequipments', { params: { q: query } })
+        searchCombinedEquipments: function(query, headers, callback) {
+            $http.get(getAPI()+'combinedequipments', { params: { q: query } }, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

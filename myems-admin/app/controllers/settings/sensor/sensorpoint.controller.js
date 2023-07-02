@@ -1,15 +1,15 @@
 'use strict';
 
 app.controller('SensorPointController', function (
-    $scope, 
+    $scope,
     $window,
-    $timeout, 
-    $translate, 
-    SensorService, 
-    DataSourceService, 
-    PointService, 
-    SensorPointService, 
-    toaster, 
+    $timeout,
+    $translate,
+    SensorService,
+    DataSourceService,
+    PointService,
+    SensorPointService,
+    toaster,
     SweetAlert) {
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentSensor = {selected:undefined};
@@ -42,7 +42,8 @@ app.controller('SensorPointController', function (
     };
 
     $scope.getPointsBySensorID = function (id) {
-        SensorPointService.getPointsBySensorID(id, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        SensorPointService.getPointsBySensorID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.sensorpoints = response.data;
             } else {
@@ -64,7 +65,8 @@ app.controller('SensorPointController', function (
     };
 
     $scope.getAllSensors = function () {
-        SensorService.getAllSensors(function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        SensorService.getAllSensors(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.sensors = response.data;
                 $timeout(function () {

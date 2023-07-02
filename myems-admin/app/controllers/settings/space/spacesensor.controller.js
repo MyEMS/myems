@@ -14,13 +14,14 @@ app.controller('SpaceSensorController', function (
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 
     $scope.getAllSensors = function () {
-      SensorService.getAllSensors(function (response) {
-          if (angular.isDefined(response.status) && response.status === 200) {
-              $scope.sensors = response.data;
-          } else {
-              $scope.sensors = [];
-          }
-      });
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        SensorService.getAllSensors(headers, function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.sensors = response.data;
+            } else {
+                $scope.sensors = [];
+            }
+        });
     };
 
     $scope.getAllSpaces = function() {

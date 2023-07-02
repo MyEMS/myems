@@ -5,18 +5,19 @@ app.controller('EnergyFlowDiagramPreviewController', function($scope, EnergyFlow
       $scope.currentEnergyFlowDiagram = null;
 
       $scope.getAllEnergyFlowDiagrams = function() {
-      EnergyFlowDiagramService.getAllEnergyFlowDiagrams(function (response) {
-        if (angular.isDefined(response.status) && response.status === 200) {
-            $scope.energyflowdiagrams = response.data;
-          } else {
-            $scope.energyflowdiagrams = [];
-         }
-      });
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        EnergyFlowDiagramService.getAllEnergyFlowDiagrams(headers, function (response) {
+          if (angular.isDefined(response.status) && response.status === 200) {
+              $scope.energyflowdiagrams = response.data;
+            } else {
+              $scope.energyflowdiagrams = [];
+          }
+        });
     };
 
     $scope.getLinksByEnergyFlowDiagramID = function(id) {
-
-  			EnergyFlowDiagramLinkService.getLinksByEnergyFlowDiagramID(id, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+  			EnergyFlowDiagramLinkService.getLinksByEnergyFlowDiagramID(id, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 200) {
               return response.data;
   				} else {

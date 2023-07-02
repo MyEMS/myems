@@ -11,7 +11,8 @@ app.controller('EnergyFlowDiagramController', function(
 	SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllEnergyFlowDiagrams = function() {
-		EnergyFlowDiagramService.getAllEnergyFlowDiagrams(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		EnergyFlowDiagramService.getAllEnergyFlowDiagrams(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.energyflowdiagrams = response.data;
 			} else {

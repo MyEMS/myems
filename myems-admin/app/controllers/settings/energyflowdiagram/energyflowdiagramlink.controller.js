@@ -25,7 +25,8 @@ app.controller('EnergyFlowDiagramLinkController', function(
     $scope.mergedMeters = [];
 	  $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	  $scope.getAllEnergyFlowDiagrams = function() {
-		EnergyFlowDiagramService.getAllEnergyFlowDiagrams(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		EnergyFlowDiagramService.getAllEnergyFlowDiagrams(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.energyflowdiagrams = response.data;
 				} else {
@@ -43,7 +44,8 @@ app.controller('EnergyFlowDiagramLinkController', function(
 	};
 
 	$scope.getLinksByEnergyFlowDiagramID = function(id) {
-		EnergyFlowDiagramLinkService.getLinksByEnergyFlowDiagramID(id, function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		EnergyFlowDiagramLinkService.getLinksByEnergyFlowDiagramID(id, headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.energyflowdiagramlinks = response.data;
 				$scope.showEnergyFlowDiagramMeter()
@@ -54,8 +56,8 @@ app.controller('EnergyFlowDiagramLinkController', function(
 	};
 
 	$scope.getNodesByEnergyFlowDiagramID = function(id) {
-
-		EnergyFlowDiagramNodeService.getNodesByEnergyFlowDiagramID(id, function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		EnergyFlowDiagramNodeService.getNodesByEnergyFlowDiagramID(id, headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.energyflowdiagramnodes = response.data;
 			} else {

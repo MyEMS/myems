@@ -14,7 +14,8 @@ app.controller('TariffController', function(
 	SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllCategories = function() {
-		CategoryService.getAllCategories(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		CategoryService.getAllCategories(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.categories = response.data;
 			} else {
@@ -24,7 +25,8 @@ app.controller('TariffController', function(
 
 	};
 	$scope.getAllTariffs = function() {
-		TariffService.getAllTariffs(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		TariffService.getAllTariffs(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.tariffs = response.data;
 			} else {
@@ -280,7 +282,7 @@ app.controller('ModalEditTariffCtrl', function($scope, $timeout, $uibModalInstan
 	$scope.showPeakType = function(type) {
 		return PEAK_TYPE[type];
 	};
-	
+
 	$timeout(function() {
 		if ($scope.tariff.tariff_type == 'timeofuse') {
 			angular.element('#touTable').trigger('footable_redraw');

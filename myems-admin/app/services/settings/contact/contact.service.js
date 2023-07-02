@@ -1,16 +1,16 @@
 'use strict';
 app.factory('ContactService', function($http) {
     return {
-        getAllContacts:function(callback){
-            $http.get(getAPI()+'contacts')
+        getAllContacts:function(headers, callback){
+            $http.get(getAPI()+'contacts', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        searchContacts: function(query, callback) {
-            $http.get(getAPI()+'contacts', { params: { q: query } })
+        searchContacts: function(query, headers, callback) {
+            $http.get(getAPI()+'contacts', { params: { q: query } }, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -35,14 +35,6 @@ app.factory('ContactService', function($http) {
         },
         deleteContact: function(contact, headers, callback) {
             $http.delete(getAPI()+'contacts/'+contact.id, {headers})
-            .then(function (response) {
-                callback(response);
-            }, function (response) {
-                callback(response);
-            });
-        },
-        getContact: function(id, callback) {
-            $http.get(getAPI()+'contacts/'+id)
             .then(function (response) {
                 callback(response);
             }, function (response) {

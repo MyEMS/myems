@@ -12,17 +12,19 @@ app.controller('MicrogridSensorController', function (
     $scope.currentMicrogrid = {selected:undefined};
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.getAllSensors = function () {
-      SensorService.getAllSensors(function (response) {
-          if (angular.isDefined(response.status) && response.status === 200) {
-              $scope.sensors = response.data;
-          } else {
-              $scope.sensors = [];
-          }
-      });
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        SensorService.getAllSensors(headers, function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.sensors = response.data;
+            } else {
+                $scope.sensors = [];
+            }
+        });
     };
 
     $scope.getSensorsByMicrogridID = function (id) {
-        MicrogridSensorService.getSensorsByMicrogridID(id, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        MicrogridSensorService.getSensorsByMicrogridID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.microgridsensors = response.data;
             } else {
@@ -38,7 +40,8 @@ app.controller('MicrogridSensorController', function (
     };
 
     $scope.getAllMicrogrids = function () {
-        MicrogridService.getAllMicrogrids(function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        MicrogridService.getAllMicrogrids(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.microgrids = response.data;
             } else {

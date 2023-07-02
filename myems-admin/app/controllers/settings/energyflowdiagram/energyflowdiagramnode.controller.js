@@ -15,7 +15,8 @@ app.controller('EnergyFlowDiagramNodeController', function(
       $scope.currentEnergyFlowDiagram = null;
 	  $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
       $scope.getAllEnergyFlowDiagrams = function() {
-  		EnergyFlowDiagramService.getAllEnergyFlowDiagrams(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+  		EnergyFlowDiagramService.getAllEnergyFlowDiagrams(headers, function (response) {
   			if (angular.isDefined(response.status) && response.status === 200) {
   				$scope.energyflowdiagrams = response.data;
   				} else {
@@ -25,8 +26,8 @@ app.controller('EnergyFlowDiagramNodeController', function(
   	};
 
   	$scope.getNodesByEnergyFlowDiagramID = function(id) {
-
-  		EnergyFlowDiagramNodeService.getNodesByEnergyFlowDiagramID(id, function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+  		EnergyFlowDiagramNodeService.getNodesByEnergyFlowDiagramID(id, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					$scope.energyflowdiagramnodes = response.data;
 				} else {

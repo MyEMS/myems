@@ -1,8 +1,8 @@
 'use strict';
 app.factory('EnergyItemService', function($http) {
     return {
-        getAllEnergyItems:function(callback){
-            $http.get(getAPI()+'energyitems')
+        getAllEnergyItems:function(headers, callback){
+            $http.get(getAPI()+'energyitems', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

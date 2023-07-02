@@ -1,16 +1,16 @@
 'use strict';
 app.factory('MicrogridOwnerTypeService', function($http) {
     return {
-        getAllMicrogridOwnerTypes:function(callback){
-            $http.get(getAPI()+'microgridownertypes')
+        getAllMicrogridOwnerTypes:function(headers, callback){
+            $http.get(getAPI()+'microgridownertypes', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        searchMicrogridOwnerTypes: function(query, callback) {
-            $http.get(getAPI()+'microgridownertypes', { params: { q: query } })
+        searchMicrogridOwnerTypes: function(query, headers, callback) {
+            $http.get(getAPI()+'microgridownertypes', { params: { q: query } }, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

@@ -1,16 +1,16 @@
 'use strict';
 app.factory('TariffService', function($http) {
     return {
-        getAllTariffs:function(callback){
-            $http.get(getAPI()+'tariffs')
+        getAllTariffs:function(headers, callback){
+            $http.get(getAPI()+'tariffs', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        searchTariffs: function(query, callback) {
-            $http.get(getAPI()+'tariffs', { params: { q: query } })
+        searchTariffs: function(query, headers, callback) {
+            $http.get(getAPI()+'tariffs', { params: { q: query } }, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

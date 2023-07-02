@@ -13,7 +13,8 @@ app.controller('MenuController', function (
 	$scope.currentMenuChildren = [];
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllMenus = function () {
-		MenuService.getAllMenus(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		MenuService.getAllMenus(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.menus = response.data;
 			} else {
@@ -51,7 +52,8 @@ app.controller('MenuController', function (
 	};
 
 	$scope.refreshMenuTree = function () {
-		MenuService.getAllMenus(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		MenuService.getAllMenus(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.menus = response.data;
 			} else {
@@ -94,7 +96,7 @@ app.controller('MenuController', function (
 			}
 		});
 	};
-	
+
 	$scope.editMenu = function (menu) {
 		var modalInstance = $uibModal.open({
 			windowClass: "animated fadeIn",

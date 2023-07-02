@@ -1,16 +1,16 @@
 'use strict';
 app.factory('EnergyFlowDiagramService', function($http) {
     return {
-        getAllEnergyFlowDiagrams:function(callback){
-            $http.get(getAPI()+'energyflowdiagrams')
+        getAllEnergyFlowDiagrams:function(headers, callback){
+            $http.get(getAPI()+'energyflowdiagrams', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        searchEnergyFlowDiagrams: function(query, callback) {
-            $http.get(getAPI()+'energyflowdiagrams', { params: { q: query } })
+        searchEnergyFlowDiagrams: function(query, headers, callback) {
+            $http.get(getAPI()+'energyflowdiagrams', { params: { q: query } }, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -35,14 +35,6 @@ app.factory('EnergyFlowDiagramService', function($http) {
         },
         deleteEnergyFlowDiagram: function(energyflowdiagram, headers, callback) {
             $http.delete(getAPI()+'energyflowdiagrams/'+energyflowdiagram.id, {headers})
-            .then(function (response) {
-                callback(response);
-            }, function (response) {
-                callback(response);
-            });
-        },
-        getEnergyFlowDiagram: function(id, callback) {
-            $http.get(getAPI()+'energyflowdiagrams/'+id)
             .then(function (response) {
                 callback(response);
             }, function (response) {

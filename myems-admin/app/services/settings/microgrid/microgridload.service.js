@@ -1,16 +1,16 @@
 'use strict';
 app.factory('MicrogridLoadService', function($http) {
     return {
-        getAllMicrogridLoads: function(callback) {
-            $http.get(getAPI()+'microgridloads')
+        getAllMicrogridLoads: function(headers, callback) {
+            $http.get(getAPI()+'microgridloads', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        getMicrogridLoadsByMicrogridID: function(id, callback) {
-            $http.get(getAPI()+'microgrids/'+id+'/loads')
+        getMicrogridLoadsByMicrogridID: function(id, headers, callback) {
+            $http.get(getAPI()+'microgrids/'+id+'/loads', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

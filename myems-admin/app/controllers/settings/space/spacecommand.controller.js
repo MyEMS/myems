@@ -61,7 +61,8 @@ app.controller('SpaceCommandController', function(
 		};
 
 	$scope.getAllCommands = function() {
-		CommandService.getAllCommands(function (response) {
+    let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		CommandService.getAllCommands(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.commands = response.data;
 			} else {

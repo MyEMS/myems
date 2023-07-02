@@ -1,8 +1,8 @@
 'use strict';
-app.factory('CategoryService', function($http) {  
-    return {  
-        getAllCategories:function(callback){
-            $http.get(getAPI()+'energycategories')
+app.factory('CategoryService', function($http) {
+    return {
+        getAllCategories:function(headers, callback){
+            $http.get(getAPI()+'energycategories', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -40,14 +40,6 @@ app.factory('CategoryService', function($http) {
             }, function (response) {
                 callback(response);
             });
-        },
-        getCategory: function(id, headers, callback) {
-            $http.get(getAPI()+'energycategories/'+id, {headers})
-            .then(function (response) {
-                callback(response);
-            }, function (response) {
-                callback(response);
-            });
         }
     };
-});  
+});
