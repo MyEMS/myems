@@ -4,13 +4,11 @@ import re
 import uuid
 from datetime import datetime, timedelta, timezone
 import random
-
 import falcon
 import mysql.connector
 import simplejson as json
-
-import config
 from core.useractivity import user_logger, write_log, admin_control
+import config
 
 
 class UserCollection:

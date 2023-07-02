@@ -11,7 +11,8 @@ app.controller('PrivilegeController', function (
 	SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllPrivileges = function () {
-		PrivilegeService.getAllPrivileges(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		PrivilegeService.getAllPrivileges(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.privileges = response.data;
 			} else {
@@ -142,14 +143,14 @@ app.controller('PrivilegeController', function (
 
 });
 
-app.controller('ModalAddPrivilegeCtrl', function ($scope, 
-	$uibModalInstance, 
+app.controller('ModalAddPrivilegeCtrl', function ($scope,
+	$uibModalInstance,
 	SpaceService,
-	$timeout, 
+	$timeout,
 	params) {
 
 	$scope.operation = "USER.ADD_PRIVILEGE";
-	
+
 	$scope.spaces = [];
 	$scope.currentSpaceID = 1;
 	$scope.privilege = {};
@@ -201,10 +202,10 @@ app.controller('ModalAddPrivilegeCtrl', function ($scope,
 	$scope.getAllSpaces();
 });
 
-app.controller('ModalEditPrivilegeCtrl', function ($scope, 
-	$uibModalInstance, 
+app.controller('ModalEditPrivilegeCtrl', function ($scope,
+	$uibModalInstance,
 	SpaceService,
-	$timeout, 
+	$timeout,
 	params) {
 	$scope.operation = "USER.EDIT_PRIVILEGE";
 	$scope.privilege = params.privilege;
@@ -212,7 +213,7 @@ app.controller('ModalEditPrivilegeCtrl', function ($scope,
 	$scope.spaces = [];
 	var privilege_data = JSON.parse(params.privilege.data);
 	$scope.currentSpaceID = privilege_data['spaces'][0];
-	
+
 	$scope.getAllSpaces = function () {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		SpaceService.getAllSpaces(headers, function (response) {

@@ -14,7 +14,8 @@ app.controller('StoreController', function(
     SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllCostCenters = function() {
-		CostCenterService.getAllCostCenters(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		CostCenterService.getAllCostCenters(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.costcenters = response.data;
 			} else {
@@ -24,7 +25,8 @@ app.controller('StoreController', function(
 	};
 
 	$scope.getAllContacts = function() {
-		ContactService.getAllContacts(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		ContactService.getAllContacts(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.contacts = response.data;
 			} else {

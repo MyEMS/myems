@@ -15,7 +15,8 @@ app.controller('MicrogridHeatpumpController', function(
       $scope.currentMicrogrid = null;
 	  $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
       $scope.getAllMicrogrids = function() {
-  		MicrogridService.getAllMicrogrids(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+  		MicrogridService.getAllMicrogrids(headers, function (response) {
   			if (angular.isDefined(response.status) && response.status === 200) {
   				$scope.microgrids = response.data;
   			} else {
@@ -25,8 +26,8 @@ app.controller('MicrogridHeatpumpController', function(
   	};
 
   	$scope.getMicrogridHeatpumpsByMicrogridID = function(id) {
-
-  		MicrogridHeatpumpService.getMicrogridHeatpumpsByMicrogridID(id, function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+  		MicrogridHeatpumpService.getMicrogridHeatpumpsByMicrogridID(id, headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.microgridheatpumps = response.data;
 			} else {

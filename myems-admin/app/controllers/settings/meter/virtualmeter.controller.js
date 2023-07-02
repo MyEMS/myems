@@ -12,7 +12,8 @@ app.controller('VirtualMeterController', function($scope, $rootScope, $window, $
 
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllCostCenters = function() {
-		CostCenterService.getAllCostCenters(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		CostCenterService.getAllCostCenters(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.costcenters = response.data;
 			} else {
@@ -22,7 +23,8 @@ app.controller('VirtualMeterController', function($scope, $rootScope, $window, $
 	};
 
 	$scope.getAllCategories = function() {
-		CategoryService.getAllCategories(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		CategoryService.getAllCategories(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.categories = response.data;
 			} else {
@@ -32,7 +34,8 @@ app.controller('VirtualMeterController', function($scope, $rootScope, $window, $
 	};
 
 	$scope.getAllEnergyItems = function() {
-		EnergyItemService.getAllEnergyItems(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		EnergyItemService.getAllEnergyItems(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.energyitems = response.data;
 			} else {
@@ -482,7 +485,7 @@ app.controller('ModalEditVirtualMeterCtrl', function($timeout, $scope, $uibModal
 				$scope.currentmeters = $scope.offlinemeters;
 				break;
 		}
-	
+
 		if ($scope.last_meter_type_select == null){
 			$scope.last_meter_type_select = $scope.currentMeterType.selected.sid;
 		}

@@ -1,15 +1,15 @@
 'use strict';
 
 app.controller('WorkingCalendarNonWorkingDayController', function (
-    $scope, 
+    $scope,
     $rootScope,
     $window,
-    $timeout, 
-    $translate, 
+    $timeout,
+    $translate,
     $uibModal,
-    WorkingCalendarService, 
-    WorkingCalendarNonWorkingDayService, 
-    toaster, 
+    WorkingCalendarService,
+    WorkingCalendarNonWorkingDayService,
+    toaster,
     SweetAlert) {
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentWorkingCalendar = {selected:undefined};
@@ -19,7 +19,8 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
     $scope.nonWorkingDaysFlagArray = [],
 
     $scope.getNonWorkingDaysByWorkingCalendarID = function (id) {
-        WorkingCalendarNonWorkingDayService.getNonWorkingDaysByWorkingCalendarID(id, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        WorkingCalendarNonWorkingDayService.getNonWorkingDaysByWorkingCalendarID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.nonworkingdays = response.data.filter((item) => {return item.date_local.indexOf($scope.month) > -1});
                 $scope.handleDays();
@@ -38,7 +39,8 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
 
 
     $scope.getAllWorkingCalendars = function () {
-        WorkingCalendarService.getAllWorkingCalendars(function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        WorkingCalendarService.getAllWorkingCalendars(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.workingcalendars = response.data;
                 $timeout(function () {

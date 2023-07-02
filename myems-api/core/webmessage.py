@@ -1,11 +1,9 @@
 from datetime import datetime, timedelta, timezone
-
 import falcon
 import mysql.connector
 import simplejson as json
-
+from core.useractivity import user_logger, access_control
 import config
-from core.useractivity import user_logger
 
 
 class WebMessageCollection:
@@ -20,6 +18,7 @@ class WebMessageCollection:
 
     @staticmethod
     def on_get(req, resp):
+        access_control(req)
         start_datetime_local = req.params.get('startdatetime')
         end_datetime_local = req.params.get('enddatetime')
         status = req.params.get('status')
@@ -191,6 +190,7 @@ class WebMessageStatusNewCollection:
     @staticmethod
     def on_get(req, resp):
         """Handles GET requests"""
+        access_control(req)
         # Verify User Session
         token = req.headers.get('TOKEN')
         user_uuid = req.headers.get('USER-UUID')
@@ -282,6 +282,7 @@ class WebMessageStatusNewCollection:
     @user_logger
     def on_put(req, resp):
         """Handles PUT requests"""
+        access_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -406,6 +407,7 @@ class WebMessageItem:
     @staticmethod
     def on_get(req, resp, id_):
         """Handles GET requests"""
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_WEB_MESSAGE_ID')
@@ -500,6 +502,7 @@ class WebMessageItem:
     @user_logger
     def on_put(req, resp, id_):
         """Handles PUT requests"""
+        access_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
@@ -616,6 +619,7 @@ class WebMessageItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_WEB_MESSAGE_ID')

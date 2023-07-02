@@ -15,7 +15,8 @@ app.controller('MicrogridPhotovoltaicController', function(
       $scope.currentMicrogrid = null;
 	  $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
       $scope.getAllMicrogrids = function() {
-  		MicrogridService.getAllMicrogrids(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+  		MicrogridService.getAllMicrogrids(headers, function (response) {
   			if (angular.isDefined(response.status) && response.status === 200) {
   				$scope.microgrids = response.data;
   			} else {
@@ -25,8 +26,8 @@ app.controller('MicrogridPhotovoltaicController', function(
   	};
 
   	$scope.getMicrogridPhotovoltaicsByMicrogridID = function(id) {
-
-  		MicrogridPhotovoltaicService.getMicrogridPhotovoltaicsByMicrogridID(id, function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+  		MicrogridPhotovoltaicService.getMicrogridPhotovoltaicsByMicrogridID(id, headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.microgridphotovoltaics = response.data;
 			} else {

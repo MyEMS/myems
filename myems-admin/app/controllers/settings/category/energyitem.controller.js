@@ -12,7 +12,8 @@ app.controller('EnergyItemController', function(
     SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllCategories = function() {
-		CategoryService.getAllCategories(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		CategoryService.getAllCategories(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.categories = response.data;
 			} else {
@@ -23,7 +24,8 @@ app.controller('EnergyItemController', function(
 	};
 
 	$scope.getAllEnergyItems = function() {
-		EnergyItemService.getAllEnergyItems(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		EnergyItemService.getAllEnergyItems(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.energyItems = response.data;
 			} else {

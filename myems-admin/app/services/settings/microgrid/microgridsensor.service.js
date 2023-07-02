@@ -18,8 +18,8 @@ app.factory('MicrogridSensorService', function($http) {
                 callback(response);
             });
         },
-        getSensorsByMicrogridID: function(id, callback) {
-            $http.get(getAPI()+'microgrids/'+id+'/sensors')
+        getSensorsByMicrogridID: function(id, headers, callback) {
+            $http.get(getAPI()+'microgrids/'+id+'/sensors', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

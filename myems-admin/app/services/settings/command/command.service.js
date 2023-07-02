@@ -1,21 +1,21 @@
 'use strict';
-app.factory('CommandService', function($http) {  
-    return {  
-        getAllCommands:function(callback){
-            $http.get(getAPI()+'commands')  
+app.factory('CommandService', function($http) {
+    return {
+        getAllCommands:function(headers, callback){
+            $http.get(getAPI()+'commands', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        searchCommands: function(query, callback) {  
-            $http.get(getAPI()+'commands', { params: { q: query } })  
+        searchCommands: function(query, headers, callback) {
+            $http.get(getAPI()+'commands', { params: { q: query } }, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
-            });  
+            });
         },
         addCommand: function(command, headers, callback) {
             $http.post(getAPI()+'commands',{data:command}, {headers})
@@ -41,14 +41,6 @@ app.factory('CommandService', function($http) {
                 callback(response);
             });
         },
-        getCommand: function(id, headers, callback) {  
-            $http.get(getAPI()+'commands/'+id, {headers})
-            .then(function (response) {
-                callback(response);
-            }, function (response) {
-                callback(response);
-            });
-        },
         sendCommand: function(command, headers, callback) {
             $http.put(getAPI()+'commands/'+command.id+'/send',{data:command}, {headers})
             .then(function (response) {
@@ -58,4 +50,4 @@ app.factory('CommandService', function($http) {
             });
         },
     };
-});  
+});

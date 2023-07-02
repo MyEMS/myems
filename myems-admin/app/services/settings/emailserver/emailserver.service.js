@@ -40,14 +40,6 @@ app.factory('EmailServerService', function($http) {
             }, function (response) {
                 callback(response);
             });
-        },
-        getEmailServer: function(emailserver, headers, callback) {
-            $http.get(getAPI()+'emailservers/' + emailserver.id, {headers})
-            .then(function (response) {
-                callback(response);
-            }, function (response) {
-                callback(response);
-            });
         }
     };
 });

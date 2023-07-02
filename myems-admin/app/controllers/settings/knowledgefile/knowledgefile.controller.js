@@ -1,17 +1,18 @@
 'use strict';
 
 app.controller('KnowledgeFileController', function (
-    $scope, 
+    $scope,
 	$window,
-    $translate, 
-    KnowledgeFileService, 
-    toaster, 
+    $translate,
+    KnowledgeFileService,
+    toaster,
     SweetAlert) {
-    
+
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 
     $scope.getAllKnowledgeFiles = function () {
-        KnowledgeFileService.getAllKnowledgeFiles(function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        KnowledgeFileService.getAllKnowledgeFiles(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.knowledgefiles = response.data;
             } else {

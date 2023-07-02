@@ -1,16 +1,16 @@
 'use strict';
 app.factory('MicrogridArchitectureTypeService', function($http) {
     return {
-        getAllMicrogridArchitectureTypes:function(callback){
-            $http.get(getAPI()+'microgridarchitecturetypes')
+        getAllMicrogridArchitectureTypes:function(headers, callback){
+            $http.get(getAPI()+'microgridarchitecturetypes', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        searchMicrogridArchitectureTypes: function(query, callback) {
-            $http.get(getAPI()+'microgridarchitecturetypes', { params: { q: query } })
+        searchMicrogridArchitectureTypes: function(query, headers, callback) {
+            $http.get(getAPI()+'microgridarchitecturetypes', { params: { q: query } }, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

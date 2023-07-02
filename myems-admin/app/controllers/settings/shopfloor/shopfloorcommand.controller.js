@@ -12,7 +12,8 @@ app.controller('ShopfloorCommandController', function (
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentShopfloor = {selected:undefined};
     $scope.getAllCommands = function() {
-		CommandService.getAllCommands(function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		CommandService.getAllCommands(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.commands = response.data;
 			} else {

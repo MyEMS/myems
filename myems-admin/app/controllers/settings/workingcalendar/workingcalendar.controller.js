@@ -11,7 +11,8 @@ app.controller('WorkingCalendarController', function(
     SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllWorkingCalendars = function() {
-		WorkingCalendarService.getAllWorkingCalendars(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		WorkingCalendarService.getAllWorkingCalendars(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.workingcalendars = response.data;
 			} else {

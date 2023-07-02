@@ -15,7 +15,8 @@ app.controller('MicrogridBatteryController', function(
       $scope.currentMicrogrid = null;
 	  $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
       $scope.getAllMicrogrids = function() {
-  		MicrogridService.getAllMicrogrids(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+  		MicrogridService.getAllMicrogrids(headers, function (response) {
   			if (angular.isDefined(response.status) && response.status === 200) {
   				$scope.microgrids = response.data;
   			} else {
@@ -25,8 +26,8 @@ app.controller('MicrogridBatteryController', function(
   	};
 
   	$scope.getMicrogridBatteriesByMicrogridID = function(id) {
-
-  		MicrogridBatteryService.getMicrogridBatteriesByMicrogridID(id, function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+  		MicrogridBatteryService.getMicrogridBatteriesByMicrogridID(id, headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.microgridbatteries = response.data;
 			} else {
@@ -36,10 +37,10 @@ app.controller('MicrogridBatteryController', function(
   	};
 
   	$scope.changeMicrogrid=function(item,model){
-    		$scope.currentMicrogrid=item;
-    		$scope.currentMicrogrid.selected=model;
+    	$scope.currentMicrogrid=item;
+    	$scope.currentMicrogrid.selected=model;
         $scope.is_show_add_microgrid_battery = true;
-    		$scope.getMicrogridBatteriesByMicrogridID($scope.currentMicrogrid.id);
+    	$scope.getMicrogridBatteriesByMicrogridID($scope.currentMicrogrid.id);
   	};
 
   	$scope.addMicrogridBattery = function() {

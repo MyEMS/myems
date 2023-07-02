@@ -15,7 +15,8 @@ app.controller('MicrogridController', function(
     SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllCostCenters = function() {
-		CostCenterService.getAllCostCenters(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		CostCenterService.getAllCostCenters(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.costcenters = response.data;
 			} else {
@@ -25,7 +26,8 @@ app.controller('MicrogridController', function(
 	};
 
 	$scope.getAllContacts = function() {
-		ContactService.getAllContacts(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		ContactService.getAllContacts(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.contacts = response.data;
 			} else {
@@ -35,7 +37,8 @@ app.controller('MicrogridController', function(
 	};
 
 	$scope.getAllMicrogrids = function() {
-		MicrogridService.getAllMicrogrids(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		MicrogridService.getAllMicrogrids(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.microgrids = response.data;
 			} else {
@@ -45,7 +48,8 @@ app.controller('MicrogridController', function(
 	};
 
     $scope.getAllMicrogridArchitectureTypes = function() {
-        MicrogridArchitectureTypeService.getAllMicrogridArchitectureTypes(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        MicrogridArchitectureTypeService.getAllMicrogridArchitectureTypes(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.microgridarchitecturetypes = response.data;
             } else {
@@ -55,7 +59,8 @@ app.controller('MicrogridController', function(
     };
 
     $scope.getAllMicrogridOwnerTypes = function() {
-        MicrogridOwnerTypeService.getAllMicrogridOwnerTypes(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        MicrogridOwnerTypeService.getAllMicrogridOwnerTypes(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.microgridownertypes = response.data;
             } else {

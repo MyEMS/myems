@@ -11,7 +11,8 @@ app.controller('CostCenterController', function(
 	SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllCostCenters = function() {
-		CostCenterService.getAllCostCenters(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		CostCenterService.getAllCostCenters(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.costcenters = response.data;
 			} else {
@@ -105,7 +106,7 @@ app.controller('CostCenterController', function(
 		        confirmButtonText: $translate.instant("SWEET.CONFIRM_BUTTON_TEXT"),
 		        cancelButtonText: $translate.instant("SWEET.CANCEL_BUTTON_TEXT"),
 		        closeOnConfirm: true,
-		        closeOnCancel: true 
+		        closeOnCancel: true
 			},
 		    function (isConfirm) {
 		        if (isConfirm) {
@@ -127,7 +128,7 @@ app.controller('CostCenterController', function(
 			                  body: $translate.instant(response.data.description),
 			                  showCloseButton: true,
 			              });
-						} 
+						}
 		            });
 		        }
 		    });

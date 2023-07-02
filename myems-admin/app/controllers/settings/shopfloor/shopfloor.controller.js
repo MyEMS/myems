@@ -13,7 +13,8 @@ app.controller('ShopfloorController', function (
     SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllCostCenters = function () {
-		CostCenterService.getAllCostCenters(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		CostCenterService.getAllCostCenters(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.costcenters = response.data;
 			} else {
@@ -23,7 +24,8 @@ app.controller('ShopfloorController', function (
 	};
 
 	$scope.getAllContacts = function () {
-		ContactService.getAllContacts(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		ContactService.getAllContacts(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.contacts = response.data;
 			} else {
@@ -200,7 +202,7 @@ app.controller('ModalEditShopfloorCtrl', function ($scope, $uibModalInstance, pa
 	$scope.shopfloor = params.shopfloor;
 	$scope.costcenters = params.costcenters;
 	$scope.contacts = params.contacts;
-	
+
 	$scope.ok = function () {
 		$uibModalInstance.close($scope.shopfloor);
 	};

@@ -12,7 +12,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added access control to meter, offline meter and virtual meter in myems-api, myems-admin and myems-web
 - added access control to space in myems-api, myems-admin and myems-web
 - added access control to distribution system in myems-api, myems-admin and myems-web
--
+- added access control to microgrid in myems-api, myems-admin and myems-web
+- added access control to all core objects in myems-api, myems-admin and myems-web
+
 ### Changed
 -
 ### Fixed

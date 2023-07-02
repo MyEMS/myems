@@ -1,16 +1,16 @@
 'use strict';
 app.factory('MicrogridHeatpumpService', function($http) {
     return {
-        getAllMicrogridHeatpumps: function(callback) {
-            $http.get(getAPI()+'microgridheatpumps')
+        getAllMicrogridHeatpumps: function(headers, callback) {
+            $http.get(getAPI()+'microgridheatpumps', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        getMicrogridHeatpumpsByMicrogridID: function(id, callback) {
-            $http.get(getAPI()+'microgrids/'+id+'/heatpumps')
+        getMicrogridHeatpumpsByMicrogridID: function(id, headers, callback) {
+            $http.get(getAPI()+'microgrids/'+id+'/heatpumps', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

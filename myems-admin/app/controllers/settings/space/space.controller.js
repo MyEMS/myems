@@ -18,7 +18,8 @@ app.controller('SpaceController', function (
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 
 	$scope.getAllCostCenters = function () {
-		CostCenterService.getAllCostCenters(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		CostCenterService.getAllCostCenters(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.costcenters = response.data;
 			} else {
@@ -28,7 +29,8 @@ app.controller('SpaceController', function (
 	};
 
 	$scope.getAllContacts = function () {
-		ContactService.getAllContacts(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		ContactService.getAllContacts(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.contacts = response.data;
 			} else {
@@ -209,7 +211,7 @@ app.controller('SpaceController', function (
 			if (modifiedSpace.contact != null) {
 				modifiedSpace.contact_id = modifiedSpace.contact.id;
 			}
-			 
+
 			modifiedSpace.cost_center_id = modifiedSpace.cost_center.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			SpaceService.editSpace(modifiedSpace, headers, function (response) {

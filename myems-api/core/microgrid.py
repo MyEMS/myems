@@ -1,11 +1,9 @@
 import uuid
-
 import falcon
 import mysql.connector
 import simplejson as json
-
+from core.useractivity import user_logger, admin_control, access_control
 import config
-from core.useractivity import user_logger, admin_control
 
 
 class MicrogridCollection:
@@ -20,6 +18,7 @@ class MicrogridCollection:
 
     @staticmethod
     def on_get(req, resp):
+        access_control(req)
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -318,6 +317,7 @@ class MicrogridItem:
 
     @staticmethod
     def on_get(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
@@ -698,6 +698,7 @@ class MicrogridSensorCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
@@ -869,6 +870,7 @@ class MicrogridBatteryCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
@@ -915,6 +917,7 @@ class MicrogridCommandCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
@@ -959,6 +962,7 @@ class MicrogridEVChargerCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
@@ -1005,6 +1009,7 @@ class MicrogridGeneratorCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
@@ -1051,6 +1056,7 @@ class MicrogridGridCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
@@ -1097,6 +1103,7 @@ class MicrogridHeatpumpCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
@@ -1143,6 +1150,7 @@ class MicrogridLoadCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
@@ -1189,6 +1197,7 @@ class MicrogridPhotovoltaicCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
@@ -1235,6 +1244,7 @@ class MicrogridWindturbineCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
+        access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')

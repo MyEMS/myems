@@ -10,7 +10,8 @@ app.controller('CostCenterTariffController', function (
     toaster) {
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.getAllCostCenters = function () {
-        CostCenterService.getAllCostCenters(function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        CostCenterService.getAllCostCenters(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.costcenters = response.data;
                 if ($scope.costcenters.length > 0) {
@@ -25,7 +26,8 @@ app.controller('CostCenterTariffController', function (
     };
 
     $scope.getTariffsByCostCenterID = function (id) {
-        CostCenterTariffService.getTariffsByCostCenterID(id, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        CostCenterTariffService.getTariffsByCostCenterID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.costcentertariffs = response.data;
             } else {
@@ -41,7 +43,8 @@ app.controller('CostCenterTariffController', function (
 
 
     $scope.getAllTariffs = function () {
-        TariffService.getAllTariffs(function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        TariffService.getAllTariffs(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.tariffs = response.data;
             } else {

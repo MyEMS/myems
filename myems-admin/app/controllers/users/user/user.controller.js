@@ -22,7 +22,8 @@ app.controller('UserController', function ($scope,
 	};
 
 	$scope.getAllPrivileges = function () {
-		PrivilegeService.getAllPrivileges(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		PrivilegeService.getAllPrivileges(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.privileges = response.data;
 			} else {
@@ -255,7 +256,8 @@ app.controller('NewUserController', function ($scope,
 	};
 
 	$scope.getAllPrivileges = function () {
-		PrivilegeService.getAllPrivileges(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		PrivilegeService.getAllPrivileges(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.privileges = response.data;
 			} else {

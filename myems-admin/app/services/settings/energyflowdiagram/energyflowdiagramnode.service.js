@@ -1,8 +1,8 @@
 'use strict';
 app.factory('EnergyFlowDiagramNodeService', function($http) {
     return {
-        getNodesByEnergyFlowDiagramID: function(id, callback) {
-            $http.get(getAPI()+'energyflowdiagrams/'+id+'/nodes')
+        getNodesByEnergyFlowDiagramID: function(id, headers, callback) {
+            $http.get(getAPI()+'energyflowdiagrams/'+id+'/nodes', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -25,7 +25,6 @@ app.factory('EnergyFlowDiagramNodeService', function($http) {
                 callback(response);
             });
         },
-
         deleteEnergyFlowDiagramNode: function(energyflowdiagramID, nodeID, headers, callback) {
             $http.delete(getAPI()+'energyflowdiagrams/'+energyflowdiagramID+'/nodes/'+nodeID, {headers})
             .then(function (response) {

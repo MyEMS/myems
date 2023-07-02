@@ -2,9 +2,7 @@ import collections
 import statistics
 from datetime import datetime, timedelta
 from decimal import Decimal
-
 import mysql.connector
-
 import config
 
 

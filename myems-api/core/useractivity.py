@@ -2,12 +2,10 @@ import os
 import uuid
 from datetime import datetime
 from functools import wraps
-
 import falcon
 import mysql.connector
 import simplejson as json
 from gunicorn.http.body import Body
-
 import config
 
 
