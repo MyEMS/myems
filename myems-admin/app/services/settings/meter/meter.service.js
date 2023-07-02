@@ -49,8 +49,8 @@ app.factory('MeterService', function($http) {
                 callback(response);
             });
         },
-        getMeter: function(id, callback) {
-            $http.get(getAPI()+'meters/'+id)
+        getMeter: function(id, headers, callback) {
+            $http.get(getAPI()+'meters/'+id, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

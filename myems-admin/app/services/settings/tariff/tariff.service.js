@@ -1,21 +1,21 @@
 'use strict';
-app.factory('TariffService', function($http) {  
-    return {  
+app.factory('TariffService', function($http) {
+    return {
         getAllTariffs:function(callback){
-            $http.get(getAPI()+'tariffs')  
+            $http.get(getAPI()+'tariffs')
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        searchTariffs: function(query, callback) {  
-            $http.get(getAPI()+'tariffs', { params: { q: query } })  
+        searchTariffs: function(query, callback) {
+            $http.get(getAPI()+'tariffs', { params: { q: query } })
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
-            }); 
+            });
         },
         addTariff: function(tariff, headers, callback) {
             $http.post(getAPI()+'tariffs',{data:tariff}, {headers})
@@ -40,14 +40,6 @@ app.factory('TariffService', function($http) {
             }, function (response) {
                 callback(response);
             });
-        },
-        getTariff: function(id, callback) {  
-            $http.get(getAPI()+'tariffs/'+id)  
-            .then(function (response) {
-                callback(response);
-            }, function (response) {
-                callback(response);
-            }); 
         }
     };
-});  
+});

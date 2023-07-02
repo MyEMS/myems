@@ -18,8 +18,8 @@ app.factory('DistributionCircuitPointService', function($http) {
                 callback(response);
             });
         },
-        getPointsByDistributionCircuitID: function(id, callback) {
-            $http.get(getAPI()+'distributioncircuits/'+id+'/points')
+        getPointsByDistributionCircuitID: function(id, headers, callback) {
+            $http.get(getAPI()+'distributioncircuits/'+id+'/points', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

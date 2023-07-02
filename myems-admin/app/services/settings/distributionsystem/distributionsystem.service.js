@@ -1,16 +1,16 @@
 'use strict';
 app.factory('DistributionSystemService', function($http) {
     return {
-        getAllDistributionSystems:function(callback){
-            $http.get(getAPI()+'distributionsystems')
+        getAllDistributionSystems:function(headers, callback){
+            $http.get(getAPI()+'distributionsystems', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        searchDistributionSystems: function(query, callback) {
-            $http.get(getAPI()+'distributionsystems', { params: { q: query } })
+        searchDistributionSystems: function(query, headers, callback) {
+            $http.get(getAPI()+'distributionsystems', { params: { q: query } }, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -35,14 +35,6 @@ app.factory('DistributionSystemService', function($http) {
         },
         deleteDistributionSystem: function(distributionsystem, headers, callback) {
             $http.delete(getAPI()+'distributionsystems/'+distributionsystem.id, {headers})
-            .then(function (response) {
-                callback(response);
-            }, function (response) {
-                callback(response);
-            });
-        },
-        getDistributionSystem: function(id, callback) {
-            $http.get(getAPI()+'distributionsystems/'+id)
             .then(function (response) {
                 callback(response);
             }, function (response) {

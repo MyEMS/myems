@@ -11,7 +11,8 @@ app.controller('DistributionSystemController', function(
 	SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.getAllDistributionSystems = function() {
-		DistributionSystemService.getAllDistributionSystems(function(response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		DistributionSystemService.getAllDistributionSystems(headers, function(response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.distributionsystems = response.data;
 			} else {
@@ -96,15 +97,15 @@ app.controller('DistributionSystemController', function(
 
 	$scope.deleteDistributionSystem=function(distributionsystem){
 		SweetAlert.swal({
-		        title: $translate.instant("SWEET.TITLE"),
-		        text: $translate.instant("SWEET.TEXT"),
-		        type: "warning",
-		        showCancelButton: true,
-		        confirmButtonColor: "#DD6B55",
-		        confirmButtonText: $translate.instant("SWEET.CONFIRM_BUTTON_TEXT"),
-		        cancelButtonText: $translate.instant("SWEET.CANCEL_BUTTON_TEXT"),
-		        closeOnConfirm: true,
-		        closeOnCancel: true },
+			title: $translate.instant("SWEET.TITLE"),
+			text: $translate.instant("SWEET.TEXT"),
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#DD6B55",
+			confirmButtonText: $translate.instant("SWEET.CONFIRM_BUTTON_TEXT"),
+			cancelButtonText: $translate.instant("SWEET.CANCEL_BUTTON_TEXT"),
+			closeOnConfirm: true,
+			closeOnCancel: true },
 		    function (isConfirm) {
 		        if (isConfirm) {
 					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };

@@ -15,7 +15,8 @@ app.controller('DistributionCircuitController', function(
       $scope.currentDistributionSystem = null;
 	  $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
       $scope.getAllDistributionSystems = function() {
-  		DistributionSystemService.getAllDistributionSystems(function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+  		DistributionSystemService.getAllDistributionSystems(headers, function (response) {
   			if (angular.isDefined(response.status) && response.status === 200) {
   				$scope.distributionsystems = response.data;
   			} else {
@@ -25,21 +26,21 @@ app.controller('DistributionCircuitController', function(
   	};
 
   	$scope.getDistributionCircuitsByDistributionSystemID = function(id) {
-
-  		DistributionCircuitService.getDistributionCircuitsByDistributionSystemID(id, function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+  		DistributionCircuitService.getDistributionCircuitsByDistributionSystemID(id, headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.distributioncircuits = response.data;
 			} else {
-          	$scope.distributioncircuits=[];
-        }
-			});
+          		$scope.distributioncircuits=[];
+        	}
+		});
   	};
 
   	$scope.changeDistributionSystem=function(item,model){
-    		$scope.currentDistributionSystem=item;
-    		$scope.currentDistributionSystem.selected=model;
+    	$scope.currentDistributionSystem=item;
+    	$scope.currentDistributionSystem.selected=model;
         $scope.is_show_add_distribution_circuit = true;
-    		$scope.getDistributionCircuitsByDistributionSystemID($scope.currentDistributionSystem.id);
+    	$scope.getDistributionCircuitsByDistributionSystemID($scope.currentDistributionSystem.id);
   	};
 
   	$scope.addDistributionCircuit = function() {

@@ -1,16 +1,16 @@
 'use strict';
 app.factory('DistributionCircuitService', function($http) {
     return {
-        getAllDistributionCircuits: function(callback) {
-            $http.get(getAPI()+'distributioncircuits')
+        getAllDistributionCircuits: function(headers, callback) {
+            $http.get(getAPI()+'distributioncircuits', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        getDistributionCircuitsByDistributionSystemID: function(id, callback) {
-            $http.get(getAPI()+'distributionsystems/'+id+'/distributioncircuits')
+        getDistributionCircuitsByDistributionSystemID: function(id, headers, callback) {
+            $http.get(getAPI()+'distributionsystems/'+id+'/distributioncircuits', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

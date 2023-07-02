@@ -5,7 +5,8 @@ app.controller('DistributionSystemPreviewController', function($scope, Distribut
       $scope.currentDistributionSystem = null;
 
       $scope.getAllDistributionSystems = function() {
-      DistributionSystemService.getAllDistributionSystems(function(response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+      DistributionSystemService.getAllDistributionSystems(headers, function(response) {
           if (angular.isDefined(response.status) && response.status === 200) {
               $scope.distributionsystems = response.data;
           } else {
@@ -15,7 +16,8 @@ app.controller('DistributionSystemPreviewController', function($scope, Distribut
     };
 
     $scope.getDistributionCircuitsByDistributionSystemID = function(id) {
-        DistributionCircuitService.getDistributionCircuitsByDistributionSystemID(id, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        DistributionCircuitService.getDistributionCircuitsByDistributionSystemID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 return response.data;
             } else {

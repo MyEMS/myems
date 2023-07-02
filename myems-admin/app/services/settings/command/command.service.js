@@ -41,8 +41,8 @@ app.factory('CommandService', function($http) {
                 callback(response);
             });
         },
-        getCommand: function(id, callback) {  
-            $http.get(getAPI()+'commands/'+id)  
+        getCommand: function(id, headers, callback) {  
+            $http.get(getAPI()+'commands/'+id, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

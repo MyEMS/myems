@@ -40,14 +40,6 @@ app.factory('EquipmentService', function($http) {
             }, function (response) {
                 callback(response);
             });
-        },
-        getEquipment: function(id, callback) {
-            $http.get(getAPI()+'equipments/'+id)
-            .then(function (response) {
-                callback(response);
-            }, function (response) {
-                callback(response);
-            });
         }
     };
 });

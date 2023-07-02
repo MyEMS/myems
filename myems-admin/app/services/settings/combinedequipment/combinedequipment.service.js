@@ -40,14 +40,6 @@ app.factory('CombinedEquipmentService', function($http) {
             }, function (response) {
                 callback(response);
             });
-        },
-        getCombinedEquipment: function(id, callback) {
-            $http.get(getAPI()+'combinedequipments/'+id)
-            .then(function (response) {
-                callback(response);
-            }, function (response) {
-                callback(response);
-            });
         }
     };
 });
