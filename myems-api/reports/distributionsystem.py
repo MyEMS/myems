@@ -1,9 +1,8 @@
 from datetime import datetime, timedelta
-
 import falcon
 import mysql.connector
 import simplejson as json
-
+from core.useractivity import access_control
 import config
 
 
@@ -28,6 +27,7 @@ class Reporting:
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
+        access_control(req)
         print(req.params)
         distribution_system_id = req.params.get('distributionsystemid')
 

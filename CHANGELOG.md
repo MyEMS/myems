@@ -11,13 +11,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added access control to combined equipment in myems-api, myems-admin and myems-web
 - added access control to meter, offline meter and virtual meter in myems-api, myems-admin and myems-web
 - added access control to space in myems-api, myems-admin and myems-web
-
+- added access control to distribution system in myems-api, myems-admin and myems-web
+-
 ### Changed
-- 
+-
 ### Fixed
 - fixed datetime picker issue in myems-web
 ### Removed
-- 
+- removed unused getXXX services from myems-admin
 
 ## [v3.6.0] - 2023-06-22
 ### Added
@@ -63,17 +64,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added bind command to store feature to myems-api and myems-admin
 - added bind command to shopfloor feature to myems-api and myems-admin
 - added new tables for microgrids to system database
-- 
+-
 ### Changed
 - updated the default tariff type and default tariff valid through date time in tariff editor
 
 ### Fixed
 - fixed save button issue of tariff dialog in myems-admin
 - fixed save button issue of email server dialog in myems-admin
-- 
+-
 ### Removed
 - removed tariff type 'block'(or tiered) from database, myems-api and myems-admin
-- 
+-
 ## [v3.4.0] - 2023-06-01
 ### Added
 - added tbl_commands to myems_system_db database
@@ -119,7 +120,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Added data zoom to y axis of MultipleLineChart in myems-web
 
 ### Changed
-- Updated English Translation in myems-admin 
+- Updated English Translation in myems-admin
 - Updated Meter, Point, User and Space editor dialogs in myems-admin
 - Replaced telnetlib with telentlib3 in myems-modbus-tcp
 - Added maximum limit of user password length
@@ -141,7 +142,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - None
 
 ### Fixed
-- None 
+- None
 
 ### Removed
 - Removed table `tbl_shopfloor_working_days` from `myems_production_db`
@@ -157,11 +158,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - None
 
 ### Fixed
-- fixed null tooltip issue in MultiTrendChart.js 
+- fixed null tooltip issue in MultiTrendChart.js
 
 ### Removed
 - None
-- 
+-
 ## [v3.0.0] - 2023-02-25
 ### Added
 - added tbl_spaces_non_working_days to myems_system_db database
@@ -193,15 +194,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - added base period data to Combined Equipment reports
 - added read only property to administrator
-- 
+-
 ### Changed
 - updated translations of API errors in myems-web
 - updated myems-web to redirect URL to login page after 10 minutes of user idling
-- 
+-
 ### Fixed
 - fixed pagination caused issue in DetailedDataTable of myems-web
 - fixed issue of increment_rate_saving in combined equipment saving report
-- 
+-
 ### Removed
 -
 
@@ -213,9 +214,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added base period data to Store reports
 - added child spaces percentages to spaceenergycategory in myems-web
 - added base period data to Shopfloor reports
-- 
+-
 ### Changed
-- 
+-
 ### Fixed
 - fixed issue of increment_rate_saving in tenant saving report
 - fixed issue of increment_rate_saving in equipment saving report
@@ -224,7 +225,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed issue of increment_rate_saving in store saving report
 - fixed quick mode issue in combinedequipmentoutput report
 - fixed issue of increment_rate_saving in shopfloor saving report
-- 
+-
 ### Removed
 -
 
@@ -234,17 +235,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added base period data to Meter reports
 - added base period data to Virtual Meter reports
 - added base period data to Offline Meter reports
-- 
+-
 ### Changed
-- updated format statements by period types in execel exporters 
+- updated format statements by period types in execel exporters
 - Replaced LineChart with MultipleLineChart for related parameters of space reports in myems-web
 - Replaced LineChart with MultipleLineChart for related parameters of combined equipment reports in myems-web
-- 
+-
 ### Fixed
 - fixed user calendar cannot fully display issue
 - fixed issues of comparing decimal with zero
 - fixed issue of increment_rate_saving in meter saving report
-- 
+-
 ### Removed
 -
 
@@ -261,7 +262,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added base period data to Space Output report
 - added base period data to Space Saving report
 - added base period data to Space Statistics report
-- 
+-
 ### Changed
 - Changed basePeriodDateRangePickerDisabled from readonly to disabled
 - Decreased web message drop down list length in myems-admin
@@ -273,14 +274,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Replaced LineChart with MultipleLineChart for related parameters of shopfloor reports in myems-web
 - Replaced LineChart with MultipleLineChart for related parameters of tenant reports in myems-web
 - Upgraded angular.js to v1.8.3 in myems-admin
-- 
+-
 ### Fixed
 - fixed File is not always closed
 - fixed Explicit returns mixed with implicit (fall through) returns
 - fixed Empty except in myems-api
 - fixed Variable defined multiple times
 - fixed Unused local variable in myems-api
-- 
+-
 ### Removed
 -
 
@@ -292,18 +293,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added updating latest value of virtul point in myems-normalization
 - added difference values to meter comparison report
 - added quickmode parameter to most APIs in myems-api
-- 
+-
 ### Changed
 - added translations of TARIFF in myems-api
 - updated query panel of web messages in myems-admin
 - replaced chartjs with echarts for MultipleLineChart in myems-web
-- 
+-
 ### Fixed
 - fixed error translations in myems-web
 - added required parameters to webmessages api request in myems-admin
 - fixed base period timestamps index out of range error in myems-api
 - fixed PEP 8 warnings in myems-api
-- 
+-
 ### Removed
 -
 
@@ -311,18 +312,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - added API error message for failing to save offline meter file
 - added base period data to meter enegy report excel exporter in myems-api
-- 
+-
 ### Changed
 - refactored base_period_start_datetime_local and reporting_period_start_datetime_local of all reports in myems-api
 - normalized base period start datetime and reporting period start datetime of all reports in myems-api
 - split bulk insert data into small ones for meter/offlinemeter/virtualmeter billing/carbon procedures in myems-aggregation
-- 
+-
 ### Fixed
 - fixed PEP 8: W605 invalid escape sequence Z in myems-api
 - fixed finally statement issues in myems-aggregation
 - fixed unclosed database connections issues in myems-api
 - replaced unnecessary energy_category_list with single variable in myems-aggregation
-- 
+-
 ### Removed
 -
 
@@ -331,18 +332,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - added base period data and change rates to meter energy report in myems-web
 - added filters to FDD alarm report and notifications in myems-web
-- 
+-
 ### Changed
 - Split batch inserts into small ones in myems-aggregation
 - Updated min_datetime issue in myems-cleaning (NOTE: add START_DATETIME_UTC to myems-cleaning/.env for upgrading)
 - Set access_log off in nginx.conf for myems-admin and myems-web (NOTE: modify myems-web/nginx.conf and myems-admin/nginx.conf for upgrading)
-- 
+-
 ### Fixed
 - updated translations in Excel exporters
 - added try except statements to virtualmeter of myems-api
 - fixed TypeError: Object of type IntegrityError is not JSON serializable in myems-api
 - fixed wrong meter2 name in Excel exporter of MeterComparison report
-- 
+-
 ### Removed
 -
 
@@ -353,11 +354,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 - changed table color in the Excel exporters
 - refactored FDD Fault Alarm database, api and web
-- updated child spaces data in Dashboard 
+- updated child spaces data in Dashboard
 - changed associated points query order in myems-api
 
 ### Fixed
-- updated combined equipment energy category Excel exporter to show parameters data even if there is no energy data 
+- updated combined equipment energy category Excel exporter to show parameters data even if there is no energy data
 - fixed wrong multiple energy categories in Excel exporters
 
 ### Removed
@@ -373,16 +374,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added translation of TARIFF in myems-web
 - added barchart to Dashboard in myems-web
 - added translation of API errors in myems-web
-- 
+-
 ### Changed
 - updated ChildSpacesTable of Dashboard in myems-web
 - updated FDD Faults Report in myems-web
-- 
+-
 ### Fixed
 - updated datetime picker format pattern
 - fixed integrity rate issue of MeterTracking report
 - fixed MultipleLineChart blank screen issue in myems-web
-- 
+-
 ### Removed
 -
 
@@ -394,12 +395,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added i18n to excel exporters of offline meter
 - added i18n to excel exporters of equipment
 - added OceanBase to README
-- 
+-
 ### Changed
-- 
+-
 ### Fixed
 - updated if/else statements for excelexporters in myems-api
-- 
+-
 ### Removed
 -
 
@@ -411,15 +412,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added meter saving report
 - added meter comparison report
 - added virtual meter saving report
-- 
+-
 ### Changed
 - updated demo database
 - updated docker build instruction in README
 - updated daterange picker in myems-web
-- 
+-
 ### Fixed
 - fixed start datetime issue for virtual point in myems-normalization
-- 
+-
 ### Removed
 -
 
@@ -434,12 +435,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added tenant carbon dioxide emissions report
 - added data repair file UI to myems-admin
 ### Changed
-- 
+-
 ### Fixed
-- fixed issues when energy item list refreshing with energy category in myems-admin 
-- fixed virtual meter editor issue when refreshing meter list with meter type in myems-admin 
+- fixed issues when energy item list refreshing with energy category in myems-admin
+- fixed virtual meter editor issue when refreshing meter list with meter type in myems-admin
 - fixed virtual point issue of conversion from Float to Decimal in myems-normalization
-- 
+-
 ### Removed
 -
 
@@ -448,9 +449,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - added data integrity rates to meter tracking report in myems-api & myems-web
 - added piecewise function to virtual point in myems-normalization
-- 
+-
 ### Changed
-- 
+-
 ### Fixed
 - fixed energy category index error of storebatch report in myems-api
 - fixed setDetailedDataTableData async issue of meterenergy report in myems-web
@@ -460,7 +461,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [v1.9.5] - 2022-07-18
 ### Added
-- added subtotal to meter/offlinemeter/virtualmeter batch report 
+- added subtotal to meter/offlinemeter/virtualmeter batch report
 - added mqtt to data source protocol in myems-api
 - added tbl_template_files to myems_reporting_db
 - added tbl_integrators to myems_system_db
@@ -469,7 +470,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added tbl_data_repair_files to myems_historical_db
 - added data repair file actions to myems-api
 - added data repair file procedure to myems-normalization
-- 
+-
 ### Changed
 - changed parameter line chart to multiple line chart for meterenergy report in myems-web
 
@@ -480,7 +481,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed error of GET a Parameter of an Equipment in myems-api
 - fixed typo in postman collection
 ### Removed
-- 
+-
 
 ## [v1.9.4] - 2022-06-18
 ### Added
@@ -519,7 +520,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated MeterTracking Excel exporter.
 - Updated MeterBatch Excel exporter.
 - Deleted width limit from cascader-menu in myems-web.
-- Updated falcon web framework version to the latest (3.1.0) in myems-api 
+- Updated falcon web framework version to the latest (3.1.0) in myems-api
 
 ### Fixed
 - updated meterrealtime report to display right units of energy value.
@@ -563,7 +564,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 - fixed typo in virtualmetercarbon.
 - updated database upgrade1.4.0 sql script
-- set proxy_buffering off in nginx.conf files. 
+- set proxy_buffering off in nginx.conf files.
 - fixed row meters index error in meterbatch report api.
 
 ### Removed
@@ -803,11 +804,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 -   Merged expression table into virtual meter table in database.
     NOTE: THIS CHANGE MAY BREAK YOUR SYSTEM.
-    
+
     Upgrade procedure for this change:
     1. Stop the myems-normalization service or container.
     2. Backup your database.
-    3. Upgrade myems/admin, myems/myems-api, and myems/myems-normalization source code, 
+    3. Upgrade myems/admin, myems/myems-api, and myems/myems-normalization source code,
        and keep previous .env files unchanged.
     4. Run database/upgrade/upgrade1.4.0.sql to merge expression into virtual meter
     5. Check the virtual meters in Admin UI.
@@ -1032,7 +1033,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [v1.2.0] -   2021-08-08
 ### Added
--   Added demo data to database 
+-   Added demo data to database
 
 ### Changed
 -   Replaced every_day_* to periodic_* in excelexporters of API
@@ -1150,8 +1151,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 -   added associated parameters data to excel exporter of shopfloorcost in API
 -   added associated parameters data to excel exporter of storestatistics in API
 -   added associated parameters data to excel exporter of storesaving in API
--   added associated parameters data to excel exporter of storeload in API 
--   added associated parameters data to storeenergyitem in API 
+-   added associated parameters data to excel exporter of storeload in API
+-   added associated parameters data to storeenergyitem in API
 -   added associated parameters data to excel exporter of storeenergycategory in API
 -   added associated parameters data to excel exporter of storecost in API
 -   added associated parameters data to excel exporter of spacestatistics in API
