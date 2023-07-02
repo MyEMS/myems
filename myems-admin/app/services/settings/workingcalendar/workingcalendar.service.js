@@ -32,14 +32,6 @@ app.factory('WorkingCalendarService', function($http) {
             }, function (response) {
                 callback(response);
             });
-        },
-        getWorkingCalendar: function(id, callback) {
-            $http.get(getAPI()+'workingcalendars/'+id)
-            .then(function (response) {
-                callback(response);
-            }, function (response) {
-                callback(response);
-            });
         }
     };
 });

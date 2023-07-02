@@ -40,14 +40,6 @@ app.factory('EnergyItemService', function($http) {
             }, function (response) {
                 callback(response);
             });
-        },
-        getEnergyItem: function(id, callback) {
-            $http.get(getAPI()+'energyitems/'+id)
-            .then(function (response) {
-                callback(response);
-            }, function (response) {
-                callback(response);
-            });
         }
     };
 });

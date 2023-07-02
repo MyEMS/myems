@@ -40,14 +40,6 @@ app.factory('SensorService', function($http) {
             }, function (response) {
                 callback(response);
             });
-        },
-        getSensor: function(id, callback) {
-            $http.get(getAPI()+'sensors/'+id)
-            .then(function (response) {
-                callback(response);
-            }, function (response) {
-                callback(response);
-            });
         }
     };
 });

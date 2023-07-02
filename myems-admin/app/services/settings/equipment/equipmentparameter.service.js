@@ -26,7 +26,6 @@ app.factory('EquipmentParameterService', function($http) {
                 callback(response);
             });
         },
-
         deleteEquipmentParameter: function(equipmentID, parameterID, headers, callback) {
             $http.delete(getAPI()+'equipments/'+equipmentID+'/parameters/'+parameterID, {headers})
             .then(function (response) {

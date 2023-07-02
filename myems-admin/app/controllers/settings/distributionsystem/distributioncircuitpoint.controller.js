@@ -40,7 +40,8 @@ app.controller('DistributionCircuitPointController', function (
     };
 
     $scope.getPointsByDistributionCircuitID = function (id) {
-        DistributionCircuitPointService.getPointsByDistributionCircuitID(id, function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        DistributionCircuitPointService.getPointsByDistributionCircuitID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.distributioncircuitpoints = response.data;
             } else {
@@ -61,7 +62,8 @@ app.controller('DistributionCircuitPointController', function (
     };
 
     $scope.getAllDistributionCircuits = function () {
-        DistributionCircuitService.getAllDistributionCircuits(function (response) {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        DistributionCircuitService.getAllDistributionCircuits(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.distributioncircuits = response.data;
                 for(var i = 0; i < $scope.distributioncircuits.length; i++) {
