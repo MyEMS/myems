@@ -668,6 +668,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_batteries` (
   `name` VARCHAR(255) NOT NULL,
   `uuid` CHAR(36) NOT NULL,
   `microgrid_id` BIGINT NOT NULL,
+  `power_point_id` BIGINT NOT NULL,
   `charge_meter_id` BIGINT NOT NULL,
   `discharge_meter_id` BIGINT NOT NULL,
   `capacity` DECIMAL(18, 3) NOT NULL,
@@ -710,6 +711,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_evchargers` (
   `name` VARCHAR(255) NOT NULL,
   `uuid` CHAR(36) NOT NULL,
   `microgrid_id` BIGINT NOT NULL,
+  `power_point_id` BIGINT NOT NULL,
   `meter_id` BIGINT NOT NULL,
   `capacity` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
@@ -725,6 +727,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_generators` (
   `name` VARCHAR(255) NOT NULL,
   `uuid` CHAR(36) NOT NULL,
   `microgrid_id` BIGINT NOT NULL,
+  `power_point_id` BIGINT NOT NULL,
   `meter_id` BIGINT NOT NULL,
   `capacity` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
@@ -740,6 +743,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_grids` (
   `name` VARCHAR(255) NOT NULL,
   `uuid` CHAR(36) NOT NULL,
   `microgrid_id` BIGINT NOT NULL,
+  `power_point_id` BIGINT NOT NULL,
   `buy_meter_id` BIGINT NOT NULL,
   `sell_meter_id` BIGINT NOT NULL,
   `capacity` DECIMAL(18, 3) NOT NULL,
@@ -756,6 +760,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_heatpumps` (
   `name` VARCHAR(255) NOT NULL,
   `uuid` CHAR(36) NOT NULL,
   `microgrid_id` BIGINT NOT NULL,
+  `power_point_id` BIGINT NOT NULL,
   `electricity_meter_id` BIGINT NOT NULL,
   `heat_meter_id` BIGINT NOT NULL,
   `cooling_meter_id` BIGINT NOT NULL,
@@ -773,6 +778,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_loads` (
   `name` VARCHAR(255) NOT NULL,
   `uuid` CHAR(36) NOT NULL,
   `microgrid_id` BIGINT NOT NULL,
+  `power_point_id` BIGINT NOT NULL,
   `meter_id` BIGINT NOT NULL,
   `capacity` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
@@ -813,6 +819,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_photovoltaics` (
   `name` VARCHAR(255) NOT NULL,
   `uuid` CHAR(36) NOT NULL,
   `microgrid_id` BIGINT NOT NULL,
+  `power_point_id` BIGINT NOT NULL,
   `meter_id` BIGINT NOT NULL,
   `capacity` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
@@ -840,6 +847,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_windturbines` (
   `name` VARCHAR(255) NOT NULL,
   `uuid` CHAR(36) NOT NULL,
   `microgrid_id` BIGINT NOT NULL,
+  `power_point_id` BIGINT NOT NULL,
   `meter_id` BIGINT NOT NULL,
   `capacity` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));

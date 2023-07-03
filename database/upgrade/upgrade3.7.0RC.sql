@@ -29,6 +29,15 @@ ALTER TABLE `myems_system_db`.`tbl_microgrids_loads` ADD `meter_id` BIGINT NOT N
 ALTER TABLE `myems_system_db`.`tbl_microgrids_photovoltaics` ADD `meter_id` BIGINT NOT NULL AFTER `microgrid_id`;
 ALTER TABLE `myems_system_db`.`tbl_microgrids_windturbines` ADD `meter_id` BIGINT NOT NULL AFTER `microgrid_id`;
 
+ALTER TABLE `myems_system_db`.`tbl_microgrids_batteries` ADD `power_point_id` BIGINT NOT NULL AFTER `microgrid_id`;
+ALTER TABLE `myems_system_db`.`tbl_microgrids_evchargers` ADD `power_point_id` BIGINT NOT NULL AFTER `microgrid_id`;
+ALTER TABLE `myems_system_db`.`tbl_microgrids_generators` ADD `power_point_id` BIGINT NOT NULL AFTER `microgrid_id`;
+ALTER TABLE `myems_system_db`.`tbl_microgrids_grids` ADD `power_point_id` BIGINT NOT NULL AFTER `microgrid_id`;
+ALTER TABLE `myems_system_db`.`tbl_microgrids_heatpumps` ADD `power_point_id` BIGINT NOT NULL AFTER `microgrid_id`;
+ALTER TABLE `myems_system_db`.`tbl_microgrids_loads` ADD `power_point_id` BIGINT NOT NULL AFTER `microgrid_id`;
+ALTER TABLE `myems_system_db`.`tbl_microgrids_photovoltaics` ADD `power_point_id` BIGINT NOT NULL AFTER `microgrid_id`;
+ALTER TABLE `myems_system_db`.`tbl_microgrids_windturbines` ADD `power_point_id` BIGINT NOT NULL AFTER `microgrid_id`;
+
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='3.7.0RC', release_date='2023-07-01' WHERE id=1;
 
