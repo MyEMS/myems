@@ -1,16 +1,16 @@
 'use strict';
 app.factory('SensorService', function($http) {
     return {
-        getAllSensors:function(callback){
-            $http.get(getAPI()+'sensors')
+        getAllSensors:function(headers, callback){
+            $http.get(getAPI()+'sensors', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        searchSensors: function(query, callback) {
-            $http.get(getAPI()+'sensors', { params: { q: query } })
+        searchSensors: function(query, headers, callback) {
+            $http.get(getAPI()+'sensors', { params: { q: query } }, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
