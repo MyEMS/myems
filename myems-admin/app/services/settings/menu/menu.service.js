@@ -1,16 +1,16 @@
 'use strict';
 app.factory('MenuService', function($http) {
     return {
-        getAllMenus:function(callback){
-            $http.get(getAPI()+'menus')
+        getAllMenus:function(headers, callback){
+            $http.get(getAPI()+'menus', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        getMenuChildren:function(menuid, callback){
-            $http.get(getAPI()+'menus/'+menuid+'/children')
+        getMenuChildren:function(menuid, headers, callback){
+            $http.get(getAPI()+'menus/'+menuid+'/children', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

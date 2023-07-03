@@ -86,7 +86,8 @@ app.controller('MenuController', function (
 	};
 
 	$scope.getMenuChildren = function (menuid) {
-		MenuService.getMenuChildren(menuid, function (response) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		MenuService.getMenuChildren(menuid, headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.currentMenu = response.data["current"];
 				$scope.currentMenuChildren = response.data["children"];
