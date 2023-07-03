@@ -49,6 +49,7 @@ from reports import metersaving
 from reports import metersubmetersbalance
 from reports import metertracking
 from reports import metertrend
+from reports import microgrid as microgridreport
 from reports import offlinemeterbatch
 from reports import offlinemetercarbon
 from reports import offlinemetercost
@@ -750,6 +751,8 @@ api.add_route('/reports/metertrend',
               metertrend.Reporting())
 api.add_route('/reports/metertracking',
               metertracking.Reporting())
+api.add_route('/reports/microgrid',
+              microgridreport.Reporting())
 api.add_route('/reports/offlinemeterbatch',
               offlinemeterbatch.Reporting())
 api.add_route('/reports/offlinemetercarbon',

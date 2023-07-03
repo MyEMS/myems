@@ -10,7 +10,11 @@ import {
   Row,
   Spinner,
 } from 'reactstrap';
-import RealtimeChart from './RealtimeChart';
+import CardSummary from '../common/CardSummary';
+import CountUp from 'react-countup';
+import LineChart from '../common/LineChart';
+import BarChart from '../common/BarChart';
+import ChartSpacesStackBar from '../common/ChartSpacesStackBar';
 import { getCookieValue, createCookie } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
@@ -18,10 +22,11 @@ import {v4 as uuid} from 'uuid';
 import { toast } from 'react-toastify';
 import { APIBaseURL } from '../../../config';
 import useInterval from '../../../hooks/useInterval';
+import { Map } from 'react-leaflet';
 
 
 const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
-  
+
   const refreshSVGData =()=> {
     let isResponseOK = false;
     fetch(APIBaseURL + '/reports/pointrealtime', {
@@ -84,19 +89,19 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
-  
+
   // State
   // Query Parameters
-  const [distributionSystemList, setDistributionSystemList] = useState([]);
-  const [selectedDistributionSystemID, setSelectedDistributionSystemID] = useState(undefined);
-  
+  const [microgridList, setMicrogridList] = useState([]);
+  const [selectedMicrogridID, setSelectedMicrogridID] = useState(undefined);
+
   //Results
   const [images, setImages] = useState([]);
   const [spinnerHidden, setSpinnerHidden] = useState(false);
 
   useEffect(() => {
     let isResponseOK = false;
-    fetch(APIBaseURL + '/distributionsystems', {
+    fetch(APIBaseURL + '/microgrids', {
       method: 'GET',
       headers: {
         "Content-type": "application/json",
@@ -114,13 +119,13 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       console.log(json);
       if (isResponseOK) {
-        // rename keys 
+        // rename keys
         json = JSON.parse(JSON.stringify(json).split('"id":').join('"value":').split('"name":').join('"label":'));
-        
+
         console.log(json);
-        setDistributionSystemList(json);
-        setSelectedDistributionSystemID([json[0]].map(o => o.value));
-        
+        setMicrogridList(json);
+        setSelectedMicrogridID([json[0]].map(o => o.value));
+
         let images = {};
         json.forEach((currentValue, index) => {
           images[currentValue['value']] = {__html: currentValue['svg']}
@@ -138,30 +143,30 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
-  let onDistributionSystemChange = (event) => {
-    setSelectedDistributionSystemID(event.target.value);
+  let onMicrogridChange = (event) => {
+    setSelectedMicrogridID(event.target.value);
   };
 
-  
+
   useInterval(() => {
     refreshSVGData();
   }, 1000 * 3);
 
   return (
     <Fragment>
-     
+
       <Card className="bg-light mb-3">
         <CardBody className="p-3">
           <Form >
             <Row form style={{height:"38px"}}>
               <Col xs={6} sm={3} style={{height:"37px"}}>
                 <FormGroup>
-                  <CustomInput type="select" id="distributionSystemSelect" name="distributionSystemSelect"
-                    value={selectedDistributionSystemID} onChange={onDistributionSystemChange}
+                  <CustomInput type="select" id="microgridSelect" name="microgridSelect"
+                    value={selectedMicrogridID} onChange={onMicrogridChange}
                   >
-                    {distributionSystemList.map((distributionSystem, index) => (
-                      <option value={distributionSystem.value} key={distributionSystem.value}>
-                        {distributionSystem.label}
+                    {microgridList.map((microgrid, index) => (
+                      <option value={microgrid.value} key={microgrid.value}>
+                        {microgrid.label}
                       </option>
                     ))}
                   </CustomInput>
@@ -172,21 +177,41 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
                   <br></br>
                   <Spinner color="primary" hidden={spinnerHidden}  />
                 </FormGroup>
-              </Col>              
+              </Col>
             </Row>
           </Form>
         </CardBody>
       </Card>
+      <div className="card-deck">
+        <CardSummary rate="-0.23%" title="PV Generation" color="info" footnote="Today">
+          {8888 && <CountUp end={8888} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+        </CardSummary>
+        <CardSummary rate="-0.23%" title="Battery Charged" color="info" footnote="Today">
+          {8888 && <CountUp end={8888} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+        </CardSummary>
+        <CardSummary rate="-0.23%" title="Battery Discharged" color="info" footnote="Today">
+          {8888 && <CountUp end={8888} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+        </CardSummary>
+        <CardSummary rate="-0.23%" title="Bought from Grid" color="info" footnote="Today">
+          {8888 && <CountUp end={8888} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+        </CardSummary>
+        <CardSummary rate="-0.23%" title="Sold to Grid" color="info" footnote="Today">
+          {8888 && <CountUp end={8888} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+        </CardSummary>
+        <CardSummary rate="-0.23%" title="Load Consumption" color="info" footnote="Today">
+          {8888 && <CountUp end={8888} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+        </CardSummary>
+        <CardSummary rate="-0.23%" title="Earnings" color="info" footnote="Today">
+          {8888 && <CountUp end={8888} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+        </CardSummary>
+      </div>
       <Row noGutters>
-        
-        <Col lg="4" className="pr-lg-2" key={uuid()}>
-          <RealtimeChart 
-            distributionSystemID={selectedDistributionSystemID} 
-          />
+        <Col lg="6" className="pr-lg-2" key={uuid()}>
+          <div dangerouslySetInnerHTML={images[selectedMicrogridID]} />
         </Col>
-        
-        <Col lg="8" className="pr-lg-2">
-          <div dangerouslySetInnerHTML={images[selectedDistributionSystemID]} />
+
+        <Col lg="6" className="pr-lg-2">
+
         </Col>
 
       </Row>
