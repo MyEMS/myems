@@ -77,7 +77,6 @@ app.controller('MicrogridController', function(
 			resolve: {
 				params: function() {
 					return {
-						microgrids:angular.copy($scope.microgrids),
 						microgridarchitecturetypes: angular.copy($scope.microgridarchitecturetypes),
 						microgridownertypes: angular.copy($scope.microgridownertypes),
 						costcenters: angular.copy($scope.costcenters),
@@ -87,10 +86,10 @@ app.controller('MicrogridController', function(
 			}
 		});
 		modalInstance.result.then(function(microgrid) {
-			microgrid.architecture_type_id=microgrid.architecture_type.id;
-			microgrid.owner_type_id=microgrid.owner_type.id;
-			microgrid.cost_center_id=microgrid.cost_center.id;
-			microgrid.contact_id=microgrid.contact.id;
+			microgrid.architecture_type_id = microgrid.architecture_type.id;
+			microgrid.owner_type_id = microgrid.owner_type.id;
+			microgrid.cost_center_id = microgrid.cost_center.id;
+			microgrid.contact_id = microgrid.contact.id;
 			if (angular.isDefined(microgrid.is_input_counted) == false) {
 				microgrid.is_input_counted = false;
 			}
@@ -218,7 +217,6 @@ app.controller('MicrogridController', function(
 app.controller('ModalAddMicrogridCtrl', function($scope, $uibModalInstance,params) {
 
 	$scope.operation = "SETTING.ADD_MICROGRID";
-	$scope.microgridtypes=params.microgridtypes;
 	$scope.microgridarchitecturetypes=params.microgridarchitecturetypes;
 	$scope.microgridownertypes=params.microgridownertypes;
 	$scope.costcenters=params.costcenters;
