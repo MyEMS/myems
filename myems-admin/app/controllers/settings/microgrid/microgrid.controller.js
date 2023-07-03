@@ -90,9 +90,6 @@ app.controller('MicrogridController', function(
 			microgrid.owner_type_id = microgrid.owner_type.id;
 			microgrid.cost_center_id = microgrid.cost_center.id;
 			microgrid.contact_id = microgrid.contact.id;
-			if (angular.isDefined(microgrid.is_input_counted) == false) {
-				microgrid.is_input_counted = false;
-			}
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			MicrogridService.addMicrogrid(microgrid, headers, function(response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
@@ -141,9 +138,7 @@ app.controller('MicrogridController', function(
 			modifiedMicrogrid.owner_type_id=modifiedMicrogrid.owner_type.id;
 			modifiedMicrogrid.cost_center_id=modifiedMicrogrid.cost_center.id;
 			modifiedMicrogrid.contact_id=modifiedMicrogrid.contact.id;
-			if (angular.isDefined(microgrid.is_input_counted) == false) {
-				microgrid.is_input_counted = false;
-			}
+
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			MicrogridService.editMicrogrid(modifiedMicrogrid, headers, function(response) {
 				if (angular.isDefined(response.status) && response.status === 200) {

@@ -70,7 +70,7 @@ class MicrogridCollection:
         query = (" SELECT id, name, uuid, "
                  "        address, postal_code, latitude, longitude, capacity, "
                  "        architecture_type_id, owner_type_id, "
-                 "        is_input_counted, is_output_counted, contact_id, cost_center_id, svg, description "
+                 "        contact_id, cost_center_id, svg, description "
                  " FROM tbl_microgrids "
                  " ORDER BY id ")
         cursor.execute(query)
@@ -81,8 +81,8 @@ class MicrogridCollection:
             for row in rows_spaces:
                 architecture_type = architecture_type_dict.get(row[8], None)
                 owner_type = owner_type_dict.get(row[9], None)
-                contact = contact_dict.get(row[12], None)
-                cost_center = cost_center_dict.get(row[13], None)
+                contact = contact_dict.get(row[10], None)
+                cost_center = cost_center_dict.get(row[11], None)
 
                 meta_result = {"id": row[0],
                                "name": row[1],
@@ -94,12 +94,10 @@ class MicrogridCollection:
                                "capacity": row[7],
                                "architecture_type": architecture_type,
                                "owner_type": owner_type,
-                               "is_input_counted": bool(row[10]),
-                               "is_output_counted": bool(row[11]),
                                "contact": contact,
                                "cost_center": cost_center,
-                               "svg": row[14],
-                               "description": row[15],
+                               "svg": row[12],
+                               "description": row[13],
                                "qrcode": 'microgrid:' + row[2]}
                 result.append(meta_result)
 
@@ -181,18 +179,6 @@ class MicrogridCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_OWNER_TYPE_ID')
         owner_type_id = new_values['data']['owner_type_id']
-
-        if 'is_input_counted' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['is_input_counted'], bool):
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_IS_INPUT_COUNTED_VALUE')
-        is_input_counted = new_values['data']['is_input_counted']
-
-        if 'is_output_counted' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['is_output_counted'], bool):
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_IS_OUTPUT_COUNTED_VALUE')
-        is_output_counted = new_values['data']['is_output_counted']
 
         if 'contact_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['contact_id'], int) or \
@@ -278,7 +264,6 @@ class MicrogridCollection:
         add_values = (" INSERT INTO tbl_microgrids "
                       "    (name, uuid, address, postal_code, latitude, longitude, capacity, "
                       "     architecture_type_id, owner_type_id, "
-                      "     is_input_counted, is_output_counted, "
                       "     contact_id, cost_center_id, svg, description) "
                       " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
@@ -290,8 +275,6 @@ class MicrogridCollection:
                                     capacity,
                                     architecture_type_id,
                                     owner_type_id,
-                                    is_input_counted,
-                                    is_output_counted,
                                     contact_id,
                                     cost_center_id,
                                     svg,
@@ -374,7 +357,6 @@ class MicrogridItem:
         query = (" SELECT id, name, uuid, "
                  "        address, postal_code, latitude, longitude, capacity, "
                  "        architecture_type_id, owner_type_id, "
-                 "        is_input_counted, is_output_counted, "
                  "        contact_id, cost_center_id, svg, description "
                  " FROM tbl_microgrids "
                  " WHERE id = %s ")
@@ -389,8 +371,8 @@ class MicrogridItem:
         else:
             architecture_type = architecture_type_dict.get(row[8], None)
             owner_type = microgrid_owner_type_dict.get(row[9], None)
-            contact = contact_dict.get(row[12], None)
-            cost_center = cost_center_dict.get(row[13], None)
+            contact = contact_dict.get(row[10], None)
+            cost_center = cost_center_dict.get(row[11], None)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
@@ -401,12 +383,10 @@ class MicrogridItem:
                            "capacity": row[7],
                            "architecture_type": architecture_type,
                            "owner_type": owner_type,
-                           "is_input_counted": bool(row[10]),
-                           "is_output_counted": bool(row[11]),
                            "contact": contact,
                            "cost_center": cost_center,
-                           "svg": row[14],
-                           "description": row[15],
+                           "svg": row[12],
+                           "description": row[13],
                            "qrcode": 'microgrid:' + row[2]}
 
         resp.text = json.dumps(meta_result)
@@ -554,18 +534,6 @@ class MicrogridItem:
                                    description='API.INVALID_MICROGRID_OWNER_TYPE_ID')
         owner_type_id = new_values['data']['owner_type_id']
 
-        if 'is_input_counted' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['is_input_counted'], bool):
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_IS_INPUT_COUNTED_VALUE')
-        is_input_counted = new_values['data']['is_input_counted']
-
-        if 'is_output_counted' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['is_output_counted'], bool):
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_IS_OUTPUT_COUNTED_VALUE')
-        is_output_counted = new_values['data']['is_output_counted']
-
         if 'contact_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['contact_id'], int) or \
                 new_values['data']['contact_id'] <= 0:
@@ -659,7 +627,6 @@ class MicrogridItem:
         update_row = (" UPDATE tbl_microgrids "
                       " SET name = %s, address = %s, postal_code = %s, latitude = %s, longitude = %s, capacity = %s, "
                       "     architecture_type_id = %s, owner_type_id = %s, "
-                      "     is_input_counted = %s, is_output_counted = %s, "
                       "     contact_id = %s, cost_center_id = %s, "
                       "     svg = %s, description = %s "
                       " WHERE id = %s ")
@@ -671,8 +638,6 @@ class MicrogridItem:
                                     capacity,
                                     architecture_type_id,
                                     owner_type_id,
-                                    is_input_counted,
-                                    is_output_counted,
                                     contact_id,
                                     cost_center_id,
                                     svg,
