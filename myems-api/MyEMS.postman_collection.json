@@ -5718,7 +5718,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office2\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"latitude\":39.909429, \"longitude\":116.416993, \"capacity\":600.000, \"architecture_type_id\":1, \"owner_type_id\":1, \"is_input_counted\":true, \"is_output_counted\":true, \"contact_id\":1, \"cost_center_id\":1, \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office2\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"latitude\":39.909429, \"longitude\":116.416993, \"capacity\":600.000, \"architecture_type_id\":1, \"owner_type_id\":1, \"contact_id\":1, \"cost_center_id\":1, \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgrids",
@@ -5750,7 +5750,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100001\", \"latitude\":39.909429, \"longitude\":116.416993, \"capacity\":600.000, \"architecture_type_id\":1, \"owner_type_id\":1, \"is_input_counted\":true, \"is_output_counted\":true, \"contact_id\":1, \"cost_center_id\":1, \"description\":\"New\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100001\", \"latitude\":39.909429, \"longitude\":116.416993, \"capacity\":600.000, \"architecture_type_id\":1, \"owner_type_id\":1, \"contact_id\":1, \"cost_center_id\":1, \"description\":\"New\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgrids/1",
@@ -6367,7 +6367,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Battery\", \"microgrid_id\":1, \"capacity\": 30}}"
+									"raw": "{\"data\":{\"name\":\"Battery\", \"microgrid_id\":1, \"power_point_id\":1, \"charge_meter_id\":1, \"discharge_meter_id\":2, \"capacity\": 30}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgridbatteries",
@@ -6432,7 +6432,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Battery\", \"microgrid_id\":1, \"capacity\": 50}}"
+									"raw": "{\"data\":{\"name\":\"Battery\", \"microgrid_id\":1, \"power_point_id\":1, \"charge_meter_id\":1, \"discharge_meter_id\":2, \"capacity\": 50}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgridbatteries/1",
@@ -6529,7 +6529,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"EVCharger\", \"microgrid_id\":1, \"capacity\": 30}}"
+									"raw": "{\"data\":{\"name\":\"EVCharger\", \"microgrid_id\":1, \"power_point_id\":1, \"meter_id\":1, \"capacity\": 30}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgridevchargers",
@@ -6538,37 +6538,6 @@
 									],
 									"path": [
 										"microgridevchargers"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "DELETE a Microgrid Battery by ID",
-							"request": {
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text",
-										"description": "Any admin users' UUID"
-									},
-									{
-										"key": "Token",
-										"value": "d4af151d182e325bda23f89cef3a385e519f601b40ed3158d0b306c2dcaa1b0b190f3a5945b39e9534a25f891270bbe250a38872920f975949ef33becb908198",
-										"type": "text",
-										"description": "Login to get a valid token"
-									}
-								],
-								"url": {
-									"raw": "{{base_url}}/microgridevchargers/1",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"microgridevchargers",
-										"1"
 									]
 								}
 							},
@@ -6594,8 +6563,39 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"EVCharger\", \"microgrid_id\":1, \"capacity\": 50}}"
+									"raw": "{\"data\":{\"name\":\"EVCharger\", \"microgrid_id\":1, \"power_point_id\":1, \"meter_id\":1, \"capacity\": 50}}"
 								},
+								"url": {
+									"raw": "{{base_url}}/microgridevchargers/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgridevchargers",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Microgrid Battery by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "d4af151d182e325bda23f89cef3a385e519f601b40ed3158d0b306c2dcaa1b0b190f3a5945b39e9534a25f891270bbe250a38872920f975949ef33becb908198",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/microgridevchargers/1",
 									"host": [
@@ -6691,7 +6691,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Generator\", \"microgrid_id\":1, \"capacity\": 30}}"
+									"raw": "{\"data\":{\"name\":\"Generator\", \"microgrid_id\":1, \"power_point_id\":1, \"meter_id\":1, \"capacity\": 30}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgridgenerators",
@@ -6700,37 +6700,6 @@
 									],
 									"path": [
 										"microgridgenerators"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "DELETE a Microgrid Generator by ID",
-							"request": {
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text",
-										"description": "Any admin users' UUID"
-									},
-									{
-										"key": "Token",
-										"value": "d4af151d182e325bda23f89cef3a385e519f601b40ed3158d0b306c2dcaa1b0b190f3a5945b39e9534a25f891270bbe250a38872920f975949ef33becb908198",
-										"type": "text",
-										"description": "Login to get a valid token"
-									}
-								],
-								"url": {
-									"raw": "{{base_url}}/microgridgenerators/1",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"microgridgenerators",
-										"1"
 									]
 								}
 							},
@@ -6756,8 +6725,39 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Generator\", \"microgrid_id\":1, \"capacity\": 50}}"
+									"raw": "{\"data\":{\"name\":\"Generator\", \"microgrid_id\":1, \"power_point_id\":1, \"meter_id\":1, \"capacity\": 50}}"
 								},
+								"url": {
+									"raw": "{{base_url}}/microgridgenerators/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgridgenerators",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Microgrid Generator by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "d4af151d182e325bda23f89cef3a385e519f601b40ed3158d0b306c2dcaa1b0b190f3a5945b39e9534a25f891270bbe250a38872920f975949ef33becb908198",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/microgridgenerators/1",
 									"host": [
@@ -6853,7 +6853,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Grid\", \"microgrid_id\":1, \"capacity\": 30}}"
+									"raw": "{\"data\":{\"name\":\"Grid\", \"microgrid_id\":1, \"buy_meter_id\":1, \"sell_meter_id\":2, \"capacity\": 30}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgridgrids",
@@ -6862,37 +6862,6 @@
 									],
 									"path": [
 										"microgridgrids"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "DELETE a Microgrid Grid by ID",
-							"request": {
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text",
-										"description": "Any admin users' UUID"
-									},
-									{
-										"key": "Token",
-										"value": "d4af151d182e325bda23f89cef3a385e519f601b40ed3158d0b306c2dcaa1b0b190f3a5945b39e9534a25f891270bbe250a38872920f975949ef33becb908198",
-										"type": "text",
-										"description": "Login to get a valid token"
-									}
-								],
-								"url": {
-									"raw": "{{base_url}}/microgridgrids/1",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"microgridgrids",
-										"1"
 									]
 								}
 							},
@@ -6918,8 +6887,39 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Grid\", \"microgrid_id\":1, \"capacity\": 50}}"
+									"raw": "{\"data\":{\"name\":\"Grid\", \"microgrid_id\":1, \"buy_meter_id\":1, \"sell_meter_id\":2, \"capacity\": 50}}"
 								},
+								"url": {
+									"raw": "{{base_url}}/microgridgrids/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgridgrids",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Microgrid Grid by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "d4af151d182e325bda23f89cef3a385e519f601b40ed3158d0b306c2dcaa1b0b190f3a5945b39e9534a25f891270bbe250a38872920f975949ef33becb908198",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/microgridgrids/1",
 									"host": [
@@ -7015,7 +7015,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Heatpump\", \"microgrid_id\":1, \"capacity\": 30}}"
+									"raw": "{\"data\":{\"name\":\"Heatpump\", \"microgrid_id\":1, \"power_point_id\":1, \"electricity_meter_id\":1, \"heat_meter_id\":2, \"cooling_meter_id\":3, \"capacity\": 30}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgridheatpumps",
@@ -7024,37 +7024,6 @@
 									],
 									"path": [
 										"microgridheatpumps"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "DELETE a Microgrid Heatpump by ID",
-							"request": {
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text",
-										"description": "Any admin users' UUID"
-									},
-									{
-										"key": "Token",
-										"value": "08c913a4e5eccc96d590c52002b2ed225dbbf0de52b260d41b912bf989fe9c0bd47a09de0ee0a3b527cac427603b28c73450e08d9084289ecedaaf88cdd865db",
-										"type": "text",
-										"description": "Login to get a valid token"
-									}
-								],
-								"url": {
-									"raw": "{{base_url}}/microgridheatpumps/1",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"microgridheatpumps",
-										"1"
 									]
 								}
 							},
@@ -7080,8 +7049,39 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Heatpump\", \"microgrid_id\":1, \"capacity\": 50}}"
+									"raw": "{\"data\":{\"name\":\"Heatpump\", \"microgrid_id\":1, \"power_point_id\":1, \"electricity_meter_id\":1, \"heat_meter_id\":2, \"cooling_meter_id\":3, \"capacity\": 50}}"
 								},
+								"url": {
+									"raw": "{{base_url}}/microgridheatpumps/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgridheatpumps",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Microgrid Heatpump by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "08c913a4e5eccc96d590c52002b2ed225dbbf0de52b260d41b912bf989fe9c0bd47a09de0ee0a3b527cac427603b28c73450e08d9084289ecedaaf88cdd865db",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/microgridheatpumps/1",
 									"host": [
@@ -7177,7 +7177,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Load\", \"microgrid_id\":1, \"capacity\": 30}}"
+									"raw": "{\"data\":{\"name\":\"Load\", \"microgrid_id\":1, \"power_point_id\":1, \"meter_id\":1, \"capacity\": 30}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgridloads",
@@ -7186,37 +7186,6 @@
 									],
 									"path": [
 										"microgridloads"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "DELETE a Microgrid Load by ID",
-							"request": {
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text",
-										"description": "Any admin users' UUID"
-									},
-									{
-										"key": "Token",
-										"value": "08c913a4e5eccc96d590c52002b2ed225dbbf0de52b260d41b912bf989fe9c0bd47a09de0ee0a3b527cac427603b28c73450e08d9084289ecedaaf88cdd865db",
-										"type": "text",
-										"description": "Login to get a valid token"
-									}
-								],
-								"url": {
-									"raw": "{{base_url}}/microgridloads/1",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"microgridloads",
-										"1"
 									]
 								}
 							},
@@ -7242,8 +7211,39 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Load\", \"microgrid_id\":1, \"capacity\": 50}}"
+									"raw": "{\"data\":{\"name\":\"Load\", \"microgrid_id\":1, \"power_point_id\":1, \"meter_id\":1, \"capacity\": 50}}"
 								},
+								"url": {
+									"raw": "{{base_url}}/microgridloads/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgridloads",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Microgrid Load by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "08c913a4e5eccc96d590c52002b2ed225dbbf0de52b260d41b912bf989fe9c0bd47a09de0ee0a3b527cac427603b28c73450e08d9084289ecedaaf88cdd865db",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/microgridloads/1",
 									"host": [
@@ -7339,7 +7339,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Photovoltaic\", \"microgrid_id\":1, \"capacity\": 30}}"
+									"raw": "{\"data\":{\"name\":\"Photovoltaic\", \"microgrid_id\":1, \"power_point_id\":1, \"meter_id\":1, \"capacity\": 30}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgridphotovoltaics",
@@ -7348,37 +7348,6 @@
 									],
 									"path": [
 										"microgridphotovoltaics"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "DELETE a Microgrid Photovoltaic by ID",
-							"request": {
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text",
-										"description": "Any admin users' UUID"
-									},
-									{
-										"key": "Token",
-										"value": "08c913a4e5eccc96d590c52002b2ed225dbbf0de52b260d41b912bf989fe9c0bd47a09de0ee0a3b527cac427603b28c73450e08d9084289ecedaaf88cdd865db",
-										"type": "text",
-										"description": "Login to get a valid token"
-									}
-								],
-								"url": {
-									"raw": "{{base_url}}/microgridphotovoltaics/1",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"microgridphotovoltaics",
-										"1"
 									]
 								}
 							},
@@ -7404,8 +7373,39 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Photovoltaic\", \"microgrid_id\":1, \"capacity\": 50}}"
+									"raw": "{\"data\":{\"name\":\"Photovoltaic\", \"microgrid_id\":1, \"power_point_id\":1, \"meter_id\":1, \"capacity\": 50}}"
 								},
+								"url": {
+									"raw": "{{base_url}}/microgridphotovoltaics/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgridphotovoltaics",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Microgrid Photovoltaic by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "08c913a4e5eccc96d590c52002b2ed225dbbf0de52b260d41b912bf989fe9c0bd47a09de0ee0a3b527cac427603b28c73450e08d9084289ecedaaf88cdd865db",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/microgridphotovoltaics/1",
 									"host": [
@@ -7657,7 +7657,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Windturbine\", \"microgrid_id\":1, \"capacity\": 30}}"
+									"raw": "{\"data\":{\"name\":\"Windturbine\", \"microgrid_id\":1, \"power_point_id\":1, \"meter_id\":1, \"capacity\": 30}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgridwindturbines",
@@ -7666,37 +7666,6 @@
 									],
 									"path": [
 										"microgridwindturbines"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "DELETE a Microgrid Windturbine by ID",
-							"request": {
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text",
-										"description": "Any admin users' UUID"
-									},
-									{
-										"key": "Token",
-										"value": "08c913a4e5eccc96d590c52002b2ed225dbbf0de52b260d41b912bf989fe9c0bd47a09de0ee0a3b527cac427603b28c73450e08d9084289ecedaaf88cdd865db",
-										"type": "text",
-										"description": "Login to get a valid token"
-									}
-								],
-								"url": {
-									"raw": "{{base_url}}/microgridwindturbines/1",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"microgridwindturbines",
-										"1"
 									]
 								}
 							},
@@ -7722,8 +7691,39 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Windturbine\", \"microgrid_id\":1, \"capacity\": 50}}"
+									"raw": "{\"data\":{\"name\":\"Windturbine\", \"microgrid_id\":1, \"power_point_id\":1, \"meter_id\":1, \"capacity\": 50}}"
 								},
+								"url": {
+									"raw": "{{base_url}}/microgridwindturbines/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgridwindturbines",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Microgrid Windturbine by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "08c913a4e5eccc96d590c52002b2ed225dbbf0de52b260d41b912bf989fe9c0bd47a09de0ee0a3b527cac427603b28c73450e08d9084289ecedaaf88cdd865db",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/microgridwindturbines/1",
 									"host": [

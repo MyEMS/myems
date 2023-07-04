@@ -22,6 +22,7 @@ class MicrogridGridCollection:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
+        # query microgrid dict
         query = (" SELECT id, name, uuid "
                  " FROM tbl_microgrids ")
         cursor.execute(query)
@@ -33,7 +34,31 @@ class MicrogridGridCollection:
                 microgrid_dict[row[0]] = {"id": row[0],
                                           "name": row[1],
                                           "uuid": row[2]}
-        query = (" SELECT id, name, uuid, microgrid_id, capacity "
+        # query meter dict
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_meters ")
+        cursor.execute(query)
+        rows_meters = cursor.fetchall()
+
+        meter_dict = dict()
+        if rows_meters is not None and len(rows_meters) > 0:
+            for row in rows_meters:
+                meter_dict[row[0]] = {"id": row[0],
+                                      "name": row[1],
+                                      "uuid": row[2]}
+        # query point dict
+        query = (" SELECT id, name "
+                 " FROM tbl_points ")
+        cursor.execute(query)
+        rows_points = cursor.fetchall()
+
+        point_dict = dict()
+        if rows_points is not None and len(rows_points) > 0:
+            for row in rows_points:
+                point_dict[row[0]] = {"id": row[0],
+                                      "name": row[1]}
+
+        query = (" SELECT id, name, uuid, microgrid_id, power_point_id, buy_meter_id, sell_meter_id, capacity "
                  " FROM tbl_microgrids_grids "
                  " ORDER BY id ")
         cursor.execute(query)
@@ -43,11 +68,17 @@ class MicrogridGridCollection:
         if rows_microgrid_grids is not None and len(rows_microgrid_grids) > 0:
             for row in rows_microgrid_grids:
                 microgrid = microgrid_dict.get(row[3])
+                power_point = point_dict.get(row[4])
+                buy_meter = meter_dict.get[row[5]]
+                sell_meter = meter_dict.get[row[6]]
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
                                "microgrid": microgrid,
-                               "capacity": row[4]}
+                               "power_point": power_point,
+                               "buy_meter": buy_meter,
+                               "sell_meter": sell_meter,
+                               "capacity": row[7]}
                 result.append(meta_result)
 
         cursor.close()
@@ -82,6 +113,27 @@ class MicrogridGridCollection:
                                    description='API.INVALID_MICROGRID_ID')
         microgrid_id = new_values['data']['microgrid_id']
 
+        if 'power_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['power_point_id'], int) or \
+                new_values['data']['power_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_POWER_POINT_ID')
+        power_point_id = new_values['data']['power_point_id']
+
+        if 'buy_meter_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['buy_meter_id'], int) or \
+                new_values['data']['buy_meter_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_BUY_METER_ID')
+        buy_meter_id = new_values['data']['buy_meter_id']
+
+        if 'sell_meter_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['sell_meter_id'], int) or \
+                new_values['data']['sell_meter_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_SELL_METER_ID')
+        sell_meter_id = new_values['data']['sell_meter_id']
+
         if 'capacity' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['capacity'], float) or
                      isinstance(new_values['data']['capacity'], int)):
@@ -112,12 +164,45 @@ class MicrogridGridCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.MICROGRID_GRID_NAME_IS_ALREADY_IN_USE')
 
+        cursor.execute(" SELECT name "
+                       " FROM tbl_points "
+                       " WHERE id = %s ",
+                       (power_point_id,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.POWER_POINT_NOT_FOUND')
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_meters "
+                       " WHERE id = %s ",
+                       (buy_meter_id,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.BUY_METER_NOT_FOUND')
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_meters "
+                       " WHERE id = %s ",
+                       (sell_meter_id,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.SELL_METER_NOT_FOUND')
+
         add_values = (" INSERT INTO tbl_microgrids_grids "
-                      "    (name, uuid, microgrid_id, capacity) "
-                      " VALUES (%s, %s, %s, %s) ")
+                      "    (name, uuid, microgrid_id, power_point_id, buy_meter_id, sell_meter_id, capacity) "
+                      " VALUES (%s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     microgrid_id,
+                                    power_point_id,
+                                    buy_meter_id,
+                                    sell_meter_id,
                                     capacity))
         new_id = cursor.lastrowid
         cnx.commit()
@@ -148,6 +233,7 @@ class MicrogridGridItem:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
+        # query microgrid dict
         query = (" SELECT id, name, uuid "
                  " FROM tbl_microgrids ")
         cursor.execute(query)
@@ -159,8 +245,31 @@ class MicrogridGridItem:
                 microgrid_dict[row[0]] = {"id": row[0],
                                           "name": row[1],
                                           "uuid": row[2]}
+        # query meter dict
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_meters ")
+        cursor.execute(query)
+        rows_meters = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid, microgrid_id, capacity "
+        meter_dict = dict()
+        if rows_meters is not None and len(rows_meters) > 0:
+            for row in rows_meters:
+                meter_dict[row[0]] = {"id": row[0],
+                                      "name": row[1],
+                                      "uuid": row[2]}
+        # query point dict
+        query = (" SELECT id, name "
+                 " FROM tbl_points ")
+        cursor.execute(query)
+        rows_points = cursor.fetchall()
+
+        point_dict = dict()
+        if rows_points is not None and len(rows_points) > 0:
+            for row in rows_points:
+                point_dict[row[0]] = {"id": row[0],
+                                      "name": row[1]}
+
+        query = (" SELECT id, name, uuid, microgrid_id, power_point_id, buy_meter_id, sell_meter_id, capacity "
                  " FROM tbl_microgrids_grids "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -173,11 +282,17 @@ class MicrogridGridItem:
                                    description='API.MICROGRID_GRID_NOT_FOUND')
         else:
             microgrid = microgrid_dict.get(row[3])
+            power_point = point_dict.get(row[4])
+            buy_meter = meter_dict.get(row[5])
+            sell_meter = meter_dict.get(row[6])
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
                            "microgrid": microgrid,
-                           "capacity": row[4]}
+                           "power_point": power_point,
+                           "buy_meter": buy_meter,
+                           "sell_meter": sell_meter,
+                           "capacity": row[7]}
 
         resp.text = json.dumps(meta_result)
 
@@ -199,8 +314,7 @@ class MicrogridGridItem:
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.MICROGRID_GRID_NOT_FOUND')
-        # todo: delete objects associated with this microgrid grid
-        # delete microgrid grid itself
+
         cursor.execute(" DELETE FROM tbl_microgrids_grids "
                        " WHERE id = %s ", (id_,))
         cnx.commit()
@@ -242,6 +356,27 @@ class MicrogridGridItem:
                                    description='API.INVALID_MICROGRID_ID')
         microgrid_id = new_values['data']['microgrid_id']
 
+        if 'power_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['power_point_id'], int) or \
+                new_values['data']['power_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_POWER_POINT_ID')
+        power_point_id = new_values['data']['power_point_id']
+
+        if 'buy_meter_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['buy_meter_id'], int) or \
+                new_values['data']['buy_meter_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_BUY_METER_ID')
+        buy_meter_id = new_values['data']['buy_meter_id']
+
+        if 'sell_meter_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['sell_meter_id'], int) or \
+                new_values['data']['sell_meter_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_METER_ID')
+        sell_meter_id = new_values['data']['meter_id']
+
         if 'capacity' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['capacity'], float) or
                      isinstance(new_values['data']['capacity'], int)):
@@ -281,11 +416,45 @@ class MicrogridGridItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.MICROGRID_GRID_NAME_IS_ALREADY_IN_USE')
 
+        cursor.execute(" SELECT name "
+                       " FROM tbl_points "
+                       " WHERE id = %s ",
+                       (power_point_id,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.POWER_POINT_NOT_FOUND')
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_meters "
+                       " WHERE id = %s ",
+                       (buy_meter_id,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.BUY_METER_NOT_FOUND')
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_meters "
+                       " WHERE id = %s ",
+                       (sell_meter_id,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.SELL_METER_NOT_FOUND')
+
         update_row = (" UPDATE tbl_microgrids_grids "
-                      " SET name = %s, microgrid_id = %s, capacity = %s "
+                      " SET name = %s, microgrid_id = %s, "
+                      "     power_point_id = %s, buy_meter_id = %s, sell_meter_id = %s, capacity = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     microgrid_id,
+                                    power_point_id,
+                                    buy_meter_id,
+                                    sell_meter_id,
                                     capacity,
                                     id_))
         cnx.commit()
