@@ -203,7 +203,7 @@ const MultipleLineChart = ({
         trigger: 'axis',
         backgroundColor: getGrays(isDark)[100],
         borderColor: getGrays(isDark)[300],
-        textStyle: { color: isDark ? themeColors.light : themeColors.dark },
+        color: isDark ? themeColors.light : themeColors.dark,
       },
       grid: {
         left: '5%',
@@ -216,9 +216,7 @@ const MultipleLineChart = ({
         data: lineLabels ? lineLabels : ['0'],
         axisLabel: {
           interval: 'auto',
-          textStyle: {
-            color: rgbaColor(isDark ? '#fff' : '#000', 0.8),
-          },
+          color: rgbaColor(isDark ? '#fff' : '#000', 0.8),
           rotate:30  
         },
         axisLine:{
@@ -231,9 +229,7 @@ const MultipleLineChart = ({
         type: 'value',
         splitLine: {show: false},
         axisLabel: {
-          textStyle: {
-            color: rgbaColor(isDark ? '#fff' : '#000', 0.8),
-          }
+          color: rgbaColor(isDark ? '#fff' : '#000', 0.8),
         },
         axisLine:{
           lineStyle:{
