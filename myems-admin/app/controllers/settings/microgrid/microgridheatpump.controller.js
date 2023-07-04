@@ -8,10 +8,14 @@ app.controller('MicrogridHeatpumpController', function(
 	$uibModal,
 	MicrogridService,
 	MicrogridHeatpumpService,
+	PointService,
+	MeterService,
 	toaster,
 	SweetAlert) {
       $scope.microgrids = [];
       $scope.microgridheatpumps = [];
+	  $scope.points = [];
+	  $scope.meters = [];
       $scope.currentMicrogrid = null;
 	  $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
       $scope.getAllMicrogrids = function() {
@@ -25,6 +29,27 @@ app.controller('MicrogridHeatpumpController', function(
   		});
   	};
 
+	$scope.getAllPoints = function() {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		PointService.getAllPoints(headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.points = response.data;
+			} else {
+				$scope.points = [];
+			}
+		});
+	};
+
+	$scope.getAllMeters = function() {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		MeterService.getAllMeters(headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.meters = response.data;
+			} else {
+				$scope.meters = [];
+			}
+		});
+	};
   	$scope.getMicrogridHeatpumpsByMicrogridID = function(id) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   		MicrogridHeatpumpService.getMicrogridHeatpumpsByMicrogridID(id, headers, function (response) {
@@ -37,10 +62,10 @@ app.controller('MicrogridHeatpumpController', function(
   	};
 
   	$scope.changeMicrogrid=function(item,model){
-    		$scope.currentMicrogrid=item;
-    		$scope.currentMicrogrid.selected=model;
+    	$scope.currentMicrogrid=item;
+    	$scope.currentMicrogrid.selected=model;
         $scope.is_show_add_microgrid_heatpump = true;
-    		$scope.getMicrogridHeatpumpsByMicrogridID($scope.currentMicrogrid.id);
+    	$scope.getMicrogridHeatpumpsByMicrogridID($scope.currentMicrogrid.id);
   	};
 
   	$scope.addMicrogridHeatpump = function() {
@@ -52,12 +77,18 @@ app.controller('MicrogridHeatpumpController', function(
   			resolve: {
   				params: function() {
   					return {
+						meters: angular.copy($scope.meters),
+						points: angular.copy($scope.points),
   					};
   				}
   			}
   		});
   		modalInstance.result.then(function(microgridheatpump) {
-        microgridheatpump.microgrid_id = $scope.currentMicrogrid.id;
+       		microgridheatpump.microgrid_id = $scope.currentMicrogrid.id;
+			microgridheatpump.power_point_id = microgridheatpump.power_point.id;
+			microgridheatpump.electricity_meter_id = microgridheatpump.electricity_meter.id;
+			microgridheatpump.heat_meter_id = microgridheatpump.heat_meter.id;
+			microgridheatpump.cooling_meter_id = microgridheatpump.cooling_meter.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   			MicrogridHeatpumpService.addMicrogridHeatpump(microgridheatpump, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 201) {
@@ -93,13 +124,19 @@ app.controller('MicrogridHeatpumpController', function(
   				params: function() {
   					return {
   						microgridheatpump: angular.copy(microgridheatpump),
+						meters: angular.copy($scope.meters),
+						points: angular.copy($scope.points),
   					};
   				}
   			}
   		});
 
   		modalInstance.result.then(function(modifiedMicrogridHeatpump) {
-        modifiedMicrogridHeatpump.microgrid_id = $scope.currentMicrogrid.id;
+        	modifiedMicrogridHeatpump.microgrid_id = $scope.currentMicrogrid.id;
+			modifiedMicrogridHeatpump.power_point_id = modifiedMicrogridHeatpump.power_point.id;
+			modifiedMicrogridHeatpump.electricity_meter_id = modifiedMicrogridHeatpump.electricity_meter.id;
+			modifiedMicrogridHeatpump.heat_meter_id = modifiedMicrogridHeatpump.heat_meter.id;
+			modifiedMicrogridHeatpump.cooling_meter_id = modifiedMicrogridHeatpump.cooling_meter.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   			MicrogridHeatpumpService.editMicrogridHeatpump(modifiedMicrogridHeatpump, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 200) {
@@ -165,7 +202,8 @@ app.controller('MicrogridHeatpumpController', function(
   	};
 
   	$scope.getAllMicrogrids();
-
+	$scope.getAllPoints();
+	$scope.getAllMeters();
     $scope.$on('handleBroadcastMicrogridChanged', function(event) {
       $scope.getAllMicrogrids();
   	});
@@ -176,7 +214,8 @@ app.controller('MicrogridHeatpumpController', function(
   app.controller('ModalAddMicrogridHeatpumpCtrl', function($scope, $uibModalInstance, params) {
 
   	$scope.operation = "MICROGRID.ADD_MICROGRID_HEATPUMP";
-
+	$scope.points=params.points;
+	$scope.meters=params.meters;
   	$scope.ok = function() {
   		$uibModalInstance.close($scope.microgridheatpump);
   	};
@@ -189,6 +228,8 @@ app.controller('MicrogridHeatpumpController', function(
   app.controller('ModalEditMicrogridHeatpumpCtrl', function($scope, $uibModalInstance, params) {
   	$scope.operation = "MICROGRID.EDIT_MICROGRID_HEATPUMP";
   	$scope.microgridheatpump = params.microgridheatpump;
+	$scope.points=params.points;
+	$scope.meters=params.meters;
   	$scope.ok = function() {
   		$uibModalInstance.close($scope.microgridheatpump);
   	};

@@ -8,10 +8,14 @@ app.controller('MicrogridEVChargerController', function(
 	$uibModal,
 	MicrogridService,
 	MicrogridEVChargerService,
+	PointService,
+	MeterService,
 	toaster,
 	SweetAlert) {
       $scope.microgrids = [];
       $scope.microgridevchargers = [];
+	  $scope.points = [];
+	  $scope.meters = [];
       $scope.currentMicrogrid = null;
 	  $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
       $scope.getAllMicrogrids = function() {
@@ -25,6 +29,27 @@ app.controller('MicrogridEVChargerController', function(
   		});
   	};
 
+	$scope.getAllPoints = function() {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		PointService.getAllPoints(headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.points = response.data;
+			} else {
+				$scope.points = [];
+			}
+		});
+	};
+
+	$scope.getAllMeters = function() {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		MeterService.getAllMeters(headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.meters = response.data;
+			} else {
+				$scope.meters = [];
+			}
+		});
+	};
   	$scope.getMicrogridEVChargersByMicrogridID = function(id) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   		MicrogridEVChargerService.getMicrogridEVChargersByMicrogridID(id, headers, function (response) {
@@ -51,12 +76,16 @@ app.controller('MicrogridEVChargerController', function(
   			resolve: {
   				params: function() {
   					return {
+						meters: angular.copy($scope.meters),
+						points: angular.copy($scope.points),
   					};
   				}
   			}
   		});
   		modalInstance.result.then(function(microgridevcharger) {
-        microgridevcharger.microgrid_id = $scope.currentMicrogrid.id;
+        	microgridevcharger.microgrid_id = $scope.currentMicrogrid.id;
+			microgridevcharger.power_point_id = microgridevcharger.power_point.id;
+			microgridevcharger.meter_id = microgridevcharger.meter.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   			MicrogridEVChargerService.addMicrogridEVCharger(microgridevcharger, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 201) {
@@ -92,13 +121,17 @@ app.controller('MicrogridEVChargerController', function(
   				params: function() {
   					return {
   						microgridevcharger: angular.copy(microgridevcharger),
+						meters: angular.copy($scope.meters),
+						points: angular.copy($scope.points),
   					};
   				}
   			}
   		});
 
   		modalInstance.result.then(function(modifiedMicrogridEVCharger) {
-        modifiedMicrogridEVCharger.microgrid_id = $scope.currentMicrogrid.id;
+        	modifiedMicrogridEVCharger.microgrid_id = $scope.currentMicrogrid.id;
+			modifiedMicrogridEVCharger.power_point_id = modifiedMicrogridEVCharger.power_point.id;
+			modifiedMicrogridEVCharger.meter_id = modifiedMicrogridEVCharger.meter.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   			MicrogridEVChargerService.editMicrogridEVCharger(modifiedMicrogridEVCharger, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 200) {
@@ -164,7 +197,8 @@ app.controller('MicrogridEVChargerController', function(
   	};
 
   	$scope.getAllMicrogrids();
-
+	$scope.getAllPoints();
+	$scope.getAllMeters();
     $scope.$on('handleBroadcastMicrogridChanged', function(event) {
       $scope.getAllMicrogrids();
   	});
@@ -175,7 +209,8 @@ app.controller('MicrogridEVChargerController', function(
   app.controller('ModalAddMicrogridEVChargerCtrl', function($scope, $uibModalInstance, params) {
 
   	$scope.operation = "MICROGRID.ADD_MICROGRID_EVCHARGER";
-
+	$scope.points=params.points;
+	$scope.meters=params.meters;
   	$scope.ok = function() {
   		$uibModalInstance.close($scope.microgridevcharger);
   	};
@@ -188,6 +223,8 @@ app.controller('MicrogridEVChargerController', function(
   app.controller('ModalEditMicrogridEVChargerCtrl', function($scope, $uibModalInstance, params) {
   	$scope.operation = "MICROGRID.EDIT_MICROGRID_EVCHARGER";
   	$scope.microgridevcharger = params.microgridevcharger;
+	$scope.points=params.points;
+	$scope.meters=params.meters;
   	$scope.ok = function() {
   		$uibModalInstance.close($scope.microgridevcharger);
   	};

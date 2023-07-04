@@ -8,10 +8,14 @@ app.controller('MicrogridGridController', function(
 	$uibModal,
 	MicrogridService,
 	MicrogridGridService,
+	PointService,
+	MeterService,
 	toaster,
 	SweetAlert) {
       $scope.microgrids = [];
       $scope.microgridgrids = [];
+	  $scope.points = [];
+	  $scope.meters = [];
       $scope.currentMicrogrid = null;
 	  $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
       $scope.getAllMicrogrids = function() {
@@ -25,6 +29,27 @@ app.controller('MicrogridGridController', function(
   		});
   	};
 
+	$scope.getAllPoints = function() {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		PointService.getAllPoints(headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.points = response.data;
+			} else {
+				$scope.points = [];
+			}
+		});
+	};
+
+	$scope.getAllMeters = function() {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		MeterService.getAllMeters(headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.meters = response.data;
+			} else {
+				$scope.meters = [];
+			}
+		});
+	};
   	$scope.getMicrogridGridsByMicrogridID = function(id) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   		MicrogridGridService.getMicrogridGridsByMicrogridID(id, headers, function (response) {
@@ -52,12 +77,17 @@ app.controller('MicrogridGridController', function(
   			resolve: {
   				params: function() {
   					return {
+						meters: angular.copy($scope.meters),
+						points: angular.copy($scope.points),
   					};
   				}
   			}
   		});
   		modalInstance.result.then(function(microgridgrid) {
-        microgridgrid.microgrid_id = $scope.currentMicrogrid.id;
+            microgridgrid.microgrid_id = $scope.currentMicrogrid.id;
+			microgridgrid.power_point_id = microgridgrid.power_point.id;
+			microgridgrid.buy_meter_id = microgridgrid.buy_meter.id;
+			microgridgrid.sell_meter_id = microgridgrid.sell_meter.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   			MicrogridGridService.addMicrogridGrid(microgridgrid, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 201) {
@@ -93,13 +123,18 @@ app.controller('MicrogridGridController', function(
   				params: function() {
   					return {
   						microgridgrid: angular.copy(microgridgrid),
+						meters: angular.copy($scope.meters),
+						points: angular.copy($scope.points),
   					};
   				}
   			}
   		});
 
   		modalInstance.result.then(function(modifiedMicrogridGrid) {
-        modifiedMicrogridGrid.microgrid_id = $scope.currentMicrogrid.id;
+            modifiedMicrogridGrid.microgrid_id = $scope.currentMicrogrid.id;
+			modifiedMicrogridGrid.power_point_id = modifiedMicrogridGrid.power_point.id;
+			modifiedMicrogridGrid.buy_meter_id = modifiedMicrogridGrid.buy_meter.id;
+			modifiedMicrogridGrid.sell_meter_id = modifiedMicrogridGrid.sell_meter.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   			MicrogridGridService.editMicrogridGrid(modifiedMicrogridGrid, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 200) {
@@ -165,7 +200,8 @@ app.controller('MicrogridGridController', function(
   	};
 
   	$scope.getAllMicrogrids();
-
+	$scope.getAllPoints();
+	$scope.getAllMeters();
     $scope.$on('handleBroadcastMicrogridChanged', function(event) {
       $scope.getAllMicrogrids();
   	});
@@ -176,7 +212,8 @@ app.controller('MicrogridGridController', function(
   app.controller('ModalAddMicrogridGridCtrl', function($scope, $uibModalInstance, params) {
 
   	$scope.operation = "MICROGRID.ADD_MICROGRID_GRID";
-
+	$scope.points=params.points;
+	$scope.meters=params.meters;
   	$scope.ok = function() {
   		$uibModalInstance.close($scope.microgridgrid);
   	};
@@ -189,6 +226,8 @@ app.controller('MicrogridGridController', function(
   app.controller('ModalEditMicrogridGridCtrl', function($scope, $uibModalInstance, params) {
   	$scope.operation = "MICROGRID.EDIT_MICROGRID_GRID";
   	$scope.microgridgrid = params.microgridgrid;
+	$scope.points=params.points;
+	$scope.meters=params.meters;
   	$scope.ok = function() {
   		$uibModalInstance.close($scope.microgridgrid);
   	};

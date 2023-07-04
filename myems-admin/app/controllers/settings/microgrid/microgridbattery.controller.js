@@ -8,10 +8,14 @@ app.controller('MicrogridBatteryController', function(
 	$uibModal,
 	MicrogridService,
 	MicrogridBatteryService,
+	PointService,
+	MeterService,
 	toaster,
 	SweetAlert) {
       $scope.microgrids = [];
       $scope.microgridbatteries = [];
+	  $scope.points = [];
+	  $scope.meters = [];
       $scope.currentMicrogrid = null;
 	  $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
       $scope.getAllMicrogrids = function() {
@@ -24,6 +28,28 @@ app.controller('MicrogridBatteryController', function(
   			}
   		});
   	};
+
+	$scope.getAllPoints = function() {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		PointService.getAllPoints(headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.points = response.data;
+			} else {
+				$scope.points = [];
+			}
+		});
+	};
+
+	$scope.getAllMeters = function() {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		MeterService.getAllMeters(headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.meters = response.data;
+			} else {
+				$scope.meters = [];
+			}
+		});
+	};
 
   	$scope.getMicrogridBatteriesByMicrogridID = function(id) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -52,12 +78,17 @@ app.controller('MicrogridBatteryController', function(
   			resolve: {
   				params: function() {
   					return {
+						meters: angular.copy($scope.meters),
+						points: angular.copy($scope.points),
   					};
   				}
   			}
   		});
   		modalInstance.result.then(function(microgridbattery) {
-        microgridbattery.microgrid_id = $scope.currentMicrogrid.id;
+        	microgridbattery.microgrid_id = $scope.currentMicrogrid.id;
+			microgrid.power_point_id = microgridbattery.power_point.id;
+			microgrid.charge_meter_id = microgridbattery.charge_meter.id;
+			microgrid.discharge_meter_id = microgridbattery.discharge_meter.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   			MicrogridBatteryService.addMicrogridBattery(microgridbattery, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 201) {
@@ -93,13 +124,18 @@ app.controller('MicrogridBatteryController', function(
   				params: function() {
   					return {
   						microgridbattery: angular.copy(microgridbattery),
+						meters: angular.copy($scope.meters),
+						points: angular.copy($scope.points),
   					};
   				}
   			}
   		});
 
   		modalInstance.result.then(function(modifiedMicrogridBattery) {
-        modifiedMicrogridBattery.microgrid_id = $scope.currentMicrogrid.id;
+        	modifiedMicrogridBattery.microgrid_id = $scope.currentMicrogrid.id;
+			modifiedMicrogridBattery.power_point_id = modifiedMicrogridBattery.power_point.id;
+			modifiedMicrogridBattery.charge_meter_id = modifiedMicrogridBattery.charge_meter.id;
+			modifiedMicrogridBattery.discharge_meter_id = modifiedMicrogridBattery.discharge_meter.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   			MicrogridBatteryService.editMicrogridBattery(modifiedMicrogridBattery, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 200) {
@@ -165,7 +201,8 @@ app.controller('MicrogridBatteryController', function(
   	};
 
   	$scope.getAllMicrogrids();
-
+	$scope.getAllPoints();
+	$scope.getAllMeters();
     $scope.$on('handleBroadcastMicrogridChanged', function(event) {
       $scope.getAllMicrogrids();
   	});
@@ -176,7 +213,8 @@ app.controller('MicrogridBatteryController', function(
   app.controller('ModalAddMicrogridBatteryCtrl', function($scope, $uibModalInstance, params) {
 
   	$scope.operation = "MICROGRID.ADD_MICROGRID_BATTERY";
-
+	$scope.points=params.points;
+	$scope.meters=params.meters;
   	$scope.ok = function() {
   		$uibModalInstance.close($scope.microgridbattery);
   	};
@@ -189,6 +227,8 @@ app.controller('MicrogridBatteryController', function(
   app.controller('ModalEditMicrogridBatteryCtrl', function($scope, $uibModalInstance, params) {
   	$scope.operation = "MICROGRID.EDIT_MICROGRID_BATTERY";
   	$scope.microgridbattery = params.microgridbattery;
+	$scope.points=params.points;
+	$scope.meters=params.meters;
   	$scope.ok = function() {
   		$uibModalInstance.close($scope.microgridbattery);
   	};
