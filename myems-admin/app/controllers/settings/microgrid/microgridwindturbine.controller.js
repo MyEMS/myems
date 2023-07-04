@@ -8,10 +8,14 @@ app.controller('MicrogridWindturbineController', function(
 	$uibModal,
 	MicrogridService,
 	MicrogridWindturbineService,
+	PointService,
+	MeterService,
 	toaster,
 	SweetAlert) {
       $scope.microgrids = [];
       $scope.microgridwindturbines = [];
+	  $scope.points = [];
+	  $scope.meters = [];
       $scope.currentMicrogrid = null;
 	  $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
       $scope.getAllMicrogrids = function() {
@@ -25,6 +29,27 @@ app.controller('MicrogridWindturbineController', function(
   		});
   	};
 
+	$scope.getAllPoints = function() {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		PointService.getAllPoints(headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.points = response.data;
+			} else {
+				$scope.points = [];
+			}
+		});
+	};
+
+	$scope.getAllMeters = function() {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		MeterService.getAllMeters(headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.meters = response.data;
+			} else {
+				$scope.meters = [];
+			}
+		});
+	};
   	$scope.getMicrogridWindturbinesByMicrogridID = function(id) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   		MicrogridWindturbineService.getMicrogridWindturbinesByMicrogridID(id, headers, function (response) {
@@ -37,10 +62,10 @@ app.controller('MicrogridWindturbineController', function(
   	};
 
   	$scope.changeMicrogrid=function(item,model){
-    		$scope.currentMicrogrid=item;
-    		$scope.currentMicrogrid.selected=model;
+    	$scope.currentMicrogrid=item;
+    	$scope.currentMicrogrid.selected=model;
         $scope.is_show_add_microgrid_windturbine = true;
-    		$scope.getMicrogridWindturbinesByMicrogridID($scope.currentMicrogrid.id);
+    	$scope.getMicrogridWindturbinesByMicrogridID($scope.currentMicrogrid.id);
   	};
 
   	$scope.addMicrogridWindturbine = function() {
@@ -52,12 +77,16 @@ app.controller('MicrogridWindturbineController', function(
   			resolve: {
   				params: function() {
   					return {
+						meters: angular.copy($scope.meters),
+						points: angular.copy($scope.points),
   					};
   				}
   			}
   		});
   		modalInstance.result.then(function(microgridwindturbine) {
-        microgridwindturbine.microgrid_id = $scope.currentMicrogrid.id;
+        	microgridwindturbine.microgrid_id = $scope.currentMicrogrid.id;
+			microgridwindturbine.power_point_id = microgridwindturbine.power_point.id;
+			microgridwindturbine.meter_id = microgridwindturbine.meter.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   			MicrogridWindturbineService.addMicrogridWindturbine(microgridwindturbine, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 201) {
@@ -93,13 +122,17 @@ app.controller('MicrogridWindturbineController', function(
   				params: function() {
   					return {
   						microgridwindturbine: angular.copy(microgridwindturbine),
+						meters: angular.copy($scope.meters),
+						points: angular.copy($scope.points),
   					};
   				}
   			}
   		});
 
   		modalInstance.result.then(function(modifiedMicrogridWindturbine) {
-        modifiedMicrogridWindturbine.microgrid_id = $scope.currentMicrogrid.id;
+        	modifiedMicrogridWindturbine.microgrid_id = $scope.currentMicrogrid.id;
+			modifiedMicrogridWindturbine.power_point_id = modifiedMicrogridWindturbine.power_point.id;
+			modifiedMicrogridWindturbine.meter_id = modifiedMicrogridWindturbine.meter.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   			MicrogridWindturbineService.editMicrogridWindturbine(modifiedMicrogridWindturbine, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 200) {
@@ -165,7 +198,8 @@ app.controller('MicrogridWindturbineController', function(
   	};
 
   	$scope.getAllMicrogrids();
-
+	$scope.getAllPoints();
+	$scope.getAllMeters();
     $scope.$on('handleBroadcastMicrogridChanged', function(event) {
       $scope.getAllMicrogrids();
   	});
@@ -176,7 +210,8 @@ app.controller('MicrogridWindturbineController', function(
   app.controller('ModalAddMicrogridWindturbineCtrl', function($scope, $uibModalInstance, params) {
 
   	$scope.operation = "MICROGRID.ADD_MICROGRID_WINDTURBINE";
-
+	$scope.points=params.points;
+	$scope.meters=params.meters;
   	$scope.ok = function() {
   		$uibModalInstance.close($scope.microgridwindturbine);
   	};
@@ -189,6 +224,8 @@ app.controller('MicrogridWindturbineController', function(
   app.controller('ModalEditMicrogridWindturbineCtrl', function($scope, $uibModalInstance, params) {
   	$scope.operation = "MICROGRID.EDIT_MICROGRID_WINDTURBINE";
   	$scope.microgridwindturbine = params.microgridwindturbine;
+	$scope.points=params.points;
+	$scope.meters=params.meters;
   	$scope.ok = function() {
   		$uibModalInstance.close($scope.microgridwindturbine);
   	};

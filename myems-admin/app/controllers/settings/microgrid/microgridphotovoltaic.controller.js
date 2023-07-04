@@ -8,10 +8,14 @@ app.controller('MicrogridPhotovoltaicController', function(
 	$uibModal,
 	MicrogridService,
 	MicrogridPhotovoltaicService,
+	PointService,
+	MeterService,
 	toaster,
 	SweetAlert) {
       $scope.microgrids = [];
       $scope.microgridphotovoltaics = [];
+	  $scope.points = [];
+	  $scope.meters = [];
       $scope.currentMicrogrid = null;
 	  $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
       $scope.getAllMicrogrids = function() {
@@ -25,6 +29,27 @@ app.controller('MicrogridPhotovoltaicController', function(
   		});
   	};
 
+	$scope.getAllPoints = function() {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		PointService.getAllPoints(headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.points = response.data;
+			} else {
+				$scope.points = [];
+			}
+		});
+	};
+
+	$scope.getAllMeters = function() {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		MeterService.getAllMeters(headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.meters = response.data;
+			} else {
+				$scope.meters = [];
+			}
+		});
+	};
   	$scope.getMicrogridPhotovoltaicsByMicrogridID = function(id) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   		MicrogridPhotovoltaicService.getMicrogridPhotovoltaicsByMicrogridID(id, headers, function (response) {
@@ -52,12 +77,16 @@ app.controller('MicrogridPhotovoltaicController', function(
   			resolve: {
   				params: function() {
   					return {
+						meters: angular.copy($scope.meters),
+						points: angular.copy($scope.points),
   					};
   				}
   			}
   		});
   		modalInstance.result.then(function(microgridphotovoltaic) {
-        microgridphotovoltaic.microgrid_id = $scope.currentMicrogrid.id;
+        	microgridphotovoltaic.microgrid_id = $scope.currentMicrogrid.id;
+			microgridphotovoltaic.power_point_id = microgridphotovoltaic.power_point.id;
+			microgridphotovoltaic.meter_id = microgridphotovoltaic.meter.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   			MicrogridPhotovoltaicService.addMicrogridPhotovoltaic(microgridphotovoltaic, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 201) {
@@ -93,13 +122,17 @@ app.controller('MicrogridPhotovoltaicController', function(
   				params: function() {
   					return {
   						microgridphotovoltaic: angular.copy(microgridphotovoltaic),
+						meters: angular.copy($scope.meters),
+						points: angular.copy($scope.points),
   					};
   				}
   			}
   		});
 
   		modalInstance.result.then(function(modifiedMicrogridPhotovoltaic) {
-        modifiedMicrogridPhotovoltaic.microgrid_id = $scope.currentMicrogrid.id;
+        	modifiedMicrogridPhotovoltaic.microgrid_id = $scope.currentMicrogrid.id;
+			modifiedMicrogridPhotovoltaic.power_point_id = modifiedMicrogridPhotovoltaic.power_point.id;
+			modifiedMicrogridPhotovoltaic.meter_id = modifiedMicrogridPhotovoltaic.meter.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   			MicrogridPhotovoltaicService.editMicrogridPhotovoltaic(modifiedMicrogridPhotovoltaic, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 200) {
@@ -165,7 +198,8 @@ app.controller('MicrogridPhotovoltaicController', function(
   	};
 
   	$scope.getAllMicrogrids();
-
+	$scope.getAllPoints();
+	$scope.getAllMeters();
     $scope.$on('handleBroadcastMicrogridChanged', function(event) {
       $scope.getAllMicrogrids();
   	});
@@ -176,7 +210,8 @@ app.controller('MicrogridPhotovoltaicController', function(
   app.controller('ModalAddMicrogridPhotovoltaicCtrl', function($scope, $uibModalInstance, params) {
 
   	$scope.operation = "MICROGRID.ADD_MICROGRID_PHOTOVOLTAIC";
-
+	$scope.points=params.points;
+	$scope.meters=params.meters;
   	$scope.ok = function() {
   		$uibModalInstance.close($scope.microgridphotovoltaic);
   	};
@@ -189,6 +224,8 @@ app.controller('MicrogridPhotovoltaicController', function(
   app.controller('ModalEditMicrogridPhotovoltaicCtrl', function($scope, $uibModalInstance, params) {
   	$scope.operation = "MICROGRID.EDIT_MICROGRID_PHOTOVOLTAIC";
   	$scope.microgridphotovoltaic = params.microgridphotovoltaic;
+	$scope.points=params.points;
+	$scope.meters=params.meters;
   	$scope.ok = function() {
   		$uibModalInstance.close($scope.microgridphotovoltaic);
   	};

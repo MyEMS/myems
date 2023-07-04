@@ -8,10 +8,14 @@ app.controller('MicrogridGeneratorController', function(
 	$uibModal,
 	MicrogridService,
 	MicrogridGeneratorService,
+	PointService,
+	MeterService,
 	toaster,
 	SweetAlert) {
       $scope.microgrids = [];
       $scope.microgridgenerators = [];
+	  $scope.points = [];
+	  $scope.meters = [];
       $scope.currentMicrogrid = null;
 	  $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
       $scope.getAllMicrogrids = function() {
@@ -25,6 +29,27 @@ app.controller('MicrogridGeneratorController', function(
   		});
   	};
 
+	$scope.getAllPoints = function() {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		PointService.getAllPoints(headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.points = response.data;
+			} else {
+				$scope.points = [];
+			}
+		});
+	};
+
+	$scope.getAllMeters = function() {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		MeterService.getAllMeters(headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.meters = response.data;
+			} else {
+				$scope.meters = [];
+			}
+		});
+	};
   	$scope.getMicrogridGeneratorsByMicrogridID = function(id) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   		MicrogridGeneratorService.getMicrogridGeneratorsByMicrogridID(id, headers, function (response) {
@@ -51,12 +76,16 @@ app.controller('MicrogridGeneratorController', function(
   			resolve: {
   				params: function() {
   					return {
+						meters: angular.copy($scope.meters),
+						points: angular.copy($scope.points),
   					};
   				}
   			}
   		});
   		modalInstance.result.then(function(microgridgenerator) {
-        microgridgenerator.microgrid_id = $scope.currentMicrogrid.id;
+       		microgridgenerator.microgrid_id = $scope.currentMicrogrid.id;
+			microgridgenerator.power_point_id = microgridgenerator.power_point.id;
+			microgridgenerator.meter_id = microgridgenerator.meter.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   			MicrogridGeneratorService.addMicrogridGenerator(microgridgenerator, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 201) {
@@ -92,13 +121,17 @@ app.controller('MicrogridGeneratorController', function(
   				params: function() {
   					return {
   						microgridgenerator: angular.copy(microgridgenerator),
+						meters: angular.copy($scope.meters),
+						points: angular.copy($scope.points),
   					};
   				}
   			}
   		});
 
   		modalInstance.result.then(function(modifiedMicrogridGenerator) {
-        modifiedMicrogridGenerator.microgrid_id = $scope.currentMicrogrid.id;
+            modifiedMicrogridGenerator.microgrid_id = $scope.currentMicrogrid.id;
+			modifiedMicrogridGenerator.power_point_id = modifiedMicrogridGenerator.power_point.id;
+			modifiedMicrogridGenerator.meter_id = modifiedMicrogridGenerator.meter.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   			MicrogridGeneratorService.editMicrogridGenerator(modifiedMicrogridGenerator, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 200) {
@@ -164,7 +197,8 @@ app.controller('MicrogridGeneratorController', function(
   	};
 
   	$scope.getAllMicrogrids();
-
+	$scope.getAllPoints();
+	$scope.getAllMeters();
     $scope.$on('handleBroadcastMicrogridChanged', function(event) {
       $scope.getAllMicrogrids();
   	});
@@ -175,7 +209,8 @@ app.controller('MicrogridGeneratorController', function(
   app.controller('ModalAddMicrogridGeneratorCtrl', function($scope, $uibModalInstance, params) {
 
   	$scope.operation = "MICROGRID.ADD_MICROGRID_GENERATOR";
-
+	$scope.points=params.points;
+	$scope.meters=params.meters;
   	$scope.ok = function() {
   		$uibModalInstance.close($scope.microgridgenerator);
   	};
@@ -188,6 +223,8 @@ app.controller('MicrogridGeneratorController', function(
   app.controller('ModalEditMicrogridGeneratorCtrl', function($scope, $uibModalInstance, params) {
   	$scope.operation = "MICROGRID.EDIT_MICROGRID_GENERATOR";
   	$scope.microgridgenerator = params.microgridgenerator;
+	$scope.points=params.points;
+	$scope.meters=params.meters;
   	$scope.ok = function() {
   		$uibModalInstance.close($scope.microgridgenerator);
   	};
