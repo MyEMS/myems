@@ -1,8 +1,8 @@
 'use strict';
 app.factory('KnowledgeFileService', function ($http) {
     return {
-        getAllKnowledgeFiles: function (callback) {
-            $http.get(getAPI() + 'knowledgefiles')
+        getAllKnowledgeFiles: function (headers, callback) {
+            $http.get(getAPI() + 'knowledgefiles', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
