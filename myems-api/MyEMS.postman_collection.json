@@ -15590,7 +15590,18 @@
 					"name": "GET AdvancedReports",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/advancedreports?reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -15618,7 +15629,18 @@
 					"name": "GET AdvancedReport by ID",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/advancedreports/1",
 							"host": [
@@ -17026,7 +17048,18 @@
 					"name": "GET Dashboard",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/dashboard?useruuid=dcdb67d1-6116-4987-916f-6fc6cf2bc0e4&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
@@ -17140,7 +17173,18 @@
 					"name": "GET Energy Flow Diagram Report",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text"
+							},
+							{
+								"key": "Token",
+								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/energyflowdiagram?energyflowdiagramid=1&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [

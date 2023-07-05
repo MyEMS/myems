@@ -7,6 +7,7 @@ import simplejson as json
 
 import config
 from core import utilities
+from core.useractivity import access_control
 
 
 class Reporting:
@@ -35,6 +36,7 @@ class Reporting:
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
+        access_control(req)
         user_uuid = req.params.get('useruuid')
         period_type = req.params.get('periodtype')
         base_period_start_datetime_local = req.params.get('baseperiodstartdatetime')
