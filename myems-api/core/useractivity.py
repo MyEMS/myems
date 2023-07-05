@@ -123,6 +123,34 @@ def access_control(req):
                                description='API.INVALID_PRIVILEGE')
 
 
+def api_key_control(req):
+    """
+        Check API privilege in request headers to protect resources from invalid access
+        :param req: HTTP request
+        :return: HTTPError if invalid else None
+    """
+    api_key = str.strip(req.headers['API-KEY'])
+    cnx = mysql.connector.connect(**config.myems_user_db)
+    cursor = cnx.cursor()
+    query = (" SELECT expires_datetime_utc "
+             " FROM tbl_api_keys "
+             " WHERE token = %s ")
+    cursor.execute(query, (api_key,))
+    row = cursor.fetchone()
+    cursor.close()
+    cnx.close()
+    if row is None:
+        raise falcon.HTTPError(status=falcon.HTTP_404,
+                               title='API.NOT_FOUND',
+                               description='API.API_KEY_NOT_FOUND')
+    else:
+        expires_datetime_utc = row[0]
+        if datetime.utcnow() > expires_datetime_utc:
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.API_KEY_TIMEOUT')
+
+
 def write_log(user_uuid, request_method, resource_type, resource_id, request_body):
     """
     :param user_uuid: user_uuid
