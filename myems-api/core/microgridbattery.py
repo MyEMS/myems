@@ -68,8 +68,8 @@ class MicrogridBatteryCollection:
             for row in rows_microgrid_batteries:
                 microgrid = microgrid_dict.get(row[3])
                 power_point = point_dict.get(row[4])
-                charge_meter = meter_dict.get[row[5]]
-                discharge_meter = meter_dict.get[row[6]]
+                charge_meter = meter_dict.get(row[5])
+                discharge_meter = meter_dict.get(row[6])
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
@@ -268,7 +268,8 @@ class MicrogridBatteryItem:
                 point_dict[row[0]] = {"id": row[0],
                                       "name": row[1]}
 
-        query = (" SELECT id, name, uuid, microgrid_id, power_point_id, charge_meter_id, discharge_meter_id, capacity "
+        query = (" SELECT id, name, uuid, microgrid_id, "
+                 "       power_point_id, charge_meter_id, discharge_meter_id, capacity "
                  " FROM tbl_microgrids_batteries "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -283,7 +284,7 @@ class MicrogridBatteryItem:
             microgrid = microgrid_dict.get(row[3])
             power_point = point_dict.get(row[4])
             charge_meter = meter_dict.get(row[5])
-            discharege_meter = meter_dict.get(row[5])
+            discharege_meter = meter_dict.get(row[6])
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
@@ -291,7 +292,7 @@ class MicrogridBatteryItem:
                            "power_point": power_point,
                            "charge_meter": charge_meter,
                            "discharege_meter": discharege_meter,
-                           "capacity": row[6]}
+                           "capacity": row[7]}
 
         resp.text = json.dumps(meta_result)
 

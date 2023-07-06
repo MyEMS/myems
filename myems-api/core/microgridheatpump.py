@@ -70,9 +70,9 @@ class MicrogridHeatpumpCollection:
             for row in rows_microgrid_heatpumps:
                 microgrid = microgrid_dict.get(row[3])
                 power_point = point_dict.get(row[4])
-                electricity_meter = meter_dict.get[row[5]]
-                heat_meter = meter_dict.get[row[6]]
-                cooling_meter = meter_dict.get[row[7]]
+                electricity_meter = meter_dict.get(row[5])
+                heat_meter = meter_dict.get(row[6])
+                cooling_meter = meter_dict.get(row[7])
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],

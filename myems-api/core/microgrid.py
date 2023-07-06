@@ -852,8 +852,32 @@ class MicrogridBatteryCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.MICROGRID_NOT_FOUND')
 
+        # query meter dict
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_meters ")
+        cursor.execute(query)
+        rows_meters = cursor.fetchall()
+
+        meter_dict = dict()
+        if rows_meters is not None and len(rows_meters) > 0:
+            for row in rows_meters:
+                meter_dict[row[0]] = {"id": row[0],
+                                      "name": row[1],
+                                      "uuid": row[2]}
+        # query point dict
+        query = (" SELECT id, name "
+                 " FROM tbl_points ")
+        cursor.execute(query)
+        rows_points = cursor.fetchall()
+
+        point_dict = dict()
+        if rows_points is not None and len(rows_points) > 0:
+            for row in rows_points:
+                point_dict[row[0]] = {"id": row[0],
+                                      "name": row[1]}
+
         query = (" SELECT id, name, uuid, "
-                 "        capacity "
+                 "        power_point_id, charge_meter_id, discharge_meter_id, capacity "
                  " FROM tbl_microgrids_batteries "
                  " WHERE microgrid_id = %s "
                  " ORDER BY name ")
@@ -863,8 +887,16 @@ class MicrogridBatteryCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
-                               "capacity": row[3]}
+                power_point = point_dict.get(row[3])
+                charge_meter = meter_dict.get(row[4])
+                discharege_meter = meter_dict.get(row[5])
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
+                               "power_point": power_point,
+                               "charge_meter": charge_meter,
+                               "discharege_meter": discharege_meter,
+                               "capacity": row[6]}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -944,6 +976,30 @@ class MicrogridEVChargerCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.MICROGRID_NOT_FOUND')
 
+        # query meter dict
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_meters ")
+        cursor.execute(query)
+        rows_meters = cursor.fetchall()
+
+        meter_dict = dict()
+        if rows_meters is not None and len(rows_meters) > 0:
+            for row in rows_meters:
+                meter_dict[row[0]] = {"id": row[0],
+                                      "name": row[1],
+                                      "uuid": row[2]}
+        # query point dict
+        query = (" SELECT id, name "
+                 " FROM tbl_points ")
+        cursor.execute(query)
+        rows_points = cursor.fetchall()
+
+        point_dict = dict()
+        if rows_points is not None and len(rows_points) > 0:
+            for row in rows_points:
+                point_dict[row[0]] = {"id": row[0],
+                                      "name": row[1]}
+
         query = (" SELECT id, name, uuid, "
                  "        capacity "
                  " FROM tbl_microgrids_evchargers "
@@ -990,6 +1046,30 @@ class MicrogridGeneratorCollection:
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.MICROGRID_NOT_FOUND')
+
+        # query meter dict
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_meters ")
+        cursor.execute(query)
+        rows_meters = cursor.fetchall()
+
+        meter_dict = dict()
+        if rows_meters is not None and len(rows_meters) > 0:
+            for row in rows_meters:
+                meter_dict[row[0]] = {"id": row[0],
+                                      "name": row[1],
+                                      "uuid": row[2]}
+        # query point dict
+        query = (" SELECT id, name "
+                 " FROM tbl_points ")
+        cursor.execute(query)
+        rows_points = cursor.fetchall()
+
+        point_dict = dict()
+        if rows_points is not None and len(rows_points) > 0:
+            for row in rows_points:
+                point_dict[row[0]] = {"id": row[0],
+                                      "name": row[1]}
 
         query = (" SELECT id, name, uuid, "
                  "        capacity "
@@ -1038,6 +1118,30 @@ class MicrogridGridCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.MICROGRID_NOT_FOUND')
 
+        # query meter dict
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_meters ")
+        cursor.execute(query)
+        rows_meters = cursor.fetchall()
+
+        meter_dict = dict()
+        if rows_meters is not None and len(rows_meters) > 0:
+            for row in rows_meters:
+                meter_dict[row[0]] = {"id": row[0],
+                                      "name": row[1],
+                                      "uuid": row[2]}
+        # query point dict
+        query = (" SELECT id, name "
+                 " FROM tbl_points ")
+        cursor.execute(query)
+        rows_points = cursor.fetchall()
+
+        point_dict = dict()
+        if rows_points is not None and len(rows_points) > 0:
+            for row in rows_points:
+                point_dict[row[0]] = {"id": row[0],
+                                      "name": row[1]}
+
         query = (" SELECT id, name, uuid, "
                  "        capacity "
                  " FROM tbl_microgrids_grids "
@@ -1084,6 +1188,30 @@ class MicrogridHeatpumpCollection:
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.MICROGRID_NOT_FOUND')
+
+        # query meter dict
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_meters ")
+        cursor.execute(query)
+        rows_meters = cursor.fetchall()
+
+        meter_dict = dict()
+        if rows_meters is not None and len(rows_meters) > 0:
+            for row in rows_meters:
+                meter_dict[row[0]] = {"id": row[0],
+                                      "name": row[1],
+                                      "uuid": row[2]}
+        # query point dict
+        query = (" SELECT id, name "
+                 " FROM tbl_points ")
+        cursor.execute(query)
+        rows_points = cursor.fetchall()
+
+        point_dict = dict()
+        if rows_points is not None and len(rows_points) > 0:
+            for row in rows_points:
+                point_dict[row[0]] = {"id": row[0],
+                                      "name": row[1]}
 
         query = (" SELECT id, name, uuid, "
                  "        capacity "
@@ -1132,6 +1260,30 @@ class MicrogridLoadCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.MICROGRID_NOT_FOUND')
 
+        # query meter dict
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_meters ")
+        cursor.execute(query)
+        rows_meters = cursor.fetchall()
+
+        meter_dict = dict()
+        if rows_meters is not None and len(rows_meters) > 0:
+            for row in rows_meters:
+                meter_dict[row[0]] = {"id": row[0],
+                                      "name": row[1],
+                                      "uuid": row[2]}
+        # query point dict
+        query = (" SELECT id, name "
+                 " FROM tbl_points ")
+        cursor.execute(query)
+        rows_points = cursor.fetchall()
+
+        point_dict = dict()
+        if rows_points is not None and len(rows_points) > 0:
+            for row in rows_points:
+                point_dict[row[0]] = {"id": row[0],
+                                      "name": row[1]}
+
         query = (" SELECT id, name, uuid, "
                  "        capacity "
                  " FROM tbl_microgrids_loads "
@@ -1179,8 +1331,32 @@ class MicrogridPhotovoltaicCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.MICROGRID_NOT_FOUND')
 
+        # query meter dict
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_meters ")
+        cursor.execute(query)
+        rows_meters = cursor.fetchall()
+
+        meter_dict = dict()
+        if rows_meters is not None and len(rows_meters) > 0:
+            for row in rows_meters:
+                meter_dict[row[0]] = {"id": row[0],
+                                      "name": row[1],
+                                      "uuid": row[2]}
+        # query point dict
+        query = (" SELECT id, name "
+                 " FROM tbl_points ")
+        cursor.execute(query)
+        rows_points = cursor.fetchall()
+
+        point_dict = dict()
+        if rows_points is not None and len(rows_points) > 0:
+            for row in rows_points:
+                point_dict[row[0]] = {"id": row[0],
+                                      "name": row[1]}
+
         query = (" SELECT id, name, uuid, "
-                 "        capacity "
+                 "        power_point_id, meter_id, capacity "
                  " FROM tbl_microgrids_photovoltaics "
                  " WHERE microgrid_id = %s "
                  " ORDER BY name ")
@@ -1190,8 +1366,15 @@ class MicrogridPhotovoltaicCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
-                               "capacity": row[3]}
+                power_point = point_dict.get(row[3])
+                meter = meter_dict.get(row[4])
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
+                               "power_point": power_point,
+                               "meter": meter,
+                               "capacity": row[5],
+                               }
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -1225,6 +1408,30 @@ class MicrogridWindturbineCollection:
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.MICROGRID_NOT_FOUND')
+
+        # query meter dict
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_meters ")
+        cursor.execute(query)
+        rows_meters = cursor.fetchall()
+
+        meter_dict = dict()
+        if rows_meters is not None and len(rows_meters) > 0:
+            for row in rows_meters:
+                meter_dict[row[0]] = {"id": row[0],
+                                      "name": row[1],
+                                      "uuid": row[2]}
+        # query point dict
+        query = (" SELECT id, name "
+                 " FROM tbl_points ")
+        cursor.execute(query)
+        rows_points = cursor.fetchall()
+
+        point_dict = dict()
+        if rows_points is not None and len(rows_points) > 0:
+            for row in rows_points:
+                point_dict[row[0]] = {"id": row[0],
+                                      "name": row[1]}
 
         query = (" SELECT id, name, uuid, "
                  "        capacity "
