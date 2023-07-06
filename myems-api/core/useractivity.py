@@ -148,7 +148,7 @@ def api_key_control(req):
         if datetime.utcnow() > expires_datetime_utc:
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
-                                   description='API.API_KEY_TIMEOUT')
+                                   description='API.API_KEY_HAS_EXPIRED')
 
 
 def write_log(user_uuid, request_method, resource_type, resource_id, request_body):
