@@ -42,7 +42,7 @@ const getOption = (data, isDark) => {
           borderWidth: 2,
           borderColor: isDark ? '#0E1C2F' : '#fff'
         },
-        labelLine: { normal: { show: false } },
+        labelLine: { show: false },
         data: data
       }
     ]
