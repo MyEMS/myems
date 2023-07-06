@@ -889,13 +889,13 @@ class MicrogridBatteryCollection:
             for row in rows:
                 power_point = point_dict.get(row[3])
                 charge_meter = meter_dict.get(row[4])
-                discharege_meter = meter_dict.get(row[5])
+                discharge_meter = meter_dict.get(row[5])
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
                                "power_point": power_point,
                                "charge_meter": charge_meter,
-                               "discharege_meter": discharege_meter,
+                               "discharge_meter": discharge_meter,
                                "capacity": row[6]}
                 result.append(meta_result)
 
@@ -1001,7 +1001,7 @@ class MicrogridEVChargerCollection:
                                       "name": row[1]}
 
         query = (" SELECT id, name, uuid, "
-                 "        capacity "
+                 "       power_point_id, meter_id, capacity "
                  " FROM tbl_microgrids_evchargers "
                  " WHERE microgrid_id = %s "
                  " ORDER BY name ")
@@ -1011,8 +1011,14 @@ class MicrogridEVChargerCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
-                               "capacity": row[3]}
+                power_point = point_dict.get(row[3])
+                meter = meter_dict.get(row[4])
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
+                               "power_point": power_point,
+                               "meter": meter,
+                               "capacity": row[5]}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -1072,7 +1078,7 @@ class MicrogridGeneratorCollection:
                                       "name": row[1]}
 
         query = (" SELECT id, name, uuid, "
-                 "        capacity "
+                 "        power_point_id, meter_id, capacity "
                  " FROM tbl_microgrids_generators "
                  " WHERE microgrid_id = %s "
                  " ORDER BY name ")
@@ -1082,8 +1088,14 @@ class MicrogridGeneratorCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
-                               "capacity": row[3]}
+                power_point = point_dict.get(row[3])
+                meter = meter_dict.get(row[4])
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
+                               "power_point": power_point,
+                               "meter": meter,
+                               "capacity": row[5]}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -1143,7 +1155,7 @@ class MicrogridGridCollection:
                                       "name": row[1]}
 
         query = (" SELECT id, name, uuid, "
-                 "        capacity "
+                 "        power_point_id, buy_meter_id, sell_meter_id, capacity "
                  " FROM tbl_microgrids_grids "
                  " WHERE microgrid_id = %s "
                  " ORDER BY name ")
@@ -1153,8 +1165,16 @@ class MicrogridGridCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
-                               "capacity": row[3]}
+                power_point = point_dict.get(row[3])
+                buy_meter = meter_dict.get(row[4])
+                sell_meter = meter_dict.get(row[5])
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
+                               "power_point": power_point,
+                               "buy_meter": buy_meter,
+                               "sell_meter": sell_meter,
+                               "capacity": row[6]}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -1214,7 +1234,7 @@ class MicrogridHeatpumpCollection:
                                       "name": row[1]}
 
         query = (" SELECT id, name, uuid, "
-                 "        capacity "
+                 "        power_point_id, electricity_meter_id, heat_meter_id, cooling_meter_id, capacity "
                  " FROM tbl_microgrids_heatpumps "
                  " WHERE microgrid_id = %s "
                  " ORDER BY name ")
@@ -1224,8 +1244,18 @@ class MicrogridHeatpumpCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
-                               "capacity": row[3]}
+                power_point = point_dict.get(row[3])
+                electricity_meter = meter_dict.get(row[4])
+                heat_meter = meter_dict.get(row[5])
+                cooling_meter = meter_dict.get(row[6])
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
+                               "power_point": power_point,
+                               "electricity_meter": electricity_meter,
+                               "heat_meter": heat_meter,
+                               "cooling_meter": cooling_meter,
+                               "capacity": row[7]}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -1285,7 +1315,7 @@ class MicrogridLoadCollection:
                                       "name": row[1]}
 
         query = (" SELECT id, name, uuid, "
-                 "        capacity "
+                 "        power_point_id, meter_id, capacity "
                  " FROM tbl_microgrids_loads "
                  " WHERE microgrid_id = %s "
                  " ORDER BY name ")
@@ -1295,8 +1325,14 @@ class MicrogridLoadCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
-                               "capacity": row[3]}
+                power_point = point_dict.get(row[3])
+                meter = meter_dict.get(row[4])
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
+                               "power_point": power_point,
+                               "meter": meter,
+                               "capacity": row[5]}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -1434,7 +1470,7 @@ class MicrogridWindturbineCollection:
                                       "name": row[1]}
 
         query = (" SELECT id, name, uuid, "
-                 "        capacity "
+                 "        power_point_id, meter_id, capacity "
                  " FROM tbl_microgrids_windturbines "
                  " WHERE microgrid_id = %s "
                  " ORDER BY name ")
@@ -1444,8 +1480,14 @@ class MicrogridWindturbineCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
-                               "capacity": row[3]}
+                power_point = point_dict.get(row[3])
+                meter = meter_dict.get(row[4])
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
+                               "power_point": power_point,
+                               "meter": meter,
+                               "capacity": row[5]}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)

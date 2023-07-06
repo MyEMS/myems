@@ -86,9 +86,9 @@ app.controller('MicrogridBatteryController', function(
   		});
   		modalInstance.result.then(function(microgridbattery) {
         	microgridbattery.microgrid_id = $scope.currentMicrogrid.id;
-			microgrid.power_point_id = microgridbattery.power_point.id;
-			microgrid.charge_meter_id = microgridbattery.charge_meter.id;
-			microgrid.discharge_meter_id = microgridbattery.discharge_meter.id;
+			microgridbattery.power_point_id = microgridbattery.power_point.id;
+			microgridbattery.charge_meter_id = microgridbattery.charge_meter.id;
+			microgridbattery.discharge_meter_id = microgridbattery.discharge_meter.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   			MicrogridBatteryService.addMicrogridBattery(microgridbattery, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 201) {

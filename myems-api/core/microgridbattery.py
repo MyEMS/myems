@@ -284,14 +284,14 @@ class MicrogridBatteryItem:
             microgrid = microgrid_dict.get(row[3])
             power_point = point_dict.get(row[4])
             charge_meter = meter_dict.get(row[5])
-            discharege_meter = meter_dict.get(row[6])
+            discharge_meter = meter_dict.get(row[6])
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
                            "microgrid": microgrid,
                            "power_point": power_point,
                            "charge_meter": charge_meter,
-                           "discharege_meter": discharege_meter,
+                           "discharge_meter": discharge_meter,
                            "capacity": row[7]}
 
         resp.text = json.dumps(meta_result)

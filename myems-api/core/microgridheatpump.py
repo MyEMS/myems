@@ -215,8 +215,9 @@ class MicrogridHeatpumpCollection:
                                    description='API.COOLING_METER_NOT_FOUND')
 
         add_values = (" INSERT INTO tbl_microgrids_heatpumps "
-                      "    (name, uuid, microgrid_id, power_point_id, heat_meter_id, cooling_meter_id, capacity) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s) ")
+                      "    (name, uuid, microgrid_id, "
+                      "     power_point_id, electricity_meter_id, heat_meter_id, cooling_meter_id, capacity) "
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     microgrid_id,
