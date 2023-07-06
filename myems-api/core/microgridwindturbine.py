@@ -69,7 +69,7 @@ class MicrogridWindturbineCollection:
             for row in rows_microgrid_windturbines:
                 microgrid = microgrid_dict.get(row[3])
                 power_point = point_dict.get(row[4])
-                meter = meter_dict.get[row[5]]
+                meter = meter_dict.get(row[5])
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
@@ -175,7 +175,7 @@ class MicrogridWindturbineCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.METER_NOT_FOUND')
 
-        add_values = (" INSERT INTO tbl_microgrids_generators "
+        add_values = (" INSERT INTO tbl_microgrids_windturbines "
                       "    (name, uuid, microgrid_id, power_point_id, meter_id, capacity) "
                       " VALUES (%s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
@@ -407,7 +407,7 @@ class MicrogridWindturbineItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.METER_NOT_FOUND')
 
-        update_row = (" UPDATE tbl_microgrids_generators "
+        update_row = (" UPDATE tbl_microgrids_windturbines "
                       " SET name = %s, microgrid_id = %s, power_point_id = %s, meter_id = %s, capacity = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,

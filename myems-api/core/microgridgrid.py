@@ -69,8 +69,8 @@ class MicrogridGridCollection:
             for row in rows_microgrid_grids:
                 microgrid = microgrid_dict.get(row[3])
                 power_point = point_dict.get(row[4])
-                buy_meter = meter_dict.get[row[5]]
-                sell_meter = meter_dict.get[row[6]]
+                buy_meter = meter_dict.get(row[5])
+                sell_meter = meter_dict.get(row[6])
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
