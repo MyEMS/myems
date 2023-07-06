@@ -196,7 +196,7 @@ class MicrogridGridCollection:
 
         add_values = (" INSERT INTO tbl_microgrids_grids "
                       "    (name, uuid, microgrid_id, power_point_id, buy_meter_id, sell_meter_id, capacity) "
-                      " VALUES (%s, %s, %s, %s, %s, %s) ")
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     microgrid_id,
