@@ -9,7 +9,7 @@ import simplejson as json
 import config
 import excelexporters.metertrend
 from core import utilities
-from core.useractivity import access_control
+from core.useractivity import access_control, api_key_control
 
 
 class Reporting:
@@ -33,7 +33,12 @@ class Reporting:
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
-        access_control(req)
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
         print(req.params)
         meter_id = req.params.get('meterid')
         meter_uuid = req.params.get('meteruuid')
