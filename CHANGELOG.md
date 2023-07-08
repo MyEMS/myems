@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+-
+### Changed
+-
+### Fixed
+-
+### Removed
+-
+
+## [v3.7.0] - 2023-07-08
+### Added
 - added access control to tenant in myems-api, myems-admin and myems-web
 - added point real time report to myems-api
 - added access control to equipment in myems-api, myems-admin and myems-web
@@ -24,6 +34,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Removed
 - removed unused getXXX services from myems-admin
+
 
 ## [v3.6.0] - 2023-06-22
 ### Added
@@ -1357,7 +1368,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v3.6.0...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v3.7.0...HEAD
+[3.7.0]: https://github.com/MyEMS/myems/compare/v3.7.0...v3.6.0
 [3.6.0]: https://github.com/MyEMS/myems/compare/v3.6.0...v3.5.0
 [3.5.0]: https://github.com/MyEMS/myems/compare/v3.5.0...v3.4.0
 [3.4.0]: https://github.com/MyEMS/myems/compare/v3.4.0...v3.3.0

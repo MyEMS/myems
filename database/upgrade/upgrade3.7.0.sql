@@ -42,6 +42,6 @@ ALTER TABLE `myems_system_db`.`tbl_microgrids` DROP COLUMN `is_input_counted`;
 ALTER TABLE `myems_system_db`.`tbl_microgrids` DROP COLUMN `is_output_counted`;
 
 -- UPDATE VERSION NUMBER
-UPDATE `myems_system_db`.`tbl_versions` SET version='3.7.0RC', release_date='2023-07-01' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='3.7.0', release_date='2023-07-08' WHERE id=1;
 
 COMMIT;
