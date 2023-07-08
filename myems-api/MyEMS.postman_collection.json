@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "41301353-ef5b-4e56-80c4-8615355f9166",
+		"_postman_id": "a778df09-ec41-443e-9755-8377c110af8b",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -24918,6 +24918,18 @@
 						"method": "GET",
 						"header": [
 							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "default",
+								"disabled": true
+							},
+							{
+								"key": "Token",
+								"value": "11111173c15d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d11111",
+								"type": "default",
+								"disabled": true
+							},
+							{
 								"key": "API-Key",
 								"value": "0196ef3251ad46301f9831f41e1ee96f443ed7d20e0e7ddb82ccc0355acbe0e76352104191d337c2bce53da5fa454b73b19ca614f45d68b4aabd7335daf91882",
 								"type": "text"
@@ -24955,6 +24967,18 @@
 					"request": {
 						"method": "GET",
 						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "default",
+								"disabled": true
+							},
+							{
+								"key": "Token",
+								"value": "11111173c15d0b5209e768f84989b93629e234ee47e467a027772d8c52ea85a1f72e9cf152f9f6566795b23c4a8b9d7f61d057f9479d2be84b26432522d11111",
+								"type": "default",
+								"disabled": true
+							},
 							{
 								"key": "API-Key",
 								"value": "0196ef3251ad46301f9831f41e1ee96f443ed7d20e0e7ddb82ccc0355acbe0e76352104191d337c2bce53da5fa454b73b19ca614f45d68b4aabd7335daf91882",
