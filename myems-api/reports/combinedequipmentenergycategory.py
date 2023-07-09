@@ -80,11 +80,13 @@ class Reporting:
                                        description='API.INVALID_COMBINED_EQUIPMENT_UUID')
 
         if period_type is None:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_PERIOD_TYPE')
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_PERIOD_TYPE')
         else:
             period_type = str.strip(period_type)
             if period_type not in ['hourly', 'daily', 'weekly', 'monthly', 'yearly']:
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_PERIOD_TYPE')
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.INVALID_PERIOD_TYPE')
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -582,7 +584,7 @@ class Reporting:
                                            reporting_start_datetime_utc,
                                            reporting_end_datetime_utc))
                     rows_equipment_hourly = cursor_energy.fetchall()
-                    if (rows_equipment_hourly is not None and len(rows_equipment_hourly) > 0):
+                    if rows_equipment_hourly is not None and len(rows_equipment_hourly) > 0:
                         associated_report = dict()
                         associated_report[energy_category_id] = dict()
                         associated_report[energy_category_id]['timestamps'] = list()
@@ -671,7 +673,7 @@ class Reporting:
         if energy_category_set is not None and len(energy_category_set) > 0:
             for energy_category_id in energy_category_set:
                 for associated_report in associated_report_list:
-                    if (energy_category_id in associated_report):
+                    if energy_category_id in associated_report:
                         associated_report_period = dict()
 
                         associated_report_period['names'] = list()
