@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta, timezone
+from decimal import Decimal
 import falcon
 import mysql.connector
 import simplejson as json
@@ -150,8 +151,31 @@ class Reporting:
                            "cost_center": cost_center,
                            "description": row[12],
                            "qrcode": 'microgrid:' + row[2]}
-        meter_list = list()
+
         point_list = list()
+        meter_list = list()
+        energy_category_set = set()
+
+        # query all energy categories in system
+        cursor_system.execute(" SELECT id, name, unit_of_measure, kgce, kgco2e "
+                              " FROM tbl_energy_categories "
+                              " ORDER BY id ", )
+        rows_energy_categories = cursor_system.fetchall()
+        if rows_energy_categories is None or len(rows_energy_categories) == 0:
+            if cursor_system:
+                cursor_system.close()
+            if cnx_system:
+                cnx_system.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404,
+                                   title='API.NOT_FOUND',
+                                   description='API.ENERGY_CATEGORY_NOT_FOUND')
+        energy_category_dict = dict()
+        for row_energy_category in rows_energy_categories:
+            energy_category_dict[row_energy_category[0]] = {"name": row_energy_category[1],
+                                                            "unit_of_measure": row_energy_category[2],
+                                                            "kgce": row_energy_category[3],
+                                                            "kgco2e": row_energy_category[4]}
+
         ################################################################################################################
         # Step 3: query associated batteries
         ################################################################################################################
@@ -165,6 +189,28 @@ class Reporting:
                                "name": row_point[1],
                                "units": row_point[2],
                                "object_type": row_point[3]})
+
+        cursor_system.execute(" SELECT m.id, m.name, m.energy_category_id  "
+                              " FROM tbl_microgrids_batteries mb, tbl_meters m "
+                              " WHERE mb.id = %s AND mb.charge_meter_id = m.id ",
+                              (microgrid_id,))
+        row_meter = cursor_system.fetchone()
+        if row_meter is not None:
+            meter_list.append({"id": row_meter[0],
+                               "name": row_meter[1],
+                               "energy_category_id": row_meter[2]})
+            energy_category_set.add(row_meter[2])
+
+        cursor_system.execute(" SELECT m.id, m.name, m.energy_category_id  "
+                              " FROM tbl_microgrids_batteries mb, tbl_meters m "
+                              " WHERE mb.id = %s AND mb.discharge_meter_id = m.id ",
+                              (microgrid_id,))
+        row_meter = cursor_system.fetchone()
+        if row_meter is not None:
+            meter_list.append({"id": row_meter[0],
+                               "name": row_meter[1],
+                               "energy_category_id": row_meter[2]})
+            energy_category_set.add(row_meter[2])
 
         ################################################################################################################
         # Step 4: query associated converters
@@ -183,6 +229,17 @@ class Reporting:
                                "name": row_point[1],
                                "units": row_point[2],
                                "object_type": row_point[3]})
+
+        cursor_system.execute(" SELECT m.id, m.name, m.energy_category_id  "
+                              " FROM tbl_microgrids_evchargers mb, tbl_meters m "
+                              " WHERE mb.id = %s AND mb.meter_id = m.id ",
+                              (microgrid_id,))
+        row_meter = cursor_system.fetchone()
+        if row_meter is not None:
+            meter_list.append({"id": row_meter[0],
+                               "name": row_meter[1],
+                               "energy_category_id": row_meter[2]})
+            energy_category_set.add(row_meter[2])
         ################################################################################################################
         # Step 6: query associated generators
         ################################################################################################################
@@ -196,6 +253,17 @@ class Reporting:
                                "name": row_point[1],
                                "units": row_point[2],
                                "object_type": row_point[3]})
+
+        cursor_system.execute(" SELECT m.id, m.name, m.energy_category_id  "
+                              " FROM tbl_microgrids_generators mb, tbl_meters m "
+                              " WHERE mb.id = %s AND mb.meter_id = m.id ",
+                              (microgrid_id,))
+        row_meter = cursor_system.fetchone()
+        if row_meter is not None:
+            meter_list.append({"id": row_meter[0],
+                               "name": row_meter[1],
+                               "energy_category_id": row_meter[2]})
+            energy_category_set.add(row_meter[2])
         ################################################################################################################
         # Step 7: query associated grids
         ################################################################################################################
@@ -209,6 +277,29 @@ class Reporting:
                                "name": row_point[1],
                                "units": row_point[2],
                                "object_type": row_point[3]})
+
+        cursor_system.execute(" SELECT m.id, m.name, m.energy_category_id  "
+                              " FROM tbl_microgrids_grids mb, tbl_meters m "
+                              " WHERE mb.id = %s AND mb.buy_meter_id = m.id ",
+                              (microgrid_id,))
+        row_meter = cursor_system.fetchone()
+        if row_meter is not None:
+            meter_list.append({"id": row_meter[0],
+                               "name": row_meter[1],
+                               "energy_category_id": row_meter[2]})
+            energy_category_set.add(row_meter[2])
+
+        cursor_system.execute(" SELECT m.id, m.name, m.energy_category_id  "
+                              " FROM tbl_microgrids_grids mb, tbl_meters m "
+                              " WHERE mb.id = %s AND mb.sell_meter_id = m.id ",
+                              (microgrid_id,))
+        row_meter = cursor_system.fetchone()
+        if row_meter is not None:
+            meter_list.append({"id": row_meter[0],
+                               "name": row_meter[1],
+                               "energy_category_id": row_meter[2]})
+            energy_category_set.add(row_meter[2])
+
         ################################################################################################################
         # Step 8: query associated heatpumps
         ################################################################################################################
@@ -222,6 +313,40 @@ class Reporting:
                                "name": row_point[1],
                                "units": row_point[2],
                                "object_type": row_point[3]})
+
+        cursor_system.execute(" SELECT m.id, m.name, m.energy_category_id  "
+                              " FROM tbl_microgrids_heatpumps mb, tbl_meters m "
+                              " WHERE mb.id = %s AND mb.electricity_meter_id = m.id ",
+                              (microgrid_id,))
+        row_meter = cursor_system.fetchone()
+        if row_meter is not None:
+            meter_list.append({"id": row_meter[0],
+                               "name": row_meter[1],
+                               "energy_category_id": row_meter[2]})
+            energy_category_set.add(row_meter[2])
+
+        cursor_system.execute(" SELECT m.id, m.name, m.energy_category_id  "
+                              " FROM tbl_microgrids_heatpumps mb, tbl_meters m "
+                              " WHERE mb.id = %s AND mb.heat_meter_id = m.id ",
+                              (microgrid_id,))
+        row_meter = cursor_system.fetchone()
+        if row_meter is not None:
+            meter_list.append({"id": row_meter[0],
+                               "name": row_meter[1],
+                               "energy_category_id": row_meter[2]})
+            energy_category_set.add(row_meter[2])
+
+        cursor_system.execute(" SELECT m.id, m.name, m.energy_category_id  "
+                              " FROM tbl_microgrids_heatpumps mb, tbl_meters m "
+                              " WHERE mb.id = %s AND mb.cooling_meter_id = m.id ",
+                              (microgrid_id,))
+        row_meter = cursor_system.fetchone()
+        if row_meter is not None:
+            meter_list.append({"id": row_meter[0],
+                               "name": row_meter[1],
+                               "energy_category_id": row_meter[2]})
+            energy_category_set.add(row_meter[2])
+
         ################################################################################################################
         # Step 9: query associated inverters
         ################################################################################################################
@@ -239,6 +364,17 @@ class Reporting:
                                "name": row_point[1],
                                "units": row_point[2],
                                "object_type": row_point[3]})
+
+        cursor_system.execute(" SELECT m.id, m.name, m.energy_category_id  "
+                              " FROM tbl_microgrids_loads mb, tbl_meters m "
+                              " WHERE mb.id = %s AND mb.meter_id = m.id ",
+                              (microgrid_id,))
+        row_meter = cursor_system.fetchone()
+        if row_meter is not None:
+            meter_list.append({"id": row_meter[0],
+                               "name": row_meter[1],
+                               "energy_category_id": row_meter[2]})
+            energy_category_set.add(row_meter[2])
         ################################################################################################################
         # Step 11: query associated photovoltaics
         ################################################################################################################
@@ -252,6 +388,17 @@ class Reporting:
                                "name": row_point[1],
                                "units": row_point[2],
                                "object_type": row_point[3]})
+
+        cursor_system.execute(" SELECT m.id, m.name, m.energy_category_id  "
+                              " FROM tbl_microgrids_photovoltaics mb, tbl_meters m "
+                              " WHERE mb.id = %s AND mb.meter_id = m.id ",
+                              (microgrid_id,))
+        row_meter = cursor_system.fetchone()
+        if row_meter is not None:
+            meter_list.append({"id": row_meter[0],
+                               "name": row_meter[1],
+                               "energy_category_id": row_meter[2]})
+            energy_category_set.add(row_meter[2])
         ################################################################################################################
         # Step 12: query associated sensors
         ################################################################################################################
@@ -269,19 +416,70 @@ class Reporting:
                                "name": row_point[1],
                                "units": row_point[2],
                                "object_type": row_point[3]})
+
+        cursor_system.execute(" SELECT m.id, m.name, m.energy_category_id  "
+                              " FROM tbl_microgrids_windturbines mb, tbl_meters m "
+                              " WHERE mb.id = %s AND mb.meter_id = m.id ",
+                              (microgrid_id,))
+        row_meter = cursor_system.fetchone()
+        if row_meter is not None:
+            meter_list.append({"id": row_meter[0],
+                               "name": row_meter[1],
+                               "energy_category_id": row_meter[2]})
+            energy_category_set.add(row_meter[2])
         ################################################################################################################
         # Step 14: query associated meters data
         ################################################################################################################
-        cnx_historical = mysql.connector.connect(**config.myems_historical_db)
-        cursor_historical = cnx_historical.cursor()
-
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
 
+        cnx_energy = mysql.connector.connect(**config.myems_energy_db)
+        cursor_energy = cnx_energy.cursor()
+
+        reporting = dict()
+        meter_report_list = list()
+        if energy_category_set is not None and len(energy_category_set) > 0:
+            for energy_category_id in energy_category_set:
+                for meter in meter_list:
+                    if energy_category_id != meter['energy_category_id']:
+                        continue
+                    cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
+                                          " FROM tbl_meter_hourly "
+                                          " WHERE meter_id = %s "
+                                          "     AND start_datetime_utc >= %s "
+                                          "     AND start_datetime_utc < %s "
+                                          " ORDER BY start_datetime_utc ",
+                                          (meter['id'],
+                                           reporting_start_datetime_utc,
+                                           reporting_end_datetime_utc))
+                    rows_meter_hourly = cursor_energy.fetchall()
+                    if rows_meter_hourly is not None and len(rows_meter_hourly) > 0:
+                        meter_report = dict()
+                        meter_report['timestamps'] = list()
+                        meter_report['values'] = list()
+                        meter_report['subtotal'] = Decimal(0.0)
+
+                        for row_meter_hourly in rows_meter_hourly:
+                            current_datetime_local = row_meter_hourly[0].replace(tzinfo=timezone.utc) + \
+                                                     timedelta(minutes=timezone_offset)
+                            current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+
+                            actual_value = Decimal(0.0) if row_meter_hourly[1] is None else row_meter_hourly[1]
+
+                            meter_report['timestamps'].append(current_datetime)
+                            meter_report['values'].append(actual_value)
+                            meter_report['subtotal'] += actual_value
+                            meter_report['meter_name'] = meter['name']
+
+                        meter_report_list.append(meter_report)
+
         ################################################################################################################
         # Step 15: query associated points data
         ################################################################################################################
+        cnx_historical = mysql.connector.connect(**config.myems_historical_db)
+        cursor_historical = cnx_historical.cursor()
+
         parameters_data = dict()
         parameters_data['names'] = list()
         parameters_data['timestamps'] = list()
@@ -359,4 +557,21 @@ class Reporting:
             "timestamps": parameters_data['timestamps'],
             "values": parameters_data['values']
         }
+        result['reporting_period'] = dict()
+        result['reporting_period']['names'] = list()
+        result['reporting_period']['energy_category_ids'] = list()
+        result['reporting_period']['units'] = list()
+        result['reporting_period']['timestamps'] = list()
+        result['reporting_period']['values'] = list()
+        result['reporting_period']['subtotals'] = list()
+
+        if energy_category_set is not None and len(energy_category_set) > 0:
+            for energy_category_id in energy_category_set:
+                result['reporting_period']['names'].append(energy_category_dict[energy_category_id]['name'])
+                result['reporting_period']['energy_category_ids'].append(energy_category_id)
+                result['reporting_period']['units'].append(energy_category_dict[energy_category_id]['unit_of_measure'])
+                # result['reporting_period']['timestamps'].append(reporting[energy_category_id]['timestamps'])
+                # result['reporting_period']['values'].append(reporting[energy_category_id]['values'])
+                # result['reporting_period']['subtotals'].append(reporting[energy_category_id]['subtotal'])
+
         resp.text = json.dumps(result)

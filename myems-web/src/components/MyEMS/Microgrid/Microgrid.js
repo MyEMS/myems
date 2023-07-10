@@ -73,9 +73,9 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
   const [parameterLineChartData, setParameterLineChartData] = useState({});
   const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
 
-  const [microgridReportingLabels, setmicrogridReportingLabels] = useState({"a0": []});
-  const [microgridReportingData, setmicrogridReportingData] = useState({"a0": []});
-  const [microgridReportingOptions, setmicrogridReportingOptions] = useState([]);
+  const [microgridReportingLabels, setMicrogridReportingLabels] = useState({"a0": []});
+  const [microgridReportingData, setMicrogridReportingData] = useState({"a0": []});
+  const [microgridReportingOptions, setMicrogridReportingOptions] = useState([]);
 
   useEffect(() => {
     let isResponseOK = false;
@@ -201,6 +201,25 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
           names.push({ 'value': 'a' + index, 'label': currentValue });
         });
         setParameterLineChartOptions(names);
+
+        let reporting_timestamps = {}
+        json['reporting_period']['timestamps'].forEach((currentValue, index) => {
+          reporting_timestamps['a' + index] = currentValue;
+        });
+        setMicrogridReportingLabels(reporting_timestamps);
+
+        let reporting_values = {}
+        json['reporting_period']['values'].forEach((currentValue, index) => {
+          reporting_values['a' + index] = currentValue;
+        });
+        setMicrogridReportingData(reporting_values);
+
+        let options = Array();
+        json['reporting_period']['names'].forEach((currentValue, index) => {
+          let unit = json['reporting_period']['units'][index];
+          options.push({ 'value': 'a' + index, 'label': currentValue + ' (' + unit + ')'});
+        });
+        setMicrogridReportingOptions(options);
       }
     })
     .catch(err => {
@@ -239,25 +258,25 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
         </CardBody>
       </Card>
       <div className="card-deck">
-        <CardSummary rate="-0.23%" title="PV Generation" color="info" footnote="Today">
+        <CardSummary rate="-0.23%" title="PV Generation" color="info" footnote="in 24 Hours">
           {8888 && <CountUp end={8888} duration={2} prefix="" separator="," decimal="." decimals={2} />}
         </CardSummary>
-        <CardSummary rate="-0.23%" title="Battery Charged" color="info" footnote="Today">
+        <CardSummary rate="-0.23%" title="Battery Charged" color="info" footnote="in 24 Hours">
           {8888 && <CountUp end={8888} duration={2} prefix="" separator="," decimal="." decimals={2} />}
         </CardSummary>
-        <CardSummary rate="-0.23%" title="Battery Discharged" color="info" footnote="Today">
+        <CardSummary rate="-0.23%" title="Battery Discharged" color="info" footnote="in 24 Hours">
           {8888 && <CountUp end={8888} duration={2} prefix="" separator="," decimal="." decimals={2} />}
         </CardSummary>
-        <CardSummary rate="-0.23%" title="Bought from Grid" color="info" footnote="Today">
+        <CardSummary rate="-0.23%" title="Bought from Grid" color="info" footnote="in 24 Hours">
           {8888 && <CountUp end={8888} duration={2} prefix="" separator="," decimal="." decimals={2} />}
         </CardSummary>
-        <CardSummary rate="-0.23%" title="Sold to Grid" color="info" footnote="Today">
+        <CardSummary rate="-0.23%" title="Sold to Grid" color="info" footnote="in 24 Hours">
           {8888 && <CountUp end={8888} duration={2} prefix="" separator="," decimal="." decimals={2} />}
         </CardSummary>
-        <CardSummary rate="-0.23%" title="Load Consumption" color="info" footnote="Today">
+        <CardSummary rate="-0.23%" title="Load Consumption" color="info" footnote="in 24 Hours">
           {8888 && <CountUp end={8888} duration={2} prefix="" separator="," decimal="." decimals={2} />}
         </CardSummary>
-        <CardSummary rate="-0.23%" title="Earnings" color="info" footnote="Today">
+        <CardSummary rate="-0.23%" title="Earnings" color="info" footnote="in 24 Hours">
           {8888 && <CountUp end={8888} duration={2} prefix="" separator="," decimal="." decimals={2} />}
         </CardSummary>
       </div>
