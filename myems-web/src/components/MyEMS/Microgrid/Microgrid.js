@@ -13,6 +13,7 @@ import {
 import CardSummary from '../common/CardSummary';
 import CountUp from 'react-countup';
 import MultipleLineChart from '../common/MultipleLineChart';
+import MultiTrendChart from '../common/MultiTrendChart';
 import LineChart from '../common/LineChart';
 import BarChart from '../common/BarChart';
 import ChartSpacesStackBar from '../common/ChartSpacesStackBar';
@@ -71,6 +72,10 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
   const [parameterLineChartLabels, setParameterLineChartLabels] = useState([]);
   const [parameterLineChartData, setParameterLineChartData] = useState({});
   const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
+
+  const [microgridReportingLabels, setmicrogridReportingLabels] = useState({"a0": []});
+  const [microgridReportingData, setmicrogridReportingData] = useState({"a0": []});
+  const [microgridReportingOptions, setmicrogridReportingOptions] = useState([]);
 
   useEffect(() => {
     let isResponseOK = false;
@@ -271,6 +276,17 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
         </Col>
 
       </Row>
+      <MultiTrendChart reportingTitle = {{"name": "Reporting Period Consumption CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": {"a0":""}, "VALUE": {"a0": (0).toFixed(2)}, "UNIT": {"a0":"()"}}}
+        baseTitle = {{"name": "Base Period Consumption CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": {"a0":""}, "VALUE": {"a0": (0).toFixed(2)}, "UNIT": {"a0":"()"}}}
+        reportingTooltipTitle = {{"name": "Reporting Period Consumption CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": {"a0":""}, "VALUE": null, "UNIT": {"a0":"()"}}}
+        baseTooltipTitle = {{"name": "Base Period Consumption CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": {"a0":""}, "VALUE": null, "UNIT": {"a0":"()"}}}
+        reportingLabels={microgridReportingLabels}
+        reportingData={microgridReportingData}
+        baseLabels={{"a0": []}}
+        baseData={{"a0": []}}
+        rates={{"a0": []}}
+        options={microgridReportingOptions}>
+      </MultiTrendChart>
     </Fragment>
   );
 };
