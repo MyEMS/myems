@@ -5,7 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
--
+- added is_recursive boolean option to meter tracking report in myems-api
+- 
 ### Changed
 -
 ### Fixed
