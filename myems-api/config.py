@@ -113,3 +113,6 @@ maximum_failed_login_count = config('MAXIMUM_FAILED_LOGIN_COUNT', default=3, cas
 
 # indicates if the tariff appended to parameters data
 is_tariff_appended = config('IS_TARIFF_APPENDED', default=True, cast=bool)
+
+# indicates if search meters recursively in meter tracking report
+is_recursive = config('IS_RECURSIVE', default=True, cast=bool)
