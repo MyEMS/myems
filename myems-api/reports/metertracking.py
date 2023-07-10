@@ -182,18 +182,29 @@ class Reporting:
         meter_dict = dict()
         space_dict = dict()
 
-        for node in LevelOrderIter(node_dict[space_id]):
-            space_dict[node.id] = node.name
+        if config.is_recursive:
+            for node in LevelOrderIter(node_dict[space_id]):
+                space_dict[node.id] = node.name
 
-        cursor_system_db.execute(" SELECT m.id, m.name AS meter_name, s.name AS space_name, "
-                                 "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
-                                 "         m.description, m.uuid AS meter_uuid "
-                                 " FROM tbl_spaces s, tbl_spaces_meters sm, tbl_meters m, tbl_cost_centers cc, "
-                                 "      tbl_energy_categories ec "
-                                 " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
-                                 "       AND sm.space_id = s.id AND sm.meter_id = m.id "
-                                 + energy_category_query +
-                                 "       AND m.cost_center_id = cc.id AND m.energy_category_id = ec.id ", )
+            cursor_system_db.execute(" SELECT m.id, m.name AS meter_name, s.name AS space_name, "
+                                     "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
+                                     "         m.description, m.uuid AS meter_uuid "
+                                     " FROM tbl_spaces s, tbl_spaces_meters sm, tbl_meters m, tbl_cost_centers cc, "
+                                     "      tbl_energy_categories ec "
+                                     " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
+                                                                                                    "       AND sm.space_id = s.id AND sm.meter_id = m.id "
+                                     + energy_category_query +
+                                     " AND m.cost_center_id = cc.id AND m.energy_category_id = ec.id  ORDER BY meter_id ", )
+        else:
+            cursor_system_db.execute(" SELECT m.id, m.name AS meter_name, s.name AS space_name, "
+                                     "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
+                                     "         m.description, m.uuid AS meter_uuid "
+                                     " FROM tbl_spaces s, tbl_spaces_meters sm, tbl_meters m, tbl_cost_centers cc, "
+                                     "      tbl_energy_categories ec "
+                                     " WHERE s.id = %s AND sm.space_id = s.id AND sm.meter_id = m.id "
+                                     + energy_category_query +
+                                     " AND m.cost_center_id = cc.id AND m.energy_category_id = ec.id  ORDER BY meter_id ", (space_id,))
+
         rows_meters = cursor_system_db.fetchall()
         if rows_meters is not None and len(rows_meters) > 0:
             for row in rows_meters:
