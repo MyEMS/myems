@@ -179,36 +179,36 @@ class Reporting:
         ################################################################################################################
         # Step 3: query associated batteries
         ################################################################################################################
-        cursor_system.execute(" SELECT p.id, p.name, p.units, p.object_type  "
+        cursor_system.execute(" SELECT p.id, mb.name, p.units, p.object_type  "
                               " FROM tbl_microgrids_batteries mb, tbl_points p "
                               " WHERE mb.id = %s AND mb.power_point_id = p.id ",
                               (microgrid_id,))
         row_point = cursor_system.fetchone()
         if row_point is not None:
             point_list.append({"id": row_point[0],
-                               "name": row_point[1],
+                               "name": row_point[1]+'.P',
                                "units": row_point[2],
                                "object_type": row_point[3]})
 
-        cursor_system.execute(" SELECT m.id, m.name, m.energy_category_id  "
+        cursor_system.execute(" SELECT m.id, mb.name, m.energy_category_id  "
                               " FROM tbl_microgrids_batteries mb, tbl_meters m "
                               " WHERE mb.id = %s AND mb.charge_meter_id = m.id ",
                               (microgrid_id,))
         row_meter = cursor_system.fetchone()
         if row_meter is not None:
             meter_list.append({"id": row_meter[0],
-                               "name": row_meter[1],
+                               "name": row_meter[1] + '.Charge',
                                "energy_category_id": row_meter[2]})
             energy_category_set.add(row_meter[2])
 
-        cursor_system.execute(" SELECT m.id, m.name, m.energy_category_id  "
+        cursor_system.execute(" SELECT m.id, mb.name, m.energy_category_id  "
                               " FROM tbl_microgrids_batteries mb, tbl_meters m "
                               " WHERE mb.id = %s AND mb.discharge_meter_id = m.id ",
                               (microgrid_id,))
         row_meter = cursor_system.fetchone()
         if row_meter is not None:
             meter_list.append({"id": row_meter[0],
-                               "name": row_meter[1],
+                               "name": row_meter[1] + '.Discharge',
                                "energy_category_id": row_meter[2]})
             energy_category_set.add(row_meter[2])
 
@@ -219,20 +219,20 @@ class Reporting:
         ################################################################################################################
         # Step 5: query associated evchargers
         ################################################################################################################
-        cursor_system.execute(" SELECT p.id, p.name, p.units, p.object_type  "
-                              " FROM tbl_microgrids_evchargers mb, tbl_points p "
-                              " WHERE mb.id = %s AND mb.power_point_id = p.id ",
+        cursor_system.execute(" SELECT p.id, me.name, p.units, p.object_type  "
+                              " FROM tbl_microgrids_evchargers me, tbl_points p "
+                              " WHERE me.id = %s AND me.power_point_id = p.id ",
                               (microgrid_id,))
         row_point = cursor_system.fetchone()
         if row_point is not None:
             point_list.append({"id": row_point[0],
-                               "name": row_point[1],
+                               "name": row_point[1]+'.P',
                                "units": row_point[2],
                                "object_type": row_point[3]})
 
-        cursor_system.execute(" SELECT m.id, m.name, m.energy_category_id  "
-                              " FROM tbl_microgrids_evchargers mb, tbl_meters m "
-                              " WHERE mb.id = %s AND mb.meter_id = m.id ",
+        cursor_system.execute(" SELECT m.id, me.name, m.energy_category_id  "
+                              " FROM tbl_microgrids_evchargers me, tbl_meters m "
+                              " WHERE me.id = %s AND me.meter_id = m.id ",
                               (microgrid_id,))
         row_meter = cursor_system.fetchone()
         if row_meter is not None:
@@ -243,20 +243,20 @@ class Reporting:
         ################################################################################################################
         # Step 6: query associated generators
         ################################################################################################################
-        cursor_system.execute(" SELECT p.id, p.name, p.units, p.object_type  "
-                              " FROM tbl_microgrids_generators mb, tbl_points p "
-                              " WHERE mb.id = %s AND mb.power_point_id = p.id ",
+        cursor_system.execute(" SELECT p.id, mg.name, p.units, p.object_type  "
+                              " FROM tbl_microgrids_generators mg, tbl_points p "
+                              " WHERE mg.id = %s AND mg.power_point_id = p.id ",
                               (microgrid_id,))
         row_point = cursor_system.fetchone()
         if row_point is not None:
             point_list.append({"id": row_point[0],
-                               "name": row_point[1],
+                               "name": row_point[1]+'.P',
                                "units": row_point[2],
                                "object_type": row_point[3]})
 
-        cursor_system.execute(" SELECT m.id, m.name, m.energy_category_id  "
-                              " FROM tbl_microgrids_generators mb, tbl_meters m "
-                              " WHERE mb.id = %s AND mb.meter_id = m.id ",
+        cursor_system.execute(" SELECT m.id, mg.name, m.energy_category_id  "
+                              " FROM tbl_microgrids_generators mg, tbl_meters m "
+                              " WHERE mg.id = %s AND mg.meter_id = m.id ",
                               (microgrid_id,))
         row_meter = cursor_system.fetchone()
         if row_meter is not None:
@@ -267,20 +267,20 @@ class Reporting:
         ################################################################################################################
         # Step 7: query associated grids
         ################################################################################################################
-        cursor_system.execute(" SELECT p.id, p.name, p.units, p.object_type  "
-                              " FROM tbl_microgrids_grids mb, tbl_points p "
-                              " WHERE mb.id = %s AND mb.power_point_id = p.id ",
+        cursor_system.execute(" SELECT p.id, mg.name, p.units, p.object_type  "
+                              " FROM tbl_microgrids_grids mg, tbl_points p "
+                              " WHERE mg.id = %s AND mg.power_point_id = p.id ",
                               (microgrid_id,))
         row_point = cursor_system.fetchone()
         if row_point is not None:
             point_list.append({"id": row_point[0],
-                               "name": row_point[1],
+                               "name": row_point[1]+'.P',
                                "units": row_point[2],
                                "object_type": row_point[3]})
 
-        cursor_system.execute(" SELECT m.id, m.name, m.energy_category_id  "
-                              " FROM tbl_microgrids_grids mb, tbl_meters m "
-                              " WHERE mb.id = %s AND mb.buy_meter_id = m.id ",
+        cursor_system.execute(" SELECT m.id, mg.name, m.energy_category_id  "
+                              " FROM tbl_microgrids_grids mg, tbl_meters m "
+                              " WHERE mg.id = %s AND mg.buy_meter_id = m.id ",
                               (microgrid_id,))
         row_meter = cursor_system.fetchone()
         if row_meter is not None:
@@ -289,9 +289,9 @@ class Reporting:
                                "energy_category_id": row_meter[2]})
             energy_category_set.add(row_meter[2])
 
-        cursor_system.execute(" SELECT m.id, m.name, m.energy_category_id  "
-                              " FROM tbl_microgrids_grids mb, tbl_meters m "
-                              " WHERE mb.id = %s AND mb.sell_meter_id = m.id ",
+        cursor_system.execute(" SELECT m.id, mg.name, m.energy_category_id  "
+                              " FROM tbl_microgrids_grids mg, tbl_meters m "
+                              " WHERE mg.id = %s AND mg.sell_meter_id = m.id ",
                               (microgrid_id,))
         row_meter = cursor_system.fetchone()
         if row_meter is not None:
@@ -303,47 +303,47 @@ class Reporting:
         ################################################################################################################
         # Step 8: query associated heatpumps
         ################################################################################################################
-        cursor_system.execute(" SELECT p.id, p.name, p.units, p.object_type  "
-                              " FROM tbl_microgrids_heatpumps mb, tbl_points p "
-                              " WHERE mb.id = %s AND mb.power_point_id = p.id ",
+        cursor_system.execute(" SELECT p.id, mh.name, p.units, p.object_type  "
+                              " FROM tbl_microgrids_heatpumps mh, tbl_points p "
+                              " WHERE mh.id = %s AND mh.power_point_id = p.id ",
                               (microgrid_id,))
         row_point = cursor_system.fetchone()
         if row_point is not None:
             point_list.append({"id": row_point[0],
-                               "name": row_point[1],
+                               "name": row_point[1]+'.P',
                                "units": row_point[2],
                                "object_type": row_point[3]})
 
-        cursor_system.execute(" SELECT m.id, m.name, m.energy_category_id  "
-                              " FROM tbl_microgrids_heatpumps mb, tbl_meters m "
-                              " WHERE mb.id = %s AND mb.electricity_meter_id = m.id ",
+        cursor_system.execute(" SELECT m.id, mh.name, m.energy_category_id  "
+                              " FROM tbl_microgrids_heatpumps mh, tbl_meters m "
+                              " WHERE mh.id = %s AND mh.electricity_meter_id = m.id ",
                               (microgrid_id,))
         row_meter = cursor_system.fetchone()
         if row_meter is not None:
             meter_list.append({"id": row_meter[0],
-                               "name": row_meter[1],
+                               "name": row_meter[1] + '.Electricity',
                                "energy_category_id": row_meter[2]})
             energy_category_set.add(row_meter[2])
 
-        cursor_system.execute(" SELECT m.id, m.name, m.energy_category_id  "
-                              " FROM tbl_microgrids_heatpumps mb, tbl_meters m "
-                              " WHERE mb.id = %s AND mb.heat_meter_id = m.id ",
+        cursor_system.execute(" SELECT m.id, mh.name, m.energy_category_id  "
+                              " FROM tbl_microgrids_heatpumps mh, tbl_meters m "
+                              " WHERE mh.id = %s AND mh.heat_meter_id = m.id ",
                               (microgrid_id,))
         row_meter = cursor_system.fetchone()
         if row_meter is not None:
             meter_list.append({"id": row_meter[0],
-                               "name": row_meter[1],
+                               "name": row_meter[1] + '.Heat',
                                "energy_category_id": row_meter[2]})
             energy_category_set.add(row_meter[2])
 
-        cursor_system.execute(" SELECT m.id, m.name, m.energy_category_id  "
-                              " FROM tbl_microgrids_heatpumps mb, tbl_meters m "
-                              " WHERE mb.id = %s AND mb.cooling_meter_id = m.id ",
+        cursor_system.execute(" SELECT m.id, mh.name, m.energy_category_id  "
+                              " FROM tbl_microgrids_heatpumps mh, tbl_meters m "
+                              " WHERE mh.id = %s AND mh.cooling_meter_id = m.id ",
                               (microgrid_id,))
         row_meter = cursor_system.fetchone()
         if row_meter is not None:
             meter_list.append({"id": row_meter[0],
-                               "name": row_meter[1],
+                               "name": row_meter[1] + '.Cooling',
                                "energy_category_id": row_meter[2]})
             energy_category_set.add(row_meter[2])
 
@@ -354,20 +354,20 @@ class Reporting:
         ################################################################################################################
         # Step 10: query associated loads
         ################################################################################################################
-        cursor_system.execute(" SELECT p.id, p.name, p.units, p.object_type  "
-                              " FROM tbl_microgrids_loads mb, tbl_points p "
-                              " WHERE mb.id = %s AND mb.power_point_id = p.id ",
+        cursor_system.execute(" SELECT p.id, ml.name, p.units, p.object_type  "
+                              " FROM tbl_microgrids_loads ml, tbl_points p "
+                              " WHERE ml.id = %s AND ml.power_point_id = p.id ",
                               (microgrid_id,))
         row_point = cursor_system.fetchone()
         if row_point is not None:
             point_list.append({"id": row_point[0],
-                               "name": row_point[1],
+                               "name": row_point[1]+'.P',
                                "units": row_point[2],
                                "object_type": row_point[3]})
 
-        cursor_system.execute(" SELECT m.id, m.name, m.energy_category_id  "
-                              " FROM tbl_microgrids_loads mb, tbl_meters m "
-                              " WHERE mb.id = %s AND mb.meter_id = m.id ",
+        cursor_system.execute(" SELECT m.id, ml.name, m.energy_category_id  "
+                              " FROM tbl_microgrids_loads ml, tbl_meters m "
+                              " WHERE ml.id = %s AND ml.meter_id = m.id ",
                               (microgrid_id,))
         row_meter = cursor_system.fetchone()
         if row_meter is not None:
@@ -378,20 +378,20 @@ class Reporting:
         ################################################################################################################
         # Step 11: query associated photovoltaics
         ################################################################################################################
-        cursor_system.execute(" SELECT p.id, p.name, p.units, p.object_type  "
-                              " FROM tbl_microgrids_photovoltaics mb, tbl_points p "
-                              " WHERE mb.id = %s AND mb.power_point_id = p.id ",
+        cursor_system.execute(" SELECT p.id, mp.name, p.units, p.object_type  "
+                              " FROM tbl_microgrids_photovoltaics mp, tbl_points p "
+                              " WHERE mp.id = %s AND mp.power_point_id = p.id ",
                               (microgrid_id,))
         row_point = cursor_system.fetchone()
         if row_point is not None:
             point_list.append({"id": row_point[0],
-                               "name": row_point[1],
+                               "name": row_point[1]+'.P',
                                "units": row_point[2],
                                "object_type": row_point[3]})
 
-        cursor_system.execute(" SELECT m.id, m.name, m.energy_category_id  "
-                              " FROM tbl_microgrids_photovoltaics mb, tbl_meters m "
-                              " WHERE mb.id = %s AND mb.meter_id = m.id ",
+        cursor_system.execute(" SELECT m.id, mp.name, m.energy_category_id  "
+                              " FROM tbl_microgrids_photovoltaics mp, tbl_meters m "
+                              " WHERE mp.id = %s AND mp.meter_id = m.id ",
                               (microgrid_id,))
         row_meter = cursor_system.fetchone()
         if row_meter is not None:
@@ -406,20 +406,20 @@ class Reporting:
         ################################################################################################################
         # Step 13: query associated windturbines
         ################################################################################################################
-        cursor_system.execute(" SELECT p.id, p.name, p.units, p.object_type  "
-                              " FROM tbl_microgrids_windturbines mb, tbl_points p "
-                              " WHERE mb.id = %s AND mb.power_point_id = p.id ",
+        cursor_system.execute(" SELECT p.id, mw.name, p.units, p.object_type  "
+                              " FROM tbl_microgrids_windturbines mw, tbl_points p "
+                              " WHERE mw.id = %s AND mw.power_point_id = p.id ",
                               (microgrid_id,))
         row_point = cursor_system.fetchone()
         if row_point is not None:
             point_list.append({"id": row_point[0],
-                               "name": row_point[1],
+                               "name": row_point[1]+'.P',
                                "units": row_point[2],
                                "object_type": row_point[3]})
 
-        cursor_system.execute(" SELECT m.id, m.name, m.energy_category_id  "
-                              " FROM tbl_microgrids_windturbines mb, tbl_meters m "
-                              " WHERE mb.id = %s AND mb.meter_id = m.id ",
+        cursor_system.execute(" SELECT m.id, mw.name, m.energy_category_id  "
+                              " FROM tbl_microgrids_windturbines mw, tbl_meters m "
+                              " WHERE mw.id = %s AND mw.meter_id = m.id ",
                               (microgrid_id,))
         row_meter = cursor_system.fetchone()
         if row_meter is not None:
