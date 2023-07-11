@@ -19,7 +19,8 @@ import annotationPlugin from 'chartjs-plugin-annotation';
 import {  Chart as ChartJS } from 'chart.js';
 import BarChart from '../common/BarChart';
 import ChartSpacesStackBar from '../common/ChartSpacesStackBar';
-import { ReactBingmaps } from 'react-bingmaps';
+import Amap from '../common/Amap';
+
 ChartJS.register(annotationPlugin);
 
 const ChildSpacesTable = loadable(() => import('../common/ChildSpacesTable'));
@@ -476,19 +477,11 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
       </div>
       <div className='wrapper'>
         <div className='wrapper-child-left'>
-        <ReactBingmaps 
-          bingmapKey = "Ah7kW4aEbxg9nTT8MQwzNi451J7smCD0o6l3CeWd4DsS4PPlQwpzlRfd1_6b-pOt" 
-          center = {[settings.latitude, settings.longitude]}
-          zoom = {9}
-          pushPins = {
-            [
-              {
-                "location":[settings.latitude, settings.longitude], "option":{ color: 'red' }
-              },
-            ]
-          }
-          > 
-        </ReactBingmaps>
+        <Amap 
+         Longitude={settings.longitude}
+         Latitude={settings.latitude}
+         Key={settings.key}>
+        </Amap>
         </div>
         <div className='wrapper-child-right-1'>
         <CardSummary

@@ -17,7 +17,6 @@ export const settings = {
   isNavbarVerticalCollapsed: false,
   navbarStyle: 'transparent',
   language: 'zh_CN', //en, de, zh_CN
-  bingMapsKey: 'Ah7kW4aEbxg9nTT8MQwzNi451J7smCD0o6l3CeWd4DsS4PPlQwpzlRfd1_6b-pOt',
   latitude: 39.5247,
   longitude: 116.2317,
 };
