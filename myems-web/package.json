@@ -48,6 +48,7 @@
     "react": "^16.13.1",
     "react-app-polyfill": "^1.0.6",
     "react-beautiful-dnd": "^13.0.0",
+    "react-bingmaps": "^3.6.1",
     "react-bootstrap-table-next": "^4.0.3",
     "react-bootstrap-table2-paginator": "^2.1.2",
     "react-captcha-code": "^1.0.7",
@@ -94,6 +95,7 @@
     "extends": "react-app"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "browser-sync": "^2.26.12",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
@@ -109,7 +111,6 @@
     "postcss": "^8.0.0",
     "prettier": "1.17.1",
     "sass": "^1.43.4",
-    "webpack-dev-server": "4.11.1",
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+    "webpack-dev-server": "4.11.1"
   }
 }

@@ -13,12 +13,13 @@ import { getCookieValue, createCookie } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import moment from 'moment';
-import { APIBaseURL } from '../../../config';
+import { APIBaseURL, settings } from '../../../config';
 import {v4 as uuid} from 'uuid';
 import annotationPlugin from 'chartjs-plugin-annotation';
 import {  Chart as ChartJS } from 'chart.js';
 import BarChart from '../common/BarChart';
 import ChartSpacesStackBar from '../common/ChartSpacesStackBar';
+import { ReactBingmaps } from 'react-bingmaps';
 ChartJS.register(annotationPlugin);
 
 const ChildSpacesTable = loadable(() => import('../common/ChildSpacesTable'));
@@ -473,7 +474,23 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             options={spaceCostLineChartOptions}>
           </LineChart>
       </div>
-      <div className="card-deck">
+      <div className='wrapper'>
+        <div className='wrapper-child-left'>
+        <ReactBingmaps 
+          bingmapKey = "Ah7kW4aEbxg9nTT8MQwzNi451J7smCD0o6l3CeWd4DsS4PPlQwpzlRfd1_6b-pOt" 
+          center = {[settings.latitude, settings.longitude]}
+          zoom = {9}
+          pushPins = {
+            [
+              {
+                "location":[settings.latitude, settings.longitude], "option":{ color: 'red' }
+              },
+            ]
+          }
+          > 
+        </ReactBingmaps>
+        </div>
+        <div className='wrapper-child-right-1'>
         <CardSummary
           rate={totalInTCE['increment_rate'] || ''}
           title={t("This Year's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': t('Ton of Standard Coal'), 'UNIT': '(TCE)' })}
@@ -483,6 +500,8 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           footunit="(TCE/M²)">
           {totalInTCE['value'] && <CountUp end={totalInTCE['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
         </CardSummary>
+        </div>
+        <div className='wrapper-child-right-2'>
         <CardSummary
           rate={totalInTCO2E['increment_rate'] || ''}
           title={t("This Year's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': t('Ton of Carbon Dioxide Emissions'), 'UNIT': '(TCO2E)' })}
@@ -492,6 +511,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           footunit="(TCO2E/M²)">
           {totalInTCO2E['value'] && <CountUp end={totalInTCO2E['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
         </CardSummary>
+        </div>
       </div>
       <Row noGutters>
         <Col className="mb-3 pr-lg-2 mb-3">
