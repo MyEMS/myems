@@ -53,7 +53,8 @@ class Reporting:
         else:
             space_id = str.strip(space_id)
             if not space_id.isdigit() or int(space_id) <= 0:
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_SPACE_ID')
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.INVALID_SPACE_ID')
             else:
                 space_id = int(space_id)
 
@@ -192,9 +193,10 @@ class Reporting:
                                      " FROM tbl_spaces s, tbl_spaces_meters sm, tbl_meters m, tbl_cost_centers cc, "
                                      "      tbl_energy_categories ec "
                                      " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
-                                                                                                    "       AND sm.space_id = s.id AND sm.meter_id = m.id "
+                                     "       AND sm.space_id = s.id AND sm.meter_id = m.id "
                                      + energy_category_query +
-                                     " AND m.cost_center_id = cc.id AND m.energy_category_id = ec.id  ORDER BY meter_id ", )
+                                     " AND m.cost_center_id = cc.id AND m.energy_category_id = ec.id "
+                                     " ORDER BY meter_id ", )
         else:
             cursor_system_db.execute(" SELECT m.id, m.name AS meter_name, s.name AS space_name, "
                                      "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
@@ -203,7 +205,8 @@ class Reporting:
                                      "      tbl_energy_categories ec "
                                      " WHERE s.id = %s AND sm.space_id = s.id AND sm.meter_id = m.id "
                                      + energy_category_query +
-                                     " AND m.cost_center_id = cc.id AND m.energy_category_id = ec.id  ORDER BY meter_id ", (space_id,))
+                                     " AND m.cost_center_id = cc.id AND m.energy_category_id = ec.id  "
+                                     " ORDER BY meter_id ", (space_id,))
 
         rows_meters = cursor_system_db.fetchall()
         if rows_meters is not None and len(rows_meters) > 0:
