@@ -19,7 +19,8 @@ import annotationPlugin from 'chartjs-plugin-annotation';
 import {  Chart as ChartJS } from 'chart.js';
 import BarChart from '../common/BarChart';
 import ChartSpacesStackBar from '../common/ChartSpacesStackBar';
-import Amap from '../common/Amap';
+import AMap from '../common/AMap';
+import { getItemFromStore } from '../../../helpers/utils';
 
 ChartJS.register(annotationPlugin);
 
@@ -68,6 +69,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
   const [childSpacesInputData, setChildSpacesInputData] = useState([]);
   const [childSpacesCostData, setChildSpacesCostData] = useState([]);
   const [monthLabels, setMonthLabels] = useState([]);
+  const [language, setLanguage] = useState(getItemFromStore('myems_web_ui_language', settings.language));
 
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
@@ -419,6 +421,11 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
     return () => clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    setLanguage(getItemFromStore('myems_web_ui_language'));
+  }, [getItemFromStore('myems_web_ui_language')]);
+
+
   return (
     <Fragment>
       <div className="card-deck">
@@ -477,11 +484,8 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
       </div>
       <div className='wrapper'>
         <div className='wrapper-child-left'>
-        <Amap 
-         Longitude={settings.longitude}
-         Latitude={settings.latitude}
-         Key={settings.key}>
-        </Amap>
+        <AMap>
+        </AMap>
         </div>
         <div className='wrapper-child-right-1'>
         <CardSummary
