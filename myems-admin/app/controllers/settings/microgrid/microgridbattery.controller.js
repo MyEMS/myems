@@ -86,6 +86,7 @@ app.controller('MicrogridBatteryController', function(
   		});
   		modalInstance.result.then(function(microgridbattery) {
         	microgridbattery.microgrid_id = $scope.currentMicrogrid.id;
+			microgridbattery.soc_point_id = microgridbattery.soc_point.id;
 			microgridbattery.power_point_id = microgridbattery.power_point.id;
 			microgridbattery.charge_meter_id = microgridbattery.charge_meter.id;
 			microgridbattery.discharge_meter_id = microgridbattery.discharge_meter.id;
@@ -133,6 +134,7 @@ app.controller('MicrogridBatteryController', function(
 
   		modalInstance.result.then(function(modifiedMicrogridBattery) {
         	modifiedMicrogridBattery.microgrid_id = $scope.currentMicrogrid.id;
+			modifiedMicrogridBattery.soc_point_id = modifiedMicrogridBattery.soc_point.id;
 			modifiedMicrogridBattery.power_point_id = modifiedMicrogridBattery.power_point.id;
 			modifiedMicrogridBattery.charge_meter_id = modifiedMicrogridBattery.charge_meter.id;
 			modifiedMicrogridBattery.discharge_meter_id = modifiedMicrogridBattery.discharge_meter.id;
