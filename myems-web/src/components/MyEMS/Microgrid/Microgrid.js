@@ -40,11 +40,11 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
       setRedirect(true);
     } else {
       //update expires time of cookies
-      createCookie('is_logged_in', true, 1000 * 60 * 10 * 1);
-      createCookie('user_name', user_name, 1000 * 60 * 10 * 1);
-      createCookie('user_display_name', user_display_name, 1000 * 60 * 10 * 1);
-      createCookie('user_uuid', user_uuid, 1000 * 60 * 10 * 1);
-      createCookie('token', token, 1000 * 60 * 10 * 1);
+      createCookie('is_logged_in', true, 1000 * 60 * 10 * 48);
+      createCookie('user_name', user_name, 1000 * 60 * 10 * 48);
+      createCookie('user_display_name', user_display_name, 1000 * 60 * 10 * 48);
+      createCookie('user_uuid', user_uuid, 1000 * 60 * 10 * 48);
+      createCookie('token', token, 1000 * 60 * 10 * 48);
     }
   });
 
@@ -272,11 +272,10 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
         </CardBody>
       </Card>
       <Row noGutters>
-        <Col lg="6" className="pr-lg-2" key={uuid()}>
+        <Col lg="8" className="pr-lg-2" key={uuid()}>
           <div dangerouslySetInnerHTML={images[selectedMicrogridID]} />
         </Col>
-
-        <Col lg="6" className="pr-lg-2">
+        <Col lg="4" className="pr-lg-2">
           <MultipleLineChart reportingTitle={t('Related Parameters')}
             baseTitle=''
             labels={parameterLineChartLabels}
@@ -284,17 +283,7 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
             options={parameterLineChartOptions}>
           </MultipleLineChart>
         </Col>
-
       </Row>
-      <div className="card-deck">
-        {cardSummaryList.map(cardSummaryItem => (
-            <CardSummary key={cardSummaryItem['name']}
-              title={cardSummaryItem['name'] + '(' + cardSummaryItem['unit'] + ')' }
-              color="success" >
-              {cardSummaryItem['subtotal'] && <CountUp end={cardSummaryItem['subtotal']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
-            </CardSummary>
-        ))}
-      </div>
       <MultiTrendChart reportingTitle = {{"name": "Reporting Period Consumption CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": {"a0":""}, "VALUE": {"a0": (0).toFixed(2)}, "UNIT": {"a0":"()"}}}
         baseTitle = {{"name": "Base Period Consumption CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": {"a0":""}, "VALUE": {"a0": (0).toFixed(2)}, "UNIT": {"a0":"()"}}}
         reportingTooltipTitle = {{"name": "Reporting Period Consumption CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": {"a0":""}, "VALUE": null, "UNIT": {"a0":"()"}}}
@@ -306,6 +295,15 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
         rates={{"a0": []}}
         options={microgridReportingOptions}>
       </MultiTrendChart>
+      <div className="card-deck">
+        {cardSummaryList.map(cardSummaryItem => (
+            <CardSummary key={cardSummaryItem['name']}
+              title={cardSummaryItem['name'] + '(' + cardSummaryItem['unit'] + ')' }
+              color="success" >
+              {cardSummaryItem['subtotal'] && <CountUp end={cardSummaryItem['subtotal']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+            </CardSummary>
+        ))}
+      </div>
     </Fragment>
   );
 };
