@@ -69,6 +69,8 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
   const [images, setImages] = useState([]);
   const [spinnerHidden, setSpinnerHidden] = useState(false);
 
+  const [cardSummaryList, setCardSummaryList] = useState([]);
+
   const [parameterLineChartLabels, setParameterLineChartLabels] = useState([]);
   const [parameterLineChartData, setParameterLineChartData] = useState({});
   const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
@@ -183,6 +185,7 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       if (isResponseOK) {
         console.log(json);
+
         let timestamps = {}
         json['parameters']['timestamps'].forEach((currentValue, index) => {
           timestamps['a' + index] = currentValue;
@@ -201,6 +204,18 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
           names.push({ 'value': 'a' + index, 'label': currentValue });
         });
         setParameterLineChartOptions(names);
+
+        let cardSummaryArray = []
+        json['reporting_period']['names'].forEach((currentValue, index) => {
+          let cardSummaryItem = {};
+          cardSummaryItem['name'] = json['reporting_period']['names'][index];
+          cardSummaryItem['unit'] = json['reporting_period']['units'][index];
+          cardSummaryItem['subtotal'] = json['reporting_period']['subtotals'][index];
+          cardSummaryItem['increment_rate'] = parseFloat(json['reporting_period']['increment_rates'][index] * 100).toFixed(2) + "%";
+
+          cardSummaryArray.push(cardSummaryItem);
+        });
+        setCardSummaryList(cardSummaryArray);
 
         let reporting_timestamps = {}
         json['reporting_period']['timestamps'].forEach((currentValue, index) => {
@@ -229,7 +244,6 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
 
   return (
     <Fragment>
-
       <Card className="bg-light mb-3">
         <CardBody className="p-3">
           <Form >
@@ -257,29 +271,6 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div className="card-deck">
-        <CardSummary rate="-0.23%" title="PV Generation" color="info" footnote="in 24 Hours">
-          {8888 && <CountUp end={8888} duration={2} prefix="" separator="," decimal="." decimals={2} />}
-        </CardSummary>
-        <CardSummary rate="-0.23%" title="Battery Charged" color="info" footnote="in 24 Hours">
-          {8888 && <CountUp end={8888} duration={2} prefix="" separator="," decimal="." decimals={2} />}
-        </CardSummary>
-        <CardSummary rate="-0.23%" title="Battery Discharged" color="info" footnote="in 24 Hours">
-          {8888 && <CountUp end={8888} duration={2} prefix="" separator="," decimal="." decimals={2} />}
-        </CardSummary>
-        <CardSummary rate="-0.23%" title="Bought from Grid" color="info" footnote="in 24 Hours">
-          {8888 && <CountUp end={8888} duration={2} prefix="" separator="," decimal="." decimals={2} />}
-        </CardSummary>
-        <CardSummary rate="-0.23%" title="Sold to Grid" color="info" footnote="in 24 Hours">
-          {8888 && <CountUp end={8888} duration={2} prefix="" separator="," decimal="." decimals={2} />}
-        </CardSummary>
-        <CardSummary rate="-0.23%" title="Load Consumption" color="info" footnote="in 24 Hours">
-          {8888 && <CountUp end={8888} duration={2} prefix="" separator="," decimal="." decimals={2} />}
-        </CardSummary>
-        <CardSummary rate="-0.23%" title="Earnings" color="info" footnote="in 24 Hours">
-          {8888 && <CountUp end={8888} duration={2} prefix="" separator="," decimal="." decimals={2} />}
-        </CardSummary>
-      </div>
       <Row noGutters>
         <Col lg="6" className="pr-lg-2" key={uuid()}>
           <div dangerouslySetInnerHTML={images[selectedMicrogridID]} />
@@ -295,6 +286,15 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
         </Col>
 
       </Row>
+      <div className="card-deck">
+        {cardSummaryList.map(cardSummaryItem => (
+            <CardSummary key={cardSummaryItem['name']}
+              title={cardSummaryItem['name'] + '(' + cardSummaryItem['unit'] + ')' }
+              color="success" >
+              {cardSummaryItem['subtotal'] && <CountUp end={cardSummaryItem['subtotal']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+            </CardSummary>
+        ))}
+      </div>
       <MultiTrendChart reportingTitle = {{"name": "Reporting Period Consumption CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": {"a0":""}, "VALUE": {"a0": (0).toFixed(2)}, "UNIT": {"a0":"()"}}}
         baseTitle = {{"name": "Base Period Consumption CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": {"a0":""}, "VALUE": {"a0": (0).toFixed(2)}, "UNIT": {"a0":"()"}}}
         reportingTooltipTitle = {{"name": "Reporting Period Consumption CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": {"a0":""}, "VALUE": null, "UNIT": {"a0":"()"}}}
