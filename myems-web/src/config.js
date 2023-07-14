@@ -16,6 +16,7 @@ export const settings = {
   currency: '$',
   isNavbarVerticalCollapsed: false,
   navbarStyle: 'transparent',
-  language: 'zh_CN' //en, de, zh_CN
+  language: 'zh_CN', //en, de, zh_CN
+  isOnline: false
 };
 export default { version, navbarBreakPoint, topNavbarBreakpoint, settings, APIBaseURL };

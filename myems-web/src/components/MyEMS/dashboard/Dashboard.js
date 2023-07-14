@@ -482,34 +482,59 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             options={spaceCostLineChartOptions}>
           </LineChart>
       </div>
-      <div className='wrapper'>
-        <div className='wrapper-child-left'>
-        <AMap>
-        </AMap>
+      {
+        settings.isOnline 
+        ? 
+        <div className='wrapper'>
+          <div className='wrapper-child-left'>
+          <AMap>
+          </AMap>
+          </div>
+          <div className='wrapper-child-right-1'>
+          <CardSummary
+            rate={totalInTCE['increment_rate'] || ''}
+            title={t("This Year's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': t('Ton of Standard Coal'), 'UNIT': '(TCE)' })}
+            color="warning"
+            footnote={t('Per Unit Area')}
+            footvalue={totalInTCE['value_per_unit_area']}
+            footunit="(TCE/M²)">
+            {totalInTCE['value'] && <CountUp end={totalInTCE['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+          </CardSummary>
+          </div>
+          <div className='wrapper-child-right-2'>
+          <CardSummary
+            rate={totalInTCO2E['increment_rate'] || ''}
+            title={t("This Year's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': t('Ton of Carbon Dioxide Emissions'), 'UNIT': '(TCO2E)' })}
+            color="warning"
+            footnote={t('Per Unit Area')}
+            footvalue={totalInTCO2E['value_per_unit_area']}
+            footunit="(TCO2E/M²)">
+            {totalInTCO2E['value'] && <CountUp end={totalInTCO2E['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+          </CardSummary>
+          </div>
         </div>
-        <div className='wrapper-child-right-1'>
-        <CardSummary
-          rate={totalInTCE['increment_rate'] || ''}
-          title={t("This Year's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': t('Ton of Standard Coal'), 'UNIT': '(TCE)' })}
-          color="warning"
-          footnote={t('Per Unit Area')}
-          footvalue={totalInTCE['value_per_unit_area']}
-          footunit="(TCE/M²)">
-          {totalInTCE['value'] && <CountUp end={totalInTCE['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
-        </CardSummary>
+        :
+        <div className="card-deck">
+          <CardSummary
+            rate={totalInTCE['increment_rate'] || ''}
+            title={t("This Year's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': t('Ton of Standard Coal'), 'UNIT': '(TCE)' })}
+            color="warning"
+            footnote={t('Per Unit Area')}
+            footvalue={totalInTCE['value_per_unit_area']}
+            footunit="(TCE/M²)">
+            {totalInTCE['value'] && <CountUp end={totalInTCE['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+          </CardSummary>
+          <CardSummary
+            rate={totalInTCO2E['increment_rate'] || ''}
+            title={t("This Year's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': t('Ton of Carbon Dioxide Emissions'), 'UNIT': '(TCO2E)' })}
+            color="warning"
+            footnote={t('Per Unit Area')}
+            footvalue={totalInTCO2E['value_per_unit_area']}
+            footunit="(TCO2E/M²)">
+            {totalInTCO2E['value'] && <CountUp end={totalInTCO2E['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+          </CardSummary>
         </div>
-        <div className='wrapper-child-right-2'>
-        <CardSummary
-          rate={totalInTCO2E['increment_rate'] || ''}
-          title={t("This Year's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': t('Ton of Carbon Dioxide Emissions'), 'UNIT': '(TCO2E)' })}
-          color="warning"
-          footnote={t('Per Unit Area')}
-          footvalue={totalInTCO2E['value_per_unit_area']}
-          footunit="(TCO2E/M²)">
-          {totalInTCO2E['value'] && <CountUp end={totalInTCO2E['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
-        </CardSummary>
-        </div>
-      </div>
+      }
       <Row noGutters>
         <Col className="mb-3 pr-lg-2 mb-3">
           <SharePie data={timeOfUseShareData} title={t('Electricity Consumption by Time-Of-Use')} />
