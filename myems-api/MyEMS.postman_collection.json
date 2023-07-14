@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a778df09-ec41-443e-9755-8377c110af8b",
+		"_postman_id": "39e40c61-9387-4671-9222-8ebf9c6bcca6",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -23,17 +23,20 @@
 									},
 									{
 										"key": "Token",
-										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"value": "1111c0sssef3b1ec213be6ec38ddec88cc55e75bafe7b077dfbf8b93508169f91bcde6bcac9114f2a7d6730ee5a166201ced2d8d1a604ccafda56500be7f7f468",
 										"type": "text"
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/combinedequipments",
+									"raw": "{{base_url}}/combinedequipments/1/commands/3",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"combinedequipments"
+										"combinedequipments",
+										"1",
+										"commands",
+										"3"
 									]
 								}
 							},
@@ -6367,7 +6370,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Battery\", \"microgrid_id\":1, \"power_point_id\":1, \"charge_meter_id\":1, \"discharge_meter_id\":2, \"capacity\": 30}}"
+									"raw": "{\"data\":{\"name\":\"Battery\", \"microgrid_id\":1, \"soc_point_id\":1, \"power_point_id\":1, \"charge_meter_id\":1, \"discharge_meter_id\":2, \"capacity\": 30}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgridbatteries",
@@ -6432,7 +6435,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Battery\", \"microgrid_id\":1, \"power_point_id\":1, \"charge_meter_id\":1, \"discharge_meter_id\":2, \"capacity\": 50}}"
+									"raw": "{\"data\":{\"name\":\"Battery\", \"microgrid_id\":1, \"soc_point_id\":1, \"power_point_id\":1, \"charge_meter_id\":1, \"discharge_meter_id\":2, \"capacity\": 50}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgridbatteries/1",
