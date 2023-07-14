@@ -145,6 +145,7 @@
 									  <tr>
 										<th class="text-center">{{'SETTING.ID' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.MICROGRID_BATTERY_NAME' | translate}}</th>
+										<th class="text-center">{{'MICROGRID.SOC_POINT' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.POWER_POINT' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.CHARGE_METER' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.DISCHARGE_METER' | translate}}</th>
@@ -156,6 +157,7 @@
 									  <tr ng-repeat="microgridbattery in microgridbatteries">
 										<td class="text-center">{{ microgridbattery.id }}</td>
 										<td class="text-center">{{ microgridbattery.name }}</td>
+										<td class="text-center">{{ microgridbattery.soc_point.name }}</td>
 										<td class="text-center">{{ microgridbattery.power_point.name }}</td>
 										<td class="text-center">{{ microgridbattery.charge_meter.name }}</td>
 										<td class="text-center">{{ microgridbattery.discharge_meter.name }}</td>
