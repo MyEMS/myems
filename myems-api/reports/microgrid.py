@@ -181,6 +181,17 @@ class Reporting:
         ################################################################################################################
         cursor_system.execute(" SELECT p.id, mb.name, p.units, p.object_type  "
                               " FROM tbl_microgrids_batteries mb, tbl_points p "
+                              " WHERE mb.id = %s AND mb.soc_point_id = p.id ",
+                              (microgrid_id,))
+        row_point = cursor_system.fetchone()
+        if row_point is not None:
+            point_list.append({"id": row_point[0],
+                               "name": row_point[1] + '.SOC',
+                               "units": row_point[2],
+                               "object_type": row_point[3]})
+
+        cursor_system.execute(" SELECT p.id, mb.name, p.units, p.object_type  "
+                              " FROM tbl_microgrids_batteries mb, tbl_points p "
                               " WHERE mb.id = %s AND mb.power_point_id = p.id ",
                               (microgrid_id,))
         row_point = cursor_system.fetchone()
