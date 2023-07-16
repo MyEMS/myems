@@ -243,7 +243,7 @@ class Reporting:
                                      " where point_id in ("
                                      + ', '.join(map(lambda x: str(x[0]), rows_points_id)) + ") "
                                      " AND utc_date_time BETWEEN %s AND %s "
-                                     " order by utc_date_time ASC LIMIT 0,1")
+                                     " order by utc_date_time DESC LIMIT 0,1")
                 query_end_value = (" SELECT actual_value "
                                    " FROM tbl_energy_value "
                                    " where point_id in ("
@@ -251,8 +251,8 @@ class Reporting:
                                    " AND utc_date_time BETWEEN %s AND %s "
                                    " order by utc_date_time DESC LIMIT 0,1")
                 cursor_historical.execute(query_start_value,
-                                          (reporting_start_datetime_utc,
-                                           (reporting_start_datetime_utc + timedelta(minutes=15)), ))
+                                          (reporting_start_datetime_utc - timedelta(minutes=15),
+                                           reporting_start_datetime_utc, ))
                 row_start_value = cursor_historical.fetchone()
                 if row_start_value is not None:
                     start_value = row_start_value[0]
