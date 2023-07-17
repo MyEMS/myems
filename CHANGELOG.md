@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added soc point to microgrids batteries in database, myems-api and myems-admin
 - added svg to combined equipment in database, myems-api and myems-admin
 - added online map to dashboard in myems-web
+- added enterprise edition mark to menus in myems-admin
 
 ### Changed
 - updated database demo scripts
