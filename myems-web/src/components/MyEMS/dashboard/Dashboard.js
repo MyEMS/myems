@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import CountUp from 'react-countup';
-import { 
-  Col, 
+import {
+  Col,
   Row,
   Spinner, } from 'reactstrap';
 import CardSummary from '../common/CardSummary';
@@ -13,12 +13,15 @@ import { getCookieValue, createCookie } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import moment from 'moment';
-import { APIBaseURL } from '../../../config';
+import { APIBaseURL, settings } from '../../../config';
 import {v4 as uuid} from 'uuid';
 import annotationPlugin from 'chartjs-plugin-annotation';
 import {  Chart as ChartJS } from 'chart.js';
 import BarChart from '../common/BarChart';
 import ChartSpacesStackBar from '../common/ChartSpacesStackBar';
+import AMap from '../common/AMap';
+import { getItemFromStore } from '../../../helpers/utils';
+
 ChartJS.register(annotationPlugin);
 
 const ChildSpacesTable = loadable(() => import('../common/ChildSpacesTable'));
@@ -31,7 +34,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
   const [basePeriodEndsDatetime, setBasePeriodEndsDatetime] = useState(current_moment.clone().subtract(1, 'years'));
   const [reportingPeriodBeginsDatetime, setReportingPeriodBeginsDatetime] = useState(current_moment.clone().startOf('year'));
   const [reportingPeriodEndsDatetime, setReportingPeriodEndsDatetime] = useState(current_moment);
-  
+
   const [spinnerHidden, setSpinnerHidden] = useState(false);
 
   //Results
@@ -39,7 +42,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
   const [timeOfUseShareData, setTimeOfUseShareData] = useState([]);
   const [TCEShareData, setTCEShareData] = useState([]);
   const [TCO2EShareData, setTCO2EShareData] = useState([]);
-  
+
   const [thisYearBarList, setThisYearBarList] = useState([]);
   const [lastYearBarList, setLastYearBarList] = useState([]);
   const [thisMonthInputCardSummaryList, setThisMonthInputCardSummaryList] = useState([]);
@@ -66,6 +69,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
   const [childSpacesInputData, setChildSpacesInputData] = useState([]);
   const [childSpacesCostData, setChildSpacesCostData] = useState([]);
   const [monthLabels, setMonthLabels] = useState([]);
+  const [language, setLanguage] = useState(getItemFromStore('myems_web_ui_language', settings.language));
 
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
@@ -417,6 +421,11 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
     return () => clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    setLanguage(getItemFromStore('myems_web_ui_language'));
+  }, [getItemFromStore('myems_web_ui_language')]);
+
+
   return (
     <Fragment>
       <div className="card-deck">
@@ -473,26 +482,57 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             options={spaceCostLineChartOptions}>
           </LineChart>
       </div>
-      <div className="card-deck">
-        <CardSummary
-          rate={totalInTCE['increment_rate'] || ''}
-          title={t("This Year's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': t('Ton of Standard Coal'), 'UNIT': '(TCE)' })}
-          color="warning"
-          footnote={t('Per Unit Area')}
-          footvalue={totalInTCE['value_per_unit_area']}
-          footunit="(TCE/M²)">
-          {totalInTCE['value'] && <CountUp end={totalInTCE['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
-        </CardSummary>
-        <CardSummary
-          rate={totalInTCO2E['increment_rate'] || ''}
-          title={t("This Year's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': t('Ton of Carbon Dioxide Emissions'), 'UNIT': '(TCO2E)' })}
-          color="warning"
-          footnote={t('Per Unit Area')}
-          footvalue={totalInTCO2E['value_per_unit_area']}
-          footunit="(TCO2E/M²)">
-          {totalInTCO2E['value'] && <CountUp end={totalInTCO2E['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
-        </CardSummary>
-      </div>
+      { settings.showOnlineMap?
+        <div className='wrapper'>
+          <div className='wrapper-child-left'>
+          <AMap>
+          </AMap>
+          </div>
+          <div className='wrapper-child-right-1'>
+          <CardSummary
+            rate={totalInTCE['increment_rate'] || ''}
+            title={t("This Year's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': t('Ton of Standard Coal'), 'UNIT': '(TCE)' })}
+            color="warning"
+            footnote={t('Per Unit Area')}
+            footvalue={totalInTCE['value_per_unit_area']}
+            footunit="(TCE/M²)">
+            {totalInTCE['value'] && <CountUp end={totalInTCE['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+          </CardSummary>
+          </div>
+          <div className='wrapper-child-right-2'>
+          <CardSummary
+            rate={totalInTCO2E['increment_rate'] || ''}
+            title={t("This Year's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': t('Ton of Carbon Dioxide Emissions'), 'UNIT': '(TCO2E)' })}
+            color="warning"
+            footnote={t('Per Unit Area')}
+            footvalue={totalInTCO2E['value_per_unit_area']}
+            footunit="(TCO2E/M²)">
+            {totalInTCO2E['value'] && <CountUp end={totalInTCO2E['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+          </CardSummary>
+          </div>
+        </div>
+        :
+        <div className="card-deck">
+          <CardSummary
+            rate={totalInTCE['increment_rate'] || ''}
+            title={t("This Year's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': t('Ton of Standard Coal'), 'UNIT': '(TCE)' })}
+            color="warning"
+            footnote={t('Per Unit Area')}
+            footvalue={totalInTCE['value_per_unit_area']}
+            footunit="(TCE/M²)">
+            {totalInTCE['value'] && <CountUp end={totalInTCE['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+          </CardSummary>
+          <CardSummary
+            rate={totalInTCO2E['increment_rate'] || ''}
+            title={t("This Year's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': t('Ton of Carbon Dioxide Emissions'), 'UNIT': '(TCO2E)' })}
+            color="warning"
+            footnote={t('Per Unit Area')}
+            footvalue={totalInTCO2E['value_per_unit_area']}
+            footunit="(TCO2E/M²)">
+            {totalInTCO2E['value'] && <CountUp end={totalInTCO2E['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+          </CardSummary>
+        </div>
+      }
       <Row noGutters>
         <Col className="mb-3 pr-lg-2 mb-3">
           <SharePie data={timeOfUseShareData} title={t('Electricity Consumption by Time-Of-Use')} />
