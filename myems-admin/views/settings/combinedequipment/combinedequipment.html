@@ -16,6 +16,7 @@
 										<th class="text-center">{{'SETTING.IS_INPUT_COUNTED' | translate}}</th>
 										<th class="text-center">{{'SETTING.IS_OUTPUT_COUNTED' | translate}}</th>
 										<th class="text-center">{{'COMBINED_EQUIPMENT.COST_CENTER' | translate}}</th>
+										<th class="text-center">{{'COMBINED_EQUIPMENT.SVG' | translate}}</th>
 										<th class="text-center">{{'COMBINED_EQUIPMENT.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
 										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 									</tr>
@@ -31,6 +32,7 @@
 											{{ combinedequipment.is_output_counted==false?'SETTING.NO':'SETTING.YES' | translate }}
 										</td>
 										<td class="text-center">{{ combinedequipment.cost_center.name }}</td>
+										<td class="text-center">{{ combinedequipment.svg }}</td>
 										<td class="text-center">{{ combinedequipment.description }}</td>
 										<td class="text-center">
 											<a ng-click="editCombinedEquipment(combinedequipment)"
