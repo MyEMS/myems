@@ -36,9 +36,9 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_combined_equipments_meters`
-(`id`, `combined_equipment_id`, `meter_id`, `is_output`)
+(`combined_equipment_id`, `meter_id`, `is_output`)
 VALUES
-(1, 1, 1, 0);
+(1, 1, 0);
 
 COMMIT;
 
@@ -49,9 +49,9 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_combined_equipments_offline_meters`
-(`id`, `combined_equipment_id`, `offline_meter_id`, `is_output`)
+(`combined_equipment_id`, `offline_meter_id`, `is_output`)
 VALUES
-(1, 1, 1, 0);
+(1, 1, 0);
 
 COMMIT;
 
@@ -62,26 +62,26 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_combined_equipments_parameters`
-(`id`, `combined_equipment_id`, `name`, `parameter_type`, `constant`, `point_id`, `numerator_meter_uuid`, `denominator_meter_uuid`)
+(`combined_equipment_id`, `name`, `parameter_type`, `constant`, `point_id`, `numerator_meter_uuid`, `denominator_meter_uuid`)
 VALUES
-(1, 1, 'serial number', 'constant', 'bfa8b106', NULL, NULL, NULL),
-(2, 1, 'manufacturer', 'constant', 'York', NULL, NULL, NULL),
-(3, 1, 'maintainer', 'constant', 'Johnson Controls', NULL, NULL, NULL),
-(4, 1, 'use life start', 'constant', '2016-01-01', NULL, NULL, NULL),
-(5, 1, 'use life end', 'constant', '2025-12-31', NULL, NULL, NULL),
-(6, 1, 'model number', 'constant', 'CH01', NULL, NULL, NULL),
-(7, 1, 'nominal cooling capacity', 'constant', '90.000 kW', NULL, NULL, NULL),
-(8, 1, 'nominal cooling input power', 'constant', '100.000 kW', NULL, NULL, NULL),
-(9, 1, 'nominal cooling cop', 'constant', '5', NULL, NULL, NULL),
-(10, 1, 'nominal cooling operating current', 'constant', '120.000 A', NULL, NULL, NULL),
-(11, 1, 'rated input power', 'constant', '100.000 kW', NULL, NULL, NULL),
-(12, 1, 'nominal chilled water flow rate', 'constant', '30 m2/h', NULL, NULL, NULL),
-(13, 1, 'nominal cooling water flow_rate', 'constant', '50 m2/h', NULL, NULL, NULL),
-(14, 1, 'status', 'point', NULL, 1, NULL, NULL),
-(15, 1, 'inlet chilled water temperature', 'point', NULL, 2, NULL, NULL),
-(16, 1, 'chilled_water instantaneous flow rate', 'point', NULL, 3, NULL, NULL),
-(17, 1, 'instantaneous power', 'point', NULL, 4, NULL, NULL),
-(18, 1, 'COP', 'fraction', NULL, NULL, '5ca47bc5-22c2-47fc-b906-33222191ea40', '719acf65-b932-4176-94e5-e9fe420abc68');
+(1, 'serial number', 'constant', 'bfa8b106', NULL, NULL, NULL),
+(1, 'manufacturer', 'constant', 'York', NULL, NULL, NULL),
+(1, 'maintainer', 'constant', 'Johnson Controls', NULL, NULL, NULL),
+(1, 'use life start', 'constant', '2016-01-01', NULL, NULL, NULL),
+(1, 'use life end', 'constant', '2025-12-31', NULL, NULL, NULL),
+(1, 'model number', 'constant', 'CH01', NULL, NULL, NULL),
+(1, 'nominal cooling capacity', 'constant', '90.000 kW', NULL, NULL, NULL),
+(1, 'nominal cooling input power', 'constant', '100.000 kW', NULL, NULL, NULL),
+(1, 'nominal cooling cop', 'constant', '5', NULL, NULL, NULL),
+(1, 'nominal cooling operating current', 'constant', '120.000 A', NULL, NULL, NULL),
+(1, 'rated input power', 'constant', '100.000 kW', NULL, NULL, NULL),
+(1, 'nominal chilled water flow rate', 'constant', '30 m2/h', NULL, NULL, NULL),
+(1, 'nominal cooling water flow_rate', 'constant', '50 m2/h', NULL, NULL, NULL),
+(1, 'status', 'point', NULL, 1, NULL, NULL),
+(1, 'inlet chilled water temperature', 'point', NULL, 2, NULL, NULL),
+(1, 'chilled_water instantaneous flow rate', 'point', NULL, 3, NULL, NULL),
+(1, 'instantaneous power', 'point', NULL, 4, NULL, NULL),
+(1, 'COP', 'fraction', NULL, NULL, '5ca47bc5-22c2-47fc-b906-33222191ea40', '719acf65-b932-4176-94e5-e9fe420abc68');
 
 COMMIT;
 
@@ -92,9 +92,9 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_combined_equipments_virtual_meters`
-(`id`, `combined_equipment_id`, `virtual_meter_id`, `is_output`)
+(`combined_equipment_id`, `virtual_meter_id`, `is_output`)
 VALUES
-(1, 1, 1, 0);
+(1, 1, 0);
 
 COMMIT;
 
@@ -127,11 +127,11 @@ COMMIT;
 START TRANSACTION;
 USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_cost_centers_tariffs`
-(`id`, `cost_center_id`, `tariff_id`)
+(`cost_center_id`, `tariff_id`)
 VALUES
-(1, 1, 1),
-(2, 1, 2),
-(3, 1, 3);
+(1, 1),
+(1, 2),
+(1, 3);
 
 COMMIT;
 
@@ -180,8 +180,9 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_distribution_circuits_points`
-(`id`, `distribution_circuit_id`, `point_id`)
-VALUES (1, 1, 1);
+(`distribution_circuit_id`, `point_id`)
+VALUES
+(1, 1);
 COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -315,9 +316,9 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_equipments_meters`
-(`id`, `equipment_id`, `meter_id`, `is_output`)
+(`equipment_id`, `meter_id`, `is_output`)
 VALUES
-(1, 1, 1, 0);
+(1, 1, 0);
 
 COMMIT;
 
@@ -328,9 +329,9 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_equipments_offline_meters`
-(`id`, `equipment_id`, `offline_meter_id`, `is_output`)
+(`equipment_id`, `offline_meter_id`, `is_output`)
 VALUES
-(1, 1, 1, 0);
+(1, 1, 0);
 
 COMMIT;
 
@@ -341,26 +342,26 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_equipments_parameters`
-(`id`, `equipment_id`, `name`, `parameter_type`, `constant`, `point_id`, `numerator_meter_uuid`, `denominator_meter_uuid`)
+(`equipment_id`, `name`, `parameter_type`, `constant`, `point_id`, `numerator_meter_uuid`, `denominator_meter_uuid`)
 VALUES
-(1, 1, 'serial number', 'constant', 'bfa8b106', NULL, NULL, NULL),
-(2, 1, 'manufacturer', 'constant', 'York', NULL, NULL, NULL),
-(3, 1, 'maintainer', 'constant', 'Johnson Controls', NULL, NULL, NULL),
-(4, 1, 'use life start', 'constant', '2016-01-01', NULL, NULL, NULL),
-(5, 1, 'use life end', 'constant', '2025-12-31', NULL, NULL, NULL),
-(6, 1, 'model number', 'constant', 'CH01', NULL, NULL, NULL),
-(7, 1, 'nominal cooling capacity', 'constant', '90.000 kW', NULL, NULL, NULL),
-(8, 1, 'nominal cooling input power', 'constant', '100.000 kW', NULL, NULL, NULL),
-(9, 1, 'nominal cooling cop', 'constant', '5', NULL, NULL, NULL),
-(10, 1, 'nominal cooling operating current', 'constant', '120.000 A', NULL, NULL, NULL),
-(11, 1, 'rated input power', 'constant', '100.000 kW', NULL, NULL, NULL),
-(12, 1, 'nominal chilled water flow rate', 'constant', '30 m2/h', NULL, NULL, NULL),
-(13, 1, 'nominal cooling water flow_rate', 'constant', '50 m2/h', NULL, NULL, NULL),
-(14, 1, 'status', 'point', NULL, 1, NULL, NULL),
-(15, 1, 'inlet chilled water temperature', 'point', NULL, 2, NULL, NULL),
-(16, 1, 'chilled_water instantaneous flow rate', 'point', NULL, 3, NULL, NULL),
-(17, 1, 'instantaneous power', 'point', NULL, 4, NULL, NULL),
-(18, 1, 'COP', 'fraction', NULL, NULL, '5ca47bc5-22c2-47fc-b906-33222191ea40', '719acf65-b932-4176-94e5-e9fe420abc68');
+(1, 'serial number', 'constant', 'bfa8b106', NULL, NULL, NULL),
+(1, 'manufacturer', 'constant', 'York', NULL, NULL, NULL),
+(1, 'maintainer', 'constant', 'Johnson Controls', NULL, NULL, NULL),
+(1, 'use life start', 'constant', '2016-01-01', NULL, NULL, NULL),
+(1, 'use life end', 'constant', '2025-12-31', NULL, NULL, NULL),
+(1, 'model number', 'constant', 'CH01', NULL, NULL, NULL),
+(1, 'nominal cooling capacity', 'constant', '90.000 kW', NULL, NULL, NULL),
+(1, 'nominal cooling input power', 'constant', '100.000 kW', NULL, NULL, NULL),
+(1, 'nominal cooling cop', 'constant', '5', NULL, NULL, NULL),
+(1, 'nominal cooling operating current', 'constant', '120.000 A', NULL, NULL, NULL),
+(1, 'rated input power', 'constant', '100.000 kW', NULL, NULL, NULL),
+(1, 'nominal chilled water flow rate', 'constant', '30 m2/h', NULL, NULL, NULL),
+(1, 'nominal cooling water flow_rate', 'constant', '50 m2/h', NULL, NULL, NULL),
+(1, 'status', 'point', NULL, 1, NULL, NULL),
+(1, 'inlet chilled water temperature', 'point', NULL, 2, NULL, NULL),
+(1, 'chilled_water instantaneous flow rate', 'point', NULL, 3, NULL, NULL),
+(1, 'instantaneous power', 'point', NULL, 4, NULL, NULL),
+(1, 'COP', 'fraction', NULL, NULL, '5ca47bc5-22c2-47fc-b906-33222191ea40', '719acf65-b932-4176-94e5-e9fe420abc68');
 
 COMMIT;
 
@@ -371,9 +372,9 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_equipments_virtual_meters`
-(`id`, `equipment_id`, `virtual_meter_id`, `is_output`)
+(`equipment_id`, `virtual_meter_id`, `is_output`)
 VALUES
-(1, 1, 1, 0);
+(1, 1, 0);
 
 COMMIT;
 
@@ -416,8 +417,9 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_meters_points`
-(`id`, `meter_id`, `point_id`)
-VALUES (1, 1, 1);
+(`meter_id`, `point_id`)
+VALUES
+(1, 1);
 
 COMMIT;
 
@@ -463,7 +465,7 @@ VALUES
 (5, 'Power Factor a', 1, 'ANALOG_VALUE',  'W', 1, 0, 1.000, 1, 0,
   '{\"slave_id\":1, \"function_code\":3, \"offset\":37, \"number_of_registers\":2, \"format\":\"=f\", \"byte_swap\":false}', null),
 
-(6, 'Beispiel ModbusTCP数据点6', 2, 'ENERGY_VALUE',  'Wh', 99999999999, 0, 1.000, 1, 0,
+(6, 'Beispiel ModbusTCP Punkt 6', 2, 'ENERGY_VALUE',  'Wh', 99999999999, 0, 1.000, 1, 0,
   '{\"slave_id\":1, \"function_code\":3, \"offset\":40001, \"number_of_registers\":2, \"format\":\"=f\", \"byte_swap\":false}', null),
 
 (7, 'Beispiel Punkt 7', 2, 'ANALOG_VALUE',  'V', 690, 0, 1.000, 1, 0,
@@ -525,9 +527,9 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_shopfloors_equipments`
-(`id`, `shopfloor_id`, `equipment_id`)
+(`shopfloor_id`, `equipment_id`)
 VALUES
-(1, 1, 1);
+(1, 1);
 
 COMMIT;
 
@@ -538,9 +540,9 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_shopfloors_meters`
-(`id`, `shopfloor_id`, `meter_id`)
+(`shopfloor_id`, `meter_id`)
 VALUES
-(1, 1, 1);
+(1, 1);
 
 COMMIT;
 
@@ -551,9 +553,9 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_shopfloors_offline_meters`
-(`id`, `shopfloor_id`, `offline_meter_id`)
+(`shopfloor_id`, `offline_meter_id`)
 VALUES
-(1, 1, 1);
+(1, 1);
 
 COMMIT;
 
@@ -564,9 +566,9 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_shopfloors_sensors`
-(`id`, `shopfloor_id`, `sensor_id`)
+(`shopfloor_id`, `sensor_id`)
 VALUES
-(1, 1, 1);
+(1, 1);
 
 COMMIT;
 
@@ -577,9 +579,9 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_shopfloors_virtual_meters`
-(`id`, `shopfloor_id`, `virtual_meter_id`)
+(`shopfloor_id`, `virtual_meter_id`)
 VALUES
-(1, 1, 1);
+(1, 1);
 
 COMMIT;
 
@@ -590,12 +592,12 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_shopfloors_points`
-(`id`, `shopfloor_id`, `point_id`)
+(`shopfloor_id`, `point_id`)
 VALUES
-(1, 3, 2000001),
-(2, 3, 2000002),
-(3, 3, 2000003),
-(4, 3, 2000006);
+(3, 2000001),
+(3, 2000002),
+(3, 2000003),
+(3, 2000006);
 
 COMMIT;
 
@@ -608,8 +610,8 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_spaces`
 (`id`, `name`, `uuid`, `parent_space_id`, `area`, `timezone_id`, `contact_id`, `is_input_counted`, `is_output_counted`, `cost_center_id`, `description`)
 VALUES
-(2, 'Building #1', '8f25b33b-db93-49b3-b0f8-b01e0c19df29', 1, 88888.888, 56, 1, 1, 1, 1,  'MyEMS Project'),
-(3, 'Building #2', '195d7ea8-17b4-4e9c-bb37-546428155438', 1, 66666.666, 56, 1, 1, 1, 1, 'MyEMS Project'),
+(2, 'MyEMS Building #1', '8f25b33b-db93-49b3-b0f8-b01e0c19df29', 1, 88888.888, 56, 1, 1, 1, 1,  'MyEMS Project'),
+(3, 'MyEMS Building #2', '195d7ea8-17b4-4e9c-bb37-546428155438', 1, 66666.666, 56, 1, 1, 1, 1, 'MyEMS Project'),
 (10000, 'Debugging Space', '2c44a292-eb0c-49a3-a50e-4fc03858dc0c', 1, 88888.888, 56, 1, 1, 1, 1,  'MyEMS Project');
 COMMIT;
 
@@ -620,10 +622,10 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_spaces_combined_equipments`
-(`id`, `space_id`, `combined_equipment_id`)
+(`space_id`, `combined_equipment_id`)
 VALUES
-(1, 10000, 1),
-(2, 10000, 2);
+(10000, 1),
+(10000, 2);
 
 COMMIT;
 
@@ -634,10 +636,10 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_spaces_equipments`
-(`id`, `space_id`, `equipment_id`)
+(`space_id`, `equipment_id`)
 VALUES
-(1, 10000, 1),
-(2, 10000, 2);
+(10000, 1),
+(10000, 2);
 
 COMMIT;
 
@@ -648,9 +650,9 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_spaces_meters`
-(`id`, `space_id`, `meter_id`)
+(`space_id`, `meter_id`)
 VALUES
-(1, 10000, 1);
+(1, 1);
 
 COMMIT;
 
@@ -661,9 +663,9 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_spaces_offline_meters`
-(`id`, `space_id`, `offline_meter_id`)
+(`space_id`, `offline_meter_id`)
 VALUES
-(1, 10000, 1);
+(1, 1);
 
 COMMIT;
 
@@ -674,9 +676,9 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_spaces_sensors`
-(`id`, `space_id`, `sensor_id`)
+(`space_id`, `sensor_id`)
 VALUES
-(1, 10000, 1);
+(1, 1);
 
 COMMIT;
 
@@ -687,9 +689,9 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_spaces_shopfloors`
-(`id`, `space_id`, `shopfloor_id`)
+(`space_id`, `shopfloor_id`)
 VALUES
-(1, 10000, 1);
+(1, 1);
 
 COMMIT;
 
@@ -700,9 +702,9 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_spaces_stores`
-(`id`, `space_id`, `store_id`)
+(`space_id`, `store_id`)
 VALUES
-(1, 10000, 1);
+(1, 1);
 
 COMMIT;
 
@@ -713,9 +715,9 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_spaces_tenants`
-(`id`, `space_id`, `tenant_id`)
+(`space_id`, `tenant_id`)
 VALUES
-(1, 10000, 1);
+(1, 1);
 
 COMMIT;
 
@@ -726,9 +728,9 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_spaces_virtual_meters`
-(`id`, `space_id`, `virtual_meter_id`)
+(`space_id`, `virtual_meter_id`)
 VALUES
-(1, 10000, 1);
+(1, 1);
 
 COMMIT;
 
@@ -739,12 +741,12 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_spaces_points`
-(`id`, `space_id`, `point_id`)
+(`space_id`, `point_id`)
 VALUES
-(1, 3, 2000001),
-(2, 3, 2000002),
-(3, 3, 2000003),
-(4, 3, 2000006);
+(3, 2000001),
+(3, 2000002),
+(3, 2000003),
+(3, 2000006);
 
 COMMIT;
 
@@ -783,116 +785,116 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_tariffs_timeofuses`
 (`id`, `tariff_id`, `start_time_of_day`, `end_time_of_day`, `peak_type`, `price`)
 VALUES
--- '2020 TimeOfUseElectricity1-6'
-(1,  1, '00:00:00', '05:59:59', 'offpeak', 0.345),
-(2,  1, '06:00:00', '07:59:59', 'midpeak', 0.708),
-(3,  1, '08:00:00', '10:59:59', 'onpeak', 1.159),
-(4,  1, '11:00:00', '17:59:59', 'midpeak', 0.708),
-(5,  1, '18:00:00', '20:59:59', 'onpeak', 1.159),
-(6,  1, '21:00:00', '21:59:59', 'midpeak', 0.708),
-(7,  1, '22:00:00', '23:59:59', 'offpeak', 0.345),
--- '2020 TimeOfUseElectricity7-9'
-(8,  2, '00:00:00', '05:59:59', 'offpeak', 0.345),
-(9,  2, '06:00:00', '07:59:59', 'midpeak', 0.708),
-(10, 2, '08:00:00', '10:59:59', 'offpeak', 1.159),
-(11, 2, '11:00:00', '12:59:59', 'midpeak', 0.708),
-(12, 2, '13:00:00', '14:59:59', 'onpeak', 1.159),
-(13, 2, '15:00:00', '17:59:59', 'midpeak', 0.708),
-(14, 2, '18:00:00', '20:59:59', 'onpeak', 1.159),
-(15, 2, '21:00:00', '21:59:59', 'midpeak', 0.708),
-(16, 2, '22:00:00', '23:59:59', 'offpeak', 0.345),
--- '2020 TimeOfUseElectricity10-12'
-(17, 3, '00:00:00', '05:59:59', 'offpeak', 0.345),
-(18, 3, '06:00:00', '07:59:59', 'midpeak', 0.708),
-(19, 3, '08:00:00', '10:59:59', 'onpeak', 1.159),
-(20, 3, '11:00:00', '17:59:59', 'midpeak', 0.708),
-(21, 3, '18:00:00', '20:59:59', 'onpeak', 1.159),
-(22, 3, '21:00:00', '21:59:59', 'midpeak', 0.708),
-(23, 3, '22:00:00', '23:59:59', 'offpeak', 0.345),
--- '2021 TimeOfUseElectricity1-6'
-(24, 4, '00:00:00', '05:59:59', 'offpeak', 0.345),
-(25, 4, '06:00:00', '07:59:59', 'midpeak', 0.708),
-(26, 4, '08:00:00', '10:59:59', 'onpeak', 1.159),
-(27, 4, '11:00:00', '17:59:59', 'midpeak', 0.708),
-(28, 4, '18:00:00', '20:59:59', 'onpeak', 1.159),
-(29, 4, '21:00:00', '21:59:59', 'midpeak', 0.708),
-(30, 4, '22:00:00', '23:59:59', 'offpeak', 0.345),
--- '2021 TimeOfUseElectricity7-9'
-(31, 5, '00:00:00', '05:59:59', 'offpeak', 0.345),
-(32, 5, '06:00:00', '07:59:59', 'midpeak', 0.708),
-(33, 5, '08:00:00', '10:59:59', 'offpeak', 1.159),
-(34, 5, '11:00:00', '12:59:59', 'midpeak', 0.708),
-(35, 5, '13:00:00', '14:59:59', 'onpeak', 1.159),
-(36, 5, '15:00:00', '17:59:59', 'midpeak', 0.708),
-(37, 5, '18:00:00', '20:59:59', 'onpeak', 1.159),
-(38, 5, '21:00:00', '21:59:59', 'midpeak', 0.708),
-(39, 5, '22:00:00', '23:59:59', 'offpeak', 0.345),
--- '2021 TimeOfUseElectricity10-12'
-(40, 6, '00:00:00', '05:59:59', 'offpeak', 0.345),
-(41, 6, '06:00:00', '07:59:59', 'midpeak', 0.708),
-(42, 6, '08:00:00', '10:59:59', 'onpeak', 1.159),
-(43, 6, '11:00:00', '17:59:59', 'midpeak', 0.708),
-(44, 6, '18:00:00', '20:59:59', 'onpeak', 1.159),
-(45, 6, '21:00:00', '21:59:59', 'midpeak', 0.708),
-(46, 6, '22:00:00', '23:59:59', 'offpeak', 0.345),
--- '2022 TimeOfUseElectricity1-6'
-(47, 7, '00:00:00', '05:59:59', 'offpeak', 0.345),
-(48, 7, '06:00:00', '07:59:59', 'midpeak', 0.708),
-(49, 7, '08:00:00', '10:59:59', 'onpeak', 1.159),
-(50, 7, '11:00:00', '17:59:59', 'midpeak', 0.708),
-(51, 7, '18:00:00', '20:59:59', 'onpeak', 1.159),
-(52, 7, '21:00:00', '21:59:59', 'midpeak', 0.708),
-(53, 7, '22:00:00', '23:59:59', 'offpeak', 0.345),
--- '2022 TimeOfUseElectricity7-9'
-(54, 8, '00:00:00', '05:59:59', 'offpeak', 0.345),
-(55, 8, '06:00:00', '07:59:59', 'midpeak', 0.708),
-(56, 8, '08:00:00', '10:59:59', 'offpeak', 1.159),
-(57, 8, '11:00:00', '12:59:59', 'midpeak', 0.708),
-(58, 8, '13:00:00', '14:59:59', 'onpeak', 1.159),
-(59, 8, '15:00:00', '17:59:59', 'midpeak', 0.708),
-(60, 8, '18:00:00', '20:59:59', 'onpeak', 1.159),
-(61, 8, '21:00:00', '21:59:59', 'midpeak', 0.708),
-(62, 8, '22:00:00', '23:59:59', 'offpeak', 0.345),
--- '2022 TimeOfUseElectricity10-12'
-(63, 9, '00:00:00', '05:59:59', 'offpeak', 0.345),
-(64, 9, '06:00:00', '07:59:59', 'midpeak', 0.708),
-(65, 9, '08:00:00', '10:59:59', 'onpeak', 1.159),
-(66, 9, '11:00:00', '17:59:59', 'midpeak', 0.708),
-(67, 9, '18:00:00', '20:59:59', 'onpeak', 1.159),
-(68, 9, '21:00:00', '21:59:59', 'midpeak', 0.708),
-(69, 9, '22:00:00', '23:59:59', 'offpeak', 0.345),
--- '2023 TimeOfUseElectricity1-6'
-(70, 10, '00:00:00', '05:59:59', 'offpeak', 0.345),
-(71, 10, '06:00:00', '07:59:59', 'midpeak', 0.708),
-(72, 10, '08:00:00', '10:59:59', 'onpeak', 1.159),
-(73, 10, '11:00:00', '17:59:59', 'midpeak', 0.708),
-(74, 10, '18:00:00', '20:59:59', 'onpeak', 1.159),
-(75, 10, '21:00:00', '21:59:59', 'midpeak', 0.708),
-(76, 10, '22:00:00', '23:59:59', 'offpeak', 0.345),
--- '2023 TimeOfUseElectricity7-9'
-(77, 11, '00:00:00', '05:59:59', 'offpeak', 0.345),
-(78, 11, '06:00:00', '07:59:59', 'midpeak', 0.708),
-(79, 11, '08:00:00', '10:59:59', 'offpeak', 1.159),
-(80, 11, '11:00:00', '12:59:59', 'midpeak', 0.708),
-(81, 11, '13:00:00', '14:59:59', 'onpeak', 1.159),
-(82, 11, '15:00:00', '17:59:59', 'midpeak', 0.708),
-(83, 11, '18:00:00', '20:59:59', 'onpeak', 1.159),
-(84, 11, '21:00:00', '21:59:59', 'midpeak', 0.708),
-(85, 11, '22:00:00', '23:59:59', 'offpeak', 0.345),
--- '2023 TimeOfUseElectricity10-12'
-(86, 12, '00:00:00', '05:59:59', 'offpeak', 0.345),
-(87, 12, '06:00:00', '07:59:59', 'midpeak', 0.708),
-(88, 12, '08:00:00', '10:59:59', 'onpeak', 1.159),
-(89, 12, '11:00:00', '17:59:59', 'midpeak', 0.708),
-(90, 12, '18:00:00', '20:59:59', 'onpeak', 1.159),
-(91, 12, '21:00:00', '21:59:59', 'midpeak', 0.708),
-(92, 12, '22:00:00', '23:59:59', 'offpeak', 0.345),
--- 'Leitungswasser'
+-- '2020TimeOfUse1-6'
+(1, '00:00:00', '05:59:59', 'offpeak', 0.345),
+(1, '06:00:00', '07:59:59', 'midpeak', 0.708),
+(1, '08:00:00', '10:59:59', 'onpeak', 1.159),
+(1, '11:00:00', '17:59:59', 'midpeak', 0.708),
+(1, '18:00:00', '20:59:59', 'onpeak', 1.159),
+(1, '21:00:00', '21:59:59', 'midpeak', 0.708),
+(1, '22:00:00', '23:59:59', 'offpeak', 0.345),
+-- '2020TimeOfUse7-9'
+(2, '00:00:00', '05:59:59', 'offpeak', 0.345),
+(2, '06:00:00', '07:59:59', 'midpeak', 0.708),
+(2, '08:00:00', '10:59:59', 'offpeak', 1.159),
+(2, '11:00:00', '12:59:59', 'midpeak', 0.708),
+(2, '13:00:00', '14:59:59', 'onpeak', 1.159),
+(2, '15:00:00', '17:59:59', 'midpeak', 0.708),
+(2, '18:00:00', '20:59:59', 'onpeak', 1.159),
+(2, '21:00:00', '21:59:59', 'midpeak', 0.708),
+(2, '22:00:00', '23:59:59', 'offpeak', 0.345),
+-- '2020TimeOfUse10-12'
+(3, '00:00:00', '05:59:59', 'offpeak', 0.345),
+(3, '06:00:00', '07:59:59', 'midpeak', 0.708),
+(3, '08:00:00', '10:59:59', 'onpeak', 1.159),
+(3, '11:00:00', '17:59:59', 'midpeak', 0.708),
+(3, '18:00:00', '20:59:59', 'onpeak', 1.159),
+(3, '21:00:00', '21:59:59', 'midpeak', 0.708),
+(3, '22:00:00', '23:59:59', 'offpeak', 0.345),
+-- '2021TimeOfUse1-6'
+(4, '00:00:00', '05:59:59', 'offpeak', 0.345),
+(4, '06:00:00', '07:59:59', 'midpeak', 0.708),
+(4, '08:00:00', '10:59:59', 'onpeak', 1.159),
+(4, '11:00:00', '17:59:59', 'midpeak', 0.708),
+(4, '18:00:00', '20:59:59', 'onpeak', 1.159),
+(4, '21:00:00', '21:59:59', 'midpeak', 0.708),
+(4, '22:00:00', '23:59:59', 'offpeak', 0.345),
+-- '2021TimeOfUse7-9'
+(5, '00:00:00', '05:59:59', 'offpeak', 0.345),
+(5, '06:00:00', '07:59:59', 'midpeak', 0.708),
+(5, '08:00:00', '10:59:59', 'offpeak', 1.159),
+(5, '11:00:00', '12:59:59', 'midpeak', 0.708),
+(5, '13:00:00', '14:59:59', 'onpeak', 1.159),
+(5, '15:00:00', '17:59:59', 'midpeak', 0.708),
+(5, '18:00:00', '20:59:59', 'onpeak', 1.159),
+(5, '21:00:00', '21:59:59', 'midpeak', 0.708),
+(5, '22:00:00', '23:59:59', 'offpeak', 0.345),
+-- '2021TimeOfUse10-12'
+(6, '00:00:00', '05:59:59', 'offpeak', 0.345),
+(6, '06:00:00', '07:59:59', 'midpeak', 0.708),
+(6, '08:00:00', '10:59:59', 'onpeak', 1.159),
+(6, '11:00:00', '17:59:59', 'midpeak', 0.708),
+(6, '18:00:00', '20:59:59', 'onpeak', 1.159),
+(6, '21:00:00', '21:59:59', 'midpeak', 0.708),
+(6, '22:00:00', '23:59:59', 'offpeak', 0.345),
+-- '2022TimeOfUse1-6'
+(7, '00:00:00', '05:59:59', 'offpeak', 0.345),
+(7, '06:00:00', '07:59:59', 'midpeak', 0.708),
+(7, '08:00:00', '10:59:59', 'onpeak', 1.159),
+(7, '11:00:00', '17:59:59', 'midpeak', 0.708),
+(7, '18:00:00', '20:59:59', 'onpeak', 1.159),
+(7, '21:00:00', '21:59:59', 'midpeak', 0.708),
+(7, '22:00:00', '23:59:59', 'offpeak', 0.345),
+-- '2022TimeOfUse7-9'
+(8, '00:00:00', '05:59:59', 'offpeak', 0.345),
+(8, '06:00:00', '07:59:59', 'midpeak', 0.708),
+(8, '08:00:00', '10:59:59', 'offpeak', 1.159),
+(8, '11:00:00', '12:59:59', 'midpeak', 0.708),
+(8, '13:00:00', '14:59:59', 'onpeak', 1.159),
+(8, '15:00:00', '17:59:59', 'midpeak', 0.708),
+(8, '18:00:00', '20:59:59', 'onpeak', 1.159),
+(8, '21:00:00', '21:59:59', 'midpeak', 0.708),
+(8, '22:00:00', '23:59:59', 'offpeak', 0.345),
+-- '2022TimeOfUse10-12'
+(9, '00:00:00', '05:59:59', 'offpeak', 0.345),
+(9, '06:00:00', '07:59:59', 'midpeak', 0.708),
+(9, '08:00:00', '10:59:59', 'onpeak', 1.159),
+(9, '11:00:00', '17:59:59', 'midpeak', 0.708),
+(9, '18:00:00', '20:59:59', 'onpeak', 1.159),
+(9, '21:00:00', '21:59:59', 'midpeak', 0.708),
+(9, '22:00:00', '23:59:59', 'offpeak', 0.345),
+-- '2023TimeOfUse1-6'
+(10, '00:00:00', '05:59:59', 'offpeak', 0.345),
+(10, '06:00:00', '07:59:59', 'midpeak', 0.708),
+(10, '08:00:00', '10:59:59', 'onpeak', 1.159),
+(10, '11:00:00', '17:59:59', 'midpeak', 0.708),
+(10, '18:00:00', '20:59:59', 'onpeak', 1.159),
+(10, '21:00:00', '21:59:59', 'midpeak', 0.708),
+(10, '22:00:00', '23:59:59', 'offpeak', 0.345),
+-- '2023TimeOfUse7-9'
+(11, '00:00:00', '05:59:59', 'offpeak', 0.345),
+(11, '06:00:00', '07:59:59', 'midpeak', 0.708),
+(11, '08:00:00', '10:59:59', 'offpeak', 1.159),
+(11, '11:00:00', '12:59:59', 'midpeak', 0.708),
+(11, '13:00:00', '14:59:59', 'onpeak', 1.159),
+(11, '15:00:00', '17:59:59', 'midpeak', 0.708),
+(11, '18:00:00', '20:59:59', 'onpeak', 1.159),
+(11, '21:00:00', '21:59:59', 'midpeak', 0.708),
+(11, '22:00:00', '23:59:59', 'offpeak', 0.345),
+-- '2023TimeOfUse10-12'
+(12, '00:00:00', '05:59:59', 'offpeak', 0.345),
+(12, '06:00:00', '07:59:59', 'midpeak', 0.708),
+(12, '08:00:00', '10:59:59', 'onpeak', 1.159),
+(12, '11:00:00', '17:59:59', 'midpeak', 0.708),
+(12, '18:00:00', '20:59:59', 'onpeak', 1.159),
+(12, '21:00:00', '21:59:59', 'midpeak', 0.708),
+(12, '22:00:00', '23:59:59', 'offpeak', 0.345),
+
 -- 'Water'
-(93, 13, '00:00:00', '23:59:59', 'midpeak', 5.95),
--- 'Erdgas'
+(13, '00:00:00', '23:59:59', 'midpeak', 5.95),
+
 -- 'Natural Gas'
-(94, 14, '00:00:00', '23:59:59', 'midpeak', 3.50);
+(14, '00:00:00', '23:59:59', 'midpeak', 3.50);
 COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -929,9 +931,9 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_stores_meters`
-(`id`, `store_id`, `meter_id`)
+(`store_id`, `meter_id`)
 VALUES
-(1, 1, 1);
+(1, 1);
 
 COMMIT;
 
@@ -942,9 +944,9 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_stores_offline_meters`
-(`id`, `store_id`, `offline_meter_id`)
+(`store_id`, `offline_meter_id`)
 VALUES
-(1, 1, 1);
+(1, 1);
 
 COMMIT;
 
@@ -955,12 +957,12 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_stores_points`
-(`id`, `store_id`, `point_id`)
+(`store_id`, `point_id`)
 VALUES
-(1, 3, 2000001),
-(2, 3, 2000002),
-(3, 3, 2000003),
-(4, 3, 2000006);
+(3, 2000001),
+(3, 2000002),
+(3, 2000003),
+(3, 2000006);
 
 COMMIT;
 
@@ -971,9 +973,9 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_stores_sensors`
-(`id`, `store_id`, `sensor_id`)
+(`store_id`, `sensor_id`)
 VALUES
-(1, 1, 1);
+(1, 1);
 
 COMMIT;
 
@@ -984,9 +986,9 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_stores_virtual_meters`
-(`id`, `store_id`, `virtual_meter_id`)
+(`store_id`, `virtual_meter_id`)
 VALUES
-(1, 1, 1);
+(1, 1);
 
 COMMIT;
 
@@ -1032,9 +1034,9 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_tenants_meters`
-(`id`, `tenant_id`, `meter_id`)
+(`tenant_id`, `meter_id`)
 VALUES
-(1, 1, 1);
+(1, 1);
 
 COMMIT;
 
@@ -1045,9 +1047,9 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_tenants_offline_meters`
-(`id`, `tenant_id`, `offline_meter_id`)
+(`tenant_id`, `offline_meter_id`)
 VALUES
-(1, 1, 1);
+(1, 1);
 
 COMMIT;
 
@@ -1058,12 +1060,12 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_tenants_points`
-(`id`, `tenant_id`, `point_id`)
+(`tenant_id`, `point_id`)
 VALUES
-(1, 3, 2000001),
-(2, 3, 2000002),
-(3, 3, 2000003),
-(4, 3, 2000006);
+(3, 2000001),
+(3, 2000002),
+(3, 2000003),
+(3, 2000006);
 
 COMMIT;
 
@@ -1074,9 +1076,9 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_tenants_sensors`
-(`id`, `tenant_id`, `sensor_id`)
+(`tenant_id`, `sensor_id`)
 VALUES
-(1, 1, 1);
+(1, 1);
 
 COMMIT;
 
@@ -1087,9 +1089,9 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_tenants_virtual_meters`
-(`id`, `tenant_id`, `virtual_meter_id`)
+(`tenant_id`, `virtual_meter_id`)
 VALUES
-(1, 1, 1);
+(1, 1);
 
 COMMIT;
 
@@ -1113,11 +1115,11 @@ START TRANSACTION;
 USE `myems_system_db`;
 -- meter_type = {'meter', 'virtual_meter', 'offline_meter'}
 INSERT INTO `myems_system_db`.`tbl_variables`
-(`id`, `name`, `virtual_meter_id`, `meter_type`, `meter_id`)
+(`name`, `virtual_meter_id`, `meter_type`, `meter_id`)
 VALUES
-(1, 'x1', 1, 'meter', 1),
-(2, 'x2', 1, 'meter', 2),
-(3, 'x3', 1, 'meter', 3);
+('x1', 1, 'meter', 1),
+('x2', 1, 'meter', 2),
+('x3', 1, 'meter', 3);
 
 COMMIT;
 
