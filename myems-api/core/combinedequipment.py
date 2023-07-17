@@ -36,7 +36,7 @@ class CombinedEquipmentCollection:
 
         query = (" SELECT id, name, uuid, "
                  "        is_input_counted, is_output_counted, "
-                 "        cost_center_id, description "
+                 "        cost_center_id, svg, description "
                  " FROM tbl_combined_equipments "
                  " ORDER BY id ")
         cursor.execute(query)
@@ -52,7 +52,8 @@ class CombinedEquipmentCollection:
                                "is_input_counted": bool(row[3]),
                                "is_output_counted": bool(row[4]),
                                "cost_center": cost_center,
-                               "description": row[6],
+                               "svg": row[6],
+                               "description": row[7],
                                "qrcode": 'combinedequipment:' + row[2]}
                 result.append(meta_result)
 
@@ -100,6 +101,13 @@ class CombinedEquipmentCollection:
                                    description='API.INVALID_COST_CENTER_ID')
         cost_center_id = new_values['data']['cost_center_id']
 
+        if 'svg' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['svg'], str) or \
+                len(str.strip(new_values['data']['svg'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_SVG')
+        svg = str.strip(new_values['data']['svg'])
+
         if 'description' in new_values['data'].keys() and \
                 new_values['data']['description'] is not None and \
                 len(str(new_values['data']['description'])) > 0:
@@ -133,13 +141,14 @@ class CombinedEquipmentCollection:
 
         add_values = (" INSERT INTO tbl_combined_equipments "
                       "    (name, uuid, is_input_counted, is_output_counted, "
-                      "     cost_center_id, description) "
-                      " VALUES (%s, %s, %s, %s, %s, %s) ")
+                      "     cost_center_id, svg, description) "
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     is_input_counted,
                                     is_output_counted,
                                     cost_center_id,
+                                    svg,
                                     description))
         new_id = cursor.lastrowid
         cnx.commit()
@@ -184,7 +193,7 @@ class CombinedEquipmentItem:
 
         query = (" SELECT id, name, uuid, "
                  "        is_input_counted, is_output_counted, "
-                 "        cost_center_id, description "
+                 "        cost_center_id, svg, description "
                  " FROM tbl_combined_equipments "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -203,7 +212,8 @@ class CombinedEquipmentItem:
                            "is_input_counted": bool(row[3]),
                            "is_output_counted": bool(row[4]),
                            "cost_center": cost_center,
-                           "description": row[6],
+                           "svg": row[6],
+                           "description": row[7],
                            "qrcode": 'combinedequipment:' + row[2]}
 
         resp.text = json.dumps(meta_result)
@@ -339,6 +349,13 @@ class CombinedEquipmentItem:
                                    description='API.INVALID_COST_CENTER_ID')
         cost_center_id = new_values['data']['cost_center_id']
 
+        if 'svg' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['svg'], str) or \
+                len(str.strip(new_values['data']['svg'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_SVG')
+        svg = str.strip(new_values['data']['svg'])
+
         if 'description' in new_values['data'].keys() and \
                 new_values['data']['description'] is not None and \
                 len(str(new_values['data']['description'])) > 0:
@@ -380,12 +397,13 @@ class CombinedEquipmentItem:
 
         update_row = (" UPDATE tbl_combined_equipments "
                       " SET name = %s, is_input_counted = %s, is_output_counted = %s, "
-                      "     cost_center_id = %s, description = %s "
+                      "     cost_center_id = %s, svg = %s, description = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     is_input_counted,
                                     is_output_counted,
                                     cost_center_id,
+                                    svg,
                                     description,
                                     id_))
         cnx.commit()
@@ -417,7 +435,7 @@ class CombinedEquipmentItem:
                                    description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
         query = (" SELECT name, is_input_counted, is_output_counted, "
-                 "        cost_center_id, description "
+                 "        cost_center_id, svg, description "
                  " FROM tbl_combined_equipments "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -432,14 +450,15 @@ class CombinedEquipmentItem:
 
             add_values = (" INSERT INTO tbl_combined_equipments "
                           "    (name, uuid, is_input_counted, is_output_counted, "
-                          "     cost_center_id, description) "
-                          " VALUES (%s, %s, %s, %s, %s, %s) ")
+                          "     cost_center_id, svg, description) "
+                          " VALUES (%s, %s, %s, %s, %s, %s, %s) ")
             cursor.execute(add_values, (row[0] + ' Copy',
                                         str(uuid.uuid4()),
                                         row[1],
                                         row[2],
                                         row[3],
-                                        row[4]))
+                                        row[4],
+                                        row[5]))
             new_id = cursor.lastrowid
             cnx.commit()
 
