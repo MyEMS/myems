@@ -8,11 +8,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added is_recursive boolean option to meter tracking report in myems-api (need to upgrade the myesm-api/.env file)
 - added is_recursive boolean option to meter batch report in myems-api (need to upgrade the myesm-api/.env file)
 - added soc point to microgrids batteries in database, myems-api and myems-admin
+- added svg to combined equipment in database and myems-api
+- 
 ### Changed
--
+- updated database demo scripts
+
 ### Fixed
 - updated translations of API responses in myems-admin and myems-web
-- fixed issue in querying meter start value of metertracking report in myems-api 
+- fixed issue in querying meter start value of metertracking report in myems-api
+
 ### Removed
 -
 

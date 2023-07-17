@@ -8,10 +8,10 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_combined_equipments`
-(`id`, `name`, `uuid`,  `is_input_counted`, `is_output_counted`, `cost_center_id`, `description` )
+(`id`, `name`, `uuid`,  `is_input_counted`, `is_output_counted`, `cost_center_id`, `svg`, `description` )
 VALUES
-(1, 'Kombinationsausrüstung1', '48aab70f-2e32-4518-9986-a6b7395acf58', 1, 0, 1, 'description'),
-(2, 'Kombinationsausrüstung2', 'c235e68c-e1be-4d7a-84e7-976c83ff6e44', 1, 0, 1,  'description');
+(1, 'Kombinationsausrüstung1', '48aab70f-2e32-4518-9986-a6b7395acf58', 1, 0, 1, '<svg></svg>', 'description'),
+(2, 'Kombinationsausrüstung2', 'c235e68c-e1be-4d7a-84e7-976c83ff6e44', 1, 0, 1, '<svg></svg>', 'description');
 
 COMMIT;
 
