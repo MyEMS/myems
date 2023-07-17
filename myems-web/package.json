@@ -3,6 +3,7 @@
   "version": "3.7.0",
   "private": true,
   "dependencies": {
+    "@amap/amap-jsapi-loader": "^1.0.1",
     "@fortawesome/fontawesome-free": "^5.15.1",
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
     "@fortawesome/free-brands-svg-icons": "^5.14.0",
@@ -31,7 +32,6 @@
     "emoji-mart": "^3.0.0",
     "express-rate-limit": "^5.3.0",
     "fuse.js": "^6.4.3",
-    "google-maps-react": "^2.0.6",
     "i18next": "^19.6.3",
     "is_js": "^0.9.0",
     "leaflet": "^1.7.1",
@@ -94,6 +94,7 @@
     "extends": "react-app"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "browser-sync": "^2.26.12",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
@@ -109,7 +110,6 @@
     "postcss": "^8.0.0",
     "prettier": "1.17.1",
     "sass": "^1.43.4",
-    "webpack-dev-server": "4.11.1",
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+    "webpack-dev-server": "4.11.1"
   }
 }
