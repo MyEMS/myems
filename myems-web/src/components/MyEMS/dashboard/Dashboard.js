@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import CountUp from 'react-countup';
-import { 
-  Col, 
+import {
+  Col,
   Row,
   Spinner, } from 'reactstrap';
 import CardSummary from '../common/CardSummary';
@@ -34,7 +34,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
   const [basePeriodEndsDatetime, setBasePeriodEndsDatetime] = useState(current_moment.clone().subtract(1, 'years'));
   const [reportingPeriodBeginsDatetime, setReportingPeriodBeginsDatetime] = useState(current_moment.clone().startOf('year'));
   const [reportingPeriodEndsDatetime, setReportingPeriodEndsDatetime] = useState(current_moment);
-  
+
   const [spinnerHidden, setSpinnerHidden] = useState(false);
 
   //Results
@@ -42,7 +42,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
   const [timeOfUseShareData, setTimeOfUseShareData] = useState([]);
   const [TCEShareData, setTCEShareData] = useState([]);
   const [TCO2EShareData, setTCO2EShareData] = useState([]);
-  
+
   const [thisYearBarList, setThisYearBarList] = useState([]);
   const [lastYearBarList, setLastYearBarList] = useState([]);
   const [thisMonthInputCardSummaryList, setThisMonthInputCardSummaryList] = useState([]);
@@ -482,9 +482,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             options={spaceCostLineChartOptions}>
           </LineChart>
       </div>
-      {
-        settings.isOnline 
-        ? 
+      { settings.showOnlineMap?
         <div className='wrapper'>
           <div className='wrapper-child-left'>
           <AMap>

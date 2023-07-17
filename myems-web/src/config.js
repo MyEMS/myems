@@ -17,6 +17,6 @@ export const settings = {
   isNavbarVerticalCollapsed: false,
   navbarStyle: 'transparent',
   language: 'zh_CN', //en, de, zh_CN
-  isOnline: false
+  showOnlineMap: true
 };
 export default { version, navbarBreakPoint, topNavbarBreakpoint, settings, APIBaseURL };
