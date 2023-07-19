@@ -18,7 +18,7 @@ import NavbarDropdownComponents from './NavbarDropdownComponents';
 import routes from '../../routes';
 import { NavItem } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
-import {breakpoints, createCookie, getCookieValue, getPageName} from '../../helpers/utils';
+import {breakpoints, createCookie, getCookieValue, getPageName, checkEmpty} from '../../helpers/utils';
 import {APIBaseURL, navbarBreakPoint, topNavbarBreakpoint} from '../../config';
 import AppContext from '../../context/Context';
 import { withTranslation } from 'react-i18next';
@@ -34,7 +34,7 @@ const NavbarTopDropDownMenus = ({ setRedirectUrl, setRedirect, setNavbarCollapse
     let user_display_name = getCookieValue('user_display_name');
     let user_uuid = getCookieValue('user_uuid');
     let token = getCookieValue('token');
-    if (is_logged_in === null || !is_logged_in) {
+    if (checkEmpty(is_logged_in) || checkEmpty(token)|| checkEmpty(user_uuid) || !is_logged_in) {
       setRedirectUrl(`/authentication/basic/login`);
       setRedirect(true);
     } else {

@@ -27,7 +27,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FalconCardHeader from '../../common/FalconCardHeader';
 import {v4 as uuid} from 'uuid';
 import { getPaginationArray } from '../../../helpers/utils';
-import { getCookieValue, createCookie } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
 import Datetime from 'react-datetime';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
@@ -58,7 +58,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
     let user_display_name = getCookieValue('user_display_name');
     let user_uuid = getCookieValue('user_uuid');
     let token = getCookieValue('token');
-    if (is_logged_in === null || !is_logged_in) {
+    if (checkEmpty(is_logged_in) || checkEmpty(token)|| checkEmpty(user_uuid) || !is_logged_in) {
       setRedirectUrl(`/authentication/basic/login`);
       setRedirect(true);
     } else {

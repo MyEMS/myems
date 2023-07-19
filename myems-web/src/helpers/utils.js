@@ -211,3 +211,7 @@ export const copyToClipBoard = textFieldRef => {
   textField.select();
   document.execCommand('copy');
 };
+
+export const checkEmpty = (str) => {
+  return str == null || str === '' || str.trim().length === 0
+}
