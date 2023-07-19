@@ -1,16 +1,17 @@
-import React, { useState, useEffect, } from 'react';
+import React, { useState, useEffect, useContext} from 'react';
 import AMapLoader from '@amap/amap-jsapi-loader';
 import { settings } from '../../../config';
 import { getItemFromStore } from '../../../helpers/utils';
 import { withTranslation } from 'react-i18next';
+import AppContext from '../../../context/Context';
 
-
-const TestMap = ({t}) => {
+const CustomizeMap = ({Latitude, Longitude, Zoom,t}) => {
     const [latitude, setLatitude] = useState(116.397428);
     const [longitude, setLongitude] = useState(39.90923);
+    const [zoom, setZoom] = useState(10);
+    const { isDark } = useContext(AppContext);
     var map = {};
-    
-    // dom渲染成功后进行map对象的创建
+    // After successful DOM rendering, create the map object.
     useEffect(() => {
       var lang = getItemFromStore('myems_web_ui_language', settings.language);
       var language = 'zh_cn';
@@ -28,32 +29,35 @@ const TestMap = ({t}) => {
             Loca:{
                 version:"1.4.15"
             },
-      })
-        .then(AMap => {
+      }).then(AMap => {
         map = new AMap.Map('container', {
-            // 设置地图容器id
+            // Set map container id.
             viewMode: '3D', 
-            zoom: 10, 
-            center: [latitude, longitude], 
-            lang: language
+            zoom: Zoom ? Zoom : zoom, 
+            center: [Latitude ? Latitude : latitude, Longitude ? Longitude : longitude], 
+            lang: language,
         });
-
+        if (isDark){
+          map.setMapStyle('amap://styles/grey');
+        } else {
+          map.setMapStyle('amap://styles/light');
+        }
         const marker = new AMap.Marker({
-          position: new AMap.LngLat(116.397428, 39.90923),
-      });
+          position: new AMap.LngLat(Latitude ? Latitude : latitude, Longitude ? Longitude : longitude),
+        });
         map.add(marker)
         })
-        .catch(e => {
+      .catch(e => {
         console.log(e);
-        });
-    }, [t, ]);
+      });
+    }, [t, Latitude, Longitude, zoom]);
 
     return (
-      // 初始化创建地图容器,div标签作为地图容器，同时为该div指定id属性；
+      // Initialize map container, use div tag as the map container, and assign an id attribute to the div
     <>
     <div id="container" className="map" style={{ height: '100%', width: '100%' }} ></div>;
     </>
     )
 };
 
-export default withTranslation()(TestMap);
+export default withTranslation()(CustomizeMap);
