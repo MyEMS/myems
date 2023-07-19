@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import AppContext from './context/Context';
 import { settings } from './config';
 import toggleStylesheet from './helpers/toggleStylesheet';
-import { getItemFromStore, setItemToStore, themeColors, createCookie } from './helpers/utils';
+import { getItemFromStore, setItemToStore, themeColors, createCookie, getCookieValue, checkEmpty } from './helpers/utils';
 import i18n from 'i18next';
 
 const Main = props => {
@@ -109,10 +109,28 @@ const Main = props => {
 
   useEffect(() => {
     const mousemove = () => {
+      let user_name = getCookieValue('user_name');
+      let user_display_name = getCookieValue('user_display_name');
+      let user_uuid = getCookieValue('user_uuid');
+      let token = getCookieValue('token');
+      if(checkEmpty(token)|| checkEmpty(user_uuid)) return;
       createCookie('is_logged_in', true, 1000 * 60 * 10 * 1);
+      createCookie('user_name', user_name, 1000 * 60 * 10 * 1);
+      createCookie('user_display_name', user_display_name, 1000 * 60 * 10 * 1);
+      createCookie('user_uuid', user_uuid, 1000 * 60 * 10 * 1);
+      createCookie('token', token, 1000 * 60 * 10 * 1);
     };
     const mousedown = () => {
+      let user_name = getCookieValue('user_name');
+      let user_display_name = getCookieValue('user_display_name');
+      let user_uuid = getCookieValue('user_uuid');
+      let token = getCookieValue('token');
+      if(checkEmpty(token)|| checkEmpty(user_uuid)) return;
       createCookie('is_logged_in', true, 1000 * 60 * 10 * 1);
+      createCookie('user_name', user_name, 1000 * 60 * 10 * 1);
+      createCookie('user_display_name', user_display_name, 1000 * 60 * 10 * 1);
+      createCookie('user_uuid', user_uuid, 1000 * 60 * 10 * 1);
+      createCookie('token', token, 1000 * 60 * 10 * 1);
     };
     window.addEventListener("mousemove", mousemove);
     window.addEventListener("mousedown", mousedown);
