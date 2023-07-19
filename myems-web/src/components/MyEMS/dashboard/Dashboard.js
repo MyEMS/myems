@@ -19,7 +19,7 @@ import annotationPlugin from 'chartjs-plugin-annotation';
 import {  Chart as ChartJS } from 'chart.js';
 import BarChart from '../common/BarChart';
 import ChartSpacesStackBar from '../common/ChartSpacesStackBar';
-import AMap from '../common/AMap';
+import CustomizeMap from '../common/AMap';
 import { getItemFromStore } from '../../../helpers/utils';
 
 ChartJS.register(annotationPlugin);
@@ -484,9 +484,9 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
       </div>
       { settings.showOnlineMap?
         <div className='wrapper'>
-          <div className='wrapper-child-left'>
-          <AMap>
-          </AMap>
+          <div className='wrapper-child-left mb-3'>
+          <CustomizeMap Latitude={116.397428} Longitude={39.90923} Zoom={15}>
+          </CustomizeMap>
           </div>
           <div className='wrapper-child-right-1'>
           <CardSummary
