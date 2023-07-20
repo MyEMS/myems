@@ -71,6 +71,10 @@ const NavbarTopDropDownMenus = ({ setRedirectUrl, setRedirect, setNavbarCollapse
 
   useEffect(() => {
     let isResponseOK = false;
+    let user_uuid = getCookieValue('user_uuid');
+    let token = getCookieValue('token');
+    if(checkEmpty(token)|| checkEmpty(user_uuid)) return;
+
     fetch(APIBaseURL + '/menus/web', {
       method: 'GET',
       headers: {
