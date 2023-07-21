@@ -3870,7 +3870,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"MyEMS Chiller\", \"is_input_counted\":true, \"is_output_counted\":false, \"cost_center_id\":1, \"description\":\"equipment description\"}}"
+									"raw": "{\"data\":{\"name\":\"MyEMS Chiller\", \"is_input_counted\":true, \"is_output_counted\":false, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"equipment description\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/equipments",
@@ -3933,7 +3933,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"new MyEMS Chiller\", \"is_input_counted\":true, \"is_output_counted\":true, \"cost_center_id\":1, \"description\":\"equipment description\"}}"
+									"raw": "{\"data\":{\"name\":\"new MyEMS Chiller\", \"is_input_counted\":true, \"is_output_counted\":true, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"equipment description\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/equipments/1",
