@@ -9,7 +9,7 @@ import LineChart from '../common/LineChart';
 import { toast } from 'react-toastify';
 import SharePie from '../common/SharePie';
 import loadable from '@loadable/component';
-import { getCookieValue, createCookie } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import moment from 'moment';
@@ -19,7 +19,7 @@ import annotationPlugin from 'chartjs-plugin-annotation';
 import {  Chart as ChartJS } from 'chart.js';
 import BarChart from '../common/BarChart';
 import ChartSpacesStackBar from '../common/ChartSpacesStackBar';
-import AMap from '../common/AMap';
+import CustomizeMap from '../common/AMap';
 import { getItemFromStore } from '../../../helpers/utils';
 
 ChartJS.register(annotationPlugin);
@@ -77,7 +77,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
     let user_display_name = getCookieValue('user_display_name');
     let user_uuid = getCookieValue('user_uuid');
     let token = getCookieValue('token');
-    if (is_logged_in === null || !is_logged_in) {
+    if (checkEmpty(is_logged_in) || checkEmpty(token)|| checkEmpty(user_uuid) || !is_logged_in) {
       setRedirectUrl(`/authentication/basic/login`);
       setRedirect(true);
     } else {
@@ -484,9 +484,9 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
       </div>
       { settings.showOnlineMap?
         <div className='wrapper'>
-          <div className='wrapper-child-left'>
-          <AMap>
-          </AMap>
+          <div className='wrapper-child-left mb-3'>
+          <CustomizeMap Latitude={116.397428} Longitude={39.90923} Zoom={15}>
+          </CustomizeMap>
           </div>
           <div className='wrapper-child-right-1'>
           <CardSummary

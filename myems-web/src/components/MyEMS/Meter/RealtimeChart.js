@@ -6,7 +6,7 @@ import { rgbaColor } from '../../../helpers/utils';
 import { withTranslation } from 'react-i18next';
 import {v4 as uuid} from 'uuid';
 import { APIBaseURL } from '../../../config';
-import { getCookieValue } from '../../../helpers/utils';
+import { getCookieValue, floatFormatter } from '../../../helpers/utils';
 import { toast } from 'react-toastify';
 
 
@@ -109,7 +109,7 @@ class RealtimeChart extends Component {
           this.setState({
             chartData: chartData,
             trendLog: trendLog, 
-            currentEnergyValue: currentEnergyValue,
+            currentEnergyValue: floatFormatter(currentEnergyValue),
             energyValuePointName: energyValuePointName,
             pointList: pointList,
           });

@@ -13,7 +13,7 @@ import NavbarTopDropDownMenus from './NavbarTopDropDownMenus';
 import NavbarVerticalMenu from './NavbarVerticalMenu';
 import ToggleButton from './ToggleButton';
 import { withTranslation } from 'react-i18next';
-import {createCookie, getCookieValue} from "../../helpers/utils";
+import {createCookie, getCookieValue, checkEmpty} from "../../helpers/utils";
 import {toast} from "react-toastify";
 import withRedirect from "../../hoc/withRedirect";
 
@@ -25,7 +25,7 @@ const NavbarVertical = ({ setRedirectUrl, setRedirect, navbarStyle, t }) => {
     let user_display_name = getCookieValue('user_display_name');
     let user_uuid = getCookieValue('user_uuid');
     let token = getCookieValue('token');
-    if (is_logged_in === null || !is_logged_in) {
+    if (checkEmpty(is_logged_in) || checkEmpty(token)|| checkEmpty(user_uuid) || !is_logged_in) {
       setRedirectUrl(`/authentication/basic/login`);
       setRedirect(true);
     } else {
@@ -95,6 +95,10 @@ const NavbarVertical = ({ setRedirectUrl, setRedirect, navbarStyle, t }) => {
 
   useEffect(() => {
     let isResponseOK = false;
+    let user_uuid = getCookieValue('user_uuid');
+    let token = getCookieValue('token');
+    if(checkEmpty(token)|| checkEmpty(user_uuid)) return;
+
     fetch(APIBaseURL + '/menus/web', {
       method: 'GET',
       headers: {
