@@ -307,6 +307,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_equipments` (
   `is_input_counted` BOOL NOT NULL,
   `is_output_counted` BOOL NOT NULL,
   `cost_center_id` BIGINT NOT NULL,
+  `svg` LONGTEXT NOT NULL,
   `description` VARCHAR(255),
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_equipments_index_1` ON  `myems_system_db`.`tbl_equipments`   (`name`);
