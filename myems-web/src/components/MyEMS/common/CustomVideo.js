@@ -6,12 +6,12 @@ const CustomVideo = ({src, type}) => {
   const flvPlayerRef = useRef(null);
 
   useEffect(() => {
-    // 创建video元素
+    // Create video element.
     const videoElement = document.createElement('video');
     videoElement.controls = true;
     videoElement.autoplay = true;
 
-    // 创建flv.js播放器实例
+    // Create an instance of the flv.js player.
     if (flvjs.isSupported()) {
       const flvPlayer = flvjs.createPlayer({
         type: type,
@@ -23,11 +23,11 @@ const CustomVideo = ({src, type}) => {
       flvPlayerRef.current = flvPlayer;
     }
 
-    // 将video元素添加到DOM中
+    // Add the video element to the DOM
     videoRef.current.appendChild(videoElement);
 
     return () => {
-      // 销毁flv.js播放器实例
+      // Destroy the flv.js player instance
       if (flvPlayerRef.current) {
         flvPlayerRef.current.destroy();
       }
@@ -36,7 +36,7 @@ const CustomVideo = ({src, type}) => {
 
   return (
     <div>
-      {/* 在需要显示视频的地方添加video元素 */}
+      {/* Add a video element where the video needs to be displayed */}
       <div style={{width:"100%", height:"100%"}} ref={videoRef} />
     </div>
   );
