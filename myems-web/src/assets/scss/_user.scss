@@ -160,6 +160,16 @@
   }
 }
 
+
+@keyframes flow {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: 12;
+  }
+}
+
 .rs-btn,
 
 .rs-picker-toggle-textbox {color: $gray-800; font-family: sans-serif;}
