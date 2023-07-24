@@ -8,8 +8,7 @@ const Notification = ({ created_datetime, id, status, flush, message, subject}) 
     <Link className={classNames('notification', { 'bg-200': status, 'notification-flush': flush }, id)}
     to="/notification">
     <div className="notification-body">
-      <p className="mb-0">{subject}</p><p>{status}</p>
-      <p className={'mb-0'} dangerouslySetInnerHTML={createMarkup(message)} />
+      <p className="mb-0">{subject}</p>
       <span className="notification-time">{created_datetime}</span>
     </div>
   </Link>
