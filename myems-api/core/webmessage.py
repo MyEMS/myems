@@ -706,7 +706,6 @@ class WebMessageItem:
         resp.status = falcon.HTTP_204
 
 
-
 class WebMessageBatch:
     @staticmethod
     def __init__():
