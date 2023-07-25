@@ -11,17 +11,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added svg to combined equipment in database, myems-api and myems-admin
 - added online map to dashboard in myems-web
 - added enterprise edition mark to menus in myems-admin
+- added svg to equipment in database, myems-api and myems-admin
 
 ### Changed
 - updated database demo scripts
+- updated notification list style
 
 ### Fixed
 - updated translations of API responses in myems-admin and myems-web
 - fixed issue in querying meter start value of metertracking report in myems-api
 - fixed display format issue for decimal value between 0.0 and 1.0 in meter realtime report
 - fixed unable to redirect to login page issue when user session expires
+
 ### Removed
--
+- removed unnecessary error message at the first login in myems-web
 
 ## [v3.7.0] - 2023-07-08
 ### Added

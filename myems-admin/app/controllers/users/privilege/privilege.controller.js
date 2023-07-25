@@ -144,13 +144,14 @@ app.controller('PrivilegeController', function (
 });
 
 app.controller('ModalAddPrivilegeCtrl', function ($scope,
+	$window,
 	$uibModalInstance,
 	SpaceService,
 	$timeout,
 	params) {
 
 	$scope.operation = "USER.ADD_PRIVILEGE";
-
+	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.spaces = [];
 	$scope.currentSpaceID = 1;
 	$scope.privilege = {};
@@ -203,13 +204,14 @@ app.controller('ModalAddPrivilegeCtrl', function ($scope,
 });
 
 app.controller('ModalEditPrivilegeCtrl', function ($scope,
+	$window,
 	$uibModalInstance,
 	SpaceService,
 	$timeout,
 	params) {
 	$scope.operation = "USER.EDIT_PRIVILEGE";
 	$scope.privilege = params.privilege;
-
+	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.spaces = [];
 	var privilege_data = JSON.parse(params.privilege.data);
 	$scope.currentSpaceID = privilege_data['spaces'][0];

@@ -97,7 +97,7 @@ class WorkingCalendarItem:
         pass
 
     @staticmethod
-    def on_options(req, resp):
+    def on_options(req, resp, id_):
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -381,7 +381,7 @@ class NonWorkingDayItem:
         pass
 
     @staticmethod
-    def on_options(req, resp):
+    def on_options(req, resp, id_):
         resp.status = falcon.HTTP_200
 
     @staticmethod
