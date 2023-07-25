@@ -22,7 +22,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed issue in querying meter start value of metertracking report in myems-api
 - fixed display format issue for decimal value between 0.0 and 1.0 in meter realtime report
 - fixed unable to redirect to login page issue when user session expires
-
+- fixed issue of working calendar setting in myems-admin
+- fixed issue of privilege setting in myems-admin
 ### Removed
 - removed unnecessary error message at the first login in myems-web
 
