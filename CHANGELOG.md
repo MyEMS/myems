@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 - updated database demo scripts
+- updated notification list style
 
 ### Fixed
 - updated translations of API responses in myems-admin and myems-web
