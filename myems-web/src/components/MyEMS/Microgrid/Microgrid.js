@@ -25,7 +25,6 @@ import { toast } from 'react-toastify';
 import { APIBaseURL } from '../../../config';
 import useInterval from '../../../hooks/useInterval';
 import { Map } from 'react-leaflet';
-import '../../../assets/img/illustrations/diagram1.svg'
 
 
 const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
