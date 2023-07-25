@@ -359,7 +359,7 @@ class NonWorkingDayCollection:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.DATE_LOCAL_IN_WORKING_CALENDAR')
+                                   description='API.DATE_IS_ALREADY_IN_WORKING_CALENDAR')
 
         add_values = (" INSERT INTO tbl_working_calendars_non_working_days "
                       " (working_calendar_id, date_local, description) "
@@ -494,7 +494,7 @@ class NonWorkingDayItem:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.DATE_LOCAL_IN_WORKING_CALENDAR')
+                                   description='API.DATE_IS_ALREADY_IN_WORKING_CALENDAR')
 
         update_row = (" UPDATE tbl_working_calendars_non_working_days "
                       " SET working_calendar_id = %s, date_local = %s, description = %s "
