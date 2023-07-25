@@ -28,8 +28,8 @@ app.factory('WorkingCalendarNonWorkingDayService', function($http) {
             });
         },
 
-        getNonWorkingDaysByWorkingCalendarID: function(id, callback) {
-            $http.get(getAPI()+'workingcalendars/'+id+'/nonworkingdays')
+        getNonWorkingDaysByWorkingCalendarID: function(id, headers, callback) {
+            $http.get(getAPI()+'workingcalendars/'+id+'/nonworkingdays', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
