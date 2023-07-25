@@ -577,6 +577,105 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
     });
   };
 
+  const batchDelete = () => {
+    let rows = table.current.selectionContext.selected;
+    if(rows.length <= 0) {
+      toast.error(t('Select Row'));
+      return;
+    }
+    fetch(APIBaseURL + '/webmessagesbatch', {
+      method: 'DELETE',
+      headers: {
+        "Content-type": "application/json",
+        "User-UUID": getCookieValue('user_uuid'),
+        "Token": getCookieValue('token')
+      },
+      body: rows.join(","),
+    }).then(response => {
+      if (response.ok) {
+        loadData(table);
+        return null;
+      } else {
+        let json = response.json();
+        toast.error(t(json.description))
+      }
+    }).catch(err => {
+      console.log(err);
+    });
+  }
+
+  const batchRead = () => {
+    let rows = table.current.selectionContext.selected;
+    if(rows.length <= 0) {
+      toast.error(t('Select Row'));
+      return;
+    }
+    fetch(APIBaseURL + '/webmessagesbatch', {
+      method: 'PUT',
+      headers: {
+        "Content-type": "application/json",
+        "User-UUID": getCookieValue('user_uuid'),
+        "Token": getCookieValue('token')
+      },
+      body: rows.join(","),
+    }).then(response => {
+      if (response.ok) {
+        loadData(table);
+        return null;
+      } else {
+        let json = response.json();
+        toast.error(t(json.description))
+      }
+    }).catch(err => {
+      console.log(err);
+    });
+  }
+
+  const loadData = () => {
+    table.current.selectionContext.selected = [];
+    let isResponseOK = false;
+    fetch(APIBaseURL + '/webmessages?' +
+      'startdatetime=' + startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+      '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+      '&priority=' + priority +
+      '&status=' + status, {
+      method: 'GET',
+      headers: {
+        "Content-type": "application/json",
+        "User-UUID": getCookieValue('user_uuid'),
+        "Token": getCookieValue('token')
+      },
+      body: null,
+    }).then(response => {
+      if (response.ok) {
+        isResponseOK = true;
+      }
+      return response.json();
+    }).then(json => {
+      if (isResponseOK) {
+        setFetchSuccess(true);
+        let notificationList = []
+        if (json.length > 0) {
+          json.forEach((currentValue, index) => {
+            let notification = {}
+            notification['id'] = json[index]['id'];
+            notification['subject'] = json[index]['subject'];
+            notification['created_datetime'] = moment(parseInt(json[index]['created_datetime']))
+                .format("YYYY-MM-DD HH:mm:ss");
+            notification['message'] = json[index]['message'];
+            notification['status'] = json[index]['status'];
+            notification['url'] = json[index]['url'];
+
+            notificationList.push(notification);
+          });
+        }
+        setNotifications(notificationList);
+        setSpinnerHidden(true);
+      } else {
+        toast.error(t(json.description))
+      }
+    });
+  }
 
   return (
     <Fragment>
@@ -662,19 +761,16 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
         <FalconCardHeader title={t('Notification List')} light={false}>
           {isSelected ? (
             <InputGroup size="sm" className="input-group input-group-sm">
-              <CustomInput type="select" id="bulk-select">
-                <option>{t('Bulk actions')}</option>
-                <option value="MarkAsRead">{t('Notification Mark As Read')}</option>
-                <option value="MarkAsAcknowledged">{t('Notification Mark As Acknowledged')}</option>
-                <option value="Delete">{t('Notification Delete')}</option>
-              </CustomInput>
-              <Button color="falcon-default" size="sm" className="ml-2">
-              {t('Notification Apply')}
+              <Button color="falcon-default" onClick={() => batchRead()} size="sm" className="ml-2">
+              {t('Notification Mark As Read')}
+                </Button>
+              <Button color="falcon-default" onClick={() => batchDelete()}  size="sm" className="ml-2">
+              {t('Notification Delete')}
                 </Button>
             </InputGroup>
           ) : (
               <Fragment>
-                
+
               </Fragment>
             )}
         </FalconCardHeader>
