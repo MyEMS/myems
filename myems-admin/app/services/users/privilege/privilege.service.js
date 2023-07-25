@@ -1,8 +1,8 @@
 'use strict';
 app.factory('PrivilegeService', function($http) {
     return {
-        getAllPrivileges:function(callback){
-            $http.get(getAPI()+'privileges')
+        getAllPrivileges:function(headers, callback){
+            $http.get(getAPI()+'privileges', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -33,8 +33,8 @@ app.factory('PrivilegeService', function($http) {
                 callback(response);
             });
         },
-        getPrivilege: function(id, callback) {
-            $http.get(getAPI()+'privileges/'+id)
+        getPrivilege: function(id, headers, callback) {
+            $http.get(getAPI()+'privileges/'+id, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
