@@ -170,6 +170,23 @@
   }
 }
 
+.flow {
+  animation: ball-flow 2s linear infinite;
+}
+
+.flow-reverse {
+  animation: ball-flow 2s linear reverse infinite;
+}
+
+@keyframes ball-flow {
+  from {
+    offset-distance: 0%;
+  }
+  to {
+    offset-distance: 100%;
+  }
+}
+
 .rs-btn,
 
 .rs-picker-toggle-textbox {color: $gray-800; font-family: sans-serif;}
