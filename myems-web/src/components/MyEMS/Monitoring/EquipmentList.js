@@ -48,26 +48,10 @@ const EquipmentList = ({
         <Row>
           <Col sm={5} md={4}>
             <div className="position-relative h-sm-100">
-              {isIterableArray(files) && files.length === 1 && (
-                <img
-                  className="img-fluid fit-cover w-sm-100 h-sm-100 rounded absolute-sm-centered"
-                  src={files[0]['src'] || files[0]['base64']}
-                  alt={files[0].path}
-                />
-              )}
-              {isIterableArray(files) && files.length > 1 && (
-                <Slider {...sliderSettings}>
-                  {files.map(file => (
-                    <img
-                      key={uuid()}
-                      className="img-fluid fit-cover w-sm-100 h-sm-100 rounded"
-                      src={file['src'] || file['base64']}
-                      alt={file.path}
-                    />
-                  ))}
-                </Slider>
-              )}
-
+              <iframe 
+                className="img-fluid fit-cover w-sm-100 h-sm-100 rounded absolute-sm-centered"
+                src="http://192.168.2.53:18080/#/play/wasm/ws%3A%2F%2F192.168.2.53%3A6080%2Fapp1%2F34020000001320000011.live.flv?autoplay=1">
+              </iframe>
               {isRunning && (
                 <Badge color="success" pill className="position-absolute t-0 r-0 mr-2 mt-2 fs--2 z-index-2">
                   运行
