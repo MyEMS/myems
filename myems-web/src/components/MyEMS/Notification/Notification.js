@@ -590,7 +590,9 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
         "User-UUID": getCookieValue('user_uuid'),
         "Token": getCookieValue('token')
       },
-      body: rows.join(","),
+      body:  JSON.stringify({
+        "ids": rows.join(",")
+      }),
     }).then(response => {
       if (response.ok) {
         loadData(table);
@@ -617,7 +619,9 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
         "User-UUID": getCookieValue('user_uuid'),
         "Token": getCookieValue('token')
       },
-      body: rows.join(","),
+      body: JSON.stringify({
+       "ids": rows.join(",")
+      }),
     }).then(response => {
       if (response.ok) {
         loadData(table);

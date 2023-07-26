@@ -723,12 +723,13 @@ class WebMessageBatch:
         """Handles PUT requests"""
         access_control(req)
         try:
-            ids = req.stream.read().decode('utf-8')
+            data = req.stream.read().decode('utf-8')
         except Exception as ex:
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
-
+        data = json.loads(data)
+        ids = data['ids']
         rt = re.match('^(\d+,)*\d+$', ids, flags=0)
         if ids is None or rt is None:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -752,11 +753,13 @@ class WebMessageBatch:
     def on_delete(req, resp):
         access_control(req)
         try:
-            ids = req.stream.read().decode('utf-8')
+            data = req.stream.read().decode('utf-8')
         except Exception as ex:
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
+        data = json.loads(data)
+        ids = data['ids']
         rt = re.match('^(\d+,)*\d+$', ids, flags=0)
         if ids is None or rt is None:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
