@@ -1,3 +1,4 @@
+import re
 from datetime import datetime, timedelta, timezone
 import falcon
 import mysql.connector
@@ -728,7 +729,8 @@ class WebMessageBatch:
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
 
-        if ids is None:
+        rt = re.match('^([0-9]{0,20},)*[0-9]{0,20}$', ids, flags=0)
+        if ids is None or rt is None:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_WEB_MESSAGE_ID')
 
@@ -755,8 +757,8 @@ class WebMessageBatch:
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
-
-        if ids is None:
+        rt = re.match('^([0-9]{0,20},)*[0-9]{0,20}$', ids, flags=0)
+        if ids is None or rt is None:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_WEB_MESSAGE_ID')
 
