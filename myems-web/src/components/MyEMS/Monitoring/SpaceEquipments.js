@@ -206,11 +206,7 @@ const SpaceEquipments = ({ setRedirect, setRedirectUrl, t }) => {
                 {isIterableArray(equipments) &&
                   equipments
                     .filter(equipment => paginationData.includes(equipment.id))
-                    .map((equipment, index) => 
-                    <CustomVideo
-                     key={equipment.id} 
-                     src={"http://192.168.182.129:80/live?port=1935&app=myapp&stream=mystream"}
-                     type={"flv"}></CustomVideo>)}
+                    .map((equipment, index) => <EquipmentList {...equipment} sliderSettings={sliderSettings} key={equipment.id} index={index} />)}
               </Row>
             )}
         </CardBody>
