@@ -1,3 +1,4 @@
+import re
 from datetime import datetime, timedelta, timezone
 import falcon
 import mysql.connector
@@ -704,3 +705,73 @@ class WebMessageItem:
             cnx.close()
 
         resp.status = falcon.HTTP_204
+
+
+class WebMessageBatch:
+    @staticmethod
+    def __init__():
+        """"Initializes WebMessageBatch"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    @user_logger
+    def on_put(req, resp):
+        """Handles PUT requests"""
+        access_control(req)
+        try:
+            data = req.stream.read().decode('utf-8')
+        except Exception as ex:
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.FAILED_TO_READ_REQUEST_STREAM')
+        data = json.loads(data)
+        ids = data['ids']
+        rt = re.match('^(\\d+,)*\\d+$', ids, flags=0)
+        if ids is None or rt is None:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_WEB_MESSAGE_ID')
+
+        cnx = mysql.connector.connect(**config.myems_fdd_db)
+        cursor = cnx.cursor()
+        update_row = (" UPDATE tbl_web_messages  SET status = %s "
+                      " WHERE status = %s AND  id in (" + ids + ")")
+        cursor.execute(update_row, ('read', 'new',))
+        cnx.commit()
+        if cursor:
+            cursor.close()
+        if cnx:
+            cnx.close()
+
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    @user_logger
+    def on_delete(req, resp):
+        access_control(req)
+        try:
+            data = req.stream.read().decode('utf-8')
+        except Exception as ex:
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.FAILED_TO_READ_REQUEST_STREAM')
+        data = json.loads(data)
+        ids = data['ids']
+        rt = re.match('^(\\d+,)*\\d+$', ids, flags=0)
+        if ids is None or rt is None:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_WEB_MESSAGE_ID')
+
+        cnx = mysql.connector.connect(**config.myems_fdd_db)
+        cursor = cnx.cursor()
+        cursor.execute(" DELETE FROM tbl_web_messages WHERE id in (" + ids + ")", ())
+        cnx.commit()
+        if cursor:
+            cursor.close()
+        if cnx:
+            cnx.close()
+
+        resp.status = falcon.HTTP_200
