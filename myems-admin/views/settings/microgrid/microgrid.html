@@ -38,7 +38,7 @@
 										<td class="text-center">{{ microgrid.owner_type.name }}</td>
 										<td class="text-center">{{ microgrid.contact.name }}</td>
 										<td class="text-center">{{ microgrid.cost_center.name }}</td>
-										<td class="text-center">{{(microgrid.svg).substring(0, 128) + '...' }}</td>
+										<td class="text-center">{{(microgrid.svg).substring(0, 32) + '...' }}</td>
 										<td class="text-center">{{ microgrid.description }}</td>
 										<td class="text-center">
 											<a ng-click="editMicrogrid(microgrid)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>

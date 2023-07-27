@@ -36,7 +36,7 @@ class CombinedEquipmentCollection:
 
         query = (" SELECT id, name, uuid, "
                  "        is_input_counted, is_output_counted, "
-                 "        cost_center_id, svg, description "
+                 "        cost_center_id, svg, camera_url, description "
                  " FROM tbl_combined_equipments "
                  " ORDER BY id ")
         cursor.execute(query)
@@ -53,7 +53,8 @@ class CombinedEquipmentCollection:
                                "is_output_counted": bool(row[4]),
                                "cost_center": cost_center,
                                "svg": row[6],
-                               "description": row[7],
+                               "camera_url": row[7],
+                               "description": row[8],
                                "qrcode": 'combinedequipment:' + row[2]}
                 result.append(meta_result)
 
@@ -115,6 +116,13 @@ class CombinedEquipmentCollection:
         else:
             description = None
 
+        if 'camera_url' in new_values['data'].keys() and \
+                new_values['data']['camera_url'] is not None and \
+                len(str(new_values['data']['camera_url'])) > 0:
+            camera_url = str.strip(new_values['data']['camera_url'])
+        else:
+            camera_url = None
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -141,14 +149,15 @@ class CombinedEquipmentCollection:
 
         add_values = (" INSERT INTO tbl_combined_equipments "
                       "    (name, uuid, is_input_counted, is_output_counted, "
-                      "     cost_center_id, svg, description) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s) ")
+                      "     cost_center_id, svg, camera_url, description) "
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     is_input_counted,
                                     is_output_counted,
                                     cost_center_id,
                                     svg,
+                                    camera_url,
                                     description))
         new_id = cursor.lastrowid
         cnx.commit()
@@ -193,7 +202,7 @@ class CombinedEquipmentItem:
 
         query = (" SELECT id, name, uuid, "
                  "        is_input_counted, is_output_counted, "
-                 "        cost_center_id, svg, description "
+                 "        cost_center_id, svg, camera_url, description "
                  " FROM tbl_combined_equipments "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -213,7 +222,8 @@ class CombinedEquipmentItem:
                            "is_output_counted": bool(row[4]),
                            "cost_center": cost_center,
                            "svg": row[6],
-                           "description": row[7],
+                           "camera_url": row[7],
+                           "description": row[8],
                            "qrcode": 'combinedequipment:' + row[2]}
 
         resp.text = json.dumps(meta_result)
@@ -363,6 +373,13 @@ class CombinedEquipmentItem:
         else:
             description = None
 
+        if 'camera_url' in new_values['data'].keys() and \
+                new_values['data']['camera_url'] is not None and \
+                len(str(new_values['data']['camera_url'])) > 0:
+            camera_url = str.strip(new_values['data']['camera_url'])
+        else:
+            camera_url = None
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -397,13 +414,14 @@ class CombinedEquipmentItem:
 
         update_row = (" UPDATE tbl_combined_equipments "
                       " SET name = %s, is_input_counted = %s, is_output_counted = %s, "
-                      "     cost_center_id = %s, svg = %s, description = %s "
+                      "     cost_center_id = %s, svg = %s, camera_url = %s, description = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     is_input_counted,
                                     is_output_counted,
                                     cost_center_id,
                                     svg,
+                                    camera_url,
                                     description,
                                     id_))
         cnx.commit()
@@ -435,7 +453,7 @@ class CombinedEquipmentItem:
                                    description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
         query = (" SELECT name, is_input_counted, is_output_counted, "
-                 "        cost_center_id, svg, description "
+                 "        cost_center_id, svg, camera_url, description "
                  " FROM tbl_combined_equipments "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -450,15 +468,16 @@ class CombinedEquipmentItem:
 
             add_values = (" INSERT INTO tbl_combined_equipments "
                           "    (name, uuid, is_input_counted, is_output_counted, "
-                          "     cost_center_id, svg, description) "
-                          " VALUES (%s, %s, %s, %s, %s, %s, %s) ")
+                          "     cost_center_id, svg, camera_url, description) "
+                          " VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ")
             cursor.execute(add_values, (row[0] + ' Copy',
                                         str(uuid.uuid4()),
                                         row[1],
                                         row[2],
                                         row[3],
                                         row[4],
-                                        row[5]))
+                                        row[5],
+                                        row[6]))
             new_id = cursor.lastrowid
             cnx.commit()
 
