@@ -23,7 +23,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "111111113ec87b7305d8a875b299e0588f75830d1436805c86113b3c5a66c2ca700f945498e466897ec554d1a4fc321e32001082f105b0bc353fc4d467d55f",
+										"value": "0196ef3251ad46301f9831f41e1ee96f443ed7d20e0e7ddb82ccc0355acbe0e76352104191d337c2bce53da5fa454b73b19ca614f45d68b4aabd7335daf91882",
 										"type": "text"
 									}
 								],
@@ -52,14 +52,14 @@
 									},
 									{
 										"key": "Token",
-										"value": "111111bd3c3ec87b7305d8a875b299e0588f75830d1436805c86113b3c5a66c2ca700f945498e466897ec554d1a4fc321e32001082f105b0bc353fc4d467d55f",
+										"value": "0196ef3251ad46301f9831f41e1ee96f443ed7d20e0e7ddb82ccc0355acbe0e76352104191d337c2bce53da5fa454b73b19ca614f45d68b4aabd7335daf91882",
 										"type": "text",
 										"description": "Login to get a valid token"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"MyEMS Chiller Plant\", \"is_input_counted\":true, \"is_output_counted\":false, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"equipment description\"}}"
+									"raw": "{\"data\":{\"name\":\"MyEMS Chiller Plant\", \"is_input_counted\":true, \"is_output_counted\":false, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"camera_url\":\"http://XXX\", \"description\":\"equipment description\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/combinedequipments",
@@ -115,14 +115,14 @@
 									},
 									{
 										"key": "Token",
-										"value": "111111cbd3c3ec87b7305d8a875b299e0588f75830d1436805c86113b3c5a66c2ca700f945498e466897ec554d1a4fc321e32001082f105b0bc353fc4d467d55f",
+										"value": "0196ef3251ad46301f9831f41e1ee96f443ed7d20e0e7ddb82ccc0355acbe0e76352104191d337c2bce53da5fa454b73b19ca614f45d68b4aabd7335daf91882",
 										"type": "text",
 										"description": "Login to get a valid token"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"MyEMS Combined Chiller Plant\", \"is_input_counted\":true, \"is_output_counted\":true, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"equipment description\"}}"
+									"raw": "{\"data\":{\"name\":\"MyEMS Combined Chiller Plant\", \"is_input_counted\":true, \"is_output_counted\":true, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"camera_url\":\"http://XXXs\", \"description\":\"equipment description\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/combinedequipments/1",
@@ -150,7 +150,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "0196ef3251ad46301f9831f41e1ee96f443ed7d20e0e7ddb82ccc0355acbe0e76352104191d337c2bce53da5fa454b73b19ca614f45d68b4aabd7335daf91882",
 										"type": "text",
 										"description": "Login to get a valid token"
 									}
@@ -3863,14 +3863,14 @@
 									},
 									{
 										"key": "Token",
-										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"value": "0196ef3251ad46301f9831f41e1ee96f443ed7d20e0e7ddb82ccc0355acbe0e76352104191d337c2bce53da5fa454b73b19ca614f45d68b4aabd7335daf91882",
 										"type": "text",
 										"description": "Login to get a valid token"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"MyEMS Chiller\", \"is_input_counted\":true, \"is_output_counted\":false, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"equipment description\"}}"
+									"raw": "{\"data\":{\"name\":\"MyEMS Chiller\", \"is_input_counted\":true, \"is_output_counted\":false, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"camera_url\":\"http://XXX\", \"description\":\"equipment description\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/equipments",
@@ -3926,14 +3926,14 @@
 									},
 									{
 										"key": "Token",
-										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"value": "0196ef3251ad46301f9831f41e1ee96f443ed7d20e0e7ddb82ccc0355acbe0e76352104191d337c2bce53da5fa454b73b19ca614f45d68b4aabd7335daf91882",
 										"type": "text",
 										"description": "Login to get a valid token"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"new MyEMS Chiller\", \"is_input_counted\":true, \"is_output_counted\":true, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"equipment description\"}}"
+									"raw": "{\"data\":{\"name\":\"new MyEMS Chiller\", \"is_input_counted\":true, \"is_output_counted\":true, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"camera_url\":\"http://XXX\", \"description\":\"equipment description\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/equipments/1",
