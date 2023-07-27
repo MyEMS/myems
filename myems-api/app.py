@@ -651,6 +651,8 @@ api.add_route('/webmessagesnew',
               webmessage.WebMessageStatusNewCollection())
 api.add_route('/webmessages/{id_}',
               webmessage.WebMessageItem())
+api.add_route('/webmessagesbatch',
+              webmessage.WebMessageBatch())
 
 api.add_route('/wechatmessages',
               wechatmessage.WechatMessageCollection())

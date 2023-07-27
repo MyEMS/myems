@@ -443,6 +443,7 @@ const resources = {
       // working calendar
       'Working Days': 'Working Days',
       'Non Working Days': 'Non Working Days',
+      'Select Row': 'Please Select Data Row',
       //API
       'API.ACCOUNT_UNLOCK_FAILED': 'Account unlock failed',
       'API.ADMINISTRATOR_SESSION_NOT_FOUND': 'Administrator session not found',
@@ -1461,6 +1462,7 @@ const resources = {
       // working calendar
       'Working Days': 'Arbeitstage',
       'Non Working Days': 'Arbeitsfreie Tage',
+      'Select Row': 'Bitte wählen Sie die zu bearbeitende Zeile aus',
       // API
       'API.ACCOUNT_UNLOCK_FAILED': 'Account unlock failed',
       'API.ADMINISTRATOR_SESSION_NOT_FOUND': 'Administratorsitzung nicht gefunden',
@@ -2445,6 +2447,7 @@ const resources = {
       // working calendar
       'Working Days': '工作日',
       'Non Working Days': '非工作日',
+      'Select Row': '请选择要操作的数据行',
       // API
       'API.ACCOUNT_UNLOCK_FAILED': 'Account unlock failed',
       'API.ADMINISTRATOR_SESSION_NOT_FOUND': '管理员会话不存在',
