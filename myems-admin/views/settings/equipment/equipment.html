@@ -27,8 +27,8 @@
 										<td class="text-center">{{ equipment.is_input_counted==false?'SETTING.NO':'SETTING.YES' | translate }}</td>
 										<td class="text-center">{{ equipment.is_output_counted==false?'SETTING.NO':'SETTING.YES' | translate }}</td>
 										<td class="text-center">{{ equipment.cost_center.name }}</td>
-										<td class="text-center">{{ equipment.svg }}</td>
-										<td class="text-center">{{ equipment.camera_url }}</td>
+										<td class="text-center">{{(equipment.svg).substring(0, 32) + '...' }}</td>
+										<td class="text-center">{{(equipment.camera_url).substring(0, 32) + '...' }}</td>
 										<td class="text-center">{{ equipment.description }}</td>
 										<td class="text-center">
 											<a ng-click="editEquipment(equipment)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
@@ -97,7 +97,7 @@
 									<div class="panel-heading">
 										{{'SETTING.METER' | translate}}
 									</div>
-									<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}" 
+									<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 									slim-scroll box-height="765px">
 										<div class="form-group no-margin"><label>{{'SETTING.METER_TYPE' | translate}}</label>
 											<select ng-change="changeMeterType()"  ng-model="currentMeterType" class="form-control m-b" name="metertype">

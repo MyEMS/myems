@@ -33,8 +33,8 @@
 											{{ combinedequipment.is_output_counted==false?'SETTING.NO':'SETTING.YES' | translate }}
 										</td>
 										<td class="text-center">{{ combinedequipment.cost_center.name }}</td>
-										<td class="text-center">{{ combinedequipment.svg }}</td>
-										<td class="text-center">{{ combinedequipment.camera_url }}</td>
+										<td class="text-center">{{(combinedequipment.svg).substring(0, 32) + '...' }}</td>
+										<td class="text-center">{{(combinedequipment.camera_url).substring(0, 32) + '...' }}</td>
 										<td class="text-center">{{ combinedequipment.description }}</td>
 										<td class="text-center">
 											<a ng-click="editCombinedEquipment(combinedequipment)"
@@ -107,7 +107,7 @@
 									<!-- according panel-->
 									<div class="panel panel-primary">
 										<div class="panel-heading"> {{'COMBINED_EQUIPMENT.EQUIPMENT_LIST' | translate}}	</div>
-										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}" 
+										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 										slim-scroll box-height="765px">
 											<div class="source btn btn-info btn-rounded btn-block" 	ng-repeat="equipment in equipments" x-hjc-draggable="true">
 													 {{equipment.name}}
@@ -152,7 +152,7 @@
 										<div class="panel-heading">
 											{{currentCombinedEquipment.name}}{{'SETTING.N_S_METER' | translate}}
 										</div>
-										<div class="panel-body maxheight" 
+										<div class="panel-body maxheight"
 										    x-hjc-drop-target="true"
 											x-on-drop="pairMeter(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
