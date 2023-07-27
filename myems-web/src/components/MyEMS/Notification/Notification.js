@@ -640,6 +640,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
 
   const loadData = () => {
     table.current.selectionContext.selected = [];
+    onSelect();
     let isResponseOK = false;
     fetch(APIBaseURL + '/webmessages?' +
       'startdatetime=' + startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
