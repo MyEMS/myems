@@ -479,10 +479,7 @@ export const monitoringRoutes = {
   icon: 'eye',
   children: [
     { to: '/monitoring/spaceequipments', name: 'Space Equipments' },
-    { to: '/monitoring/combinedequipments', name: 'Combined Equipments' },
-    { to: '/monitoring/tenantequipments', name: 'Tenant Equipments' },
-    { to: '/monitoring/storeequipments', name: 'Store Equipments' },
-    { to: '/monitoring/shopfloorequipments', name: 'Shopfloor Equipments' }
+    { to: '/monitoring/combinedequipments', name: 'Combined Equipments' }
   ]
 };
 

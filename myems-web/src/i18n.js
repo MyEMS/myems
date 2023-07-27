@@ -61,9 +61,6 @@ const resources = {
       'Faults Data': 'Faults',
       'Space Equipments': 'Space Equipments',
       'Combined Equipments': 'Combined Equipments',
-      'Tenant Equipments': 'Tenant Equipments',
-      'Store Equipments': 'Store Equipments',
-      'Shopfloor Equipments': 'Shopfloor Equipments',
       // Dashboard
       'Welcome to MyEMS': 'Welcome to MyEMS',
       'An Industry Leading Open Source Energy Management System':
@@ -1065,9 +1062,6 @@ const resources = {
       'Faults Data': 'Fehler',
       'Space Equipments': 'Platz Ausrüstung',
       'Combined Equipments': 'Kombinierte Ausrüstung',
-      'Tenant Equipments': 'Mieter Ausrüstung',
-      'Store Equipments': 'Geschäft Ausrüstung',
-      'Shopfloor Equipments': 'Werkstatt Ausrüstung',
       // Dashboard
       'Welcome to MyEMS': 'Willkommen bei MyEMS',
       'An Industry Leading Open Source Energy Management System': 'Ein branchenführendes Open Source Energie Management System',
@@ -2084,9 +2078,6 @@ const resources = {
       'Faults Data': '故障分析',
       'Space Equipments': '空间设备',
       'Combined Equipments': '组合设备',
-      'Tenant Equipments': '租户设备',
-      'Store Equipments': '门店设备',
-      'Shopfloor Equipments': '车间设备',
       // Dashboard
       'Welcome to MyEMS': '欢迎使用MyEMS',
       'An Industry Leading Open Source Energy Management System': '行业领先的开源能源管理系统',

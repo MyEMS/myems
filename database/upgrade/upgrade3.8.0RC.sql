@@ -16,6 +16,10 @@ ALTER TABLE `myems_system_db`.`tbl_equipments` ADD `svg` LONGTEXT NOT NULL AFTER
 
 ALTER TABLE `myems_system_db`.`tbl_equipments` ADD `camera_url` VARCHAR(1000) AFTER svg;
 
+DELETE FROM myems_system_db.tbl_menus WHERE id=1003;
+DELETE FROM myems_system_db.tbl_menus WHERE id=1004;
+DELETE FROM myems_system_db.tbl_menus WHERE id=1005;
+
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='3.8.0RC', release_date='2023-08-08' WHERE id=1;
 

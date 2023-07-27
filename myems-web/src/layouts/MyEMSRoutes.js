@@ -198,9 +198,6 @@ import FDDFault from '../components/MyEMS/FDD/Fault';
 // Monitoring
 import SpaceEquipments from '../components/MyEMS/Monitoring/SpaceEquipments';
 import CombinedEquipments from '../components/MyEMS/Monitoring/CombinedEquipments';
-import TenantEquipments from '../components/MyEMS/Monitoring/TenantEquipments';
-import StoreEquipments from '../components/MyEMS/Monitoring/StoreEquipments';
-import ShopfloorEquipments from '../components/MyEMS/Monitoring/ShopfloorEquipments';
 // Advanced Reporting
 import AdvancedReporting from '../components/MyEMS/AdvancedReporting/AdvancedReporting';
 // Knowledge Base
@@ -457,9 +454,6 @@ const MyEMSRoutes = () => (
     {/*Equipment Monitoring*/}
     <Route path="/monitoring/spaceequipments" exact component={SpaceEquipments} />
     <Route path="/monitoring/combinedequipments" exact component={CombinedEquipments} />
-    <Route path="/monitoring/tenantequipments" exact component={TenantEquipments} />
-    <Route path="/monitoring/storeequipments" exact component={StoreEquipments} />
-    <Route path="/monitoring/shopfloorequipments" exact component={ShopfloorEquipments} />
 
     {/*Advanced Reporting*/}
     <Route path="/advancedreporting" exact component={AdvancedReporting} />

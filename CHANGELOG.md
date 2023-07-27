@@ -26,8 +26,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed unable to redirect to login page issue when user session expires
 - fixed issue of working calendar setting in myems-admin
 - fixed issue of privilege setting in myems-admin
+
 ### Removed
 - removed unnecessary error message at the first login in myems-web
+- removed tenant equipments from monitoring
+- removed shopfloor equipments from monitoring
+- removed store equipments from monitoring
 
 ## [v3.7.0] - 2023-07-08
 ### Added
