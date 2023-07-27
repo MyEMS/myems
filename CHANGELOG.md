@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added online map to dashboard in myems-web
 - added enterprise edition mark to menus in myems-admin
 - added svg to equipment in database, myems-api and myems-admin
+- added bath delete and update actions for web messages in myems-api and myems-web
 
 ### Changed
 - updated database demo scripts

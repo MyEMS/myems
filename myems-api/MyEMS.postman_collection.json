@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "39e40c61-9387-4671-9222-8ebf9c6bcca6",
+		"_postman_id": "b66a457c-38fe-48f5-82c6-bfd699f31d81",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -14919,7 +14919,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Batch Mark  Web Message Read",
+							"name": "PUT Batch Update Web Messages (Mark As Read)",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -14951,7 +14951,7 @@
 							"response": []
 						},
 						{
-							"name": "DELETE Batch Web Message",
+							"name": "DELETE Batch Web Messages by IDs",
 							"request": {
 								"method": "DELETE",
 								"header": [
