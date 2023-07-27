@@ -23,7 +23,7 @@ const resources = {
       'Knowledge Base': 'Knowledge Base',
       'Energy Category Data': 'Energy Category',
       'Energy Item Data': 'Energy Item',
-      'Carbon': 'Carbon Dioxide Emissions', 
+      'Carbon': 'Carbon Dioxide Emissions',
       'Cost': 'Cost',
       'Output': 'Output',
       'Income': 'Income',
@@ -357,7 +357,7 @@ const resources = {
       //notification
       'Notifications': 'Notifications',
       'Mark all as read': 'Mark all as read',
-      'View all': 'View all',
+      'View all': 'All',
       'notification_NEW': 'NEW',
       'notification_EARLIER': 'EARLIER',
       'Notification List': 'Notification List',
@@ -1373,7 +1373,7 @@ const resources = {
       //notification
       'Notifications': 'Benachrichtigungen',
       'Mark all as read': 'Markiere alle als gelesen',
-      'View all': 'Alle ansehen',
+      'View all': 'Alle',
       'notification_NEW': 'Neu',
       'notification_EARLIER': 'Vorhin',
       'Notification List': 'Benachrichtigungsliste',
@@ -2362,7 +2362,7 @@ const resources = {
       //notification
       'Notifications': '通知',
       'Mark all as read': '全部设为已读',
-      'View all': '查看全部',
+      'View all': '全部',
       'notification_NEW': '新的',
       'notification_EARLIER': '更早的',
       'Notification List': '通知列表',
