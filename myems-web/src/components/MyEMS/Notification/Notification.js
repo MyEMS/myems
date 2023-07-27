@@ -347,7 +347,10 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
     classes: 'py-2 align-middle',
     clickToSelect: false,
     selectionHeaderRenderer: ({ mode, ...rest }) => <SelectRowInput type="checkbox" {...rest} />,
-    selectionRenderer: ({ mode, ...rest }) => <SelectRowInput type={mode} {...rest} />,
+    selectionRenderer: ({ mode, ...rest }) => {
+      const {rowKey, ...newRest} = rest;
+      return <SelectRowInput type={mode} {...newRest} />
+    },
     onSelect: onSelect,
     onSelectAll: onSelect
   });
