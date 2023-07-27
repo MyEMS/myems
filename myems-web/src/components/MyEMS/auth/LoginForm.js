@@ -9,8 +9,7 @@ import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { APIBaseURL } from '../../../config';
 import {FaEye, FaEyeSlash} from 'react-icons/fa'
-import Captcha from '../../react-captcha-code';
- 
+import Captcha from 'react-captcha-code-custom';
 
 const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
   // State
