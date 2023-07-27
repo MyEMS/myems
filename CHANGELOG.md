@@ -13,7 +13,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added enterprise edition mark to menus in myems-admin
 - added svg to equipment in database, myems-api and myems-admin
 - added bath delete and update actions for web messages in myems-api and myems-web
-
+- added camera url to equipments and combined equipments in database
+- 
 ### Changed
 - updated database demo scripts
 - updated notification list style
