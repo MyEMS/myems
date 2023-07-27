@@ -559,9 +559,6 @@ VALUES
 (1000,'Monitoring','/monitoring',NULL,1),
 (1001,'Space Equipments','/monitoring/spaceequipments',1000,0),
 (1002,'Combined Equipments','/monitoring/combinedequipments',1000,0),
-(1003,'Tenant Equipments','/monitoring/tenantequipments',1000,0),
-(1004,'Store Equipments','/monitoring/storeequipments',1000,0),
-(1005,'Shopfloor Equipments','/monitoring/shopfloorequipments',1000,0),
 (1100,'Advanced Reporting','/advancedreporting',NULL,1),
 (1200,'Knowledge Base','/knowledgebase',NULL,0),
 (1300,'Microgrid','/microgrid',NULL,1);
