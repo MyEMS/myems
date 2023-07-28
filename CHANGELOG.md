@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added svg to equipment in database, myems-api and myems-admin
 - added bath delete and update actions for web messages in myems-api and myems-web
 - added camera url to equipments and combined equipments in database
+- added French language to myems-admin
 - 
 ### Changed
 - updated database demo scripts
