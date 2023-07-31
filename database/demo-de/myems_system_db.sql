@@ -8,10 +8,10 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_combined_equipments`
-(`id`, `name`, `uuid`,  `is_input_counted`, `is_output_counted`, `cost_center_id`, `svg`, `description` )
+(`id`, `name`, `uuid`,  `is_input_counted`, `is_output_counted`, `cost_center_id`, `svg`, `camera_url`, `description` )
 VALUES
-(1, 'Kombinationsausrüstung1', '48aab70f-2e32-4518-9986-a6b7395acf58', 1, 0, 1, '<svg></svg>', 'description'),
-(2, 'Kombinationsausrüstung2', 'c235e68c-e1be-4d7a-84e7-976c83ff6e44', 1, 0, 1, '<svg></svg>', 'description');
+(1, 'Kombinationsausrüstung1', '48aab70f-2e32-4518-9986-a6b7395acf58', 1, 0, 1, '', '', 'description'),
+(2, 'Kombinationsausrüstung2', 'c235e68c-e1be-4d7a-84e7-976c83ff6e44', 1, 0, 1, '', '', 'description');
 
 COMMIT;
 
@@ -302,10 +302,10 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_equipments`
-(`id`, `name`, `uuid`,  `is_input_counted`, `is_output_counted`, `cost_center_id`,  `description` )
+(`id`, `name`, `uuid`,  `is_input_counted`, `is_output_counted`, `cost_center_id`, `svg`, `camera_url`, `description` )
 VALUES
-(1, 'Geräte1', 'bfa8b106-89a1-49ca-9b2b-a481ac41a873', 1, 0, 1, 'description'),
-(2, 'Geräte2', 'ad5798ec-d827-43d9-bf08-fc7516f9c4c8', 1, 0, 1, 'description');
+(1, 'Geräte1', 'bfa8b106-89a1-49ca-9b2b-a481ac41a873', 1, 0, 1, '', '', 'description'),
+(2, 'Geräte2', 'ad5798ec-d827-43d9-bf08-fc7516f9c4c8', 1, 0, 1, '', '', 'description');
 
 COMMIT;
 

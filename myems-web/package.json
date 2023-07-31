@@ -51,7 +51,7 @@
     "react-bootstrap-table-next": "^4.0.3",
     "react-bootstrap-table2-editor": "^1.4.0",
     "react-bootstrap-table2-paginator": "^2.1.2",
-    "react-captcha-code": "^1.0.7",
+    "react-captcha-code-custom": "^1.0.0",
     "react-chartjs-2": "^4.3.1",
     "react-countup": "^6.1.0",
     "react-datetime": "^2.16.3",
@@ -82,6 +82,7 @@
     "reactstrap": "^8.6.0",
     "rsuite": "^5.16.3",
     "slick-carousel": "^1.8.1",
+    "styled-components": "^6.0.5",
     "uuid": "^9.0.0"
   },
   "scripts": {
