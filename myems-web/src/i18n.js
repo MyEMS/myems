@@ -11,6 +11,11 @@ const resources = {
       'Space Data': 'Space',
       'Equipment Data': 'Equipment',
       'Meter Data': 'Meter',
+      'Offline Meter Input': 'Offline Meter Input',
+      'Daily Production Data': 'Daily Production Data',
+      'Daily Production': 'Daily Production',
+      'Operation Successful': 'Operation Successful',
+      'Date': 'Date',
       'Tenant Data': 'Tenant',
       'Store Data': 'Store',
       'Shopfloor Data': 'Shopfloor',
@@ -43,6 +48,7 @@ const resources = {
       'Master Meter Submeters Balance': 'Master Meter Submeters Balance',
       'Meter Batch Analysis': 'Meter Batch Analysis',
       'Meter Comparison': 'Meter Comparison',
+      'Meter Offline Input': 'Meter Offline Input',
       'Meter Tracking': 'Meter Tracking',
       'Virtual Meter Saving': 'Virtual Meter Saving',
       'Virtual Meter Energy': 'Virtual Meter Energy',
@@ -1003,6 +1009,7 @@ const resources = {
       'API.WECHAT_MESSAGE_NOT_FOUND': 'Wechat message not found',
       'API.WORKING_CALENDAR_NAME_IS_ALREADY_IN_USE': 'Working calendar name is already in use',
       'API.WORKING_CALENDAR_NOT_FOUND': 'Working calendar not found',
+      'API.INVALID_OFFLINE_METER_VALUE': 'Invalid offline meter data',
     }
   },
   de: {
@@ -1012,6 +1019,11 @@ const resources = {
       'Space Data': 'Platz',
       'Equipment Data': 'Ausrüstung',
       'Meter Data': 'Meter',
+      'Offline Meter Input': 'Offline-Zählereinstellung',
+      'Daily Production Data': 'Tägliche Produktionsdaten',
+      'Daily Production': 'Tägliche Produktion',
+      'Operation Successful': 'Betrieb erfolgreich',
+      'Date': 'Datum',
       'Tenant Data': 'Mieter',
       'Store Data': 'Geschäft',
       'Shopfloor Data': 'Werkstatt',
@@ -1044,6 +1056,7 @@ const resources = {
       'Master Meter Submeters Balance': 'Master Meter Submeters Balance',
       'Meter Batch Analysis': 'Meter Charge Analyse',
       'Meter Comparison': 'Meter Vergleich',
+      'Meter Offline Input': 'Zähler Offline-Eingabe',
       'Meter Tracking': 'Meterverfolgung',
       'Virtual Meter Saving': 'Virtual Meter Sparen',
       'Virtual Meter Energy': 'Virtuelles Meter Energie',
@@ -2019,6 +2032,7 @@ const resources = {
       'API.WECHAT_MESSAGE_NOT_FOUND': 'Wechat-Nachricht nicht gefunden',
       'API.WORKING_CALENDAR_NAME_IS_ALREADY_IN_USE': 'Der Name des Arbeitskalenders wird bereits verwendet',
       'API.WORKING_CALENDAR_NOT_FOUND': 'Arbeitskalender nicht gefunden',
+      'API.INVALID_OFFLINE_METER_VALUE': 'Ungültige Offline-Zählerdaten',
     }
   },
   zh_CN: {
@@ -2028,6 +2042,11 @@ const resources = {
       'Space Data': '空间数据',
       'Equipment Data': '设备数据',
       'Meter Data': '计量表数据',
+      'Offline Meter Input': '离线表数据录入',
+      'Daily Production Data': '日产量数据',
+      'Date': '日期',
+      'Daily Production': '日产量',
+      'Operation Successful': '操作成功',
       'Tenant Data': '租户数据',
       'Store Data': '门店数据',
       'Shopfloor Data': '车间数据',
@@ -2060,6 +2079,7 @@ const resources = {
       'Master Meter Submeters Balance': '总分表平衡分析',
       'Meter Batch Analysis': '计量表批量分析',
       'Meter Comparison': '计量表对比分析',
+      'Meter Offline Input': '离线计量表手工录入',
       'Meter Tracking': '计量表台账',
       'Virtual Meter Saving': '虚拟表节能分析',
       'Virtual Meter Energy': '虚拟表能耗分析',
@@ -3001,6 +3021,7 @@ const resources = {
       'API.WECHAT_MESSAGE_NOT_FOUND': '微信信息不存在',
       'API.WORKING_CALENDAR_NAME_IS_ALREADY_IN_USE': '工作日历名称已使用',
       'API.WORKING_CALENDAR_NOT_FOUND': '工作日历不存在',
+      'API.INVALID_OFFLINE_METER_VALUE': '无效离线计量表数据',
     }
   }
 };
