@@ -57,7 +57,6 @@ from reports import offlinemeterenergy
 from reports import offlinemetersaving
 from reports import metermonthgenerate
 from reports import offlinemeterinput
-from reports import offlinemeteroptions
 from reports import shopfloorbatch
 from reports import shopfloorcarbon
 from reports import shopfloorcost
@@ -770,8 +769,6 @@ api.add_route('/reports/metermonthgenerate',
               metermonthgenerate.Reporting())
 api.add_route('/reports/offlinemeterinput',
               offlinemeterinput.Reporting())
-api.add_route('/reports/offlinemeteroptions',
-              offlinemeteroptions.Reporting())
 api.add_route('/reports/offlinemetersaving',
               offlinemetersaving.Reporting())
 api.add_route('/reports/pointrealtime',
