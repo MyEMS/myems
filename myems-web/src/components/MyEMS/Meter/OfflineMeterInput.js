@@ -179,7 +179,7 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
     {
       dataField: 'dayva',
       headerClasses: 'border-0',
-      text: t('Daily Production'),
+      text: t('Daily Value'),
       classes: 'border-0 py-2 align-middle',
       sort: true,
       editable: true,
@@ -346,7 +346,7 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
       </Card>
       <Fragment>
         <Card>
-          <FalconCardHeader title={t('Daily Production Data')} className="bg-light">
+          <FalconCardHeader title={t('Daily Value')} className="bg-light">
           </FalconCardHeader>
           <CardBody>
             <BootstrapTable
