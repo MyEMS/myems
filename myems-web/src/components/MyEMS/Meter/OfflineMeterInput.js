@@ -128,10 +128,10 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       if (isResponseOK) {
         let meters = [];
-        json['re_values'].forEach((currentValue, index) => {
+        json.forEach((currentValue, index) => {
           meters.push({
             'monthdate': currentValue['monthdate'],
-            'dayva': currentValue['dayva']
+            'daily_value': currentValue['daily_value']
           });
         });
         setMeterList(meters);
@@ -177,7 +177,7 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
       editable: false,
     },
     {
-      dataField: 'dayva',
+      dataField: 'daily_value',
       headerClasses: 'border-0',
       text: t('Daily Value'),
       classes: 'border-0 py-2 align-middle',
@@ -255,7 +255,7 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
   }
   const saveChange = async (oldValue, newValue, row) => {
     if(newValue == null || newValue == '' || newValue < 0) {
-      toast.error(t('API.INVALID_OFFLINE_METER_VALUE'))
+      toast.error(t('API.INVALID_OFFLINE_METER_DATA'))
       return;
     }
     let param = {
@@ -279,7 +279,7 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
       return response.json();
     }).then(json => {
       if (isResponseOK) {
-        toast.success(t('Operation Successful'));
+        toast.success(t('Successfully Saved'));
         getmeterslistdata()
       } else {
         toast.error(t(json.description))

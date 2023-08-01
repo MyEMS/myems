@@ -21,7 +21,7 @@ class Reporting:
     ####################################################################################################################
     # PROCEDURES
     # Step 1: valid parameters
-    # Step 2: query the meter and energy category
+    # Step 2: query the offline meter
     # Step 3: query associated points
     # Step 4: query reporting period points trends
     # Step 5: query tariff data
@@ -40,7 +40,6 @@ class Reporting:
         offline_meter_uuid = req.params.get('offlinemeteruuid')
         reporting_period_start_datetime_local = req.params.get('reportingperiodstartdatetime')
         reporting_period_end_datetime_local = req.params.get('reportingperiodenddatetime')
-        quick_mode = req.params.get('quickmode')
 
         ################################################################################################################
         # Step 1: valid parameters
@@ -97,15 +96,8 @@ class Reporting:
             raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_REPORTING_PERIOD_END_DATETIME')
 
-        # if turn quick mode on, do not return parameters data and excel file
-        is_quick_mode = False
-        if quick_mode is not None and \
-                len(str.strip(quick_mode)) > 0 and \
-                str.lower(str.strip(quick_mode)) in ('true', 't', 'on', 'yes', 'y'):
-            is_quick_mode = True
-
         ################################################################################################################
-        # Step 2: query the meter and energy category
+        # Step 2: query the offline meter
         ################################################################################################################
         cnx_system = mysql.connector.connect(**config.myems_system_db)
         cursor_system = cnx_system.cursor()
@@ -116,8 +108,8 @@ class Reporting:
             cursor_system.execute(" SELECT id, name   "
                                   " FROM  tbl_offline_meters  "
                                   " WHERE id = %s ", (offline_meter_id,))
-            row_meter = cursor_system.fetchone()
-        if row_meter is None:
+            row_offline_meter = cursor_system.fetchone()
+        if row_offline_meter is None:
             if cursor_system:
                 cursor_system.close()
             if cnx_system:
@@ -127,13 +119,15 @@ class Reporting:
                 cursor_historical.close()
             if cnx_energy:
                 cnx_energy.disconnect()
-            raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND', description='API.OFFLINE_METER_NOT_FOUND')
+            raise falcon.HTTPError(falcon.HTTP_404,
+                                   title='API.NOT_FOUND',
+                                   description='API.OFFLINE_METER_NOT_FOUND')
 
         #######################################################
         # Step 4: query reporting period points trends
         #######################################################
-        reporting_dates = list()
-        reporting_dayvalues = list()
+        reporting_date_list = list()
+        reporting_daily_values = list()
         reportyear = reporting_period_start_datetime_local[0:4]
         reportmonth = reporting_period_start_datetime_local[5:7]
         daysnum = calendar.monthrange(int(reportyear), int(reportmonth))
@@ -154,16 +148,16 @@ class Reporting:
                      " FROM  tbl_offline_meter_hourly  "
                      " WHERE offline_meter_id = %s "
                      " AND start_datetime_utc BETWEEN %s AND %s ")
-            cursor_historical.execute(query, (row_meter[0],
+            cursor_historical.execute(query, (row_offline_meter[0],
                                               reporting_start_datetime_utc,
                                               reporting_end_datetime_utc))
             rows = cursor_historical.fetchone()
             datetime_utc = reportmonth + '-' + str(i + 1).rjust(2, '0')
             if rows is not None and len(rows) > 0:
-                reporting_dates.append(datetime_utc)
-                reporting_dayvalues.append(rows[0])
+                reporting_date_list.append(datetime_utc)
+                reporting_daily_values.append(rows[0])
             else:
-                reporting_dayvalues.append(None)
+                reporting_daily_values.append(None)
         ################################################################################################################
         # Step 6: construct the report
         ################################################################################################################
@@ -177,12 +171,11 @@ class Reporting:
         if cnx_energy:
             cnx_energy.disconnect()
 
-        re_values = []
-        for date, dayva in zip(reporting_dates, reporting_dayvalues):
-            re_values.append({
+        result_values = []
+        for date, daily_value in zip(reporting_date_list, reporting_daily_values):
+            result_values.append({
                 "monthdate": date,
-                "dayva": dayva
+                "daily_value": daily_value
             })
 
-        result = {'re_values': re_values}
-        resp.text = json.dumps(result)
+        resp.text = json.dumps(result_values)

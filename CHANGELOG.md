@@ -15,6 +15,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added bath delete and update actions for web messages in myems-api and myems-web
 - added camera url to equipments and combined equipments in database
 - added French language to myems-admin
+- added Spanish language to myems-admin
+- added offline meter data input to myems-web and myems-api
 - 
 ### Changed
 - updated database demo scripts
