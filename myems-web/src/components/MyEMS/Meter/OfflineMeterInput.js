@@ -47,7 +47,7 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
     }
   });
   const [meterList, setMeterList] = useState([]);
-  const [OfflinemeterName, setOfflinemeterName] = useState([{ meterid: 0, metername: "" }]);
+  const [OfflinemeterName, setOfflinemeterName] = useState([{ value: 0, label: "" }]);
   const [Offlinemeter, setOfflinemeter] = useState('');
 
   //Query From
@@ -66,7 +66,7 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
 
   const getmeterslist = async () => {
     let isResponseOK = false;
-    await fetch(APIBaseURL + '/reports/offlinemeteroptions', {
+    await fetch(APIBaseURL + '/offlinemeters', {
       method: 'GET',
       headers: {
         "Content-type": "application/json",
@@ -83,10 +83,10 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
       if (isResponseOK) {
         var typeDatadic = []
         let tempmeterid=''
-        json['meteroptions'].forEach((currentValue, index) => {
+        json.forEach((currentValue, index) => {
           var type = {}
-          type.value = currentValue.meterid
-          type.label = currentValue.metername
+          type.value = currentValue.id
+          type.label = currentValue.name
           typeDatadic.push(type)
         });
 
@@ -306,7 +306,7 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
                     {t('Offline Meter')}
                   </Label>
                   <br />
-                  <CustomInput type="select"
+                  <CustomInput type="select" id='CustomInput'
                     onChange={OfflinemeterChange}>
                     {OfflinemeterName.map((Offlinemeter, index) => (
                       <option value={Offlinemeter.value} key={Offlinemeter.value} >
