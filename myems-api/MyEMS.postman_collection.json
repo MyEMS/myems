@@ -25656,7 +25656,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{base_url}}/reports/metermonthgenerate?meterid=1&reportingperiodstartdatetime=2023-07-01T00:00:00&reportingperiodenddatetime=2023-07-31T23:59:59",
+							"raw": "{{base_url}}/reports/offlinemeterdaily?meterid=1&reportingperiodstartdatetime=2023-07-01T00:00:00&reportingperiodenddatetime=2023-07-31T23:59:59",
 							"host": [
 								"{{base_url}}"
 							],
