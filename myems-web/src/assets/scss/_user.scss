@@ -261,3 +261,17 @@ grid-row: 1;
 grid-column: 2;
 grid-row: 2;
 }
+
+.svg-warning {
+  fill: red !important;
+  animation: warning 0.5s infinite alternate;
+}
+
+@keyframes warning {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
