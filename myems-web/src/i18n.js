@@ -54,6 +54,7 @@ const resources = {
       'Offline Meter Cost': 'Offline Meter Cost',
       'Offline Meter Batch Analysis': 'Offline Meter Batch Analysis',
       'Offline Meter Saving': 'Offline Meter Saving',
+      'Offline Meter Input': 'Offline Meter Input',
       'Tenant Bill': 'Tenant Bill',
       'Energy Flow Diagram': 'Energy Flow Diagram',
       'Distribution System':'Distribution System',
@@ -441,6 +442,10 @@ const resources = {
       'Working Days': 'Working Days',
       'Non Working Days': 'Non Working Days',
       'Select Row': 'Please Select Data Row',
+      // Offline Meter Input
+      'Daily Value': 'Daily Value',
+      'Date': 'Date',
+      'Successfully Saved': 'Successfully Saved',
       //API
       'API.ACCOUNT_UNLOCK_FAILED': 'Account unlock failed',
       'API.ADMINISTRATOR_SESSION_NOT_FOUND': 'Administrator session not found',
@@ -688,6 +693,7 @@ const resources = {
       'API.INVALID_NOTIFICATION_ID': 'Invalid notification id',
       'API.INVALID_NUMERATOR_METER_UUID': 'Invalid numerator meter uuid',
       'API.INVALID_OBJECT_TYPE': 'Invalid object type',
+      'API.INVALID_OFFLINE_METER_DATA': 'Invalid offline meter data',
       'API.INVALID_OFFLINE_METER_FILE_ID': 'Invalid offline meter file id',
       'API.INVALID_OFFLINE_METER_ID': 'Invalid offline meter id',
       'API.INVALID_OFFLINE_METER_NAME': 'Invalid offline meter name',
@@ -1055,6 +1061,7 @@ const resources = {
       'Offline Meter Cost': 'Offline Meter Kosten',
       'Offline Meter Batch Analysis': 'Offline Meter Charge Analyse',
       'Offline Meter Saving': 'Offline Meter Sparen',
+      'Offline Meter Input': 'Offline-Zählereinstellung',
       'Tenant Bill': 'Mieter Rechnung',
       'Energy Flow Diagram': 'Energieflussdiagramm',
       'Distribution System': 'Vertriebssystem',
@@ -1457,6 +1464,10 @@ const resources = {
       'Working Days': 'Arbeitstage',
       'Non Working Days': 'Arbeitsfreie Tage',
       'Select Row': 'Bitte wählen Sie die zu bearbeitende Zeile aus',
+      // Offline Meter Input
+      'Daily Value': 'Tageswert',
+      'Date': 'Datum',
+      'Successfully Saved': 'Betrieb erfolgreich',
       // API
       'API.ACCOUNT_UNLOCK_FAILED': 'Account unlock failed',
       'API.ADMINISTRATOR_SESSION_NOT_FOUND': 'Administratorsitzung nicht gefunden',
@@ -1704,6 +1715,7 @@ const resources = {
       'API.INVALID_NOTIFICATION_ID': 'Ungültige Benachrichtigungs-ID',
       'API.INVALID_NUMERATOR_METER_UUID': 'Ungültige Zählerzählerzähler-UUID',
       'API.INVALID_OBJECT_TYPE': 'Ungültiger Objekttyp',
+      'API.INVALID_OFFLINE_METER_DATA': 'Ungültige Offline-Zählerdaten',
       'API.INVALID_OFFLINE_METER_FILE_ID': 'Ungültige Offline-Zählerdatei-ID',
       'API.INVALID_OFFLINE_METER_ID': 'Ungültige Offline-Zähler-ID',
       'API.INVALID_OFFLINE_METER_NAME': 'Ungültiger Offline-Zählername',
@@ -2019,6 +2031,7 @@ const resources = {
       'API.WECHAT_MESSAGE_NOT_FOUND': 'Wechat-Nachricht nicht gefunden',
       'API.WORKING_CALENDAR_NAME_IS_ALREADY_IN_USE': 'Der Name des Arbeitskalenders wird bereits verwendet',
       'API.WORKING_CALENDAR_NOT_FOUND': 'Arbeitskalender nicht gefunden',
+      'API.INVALID_OFFLINE_METER_VALUE': 'Ungültige Offline-Zählerdaten',
     }
   },
   zh_CN: {
@@ -2071,6 +2084,7 @@ const resources = {
       'Offline Meter Cost': '离线表成本分析',
       'Offline Meter Batch Analysis': '离线表批量分析',
       'Offline Meter Saving': '离线表节能分析',
+      'Offline Meter Input': '离线表数据录入',
       'Tenant Bill': '租户账单',
       'Energy Flow Diagram': '能流图',
       'Distribution System': '配电系统',
@@ -2439,6 +2453,10 @@ const resources = {
       'Working Days': '工作日',
       'Non Working Days': '非工作日',
       'Select Row': '请选择要操作的数据行',
+      // Offline Meter Input
+      'Daily Value': '日产量数据',
+      'Date': '日期',
+      'Successfully Saved': '保存成功',
       // API
       'API.ACCOUNT_UNLOCK_FAILED': 'Account unlock failed',
       'API.ADMINISTRATOR_SESSION_NOT_FOUND': '管理员会话不存在',
@@ -2686,6 +2704,7 @@ const resources = {
       'API.INVALID_NOTIFICATION_ID': '无效的通知ID',
       'API.INVALID_NUMERATOR_METER_UUID': '无效的分子表UUID',
       'API.INVALID_OBJECT_TYPE': '无效的对象类型',
+      'API.INVALID_OFFLINE_METER_DATA': '无效离线表数据',
       'API.INVALID_OFFLINE_METER_FILE_ID': '无效的离线表文件ID',
       'API.INVALID_OFFLINE_METER_ID': '无效的离线表ID',
       'API.INVALID_OFFLINE_METER_NAME': '无效的离线表名称',
