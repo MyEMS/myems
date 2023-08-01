@@ -71,7 +71,8 @@ class Reporting:
                                   " WHERE id = %s ", (offline_meter_id,))
             row_meter = cursor_system.fetchone()
             if row_meter is None:
-                raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND', description='API.METER_NOT_FOUND')
+                raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+                                       description='API.OFFLINE_METER_NOT_FOUND')
             hourly_low_limit = row_meter[0] if row_meter[0] is not None else 0
             hourly_high_limit = row_meter[1] if row_meter[1] is not None else 0
             if cursor_system:
@@ -82,7 +83,7 @@ class Reporting:
             for start_datetime_utc, daily_value in energy_data_item['data'].items():
                 end_datetime_utc = start_datetime_utc + timedelta(hours=24)
                 actual_value = \
-                    daily_value / (Decimal(24) * Decimal(60) / Decimal(config.minutes_to_count))
+                    round(daily_value / (Decimal(24) * Decimal(60) / Decimal(config.minutes_to_count)), 3)
 
                 cursor_energy.execute("DELETE FROM tbl_offline_meter_hourly WHERE offline_meter_id = %s "
                                       "AND start_datetime_utc >= %s AND start_datetime_utc < %s ",
@@ -99,7 +100,11 @@ class Reporting:
                 add_values = (" INSERT INTO tbl_offline_meter_hourly "
                               "             (offline_meter_id, start_datetime_utc, actual_value) "
                               " VALUES  ")
+                sum = actual_value * 24
+                last_date_utc = end_datetime_utc - timedelta(minutes=config.minutes_to_count)
                 while start_datetime_utc < end_datetime_utc:
+                    if start_datetime_utc == last_date_utc and sum != daily_value:
+                        actual_value = daily_value - sum + actual_value
                     add_values += " (" + str(offline_meter_id) + ","
                     add_values += "'" + start_datetime_utc.isoformat()[0:19] + "',"
                     add_values += str(actual_value) + "), "

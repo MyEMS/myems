@@ -25666,11 +25666,11 @@
 							],
 							"query": [
 								{
-									"key": "meterid",
+									"key": "offlinemeterid",
 									"value": "1"
 								},
 								{
-									"key": "meteruuid",
+									"key": "offlinemeteruuid",
 									"value": "",
 									"disabled": true
 								},
