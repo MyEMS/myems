@@ -7,19 +7,19 @@ import moment from 'moment';
 import ReactEchartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/lib/echarts';
 import { LineChart } from 'echarts/charts';
-import { 
+import {
   GridComponent,
-  ToolboxComponent, 
+  ToolboxComponent,
   DataZoomComponent,
-  MarkLineComponent, 
+  MarkLineComponent,
   MarkPointComponent} from 'echarts/components';
 
 echarts.use([
-  LineChart, 
-  GridComponent, 
-  ToolboxComponent, 
-  DataZoomComponent, 
-  MarkLineComponent, 
+  LineChart,
+  GridComponent,
+  ToolboxComponent,
+  DataZoomComponent,
+  MarkLineComponent,
   MarkPointComponent]);
 
 const MultipleLineChart = ({
@@ -192,7 +192,7 @@ const MultipleLineChart = ({
         }
       }
       tempNodes.splice(i, 1);
-    }    
+    }
     setNodes(tempNodes);
     setLinaLabels(labels[values[0]]);
   }, [lastMoment]);
@@ -217,7 +217,7 @@ const MultipleLineChart = ({
         axisLabel: {
           interval: 'auto',
           color: rgbaColor(isDark ? '#fff' : '#000', 0.8),
-          rotate:30  
+          rotate:30
         },
         axisLine:{
           lineStyle:{

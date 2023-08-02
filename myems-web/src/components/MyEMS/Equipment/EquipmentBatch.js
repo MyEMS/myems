@@ -119,7 +119,7 @@ const EquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       console.log(json);
       if (isResponseOK) {
-        // rename keys 
+        // rename keys
         json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
         setCascaderOptions(json);
         // set the default selected space
@@ -146,7 +146,7 @@ const EquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
     setExportButtonHidden(true);
     setSubmitButtonDisabled(false);
   };
-  
+
   // Callback fired when value changed
   let onReportingPeriodChange = (DateRange) => {
     if(DateRange == null) {
@@ -182,12 +182,12 @@ const EquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
 
     // Reinitialize tables
     setEquipmentList([]);
-    
+
     let isResponseOK = false;
     fetch(APIBaseURL + '/reports/equipmentbatch?' +
       'spaceid=' + selectedSpaceID +
       '&reportingperiodstartdatetime=' + moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') + 
+      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
       '&language=' + language, {
       method: 'GET',
       headers: {
@@ -257,7 +257,7 @@ const EquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
         setSpinnerHidden(true);
         // show export button
         setExportButtonHidden(false);
-          
+
       } else {
         toast.error(t(json.description))
       }
@@ -282,7 +282,7 @@ const EquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
             document.body.removeChild(link);
         });
   };
-  
+
 
 
   return (
@@ -310,7 +310,7 @@ const EquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
                   </Cascader>
                 </FormGroup>
               </Col>
-              
+
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="reportingPeriodDateRangePicker">{t('Reporting Period')}</Label>
@@ -344,7 +344,7 @@ const EquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                   <br></br>
-                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default" 
+                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
                   hidden={exportButtonHidden}
                   onClick={handleExport} >
                     {t('Export')}

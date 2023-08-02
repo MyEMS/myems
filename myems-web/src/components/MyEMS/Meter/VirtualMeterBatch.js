@@ -60,7 +60,7 @@ const VirtualMeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
-  
+
   // State
   //Query Form
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
@@ -98,7 +98,7 @@ const VirtualMeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
     {dataField: 'name', text: t('Name'), sort: true},
     {dataField: 'space', text: t('Space'), sort: true}]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
-  
+
   useEffect(() => {
     let isResponseOK = false;
     fetch(APIBaseURL + '/spaces/tree', {
@@ -119,7 +119,7 @@ const VirtualMeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       console.log(json);
       if (isResponseOK) {
-        // rename keys 
+        // rename keys
         json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
         setCascaderOptions(json);
         // set the default selected space
@@ -178,10 +178,10 @@ const VirtualMeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
     setSpinnerHidden(false);
     // hide export button
     setExportButtonHidden(true)
- 
+
     // Reinitialize tables
     setMeterList([]);
-    
+
     let isResponseOK = false;
     fetch(APIBaseURL + '/reports/virtualmeterbatch?' +
       'spaceid=' + selectedSpaceID +
@@ -218,7 +218,7 @@ const VirtualMeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
               } else {
                 detailed_value['a' + energyCategoryIndex] = null;
               }
-              
+
             });
             meters.push(detailed_value);
           });
@@ -290,7 +290,7 @@ const VirtualMeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
             document.body.removeChild(link);
         });
   };
-  
+
 
 
   return (
@@ -351,7 +351,7 @@ const VirtualMeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                   <br></br>
-                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default" 
+                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
                   hidden={exportButtonHidden}
                   onClick={handleExport} >
                     {t('Export')}

@@ -134,7 +134,7 @@ const AdvacnedReporting = ({ setRedirect, setRedirectUrl, t }) => {
           json.forEach((currentValue, index) => {
             let report = {}
             report['id'] = json[index]['id'];
-            report['calendar'] = { month: json[index]['create_datetime_local'].substring(5, 7), 
+            report['calendar'] = { month: json[index]['create_datetime_local'].substring(5, 7),
             day: json[index]['create_datetime_local'].substring(8, 10) };
             report['title'] = json[index]['file_name'] + '.' + json[index]['file_type'];
             report['additional'] = t('Created Datetime') + ': ' + json[index]['create_datetime_local']  + '<br/>' +
@@ -145,7 +145,7 @@ const AdvacnedReporting = ({ setRedirect, setRedirectUrl, t }) => {
             reportList.push(report);
           });
         }
-      
+
         setReports(reportList);
 
         // enable submit button

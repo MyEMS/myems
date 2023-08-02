@@ -126,7 +126,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([{dataField: 'startdatetime', text: t('Datetime'), sort: true}]);
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
-  
+
   useEffect(() => {
     let isResponseOK = false;
     if (uuid === null || !uuid ){
@@ -138,7 +138,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
           "Token": getCookieValue('token')
         },
         body: null,
-  
+
       }).then(response => {
         console.log(response);
         if (response.ok) {
@@ -163,7 +163,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
               "Token": getCookieValue('token')
             },
             body: null,
-  
+
           }).then(response => {
             if (response.ok) {
               isResponseOK = true;
@@ -196,7 +196,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
         }
       }).catch(err => {
         console.log(err);
-      });  
+      });
     } else {
       // disable submit button
       setSubmitButtonDisabled(true);
@@ -277,7 +277,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
 
           names = Array();
           json['parameters']['names'].forEach((currentValue, index) => {
-            
+
             names.push({ 'value': 'a' + index, 'label': currentValue });
           });
           setParameterLineChartOptions(names);
@@ -525,7 +525,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
   let onReportingPeriodClean = event => {
     setReportingPeriodDateRange([null, null]);
   };
-  
+
 
   // Handler
   const handleSubmit = e => {
@@ -617,7 +617,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
 
         names = Array();
         json['parameters']['names'].forEach((currentValue, index) => {
-          
+
           names.push({ 'value': 'a' + index, 'label': currentValue });
         });
         setParameterLineChartOptions(names);
@@ -721,7 +721,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
           }, 0)
         }
 
-        
+
 
         setExcelBytesBase64(json['excel_bytes_base64']);
 
@@ -839,7 +839,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="basePeriodDateRangePicker">{t('Base Period')}{t('(Optional)')}</Label>
-                  <DateRangePickerWrapper 
+                  <DateRangePickerWrapper
                     id='basePeriodDateRangePicker'
                     disabled={basePeriodDateRangePickerDisabled}
                     format="yyyy-MM-dd HH:mm:ss"

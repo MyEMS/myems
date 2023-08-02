@@ -120,7 +120,7 @@ const CombinedEquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       console.log(json);
       if (isResponseOK) {
-        // rename keys 
+        // rename keys
         json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
         setCascaderOptions(json);
         // set the default selected space
@@ -147,7 +147,7 @@ const CombinedEquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
     setExportButtonHidden(true);
     setSubmitButtonDisabled(false);
   };
-  
+
   // Callback fired when value changed
   let onReportingPeriodChange = (DateRange) => {
     if(DateRange == null) {
@@ -183,7 +183,7 @@ const CombinedEquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
 
     // Reinitialize tables
     setCombinedEquipmentList([]);
-    
+
     let isResponseOK = false;
     fetch(APIBaseURL + '/reports/combinedequipmentbatch?' +
       'spaceid=' + selectedSpaceID +
@@ -258,7 +258,7 @@ const CombinedEquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
         setSpinnerHidden(true);
         // show export button
         setExportButtonHidden(false);
-          
+
       } else {
         toast.error(t(json.description))
       }
@@ -283,7 +283,7 @@ const CombinedEquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
             document.body.removeChild(link);
         });
   };
-  
+
 
 
   return (
@@ -311,7 +311,7 @@ const CombinedEquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
                   </Cascader>
                 </FormGroup>
               </Col>
-              
+
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="reportingPeriodDateRangePicker">{t('Reporting Period')}</Label>
@@ -345,7 +345,7 @@ const CombinedEquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                   <br></br>
-                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default" 
+                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
                   hidden={exportButtonHidden}
                   onClick={handleExport} >
                     {t('Export')}

@@ -60,7 +60,7 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
-  
+
   // State
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
   const [cascaderOptions, setCascaderOptions] = useState(undefined);
@@ -70,7 +70,7 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
 
   const { language } = useContext(AppContext)
-  
+
   useEffect(() => {
     let isResponseOK = false;
     fetch(APIBaseURL + '/spaces/tree', {
@@ -91,7 +91,7 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       console.log(json)
       if (isResponseOK) {
-        // rename keys 
+        // rename keys
         json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
         setCascaderOptions(json);
         setSelectedSpaceName([json[0]].map(o => o.label));
@@ -130,7 +130,7 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
             setEquipmentList(equipments);
 
             setExcelBytesBase64(json['excel_bytes_base64']);
-            
+
             // hide spinner
             setSpinnerHidden(true);
             // show export button
@@ -227,11 +227,11 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
     // show spinner
     setSpinnerHidden(false);
     // hide export button
-    setExportButtonHidden(true) 
+    setExportButtonHidden(true)
     // begin of getting equipment list
     let isResponseOK = false;
     fetch(APIBaseURL + '/reports/equipmenttracking?' +
-      'spaceid=' + selectedSpaceID + 
+      'spaceid=' + selectedSpaceID +
       '&language=' + language, {
       method: 'GET',
       headers: {
@@ -263,7 +263,7 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
         setEquipmentList(equipments);
 
         setExcelBytesBase64(json['excel_bytes_base64']);
-        
+
         // hide spinner
         setSpinnerHidden(true);
         // show export button
@@ -328,7 +328,7 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                   <br></br>
-                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default" 
+                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
                   hidden={exportButtonHidden}
                   onClick={handleExport} >
                     {t('Export')}

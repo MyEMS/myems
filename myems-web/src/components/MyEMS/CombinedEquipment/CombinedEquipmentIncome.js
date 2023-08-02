@@ -106,7 +106,7 @@ const CombinedEquipmentIncome = ({ setRedirect, setRedirectUrl, t }) => {
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
-  
+
   //Results
   const [incomeShareData, setIncomeShareData] = useState([]);
 
@@ -132,12 +132,12 @@ const CombinedEquipmentIncome = ({ setRedirect, setRedirectUrl, t }) => {
 
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([{dataField: 'startdatetime', text: t('Datetime'), sort: true}]);
-  
+
   const [associatedEquipmentTableData, setAssociatedEquipmentTableData] = useState([]);
   const [associatedEquipmentTableColumns, setAssociatedEquipmentTableColumns] = useState([{dataField: 'name', text: t('Associated Equipment'), sort: true }]);
-  
+
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
-  
+
   useEffect(() => {
     let isResponseOK = false;
     fetch(APIBaseURL + '/spaces/tree', {
@@ -158,7 +158,7 @@ const CombinedEquipmentIncome = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       console.log(json);
       if (isResponseOK) {
-        // rename keys 
+        // rename keys
         json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
         setCascaderOptions(json);
         setSelectedSpaceName([json[0]].map(o => o.label));
@@ -352,7 +352,7 @@ const CombinedEquipmentIncome = ({ setRedirect, setRedirectUrl, t }) => {
     // Reinitialize tables
     setDetailedDataTableData([]);
     setAssociatedEquipmentTableData([]);
-    
+
     let isResponseOK = false;
     fetch(APIBaseURL + '/reports/combinedequipmentincome?' +
       'combinedequipmentid=' + selectedCombinedEquipment +
@@ -395,7 +395,7 @@ const CombinedEquipmentIncome = ({ setRedirect, setRedirectUrl, t }) => {
         cardSummaryItem['increment_rate'] = parseFloat(json['reporting_period']['total_increment_rate'] * 100).toFixed(2) + "%";
         cardSummaryArray.push(cardSummaryItem);
         setCardSummaryList(cardSummaryArray);
-        
+
         let incomeDataArray = [];
         json['reporting_period']['names'].forEach((currentValue, index) => {
           let incomeDataItem = {}
@@ -489,10 +489,10 @@ const CombinedEquipmentIncome = ({ setRedirect, setRedirectUrl, t }) => {
           values['a' + index] = currentValue;
         });
         setParameterLineChartData(values);
-      
+
         let names = Array();
         json['parameters']['names'].forEach((currentValue, index) => {
-          
+
           names.push({ 'value': 'a' + index, 'label': currentValue });
         });
         setParameterLineChartOptions(names);
@@ -697,7 +697,7 @@ const CombinedEquipmentIncome = ({ setRedirect, setRedirectUrl, t }) => {
             }, 0)
           }
         }
-        
+
         let associated_equipment_value_list = [];
         if (json['associated_equipment']['associated_equipment_names_array'].length > 0) {
           json['associated_equipment']['associated_equipment_names_array'][0].forEach((currentEquipmentName, equipmentIndex) => {
@@ -760,7 +760,7 @@ const CombinedEquipmentIncome = ({ setRedirect, setRedirectUrl, t }) => {
         setSpinnerHidden(true);
         // show export button
         setExportButtonHidden(false);
-          
+
       } else {
         toast.error(t(json.description))
       }
@@ -785,7 +785,7 @@ const CombinedEquipmentIncome = ({ setRedirect, setRedirectUrl, t }) => {
             document.body.removeChild(link);
         });
   };
-  
+
 
   return (
     <Fragment>
@@ -862,7 +862,7 @@ const CombinedEquipmentIncome = ({ setRedirect, setRedirectUrl, t }) => {
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="basePeriodDateRangePicker">{t('Base Period')}{t('(Optional)')}</Label>
-                  <DateRangePickerWrapper 
+                  <DateRangePickerWrapper
                     id='basePeriodDateRangePicker'
                     disabled={basePeriodDateRangePickerDisabled}
                     format="yyyy-MM-dd HH:mm:ss"
@@ -909,7 +909,7 @@ const CombinedEquipmentIncome = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                   <br></br>
-                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default" 
+                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
                   hidden={exportButtonHidden}
                   onClick={handleExport} >
                     {t('Export')}

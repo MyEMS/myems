@@ -69,7 +69,7 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
       console.log(err);
     });
   };
-  
+
 
   useEffect(() => {
     setIsDisabled(!email || !password || !code);
@@ -100,7 +100,7 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
           value={email}
           onChange={({ target }) => setEmail(target.value)}
           type="email"
-          autoFocus 
+          autoFocus
         />
       </FormGroup>
       <FormGroup>
@@ -142,7 +142,7 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
               ref={captchaRef}
             />
           </Col>
-         
+
         </Row>
       </FormGroup>
       <Row className="justify-content-between align-items-center">

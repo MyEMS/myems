@@ -43,7 +43,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
   const [endDatetime, setEndDatetime] = useState(current_moment);
   const [status, setStatus] = useState('all');
   const [priority, setPriority] = useState('all');
-  
+
   const [fetchSuccess, setFetchSuccess] = useState(false);
   //Results
   const [notifications, setNotifications] = useState([]);
@@ -68,13 +68,13 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
       createCookie('user_display_name', user_display_name, 1000 * 60 * 10 * 1);
       createCookie('user_uuid', user_uuid, 1000 * 60 * 10 * 1);
       createCookie('token', token, 1000 * 60 * 10 * 1);
-      
+
       let isResponseOK = false;
-      if (!fetchSuccess) { 
+      if (!fetchSuccess) {
         fetch(APIBaseURL + '/webmessages?' +
             'startdatetime=' + startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
             '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-            '&priority=' + priority + 
+            '&priority=' + priority +
             '&status=' + status,  {
           method: 'GET',
           headers: {
@@ -109,7 +109,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
                 notificationList.push(notification);
               });
             }
-          
+
             setNotifications(notificationList);
             setSpinnerHidden(true);
           }
@@ -139,12 +139,12 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
 
     // Reinitialize tables
     setNotifications([]);
-    
+
     let isResponseOK = false;
     fetch(APIBaseURL + '/webmessages?' +
       'startdatetime=' + startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
       '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-      '&priority=' + priority + 
+      '&priority=' + priority +
       '&status=' + status, {
       method: 'GET',
       headers: {
@@ -186,7 +186,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
             notificationList.push(notification);
           });
         }
-        
+
         setNotifications(notificationList);
         setSpinnerHidden(true);
       } else {
@@ -696,7 +696,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
                   <Label className={labelClasses} for="priority">
                     {t('Notification Priority')}
                   </Label>
-                  <CustomInput type="select" id="bulk-select" 
+                  <CustomInput type="select" id="bulk-select"
                     value={priority}
                     onChange={({ target }) => {setPriority(target.value);}}>
                     <option value="all" key="all" >{t('View all')}</option>

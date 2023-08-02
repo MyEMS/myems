@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
-import { 
+import {
   Button,
-  Card, 
-  CardBody, 
-  Row, 
+  Card,
+  CardBody,
+  Row,
   Col } from 'reactstrap';
 import FalconCardHeader from '../../common/FalconCardHeader';
 import { withTranslation } from 'react-i18next';
@@ -29,7 +29,7 @@ const DetailedDataTable = ({ title, data, columns, pagesize, t }) => {
   const handleNextPage = ({ page, onPageChange }) => () => {
     onPageChange(page + 1);
   };
-  
+
   const handlePrevPage = ({ page, onPageChange }) => () => {
     onPageChange(page - 1);
   };
@@ -37,7 +37,7 @@ const DetailedDataTable = ({ title, data, columns, pagesize, t }) => {
     <Fragment>
       <Card>
         <FalconCardHeader title={title} className="bg-light">
-          
+
         </FalconCardHeader>
         <CardBody>
         <PaginationProvider pagination={paginationFactory(options)}>

@@ -605,7 +605,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
             working_days_table_value['b1'] = json['space']['working_calendars'].length > 0 ? json['reporting_period']['non_working_days_subtotals'][index] : "-";
             working_days_table_value_list.push(working_days_table_value);
           });
-  
+
           setWorkingDaysConsumptionTableData(working_days_table_value_list);
         } else {
           /*
@@ -787,7 +787,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
             json['child_space']['energy_category_names'].forEach((currentValue, energyCategoryIndex) => {
               child_space_value['a' + (2 * energyCategoryIndex)] = json['child_space']['subtotals_array'][energyCategoryIndex][spaceIndex];
               let total = json['child_space']['subtotals_array'][energyCategoryIndex].reduce((a, b) => a + b);
-              child_space_value['a' + (2 * energyCategoryIndex + 1)] = 
+              child_space_value['a' + (2 * energyCategoryIndex + 1)] =
                 total > 0 ? json['child_space']['subtotals_array'][energyCategoryIndex][spaceIndex] / total * 100 : 0.00;
             });
             console.log(child_space_value)
@@ -1061,7 +1061,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
       <WorkingDaysConsumptionTable
        data={workingDaysConsumptionTableData}
        title={t('CATEGORY Consumption UNIT', { 'CATEGORY': t('Working Days') + '/' + t('Non Working Days') })}
-       columns={workingDaysConsumptionTableColumns}> 
+       columns={workingDaysConsumptionTableColumns}>
       </WorkingDaysConsumptionTable>
 
       <DetailedDataTable data={detailedDataTableData} title={t('Detailed Data')} columns={detailedDataTableColumns} pagesize={50} >

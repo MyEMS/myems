@@ -71,7 +71,7 @@ class RealtimeData extends Component {
         });
         if (this._isMounted) {
           this.setState({
-            trendLog: trendLog, 
+            trendLog: trendLog,
             currentEnergyValue: currentEnergyValue,
             energyValuePointName: energyValuePointName,
             pointList: pointList,
@@ -122,8 +122,8 @@ class RealtimeData extends Component {
             pointList.push(pointItem);
           });
           if (this._isMounted) {
-            this.setState({ 
-              trendLog: trendLog, 
+            this.setState({
+              trendLog: trendLog,
               currentEnergyValue: currentEnergyValue,
               energyValuePointName: energyValuePointName,
               pointList: pointList,
@@ -135,7 +135,7 @@ class RealtimeData extends Component {
       }).catch(err => {
         console.log(err);
       });
-    }, (60 + Math.floor(Math.random() * Math.floor(10))) * 1000); // use random interval to avoid paralels requests 
+    }, (60 + Math.floor(Math.random() * Math.floor(10))) * 1000); // use random interval to avoid paralels requests
   }
 
   render() {

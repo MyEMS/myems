@@ -62,7 +62,7 @@ const TenantBatch = ({ setRedirect, setRedirectUrl, t }) => {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
-  
+
   // State
   // Query Parameters
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
@@ -99,7 +99,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState(
     [{dataField: 'name', text: t('Name'), sort: true}, {dataField: 'space', text: t('Space'), sort: true}]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
-  
+
   useEffect(() => {
     let isResponseOK = false;
     fetch(APIBaseURL + '/spaces/tree', {
@@ -120,7 +120,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
     }).then(json => {
       console.log(json);
       if (isResponseOK) {
-        // rename keys 
+        // rename keys
         json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
         setCascaderOptions(json);
         // set the default selected space
@@ -179,15 +179,15 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
     setSpinnerHidden(false);
     // hide export button
     setExportButtonHidden(true)
- 
+
     // Reinitialize tables
     setTenantList([]);
-    
+
     let isResponseOK = false;
     fetch(APIBaseURL + '/reports/tenantbatch?' +
       'spaceid=' + selectedSpaceID +
       '&reportingperiodstartdatetime=' + moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') + 
+      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
       '&language=' + language, {
       method: 'GET',
       headers: {
@@ -272,7 +272,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
         setSpinnerHidden(true);
         // show export button
         setExportButtonHidden(false);
-          
+
       } else {
         toast.error(t(json.description));
       }
@@ -297,7 +297,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
             document.body.removeChild(link);
         });
   };
-  
+
 
 
   return (
@@ -325,7 +325,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
                   </Cascader>
                 </FormGroup>
               </Col>
-              
+
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="reportingPeriodDateRangePicker">{t('Reporting Period')}</Label>
@@ -359,7 +359,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
               </Col>
               <Col xs="auto">
                   <br></br>
-                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default" 
+                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
                   hidden={exportButtonHidden}
                   onClick={handleExport} >
                     {t('Export')}

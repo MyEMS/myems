@@ -154,7 +154,7 @@ const VirtualMeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       console.log(json);
       if (isResponseOK) {
-        // rename keys 
+        // rename keys
         json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
         setCascaderOptions(json);
         setSelectedSpaceName([json[0]].map(o => o.label));
@@ -424,7 +424,7 @@ const VirtualMeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
 
         let names = Array();
         json['parameters']['names'].forEach((currentValue, index) => {
-          
+
           names.push({ 'value': 'a' + index, 'label': currentValue });
         });
         setParameterLineChartOptions(names);
@@ -543,7 +543,7 @@ const VirtualMeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
             setDetailedDataTableData(detailed_value_list);
           }, 0)
         }
-        
+
         setExcelBytesBase64(json['excel_bytes_base64']);
 
         // enable submit button
@@ -560,7 +560,7 @@ const VirtualMeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
       console.log(err);
     });
   };
-  
+
   const handleExport = e => {
     e.preventDefault();
     const mimeType='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
@@ -577,7 +577,7 @@ const VirtualMeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
             document.body.removeChild(link);
         });
   };
-  
+
 
   return (
     <Fragment>

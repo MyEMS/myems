@@ -52,12 +52,12 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
-  
+
   // State
   // Query Parameters
   const [distributionSystemList, setDistributionSystemList] = useState([]);
   const [selectedDistributionSystemID, setSelectedDistributionSystemID] = useState(undefined);
-  
+
   //Results
   const [images, setImages] = useState([]);
   const [spinnerHidden, setSpinnerHidden] = useState(false);
@@ -82,13 +82,13 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       console.log(json);
       if (isResponseOK) {
-        // rename keys 
+        // rename keys
         json = JSON.parse(JSON.stringify(json).split('"id":').join('"value":').split('"name":').join('"label":'));
-        
+
         console.log(json);
         setDistributionSystemList(json);
         setSelectedDistributionSystemID([json[0]].map(o => o.value));
-        
+
         let images = {};
         json.forEach((currentValue, index) => {
           images[currentValue['value']] = {__html: currentValue['svg']}
@@ -139,19 +139,19 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
                   <br></br>
                   <Spinner color="primary" hidden={spinnerHidden}  />
                 </FormGroup>
-              </Col>              
+              </Col>
             </Row>
           </Form>
         </CardBody>
       </Card>
       <Row noGutters>
-        
+
         <Col lg="4" className="pr-lg-2" key={uuid()}>
-          <RealtimeChart 
-            distributionSystemID={selectedDistributionSystemID} 
+          <RealtimeChart
+            distributionSystemID={selectedDistributionSystemID}
           />
         </Col>
-        
+
         <Col lg="8" className="pr-lg-2">
           <div dangerouslySetInnerHTML={images[selectedDistributionSystemID]} />
         </Col>

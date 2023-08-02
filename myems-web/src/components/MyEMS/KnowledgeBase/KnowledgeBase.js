@@ -12,7 +12,7 @@ import { APIBaseURL } from '../../../config';
 
 
 const KnowledgeBase = ({ setRedirect, setRedirectUrl, t }) => {
-  
+
   const [fetchSuccess, setFetchSuccess] = useState(false);
 
   //Results
@@ -38,7 +38,7 @@ const KnowledgeBase = ({ setRedirect, setRedirectUrl, t }) => {
       createCookie('token', token, 1000 * 60 * 10 * 1);
 
       let isResponseOK = false;
-      if (!fetchSuccess) { 
+      if (!fetchSuccess) {
         fetch(APIBaseURL + '/knowledgefiles', {
           method: 'GET',
           headers: {
@@ -64,7 +64,7 @@ const KnowledgeBase = ({ setRedirect, setRedirectUrl, t }) => {
               json.forEach((currentValue, index) => {
                 let report = {}
                 report['id'] = json[index]['id'];
-                report['calendar'] = { month: json[index]['upload_datetime'].substring(5, 7), 
+                report['calendar'] = { month: json[index]['upload_datetime'].substring(5, 7),
                 day: json[index]['upload_datetime'].substring(8, 10) };
                 report['title'] = json[index]['file_name'];
                 report['additional'] = t('Created Datetime') + ': ' + json[index]['upload_datetime']  + '<br/>' +
@@ -75,7 +75,7 @@ const KnowledgeBase = ({ setRedirect, setRedirectUrl, t }) => {
                 reportList.push(report);
               });
             }
-          
+
             setReports(reportList);
             setSpinnerHidden(true);
           }
@@ -83,7 +83,7 @@ const KnowledgeBase = ({ setRedirect, setRedirectUrl, t }) => {
       }
     }
   }, );
-  
+
   return (
     <Card>
       <FalconCardHeader title={t('Knowledge Base')}>

@@ -127,12 +127,12 @@ const CombinedEquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
 
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([{dataField: 'startdatetime', text: t('Datetime'), sort: true}]);
-  
+
   const [associatedEquipmentTableData, setAssociatedEquipmentTableData] = useState([]);
   const [associatedEquipmentTableColumns, setAssociatedEquipmentTableColumns] = useState([{dataField: 'name', text: t('Associated Equipment'), sort: true }]);
-  
+
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
-  
+
   useEffect(() => {
     let isResponseOK = false;
     fetch(APIBaseURL + '/spaces/tree', {
@@ -153,7 +153,7 @@ const CombinedEquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       console.log(json);
       if (isResponseOK) {
-        // rename keys 
+        // rename keys
         json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
         setCascaderOptions(json);
         setSelectedSpaceName([json[0]].map(o => o.label));
@@ -347,7 +347,7 @@ const CombinedEquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
     // Reinitialize tables
     setDetailedDataTableData([]);
     setAssociatedEquipmentTableData([]);
-    
+
     let isResponseOK = false;
     fetch(APIBaseURL + '/reports/combinedequipmentload?' +
       'combinedequipmentid=' + selectedCombinedEquipment +
@@ -447,7 +447,7 @@ const CombinedEquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
           options.push({ 'value': 'a' + index, 'label': currentValue + ' (' + unit + '/H)'});
         });
         setCombinedEquipmentReportingOptions(options);
-      
+
         let timestamps = {}
         json['parameters']['timestamps'].forEach((currentValue, index) => {
           timestamps['a' + index] = currentValue;
@@ -459,10 +459,10 @@ const CombinedEquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
           values['a' + index] = currentValue;
         });
         setParameterLineChartData(values);
-      
+
         let names = Array();
         json['parameters']['names'].forEach((currentValue, index) => {
-          
+
           names.push({ 'value': 'a' + index, 'label': currentValue });
         });
         setParameterLineChartOptions(names);
@@ -636,7 +636,7 @@ const CombinedEquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
             }, 0)
           }
         }
-        
+
         let associated_equipment_value_list = [];
         if (json['associated_equipment']['associated_equipment_names_array'].length > 0) {
           json['associated_equipment']['associated_equipment_names_array'][0].forEach((currentEquipmentName, equipmentIndex) => {
@@ -648,13 +648,13 @@ const CombinedEquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
                 associated_equipment_value['a' + 2 * energyCategoryIndex] = json['associated_equipment']['sub_averages_array'][energyCategoryIndex][equipmentIndex];
               } else {
                 associated_equipment_value['a' + 2 * energyCategoryIndex] = null
-              };  
+              };
               if (json['associated_equipment']['sub_maximums_array'][energyCategoryIndex][equipmentIndex] != null) {
                 associated_equipment_value['a' + (2 * energyCategoryIndex + 1)] = json['associated_equipment']['sub_maximums_array'][energyCategoryIndex][equipmentIndex];
               } else {
                 associated_equipment_value['a' + (2 * energyCategoryIndex + 1)] = null;
-              };       
-              
+              };
+
             });
             associated_equipment_value_list.push(associated_equipment_value);
           });
@@ -706,7 +706,7 @@ const CombinedEquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
         setSpinnerHidden(true);
         // show export button
         setExportButtonHidden(false);
-          
+
       } else {
         toast.error(t(json.description))
       }
@@ -731,7 +731,7 @@ const CombinedEquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
             document.body.removeChild(link);
         });
   };
-  
+
 
 
   return (
@@ -809,7 +809,7 @@ const CombinedEquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="basePeriodDateRangePicker">{t('Base Period')}{t('(Optional)')}</Label>
-                  <DateRangePickerWrapper 
+                  <DateRangePickerWrapper
                     id='basePeriodDateRangePicker'
                     disabled={basePeriodDateRangePickerDisabled}
                     format="yyyy-MM-dd HH:mm:ss"
@@ -856,7 +856,7 @@ const CombinedEquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                   <br></br>
-                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default" 
+                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
                   hidden={exportButtonHidden}
                   onClick={handleExport} >
                     {t('Export')}
@@ -883,7 +883,7 @@ const CombinedEquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
           <CardSummary key={cardSummaryItem['name'] + 'factor'}
             rate={cardSummaryItem['factor_increment_rate']}
             title={t('Reporting Period CATEGORY Load Factor', { 'CATEGORY': cardSummaryItem['name'] })}
-            color="success" 
+            color="success"
             footnote={t('Ratio of Average Load to Maximum Load')} >
             {cardSummaryItem['factor'] && <CountUp end={cardSummaryItem['factor']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
           </CardSummary>

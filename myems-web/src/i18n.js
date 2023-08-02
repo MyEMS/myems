@@ -2031,7 +2031,6 @@ const resources = {
       'API.WECHAT_MESSAGE_NOT_FOUND': 'Wechat-Nachricht nicht gefunden',
       'API.WORKING_CALENDAR_NAME_IS_ALREADY_IN_USE': 'Der Name des Arbeitskalenders wird bereits verwendet',
       'API.WORKING_CALENDAR_NOT_FOUND': 'Arbeitskalender nicht gefunden',
-      'API.INVALID_OFFLINE_METER_VALUE': 'Ungültige Offline-Zählerdaten',
     }
   },
   zh_CN: {

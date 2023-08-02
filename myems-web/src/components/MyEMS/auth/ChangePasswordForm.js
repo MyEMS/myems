@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
-import { Button, 
-  Card, 
-  CardBody, 
+import { Button,
+  Card,
+  CardBody,
   Form } from 'reactstrap';
 import FalconCardHeader from '../../common/FalconCardHeader';
 import FormGroupInput from '../../common/FormGroupInput';
@@ -43,7 +43,7 @@ const ChangePasswordForm = ({ setRedirect, setRedirectUrl, layout, t }) => {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
-  
+
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
