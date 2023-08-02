@@ -150,7 +150,7 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       console.log(json);
       if (isResponseOK) {
-        // rename keys 
+        // rename keys
         json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
         setCascaderOptions(json);
         setSelectedSpaceName([json[0]].map(o => o.label));
@@ -200,7 +200,7 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
     });
 
   }, []);
-  
+
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
@@ -361,7 +361,7 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
 
     // Reinitialize tables
     setDetailedDataTableData([]);
-    
+
     let isResponseOK = false;
     fetch(APIBaseURL + '/reports/equipmentefficiency?' +
       'equipmentid=' + selectedEquipment +
@@ -369,7 +369,7 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
       '&baseperiodstartdatetime=' + (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
       '&baseperiodenddatetime=' + (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
       '&reportingperiodstartdatetime=' + moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') + 
+      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
       '&language=' + language, {
       method: 'GET',
       headers: {
@@ -562,10 +562,10 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
           values['a' + index] = currentValue;
         });
         setParameterLineChartData(values);
-      
+
         let names = Array();
         json['parameters']['names'].forEach((currentValue, index) => {
-          
+
           names.push({ 'value': 'a' + index, 'label': currentValue });
         });
         setParameterLineChartOptions(names);
@@ -857,9 +857,9 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
             }, 0)
           }
         }
-        
+
         setExcelBytesBase64(json['excel_bytes_base64']);
-      
+
         // enable submit button
         setSubmitButtonDisabled(false);
         // hide spinner
@@ -872,9 +872,9 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
       }
     }).catch(err => {
       console.log(err);
-    });      
+    });
   };
-  
+
   const handleExport = e => {
     e.preventDefault();
     const mimeType='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
@@ -891,7 +891,7 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
             document.body.removeChild(link);
         });
   };
-  
+
 
   return (
     <Fragment>
@@ -968,7 +968,7 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="basePeriodDateRangePicker">{t('Base Period')}{t('(Optional)')}</Label>
-                  <DateRangePickerWrapper 
+                  <DateRangePickerWrapper
                     id='basePeriodDateRangePicker'
                     disabled={basePeriodDateRangePickerDisabled}
                     format="yyyy-MM-dd HH:mm:ss"
@@ -1015,7 +1015,7 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                   <br></br>
-                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default" 
+                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
                   hidden={exportButtonHidden}
                   onClick={handleExport} >
                     {t('Export')}

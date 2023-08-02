@@ -35,7 +35,7 @@ const LineChart = ({
   const chartRef = useRef(null);
   const [lineData, setLineData] = useState({
     datasets: [],
-  });  
+  });
   useEffect(() => {
     const chart = chartRef.current;
     if (chart) {
@@ -45,7 +45,7 @@ const LineChart = ({
         : ctx.createLinearGradient(0, 0, 0, 250);
       gradientFill.addColorStop(0, isDark ? 'rgba(44,123,229, 0.5)' : 'rgba(255, 255, 255, 0.3)');
       gradientFill.addColorStop(1, isDark ? 'transparent' : 'rgba(255, 255, 255, 0)');
-      
+
       const chartData = {
         datasets: [{
             borderWidth: 2,

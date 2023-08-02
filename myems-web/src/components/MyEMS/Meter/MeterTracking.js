@@ -70,7 +70,7 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
-  
+
   // State
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
   const [selectedSpaceID, setSelectedSpaceID] = useState(undefined);
@@ -132,7 +132,7 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       console.log(json);
       if (isResponseOK) {
-        // rename keys 
+        // rename keys
         json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
         setCascaderOptions(json);
         // set the default selected space
@@ -146,7 +146,7 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
             "Token": getCookieValue('token')
           },
           body: null,
-    
+
         }).then(response => {
           if (response.ok) {
             isResponseOK = true;
@@ -183,7 +183,7 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
 
   const nameFormatter = (dataField, { name, uuid }) => (
     <Link to={{pathname:'/meter/meterenergy?uuid=' + uuid}}  target = "_blank">
-    
+
       <Media tag={Flex} align="center">
         <Media body className="ml-2">
           <h5 className="mb-0 fs--1">{name}</h5>
@@ -398,7 +398,7 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
           setFullIntegrityRate(json['full_integrity_rate'] * 100);
 
           setExcelBytesBase64(json['excel_bytes_base64']);
-          
+
           // enable submit button
           setSubmitButtonDisabled(false);
           // hide spinner
@@ -500,10 +500,10 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
                   <br></br>
                   <Spinner color="primary" hidden={spinnerHidden}  />
                 </FormGroup>
-              </Col>  
+              </Col>
               <Col xs="auto">
                   <br></br>
-                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default" 
+                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
                   hidden={exportButtonHidden}
                   onClick={handleExport} >
                     {t('Export')}

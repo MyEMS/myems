@@ -15,7 +15,7 @@ const ChildSpacesTable = ({ title, data, columns, t }) => {
     <Fragment>
       <Card>
         <FalconCardHeader title={title} className="bg-light">
-          
+
         </FalconCardHeader>
         <CardBody>
           <Row>

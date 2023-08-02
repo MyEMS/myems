@@ -15,7 +15,7 @@ const DateRangePickerWrapper = ({id, disabled, format, value, onChange, size, st
         if(flag) {
           calendarObj.children[0].children[0].children[0].children[1].innerText = time;
           setTimeout(() => {
-            calendarTitleObj.childNodes[0].nodeValue = time + ' ' + calendarObj.children[0].children[0].children[1].innerText; 
+            calendarTitleObj.childNodes[0].nodeValue = time + ' ' + calendarObj.children[0].children[0].children[1].innerText;
           }, 0);
         }else{
           if (moment(calendarObj.children[0].children[0].children[0].children[1].innerText).isBefore(time)){
@@ -28,7 +28,7 @@ const DateRangePickerWrapper = ({id, disabled, format, value, onChange, size, st
         }
         flag = !flag;
       }
-    
+
     const onOpen = () => {
       flag = true;
       let calendarTitleObj = Ref.current.overlay.children[0].children[0].children[0].children[0].children[0];
@@ -43,9 +43,9 @@ const DateRangePickerWrapper = ({id, disabled, format, value, onChange, size, st
         calendarTitleObj.childNodes[2].nodeValue = '';
       }
     }
-    
+
     return (
-        <DateRangePicker 
+        <DateRangePicker
             id={id}
             disabled={disabled}
             format={format}

@@ -131,7 +131,7 @@ const ShopfloorEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([{dataField: 'startdatetime', text: t('Datetime'), sort: true}]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
-  
+
   useEffect(() => {
     let isResponseOK = false;
     fetch(APIBaseURL + '/spaces/tree', {
@@ -152,7 +152,7 @@ const ShopfloorEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       console.log(json);
       if (isResponseOK) {
-        // rename keys 
+        // rename keys
         json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
         setCascaderOptions(json);
         setSelectedSpaceName([json[0]].map(o => o.label));
@@ -346,7 +346,7 @@ const ShopfloorEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
 
     // Reinitialize tables
     setDetailedDataTableData([]);
-    
+
     let isResponseOK = false;
     fetch(APIBaseURL + '/reports/shopfloorenergyitem?' +
       'shopfloorid=' + selectedShopfloor +
@@ -354,7 +354,7 @@ const ShopfloorEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
       '&baseperiodstartdatetime=' + (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
       '&baseperiodenddatetime=' + (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
       '&reportingperiodstartdatetime=' + moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') + 
+      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
       '&language=' + language, {
       method: 'GET',
       headers: {
@@ -385,7 +385,7 @@ const ShopfloorEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
           cardSummaryArray.push(cardSummaryItem);
         });
         setCardSummaryList(cardSummaryArray);
-        
+
         let sharePieDict = {}
         let energyCategoryDict = {};
         json['reporting_period']['names'].forEach((currentValue, index) => {
@@ -394,7 +394,7 @@ const ShopfloorEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
           sharePieSubItem['name'] = json['reporting_period']['names'][index];
           sharePieSubItem['value'] = json['reporting_period']['subtotals'][index];
           sharePieSubItem['color'] = "#"+((1<<24)*Math.random()|0).toString(16);
-          
+
           let current_energy_category_id = json['reporting_period']['energy_category_ids'][index]
           if (current_energy_category_id in sharePieDict) {
             sharePieDict[current_energy_category_id].push(sharePieSubItem);
@@ -404,7 +404,7 @@ const ShopfloorEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
           }
 
           if (!(current_energy_category_id in energyCategoryDict)) {
-            energyCategoryDict[current_energy_category_id] = 
+            energyCategoryDict[current_energy_category_id] =
             {'name': json['reporting_period']['energy_category_names'][index],
              'unit': json['reporting_period']['units'][index],
             }
@@ -491,7 +491,7 @@ const ShopfloorEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
           options.push({ 'value': 'a' + index, 'label': currentValue + ' (' + unit + ')'});
         });
         setShopfloorReportingOptions(options);
-       
+
         let timestamps = {}
         json['parameters']['timestamps'].forEach((currentValue, index) => {
           timestamps['a' + index] = currentValue;
@@ -503,10 +503,10 @@ const ShopfloorEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
           values['a' + index] = currentValue;
         });
         setParameterLineChartData(values);
-      
+
         let names = Array();
         json['parameters']['names'].forEach((currentValue, index) => {
-          
+
           names.push({ 'value': 'a' + index, 'label': currentValue });
         });
         setParameterLineChartOptions(names);
@@ -644,7 +644,7 @@ const ShopfloorEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
             }, 0)
           }
         }
-        
+
         setExcelBytesBase64(json['excel_bytes_base64']);
 
         // enable submit button
@@ -653,7 +653,7 @@ const ShopfloorEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
         setSpinnerHidden(true);
         // show export button
         setExportButtonHidden(false);
-        
+
       } else {
         toast.error(t(json.description))
       }
@@ -678,7 +678,7 @@ const ShopfloorEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
             document.body.removeChild(link);
         });
   };
-  
+
 
   return (
     <Fragment>
@@ -755,7 +755,7 @@ const ShopfloorEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="basePeriodDateRangePicker">{t('Base Period')}{t('(Optional)')}</Label>
-                  <DateRangePickerWrapper 
+                  <DateRangePickerWrapper
                     id='basePeriodDateRangePicker'
                     disabled={basePeriodDateRangePickerDisabled}
                     format="yyyy-MM-dd HH:mm:ss"
@@ -802,7 +802,7 @@ const ShopfloorEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                   <br></br>
-                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default" 
+                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
                   hidden={exportButtonHidden}
                   onClick={handleExport} >
                     {t('Export')}
@@ -817,8 +817,8 @@ const ShopfloorEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
           <CardSummary key={cardSummaryItem['name']}
             rate={cardSummaryItem['increment_rate']}
             title={t('Reporting Period Consumption ITEM CATEGORY UNIT', { 'ITEM': cardSummaryItem['name'], 'CATEGORY': cardSummaryItem['energy_category_name'], 'UNIT': '(' + cardSummaryItem['unit'] + ')' })}
-            color="success" 
-            footnote={t('Per Unit Area')} 
+            color="success"
+            footnote={t('Per Unit Area')}
             footvalue={cardSummaryItem['subtotal_per_unit_area']}
             footunit={"(" + cardSummaryItem['unit'] + "/M²)"} >
             {cardSummaryItem['subtotal'] && <CountUp end={cardSummaryItem['subtotal']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
@@ -829,7 +829,7 @@ const ShopfloorEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
         {sharePieList.map(sharePieItem => (
           <Col key={sharePieItem['energy_category_name']} className="mb-3 pr-lg-2 mb-3">
             <SharePie key={sharePieItem['energy_category_name']}
-              data={sharePieItem['data']} 
+              data={sharePieItem['data']}
               title={t('CATEGORY UNIT Consumption by Energy Items', { 'CATEGORY': sharePieItem['energy_category_name'], 'UNIT': '(' + sharePieItem['unit'] + ')' })} />
           </Col>
         ))}

@@ -108,7 +108,7 @@ class RealtimeChart extends Component {
         if (this._isMounted) {
           this.setState({
             chartData: chartData,
-            trendLog: trendLog, 
+            trendLog: trendLog,
             currentEnergyValue: floatFormatter(currentEnergyValue),
             energyValuePointName: energyValuePointName,
             pointList: pointList,
@@ -159,8 +159,8 @@ class RealtimeChart extends Component {
             pointList.push(pointItem);
           });
           if (this._isMounted) {
-            this.setState({ 
-              trendLog: trendLog, 
+            this.setState({
+              trendLog: trendLog,
               currentEnergyValue: currentEnergyValue,
               energyValuePointName: energyValuePointName,
               pointList: pointList,
@@ -172,7 +172,7 @@ class RealtimeChart extends Component {
       }).catch(err => {
         console.log(err);
       });
-    }, (60 + Math.floor(Math.random() * Math.floor(10))) * 1000); // use random interval to avoid paralels requests 
+    }, (60 + Math.floor(Math.random() * Math.floor(10))) * 1000); // use random interval to avoid paralels requests
   }
 
   render() {
@@ -199,7 +199,7 @@ class RealtimeChart extends Component {
           </p>
           <Line data={chartData} options={chartOptions} width={10} height={4} />
           <ListGroup flush className="mt-4">
-          
+
             <ListGroupItem
               className="bg-transparent d-flex justify-content-between px-0 py-1 font-weight-semi-bold border-top-0"
               style={{ borderColor: listItemBorderColor }}

@@ -156,7 +156,7 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       console.log(json);
       if (isResponseOK) {
-        // rename keys 
+        // rename keys
         json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
         setCascaderOptions(json);
         setSelectedSpaceName([json[0]].map(o => o.label));
@@ -206,7 +206,7 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
     });
 
   }, []);
-  
+
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
@@ -369,7 +369,7 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
     setDetailedDataTableData([]);
     setAssociatedEquipmentTableData([]);
 
-    
+
     let isResponseOK = false;
     fetch(APIBaseURL + '/reports/combinedequipmentefficiency?' +
       'combinedequipmentid=' + selectedCombinedEquipment +
@@ -559,7 +559,7 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
           options.push({ 'value': 'c' + index, 'label': name + "-" + currentValue + ' (' + unit + ')'});
         });
         setCombinedEquipmentReportingOptions(sortByNumber(options, "value"));
-       
+
         let timestamps = {}
         json['parameters']['timestamps'].forEach((currentValue, index) => {
           timestamps['a' + index] = currentValue;
@@ -571,10 +571,10 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
           values['a' + index] = currentValue;
         });
         setParameterLineChartData(values);
-      
+
         let names = Array();
         json['parameters']['names'].forEach((currentValue, index) => {
-          
+
           names.push({ 'value': 'a' + index, 'label': currentValue });
         });
         setParameterLineChartOptions(names);
@@ -900,7 +900,7 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
         setAssociatedEquipmentTableColumns(associated_equipment_column_list);
 
         setExcelBytesBase64(json['excel_bytes_base64']);
-      
+
         // enable submit button
         setSubmitButtonDisabled(false);
         // hide spinner
@@ -913,9 +913,9 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
       }
     }).catch(err => {
       console.log(err);
-    });      
+    });
   };
-  
+
   const handleExport = e => {
     e.preventDefault();
     const mimeType='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
@@ -932,7 +932,7 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
             document.body.removeChild(link);
         });
   };
-  
+
 
   return (
     <Fragment>
@@ -1009,7 +1009,7 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="basePeriodDateRangePicker">{t('Base Period')}{t('(Optional)')}</Label>
-                  <DateRangePickerWrapper 
+                  <DateRangePickerWrapper
                     id='basePeriodDateRangePicker'
                     disabled={basePeriodDateRangePickerDisabled}
                     format="yyyy-MM-dd HH:mm:ss"
@@ -1056,7 +1056,7 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                   <br></br>
-                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default" 
+                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
                   hidden={exportButtonHidden}
                   onClick={handleExport} >
                     {t('Export')}

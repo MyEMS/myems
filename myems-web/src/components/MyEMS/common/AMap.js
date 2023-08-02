@@ -19,8 +19,8 @@ const CustomizeMap = ({Latitude, Longitude, Zoom,t}) => {
         language = 'en';
       }
         AMapLoader.load({
-            key: 'ff0f6de58a5165ac9d64701fad788114', 
-            version: '1.4.15', 
+            key: 'ff0f6de58a5165ac9d64701fad788114',
+            version: '1.4.15',
             plugins: ['AMap.ToolBar','AMap.Geolocation', 'AMap.ElasticMarker', 'AMap.Scale'],
             AMapUI:{
                 version:"1.1",
@@ -32,9 +32,9 @@ const CustomizeMap = ({Latitude, Longitude, Zoom,t}) => {
       }).then(AMap => {
         map = new AMap.Map('container', {
             // Set map container id.
-            viewMode: '3D', 
-            zoom: Zoom ? Zoom : zoom, 
-            center: [Latitude ? Latitude : latitude, Longitude ? Longitude : longitude], 
+            viewMode: '3D',
+            zoom: Zoom ? Zoom : zoom,
+            center: [Latitude ? Latitude : latitude, Longitude ? Longitude : longitude],
             lang: language,
         });
         if (isDark){

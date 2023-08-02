@@ -69,7 +69,7 @@ const SpaceEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
-  
+
   // State
   // Query Parameters
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
@@ -99,7 +99,7 @@ const SpaceEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
   };
   const dateRangePickerStyle = { display: 'block', zIndex: 10};
   const { language } = useContext(AppContext);
-  
+
   // buttons
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
@@ -126,10 +126,10 @@ const SpaceEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
   const [parameterLineChartLabels, setParameterLineChartLabels] = useState([]);
   const [parameterLineChartData, setParameterLineChartData] = useState({});
   const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
-  
+
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([{dataField: 'startdatetime', text: t('Datetime'), sort: true}]);
-  
+
   const [childSpacesTableData, setChildSpacesTableData] = useState([]);
   const [childSpacesTableColumns, setChildSpacesTableColumns] = useState([{dataField: 'name', text: t('Child Spaces'), sort: true }]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
@@ -156,7 +156,7 @@ const SpaceEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       console.log(json);
       if (isResponseOK) {
-        // rename keys 
+        // rename keys
         json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
         setCascaderOptions(json);
         setSelectedSpaceName([json[0]].map(o => o.label));
@@ -266,18 +266,18 @@ const SpaceEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
     console.log(basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : null)
     console.log(moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'))
     console.log(moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'));
-    
+
     // disable submit button
     setSubmitButtonDisabled(true);
     // show spinner
     setSpinnerHidden(false);
     // hide export button
     setExportButtonHidden(true)
-    
+
     // Reinitialize tables
     setDetailedDataTableData([]);
     setChildSpacesTableData([]);
-    
+
     let isResponseOK = false;
     fetch(APIBaseURL + '/reports/spaceenergyitem?' +
       'spaceid=' + selectedSpaceID +
@@ -315,7 +315,7 @@ const SpaceEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
           cardSummaryArray.push(cardSummaryItem);
         });
         setCardSummaryList(cardSummaryArray);
-        
+
         let sharePieDict = {};
         let energyCategoryDict = {};
         json['reporting_period']['names'].forEach((currentValue, index) => {
@@ -324,7 +324,7 @@ const SpaceEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
           sharePieSubItem['name'] = json['reporting_period']['names'][index];
           sharePieSubItem['value'] = json['reporting_period']['subtotals'][index];
           sharePieSubItem['color'] = "#"+((1<<24)*Math.random()|0).toString(16);
-          
+
           let current_energy_category_id = json['reporting_period']['energy_category_ids'][index]
           if (current_energy_category_id in sharePieDict) {
             sharePieDict[current_energy_category_id].push(sharePieSubItem);
@@ -332,9 +332,9 @@ const SpaceEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
             sharePieDict[current_energy_category_id] = [];
             sharePieDict[current_energy_category_id].push(sharePieSubItem);
           }
-          
+
           if (!(current_energy_category_id in energyCategoryDict)) {
-            energyCategoryDict[current_energy_category_id] = 
+            energyCategoryDict[current_energy_category_id] =
             {'name': json['reporting_period']['energy_category_names'][index],
              'unit': json['reporting_period']['units'][index],
             }
@@ -421,7 +421,7 @@ const SpaceEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
           options.push({ 'value': 'a' + index, 'label': currentValue + ' (' + unit + ')'});
         });
         setSpaceReportingOptions(options);
-       
+
         let timestamps = {}
         json['parameters']['timestamps'].forEach((currentValue, index) => {
           timestamps['a' + index] = currentValue;
@@ -433,10 +433,10 @@ const SpaceEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
           values['a' + index] = currentValue;
         });
         setParameterLineChartData(values);
-      
+
         let names = Array();
         json['parameters']['names'].forEach((currentValue, index) => {
-          
+
           names.push({ 'value': 'a' + index, 'label': currentValue });
         });
         setParameterLineChartOptions(names);
@@ -613,17 +613,17 @@ const SpaceEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
         });
 
         setChildSpacesTableColumns(child_space_column_list);
-        
+
         setExcelBytesBase64(json['excel_bytes_base64']);
-      
+
         // enable submit button
         setSubmitButtonDisabled(false);
         // hide spinner
         setSpinnerHidden(true);
         // show export button
         setExportButtonHidden(false)
-  
-      
+
+
       } else {
         toast.error(t(json.description))
       }
@@ -648,7 +648,7 @@ const SpaceEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
             document.body.removeChild(link);
         });
   };
-  
+
 
   return (
     <Fragment>
@@ -710,7 +710,7 @@ const SpaceEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="basePeriodDateRangePicker">{t('Base Period')}{t('(Optional)')}</Label>
-                  <DateRangePickerWrapper 
+                  <DateRangePickerWrapper
                     id='basePeriodDateRangePicker'
                     disabled={basePeriodDateRangePickerDisabled}
                     format="yyyy-MM-dd HH:mm:ss"
@@ -757,7 +757,7 @@ const SpaceEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                   <br></br>
-                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default" 
+                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
                   hidden={exportButtonHidden}
                   onClick={handleExport} >
                     {t('Export')}
@@ -772,8 +772,8 @@ const SpaceEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
           <CardSummary key={cardSummaryItem['name']}
             rate={cardSummaryItem['increment_rate']}
             title={t('Reporting Period Consumption ITEM CATEGORY UNIT', { 'ITEM': cardSummaryItem['name'], 'CATEGORY': cardSummaryItem['energy_category_name'], 'UNIT': '(' + cardSummaryItem['unit'] + ')' })}
-            color="success" 
-            footnote={t('Per Unit Area')} 
+            color="success"
+            footnote={t('Per Unit Area')}
             footvalue={cardSummaryItem['subtotal_per_unit_area']}
             footunit={"(" + cardSummaryItem['unit'] + "/M²)"} >
             {cardSummaryItem['subtotal'] && <CountUp end={cardSummaryItem['subtotal']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
@@ -784,7 +784,7 @@ const SpaceEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
         {sharePieList.map(sharePieItem => (
           <Col key={sharePieItem['energy_category_name']} className="mb-3 pr-lg-2 mb-3">
             <SharePie key={sharePieItem['energy_category_name']}
-              data={sharePieItem['data']} 
+              data={sharePieItem['data']}
               title={t('CATEGORY UNIT Consumption by Energy Items', { 'CATEGORY': sharePieItem['energy_category_name'], 'UNIT': '(' + sharePieItem['unit'] + ')' })} />
           </Col>
         ))}

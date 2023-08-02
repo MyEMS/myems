@@ -156,7 +156,7 @@ const StoreSaving = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       console.log(json);
       if (isResponseOK) {
-        // rename keys 
+        // rename keys
         json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
         setCascaderOptions(json);
         setSelectedSpaceName([json[0]].map(o => o.label));
@@ -350,7 +350,7 @@ const StoreSaving = ({ setRedirect, setRedirectUrl, t }) => {
 
     // Reinitialize tables
     setDetailedDataTableData([]);
-    
+
     let isResponseOK = false;
     fetch(APIBaseURL + '/reports/storesaving?' +
       'storeid=' + selectedStore +
@@ -358,7 +358,7 @@ const StoreSaving = ({ setRedirect, setRedirectUrl, t }) => {
       '&baseperiodstartdatetime=' + (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
       '&baseperiodenddatetime=' + (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
       '&reportingperiodstartdatetime=' + moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') + 
+      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
       '&language=' + language, {
       method: 'GET',
       headers: {
@@ -389,13 +389,13 @@ const StoreSaving = ({ setRedirect, setRedirectUrl, t }) => {
         });
         setCardSummaryList(cardSummaryArray);
 
-        let totalInTCE = {}; 
+        let totalInTCE = {};
         totalInTCE['value'] = json['reporting_period']['total_in_kgce_saving'] / 1000; // convert from kg to t
         totalInTCE['increment_rate'] = parseFloat(json['reporting_period']['increment_rate_in_kgce_saving'] * 100).toFixed(2) + "%";
         totalInTCE['value_per_unit_area'] = json['reporting_period']['total_in_kgce_per_unit_area_saving'] / 1000; // convert from kg to t
         setTotalInTCE(totalInTCE);
 
-        let totalInTCO2E = {}; 
+        let totalInTCO2E = {};
         totalInTCO2E['value'] = json['reporting_period']['total_in_kgco2e_saving'] / 1000; // convert from kg to t
         totalInTCO2E['increment_rate'] = parseFloat(json['reporting_period']['increment_rate_in_kgco2e_saving'] * 100).toFixed(2) + "%";
         totalInTCO2E['value_per_unit_area'] = json['reporting_period']['total_in_kgco2e_per_unit_area_saving'] / 1000; // convert from kg to t
@@ -505,10 +505,10 @@ const StoreSaving = ({ setRedirect, setRedirectUrl, t }) => {
           values['a' + index] = currentValue;
         });
         setParameterLineChartData(values);
-      
+
         let names = Array();
         json['parameters']['names'].forEach((currentValue, index) => {
-          
+
           names.push({ 'value': 'a' + index, 'label': currentValue });
         });
         setParameterLineChartOptions(names);
@@ -647,7 +647,7 @@ const StoreSaving = ({ setRedirect, setRedirectUrl, t }) => {
             }, 0)
           }
         }
-        
+
         setExcelBytesBase64(json['excel_bytes_base64']);
 
         // enable submit button
@@ -681,7 +681,7 @@ const StoreSaving = ({ setRedirect, setRedirectUrl, t }) => {
             document.body.removeChild(link);
         });
   };
-  
+
 
 
   return (
@@ -759,7 +759,7 @@ const StoreSaving = ({ setRedirect, setRedirectUrl, t }) => {
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="basePeriodDateRangePicker">{t('Base Period')}{t('(Optional)')}</Label>
-                  <DateRangePickerWrapper 
+                  <DateRangePickerWrapper
                     id='basePeriodDateRangePicker'
                     disabled={basePeriodDateRangePickerDisabled}
                     format="yyyy-MM-dd HH:mm:ss"
@@ -806,7 +806,7 @@ const StoreSaving = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                   <br></br>
-                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default" 
+                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
                   hidden={exportButtonHidden}
                   onClick={handleExport} >
                     {t('Export')}
@@ -821,29 +821,29 @@ const StoreSaving = ({ setRedirect, setRedirectUrl, t }) => {
           <CardSummary key={cardSummaryItem['name']}
             rate={cardSummaryItem['increment_rate']}
             title={t('Reporting Period Saving CATEGORY (Baseline - Actual) UNIT', { 'CATEGORY': cardSummaryItem['name'], 'UNIT': '(' + cardSummaryItem['unit'] + ')' })}
-            color="success" 
-            footnote={t('Per Unit Area')} 
+            color="success"
+            footnote={t('Per Unit Area')}
             footvalue={cardSummaryItem['subtotal_per_unit_area']}
             footunit={"(" + cardSummaryItem['unit'] + "/M²)"} >
             {cardSummaryItem['subtotal'] && <CountUp end={cardSummaryItem['subtotal']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
           </CardSummary>
         ))}
-       
-        <CardSummary 
-          rate={totalInTCE['increment_rate'] || ''} 
+
+        <CardSummary
+          rate={totalInTCE['increment_rate'] || ''}
           title={t('Reporting Period Saving CATEGORY (Baseline - Actual) UNIT', { 'CATEGORY': t('Ton of Standard Coal'), 'UNIT': '(TCE)' })}
-          color="warning" 
-          footnote={t('Per Unit Area')} 
-          footvalue={totalInTCE['value_per_unit_area']} 
+          color="warning"
+          footnote={t('Per Unit Area')}
+          footvalue={totalInTCE['value_per_unit_area']}
           footunit="(TCE/M²)">
           {totalInTCE['value'] && <CountUp end={totalInTCE['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
         </CardSummary>
-        <CardSummary 
-          rate={totalInTCO2E['increment_rate'] || ''} 
+        <CardSummary
+          rate={totalInTCO2E['increment_rate'] || ''}
           title={t('Reporting Period Decreased CATEGORY (Baseline - Actual) UNIT', { 'CATEGORY': t('Ton of Carbon Dioxide Emissions'), 'UNIT': '(TCO2E)' })}
-          color="warning" 
-          footnote={t('Per Unit Area')} 
-          footvalue={totalInTCO2E['value_per_unit_area']} 
+          color="warning"
+          footnote={t('Per Unit Area')}
+          footvalue={totalInTCO2E['value_per_unit_area']}
           footunit="(TCO2E/M²)">
           {totalInTCO2E['value'] && <CountUp end={totalInTCO2E['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
         </CardSummary>

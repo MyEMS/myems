@@ -35,7 +35,7 @@ const Summary = ({ calendar, title, badge, divider, to, children, file_bytes_bas
         <Link to={to}  onClick={handleExport(title, file_bytes_base64)}>{title}</Link> {badge && <ReportBadge {...badge} className="ml-1" />}
       </h6>
       {children}
-      
+
       {divider && <hr className="border-dashed border-bottom-0" />}
     </Media>
   </Media>

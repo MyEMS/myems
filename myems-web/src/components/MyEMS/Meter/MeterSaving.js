@@ -134,7 +134,7 @@ const MeterSaving = ({ setRedirect, setRedirectUrl, t }) => {
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([{dataField: 'startdatetime', text: t('Datetime'), sort: true}]);
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
-  
+
   useEffect(() => {
     let isResponseOK = false;
     fetch(APIBaseURL + '/spaces/tree', {
@@ -450,7 +450,7 @@ const MeterSaving = ({ setRedirect, setRedirectUrl, t }) => {
 
         let names = Array();
         json['parameters']['names'].forEach((currentValue, index) => {
-          
+
           names.push({ 'value': 'a' + index, 'label': currentValue });
         });
         setParameterLineChartOptions(names);
@@ -688,7 +688,7 @@ const MeterSaving = ({ setRedirect, setRedirectUrl, t }) => {
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="basePeriodDateRangePicker">{t('Base Period')}{t('(Optional)')}</Label>
-                  <DateRangePickerWrapper 
+                  <DateRangePickerWrapper
                     id='basePeriodDateRangePicker'
                     disabled={basePeriodDateRangePickerDisabled}
                     format="yyyy-MM-dd HH:mm:ss"

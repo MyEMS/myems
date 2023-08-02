@@ -129,7 +129,7 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       console.log(json);
       if (isResponseOK) {
-        // rename keys 
+        // rename keys
         json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
         setCascaderOptions(json);
         setSelectedSpaceName([json[0]].map(o => o.label));
@@ -225,7 +225,7 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
       console.log(err);
     });
   };
-  
+
   const onSearchMeter = ({ target }) => {
     const keyword = target.value.toLowerCase();
     const filteredResult = meterList.filter(
@@ -260,7 +260,7 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
   let onReportingPeriodClean = event => {
     setReportingPeriodDateRange([null, null]);
   };
-  
+
   // Handler
   const handleSubmit = e => {
     e.preventDefault();
@@ -271,11 +271,11 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
     console.log(moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'));
 
     // disable submit button
-    setSubmitButtonDisabled(true); 
+    setSubmitButtonDisabled(true);
     // show spinner
     setSpinnerHidden(false);
     // hide export button
-    setExportButtonHidden(true) 
+    setExportButtonHidden(true)
 
     // Reinitialize tables
     setDetailedDataTableData([]);
@@ -302,7 +302,7 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       if (isResponseOK) {
         console.log(json)
-        
+
         let names = Array();
         json['reporting_period']['names'].forEach((currentValue, index) => {
           names.push({ 'value': 'a' + index, 'label': currentValue });
@@ -323,11 +323,11 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
 
         names = Array();
         json['parameters']['names'].forEach((currentValue, index) => {
-          
+
           names.push({ 'value': 'a' + index, 'label': currentValue });
         });
         setParameterLineChartOptions(names);
-        
+
         timestamps = {}
         json['parameters']['timestamps'].forEach((currentValue, index) => {
           timestamps['a' + index] = currentValue;
@@ -377,11 +377,11 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
             });
           }
         };
-      
+
         setTimeout( () => {
           setDetailedDataTableData(detial_value_list);
         }, 0)
-        
+
         setExcelBytesBase64(json['excel_bytes_base64']);
 
         // enable submit button
@@ -390,7 +390,7 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
         setSpinnerHidden(true);
         // show export button
         setExportButtonHidden(false);
-          
+
       } else {
         toast.error(t(json.description))
       }
@@ -398,7 +398,7 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
       console.log(err);
     });
   };
-  
+
   const handleExport = e => {
     e.preventDefault();
     const mimeType='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
@@ -415,7 +415,7 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
             document.body.removeChild(link);
         });
   };
-  
+
 
   return (
     <Fragment>
@@ -493,7 +493,7 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                   <br></br>
-                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default" 
+                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
                   hidden={exportButtonHidden}
                   onClick={handleExport} >
                     {t('Export')}

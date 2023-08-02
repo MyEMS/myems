@@ -44,7 +44,7 @@ const MultiTrendChart = ({
   const chartRef = useRef(null);
   const [lineData, setLineData] = useState({
     datasets: [],
-  });  
+  });
   useEffect(() => {
     const chart = chartRef.current;
     if (chart) {
@@ -54,7 +54,7 @@ const MultiTrendChart = ({
         : ctx.createLinearGradient(0, 0, 0, 250);
       gradientFill.addColorStop(0, isDark ? 'rgba(44,123,229, 0.5)' : 'rgba(255, 255, 255, 0.3)');
       gradientFill.addColorStop(1, isDark ? 'transparent' : 'rgba(255, 255, 255, 0)');
-      
+
       const chartData = {
         datasets: [{
             data: undefinedConvertsToEmptyArray(rates[option]),
@@ -237,7 +237,7 @@ const MultiTrendChart = ({
           }
         </Row>
         <Chart ref={chartRef} type="bar" data={lineData} options={config.options} plugins={config.plugins} width={1618} height={218} />
-      </CardBody> 
+      </CardBody>
     </Card>
   );
 };

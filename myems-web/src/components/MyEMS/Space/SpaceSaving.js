@@ -69,7 +69,7 @@ const SpaceSaving = ({ setRedirect, setRedirectUrl, t }) => {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
-  
+
   // State
   // Query Parameters
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
@@ -99,16 +99,16 @@ const SpaceSaving = ({ setRedirect, setRedirectUrl, t }) => {
   };
   const dateRangePickerStyle = { display: 'block', zIndex: 10};
   const { language } = useContext(AppContext);
-  
+
   // buttons
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
-  
+
   //Results
   const [TCEShareData, setTCEShareData] = useState([]);
   const [TCO2EShareData, setTCO2EShareData] = useState([]);
-  
+
   const [cardSummaryList, setCardSummaryList] = useState([]);
   const [totalInTCE, setTotalInTCE] = useState({});
   const [totalInTCO2E, setTotalInTCO2E] = useState({});
@@ -126,14 +126,14 @@ const SpaceSaving = ({ setRedirect, setRedirectUrl, t }) => {
 
   const [spaceReportingRates, setSpaceReportingRates] = useState({"a0": []});
   const [spaceReportingOptions, setSpaceReportingOptions] = useState([]);
-  
+
   const [parameterLineChartLabels, setParameterLineChartLabels] = useState([]);
   const [parameterLineChartData, setParameterLineChartData] = useState({});
   const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
-  
+
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([{dataField: 'startdatetime', text: t('Datetime'), sort: true}]);
-  
+
   const [childSpacesTableData, setChildSpacesTableData] = useState([]);
   const [childSpacesTableColumns, setChildSpacesTableColumns] = useState([{dataField: 'name', text: t('Child Spaces'), sort: true }]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
@@ -160,7 +160,7 @@ const SpaceSaving = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       console.log(json);
       if (isResponseOK) {
-        // rename keys 
+        // rename keys
         json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
         setCascaderOptions(json);
         setSelectedSpaceName([json[0]].map(o => o.label));
@@ -175,7 +175,7 @@ const SpaceSaving = ({ setRedirect, setRedirectUrl, t }) => {
   }, []);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
-  
+
   let onSpaceCascaderChange = (value, selectedOptions) => {
     console.log(value, selectedOptions);
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
@@ -270,14 +270,14 @@ const SpaceSaving = ({ setRedirect, setRedirectUrl, t }) => {
     console.log(basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : null)
     console.log(moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'))
     console.log(moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'));
-    
+
     // disable submit button
     setSubmitButtonDisabled(true);
     // show spinner
     setSpinnerHidden(false);
     // hide export button
     setExportButtonHidden(true)
-    
+
     // Reinitialize tables
     setDetailedDataTableData([]);
     setChildSpacesTableData([]);
@@ -289,7 +289,7 @@ const SpaceSaving = ({ setRedirect, setRedirectUrl, t }) => {
       '&baseperiodstartdatetime=' + (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
       '&baseperiodenddatetime=' + (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
       '&reportingperiodstartdatetime=' + moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') + 
+      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
       '&language=' + language, {
       method: 'GET',
       headers: {
@@ -320,13 +320,13 @@ const SpaceSaving = ({ setRedirect, setRedirectUrl, t }) => {
         });
         setCardSummaryList(cardSummaryArray);
 
-        let totalInTCE = {}; 
+        let totalInTCE = {};
         totalInTCE['value'] = json['reporting_period']['total_in_kgce_saving'] / 1000; // convert from kg to t
         totalInTCE['increment_rate'] = parseFloat(json['reporting_period']['increment_rate_in_kgce_saving'] * 100).toFixed(2) + "%";
         totalInTCE['value_per_unit_area'] = json['reporting_period']['total_in_kgce_per_unit_area_saving'] / 1000; // convert from kg to t
         setTotalInTCE(totalInTCE);
 
-        let totalInTCO2E = {}; 
+        let totalInTCO2E = {};
         totalInTCO2E['value'] = json['reporting_period']['total_in_kgco2e_saving'] / 1000; // convert from kg to t
         totalInTCO2E['increment_rate'] = parseFloat(json['reporting_period']['increment_rate_in_kgco2e_saving'] * 100).toFixed(2) + "%";
         totalInTCO2E['value_per_unit_area'] = json['reporting_period']['total_in_kgco2e_per_unit_area_saving'] / 1000; // convert from kg to t
@@ -424,7 +424,7 @@ const SpaceSaving = ({ setRedirect, setRedirectUrl, t }) => {
           options.push({ 'value': 'a' + index, 'label': currentValue + ' (' + unit + ')'});
         });
         setSpaceReportingOptions(options);
-       
+
         let timestamps = {}
         json['parameters']['timestamps'].forEach((currentValue, index) => {
           timestamps['a' + index] = currentValue;
@@ -436,10 +436,10 @@ const SpaceSaving = ({ setRedirect, setRedirectUrl, t }) => {
           values['a' + index] = currentValue;
         });
         setParameterLineChartData(values);
-      
+
         let names = Array();
         json['parameters']['names'].forEach((currentValue, index) => {
-          
+
           names.push({ 'value': 'a' + index, 'label': currentValue });
         });
         setParameterLineChartOptions(names);
@@ -618,7 +618,7 @@ const SpaceSaving = ({ setRedirect, setRedirectUrl, t }) => {
         setChildSpacesTableColumns(child_space_column_list);
 
         setExcelBytesBase64(json['excel_bytes_base64']);
-      
+
         // enable submit button
         setSubmitButtonDisabled(false);
         // hide spinner
@@ -711,7 +711,7 @@ const SpaceSaving = ({ setRedirect, setRedirectUrl, t }) => {
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="basePeriodDateRangePicker">{t('Base Period')}{t('(Optional)')}</Label>
-                  <DateRangePickerWrapper 
+                  <DateRangePickerWrapper
                     id='basePeriodDateRangePicker'
                     disabled={basePeriodDateRangePickerDisabled}
                     format="yyyy-MM-dd HH:mm:ss"
@@ -758,7 +758,7 @@ const SpaceSaving = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                   <br></br>
-                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default" 
+                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
                   hidden={exportButtonHidden}
                   onClick={handleExport} >
                     {t('Export')}
@@ -773,29 +773,29 @@ const SpaceSaving = ({ setRedirect, setRedirectUrl, t }) => {
           <CardSummary key={cardSummaryItem['name']}
             rate={cardSummaryItem['increment_rate']}
             title={t('Reporting Period Saving CATEGORY (Baseline - Actual) UNIT', { 'CATEGORY': cardSummaryItem['name'], 'UNIT': '(' + cardSummaryItem['unit'] + ')' })}
-            color="success" 
-            footnote={t('Per Unit Area')} 
+            color="success"
+            footnote={t('Per Unit Area')}
             footvalue={cardSummaryItem['subtotal_per_unit_area']}
             footunit={"(" + cardSummaryItem['unit'] + "/M²)"} >
             {cardSummaryItem['subtotal'] && <CountUp end={cardSummaryItem['subtotal']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
           </CardSummary>
         ))}
-       
-        <CardSummary 
-          rate={totalInTCE['increment_rate'] || ''} 
+
+        <CardSummary
+          rate={totalInTCE['increment_rate'] || ''}
           title={t('Reporting Period Saving CATEGORY (Baseline - Actual) UNIT', { 'CATEGORY': t('Ton of Standard Coal'), 'UNIT': '(TCE)' })}
-          color="warning" 
-          footnote={t('Per Unit Area')} 
-          footvalue={totalInTCE['value_per_unit_area']} 
+          color="warning"
+          footnote={t('Per Unit Area')}
+          footvalue={totalInTCE['value_per_unit_area']}
           footunit="(TCE/M²)">
           {totalInTCE['value'] && <CountUp end={totalInTCE['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
         </CardSummary>
-        <CardSummary 
-          rate={totalInTCO2E['increment_rate'] || ''} 
+        <CardSummary
+          rate={totalInTCO2E['increment_rate'] || ''}
           title={t('Reporting Period Decreased CATEGORY (Baseline - Actual) UNIT', { 'CATEGORY': t('Ton of Carbon Dioxide Emissions'), 'UNIT': '(TCO2E)' })}
-          color="warning" 
-          footnote={t('Per Unit Area')} 
-          footvalue={totalInTCO2E['value_per_unit_area']} 
+          color="warning"
+          footnote={t('Per Unit Area')}
+          footvalue={totalInTCO2E['value_per_unit_area']}
           footunit="(TCO2E/M²)">
           {totalInTCO2E['value'] && <CountUp end={totalInTCO2E['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
         </CardSummary>

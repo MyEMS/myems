@@ -59,7 +59,7 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
-  
+
   // State
   // Query Parameters
   const [energyFlowDiagramList, setEnergyFlowDiagramList] = useState([]);
@@ -112,7 +112,7 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       console.log(json);
       if (isResponseOK) {
-        // rename keys 
+        // rename keys
         json = JSON.parse(JSON.stringify(json).split('"id":').join('"value":').split('"name":').join('"label":'));
         console.log(json);
         setEnergyFlowDiagramList(json);
@@ -130,7 +130,7 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
 
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
-  
+
   const getOption = () => {
     let colorArr = ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de',
       '#3ba272', '#fc8452', '#9a60b4', '#ea7ccc'];
@@ -283,7 +283,7 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
         setSubmitButtonDisabled(false);
         // hide spinner
         setSpinnerHidden(true);
-        
+
       } else {
         toast.error(t(json.description))
       }

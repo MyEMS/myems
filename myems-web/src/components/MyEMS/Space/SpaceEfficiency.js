@@ -67,7 +67,7 @@ const SpaceEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
-  
+
   // State
   // Query Parameters
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
@@ -97,12 +97,12 @@ const SpaceEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
   };
   const dateRangePickerStyle = { display: 'block', zIndex: 10};
   const { language } = useContext(AppContext);
-  
+
   // buttons
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
-  
+
   //Results
   const [cardSummaryList, setCardSummaryList] = useState([]);
 
@@ -119,11 +119,11 @@ const SpaceEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
 
   const [spaceReportingRates, setSpaceReportingRates] = useState({"a0": []});
   const [spaceReportingOptions, setSpaceReportingOptions] = useState([]);
-  
+
   const [parameterLineChartLabels, setParameterLineChartLabels] = useState([]);
   const [parameterLineChartData, setParameterLineChartData] = useState({});
   const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
-  
+
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([{dataField: 'startdatetime', text: t('Datetime'), sort: true}]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
@@ -150,7 +150,7 @@ const SpaceEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       console.log(json);
       if (isResponseOK) {
-        // rename keys 
+        // rename keys
         json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
         setCascaderOptions(json);
         setSelectedSpaceName([json[0]].map(o => o.label));
@@ -165,7 +165,7 @@ const SpaceEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
   }, []);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
-  
+
   let onSpaceCascaderChange = (value, selectedOptions) => {
     console.log(value, selectedOptions);
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
@@ -260,7 +260,7 @@ const SpaceEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
     console.log(basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : null)
     console.log(moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'))
     console.log(moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'));
-        
+
     // disable submit button
     setSubmitButtonDisabled(true);
     // show spinner
@@ -278,7 +278,7 @@ const SpaceEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
       '&baseperiodstartdatetime=' + (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
       '&baseperiodenddatetime=' + (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
       '&reportingperiodstartdatetime=' + moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') + 
+      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
       '&language=' + language, {
       method: 'GET',
       headers: {
@@ -385,7 +385,7 @@ const SpaceEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
           options.push({ 'value': 'a' + index, 'label': currentValue + ' (' + unit + ')'});
         });
         setSpaceReportingOptions(options);
-       
+
         let timestamps = {}
         json['parameters']['timestamps'].forEach((currentValue, index) => {
           timestamps['a' + index] = currentValue;
@@ -397,14 +397,14 @@ const SpaceEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
           values['a' + index] = currentValue;
         });
         setParameterLineChartData(values);
-      
+
         let names = Array();
         json['parameters']['names'].forEach((currentValue, index) => {
-          
+
           names.push({ 'value': 'a' + index, 'label': currentValue });
         });
         setParameterLineChartOptions(names);
-      
+
         let detailed_value_list = [];
         if (json['reporting_period_efficiency']['timestamps'].length > 0) {
           json['reporting_period_efficiency']['timestamps'][0].forEach((currentTimestamp, timestampIndex) => {
@@ -418,7 +418,7 @@ const SpaceEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
                 detailed_value['a' + energyCategoryIndex] = null;
               };
             });
-            
+
             detailed_value_list.push(detailed_value);
           });
         };
@@ -547,7 +547,7 @@ const SpaceEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
             }, 0)
           }
         }
-        
+
         setExcelBytesBase64(json['excel_bytes_base64']);
 
 
@@ -563,8 +563,8 @@ const SpaceEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
       }
     }).catch(err => {
       console.log(err);
-    }); 
-  
+    });
+
   };
 
   const handleExport = e => {
@@ -583,7 +583,7 @@ const SpaceEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
             document.body.removeChild(link);
         });
   };
-  
+
 
   return (
     <Fragment>
@@ -610,7 +610,7 @@ const SpaceEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
                   </Cascader>
                 </FormGroup>
               </Col>
-              
+
               <Col xs="auto">
                 <FormGroup>
                   <Label className={labelClasses} for="comparisonType">
@@ -646,7 +646,7 @@ const SpaceEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="basePeriodDateRangePicker">{t('Base Period')}{t('(Optional)')}</Label>
-                  <DateRangePickerWrapper 
+                  <DateRangePickerWrapper
                     id='basePeriodDateRangePicker'
                     disabled={basePeriodDateRangePickerDisabled}
                     format="yyyy-MM-dd HH:mm:ss"
@@ -693,7 +693,7 @@ const SpaceEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                   <br></br>
-                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default" 
+                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
                   hidden={exportButtonHidden}
                   onClick={handleExport} >
                     {t('Export')}
@@ -708,7 +708,7 @@ const SpaceEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
           <CardSummary key={cardSummaryItem['name']}
             rate={cardSummaryItem['increment_rate']}
             title={t('Reporting Period Cumulative Efficiency NAME UNIT', { 'NAME': cardSummaryItem['name'], 'UNIT': '(' + cardSummaryItem['unit'] + ')' })}
-            color="success" 
+            color="success"
             >
             {cardSummaryItem['cumulation'] && <CountUp end={cardSummaryItem['cumulation']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
           </CardSummary>
@@ -736,7 +736,7 @@ const SpaceEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
       <DetailedDataTable data={detailedDataTableData} title={t('Detailed Data')} columns={detailedDataTableColumns} pagesize={50} >
       </DetailedDataTable>
       <br />
-      
+
     </Fragment>
   );
 };

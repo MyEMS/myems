@@ -106,7 +106,7 @@ const MeterCost = ({ setRedirect, setRedirectUrl, t }) => {
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
-  
+
   //Results
   const [meterEnergyCategory, setMeterEnergyCategory] = useState({ 'name': '', 'unit': '' });
   const [reportingPeriodEnergyCostInCategory, setReportingPeriodEnergyCostInCategory] = useState(0);
@@ -155,7 +155,7 @@ const MeterCost = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       console.log(json);
       if (isResponseOK) {
-        // rename keys 
+        // rename keys
         json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
         setCascaderOptions(json);
         setSelectedSpaceName([json[0]].map(o => o.label));
@@ -356,7 +356,7 @@ const MeterCost = ({ setRedirect, setRedirectUrl, t }) => {
     console.log(moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'));
 
     // disable submit button
-    setSubmitButtonDisabled(true);  
+    setSubmitButtonDisabled(true);
     // show spinner
     setSpinnerHidden(false);
     // hide export button
@@ -364,7 +364,7 @@ const MeterCost = ({ setRedirect, setRedirectUrl, t }) => {
 
     // Reinitialize tables
     setDetailedDataTableData([]);
-    
+
     let isResponseOK = false;
     fetch(APIBaseURL + '/reports/metercost?' +
       'meterid=' + selectedMeter +
@@ -444,7 +444,7 @@ const MeterCost = ({ setRedirect, setRedirectUrl, t }) => {
 
         let names = Array();
         json['parameters']['names'].forEach((currentValue, index) => {
-          
+
           names.push({ 'value': 'a' + index, 'label': currentValue });
         });
         setParameterLineChartOptions(names);
@@ -564,7 +564,7 @@ const MeterCost = ({ setRedirect, setRedirectUrl, t }) => {
           }, 0)
 
         }
-        
+
         setExcelBytesBase64(json['excel_bytes_base64']);
 
         // enable submit button
@@ -573,7 +573,7 @@ const MeterCost = ({ setRedirect, setRedirectUrl, t }) => {
         setSpinnerHidden(true);
         // show export button
         setExportButtonHidden(false);
-          
+
       } else {
         toast.error(t(json.description))
       }
@@ -581,7 +581,7 @@ const MeterCost = ({ setRedirect, setRedirectUrl, t }) => {
       console.log(err);
     });
   };
-  
+
   const handleExport = e => {
     e.preventDefault();
     const mimeType='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
@@ -598,7 +598,7 @@ const MeterCost = ({ setRedirect, setRedirectUrl, t }) => {
             document.body.removeChild(link);
         });
   };
-  
+
 
   return (
     <Fragment>
@@ -678,7 +678,7 @@ const MeterCost = ({ setRedirect, setRedirectUrl, t }) => {
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="basePeriodDateRangePicker">{t('Base Period')}{t('(Optional)')}</Label>
-                  <DateRangePickerWrapper 
+                  <DateRangePickerWrapper
                     id='basePeriodDateRangePicker'
                     disabled={basePeriodDateRangePickerDisabled}
                     format="yyyy-MM-dd HH:mm:ss"
@@ -725,7 +725,7 @@ const MeterCost = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                   <br></br>
-                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default" 
+                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
                   hidden={exportButtonHidden}
                   onClick={handleExport} >
                     {t('Export')}

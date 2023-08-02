@@ -249,12 +249,12 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
 
     // Reinitialize tables
     setFaults([]);
-    
+
     let isResponseOK = false;
     fetch(APIBaseURL + '/webmessages?' +
       'startdatetime=' + startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
       '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-      '&priority=' + priority + 
+      '&priority=' + priority +
       '&status=' + status, {
       method: 'GET',
       headers: {
@@ -295,7 +295,7 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
             faultList.push(fault);
           });
         }
-        
+
         setFaults(faultList);
         setExcelBytesBase64(json['excel_bytes_base64']);
         setSpinnerHidden(true);
@@ -336,7 +336,7 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
         fetch(APIBaseURL + '/webmessages?' +
             'startdatetime=' + startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
             '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-            '&priority=' + priority + 
+            '&priority=' + priority +
             '&status=' + status, {
           method: 'GET',
           headers: {
@@ -414,7 +414,7 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
         fetch(APIBaseURL + '/webmessages?' +
             'startdatetime=' + startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
             '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-            '&priority=' + priority + 
+            '&priority=' + priority +
             '&status=' + status,  {
           method: 'GET',
           headers: {
@@ -486,8 +486,8 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
         let isResponseOK = false;
         fetch(APIBaseURL + '/webmessages?' +
             'startdatetime=' + startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-            '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss') + 
-            '&priority=' + priority + 
+            '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+            '&priority=' + priority +
             '&status=' + status,  {
           method: 'GET',
           headers: {
@@ -569,7 +569,7 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
                   <Label className={labelClasses} for="priority">
                     {t('Notification Priority')}
                   </Label>
-                  <CustomInput type="select" id="bulk-select" 
+                  <CustomInput type="select" id="bulk-select"
                     value={priority}
                     onChange={({ target }) => {setPriority(target.value);}}>
                     <option value="all" key="all" >{t('View all')}</option>
@@ -635,7 +635,7 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                   <br></br>
-                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default" 
+                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
                   hidden={exportButtonHidden}
                   onClick={handleExport} >
                     {t('Export')}
@@ -662,7 +662,7 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
             </InputGroup>
           ) : (
               <Fragment>
-                
+
               </Fragment>
             )}
         </FalconCardHeader>

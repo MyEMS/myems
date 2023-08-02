@@ -35,7 +35,7 @@ const ChartSpacesStackBar = ({ labels, inputData, costData, title, childSpaces, 
     const [chartData, setChartData] = useState({
       datasets: []
     });
-  
+
     useEffect(() => {
         const chart = chartRef.current;
         let dataArray = [];
@@ -71,7 +71,7 @@ const ChartSpacesStackBar = ({ labels, inputData, costData, title, childSpaces, 
                     })
                 })
             }
-            setChartData({ 
+            setChartData({
                 labels: labels,
                 datasets: dataArray
             })

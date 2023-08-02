@@ -24,7 +24,7 @@ const NotificationDropdown = ({ t }) => {
   const [rawNewNotificationschild, setRawNewNotificationschild] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isLottieStopped, setIsLottieStopped] = useState(true);
-  
+
   useEffect(() => {
     let isResponseOK = false;
     fetch(APIBaseURL + '/webmessagesnew', {
@@ -69,7 +69,7 @@ const NotificationDropdown = ({ t }) => {
                 }
 
               });
-              
+
           } else {
             setIsLottieStopped(true);
         }

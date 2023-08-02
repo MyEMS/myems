@@ -150,7 +150,7 @@ const EquipmentStatistics = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       console.log(json);
       if (isResponseOK) {
-        // rename keys 
+        // rename keys
         json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
         setCascaderOptions(json);
         setSelectedSpaceName([json[0]].map(o => o.label));
@@ -343,7 +343,7 @@ const EquipmentStatistics = ({ setRedirect, setRedirectUrl, t }) => {
 
     // Reinitialize tables
     setDetailedDataTableData([]);
-    
+
     let isResponseOK = false;
     fetch(APIBaseURL + '/reports/equipmentstatistics?' +
       'equipmentid=' + selectedEquipment +
@@ -461,7 +461,7 @@ const EquipmentStatistics = ({ setRedirect, setRedirectUrl, t }) => {
           options.push({ 'value': 'a' + index, 'label': currentValue + ' (' + unit + ')'});
         });
         setEquipmentReportingOptions(options);
-      
+
         let timestamps = {}
         json['parameters']['timestamps'].forEach((currentValue, index) => {
           timestamps['a' + index] = currentValue;
@@ -473,10 +473,10 @@ const EquipmentStatistics = ({ setRedirect, setRedirectUrl, t }) => {
           values['a' + index] = currentValue;
         });
         setParameterLineChartData(values);
-      
+
         let names = Array();
         json['parameters']['names'].forEach((currentValue, index) => {
-          
+
           names.push({ 'value': 'a' + index, 'label': currentValue });
         });
         setParameterLineChartOptions(names);
@@ -616,7 +616,7 @@ const EquipmentStatistics = ({ setRedirect, setRedirectUrl, t }) => {
           }
 
         }
-        
+
         setExcelBytesBase64(json['excel_bytes_base64']);
 
         // enable submit button
@@ -625,7 +625,7 @@ const EquipmentStatistics = ({ setRedirect, setRedirectUrl, t }) => {
         setSpinnerHidden(true);
         // show export button
         setExportButtonHidden(false);
-          
+
       } else {
         toast.error(t(json.description))
       }
@@ -650,7 +650,7 @@ const EquipmentStatistics = ({ setRedirect, setRedirectUrl, t }) => {
             document.body.removeChild(link);
         });
   };
-  
+
 
 
   return (
@@ -728,7 +728,7 @@ const EquipmentStatistics = ({ setRedirect, setRedirectUrl, t }) => {
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="basePeriodDateRangePicker">{t('Base Period')}{t('(Optional)')}</Label>
-                  <DateRangePickerWrapper 
+                  <DateRangePickerWrapper
                     id='basePeriodDateRangePicker'
                     disabled={basePeriodDateRangePickerDisabled}
                     format="yyyy-MM-dd HH:mm:ss"
@@ -775,7 +775,7 @@ const EquipmentStatistics = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                   <br></br>
-                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default" 
+                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
                   hidden={exportButtonHidden}
                   onClick={handleExport} >
                     {t('Export')}

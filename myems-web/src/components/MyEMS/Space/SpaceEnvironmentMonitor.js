@@ -59,7 +59,7 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
-  
+
   // State
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
   const [cascaderOptions, setCascaderOptions] = useState(undefined);
@@ -192,7 +192,7 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
     document.getElementById("cursor_3").hidden=true;
     document.getElementById("cursor_4").hidden=true;
     if(maxCursor == 2){
-      document.getElementById("cursor_2").hidden=false;    
+      document.getElementById("cursor_2").hidden=false;
     }
     if(maxCursor == 3){
       document.getElementById("cursor_2").hidden=false;
@@ -218,7 +218,7 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
       case 2:
             return cursor > maxCursor-3&&maxCursor - 3 >= 0 ? maxCursor -2 : cursor +1;
       case 3:
-            return cursor > maxCursor-3&&maxCursor - 3 >= 0 ? maxCursor -1: cursor +2;  
+            return cursor > maxCursor-3&&maxCursor - 3 >= 0 ? maxCursor -1: cursor +2;
       case 4:
             return cursor > maxCursor-3&&maxCursor - 3 >= 0 ? maxCursor  : cursor+3;
     }
@@ -273,7 +273,7 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
         <PaginationItem>
           <PaginationLink first href="#" onClick={() => setCursor(1)} />
         </PaginationItem>
-       
+
         <PaginationItem>
           <PaginationLink previous href="#" onClick={() => (cursor - 1 >= 1 ? setCursor(cursor - 1) : null)} />
         </PaginationItem>

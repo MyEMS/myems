@@ -126,7 +126,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([{dataField: 'startdatetime', text: t('Datetime'), sort: true}]);
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
-  
+
   useEffect(() => {
     let isResponseOK = false;
     fetch(APIBaseURL + '/spaces/tree', {
@@ -340,7 +340,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
         DateRange[1] = endOfDay(DateRange[1]);
       }
       setReportingPeriodDateRange([DateRange[0], DateRange[1]]);
-      
+
     }
   };
 
@@ -348,7 +348,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
   let onReportingPeriodClean = event => {
     setReportingPeriodDateRange([null, null]);
   };
-  
+
 
   // Handler
   const handleSubmit = e => {
@@ -418,7 +418,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
         let names2 = Array();
         names2.push({ 'value': 'a0', 'label': json['meter2']['energy_category_name'] });
         setMeterLineChartOptions2(names2);
-        
+
         let timestamps1 = {}
         timestamps1['a0'] = json['reporting_period1']['timestamps'];
         setMeterLineChartLabels1(timestamps1);
@@ -669,7 +669,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
                   </CustomInput>
                 </FormGroup>
               </Col>
-              
+
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="reportingPeriodDateRangePicker">{t('Reporting Period')}</Label>

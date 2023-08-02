@@ -68,7 +68,7 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
-  
+
   // State
   // Query Parameters
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
@@ -98,7 +98,7 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
   };
   const dateRangePickerStyle = { display: 'block', zIndex: 10};
   const { language } = useContext(AppContext);
-  
+
   // buttons
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
@@ -118,15 +118,15 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
 
   const [spaceReportingRates, setSpaceReportingRates] = useState({"a0": []});
   const [spaceReportingOptions, setSpaceReportingOptions] = useState([]);
-  
+
   const [parameterLineChartLabels, setParameterLineChartLabels] = useState([]);
   const [parameterLineChartData, setParameterLineChartData] = useState({});
   const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
-  
+
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([{dataField: 'startdatetime', text: t('Datetime'), sort: true}]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
-  
+
   useEffect(() => {
     let isResponseOK = false;
     fetch(APIBaseURL + '/spaces/tree', {
@@ -149,7 +149,7 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       console.log(json);
       if (isResponseOK) {
-        // rename keys 
+        // rename keys
         json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
         setCascaderOptions(json);
         setSelectedSpaceName([json[0]].map(o => o.label));
@@ -164,7 +164,7 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
   }, []);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
-  
+
   let onSpaceCascaderChange = (value, selectedOptions) => {
     console.log(value, selectedOptions);
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
@@ -259,7 +259,7 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
     console.log(basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : null)
     console.log(moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'))
     console.log(moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'));
-    
+
     // disable submit button
     setSubmitButtonDisabled(true);
     // show spinner
@@ -277,7 +277,7 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
       '&baseperiodstartdatetime=' + (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
       '&baseperiodenddatetime=' + (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
       '&reportingperiodstartdatetime=' + moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') + 
+      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
       '&language=' + language, {
       method: 'GET',
       headers: {
@@ -295,7 +295,7 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       if (isResponseOK) {
         console.log(json)
-        
+
         let cardSummaryArray = []
         json['reporting_period']['names'].forEach((currentValue, index) => {
           let cardSummaryItem = {};
@@ -371,7 +371,7 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
           options.push({ 'value': 'a' + index, 'label': currentValue + ' (' + unit + '/H)'});
         });
         setSpaceReportingOptions(options);
-      
+
         let timestamps = {}
         json['parameters']['timestamps'].forEach((currentValue, index) => {
           timestamps['a' + index] = currentValue;
@@ -383,10 +383,10 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
           values['a' + index] = currentValue;
         });
         setParameterLineChartData(values);
-      
+
         let names = Array();
         json['parameters']['names'].forEach((currentValue, index) => {
-          
+
           names.push({ 'value': 'a' + index, 'label': currentValue });
         });
         setParameterLineChartOptions(names);
@@ -558,17 +558,17 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
             }, 0)
           }
         }
-        
+
         setExcelBytesBase64(json['excel_bytes_base64']);
-      
+
         // enable submit button
         setSubmitButtonDisabled(false);
         // hide spinner
         setSpinnerHidden(true);
         // show export button
         setExportButtonHidden(false)
-        
-      
+
+
       } else {
         toast.error(t(json.description))
       }
@@ -593,7 +593,7 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
             document.body.removeChild(link);
         });
   };
-  
+
   return (
     <Fragment>
       <div>
@@ -654,7 +654,7 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="basePeriodDateRangePicker">{t('Base Period')}{t('(Optional)')}</Label>
-                  <DateRangePickerWrapper 
+                  <DateRangePickerWrapper
                     id='basePeriodDateRangePicker'
                     disabled={basePeriodDateRangePickerDisabled}
                     format="yyyy-MM-dd HH:mm:ss"
@@ -701,7 +701,7 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                   <br></br>
-                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default" 
+                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
                   hidden={exportButtonHidden}
                   onClick={handleExport} >
                     {t('Export')}
@@ -716,8 +716,8 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
           <CardSummary key={cardSummaryItem['name'] + 'average'}
             rate={cardSummaryItem['average_increment_rate']}
             title={t('Reporting Period CATEGORY Average Load UNIT', { 'CATEGORY': cardSummaryItem['name'], 'UNIT': '(' + cardSummaryItem['unit'] + '/H)' })}
-            color="success" 
-            footnote={t('Per Unit Area')} 
+            color="success"
+            footnote={t('Per Unit Area')}
             footvalue={cardSummaryItem['average_per_unit_area']}
             footunit={"(" + cardSummaryItem['unit'] + "/H/M²)"} >
             {cardSummaryItem['average'] && <CountUp end={cardSummaryItem['average']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
@@ -725,8 +725,8 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
           <CardSummary key={cardSummaryItem['name'] + 'maximum'}
             rate={cardSummaryItem['maximum_increment_rate']}
             title={t('Reporting Period CATEGORY Maximum Load UNIT', { 'CATEGORY': cardSummaryItem['name'], 'UNIT': '(' + cardSummaryItem['unit'] + '/H)' })}
-            color="success" 
-            footnote={t('Per Unit Area')} 
+            color="success"
+            footnote={t('Per Unit Area')}
             footvalue={cardSummaryItem['maximum_per_unit_area']}
             footunit={"(" + cardSummaryItem['unit'] + "/H/M²)"} >
             {cardSummaryItem['maximum'] && <CountUp end={cardSummaryItem['maximum']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
@@ -734,7 +734,7 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
           <CardSummary key={cardSummaryItem['name'] + 'factor'}
             rate={cardSummaryItem['factor_increment_rate']}
             title={t('Reporting Period CATEGORY Load Factor', { 'CATEGORY': cardSummaryItem['name'] })}
-            color="success" 
+            color="success"
             footnote={t('Ratio of Average Load to Maximum Load')} >
             {cardSummaryItem['factor'] && <CountUp end={cardSummaryItem['factor']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
           </CardSummary>
@@ -762,7 +762,7 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
       <DetailedDataTable data={detailedDataTableData} title={t('Detailed Data')} columns={detailedDataTableColumns} pagesize={50} >
       </DetailedDataTable>
       <br />
-      
+
     </Fragment>
   );
 };

@@ -121,7 +121,7 @@ const TenantStatistics = ({ setRedirect, setRedirectUrl, t }) => {
 
   const [tenantReportingRates, setTenantReportingRates] = useState({"a0": []});
   const [tenantReportingOptions, setTenantReportingOptions] = useState([]);
-  
+
   const [parameterLineChartLabels, setParameterLineChartLabels] = useState([]);
   const [parameterLineChartData, setParameterLineChartData] = useState({});
   const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
@@ -129,7 +129,7 @@ const TenantStatistics = ({ setRedirect, setRedirectUrl, t }) => {
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([{dataField: 'startdatetime', text: t('Datetime'), sort: true}]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
-  
+
   useEffect(() => {
     let isResponseOK = false;
     fetch(APIBaseURL + '/spaces/tree', {
@@ -150,7 +150,7 @@ const TenantStatistics = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       console.log(json);
       if (isResponseOK) {
-        // rename keys 
+        // rename keys
         json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
         setCascaderOptions(json);
         setSelectedSpaceName([json[0]].map(o => o.label));
@@ -334,7 +334,7 @@ const TenantStatistics = ({ setRedirect, setRedirectUrl, t }) => {
     console.log(basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : null)
     console.log(moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'))
     console.log(moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'));
-    
+
     // disable submit button
     setSubmitButtonDisabled(true);
     // show spinner
@@ -344,7 +344,7 @@ const TenantStatistics = ({ setRedirect, setRedirectUrl, t }) => {
 
     // Reinitialize tables
     setDetailedDataTableData([]);
-    
+
     let isResponseOK = false;
     fetch(APIBaseURL + '/reports/tenantstatistics?' +
       'tenantid=' + selectedTenant +
@@ -352,7 +352,7 @@ const TenantStatistics = ({ setRedirect, setRedirectUrl, t }) => {
       '&baseperiodstartdatetime=' + (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
       '&baseperiodenddatetime=' + (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
       '&reportingperiodstartdatetime=' + moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') + 
+      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
       '&language=' + language, {
       method: 'GET',
       headers: {
@@ -393,7 +393,7 @@ const TenantStatistics = ({ setRedirect, setRedirectUrl, t }) => {
           cardSummaryItem['stdev_per_unit_area'] = json['reporting_period']['stdevs_per_unit_area'][index];
           cardSummaryItem['variance'] = json['reporting_period']['variances'][index];
           cardSummaryItem['variance_increment_rate'] = parseFloat(json['reporting_period']['variances_increment_rate'][index] * 100).toFixed(2) + "%";
-          cardSummaryItem['variance_per_unit_area'] = json['reporting_period']['variances_per_unit_area'][index];          
+          cardSummaryItem['variance_per_unit_area'] = json['reporting_period']['variances_per_unit_area'][index];
           cardSummaryArray.push(cardSummaryItem);
         });
         setCardSummaryList(cardSummaryArray);
@@ -480,10 +480,10 @@ const TenantStatistics = ({ setRedirect, setRedirectUrl, t }) => {
           values['a' + index] = currentValue;
         });
         setParameterLineChartData(values);
-      
+
         let names = Array();
         json['parameters']['names'].forEach((currentValue, index) => {
-          
+
           names.push({ 'value': 'a' + index, 'label': currentValue });
         });
         setParameterLineChartOptions(names);
@@ -623,7 +623,7 @@ const TenantStatistics = ({ setRedirect, setRedirectUrl, t }) => {
           }
 
         }
-        
+
         setExcelBytesBase64(json['excel_bytes_base64']);
 
         // enable submit button
@@ -733,7 +733,7 @@ const TenantStatistics = ({ setRedirect, setRedirectUrl, t }) => {
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="basePeriodDateRangePicker">{t('Base Period')}{t('(Optional)')}</Label>
-                  <DateRangePickerWrapper 
+                  <DateRangePickerWrapper
                     id='basePeriodDateRangePicker'
                     disabled={basePeriodDateRangePickerDisabled}
                     format="yyyy-MM-dd HH:mm:ss"
@@ -780,7 +780,7 @@ const TenantStatistics = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                   <br></br>
-                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default" 
+                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
                   hidden={exportButtonHidden}
                   onClick={handleExport} >
                     {t('Export')}
@@ -795,8 +795,8 @@ const TenantStatistics = ({ setRedirect, setRedirectUrl, t }) => {
           <CardSummary key={cardSummaryItem['name'] + 'mean'}
             rate={cardSummaryItem['mean_increment_rate']}
             title={t('Reporting Period CATEGORY Mean UNIT', { 'CATEGORY': cardSummaryItem['name'], 'UNIT': '(' + cardSummaryItem['unit'] + ')' })}
-            color="success" 
-            footnote={t('Per Unit Area')} 
+            color="success"
+            footnote={t('Per Unit Area')}
             footvalue={cardSummaryItem['mean_per_unit_area']}
             footunit={"(" + cardSummaryItem['unit'] + "/M²)"} >
             {cardSummaryItem['mean'] && <CountUp end={cardSummaryItem['mean']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
@@ -804,8 +804,8 @@ const TenantStatistics = ({ setRedirect, setRedirectUrl, t }) => {
           <CardSummary key={cardSummaryItem['name'] + 'median'}
             rate={cardSummaryItem['median_increment_rate']}
             title={t('Reporting Period CATEGORY Median UNIT', { 'CATEGORY': cardSummaryItem['name'], 'UNIT': '(' + cardSummaryItem['unit'] + ')' })}
-            color="success" 
-            footnote={t('Per Unit Area')} 
+            color="success"
+            footnote={t('Per Unit Area')}
             footvalue={cardSummaryItem['median_per_unit_area']}
             footunit={"(" + cardSummaryItem['unit'] + "/M²)"} >
             {cardSummaryItem['median'] && <CountUp end={cardSummaryItem['median']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
@@ -813,8 +813,8 @@ const TenantStatistics = ({ setRedirect, setRedirectUrl, t }) => {
           <CardSummary key={cardSummaryItem['name'] + 'minimum'}
             rate={cardSummaryItem['minimum_increment_rate']}
             title={t('Reporting Period CATEGORY Minimum UNIT', { 'CATEGORY': cardSummaryItem['name'], 'UNIT': '(' + cardSummaryItem['unit'] + ')' })}
-            color="success" 
-            footnote={t('Per Unit Area')} 
+            color="success"
+            footnote={t('Per Unit Area')}
             footvalue={cardSummaryItem['minimum_per_unit_area']}
             footunit={"(" + cardSummaryItem['unit'] + "/M²)"} >
             {cardSummaryItem['minimum'] && <CountUp end={cardSummaryItem['minimum']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
@@ -822,8 +822,8 @@ const TenantStatistics = ({ setRedirect, setRedirectUrl, t }) => {
           <CardSummary key={cardSummaryItem['name'] + 'maximum'}
             rate={cardSummaryItem['maximum_increment_rate']}
             title={t('Reporting Period CATEGORY Maximum UNIT', { 'CATEGORY': cardSummaryItem['name'], 'UNIT': '(' + cardSummaryItem['unit'] + ')' })}
-            color="success" 
-            footnote={t('Per Unit Area')} 
+            color="success"
+            footnote={t('Per Unit Area')}
             footvalue={cardSummaryItem['maximum_per_unit_area']}
             footunit={"(" + cardSummaryItem['unit'] + "/M²)"} >
             {cardSummaryItem['maximum'] && <CountUp end={cardSummaryItem['maximum']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
@@ -831,8 +831,8 @@ const TenantStatistics = ({ setRedirect, setRedirectUrl, t }) => {
           <CardSummary key={cardSummaryItem['name'] + 'stdev'}
             rate={cardSummaryItem['stdev_increment_rate']}
             title={t('Reporting Period CATEGORY Stdev UNIT', { 'CATEGORY': cardSummaryItem['name'], 'UNIT': '(' + cardSummaryItem['unit'] + ')' })}
-            color="success" 
-            footnote={t('Per Unit Area')} 
+            color="success"
+            footnote={t('Per Unit Area')}
             footvalue={cardSummaryItem['stdev_per_unit_area']}
             footunit={"(" + cardSummaryItem['unit'] + "/M²)"} >
             {cardSummaryItem['stdev'] && <CountUp end={cardSummaryItem['stdev']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
@@ -841,7 +841,7 @@ const TenantStatistics = ({ setRedirect, setRedirectUrl, t }) => {
             rate={cardSummaryItem['variance_increment_rate']}
             title={t('Reporting Period CATEGORY Variance UNIT', { 'CATEGORY': cardSummaryItem['name'], 'UNIT': '(' + cardSummaryItem['unit'] + ')' })}
             color="success"
-            footnote={t('Per Unit Area')} 
+            footnote={t('Per Unit Area')}
             footvalue={cardSummaryItem['variance_per_unit_area']}
             footunit={"(" + cardSummaryItem['unit'] + "/M²)"} >
             {cardSummaryItem['variance'] && <CountUp end={cardSummaryItem['variance']} duration={2} prefix="" separator="," decimal="." decimals={2} />}

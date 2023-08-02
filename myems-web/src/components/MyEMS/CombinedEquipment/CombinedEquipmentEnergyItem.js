@@ -131,12 +131,12 @@ const CombinedEquipmentEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
 
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([{dataField: 'startdatetime', text: t('Datetime'), sort: true}]);
-  
+
   const [associatedEquipmentTableData, setAssociatedEquipmentTableData] = useState([]);
   const [associatedEquipmentTableColumns, setAssociatedEquipmentTableColumns] = useState([{dataField: 'name', text: t('Associated Equipment'), sort: true }]);
-  
+
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
-  
+
   useEffect(() => {
     let isResponseOK = false;
     fetch(APIBaseURL + '/spaces/tree', {
@@ -157,7 +157,7 @@ const CombinedEquipmentEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       console.log(json);
       if (isResponseOK) {
-        // rename keys 
+        // rename keys
         json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
         setCascaderOptions(json);
         setSelectedSpaceName([json[0]].map(o => o.label));
@@ -351,7 +351,7 @@ const CombinedEquipmentEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
     // Reinitialize tables
     setDetailedDataTableData([]);
     setAssociatedEquipmentTableData([]);
-    
+
     let isResponseOK = false;
     fetch(APIBaseURL + '/reports/combinedequipmentenergyitem?' +
       'combinedequipmentid=' + selectedCombinedEquipment +
@@ -388,7 +388,7 @@ const CombinedEquipmentEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
           cardSummaryArray.push(cardSummaryItem);
         });
         setCardSummaryList(cardSummaryArray);
-        
+
         let sharePieDict = {}
         let energyCategoryDict = {};
         json['reporting_period']['names'].forEach((currentValue, index) => {
@@ -397,7 +397,7 @@ const CombinedEquipmentEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
           sharePieSubItem['name'] = json['reporting_period']['names'][index];
           sharePieSubItem['value'] = json['reporting_period']['subtotals'][index];
           sharePieSubItem['color'] = "#"+((1<<24)*Math.random()|0).toString(16);
-          
+
           let current_energy_category_id = json['reporting_period']['energy_category_ids'][index]
           if (current_energy_category_id in sharePieDict) {
             sharePieDict[current_energy_category_id].push(sharePieSubItem);
@@ -407,7 +407,7 @@ const CombinedEquipmentEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
           }
 
           if (!(current_energy_category_id in energyCategoryDict)) {
-            energyCategoryDict[current_energy_category_id] = 
+            energyCategoryDict[current_energy_category_id] =
             {'name': json['reporting_period']['energy_category_names'][index],
              'unit': json['reporting_period']['units'][index],
             }
@@ -494,7 +494,7 @@ const CombinedEquipmentEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
           options.push({ 'value': 'a' + index, 'label': currentValue + ' (' + unit + ')'});
         });
         setCombinedEquipmentReportingOptions(options);
-       
+
         let timestamps = {}
         json['parameters']['timestamps'].forEach((currentValue, index) => {
           timestamps['a' + index] = currentValue;
@@ -506,10 +506,10 @@ const CombinedEquipmentEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
           values['a' + index] = currentValue;
         });
         setParameterLineChartData(values);
-      
+
         let names = Array();
         json['parameters']['names'].forEach((currentValue, index) => {
-          
+
           names.push({ 'value': 'a' + index, 'label': currentValue });
         });
         setParameterLineChartOptions(names);
@@ -648,7 +648,7 @@ const CombinedEquipmentEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
             }, 0)
           }
         }
-        
+
         let associated_equipment_value_list = [];
         if (json['associated_equipment']['associated_equipment_names_array'].length > 0) {
           json['associated_equipment']['associated_equipment_names_array'][0].forEach((currentEquipmentName, equipmentIndex) => {
@@ -687,7 +687,7 @@ const CombinedEquipmentEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
         });
 
         setAssociatedEquipmentTableColumns(associated_equipment_column_list);
-       
+
         setExcelBytesBase64(json['excel_bytes_base64']);
 
         // enable submit button
@@ -720,7 +720,7 @@ const CombinedEquipmentEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
             document.body.removeChild(link);
         });
   };
-  
+
 
   return (
     <Fragment>
@@ -798,7 +798,7 @@ const CombinedEquipmentEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="basePeriodDateRangePicker">{t('Base Period')}{t('(Optional)')}</Label>
-                  <DateRangePickerWrapper 
+                  <DateRangePickerWrapper
                     id='basePeriodDateRangePicker'
                     disabled={basePeriodDateRangePickerDisabled}
                     format="yyyy-MM-dd HH:mm:ss"
@@ -845,7 +845,7 @@ const CombinedEquipmentEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                   <br></br>
-                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default" 
+                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
                   hidden={exportButtonHidden}
                   onClick={handleExport} >
                     {t('Export')}
@@ -869,7 +869,7 @@ const CombinedEquipmentEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
         {sharePieList.map(sharePieItem => (
           <Col key={sharePieItem['energy_category_name']} className="mb-3 pr-lg-2 mb-3">
             <SharePie key={sharePieItem['energy_category_name']}
-              data={sharePieItem['data']} 
+              data={sharePieItem['data']}
               title={t('CATEGORY UNIT Consumption by Energy Items', { 'CATEGORY': sharePieItem['energy_category_name'], 'UNIT': '(' + sharePieItem['unit'] + ')' })} />
           </Col>
         ))}

@@ -115,10 +115,10 @@ const Invoice = ({ setRedirect, setRedirectUrl, t }) => {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
-  
+
   //State
   // Query Parameters
- 
+
   const { language } = useContext(AppContext);
 
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
@@ -150,7 +150,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
-  
+
   //Results
   const [invoice, setInvoice] = useState(undefined);
   const [subtotal, setSubtotal] = useState(0);
@@ -158,7 +158,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
   const [tax, setTax] = useState(0);
   const [total, setTotal] = useState(0);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
-  
+
   useEffect(() => {
     let isResponseOK = false;
     fetch(APIBaseURL + '/spaces/tree', {
@@ -179,7 +179,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
     }).then(json => {
       console.log(json);
       if (isResponseOK) {
-        // rename keys 
+        // rename keys
         json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
         setCascaderOptions(json);
         setSelectedSpaceName([json[0]].map(o => o.label));
@@ -299,7 +299,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
     console.log(selectedTenant);
     console.log(moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'))
     console.log(moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'));
-    
+
     // disable submit button
     setSubmitButtonDisabled(true);
     // show spinner
@@ -311,7 +311,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
     fetch(APIBaseURL + '/reports/tenantbill?' +
       'tenantid=' + selectedTenant +
       '&reportingperiodstartdatetime=' + moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') + 
+      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
       '&language=' + language, {
       method: 'GET',
       headers: {
@@ -329,7 +329,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
     }).then(json => {
       if (isResponseOK) {
         console.log(json);
-        
+
         let productArray = []
         json['reporting_period']['names'].forEach((currentValue, index) => {
           let productItem = {}
@@ -365,20 +365,20 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
         });
 
         setSubtotal(json['reporting_period']['total_cost']);
-        
+
         setTax(json['reporting_period']['total_cost'] * taxRate);
-        
+
         setTotal(json['reporting_period']['total_cost'] * (1.00 + taxRate));
-        
+
         setExcelBytesBase64(json['excel_bytes_base64']);
-  
+
         // enable submit button
         setSubmitButtonDisabled(false);
         // hide spinner
         setSpinnerHidden(true);
         // show export button
         setExportButtonHidden(false)
-        
+
       } else {
         toast.error(t(json.description))
       }
@@ -403,7 +403,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
             document.body.removeChild(link);
         });
   };
-  
+
 
   return (
     <Fragment>
@@ -478,7 +478,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
               </Col>
               <Col xs="auto">
                   <br></br>
-                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default" 
+                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
                   hidden={exportButtonHidden}
                   onClick={handleExport} >
                     {t('Export')}
@@ -584,7 +584,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
           </Row>
         </CardBody>
         }
-        
+
         {//todo: get the bank account infomation from API
         /* <CardFooter className="bg-light">
           <p className="fs--1 mb-0">
