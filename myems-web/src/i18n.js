@@ -187,6 +187,7 @@ const resources = {
         '{{EQUIPMENT}} Reporting Period Consumption {{CATEGORY}} {{UNIT}}',
       'COMBINED_EQUIPMENT Reporting Period Consumption CATEGORY UNIT':
         '{{COMBINED_EQUIPMENT}} Reporting Period Consumption {{CATEGORY}} {{UNIT}}',
+      'CATEGORY VALUE UNIT': '{{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption CATEGORY VALUE UNIT':
         'Reporting Period Consumption {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Base Period Consumption CATEGORY VALUE UNIT': 'Base Period Consumption {{CATEGORY}} {{VALUE}} {{UNIT}}',
@@ -1194,6 +1195,7 @@ const resources = {
         '{{EQUIPMENT}} Verbrauch des Berichtszeitraums {{CATEGORY}} {{UNIT}}',
       'COMBINED_EQUIPMENT Reporting Period Consumption CATEGORY UNIT':
         '{{COMBINED_EQUIPMENT}} Verbrauch des Berichtszeitraums {{CATEGORY}} {{UNIT}}',
+      'CATEGORY VALUE UNIT': '{{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption CATEGORY VALUE UNIT':
         'Verbrauch des Berichtszeitraums {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Base Period Consumption CATEGORY VALUE UNIT':
@@ -2212,6 +2214,7 @@ const resources = {
       'EQUIPMENT Reporting Period Consumption CATEGORY UNIT': '{{EQUIPMENT}} 报告期消耗 {{CATEGORY}} {{UNIT}}',
       'COMBINED_EQUIPMENT Reporting Period Consumption CATEGORY UNIT':
         '{{COMBINED_EQUIPMENT}} 报告期消耗 {{CATEGORY}} {{UNIT}}',
+      'CATEGORY VALUE UNIT': '{{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption CATEGORY VALUE UNIT': '报告期消耗 {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Base Period Consumption CATEGORY VALUE UNIT': '基准期消耗 {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY UNIT': '报告期消耗 {{ITEM}} {{CATEGORY}} {{UNIT}}',

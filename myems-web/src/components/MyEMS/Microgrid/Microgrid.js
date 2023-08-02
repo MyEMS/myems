@@ -75,8 +75,13 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
   const [parameterLineChartData, setParameterLineChartData] = useState({});
   const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
 
+
+  const [microgridReportingNames, setMicrogridReportingNames] = useState({"a0":""});
+  const [microgridReportingUnits, setMicrogridReportingUnits] = useState({"a0":"()"});
+
   const [microgridReportingLabels, setMicrogridReportingLabels] = useState({"a0": []});
   const [microgridReportingData, setMicrogridReportingData] = useState({"a0": []});
+  const [microgridReportingSubtotals, setMicrogridReportingSubtotals] = useState({"a0": (0).toFixed(2)});
   const [microgridReportingOptions, setMicrogridReportingOptions] = useState([]);
 
   useEffect(() => {
@@ -217,6 +222,20 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
         });
         setCardSummaryList(cardSummaryArray);
 
+
+        let base_and_reporting_names = {}
+        json['reporting_period']['names'].forEach((currentValue, index) => {
+          base_and_reporting_names['a' + index] = currentValue;
+        });
+        setMicrogridReportingNames(base_and_reporting_names)
+
+        let base_and_reporting_units = {}
+        json['reporting_period']['units'].forEach((currentValue, index) => {
+          base_and_reporting_units['a' + index] = "("+currentValue+")";
+        });
+        setMicrogridReportingUnits(base_and_reporting_units)
+
+
         let reporting_timestamps = {}
         json['reporting_period']['timestamps'].forEach((currentValue, index) => {
           reporting_timestamps['a' + index] = currentValue;
@@ -228,6 +247,12 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
           reporting_values['a' + index] = currentValue;
         });
         setMicrogridReportingData(reporting_values);
+
+        let reporting_subtotals = {}
+        json['reporting_period']['subtotals'].forEach((currentValue, index) => {
+          reporting_subtotals['a' + index] = currentValue.toFixed(2);
+        });
+        setMicrogridReportingSubtotals(reporting_subtotals);
 
         let options = Array();
         json['reporting_period']['names'].forEach((currentValue, index) => {
@@ -284,10 +309,10 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
           </MultipleLineChart>
         </Col>
       </Row>
-      <MultiTrendChart reportingTitle = {{"name": "Reporting Period Consumption CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": {"a0":""}, "VALUE": {"a0": (0).toFixed(2)}, "UNIT": {"a0":"()"}}}
-        baseTitle = {{"name": "Base Period Consumption CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": {"a0":""}, "VALUE": {"a0": (0).toFixed(2)}, "UNIT": {"a0":"()"}}}
-        reportingTooltipTitle = {{"name": "Reporting Period Consumption CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": {"a0":""}, "VALUE": null, "UNIT": {"a0":"()"}}}
-        baseTooltipTitle = {{"name": "Base Period Consumption CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": {"a0":""}, "VALUE": null, "UNIT": {"a0":"()"}}}
+      <MultiTrendChart reportingTitle = {{"name": "CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": microgridReportingNames, "VALUE": microgridReportingSubtotals, "UNIT": microgridReportingUnits}}
+        baseTitle = {{"name": "CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": {"a0":""}, "VALUE": {"a0": (0).toFixed(2)}, "UNIT": {"a0":"()"}}}
+        reportingTooltipTitle = {{"name": "CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": {"a0":""}, "VALUE": null, "UNIT": {"a0":"()"}}}
+        baseTooltipTitle = {{"name": "CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": {"a0":""}, "VALUE": null, "UNIT": {"a0":"()"}}}
         reportingLabels={microgridReportingLabels}
         reportingData={microgridReportingData}
         baseLabels={{"a0": []}}
