@@ -2454,7 +2454,7 @@ const resources = {
       'Non Working Days': '非工作日',
       'Select Row': '请选择要操作的数据行',
       // Offline Meter Input
-      'Daily Value': '日产量数据',
+      'Daily Value': '日数据',
       'Date': '日期',
       'Successfully Saved': '保存成功',
       // API

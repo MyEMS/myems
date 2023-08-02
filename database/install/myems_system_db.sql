@@ -512,6 +512,7 @@ VALUES
 (318,'Offline Meter Saving','/meter/offlinemetersaving',300,1),
 (319,'Virtual Meter Saving','/meter/virtualmetersaving',300,1),
 (320,'Meter Comparison','/meter/metercomparison',300,0),
+(321,'Offline Meter Input','/meter/offlinemeterinput',300,0),
 (400,'Tenant Data','/tenant',NULL,0),
 (401,'Energy Category Data','/tenant/energycategory',400,0),
 (402,'Energy Item Data','/tenant/energyitem',400,0),
