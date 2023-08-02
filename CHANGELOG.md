@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+-
+### Changed
+-
+### Fixed
+-
+### Removed
+-
+
+## [v3.8.0] - 2023-08-02
+### Added
 - added is_recursive boolean option to meter tracking report in myems-api (need to upgrade the myesm-api/.env file)
 - added is_recursive boolean option to meter batch report in myems-api (need to upgrade the myesm-api/.env file)
 - added soc point to microgrids batteries in database, myems-api and myems-admin
@@ -17,7 +27,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added French language to myems-admin
 - added Spanish language to myems-admin
 - added offline meter data input to myems-web and myems-api
-- 
+
 ### Changed
 - updated database demo scripts
 - updated notification list style
@@ -1391,7 +1401,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v3.7.0...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v3.8.0...HEAD
+[3.8.0]: https://github.com/MyEMS/myems/compare/v3.8.0...v3.7.0
 [3.7.0]: https://github.com/MyEMS/myems/compare/v3.7.0...v3.6.0
 [3.6.0]: https://github.com/MyEMS/myems/compare/v3.6.0...v3.5.0
 [3.5.0]: https://github.com/MyEMS/myems/compare/v3.5.0...v3.4.0
