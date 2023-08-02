@@ -20,6 +20,9 @@ DELETE FROM myems_system_db.tbl_menus WHERE id=1003;
 DELETE FROM myems_system_db.tbl_menus WHERE id=1004;
 DELETE FROM myems_system_db.tbl_menus WHERE id=1005;
 
+INSERT INTO `myems_system_db`.`tbl_menus`(`id`, `name`, `route`, `parent_menu_id`, `is_hidden`)
+VALUES (321, 'Offline Meter Input', '/meter/offlinemeterinput', 300, 0);
+
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='3.8.0RC', release_date='2023-08-08' WHERE id=1;
 
