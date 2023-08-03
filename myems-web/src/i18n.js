@@ -447,6 +447,7 @@ const resources = {
       'Daily Value': 'Daily Value',
       'Date': 'Date',
       'Successfully Saved': 'Successfully Saved',
+      'Previous Data Is Empty': 'Previous Data Is Empty',
       //API
       'API.ACCOUNT_UNLOCK_FAILED': 'Account unlock failed',
       'API.ADMINISTRATOR_SESSION_NOT_FOUND': 'Administrator session not found',
@@ -1470,6 +1471,7 @@ const resources = {
       'Daily Value': 'Tageswert',
       'Date': 'Datum',
       'Successfully Saved': 'Betrieb erfolgreich',
+      'Previous Data Is Empty': 'Vorherige Daten sind leer',
       // API
       'API.ACCOUNT_UNLOCK_FAILED': 'Account unlock failed',
       'API.ADMINISTRATOR_SESSION_NOT_FOUND': 'Administratorsitzung nicht gefunden',
@@ -2459,6 +2461,7 @@ const resources = {
       'Daily Value': '日数据',
       'Date': '日期',
       'Successfully Saved': '保存成功',
+      'Previous Data Is Empty': '之前的数据为空',
       // API
       'API.ACCOUNT_UNLOCK_FAILED': 'Account unlock failed',
       'API.ADMINISTRATOR_SESSION_NOT_FOUND': '管理员会话不存在',
