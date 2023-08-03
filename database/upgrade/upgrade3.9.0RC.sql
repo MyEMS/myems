@@ -10,7 +10,6 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_virtual_power_plants` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
   `uuid` CHAR(36) NOT NULL,
-  `capacity` DECIMAL(18, 3) NOT NULL,
   `svg` LONGTEXT NOT NULL,
   `description` VARCHAR(255),
   PRIMARY KEY (`id`));
