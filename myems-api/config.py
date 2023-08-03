@@ -117,3 +117,7 @@ is_tariff_appended = config('IS_TARIFF_APPENDED', default=True, cast=bool)
 # indicates if search meters recursively by space tree
 # this config is used in meter tracking report and in meter batch report
 is_recursive = config('IS_RECURSIVE', default=True, cast=bool)
+
+# indicates how long in second the user session expires
+# default value is 60 * 60 * 8 = 28800
+session_expires_in_seconds = config('SESSION_EXPIRES_IN_SECONDS', default=28800, cast=int)

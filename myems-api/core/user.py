@@ -600,7 +600,7 @@ class UserLogin:
                        " VALUES (%s, %s, %s) ")
         user_uuid = result['uuid']
         token = hashlib.sha512(os.urandom(24)).hexdigest()
-        utc_expires = datetime.utcnow() + timedelta(seconds=60 * 60 * 8)
+        utc_expires = datetime.utcnow() + timedelta(seconds=config.session_expires_in_seconds)
         cursor.execute(add_session, (user_uuid, token, utc_expires))
         cnx.commit()
         cursor.close()
