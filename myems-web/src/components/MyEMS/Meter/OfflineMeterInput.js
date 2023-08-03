@@ -49,6 +49,7 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
   const [meterList, setMeterList] = useState([]);
   const [OfflinemeterName, setOfflinemeterName] = useState([{ value: 0, label: "" }]);
   const [Offlinemeter, setOfflinemeter] = useState('');
+  const [selectedRowIndex, setSelectedRowIndex] = useState(0);
 
   //Query From
   const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([current_moment.clone().startOf('month').toDate(), current_moment.clone().endOf('month').toDate()]);
@@ -173,30 +174,27 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
       headerClasses: 'border-0',
       text: t('Date'),
       classes: 'border-0 py-2 align-middle',
-      sort: true,
+      sort: false,
       editable: false,
     },
     {
       dataField: 'daily_value',
       headerClasses: 'border-0',
       text: t('Daily Value'),
-      classes: 'border-0 py-2 align-middle',
-      sort: true,
+      classes: 'border-0 py-2 align-middle ',
+      sort: false,
       editable: true,
       formatter: (cell, row, rowIndex) => {
         if (cell == null) {
-          return (<Input type="text" disabled={false} style={{ width: '20%' }}></Input>);
+          return (<Input type="text" disabled={false} rowID={rowIndex} style={{ width: '20%' }}></Input>);
         }
         else {
-          return (<Input type="text" disabled={true} defaultValue={cell} style={{ width: '20%' }}></Input>);
+          return (<Input type="text" disabled={true} rowID={rowIndex} defaultValue={cell} style={{ width: '20%' }}></Input>);
         }
       },
+      editorStyle : {width:"20%"}
     },
   ];
-  const defaultSorted = [{
-    dataField: 'startdatetime',
-    order: 'asc'
-  }];
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
@@ -253,10 +251,18 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
   let OfflinemeterChange = ({ target }) => {
     setOfflinemeter(target.value);
   }
-  const saveChange = async (oldValue, newValue, row) => {
-    if(newValue == null || newValue == '' || newValue < 0) {
-      toast.error(t('API.INVALID_OFFLINE_METER_DATA'))
+  const saveChange = async (oldValue, newValue, row, column) => {
+    if(newValue == null || newValue == '' || newValue < 0 || oldValue == newValue) {
+      row.daily_value = oldValue
       return;
+    }
+    let values = meterList.map(Element => Element['daily_value']);
+    for(let i = 0; i < selectedRowIndex; i++){
+      if(values[i] == null || values[i] == '' || values[i] < 0) {
+        toast.error(t('Previous Data Is Empty'));
+        row.daily_value = oldValue
+        return;
+      }
     }
     let param = {
       "date": moment(reportingPeriodDateRange[0]).format('YYYY-MM'),
@@ -336,7 +342,7 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
                 <FormGroup>
                   <br></br>
                   <ButtonGroup id="submit">
-                    <Button color="success" disabled={submitButtonDisabled} >{t('Submit')}</Button>
+                    <Button color="success" disabled={submitButtonDisabled} >{t('Search')}</Button>
                   </ButtonGroup>
                 </FormGroup>
               </Col>
@@ -357,11 +363,11 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
               bordered
               striped={true}
               columns={columns}
-              defaultSorted={defaultSorted}
               cellEdit={cellEditFactory({
                 mode: 'click',
                 blurToSave: true,
-                afterSaveCell: (oldValue, newValue, row, column) => { saveChange(oldValue, newValue, row) }
+                afterSaveCell: (oldValue, newValue, row, column) => { saveChange(oldValue, newValue, row, column) },
+                onStartEdit: (row, column, rowIndex) => { setSelectedRowIndex(rowIndex) }
               })}
             />
           </CardBody>
