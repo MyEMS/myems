@@ -1633,6 +1633,23 @@ CREATE INDEX `tbl_virtual_meters_index_1` ON  `myems_system_db`.`tbl_virtual_met
 CREATE INDEX `tbl_virtual_meters_index_2` ON  `myems_system_db`.`tbl_virtual_meters`   (`energy_category_id`);
 CREATE INDEX `tbl_virtual_meters_index_3` ON  `myems_system_db`.`tbl_virtual_meters`   (`energy_item_id`);
 
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_virtual_power_plants`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_virtual_power_plants` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_virtual_power_plants` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `uuid` CHAR(36) NOT NULL,
+  `capacity` DECIMAL(18, 3) NOT NULL,
+  `svg` LONGTEXT NOT NULL,
+  `description` VARCHAR(255),
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_virtual_power_plants_index_1` ON  `myems_system_db`.`tbl_virtual_power_plants` (`name`);
+
+
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_variables`
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -1668,7 +1685,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '3.8.0', '2023-08-02');
+(1, '3.9.0RC', '2023-09-01');
 
 COMMIT;
 
