@@ -653,6 +653,8 @@ api.add_route('/virtualpowerplants/{id_}',
               virtualpowerplant.VirtualPowerPlantItem())
 api.add_route('/virtualpowerplants/{id_}/microgrids',
               virtualpowerplant.VirtualPowerPlantMicrogridCollection())
+api.add_route('/virtualpowerplants/{id_}/microgrids/{mid}',
+              virtualpowerplant.VirtualPowerPlantMicrogridItem())
 
 api.add_route('/webmessages',
               webmessage.WebMessageCollection())

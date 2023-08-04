@@ -1123,6 +1123,47 @@ app
                         }
 
                     })
+                    .state('settings.virtualpowerplant', {
+                        url: "/virtualpowerplant",
+                        templateUrl: "views/settings/virtualpowerplant/virtualpowerplant.html",
+                        data: {
+                            pageTitle: 'MENU.SETTINGS.VIRTUAL_POWER_PLANT',
+                        },
+                        resolve: {
+                            deps: [
+                                '$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'daterangepicker', 'toaster']).then(
+                                        function () {
+                                            return $ocLazyLoad.load([{
+                                                serie: true,
+                                                files: ['js/daterangepicker/daterangepicker.min.js', 'js/daterangepicker/daterangepicker.min.css']
+                                            }, {
+                                                name: 'daterangepicker',
+                                                files: ['js/daterangepicker/angular-daterangepicker.min.js']
+                                            }, {
+                                                files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
+                                            }, {
+                                                name: 'oitozero.ngSweetAlert',
+                                                files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
+                                            }, {
+                                                serie: true,
+                                                files: [
+                                                    'app/services/settings/virtualpowerplant/virtualpowerplant.service.js',
+                                                    'app/services/settings/virtualpowerplant/virtualpowerplantmicrogrid.service.js',
+                                                    'app/services/settings/microgrid/microgrid.service.js',
+                                                    'app/controllers/settings/virtualpowerplant/virtualpowerplant.master.controller.js',
+                                                    'app/controllers/settings/virtualpowerplant/virtualpowerplant.controller.js',
+                                                    'app/controllers/settings/virtualpowerplant/virtualpowerplantmicrogrid.controller.js',
+                                                ]
+                                            }]);
+                                        }
+                                    );
+                                }
+                            ]
+                        }
+
+                    })
                     .state('settings.menu', {
                         url: "/menu",
                         templateUrl: "views/settings/menu/menu.html",
