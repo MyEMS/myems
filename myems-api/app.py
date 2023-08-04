@@ -9,7 +9,7 @@ from core import apikey, energyflowdiagram, privilege, textmessage, distribution
     offlinemeter, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile, workingcalendar, \
     microgrid, microgridarchitecturetype, microgridbattery, microgridownertype, \
     microgridevcharger, microgridgenerator, microgridgrid, microgridheatpump, microgridload, microgridphotovoltaic, \
-    microgridwindturbine, command
+    microgridwindturbine, command, virtualpowerplant
 
 from reports import advancedreport
 from reports import combinedequipmentbatch
@@ -646,6 +646,13 @@ api.add_route('/virtualmeters',
               virtualmeter.VirtualMeterCollection())
 api.add_route('/virtualmeters/{id_}',
               virtualmeter.VirtualMeterItem())
+
+api.add_route('/virtualpowerplants',
+              virtualpowerplant.VirtualPowerPlantCollection())
+api.add_route('/virtualpowerplants/{id_}',
+              virtualpowerplant.VirtualPowerPlantItem())
+api.add_route('/virtualpowerplants/{id_}/microgrids',
+              virtualpowerplant.VirtualPowerPlantMicrogridCollection())
 
 api.add_route('/webmessages',
               webmessage.WebMessageCollection())
