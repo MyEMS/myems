@@ -186,10 +186,10 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
       editable: true,
       formatter: (cell, row, rowIndex) => {
         if (cell == null) {
-          return (<Input type="text" disabled={false} rowID={rowIndex} style={{ width: '20%' }}></Input>);
+          return (<Input type="text" disabled={false} style={{ width: '20%' }}></Input>);
         }
         else {
-          return (<Input type="text" disabled={true} rowID={rowIndex} defaultValue={cell} style={{ width: '20%' }}></Input>);
+          return (<Input type="text" disabled={true} defaultValue={cell} style={{ width: '20%' }}></Input>);
         }
       },
       editorStyle : {width:"20%"}
@@ -199,28 +199,10 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
   let onReportingPeriodChange = (DateRange) => {
-    if (DateRange == null) {
+    if(DateRange == null) {
       setReportingPeriodDateRange([null, null]);
     } else {
-      if (moment(DateRange[1]).format('HH:mm:ss') == '00:00:00') {
-        // if the user did not change time value, set the default time to the end of day
-        DateRange[1] = endOfDay(DateRange[1]);
-      }
-      if (Number(moment(DateRange[0]).format('MM')) !=Number(current_moment.format('MM')))
-      {
-        DateRange[0] = startOfMonth(DateRange[0]);
-        DateRange[1] = endOfMonth(DateRange[1]);
-      }
-      if (Number(moment(DateRange[0]).format('MM')) !=Number(moment(DateRange[1]).format('MM')))
-      {
-        DateRange[0] = startOfMonth(DateRange[0]);
-        DateRange[1] = endOfMonth(DateRange[0]);
-      }
-      if (Number(moment(DateRange[0]).format('MM')) ==Number(current_moment.format('MM')))
-      {
-        DateRange[0] = startOfMonth(DateRange[0]);
-        DateRange[1] = endOfMonth(DateRange[1]);
-      }
+      DateRange[1] = endOfDay(DateRange[1]);
       setReportingPeriodDateRange([DateRange[0], DateRange[1]]);
     }
   };

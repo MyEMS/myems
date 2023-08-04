@@ -5,7 +5,9 @@ import mysql.connector
 import config
 import calendar
 from datetime import datetime, timedelta, timezone
+from core import utilities
 from core.useractivity import access_control, api_key_control
+from decimal import Decimal
 
 
 class Reporting:
@@ -128,36 +130,39 @@ class Reporting:
         #######################################################
         reporting_date_list = list()
         reporting_daily_values = list()
-        reportyear = reporting_period_start_datetime_local[0:4]
-        reportmonth = reporting_period_start_datetime_local[5:7]
-        daysnum = calendar.monthrange(int(reportyear), int(reportmonth))
-        for i in range(daysnum[1]):
-            reporting_period_start_datetime_local = reportyear + '-' + reportmonth + '-' + \
-                                                    str(i + 1).rjust(2, '0') + 'T00:00:00'
-            reporting_start_datetime_utc = datetime.strptime(reporting_period_start_datetime_local,
-                                                             '%Y-%m-%dT%H:%M:%S')
-            reporting_start_datetime_utc = reporting_start_datetime_utc.replace(tzinfo=timezone.utc) - timedelta(
-                minutes=timezone_offset)
-            reporting_period_end_datetime_local = reportyear + '-' + reportmonth + '-' + str(i + 1).rjust(2, '0') + \
-                'T23:59:59'
-            reporting_end_datetime_utc = datetime.strptime(reporting_period_end_datetime_local,
-                                                           '%Y-%m-%dT%H:%M:%S')
-            reporting_end_datetime_utc = reporting_end_datetime_utc.replace(tzinfo=timezone.utc) - timedelta(
-                minutes=timezone_offset)
-            query = (" SELECT sum(actual_value) as sum_val"
-                     " FROM  tbl_offline_meter_hourly  "
-                     " WHERE offline_meter_id = %s "
-                     " AND start_datetime_utc BETWEEN %s AND %s ")
-            cursor_historical.execute(query, (row_offline_meter[0],
-                                              reporting_start_datetime_utc,
-                                              reporting_end_datetime_utc))
-            rows = cursor_historical.fetchone()
-            datetime_utc = reportmonth + '-' + str(i + 1).rjust(2, '0')
-            if rows is not None and len(rows) > 0:
-                reporting_date_list.append(datetime_utc)
-                reporting_daily_values.append(rows[0])
-            else:
-                reporting_daily_values.append(None)
+
+        query = (" SELECT start_datetime_utc, actual_value "
+                 " FROM tbl_offline_meter_hourly "
+                 " WHERE offline_meter_id = %s "
+                 " AND start_datetime_utc >= %s "
+                 " AND start_datetime_utc < %s "
+                 " ORDER BY start_datetime_utc ")
+        cursor_historical.execute(query, (row_offline_meter[0],
+                                            reporting_start_datetime_utc,
+                                            reporting_end_datetime_utc))
+        rows_offline_meter_hourly = cursor_historical.fetchall()
+
+        start_datetime_utc = reporting_start_datetime_utc.replace(tzinfo=None)
+        end_datetime_utc = reporting_end_datetime_utc.replace(tzinfo=None)
+
+        start_datetime_local = start_datetime_utc + timedelta(hours=int(config.utc_offset[1:3]))
+        current_datetime_utc = start_datetime_local.replace(hour=0) - timedelta(hours=int(config.utc_offset[1:3]))
+
+        while current_datetime_utc <= end_datetime_utc:
+            flag = True
+            subtotal = Decimal(0.0)
+            for row in rows_offline_meter_hourly:
+                if current_datetime_utc <= row[0] < current_datetime_utc + timedelta(days=1):
+                    flag = False
+                    subtotal += row[1]
+            if flag:
+                subtotal = None
+            current_datetime = current_datetime_utc.strftime('%Y-%m-%d')
+
+            reporting_date_list.append(current_datetime)
+            reporting_daily_values.append(subtotal)
+            current_datetime_utc += timedelta(days=1)
+        
         ################################################################################################################
         # Step 6: construct the report
         ################################################################################################################
