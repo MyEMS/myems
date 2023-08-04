@@ -265,7 +265,7 @@ class MicrogridCollection:
                       "    (name, uuid, address, postal_code, latitude, longitude, capacity, "
                       "     architecture_type_id, owner_type_id, "
                       "     contact_id, cost_center_id, svg, description) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     address,

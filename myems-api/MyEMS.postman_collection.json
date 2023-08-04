@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "b66a457c-38fe-48f5-82c6-bfd699f31d81",
+		"_postman_id": "e5b0f3e2-cf74-4eb6-8a82-da7198c89209",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -5650,12 +5650,12 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
 										"key": "Token",
-										"value": "831f86c46eaa946be6450097c2ecfc2966fecea18853d00ae3147b11123899438fd5394f1bcfc165d0a3d0604baa93eb14f29d0d88c3f75b3bcaa807029e410c",
+										"value": "7a5a1e145a2e7cd1da0729f96ca2432ad5b2b1fbfaa5ad2951216b5c475b9274ac51afa214de8f71b948626ab6ad057d49c872233357a7778420d4903c1d3517",
 										"type": "default"
 									}
 								],
@@ -5701,7 +5701,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create New Microgrids",
+							"name": "POST Create New Microgrid",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -5712,13 +5712,13 @@
 									},
 									{
 										"key": "Token",
-										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"value": "7a5a1e145a2e7cd1da0729f96ca2432ad5b2b1fbfaa5ad2951216b5c475b9274ac51afa214de8f71b948626ab6ad057d49c872233357a7778420d4903c1d3517",
 										"type": "text"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office2\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"latitude\":39.909429, \"longitude\":116.416993, \"capacity\":600.000, \"architecture_type_id\":1, \"owner_type_id\":1, \"contact_id\":1, \"cost_center_id\":1, \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"capacity\":600.000, \"architecture_type_id\":1, \"owner_type_id\":1, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgrids",
@@ -5744,13 +5744,13 @@
 									},
 									{
 										"key": "Token",
-										"value": "1cf311a2df42615feaefb5f54a3cc86bfb85a1775e98111b1044fdee2cfd5c90cc196ac6b3e17fff990fa4dafeaab97c8b394133186ba8bfcefe02463e88811f",
+										"value": "7a5a1e145a2e7cd1da0729f96ca2432ad5b2b1fbfaa5ad2951216b5c475b9274ac51afa214de8f71b948626ab6ad057d49c872233357a7778420d4903c1d3517",
 										"type": "text"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100001\", \"latitude\":39.909429, \"longitude\":116.416993, \"capacity\":600.000, \"architecture_type_id\":1, \"owner_type_id\":1, \"contact_id\":1, \"cost_center_id\":1, \"description\":\"New\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"capacity\":600.000, \"architecture_type_id\":1, \"owner_type_id\":1, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgrids/1",
@@ -5859,7 +5859,7 @@
 							"response": []
 						},
 						{
-							"name": "DELETE a Sensor from Stores",
+							"name": "DELETE a Sensor from a Microgrid",
 							"request": {
 								"method": "DELETE",
 								"header": [
@@ -14437,6 +14437,257 @@
 										"newusers",
 										"2",
 										"approve"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Virtual Power Plant",
+					"item": [
+						{
+							"name": "GET All Virtual Power Plants",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "7a5a1e145a2e7cd1da0729f96ca2432ad5b2b1fbfaa5ad2951216b5c475b9274ac51afa214de8f71b948626ab6ad057d49c872233357a7778420d4903c1d3517",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/virtualpowerplants",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"virtualpowerplants"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET a Virtual Power Plant by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "7a5a1e145a2e7cd1da0729f96ca2432ad5b2b1fbfaa5ad2951216b5c475b9274ac51afa214de8f71b948626ab6ad057d49c872233357a7778420d4903c1d3517",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/virtualpowerplants/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"virtualpowerplants",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Create New Virtual Power Plant",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "7a5a1e145a2e7cd1da0729f96ca2432ad5b2b1fbfaa5ad2951216b5c475b9274ac51afa214de8f71b948626ab6ad057d49c872233357a7778420d4903c1d3517",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"Beijing VPP\", \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/virtualpowerplants",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"virtualpowerplants"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Update a Virtual Power Plant",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "7a5a1e145a2e7cd1da0729f96ca2432ad5b2b1fbfaa5ad2951216b5c475b9274ac51afa214de8f71b948626ab6ad057d49c872233357a7778420d4903c1d3517",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"Beijing VPP\", \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"New\"}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/virtualpowerplants/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"virtualpowerplants",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Virtual Power Plant by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "7a5a1e145a2e7cd1da0729f96ca2432ad5b2b1fbfaa5ad2951216b5c475b9274ac51afa214de8f71b948626ab6ad057d49c872233357a7778420d4903c1d3517",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/virtualpowerplants/3",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"virtualpowerplants",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Microgrids of Virtual Power Plant by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "7a5a1e145a2e7cd1da0729f96ca2432ad5b2b1fbfaa5ad2951216b5c475b9274ac51afa214de8f71b948626ab6ad057d49c872233357a7778420d4903c1d3517",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/virtualpowerplants/1/microgrids",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"virtualpowerplants",
+										"1",
+										"microgrids"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Bind a Microgrid to a Virtual Power Plant",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "7a5a1e145a2e7cd1da0729f96ca2432ad5b2b1fbfaa5ad2951216b5c475b9274ac51afa214de8f71b948626ab6ad057d49c872233357a7778420d4903c1d3517",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"microgrid_id\":1}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/virtualpowerplants/1/microgrids",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"virtualpowerplants",
+										"1",
+										"microgrids"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Microgrid from Virtual Power Plant",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "7a5a1e145a2e7cd1da0729f96ca2432ad5b2b1fbfaa5ad2951216b5c475b9274ac51afa214de8f71b948626ab6ad057d49c872233357a7778420d4903c1d3517",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/virtualpowerplants/1/microgrids/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"virtualpowerplants",
+										"1",
+										"microgrids",
+										"1"
 									]
 								}
 							},
@@ -25656,7 +25907,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{base_url}}/reports/offlinemeterdaily?meterid=1&reportingperiodstartdatetime=2023-07-01T00:00:00&reportingperiodenddatetime=2023-07-31T23:59:59",
+							"raw": "{{base_url}}/reports/metermonthgenerate?offlinemeterid=1&reportingperiodstartdatetime=2023-07-01T00:00:00&reportingperiodenddatetime=2023-07-31T23:59:59",
 							"host": [
 								"{{base_url}}"
 							],
