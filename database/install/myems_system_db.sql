@@ -1633,6 +1633,20 @@ CREATE INDEX `tbl_virtual_meters_index_1` ON  `myems_system_db`.`tbl_virtual_met
 CREATE INDEX `tbl_virtual_meters_index_2` ON  `myems_system_db`.`tbl_virtual_meters`   (`energy_category_id`);
 CREATE INDEX `tbl_virtual_meters_index_3` ON  `myems_system_db`.`tbl_virtual_meters`   (`energy_item_id`);
 
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_variables`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_variables` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_variables` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` CHAR(36) NOT NULL,
+  `virtual_meter_id` BIGINT NOT NULL,
+  `meter_type` VARCHAR(32) NOT NULL COMMENT 'meter, virtual_meter, offline_meter',
+  `meter_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+  CREATE INDEX `tbl_variables_index_1` ON  `myems_system_db`.`tbl_variables`   (`virtual_meter_id`);
+  CREATE INDEX `tbl_variables_index_2` ON  `myems_system_db`.`tbl_variables`   (`meter_id`, `meter_type`, `virtual_meter_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_virtual_power_plants`
@@ -1650,19 +1664,17 @@ CREATE INDEX `tbl_virtual_power_plants_index_1` ON  `myems_system_db`.`tbl_virtu
 
 
 -- ---------------------------------------------------------------------------------------------------------------------
--- Table `myems_system_db`.`tbl_variables`
+-- Table `myems_system_db`.`tbl_virtual_power_plants_microgrids`
 -- ---------------------------------------------------------------------------------------------------------------------
-DROP TABLE IF EXISTS `myems_system_db`.`tbl_variables` ;
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_virtual_power_plants_microgrids` ;
 
-CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_variables` (
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_virtual_power_plants_microgrids` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `name` CHAR(36) NOT NULL,
-  `virtual_meter_id` BIGINT NOT NULL,
-  `meter_type` VARCHAR(32) NOT NULL COMMENT 'meter, virtual_meter, offline_meter',
-  `meter_id` BIGINT NOT NULL,
+  `virtual_power_plant_id` BIGINT NOT NULL,
+  `microgrid_id` BIGINT NOT NULL,
   PRIMARY KEY (`id`));
-  CREATE INDEX `tbl_variables_index_1` ON  `myems_system_db`.`tbl_variables`   (`virtual_meter_id`);
-  CREATE INDEX `tbl_variables_index_2` ON  `myems_system_db`.`tbl_variables`   (`meter_id`, `meter_type`, `virtual_meter_id`);
+CREATE INDEX `tbl_virtual_power_plants_microgrids_index_1`
+ON `myems_system_db`.`tbl_virtual_power_plants_microgrids` (`virtual_power_plant_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_versions`
