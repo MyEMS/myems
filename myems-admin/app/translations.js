@@ -7066,12 +7066,12 @@ function config($translateProvider) {
                     API_KEY: 'Ключ API',
                 },
                 FDD: {
-                    FDD: 'FDDⒺ',
-                    RULE: 'Правила',
-                    MESSAGEALARM: 'SMS-сигнал тревогиⒺ',
-                    EMAILALARM: 'Сигнал тревоги по электронной почтеⒺ',
-                    WEBALARM: 'Веб-сигнализацияⒺ',
-                    WECHATALARM: 'Будильник WeChatⒺ',
+                    FDD: 'FDD Ⓔ',
+                    RULE: 'Правила Ⓔ',
+                    MESSAGEALARM: 'SMS-сигнал тревоги Ⓔ',
+                    EMAILALARM: 'Сигнал тревоги по электронной почте Ⓔ',
+                    WEBALARM: 'Веб-сигнализация Ⓔ',
+                    WECHATALARM: 'Будильник WeChat Ⓔ',
                 },
                 USERSETTING: {
                     USERSETTING: 'Пользователей & Привилегии',
