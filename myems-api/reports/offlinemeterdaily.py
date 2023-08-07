@@ -157,11 +157,12 @@ class Reporting:
                     subtotal += row[1]
             if flag:
                 subtotal = None
-            current_datetime = current_datetime_utc.strftime('%Y-%m-%d')
+            current_datetime = start_datetime_local.strftime('%Y-%m-%d')
 
             reporting_date_list.append(current_datetime)
             reporting_daily_values.append(subtotal)
             current_datetime_utc += timedelta(days=1)
+            start_datetime_local += timedelta(days=1)
         
         ################################################################################################################
         # Step 6: construct the report

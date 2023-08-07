@@ -37,17 +37,14 @@ class Reporting:
         try:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)
-            print(new_values)
             formdata = new_values['value']
-            formdate = new_values['date']
             offline_meter_data = dict()
             offline_meter_data['offline_meter_id'] = new_values['meter']
             offline_meter_data['data'] = dict()
             for onepieces in formdata:
-                day = onepieces[0][3:5]
-                start_datetime_local = datetime(year=int(formdate[0:4]),
-                                                month=int(formdate[6:7]),
-                                                day=int(day))
+                start_datetime_local = datetime(year=int(onepieces[0][0:4]),
+                                                month=int(onepieces[0][5:7]),
+                                                day=int(onepieces[0][8:10]))
                 start_datetime_utc = start_datetime_local - timedelta(minutes=timezone_offset)
                 if onepieces[1] is None or \
                         onepieces[1] == '' or \
@@ -60,7 +57,6 @@ class Reporting:
         except Exception as ex:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_OFFLINE_METER_VALUE')
-            return
 
         for energy_data_item in energy_data_list:
             offline_meter_id = energy_data_item['offline_meter_id']

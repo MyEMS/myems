@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "e5b0f3e2-cf74-4eb6-8a82-da7198c89209",
+		"_postman_id": "7ffe2cdb-2a24-47e0-808d-51d4c4fa3e86",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -25868,7 +25868,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"date\":\"2023-07\",\"meter\":1,\"value\":[[\"07-01\",\"123\"],[\"07-02\",\"123\"]]}"
+							"raw": "{\"meter\":1,\"value\":[[\"2023-07-01\",\"123\"],[\"2023-07-02\",\"123\"]]}"
 						},
 						"url": {
 							"raw": "{{base_url}}/reports/offlinemeterinput",
