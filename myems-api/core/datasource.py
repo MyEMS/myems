@@ -103,6 +103,7 @@ class DataSourceCollection:
                  'coap'
                  'controllogix',
                  'dlt645',
+                 'elexon-bmrs',
                  'iec104',
                  'influxdb',
                  'lora',
@@ -317,6 +318,7 @@ class DataSourceItem:
                  'coap'
                  'controllogix',
                  'dlt645',
+                 'elexon-bmrs',
                  'iec104',
                  'influxdb',
                  'lora',

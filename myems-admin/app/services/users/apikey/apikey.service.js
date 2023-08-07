@@ -35,8 +35,8 @@ app.factory('ApiKeyService', function($http) {
                 callback(response);
             });
         },
-        getApiKey: function(id, callback) {
-            $http.get(getAPI()+'apikeys/'+id)
+        getApiKey: function(id, headers, callback) {
+            $http.get(getAPI()+'apikeys/'+id, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

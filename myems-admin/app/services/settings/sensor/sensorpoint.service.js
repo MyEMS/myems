@@ -18,8 +18,8 @@ app.factory('SensorPointService', function($http) {
                 callback(response);
             });
         },
-        getPointsBySensorID: function(id, callback) {
-            $http.get(getAPI()+'sensors/'+id+'/points')
+        getPointsBySensorID: function(id, headers, callback) {
+            $http.get(getAPI()+'sensors/'+id+'/points', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

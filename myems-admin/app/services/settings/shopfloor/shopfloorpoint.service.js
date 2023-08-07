@@ -19,7 +19,7 @@ app.factory('ShopfloorPointService', function($http) {
             });
         },
         getPointsByShopfloorID: function(id, headers, callback) {
-            $http.get(getAPI()+'shopfloors/'+id+'/points')
+            $http.get(getAPI()+'shopfloors/'+id+'/points', {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
