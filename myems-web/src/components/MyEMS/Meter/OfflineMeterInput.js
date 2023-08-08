@@ -234,20 +234,24 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
     setOfflinemeter(target.value);
   }
   const saveChange = async (oldValue, newValue, row, column) => {
-    if(newValue == null || newValue == '' || newValue < 0 || oldValue == newValue) {
+    if(newValue == null || newValue === '' || newValue < 0 || oldValue == newValue) {
+      row.daily_value = oldValue
+      return;
+    }
+    let isNumericInput = /^[0-9]+$/.test(newValue);
+    if (!isNumericInput){
       row.daily_value = oldValue
       return;
     }
     let values = meterList.map(Element => Element['daily_value']);
     for(let i = 0; i < selectedRowIndex; i++){
-      if(values[i] == null || values[i] == '' || values[i] < 0) {
+      if(values[i] == undefined || values[i] == null || values[i] === '' || values[i] < 0) {
         toast.error(t('Previous Data Is Empty'));
         row.daily_value = oldValue
         return;
       }
     }
     let param = {
-      "date": moment(reportingPeriodDateRange[0]).format('YYYY-MM'),
       "meter": Offlinemeter,
       "value": [[row.monthdate, newValue]]
     };
