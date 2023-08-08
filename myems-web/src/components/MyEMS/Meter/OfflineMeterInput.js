@@ -238,6 +238,11 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
       row.daily_value = oldValue
       return;
     }
+    let isNumericInput = /^[0-9]+$/.test(newValue);
+    if (!isNumericInput){
+      row.daily_value = oldValue
+      return;
+    }
     let values = meterList.map(Element => Element['daily_value']);
     for(let i = 0; i < selectedRowIndex; i++){
       if(values[i] == undefined || values[i] == null || values[i] === '' || values[i] < 0) {
