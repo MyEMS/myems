@@ -206,7 +206,7 @@ app.controller('ModalEditRuleCtrl', function($scope, $uibModalInstance, params) 
 	$scope.rule.is_enabled = params.rule.is_enabled;
 
 	$scope.updateFddCodeOptions = function () {
-        if ($scope.rule.category === 'SYSTEM') {
+		if ($scope.rule.category === 'SYSTEM') {
 			$scope.fddCodeOptions = ['SYSTEM01', 'SYSTEM02'];
 		} else if ($scope.rule.category === 'REALTIME') {
 			$scope.fddCodeOptions = ['REALTIME01', 'REALTIME02'];
