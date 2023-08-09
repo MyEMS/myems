@@ -19,7 +19,7 @@ app.controller('RuleController', function(
 		}]
 	}];
 
-	$scope.initMessageTemplate = 'This a sample template. Use %s for substitution. You can use multiple %s s in the template.';
+	$scope.initMessageTemplate = '$s1';
 
 	$scope.getAllRules = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };

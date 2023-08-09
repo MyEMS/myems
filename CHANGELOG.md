@@ -10,7 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added Russian language to myems-admin
 - 
 ### Changed
--
+- changed fdd rule template in myems-admin
+- 
 ### Fixed
 - fixed sensor bound points issue in myems-admin
 
