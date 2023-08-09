@@ -15,7 +15,7 @@
             <div class="hr-line-dashed"></div>
             <div class="form-group"><label class="col-sm-2 control-label">{{'FDD.CATEGORY' | translate}}</label>
                 <div class="col-sm-5">
-                    <select  name="category"  ng-model="rule.category" class="form-control m-b">
+                    <select  name="category"  ng-model="rule.category" ng-change="updateFddCodeOptions()" class="form-control m-b">
                                 <option value="SYSTEM">SYSTEM</option>
                                 <option value="REALTIME">REALTIME</option>
                                 <option value="SPACE">SPACE</option>
@@ -34,47 +34,7 @@
             </div>
             <div class="form-group"><label class="col-sm-2 control-label">{{'FDD.FDD_CODE' | translate}}</label>
                 <div class="col-sm-5">
-                    <select  name="fdd_code"  ng-model="rule.fdd_code" class="form-control m-b">
-                                <option value="SYSTEM01">SYSTEM01</option>
-                                <option value="SYSTEM02">SYSTEM02</option>
-                                <option value="REALTIME01">REALTIME01</option>
-                                <option value="REALTIME02">REALTIME02</option>
-                                <option value="SPACE01">SPACE01</option>
-                                <option value="SPACE02">SPACE02</option>
-                                <option value="SPACE03">SPACE03</option>
-                                <option value="SPACE04">SPACE04</option>
-                                <option value="METER01">METER01</option>
-                                <option value="METER02">METER02</option>
-                                <option value="METER03">METER03</option>
-                                <option value="METER04">METER04</option>
-                                <option value="METER05">METER05</option>
-                                <option value="METER06">METER06</option>
-                                <option value="METER07">METER07</option>
-                                <option value="TENANT01">TENANT01</option>
-                                <option value="TENANT02">TENANT02</option>
-                                <option value="TENANT03">TENANT03</option>
-                                <option value="TENANT04">TENANT04</option>
-                                <option value="STORE01">STORE01</option>
-                                <option value="STORE02">STORE02</option>
-                                <option value="STORE03">STORE03</option>
-                                <option value="STORE04">STORE04</option>
-                                <option value="SHOPFLOOR01">SHOPFLOOR01</option>
-                                <option value="SHOPFLOOR02">SHOPFLOOR02</option>
-                                <option value="SHOPFLOOR03">SHOPFLOOR03</option>
-                                <option value="SHOPFLOOR04">SHOPFLOOR04</option>
-                                <option value="EQUIPMENT01">EQUIPMENT01</option>
-                                <option value="EQUIPMENT02">EQUIPMENT02</option>
-                                <option value="EQUIPMENT03">EQUIPMENT03</option>
-                                <option value="EQUIPMENT04">EQUIPMENT04</option>
-                                <option value="COMBINEDEQUIPMENT01">COMBINEDEQUIPMENT01</option>
-                                <option value="COMBINEDEQUIPMENT02">COMBINEDEQUIPMENT02</option>
-                                <option value="COMBINEDEQUIPMENT03">COMBINEDEQUIPMENT03</option>
-                                <option value="COMBINEDEQUIPMENT04">COMBINEDEQUIPMENT04</option>
-                                <option value="VIRTUALMETER01">VIRTUALMETER01</option>
-                                <option value="VIRTUALMETER02">VIRTUALMETER02</option>
-                                <option value="VIRTUALMETER03">VIRTUALMETER03</option>
-                                <option value="VIRTUALMETER04">VIRTUALMETER04</option>
-                            </select>
+                    <select  name="fdd_code"  ng-model="rule.fdd_code" class="form-control m-b" ng-options="option for option in fddCodeOptions"></select>
                     <div class="m-t-xs" ng-show="form_rule.fdd_code.$invalid && form_rule.fdd_code.$dirty">
                         <small class="text-danger" ng-show="form_rule.fdd_code.$error.required">-</small>
                     </div>
