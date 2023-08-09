@@ -167,6 +167,30 @@ app.controller('ModalAddRuleCtrl', function($scope, $uibModalInstance, params) {
 	$scope.rule.expression=JSON.stringify(params.expression);
 	$scope.rule.message_template=params.message_template;
 
+	$scope.updateFddCodeOptions = function () {
+		if ($scope.rule.category === 'SYSTEM') {
+			$scope.fddCodeOptions = ['SYSTEM01', 'SYSTEM02'];
+		} else if ($scope.rule.category === 'REALTIME') {
+			$scope.fddCodeOptions = ['REALTIME01', 'REALTIME02'];
+		} else if ($scope.rule.category === 'SPACE') {
+			$scope.fddCodeOptions = ['SPACE01', 'SPACE02', 'SPACE03', 'SPACE04'];
+		} else if ($scope.rule.category === 'METER') {
+			$scope.fddCodeOptions = ['METER01', 'METER02', 'METER03', 'METER04', 'METER05', 'METER06', 'METER07'];
+		} else if ($scope.rule.category === 'TENANT') {
+			$scope.fddCodeOptions = ['TENANT01', 'TENANT02', 'TENANT03', 'TENANT04'];
+		} else if ($scope.rule.category === 'STORE') {
+			$scope.fddCodeOptions = ['STORE01', 'STORE02', 'STORE03', 'STORE04'];
+		} else if ($scope.rule.category === 'SHOPFLOOR') {
+			$scope.fddCodeOptions = ['SHOPFLOOR01', 'SHOPFLOOR02', 'SHOPFLOOR03', 'SHOPFLOOR04'];
+		} else if ($scope.rule.category === 'EQUIPMENT') {
+			$scope.fddCodeOptions = ['EQUIPMENT01', 'EQUIPMENT02', 'EQUIPMENT03', 'EQUIPMENT04'];
+		} else if ($scope.rule.category === 'COMBINEDEQUIPMENT') {
+			$scope.fddCodeOptions = ['COMBINEDEQUIPMENT01', 'COMBINEDEQUIPMENT02', 'COMBINEDEQUIPMENT03', 'COMBINEDEQUIPMENT04'];
+		} else if ($scope.rule.category === 'VIRTUALMETER') {
+			$scope.fddCodeOptions = ['VIRTUALMETER01', 'VIRTUALMETER02', 'VIRTUALMETER03', 'VIRTUALMETER04'];
+		}
+	};
+
 	$scope.ok = function() {
 		$uibModalInstance.close($scope.rule);
 	};
@@ -181,6 +205,32 @@ app.controller('ModalEditRuleCtrl', function($scope, $uibModalInstance, params) 
 	$scope.rule = params.rule;
 	$scope.rule.is_enabled = params.rule.is_enabled;
 
+	$scope.updateFddCodeOptions = function () {
+		if ($scope.rule.category === 'SYSTEM') {
+			$scope.fddCodeOptions = ['SYSTEM01', 'SYSTEM02'];
+		} else if ($scope.rule.category === 'REALTIME') {
+			$scope.fddCodeOptions = ['REALTIME01', 'REALTIME02'];
+		} else if ($scope.rule.category === 'SPACE') {
+			$scope.fddCodeOptions = ['SPACE01', 'SPACE02', 'SPACE03', 'SPACE04'];
+		} else if ($scope.rule.category === 'METER') {
+			$scope.fddCodeOptions = ['METER01', 'METER02', 'METER03', 'METER04', 'METER05', 'METER06', 'METER07'];
+		} else if ($scope.rule.category === 'TENANT') {
+			$scope.fddCodeOptions = ['TENANT01', 'TENANT02', 'TENANT03', 'TENANT04'];
+		} else if ($scope.rule.category === 'STORE') {
+			$scope.fddCodeOptions = ['STORE01', 'STORE02', 'STORE03', 'STORE04'];
+		} else if ($scope.rule.category === 'SHOPFLOOR') {
+			$scope.fddCodeOptions = ['SHOPFLOOR01', 'SHOPFLOOR02', 'SHOPFLOOR03', 'SHOPFLOOR04'];
+		} else if ($scope.rule.category === 'EQUIPMENT') {
+			$scope.fddCodeOptions = ['EQUIPMENT01', 'EQUIPMENT02', 'EQUIPMENT03', 'EQUIPMENT04'];
+		} else if ($scope.rule.category === 'COMBINEDEQUIPMENT') {
+			$scope.fddCodeOptions = ['COMBINEDEQUIPMENT01', 'COMBINEDEQUIPMENT02', 'COMBINEDEQUIPMENT03', 'COMBINEDEQUIPMENT04'];
+		} else if ($scope.rule.category === 'VIRTUALMETER') {
+			$scope.fddCodeOptions = ['VIRTUALMETER01', 'VIRTUALMETER02', 'VIRTUALMETER03', 'VIRTUALMETER04'];
+		}
+	};
+    
+	// init
+	$scope.updateFddCodeOptions();
 	$scope.ok = function() {
 		$uibModalInstance.close($scope.rule);
 	};
