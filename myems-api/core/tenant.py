@@ -1811,7 +1811,8 @@ class TenantWorkingCalendarItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TENANT_WORKING_CALENDAR_RELATION_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_tenants_working_calendars WHERE tenant_id = %s AND working_calendar_id = %s ", (id_, wcid))
+        cursor.execute(" DELETE FROM tbl_tenants_working_calendars "
+                       " WHERE tenant_id = %s AND working_calendar_id = %s ", (id_, wcid))
         cnx.commit()
 
         cursor.close()

@@ -2805,6 +2805,7 @@ class SpaceTreeMetersEnergyCategoryCollection:
 
         resp.text = json.dumps(result)
 
+
 class SpaceWorkingCalendarCollection:
     @staticmethod
     def __init__():
@@ -2968,7 +2969,8 @@ class SpaceWorkingCalendarItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_WORKING_CALENDAR_RELATION_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_spaces_working_calendars WHERE space_id = %s AND working_calendar_id = %s ", (id_, wcid))
+        cursor.execute(" DELETE FROM tbl_spaces_working_calendars "
+                       " WHERE space_id = %s AND working_calendar_id = %s ", (id_, wcid))
         cnx.commit()
 
         cursor.close()

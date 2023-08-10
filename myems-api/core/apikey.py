@@ -40,11 +40,11 @@ class ApiKeyCollection:
             for row in rows:
                 created_datetime_utc = row[3].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
                 expires_datetime_utc = row[4].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
-                token_list.append({ "id": row[0],
-                                    "name": row[1],
-                                    "token": row[2],
-                                    "created_datetime_utc": created_datetime_utc.strftime("%Y-%m-%d %H:%M:%S"),
-                                    "expires_datetime_utc": expires_datetime_utc.strftime("%Y-%m-%d %H:%M:%S")})
+                token_list.append({"id": row[0],
+                                   "name": row[1],
+                                   "token": row[2],
+                                   "created_datetime_utc": created_datetime_utc.strftime("%Y-%m-%d %H:%M:%S"),
+                                   "expires_datetime_utc": expires_datetime_utc.strftime("%Y-%m-%d %H:%M:%S")})
 
         cursor.close()
         cnx.close()
@@ -197,7 +197,7 @@ class ApiKeyItem:
                        " FROM tbl_api_keys "
                        " WHERE name = %s ", (name,))
         if cursor.fetchall() is not None and \
-            len(cursor.fetchall()) > 0:
+                len(cursor.fetchall()) > 0:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',

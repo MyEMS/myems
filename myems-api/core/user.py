@@ -1054,7 +1054,8 @@ class ForgotPassword:
             if row is None:
                 cursor.close()
                 cnx.close()
-                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.ERROR', description='API.INVALID_VERIFICATION_CODE')
+                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.ERROR',
+                                       description='API.INVALID_VERIFICATION_CODE')
             else:
                 if datetime.utcnow() > row[2]:
                     cursor.close()
@@ -1299,7 +1300,8 @@ class EmailMessageCollection:
         add_verification_code = (" INSERT INTO tbl_verification_codes "
                                  " (recipient_email, verification_code, created_datetime_utc, expires_datetime_utc) "
                                  " VALUES (%s, %s, %s, %s) ")
-        cursor.execute(add_verification_code, (recipient_email, verification_code, created_datetime_utc, expires_datetime_utc))
+        cursor.execute(add_verification_code,
+                       (recipient_email, verification_code, created_datetime_utc, expires_datetime_utc))
 
         add_row = (" INSERT INTO tbl_email_messages "
                    "             (recipient_name, recipient_email, subject, message, "
@@ -1730,7 +1732,7 @@ class NewUserItem:
 
     @staticmethod
     def on_get(req, resp, email):
-        if  not isinstance(email, str) or len(str.strip(email)) == 0:
+        if not isinstance(email, str) or len(str.strip(email)) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EMAIL')
         email = str.lower(str.strip(email))
