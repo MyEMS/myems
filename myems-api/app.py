@@ -400,6 +400,8 @@ api.add_route('/points',
               point.PointCollection())
 api.add_route('/points/{id_}',
               point.PointItem())
+api.add_route('/pointlimits/{id_}',
+              point.PointLimit())
 
 api.add_route('/apikeys',
               apikey.ApiKeyCollection())
