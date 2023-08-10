@@ -628,8 +628,8 @@ def generate_excel(report,
                             ws[col + str(current_row_number)].font = title_font
                             ws[col + str(current_row_number)].alignment = c_c_alignment
                             ws[col + str(current_row_number)] = round(base_period_data['sub_averages'][j][i], 2) \
-                                if i < len(base_period_data['sub_averages'][j]) \
-                                   and base_period_data['sub_averages'][j][i] is not None else None
+                                if i < len(base_period_data['sub_averages'][j]) and \
+                                base_period_data['sub_averages'][j][i] is not None else None
                             ws[col + str(current_row_number)].border = f_border
 
                         if has_sub_maximums_data_flag:
