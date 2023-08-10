@@ -138,8 +138,8 @@ class Reporting:
                  " AND start_datetime_utc < %s "
                  " ORDER BY start_datetime_utc ")
         cursor_historical.execute(query, (row_offline_meter[0],
-                                            reporting_start_datetime_utc,
-                                            reporting_end_datetime_utc))
+                                          reporting_start_datetime_utc,
+                                          reporting_end_datetime_utc))
         rows_offline_meter_hourly = cursor_historical.fetchall()
 
         start_datetime_utc = reporting_start_datetime_utc.replace(tzinfo=None)

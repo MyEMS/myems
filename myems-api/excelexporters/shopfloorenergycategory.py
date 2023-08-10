@@ -578,7 +578,8 @@ def generate_excel(report,
         for i in range(0, ca_len):
             ws['B' + str(current_row_number)].font = title_font
             ws['B' + str(current_row_number)].alignment = c_c_alignment
-            ws['B' + str(current_row_number)] = report['base_period']['names'][i] + " (" + report['base_period']['units'][i] + ")"
+            ws['B' + str(current_row_number)] = report['base_period']['names'][i] + \
+                " (" + report['base_period']['units'][i] + ")"
             ws['B' + str(current_row_number)].border = f_border
 
             ws['C' + str(current_row_number)].font = title_font
@@ -637,7 +638,8 @@ def generate_excel(report,
         for i in range(0, ca_len):
             ws['B' + str(current_row_number)].font = title_font
             ws['B' + str(current_row_number)].alignment = c_c_alignment
-            ws['B' + str(current_row_number)] = report['reporting_period']['names'][i] + " (" + report['reporting_period']['units'][i] + ")"
+            ws['B' + str(current_row_number)] = report['reporting_period']['names'][i] + \
+                " (" + report['reporting_period']['units'][i] + ")"
             ws['B' + str(current_row_number)].border = f_border
 
             ws['C' + str(current_row_number)].font = title_font
