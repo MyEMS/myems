@@ -85,7 +85,6 @@
             </div>
 
             <div class="form-group"><label class="col-sm-4 control-label">{{'POINT.ADDRESS' | translate}}</label>
-
                 <div class="col-sm-8"><textarea rows="3" ng-model="point.address" type="text" name="pointaddress" class="form-control" required=""></textarea>
                     <div class="m-t-xs" ng-show="form_point.pointaddress.$invalid && form_point.pointaddress.$dirty">
                         <small class="text-danger" ng-show="form_point.pointaddress.$error.required">{{'POINT.INPUT_ADDRESS' | translate}}</small>
@@ -98,6 +97,16 @@
                     <div class="m-t-xs" ng-show="form_point.pointdescription.$invalid && form_point.pointdescription.$dirty">
                         <small class="text-danger" ng-show="form_point.pointdescription.$error.required">{{'POINT.INPUT_DESCRIPTION' | translate}}</small>
                     </div>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-4 control-label">{{'POINT.HIGHER_LIMIT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-8">
+                    <input ng-model="point.higher_limit" type="number" name="pointhigher_limit" class="form-control">
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-4 control-label">{{'POINT.LOWER_LIMIT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-8">
+                    <input ng-model="point.lower_limit" type="number" name="pointlower_limit" class="form-control">
                 </div>
             </div>
         </form>

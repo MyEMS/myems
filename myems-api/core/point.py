@@ -35,7 +35,8 @@ class PointCollection:
                                             "uuid": row[2]}
 
         query = (" SELECT id, name, data_source_id, object_type, units, "
-                 "        high_limit, low_limit, ratio, is_trend, is_virtual, address, description "
+                 "        high_limit, low_limit, higher_limit, lower_limit, ratio, "
+                 "        is_trend, is_virtual, address, description "
                  " FROM tbl_points ")
         cursor.execute(query)
         rows = cursor.fetchall()
@@ -53,11 +54,13 @@ class PointCollection:
                                "units": row[4],
                                "high_limit": row[5],
                                "low_limit": row[6],
-                               "ratio": float(row[7]),
-                               "is_trend": bool(row[8]),
-                               "is_virtual": bool(row[9]),
-                               "address": row[10],
-                               "description": row[11]}
+                               "higher_limit": row[7],
+                               "lower_limit": row[8],
+                               "ratio": float(row[9]),
+                               "is_trend": bool(row[10]),
+                               "is_virtual": bool(row[11]),
+                               "address": row[12],
+                               "description": row[13]}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -118,6 +121,28 @@ class PointCollection:
                                    description='API.INVALID_LOW_LIMIT_VALUE')
         low_limit = new_values['data']['low_limit']
 
+        # the higher_limit is optional
+        if 'higher_limit' not in new_values['data'].keys() or \
+                new_values['data']['higher_limit'] is None:
+            higher_limit = None
+        elif not (isinstance(new_values['data']['higher_limit'], float) or
+                  isinstance(new_values['data']['higher_limit'], int)):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_HIGHER_LIMIT_VALUE')
+        else:
+            higher_limit = new_values['data']['higher_limit']
+
+        # the lower_limit is optional
+        if 'lower_limit' not in new_values['data'].keys() or \
+                new_values['data']['lower_limit'] is None:
+            lower_limit = None
+        elif not (isinstance(new_values['data']['lower_limit'], float) or
+                  isinstance(new_values['data']['lower_limit'], int)):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_LOWER_LIMIT_VALUE')
+        else:
+            lower_limit = new_values['data']['lower_limit']
+
         if 'ratio' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['ratio'], float) or
                      isinstance(new_values['data']['ratio'], int)):
@@ -175,16 +200,18 @@ class PointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DATA_SOURCE_ID')
 
-        add_value = (" INSERT INTO tbl_points (name, data_source_id, "
-                     "                         object_type, units, high_limit, low_limit, ratio, "
+        add_value = (" INSERT INTO tbl_points (name, data_source_id, object_type, units, "
+                     "                         high_limit, low_limit, higher_limit, lower_limit, ratio, "
                      "                         is_trend, is_virtual, address, description) "
-                     " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                     " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_value, (name,
                                    data_source_id,
                                    object_type,
                                    units,
                                    high_limit,
                                    low_limit,
+                                   higher_limit,
+                                   lower_limit,
                                    ratio,
                                    is_trend,
                                    is_virtual,
@@ -233,7 +260,8 @@ class PointItem:
                                             "uuid": row[2]}
 
         query = (" SELECT id, name, data_source_id, object_type, units, "
-                 "        high_limit, low_limit, ratio, is_trend, is_virtual, address, description "
+                 "        high_limit, low_limit, higher_limit, lower_limit, ratio, "
+                 "        is_trend, is_virtual, address, description "
                  " FROM tbl_points "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -252,11 +280,13 @@ class PointItem:
                   "units": row[4],
                   "high_limit": row[5],
                   "low_limit": row[6],
-                  "ratio": float(row[7]),
-                  "is_trend": bool(row[8]),
-                  "is_virtual": bool(row[9]),
-                  "address": row[10],
-                  "description": row[11]}
+                  "higher_limit": row[7],
+                  "lower_limit": row[8],
+                  "ratio": float(row[9]),
+                  "is_trend": bool(row[10]),
+                  "is_virtual": bool(row[11]),
+                  "address": row[12],
+                  "description": row[13]}
         resp.text = json.dumps(result)
 
     @staticmethod
@@ -459,6 +489,28 @@ class PointItem:
                                    description='API.INVALID_LOW_LIMIT_VALUE')
         low_limit = new_values['data']['low_limit']
 
+        # the higher_limit is optional
+        if 'higher_limit' not in new_values['data'].keys() or \
+                new_values['data']['higher_limit'] is None:
+            higher_limit = None
+        elif not (isinstance(new_values['data']['higher_limit'], float) or
+                  isinstance(new_values['data']['higher_limit'], int)):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_HIGHER_LIMIT_VALUE')
+        else:
+            higher_limit = new_values['data']['higher_limit']
+
+        # the lower_limit is optional
+        if 'lower_limit' not in new_values['data'].keys() or \
+                new_values['data']['lower_limit'] is None:
+            lower_limit = None
+        elif not (isinstance(new_values['data']['lower_limit'], float) or
+                  isinstance(new_values['data']['lower_limit'], int)):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_LOWER_LIMIT_VALUE')
+        else:
+            lower_limit = new_values['data']['lower_limit']
+
         if 'ratio' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['ratio'], float) or
                      isinstance(new_values['data']['ratio'], int)):
@@ -528,7 +580,7 @@ class PointItem:
         update_row = (" UPDATE tbl_points "
                       " SET name = %s, data_source_id = %s, "
                       "     object_type = %s, units = %s, "
-                      "     high_limit = %s, low_limit = %s, ratio = %s, "
+                      "     high_limit = %s, low_limit = %s, higher_limit = %s, lower_limit = %s,ratio = %s, "
                       "     is_trend = %s, is_virtual = %s, address = %s, description = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
@@ -537,6 +589,8 @@ class PointItem:
                                     units,
                                     high_limit,
                                     low_limit,
+                                    higher_limit,
+                                    lower_limit,
                                     ratio,
                                     is_trend,
                                     is_virtual,
@@ -550,3 +604,84 @@ class PointItem:
 
         resp.status = falcon.HTTP_200
 
+
+class PointLimit:
+    @staticmethod
+    def __init__():
+        """"Initializes PointLimit"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    @user_logger
+    def on_put(req, resp, id_):
+        """Handles PUT requests"""
+        admin_control(req)
+        try:
+            raw_json = req.stream.read().decode('utf-8')
+        except Exception as ex:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
+
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_POINT_ID')
+
+        new_values = json.loads(raw_json)
+
+        if 'high_limit' not in new_values['data'].keys() or \
+                not (isinstance(new_values['data']['high_limit'], float) or
+                     isinstance(new_values['data']['high_limit'], int)):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_HIGH_LIMIT_VALUE')
+        high_limit = new_values['data']['high_limit']
+
+        if 'low_limit' not in new_values['data'].keys() or \
+                not (isinstance(new_values['data']['low_limit'], float) or
+                     isinstance(new_values['data']['low_limit'], int)):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_LOW_LIMIT_VALUE')
+        low_limit = new_values['data']['low_limit']
+
+        if 'higher_limit' not in new_values['data'].keys() or \
+                not (isinstance(new_values['data']['higher_limit'], float) or
+                     isinstance(new_values['data']['higher_limit'], int)):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_HIGHER_LIMIT_VALUE')
+        higher_limit = new_values['data']['higher_limit']
+
+        if 'lower_limit' not in new_values['data'].keys() or \
+                not (isinstance(new_values['data']['lower_limit'], float) or
+                     isinstance(new_values['data']['lower_limit'], int)):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_LOWER_LIMIT_VALUE')
+        lower_limit = new_values['data']['lower_limit']
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_points "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.POINT_NOT_FOUND')
+
+        update_row = (" UPDATE tbl_points "
+                      " SET  high_limit = %s, low_limit = %s, higher_limit = %s, lower_limit = %s "
+                      " WHERE id = %s ")
+        cursor.execute(update_row, (high_limit,
+                                    low_limit,
+                                    higher_limit,
+                                    lower_limit,
+                                    id_,))
+        cnx.commit()
+
+        cursor.close()
+        cnx.close()
+
+        resp.status = falcon.HTTP_200
