@@ -50,13 +50,15 @@ class Reporting:
         if meter_id is not None:
             meter_id = str.strip(meter_id)
             if not meter_id.isdigit() or int(meter_id) <= 0:
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_METER_ID')
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.INVALID_METER_ID')
 
         if meter_uuid is not None:
             regex = re.compile(r'^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}\Z', re.I)
             match = regex.match(str.strip(meter_uuid))
             if not bool(match):
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_METER_UUID')
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.INVALID_METER_UUID')
 
         # if turn quick mode on, do not return parameters data and excel file
         is_quick_mode = False

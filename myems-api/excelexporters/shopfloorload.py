@@ -167,7 +167,6 @@ def generate_excel(report,
     ws['E4'].alignment = b_c_alignment
     ws['E4'] = reporting_end_datetime_local
 
-
     is_base_period_timestamp_exists_flag = is_base_period_timestamp_exists(report['base_period'])
 
     if is_base_period_timestamp_exists_flag:
@@ -405,8 +404,7 @@ def generate_excel(report,
                     ws[col + str(current_row_number)].alignment = c_c_alignment
                     ws[col + str(current_row_number)].border = f_border
                     ws[col + str(current_row_number)] = reporting_period_data['names'][i] + \
-                                                        " " + _('Average Load') + "(" + reporting_period_data['units'][
-                                                            i] + "/H)"
+                        " " + _('Average Load') + "(" + reporting_period_data['units'][i] + "/H)"
 
                     current_col_number += 1
                     col = format_cell.get_column_letter(current_col_number)
@@ -417,8 +415,7 @@ def generate_excel(report,
                     ws[col + str(current_row_number)].alignment = c_c_alignment
                     ws[col + str(current_row_number)].border = f_border
                     ws[col + str(current_row_number)] = reporting_period_data['names'][i] + \
-                                                        " " + _('Maximum Load') + "(" + reporting_period_data['units'][
-                                                            i] + "/H)"
+                        " " + _('Maximum Load') + "(" + reporting_period_data['units'][i] + "/H)"
 
                     current_col_number += 1
                     col = format_cell.get_column_letter(current_col_number)
@@ -467,9 +464,9 @@ def generate_excel(report,
 
                 if has_sub_averages_data_flag:
                     line = LineChart()
-                    line.title = _('Reporting Period Average Load') + ' - ' \
-                                 + reporting_period_data['names'][i] + \
-                                 " " + _('Average Load') + "(" + reporting_period_data['units'][i] + "/H)"
+                    line.title = _('Reporting Period Average Load') + ' - ' + \
+                        reporting_period_data['names'][i] + \
+                        " " + _('Average Load') + "(" + reporting_period_data['units'][i] + "/H)"
                     datas = Reference(ws, min_col=current_chart_col_number, min_row=table_start_number,
                                       max_row=table_end_number)
                     line.add_data(datas, titles_from_data=True)
@@ -489,9 +486,9 @@ def generate_excel(report,
 
                 if has_sub_maximums_data_flag:
                     line = LineChart()
-                    line.title = _('Reporting Period Maximum Load') + ' - ' \
-                                 + reporting_period_data['names'][i] + \
-                                 " " + _('Maximum Load') + "(" + reporting_period_data['units'][i] + "/H)"
+                    line.title = _('Reporting Period Maximum Load') + ' - ' + \
+                        reporting_period_data['names'][i] + \
+                        " " + _('Maximum Load') + "(" + reporting_period_data['units'][i] + "/H)"
                     datas = Reference(ws, min_col=current_chart_col_number, min_row=table_start_number,
                                       max_row=table_end_number)
                     line.add_data(datas, titles_from_data=True)
@@ -559,10 +556,9 @@ def generate_excel(report,
                         ws[col + str(current_row_number)].fill = table_fill
                         ws[col + str(current_row_number)].font = title_font
                         ws[col + str(current_row_number)].alignment = c_c_alignment
-                        ws[col + str(current_row_number)] = _('Base Period') + " - " \
-                                                            + base_period_data['names'][i] + \
-                                                            " " + _('Average Load') + "(" + base_period_data['units'][
-                                                                i] + "/H)"
+                        ws[col + str(current_row_number)] = _('Base Period') + " - " + \
+                            base_period_data['names'][i] + " " + \
+                            _('Average Load') + "(" + base_period_data['units'][i] + "/H)"
                         ws[col + str(current_row_number)].border = f_border
 
                     if has_sub_maximums_data_flag:
@@ -572,10 +568,9 @@ def generate_excel(report,
                         ws[col + str(current_row_number)].fill = table_fill
                         ws[col + str(current_row_number)].font = title_font
                         ws[col + str(current_row_number)].alignment = c_c_alignment
-                        ws[col + str(current_row_number)] = _('Base Period') + " - " \
-                                                            + base_period_data['names'][i] + \
-                                                            " " + _('Maximum Load') + "(" + base_period_data['units'][
-                                                                i] + "/H)"
+                        ws[col + str(current_row_number)] = _('Base Period') + " - " + \
+                            base_period_data['names'][i] + " " + \
+                            _('Maximum Load') + "(" + base_period_data['units'][i] + "/H)"
                         ws[col + str(current_row_number)].border = f_border
 
                 current_col_number += 1
@@ -594,10 +589,9 @@ def generate_excel(report,
                         ws[col + str(current_row_number)].fill = table_fill
                         ws[col + str(current_row_number)].font = title_font
                         ws[col + str(current_row_number)].alignment = c_c_alignment
-                        ws[col + str(current_row_number)] = _('Reporting Period') + " - " \
-                                                            + reporting_period_data['names'][i] + \
-                                                            " " + _('Average Load') + "(" + \
-                                                            reporting_period_data['units'][i] + "/H)"
+                        ws[col + str(current_row_number)] = _('Reporting Period') + " - " + \
+                            reporting_period_data['names'][i] + " " + \
+                            _('Average Load') + "(" + reporting_period_data['units'][i] + "/H)"
                         ws[col + str(current_row_number)].border = f_border
 
                     if has_sub_maximums_data_flag:
@@ -606,10 +600,9 @@ def generate_excel(report,
                         ws[col + str(current_row_number)].fill = table_fill
                         ws[col + str(current_row_number)].font = title_font
                         ws[col + str(current_row_number)].alignment = c_c_alignment
-                        ws[col + str(current_row_number)] = _('Reporting Period') + " - " \
-                                                            + reporting_period_data['names'][i] + \
-                                                            " " + _('Maximum Load') + "(" + \
-                                                            reporting_period_data['units'][i] + "/H)"
+                        ws[col + str(current_row_number)] = _('Reporting Period') + " - " + \
+                            reporting_period_data['names'][i] + " " + \
+                            _('Maximum Load') + "(" + reporting_period_data['units'][i] + "/H)"
                         ws[col + str(current_row_number)].border = f_border
 
                 current_row_number += 1
@@ -646,8 +639,8 @@ def generate_excel(report,
                             ws[col + str(current_row_number)].font = title_font
                             ws[col + str(current_row_number)].alignment = c_c_alignment
                             ws[col + str(current_row_number)] = round(base_period_data['sub_maximums'][j][i], 2) \
-                                if i < len(base_period_data['sub_maximums'][j]) \
-                                   and base_period_data['sub_averages'][j][i] is not None else None
+                                if i < len(base_period_data['sub_maximums'][j]) and \
+                                base_period_data['sub_averages'][j][i] is not None else None
                             ws[col + str(current_row_number)].border = f_border
 
                     current_col_number += 1
@@ -667,8 +660,8 @@ def generate_excel(report,
                             ws[col + str(current_row_number)].font = title_font
                             ws[col + str(current_row_number)].alignment = c_c_alignment
                             ws[col + str(current_row_number)] = round(reporting_period_data['sub_averages'][j][i], 2) \
-                                if i < len(reporting_period_data['sub_averages'][j]) \
-                                   and reporting_period_data['sub_averages'][j][i] is not None else None
+                                if i < len(reporting_period_data['sub_averages'][j]) and \
+                                reporting_period_data['sub_averages'][j][i] is not None else None
                             ws[col + str(current_row_number)].border = f_border
 
                         if has_sub_maximums_data_flag:
@@ -678,8 +671,8 @@ def generate_excel(report,
                             ws[col + str(current_row_number)].font = title_font
                             ws[col + str(current_row_number)].alignment = c_c_alignment
                             ws[col + str(current_row_number)] = round(reporting_period_data['sub_maximums'][j][i], 2) \
-                                if i < len(reporting_period_data['sub_maximums'][j]) \
-                                   and reporting_period_data['sub_maximums'][j][i] is not None else None
+                                if i < len(reporting_period_data['sub_maximums'][j]) and \
+                                reporting_period_data['sub_maximums'][j][i] is not None else None
                             ws[col + str(current_row_number)].border = f_border
 
                     current_row_number += 1
@@ -695,15 +688,14 @@ def generate_excel(report,
                     if has_sub_averages_data_flag:
                         # line
                         line = LineChart()
-                        line.title = _('Base Period Average Load') + ' / ' \
-                                     + _('Reporting Period Average Load') + ' - ' \
-                                     + reporting_period_data['names'][i] + \
-                                     " " + _('Average Load') + "(" + reporting_period_data['units'][i] + "/H)"
+                        line.title = _('Base Period Average Load') + ' / ' + \
+                            _('Reporting Period Average Load') + ' - ' + \
+                            reporting_period_data['names'][i] + " " + \
+                            _('Average Load') + "(" + reporting_period_data['units'][i] + "/H)"
                         base_line_data = Reference(ws,
                                                    min_col=current_chart_col_number,
                                                    min_row=table_start_row_number,
-                                                   max_row=table_start_row_number
-                                                           + len(reporting_period_timestamps[0]))
+                                                   max_row=table_start_row_number + len(reporting_period_timestamps[0]))
 
                         data_distance = base_period_data_ca_len
                         if has_sub_maximums_data_flag:
@@ -712,8 +704,8 @@ def generate_excel(report,
                         reporting_line_data = Reference(ws,
                                                         min_col=current_chart_col_number + data_distance + 1,
                                                         min_row=table_start_row_number,
-                                                        max_row=table_start_row_number
-                                                                + len(reporting_period_timestamps[0]))
+                                                        max_row=table_start_row_number +
+                                                        len(reporting_period_timestamps[0]))
                         line.add_data(base_line_data, titles_from_data=True)
                         line.add_data(reporting_line_data, titles_from_data=True)
                         line.set_categories(labels)
@@ -736,15 +728,14 @@ def generate_excel(report,
                     if has_sub_maximums_data_flag:
                         # line
                         line = LineChart()
-                        line.title = _('Base Period Maximum Load') + ' / ' \
-                                     + _('Reporting Period Maximum Load') + ' - ' \
-                                     + reporting_period_data['names'][i] + \
-                                     " " + _('Maximum Load') + "(" + reporting_period_data['units'][i] + "/H)"
+                        line.title = _('Base Period Maximum Load') + ' / ' + \
+                            _('Reporting Period Maximum Load') + ' - ' + \
+                            reporting_period_data['names'][i] + " " + \
+                            _('Maximum Load') + "(" + reporting_period_data['units'][i] + "/H)"
                         base_line_data = Reference(ws,
                                                    min_col=current_chart_col_number,
                                                    min_row=table_start_row_number,
-                                                   max_row=table_start_row_number
-                                                           + len(reporting_period_timestamps[0]))
+                                                   max_row=table_start_row_number + len(reporting_period_timestamps[0]))
 
                         data_distance = base_period_data_ca_len
                         if has_sub_averages_data_flag:
@@ -753,8 +744,8 @@ def generate_excel(report,
                         reporting_line_data = Reference(ws,
                                                         min_col=current_chart_col_number + data_distance + 1,
                                                         min_row=table_start_row_number,
-                                                        max_row=table_start_row_number
-                                                                + len(reporting_period_timestamps[0]))
+                                                        max_row=table_start_row_number +
+                                                        len(reporting_period_timestamps[0]))
                         line.add_data(base_line_data, titles_from_data=True)
                         line.add_data(reporting_line_data, titles_from_data=True)
                         line.set_categories(labels)

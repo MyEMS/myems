@@ -52,7 +52,8 @@ class Reporting:
         else:
             space_id = str.strip(space_id)
             if not space_id.isdigit() or int(space_id) <= 0:
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_SPACE_ID')
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.INVALID_SPACE_ID')
             else:
                 space_id = int(space_id)
 

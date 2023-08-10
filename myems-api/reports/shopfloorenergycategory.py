@@ -80,11 +80,13 @@ class Reporting:
                                        description='API.INVALID_SHOPFLOOR_UUID')
 
         if period_type is None:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_PERIOD_TYPE')
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_PERIOD_TYPE')
         else:
             period_type = str.strip(period_type)
             if period_type not in ['hourly', 'daily', 'weekly', 'monthly', 'yearly']:
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_PERIOD_TYPE')
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.INVALID_PERIOD_TYPE')
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -334,16 +336,16 @@ class Reporting:
         if energy_category_set is not None and len(energy_category_set) > 0:
             if base_start_datetime_utc is not None and base_end_datetime_utc is not None:
                 cursor_system.execute(" SELECT nwd.date_local "
-                                    " FROM tbl_shopfloors sp, tbl_shopfloors_working_calendars spwc, "
-                                    " tbl_working_calendars_non_working_days nwd "
-                                    " WHERE sp.id = %s AND "
-                                    " sp.id = spwc.shopfloor_id AND "
-                                    " spwc.working_calendar_id = nwd.working_calendar_id AND"
-                                    " nwd.date_local >= %s AND"
-                                    " nwd.date_local <= %s ",
-                                    (shopfloor['id'],
-                                    base_start_datetime_non_working_day,
-                                    base_end_datetime_non_working_day))
+                                      " FROM tbl_shopfloors sp, tbl_shopfloors_working_calendars spwc, "
+                                      "      tbl_working_calendars_non_working_days nwd "
+                                      " WHERE sp.id = %s AND "
+                                      "       sp.id = spwc.shopfloor_id AND "
+                                      "       spwc.working_calendar_id = nwd.working_calendar_id AND"
+                                      "       nwd.date_local >= %s AND"
+                                      "       nwd.date_local <= %s ",
+                                      (shopfloor['id'],
+                                       base_start_datetime_non_working_day,
+                                       base_end_datetime_non_working_day))
                 rows = cursor_system.fetchall()
                 for row in rows:
                     row_datetime = row[0].strftime('%Y-%m-%d')
