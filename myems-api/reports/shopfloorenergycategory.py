@@ -414,15 +414,15 @@ class Reporting:
         if energy_category_set is not None and len(energy_category_set) > 0:
             cursor_system.execute(" SELECT nwd.date_local "
                                   " FROM tbl_shopfloors sp, tbl_shopfloors_working_calendars spwc, "
-                                  " tbl_working_calendars_non_working_days nwd "
+                                  "      tbl_working_calendars_non_working_days nwd "
                                   " WHERE sp.id = %s AND "
-                                  " sp.id = spwc.shopfloor_id AND "
-                                  " spwc.working_calendar_id = nwd.working_calendar_id AND"
-                                  " nwd.date_local >= %s AND"
-                                  " nwd.date_local <= %s ",
+                                  "       sp.id = spwc.shopfloor_id AND "
+                                  "       spwc.working_calendar_id = nwd.working_calendar_id AND"
+                                  "       nwd.date_local >= %s AND"
+                                  "       nwd.date_local <= %s ",
                                   (shopfloor['id'],
-                                  reporting_start_datetime_non_working_day,
-                                  reporting_end_datetime_non_working_day))
+                                   reporting_start_datetime_non_working_day,
+                                   reporting_end_datetime_non_working_day))
             rows = cursor_system.fetchall()
             for row in rows:
                 row_datetime = row[0].strftime('%Y-%m-%d')

@@ -79,11 +79,13 @@ class Reporting:
                                        description='API.INVALID_STORE_UUID')
 
         if period_type is None:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_PERIOD_TYPE')
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_PERIOD_TYPE')
         else:
             period_type = str.strip(period_type)
             if period_type not in ['hourly', 'daily', 'weekly', 'monthly', 'yearly']:
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_PERIOD_TYPE')
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.INVALID_PERIOD_TYPE')
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -312,7 +314,6 @@ class Reporting:
             for row in rows_points:
                 point_list.append({"id": row[0], "name": row[1], "units": row[2], "object_type": row[3]})
 
-
         ################################################################################################################
         # Step 6: query associated working calendars
         ################################################################################################################
@@ -334,16 +335,16 @@ class Reporting:
         if energy_category_set is not None and len(energy_category_set) > 0:
             if base_start_datetime_utc is not None and base_end_datetime_utc is not None:
                 cursor_system.execute(" SELECT nwd.date_local "
-                                    " FROM tbl_stores s, tbl_stores_working_calendars swc, "
-                                    " tbl_working_calendars_non_working_days nwd "
-                                    " WHERE s.id = %s AND "
-                                    " s.id = swc.store_id AND "
-                                    " swc.working_calendar_id = nwd.working_calendar_id AND"
-                                    " nwd.date_local >= %s AND"
-                                    " nwd.date_local <= %s ",
-                                    (store['id'],
-                                    base_start_datetime_non_working_day,
-                                    base_end_datetime_non_working_day))
+                                      " FROM tbl_stores s, tbl_stores_working_calendars swc, "
+                                      "      tbl_working_calendars_non_working_days nwd "
+                                      " WHERE s.id = %s AND "
+                                      "       s.id = swc.store_id AND "
+                                      "       swc.working_calendar_id = nwd.working_calendar_id AND"
+                                      "       nwd.date_local >= %s AND"
+                                      "       nwd.date_local <= %s ",
+                                      (store['id'],
+                                       base_start_datetime_non_working_day,
+                                       base_end_datetime_non_working_day))
                 rows = cursor_system.fetchall()
                 for row in rows:
                     row_datetime = row[0].strftime('%Y-%m-%d')
@@ -440,7 +441,6 @@ class Reporting:
                 reporting[energy_category_id]['offpeak'] = Decimal(0.0)
                 reporting[energy_category_id]['non_working_days_subtotal'] = Decimal(0.0)
                 reporting[energy_category_id]['working_days_subtotal'] = Decimal(0.0)
-
 
                 cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
                                       " FROM tbl_store_input_category_hourly "
