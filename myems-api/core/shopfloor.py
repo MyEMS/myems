@@ -1770,7 +1770,8 @@ class ShopfloorWorkingCalendarItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SHOPFLOOR_WORKING_CALENDAR_RELATION_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_shopfloors_working_calendars WHERE shopfloor_id = %s AND working_calendar_id = %s ", (id_, wcid))
+        cursor.execute(" DELETE FROM tbl_shopfloors_working_calendars "
+                       " WHERE shopfloor_id = %s AND working_calendar_id = %s ", (id_, wcid))
         cnx.commit()
 
         cursor.close()

@@ -1545,7 +1545,6 @@ class StoreVirtualMeterItem:
         resp.status = falcon.HTTP_204
 
 
-
 class StoreWorkingCalendarCollection:
     @staticmethod
     def __init__():
@@ -1709,7 +1708,8 @@ class StoreWorkingCalendarItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_WORKING_CALENDAR_RELATION_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_stores_working_calendars WHERE store_id = %s AND working_calendar_id = %s ", (id_, wcid))
+        cursor.execute(" DELETE FROM tbl_stores_working_calendars "
+                       " WHERE store_id = %s AND working_calendar_id = %s ", (id_, wcid))
         cnx.commit()
 
         cursor.close()
