@@ -1102,6 +1102,7 @@ app
                                                     'app/services/settings/microgrid/microgridwindturbine.service.js',
                                                     'app/services/settings/costcenter/costcenter.service.js',
                                                     'app/services/settings/contact/contact.service.js',
+                                                    'app/services/settings/datasource/point.service.js',
                                                     'app/services/settings/sensor/sensor.service.js',
                                                     'app/controllers/settings/microgrid/microgrid.master.controller.js',
                                                     'app/controllers/settings/microgrid/microgrid.controller.js',
@@ -1151,6 +1152,8 @@ app
                                                 files: [
                                                     'app/services/settings/virtualpowerplant/virtualpowerplant.service.js',
                                                     'app/services/settings/virtualpowerplant/virtualpowerplantmicrogrid.service.js',
+                                                    'app/services/settings/costcenter/costcenter.service.js',
+                                                    'app/services/settings/datasource/point.service.js',
                                                     'app/services/settings/microgrid/microgrid.service.js',
                                                     'app/controllers/settings/virtualpowerplant/virtualpowerplant.master.controller.js',
                                                     'app/controllers/settings/virtualpowerplant/virtualpowerplant.controller.js',
