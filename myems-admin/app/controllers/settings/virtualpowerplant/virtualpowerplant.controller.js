@@ -6,9 +6,9 @@ app.controller('VirtualPowerPlantController', function(
     $window,
     $translate,
     $uibModal,
+    VirtualPowerPlantService,
     CostCenterService,
 	PointService,
-    VirtualPowerPlantService,
     toaster,
     SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
