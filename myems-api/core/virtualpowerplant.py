@@ -275,6 +275,10 @@ class VirtualPowerPlantItem:
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_MICROGRIDS')
 
+        cursor.execute(" DELETE FROM tbl_virtual_power_plants "
+                       " WHERE id = %s ", (id_,))
+        cnx.commit()
+
         cursor.close()
         cnx.close()
 
