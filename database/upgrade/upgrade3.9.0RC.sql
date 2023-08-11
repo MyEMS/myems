@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_virtual_power_plants` (
   `uuid` CHAR(36) NOT NULL,
   `cost_center_id` BIGINT NOT NULL,
   `svg` LONGTEXT NOT NULL,
+  `price_point_id` BIGINT NOT NULL,
   `description` VARCHAR(255),
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_virtual_power_plants_index_1` ON  `myems_system_db`.`tbl_virtual_power_plants` (`name`);
