@@ -33,9 +33,20 @@ class VirtualPowerPlantCollection:
                 cost_center_dict[row[0]] = {"id": row[0],
                                             "name": row[1],
                                             "uuid": row[2]}
+        # query point dict
+        query = (" SELECT id, name "
+                 " FROM tbl_points ")
+        cursor.execute(query)
+        rows_points = cursor.fetchall()
+
+        point_dict = dict()
+        if rows_points is not None and len(rows_points) > 0:
+            for row in rows_points:
+                point_dict[row[0]] = {"id": row[0],
+                                      "name": row[1]}
 
         query = (" SELECT id, name, uuid, "
-                 "        cost_center_id, svg, description "
+                 "        cost_center_id, balancing_price_point_id, svg, description "
                  " FROM tbl_virtual_power_plants "
                  " ORDER BY id ")
         cursor.execute(query)
@@ -45,13 +56,14 @@ class VirtualPowerPlantCollection:
         if rows_spaces is not None and len(rows_spaces) > 0:
             for row in rows_spaces:
                 cost_center = cost_center_dict.get(row[3], None)
-
+                balancing_price_point = point_dict.get(row[4], None)
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
                                "cost_center": cost_center,
-                               "svg": row[4],
-                               "description": row[5],
+                               "balancing_price_point": balancing_price_point,
+                               "svg": row[5],
+                               "description": row[6],
                                "qrcode": 'virtualpowerplant:' + row[2]}
                 result.append(meta_result)
 
@@ -86,6 +98,13 @@ class VirtualPowerPlantCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COST_CENTER_ID')
         cost_center_id = new_values['data']['cost_center_id']
+
+        if 'balancing_price_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['balancing_price_point_id'], int) or \
+                new_values['data']['balancing_price_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_BALANCING_PRICE_POINT_ID')
+        balancing_price_point_id = new_values['data']['balancing_price_point_id']
 
         if 'svg' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['svg'], str) or \
@@ -124,12 +143,23 @@ class VirtualPowerPlantCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
 
+        cursor.execute(" SELECT name "
+                       " FROM tbl_points "
+                       " WHERE id = %s ",
+                       (balancing_price_point_id,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.BALANCING_PRICE_POINT_NOT_FOUND')
+
         add_values = (" INSERT INTO tbl_virtual_power_plants "
-                      "    (name, uuid, cost_center_id, svg, description) "
-                      " VALUES (%s, %s, %s, %s, %s) ")
+                      "    (name, uuid, cost_center_id, balancing_price_point_id, svg, description) "
+                      " VALUES (%s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     cost_center_id,
+                                    balancing_price_point_id,
                                     svg,
                                     description))
         new_id = cursor.lastrowid
@@ -172,9 +202,20 @@ class VirtualPowerPlantItem:
                 cost_center_dict[row[0]] = {"id": row[0],
                                             "name": row[1],
                                             "uuid": row[2]}
+        # query point dict
+        query = (" SELECT id, name "
+                 " FROM tbl_points ")
+        cursor.execute(query)
+        rows_points = cursor.fetchall()
+
+        point_dict = dict()
+        if rows_points is not None and len(rows_points) > 0:
+            for row in rows_points:
+                point_dict[row[0]] = {"id": row[0],
+                                      "name": row[1]}
 
         query = (" SELECT id, name, uuid, "
-                 "        cost_center_id, svg, description "
+                 "        cost_center_id, balancing_price_point_id, svg, description "
                  " FROM tbl_virtual_power_plants "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -187,12 +228,14 @@ class VirtualPowerPlantItem:
                                    description='API.VIRTUAL_POWER_PLANT_NOT_FOUND')
         else:
             cost_center = cost_center_dict.get(row[3], None)
+            balancing_price_point = point_dict.get(row[4], None)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
                            "cost_center": cost_center,
-                           "svg": row[4],
-                           "description": row[5],
+                           "balancing_price_point": balancing_price_point,
+                           "svg": row[5],
+                           "description": row[6],
                            "qrcode": 'microgrid:' + row[2]}
 
         resp.text = json.dumps(meta_result)
@@ -269,6 +312,13 @@ class VirtualPowerPlantItem:
                                    description='API.INVALID_COST_CENTER_ID')
         cost_center_id = new_values['data']['cost_center_id']
 
+        if 'balancing_price_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['balancing_price_point_id'], int) or \
+                new_values['data']['balancing_price_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_BALANCING_PRICE_POINT_ID')
+        balancing_price_point_id = new_values['data']['balancing_price_point_id']
+
         if 'svg' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['svg'], str) or \
                 len(str.strip(new_values['data']['svg'])) == 0:
@@ -315,12 +365,23 @@ class VirtualPowerPlantItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
 
+        cursor.execute(" SELECT name "
+                       " FROM tbl_points "
+                       " WHERE id = %s ",
+                       (balancing_price_point_id,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.BALANCING_PRICE_POINT_NOT_FOUND')
+
         update_row = (" UPDATE tbl_virtual_power_plants "
-                      " SET name = %s, cost_center_id = %s, "
+                      " SET name = %s, cost_center_id = %s, balancing_price_point_id = %s,"
                       "     svg = %s, description = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     cost_center_id,
+                                    balancing_price_point_id,
                                     svg,
                                     description,
                                     id_))
