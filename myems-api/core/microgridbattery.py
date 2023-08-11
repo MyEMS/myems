@@ -177,6 +177,16 @@ class MicrogridBatteryCollection:
         cursor.execute(" SELECT name "
                        " FROM tbl_points "
                        " WHERE id = %s ",
+                       (soc_point_id,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.SOC_POINT_NOT_FOUND')
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_points "
+                       " WHERE id = %s ",
                        (power_point_id,))
         if cursor.fetchone() is None:
             cursor.close()
@@ -439,6 +449,16 @@ class MicrogridBatteryItem:
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.MICROGRID_BATTERY_NAME_IS_ALREADY_IN_USE')
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_points "
+                       " WHERE id = %s ",
+                       (soc_point_id,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.SOC_POINT_NOT_FOUND')
 
         cursor.execute(" SELECT name "
                        " FROM tbl_points "
