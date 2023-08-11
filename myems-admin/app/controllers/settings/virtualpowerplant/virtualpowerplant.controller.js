@@ -7,10 +7,21 @@ app.controller('VirtualPowerPlantController', function(
     $translate,
     $uibModal,
     CostCenterService,
+	PointService,
     VirtualPowerPlantService,
     toaster,
     SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+	$scope.getAllVirtualPowerPlants = function() {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		VirtualPowerPlantService.getAllVirtualPowerPlants(headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.virtualpowerplants = response.data;
+			} else {
+				$scope.virtualpowerplants = [];
+			}
+		});
+	};
 	$scope.getAllCostCenters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CostCenterService.getAllCostCenters(headers, function (response) {
@@ -22,13 +33,13 @@ app.controller('VirtualPowerPlantController', function(
 		});
 	};
 
-	$scope.getAllVirtualPowerPlants = function() {
+    $scope.getAllPoints = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-		VirtualPowerPlantService.getAllVirtualPowerPlants(headers, function (response) {
+		PointService.getAllPoints(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
-				$scope.virtualpowerplants = response.data;
+				$scope.points = response.data;
 			} else {
-				$scope.virtualpowerplants = [];
+				$scope.points = [];
 			}
 		});
 	};
@@ -42,26 +53,29 @@ app.controller('VirtualPowerPlantController', function(
 				params: function() {
 					return {
 						costcenters: angular.copy($scope.costcenters),
+						points: angular.copy($scope.points),
 					};
 				}
 			}
 		});
 		modalInstance.result.then(function(virtualpowerplant) {
 			virtualpowerplant.cost_center_id = virtualpowerplant.cost_center.id;
+			virtualpowerplant.balancing_price_point_id = virtualpowerplant.balancing_price_point.id;
+
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			VirtualPowerPlantService.addVirtualPowerPlant(virtualpowerplant, headers, function(response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
 						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.VIRTUALPOWERPLANT")}),
+						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.VIRTUAL_POWER_PLANT")}),
 						showCloseButton: true,
 					});
 					$scope.$emit('handleEmitVirtualPowerPlantChanged');
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("COMMON.VIRTUALPOWERPLANT") }),
+						title: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("COMMON.VIRTUAL_POWER_PLANT") }),
 						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
@@ -82,7 +96,8 @@ app.controller('VirtualPowerPlantController', function(
 				params: function() {
 					return {
 						virtualpowerplant: angular.copy(virtualpowerplant),
-						costcenters:angular.copy($scope.costcenters)
+						costcenters: angular.copy($scope.costcenters),
+						points: angular.copy($scope.points),
 					};
 				}
 			}
@@ -90,21 +105,21 @@ app.controller('VirtualPowerPlantController', function(
 
 		modalInstance.result.then(function(modifiedVirtualPowerPlant) {
 			modifiedVirtualPowerPlant.cost_center_id=modifiedVirtualPowerPlant.cost_center.id;
-
+			modifiedVirtualPowerPlant.balancing_price_point_id = modifiedVirtualPowerPlant.balancing_price_point.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			VirtualPowerPlantService.editVirtualPowerPlant(modifiedVirtualPowerPlant, headers, function(response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
 						type: "success",
 						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", {template: $translate.instant("COMMON.VIRTUALPOWERPLANT")}),
+						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", {template: $translate.instant("COMMON.VIRTUAL_POWER_PLANT")}),
 						showCloseButton: true,
 					});
 					$scope.$emit('handleEmitVirtualPowerPlantChanged');
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("COMMON.VIRTUALPOWERPLANT")}),
+						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("COMMON.VIRTUAL_POWER_PLANT")}),
 						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
@@ -135,24 +150,28 @@ app.controller('VirtualPowerPlantController', function(
 							toaster.pop({
 								type: "success",
 								title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-								body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", {template: $translate.instant("COMMON.VIRTUALPOWERPLANT")}),
+								body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", {template: $translate.instant("COMMON.VIRTUAL_POWER_PLANT")}),
 								showCloseButton: true,
 							});
 							$scope.$emit('handleEmitVirtualPowerPlantChanged');
 						}else {
 							toaster.pop({
 								type: "error",
-								title: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("COMMON.VIRTUALPOWERPLANT")}),
+								title: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("COMMON.VIRTUAL_POWER_PLANT")}),
 								body: $translate.instant(response.data.description),
 								showCloseButton: true,
 							});
 		            	}
 		            });
 		        }
-		    });
+		    }
+		);
 	};
+
 	$scope.getAllVirtualPowerPlants();
 	$scope.getAllCostCenters();
+	$scope.getAllPoints();
+
 	$scope.$on('handleBroadcastVirtualPowerPlantChanged', function(event) {
   		$scope.getAllVirtualPowerPlants();
 	});
@@ -162,6 +181,8 @@ app.controller('ModalAddVirtualPowerPlantCtrl', function($scope, $uibModalInstan
 
 	$scope.operation = "SETTING.ADD_VIRTUAL_POWER_PLANT";
 	$scope.costcenters=params.costcenters;
+	$scope.points=params.points;
+
 	$scope.ok = function() {
 		$uibModalInstance.close($scope.virtualpowerplant);
 	};
@@ -175,6 +196,8 @@ app.controller('ModalEditVirtualPowerPlantCtrl', function($scope, $uibModalInsta
 	$scope.operation = "SETTING.EDIT_VIRTUAL_POWER_PLANT";
 	$scope.virtualpowerplant = params.virtualpowerplant;
 	$scope.costcenters=params.costcenters;
+	$scope.points=params.points;
+
 	$scope.ok = function() {
 		$uibModalInstance.close($scope.virtualpowerplant);
 	};

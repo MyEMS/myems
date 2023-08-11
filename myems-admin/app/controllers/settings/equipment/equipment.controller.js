@@ -89,7 +89,7 @@ app.controller('EquipmentController', function(
 		});
 
 		modalInstance.result.then(function(modifiedEquipment) {
-		  modifiedEquipment.cost_center_id = modifiedEquipment.cost_center.id;
+		  	modifiedEquipment.cost_center_id = modifiedEquipment.cost_center.id;
 		  	let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			EquipmentService.editEquipment(modifiedEquipment, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
@@ -157,33 +157,33 @@ app.controller('EquipmentController', function(
 });
 
 app.controller("ModalAddEquipmentCtrl", function(  $scope,  $uibModalInstance, params) {
-  $scope.operation = "EQUIPMENT.ADD_EQUIPMENT";
-	$scope.costcenters = params.costcenters;
-  $scope.disabled = false;
-  $scope.equipment = {
-    is_input_counted: false,
-    is_output_counted: false,
-  };
-  $scope.ok = function() {
-    $uibModalInstance.close($scope.equipment);
-  };
+  	$scope.operation = "EQUIPMENT.ADD_EQUIPMENT";
+  	$scope.costcenters = params.costcenters;
+  	$scope.disabled = false;
+  	$scope.equipment = {
+    	is_input_counted: false,
+    	is_output_counted: false,
+  	};
+  	$scope.ok = function() {
+    	$uibModalInstance.close($scope.equipment);
+  	};
 
-  $scope.cancel = function() {
-    $uibModalInstance.dismiss("cancel");
-  };
+  	$scope.cancel = function() {
+    	$uibModalInstance.dismiss("cancel");
+  	};
 });
 
 app.controller("ModalEditEquipmentCtrl", function($scope, $uibModalInstance,  params) {
-  $scope.operation = "EQUIPMENT.EDIT_EQUIPMENT";
+  	$scope.operation = "EQUIPMENT.EDIT_EQUIPMENT";
 	$scope.costcenters = params.costcenters;
-  $scope.disabled = true;
-  $scope.equipment = params.equipment;
+  	$scope.disabled = true;
+  	$scope.equipment = params.equipment;
 
-  $scope.ok = function() {
-    $uibModalInstance.close($scope.equipment);
-  };
+	$scope.ok = function() {
+		$uibModalInstance.close($scope.equipment);
+	};
 
-  $scope.cancel = function() {
-    $uibModalInstance.dismiss("cancel");
-  };
+	$scope.cancel = function() {
+		$uibModalInstance.dismiss("cancel");
+	};
 });
