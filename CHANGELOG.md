@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added Russian language to myems-admin
 - added higher limit and lower limit of point to myems-api and myems-admin
 - added balancing price point to virtual power plant
+- added French language to myems-web
 - 
 ### Changed
 - changed fdd rule template in myems-admin
