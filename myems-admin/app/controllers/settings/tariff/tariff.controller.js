@@ -206,8 +206,8 @@ app.controller('ModalAddTariffCtrl', function($scope, $timeout, $uibModalInstanc
 		if($scope.tariff.tariff_type=='timeofuse'){
 			$scope.tariff.timeofuse=$scope.timeofuse;
 		}
-		$scope.tariff.valid_from=$scope.tariff.valid_from.format().slice(0,19);
-		$scope.tariff.valid_through=$scope.tariff.valid_through.format().slice(0,19);
+		$scope.tariff.valid_from=moment($scope.tariff.valid_from).format().slice(0,19);
+		$scope.tariff.valid_through=moment($scope.tariff.valid_through).format().slice(0,19);
 		$uibModalInstance.close($scope.tariff);
 	};
 
