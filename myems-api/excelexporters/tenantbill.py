@@ -1,6 +1,6 @@
 import base64
 import datetime
-import gettext
+from core.utilities import get_translation
 import os
 import uuid
 from decimal import Decimal
@@ -68,15 +68,7 @@ def generate_excel(report,
                    period_type,
                    language):
 
-    locale_path = './i18n/'
-    if language == 'zh_CN':
-        trans = gettext.translation('myems', locale_path, languages=['zh_CN'])
-    elif language == 'de':
-        trans = gettext.translation('myems', locale_path, languages=['de'])
-    elif language == 'en':
-        trans = gettext.translation('myems', locale_path, languages=['en'])
-    else:
-        trans = gettext.translation('myems', locale_path, languages=['en'])
+    trans = get_translation(language)
     trans.install()
     _ = trans.gettext
 
