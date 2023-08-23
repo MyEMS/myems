@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from decimal import Decimal
 import mysql.connector
 import config
+import gettext
 
 
 ########################################################################################################################
@@ -1007,3 +1008,15 @@ def statistics_hourly_data_by_period(rows_hourly, start_datetime_utc, end_dateti
 
     else:
         return list(), None, None, None, None, None, None
+
+
+def get_translation(language):
+    locale_path = './i18n/'
+    if language not in ['zh-CN', 'en', 'de', 'fr', 'es', 'ru', 'ar']:
+        trans = gettext.translation('myems', locale_path, languages=['en'])
+        return trans
+    else:
+        language_list = []
+        language_list.append(language)
+        trans = gettext.translation('myems', locale_path, languages=language_list)
+        return trans
