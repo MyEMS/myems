@@ -12,7 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added balancing price point to virtual power plant
 - added French language to myems-web
 - added Vietnamese language to myems-admin
-- 
+- added Thai language to myems-admin
 ### Changed
 - changed fdd rule template in myems-admin
 - 
