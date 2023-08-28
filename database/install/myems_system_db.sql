@@ -691,9 +691,9 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_commands` (
 CREATE INDEX `tbl_microgrids_commands_index_1` ON  `myems_system_db`.`tbl_microgrids_commands`   (`microgrid_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
--- Table `myems_system_db`.`tbl_microgrids_converters`
+-- Table `myems_system_db`.`tbl_microgrids_power_conversion_systems`
 -- ---------------------------------------------------------------------------------------------------------------------
-DROP TABLE IF EXISTS `myems_system_db`.`tbl_microgrids_converters` ;
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_microgrids_power_conversion_systems` ;
 
 CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_power_conversion_systems` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
