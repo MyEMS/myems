@@ -26,6 +26,13 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_virtual_power_plants_microgrid
 CREATE INDEX `tbl_virtual_power_plants_microgrids_index_1`
 ON `myems_system_db`.`tbl_virtual_power_plants_microgrids` (`virtual_power_plant_id`);
 
+
+RENAME TABLE myems_system_db.tbl_microgrids_converters TO myems_system_db.tbl_microgrids_power_conversion_systems;
+
+ALTER TABLE myems_system_db.tbl_microgrids_power_conversion_systems
+RENAME INDEX tbl_microgrids_converters_index_1 TO tbl_microgrids_power_conversion_systems_index_1;
+
+
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='3.9.0RC', release_date='2023-09-01' WHERE id=1;
 
