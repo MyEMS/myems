@@ -695,14 +695,14 @@ CREATE INDEX `tbl_microgrids_commands_index_1` ON  `myems_system_db`.`tbl_microg
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_system_db`.`tbl_microgrids_converters` ;
 
-CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_converters` (
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_power_conversion_systems` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
   `uuid` CHAR(36) NOT NULL,
   `microgrid_id` BIGINT NOT NULL,
   `capacity` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_microgrids_converters_index_1` ON  `myems_system_db`.`tbl_microgrids_converters` (`name`);
+CREATE INDEX `tbl_microgrids_power_conversion_systems_index_1` ON  `myems_system_db`.`tbl_microgrids_power_conversion_systems` (`name`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_microgrids_evchargers`
