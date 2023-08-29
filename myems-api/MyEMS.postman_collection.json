@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "58faede6-68dc-4bf5-9c50-755ca506680c",
+		"_postman_id": "ce840bfb-af11-46ab-9b7b-866e9290729d",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -3225,7 +3225,7 @@
 							"response": []
 						},
 						{
-							"name": "GET an Energy Category",
+							"name": "GET an Energy Category by ID",
 							"request": {
 								"method": "GET",
 								"header": [
@@ -3406,19 +3406,18 @@
 									{
 										"key": "User-UUID",
 										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
-										"type": "default",
-										"disabled": true
+										"type": "default"
 									},
 									{
 										"key": "Token",
 										"value": "831f86c46eaa946be6450097c2ecfc2966fecea18853d00ae3147b11123899438fd5394f1bcfc165d0a3d0604baa93eb14f29d0d88c3f75b3bcaa807029e410c",
-										"type": "default",
-										"disabled": true
+										"type": "default"
 									},
 									{
 										"key": "API-Key",
 										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
-										"type": "default"
+										"type": "default",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -3557,13 +3556,13 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/energyflowdiagrams/1000000/nodes",
+									"raw": "{{base_url}}/energyflowdiagrams/1/nodes",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"energyflowdiagrams",
-										"1000000",
+										"1",
 										"nodes"
 									]
 								}
@@ -3699,13 +3698,13 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/energyflowdiagrams/1000000/links",
+									"raw": "{{base_url}}/energyflowdiagrams/1/links",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"energyflowdiagrams",
-										"1000000",
+										"1",
 										"links"
 									]
 								}
