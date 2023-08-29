@@ -5,7 +5,7 @@ import mysql.connector
 import simplejson as json
 from anytree import AnyNode, LevelOrderIter
 from anytree.exporter import JsonExporter
-from core.useractivity import user_logger, admin_control, access_control
+from core.useractivity import user_logger, admin_control, access_control, api_key_control
 import config
 
 
@@ -21,7 +21,12 @@ class SpaceCollection:
 
     @staticmethod
     def on_get(req, resp):
-        access_control(req)
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -276,7 +281,12 @@ class SpaceItem:
 
     @staticmethod
     def on_get(req, resp, id_):
-        access_control(req)
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_METER_ID')
@@ -723,7 +733,12 @@ class SpaceChildrenCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
-        access_control(req)
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SPACE_ID')
@@ -855,7 +870,12 @@ class SpaceCombinedEquipmentCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
-        access_control(req)
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SPACE_ID')
@@ -1028,7 +1048,12 @@ class SpaceEquipmentCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
-        access_control(req)
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SPACE_ID')
@@ -1200,7 +1225,12 @@ class SpaceMeterCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
-        access_control(req)
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SPACE_ID')
@@ -1388,7 +1418,12 @@ class SpaceOfflineMeterCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
-        access_control(req)
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SPACE_ID')
@@ -1575,7 +1610,12 @@ class SpacePointCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
-        access_control(req)
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SPACE_ID')
@@ -1761,7 +1801,12 @@ class SpaceSensorCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
-        access_control(req)
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SPACE_ID')
@@ -1933,7 +1978,12 @@ class SpaceShopfloorCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
-        access_control(req)
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SPACE_ID')
@@ -2105,7 +2155,12 @@ class SpaceStoreCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
-        access_control(req)
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SPACE_ID')
@@ -2277,7 +2332,12 @@ class SpaceTenantCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
-        access_control(req)
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SPACE_ID')
@@ -2449,7 +2509,12 @@ class SpaceVirtualMeterCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
-        access_control(req)
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SPACE_ID')
@@ -2750,7 +2815,12 @@ class SpaceTreeMetersEnergyCategoryCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
-        access_control(req)
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
         ################################################################################################################
         # Step 1: valid parameters
         ################################################################################################################
@@ -2818,7 +2888,12 @@ class SpaceWorkingCalendarCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
-        access_control(req)
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SPACE_ID')
@@ -2991,7 +3066,12 @@ class SpaceCommandCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
-        access_control(req)
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SPACE_ID')
