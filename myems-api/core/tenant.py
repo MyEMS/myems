@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, timezone
 import falcon
 import mysql.connector
 import simplejson as json
-from core.useractivity import user_logger, admin_control, access_control
+from core.useractivity import user_logger, admin_control, access_control, api_key_control
 import config
 
 
@@ -19,7 +19,12 @@ class TenantCollection:
 
     @staticmethod
     def on_get(req, resp):
-        access_control(req)
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -314,7 +319,12 @@ class TenantItem:
 
     @staticmethod
     def on_get(req, resp, id_):
-        access_control(req)
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_ID')
@@ -742,7 +752,12 @@ class TenantMeterCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
-        access_control(req)
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_ID')
@@ -928,7 +943,12 @@ class TenantOfflineMeterCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
-        access_control(req)
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_ID')
@@ -1115,7 +1135,12 @@ class TenantPointCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
-        access_control(req)
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_ID')
@@ -1301,7 +1326,12 @@ class TenantSensorCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
-        access_control(req)
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_ID')
@@ -1473,7 +1503,12 @@ class TenantVirtualMeterCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
-        access_control(req)
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_ID')
@@ -1660,7 +1695,12 @@ class TenantWorkingCalendarCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
-        access_control(req)
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_ID')
@@ -1833,7 +1873,12 @@ class TenantCommandCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
-        access_control(req)
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_ID')
