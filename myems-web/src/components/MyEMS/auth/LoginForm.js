@@ -178,6 +178,7 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
         <option value="en">{t('language-en')}</option>
         <option value="de">{t('language-de')}</option>
         <option value="fr">{t('language-fr')}</option>
+        <option value="es">{t('language-es')}</option>
       </CustomInput>
       <Row className="justify-content-center align-items-center">
         <Col xs="auto">

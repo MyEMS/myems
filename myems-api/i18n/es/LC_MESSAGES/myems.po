@@ -1,0 +1,355 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-09-09 16:44+0800\n"
+"PO-Revision-Date: 2023-08-29 11:27+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.3\n"
+
+msgid "Space"
+msgstr "Espacio"
+
+msgid "Start Datetime"
+msgstr "Fecha de inicio y hora"
+
+msgid "End Datetime"
+msgstr "Fecha de finalización y hora"
+
+msgid "ID"
+msgstr "IDENTIFICACIÓN"
+
+msgid "Name"
+msgstr "Nombre"
+
+msgid "Period Type"
+msgstr "Tipo de período"
+
+msgid "Reporting Start Datetime"
+msgstr "Presentación de informes Fecha de inicio y hora"
+
+msgid "Reporting End Datetime"
+msgstr "Fecha de finalización y hora de presentación de informes"
+
+msgid "Reporting Period Consumption"
+msgstr "Consumo del período de informe"
+
+msgid "Consumption"
+msgstr "Consumo"
+
+msgid "Per Unit Area"
+msgstr "Por unidad de área"
+
+msgid "Increment Rate"
+msgstr "Por unidad de área"
+
+msgid "Ton of Standard Coal"
+msgstr "Tonelada de carbón estándar"
+
+msgid "Ton of Carbon Dioxide Emissions"
+msgstr "Toneladas de emisiones de dióxido de carbono"
+
+msgid "Electricity Consumption by Time-Of-Use"
+msgstr "Consumo de electricidad por tiempo de uso"
+
+msgid "TopPeak"
+msgstr "TopPeak"
+
+msgid "OnPeak"
+msgstr "OnPeak"
+
+msgid "MidPeak"
+msgstr "MidPeak"
+
+msgid "OffPeak"
+msgstr "OffPeak"
+
+msgid "Ton of Standard Coal(TCE) by Energy Category"
+msgstr "Tonelada de carbón estándar (TCE) por categoría de energía"
+
+msgid "Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category"
+msgstr "Tonelada de emisiones de dióxido de carbono (TCO2E) por categoría de energía"
+
+msgid "Child Spaces Data"
+msgstr "Données sur les espaces enfants"
+
+msgid "Child Space"
+msgstr "Espacio infantil"
+
+msgid "Detailed Data"
+msgstr "Datos detallados"
+
+msgid "Datetime"
+msgstr "Fecha y hora"
+
+msgid "Subtotal"
+msgstr "Subtotal"
+
+msgid "Parameters"
+msgstr "Parámetros"
+
+msgid "Base Period Carbon Dioxide Emissions"
+msgstr "Emisiones de dióxido de carbono del período base"
+
+msgid "Reporting Period Carbon Dioxide Emissions"
+msgstr "Período de presentación de informes Emisiones de dióxido de carbono"
+
+msgid "Carbon Dioxide Emissions"
+msgstr "Emisiones de dióxido de carbono"
+
+msgid "Electricity Carbon Dioxide Emissions by Time-Of-Use"
+msgstr "Emisiones de dióxido de carbono de electricidad por tiempo de uso"
+
+msgid "Carbon Dioxide Emissions Proportion"
+msgstr "Proporción de emisiones de dióxido de carbono"
+
+msgid "Total"
+msgstr "Total"
+
+msgid "Base Period Costs"
+msgstr "Costos del período base"
+
+msgid "Reporting Period Costs"
+msgstr "Costos del período de informe"
+
+msgid "Cost"
+msgstr "Costar"
+
+msgid "Electricity Cost by Time-Of-Use"
+msgstr "Costo de electricidad por tiempo de uso"
+
+msgid "Costs Proportion"
+msgstr "Proporción de costos"
+
+msgid "Base Period Cumulative Efficiency"
+msgstr "Eficiencia acumulada del período base"
+
+msgid "Reporting Period Cumulative Efficiency"
+msgstr "Eficiencia acumulada del período de presentación de informes"
+
+msgid "Cumulative Efficiency"
+msgstr "Eficiencia acumulada"
+
+msgid "Base Period Income"
+msgstr "Ingresos del período base"
+
+msgid "Reporting Period Income"
+msgstr "Ingresos del período del informe"
+
+msgid "Incomes by Energy Category"
+msgstr "Ingresos por categoría de energía"
+
+msgid "Incomes"
+msgstr "Ingresos"
+
+msgid "Proportion"
+msgstr "Proporción"
+
+msgid "Load"
+msgstr "Carga"
+
+msgid "Base Period Average Load"
+msgstr "Período base Carga media"
+
+msgid "Reporting Period Average Load"
+msgstr "Período de informe Carga media"
+
+msgid "Average Load"
+msgstr "Carga media"
+
+msgid "Base Period Maximum Load"
+msgstr "Carga máxima del período base"
+
+msgid "Reporting Period Maximum Load"
+msgstr "Carga máxima del período de informe"
+
+msgid "Maximum Load"
+msgstr "Carga máxima"
+
+msgid "Reporting Period Load Factor"
+msgstr "Factor de carga del período de informe"
+
+msgid "Load Factor"
+msgstr "Factor de carga"
+
+msgid "Base Period Output"
+msgstr "Resultado del período base"
+
+msgid "Reporting Period Output"
+msgstr "Resultados del período del informe"
+
+msgid "Output"
+msgstr "Salida"
+
+msgid "Base Period Saving"
+msgstr "Ahorro del período base"
+
+msgid "Reporting Period Saving"
+msgstr "Ahorro del período de informe"
+
+msgid "Baseline"
+msgstr "Referencia"
+
+msgid "Actual"
+msgstr "Real"
+
+msgid "Saving"
+msgstr "Ahorro"
+
+msgid "Decreased"
+msgstr "Decrecido"
+
+msgid "Statistics"
+msgstr "Estadística"
+
+msgid "Reporting Period"
+msgstr "Período"
+
+msgid "Arithmetic Mean"
+msgstr "Media aritmética"
+
+msgid "Median (Middle Value)"
+msgstr "Mediana (valor medio)"
+
+msgid "Minimum Value"
+msgstr "Valor mínimo"
+
+msgid "Maximum Value"
+msgstr "Valor máximo"
+
+msgid "Sample Standard Deviation"
+msgstr "Desviación estándar de la muestra"
+
+msgid "Sample Variance"
+msgstr "Varianza de la muestra"
+
+msgid "Cost Center"
+msgstr "Centro de Costos"
+
+msgid "Description"
+msgstr "Descripción"
+
+msgid "Master Meter Consumption"
+msgstr "Consumo del medidor maestro"
+
+msgid "Submeters Consumption"
+msgstr "Consumo de submetros"
+
+msgid "Difference"
+msgstr "Diferencia"
+
+msgid "Percentage Difference"
+msgstr "Diferencia porcentual"
+
+msgid "Start Integrity Rate"
+msgstr "Tasa de integridad de inicio"
+
+msgid "End Integrity Rate"
+msgstr "Tasa de integridad final"
+
+msgid "Full Integrity Rate"
+msgstr "Tasa de integridad total"
+
+msgid "Trend"
+msgstr "Tendencia"
+
+msgid "Payment Notice"
+msgstr "Aviso de pago"
+
+msgid "Lease Number"
+msgstr "Número de arrendamiento"
+
+msgid "Bill Number"
+msgstr "Número de factura"
+
+msgid "Lease Contract Number"
+msgstr "Número de contrato de arrendamiento"
+
+msgid "Bill Date"
+msgstr "Fecha de facturación"
+
+msgid "Payment Due Date"
+msgstr "Fecha de vencimiento del pago"
+
+msgid "Amount Payable"
+msgstr "Importe a pagar"
+
+msgid "Energy Category"
+msgstr "Categoría de energía"
+
+msgid "Billing Period Start"
+msgstr "Inicio del período de facturación"
+
+msgid "Billing Period End"
+msgstr "Fin del período de facturación"
+
+msgid "Quantity"
+msgstr "Cantidad"
+
+msgid "Unit"
+msgstr "Unidad"
+
+msgid "Amount"
+msgstr "Importe"
+
+msgid "Tax Rate"
+msgstr "Tasa impositiva"
+
+msgid "VAT Output Tax"
+msgstr "IVA repercutido"
+
+msgid "Total Amount Payable"
+msgstr "Importe total a pagar"
+
+msgid "Electricity Costs by Time-Of-Use"
+msgstr "Costos de electricidad por tiempo de uso"
+
+msgid "Electricity Carbon Dioxide Emissions Proportion by Time-Of-Use"
+msgstr "Electricidad Emisiones de dióxido de carbono Proporción por tiempo de uso"
+
+msgid "Associated Equipment Data"
+msgstr "Datos de equipos asociados"
+
+msgid "Associated Equipment"
+msgstr "Equipos asociados"
+
+msgid "Electricity Cost Proportion by Time-Of-Use"
+msgstr "Proporción del costo de electricidad por tiempo de uso"
+
+msgid "Start Value"
+msgstr "Valor inicial"
+
+msgid "End Value"
+msgstr "Valor final"
+
+msgid "Difference Value"
+msgstr "Valor de diferencia"
+
+msgid "Base Period"
+msgstr "Período base"
+
+msgid "Base Period Start Datetime"
+msgstr "Fecha de inicio del período base y hora"
+
+msgid "Base Period End Datetime"
+msgstr "Fecha de finalización del período base y hora"
+
+msgid "Base Period Consumption"
+msgstr "Consumo del período base"
+
+msgid "All"
+msgstr "Todo"
+
+msgid "Tariff"
+msgstr "Arancel"
+
+msgid "Non Working Days"
+msgstr "Días no laborables"
+
+msgid "Working Days"
+msgstr "Días laborables"
