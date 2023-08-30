@@ -1,0 +1,355 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-09-09 16:37+0800\n"
+"PO-Revision-Date: 2023-08-30 09:32+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.3\n"
+
+msgid "Space"
+msgstr "Пространство"
+
+msgid "Start Datetime"
+msgstr "Дата начала"
+
+msgid "End Datetime"
+msgstr "Дата и время окончания"
+
+msgid "ID"
+msgstr "ИДЕНТИФИКАТОР"
+
+msgid "Name"
+msgstr "Имя"
+
+msgid "Period Type"
+msgstr "Тип периода"
+
+msgid "Reporting Start Datetime"
+msgstr "Дата начала отчетности Дата и время"
+
+msgid "Reporting End Datetime"
+msgstr "Дата и время окончания отчетности"
+
+msgid "Reporting Period Consumption"
+msgstr "Потребление за отчетный период"
+
+msgid "Consumption"
+msgstr "Потребление"
+
+msgid "Per Unit Area"
+msgstr "На единицу площади"
+
+msgid "Increment Rate"
+msgstr "Коэффициент приращения"
+
+msgid "Ton of Standard Coal"
+msgstr "Тонна стандартного угля"
+
+msgid "Ton of Carbon Dioxide Emissions"
+msgstr "тонн выбросов углекислого газа"
+
+msgid "Electricity Consumption by Time-Of-Use"
+msgstr "Потребление электроэнергии по времени использования"
+
+msgid "TopPeak"
+msgstr "ТопПик"
+
+msgid "OnPeak"
+msgstr "ОнПик"
+
+msgid "MidPeak"
+msgstr "Мидпик"
+
+msgid "OffPeak"
+msgstr "Вне пика"
+
+msgid "Ton of Standard Coal(TCE) by Energy Category"
+msgstr "Тонна стандартного угля (ТВК) по энергетическим категориям"
+
+msgid "Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category"
+msgstr "Тонн выбросов углекислого газа (TCO2E) по энергетическим категориям"
+
+msgid "Child Spaces Data"
+msgstr "Данные о дочерних пространствах"
+
+msgid "Child Space"
+msgstr "Детское пространство"
+
+msgid "Detailed Data"
+msgstr "Подробные данные"
+
+msgid "Datetime"
+msgstr "Дата и время"
+
+msgid "Subtotal"
+msgstr "Промежуточная сумма"
+
+msgid "Parameters"
+msgstr "Параметры"
+
+msgid "Base Period Carbon Dioxide Emissions"
+msgstr "Выбросы углекислого газа за базовый период"
+
+msgid "Reporting Period Carbon Dioxide Emissions"
+msgstr "Выбросы двуокиси углерода за отчетный период"
+
+msgid "Carbon Dioxide Emissions"
+msgstr "Выбросы углекислого газа"
+
+msgid "Electricity Carbon Dioxide Emissions by Time-Of-Use"
+msgstr "Выбросы углекислого газа в электроэнергетике по времени использования"
+
+msgid "Carbon Dioxide Emissions Proportion"
+msgstr "Доля выбросов углекислого газа"
+
+msgid "Total"
+msgstr "Итог"
+
+msgid "Base Period Costs"
+msgstr "Затраты на базовый период"
+
+msgid "Reporting Period Costs"
+msgstr "Затраты за отчетный период"
+
+msgid "Cost"
+msgstr "Анализ затрат"
+
+msgid "Electricity Cost by Time-Of-Use"
+msgstr "Затраты на электроэнергию во время использования"
+
+msgid "Costs Proportion"
+msgstr "Процент затрат"
+
+msgid "Base Period Cumulative Efficiency"
+msgstr "Кумулятивная эффективность базисного периода"
+
+msgid "Reporting Period Cumulative Efficiency"
+msgstr "Кумулятивная эффективность за отчетный период"
+
+msgid "Cumulative Efficiency"
+msgstr "Кумулятивная эффективность"
+
+msgid "Base Period Income"
+msgstr "Доход за базовый период"
+
+msgid "Reporting Period Income"
+msgstr "Выручка за отчетный период"
+
+msgid "Incomes by Energy Category"
+msgstr "Процент от выручки"
+
+msgid "Incomes"
+msgstr "доход"
+
+msgid "Proportion"
+msgstr "Процент"
+
+msgid "Load"
+msgstr "груз"
+
+msgid "Base Period Average Load"
+msgstr "Средняя нагрузка за базисный период"
+
+msgid "Reporting Period Average Load"
+msgstr "Средняя загрузка за отчетный период"
+
+msgid "Average Load"
+msgstr "Усреднение нагрузки"
+
+msgid "Base Period Maximum Load"
+msgstr "Максимальная нагрузка в базисном периоде"
+
+msgid "Reporting Period Maximum Load"
+msgstr "Максимальная нагрузка за отчетный период"
+
+msgid "Maximum Load"
+msgstr "Максимальная нагрузка"
+
+msgid "Reporting Period Load Factor"
+msgstr "Коэффициент загрузки отчетного периода"
+
+msgid "Load Factor"
+msgstr "Коэффициент загрузки"
+
+msgid "Base Period Output"
+msgstr "Выпуск в базисном периоде"
+
+msgid "Reporting Period Output"
+msgstr "Выпуск за отчетный период"
+
+msgid "Output"
+msgstr "выпуск"
+
+msgid "Base Period Saving"
+msgstr "Экономия за базовый период"
+
+msgid "Reporting Period Saving"
+msgstr "Экономия в отчетном периоде"
+
+msgid "Baseline"
+msgstr "базис"
+
+msgid "Actual"
+msgstr "действительный"
+
+msgid "Saving"
+msgstr "экономить"
+
+msgid "Decreased"
+msgstr "убывать"
+
+msgid "Statistics"
+msgstr "Статистический анализ"
+
+msgid "Reporting Period"
+msgstr "Отчетный период"
+
+msgid "Arithmetic Mean"
+msgstr "Среднее арифметическое"
+
+msgid "Median (Middle Value)"
+msgstr "медиана"
+
+msgid "Minimum Value"
+msgstr "минимум"
+
+msgid "Maximum Value"
+msgstr "максимум"
+
+msgid "Sample Standard Deviation"
+msgstr "Стандартное отклонение образца"
+
+msgid "Sample Variance"
+msgstr "Дисперсия выборки"
+
+msgid "Cost Center"
+msgstr "Центр затрат"
+
+msgid "Description"
+msgstr "описание"
+
+msgid "Master Meter Consumption"
+msgstr "Общий расход таблицы"
+
+msgid "Submeters Consumption"
+msgstr "Потребление при разделении таблиц"
+
+msgid "Difference"
+msgstr "Разница"
+
+msgid "Percentage Difference"
+msgstr "Процентная разница"
+
+msgid "Start Integrity Rate"
+msgstr "Полнота исходных данных"
+
+msgid "End Integrity Rate"
+msgstr "Коэффициент полноты конечных данных"
+
+msgid "Full Integrity Rate"
+msgstr "Общая полнота данных"
+
+msgid "Trend"
+msgstr "тенденция"
+
+msgid "Payment Notice"
+msgstr "Платежное поручение"
+
+msgid "Lease Number"
+msgstr "Количество договоров аренды"
+
+msgid "Bill Number"
+msgstr "Платежный номер"
+
+msgid "Lease Contract Number"
+msgstr "Номер договора аренды"
+
+msgid "Bill Date"
+msgstr "Дата выставления счета"
+
+msgid "Payment Due Date"
+msgstr "Срок оплаты"
+
+msgid "Amount Payable"
+msgstr "Сумма, подлежащая оплате"
+
+msgid "Energy Category"
+msgstr "Энергетическая классификация"
+
+msgid "Billing Period Start"
+msgstr "Начинается платежный цикл"
+
+msgid "Billing Period End"
+msgstr "Дата окончания расчетного периода"
+
+msgid "Quantity"
+msgstr "количество"
+
+msgid "Unit"
+msgstr "единица"
+
+msgid "Amount"
+msgstr "количество"
+
+msgid "Tax Rate"
+msgstr "скорость"
+
+msgid "VAT Output Tax"
+msgstr "Выходной НДС налог на добавленную стоимость"
+
+msgid "Total Amount Payable"
+msgstr "Общая сумма к оплате"
+
+msgid "Electricity Costs by Time-Of-Use"
+msgstr "Затраты на электроэнергию во время использования"
+
+msgid "Electricity Carbon Dioxide Emissions Proportion by Time-Of-Use"
+msgstr "Доля CO2, выделяемая электроэнергией во время использования"
+
+msgid "Associated Equipment Data"
+msgstr "Соответствующие данные об устройстве"
+
+msgid "Associated Equipment"
+msgstr "Сопутствующее оборудование"
+
+msgid "Electricity Cost Proportion by Time-Of-Use"
+msgstr "Доля затрат на электроэнергию во время использования"
+
+msgid "Start Value"
+msgstr "Начальная стоимость"
+
+msgid "End Value"
+msgstr "Конечная стоимость"
+
+msgid "Difference Value"
+msgstr "Разница"
+
+msgid "Base Period"
+msgstr "Базовый период"
+
+msgid "Base Period Start Datetime"
+msgstr "Время начала базисного периода"
+
+msgid "Base Period End Datetime"
+msgstr "Время окончания базисного периода"
+
+msgid "Base Period Consumption"
+msgstr "Потребление за базовый период"
+
+msgid "All"
+msgstr "все"
+
+msgid "Tariff"
+msgstr "Ставки"
+
+msgid "Non Working Days"
+msgstr "Нерабочие дни"
+
+msgid "Working Days"
+msgstr "будний день"
