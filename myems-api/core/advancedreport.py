@@ -270,6 +270,14 @@ class AdvancedReportItem:
                                    description='API.INVALID_IS_ENABLED')
         is_enabled = new_values['data']['is_enabled']
 
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
+        # todo: validate datetime value
+        next_run_datetime_local = datetime.strptime(new_values['data']['next_run_datetime'], '%Y-%m-%dT%H:%M:%S')
+        next_run_datetime_utc = next_run_datetime_local.replace(tzinfo=timezone.utc) \
+            - timedelta(minutes=timezone_offset)
+
         cnx = mysql.connector.connect(**config.myems_reporting_db)
         cursor = cnx.cursor()
 
@@ -294,11 +302,13 @@ class AdvancedReportItem:
         update_row = (" UPDATE tbl_reports "
                       " SET name = %s, "
                       "     expression = %s, "
-                      "     is_enabled = %s "
+                      "     is_enabled = %s, "
+                      "     next_run_datetime_utc = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     expression,
                                     is_enabled,
+                                    next_run_datetime_utc,
                                     id_,))
         cnx.commit()
 
