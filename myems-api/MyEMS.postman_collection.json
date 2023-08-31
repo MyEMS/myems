@@ -130,7 +130,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Space Monthly Report\", \"expression\":\"{\\\"space_id\\\":1}\",  \"is_enabled\":true}}"
+									"raw": "{\"data\":{\"name\":\"Space Monthly Report\", \"expression\":\"{\\\"space_id\\\":1}\",  \"is_enabled\":true, \"next_run_datetime\":\"2023-09-01T00:00:00\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/advancedreports/1",
