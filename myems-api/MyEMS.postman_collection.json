@@ -9,6 +9,174 @@
 			"name": "Core",
 			"item": [
 				{
+					"name": "AdvancedReportConfig",
+					"item": [
+						{
+							"name": "Get All Advanced Report Configs",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "cc9a83698b40ba649fdc8b554639a3fd424c55f861b7edc2901d064de449e5e83f908237efb8cb92e54031348f20d3028cd293d8d570f7338fd2e2b7568cfe29",
+										"type": "default"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/advancedreports",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"advancedreports"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Advanced Report Config by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "cc9a83698b40ba649fdc8b554639a3fd424c55f861b7edc2901d064de449e5e83f908237efb8cb92e54031348f20d3028cd293d8d570f7338fd2e2b7568cfe29",
+										"type": "default"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/advancedreports/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"advancedreports",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Create an Advanced Report Config",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "cc9a83698b40ba649fdc8b554639a3fd424c55f861b7edc2901d064de449e5e83f908237efb8cb92e54031348f20d3028cd293d8d570f7338fd2e2b7568cfe29",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"Space Daily Report\", \"expression\":\"{\\\"space_id\\\":1}\",  \"is_enabled\":true}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/advancedreports",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"advancedreports"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Update an Advanced Report Config",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "cc9a83698b40ba649fdc8b554639a3fd424c55f861b7edc2901d064de449e5e83f908237efb8cb92e54031348f20d3028cd293d8d570f7338fd2e2b7568cfe29",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"Space Monthly Report\", \"expression\":\"{\\\"space_id\\\":1}\",  \"is_enabled\":true}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/advancedreports/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"advancedreports",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE an Advanced Report Config",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "cc9a83698b40ba649fdc8b554639a3fd424c55f861b7edc2901d064de449e5e83f908237efb8cb92e54031348f20d3028cd293d8d570f7338fd2e2b7568cfe29",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/advancedreports/2",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"advancedreports",
+										"2"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "Combined Equipment",
 					"item": [
 						{
@@ -16825,26 +16993,25 @@
 			"name": "Reports",
 			"item": [
 				{
-					"name": "GET AdvancedReports",
+					"name": "GET AdvancedReport Files",
 					"request": {
 						"method": "GET",
 						"header": [
 							{
 								"key": "User-UUID",
 								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-								"type": "text",
-								"disabled": true
+								"type": "text"
 							},
 							{
 								"key": "Token",
-								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
-								"type": "text",
-								"disabled": true
+								"value": "cc9a83698b40ba649fdc8b554639a3fd424c55f861b7edc2901d064de449e5e83f908237efb8cb92e54031348f20d3028cd293d8d570f7338fd2e2b7568cfe29",
+								"type": "text"
 							},
 							{
 								"key": "API-Key",
 								"value": "0196ef3251ad46301f9831f41e1ee96f443ed7d20e0e7ddb82ccc0355acbe0e76352104191d337c2bce53da5fa454b73b19ca614f45d68b4aabd7335daf91882",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"url": {
@@ -16871,26 +17038,25 @@
 					"response": []
 				},
 				{
-					"name": "GET AdvancedReport by ID",
+					"name": "GET AdvancedReport File by ID",
 					"request": {
 						"method": "GET",
 						"header": [
 							{
 								"key": "User-UUID",
 								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-								"type": "text",
-								"disabled": true
+								"type": "text"
 							},
 							{
 								"key": "Token",
-								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
-								"type": "text",
-								"disabled": true
+								"value": "cc9a83698b40ba649fdc8b554639a3fd424c55f861b7edc2901d064de449e5e83f908237efb8cb92e54031348f20d3028cd293d8d570f7338fd2e2b7568cfe29",
+								"type": "text"
 							},
 							{
 								"key": "API-Key",
 								"value": "0196ef3251ad46301f9831f41e1ee96f443ed7d20e0e7ddb82ccc0355acbe0e76352104191d337c2bce53da5fa454b73b19ca614f45d68b4aabd7335daf91882",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"url": {
@@ -16908,10 +17074,21 @@
 					"response": []
 				},
 				{
-					"name": "DELETE AdvancedReport by ID",
+					"name": "DELETE AdvancedReport File by ID",
 					"request": {
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "",
+								"type": "default"
+							},
+							{
+								"key": "Token",
+								"value": "",
+								"type": "default"
+							}
+						],
 						"url": {
 							"raw": "{{base_url}}/reports/advancedreports/1",
 							"host": [
@@ -16934,19 +17111,18 @@
 							{
 								"key": "User-UUID",
 								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-								"type": "text",
-								"disabled": true
+								"type": "text"
 							},
 							{
 								"key": "Token",
 								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
-								"type": "text",
-								"disabled": true
+								"type": "text"
 							},
 							{
 								"key": "API-Key",
 								"value": "0196ef3251ad46301f9831f41e1ee96f443ed7d20e0e7ddb82ccc0355acbe0e76352104191d337c2bce53da5fa454b73b19ca614f45d68b4aabd7335daf91882",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"url": {
@@ -16984,19 +17160,18 @@
 							{
 								"key": "User-UUID",
 								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-								"type": "text",
-								"disabled": true
+								"type": "text"
 							},
 							{
 								"key": "Token",
 								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
-								"type": "text",
-								"disabled": true
+								"type": "text"
 							},
 							{
 								"key": "API-Key",
 								"value": "0196ef3251ad46301f9831f41e1ee96f443ed7d20e0e7ddb82ccc0355acbe0e76352104191d337c2bce53da5fa454b73b19ca614f45d68b4aabd7335daf91882",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"url": {
@@ -17038,19 +17213,18 @@
 							{
 								"key": "User-UUID",
 								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-								"type": "text",
-								"disabled": true
+								"type": "text"
 							},
 							{
 								"key": "Token",
 								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
-								"type": "text",
-								"disabled": true
+								"type": "text"
 							},
 							{
 								"key": "API-Key",
 								"value": "0196ef3251ad46301f9831f41e1ee96f443ed7d20e0e7ddb82ccc0355acbe0e76352104191d337c2bce53da5fa454b73b19ca614f45d68b4aabd7335daf91882",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"url": {
@@ -17107,19 +17281,18 @@
 							{
 								"key": "User-UUID",
 								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-								"type": "text",
-								"disabled": true
+								"type": "text"
 							},
 							{
 								"key": "Token",
 								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
-								"type": "text",
-								"disabled": true
+								"type": "text"
 							},
 							{
 								"key": "API-Key",
 								"value": "0196ef3251ad46301f9831f41e1ee96f443ed7d20e0e7ddb82ccc0355acbe0e76352104191d337c2bce53da5fa454b73b19ca614f45d68b4aabd7335daf91882",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"url": {
@@ -17180,19 +17353,18 @@
 							{
 								"key": "User-UUID",
 								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-								"type": "text",
-								"disabled": true
+								"type": "text"
 							},
 							{
 								"key": "Token",
 								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
-								"type": "text",
-								"disabled": true
+								"type": "text"
 							},
 							{
 								"key": "API-Key",
 								"value": "0196ef3251ad46301f9831f41e1ee96f443ed7d20e0e7ddb82ccc0355acbe0e76352104191d337c2bce53da5fa454b73b19ca614f45d68b4aabd7335daf91882",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"url": {
@@ -17249,19 +17421,18 @@
 							{
 								"key": "User-UUID",
 								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-								"type": "text",
-								"disabled": true
+								"type": "text"
 							},
 							{
 								"key": "Token",
 								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
-								"type": "text",
-								"disabled": true
+								"type": "text"
 							},
 							{
 								"key": "API-Key",
 								"value": "0196ef3251ad46301f9831f41e1ee96f443ed7d20e0e7ddb82ccc0355acbe0e76352104191d337c2bce53da5fa454b73b19ca614f45d68b4aabd7335daf91882",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"url": {
@@ -17322,19 +17493,18 @@
 							{
 								"key": "User-UUID",
 								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-								"type": "text",
-								"disabled": true
+								"type": "text"
 							},
 							{
 								"key": "Token",
 								"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
-								"type": "text",
-								"disabled": true
+								"type": "text"
 							},
 							{
 								"key": "API-Key",
 								"value": "0196ef3251ad46301f9831f41e1ee96f443ed7d20e0e7ddb82ccc0355acbe0e76352104191d337c2bce53da5fa454b73b19ca614f45d68b4aabd7335daf91882",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"url": {

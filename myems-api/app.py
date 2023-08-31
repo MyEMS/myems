@@ -6,12 +6,12 @@ from core import apikey, energyflowdiagram, privilege, textmessage, distribution
     costcenter, point, knowledgefile, meter, tariff, user, storetype, timezone, \
     costfile, offlinemeterfile, version, contact, emailserver, combinedequipment, datasource, equipment, tenant, \
     shopfloor, webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, \
-    offlinemeter, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile, workingcalendar, \
+    offlinemeter, advancedreport, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile, workingcalendar, \
     microgrid, microgridarchitecturetype, microgridbattery, microgridownertype, \
     microgridevcharger, microgridgenerator, microgridgrid, microgridheatpump, microgridload, microgridphotovoltaic, \
     microgridpowerconversionsystem, microgridwindturbine, command, virtualpowerplant
 
-from reports import advancedreport
+from reports import advancedreportfile
 from reports import combinedequipmentbatch
 from reports import combinedequipmentcarbon
 from reports import combinedequipmentcost
@@ -120,6 +120,10 @@ api = falcon.App(middleware=[cors.middleware, MultipartMiddleware()])
 ########################################################################################################################
 # Routes for System Core
 ########################################################################################################################
+api.add_route('/advancedreports',
+              advancedreport.AdvancedReportCollection())
+api.add_route('/advancedreports/{id_}',
+              advancedreport.AdvancedReportItem())
 
 api.add_route('/combinedequipments',
               combinedequipment.CombinedEquipmentCollection())
@@ -696,9 +700,9 @@ api.add_route('/version',
 # Routes for Reports
 ########################################################################################################################
 api.add_route('/reports/advancedreports',
-              advancedreport.AdvancedReportCollection())
+              advancedreportfile.AdvancedReportFileCollection())
 api.add_route('/reports/advancedreports/{id_}',
-              advancedreport.AdvancedReportItem())
+              advancedreportfile.AdvancedReportFileItem())
 api.add_route('/reports/distributionsystem',
               distributionsystemreport.Reporting())
 api.add_route('/reports/energyflowdiagram',

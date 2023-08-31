@@ -17,6 +17,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added api key control to get actions of core objects in myems-api
 - added Spanish language to myems-web
 - added Russian language to myems-web
+- added Advanced Report Configs to myems-api
+- 
 ### Changed
 - changed fdd rule template in myems-admin
 - renamed tbl_microgrids_converters to tbl_microgrids_power_conversion_systems in database
