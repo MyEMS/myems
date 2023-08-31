@@ -9,7 +9,7 @@ from core.useractivity import access_control, api_key_control
 import config
 
 
-class AdvancedReportCollection:
+class AdvancedReportFileCollection:
     @staticmethod
     def __init__():
         """Initializes Class"""
@@ -122,7 +122,7 @@ class AdvancedReportCollection:
         resp.text = json.dumps(result)
 
 
-class AdvancedReportItem:
+class AdvancedReportFileItem:
     @staticmethod
     def __init__():
         """Initializes Class"""
