@@ -1,0 +1,355 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-09-09 16:37+0800\n"
+"PO-Revision-Date: 2023-09-01 14:50+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.3\n"
+
+msgid "Space"
+msgstr "فضاء"
+
+msgid "Start Datetime"
+msgstr "وقت البدء"
+
+msgid "End Datetime"
+msgstr "وقت الانتهاء"
+
+msgid "ID"
+msgstr "إيدي"
+
+msgid "Name"
+msgstr "اسم"
+
+msgid "Period Type"
+msgstr "مقياس الوقت"
+
+msgid "Reporting Start Datetime"
+msgstr "وقت بدء الفترة المشمولة بالتقرير"
+
+msgid "Reporting End Datetime"
+msgstr "نهاية الفترة المشمولة بالتقرير"
+
+msgid "Reporting Period Consumption"
+msgstr "استهلاك الفترة المشمولة بالتقرير"
+
+msgid "Consumption"
+msgstr "أنضب"
+
+msgid "Per Unit Area"
+msgstr "قيمة مساحة الوحدة"
+
+msgid "Increment Rate"
+msgstr "معدل الزيادة"
+
+msgid "Ton of Standard Coal"
+msgstr "طن من الفحم القياسي"
+
+msgid "Ton of Carbon Dioxide Emissions"
+msgstr "طن من انبعاثات CO2"
+
+msgid "Electricity Consumption by Time-Of-Use"
+msgstr "استهلاك الطاقة لمشاركة الوقت"
+
+msgid "TopPeak"
+msgstr "اشار"
+
+msgid "OnPeak"
+msgstr "ذروة"
+
+msgid "MidPeak"
+msgstr "وطيء"
+
+msgid "OffPeak"
+msgstr "واد"
+
+msgid "Ton of Standard Coal(TCE) by Energy Category"
+msgstr "نسبة أطنان الفحم القياسي (TCE)"
+
+msgid "Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category"
+msgstr "النسبة المئوية لأطنان انبعاثات ثاني أكسيد الكربون (TCO2E)"
+
+msgid "Child Spaces Data"
+msgstr "بيانات الفضاء الفرعي"
+
+msgid "Child Space"
+msgstr "جزئي"
+
+msgid "Detailed Data"
+msgstr "بيانات مفصلة"
+
+msgid "Datetime"
+msgstr "التاريخ والوقت"
+
+msgid "Subtotal"
+msgstr "المجموع الفرعي"
+
+msgid "Parameters"
+msgstr "البارامتر"
+
+msgid "Base Period Carbon Dioxide Emissions"
+msgstr "انبعاثات CO2 في فترة الأساس"
+
+msgid "Reporting Period Carbon Dioxide Emissions"
+msgstr "انبعاثات CO2 للفترة المشمولة بالتقرير"
+
+msgid "Carbon Dioxide Emissions"
+msgstr "انبعاثات CO2"
+
+msgid "Electricity Carbon Dioxide Emissions by Time-Of-Use"
+msgstr "كهرباء تقاسم الوقت تنبعث منها ثاني أكسيد الكربون"
+
+msgid "Carbon Dioxide Emissions Proportion"
+msgstr "نسبة انبعاثات CO2"
+
+msgid "Total"
+msgstr "مجموع"
+
+msgid "Base Period Costs"
+msgstr "تكلفة فترة الأساس"
+
+msgid "Reporting Period Costs"
+msgstr "التكلفة للفترة المشمولة بالتقرير"
+
+msgid "Cost"
+msgstr "تحليل التكاليف"
+
+msgid "Electricity Cost by Time-Of-Use"
+msgstr "تكاليف الكهرباء في وقت الاستخدام"
+
+msgid "Costs Proportion"
+msgstr "النسبة المئوية للتكلفة"
+
+msgid "Base Period Cumulative Efficiency"
+msgstr "الكفاءة التراكمية لفترة الأساس"
+
+msgid "Reporting Period Cumulative Efficiency"
+msgstr "الكفاءة التراكمية للفترة المشمولة بالتقرير"
+
+msgid "Cumulative Efficiency"
+msgstr "الكفاءة التراكمية"
+
+msgid "Base Period Income"
+msgstr "إيرادات فترة الأساس"
+
+msgid "Reporting Period Income"
+msgstr "إيرادات الفترة المشمولة بالتقرير"
+
+msgid "Incomes by Energy Category"
+msgstr "النسبة المئوية للإيرادات"
+
+msgid "Incomes"
+msgstr "عائد"
+
+msgid "Proportion"
+msgstr "النسبه المئويه"
+
+msgid "Load"
+msgstr "حمل"
+
+msgid "Base Period Average Load"
+msgstr "متوسط الحمل لفترة الأساس"
+
+msgid "Reporting Period Average Load"
+msgstr "متوسط الحمل للفترة المشمولة بالتقرير"
+
+msgid "Average Load"
+msgstr "متوسط الحمل"
+
+msgid "Base Period Maximum Load"
+msgstr "الحمل الأقصى في فترة الأساس"
+
+msgid "Reporting Period Maximum Load"
+msgstr "الحمل الأقصى للفترة المشمولة بالتقرير"
+
+msgid "Maximum Load"
+msgstr "الحمولة القصوى"
+
+msgid "Reporting Period Load Factor"
+msgstr "عامل الحمولة للفترة المشمولة بالتقرير"
+
+msgid "Load Factor"
+msgstr "عامل الحمولة"
+
+msgid "Base Period Output"
+msgstr "الناتج في فترة الأساس"
+
+msgid "Reporting Period Output"
+msgstr "الناتج للفترة المشمولة بالتقرير"
+
+msgid "Output"
+msgstr "الناتج"
+
+msgid "Base Period Saving"
+msgstr "وفورات فترة الأساس"
+
+msgid "Reporting Period Saving"
+msgstr "الوفورات في الفترة المشمولة بالتقرير"
+
+msgid "Baseline"
+msgstr "الاساس"
+
+msgid "Actual"
+msgstr "حقيقي"
+
+msgid "Saving"
+msgstr "تقتصد"
+
+msgid "Decreased"
+msgstr "نقصان"
+
+msgid "Statistics"
+msgstr "التحليل الإحصائي"
+
+msgid "Reporting Period"
+msgstr "الفترة المشمولة بالتقرير"
+
+msgid "Arithmetic Mean"
+msgstr "الوسط الحسابي"
+
+msgid "Median (Middle Value)"
+msgstr "متوسط"
+
+msgid "Minimum Value"
+msgstr "الحد الادني"
+
+msgid "Maximum Value"
+msgstr "الحد الاقصي"
+
+msgid "Sample Standard Deviation"
+msgstr "عينة الانحراف المعياري"
+
+msgid "Sample Variance"
+msgstr "تباين العينة"
+
+msgid "Cost Center"
+msgstr "مركز التكلفة"
+
+msgid "Description"
+msgstr "وصف"
+
+msgid "Master Meter Consumption"
+msgstr "إجمالي استهلاك الجدول"
+
+msgid "Submeters Consumption"
+msgstr "استهلاك تقسيم الجدول"
+
+msgid "Difference"
+msgstr "اختلاف"
+
+msgid "Percentage Difference"
+msgstr "فرق النسبة المئوية"
+
+msgid "Start Integrity Rate"
+msgstr "اكتمال البيانات الأولية"
+
+msgid "End Integrity Rate"
+msgstr "معدل اكتمال البيانات النهائية"
+
+msgid "Full Integrity Rate"
+msgstr "اكتمال البيانات بشكل عام"
+
+msgid "Trend"
+msgstr "الاتجاه"
+
+msgid "Payment Notice"
+msgstr "نصائح الدفع"
+
+msgid "Lease Number"
+msgstr "عدد عقود الإيجار"
+
+msgid "Bill Number"
+msgstr "رقم الفوترة"
+
+msgid "Lease Contract Number"
+msgstr "رقم عقد الإيجار"
+
+msgid "Bill Date"
+msgstr "تاريخ الفوترة"
+
+msgid "Payment Due Date"
+msgstr "تاريخ استحقاق الدفع"
+
+msgid "Amount Payable"
+msgstr "المبلغ المستحق الدفع"
+
+msgid "Energy Category"
+msgstr "تصنيف الطاقة"
+
+msgid "Billing Period Start"
+msgstr "تبدأ دورة الفوترة"
+
+msgid "Billing Period End"
+msgstr "تاريخ انتهاء فترة الفوترة"
+
+msgid "Quantity"
+msgstr "كم"
+
+msgid "Unit"
+msgstr "وحدة"
+
+msgid "Amount"
+msgstr "مبلغ"
+
+msgid "Tax Rate"
+msgstr "معدل"
+
+msgid "VAT Output Tax"
+msgstr "ضريبة القيمة المضافة على المخرجات"
+
+msgid "Total Amount Payable"
+msgstr "إجمالي المبلغ المستحق"
+
+msgid "Electricity Costs by Time-Of-Use"
+msgstr "تكاليف الكهرباء في وقت الاستخدام"
+
+msgid "Electricity Carbon Dioxide Emissions Proportion by Time-Of-Use"
+msgstr "نسبة CO2 المنبعثة من الكهرباء وقت الاستخدام"
+
+msgid "Associated Equipment Data"
+msgstr "بيانات الجهاز ذات الصلة"
+
+msgid "Associated Equipment"
+msgstr "المعدات ذات الصلة"
+
+msgid "Electricity Cost Proportion by Time-Of-Use"
+msgstr "نسبة تكاليف الكهرباء في وقت الاستخدام"
+
+msgid "Start Value"
+msgstr "القيمة الأولية"
+
+msgid "End Value"
+msgstr "القيمة النهائية"
+
+msgid "Difference Value"
+msgstr "اختلاف"
+
+msgid "Base Period"
+msgstr "فترة الأساس"
+
+msgid "Base Period Start Datetime"
+msgstr "وقت بدء فترة الأساس"
+
+msgid "Base Period End Datetime"
+msgstr "وقت انتهاء فترة الأساس"
+
+msgid "Base Period Consumption"
+msgstr "استهلاك فترة الأساس"
+
+msgid "All"
+msgstr "كل"
+
+msgid "Tariff"
+msgstr "معدلات"
+
+msgid "Non Working Days"
+msgstr "أيام العطلة"
+
+msgid "Working Days"
+msgstr "ايام الاسبوع"
