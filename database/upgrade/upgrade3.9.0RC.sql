@@ -35,6 +35,15 @@ RENAME INDEX tbl_microgrids_converters_index_1 TO tbl_microgrids_power_conversio
 ALTER TABLE myems_reporting_db.tbl_reports DROP COLUMN category;
 ALTER TABLE myems_reporting_db.tbl_reports DROP COLUMN report_code;
 
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_users` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `user_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrids_users_index_1` ON  `myems_system_db`.`tbl_microgrids_users` (`microgrid_id`);
+
+
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='3.9.0RC', release_date='2023-09-01' WHERE id=1;
 
