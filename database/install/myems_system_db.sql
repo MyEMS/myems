@@ -841,6 +841,18 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_sensors` (
 CREATE INDEX `tbl_microgrids_sensors_index_1` ON  `myems_system_db`.`tbl_microgrids_sensors` (`microgrid_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_microgrids_users`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_microgrids_users` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_users` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `user_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrids_users_index_1` ON  `myems_system_db`.`tbl_microgrids_users` (`microgrid_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_microgrids_windturbines`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_system_db`.`tbl_microgrids_windturbines` ;

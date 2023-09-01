@@ -25,12 +25,6 @@
 										"key": "Token",
 										"value": "cc9a83698b40ba649fdc8b554639a3fd424c55f861b7edc2901d064de449e5e83f908237efb8cb92e54031348f20d3028cd293d8d570f7338fd2e2b7568cfe29",
 										"type": "default"
-									},
-									{
-										"key": "API-Key",
-										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
-										"type": "default",
-										"disabled": true
 									}
 								],
 								"url": {
@@ -59,12 +53,6 @@
 										"key": "Token",
 										"value": "cc9a83698b40ba649fdc8b554639a3fd424c55f861b7edc2901d064de449e5e83f908237efb8cb92e54031348f20d3028cd293d8d570f7338fd2e2b7568cfe29",
 										"type": "default"
-									},
-									{
-										"key": "API-Key",
-										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
-										"type": "default",
-										"disabled": true
 									}
 								],
 								"url": {
