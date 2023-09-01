@@ -39,7 +39,7 @@ ALTER TABLE myems_reporting_db.tbl_reports DROP COLUMN report_code;
 CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_users` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `microgrid_id` BIGINT NOT NULL,
-  `user_id` BIGINT NOT NULL,
+  `user_id` BIGINT NOT NULL COMMENT 'primary key in myems_user_db.tbl_users',
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_microgrids_users_index_1` ON  `myems_system_db`.`tbl_microgrids_users` (`microgrid_id`);
 
