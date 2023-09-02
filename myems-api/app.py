@@ -6,8 +6,8 @@ from core import apikey, energyflowdiagram, privilege, textmessage, distribution
     costcenter, point, knowledgefile, meter, tariff, user, storetype, timezone, \
     costfile, offlinemeterfile, version, contact, emailserver, combinedequipment, datasource, equipment, tenant, \
     shopfloor, webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, \
-    offlinemeter, advancedreport, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile, workingcalendar, \
-    microgrid, microgridarchitecturetype, microgridbattery, microgridownertype, \
+    offlinemeter, advancedreport, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile, \
+    workingcalendar, microgrid, microgridarchitecturetype, microgridbattery, microgridownertype, \
     microgridevcharger, microgridgenerator, microgridgrid, microgridheatpump, microgridload, microgridphotovoltaic, \
     microgridpowerconversionsystem, microgridwindturbine, command, virtualpowerplant
 

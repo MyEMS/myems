@@ -1467,7 +1467,6 @@ class MicrogridPowerconversionsystemCollection:
         resp.text = json.dumps(result)
 
 
-
 class MicrogridWindturbineCollection:
     @staticmethod
     def __init__():
