@@ -1,4 +1,3 @@
-import numbers
 import uuid
 import falcon
 import mysql.connector
@@ -20,8 +19,6 @@ class MicrogridCollection:
     @staticmethod
     def on_get(req, resp):
         access_control(req)
-        user_uuid = str.strip(req.headers['USER-UUID'])
-        is_by_user = req.params.get('isByUser')  # 1: query by user
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -69,25 +66,13 @@ class MicrogridCollection:
                 cost_center_dict[row[0]] = {"id": row[0],
                                             "name": row[1],
                                             "uuid": row[2]}
-        if is_by_user is not None and int(is_by_user) == 1:
-            # query by user
-            query = (" SELECT m.id, m.name, m.uuid, "
-                     "        m.address, m.postal_code, m.latitude, m.longitude, m.capacity, "
-                     "        m.architecture_type_id, m.owner_type_id, "
-                     "        m.contact_id, m.cost_center_id, m.svg, m.description "
-                     " FROM tbl_microgrids m INNER JOIN tbl_microgrids_users mu on m.id=mu.microgrid_id "
-                     " inner join " + config.myems_user_db['database'] + ".tbl_users u on mu.user_id=u.id "
-                                                                         " WHERE u.uuid = %s "
-                     " ORDER BY id ")
-            cursor.execute(query, (user_uuid,))
-        else:
-            query = (" SELECT id, name, uuid, "
-                     "        address, postal_code, latitude, longitude, capacity, "
-                     "        architecture_type_id, owner_type_id, "
-                     "        contact_id, cost_center_id, svg, description "
-                     " FROM tbl_microgrids "
-                     " ORDER BY id ")
-            cursor.execute(query)
+        query = (" SELECT id, name, uuid, "
+                 "        address, postal_code, latitude, longitude, capacity, "
+                 "        architecture_type_id, owner_type_id, "
+                 "        contact_id, cost_center_id, svg, description "
+                 " FROM tbl_microgrids "
+                 " ORDER BY id ")
+        cursor.execute(query)
         rows_spaces = cursor.fetchall()
 
         result = list()
