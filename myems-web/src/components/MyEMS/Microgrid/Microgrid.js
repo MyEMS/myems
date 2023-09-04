@@ -86,7 +86,7 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
 
   useEffect(() => {
     let isResponseOK = false;
-    fetch(APIBaseURL + '/microgrids?isByUser=1', {
+    fetch(APIBaseURL + '/microgridbyuser', {
       method: 'GET',
       headers: {
         "Content-type": "application/json",

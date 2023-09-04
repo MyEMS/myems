@@ -7,7 +7,7 @@ from core import apikey, energyflowdiagram, privilege, textmessage, distribution
     costfile, offlinemeterfile, version, contact, emailserver, combinedequipment, datasource, equipment, tenant, \
     shopfloor, webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, \
     offlinemeter, advancedreport, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile, \
-    workingcalendar, microgrid, microgridarchitecturetype, microgridbattery, microgridownertype, \
+    workingcalendar, microgrid, microgridbyuser, microgridarchitecturetype, microgridbattery, microgridownertype, \
     microgridevcharger, microgridgenerator, microgridgrid, microgridheatpump, microgridload, microgridphotovoltaic, \
     microgridpowerconversionsystem, microgridwindturbine, command, virtualpowerplant
 
@@ -338,6 +338,9 @@ api.add_route('/microgrids/{id_}/users',
               microgrid.MicrogridUserCollection())
 api.add_route('/microgrids/{id_}/users/{uid}',
               microgrid.MicrogridUserItem())
+
+api.add_route('/microgridbyuser',
+              microgridbyuser.MicrogridByUser())
 
 api.add_route('/microgridarchitecturetypes',
               microgridarchitecturetype.MicrogridArchitectureTypeCollection())
