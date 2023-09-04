@@ -6602,6 +6602,107 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "GET All User By Microgrid ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "831f86c46eaa946be6450097c2ecfc2966fecea18853d00ae3147b11123899438fd5394f1bcfc165d0a3d0604baa93eb14f29d0d88c3f75b3bcaa807029e410c",
+										"type": "text"
+									},
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/microgrids/1/users",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgrids",
+										"1",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Bind a User to a Microgrid",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "831f86c46eaa946be6450097c2ecfc2966fecea18853d00ae3147b11123899438fd5394f1bcfc165d0a3d0604baa93eb14f29d0d88c3f75b3bcaa807029e410c",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"user_id\":1}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/microgrids/1/users",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgrids",
+										"1",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a User from a Microgrid",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "831f86c46eaa946be6450097c2ecfc2966fecea18853d00ae3147b11123899438fd5394f1bcfc165d0a3d0604baa93eb14f29d0d88c3f75b3bcaa807029e410c",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/microgrids/1/users/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgrids",
+										"1",
+										"users",
+										"1"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
