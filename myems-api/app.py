@@ -334,6 +334,10 @@ api.add_route('/microgrids/{id_}/powerconversionsystems',
               microgrid.MicrogridPowerconversionsystemCollection())
 api.add_route('/microgrids/{id_}/windturbines',
               microgrid.MicrogridWindturbineCollection())
+api.add_route('/microgrids/{id_}/users',
+              microgrid.MicrogridUserCollection())
+api.add_route('/microgrids/{id_}/users/{uid}',
+              microgrid.MicrogridUserItem())
 
 api.add_route('/microgridarchitecturetypes',
               microgridarchitecturetype.MicrogridArchitectureTypeCollection())
