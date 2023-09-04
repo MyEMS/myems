@@ -6104,19 +6104,12 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/microgrids?isByUser=0",
+									"raw": "{{base_url}}/microgrids",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"microgrids"
-									],
-									"query": [
-										{
-											"key": "isByUser",
-											"value": "0",
-											"description": "0-false,1-true"
-										}
 									]
 								}
 							},
@@ -8476,6 +8469,39 @@
 									"path": [
 										"microgridwindturbines",
 										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Microgrid By User",
+					"item": [
+						{
+							"name": "GET All Microgrids By User",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "08c913a4e5eccc96d590c52002b2ed225dbbf0de52b260d41b912bf989fe9c0bd47a09de0ee0a3b527cac427603b28c73450e08d9084289ecedaaf88cdd865db",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/microgridbyuser",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgridbyuser"
 									]
 								}
 							},
