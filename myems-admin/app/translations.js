@@ -256,6 +256,7 @@ function config($translateProvider) {
                 N_S_SENSOR: ' Bound Sensors',
                 N_S_TARIFF: ' Bound Tariffs',
                 N_S_MICROGRID: ' Bound Microgrids',
+                N_S_USER: 'Bound User',
 
                 COMMAND_LIST: 'Command List',
                 TARIFF_LIST: 'Tariff List',
@@ -546,6 +547,7 @@ function config($translateProvider) {
                 INPUT_MICROGRID_WINDTURBINE_NAME: 'Please Input Wind Turbine Name',
                 MICROGRID_WINDTURBINE_CAPACITY: 'Wind Turbine Capacity',
                 INPUT_MICROGRID_WINDTURBINE_CAPACITY: 'Please Input Wind Turbine Capacity',
+                BIND_USER: 'Bind User'
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: 'Balancing Price Point',
@@ -749,6 +751,7 @@ function config($translateProvider) {
                 API_KEY_LIST: 'API Key List',
                 ADD_API_KEY: 'Add API Key',
                 EDIT_API_KEY: 'Edit API Key',
+                SELECT_USER: 'Select User',
             },
             KNOWLEDGEFILE: {
                 KNOWLEDGE_FILE_LIST: 'Knowledge File List',
@@ -816,6 +819,8 @@ function config($translateProvider) {
                 UNBIND_NON_WORKING_DAY_SUCCESS: 'Unbind Non Working Day Success',
                 BIND_MICROGRID_SUCCESS: 'Bind Microgrid Success',
                 UNBIND_MICROGRID_SUCCESS: 'Unbind Microgrid Success',
+                BIND_USER_SUCCESS: 'Bind User Success',
+                UNBIND_USER_SUCCESS: 'Unbind User Success',
 
                 CAPTCHA_ERROR: 'Captcha Error'
             },
@@ -1228,6 +1233,8 @@ function config($translateProvider) {
                 MICROGRID_SENSOR_RELATION_NOT_FOUND: 'Microgrid Sensor Relation Not Found',
                 MICROGRID_WINDTURBINE_NAME_IS_ALREADY_IN_USE: 'Microgrid Windturbine Name Is Already In Use',
                 MICROGRID_WINDTURBINE_NOT_FOUND: 'Microgrid Windturbine Not Found',
+                MICROGRID_USER_RELATION_EXISTS: 'Microgrid User Relation Exists',
+                MICROGRID_USER_RELATION_NOT_FOUND: 'Microgrid User Relation Not Found',
                 MQTT_CONNECTION_ERROR: 'Mqtt Connection Error',
                 MQTT_PUBLISH_ERROR: 'Mqtt Publish Error',
                 NEW_PASSWORD_LENGTH_CANNOT_EXCEED_100_CHARACTERS: 'New password length cannot exceed 100 characters',
@@ -1666,6 +1673,7 @@ function config($translateProvider) {
                 N_S_SENSOR: '绑定的传感器',
                 N_S_TARIFF: '绑定的费率',
                 N_S_MICROGRID: '绑定的微电网',
+                N_S_USER: '绑定的用户',
 
                 COMMAND_LIST: '命令列表',
                 TARIFF_LIST: '费率列表',
@@ -1933,6 +1941,7 @@ function config($translateProvider) {
                 INPUT_MICROGRID_WINDTURBINE_NAME: '请输入风力发电机名称',
                 MICROGRID_WINDTURBINE_CAPACITY: '风力发电机容量',
                 INPUT_MICROGRID_WINDTURBINE_CAPACITY: '请输入风力发电机容量',
+                BIND_USER: '绑定用户',
                 INPUT_ADDRESS: '请输入地址',
                 INPUT_POSTAL_CODE: '请输入邮编',
                 INPUT_CAPACITY: '请输入容量',
@@ -2163,6 +2172,7 @@ function config($translateProvider) {
                 API_KEY_LIST: 'API密钥列表',
                 ADD_API_KEY: '添加API密钥',
                 EDIT_API_KEY: '编辑API密钥',
+                SELECT_USER: '选择用户',
             },
             KNOWLEDGEFILE: {
                 KNOWLEDGE_FILE_LIST: '知识文件列表',
@@ -2232,6 +2242,8 @@ function config($translateProvider) {
                 UNBIND_NON_WORKING_DAY_SUCCESS: '解绑非工作日成功',
                 BIND_MICROGRID_SUCCESS: '绑定微电网成功',
                 UNBIND_MICROGRID_SUCCESS: '解绑微电网成功',
+                BIND_USER_SUCCESS: '绑定用户成功',
+                UNBIND_USER_SUCCESS: '解绑用户成功',
 
                 CAPTCHA_ERROR: '验证码错误',
             },
@@ -2644,6 +2656,8 @@ function config($translateProvider) {
                 MICROGRID_SENSOR_RELATION_NOT_FOUND: 'Microgrid Sensor Relation Not Found',
                 MICROGRID_WINDTURBINE_NAME_IS_ALREADY_IN_USE: 'Microgrid Windturbine Name Is Already In Use',
                 MICROGRID_WINDTURBINE_NOT_FOUND: 'Microgrid Windturbine Not Found',
+                MICROGRID_USER_RELATION_EXISTS: 'Microgrid User Relation Exists',
+                MICROGRID_USER_RELATION_NOT_FOUND: 'Microgrid User Relation Not Found',
                 MQTT_CONNECTION_ERROR: 'Mqtt Connection Error',
                 MQTT_PUBLISH_ERROR: 'Mqtt Publish Error',
                 NEW_PASSWORD_LENGTH_CANNOT_EXCEED_100_CHARACTERS: 'New password length cannot exceed 100 characters',
@@ -3082,6 +3096,7 @@ function config($translateProvider) {
                 N_S_SENSOR: ' Gebundener Sensor',
                 N_S_TARIFF: ' Gebundene Rate',
                 N_S_MICROGRID: ' Gebundenes Mikrogitter',
+                N_S_USER: 'Gebundene Benutzer',
 
                 COMMAND_LIST: 'Befehlsliste',
                 TARIFF_LIST: 'Preisliste',
@@ -3349,6 +3364,7 @@ function config($translateProvider) {
                 INPUT_MICROGRID_WINDTURBINE_NAME: 'Bitte geben Sie den Namen der Windkraftanlage ein',
                 MICROGRID_WINDTURBINE_CAPACITY: 'Kapazität der Windenergieanlagen',
                 INPUT_MICROGRID_WINDTURBINE_CAPACITY: 'Bitte geben Sie die Kapazität der Windkraftanlage ein',
+                BIND_USER: 'BIND-BENUTZER',
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: 'Ausgleichspreis',
@@ -3572,6 +3588,7 @@ function config($translateProvider) {
                 API_KEY_LIST: 'Liste der API-Schlüssel',
                 ADD_API_KEY: 'API-Schlüssel hinzufügen',
                 EDIT_API_KEY: 'API-Schlüssel bearbeiten',
+                SELECT_USER: 'Benutzer auswählen',
             },
             KNOWLEDGEFILE: {
                 KNOWLEDGE_FILE_LIST: 'Liste der Wissensdateien',
@@ -3639,6 +3656,8 @@ function config($translateProvider) {
                 UNBIND_NON_WORKING_DAY_SUCCESS: 'Unverbindlicher Arbeitstag gelungen',
                 BIND_MICROGRID_SUCCESS: 'Microgrid binden erfolgreich',
                 UNBIND_MICROGRID_SUCCESS: 'Microgrid-Erfolg aufheben',
+                BIND_USER_SUCCESS: 'Benutzerbindung erfolgreich',
+                UNBIND_USER_SUCCESS: 'Benutzer erfolgreich gelöst',
 
                 CAPTCHA_ERROR: 'Captcha-Fehler',
             },
@@ -4051,6 +4070,8 @@ function config($translateProvider) {
                 MICROGRID_SENSOR_RELATION_NOT_FOUND: 'Microgrid Sensor Relation Not Found',
                 MICROGRID_WINDTURBINE_NAME_IS_ALREADY_IN_USE: 'Microgrid Windturbine Name Is Already In Use',
                 MICROGRID_WINDTURBINE_NOT_FOUND: 'Microgrid Windturbine Not Found',
+                MICROGRID_USER_RELATION_EXISTS: 'Microgrid User Relation Exists',
+                MICROGRID_USER_RELATION_NOT_FOUND: 'Microgrid User Relation Not Found',
                 MQTT_CONNECTION_ERROR: 'Mqtt Connection Error',
                 MQTT_PUBLISH_ERROR: 'Mqtt Publish Error',
                 NEW_PASSWORD_LENGTH_CANNOT_EXCEED_100_CHARACTERS: 'New password length cannot exceed 100 characters',
@@ -4486,6 +4507,7 @@ function config($translateProvider) {
                 N_S_SENSOR: ' Capteurs liés',
                 N_S_TARIFF: ' Droits consolidés',
                 N_S_MICROGRID: ' Microgrid lié',
+                N_S_USER: ' Utilisateurs liés',
 
                 COMMAND_LIST: 'Liste de commandes',
                 TARIFF_LIST: 'Liste tarifaire',
@@ -4776,6 +4798,7 @@ function config($translateProvider) {
                 INPUT_MICROGRID_WINDTURBINE_NAME: 'Veuillez saisir le nom de l’éolienne',
                 MICROGRID_WINDTURBINE_CAPACITY: 'Capacité des éoliennes',
                 INPUT_MICROGRID_WINDTURBINE_CAPACITY: 'Veuillez saisir la capacité des éoliennes',
+                BIND_USER: 'Utilisateurs liés',
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: 'Points de prix équilibrés',
@@ -4979,6 +5002,7 @@ function config($translateProvider) {
                 API_KEY_LIST: 'Liste des clés API',
                 ADD_API_KEY: 'Ajouter une clé API',
                 EDIT_API_KEY: 'Modifier la clé API',
+                SELECT_USER: 'sélectionner un utilisateur',
             },
             KNOWLEDGEFILE: {
                 KNOWLEDGE_FILE_LIST: 'Liste des fichiers de connaissances',
@@ -5046,6 +5070,8 @@ function config($translateProvider) {
                 UNBIND_NON_WORKING_DAY_SUCCESS: 'Délier le succès de la journée non ouvrée',
                 BIND_MICROGRID_SUCCESS: 'Lier Microgrid avec succès',
                 UNBIND_MICROGRID_SUCCESS: 'Dissocier Microgrid avec succès',
+                BIND_USER_SUCCESS: 'Liaison utilisateur réussie',
+                UNBIND_USER_SUCCESS: 'L\'utilisateur se dissocie avec succès',
 
                 CAPTCHA_ERROR: 'Erreur Captcha'
             },
@@ -5458,6 +5484,8 @@ function config($translateProvider) {
                 MICROGRID_SENSOR_RELATION_NOT_FOUND: 'Microgrid Sensor Relation Not Found',
                 MICROGRID_WINDTURBINE_NAME_IS_ALREADY_IN_USE: 'Microgrid Windturbine Name Is Already In Use',
                 MICROGRID_WINDTURBINE_NOT_FOUND: 'Microgrid Windturbine Not Found',
+                MICROGRID_USER_RELATION_EXISTS: 'Microgrid User Relation Exists',
+                MICROGRID_USER_RELATION_NOT_FOUND: 'Microgrid User Relation Not Found',
                 MQTT_CONNECTION_ERROR: 'Mqtt Connection Error',
                 MQTT_PUBLISH_ERROR: 'Mqtt Publish Error',
                 NEW_PASSWORD_LENGTH_CANNOT_EXCEED_100_CHARACTERS: 'New password length cannot exceed 100 characters',
@@ -5893,6 +5921,7 @@ function config($translateProvider) {
                 N_S_SENSOR: ' Sensores enlazados',
                 N_S_TARIFF: ' Aranceles consolidados',
                 N_S_MICROGRID: ' Microgrid vinculado',
+                N_S_USER: ' Usuarios vinculados',
 
                 COMMAND_LIST: 'Lista de comandos',
                 TARIFF_LIST: 'Lista de tarifas',
@@ -6183,6 +6212,7 @@ function config($translateProvider) {
                 INPUT_MICROGRID_WINDTURBINE_NAME: 'Por favor, introduzca el nombre de la turbina eólica',
                 MICROGRID_WINDTURBINE_CAPACITY: 'Capacidad de turbina eólica',
                 INPUT_MICROGRID_WINDTURBINE_CAPACITY: 'Por favor, introduzca la capacidad de la turbina eólica',
+                BIND_USER: 'Usuarios vinculados',
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: 'Punto de precio de equilibrio',
@@ -6386,6 +6416,7 @@ function config($translateProvider) {
                 API_KEY_LIST: 'Lista de claves API',
                 ADD_API_KEY: 'Agregar clave de API',
                 EDIT_API_KEY: 'Editar clave de API',
+                SELECT_USER: 'Seleccionar usuario',
             },
             KNOWLEDGEFILE: {
                 KNOWLEDGE_FILE_LIST: 'Lista de archivos de conocimiento',
@@ -6453,6 +6484,8 @@ function config($translateProvider) {
                 UNBIND_NON_WORKING_DAY_SUCCESS: 'Desvincular el éxito de la jornada no laborable',
                 BIND_MICROGRID_SUCCESS: 'Vinculación exitosa de microgrid',
                 UNBIND_MICROGRID_SUCCESS: 'Desbloquear microgrid exitoso',
+                BIND_USER_SUCCESS: 'La vinculación del usuario es exitosa',
+                UNBIND_USER_SUCCESS: 'El usuario se desvincula exitosamente',
 
                 CAPTCHA_ERROR: 'Captcha Error'
             },
@@ -6865,6 +6898,8 @@ function config($translateProvider) {
                 MICROGRID_SENSOR_RELATION_NOT_FOUND: 'Microgrid Sensor Relation Not Found',
                 MICROGRID_WINDTURBINE_NAME_IS_ALREADY_IN_USE: 'Microgrid Windturbine Name Is Already In Use',
                 MICROGRID_WINDTURBINE_NOT_FOUND: 'Microgrid Windturbine Not Found',
+                MICROGRID_USER_RELATION_EXISTS: 'Microgrid User Relation Exists',
+                MICROGRID_USER_RELATION_NOT_FOUND: 'Microgrid User Relation Not Found',
                 MQTT_CONNECTION_ERROR: 'Mqtt Connection Error',
                 MQTT_PUBLISH_ERROR: 'Mqtt Publish Error',
                 NEW_PASSWORD_LENGTH_CANNOT_EXCEED_100_CHARACTERS: 'New password length cannot exceed 100 characters',
@@ -7300,6 +7335,7 @@ function config($translateProvider) {
                 N_S_SENSOR: ' Связанные датчики',
                 N_S_TARIFF: ' Связанные тарифы',
                 N_S_MICROGRID: ' Связанные микросети',
+                N_S_USER: ' Связанные пользователи',
 
                 COMMAND_LIST: 'Список команд',
                 TARIFF_LIST: 'Тарифный лист',
@@ -7590,6 +7626,7 @@ function config($translateProvider) {
                 INPUT_MICROGRID_WINDTURBINE_NAME: 'Пожалуйста, введите название ветряной турбины',
                 MICROGRID_WINDTURBINE_CAPACITY: 'Мощность ветряных турбин',
                 INPUT_MICROGRID_WINDTURBINE_CAPACITY: 'Пожалуйста, введите мощность ветряной турбины',
+                BIND_USER: 'Связанные пользователи',
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: 'Сбалансированные цены',
@@ -7793,6 +7830,7 @@ function config($translateProvider) {
                 API_KEY_LIST: 'Список ключей API',
                 ADD_API_KEY: 'Добавить ключ API',
                 EDIT_API_KEY: 'Редактирование ключа API',
+                SELECT_USER: 'выберите пользователя',
             },
             KNOWLEDGEFILE: {
                 KNOWLEDGE_FILE_LIST: 'Список файлов знаний',
@@ -7860,6 +7898,8 @@ function config($translateProvider) {
                 UNBIND_NON_WORKING_DAY_SUCCESS: 'Отмена привязки к успеху в нерабочий день',
                 BIND_MICROGRID_SUCCESS: 'Успех привязки микросетей',
                 UNBIND_MICROGRID_SUCCESS: 'Отмена привязки к успеху микросети',
+                BIND_USER_SUCCESS: 'Привязка пользователя прошла успешно',
+                UNBIND_USER_SUCCESS: 'Пользователь успешно отвязывает',
 
                 CAPTCHA_ERROR: 'Ошибка капчи'
             },
@@ -8272,6 +8312,8 @@ function config($translateProvider) {
                 MICROGRID_SENSOR_RELATION_NOT_FOUND: 'Microgrid Sensor Relation Not Found',
                 MICROGRID_WINDTURBINE_NAME_IS_ALREADY_IN_USE: 'Microgrid Windturbine Name Is Already In Use',
                 MICROGRID_WINDTURBINE_NOT_FOUND: 'Microgrid Windturbine Not Found',
+                MICROGRID_USER_RELATION_EXISTS: 'Microgrid User Relation Exists',
+                MICROGRID_USER_RELATION_NOT_FOUND: 'Microgrid User Relation Not Found',
                 MQTT_CONNECTION_ERROR: 'Mqtt Connection Error',
                 MQTT_PUBLISH_ERROR: 'Mqtt Publish Error',
                 NEW_PASSWORD_LENGTH_CANNOT_EXCEED_100_CHARACTERS: 'New password length cannot exceed 100 characters',
@@ -8707,6 +8749,7 @@ function config($translateProvider) {
                 N_S_SENSOR: ' مجسات ملزمة',
                 N_S_TARIFF: ' التعرفة المقيدة',
                 N_S_MICROGRID: ' الشبكات الصغيرة المنضمة',
+                N_S_USER: 'ربط المستخدم',
 
                 COMMAND_LIST: 'قائمة الأوامر',
                 TARIFF_LIST: 'قائمة التعرفة',
@@ -8997,6 +9040,7 @@ function config($translateProvider) {
                 INPUT_MICROGRID_WINDTURBINE_NAME: 'يرجى إدخال اسم توربينات الرياح',
                 MICROGRID_WINDTURBINE_CAPACITY: 'قدرة توربينات الرياح',
                 INPUT_MICROGRID_WINDTURBINE_CAPACITY: 'يرجى إدخال سعة توربينات الرياح',
+                BIND_USER: 'ربط المستخدم',
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: 'يرجى إدخال سعة توربينات الرياح ...',
@@ -9200,6 +9244,7 @@ function config($translateProvider) {
                 API_KEY_LIST: 'قائمة مفاتيح API',
                 ADD_API_KEY: 'إضافة مفتاح API',
                 EDIT_API_KEY: 'تحرير مفتاح واجهة برمجة التطبيقات',
+                SELECT_USER: 'اختر المستخدم',
             },
             KNOWLEDGEFILE: {
                 KNOWLEDGE_FILE_LIST: 'قائمة الملفات المعرفية',
@@ -9267,6 +9312,8 @@ function config($translateProvider) {
                 UNBIND_NON_WORKING_DAY_SUCCESS: 'فك ربط النجاح في غير يوم العمل',
                 BIND_MICROGRID_SUCCESS: 'ربط نجاح الشبكة المصغرة',
                 UNBIND_MICROGRID_SUCCESS: 'فك ارتباط نجاح الشبكة المصغرة',
+                BIND_USER_SUCCESS: 'تم ربط المستخدم بنجاح',
+                UNBIND_USER_SUCCESS: 'تم إلغاء ربط المستخدم بنجاح',
 
                 CAPTCHA_ERROR: 'خطأ كلمة التحقق'
             },
@@ -9679,6 +9726,8 @@ function config($translateProvider) {
                 MICROGRID_SENSOR_RELATION_NOT_FOUND: 'Microgrid Sensor Relation Not Found',
                 MICROGRID_WINDTURBINE_NAME_IS_ALREADY_IN_USE: 'Microgrid Windturbine Name Is Already In Use',
                 MICROGRID_WINDTURBINE_NOT_FOUND: 'Microgrid Windturbine Not Found',
+                MICROGRID_USER_RELATION_EXISTS: 'Microgrid User Relation Exists',
+                MICROGRID_USER_RELATION_NOT_FOUND: 'Microgrid User Relation Not Found',
                 MQTT_CONNECTION_ERROR: 'Mqtt Connection Error',
                 MQTT_PUBLISH_ERROR: 'Mqtt Publish Error',
                 NEW_PASSWORD_LENGTH_CANNOT_EXCEED_100_CHARACTERS: 'New password length cannot exceed 100 characters',
@@ -10114,6 +10163,7 @@ function config($translateProvider) {
                 N_S_SENSOR: ' Cảm biến ràng buộc',
                 N_S_TARIFF: ' Thuế quan ràng buộc',
                 N_S_MICROGRID: ' Lưới điện siêu nhỏ bị ràng buộc',
+                N_S_USER: 'người dùng bị ràng buộc',
 
                 COMMAND_LIST: 'Danh sách lệnh',
                 TARIFF_LIST: 'Danh sách thuế quan',
@@ -10404,6 +10454,7 @@ function config($translateProvider) {
                 INPUT_MICROGRID_WINDTURBINE_NAME: 'Vui lòng nhập tên tuabin gió',
                 MICROGRID_WINDTURBINE_CAPACITY: 'Công suất tuabin gió',
                 INPUT_MICROGRID_WINDTURBINE_CAPACITY: 'Vui lòng nhập công suất tuabin gió',
+                BIND_USER: 'NGƯỜI DÙNG RÀNG BUỘC',
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: 'Cân bằng điểm giá',
@@ -10607,6 +10658,7 @@ function config($translateProvider) {
                 API_KEY_LIST: 'Danh sách khóa API',
                 ADD_API_KEY: 'Thêm khóa API',
                 EDIT_API_KEY: 'Chỉnh sửa khóa API',
+                SELECT_USER: 'Chọn người dùng',
             },
             KNOWLEDGEFILE: {
                 KNOWLEDGE_FILE_LIST: 'Danh sách tệp kiến thức',
@@ -10674,6 +10726,8 @@ function config($translateProvider) {
                 UNBIND_NON_WORKING_DAY_SUCCESS: 'Cởi trói thành công trong ngày không làm việc',
                 BIND_MICROGRID_SUCCESS: 'Ràng buộc thành công lưới điện siêu nhỏ',
                 UNBIND_MICROGRID_SUCCESS: 'Cởi trói thành công lưới điện siêu nhỏ',
+                BIND_USER_SUCCESS: 'Liên kết người dùng thành công',
+                UNBIND_USER_SUCCESS: 'Người dùng hủy liên kết thành công',
 
                 CAPTCHA_ERROR: 'Mã xác minh không chính xác'
             },
@@ -11086,6 +11140,8 @@ function config($translateProvider) {
                 MICROGRID_SENSOR_RELATION_NOT_FOUND: 'Microgrid Sensor Relation Not Found',
                 MICROGRID_WINDTURBINE_NAME_IS_ALREADY_IN_USE: 'Microgrid Windturbine Name Is Already In Use',
                 MICROGRID_WINDTURBINE_NOT_FOUND: 'Microgrid Windturbine Not Found',
+                MICROGRID_USER_RELATION_EXISTS: 'Microgrid User Relation Exists',
+                MICROGRID_USER_RELATION_NOT_FOUND: 'Microgrid User Relation Not Found',
                 MQTT_CONNECTION_ERROR: 'Mqtt Connection Error',
                 MQTT_PUBLISH_ERROR: 'Mqtt Publish Error',
                 NEW_PASSWORD_LENGTH_CANNOT_EXCEED_100_CHARACTERS: 'New password length cannot exceed 100 characters',
@@ -11521,6 +11577,7 @@ function config($translateProvider) {
                 N_S_SENSOR: ' เซ็นเซอร์ที่ถูกผูกไว้',
                 N_S_TARIFF: ' ภาษีที่ถูกผูกไว้',
                 N_S_MICROGRID: ' ไมโครกริดที่ถูกผูกไว้',
+                N_S_USER: 'ผู้ใช้ที่ถูกผูกไว้',
 
                 COMMAND_LIST: 'รายการคําสั่ง',
                 TARIFF_LIST: 'รายการภาษี',
@@ -11811,6 +11868,7 @@ function config($translateProvider) {
                 INPUT_MICROGRID_WINDTURBINE_NAME: 'กรุณาใส่ชื่อกังหันลม',
                 MICROGRID_WINDTURBINE_CAPACITY: 'ความจุกังหันลม',
                 INPUT_MICROGRID_WINDTURBINE_CAPACITY: 'กรุณาใส่ความจุกังหันลม',
+                BIND_USER: 'ผูกผู้ใช้',
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: 'จุดราคาสมดุล',
@@ -12014,6 +12072,7 @@ function config($translateProvider) {
                 API_KEY_LIST: 'รายการคีย์ API',
                 ADD_API_KEY: 'เพิ่มคีย์ API',
                 EDIT_API_KEY: 'แก้ไขคีย์ API',
+                SELECT_USER: 'เลือกผู้ใช้',
             },
             KNOWLEDGEFILE: {
                 KNOWLEDGE_FILE_LIST: 'รายการแฟ้มองค์ความรู้',
@@ -12081,6 +12140,8 @@ function config($translateProvider) {
                 UNBIND_NON_WORKING_DAY_SUCCESS: 'ความสําเร็จที่ไม่ใช่วันทํางานที่ไม่ผูกมัด',
                 BIND_MICROGRID_SUCCESS: 'ผูกความสําเร็จของไมโครกริด',
                 UNBIND_MICROGRID_SUCCESS: 'ยกเลิกการผูกความสําเร็จของไมโครกริด',
+                BIND_USER_SUCCESS: 'การเชื่อมโยงผู้ใช้สำเร็จ',
+                UNBIND_USER_SUCCESS: 'ผู้ใช้ยกเลิกการเชื่อมโยงสำเร็จ',
 
                 CAPTCHA_ERROR: 'ข้อผิดพลาด Captcha'
             },
@@ -12493,6 +12554,8 @@ function config($translateProvider) {
                 MICROGRID_SENSOR_RELATION_NOT_FOUND: 'Microgrid Sensor Relation Not Found',
                 MICROGRID_WINDTURBINE_NAME_IS_ALREADY_IN_USE: 'Microgrid Windturbine Name Is Already In Use',
                 MICROGRID_WINDTURBINE_NOT_FOUND: 'Microgrid Windturbine Not Found',
+                MICROGRID_USER_RELATION_EXISTS: 'Microgrid User Relation Exists',
+                MICROGRID_USER_RELATION_NOT_FOUND: 'Microgrid User Relation Not Found',
                 MQTT_CONNECTION_ERROR: 'Mqtt Connection Error',
                 MQTT_PUBLISH_ERROR: 'Mqtt Publish Error',
                 NEW_PASSWORD_LENGTH_CANNOT_EXCEED_100_CHARACTERS: 'New password length cannot exceed 100 characters',
@@ -12928,6 +12991,7 @@ function config($translateProvider) {
                 N_S_SENSOR: ' Bağlı Sensörler',
                 N_S_TARIFF: ' Bağlı Tarifeler',
                 N_S_MICROGRID: ' Bağlı Mikro Şebekeler',
+                N_S_USER: 'bağlı kullanıcı',
 
                 COMMAND_LIST: 'Komut Listesi',
                 TARIFF_LIST: 'Tarife Listesi',
@@ -13218,6 +13282,7 @@ function config($translateProvider) {
                 INPUT_MICROGRID_WINDTURBINE_NAME: 'Lütfen rüzgar türbini adını girin',
                 MICROGRID_WINDTURBINE_CAPACITY: 'Rüzgar Türbini Kapasitesi',
                 INPUT_MICROGRID_WINDTURBINE_CAPACITY: 'Lütfen Rüzgar Türbini Kapasitesini Girin',
+                BIND_USER: 'KULLANICIYI BAĞLA',
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: 'Dengeleme Fiyat Noktası',
@@ -13421,6 +13486,7 @@ function config($translateProvider) {
                 API_KEY_LIST: 'API Anahtar Listesi',
                 ADD_API_KEY: 'API Anahtarı Ekle',
                 EDIT_API_KEY: 'API Anahtarını Düzenle',
+                SELECT_USER: 'Kullanıcı seç',
             },
             KNOWLEDGEFILE: {
                 KNOWLEDGE_FILE_LIST: 'Bilgi Dosyası Listesi',
@@ -13488,6 +13554,8 @@ function config($translateProvider) {
                 UNBIND_NON_WORKING_DAY_SUCCESS: 'Bağlayıcı olmayan iş günü başarısı',
                 BIND_MICROGRID_SUCCESS: 'Mikro Şebeke Başarısını Bağlayın',
                 UNBIND_MICROGRID_SUCCESS: 'Mikro Şebekenin Bağlantısını Çöz Başarısı',
+                BIND_USER_SUCCESS: 'Kullanıcı bağlama başarılı',
+                UNBIND_USER_SUCCESS: 'Kullanıcının bağlantısını başarıyla kaldırıyor',
 
                 CAPTCHA_ERROR: 'Captcha Hatası'
             },
@@ -13900,6 +13968,8 @@ function config($translateProvider) {
                 MICROGRID_SENSOR_RELATION_NOT_FOUND: 'Microgrid Sensor Relation Not Found',
                 MICROGRID_WINDTURBINE_NAME_IS_ALREADY_IN_USE: 'Microgrid Windturbine Name Is Already In Use',
                 MICROGRID_WINDTURBINE_NOT_FOUND: 'Microgrid Windturbine Not Found',
+                MICROGRID_USER_RELATION_EXISTS: 'Microgrid User Relation Exists',
+                MICROGRID_USER_RELATION_NOT_FOUND: 'Microgrid User Relation Not Found',
                 MQTT_CONNECTION_ERROR: 'Mqtt Connection Error',
                 MQTT_PUBLISH_ERROR: 'Mqtt Publish Error',
                 NEW_PASSWORD_LENGTH_CANNOT_EXCEED_100_CHARACTERS: 'New password length cannot exceed 100 characters',
