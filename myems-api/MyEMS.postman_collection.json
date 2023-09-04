@@ -6104,12 +6104,19 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/microgrids",
+									"raw": "{{base_url}}/microgrids?isByUser=0",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"microgrids"
+									],
+									"query": [
+										{
+											"key": "isByUser",
+											"value": "0",
+											"description": "0-false,1-true"
+										}
 									]
 								}
 							},
