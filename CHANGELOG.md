@@ -31,6 +31,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed sensor bound points issue in myems-admin
 - fixed fdd category and fdd code relations in myems-admin
 - fixed tariff editor issue in myems-admin
+- fixed date range picker issue in myems-web
 - 
 ### Removed
 - removed category and report_code from tbl_reports in myems_reporing_db
