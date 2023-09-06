@@ -1308,6 +1308,42 @@ app
                         }
 
                     })
+                    .state('settings.advancedreport', {
+                        url: "/advancedreport",
+                        templateUrl: "views/settings/advancedreport/advancedreport.html",
+                        data: {
+                            pageTitle: 'MENU.SETTINGS.ADVANCED_REPORT',
+                        },
+                        resolve: {
+                            deps: [
+                                '$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'toaster', 'daterangepicker', ]).then(
+                                        function () {
+                                            return $ocLazyLoad.load([{
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
+                                            }, {
+                                                files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
+                                            }, {
+                                                name: 'oitozero.ngSweetAlert',
+                                                files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
+                                            }, {
+                                                serie: true,
+                                                files: [
+                                                    'app/services/settings/advancedreport/advancedreport.service.js',
+                                                    'app/controllers/settings/advancedreport/advancedreport.controller.js',
+                                                ]
+                                            }]);
+                                        }
+                                    );
+                                }
+                            ]
+                        }
+
+                    })
                     .state('users', {
                         abstract: true,
                         url: "/users",

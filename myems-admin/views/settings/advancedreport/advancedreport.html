@@ -1,0 +1,42 @@
+<div class="wrapper wrapper-content">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="tabs-container">
+				<uib-tabset>
+					<uib-tab heading="{{'MENU.SETTINGS.ADVANCED_REPORT' | translate}}" >
+						<div class="panel-body" ng-controller="AdvancedReportController">
+							<a ng-click="addAdvancedReport()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'ADVANCED_REPORT.ADD_ADVANCED_REPORT' | translate}}</a>
+							<table class="table table-bordered table-hover" >
+								<thead>
+									<tr>
+										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
+										<th class="text-center">{{'ADVANCED_REPORT.IS_ENABLED' | translate}}</th>
+										<th class="text-center">{{'ADVANCED_REPORT.EXPRESSION' | translate}}</th>
+										<th class="text-center">{{'ADVANCED_REPORT.LAST_RUN_DATETIME' | translate}}</th>
+										<th class="text-center">{{'ADVANCED_REPORT.NEXT_RUN_DATETIME' | translate}}</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="advancedReport in advancedReports">
+										<td class="text-center">{{ advancedReport.id }}</td>
+										<td class="text-center">{{ advancedReport.name }}</td>
+										<td class="text-center">{{ advancedReport.is_enabled==true?'SETTING.ON':'SETTING.OFF' | translate}}</td>
+										<td class="text-center">{{ advancedReport.expression}}</td>
+										<td class="text-center">{{ advancedReport.last_run_datetime}}</td>
+										<td class="text-center">{{ advancedReport.next_run_datetime}}</td>
+										<td class="text-center">
+											<a class="btn btn-primary btn-rounded btn-xs" ng-click="editAdvancedReport(advancedReport)" >{{'SETTING.EDIT' | translate}}</a>
+											<a ng-click="deleteAdvancedReport(advancedReport)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</uib-tab>
+				</uib-tabset>
+			</div>
+		</div>
+	</div>
+</div>

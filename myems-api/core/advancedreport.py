@@ -84,7 +84,7 @@ class AdvancedReportCollection:
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_REPORT_NAME')
+                                   description='API.INVALID_ADVANCEDREPORT_NAME')
         name = str.strip(new_values['data']['name'])
 
         if 'expression' not in new_values['data'].keys() or \
@@ -106,6 +106,23 @@ class AdvancedReportCollection:
                                    description='API.INVALID_IS_ENABLED')
         is_enabled = new_values['data']['is_enabled']
 
+        next_run_datetime_utc = None
+        if 'next_run_datetime' in new_values['data'].keys() and \
+                isinstance(new_values['data']['next_run_datetime'], str) and \
+                len(str.strip(new_values['data']['next_run_datetime'])) > 0:
+
+            try:
+                next_run_datetime_local = datetime.strptime(new_values['data']['next_run_datetime'], '%Y-%m-%dT%H:%M:%S')
+            except Exception as ex:
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.INVALID_NEXT_RUN_DATETIME')
+
+            timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+            if config.utc_offset[0] == '-':
+                timezone_offset = -timezone_offset
+            next_run_datetime_utc = \
+                next_run_datetime_local.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
+
         cnx = mysql.connector.connect(**config.myems_reporting_db)
         cursor = cnx.cursor()
 
@@ -116,15 +133,16 @@ class AdvancedReportCollection:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.REPORT_NAME_IS_ALREADY_IN_USE')
+                                   description='API.ADVANCED_REPORT_NAME_IS_ALREADY_IN_USE')
 
         add_row = (" INSERT INTO tbl_reports "
-                   "             (name, uuid, expression, is_enabled) "
-                   " VALUES (%s, %s, %s, %s) ")
+                   "             (name, uuid, expression, is_enabled, next_run_datetime_utc) "
+                   " VALUES (%s, %s, %s, %s, %s) ")
         cursor.execute(add_row, (name,
                                  str(uuid.uuid4()),
                                  expression,
-                                 is_enabled))
+                                 is_enabled,
+                                 next_run_datetime_utc))
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
@@ -150,7 +168,7 @@ class AdvancedReportItem:
         admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_REPORT_ID')
+                                   description='API.INVALID_ADVANCED_REPORT_ID')
 
         cnx = mysql.connector.connect(**config.myems_reporting_db)
         cursor = cnx.cursor()
@@ -168,7 +186,7 @@ class AdvancedReportItem:
         cnx.close()
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.REPORT_NOT_FOUND')
+                                   description='API.ADVANCED_REPORT_NOT_FOUND')
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
@@ -202,7 +220,7 @@ class AdvancedReportItem:
         admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_REPORT_ID')
+                                   description='API.INVALID_ADVANCED_REPORT_ID')
 
         cnx = mysql.connector.connect(**config.myems_reporting_db)
         cursor = cnx.cursor()
@@ -215,7 +233,7 @@ class AdvancedReportItem:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.REPORT_NOT_FOUND')
+                                   description='API.ADVANCED_REPORT_NOT_FOUND')
 
         cursor.execute(" DELETE FROM tbl_reports WHERE id = %s ", (id_,))
         cnx.commit()
@@ -239,14 +257,14 @@ class AdvancedReportItem:
 
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_REPORT_ID')
+                                   description='API.INVALID_ADVANCED_REPORT_ID')
 
         new_values = json.loads(raw_json)
         if 'name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_REPORT_NAME')
+                                   description='API.INVALID_ADVANCEDREPORT_NAME')
         name = str.strip(new_values['data']['name'])
 
         if 'expression' not in new_values['data'].keys() or \
@@ -270,11 +288,22 @@ class AdvancedReportItem:
                                    description='API.INVALID_IS_ENABLED')
         is_enabled = new_values['data']['is_enabled']
 
+        if 'next_run_datetime' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['next_run_datetime'], str) or \
+                len(str.strip(new_values['data']['next_run_datetime'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_NEXT_RUN_DATETIME')
+
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
-        # todo: validate datetime value
-        next_run_datetime_local = datetime.strptime(new_values['data']['next_run_datetime'], '%Y-%m-%dT%H:%M:%S')
+
+        try:
+            next_run_datetime_local = datetime.strptime(new_values['data']['next_run_datetime'], '%Y-%m-%dT%H:%M:%S')
+        except Exception as ex:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_NEXT_RUN_DATETIME')
+
         next_run_datetime_utc = next_run_datetime_local.replace(tzinfo=timezone.utc) \
             - timedelta(minutes=timezone_offset)
 
@@ -288,7 +317,7 @@ class AdvancedReportItem:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.REPORT_NOT_FOUND')
+                                   description='API.ADVANCED_REPORT_NOT_FOUND')
 
         cursor.execute(" SELECT name "
                        " FROM tbl_reports "
@@ -297,7 +326,7 @@ class AdvancedReportItem:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.REPORT_NAME_IS_ALREADY_IN_USE')
+                                   description='API.ADVANCED_REPORT_NAME_IS_ALREADY_IN_USE')
 
         update_row = (" UPDATE tbl_reports "
                       " SET name = %s, "

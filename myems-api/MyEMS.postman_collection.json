@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "ce840bfb-af11-46ab-9b7b-866e9290729d",
+		"_postman_id": "8f58ff6c-d58a-4a35-bc10-fa64f2a2e93f",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -23,7 +23,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "cc9a83698b40ba649fdc8b554639a3fd424c55f861b7edc2901d064de449e5e83f908237efb8cb92e54031348f20d3028cd293d8d570f7338fd2e2b7568cfe29",
+										"value": "8734524922f1a5a5a3a5d53bf4dd35db151825a70e3488451b5017b534c2db9bff0186883c1e56851d0c188480db858a4d423761cc67b36ec05d450a18708f1e",
 										"type": "default"
 									}
 								],
@@ -51,7 +51,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "cc9a83698b40ba649fdc8b554639a3fd424c55f861b7edc2901d064de449e5e83f908237efb8cb92e54031348f20d3028cd293d8d570f7338fd2e2b7568cfe29",
+										"value": "8734524922f1a5a5a3a5d53bf4dd35db151825a70e3488451b5017b534c2db9bff0186883c1e56851d0c188480db858a4d423761cc67b36ec05d450a18708f1e",
 										"type": "default"
 									}
 								],
@@ -80,13 +80,13 @@
 									},
 									{
 										"key": "Token",
-										"value": "cc9a83698b40ba649fdc8b554639a3fd424c55f861b7edc2901d064de449e5e83f908237efb8cb92e54031348f20d3028cd293d8d570f7338fd2e2b7568cfe29",
+										"value": "8734524922f1a5a5a3a5d53bf4dd35db151825a70e3488451b5017b534c2db9bff0186883c1e56851d0c188480db858a4d423761cc67b36ec05d450a18708f1e",
 										"type": "default"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Space Daily Report\", \"expression\":\"{\\\"space_id\\\":1}\",  \"is_enabled\":true}}"
+									"raw": "{\"data\":{\"name\":\"Space Daily Report1\", \"expression\":\"{\\\"space_id\\\":1}\",  \"is_enabled\":true, \"next_run_datetime\": \"2023-09-06T20:00:00\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/advancedreports",
@@ -112,7 +112,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "cc9a83698b40ba649fdc8b554639a3fd424c55f861b7edc2901d064de449e5e83f908237efb8cb92e54031348f20d3028cd293d8d570f7338fd2e2b7568cfe29",
+										"value": "8734524922f1a5a5a3a5d53bf4dd35db151825a70e3488451b5017b534c2db9bff0186883c1e56851d0c188480db858a4d423761cc67b36ec05d450a18708f1e",
 										"type": "default"
 									}
 								],
@@ -8491,7 +8491,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "08c913a4e5eccc96d590c52002b2ed225dbbf0de52b260d41b912bf989fe9c0bd47a09de0ee0a3b527cac427603b28c73450e08d9084289ecedaaf88cdd865db",
+										"value": "651bee53fb97c2dc4c4b34280ff1e0fec210d6453793f09e922317ed817800c33f2140f25d7e13c23a3e9ab92a0dfc58c78a26e4c84af9505ca9c4978bc91dff",
 										"type": "text"
 									}
 								],
