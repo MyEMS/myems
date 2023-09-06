@@ -22,6 +22,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added tbl_microgrids_users to myems_system_db in database
 - added Arabic language to myems-web
 - added bind user to microgrid function to myems-admin
+- added Malay language to myems-admin
 - 
 ### Changed
 - changed fdd rule template in myems-admin
