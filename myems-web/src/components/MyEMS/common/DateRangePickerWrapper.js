@@ -44,6 +44,70 @@ const DateRangePickerWrapper = ({id, disabled, format, value, onChange, size, st
       }
     }
 
+    const onEntered = () => {
+      let leftCalendarObj = Ref.current.overlay.children[0].children[0].children[0].children[0].children[1].children[0];
+      let rightCalendarObj = Ref.current.overlay.children[0].children[0].children[0].children[0].children[1].children[1];
+      let leftCalendarObjLeftAngle = leftCalendarObj.children[0].children[0].children[0];
+      let leftCalendarObjRightAngle = leftCalendarObj.children[0].children[0].children[2];
+      let rightCalendarObjLeftAngle = rightCalendarObj.children[0].children[0].children[0];
+      let rightCalendarObjRightAngle = rightCalendarObj.children[0].children[0].children[2];
+      prevMonth(leftCalendarObjLeftAngle, false, leftCalendarObj.children[0].children[0].children[1], rightCalendarObj.children[0].children[0].children[1]);
+      nextMonth(leftCalendarObjRightAngle, true, leftCalendarObj.children[0].children[0].children[1], rightCalendarObj.children[0].children[0].children[1]);
+      prevMonth(rightCalendarObjLeftAngle, true, leftCalendarObj.children[0].children[0].children[1], rightCalendarObj.children[0].children[0].children[1]);
+      nextMonth(rightCalendarObjRightAngle, false, leftCalendarObj.children[0].children[0].children[1], rightCalendarObj.children[0].children[0].children[1]);
+    }
+
+    const onExited = () => {
+      let leftCalendarObj = Ref.current.overlay.children[0].children[0].children[0].children[0].children[1].children[0];
+      let rightCalendarObj = Ref.current.overlay.children[0].children[0].children[0].children[0].children[1].children[1];
+      leftCalendarObj.children[0].children[0].children[0].onclick = null;
+      leftCalendarObj.children[0].children[0].children[2].onclick = null;
+      rightCalendarObj.children[0].children[0].children[0].onclick = null;
+      rightCalendarObj.children[0].children[0].children[2].onclick = null;
+    }
+
+    const prevMonth = (angleObj, flag, startMonth, endMonth) => {
+      if (angleObj.onclick.length == 0){
+        if (flag) {
+          angleObj.onclick = () => {
+            let prevMonth = moment(endMonth.innerText);
+            if (prevMonth.subtract(1,'months').isSameOrBefore(startMonth.innerText, 'month')) {
+              endMonth.innerText = prevMonth.startOf('month').format('YYYY-MM-DD');
+              startMonth.innerText = moment(endMonth.innerText).subtract(1,'months').startOf('month').format('YYYY-MM-DD');
+            } else {
+              endMonth.innerText = prevMonth.startOf('month').format('YYYY-MM-DD');
+            }
+          }
+        } else {
+          angleObj.onclick = () => {
+            let prevMonth = moment(startMonth.innerText);
+            startMonth.innerText = prevMonth.subtract(1, "months").startOf('month').format('YYYY-MM-DD');
+          }
+        }
+      }
+    }
+
+    const nextMonth = (angleObj, flag, startMonth, endMonth) => {
+      if (angleObj.onclick.length == 0){
+        if (flag) {
+          angleObj.onclick = () => {
+            let nextMonth= moment(startMonth.innerText);
+            if (nextMonth.add(1,'months').isSameOrAfter(endMonth.innerText, 'month')) {
+              startMonth.innerText = nextMonth.startOf('month').format('YYYY-MM-DD');
+              endMonth.innerText = moment(startMonth.innerText).add(1,'months').startOf('month').format('YYYY-MM-DD');
+            } else {
+              startMonth.innerText = nextMonth.startOf('month').format('YYYY-MM-DD');
+            }
+          }
+        } else {
+          angleObj.onclick = () => {
+            let nextMonth= moment(endMonth.innerText);
+            endMonth.innerText = nextMonth.add(1, "months").startOf('month').format('YYYY-MM-DD');
+          }
+        }
+      }
+    }
+
     return (
         <DateRangePicker
             id={id}
@@ -59,6 +123,8 @@ const DateRangePickerWrapper = ({id, disabled, format, value, onChange, size, st
             placeholder={placeholder}
             onSelect={onSelected}
             onOpen={onOpen}
+            onEntered={onEntered}
+            onExited={onExited}
             ref={Ref}
         />
     )
