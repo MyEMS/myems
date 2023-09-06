@@ -45,6 +45,6 @@ CREATE INDEX `tbl_microgrids_users_index_1` ON  `myems_system_db`.`tbl_microgrid
 
 
 -- UPDATE VERSION NUMBER
-UPDATE `myems_system_db`.`tbl_versions` SET version='3.9.0RC', release_date='2023-09-01' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='3.9.0', release_date='2023-09-06' WHERE id=1;
 
 COMMIT;
