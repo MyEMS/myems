@@ -23,7 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added Arabic language to myems-web
 - added bind user to microgrid function to myems-admin
 - added Malay language to myems-admin
-- 
+- added Advanced Report Setting to myems-admin
 ### Changed
 - changed fdd rule template in myems-admin
 - renamed tbl_microgrids_converters to tbl_microgrids_power_conversion_systems in database
