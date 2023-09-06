@@ -106,6 +106,20 @@ class AdvancedReportCollection:
                                    description='API.INVALID_IS_ENABLED')
         is_enabled = new_values['data']['is_enabled']
 
+        next_run_datetime_utc = None
+        if 'next_run_datetime' in new_values['data'].keys() and \
+                isinstance(new_values['data']['next_run_datetime'], str) and \
+                len(str.strip(new_values['data']['next_run_datetime'])) > 0:
+            next_run_datetime_local = datetime.strptime(new_values['data']['next_run_datetime'], '%Y-%m-%dT%H:%M:%S')
+            if next_run_datetime_local < datetime.now():
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.INVALID_NEXT_RUN_DATETIME')
+            timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+            if config.utc_offset[0] == '-':
+                timezone_offset = -timezone_offset
+            next_run_datetime_utc = next_run_datetime_local.replace(tzinfo=timezone.utc) - timedelta(
+                minutes=timezone_offset)
+
         cnx = mysql.connector.connect(**config.myems_reporting_db)
         cursor = cnx.cursor()
 
@@ -119,12 +133,13 @@ class AdvancedReportCollection:
                                    description='API.REPORT_NAME_IS_ALREADY_IN_USE')
 
         add_row = (" INSERT INTO tbl_reports "
-                   "             (name, uuid, expression, is_enabled) "
-                   " VALUES (%s, %s, %s, %s) ")
+                   "             (name, uuid, expression, is_enabled, next_run_datetime_utc) "
+                   " VALUES (%s, %s, %s, %s, %s) ")
         cursor.execute(add_row, (name,
                                  str(uuid.uuid4()),
                                  expression,
-                                 is_enabled))
+                                 is_enabled,
+                                 next_run_datetime_utc))
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
