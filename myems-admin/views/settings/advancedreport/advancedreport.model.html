@@ -1,0 +1,42 @@
+<div class="inmodal">
+    <div class="modal-header">
+        <h4 class="modal-title">{{operation | translate}}(ID:{{advancedReport.id}})</h4>
+    </div>
+    <div class="modal-body">
+        <form role="form" name="form_advancedreport" novalidate class="form-horizontal">
+            <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.NAME' | translate}}</label>
+                <div class="col-sm-9"><input ng-model="advancedReport.name" type="text" name="reportname" class="form-control" required="">
+                    <div class="m-t-xs" ng-show="form_advancedreport.reportname.$invalid && form_advancedreport.reportname.$dirty">
+                        <small class="text-danger" ng-show="form_advancedreport.reportname.$error.required">{{'SETTING.INPUT_NAME' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group"><label class="col-sm-3 control-label">{{'ADVANCED_REPORT.IS_ENABLED' | translate}}</label>
+                <div class="col-sm-9">
+                    <div class="checkbox checkbox-success">
+                            <input id="chk_user_isadmin" ng-model="advancedReport.is_enabled" type="checkbox" ng-checked="advancedReport.is_enabled">
+                            <label for="chk_user_isadmin"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group"><label class="col-sm-3 control-label">{{'ADVANCED_REPORT.NEXT_RUN_DATETIME' | translate}}</label>
+                <div class="col-sm-6">
+                    <input date-range-picker class="form-control date-picker" type="text" ng-model="advancedReport.next_run_datetime" options="dtOptions"
+                    placeholder="{{'SETTING.SELECT_DATE' | translate}}" readonly="" />
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group"><label class="col-sm-3 control-label">{{'ADVANCED_REPORT.EXPRESSION' | translate}}</label>
+                <div class="col-sm-9">
+                    <textarea rows="4" ng-model="advancedReport.expression" type="text" name="reportexpression" class="form-control"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
+        <button type="button" ng-disabled="form_advancedreport.$invalid" class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
+    </div>
+</div>
