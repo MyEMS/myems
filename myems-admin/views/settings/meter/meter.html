@@ -8,10 +8,10 @@
 						<div class="panel-body" ng-controller="MeterController">
 							<a ng-click="addMeter()" class="btn btn-primary btn-rounded btn-outline" href=""><i
 									class="fa fa-plus-circle"></i> {{'SETTING.ADD_METER' | translate}}</a>
-							<table class="table table-bordered table-hover">
+							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
-										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
 										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
 										<th class="text-center">{{'SETTING.CATEGORY' | translate}}</th>
 										<th class="text-center">{{'SETTING.ENERGY_ITEM' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
@@ -47,6 +47,13 @@
 										</td>
 									</tr>
 								</tbody>
+								<tfoot class="hide-if-no-paging">
+									<tr>
+										<td colspan="6">
+											<ul class="pagination pull-right"></ul>
+										</td>
+									</tr>
+								</tfoot>
 							</table>
 						</div>
 					</uib-tab>
@@ -160,10 +167,10 @@
 											{{'METER.CHILD_METERS' | translate}}
 										</div>
 										<div class="panel-body">
-											<table class="table table-bordered table-hover">
+											<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 												<thead>
 													<tr>
-														<th class="text-center">{{'SETTING.ID' | translate}}</th>
+														<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
 														<th class="text-center">{{'SETTING.NAME' | translate}}</th>
 														<th class="text-center">{{'SETTING.CATEGORY' | translate}}</th>
 														<th class="text-center">{{'SETTING.ENERGY_ITEM' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
@@ -191,6 +198,13 @@
 														<td class="text-center">{{meter.description}}</td>
 													</tr>
 												</tbody>
+												<tfoot class="hide-if-no-paging">
+													<tr>
+														<td colspan="6">
+															<ul class="pagination pull-right"></ul>
+														</td>
+													</tr>
+												</tfoot>
 											</table>
 										</div>
 									</div>
@@ -205,10 +219,10 @@
 									class="fa fa-plus-circle"></i> {{'SETTING.ADD_VIRTUAL_METER' | translate}}</a>
 							<!-- <div>`x = (-b +- sqrt(b^2-4ac))/(2a) .`</div>
 									<div>`x = (-b +- sqrt(b^2-4ac))/(2a) .`</div> -->
-							<table class="table table-bordered table-hover">
+							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
-										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
 										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
 										<th class="text-center">{{'SETTING.CATEGORY' | translate}}</th>
 										<th class="text-center">{{'SETTING.ENERGY_ITEM' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
@@ -238,6 +252,13 @@
 										</td>
 									</tr>
 								</tbody>
+								<tfoot class="hide-if-no-paging">
+									<tr>
+										<td colspan="6">
+											<ul class="pagination pull-right"></ul>
+										</td>
+									</tr>
+								</tfoot>
 							</table>
 						</div>
 					</uib-tab>
@@ -246,10 +267,10 @@
 						<div class="panel-body" ng-controller="OfflineMeterController">
 							<a ng-click="addOfflineMeter()" class="btn btn-primary btn-rounded  btn-outline" href=""><i
 									class="fa fa-plus-circle"></i> {{'SETTING.ADD_OFFLINE_METER' | translate}}</a>
-							<table class="table table-bordered table-hover">
+							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
-										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
 										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
 										<th class="text-center">{{'SETTING.CATEGORY' | translate}}</th>
 										<th class="text-center">{{'SETTING.ENERGY_ITEM' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
@@ -283,6 +304,13 @@
 										</td>
 									</tr>
 								</tbody>
+								<tfoot class="hide-if-no-paging">
+									<tr>
+										<td colspan="6">
+											<ul class="pagination pull-right"></ul>
+										</td>
+									</tr>
+								</tfoot>
 							</table>
 						</div>
 					</uib-tab>
@@ -290,10 +318,10 @@
 					<uib-tab heading="{{'SETTING.OFFLINE_METER_FILE' | translate}}">
 						<div class="panel-body" ng-controller="OfflineMeterFileController">
 							<div id="dropzone1" class="dropzone" options="dzOptions" callbacks="dzCallbacks" ng-dropzone></div>
-							<table class="table table-bordered table-hover">
+							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
-										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
 										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
 										<th class="text-center">{{'SETTING.STATUS' | translate}}</th>
 										<th class="text-center">{{'SETTING.UPLOAD_TIME' | translate}}</th>
@@ -318,6 +346,13 @@
 										</td>
 									</tr>
 								</tbody>
+								<tfoot class="hide-if-no-paging">
+									<tr>
+										<td colspan="6">
+											<ul class="pagination pull-right"></ul>
+										</td>
+									</tr>
+								</tfoot>
 							</table>
 						</div>
 					</uib-tab>

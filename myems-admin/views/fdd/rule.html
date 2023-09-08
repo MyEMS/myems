@@ -6,10 +6,10 @@
 					<uib-tab heading="{{'FDD.RULE_LIST' | translate}}" >
 						<div class="panel-body" ng-controller="RuleController">
 							<a ng-click="addRule()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'FDD.ADD_RULE' | translate}}</a>
-							<table class="table table-bordered table-hover" >
+							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
-										<th >{{'SETTING.ID' | translate}}</th>
+										<th data-type="numeric">{{'SETTING.ID' | translate}}</th>
 										<th >{{'SETTING.NAME' | translate}}</th>
 										<th >{{'FDD.CATEGORY' | translate}}</th>
 										<th >{{'FDD.FDD_CODE' | translate}}</th>
@@ -42,6 +42,13 @@
 										</td>
 									</tr>
 								</tbody>
+								<tfoot class="hide-if-no-paging">
+									<tr>
+										<td colspan="6">
+											<ul class="pagination pull-right"></ul>
+										</td>
+									</tr>
+								</tfoot>
 							</table>
 						</div>
 					</uib-tab>

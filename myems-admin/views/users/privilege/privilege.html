@@ -9,10 +9,10 @@
                         <div class="panel-body" ng-controller="PrivilegeController">
                             <a ng-click="addPrivilege()" class="btn btn-primary btn-rounded btn-outline" href=""><i
                                     class="fa fa-plus-circle"></i> {{'USER.ADD_PRIVILEGE' | translate}}</a>
-                            <table class="table table-bordered table-hover">
+                            <table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
                                 <thead>
                                     <tr>
-                                        <th class="text-center">{{'SETTING.ID' | translate}}</th>
+                                        <th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
                                         <th class="text-center">{{'SETTING.NAME' | translate}}</th>
                                         <th class="text-center">{{'SETTING.ACTION' | translate}}</th>
                                     </tr>
@@ -29,6 +29,13 @@
                                         </td>
                                     </tr>
                                 </tbody>
+                                <tfoot class="hide-if-no-paging">
+                                    <tr>
+                                        <td colspan="6">
+                                            <ul class="pagination pull-right"></ul>
+                                        </td>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </uib-tab>

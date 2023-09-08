@@ -1,6 +1,7 @@
 'use strict';
 
-app.controller('EnergyFlowDiagramPreviewController', function($scope, EnergyFlowDiagramService, EnergyFlowDiagramLinkService) {
+app.controller('EnergyFlowDiagramPreviewController', function($scope, $window, EnergyFlowDiagramService, EnergyFlowDiagramLinkService) {
+      $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
       $scope.energyflowdiagrams = [];
       $scope.currentEnergyFlowDiagram = null;
 
