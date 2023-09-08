@@ -112,7 +112,8 @@ class AdvancedReportCollection:
                 len(str.strip(new_values['data']['next_run_datetime'])) > 0:
 
             try:
-                next_run_datetime_local = datetime.strptime(new_values['data']['next_run_datetime'], '%Y-%m-%dT%H:%M:%S')
+                next_run_datetime_local = datetime.strptime(new_values['data']['next_run_datetime'],
+                                                            '%Y-%m-%dT%H:%M:%S')
             except Exception as ex:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_NEXT_RUN_DATETIME')
