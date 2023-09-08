@@ -367,6 +367,11 @@ app
                                             }, {
                                                 name: 'oitozero.ngSweetAlert',
                                                 files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
+                                            },{
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
                                             }, {
                                                 serie: true,
                                                 files: [
@@ -403,6 +408,11 @@ app
                                             }, {
                                                 name: 'oitozero.ngSweetAlert',
                                                 files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
+                                            }, {
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
                                             }, {
                                                 serie: true,
                                                 files: [
@@ -478,6 +488,11 @@ app
                                                 name: 'oitozero.ngSweetAlert',
                                                 files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
                                             }, {
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
+                                            }, {
                                                 serie: true,
                                                 files: [
                                                     'app/services/settings/contact/contact.service.js',
@@ -543,6 +558,11 @@ app
                                             }, {
                                                 name: 'oitozero.ngSweetAlert',
                                                 files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
+                                            }, {
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
                                             }, {
 
                                                 files: [
@@ -672,6 +692,11 @@ app
                                                 name: 'oitozero.ngSweetAlert',
                                                 files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
                                             }, {
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
+                                            }, {
                                                 serie: true,
                                                 files: [
                                                     'app/services/settings/space/space.service.js',
@@ -715,6 +740,11 @@ app
                                             }, {
                                                 name: 'oitozero.ngSweetAlert',
                                                 files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
+                                            }, {
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
                                             }, {
                                                 serie: true,
                                                 files: [
@@ -762,6 +792,11 @@ app
                                             }, {
                                                 name: 'oitozero.ngSweetAlert',
                                                 files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
+                                            }, {
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
                                             }, {
                                                 serie: true,
                                                 files: [
@@ -836,6 +871,11 @@ app
                                                 name: 'oitozero.ngSweetAlert',
                                                 files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
                                             }, {
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
+                                            }, {
                                                 serie: true,
                                                 files: [
                                                     'app/services/settings/tenant/tenant.service.js',
@@ -894,6 +934,11 @@ app
                                             }, {
                                                 name: 'oitozero.ngSweetAlert',
                                                 files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
+                                            }, {
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
                                             }, {
                                                 serie: true,
                                                 files: [
@@ -954,6 +999,11 @@ app
                                                 name: 'oitozero.ngSweetAlert',
                                                 files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
                                             }, {
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
+                                            }, {
                                                 serie: true,
                                                 files: [
                                                     'app/services/settings/shopfloor/shopfloor.service.js',
@@ -1009,6 +1059,11 @@ app
                                                 name: 'oitozero.ngSweetAlert',
                                                 files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
                                             }, {
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
+                                            }, {
                                                 serie: true,
                                                 files: [
                                                     'app/services/settings/energyflowdiagram/energyflowdiagram.service.js',
@@ -1047,6 +1102,11 @@ app
                                             }, {
                                                 name: 'oitozero.ngSweetAlert',
                                                 files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
+                                            }, {
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
                                             }, {
                                                 serie: true,
                                                 files: [
@@ -1158,6 +1218,11 @@ app
                                                 name: 'oitozero.ngSweetAlert',
                                                 files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
                                             }, {
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
+                                            }, {
                                                 serie: true,
                                                 files: [
                                                     'app/services/settings/virtualpowerplant/virtualpowerplant.service.js',
@@ -1195,6 +1260,11 @@ app
                                                 name: 'oitozero.ngSweetAlert',
                                                 files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
                                             }, {
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
+                                            }, {
                                                 serie: true,
                                                 files: [
                                                     'app/services/settings/menu/menu.service.js',
@@ -1226,6 +1296,11 @@ app
                                             }, {
                                                 name: 'oitozero.ngSweetAlert',
                                                 files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
+                                            }, {
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
                                             }, {
                                                 serie: true,
                                                 files: [
@@ -1402,6 +1477,11 @@ app
                                                 name: 'oitozero.ngSweetAlert',
                                                 files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
                                             }, {
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
+                                            }, {
                                                 serie: true,
                                                 files: [
                                                     'app/services/users/user/user.service.js',
@@ -1434,6 +1514,11 @@ app
                                             }, {
                                                 name: 'oitozero.ngSweetAlert',
                                                 files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
+                                            }, {
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
                                             }, {
                                                 serie: true,
                                                 files: [
@@ -1474,6 +1559,11 @@ app
                                             }, {
                                                 name: 'daterangepicker',
                                                 files: ['js/daterangepicker/angular-daterangepicker.min.js']
+                                            }, {
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
                                             }, {
                                                 serie: true,
                                                 files: [

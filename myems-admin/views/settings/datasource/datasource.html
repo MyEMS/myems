@@ -8,10 +8,10 @@
 						<div class="panel-body" ng-controller="DataSourceController">
 							<a ng-click="addDataSource()" class="btn btn-primary btn-rounded  btn-outline" href=""><i
 									class="fa fa-plus-circle"></i> {{'DATA_SOURCE.ADD_DATA_SOURCE' | translate}}</a>
-							<table class="table table-bordered table-hover">
+							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
-										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
 										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
 										<th class="text-center">{{'GATEWAY.GATEWAY' | translate}}</th>
 										<th class="text-center">{{'DATA_SOURCE.PROTOCOL' | translate}}</th>
@@ -36,6 +36,13 @@
 										</td>
 									</tr>
 								</tbody>
+								<tfoot class="hide-if-no-paging">
+									<tr>
+										<td colspan="6">
+											<ul class="pagination pull-right"></ul>
+										</td>
+									</tr>
+								</tfoot>
 							</table>
 						</div>
 					</uib-tab>
@@ -60,10 +67,10 @@
 							<div class="hr-line-dashed"></div>
 							<a ng-click="addPoint()" class="btn btn-primary btn-rounded  btn-outline" href=""><i
 									class="fa fa-plus-circle"></i> {{'SETTING.ADD_POINT' | translate}}</a>
-							<table class="table table-bordered table-hover">
+							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
-										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
 										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
 										<th class="text-center">{{'POINT.OBJECT_TYPE' | translate}}</th>
 										<th class="text-center">{{'POINT.UNIT' | translate}}</th>
@@ -98,16 +105,23 @@
 										</td>
 									</tr>
 								</tbody>
+								<tfoot class="hide-if-no-paging">
+									<tr>
+										<td colspan="6">
+											<ul class="pagination pull-right"></ul>
+										</td>
+									</tr>
+								</tfoot>
 							</table>
 						</div>
 					</uib-tab>
 					<uib-tab heading="{{'SETTING.DATA_REPAIR_FILE' | translate}}">
 						<div class="panel-body" ng-controller="DataRepairFileController">
 							<div id="dropzone1" class="dropzone" options="dzOptions" callbacks="dzCallbacks" ng-dropzone></div>
-							<table class="table table-bordered table-hover">
+							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
-										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
 										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
 										<th class="text-center">{{'SETTING.STATUS' | translate}}</th>
 										<th class="text-center">{{'SETTING.UPLOAD_TIME' | translate}}</th>
@@ -132,6 +146,13 @@
 										</td>
 									</tr>
 								</tbody>
+								<tfoot class="hide-if-no-paging">
+									<tr>
+										<td colspan="6">
+											<ul class="pagination pull-right"></ul>
+										</td>
+									</tr>
+								</tfoot>
 							</table>
 						</div>
 					</uib-tab>

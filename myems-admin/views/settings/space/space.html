@@ -23,10 +23,10 @@
 											{{'SPACE.CURRENT_SELECTED_SPACE' | translate}}
 										</div>
 										<div class="panel-body">
-											<table class="table table-bordered table-hover">
+											<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 												<thead>
 													<tr>
-														<th class="text-center">{{'SETTING.ID' | translate}}</th>
+														<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
 														<th class="text-center">{{'SETTING.NAME' | translate}}</th>
 														<th class="text-center">{{'SPACE.PARENT_SPACE' | translate}}
 														</th>
@@ -65,6 +65,13 @@
 														</td>
 													</tr>
 												</tbody>
+												<tfoot class="hide-if-no-paging">
+													<tr>
+														<td colspan="6">
+															<ul class="pagination pull-right"></ul>
+														</td>
+													</tr>
+												</tfoot>
 											</table>
 										</div>
 									</div>
@@ -77,10 +84,10 @@
 												href=""><i class="fa fa-plus-circle"></i>
 												{{'SETTING.ADD_SPACE' | translate}}
 											</a>
-											<table class="table table-bordered table-hover">
+											<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 												<thead>
 													<tr >
-														<th class="text-center">{{'SETTING.ID' | translate}}</th>
+														<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
 														<th class="text-center">{{'SETTING.NAME' | translate}}</th>
 														<th class="text-center">{{'SPACE.PARENT_SPACE' | translate}}
 														</th>
@@ -121,6 +128,13 @@
 														</td>
 													</tr>
 												</tbody>
+												<tfoot class="hide-if-no-paging">
+													<tr>
+														<td colspan="6">
+															<ul class="pagination pull-right"></ul>
+														</td>
+													</tr>
+												</tfoot>
 											</table>
 										</div>
 									</div>

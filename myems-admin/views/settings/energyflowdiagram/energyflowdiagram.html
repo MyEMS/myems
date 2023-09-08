@@ -6,10 +6,10 @@
 					<uib-tab heading="{{'COMMON.ENERGY_FLOW_DIAGRAM' | translate}}">
 						<div class="panel-body" ng-controller="EnergyFlowDiagramController">
 							<a ng-click="addEnergyFlowDiagram()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'ENERGY_FLOW_DIAGRAM.ADD_ENERGY_FLOW_DIAGRAM' | translate}}</a>
-							<table class="table table-bordered table-hover" >
+							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
-										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
 										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
 										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 									</tr>
@@ -24,6 +24,13 @@
 										</td>
 									</tr>
 								</tbody>
+                              <tfoot class="hide-if-no-paging">
+                                <tr>
+                                    <td colspan="6">
+                                        <ul class="pagination pull-right"></ul>
+                                    </td>
+                                </tr>
+                              </tfoot>
 							</table>
 						</div>
 					</uib-tab>
@@ -57,10 +64,10 @@
                     <div class="panel-body" >
                       <a ng-show="is_show_add_node" ng-click="addEnergyFlowDiagramNode()" class="btn btn-primary btn-rounded  btn-outline" href="">
 												<i class="fa fa-plus-circle"></i> {{'ENERGY_FLOW_DIAGRAM.ADD_NODE' | translate}}</a>
-                      <table class="table table-bordered table-hover" >
+                      <table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
                         <thead>
                           <tr>
-                            <th class="text-center">{{'ENERGY_FLOW_DIAGRAM.NODE_ID' | translate}}</th>
+                            <th class="text-center" data-type="numeric">{{'ENERGY_FLOW_DIAGRAM.NODE_ID' | translate}}</th>
                             <th class="text-center">{{'ENERGY_FLOW_DIAGRAM.NODE_NAME' | translate}}</th>
                             <th class="text-center">{{'SETTING.ACTION' | translate}}</th>
                           </tr>
@@ -75,6 +82,13 @@
                             </td>
                           </tr>
                         </tbody>
+                        <tfoot class="hide-if-no-paging">
+                          <tr>
+                              <td colspan="6">
+                                  <ul class="pagination pull-right"></ul>
+                              </td>
+                          </tr>
+                       </tfoot>
                       </table>
                   </div>
                 </div>
@@ -112,10 +126,10 @@
                     <div class="panel-body" >
                       <a ng-show="is_show_add_link" ng-click="addEnergyFlowDiagramLink()" class="btn btn-primary btn-rounded  btn-outline" href="">
 												<i class="fa fa-plus-circle"></i> {{'ENERGY_FLOW_DIAGRAM.ADD_LINK' | translate}}</a>
-                      <table class="table table-bordered table-hover" >
+                      <table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
                         <thead>
                           <tr>
-                            <th class="text-center">{{'ENERGY_FLOW_DIAGRAM.LINK_ID' | translate}}</th>
+                            <th class="text-center" data-type="numeric">{{'ENERGY_FLOW_DIAGRAM.LINK_ID' | translate}}</th>
                             <th class="text-center">{{'ENERGY_FLOW_DIAGRAM.SOURCE_NODE' | translate}}</th>
                             <th class="text-center">{{'ENERGY_FLOW_DIAGRAM.TARGET_NODE' | translate}}</th>
                             <th class="text-center">{{'ENERGY_FLOW_DIAGRAM.METER' | translate}}</th>
@@ -134,6 +148,13 @@
                             </td>
                           </tr>
                         </tbody>
+                        <tfoot class="hide-if-no-paging">
+                          <tr>
+                              <td colspan="6">
+                                  <ul class="pagination pull-right"></ul>
+                              </td>
+                          </tr>
+                       </tfoot>
                       </table>
                   </div>
                 </div>
