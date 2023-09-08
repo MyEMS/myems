@@ -8,10 +8,10 @@
 							<a ng-click="addCombinedEquipment()" class="btn btn-primary btn-rounded  btn-outline"
 								href=""><i class="fa fa-plus-circle"></i>
 								{{'COMBINED_EQUIPMENT.ADD_COMBINED_EQUIPMENT' | translate}}</a>
-							<table class="table table-bordered table-hover">
+							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
-										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
 										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
 										<th class="text-center">{{'SETTING.IS_INPUT_COUNTED' | translate}}</th>
 										<th class="text-center">{{'SETTING.IS_OUTPUT_COUNTED' | translate}}</th>
@@ -44,6 +44,13 @@
 										</td>
 									</tr>
 								</tbody>
+								<tfoot class="hide-if-no-paging">
+									<tr>
+										<td colspan="6">
+											<ul class="pagination pull-right"></ul>
+										</td>
+									</tr>
+								</tfoot>
 							</table>
 						</div>
 					</uib-tab>
@@ -245,10 +252,10 @@
 												class="btn btn-primary btn-rounded  btn-outline" href=""><i
 													class="fa fa-plus-circle"></i>
 												{{'EQUIPMENT.ADD_PARAMETER' | translate}}</a>
-											<table class="table table-bordered table-hover">
+											<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 												<thead>
 													<tr>
-														<th class="text-center">
+														<th class="text-center" data-type="numeric">
 															{{'COMBINED_EQUIPMENT.PARAMETER_ID' | translate}}</th>
 														<th class="text-center">
 															{{'COMBINED_EQUIPMENT.PARAMETER_NAME' | translate}}</th>
@@ -297,6 +304,13 @@
 														</td>
 													</tr>
 												</tbody>
+												<tfoot class="hide-if-no-paging">
+													<tr>
+														<td colspan="6">
+															<ul class="pagination pull-right"></ul>
+														</td>
+													</tr>
+												</tfoot>
 											</table>
 										</div>
 									</div>

@@ -6,10 +6,10 @@
 					<uib-tab heading="{{'COMMON.WORKING_CALENDAR' | translate}}" >
 						<div class="panel-body" ng-controller="WorkingCalendarController">
 							<a ng-click="addWorkingCalendar()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'WORKING_CALENDAR.ADD_WORKING_CALENDAR' | translate}}</a>
-							<table class="table table-bordered table-hover" >
+							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
-										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
 										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
 										<th class="text-center">{{'WORKING_CALENDAR.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
 										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
@@ -26,6 +26,13 @@
 										</td>
 									</tr>
 								</tbody>
+								<tfoot class="hide-if-no-paging">
+									<tr>
+										<td colspan="6">
+											<ul class="pagination pull-right"></ul>
+										</td>
+									</tr>
+								</tfoot>
 							</table>
 						</div>
 					</uib-tab>
@@ -50,10 +57,10 @@
 							<div class="hr-line-dashed"></div>
 							<a ng-click="currentWorkingCalendar.id?addNonWorkingDay():''" ng-disabled="!currentWorkingCalendar.id" class="btn btn-primary btn-rounded  btn-outline" href=""><i
 									class="fa fa-plus-circle"></i> {{'SETTING.ADD_NON_WORKING_DAY' | translate}}</a>
-							<table class="table table-bordered table-hover">
+							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
-										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
 										<th class="text-center">{{'WORKING_CALENDAR.DATE' | translate}}</th>
 										<th class="text-center">{{'WORKING_CALENDAR.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
 										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
@@ -72,6 +79,13 @@
 										</td>
 									</tr>
 								</tbody>
+								<tfoot class="hide-if-no-paging">
+									<tr>
+										<td colspan="6">
+											<ul class="pagination pull-right"></ul>
+										</td>
+									</tr>
+								</tfoot>
 							</table>
 						</div>
 					</uib-tab>

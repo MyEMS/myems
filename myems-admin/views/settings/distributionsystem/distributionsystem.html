@@ -6,10 +6,10 @@
 					<uib-tab heading="{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_SYSTEM' | translate}}">
 						<div class="panel-body" ng-controller="DistributionSystemController">
 							<a ng-click="addDistributionSystem()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'DISTRIBUTION_SYSTEM.ADD_DISTRIBUTION_SYSTEM' | translate}}</a>
-							<table class="table table-bordered table-hover" >
+							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
-										<th class="text-center">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
 										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
 										<th class="text-center">{{'DISTRIBUTION_SYSTEM.SVG' | translate}}</th>
 										<th class="text-center">{{'DISTRIBUTION_SYSTEM.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
@@ -28,6 +28,13 @@
 										</td>
 									</tr>
 								</tbody>
+                                <tfoot class="hide-if-no-paging">
+                                  <tr>
+                                      <td colspan="6">
+                                          <ul class="pagination pull-right"></ul>
+                                      </td>
+                                  </tr>
+                                </tfoot>
 							</table>
 						</div>
 					</uib-tab>
@@ -61,10 +68,10 @@
                     <div class="panel-body" >
                       <a ng-show="is_show_add_distribution_circuit" ng-click="addDistributionCircuit()" class="btn btn-primary btn-rounded  btn-outline" href="">
 												<i class="fa fa-plus-circle"></i> {{'DISTRIBUTION_SYSTEM.ADD_DISTRIBUTION_CIRCUIT' | translate}}</a>
-                      <table class="table table-bordered table-hover" >
+                      <table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
                         <thead>
                           <tr>
-                            <th class="text-center">{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_ID' | translate}}</th>
+                            <th class="text-center" data-type="numeric">{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_ID' | translate}}</th>
                             <th class="text-center">{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_NAME' | translate}}</th>
                             <th class="text-center">{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_DISTRIBUTION_ROOM' | translate}}</th>
                             <th class="text-center">{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_SWITCHGEAR' | translate}}</th>
@@ -91,6 +98,13 @@
                             </td>
                           </tr>
                         </tbody>
+                        <tfoot class="hide-if-no-paging">
+                          <tr>
+                              <td colspan="6">
+                                  <ul class="pagination pull-right"></ul>
+                              </td>
+                          </tr>
+                        </tfoot>
                       </table>
                   </div>
                 </div>

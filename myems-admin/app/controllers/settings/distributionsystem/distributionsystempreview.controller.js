@@ -1,6 +1,7 @@
 'use strict';
 
-app.controller('DistributionSystemPreviewController', function($scope, DistributionSystemService, DistributionCircuitService) {
+app.controller('DistributionSystemPreviewController', function($scope, $window, DistributionSystemService, DistributionCircuitService) {
+    $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
       $scope.distributionsystems = [];
       $scope.currentDistributionSystem = null;
 
