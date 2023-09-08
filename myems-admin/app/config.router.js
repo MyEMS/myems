@@ -325,6 +325,12 @@ app
                                         function () {
                                             return $ocLazyLoad.load([{
                                                 files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
+                                            },{
+                                                files: ['js/plugins/footable/footable.all.min.js',
+                                                    'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
                                             }, {
                                                 name: 'oitozero.ngSweetAlert',
                                                 files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
