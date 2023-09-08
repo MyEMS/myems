@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added Vietnamese language to myems-web
 - added sort function to tables in myems-admin
 - added Thai language to myems-web
+- added Indonesian language to myems-admin
 - 
 ### Changed
 
