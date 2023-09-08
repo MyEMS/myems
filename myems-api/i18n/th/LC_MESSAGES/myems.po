@@ -1,0 +1,355 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-09-09 16:44+0800\n"
+"PO-Revision-Date: 2023-09-08 15:02+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: th\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.3\n"
+
+msgid "Space"
+msgstr "อวกาศ"
+
+msgid "Start Datetime"
+msgstr "วันที่เริ่มต้น"
+
+msgid "End Datetime"
+msgstr "วันที่สิ้นสุดเวลา"
+
+msgid "ID"
+msgstr "รหัส"
+
+msgid "Name"
+msgstr "ชื่อ"
+
+msgid "Period Type"
+msgstr "ประเภทระยะเวลา"
+
+msgid "Reporting Start Datetime"
+msgstr "การรายงาน Datetime เริ่มต้น"
+
+msgid "Reporting End Datetime"
+msgstr "การรายงานวันที่สิ้นสุด"
+
+msgid "Reporting Period Consumption"
+msgstr "ปริมาณการใช้ในรอบระยะเวลารายงาน"
+
+msgid "Consumption"
+msgstr "การบริโภค"
+
+msgid "Per Unit Area"
+msgstr "ต่อหน่วยพื้นที่"
+
+msgid "Increment Rate"
+msgstr "อัตราการเพิ่มขึ้น"
+
+msgid "Ton of Standard Coal"
+msgstr "ตันของถ่านหินมาตรฐาน"
+
+msgid "Ton of Carbon Dioxide Emissions"
+msgstr "ตันของการปล่อยก๊าซคาร์บอนไดออกไซด์"
+
+msgid "Electricity Consumption by Time-Of-Use"
+msgstr "ปริมาณการใช้ไฟฟ้าตามเวลาการใช้งาน"
+
+msgid "TopPeak"
+msgstr "ท็อปพีค"
+
+msgid "OnPeak"
+msgstr "ออนพีค"
+
+msgid "MidPeak"
+msgstr "มิดพีค"
+
+msgid "OffPeak"
+msgstr "ออฟพีค"
+
+msgid "Ton of Standard Coal(TCE) by Energy Category"
+msgstr "ตันของถ่านหินมาตรฐาน (TCE) ตามประเภทพลังงาน"
+
+msgid "Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category"
+msgstr "ตันของการปล่อยก๊าซคาร์บอนไดออกไซด์ (TCO2E) ตามประเภทพลังงาน"
+
+msgid "Child Spaces Data"
+msgstr "ข้อมูลพื้นที่ย่อย"
+
+msgid "Child Space"
+msgstr "พื้นที่สําหรับเด็ก"
+
+msgid "Detailed Data"
+msgstr "ข้อมูลรายละเอียด"
+
+msgid "Datetime"
+msgstr "วันที่เวลา"
+
+msgid "Subtotal"
+msgstr "ยอดรวม"
+
+msgid "Parameters"
+msgstr "พารามิเตอร์"
+
+msgid "Base Period Carbon Dioxide Emissions"
+msgstr "การปล่อยก๊าซคาร์บอนไดออกไซด์ในช่วงเวลาพื้นฐาน"
+
+msgid "Reporting Period Carbon Dioxide Emissions"
+msgstr "รอบระยะเวลารายงานการปล่อยก๊าซคาร์บอนไดออกไซด์"
+
+msgid "Carbon Dioxide Emissions"
+msgstr "การปล่อยก๊าซคาร์บอนไดออกไซด์"
+
+msgid "Electricity Carbon Dioxide Emissions by Time-Of-Use"
+msgstr "การปล่อยก๊าซคาร์บอนไดออกไซด์จากไฟฟ้าตามเวลาการใช้งาน"
+
+msgid "Carbon Dioxide Emissions Proportion"
+msgstr "สัดส่วนการปล่อยก๊าซคาร์บอนไดออกไซด์"
+
+msgid "Total"
+msgstr "ทั้งหมด"
+
+msgid "Base Period Costs"
+msgstr "ค่าใช้จ่ายรอบระยะเวลาพื้นฐาน"
+
+msgid "Reporting Period Costs"
+msgstr "ค่าใช้จ่ายรอบระยะเวลารายงาน"
+
+msgid "Cost"
+msgstr "ค่า"
+
+msgid "Electricity Cost by Time-Of-Use"
+msgstr "ค่าไฟฟ้าตามเวลาที่ใช้"
+
+msgid "Costs Proportion"
+msgstr "สัดส่วนต้นทุน"
+
+msgid "Base Period Cumulative Efficiency"
+msgstr "ประสิทธิภาพการสะสมของระยะเวลาฐาน"
+
+msgid "Reporting Period Cumulative Efficiency"
+msgstr "รอบระยะเวลารายงาน ประสิทธิภาพสะสม"
+
+msgid "Cumulative Efficiency"
+msgstr "ประสิทธิภาพสะสม"
+
+msgid "Base Period Income"
+msgstr "รายได้งวดฐาน"
+
+msgid "Reporting Period Income"
+msgstr "รายได้รอบระยะเวลารายงาน"
+
+msgid "Incomes by Energy Category"
+msgstr "รายได้ตามหมวดพลังงาน"
+
+msgid "Incomes"
+msgstr "รายได้"
+
+msgid "Proportion"
+msgstr "สัดส่วน"
+
+msgid "Load"
+msgstr "ภาระ"
+
+msgid "Base Period Average Load"
+msgstr "ระยะเวลาฐานโหลดเฉลี่ย"
+
+msgid "Reporting Period Average Load"
+msgstr "รอบระยะเวลารายงานโหลดเฉลี่ย"
+
+msgid "Average Load"
+msgstr "โหลดเฉลี่ย"
+
+msgid "Base Period Maximum Load"
+msgstr "ระยะเวลาฐานโหลดสูงสุด"
+
+msgid "Reporting Period Maximum Load"
+msgstr "ระยะเวลาการรายงานโหลดสูงสุด"
+
+msgid "Maximum Load"
+msgstr "โหลดสูงสุด"
+
+msgid "Reporting Period Load Factor"
+msgstr "โหลดแฟกเตอร์รอบระยะเวลารายงาน"
+
+msgid "Load Factor"
+msgstr "โหลดแฟกเตอร์"
+
+msgid "Base Period Output"
+msgstr "เอาต์พุตระยะเวลาฐาน"
+
+msgid "Reporting Period Output"
+msgstr "ผลผลิตรอบระยะเวลารายงาน"
+
+msgid "Output"
+msgstr "ผลิตภัณฑ์"
+
+msgid "Base Period Saving"
+msgstr "การออมระยะเวลาพื้นฐาน"
+
+msgid "Reporting Period Saving"
+msgstr "การบันทึกรอบระยะเวลารายงาน"
+
+msgid "Baseline"
+msgstr "พื้นฐาน"
+
+msgid "Actual"
+msgstr "จริง"
+
+msgid "Saving"
+msgstr "การประหยัด"
+
+msgid "Decreased"
+msgstr "ลดลง"
+
+msgid "Statistics"
+msgstr "สถิติ"
+
+msgid "Reporting Period"
+msgstr "รอบระยะเวลารายงาน"
+
+msgid "Arithmetic Mean"
+msgstr "ค่าเฉลี่ยเลขคณิต"
+
+msgid "Median (Middle Value)"
+msgstr "ค่ามัธยฐาน (ค่ากลาง)"
+
+msgid "Minimum Value"
+msgstr "มูลค่าขั้นต่ํา"
+
+msgid "Maximum Value"
+msgstr "ค่าสูงสุด"
+
+msgid "Sample Standard Deviation"
+msgstr "ตัวอย่างค่าเบี่ยงเบนมาตรฐาน"
+
+msgid "Sample Variance"
+msgstr "ความแปรปรวนของตัวอย่าง"
+
+msgid "Cost Center"
+msgstr "ศูนย์ต้นทุน"
+
+msgid "Description"
+msgstr "การบรรยาย"
+
+msgid "Master Meter Consumption"
+msgstr "ปริมาณการใช้มาสเตอร์มิเตอร์"
+
+msgid "Submeters Consumption"
+msgstr "ปริมาณการใช้ Submeters"
+
+msgid "Difference"
+msgstr "ความแตกต่าง"
+
+msgid "Percentage Difference"
+msgstr "เปอร์เซ็นต์ความแตกต่าง"
+
+msgid "Start Integrity Rate"
+msgstr "เริ่ม Integrity Rate"
+
+msgid "End Integrity Rate"
+msgstr "สิ้นสุดอัตราความสมบูรณ์"
+
+msgid "Full Integrity Rate"
+msgstr "อัตราความซื่อสัตย์เต็มที่"
+
+msgid "Trend"
+msgstr "แนว"
+
+msgid "Payment Notice"
+msgstr "แจ้งการชําระเงิน"
+
+msgid "Lease Number"
+msgstr "เลขที่เช่า"
+
+msgid "Bill Number"
+msgstr "หมายเลขบิล"
+
+msgid "Lease Contract Number"
+msgstr "เลขที่สัญญาเช่า"
+
+msgid "Bill Date"
+msgstr "วันที่เรียกเก็บเงิน"
+
+msgid "Payment Due Date"
+msgstr "วันครบกําหนดชําระเงิน"
+
+msgid "Amount Payable"
+msgstr "จํานวนเงินที่ต้องชําระ"
+
+msgid "Energy Category"
+msgstr "ประเภทพลังงาน"
+
+msgid "Billing Period Start"
+msgstr "เริ่มรอบการเรียกเก็บเงิน"
+
+msgid "Billing Period End"
+msgstr "สิ้นสุดรอบการเรียกเก็บเงิน"
+
+msgid "Quantity"
+msgstr "ปริมาณ"
+
+msgid "Unit"
+msgstr "หน่วย"
+
+msgid "Amount"
+msgstr "ปริมาณ"
+
+msgid "Tax Rate"
+msgstr "อัตราภาษี"
+
+msgid "VAT Output Tax"
+msgstr "ภาษีส่งออก VAT"
+
+msgid "Total Amount Payable"
+msgstr "ยอดรวมที่ต้องชําระ"
+
+msgid "Electricity Costs by Time-Of-Use"
+msgstr "ค่าไฟฟ้าตามเวลาการใช้งาน"
+
+msgid "Electricity Carbon Dioxide Emissions Proportion by Time-Of-Use"
+msgstr "สัดส่วนการปล่อยก๊าซคาร์บอนไดออกไซด์จากไฟฟ้าตามเวลาที่ใช้"
+
+msgid "Associated Equipment Data"
+msgstr "ข้อมูลอุปกรณ์ที่เกี่ยวข้อง"
+
+msgid "Associated Equipment"
+msgstr "อุปกรณ์ที่เกี่ยวข้อง"
+
+msgid "Electricity Cost Proportion by Time-Of-Use"
+msgstr "สัดส่วนค่าไฟฟ้าตามเวลาที่ใช้"
+
+msgid "Start Value"
+msgstr "มูลค่าเริ่มต้น"
+
+msgid "End Value"
+msgstr "มูลค่าสิ้นสุด"
+
+msgid "Difference Value"
+msgstr "ค่าความแตกต่าง"
+
+msgid "Base Period"
+msgstr "ระยะเวลาฐาน"
+
+msgid "Base Period Start Datetime"
+msgstr "ระยะเวลาพื้นฐาน วันที่เริ่มต้น"
+
+msgid "Base Period End Datetime"
+msgstr "เวลาสิ้นสุดระยะเวลาพื้นฐาน"
+
+msgid "Base Period Consumption"
+msgstr "การบริโภคช่วงฐาน"
+
+msgid "All"
+msgstr "ทั้งหมด"
+
+msgid "Tariff"
+msgstr "ภาษี"
+
+msgid "Non Working Days"
+msgstr "วันที่ไม่ได้ทํางาน"
+
+msgid "Working Days"
+msgstr "วันทําการ"
