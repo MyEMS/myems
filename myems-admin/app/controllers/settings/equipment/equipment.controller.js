@@ -175,7 +175,7 @@ app.controller("ModalAddEquipmentCtrl", function(  $scope,  $uibModalInstance, p
 
 app.controller("ModalEditEquipmentCtrl", function($scope, $uibModalInstance,  params) {
   	$scope.operation = "EQUIPMENT.EDIT_EQUIPMENT";
-	$scope.costcenters = params.costcenters;
+	  $scope.costcenters = params.costcenters;
   	$scope.disabled = true;
   	$scope.equipment = params.equipment;
 
