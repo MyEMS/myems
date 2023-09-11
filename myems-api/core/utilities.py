@@ -1011,7 +1011,7 @@ def statistics_hourly_data_by_period(rows_hourly, start_datetime_utc, end_dateti
 
 
 def get_translation(language):
-    if language not in ['zh-CN', 'en', 'de', 'fr', 'es', 'ru', 'ar', 'vi', 'th', 'tr', 'ms']:
+    if language not in ['zh-CN', 'en', 'de', 'fr', 'es', 'ru', 'ar', 'vi', 'th', 'tr', 'ms', 'id']:
         return gettext.translation('myems', './i18n/', languages=['en'])
     else:
         language_list = [language]
