@@ -1,0 +1,355 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-09-09 16:37+0800\n"
+"PO-Revision-Date: 2023-09-12 09:25+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: id\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.3.2\n"
+
+msgid "Space"
+msgstr "Ruang"
+
+msgid "Start Datetime"
+msgstr "Waktu Mulai"
+
+msgid "End Datetime"
+msgstr "Waktu akhir"
+
+msgid "ID"
+msgstr "ID"
+
+msgid "Name"
+msgstr "Nama"
+
+msgid "Period Type"
+msgstr "Skala Waktu"
+
+msgid "Reporting Start Datetime"
+msgstr "Periode Laporan Waktu Awal"
+
+msgid "Reporting End Datetime"
+msgstr "Periode Laporan Waktu Akhir"
+
+msgid "Reporting Period Consumption"
+msgstr "Periode Konsumsi Laporan"
+
+msgid "Consumption"
+msgstr "Konsum"
+
+msgid "Per Unit Area"
+msgstr "Nilai Area Unit"
+
+msgid "Increment Rate"
+msgstr "Tingkatkan Kadar"
+
+msgid "Ton of Standard Coal"
+msgstr "Ton Batubara Standar"
+
+msgid "Ton of Carbon Dioxide Emissions"
+msgstr "Ton Emisi Dioksida Karbon"
+
+msgid "Electricity Consumption by Time-Of-Use"
+msgstr "Time Sharing Power Consumption"
+
+msgid "TopPeak"
+msgstr "Tip"
+
+msgid "OnPeak"
+msgstr "Puncak"
+
+msgid "MidPeak"
+msgstr "Flat"
+
+msgid "OffPeak"
+msgstr "Valley"
+
+msgid "Ton of Standard Coal(TCE) by Energy Category"
+msgstr "Tons of Standard Coal (TCE) Ratio"
+
+msgid "Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category"
+msgstr "Ton Emisi Dioksida Karbon (TCO2E) Sebagai Persentase"
+
+msgid "Child Spaces Data"
+msgstr "Data Subspace"
+
+msgid "Child Space"
+msgstr "Subspace"
+
+msgid "Detailed Data"
+msgstr "Data Rincian"
+
+msgid "Datetime"
+msgstr "Waktu Tanggal"
+
+msgid "Subtotal"
+msgstr "Subtotal"
+
+msgid "Parameters"
+msgstr "Parameter"
+
+msgid "Base Period Carbon Dioxide Emissions"
+msgstr "Periode Dasar Emisi Karbon Dioksida"
+
+msgid "Reporting Period Carbon Dioxide Emissions"
+msgstr "Emisi Dioksida Karbon Selama Periode Laporan"
+
+msgid "Carbon Dioxide Emissions"
+msgstr "Emisi Dioksida Karbon"
+
+msgid "Electricity Carbon Dioxide Emissions by Time-Of-Use"
+msgstr "Waktu Berbagi Emisi Listrik Karbon Dioksida"
+
+msgid "Carbon Dioxide Emissions Proportion"
+msgstr "Proporci Emisi Dioksida Karbon"
+
+msgid "Total"
+msgstr "Total"
+
+msgid "Base Period Costs"
+msgstr "Biaya Periode Pangkalan"
+
+msgid "Reporting Period Costs"
+msgstr "Harga Peristiwa Laporan"
+
+msgid "Cost"
+msgstr "Analisi Biaya"
+
+msgid "Electricity Cost by Time-Of-Use"
+msgstr "Waktu Penggunaan Biaya Listrik"
+
+msgid "Costs Proportion"
+msgstr "Proporci Biaya"
+
+msgid "Base Period Cumulative Efficiency"
+msgstr "Efisiensi Kumulatif Periode Dasar"
+
+msgid "Reporting Period Cumulative Efficiency"
+msgstr "Efisiensi Kumulatif Selama Periode Laporan"
+
+msgid "Cumulative Efficiency"
+msgstr "Efisiensi Kumulatif"
+
+msgid "Base Period Income"
+msgstr "Waktu Dasar Pendapatan"
+
+msgid "Reporting Period Income"
+msgstr "Periode Pendapatan Laporan"
+
+msgid "Incomes by Energy Category"
+msgstr "Revenue as a Percentage"
+
+msgid "Incomes"
+msgstr "Revenue"
+
+msgid "Proportion"
+msgstr "Proporsi"
+
+msgid "Load"
+msgstr "Muat"
+
+msgid "Base Period Average Load"
+msgstr "Buatan Rata-rata Periode Dasar"
+
+msgid "Reporting Period Average Load"
+msgstr "Bekas Rata-rata Selama Periode Laporan"
+
+msgid "Average Load"
+msgstr "Purata Muatan"
+
+msgid "Base Period Maximum Load"
+msgstr "Muatan Maksimum Selama Periode Dasar"
+
+msgid "Reporting Period Maximum Load"
+msgstr "Muatan Maksimum Selama Periode Laporan"
+
+msgid "Maximum Load"
+msgstr "Muatan Maksimum"
+
+msgid "Reporting Period Load Factor"
+msgstr "Faktor Muat Selama Periode Laporan"
+
+msgid "Load Factor"
+msgstr "Faktor Muat"
+
+msgid "Base Period Output"
+msgstr "Output Periode Dasar"
+
+msgid "Reporting Period Output"
+msgstr "Keluaran Periode Laporan"
+
+msgid "Output"
+msgstr "Output"
+
+msgid "Base Period Saving"
+msgstr "Basis Period Savings"
+
+msgid "Reporting Period Saving"
+msgstr "Reporting Period Savings"
+
+msgid "Baseline"
+msgstr "Baseline"
+
+msgid "Actual"
+msgstr "Aktual"
+
+msgid "Saving"
+msgstr "Simpan"
+
+msgid "Decreased"
+msgstr "Reduce"
+
+msgid "Statistics"
+msgstr "Analisi Statistik"
+
+msgid "Reporting Period"
+msgstr "Periode Laporan"
+
+msgid "Arithmetic Mean"
+msgstr "Aritmetik Mean"
+
+msgid "Median (Middle Value)"
+msgstr "Median"
+
+msgid "Minimum Value"
+msgstr "Nilai Minimum"
+
+msgid "Maximum Value"
+msgstr "Nilai Maksimum"
+
+msgid "Sample Standard Deviation"
+msgstr "Sampel Deviation Standar"
+
+msgid "Sample Variance"
+msgstr "Variasi Sampel"
+
+msgid "Cost Center"
+msgstr "Cost Center"
+
+msgid "Description"
+msgstr "Deskripsi"
+
+msgid "Master Meter Consumption"
+msgstr "Total Table Consumption"
+
+msgid "Submeters Consumption"
+msgstr "Consumption Sub Table"
+
+msgid "Difference"
+msgstr "Perbedaan"
+
+msgid "Percentage Difference"
+msgstr "Percentage Difference"
+
+msgid "Start Integrity Rate"
+msgstr "Memulai Tingkat Integritas Data"
+
+msgid "End Integrity Rate"
+msgstr "Tingkat Integritas Data Akhir"
+
+msgid "Full Integrity Rate"
+msgstr "Total Data Integrity Rate"
+
+msgid "Trend"
+msgstr "Trend"
+
+msgid "Payment Notice"
+msgstr "Notice Payment"
+
+msgid "Lease Number"
+msgstr "Membayar Kuantitas"
+
+msgid "Bill Number"
+msgstr "Nomor Tagihan"
+
+msgid "Lease Contract Number"
+msgstr "Nomor Kontrak Sewa"
+
+msgid "Bill Date"
+msgstr "Tarikh Billing"
+
+msgid "Payment Due Date"
+msgstr "Payment Due Date"
+
+msgid "Amount Payable"
+msgstr "Jumlah Yang Harus Dibayar"
+
+msgid "Energy Category"
+msgstr "Klasifikasi Energi"
+
+msgid "Billing Period Start"
+msgstr "Billing Cycle Start"
+
+msgid "Billing Period End"
+msgstr "Tarikh Akhir Periode Penyelesaian"
+
+msgid "Quantity"
+msgstr "Quantity"
+
+msgid "Unit"
+msgstr "Unit"
+
+msgid "Amount"
+msgstr "Jumlah"
+
+msgid "Tax Rate"
+msgstr "Tax Rate"
+
+msgid "VAT Output Tax"
+msgstr "Pajak Pajak Tambahan Nilai"
+
+msgid "Total Amount Payable"
+msgstr "Total Payable Amount"
+
+msgid "Electricity Costs by Time-Of-Use"
+msgstr "Waktu Penggunaan Biaya Listrik"
+
+msgid "Electricity Carbon Dioxide Emissions Proportion by Time-Of-Use"
+msgstr "Proporci Emisi Karbon Dioksida Dari Konsumsi Listrik Selama Berbagi Waktu"
+
+msgid "Associated Equipment Data"
+msgstr "Data Perangkat Terhubung"
+
+msgid "Associated Equipment"
+msgstr "Perangkat Terhubung"
+
+msgid "Electricity Cost Proportion by Time-Of-Use"
+msgstr "Share of Electricity Cost by Time"
+
+msgid "Start Value"
+msgstr "Nilai Awal"
+
+msgid "End Value"
+msgstr "Nilai Akhir"
+
+msgid "Difference Value"
+msgstr "Perbedaan"
+
+msgid "Base Period"
+msgstr "Periode Dasar"
+
+msgid "Base Period Start Datetime"
+msgstr "Periode Dasar Waktu Awal"
+
+msgid "Base Period End Datetime"
+msgstr "Periode Dasar Waktu Akhir"
+
+msgid "Base Period Consumption"
+msgstr "Konsum Periode Dasar"
+
+msgid "All"
+msgstr "Semua"
+
+msgid "Tariff"
+msgstr "Rate"
+
+msgid "Non Working Days"
+msgstr "Hari Tidak Bekerja"
+
+msgid "Working Days"
+msgstr "Weekday"
