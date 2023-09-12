@@ -1,0 +1,355 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-09-09 16:44+0800\n"
+"PO-Revision-Date: 2023-09-08 17:12+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.3\n"
+
+msgid "Space"
+msgstr "Uzay"
+
+msgid "Start Datetime"
+msgstr "Başlangıç Tarihi"
+
+msgid "End Datetime"
+msgstr "Bitiş Tarihi Saati"
+
+msgid "ID"
+msgstr "KİMLİĞİ"
+
+msgid "Name"
+msgstr "Ad"
+
+msgid "Period Type"
+msgstr "Dönem Türü"
+
+msgid "Reporting Start Datetime"
+msgstr "Raporlama Başlangıç Tarihi Saati"
+
+msgid "Reporting End Datetime"
+msgstr "Raporlama Bitiş Tarihi Saati"
+
+msgid "Reporting Period Consumption"
+msgstr "Raporlama Dönemi Tüketimi"
+
+msgid "Consumption"
+msgstr "Tüketim"
+
+msgid "Per Unit Area"
+msgstr "Birim Alan Başına"
+
+msgid "Increment Rate"
+msgstr "Artış Oranı"
+
+msgid "Ton of Standard Coal"
+msgstr "Ton Standart Kömür"
+
+msgid "Ton of Carbon Dioxide Emissions"
+msgstr "Tonlarca karbondioksit emisyonu"
+
+msgid "Electricity Consumption by Time-Of-Use"
+msgstr "Kullanım Süresine Göre Elektrik Tüketimi"
+
+msgid "TopPeak"
+msgstr "TopPeak"
+
+msgid "OnPeak"
+msgstr "OnPeak"
+
+msgid "MidPeak"
+msgstr "MidPeak"
+
+msgid "OffPeak"
+msgstr "OffPeak"
+
+msgid "Ton of Standard Coal(TCE) by Energy Category"
+msgstr "Enerji Kategorisine Göre Ton Standart Kömür (TCE)"
+
+msgid "Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category"
+msgstr "Enerji Kategorisine Göre Tonlarca Karbondioksit Emisyonu (TCO2E)"
+
+msgid "Child Spaces Data"
+msgstr "Alt Alanlar Verileri"
+
+msgid "Child Space"
+msgstr "Çocuk Alanı"
+
+msgid "Detailed Data"
+msgstr "Detaylı Veri"
+
+msgid "Datetime"
+msgstr "Tarih-saat"
+
+msgid "Subtotal"
+msgstr "Ara toplam"
+
+msgid "Parameters"
+msgstr "Parametre"
+
+msgid "Base Period Carbon Dioxide Emissions"
+msgstr "Baz Dönem Karbondioksit Emisyonları"
+
+msgid "Reporting Period Carbon Dioxide Emissions"
+msgstr "Raporlama Dönemi Karbondioksit Emisyonları"
+
+msgid "Carbon Dioxide Emissions"
+msgstr "Karbondioksit Emisyonları"
+
+msgid "Electricity Carbon Dioxide Emissions by Time-Of-Use"
+msgstr "Kullanım Süresine Göre Elektrik Karbondioksit Emisyonları"
+
+msgid "Carbon Dioxide Emissions Proportion"
+msgstr "Karbondioksit Emisyon Oranı"
+
+msgid "Total"
+msgstr "Toplam"
+
+msgid "Base Period Costs"
+msgstr "Baz Dönem Maliyetleri"
+
+msgid "Reporting Period Costs"
+msgstr "Raporlama Dönemi Maliyetleri"
+
+msgid "Cost"
+msgstr "Masraf"
+
+msgid "Electricity Cost by Time-Of-Use"
+msgstr "Kullanım süresine göre elektrik maliyeti"
+
+msgid "Costs Proportion"
+msgstr "Maliyet Oranı"
+
+msgid "Base Period Cumulative Efficiency"
+msgstr "Baz Dönem Kümülatif Verimlilik"
+
+msgid "Reporting Period Cumulative Efficiency"
+msgstr "Raporlama Dönemi Kümülatif Verimliliği"
+
+msgid "Cumulative Efficiency"
+msgstr "Kümülatif Verimlilik"
+
+msgid "Base Period Income"
+msgstr "Baz Dönem Geliri"
+
+msgid "Reporting Period Income"
+msgstr "Raporlama Dönemi Geliri"
+
+msgid "Incomes by Energy Category"
+msgstr "Enerji Kategorisine Göre Gelirler"
+
+msgid "Incomes"
+msgstr "Gelir"
+
+msgid "Proportion"
+msgstr "Oran"
+
+msgid "Load"
+msgstr "Yük"
+
+msgid "Base Period Average Load"
+msgstr "Baz Dönem Ortalama Yükü"
+
+msgid "Reporting Period Average Load"
+msgstr "Raporlama Dönemi Ortalama Yükü"
+
+msgid "Average Load"
+msgstr "Ortalama Yük"
+
+msgid "Base Period Maximum Load"
+msgstr "Baz Dönem Maksimum Yük"
+
+msgid "Reporting Period Maximum Load"
+msgstr "Raporlama Dönemi Maksimum Yükü"
+
+msgid "Maximum Load"
+msgstr "Maksimum Yük"
+
+msgid "Reporting Period Load Factor"
+msgstr "Raporlama Dönemi Yük Faktörü"
+
+msgid "Load Factor"
+msgstr "Yük Faktörü"
+
+msgid "Base Period Output"
+msgstr "Baz Dönem Çıkışı"
+
+msgid "Reporting Period Output"
+msgstr "Raporlama Dönemi Çıktısı"
+
+msgid "Output"
+msgstr "Çıktı"
+
+msgid "Base Period Saving"
+msgstr "Baz Dönem Tasarrufu"
+
+msgid "Reporting Period Saving"
+msgstr "Raporlama Dönemi Tasarrufu"
+
+msgid "Baseline"
+msgstr "Taban çizgisi"
+
+msgid "Actual"
+msgstr "Gerçek"
+
+msgid "Saving"
+msgstr "Tasarruf"
+
+msgid "Decreased"
+msgstr "Azal -mış"
+
+msgid "Statistics"
+msgstr "İstatistik"
+
+msgid "Reporting Period"
+msgstr "Raporlama Dönemi"
+
+msgid "Arithmetic Mean"
+msgstr "Aritmetik Ortalama"
+
+msgid "Median (Middle Value)"
+msgstr "Medyan (Orta Değer)"
+
+msgid "Minimum Value"
+msgstr "Minimum Değer"
+
+msgid "Maximum Value"
+msgstr "Maksimum Değer"
+
+msgid "Sample Standard Deviation"
+msgstr "Numune Standart Sapması"
+
+msgid "Sample Variance"
+msgstr "Örnek Varyans"
+
+msgid "Cost Center"
+msgstr "Maliyet Merkezi"
+
+msgid "Description"
+msgstr "Tarif"
+
+msgid "Master Meter Consumption"
+msgstr "Ana Sayaç Tüketimi"
+
+msgid "Submeters Consumption"
+msgstr "Alt Sayaç Tüketimi"
+
+msgid "Difference"
+msgstr "Fark"
+
+msgid "Percentage Difference"
+msgstr "Yüzde Farkı"
+
+msgid "Start Integrity Rate"
+msgstr "Başlangıç Bütünlük Oranı"
+
+msgid "End Integrity Rate"
+msgstr "Son Bütünlük Oranı"
+
+msgid "Full Integrity Rate"
+msgstr "Tam Bütünlük Oranı"
+
+msgid "Trend"
+msgstr "Eğilim"
+
+msgid "Payment Notice"
+msgstr "Ödeme Bildirimi"
+
+msgid "Lease Number"
+msgstr "Kira Numarası"
+
+msgid "Bill Number"
+msgstr "Fatura Numarası"
+
+msgid "Lease Contract Number"
+msgstr "Kira Sözleşme Numarası"
+
+msgid "Bill Date"
+msgstr "Fatura Tarihi"
+
+msgid "Payment Due Date"
+msgstr "Ödeme Son Tarihi"
+
+msgid "Amount Payable"
+msgstr "Ödenecek Tutar"
+
+msgid "Energy Category"
+msgstr "Enerji Kategorisi"
+
+msgid "Billing Period Start"
+msgstr "Fatura Dönemi Başlangıcı"
+
+msgid "Billing Period End"
+msgstr "Fatura Dönemi Sonu"
+
+msgid "Quantity"
+msgstr "Miktar"
+
+msgid "Unit"
+msgstr "Birim"
+
+msgid "Amount"
+msgstr "Miktar"
+
+msgid "Tax Rate"
+msgstr "Vergi Oranı"
+
+msgid "VAT Output Tax"
+msgstr "KDV Çıkış Vergisi"
+
+msgid "Total Amount Payable"
+msgstr "Ödenecek Toplam Tutar"
+
+msgid "Electricity Costs by Time-Of-Use"
+msgstr "Kullanım süresine göre elektrik maliyetleri"
+
+msgid "Electricity Carbon Dioxide Emissions Proportion by Time-Of-Use"
+msgstr "Kullanım Süresine Göre Elektrik Karbondioksit Emisyonları Oranı"
+
+msgid "Associated Equipment Data"
+msgstr "İlişkili Ekipman Verileri"
+
+msgid "Associated Equipment"
+msgstr "İlgili Ekipmanlar"
+
+msgid "Electricity Cost Proportion by Time-Of-Use"
+msgstr "Kullanım süresine göre elektrik maliyeti oranı"
+
+msgid "Start Value"
+msgstr "Başlangıç Değeri"
+
+msgid "End Value"
+msgstr "Bitiş Değeri"
+
+msgid "Difference Value"
+msgstr "Fark Değeri"
+
+msgid "Base Period"
+msgstr "Baz Dönem"
+
+msgid "Base Period Start Datetime"
+msgstr "Temel Dönem Başlangıç Tarihisaati"
+
+msgid "Base Period End Datetime"
+msgstr "Temel Dönem Bitiş Tarihi Saati"
+
+msgid "Base Period Consumption"
+msgstr "Baz Dönem Tüketimi"
+
+msgid "All"
+msgstr "Tüm"
+
+msgid "Tariff"
+msgstr "Tarife"
+
+msgid "Non Working Days"
+msgstr "Çalışma Dışı Günler"
+
+msgid "Working Days"
+msgstr "Çalışma Günleri"
