@@ -10341,6 +10341,7 @@ const resources = {
       'language-th': 'ภาษาไทย',
       'language-tr': 'Türkçe',
       'language-ms': 'Bahasa Melayu',
+      'language-id': 'Bahasa Indonesia',
       'Like What You See?': 'Seperti apa yang anda lihat?',
       'Get MyEMS now': 'Dapatkan MyEMS sekarang',
       'Purchase': 'Pembelian',
