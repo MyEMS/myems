@@ -165,15 +165,7 @@ class Reporting:
                 str.lower(str.strip(quick_mode)) in ('true', 't', 'on', 'yes', 'y'):
             is_quick_mode = True
 
-        locale_path = './i18n/'
-        if language == 'zh_CN':
-            trans = gettext.translation('myems', locale_path, languages=['zh_CN'])
-        elif language == 'de':
-            trans = gettext.translation('myems', locale_path, languages=['de'])
-        elif language == 'en':
-            trans = gettext.translation('myems', locale_path, languages=['en'])
-        else:
-            trans = gettext.translation('myems', locale_path, languages=['en'])
+        trans = utilities.get_translation(language)
         trans.install()
         _ = trans.gettext
 
