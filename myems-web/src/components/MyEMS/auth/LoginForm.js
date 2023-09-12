@@ -172,7 +172,8 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
         name="language"
         className="mb-3"
         value={language}
-        onChange={({ target }) => setLanguage(target.value)}>
+        onChange={({ target }) => setLanguage(target.value)}
+      >
         <option value="zh_CN">{t('language-zh_CN')}</option>
         <option value="en">{t('language-en')}</option>
         <option value="de">{t('language-de')}</option>
@@ -183,6 +184,7 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
         <option value="vi">{t('language-vi')}</option>
         <option value="th">{t('language-th')}</option>
         <option value="tr">{t('language-tr')}</option>
+        <option value="ms">{t('language-ms')}</option>
         <option value="id">{t('language-id')}</option>
       </CustomInput>
       <Row className="justify-content-center align-items-center">
