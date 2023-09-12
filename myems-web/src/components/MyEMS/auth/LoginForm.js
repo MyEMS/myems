@@ -172,8 +172,7 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
         name="language"
         className="mb-3"
         value={language}
-        onChange={({ target }) => setLanguage(target.value)}
-      >
+        onChange={({ target }) => setLanguage(target.value)}>
         <option value="zh_CN">{t('language-zh_CN')}</option>
         <option value="en">{t('language-en')}</option>
         <option value="de">{t('language-de')}</option>
