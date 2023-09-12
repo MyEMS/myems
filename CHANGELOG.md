@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added Thai language to myems-web
 - added Indonesian language to myems-admin
 - added Turkish language to myems-web
+- added Malay language to myems-web
 ### Changed
 
 ### Fixed
