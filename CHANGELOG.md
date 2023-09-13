@@ -12,7 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added Turkish language to myems-web
 - added Malay language to myems-web
 - added Indonesian language to myems-web
-- 
+- added new column to tbl_gateways in database
 ### Changed
 
 ### Fixed
