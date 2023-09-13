@@ -393,6 +393,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_gateways` (
   `uuid` CHAR(36) NOT NULL,
   `token` CHAR(36) NOT NULL,
   `last_seen_datetime_utc` DATETIME NULL  COMMENT 'The last seen date time in UTC via PING, TELNET or Heartbeat',
+  `description` VARCHAR(255) ,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_gateways_index_1` ON  `myems_system_db`.`tbl_gateways`   (`name`);
 
@@ -405,9 +406,9 @@ START TRANSACTION;
 USE `myems_system_db`;
 
 INSERT INTO `myems_system_db`.`tbl_gateways`
-(`id`, `name`, `uuid`, `token`,  `last_seen_datetime_utc`)
+(`id`, `name`, `uuid`, `token`,  `last_seen_datetime_utc`, `description`)
 VALUES
-(1, 'Gateway1', 'dc681938-5053-8660-98ed-266c58227231', '983427af-1c35-42ba-8b4d-288675550225', null);
+(1, 'Gateway1', 'dc681938-5053-8660-98ed-266c58227231', '983427af-1c35-42ba-8b4d-288675550225', null, null);
 
 COMMIT;
 
@@ -1710,7 +1711,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '3.9.0', '2023-09-06');
+(1, '3.10.0RC', '2023-10-01');
 
 COMMIT;
 
