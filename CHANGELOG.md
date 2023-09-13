@@ -14,10 +14,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added Indonesian language to myems-web
 - added new column to tbl_gateways in database
 ### Changed
-
+- changed user avator from emoji to image
 ### Fixed
 - fixed microgrid-grid update issue
-- 
+-
 ### Removed
 
 ## [v3.9.0] - 2023-09-06
@@ -44,13 +44,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 - changed fdd rule template in myems-admin
 - renamed tbl_microgrids_converters to tbl_microgrids_power_conversion_systems in database
-- 
+-
 ### Fixed
 - fixed sensor bound points issue in myems-admin
 - fixed fdd category and fdd code relations in myems-admin
 - fixed tariff editor issue in myems-admin
 - fixed date range picker issue in myems-web
-- 
+-
 ### Removed
 - removed category and report_code from tbl_reports in myems_reporting_db
 

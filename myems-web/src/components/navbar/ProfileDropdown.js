@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { DropdownItem, DropdownMenu, DropdownToggle, Dropdown } from 'reactstrap';
-import team3 from '../../assets/img/team/3.jpg';
+import teamavatar from '../../assets/img/team/avatar.png';
 import Avatar from '../common/Avatar';
 import { withTranslation } from 'react-i18next';
 
@@ -26,8 +26,8 @@ const ProfileDropdown = ({ t }) => {
       }}
     >
       <DropdownToggle nav className="pr-0">
-        {/* <Avatar src={team3} /> */}
-        <Avatar />
+        <Avatar src={teamavatar} />
+        {/* <Avatar /> */}
       </DropdownToggle>
       <DropdownMenu right className="dropdown-menu-card">
         <div className="bg-white rounded-soft py-2">
