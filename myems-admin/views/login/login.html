@@ -26,7 +26,7 @@
                                 <select ng-change="changeLanguage(language)"  ng-model="language" class="form-control" >
                                     <option value="de">Deutsch</option>
                                     <option value="en">English</option>
-                                    <option value="zh_CN">简体中文</option>
+                                    <option value="zh_CN" selected>简体中文</option>
                                     <option value="fr">Français</option>
                                     <option value="es">Español</option>
                                     <option value="ru">Русский язык</option>
@@ -42,7 +42,7 @@
                                 <button  ng-click="login(user, captcha, captchaText, refreshCaptcha)" type="submit" class="btn btn-block " >{{'LOGIN' | translate}}</button>
 
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>

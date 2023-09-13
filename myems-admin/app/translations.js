@@ -17170,7 +17170,7 @@ function config($translateProvider) {
             },
         })
         ;
-    var lang = window.localStorage.getItem("myems_admin_ui_language") || "zh_CN";
+    var lang = window.localStorage.getItem("myems_admin_ui_language") || "zh_CN"; //zh_CN, en, de, fr, es, ru, ar, vi, th, tr, ms, id
 
     $translateProvider.preferredLanguage(lang);
 

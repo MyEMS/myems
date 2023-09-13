@@ -17,7 +17,7 @@ app.controller('LoginController', function (
 
 	$scope.dataLoading = false;
 	$scope.isFullScreen = false;
-	$scope.language = $window.localStorage.getItem("myems_admin_ui_language") || "zh_CN";
+	$scope.language = $window.localStorage.getItem("myems_admin_ui_language") || "zh_CN"; //zh_CN, en, de, fr, es, ru, ar, vi, th, tr, ms, id
 	$scope.fullScreenTitle = "FULLSCREEN";
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	// login section start
@@ -44,7 +44,7 @@ app.controller('LoginController', function (
 					showCloseButton: true,
 				});
 				$window.localStorage.setItem("myems_admin_ui_current_user", JSON.stringify(response.data));
-				
+
 				$scope.createCookie('is_logged_in', true, 1000 * 60 * 5 * 1);
 				$location.path('/settings/space');
 				$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
@@ -116,12 +116,12 @@ app.controller('LoginController', function (
 
 		modalInstance.result.then(function (user) {
 			let data = {
-				old_password: user.old_password, 
-				new_password: user.new_password 
+				old_password: user.old_password,
+				new_password: user.new_password
 			};
 
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-			
+
 			UserService.changePassword(data, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
@@ -252,7 +252,7 @@ app.controller('LoginController', function (
 	if ($location.$$path.indexOf('login') == -1 && $location.$$path.indexOf('dashboard') == -1) {
 		$scope.refresh = $interval($scope.getWebMessage, 1000 * 60 * 1);
 	};
-	
+
 	if ($location.$$path.indexOf('login') == -1) {
 		$scope.isLoggedIn = $interval($scope.getTime, 1000 * 1 * 1);
 	}
