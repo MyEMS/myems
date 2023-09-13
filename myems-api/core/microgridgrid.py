@@ -375,7 +375,7 @@ class MicrogridGridItem:
                 new_values['data']['sell_meter_id'] <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_METER_ID')
-        sell_meter_id = new_values['data']['meter_id']
+        sell_meter_id = new_values['data']['sell_meter_id']
 
         if 'capacity' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['capacity'], float) or
