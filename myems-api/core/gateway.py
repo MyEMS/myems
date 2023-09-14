@@ -22,7 +22,7 @@ class GatewayCollection:
         admin_control(req)
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
-        query = (" SELECT id, name, uuid, token, last_seen_datetime_utc "
+        query = (" SELECT id, name, uuid, token, last_seen_datetime_utc, description "
                  " FROM tbl_gateways "
                  " ORDER BY id ")
         cursor.execute(query)
@@ -45,7 +45,8 @@ class GatewayCollection:
                     last_seen_datetime = None
                 meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
                                "token": row[3],
-                               "last_seen_datetime": last_seen_datetime
+                               "last_seen_datetime": last_seen_datetime,
+                               "description": row[5]
                                }
                 result.append(meta_result)
 
@@ -72,6 +73,13 @@ class GatewayCollection:
                                    description='API.INVALID_GATEWAY_NAME')
         name = str.strip(new_values['data']['name'])
 
+        if 'description' in new_values['data'].keys() and \
+                new_values['data']['description'] is not None and \
+                len(str(new_values['data']['description'])) > 0:
+            description = str.strip(new_values['data']['description'])
+        else:
+            description = None
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -84,11 +92,12 @@ class GatewayCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.GATEWAY_NAME_IS_ALREADY_IN_USE')
 
-        add_values = (" INSERT INTO tbl_gateways (name, uuid, token) "
-                      " VALUES (%s, %s, %s) ")
+        add_values = (" INSERT INTO tbl_gateways (name, uuid, token, description) "
+                      " VALUES (%s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
-                                    str(uuid.uuid4())))
+                                    str(uuid.uuid4()),
+                                    description))
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
@@ -118,7 +127,7 @@ class GatewayItem:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid, token, last_seen_datetime_utc "
+        query = (" SELECT id, name, uuid, token, last_seen_datetime_utc, description "
                  " FROM tbl_gateways "
                  " WHERE id =%s ")
         cursor.execute(query, (id_,))
@@ -144,7 +153,8 @@ class GatewayItem:
                   "name": row[1],
                   "uuid": row[2],
                   "token": row[3],
-                  "last_seen_datetime": last_seen_datetime}
+                  "last_seen_datetime": last_seen_datetime,
+                  "description": row[5]}
 
         resp.text = json.dumps(result)
 
@@ -213,6 +223,13 @@ class GatewayItem:
                                    description='API.INVALID_GATEWAY_NAME')
         name = str.strip(new_values['data']['name'])
 
+        if 'description' in new_values['data'].keys() and \
+                new_values['data']['description'] is not None and \
+                len(str(new_values['data']['description'])) > 0:
+            description = str.strip(new_values['data']['description'])
+        else:
+            description = None
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -235,9 +252,10 @@ class GatewayItem:
                                    description='API.GATEWAY_NAME_IS_ALREADY_IN_USE')
 
         update_row = (" UPDATE tbl_gateways "
-                      " SET name = %s "
+                      " SET name = %s, description = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
+                                    description,
                                     id_,))
         cnx.commit()
 
@@ -282,7 +300,7 @@ class GatewayDataSourceCollection:
 
         result = list()
         query_data_source = (" SELECT id, name, uuid, "
-                             "         protocol, connection, last_seen_datetime_utc "
+                             "         protocol, connection, last_seen_datetime_utc, description "
                              " FROM tbl_data_sources "
                              " WHERE gateway_id = %s "
                              " ORDER BY name ")
@@ -302,6 +320,7 @@ class GatewayDataSourceCollection:
                                "protocol": row[3],
                                "connection": row[4],
                                "last_seen_datetime": last_seen_datetime,
+                               "description": row[6]
                                }
                 result.append(meta_result)
 
