@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "8f58ff6c-d58a-4a35-bc10-fa64f2a2e93f",
+		"_postman_id": "9e03d92b-550b-4ccd-bf57-7ae99ee9ce15",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -5193,7 +5193,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"MyEMS Gateway 3\"}}"
+									"raw": "{\"data\":{\"name\":\"MyEMS Gateway 3\", \"description\":\"Gateway 3\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/gateways",
@@ -5258,7 +5258,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"MyEMS Gateway #3\"}}"
+									"raw": "{\"data\":{\"name\":\"MyEMS Gateway #3\", \"description\":\"Gateway #3\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/gateways/3",
