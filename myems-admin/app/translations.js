@@ -392,6 +392,8 @@ function config($translateProvider) {
                 SELECT_GATEWAY: 'Select Gateway',
                 ADD_GATEWAY: 'Add Gateway',
                 EDIT_GATEWAY: 'Edit Gateway',
+                DESCRIPTION: 'Description',
+                INPUT_DESCRIPTION: 'Please Input Description',
             },
             DATA_SOURCE: {
                 DATA_SOURCE: 'Data Source',
@@ -1803,6 +1805,8 @@ function config($translateProvider) {
                 SELECT_GATEWAY: '选择网关',
                 ADD_GATEWAY: '添加网关',
                 EDIT_GATEWAY: '编辑网关',
+                DESCRIPTION: '描述',
+                INPUT_DESCRIPTION: '请输入描述',
             },
             DATA_SOURCE: {
                 DATA_SOURCE: '数据源',
@@ -3242,6 +3246,8 @@ function config($translateProvider) {
                 SELECT_GATEWAY: 'Wählen Sie ein Gateway',
                 ADD_GATEWAY: 'Gateway hinzufügen',
                 EDIT_GATEWAY: 'Gateway bearbeiten',
+                DESCRIPTION: 'Beschreibung',
+                INPUT_DESCRIPTION: 'Bitte geben Sie eine Beschreibung ein',
             },
             DATA_SOURCE: {
                 DATA_SOURCE: 'Datenquelle',
@@ -4692,6 +4698,8 @@ function config($translateProvider) {
                 SELECT_GATEWAY: 'Sélectionnez Gateway',
                 ADD_GATEWAY: 'Ajouter une passerelle',
                 EDIT_GATEWAY: 'Modifier la passerelle',
+                DESCRIPTION: 'Description',
+                INPUT_DESCRIPTION: 'Veuillez saisir la description',
             },
             DATA_SOURCE: {
                 DATA_SOURCE: 'Source des données',
@@ -6122,6 +6130,8 @@ function config($translateProvider) {
                 SELECT_GATEWAY: 'Seleccione Gateway',
                 ADD_GATEWAY: 'Agregar puerta de enlace',
                 EDIT_GATEWAY: 'Editar puerta de enlace',
+                DESCRIPTION: 'Descripción',
+                INPUT_DESCRIPTION: 'Por favor, introduzca la descripción',
             },
             DATA_SOURCE: {
                 DATA_SOURCE: 'Origen de datos',
@@ -7552,6 +7562,8 @@ function config($translateProvider) {
                 SELECT_GATEWAY: 'Выберите шлюз',
                 ADD_GATEWAY: 'Добавить шлюз',
                 EDIT_GATEWAY: 'Изменить шлюз',
+                DESCRIPTION: 'Описание',
+                INPUT_DESCRIPTION: 'Пожалуйста, введите описание',
             },
             DATA_SOURCE: {
                 DATA_SOURCE: 'Источник данных',
@@ -8982,6 +8994,8 @@ function config($translateProvider) {
                 SELECT_GATEWAY: 'حدد البوابة',
                 ADD_GATEWAY: 'إضافة بوابة',
                 EDIT_GATEWAY: 'تحرير البوابة',
+                DESCRIPTION: 'وصف',
+                INPUT_DESCRIPTION: 'يرجى إدخال الوصف',
             },
             DATA_SOURCE: {
                 DATA_SOURCE: 'مصدر البيانات',
@@ -10412,6 +10426,8 @@ function config($translateProvider) {
                 SELECT_GATEWAY: 'Chọn Cổng kết nối',
                 ADD_GATEWAY: 'Thêm Gateway',
                 EDIT_GATEWAY: 'Chỉnh sửa Gateway',
+                DESCRIPTION: 'Sự miêu tả',
+                INPUT_DESCRIPTION: 'Vui lòng nhập mô tả',
             },
             DATA_SOURCE: {
                 DATA_SOURCE: 'Nguồn dữ liệu',
@@ -11842,6 +11858,8 @@ function config($translateProvider) {
                 SELECT_GATEWAY: 'เลือกเกตเวย์',
                 ADD_GATEWAY: 'เพิ่มเกตเวย์',
                 EDIT_GATEWAY: 'แก้ไขเกตเวย์',
+                DESCRIPTION: 'การบรรยาย',
+                INPUT_DESCRIPTION: 'กรุณาใส่คําอธิบาย',
             },
             DATA_SOURCE: {
                 DATA_SOURCE: 'แหล่งข้อมูล',
@@ -13273,6 +13291,8 @@ function config($translateProvider) {
                 SELECT_GATEWAY: 'Ağ geçidini seçin',
                 ADD_GATEWAY: 'Ağ Geçidi EkleAdd Gateway',
                 EDIT_GATEWAY: 'Ağ Geçidini Düzenle',
+                DESCRIPTION: 'Tarif',
+                INPUT_DESCRIPTION: 'Lütfen Açıklama Giriniz',
             },
             DATA_SOURCE: {
                 DATA_SOURCE: 'Veri Kaynağı',
@@ -14703,6 +14723,8 @@ function config($translateProvider) {
                 SELECT_GATEWAY: 'Pilih Get Laluan',
                 ADD_GATEWAY: 'Menambah Get Laluan',
                 EDIT_GATEWAY: 'Edit Get Laluan',
+                DESCRIPTION: 'Keterangan',
+                INPUT_DESCRIPTION: 'Sila Input Penerangan',
             },
             DATA_SOURCE: {
                 DATA_SOURCE: 'Sumber Data',
@@ -16125,6 +16147,8 @@ function config($translateProvider) {
                 SELECT_GATEWAY: 'Pilih Gateway',
                 ADD_GATEWAY: 'Tambahkan Gateway',
                 EDIT_GATEWAY: 'Edit Gateway',
+                DESCRIPTION: 'Deskripsi',
+                INPUT_DESCRIPTION: 'Silakan masukkan deskripsi',
             },
             DATA_SOURCE: {
                 DATA_SOURCE: 'Sumber Data',
