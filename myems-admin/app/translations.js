@@ -405,6 +405,8 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: 'Last Seen Datetime',
                 INPUT_PROTOCOL: 'Please Input Protocol',
                 INPUT_CONNECTION: 'Please Input Connection',
+                DESCRIPTION: 'Description',
+                INPUT_DESCRIPTION: 'Please Input Description',
             },
             POINT: {
                 OBJECT_TYPE: 'Object Type',
@@ -1818,6 +1820,8 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: '最后在线时间',
                 INPUT_PROTOCOL: '请输入协议类型',
                 INPUT_CONNECTION: '请输入连接地址',
+                DESCRIPTION: '描述',
+                INPUT_DESCRIPTION: '请输入描述',
             },
             POINT: {
                 OBJECT_TYPE: '对象类型',
@@ -3259,6 +3263,8 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: 'Zuletzt gesehen datetime',
                 INPUT_PROTOCOL: 'Bitte geben Sie den Protokolltyp ein',
                 INPUT_CONNECTION: 'Bitte geben Sie die Verbindungsadresse ein',
+                DESCRIPTION: 'Beschreibung',
+                INPUT_DESCRIPTION: 'Bitte geben Sie eine Beschreibung ein',
             },
             POINT: {
                 OBJECT_TYPE: 'Objekttyp',
@@ -4711,6 +4717,8 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: 'Date de la dernière vue',
                 INPUT_PROTOCOL: 'S’il vous plaît entrer le protocole',
                 INPUT_CONNECTION: 'Veuillez saisir la connexion',
+                DESCRIPTION: 'Description',
+                INPUT_DESCRIPTION: 'Veuillez saisir la description',
             },
             POINT: {
                 OBJECT_TYPE: 'Type d’objet',
@@ -6143,6 +6151,8 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: 'Fecha y hora de la última vista',
                 INPUT_PROTOCOL: 'Por favor, introduzca el protocolo',
                 INPUT_CONNECTION: 'Por favor, introduzca la conexión',
+                DESCRIPTION: 'Descripción',
+                INPUT_DESCRIPTION: 'Por favor, introduzca la descripción',
             },
             POINT: {
                 OBJECT_TYPE: 'Tipo de objeto',
@@ -7575,6 +7585,8 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: 'Дата и время последнего посещения',
                 INPUT_PROTOCOL: 'Пожалуйста, введите протокол',
                 INPUT_CONNECTION: 'Пожалуйста, введите соединение',
+                DESCRIPTION: 'Описание',
+                INPUT_DESCRIPTION: 'Пожалуйста, введите описание',
             },
             POINT: {
                 OBJECT_TYPE: 'Тип объекта',
@@ -9007,6 +9019,8 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: 'تاريخ آخر ظهور',
                 INPUT_PROTOCOL: 'يرجى إدخال بروتوكول',
                 INPUT_CONNECTION: 'يرجى إدخال اتصال',
+                DESCRIPTION: 'وصف',
+                INPUT_DESCRIPTION: 'يرجى إدخال الوصف',
             },
             POINT: {
                 OBJECT_TYPE: 'نوع الكائن',
@@ -10439,6 +10453,8 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: 'Ngày giờ được nhìn thấy lần cuối',
                 INPUT_PROTOCOL: 'Vui lòng nhập giao thức',
                 INPUT_CONNECTION: 'Vui lòng nhập kết nối',
+                DESCRIPTION: 'Sự miêu tả',
+                INPUT_DESCRIPTION: 'Vui lòng nhập mô tả',
             },
             POINT: {
                 OBJECT_TYPE: 'Loại đối tượng',
@@ -11871,6 +11887,8 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: 'วันที่เห็นล่าสุด',
                 INPUT_PROTOCOL: 'กรุณาป้อนโปรโตคอล',
                 INPUT_CONNECTION: 'กรุณาใส่การเชื่อมต่อ',
+                DESCRIPTION: 'การบรรยาย',
+                INPUT_DESCRIPTION: 'กรุณาใส่คําอธิบาย',
             },
             POINT: {
                 OBJECT_TYPE: 'ประเภทวัตถุ',
@@ -13304,6 +13322,8 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: 'Son Görülme Datetime',
                 INPUT_PROTOCOL: 'Lütfen Giriş Protokolü',
                 INPUT_CONNECTION: 'Lütfen Giriş Bağlantısı',
+                DESCRIPTION: 'Tarif',
+                INPUT_DESCRIPTION: 'Lütfen Açıklama Giriniz',
             },
             POINT: {
                 OBJECT_TYPE: 'Nesne Türü',
@@ -14736,6 +14756,8 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: 'Tarikh Dilihat Terakhir',
                 INPUT_PROTOCOL: 'Sila Protokol Input',
                 INPUT_CONNECTION: 'Sila Input Sambungan',
+                DESCRIPTION: 'Keterangan',
+                INPUT_DESCRIPTION: 'Sila Input Penerangan',
             },
             POINT: {
                 OBJECT_TYPE: 'Jenis Objek',
@@ -16160,6 +16182,8 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: 'Waktu Tanggal Terakhir Terlihat',
                 INPUT_PROTOCOL: 'Silakan masukan protokol',
                 INPUT_CONNECTION: 'Silakan masukkan koneksi',
+                DESCRIPTION: 'Deskripsi',
+                INPUT_DESCRIPTION: 'Silakan masukkan deskripsi',
             },
             POINT: {
                 OBJECT_TYPE: 'Tipe Objek',

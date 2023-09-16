@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added Indonesian language to myems-web
 - added description property to gateway in database, myems-api and myems-admin
 - added equipment energy category report hyperlink with equipment uuid to equipment tracking
+- added description property to data source in database, myems-api and myems-admin
 ### Changed
 - changed user avator from emoji to image
 ### Fixed
