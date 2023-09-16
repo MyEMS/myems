@@ -17,6 +17,7 @@
 										<th class="text-center">{{'DATA_SOURCE.PROTOCOL' | translate}}</th>
 										<th class="text-center">{{'DATA_SOURCE.CONNECTION' | translate}}</th>
 										<th class="text-center">{{'DATA_SOURCE.LAST_SEEN_DATETIME' | translate}}</th>
+										<th class="text-center">{{'DATA_SOURCE.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
 										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 									</tr>
 								</thead>
@@ -28,6 +29,7 @@
 										<td class="text-center">{{ datasource.protocol }}</td>
 										<td class="text-center">{{ datasource.connection }}</td>
 										<td class="text-center">{{ datasource.last_seen_datetime }}</td>
+										<td class="text-center">{{ datasource.description}}</td>
 										<td class="text-center">
 											<a ng-click="editDataSource(datasource)"
 												class="btn btn-primary btn-rounded btn-xs">{{'SETTING.EDIT' | translate}}</a>

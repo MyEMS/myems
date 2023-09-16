@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "9e03d92b-550b-4ccd-bf57-7ae99ee9ce15",
+		"_postman_id": "4bb3e57d-104b-4196-a531-c9ae1bf8d895",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -2376,7 +2376,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Modbus1\", \"gateway_id\": 1, \"protocol\":\"modbus-tcp\", \"connection\":\"{\\\"host\\\":\\\"10.1.2.88\\\", \\\"port\\\":502}\"}}"
+									"raw": "{\"data\":{\"name\":\"Modbus1\", \"gateway_id\": 1, \"protocol\":\"modbus-tcp\", \"connection\":\"{\\\"host\\\":\\\"10.1.2.88\\\", \\\"port\\\":502}\", \"description\":\"Modbus1\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/datasources",
@@ -2441,7 +2441,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Modbus1\", \"gateway_id\":1, \"protocol\":\"modbus-tcp\", \"connection\":\"{\\\"host\\\":\\\"10.1.2.99\\\", \\\"port\\\":502}\"}}"
+									"raw": "{\"data\":{\"name\":\"Modbus1\", \"gateway_id\":1, \"protocol\":\"modbus-tcp\", \"connection\":\"{\\\"host\\\":\\\"10.1.2.99\\\", \\\"port\\\":502}\", \"description\":\"Modbus1\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/datasources/1",

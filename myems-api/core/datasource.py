@@ -34,7 +34,7 @@ class DataSourceCollection:
                                         "name": row[1],
                                         "uuid": row[2]}
 
-        query = (" SELECT id, name, uuid, gateway_id, protocol, connection, last_seen_datetime_utc "
+        query = (" SELECT id, name, uuid, gateway_id, protocol, connection, last_seen_datetime_utc, description "
                  " FROM tbl_data_sources "
                  " ORDER BY id ")
         cursor.execute(query)
@@ -60,7 +60,8 @@ class DataSourceCollection:
                                "gateway": gateway_dict.get(row[3]),
                                "protocol": row[4],
                                "connection": row[5],
-                               "last_seen_datetime": last_seen_datetime
+                               "last_seen_datetime": last_seen_datetime,
+                               "description": row[7]
                                }
 
                 result.append(meta_result)
@@ -134,6 +135,13 @@ class DataSourceCollection:
                                    description='API.INVALID_CONNECTION')
         connection = str.strip(new_values['data']['connection'])
 
+        if 'description' in new_values['data'].keys() and \
+                new_values['data']['description'] is not None and \
+                len(str(new_values['data']['description'])) > 0:
+            description = str.strip(new_values['data']['description'])
+        else:
+            description = None
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -155,13 +163,14 @@ class DataSourceCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_GATEWAY_ID')
 
-        add_values = (" INSERT INTO tbl_data_sources (name, uuid, gateway_id, protocol, connection) "
-                      " VALUES (%s, %s, %s, %s, %s) ")
+        add_values = (" INSERT INTO tbl_data_sources (name, uuid, gateway_id, protocol, connection, description) "
+                      " VALUES (%s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     gateway_id,
                                     protocol,
-                                    connection))
+                                    connection,
+                                    description))
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
@@ -202,7 +211,7 @@ class DataSourceItem:
                                         "name": row[1],
                                         "uuid": row[2]}
 
-        query = (" SELECT id, name, uuid, gateway_id, protocol, connection, last_seen_datetime_utc "
+        query = (" SELECT id, name, uuid, gateway_id, protocol, connection, last_seen_datetime_utc, description "
                  " FROM tbl_data_sources "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -230,7 +239,8 @@ class DataSourceItem:
                   "gateway": gateway_dict.get(row[3]),
                   "protocol": row[4],
                   "connection": row[5],
-                  "last_seen_datetime": last_seen_datetime
+                  "last_seen_datetime": last_seen_datetime,
+                  "description": row[7]
                   }
 
         resp.text = json.dumps(result)
@@ -349,6 +359,13 @@ class DataSourceItem:
                                    description='API.INVALID_CONNECTION')
         connection = str.strip(new_values['data']['connection'])
 
+        if 'description' in new_values['data'].keys() and \
+                new_values['data']['description'] is not None and \
+                len(str(new_values['data']['description'])) > 0:
+            description = str.strip(new_values['data']['description'])
+        else:
+            description = None
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -371,12 +388,13 @@ class DataSourceItem:
                                    description='API.INVALID_GATEWAY_ID')
 
         update_row = (" UPDATE tbl_data_sources "
-                      " SET name = %s, gateway_id = %s, protocol = %s, connection = %s "
+                      " SET name = %s, gateway_id = %s, protocol = %s, connection = %s, description = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     gateway_id,
                                     protocol,
                                     connection,
+                                    description,
                                     id_,))
         cnx.commit()
 
