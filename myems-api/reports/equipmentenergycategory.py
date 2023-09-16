@@ -531,6 +531,7 @@ class Reporting:
 
         result['equipment'] = dict()
         result['equipment']['name'] = equipment['name']
+        result['equipment']['id'] = equipment['id']
 
         result['base_period'] = dict()
         result['base_period']['names'] = list()
