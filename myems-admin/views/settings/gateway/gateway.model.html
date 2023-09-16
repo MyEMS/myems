@@ -15,7 +15,7 @@
             <div class="form-group"><label class="col-sm-4 control-label">{{'GATEWAY.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
 
                 <div class="col-sm-8"><input ng-model="gateway.description" type="text" name="gatewaydescription" class="form-control" >
-                    <div class="m-t-xs" ng-show="form_gateway.gatewaydescription.$invalid && form_meter.gatewayname.$dirty">
+                    <div class="m-t-xs" ng-show="form_gateway.gatewaydescription.$invalid && form_gateway.gatewayname.$dirty">
                         <small class="text-danger" ng-show="form_gateway.gatewaydescription.$error.required">{{'GATEWAY.INPUT_DESCRIPTION' | translate}}</small>
                     </div>
                 </div>
