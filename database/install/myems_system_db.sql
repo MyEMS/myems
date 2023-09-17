@@ -179,7 +179,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_data_sources` (
   `protocol` VARCHAR(16) NOT NULL,
   `connection` LONGTEXT NOT NULL COMMENT 'MUST be in JSON format',
   `last_seen_datetime_utc` DATETIME NULL  COMMENT 'The last seen date time in UTC via PING or TELNET',
-  'description' VARCHAR(255),
+  `description` VARCHAR(255),
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_data_sources_index_1` ON  `myems_system_db`.`tbl_data_sources`   (`name`);
 CREATE INDEX `tbl_data_sources_index_2` ON  `myems_system_db`.`tbl_data_sources`   (`gateway_id`);
