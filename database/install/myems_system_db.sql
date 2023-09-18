@@ -564,7 +564,8 @@ VALUES
 (1002,'Combined Equipments','/monitoring/combinedequipments',1000,0),
 (1100,'Advanced Reporting','/advancedreporting',NULL,1),
 (1200,'Knowledge Base','/knowledgebase',NULL,0),
-(1300,'Microgrid','/microgrid',NULL,1);
+(1300,'Microgrid','/microgrid',NULL,1),
+(1301,'Microgrid Details','/microgriddetails',NULL,1);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_meters`
