@@ -606,6 +606,7 @@ class Reporting:
 
         result['tenant'] = dict()
         result['tenant']['name'] = tenant['name']
+        result['tenant']['id'] = tenant['id']
         result['tenant']['area'] = tenant['area']
         result['tenant']['working_calendars'] = working_calendar_list
 
