@@ -1,3 +1,4 @@
+import re
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 import falcon
@@ -45,19 +46,29 @@ class Reporting:
         else:
             api_key_control(req)
         print(req.params)
+        # this procedure accepts microgrid id or microgrid uuid to identify a microgrid
         microgrid_id = req.params.get('microgridid')
+        microgrid_uuid = req.params.get('microgriduuid')
 
         ################################################################################################################
         # Step 1: valid parameters
         ################################################################################################################
-        if microgrid_id is None:
+        if microgrid_id is None and microgrid_uuid is None:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
-        else:
+
+        if microgrid_id is not None:
             microgrid_id = str.strip(microgrid_id)
             if not microgrid_id.isdigit() or int(microgrid_id) <= 0:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_MICROGRID_ID')
+
+        if microgrid_uuid is not None:
+            regex = re.compile(r'^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}\Z', re.I)
+            match = regex.match(str.strip(microgrid_uuid))
+            if not bool(match):
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.INVALID_MICROGRID_UUID')
 
         reporting_start_datetime_utc = datetime.utcnow() - timedelta(days=1)
         reporting_end_datetime_utc = datetime.utcnow()
@@ -65,10 +76,6 @@ class Reporting:
         ################################################################################################################
         # Step 2: Step 2: query the microgrid
         ################################################################################################################
-        if not microgrid_id.isdigit() or int(microgrid_id) <= 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_MICROGRID_ID')
-
         cnx_system = mysql.connector.connect(**config.myems_system_db)
         cursor_system = cnx_system.cursor()
 
@@ -117,15 +124,24 @@ class Reporting:
                 cost_center_dict[row[0]] = {"id": row[0],
                                             "name": row[1],
                                             "uuid": row[2]}
-
-        query = (" SELECT id, name, uuid, "
-                 "        address, postal_code, latitude, longitude, capacity, "
-                 "        architecture_type_id, owner_type_id, "
-                 "        contact_id, cost_center_id, description "
-                 " FROM tbl_microgrids "
-                 " WHERE id = %s ")
-        cursor_system.execute(query, (microgrid_id,))
-        row = cursor_system.fetchone()
+        if microgrid_id is not None:
+            query = (" SELECT id, name, uuid, "
+                     "        address, postal_code, latitude, longitude, capacity, "
+                     "        architecture_type_id, owner_type_id, "
+                     "        contact_id, cost_center_id, description "
+                     " FROM tbl_microgrids "
+                     " WHERE id = %s ")
+            cursor_system.execute(query, (microgrid_id,))
+            row = cursor_system.fetchone()
+        elif microgrid_uuid is not None:
+            query = (" SELECT id, name, uuid, "
+                     "        address, postal_code, latitude, longitude, capacity, "
+                     "        architecture_type_id, owner_type_id, "
+                     "        contact_id, cost_center_id, description "
+                     " FROM tbl_microgrids "
+                     " WHERE uuid = %s ")
+            cursor_system.execute(query, (microgrid_uuid,))
+            row = cursor_system.fetchone()
 
         if row is None:
             cursor_system.close()
