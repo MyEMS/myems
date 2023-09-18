@@ -12,7 +12,7 @@ import {
   FormGroup,
   Input,
   Label,
-  Spinner
+  Spinner, Media
 } from 'reactstrap';
 import moment from 'moment';
 import loadable from '@loadable/component';
@@ -27,6 +27,8 @@ import Appcontext from '../../../context/Context'
 
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import { endOfDay} from 'date-fns';
+import {Link} from "react-router-dom";
+import Flex from "../../common/Flex";
 
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
@@ -97,7 +99,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
 
   //Results
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState(
-    [{dataField: 'name', text: t('Name'), sort: true}, {dataField: 'space', text: t('Space'), sort: true}]);
+    [{dataField: 'name', text: t('Name'), formatter: nameFormatter, sort: true}, {dataField: 'space', text: t('Space'), sort: true}]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
 
   useEffect(() => {
@@ -207,10 +209,52 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
         console.log(json);
         let tenants = [];
         if (json['tenants'].length > 0) {
+          let detailed_column_list = [];
+          detailed_column_list.push({
+            dataField: 'name',
+            text: t('Name'),
+            formatter: nameFormatter,
+            sort: true
+          });
+          detailed_column_list.push({
+            dataField: 'space',
+            text: t('Space'),
+            sort: true
+          });
+          json['energycategories'].forEach((currentValue, index) => {
+            detailed_column_list.push({
+              dataField: 'a' + 2 * index,
+              text: currentValue['name'] + ' (' + currentValue['unit_of_measure'] + ')',
+              sort: true,
+              formatter: function (decimalValue) {
+                if (typeof decimalValue === 'number') {
+                  return decimalValue.toFixed(2);
+                } else {
+                  return null;
+                }
+              }
+            },{
+              dataField: 'a' + (2 * index + 1),
+              text: currentValue['name'] + ' ' + t('Maximum Load') + ' (' + currentValue['unit_of_measure'] + ')',
+              sort: true,
+              formatter: function (decimalValue) {
+                if (typeof decimalValue === 'number') {
+                  return decimalValue.toFixed(2);
+                } else {
+                  return null;
+                }
+              }
+            })
+          });
+
+          setDetailedDataTableColumns(detailed_column_list);
+          console.log(detailed_column_list);
+
           json['tenants'].forEach((currentTenant, index) => {
             let detailed_value = {};
             detailed_value['id'] = currentTenant['id'];
             detailed_value['name'] = currentTenant['tenant_name'];
+            detailed_value['uuid'] = currentTenant['tenant_uuid'];
             detailed_value['space'] = currentTenant['space_name'];
             detailed_value['costcenter'] = currentTenant['cost_center_name'];
             currentTenant['values'].forEach((currentValue, energyCategoryIndex) => {
@@ -225,45 +269,6 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
 
         setTenantList(tenants);
 
-        let detailed_column_list = [];
-        detailed_column_list.push({
-          dataField: 'name',
-          text: t('Name'),
-          sort: true
-        });
-        detailed_column_list.push({
-          dataField: 'space',
-          text: t('Space'),
-          sort: true
-        });
-        json['energycategories'].forEach((currentValue, index) => {
-          detailed_column_list.push({
-            dataField: 'a' + 2 * index,
-            text: currentValue['name'] + ' (' + currentValue['unit_of_measure'] + ')',
-            sort: true,
-            formatter: function (decimalValue) {
-              if (typeof decimalValue === 'number') {
-                return decimalValue.toFixed(2);
-              } else {
-                return null;
-              }
-            }
-          },{
-            dataField: 'a' + (2 * index + 1),
-            text: currentValue['name'] + ' ' + t('Maximum Load') + ' (' + currentValue['unit_of_measure'] + ')',
-            sort: true,
-            formatter: function (decimalValue) {
-              if (typeof decimalValue === 'number') {
-                return decimalValue.toFixed(2);
-              } else {
-                return null;
-              }
-            }
-          })
-        });
-
-        setDetailedDataTableColumns(detailed_column_list);
-        console.log(detailed_column_list);
         setExcelBytesBase64(json['excel_bytes_base64']);
 
         // enable submit button
@@ -298,7 +303,15 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
         });
   };
 
-
+  const nameFormatter = (dataField, { name, uuid }) => (
+    <Link to={{pathname:'/tenant/energycategory?uuid=' + uuid}}  target = "_blank">
+      <Media tag={Flex} align="center">
+        <Media body className="ml-2">
+          <h5 className="mb-0 fs--1">{name}</h5>
+        </Media>
+      </Media>
+    </Link>
+  );
 
   return (
     <Fragment>

@@ -148,7 +148,7 @@ class Reporting:
         for node in LevelOrderIter(node_dict[space_id]):
             space_dict[node.id] = node.name
 
-        cursor_system_db.execute(" SELECT t.id, t.name AS tenant_name, s.name AS space_name, "
+        cursor_system_db.execute(" SELECT t.id, t.name AS tenant_name, t.uuid AS tenant_uuid, s.name AS space_name, "
                                  "        cc.name AS cost_center_name, t.description "
                                  " FROM tbl_spaces s, tbl_spaces_tenants st, tbl_tenants t, tbl_cost_centers cc "
                                  " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
@@ -158,9 +158,10 @@ class Reporting:
         if rows_tenants is not None and len(rows_tenants) > 0:
             for row in rows_tenants:
                 tenant_dict[row[0]] = {"tenant_name": row[1],
-                                       "space_name": row[2],
-                                       "cost_center_name": row[3],
-                                       "description": row[4],
+                                       "tenant_uuid": row[2],
+                                       "space_name": row[3],
+                                       "cost_center_name": row[4],
+                                       "description": row[5],
                                        "values": list(),
                                        "maximum": list()}
 
@@ -250,6 +251,7 @@ class Reporting:
             tenant_list.append({
                 "id": tenant_id,
                 "tenant_name": tenant['tenant_name'],
+                "tenant_uuid": tenant['tenant_uuid'],
                 "space_name": tenant['space_name'],
                 "cost_center_name": tenant['cost_center_name'],
                 "description": tenant['description'],
