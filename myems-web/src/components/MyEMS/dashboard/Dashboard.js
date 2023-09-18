@@ -21,6 +21,7 @@ import BarChart from '../common/BarChart';
 import ChartSpacesStackBar from '../common/ChartSpacesStackBar';
 import CustomizeMap from '../common/AMap';
 import { getItemFromStore } from '../../../helpers/utils';
+import CustomizeMapBox from '../common/CustomizeMapBox';
 
 ChartJS.register(annotationPlugin);
 
@@ -485,8 +486,8 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
       { settings.showOnlineMap?
         <div className='wrapper'>
           <div className='wrapper-child-left mb-3'>
-          <CustomizeMap Latitude={116.397428} Longitude={39.90923} Zoom={15}>
-          </CustomizeMap>
+          <CustomizeMapBox Latitude={116.397428} Longitude={39.90923} Zoom={15}>
+          </CustomizeMapBox>
           </div>
           <div className='wrapper-child-right-1'>
           <CardSummary
