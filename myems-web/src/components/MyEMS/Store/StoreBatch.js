@@ -12,7 +12,7 @@ import {
   FormGroup,
   Input,
   Label,
-  Spinner
+  Spinner, Media
 } from 'reactstrap';
 import moment from 'moment';
 import loadable from '@loadable/component';
@@ -26,6 +26,8 @@ import { APIBaseURL } from '../../../config';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import { endOfDay} from 'date-fns';
 import AppContext from '../../../context/Context';
+import {Link} from "react-router-dom";
+import Flex from "../../common/Flex";
 
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
@@ -205,27 +207,11 @@ const StoreBatch = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       if (isResponseOK) {
         console.log(json)
-        let stores = [];
-        if (json['stores'].length > 0) {
-          json['stores'].forEach((currentStore, index) => {
-            let detailed_value = {};
-            detailed_value['id'] = currentStore['id'];
-            detailed_value['name'] = currentStore['store_name'];
-            detailed_value['space'] = currentStore['space_name'];
-            detailed_value['costcenter'] = currentStore['cost_center_name'];
-            currentStore['values'].forEach((currentValue, energyCategoryIndex) => {
-              detailed_value['a' + energyCategoryIndex] = currentValue;
-            });
-            stores.push(detailed_value);
-          });
-        };
-
-        setStoreList(stores);
-
         let detailed_column_list = [];
         detailed_column_list.push({
           dataField: 'name',
           text: t('Name'),
+          formatter: nameFormatter,
           sort: true
         });
         detailed_column_list.push({
@@ -248,6 +234,24 @@ const StoreBatch = ({ setRedirect, setRedirectUrl, t }) => {
           })
         });
         setDetailedDataTableColumns(detailed_column_list);
+
+        let stores = [];
+        if (json['stores'].length > 0) {
+          json['stores'].forEach((currentStore, index) => {
+            let detailed_value = {};
+            detailed_value['id'] = currentStore['id'];
+            detailed_value['name'] = currentStore['store_name'];
+            detailed_value['uuid'] = currentStore['store_uuid'];
+            detailed_value['space'] = currentStore['space_name'];
+            detailed_value['costcenter'] = currentStore['cost_center_name'];
+            currentStore['values'].forEach((currentValue, energyCategoryIndex) => {
+              detailed_value['a' + energyCategoryIndex] = currentValue;
+            });
+            stores.push(detailed_value);
+          });
+        };
+
+        setStoreList(stores);
 
         setExcelBytesBase64(json['excel_bytes_base64']);
 
@@ -283,7 +287,15 @@ const StoreBatch = ({ setRedirect, setRedirectUrl, t }) => {
         });
   };
 
-
+  const nameFormatter = (dataField, { name, uuid }) => (
+    <Link to={{pathname:'/store/energycategory?uuid=' + uuid}}  target = "_blank">
+      <Media tag={Flex} align="center">
+        <Media body className="ml-2">
+          <h5 className="mb-0 fs--1">{name}</h5>
+        </Media>
+      </Media>
+    </Link>
+  );
 
   return (
     <Fragment>
