@@ -16,6 +16,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added equipment energy category report hyperlink with equipment uuid to equipment tracking
 - added description property to data source in database, myems-api and myems-admin
 - added tenant energy category report hyperlink with uuid to tenant batch report
+- added store energy category report hyperlink with uuid to store batch report
+- 
 ### Changed
 - changed user avator from emoji to image
 ### Fixed
