@@ -22,7 +22,7 @@ const WorkingDaysConsumptionTable = ({ title, data, columns, t }) => {
             <Col>
               <BootstrapTable
                 bootstrap4
-                keyField="id"
+                keyField="name"
                 data={data}
                 columns={columns}
                 defaultSorted={defaultSorted}
