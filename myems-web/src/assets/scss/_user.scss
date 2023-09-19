@@ -275,3 +275,8 @@ grid-row: 2;
     opacity: 0;
   }
 }
+
+.mapboxgl-canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
