@@ -1373,7 +1373,7 @@ const TenantEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
         <CardBody className="p-3">
           <Form onSubmit={handleSubmit}>
             <Row form>
-              <Col xs={6} sm={3} hidden={spaceCascaderHidden}>>
+              <Col xs={6} sm={3} hidden={spaceCascaderHidden}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="space">
                     {t('Space')}

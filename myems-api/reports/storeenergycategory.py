@@ -605,6 +605,7 @@ class Reporting:
 
         result['store'] = dict()
         result['store']['name'] = store['name']
+        result['store']['id'] = store['id']
         result['store']['area'] = store['area']
         result['store']['working_calendars'] = working_calendar_list
 

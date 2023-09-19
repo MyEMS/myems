@@ -148,8 +148,8 @@ class Reporting:
         for node in LevelOrderIter(node_dict[space_id]):
             space_dict[node.id] = node.name
 
-        cursor_system_db.execute(" SELECT store.id, store.name AS store_name, s.name AS space_name, "
-                                 "        cc.name AS cost_center_name, store.description "
+        cursor_system_db.execute(" SELECT store.id, store.name AS store_name, store.uuid AS store_uuid, "
+                                 " s.name AS space_name, cc.name AS cost_center_name, store.description "
                                  " FROM tbl_spaces s, tbl_spaces_stores ss, tbl_stores store, tbl_cost_centers cc "
                                  " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
                                  "       AND ss.space_id = s.id AND ss.store_id = store.id "
@@ -158,9 +158,10 @@ class Reporting:
         if rows_stores is not None and len(rows_stores) > 0:
             for row in rows_stores:
                 store_dict[row[0]] = {"store_name": row[1],
-                                      "space_name": row[2],
-                                      "cost_center_name": row[3],
-                                      "description": row[4],
+                                      "store_uuid": row[2],
+                                      "space_name": row[3],
+                                      "cost_center_name": row[4],
+                                      "description": row[5],
                                       "values": list()}
 
         ################################################################################################################
@@ -247,6 +248,7 @@ class Reporting:
             store_list.append({
                 "id": store_id,
                 "store_name": store['store_name'],
+                "store_uuid": store['store_uuid'],
                 "space_name": store['space_name'],
                 "cost_center_name": store['cost_center_name'],
                 "description": store['description'],
