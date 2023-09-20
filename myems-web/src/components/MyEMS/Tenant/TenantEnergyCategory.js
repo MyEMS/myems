@@ -34,7 +34,7 @@ import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import { endOfDay} from 'date-fns';
 import AppContext from '../../../context/Context';
 import MultipleLineChart from '../common/MultipleLineChart';
-import {useLocation} from "react-router-dom";
+import {useLocation, Link} from "react-router-dom";
 
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 const WorkingDaysConsumptionTable = loadable(() => import('../common/WorkingDaysConsumptionTable'));
@@ -1366,7 +1366,9 @@ const TenantEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
     <Fragment>
       <div>
         <Breadcrumb>
-          <BreadcrumbItem>{t('Tenant Data')}</BreadcrumbItem><BreadcrumbItem active>{t('Energy Category Data')}</BreadcrumbItem>
+          <BreadcrumbItem>{t('Tenant Data')}</BreadcrumbItem><BreadcrumbItem active onClick={ () => window.location.reload() }>
+            <Link to="/tenant/energycategory">{t('Energy Category Data')}</Link>
+          </BreadcrumbItem>
         </Breadcrumb>
       </div>
       <Card className="bg-light mb-3">
