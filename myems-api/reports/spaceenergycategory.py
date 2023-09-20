@@ -658,6 +658,7 @@ class Reporting:
 
         result['space'] = dict()
         result['space']['name'] = space['name']
+        result['space']['id'] = space['id']
         result['space']['area'] = space['area']
         result['space']['working_calendars'] = working_calendar_list
 
