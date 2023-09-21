@@ -188,12 +188,12 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
 
   const spaceName = (spaceList, spaceID, name, ids) => {
     let newName = name;
-    let newIds = ids;
+    let newIds = ids + '';
     for(let space of spaceList){
       if(space.value == spaceID) {
         setSelectedSpaceName(newName.length == 0 ? space.label : newName + '/' + space.label);
         let idArr = []
-        ids.split('-').forEach(id => idArr.push(+id))
+        newIds.split('-').forEach(id => idArr.push(+id))
         idArr.push(space.value)
         setCascaderValue(idArr)
         return true;
