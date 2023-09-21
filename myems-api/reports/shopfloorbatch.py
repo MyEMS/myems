@@ -148,7 +148,7 @@ class Reporting:
         for node in LevelOrderIter(node_dict[space_id]):
             space_dict[node.id] = node.name
 
-        cursor_system_db.execute(" SELECT shopfloor.id, shopfloor.name AS shopfloor_name, s.name AS space_name, "
+        cursor_system_db.execute(" SELECT shopfloor.id, shopfloor.name AS shopfloor_name, shopfloor.uuid AS shopfloor_uuid, s.name AS space_name, "
                                  "        cc.name AS cost_center_name, shopfloor.description "
                                  " FROM tbl_spaces s, tbl_spaces_shopfloors ss,"
                                  " tbl_shopfloors shopfloor, tbl_cost_centers cc "
@@ -159,9 +159,10 @@ class Reporting:
         if rows_shopfloors is not None and len(rows_shopfloors) > 0:
             for row in rows_shopfloors:
                 shopfloor_dict[row[0]] = {"shopfloor_name": row[1],
-                                          "space_name": row[2],
-                                          "cost_center_name": row[3],
-                                          "description": row[4],
+                                          "shopfloor_uuid": row[2],
+                                          "space_name": row[3],
+                                          "cost_center_name": row[4],
+                                          "description": row[5],
                                           "values": list()}
 
         ################################################################################################################
@@ -248,6 +249,7 @@ class Reporting:
             shopfloor_list.append({
                 "id": shopfloor_id,
                 "shopfloor_name": shopfloor['shopfloor_name'],
+                "shopfloor_uuid": shopfloor['shopfloor_uuid'],
                 "space_name": shopfloor['space_name'],
                 "cost_center_name": shopfloor['cost_center_name'],
                 "description": shopfloor['description'],
