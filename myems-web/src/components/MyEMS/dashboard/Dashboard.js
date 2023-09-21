@@ -486,7 +486,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
       { settings.showOnlineMap?
         <div className='wrapper'>
           <div className='wrapper-child-left mb-3'>
-          <CustomizeMapBox Latitude={116.397428} Longitude={39.90923} Zoom={15}>
+          <CustomizeMapBox Latitude={-96} Longitude={37.8} Zoom={3}>
           </CustomizeMapBox>
           </div>
           <div className='wrapper-child-right-1'>
