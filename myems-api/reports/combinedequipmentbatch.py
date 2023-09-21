@@ -147,7 +147,7 @@ class Reporting:
         for node in LevelOrderIter(node_dict[space_id]):
             space_dict[node.id] = node.name
 
-        cursor_system_db.execute(" SELECT ce.id, ce.name AS combined_equipment_name, s.name AS space_name, "
+        cursor_system_db.execute(" SELECT ce.id, ce.name AS combined_equipment_name, ce.uuid AS combined_equipment_uuid, s.name AS space_name, "
                                  "        cc.name AS cost_center_name, ce.description "
                                  " FROM tbl_spaces s, tbl_spaces_combined_equipments sce, "
                                  " tbl_combined_equipments ce, tbl_cost_centers cc "
@@ -158,9 +158,10 @@ class Reporting:
         if rows_combined_equipments is not None and len(rows_combined_equipments) > 0:
             for row in rows_combined_equipments:
                 combined_equipment_dict[row[0]] = {"combined_equipment_name": row[1],
-                                                   "space_name": row[2],
-                                                   "cost_center_name": row[3],
-                                                   "description": row[4],
+                                                   "combined_equipment_uuid": row[2],
+                                                   "space_name": row[3],
+                                                   "cost_center_name": row[4],
+                                                   "description": row[5],
                                                    "values": list()}
 
         ################################################################################################################
@@ -247,6 +248,7 @@ class Reporting:
             combined_equipment_list.append({
                 "id": combined_equipment_id,
                 "combined_equipment_name": combined_equipment['combined_equipment_name'],
+                "combined_equipment_uuid": combined_equipment['combined_equipment_uuid'],
                 "space_name": combined_equipment['space_name'],
                 "cost_center_name": combined_equipment['cost_center_name'],
                 "description": combined_equipment['description'],
