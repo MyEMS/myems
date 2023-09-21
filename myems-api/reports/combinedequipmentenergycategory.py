@@ -638,6 +638,7 @@ class Reporting:
 
         result['combined_equipment'] = dict()
         result['combined_equipment']['name'] = combined_equipment['name']
+        result['combined_equipment']['id'] = combined_equipment['id']
 
         result['base_period'] = dict()
         result['base_period']['names'] = list()
