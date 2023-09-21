@@ -12,7 +12,7 @@ import {
   FormGroup,
   Input,
   Label,
-  Spinner
+  Spinner, Media
 } from 'reactstrap';
 import moment from 'moment';
 import loadable from '@loadable/component';
@@ -26,6 +26,8 @@ import { APIBaseURL } from '../../../config';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import { endOfDay} from 'date-fns';
 import AppContext from '../../../context/Context';
+import {Link} from "react-router-dom";
+import Flex from "../../common/Flex";
 
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
@@ -205,27 +207,11 @@ const EquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       if (isResponseOK) {
         console.log(json)
-        let equipments = [];
-        if (json['equipments'].length > 0) {
-          json['equipments'].forEach((currentEquipment, index) => {
-            let detailed_value = {};
-            detailed_value['id'] = currentEquipment['id'];
-            detailed_value['name'] = currentEquipment['equipment_name'];
-            detailed_value['space'] = currentEquipment['space_name'];
-            detailed_value['costcenter'] = currentEquipment['cost_center_name'];
-            currentEquipment['values'].forEach((currentValue, energyCategoryIndex) => {
-              detailed_value['a' + energyCategoryIndex] = currentValue;
-            });
-            equipments.push(detailed_value);
-          });
-        };
-
-        setEquipmentList(equipments);
-
         let detailed_column_list = [];
         detailed_column_list.push({
           dataField: 'name',
           text: t('Name'),
+          formatter: nameFormatter,
           sort: true
         });
         detailed_column_list.push({
@@ -248,6 +234,23 @@ const EquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
           })
         });
         setDetailedDataTableColumns(detailed_column_list);
+        let equipments = [];
+        if (json['equipments'].length > 0) {
+          json['equipments'].forEach((currentEquipment, index) => {
+            let detailed_value = {};
+            detailed_value['id'] = currentEquipment['id'];
+            detailed_value['name'] = currentEquipment['equipment_name'];
+            detailed_value['uuid'] = currentEquipment['equipment_uuid'];
+            detailed_value['space'] = currentEquipment['space_name'];
+            detailed_value['costcenter'] = currentEquipment['cost_center_name'];
+            currentEquipment['values'].forEach((currentValue, energyCategoryIndex) => {
+              detailed_value['a' + energyCategoryIndex] = currentValue;
+            });
+            equipments.push(detailed_value);
+          });
+        };
+
+        setEquipmentList(equipments);
 
         setExcelBytesBase64(json['excel_bytes_base64']);
 
@@ -283,7 +286,15 @@ const EquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
         });
   };
 
-
+  const nameFormatter = (dataField, { name, uuid }) => (
+    <Link to={{pathname:'/equipment/energycategory?uuid=' + uuid}}  target = "_blank">
+      <Media tag={Flex} align="center">
+        <Media body className="ml-2">
+          <h5 className="mb-0 fs--1">{name}</h5>
+        </Media>
+      </Media>
+    </Link>
+  );
 
   return (
     <Fragment>
