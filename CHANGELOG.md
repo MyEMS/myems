@@ -20,6 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added shopfloor energy category report hyperlink with uuid to shopfloor batch report
 - added space energy category report hyperlink with uuid to space batch report
 - added combined_equipment energy category report hyperlink with equipment uuid to combined-equipment batch report
+- added equipment energy category report hyperlink with equipment uuid to equipment batch report
 ### Changed
 - changed user avator from emoji to image
 ### Fixed
