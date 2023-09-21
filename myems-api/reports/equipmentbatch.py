@@ -148,7 +148,7 @@ class Reporting:
         for node in LevelOrderIter(node_dict[space_id]):
             space_dict[node.id] = node.name
 
-        cursor_system_db.execute(" SELECT e.id, e.name AS equipment_name, s.name AS space_name, "
+        cursor_system_db.execute(" SELECT e.id, e.name AS equipment_name, e.uuid AS equipment_uuid, s.name AS space_name, "
                                  "        cc.name AS cost_center_name, e.description "
                                  " FROM tbl_spaces s, tbl_spaces_equipments se, "
                                  " tbl_equipments e, tbl_cost_centers cc "
@@ -159,9 +159,10 @@ class Reporting:
         if rows_equipments is not None and len(rows_equipments) > 0:
             for row in rows_equipments:
                 equipment_dict[row[0]] = {"equipment_name": row[1],
-                                          "space_name": row[2],
-                                          "cost_center_name": row[3],
-                                          "description": row[4],
+                                          "equipment_uuid": row[2],
+                                          "space_name": row[3],
+                                          "cost_center_name": row[4],
+                                          "description": row[5],
                                           "values": list()}
 
         ################################################################################################################
@@ -248,6 +249,7 @@ class Reporting:
             equipment_list.append({
                 "id": equipment_id,
                 "equipment_name": equipment['equipment_name'],
+                "equipment_uuid": equipment['equipment_uuid'],
                 "space_name": equipment['space_name'],
                 "cost_center_name": equipment['cost_center_name'],
                 "description": equipment['description'],
