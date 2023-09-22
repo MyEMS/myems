@@ -8,6 +8,8 @@ START TRANSACTION;
 
 ALTER TABLE `myems_system_db`.`tbl_gateways` ADD `description` VARCHAR(255) AFTER `last_seen_datetime_utc`;
 ALTER TABLE `myems_system_db`.`tbl_data_sources` ADD `description` VARCHAR(255) AFTER `last_seen_datetime_utc`;
+ALTER TABLE `myems_system_db`.`tbl_spaces` ADD `latitude` DECIMAL(9, 6) AFTER `cost_center_id`;
+ALTER TABLE `myems_system_db`.`tbl_spaces` ADD `longitude` DECIMAL(9, 6) AFTER `latitude`;
 
 INSERT INTO `myems_system_db`.`tbl_menus`(`id`, `name`, `route`, `parent_menu_id`, `is_hidden`)
 VALUES (1301, 'Microgrid Details','/microgriddetails',NULL,1);
