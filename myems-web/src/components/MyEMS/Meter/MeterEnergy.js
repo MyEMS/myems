@@ -32,7 +32,7 @@ import { periodTypeOptions } from '../common/PeriodTypeOptions';
 import { comparisonTypeOptions } from '../common/ComparisonTypeOptions';
 import { endOfDay} from 'date-fns';
 import AppContext from '../../../context/Context';
-import { useLocation } from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 
 
@@ -763,7 +763,9 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
     <Fragment>
       <div>
         <Breadcrumb>
-          <BreadcrumbItem>{t('Meter Data')}</BreadcrumbItem><BreadcrumbItem active>{t('Meter Energy')}</BreadcrumbItem>
+          <BreadcrumbItem>{t('Meter Data')}</BreadcrumbItem><BreadcrumbItem active onClick={ () => window.location.reload() }>
+            <Link to="/meter/meterenergy">{t('Meter Energy')}</Link>
+          </BreadcrumbItem>
         </Breadcrumb>
       </div>
       <Card className="bg-light mb-3">

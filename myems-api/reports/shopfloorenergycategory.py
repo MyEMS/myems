@@ -608,6 +608,7 @@ class Reporting:
 
         result['shopfloor'] = dict()
         result['shopfloor']['name'] = shopfloor['name']
+        result['shopfloor']['id'] = shopfloor['id']
         result['shopfloor']['area'] = shopfloor['area']
         result['shopfloor']['working_calendars'] = working_calendar_list
 

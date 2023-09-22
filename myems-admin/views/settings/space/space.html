@@ -39,6 +39,8 @@
 															{{'SETTING.IS_OUTPUT_COUNTED' | translate}}</th>
 														<th class="text-center">{{'SETTING.COSTCENTER' | translate}}
 														</th>
+														<th class="text-center">{{'SPACE.LATITUDE' | translate}}</th>
+										                <th class="text-center">{{'SPACE.LONGITUDE' | translate}}</th>
 														<th class="text-center">{{'SPACE.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
 														<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 													</tr>
@@ -58,6 +60,8 @@
 															{{ currentSpace.is_output_counted==false?'SETTING.NO':'SETTING.YES' | translate }}
 														</td>
 														<td class="text-center">{{currentSpace.cost_center.name}}</td>
+														<td class="text-center">{{ currentSpace.latitude }}</td>
+														<td class="text-center">{{ currentSpace.longitude }}</td>
 														<td class="text-center">{{currentSpace.description}}</td>
 														<td class="text-center">
 															<a class="btn btn-primary btn-rounded btn-xs"
@@ -100,6 +104,8 @@
 															{{'SETTING.IS_OUTPUT_COUNTED' | translate}}</th>
 														<th class="text-center">{{'SETTING.COSTCENTER' | translate}}
 														</th>
+														<th class="text-center">{{'SPACE.LATITUDE' | translate}}</th>
+										                <th class="text-center">{{'SPACE.LONGITUDE' | translate}}</th>
 														<th class="text-center">{{'SPACE.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
 														<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 													</tr>
@@ -119,6 +125,8 @@
 															{{ space.is_output_counted==false?'SETTING.NO':'SETTING.YES' | translate }}
 														</td>
 														<td class="text-center">{{space.cost_center.name}}</td>
+														<td class="text-center">{{ space.latitude }}</td>
+														<td class="text-center">{{ space.longitude }}</td>
 														<td class="text-center">{{space.description}}</td>
 														<td class="text-center">
 															<a class="btn btn-primary btn-rounded btn-xs"

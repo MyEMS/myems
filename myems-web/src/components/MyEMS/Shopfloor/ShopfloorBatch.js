@@ -12,7 +12,7 @@ import {
   FormGroup,
   Input,
   Label,
-  Spinner
+  Spinner, Media
 } from 'reactstrap';
 import moment from 'moment';
 import loadable from '@loadable/component';
@@ -27,6 +27,8 @@ import { APIBaseURL } from '../../../config';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import { endOfDay} from 'date-fns';
 import AppContext from '../../../context/Context';
+import {Link} from "react-router-dom";
+import Flex from "../../common/Flex";
 
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
@@ -207,27 +209,11 @@ const ShopfloorBatch = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       if (isResponseOK) {
         console.log(json);
-        let shopfloors = [];
-        if (json['shopfloors'].length > 0) {
-          json['shopfloors'].forEach((currentShopfloor, index) => {
-            let detailed_value = {};
-            detailed_value['id'] = currentShopfloor['id'];
-            detailed_value['name'] = currentShopfloor['shopfloor_name'];
-            detailed_value['space'] = currentShopfloor['space_name'];
-            detailed_value['costcenter'] = currentShopfloor['cost_center_name'];
-            currentShopfloor['values'].forEach((currentValue, energyCategoryIndex) => {
-              detailed_value['a' + energyCategoryIndex] = currentValue;
-            });
-            shopfloors.push(detailed_value);
-          });
-        };
-
-        setShopfloorList(shopfloors);
-
         let detailed_column_list = [];
         detailed_column_list.push({
           dataField: 'name',
           text: t('Name'),
+          formatter: nameFormatter,
           sort: true
         });
         detailed_column_list.push({
@@ -250,6 +236,23 @@ const ShopfloorBatch = ({ setRedirect, setRedirectUrl, t }) => {
           })
         });
         setDetailedDataTableColumns(detailed_column_list);
+        let shopfloors = [];
+        if (json['shopfloors'].length > 0) {
+          json['shopfloors'].forEach((currentShopfloor, index) => {
+            let detailed_value = {};
+            detailed_value['id'] = currentShopfloor['id'];
+            detailed_value['name'] = currentShopfloor['shopfloor_name'];
+            detailed_value['uuid'] = currentShopfloor['shopfloor_uuid'];
+            detailed_value['space'] = currentShopfloor['space_name'];
+            detailed_value['costcenter'] = currentShopfloor['cost_center_name'];
+            currentShopfloor['values'].forEach((currentValue, energyCategoryIndex) => {
+              detailed_value['a' + energyCategoryIndex] = currentValue;
+            });
+            shopfloors.push(detailed_value);
+          });
+        };
+
+        setShopfloorList(shopfloors);
 
         setExcelBytesBase64(json['excel_bytes_base64']);
 
@@ -285,7 +288,15 @@ const ShopfloorBatch = ({ setRedirect, setRedirectUrl, t }) => {
         });
   };
 
-
+  const nameFormatter = (dataField, { name, uuid }) => (
+    <Link to={{pathname:'/shopfloor/energycategory?uuid=' + uuid}}  target = "_blank">
+      <Media tag={Flex} align="center">
+        <Media body className="ml-2">
+          <h5 className="mb-0 fs--1">{name}</h5>
+        </Media>
+      </Media>
+    </Link>
+  );
 
   return (
     <Fragment>
