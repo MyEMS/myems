@@ -21,6 +21,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added space energy category report hyperlink with uuid to space batch report
 - added combined_equipment energy category report hyperlink with equipment uuid to combined-equipment batch report
 - added equipment energy category report hyperlink with equipment uuid to equipment batch report
+- added latitude and longitude to Space in database, myems-api and myems-admin
+- 
 ### Changed
 - changed user avator from emoji to image
 ### Fixed

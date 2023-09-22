@@ -654,24 +654,30 @@ class SpaceItem:
             cost_center_id = None
 
         if 'latitude' in new_values['data'].keys():
-            if not (isinstance(new_values['data']['latitude'], float) or
-                    isinstance(new_values['data']['latitude'], int)) or \
-                    new_values['data']['latitude'] < -90.0 or \
-                    new_values['data']['latitude'] > 90.0:
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_LATITUDE_VALUE')
-            latitude = new_values['data']['latitude']
+            if new_values['data']['latitude'] is not None:
+                if not (isinstance(new_values['data']['latitude'], float) or
+                        isinstance(new_values['data']['latitude'], int)) or \
+                        new_values['data']['latitude'] < -90.0 or \
+                        new_values['data']['latitude'] > 90.0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.INVALID_LATITUDE_VALUE')
+                latitude = new_values['data']['latitude']
+            else:
+                latitude = None
         else:
             latitude = None
 
         if 'longitude' in new_values['data'].keys():
-            if not (isinstance(new_values['data']['longitude'], float) or
-                    isinstance(new_values['data']['longitude'], int)) or \
-                    new_values['data']['longitude'] < -180.0 or \
-                    new_values['data']['longitude'] > 180.0:
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_LONGITUDE_VALUE')
-            longitude = new_values['data']['longitude']
+            if new_values['data']['latitude'] is not None:
+                if not (isinstance(new_values['data']['longitude'], float) or
+                        isinstance(new_values['data']['longitude'], int)) or \
+                        new_values['data']['longitude'] < -180.0 or \
+                        new_values['data']['longitude'] > 180.0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.INVALID_LONGITUDE_VALUE')
+                longitude = new_values['data']['longitude']
+            else:
+                longitude = None
         else:
             longitude = None
 
