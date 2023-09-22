@@ -80,7 +80,7 @@ class SpaceCollection:
 
         query = (" SELECT id, name, uuid, "
                  "        parent_space_id, area, timezone_id, is_input_counted, is_output_counted, "
-                 "        contact_id, cost_center_id, description "
+                 "        contact_id, cost_center_id, latitude, longitude, description "
                  " FROM tbl_spaces "
                  " ORDER BY id ")
         cursor.execute(query)
@@ -103,7 +103,9 @@ class SpaceCollection:
                                "is_output_counted": bool(row[7]),
                                "contact": contact,
                                "cost_center": cost_center,
-                               "description": row[10],
+                               "latitude": row[10],
+                               "longitude": row[11],
+                               "description": row[12],
                                "qrcode": "space:" + row[2]}
                 result.append(meta_result)
 
@@ -182,6 +184,28 @@ class SpaceCollection:
         else:
             cost_center_id = None
 
+        if 'latitude' in new_values['data'].keys():
+            if not (isinstance(new_values['data']['latitude'], float) or
+                    isinstance(new_values['data']['latitude'], int)) or \
+                    new_values['data']['latitude'] < -90.0 or \
+                    new_values['data']['latitude'] > 90.0:
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.INVALID_LATITUDE_VALUE')
+            latitude = new_values['data']['latitude']
+        else:
+            latitude = None
+
+        if 'longitude' in new_values['data'].keys():
+            if not (isinstance(new_values['data']['longitude'], float) or
+                    isinstance(new_values['data']['longitude'], int)) or \
+                    new_values['data']['longitude'] < -180.0 or \
+                    new_values['data']['longitude'] > 180.0:
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.INVALID_LONGITUDE_VALUE')
+            longitude = new_values['data']['longitude']
+        else:
+            longitude = None
+
         if 'description' in new_values['data'].keys() and \
                 new_values['data']['description'] is not None and \
                 len(str(new_values['data']['description'])) > 0:
@@ -248,8 +272,8 @@ class SpaceCollection:
 
         add_values = (" INSERT INTO tbl_spaces "
                       "    (name, uuid, parent_space_id, area, timezone_id, is_input_counted, is_output_counted, "
-                      "     contact_id, cost_center_id, description) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                      "     contact_id, cost_center_id, latitude, longitude, description) "
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     parent_space_id,
@@ -259,6 +283,8 @@ class SpaceCollection:
                                     is_output_counted,
                                     contact_id,
                                     cost_center_id,
+                                    latitude,
+                                    longitude,
                                     description))
         new_id = cursor.lastrowid
         cnx.commit()
@@ -344,7 +370,7 @@ class SpaceItem:
 
         query = (" SELECT id, name, uuid, "
                  "        parent_space_id, area, timezone_id, is_input_counted, is_output_counted, "
-                 "        contact_id, cost_center_id, description "
+                 "        contact_id, cost_center_id, latitude, longitude, description "
                  " FROM tbl_spaces "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -370,7 +396,9 @@ class SpaceItem:
                            "is_output_counted": bool(row[7]),
                            "contact": contact,
                            "cost_center": cost_center,
-                           "description": row[10],
+                           "latitude": row[10],
+                           "longitude": row[11],
+                           "description": row[12],
                            "qrcode": "space:" + row[2]}
 
         resp.text = json.dumps(meta_result)
@@ -625,6 +653,28 @@ class SpaceItem:
         else:
             cost_center_id = None
 
+        if 'latitude' in new_values['data'].keys():
+            if not (isinstance(new_values['data']['latitude'], float) or
+                    isinstance(new_values['data']['latitude'], int)) or \
+                    new_values['data']['latitude'] < -90.0 or \
+                    new_values['data']['latitude'] > 90.0:
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.INVALID_LATITUDE_VALUE')
+            latitude = new_values['data']['latitude']
+        else:
+            latitude = None
+
+        if 'longitude' in new_values['data'].keys():
+            if not (isinstance(new_values['data']['longitude'], float) or
+                    isinstance(new_values['data']['longitude'], int)) or \
+                    new_values['data']['longitude'] < -180.0 or \
+                    new_values['data']['longitude'] > 180.0:
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.INVALID_LONGITUDE_VALUE')
+            longitude = new_values['data']['longitude']
+        else:
+            longitude = None
+
         if 'description' in new_values['data'].keys() and \
                 new_values['data']['description'] is not None and \
                 len(str(new_values['data']['description'])) > 0:
@@ -701,7 +751,7 @@ class SpaceItem:
         update_row = (" UPDATE tbl_spaces "
                       " SET name = %s, parent_space_id = %s, area = %s, timezone_id = %s, "
                       "     is_input_counted = %s, is_output_counted = %s, contact_id = %s, cost_center_id = %s, "
-                      "     description = %s "
+                      "     latitude = %s, longitude = %s, description = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     parent_space_id,
@@ -711,6 +761,8 @@ class SpaceItem:
                                     is_output_counted,
                                     contact_id,
                                     cost_center_id,
+                                    latitude,
+                                    longitude,
                                     description,
                                     id_))
         cnx.commit()
@@ -748,7 +800,7 @@ class SpaceChildrenCollection:
 
         query = (" SELECT id, name, uuid, "
                  "        parent_space_id, area, timezone_id, is_input_counted, is_output_counted, "
-                 "        contact_id, cost_center_id, description "
+                 "        contact_id, cost_center_id, latitude, longitude, description "
                  " FROM tbl_spaces "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -819,14 +871,16 @@ class SpaceChildrenCollection:
         result['current']['is_output_counted'] = bool(row_current_space[7])
         result['current']['contact'] = contact_dict.get(row_current_space[8], None)
         result['current']['cost_center'] = cost_center_dict.get(row_current_space[9], None)
-        result['current']['description'] = row_current_space[10]
+        result['current']['latitude'] = row_current_space[10]
+        result['current']['longitude'] = row_current_space[11]
+        result['current']['description'] = row_current_space[12]
         result['current']['qrcode'] = 'space:' + row_current_space[2]
 
         result['children'] = list()
 
         query = (" SELECT id, name, uuid, "
                  "        parent_space_id, area, timezone_id, is_input_counted, is_output_counted, "
-                 "        contact_id, cost_center_id, description "
+                 "        contact_id, cost_center_id, latitude, longitude, description "
                  " FROM tbl_spaces "
                  " WHERE parent_space_id = %s "
                  " ORDER BY id ")
@@ -849,7 +903,9 @@ class SpaceChildrenCollection:
                                "is_output_counted": bool(row[7]),
                                "contact": contact,
                                "cost_center": cost_center,
-                               "description": row[10],
+                               "latitude": row[10],
+                               "longitude": row[11],
+                               "description": row[12],
                                "qrcode": 'space:' + row[2]}
                 result['children'].append(meta_result)
 
