@@ -1072,6 +1072,8 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_spaces` (
   `is_output_counted` BOOL NOT NULL,
   `contact_id` BIGINT,
   `cost_center_id` BIGINT,
+  `latitude` DECIMAL(9, 6),
+  `longitude` DECIMAL(9, 6),
   `description` VARCHAR(255),
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_spaces_index_1` ON  `myems_system_db`.`tbl_spaces`   (`name`);
