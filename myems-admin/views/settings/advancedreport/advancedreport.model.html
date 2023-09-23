@@ -15,22 +15,28 @@
             <div class="form-group"><label class="col-sm-3 control-label">{{'ADVANCED_REPORT.IS_ENABLED' | translate}}</label>
                 <div class="col-sm-9">
                     <div class="checkbox checkbox-success">
-                            <input id="chk_user_isadmin" ng-model="advancedReport.is_enabled" type="checkbox" ng-checked="advancedReport.is_enabled">
-                            <label for="chk_user_isadmin"></label>
+                        <input id="chk_user_isadmin" ng-model="advancedReport.is_enabled" type="checkbox" ng-checked="advancedReport.is_enabled">
+                        <label for="chk_user_isadmin"></label>
                     </div>
                 </div>
             </div>
-            <div class="hr-line-dashed"></div>
             <div class="form-group"><label class="col-sm-3 control-label">{{'ADVANCED_REPORT.NEXT_RUN_DATETIME' | translate}}</label>
                 <div class="col-sm-6">
                     <input date-range-picker class="form-control date-picker" type="text" ng-model="advancedReport.next_run_datetime" options="dtOptions"
                     placeholder="{{'SETTING.SELECT_DATE' | translate}}" readonly="" />
                 </div>
             </div>
-            <div class="hr-line-dashed"></div>
             <div class="form-group"><label class="col-sm-3 control-label">{{'ADVANCED_REPORT.EXPRESSION' | translate}}</label>
                 <div class="col-sm-9">
                     <textarea rows="4" ng-model="advancedReport.expression" type="text" name="reportexpression" class="form-control"></textarea>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-3 control-label">{{'ADVANCED_REPORT.IS_RUN_IMMEDIATELY' | translate}}</label>
+                <div class="col-sm-9">
+                    <div class="checkbox checkbox-success">
+                        <input id="chk_user_isadmin" ng-model="advancedReport.is_run_immediately" type="checkbox" ng-checked="advancedReport.is_run_immediately">
+                        <label for="chk_user_isadmin"></label>
+                    </div>
                 </div>
             </div>
         </form>

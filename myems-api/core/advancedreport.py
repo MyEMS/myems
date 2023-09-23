@@ -351,7 +351,7 @@ class AdvancedReportItem:
                       "     expression = %s, "
                       "     is_enabled = %s, "
                       "     next_run_datetime_utc = %s, "
-                      "     is_run_immediately = %s, "
+                      "     is_run_immediately = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     expression,
@@ -359,6 +359,58 @@ class AdvancedReportItem:
                                     next_run_datetime_utc,
                                     is_run_immediately,
                                     id_,))
+        cnx.commit()
+
+        cursor.close()
+        cnx.close()
+
+        resp.status = falcon.HTTP_200
+
+
+class AdvancedReportRun:
+    @staticmethod
+    def __init__():
+        """Initializes ReportItem"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    @user_logger
+    def on_put(req, resp, id_):
+        """Handles PUT requests"""
+        admin_control(req)
+        try:
+            raw_json = req.stream.read().decode('utf-8')
+        except Exception as ex:
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.FAILED_TO_READ_REQUEST_STREAM')
+
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ADVANCED_REPORT_ID')
+        # ignore the payload
+        new_values = json.loads(raw_json)
+
+        cnx = mysql.connector.connect(**config.myems_reporting_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT id "
+                       " FROM tbl_reports "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.ADVANCED_REPORT_NOT_FOUND')
+
+        update_row = (" UPDATE tbl_reports "
+                      " SET is_run_immediately = 1 "
+                      " WHERE id = %s ")
+        cursor.execute(update_row, (id_,))
         cnx.commit()
 
         cursor.close()

@@ -135,6 +135,40 @@
 							"response": []
 						},
 						{
+							"name": "PUT Run an Advanced Report",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "0c3be0aff40689f0ee5b3d7f10cea8dea3d070bd25ab87c8973e4eeaad1f14bf95d4873353599d46015ba91875614484f8c7cbbed175a21e841db2ddb9101f4f",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/advancedreports/1/run",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"advancedreports",
+										"1",
+										"run"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "DELETE an Advanced Report Config",
 							"request": {
 								"method": "DELETE",
