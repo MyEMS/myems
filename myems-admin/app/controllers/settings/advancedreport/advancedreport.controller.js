@@ -109,6 +109,28 @@ app.controller('AdvancedReportController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+    $scope.runAdvancedReport = function (advancedReport) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        AdvancedReportService.runAdvancedReport(advancedReport, headers, function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                toaster.pop({
+                    type: "success",
+                    title: $translate.instant('TOASTER.SUCCESS_TITLE'),
+                    body: $translate.instant('ADVANCED_REPORT.RUN_SUBMITTED'),
+                    showCloseButton: true,
+                });
+                $scope.getAllAdvancedReport();
+            } else {
+                toaster.pop({
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
+                    showCloseButton: true,
+                });
+            }
+        });
+    };
+
 	$scope.deleteAdvancedReport = function(advancedReport) {
 		SweetAlert.swal({
 				title: $translate.instant("SWEET.TITLE"),
@@ -155,8 +177,8 @@ app.controller('ModalAddAdvancedReportCtrl', function($scope, $uibModalInstance,
 	$scope.operation = "ADVANCED_REPORT.ADD_ADVANCED_REPORT";
 	$scope.advancedReport={};
 	$scope.advancedReport.is_enabled=true;
+	$scope.advancedReport.is_run_immediately=false;
 	$scope.advancedReport.expression=JSON.stringify(params.expression);
-	debugger
 	$scope.advancedReport.next_run_datetime = moment().add(10, 'm');
 	$scope.dtOptions = {
 		locale:{
@@ -185,6 +207,7 @@ app.controller('ModalEditAdvancedReportCtrl', function($scope, $uibModalInstance
 	$scope.operation = "ADVANCED_REPORT.EDIT_ADVANCED_REPORT";
 	$scope.advancedReport = params.advancedReport;
 	$scope.advancedReport.is_enabled = params.advancedReport.is_enabled;
+	$scope.advancedReport.is_run_immediately = params.advancedReport.is_run_immediately;
 	$scope.dtOptions = {
 		locale:{
 			format: 'YYYY-MM-DD HH:mm:ss',

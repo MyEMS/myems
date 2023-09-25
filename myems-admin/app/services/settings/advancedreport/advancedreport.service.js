@@ -1,6 +1,6 @@
 'use strict';
 app.factory('AdvancedReportService', function($http) {
-    return {  
+    return {
         getAllAdvancedReport:function(headers, callback){
             $http.get(getAPI()+'advancedreports', {headers})
             .then(function (response) {
@@ -33,6 +33,14 @@ app.factory('AdvancedReportService', function($http) {
                 callback(response);
             });
         },
+        runAdvancedReport: function(advancedreport, headers, callback) {
+            $http.put(getAPI()+'advancedreports/'+advancedreport.id+'/run',{data:advancedreport}, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
         deleteAdvancedReport: function(advancedreport, headers, callback) {
             $http.delete(getAPI()+'advancedreports/'+advancedreport.id, {headers})
             .then(function (response) {
@@ -50,4 +58,4 @@ app.factory('AdvancedReportService', function($http) {
             });
         }
     };
-});  
+});

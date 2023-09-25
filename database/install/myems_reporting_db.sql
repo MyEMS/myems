@@ -39,6 +39,7 @@ CREATE TABLE IF NOT EXISTS `myems_reporting_db`.`tbl_reports` (
   `is_enabled` BOOL NOT NULL,
   `last_run_datetime_utc` DATETIME,
   `next_run_datetime_utc` DATETIME,
+  `is_run_immediately` BOOL NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_reports_index_1` ON  `myems_reporting_db`.`tbl_reports` (`name`);
 

@@ -2,11 +2,11 @@ import falcon
 from falcon_cors import CORS
 from falcon_multipart.middleware import MultipartMiddleware
 
-from core import apikey, energyflowdiagram, privilege, textmessage, distributioncircuit, virtualmeter, \
+from core import advancedreport, apikey, energyflowdiagram, privilege, textmessage, distributioncircuit, virtualmeter, \
     costcenter, point, knowledgefile, meter, tariff, user, storetype, timezone, \
     costfile, offlinemeterfile, version, contact, emailserver, combinedequipment, datasource, equipment, tenant, \
     shopfloor, webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, \
-    offlinemeter, advancedreport, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile, \
+    offlinemeter, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile, \
     workingcalendar, microgrid, microgridbyuser, microgridarchitecturetype, microgridbattery, microgridownertype, \
     microgridevcharger, microgridgenerator, microgridgrid, microgridheatpump, microgridload, microgridphotovoltaic, \
     microgridpowerconversionsystem, microgridwindturbine, command, virtualpowerplant
@@ -124,6 +124,8 @@ api.add_route('/advancedreports',
               advancedreport.AdvancedReportCollection())
 api.add_route('/advancedreports/{id_}',
               advancedreport.AdvancedReportItem())
+api.add_route('/advancedreports/{id_}/run',
+              advancedreport.AdvancedReportRun())
 
 api.add_route('/combinedequipments',
               combinedequipment.CombinedEquipmentCollection())

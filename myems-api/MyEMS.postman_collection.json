@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "52ca5386-c18a-40cc-a216-77d8f6011dde",
+		"_postman_id": "1027f472-95fd-4165-9257-b84ecdcaa28f",
 		"name": "MyEMS",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10906958"
 	},
 	"item": [
 		{
@@ -23,7 +24,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "8734524922f1a5a5a3a5d53bf4dd35db151825a70e3488451b5017b534c2db9bff0186883c1e56851d0c188480db858a4d423761cc67b36ec05d450a18708f1e",
+										"value": "9366f0439ee9ddd230dfacc94234ec6779f40a8c692baeadabce5dd3bdbeb11315970a9f45c9d212086e8c53a2be1f7f730cd6188b0baf562b24d1a300943f80",
 										"type": "default"
 									}
 								],
@@ -51,7 +52,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "8734524922f1a5a5a3a5d53bf4dd35db151825a70e3488451b5017b534c2db9bff0186883c1e56851d0c188480db858a4d423761cc67b36ec05d450a18708f1e",
+										"value": "9366f0439ee9ddd230dfacc94234ec6779f40a8c692baeadabce5dd3bdbeb11315970a9f45c9d212086e8c53a2be1f7f730cd6188b0baf562b24d1a300943f80",
 										"type": "default"
 									}
 								],
@@ -80,13 +81,13 @@
 									},
 									{
 										"key": "Token",
-										"value": "8734524922f1a5a5a3a5d53bf4dd35db151825a70e3488451b5017b534c2db9bff0186883c1e56851d0c188480db858a4d423761cc67b36ec05d450a18708f1e",
+										"value": "9366f0439ee9ddd230dfacc94234ec6779f40a8c692baeadabce5dd3bdbeb11315970a9f45c9d212086e8c53a2be1f7f730cd6188b0baf562b24d1a300943f80",
 										"type": "default"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Space Daily Report1\", \"expression\":\"{\\\"space_id\\\":1}\",  \"is_enabled\":true, \"next_run_datetime\": \"2023-09-06T20:00:00\"}}"
+									"raw": "{\"data\":{\"name\":\"Space Daily Report1\", \"expression\":\"{\\\"space_id\\\":1}\",  \"is_enabled\":true, \"next_run_datetime\": \"2023-09-06T20:00:00\", \"is_run_immediately\": false}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/advancedreports",
@@ -112,13 +113,13 @@
 									},
 									{
 										"key": "Token",
-										"value": "8734524922f1a5a5a3a5d53bf4dd35db151825a70e3488451b5017b534c2db9bff0186883c1e56851d0c188480db858a4d423761cc67b36ec05d450a18708f1e",
+										"value": "9366f0439ee9ddd230dfacc94234ec6779f40a8c692baeadabce5dd3bdbeb11315970a9f45c9d212086e8c53a2be1f7f730cd6188b0baf562b24d1a300943f80",
 										"type": "default"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Space Monthly Report\", \"expression\":\"{\\\"space_id\\\":1}\",  \"is_enabled\":true, \"next_run_datetime\":\"2023-09-01T00:00:00\"}}"
+									"raw": "{\"data\":{\"name\":\"Space Monthly Report\", \"expression\":\"{\\\"space_id\\\":1}\",  \"is_enabled\":true, \"next_run_datetime\":\"2023-09-01T00:00:00\", \"is_run_immediately\": false}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/advancedreports/1",
@@ -128,6 +129,40 @@
 									"path": [
 										"advancedreports",
 										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Run an Advanced Report",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "0c3be0aff40689f0ee5b3d7f10cea8dea3d070bd25ab87c8973e4eeaad1f14bf95d4873353599d46015ba91875614484f8c7cbbed175a21e841db2ddb9101f4f",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/advancedreports/1/run",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"advancedreports",
+										"1",
+										"run"
 									]
 								}
 							},
