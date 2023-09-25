@@ -23,6 +23,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added equipment energy category report hyperlink with equipment uuid to equipment batch report
 - added latitude and longitude to Space in database, myems-api and myems-admin
 - added run immediately action to Advacned Report in database, myems-api and myems-admin
+- added mapbox to display spaces on map in myems-web
+
 ### Changed
 - changed user avator from emoji to image
 ### Fixed
