@@ -71,6 +71,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
   const [childSpacesCostData, setChildSpacesCostData] = useState([]);
   const [monthLabels, setMonthLabels] = useState([]);
   const [language, setLanguage] = useState(getItemFromStore('myems_web_ui_language', settings.language));
+  const [geojson, setGeojson] = useState({});
 
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
@@ -426,6 +427,98 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
     setLanguage(getItemFromStore('myems_web_ui_language'));
   }, [getItemFromStore('myems_web_ui_language')]);
 
+  useEffect(() => {
+    let is_logged_in = getCookieValue('is_logged_in');
+    let user_name = getCookieValue('user_name');
+    let user_display_name = getCookieValue('user_display_name');
+    let user_uuid = getCookieValue('user_uuid');
+    let token = getCookieValue('token');
+    if (checkEmpty(is_logged_in) || checkEmpty(token)|| checkEmpty(user_uuid) || !is_logged_in) {
+      setRedirectUrl(`/authentication/basic/login`);
+      setRedirect(true);
+    } else {
+      //update expires time of cookies
+      createCookie('is_logged_in', true, 1000 * 60 * 10 * 1);
+      createCookie('user_name', user_name, 1000 * 60 * 10 * 1);
+      createCookie('user_display_name', user_display_name, 1000 * 60 * 10 * 1);
+      createCookie('user_uuid', user_uuid, 1000 * 60 * 10 * 1);
+      createCookie('token', token, 1000 * 60 * 10 * 1);
+
+      let isResponseOK = false;
+      fetch(APIBaseURL + '/spaces/tree', {
+        method: 'GET',
+        headers: {
+          "Content-type": "application/json",
+          "User-UUID": getCookieValue('user_uuid'),
+          "Token": getCookieValue('token')
+        },
+        body: null,
+      }).then(response => {
+        console.log(response);
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      }).then(json => {
+        if (isResponseOK) {
+          // rename keys
+          json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
+          // get Combined Equipments by root Space ID
+          let isResponseOK = false;
+          fetch(APIBaseURL + '/spaces/' + [json[0]].map(o => o.value) + '/children', {
+            method: 'GET',
+            headers: {
+              "Content-type": "application/json",
+              "User-UUID": getCookieValue('user_uuid'),
+              "Token": getCookieValue('token')
+            },
+            body: null,
+  
+          }).then(response => {
+            if (response.ok) {
+              isResponseOK = true;
+            }
+            return response.json();
+          }).then(json => {
+            if (isResponseOK) {
+              json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
+              let geojson = {};
+              geojson['type'] = 'FeatureCollection';
+              let geojsonData = [];
+              for(const childSpace of json[0]['children']){
+                if (childSpace['latitude'] && childSpace['longitude']) {
+                  geojsonData.push({
+                    'type': 'Feature',
+                    'geometry': {
+                      'type': 'Point',
+                      'coordinates': [childSpace['latitude'], childSpace['longitude']]
+                      },
+                    'properties': {
+                      'title': childSpace['label'],
+                      'description': childSpace['description'],
+                      'uuid': childSpace['uuid'],
+                      'url': '/space/energycategory'
+                      }
+                  })
+                }
+              }
+              geojson['features'] = geojsonData;
+              setGeojson(geojson);
+            } else {
+              toast.error(t(json.description))
+            }
+          }).catch(err => {
+            console.log(err);
+          });
+          // end of get Combined Equipments by root Space ID
+        } else {
+          toast.error(t(json.description));
+        }
+      }).catch(err => {
+        console.log(err);
+      });
+    }
+  }, [])
 
   return (
     <Fragment>
@@ -486,7 +579,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
       { settings.showOnlineMap?
         <div className='wrapper'>
           <div className='wrapper-child-left mb-3'>
-          <CustomizeMapBox Latitude={-96} Longitude={37.8} Zoom={3}>
+          <CustomizeMapBox Latitude={49} Longitude={50} Zoom={3} Geojson={geojson['features']}>
           </CustomizeMapBox>
           </div>
           <div className='wrapper-child-right-1'>
