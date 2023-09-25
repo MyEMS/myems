@@ -473,7 +473,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               "Token": getCookieValue('token')
             },
             body: null,
-  
+
           }).then(response => {
             if (response.ok) {
               isResponseOK = true;
@@ -491,7 +491,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                     'type': 'Feature',
                     'geometry': {
                       'type': 'Point',
-                      'coordinates': [childSpace['latitude'], childSpace['longitude']]
+                      'coordinates': [childSpace['longitude'], childSpace['latitude']]
                       },
                     'properties': {
                       'title': childSpace['label'],
