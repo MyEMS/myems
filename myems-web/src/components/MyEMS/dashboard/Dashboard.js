@@ -72,6 +72,8 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
   const [monthLabels, setMonthLabels] = useState([]);
   const [language, setLanguage] = useState(getItemFromStore('myems_web_ui_language', settings.language));
   const [geojson, setGeojson] = useState({});
+  const [rootLatitude, setRootLatitude] = useState('');
+  const [rootLongitude, setRootLongitude] = useState('');
 
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
@@ -482,6 +484,8 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           }).then(json => {
             if (isResponseOK) {
               json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
+              setRootLongitude(json[0]['current']['longitude']);
+              setRootLatitude(json[0]['current']['latitude']);
               let geojson = {};
               geojson['type'] = 'FeatureCollection';
               let geojsonData = [];
@@ -579,7 +583,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
       { settings.showOnlineMap?
         <div className='wrapper'>
           <div className='wrapper-child-left mb-3'>
-          <CustomizeMapBox Latitude={49} Longitude={50} Zoom={3} Geojson={geojson['features']}>
+          <CustomizeMapBox Latitude={rootLatitude} Longitude={rootLongitude} Zoom={3} Geojson={geojson['features']}>
           </CustomizeMapBox>
           </div>
           <div className='wrapper-child-right-1'>

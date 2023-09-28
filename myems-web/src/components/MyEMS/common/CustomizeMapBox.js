@@ -10,38 +10,6 @@ if (mapboxgl.getRTLTextPluginStatus !== 'loaded') {
   mapboxgl.setRTLTextPlugin('https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js');
 }
 
-const Geo = {
-  'type': 'FeatureCollection',
-  'features': [
-      {
-        'type': 'Feature',
-        'geometry': {
-          'type': 'Point',
-          'coordinates': [-77.032, 38.913]
-          },
-        'properties': {
-          'title': 'Mapbox',
-          'description': 'Washington, D.C.',
-          'uuid': 'f92c1673-b865-4e9c-ba20-6269b1196f64',
-          'url': '/equipment/energycategory'
-          }
-      },
-      {
-        'type': 'Feature',
-        'geometry': {
-          'type': 'Point',
-          'coordinates': [-77.032, 39.176]
-          },
-        'properties': {
-          'title': 'Mapbox',
-          'description': 'San Francisco, California',
-          'uuid': '891f5275-186a-4a3c-8732-caf67b3884a5',
-          'url': '/equipment/energycategory'
-          }
-      }
-    ]
-  };
-
 const CustomizeMapBox = ({Latitude, Longitude, Zoom, Geojson, t}) => {
     const mapContainer = useRef(null);
     const map = useRef(null);
@@ -60,7 +28,7 @@ const CustomizeMapBox = ({Latitude, Longitude, Zoom, Geojson, t}) => {
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
         zoom: Zoom ? Zoom : zoom,
-        center: [Latitude ? Latitude : lng, Longitude ? Longitude : lat],
+        center: [Longitude ? Longitude : lng, Latitude ? Latitude : lat],
         style: isDark ? 'mapbox://styles/mapbox/dark-v10' : 'mapbox://styles/mapbox/streets-v11',
       });
       
@@ -88,7 +56,7 @@ const CustomizeMapBox = ({Latitude, Longitude, Zoom, Geojson, t}) => {
         map.current = new mapboxgl.Map({
           container: mapContainer.current,
           zoom: Zoom ? Zoom : zoom,
-          center: [Latitude ? Latitude : lng, Longitude ? Longitude : lat],
+          center: [Longitude ? Longitude : lng, Latitude ? Latitude : lat],
           style: isDark ? 'mapbox://styles/mapbox/dark-v10' : 'mapbox://styles/mapbox/streets-v11',
         });
   
