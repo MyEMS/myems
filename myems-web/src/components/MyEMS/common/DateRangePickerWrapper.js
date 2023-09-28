@@ -35,6 +35,7 @@ const DateRangePickerWrapper = ({id, disabled, format, value, onChange, size, st
             placeholder={placeholder}
             onSelect={onSelected}
             ref={Ref}
+            preventOverflow={true}
         />
     )
 }
