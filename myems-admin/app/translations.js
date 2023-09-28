@@ -46,6 +46,7 @@ function config($translateProvider) {
                 TEXT_MESSAGE: 'Text Message',
                 WEB_MESSAGE: 'Web Message',
                 WECHAT_MESSAGE: 'Wechat Message',
+                RUN_SUBMITTED: 'Run Submitted',
 
                 ALARM_LIST: 'Alarm List',
                 RULE_LIST: 'Rule List',
@@ -61,6 +62,7 @@ function config($translateProvider) {
                 EXPRESSION: 'Expression',
                 MESSAGE_TEMPLATE: 'Message Template',
                 CLICK_EDIT_FOR_DETAILS: 'Click "Edit" for details',
+                IS_RUN_IMMEDIATELY: 'Is Run Immediately',
 
                 SMS_ALARM_LIST: 'SMS Alarm List',
                 RECIPIENT_NAME: 'Recipient Name',
@@ -1487,6 +1489,7 @@ function config($translateProvider) {
                 TEXT_MESSAGE: '短信信息',
                 WEB_MESSAGE: '网页信息',
                 WECHAT_MESSAGE: '微信信息',
+                RUN_SUBMITTED: '运行已提交',
 
                 ALARM_LIST: '查看报警列表',
                 RULE_LIST: '规则列表',
@@ -1502,6 +1505,7 @@ function config($translateProvider) {
                 EXPRESSION: '表达式',
                 MESSAGE_TEMPLATE: '消息模板',
                 CLICK_EDIT_FOR_DETAILS: '点击"修改"查看详情',
+                IS_RUN_IMMEDIATELY: '立即运行',
 
                 SMS_ALARM_LIST: '短信报警列表',
                 RECIPIENT_NAME: '接收人',
@@ -2937,6 +2941,7 @@ function config($translateProvider) {
                 TEXT_MESSAGE: 'SMS-Nachricht',
                 WEB_MESSAGE: 'Webseiteninformationen',
                 WECHAT_MESSAGE: 'WeChat Informationen',
+                RUN_SUBMITTED: 'Ausführen Abgeschickt',
 
                 ALARM_LIST: 'Zeigen Sie die Alarmliste an',
                 RULE_LIST: 'Liste der Regeln',
@@ -2952,6 +2957,7 @@ function config($translateProvider) {
                 EXPRESSION: 'Ausdruck',
                 MESSAGE_TEMPLATE: 'Nachrichtenvorlage',
                 CLICK_EDIT_FOR_DETAILS: 'Klicken Sie auf "Bearbeiten"',
+                IS_RUN_IMMEDIATELY: 'Sofort Ausführen',
 
                 SMS_ALARM_LIST: 'SMS-Alarmliste',
                 RECIPIENT_NAME: 'Empfänger',
@@ -4379,6 +4385,7 @@ function config($translateProvider) {
                 TEXT_MESSAGE: 'SMS',
                 WEB_MESSAGE: 'Web Message',
                 WECHAT_MESSAGE: 'Wechat Message',
+                RUN_SUBMITTED: 'Run a été soumis',
 
                 ALARM_LIST: 'Liste d’alarmes',
                 RULE_LIST: 'Liste des règles',
@@ -4394,6 +4401,7 @@ function config($translateProvider) {
                 EXPRESSION: 'Expression',
                 MESSAGE_TEMPLATE: 'Modèle de message',
                 CLICK_EDIT_FOR_DETAILS: 'Cliquez sur « Modifier » pour plus de détails',
+                IS_RUN_IMMEDIATELY: 'Fonctionnement immédiat',
 
                 SMS_ALARM_LIST: 'Liste d’alarme SMS',
                 RECIPIENT_NAME: 'Nom du destinataire',
@@ -5820,6 +5828,7 @@ function config($translateProvider) {
                 TEXT_MESSAGE: 'Mensaje de texto',
                 WEB_MESSAGE: 'Mensaje Web',
                 WECHAT_MESSAGE: 'Mensaje de Wechat',
+                RUN_SUBMITTED: 'Operación presentada',
 
                 ALARM_LIST: 'Lista de alarmas',
                 RULE_LIST: 'Lista de reglas',
@@ -5835,6 +5844,7 @@ function config($translateProvider) {
                 EXPRESSION: 'Expresión',
                 MESSAGE_TEMPLATE: 'Plantilla de mensaje',
                 CLICK_EDIT_FOR_DETAILS: 'Haga clic en "Editar" para obtener más detalles.',
+                IS_RUN_IMMEDIATELY: 'Ejecutar de inmediato',
 
                 SMS_ALARM_LIST: 'Lista de alarmas SMS',
                 RECIPIENT_NAME: 'Nombre del destinatario',
@@ -7261,6 +7271,7 @@ function config($translateProvider) {
                 TEXT_MESSAGE: 'Эсэмэска',
                 WEB_MESSAGE: 'Веб-сообщение',
                 WECHAT_MESSAGE: 'Сообщение Wechat',
+                RUN_SUBMITTED: 'Запуск представлен',
 
                 ALARM_LIST: 'Список аварийных сигналов',
                 RULE_LIST: 'Список правил',
@@ -7276,6 +7287,7 @@ function config($translateProvider) {
                 EXPRESSION: 'Выражение',
                 MESSAGE_TEMPLATE: 'Шаблон сообщения',
                 CLICK_EDIT_FOR_DETAILS: 'Нажмите «Редактировать» для получения подробной информации',
+                IS_RUN_IMMEDIATELY: 'Немедленно!',
 
                 SMS_ALARM_LIST: 'Список SMS-сигналов тревоги',
                 RECIPIENT_NAME: 'Имя получателя',
@@ -8702,6 +8714,7 @@ function config($translateProvider) {
                 TEXT_MESSAGE: 'رسالة نصية',
                 WEB_MESSAGE: 'رسالة ويب',
                 WECHAT_MESSAGE: 'رسالة WeChat',
+                RUN_SUBMITTED: 'تشغيل ارتكبت',
 
                 ALARM_LIST: 'قائمة الإنذار',
                 RULE_LIST: 'قائمة القواعد',
@@ -8717,6 +8730,7 @@ function config($translateProvider) {
                 EXPRESSION: 'تعبير',
                 MESSAGE_TEMPLATE: 'قالب الرسالة',
                 CLICK_EDIT_FOR_DETAILS: 'انقر فوق "تحرير" للحصول على التفاصيل',
+                IS_RUN_IMMEDIATELY: 'تشغيل على الفور',
 
                 SMS_ALARM_LIST: 'قائمة إنذارات الرسائل القصيرة',
                 RECIPIENT_NAME: 'اسم المستلم',
@@ -10143,6 +10157,7 @@ function config($translateProvider) {
                 TEXT_MESSAGE: 'Tin nhắn văn bản',
                 WEB_MESSAGE: 'Thông điệp web',
                 WECHAT_MESSAGE: 'Tin nhắn Wechat',
+                RUN_SUBMITTED: 'Chạy đã cam kết',
 
                 ALARM_LIST: 'Danh sách báo động',
                 RULE_LIST: 'Danh sách quy tắc',
@@ -10158,6 +10173,7 @@ function config($translateProvider) {
                 EXPRESSION: 'Biểu thức',
                 MESSAGE_TEMPLATE: 'Mẫu tin nhắn',
                 CLICK_EDIT_FOR_DETAILS: 'Nhấp vào "Chỉnh sửa" để biết chi tiết',
+                IS_RUN_IMMEDIATELY: 'Chạy ngay',
 
                 SMS_ALARM_LIST: 'Danh sách báo động SMS',
                 RECIPIENT_NAME: 'Tên người nhận',
@@ -11584,6 +11600,7 @@ function config($translateProvider) {
                 TEXT_MESSAGE: 'ข้อความตัวอักษร',
                 WEB_MESSAGE: 'ข้อความเว็บ',
                 WECHAT_MESSAGE: 'ข้อความ Wechat',
+                RUN_SUBMITTED: 'ดำเนินการส่งแล้ว',
 
                 ALARM_LIST: 'รายการปลุก',
                 RULE_LIST: 'รายการกฎ',
@@ -11599,6 +11616,7 @@ function config($translateProvider) {
                 EXPRESSION: 'สีหน้า',
                 MESSAGE_TEMPLATE: 'เทมเพลตข้อความ',
                 CLICK_EDIT_FOR_DETAILS: 'คลิก "แก้ไข" เพื่อดูรายละเอียด',
+                IS_RUN_IMMEDIATELY: 'เรียกใช้ตอนนี้',
 
                 SMS_ALARM_LIST: 'รายการปลุก SMS',
                 RECIPIENT_NAME: 'ชื่อผู้รับ',
@@ -13025,6 +13043,7 @@ function config($translateProvider) {
                 TEXT_MESSAGE: 'Kısa Mesaj',
                 WEB_MESSAGE: 'Web Mesajı',
                 WECHAT_MESSAGE: 'Wechat Mesajı',
+                RUN_SUBMITTED:'Gönderilen çalıştır',
 
                 ALARM_LIST: 'Alarm Listesi',
                 RULE_LIST: 'Kural Listesi',
@@ -13040,6 +13059,7 @@ function config($translateProvider) {
                 EXPRESSION: 'İfade',
                 MESSAGE_TEMPLATE: 'Mesaj Şablonu',
                 CLICK_EDIT_FOR_DETAILS: 'Ayrıntılar için "Düzenle"ye tıklayın',
+                IS_RUN_IMMEDIATELY: 'Hemen Koş',
 
                 SMS_ALARM_LIST: 'SMS Alarm Listesi',
                 RECIPIENT_NAME: 'Alıcı Adı',
@@ -14467,6 +14487,7 @@ function config($translateProvider) {
                 TEXT_MESSAGE: 'Mesej Teks',
                 WEB_MESSAGE: 'Mesej Web',
                 WECHAT_MESSAGE: 'Mesej Wechat',
+                RUN_SUBMITTED:'Jalankan Dihantar',
 
                 ALARM_LIST: 'Senarai Penggera',
                 RULE_LIST: 'Senarai Peraturan',
@@ -14482,6 +14503,7 @@ function config($translateProvider) {
                 EXPRESSION: 'Ungkapan',
                 MESSAGE_TEMPLATE: 'Templat Mesej',
                 CLICK_EDIT_FOR_DETAILS: 'Klik "Edit" untuk maklumat lanjut',
+                IS_RUN_IMMEDIATELY: 'Jalankan Segera',
 
                 SMS_ALARM_LIST: 'Senarai Penggera SMS',
                 RECIPIENT_NAME: 'Nama Penerima',
@@ -15908,6 +15930,7 @@ function config($translateProvider) {
                 TEXT_MESSAGE: 'Pesan Teks',
                 WEB_MESSAGE: 'Pesan Web',
                 WECHAT_MESSAGE: 'Pesan WeChat',
+                RUN_SUBMITTED:'Jalankan Dikirim',
 
                 ALARM_LIST: 'Daftar Alarm',
                 RULE_LIST: 'Daftar Aturan',
@@ -15923,6 +15946,7 @@ function config($translateProvider) {
                 EXPRESSION: 'Ekspresi',
                 MESSAGE_TEMPLATE: 'Template Pesan',
                 CLICK_EDIT_FOR_DETAILS: 'Klik "Edit" untuk detailnya',
+                IS_RUN_IMMEDIATELY: 'Lari Segera',
 
                 SMS_ALARM_LIST: 'Daftar Alarm SMS',
                 RECIPIENT_NAME: 'Nama Penerima',

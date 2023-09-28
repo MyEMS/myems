@@ -154,6 +154,28 @@ app.controller('RuleController', function(
 			});
 	};
 
+	$scope.runRule = function (rule) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        RuleService.runRule(rule, headers, function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                toaster.pop({
+                    type: "success",
+                    title: $translate.instant('TOASTER.SUCCESS_TITLE'),
+                    body: $translate.instant('FDD.RUN_SUBMITTED'),
+                    showCloseButton: true,
+                });
+                $scope.getAllRules();
+            } else {
+                toaster.pop({
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
+                    showCloseButton: true,
+                });
+            }
+        });
+    };
+
 	$scope.getAllRules();
 
 });
