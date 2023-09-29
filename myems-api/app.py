@@ -437,6 +437,8 @@ api.add_route('/rules',
               rule.RuleCollection())
 api.add_route('/rules/{id_}',
               rule.RuleItem())
+api.add_route('/rules/{id_}/run',
+              rule.RuleRun())
 
 api.add_route('/sensors',
               sensor.SensorCollection())

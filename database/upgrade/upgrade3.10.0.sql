@@ -11,6 +11,7 @@ ALTER TABLE `myems_system_db`.`tbl_data_sources` ADD `description` VARCHAR(255) 
 ALTER TABLE `myems_system_db`.`tbl_spaces` ADD `latitude` DECIMAL(9, 6) AFTER `cost_center_id`;
 ALTER TABLE `myems_system_db`.`tbl_spaces` ADD `longitude` DECIMAL(9, 6) AFTER `latitude`;
 ALTER TABLE `myems_reporting_db`.`tbl_reports` ADD `is_run_immediately` BOOL NOT NULL AFTER `next_run_datetime_utc`;
+ALTER TABLE `myems_fdd_db`.`tbl_rules` ADD `is_run_immediately` BOOL NOT NULL AFTER `next_run_datetime_utc`;
 
 INSERT INTO `myems_system_db`.`tbl_menus`(`id`, `name`, `route`, `parent_menu_id`, `is_hidden`)
 VALUES (1301, 'Microgrid Details','/microgriddetails',NULL,1);
