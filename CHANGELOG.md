@@ -24,7 +24,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added latitude and longitude to Space in database, myems-api and myems-admin
 - added run immediately action to Advacned Report in database, myems-api and myems-admin
 - added mapbox to display spaces on map in myems-web
-
+- added run immediately action to FDD Rule in database, myems-api and myems-admin
 ### Changed
 - changed user avator from emoji to image
 ### Fixed

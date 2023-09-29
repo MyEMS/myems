@@ -41,6 +41,14 @@ app.factory('RuleService', function($http) {
                 callback(response);
             });
         },
+        runRule: function(rule, headers, callback) {
+            $http.put(getAPI()+'rules/'+rule.id+'/run', {data: rule},{headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
         getRule: function(id, headers, callback) {
             $http.get(getAPI()+'rules/'+id, {headers})
             .then(function (response) {
