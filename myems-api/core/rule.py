@@ -167,8 +167,9 @@ class RuleCollection:
 
         add_row = (" INSERT INTO tbl_rules "
                    "             (name, uuid, category, fdd_code, priority, "
-                   "              channel, expression, message_template, is_enabled) "
-                   " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                   "              channel, expression, message_template, is_enabled, "
+                   "              is_run_immediately) "
+                   " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_row, (name,
                                  str(uuid.uuid4()),
                                  category,
@@ -177,7 +178,8 @@ class RuleCollection:
                                  channel,
                                  expression,
                                  message_template,
-                                 is_enabled))
+                                 is_enabled,
+                                 False))
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
