@@ -128,7 +128,7 @@ class Reporting:
             query = (" SELECT id, name, uuid, "
                      "        address, postal_code, latitude, longitude, capacity, "
                      "        architecture_type_id, owner_type_id, "
-                     "        contact_id, cost_center_id, description "
+                     "        contact_id, cost_center_id, svg, description "
                      " FROM tbl_microgrids "
                      " WHERE id = %s ")
             cursor_system.execute(query, (microgrid_id,))
@@ -137,7 +137,7 @@ class Reporting:
             query = (" SELECT id, name, uuid, "
                      "        address, postal_code, latitude, longitude, capacity, "
                      "        architecture_type_id, owner_type_id, "
-                     "        contact_id, cost_center_id, description "
+                     "        contact_id, cost_center_id, svg, description "
                      " FROM tbl_microgrids "
                      " WHERE uuid = %s ")
             cursor_system.execute(query, (microgrid_uuid,))
@@ -165,7 +165,8 @@ class Reporting:
                            "owner_type": owner_type,
                            "contact": contact,
                            "cost_center": cost_center,
-                           "description": row[12],
+                           "svg": row[12],
+                           "description": row[13],
                            "qrcode": 'microgrid:' + row[2]}
 
         point_list = list()
@@ -237,7 +238,7 @@ class Reporting:
                                "energy_category_id": row_meter[2]})
 
         ################################################################################################################
-        # Step 4: query associated converters
+        # Step 4: query associated power conversion systems
         ################################################################################################################
 
         ################################################################################################################

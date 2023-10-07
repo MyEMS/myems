@@ -465,13 +465,13 @@ export const auxiliarySystemRoutes = {
 export const microgridRoutes = {
   name: 'Microgrid',
   to: '/microgrid',
-  icon: 'building',
+  icon: 'building'
 };
 
 export const fddRoutes = {
   name: 'Fault Alarm',
   to: '/fdd',
-  icon: 'bell',
+  icon: 'bell'
 };
 
 export const monitoringRoutes = {
