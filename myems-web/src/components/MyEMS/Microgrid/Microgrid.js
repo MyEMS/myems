@@ -88,6 +88,8 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
         console.log(json);
         setMicrogridArray([]);
         setMicrogridIds([]);
+        let microgridArray = [];
+        let microgridIds = [];
 
         if (json.length > 0) {
           json.forEach((currentValue, index) => {
@@ -102,7 +104,7 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
               {
                 id: json[index]['uuid'],
                 path: ' product1',
-                src: './img/1.png',
+                src: require('./img/1.png'),
               }
             ];
             microgird['category'] = 'Liverpool';
@@ -121,6 +123,8 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
             microgridIds.push(microgird['id']);
           });
         }
+        setMicrogridArray(microgridArray);
+        setMicrogridIds(microgridIds);
         console.log('microgridArray:');
         console.log(microgridArray);
         console.log('microgridIds:');
