@@ -50,11 +50,11 @@ const MicrogridList = ({
         <Row>
           <Col sm={5} md={4}>
             <div className="position-relative h-sm-100">
-              <Link className="d-block h-100" to={`/microgriddetails?uuid=${uuid}`}>
-                  {svg 
-                  ? 
+              <Link className="d-block h-100" to={`/microgriddetails?uuid=${uuid}`} target = "_blank">
+                  {svg
+                  ?
                     <div dangerouslySetInnerHTML={{__html: svg}}></div>
-                  : 
+                  :
                     <img
                       className="img-fluid fit-cover w-sm-100 h-sm-100 rounded absolute-sm-centered"
                       src={files[0]['src']}
@@ -73,7 +73,7 @@ const MicrogridList = ({
             <Row>
               <Col lg={8}>
                 <h5 className="mt-3 mt-sm-0">
-                  <Link to={`/microgriddetails?uuid=${uuid}`}>{name}</Link>
+                  <Link to={`/microgriddetails?uuid=${uuid}`} target = "_blank">{name}</Link>
                 </h5>
                 <p className="fs--1 mb-2 mb-md-3">
                   <a className="text-500" href="#!">
