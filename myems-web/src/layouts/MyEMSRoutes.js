@@ -194,6 +194,7 @@ import EnergyFlowDiagram from '../components/MyEMS/AuxiliarySystem/EnergyFlowDia
 import DistributionSystem from '../components/MyEMS/AuxiliarySystem/DistributionSystem';
 // Microgrid
 import Microgrid from '../components/MyEMS/Microgrid/Microgrid';
+import MicrogridDetails from '../components/MyEMS/Microgrid/MicrogridDetails';
 // FDD
 import FDDFault from '../components/MyEMS/FDD/Fault';
 // Monitoring
@@ -277,7 +278,7 @@ const MyEMSRoutes = () => (
     {/* <Route path="/changelog" exact component={ChangeLog} /> */}
 
     {/*Components*/}
-    {/* <Route path="/components/alerts" exact component={Alerts} /> 
+    {/* <Route path="/components/alerts" exact component={Alerts} />
     <Route path="/components/accordions" exact component={FalconAccordions} />
     <Route path="/components/avatar" exact component={Avatar} />
     <Route path="/components/badges" exact component={Badges} />
@@ -446,9 +447,10 @@ const MyEMSRoutes = () => (
     {/*Auxiliary System*/}
     <Route path="/auxiliarysystem/energyflowdiagram" exact component={EnergyFlowDiagram} />
     <Route path="/auxiliarysystem/distributionsystem" exact component={DistributionSystem} />
-    
+
     {/*Microgrid*/}
     <Route path="/microgrid" exact component={Microgrid} />
+    <Route path="/microgriddetails" exact component={MicrogridDetails} />
 
     {/*FDD*/}
     <Route path="/fdd" exact component={FDDFault} />

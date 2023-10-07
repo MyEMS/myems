@@ -1,34 +1,35 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import {
+  Breadcrumb,
+  BreadcrumbItem,
+  Button,
+  ButtonGroup,
   Card,
   CardBody,
   Col,
   CustomInput,
+  Row,
   Form,
   FormGroup,
+  Input,
   Label,
-  Row,
   Spinner,
 } from 'reactstrap';
-import CardSummary from '../common/CardSummary';
-import CountUp from 'react-countup';
-import MultipleLineChart from '../common/MultipleLineChart';
-import MultiTrendChart from '../common/MultiTrendChart';
-import LineChart from '../common/LineChart';
-import BarChart from '../common/BarChart';
-import ChartSpacesStackBar from '../common/ChartSpacesStackBar';
+import Loader from '../../common/Loader';
+import { isIterableArray } from '../../../helpers/utils';
+import Flex from '../../common/Flex';
+import classNames from 'classnames';
+import MicrogridList from './MicrogridList';
+import MicrogridFooter from './MicrogridFooter';
+import usePagination from '../../../hooks/usePagination';
 import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
-import {v4 as uuid} from 'uuid';
 import { toast } from 'react-toastify';
 import { APIBaseURL } from '../../../config';
-import useInterval from '../../../hooks/useInterval';
-import { Map } from 'react-leaflet';
 
 
 const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
-
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
     let user_name = getCookieValue('user_name');
@@ -40,11 +41,11 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
       setRedirect(true);
     } else {
       //update expires time of cookies
-      createCookie('is_logged_in', true, 1000 * 60 * 10 * 48);
-      createCookie('user_name', user_name, 1000 * 60 * 10 * 48);
-      createCookie('user_display_name', user_display_name, 1000 * 60 * 10 * 48);
-      createCookie('user_uuid', user_uuid, 1000 * 60 * 10 * 48);
-      createCookie('token', token, 1000 * 60 * 10 * 48);
+      createCookie('is_logged_in', true, 1000 * 60 * 10 * 1);
+      createCookie('user_name', user_name, 1000 * 60 * 10 * 1);
+      createCookie('user_display_name', user_display_name, 1000 * 60 * 10 * 1);
+      createCookie('user_uuid', user_uuid, 1000 * 60 * 10 * 1);
+      createCookie('token', token, 1000 * 60 * 10 * 1);
     }
   });
 
@@ -59,34 +60,14 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
     return () => clearInterval(timer);
   }, []);
 
-
   // State
-  // Query Parameters
-  const [microgridList, setMicrogridList] = useState([]);
-  const [selectedMicrogridID, setSelectedMicrogridID] = useState(undefined);
-
-  //Results
-  const [images, setImages] = useState([]);
-  const [spinnerHidden, setSpinnerHidden] = useState(false);
-
-  const [cardSummaryList, setCardSummaryList] = useState([]);
-
-  const [parameterLineChartLabels, setParameterLineChartLabels] = useState([]);
-  const [parameterLineChartData, setParameterLineChartData] = useState({});
-  const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
-
-
-  const [microgridReportingNames, setMicrogridReportingNames] = useState({"a0":""});
-  const [microgridReportingUnits, setMicrogridReportingUnits] = useState({"a0":"()"});
-
-  const [microgridReportingLabels, setMicrogridReportingLabels] = useState({"a0": []});
-  const [microgridReportingData, setMicrogridReportingData] = useState({"a0": []});
-  const [microgridReportingSubtotals, setMicrogridReportingSubtotals] = useState({"a0": (0).toFixed(2)});
-  const [microgridReportingOptions, setMicrogridReportingOptions] = useState([]);
+  const [microgridArray, setMicrogridArray] = useState([]);
+  const [microgridIds, setMicrogridIds] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     let isResponseOK = false;
-    fetch(APIBaseURL + '/microgridbyuser', {
+    fetch(APIBaseURL + '/microgrids', {
       method: 'GET',
       headers: {
         "Content-type": "application/json",
@@ -104,19 +85,47 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       console.log(json);
       if (isResponseOK) {
-        // rename keys
-        json = JSON.parse(JSON.stringify(json).split('"id":').join('"value":').split('"name":').join('"label":'));
-
         console.log(json);
-        setMicrogridList(json);
-        setSelectedMicrogridID([json[0]].map(o => o.value));
-        refreshMicrogridReport([json[0]].map(o => o.value));
-        let images = {};
-        json.forEach((currentValue, index) => {
-          images[currentValue['value']] = {__html: currentValue['svg']}
-        });
-        setImages(images);
-        setSpinnerHidden(true);
+        setMicrogridArray([]);
+        setMicrogridIds([]);
+
+        if (json.length > 0) {
+          json.forEach((currentValue, index) => {
+            let microgird = {}
+            microgird['id'] = json[index]['id'];
+            microgird['name'] = json[index]['name'];
+            microgird['uuid'] = json[index]['uuid'];
+            microgird['svg'] = json[index]['svg'];
+            microgird['latitude'] = json[index]['latitude'];
+            microgird['longitude'] = json[index]['longitude'];
+            microgird['files'] = [
+              {
+                id: json[index]['uuid'],
+                path: ' product1',
+                src: './img/1.png',
+              }
+            ];
+            microgird['category'] = 'Liverpool';
+            microgird['features'] = ['Brand: MyEMS', 'Manufactured: 2011', 'Ton:  800 Ton', 'Model#:  YKK8K3H9-CUG', 'Serial#:  SNXM-143960', 'Type:  Water-Cooled', 'Compressor Type:  Centrifugal', 'Power:  460 Volts / 60 Hz / 3 Ph', 'Refrigerant:  R-134a'];
+            microgird['parameter1'] = 5.6;
+            microgird['parameter2'] = 5.6;
+            microgird['parameter3'] = 5.6;
+            microgird['parameter4'] = 5.6;
+            microgird['parameter5'] = 5.6;
+            microgird['parameter6'] = 5.6;
+            microgird['parameter7'] = 5.6;
+            microgird['alarms'] = ['supply temperature is high', 'return temperature is low'];
+            microgird['isOnline'] = true;
+            microgird['isRunning'] = true;
+            microgridArray.push(microgird);
+            microgridIds.push(microgird['id']);
+          });
+        }
+        console.log('microgridArray:');
+        console.log(microgridArray);
+        console.log('microgridIds:');
+        console.log(microgridIds);
+        setIsLoading(false);
       } else {
         toast.error(t(json.description));
       }
@@ -128,207 +137,72 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
-  let onMicrogridChange = (event) => {
-    setSelectedMicrogridID(event.target.value);
-    refreshMicrogridReport(event.target.value);
+  const sliderSettings = {
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1
   };
 
-  const refreshSVGData =()=> {
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/reports/pointrealtime', {
-      method: 'GET',
-      headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
-      },
-      body: null,
+  // Hook
+  const { data: paginationData, meta: paginationMeta, handler: paginationHandler } = usePagination(microgridIds);
+  const { total, itemsPerPage, from, to } = paginationMeta;
+  const { perPage } = paginationHandler;
 
-    }).then(response => {
-      if (response.ok) {
-        isResponseOK = true;
-      }
-      return response.json();
-    }).then(json => {
-      if (isResponseOK) {
-        console.log(json);
-        json.forEach((currentPoint, circuitIndex) => {
-          let el=document.getElementById("PT"+currentPoint['point_id'])
-          if(el){
-            let val = parseFloat(currentPoint['value'])
-            el.textContent=val.toFixed(2)
-          }
-        });
-      }
-    })
-    .catch(err => {
-      console.log(err);
-    });
-  };
+  const isList = true;
+  const isGrid = false;
 
-  useInterval(() => {
-    refreshSVGData();
-  }, 1000 * 10);
-
-
-  const refreshMicrogridReport =(microgridID)=> {
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/reports/microgrid?microgridid=' + microgridID, {
-      method: 'GET',
-      headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
-      },
-      body: null,
-
-    }).then(response => {
-      if (response.ok) {
-        isResponseOK = true;
-      }
-      return response.json();
-    }).then(json => {
-      if (isResponseOK) {
-        console.log(json);
-
-        let timestamps = {}
-        json['parameters']['timestamps'].forEach((currentValue, index) => {
-          timestamps['a' + index] = currentValue;
-        });
-        setParameterLineChartLabels(timestamps);
-
-        let values = {}
-        json['parameters']['values'].forEach((currentValue, index) => {
-          values['a' + index] = currentValue;
-        });
-        setParameterLineChartData(values);
-
-        let names = Array();
-        json['parameters']['names'].forEach((currentValue, index) => {
-
-          names.push({ 'value': 'a' + index, 'label': currentValue });
-        });
-        setParameterLineChartOptions(names);
-
-        let cardSummaryArray = []
-        json['reporting_period']['names'].forEach((currentValue, index) => {
-          let cardSummaryItem = {};
-          cardSummaryItem['name'] = json['reporting_period']['names'][index];
-          cardSummaryItem['unit'] = json['reporting_period']['units'][index];
-          cardSummaryItem['subtotal'] = json['reporting_period']['subtotals'][index];
-          cardSummaryItem['increment_rate'] = parseFloat(json['reporting_period']['increment_rates'][index] * 100).toFixed(2) + "%";
-
-          cardSummaryArray.push(cardSummaryItem);
-        });
-        setCardSummaryList(cardSummaryArray);
-
-
-        let base_and_reporting_names = {}
-        json['reporting_period']['names'].forEach((currentValue, index) => {
-          base_and_reporting_names['a' + index] = currentValue;
-        });
-        setMicrogridReportingNames(base_and_reporting_names)
-
-        let base_and_reporting_units = {}
-        json['reporting_period']['units'].forEach((currentValue, index) => {
-          base_and_reporting_units['a' + index] = "("+currentValue+")";
-        });
-        setMicrogridReportingUnits(base_and_reporting_units)
-
-
-        let reporting_timestamps = {}
-        json['reporting_period']['timestamps'].forEach((currentValue, index) => {
-          reporting_timestamps['a' + index] = currentValue;
-        });
-        setMicrogridReportingLabels(reporting_timestamps);
-
-        let reporting_values = {}
-        json['reporting_period']['values'].forEach((currentValue, index) => {
-          reporting_values['a' + index] = currentValue;
-        });
-        setMicrogridReportingData(reporting_values);
-
-        let reporting_subtotals = {}
-        json['reporting_period']['subtotals'].forEach((currentValue, index) => {
-          reporting_subtotals['a' + index] = currentValue.toFixed(2);
-        });
-        setMicrogridReportingSubtotals(reporting_subtotals);
-
-        let options = Array();
-        json['reporting_period']['names'].forEach((currentValue, index) => {
-          let unit = json['reporting_period']['units'][index];
-          options.push({ 'value': 'a' + index, 'label': currentValue + ' (' + unit + ')'});
-        });
-        setMicrogridReportingOptions(options);
-      }
-    })
-    .catch(err => {
-      console.log(err);
-    });
-  };
 
   return (
     <Fragment>
-      <Card className="bg-light mb-3">
-        <CardBody className="p-3">
-          <Form >
-            <Row form style={{height:"38px"}}>
-              <Col xs={6} sm={3} style={{height:"37px"}}>
-                <FormGroup>
-                  <CustomInput type="select" id="microgridSelect" name="microgridSelect"
-                    value={selectedMicrogridID} onChange={onMicrogridChange}
-                  >
-                    {microgridList.map((microgrid, index) => (
-                      <option value={microgrid.value} key={microgrid.value}>
-                        {microgrid.label}
-                      </option>
-                    ))}
-                  </CustomInput>
-                </FormGroup>
-              </Col>
-              <Col xs="auto">
-                <FormGroup>
-                  <br></br>
-                  <Spinner color="primary" hidden={spinnerHidden}  />
-                </FormGroup>
-              </Col>
-            </Row>
-          </Form>
+      <div>
+        <Breadcrumb>
+          <BreadcrumbItem>{t('Microgrid')}</BreadcrumbItem><BreadcrumbItem active>{t('Microgrid')}</BreadcrumbItem>
+        </Breadcrumb>
+      </div>
+
+      <Card>
+        <CardBody className={classNames({ 'p-0  overflow-hidden': isList, 'pb-0': isGrid })}>
+          {isLoading ? (
+            <Loader />
+          ) : (
+              <Row noGutters={isList}>
+                {isIterableArray(microgridArray) &&
+                  microgridArray
+                    .filter(microgrid => paginationData.includes(microgrid.id))
+                    .map((microgrid, index) => <MicrogridList {...microgrid} sliderSettings={sliderSettings} key={microgrid.id} index={index} />)}
+              </Row>
+            )}
+        </CardBody>
+        <MicrogridFooter meta={paginationMeta} handler={paginationHandler} />
+      </Card>
+      <Card className="mb-3">
+        <CardBody>
+          <Row className="justify-content-between align-items-center">
+            <Col sm="auto" className="mb-2 mb-sm-0" tag={Flex} align="center">
+              <h6 className="mb-0 text-nowrap ml-2">
+                {t('Show Up to')}
+              </h6>
+              <CustomInput
+                id="itemsPerPage"
+                type="select"
+                bsSize="sm"
+                value={itemsPerPage}
+                onChange={({ target }) => perPage(Number(target.value))}
+              >
+                <option value={2}>2</option>
+                <option value={4}>4</option>
+                <option value={6}>6</option>
+                <option value={total}>{t('All')}</option>
+              </CustomInput>
+              <h6 className="mb-0 text-nowrap ml-2">
+                {t('FROM - TO of TOTAL', { 'FROM': from, 'TO': to, 'TOTAL': total })}
+              </h6>
+            </Col>
+
+          </Row>
         </CardBody>
       </Card>
-      <Row noGutters>
-        <Col lg="8" className="pr-lg-2" key={uuid()}>
-          <div dangerouslySetInnerHTML={images[selectedMicrogridID]} />
-        </Col>
-        <Col lg="4" className="pr-lg-2">
-          <MultipleLineChart reportingTitle={t('Related Parameters')}
-            baseTitle=''
-            labels={parameterLineChartLabels}
-            data={parameterLineChartData}
-            options={parameterLineChartOptions}>
-          </MultipleLineChart>
-        </Col>
-      </Row>
-      <MultiTrendChart reportingTitle = {{"name": "CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": microgridReportingNames, "VALUE": microgridReportingSubtotals, "UNIT": microgridReportingUnits}}
-        baseTitle = {{"name": "CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": {"a0":""}, "VALUE": {"a0": (0).toFixed(2)}, "UNIT": {"a0":"()"}}}
-        reportingTooltipTitle = {{"name": "CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": {"a0":""}, "VALUE": null, "UNIT": {"a0":"()"}}}
-        baseTooltipTitle = {{"name": "CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": {"a0":""}, "VALUE": null, "UNIT": {"a0":"()"}}}
-        reportingLabels={microgridReportingLabels}
-        reportingData={microgridReportingData}
-        baseLabels={{"a0": []}}
-        baseData={{"a0": []}}
-        rates={{"a0": []}}
-        options={microgridReportingOptions}>
-      </MultiTrendChart>
-      <div className="card-deck">
-        {cardSummaryList.map(cardSummaryItem => (
-            <CardSummary key={cardSummaryItem['name']}
-              title={cardSummaryItem['name'] + '(' + cardSummaryItem['unit'] + ')' }
-              color="success" >
-              {cardSummaryItem['subtotal'] && <CountUp end={cardSummaryItem['subtotal']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
-            </CardSummary>
-        ))}
-      </div>
     </Fragment>
   );
 };
