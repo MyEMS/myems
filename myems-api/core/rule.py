@@ -27,7 +27,7 @@ class RuleCollection:
         query = (" SELECT id, name, uuid, "
                  "        category, fdd_code, priority, "
                  "        channel, expression, message_template, "
-                 "        is_enabled, last_run_datetime_utc, next_run_datetime_utc "
+                 "        is_enabled, last_run_datetime_utc, next_run_datetime_utc, is_run_immediately "
                  " FROM tbl_rules "
                  " ORDER BY id ")
         cursor.execute(query)
@@ -63,6 +63,7 @@ class RuleCollection:
                                "is_enabled": bool(row[9]),
                                "last_run_datetime": last_run_datetime,
                                "next_run_datetime": next_run_datetime,
+                               "is_run_immediately": bool(row[12])
                                }
                 result.append(meta_result)
 
@@ -153,6 +154,12 @@ class RuleCollection:
                                    description='API.INVALID_IS_ENABLED')
         is_enabled = new_values['data']['is_enabled']
 
+        if 'is_run_immediately' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['is_run_immediately'], bool):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_IS_RUN_IMMEDIATELY')
+        is_run_immediately = new_values['data']['is_run_immediately']
+
         cnx = mysql.connector.connect(**config.myems_fdd_db)
         cursor = cnx.cursor()
 
@@ -179,7 +186,7 @@ class RuleCollection:
                                  expression,
                                  message_template,
                                  is_enabled,
-                                 False))
+                                 is_run_immediately))
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
@@ -213,7 +220,7 @@ class RuleItem:
         query = (" SELECT id, name, uuid, "
                  "        category, fdd_code, priority, "
                  "        channel, expression, message_template, "
-                 "        is_enabled, last_run_datetime_utc, next_run_datetime_utc "
+                 "        is_enabled, last_run_datetime_utc, next_run_datetime_utc, is_run_immediately "
                  " FROM tbl_rules "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -248,6 +255,7 @@ class RuleItem:
                   "is_enabled": bool(row[9]),
                   "last_run_datetime": last_run_datetime,
                   "next_run_datetime": next_run_datetime,
+                  "is_run_immediately": bool(row[12])
                   }
         resp.text = json.dumps(result)
 
@@ -370,6 +378,12 @@ class RuleItem:
                                    description='API.INVALID_IS_ENABLED')
         is_enabled = new_values['data']['is_enabled']
 
+        if 'is_run_immediately' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['is_run_immediately'], bool):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_IS_RUN_IMMEDIATELY')
+        is_run_immediately = new_values['data']['is_run_immediately']
+
         cnx = mysql.connector.connect(**config.myems_fdd_db)
         cursor = cnx.cursor()
 
@@ -394,7 +408,7 @@ class RuleItem:
         update_row = (" UPDATE tbl_rules "
                       " SET name = %s, category = %s, fdd_code = %s, priority = %s, "
                       "     channel = %s, expression = %s, message_template = %s, "
-                      "     is_enabled = %s "
+                      "     is_enabled = %s, is_run_immediately = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     category,
@@ -404,6 +418,7 @@ class RuleItem:
                                     expression,
                                     message_template,
                                     is_enabled,
+                                    is_run_immediately,
                                     id_,))
         cnx.commit()
 
