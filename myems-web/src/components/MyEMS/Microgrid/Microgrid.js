@@ -27,6 +27,7 @@ import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { APIBaseURL } from '../../../config';
+import CustomizeMapBox from '../common/CustomizeMapBox';
 
 
 const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
@@ -64,6 +65,9 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
   const [microgridArray, setMicrogridArray] = useState([]);
   const [microgridIds, setMicrogridIds] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [geojson, setGeojson] = useState([]);
+  const [rootLatitude, setRootLatitude] = useState('');
+  const [rootLongitude, setRootLongitude] = useState('');
 
   useEffect(() => {
     let isResponseOK = false;
@@ -90,8 +94,10 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
         setMicrogridIds([]);
         let microgridArray = [];
         let microgridIds = [];
-
+        let geojsonData = [];
         if (json.length > 0) {
+          setRootLongitude(json[0]['longitude']);
+          setRootLatitude(json[0]['latitude']);
           json.forEach((currentValue, index) => {
             let microgird = {}
             microgird['id'] = json[index]['id'];
@@ -121,6 +127,19 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
             microgird['isRunning'] = true;
             microgridArray.push(microgird);
             microgridIds.push(microgird['id']);
+            geojsonData.push({
+              'type': 'Feature',
+              'geometry': {
+                'type': 'Point',
+                'coordinates': [json[index]['longitude'], json[index]['latitude']]
+                },
+              'properties': {
+                'title': json[index]['name'],
+                'description': json[index]['description'],
+                'uuid': json[index]['uuid'],
+                'url': '/microgriddetails'
+                }
+            })
           });
         }
         setMicrogridArray(microgridArray);
@@ -130,6 +149,7 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
         console.log('microgridIds:');
         console.log(microgridIds);
         setIsLoading(false);
+        setGeojson(geojsonData);
       } else {
         toast.error(t(json.description));
       }
@@ -167,16 +187,23 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
 
       <Card>
         <CardBody className={classNames({ 'p-0  overflow-hidden': isList, 'pb-0': isGrid })}>
-          {isLoading ? (
-            <Loader />
-          ) : (
-              <Row noGutters={isList}>
-                {isIterableArray(microgridArray) &&
-                  microgridArray
-                    .filter(microgrid => paginationData.includes(microgrid.id))
-                    .map((microgrid, index) => <MicrogridList {...microgrid} sliderSettings={sliderSettings} key={microgrid.id} index={index} />)}
-              </Row>
-            )}
+          <Row>
+            <Col xs={8}>
+            {isLoading ? (
+              <Loader />
+            ) : (
+                <Row noGutters={isList}>
+                  {isIterableArray(microgridArray) &&
+                    microgridArray
+                      .filter(microgrid => paginationData.includes(microgrid.id))
+                      .map((microgrid, index) => <MicrogridList {...microgrid} sliderSettings={sliderSettings} key={microgrid.id} index={index} />)}
+                </Row>
+              )}
+            </Col>
+            <Col>
+              <CustomizeMapBox Latitude={rootLatitude} Longitude={rootLongitude} Zoom={3} Geojson={geojson}></CustomizeMapBox>
+            </Col>
+            </Row>
         </CardBody>
         <MicrogridFooter meta={paginationMeta} handler={paginationHandler} />
       </Card>
