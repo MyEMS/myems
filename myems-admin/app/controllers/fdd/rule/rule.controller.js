@@ -38,7 +38,7 @@ app.controller('RuleController', function(
 			templateUrl: 'views/fdd/rule.model.html',
 			controller: 'ModalAddRuleCtrl',
 			windowClass: "animated fadeIn",
-			size: 'lg',
+			size: 'xl',
 			resolve: {
 				params: function() {
 					return {
@@ -80,7 +80,7 @@ app.controller('RuleController', function(
 			windowClass: "animated fadeIn",
 			templateUrl: 'views/fdd/rule.model.html',
 			controller: 'ModalEditRuleCtrl',
-			size: 'lg',
+			size: 'xl',
 			resolve: {
 				params: function() {
 					return {
