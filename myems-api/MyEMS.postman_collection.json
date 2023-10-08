@@ -9469,7 +9469,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Space Energy Consumption Over Limit\", \"fdd_code\":\"SPACE01\", \"category\":\"SPACE\", \"priority\":\"HIGH\", \"channel\":\"WEB\", \"expression\":\"{\\\"space_id\\\":1, \\\"high_limit\\\":1000.000}\", \"message_template\":\"%s截止到目前电耗%s，超标%s。\", \"is_enabled\":true}}"
+									"raw": "{\"data\":{\"name\":\"Space Energy Consumption Over Limit\", \"fdd_code\":\"SPACE01\", \"category\":\"SPACE\", \"priority\":\"HIGH\", \"channel\":\"WEB\", \"expression\":\"{\\\"space_id\\\":1, \\\"high_limit\\\":1000.000}\", \"message_template\":\"%s截止到目前电耗%s，超标%s。\", \"is_enabled\":true, \"is_run_immediately\":true}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/rules",
@@ -9502,7 +9502,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Space Energy Consumption Over Limit\", \"fdd_code\":\"SPACE01\", \"category\":\"SPACE\", \"priority\":\"HIGH\", \"channel\":\"WEB\", \"expression\":\"{\\\"space_id\\\":1, \\\"high_limit\\\":1000.000}\", \"message_template\":\"%s截止到目前电耗%s，超标%s。\", \"is_enabled\":true}}"
+									"raw": "{\"data\":{\"name\":\"Space Energy Consumption Over Limit\", \"fdd_code\":\"SPACE01\", \"category\":\"SPACE\", \"priority\":\"HIGH\", \"channel\":\"WEB\", \"expression\":\"{\\\"space_id\\\":1, \\\"high_limit\\\":1000.000}\", \"message_template\":\"%s截止到目前电耗%s，超标%s。\", \"is_enabled\":true, \"is_run_immediately\":true}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/rules/2",
