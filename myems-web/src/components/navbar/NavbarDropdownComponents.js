@@ -1,14 +1,16 @@
 import PropTypes from 'prop-types';
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Badge, Card, CardBody, Col, DropdownItem, DropdownMenu, DropdownToggle, Row, Dropdown } from 'reactstrap';
 import { breakpoints, isIterableArray, routesSlicer } from '../../helpers/utils';
 import { topNavbarBreakpoint } from '../../config';
 import { withTranslation } from 'react-i18next';
+import AppContext from '../../context/Context';
 
 const NavbarDropdownComponents = ({ title, items, right, handleSetNavbarCollapsed, t }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen(prevState => !prevState);
+  const { language } = useContext(AppContext);
 
   return (
     <Dropdown
@@ -40,7 +42,7 @@ const NavbarDropdownComponents = ({ title, items, right, handleSetNavbarCollapse
                 {items.map((groupItem, index) => {
                   const NavItemGroup = routesSlicer({
                     routes: groupItem.children,
-                    columns: 4
+                    columns: language === 'zh_CN' ? 4 : 3
                   });
 
                   return (
