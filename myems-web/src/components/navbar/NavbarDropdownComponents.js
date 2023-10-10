@@ -5,12 +5,10 @@ import { Badge, Card, CardBody, Col, DropdownItem, DropdownMenu, DropdownToggle,
 import { breakpoints, isIterableArray, routesSlicer } from '../../helpers/utils';
 import { topNavbarBreakpoint } from '../../config';
 import { withTranslation } from 'react-i18next';
-import AppContext from '../../context/Context';
 
 const NavbarDropdownComponents = ({ title, items, right, handleSetNavbarCollapsed, t }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen(prevState => !prevState);
-  const { language } = useContext(AppContext);
 
   return (
     <Dropdown
@@ -42,7 +40,7 @@ const NavbarDropdownComponents = ({ title, items, right, handleSetNavbarCollapse
                 {items.map((groupItem, index) => {
                   const NavItemGroup = routesSlicer({
                     routes: groupItem.children,
-                    columns: language === 'zh_CN' ? 4 : 3
+                    columns: 2
                   });
 
                   return (
@@ -54,7 +52,7 @@ const NavbarDropdownComponents = ({ title, items, right, handleSetNavbarCollapse
                         {NavItemGroup.map((navItems, i) => {
                           return (
                             <Fragment key={`${index}-${i}`}>
-                              <Col xs={6} xl={3}>
+                              <Col xs={6} xl={6}>
                                 {navItems.map((navItem, j) => {
                                   return (
                                     <DropdownItem
