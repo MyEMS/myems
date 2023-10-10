@@ -198,207 +198,221 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
         console.log(err);
       });
     } else {
-      // disable submit button
-      setSubmitButtonDisabled(true);
-      // show spinner
-      setSpinnerHidden(false);
-      // hide export button
-      setExportButtonHidden(true)
-
-      // Reinitialize tables
-      setDetailedDataTableData([]);
-
-      let isResponseOK = false;
-      fetch(APIBaseURL + '/reports/meterenergy?' +
+      let url = APIBaseURL + '/reports/meterenergy?' +
         'meteruuid=' + uuid +
         '&periodtype=' + periodType +
         '&baseperiodstartdatetime=' + (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
         '&baseperiodenddatetime=' + (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
         '&reportingperiodstartdatetime=' + moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
         '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
-        '&language=' + language, {
-        method: 'GET',
-        headers: {
-          "Content-type": "application/json",
-          "User-UUID": getCookieValue('user_uuid'),
-          "Token": getCookieValue('token')
-        },
-        body: null,
-
-      }).then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        };
-        return response.json();
-      }).then(json => {
-        if (isResponseOK) {
-          console.log(json)
-          setFilteredMeterList([{'id': json['meter']['id'], 'label': json['meter']['name']}]);
-          setSelectedMeter(json['meter']['id']);
-          setMeterEnergyCategory({
-            'name': json['meter']['energy_category_name'],
-            'unit': json['meter']['unit_of_measure']
-          });
-          setReportingPeriodEnergyConsumptionRate(parseFloat(json['reporting_period']['increment_rate'] * 100).toFixed(2) + "%");
-          setReportingPeriodEnergyConsumptionInCategory(json['reporting_period']['total_in_category']);
-          setReportingPeriodEnergyConsumptionInTCE(json['reporting_period']['total_in_kgce'] / 1000);
-          setReportingPeriodEnergyConsumptionInCO2(json['reporting_period']['total_in_kgco2e'] / 1000);
-          setBasePeriodEnergyConsumptionInCategory(json['base_period']['total_in_category']);
-
-          let names = Array();
-          names.push({ 'value': 'a0', 'label': json['meter']['energy_category_name'] });
-          setMeterReportingOptions(names);
-
-          let timestamps = {}
-          timestamps['a0'] = json['reporting_period']['timestamps'];
-          setMeterReportingLabels(timestamps);
-
-          timestamps = {}
-          timestamps['a0'] = json['base_period']['timestamps'];
-          setMeterBaseLabels(timestamps);
-
-          let rates = Array();
-          json['reporting_period']['rates'].forEach(rate => {
-            rates.push(rate ? parseFloat(rate * 100).toFixed(2) : '0.00');
-          });
-          setMeterReportingRates({"a0": rates});
-
-          let values = {'a0':[]}
-          json['reporting_period']['values'].forEach((currentValue, index) => {
-            values['a0'][index] = currentValue.toFixed(2);
-          });
-          setMeterReportingData(values)
-
-          values = {'a0':[]}
-          json['base_period']['values'].forEach((currentValue, index) => {
-            values['a0'][index] = currentValue.toFixed(2);
-          });
-          setMeterBaseData(values)
-
-          names = Array();
-          json['parameters']['names'].forEach((currentValue, index) => {
-
-            names.push({ 'value': 'a' + index, 'label': currentValue });
-          });
-          setParameterLineChartOptions(names);
-
-          timestamps = {}
-          json['parameters']['timestamps'].forEach((currentValue, index) => {
-            timestamps['a' + index] = currentValue;
-          });
-          setParameterLineChartLabels(timestamps);
-
-          values = {}
-          json['parameters']['values'].forEach((currentValue, index) => {
-            values['a' + index] = currentValue;
-          });
-          setParameterLineChartData(values);
-
-          if (comparisonType == 'none-comparison'){
-            setDetailedDataTableColumns([{
-              dataField: 'startdatetime',
-              text: t('Datetime'),
-              sort: true
-            }, {
-              dataField: 'a0',
-              text: json['meter']['energy_category_name'] + ' (' + json['meter']['unit_of_measure'] + ')',
-              sort: true,
-              formatter: function (decimalValue) {
-                if (typeof decimalValue === 'number') {
-                  return decimalValue.toFixed(2);
-                } else {
-                  return null;
-                }
-              }
-            }]);
-          } else {
-            setDetailedDataTableColumns([{
-              dataField: 'startdatetime',
-              text: t('Datetime'),
-              sort: true
-            }, {
-              dataField: 'a0',
-              text: t('Base Period Consumption CATEGORY VALUE UNIT', { 'CATEGORY': json['meter']['energy_category_name'], 'VALUE': null, 'UNIT': '(' + json['meter']['unit_of_measure'] + ')' }),
-              sort: true,
-              formatter: function (decimalValue) {
-                if (typeof decimalValue === 'number') {
-                  return decimalValue.toFixed(2);
-                } else {
-                  return null;
-                }
-              }
-            }, {
-              dataField: 'a1',
-              text: t('Reporting Period Consumption CATEGORY VALUE UNIT', { 'CATEGORY': json['meter']['energy_category_name'], 'VALUE': null, 'UNIT': '(' + json['meter']['unit_of_measure'] + ')' }),
-              sort: true,
-              formatter: function (decimalValue) {
-                if (typeof decimalValue === 'number') {
-                  return decimalValue.toFixed(2);
-                } else {
-                  return null;
-                }
-              }
-            }]);
-          }
-
-          if (comparisonType == 'none-comparison'){
-            let detailed_value_list = [];
-            json['reporting_period']['timestamps'].forEach((currentTimestamp, timestampIndex) => {
-              let detailed_value = {};
-              detailed_value['id'] = timestampIndex;
-              detailed_value['startdatetime'] = currentTimestamp;
-              detailed_value['a0'] = json['reporting_period']['values'][timestampIndex];
-              detailed_value_list.push(detailed_value);
-            });
-
-            let detailed_value = {};
-            detailed_value['id'] = detailed_value_list.length;
-            detailed_value['startdatetime'] = t('Total');
-            detailed_value['a0'] = json['reporting_period']['total_in_category'];
-            detailed_value_list.push(detailed_value);
-            setTimeout( () => {
-              setDetailedDataTableData(detailed_value_list);
-            }, 0)
-          } else {
-            let detailed_value_list = [];
-            json['reporting_period']['timestamps'].forEach((currentTimestamp, timestampIndex) => {
-              let detailed_value = {};
-              detailed_value['id'] = timestampIndex;
-              detailed_value['startdatetime'] = currentTimestamp;
-              detailed_value['a0'] = json['base_period']['values'][timestampIndex];
-              detailed_value['a1'] = json['reporting_period']['values'][timestampIndex];
-              detailed_value_list.push(detailed_value);
-            });
-
-            let detailed_value = {};
-            detailed_value['id'] = detailed_value_list.length;
-            detailed_value['startdatetime'] = t('Total');
-            detailed_value['a0'] = json['base_period']['total_in_category'];
-            detailed_value['a1'] = json['reporting_period']['total_in_category'];
-            detailed_value_list.push(detailed_value);
-            setTimeout( () => {
-              setDetailedDataTableData(detailed_value_list);
-            }, 0)
-          }
-          setExcelBytesBase64(json['excel_bytes_base64']);
-
-          // enable submit button
-          setSubmitButtonDisabled(false);
-          // hide spinner
-          setSpinnerHidden(true);
-          // show export button
-          setExportButtonHidden(false);
-
-        } else {
-          toast.error(t(json.description))
-          setSpinnerHidden(true);
-          setSubmitButtonDisabled(false);
-        }
-      }).catch(err => {
-        console.log(err);
-      });
+        '&language=' + language;
+      loadData(url);
     }
   }, [t,]);
+
+  const loadData = (url) => {
+    // disable submit button
+    setSubmitButtonDisabled(true);
+    // show spinner
+    setSpinnerHidden(false);
+    // hide export button
+    setExportButtonHidden(true)
+
+    // Reinitialize tables
+    setDetailedDataTableData([]);
+
+    let isResponseOK = false;
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        "Content-type": "application/json",
+        "User-UUID": getCookieValue('user_uuid'),
+        "Token": getCookieValue('token')
+      },
+      body: null,
+    }).then(response => {
+      if (response.ok) {
+        isResponseOK = true;
+      }
+      return response.json();
+    }).then(json => {
+      if (isResponseOK) {
+        console.log(json)
+        if(uuid !== null && uuid) {
+          setFilteredMeterList([{'id': json['meter']['id'], 'label': json['meter']['name']}]);
+          setSelectedMeter(json['meter']['id']);
+        }
+        setMeterEnergyCategory({
+          'name': json['meter']['energy_category_name'],
+          'unit': json['meter']['unit_of_measure']
+        });
+        setReportingPeriodEnergyConsumptionRate(parseFloat(json['reporting_period']['increment_rate'] * 100).toFixed(2) + "%");
+        setReportingPeriodEnergyConsumptionInCategory(json['reporting_period']['total_in_category']);
+        setReportingPeriodEnergyConsumptionInTCE(json['reporting_period']['total_in_kgce'] / 1000);
+        setReportingPeriodEnergyConsumptionInCO2(json['reporting_period']['total_in_kgco2e'] / 1000);
+        setBasePeriodEnergyConsumptionInCategory(json['base_period']['total_in_category']);
+
+        let names = Array();
+        names.push({'value': 'a0', 'label': json['meter']['energy_category_name']});
+        setMeterReportingOptions(names);
+
+        let timestamps = {}
+        timestamps['a0'] = json['reporting_period']['timestamps'];
+        setMeterReportingLabels(timestamps);
+
+        timestamps = {}
+        timestamps['a0'] = json['base_period']['timestamps'];
+        setMeterBaseLabels(timestamps);
+
+        let rates = Array();
+        json['reporting_period']['rates'].forEach(rate => {
+          rates.push(rate ? parseFloat(rate * 100).toFixed(2) : '0.00');
+        });
+        setMeterReportingRates({"a0": rates});
+
+        let values = {'a0': []}
+        json['reporting_period']['values'].forEach((currentValue, index) => {
+          values['a0'][index] = currentValue.toFixed(2);
+        });
+        setMeterReportingData(values)
+
+        values = {'a0': []}
+        json['base_period']['values'].forEach((currentValue, index) => {
+          values['a0'][index] = currentValue.toFixed(2);
+        });
+        setMeterBaseData(values)
+
+        names = Array();
+        json['parameters']['names'].forEach((currentValue, index) => {
+
+          names.push({'value': 'a' + index, 'label': currentValue});
+        });
+        setParameterLineChartOptions(names);
+
+        timestamps = {}
+        json['parameters']['timestamps'].forEach((currentValue, index) => {
+          timestamps['a' + index] = currentValue;
+        });
+        setParameterLineChartLabels(timestamps);
+
+        values = {}
+        json['parameters']['values'].forEach((currentValue, index) => {
+          values['a' + index] = currentValue;
+        });
+        setParameterLineChartData(values);
+
+        if (comparisonType == 'none-comparison') {
+          setDetailedDataTableColumns([{
+            dataField: 'startdatetime',
+            text: t('Datetime'),
+            sort: true
+          }, {
+            dataField: 'a0',
+            text: json['meter']['energy_category_name'] + ' (' + json['meter']['unit_of_measure'] + ')',
+            sort: true,
+            formatter: function (decimalValue) {
+              if (typeof decimalValue === 'number') {
+                return decimalValue.toFixed(2);
+              } else {
+                return null;
+              }
+            }
+          }]);
+        } else {
+          setDetailedDataTableColumns([{
+            dataField: 'startdatetime',
+            text: t('Datetime'),
+            sort: true
+          }, {
+            dataField: 'a0',
+            text: t('Base Period Consumption CATEGORY VALUE UNIT', {
+              'CATEGORY': json['meter']['energy_category_name'],
+              'VALUE': null,
+              'UNIT': '(' + json['meter']['unit_of_measure'] + ')'
+            }),
+            sort: true,
+            formatter: function (decimalValue) {
+              if (typeof decimalValue === 'number') {
+                return decimalValue.toFixed(2);
+              } else {
+                return null;
+              }
+            }
+          }, {
+            dataField: 'a1',
+            text: t('Reporting Period Consumption CATEGORY VALUE UNIT', {
+              'CATEGORY': json['meter']['energy_category_name'],
+              'VALUE': null,
+              'UNIT': '(' + json['meter']['unit_of_measure'] + ')'
+            }),
+            sort: true,
+            formatter: function (decimalValue) {
+              if (typeof decimalValue === 'number') {
+                return decimalValue.toFixed(2);
+              } else {
+                return null;
+              }
+            }
+          }]);
+        }
+
+        if (comparisonType == 'none-comparison') {
+          let detailed_value_list = [];
+          json['reporting_period']['timestamps'].forEach((currentTimestamp, timestampIndex) => {
+            let detailed_value = {};
+            detailed_value['id'] = timestampIndex;
+            detailed_value['startdatetime'] = currentTimestamp;
+            detailed_value['a0'] = json['reporting_period']['values'][timestampIndex];
+            detailed_value_list.push(detailed_value);
+          });
+
+          let detailed_value = {};
+          detailed_value['id'] = detailed_value_list.length;
+          detailed_value['startdatetime'] = t('Total');
+          detailed_value['a0'] = json['reporting_period']['total_in_category'];
+          detailed_value_list.push(detailed_value);
+          setTimeout(() => {
+            setDetailedDataTableData(detailed_value_list);
+          }, 0)
+        } else {
+          let detailed_value_list = [];
+          json['reporting_period']['timestamps'].forEach((currentTimestamp, timestampIndex) => {
+            let detailed_value = {};
+            detailed_value['id'] = timestampIndex;
+            detailed_value['startdatetime'] = currentTimestamp;
+            detailed_value['a0'] = json['base_period']['values'][timestampIndex];
+            detailed_value['a1'] = json['reporting_period']['values'][timestampIndex];
+            detailed_value_list.push(detailed_value);
+          });
+
+          let detailed_value = {};
+          detailed_value['id'] = detailed_value_list.length;
+          detailed_value['startdatetime'] = t('Total');
+          detailed_value['a0'] = json['base_period']['total_in_category'];
+          detailed_value['a1'] = json['reporting_period']['total_in_category'];
+          detailed_value_list.push(detailed_value);
+          setTimeout(() => {
+            setDetailedDataTableData(detailed_value_list);
+          }, 0)
+        }
+        setExcelBytesBase64(json['excel_bytes_base64']);
+
+        // enable submit button
+        setSubmitButtonDisabled(false);
+        // hide spinner
+        setSpinnerHidden(true);
+        // show export button
+        setExportButtonHidden(false);
+
+      } else {
+        toast.error(t(json.description))
+        setSpinnerHidden(true);
+        setSubmitButtonDisabled(false);
+      }
+    }).catch(err => {
+      console.log(err);
+    });
+  }
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
@@ -540,206 +554,15 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
     console.log(moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'))
     console.log(moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'));
 
-    // disable submit button
-    setSubmitButtonDisabled(true);
-    // show spinner
-    setSpinnerHidden(false);
-    // hide export button
-    setExportButtonHidden(true)
-
-    // Reinitialize tables
-    setDetailedDataTableData([]);
-
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/reports/meterenergy?' +
+    let url = APIBaseURL + '/reports/meterenergy?' +
       'meterid=' + selectedMeter +
       '&periodtype=' + periodType +
       '&baseperiodstartdatetime=' + (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
       '&baseperiodenddatetime=' + (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
       '&reportingperiodstartdatetime=' + moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
       '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&language=' + language, {
-      method: 'GET',
-      headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
-      },
-      body: null,
-
-    }).then(response => {
-      if (response.ok) {
-        isResponseOK = true;
-      };
-      return response.json();
-    }).then(json => {
-      if (isResponseOK) {
-        console.log(json)
-        setMeterEnergyCategory({
-          'name': json['meter']['energy_category_name'],
-          'unit': json['meter']['unit_of_measure']
-        });
-        setReportingPeriodEnergyConsumptionRate(parseFloat(json['reporting_period']['increment_rate'] * 100).toFixed(2) + "%");
-        setReportingPeriodEnergyConsumptionInCategory(json['reporting_period']['total_in_category']);
-        setReportingPeriodEnergyConsumptionInTCE(json['reporting_period']['total_in_kgce'] / 1000);
-        setReportingPeriodEnergyConsumptionInCO2(json['reporting_period']['total_in_kgco2e'] / 1000);
-        setBasePeriodEnergyConsumptionInCategory(json['base_period']['total_in_category']);
-
-        let names = Array();
-        names.push({ 'value': 'a0', 'label': json['meter']['energy_category_name'] });
-        setMeterReportingOptions(names);
-
-        let timestamps = {}
-        timestamps['a0'] = json['reporting_period']['timestamps'];
-        setMeterReportingLabels(timestamps);
-
-        timestamps = {}
-        timestamps['a0'] = json['base_period']['timestamps'];
-        setMeterBaseLabels(timestamps);
-
-        let rates = Array();
-        json['reporting_period']['rates'].forEach(rate => {
-          rates.push(rate ? parseFloat(rate * 100).toFixed(2) : '0.00');
-        });
-        setMeterReportingRates({"a0": rates});
-
-        let values = {'a0':[]}
-        json['reporting_period']['values'].forEach((currentValue, index) => {
-          values['a0'][index] = currentValue.toFixed(2);
-        });
-        setMeterReportingData(values)
-
-        values = {'a0':[]}
-        json['base_period']['values'].forEach((currentValue, index) => {
-          values['a0'][index] = currentValue.toFixed(2);
-        });
-        setMeterBaseData(values)
-
-        names = Array();
-        json['parameters']['names'].forEach((currentValue, index) => {
-
-          names.push({ 'value': 'a' + index, 'label': currentValue });
-        });
-        setParameterLineChartOptions(names);
-
-        timestamps = {}
-        json['parameters']['timestamps'].forEach((currentValue, index) => {
-          timestamps['a' + index] = currentValue;
-        });
-        setParameterLineChartLabels(timestamps);
-
-        values = {}
-        json['parameters']['values'].forEach((currentValue, index) => {
-          values['a' + index] = currentValue;
-        });
-        setParameterLineChartData(values);
-
-        if (comparisonType == 'none-comparison'){
-          setDetailedDataTableColumns([{
-            dataField: 'startdatetime',
-            text: t('Datetime'),
-            sort: true
-          }, {
-            dataField: 'a0',
-            text: json['meter']['energy_category_name'] + ' (' + json['meter']['unit_of_measure'] + ')',
-            sort: true,
-            formatter: function (decimalValue) {
-              if (typeof decimalValue === 'number') {
-                return decimalValue.toFixed(2);
-              } else {
-                return null;
-              }
-            }
-          }]);
-        } else {
-          setDetailedDataTableColumns([{
-            dataField: 'startdatetime',
-            text: t('Datetime'),
-            sort: true
-          }, {
-            dataField: 'a0',
-            text: t('Base Period Consumption CATEGORY VALUE UNIT', { 'CATEGORY': json['meter']['energy_category_name'], 'VALUE': null, 'UNIT': '(' + json['meter']['unit_of_measure'] + ')' }),
-            sort: true,
-            formatter: function (decimalValue) {
-              if (typeof decimalValue === 'number') {
-                return decimalValue.toFixed(2);
-              } else {
-                return null;
-              }
-            }
-          }, {
-            dataField: 'a1',
-            text: t('Reporting Period Consumption CATEGORY VALUE UNIT', { 'CATEGORY': json['meter']['energy_category_name'], 'VALUE': null, 'UNIT': '(' + json['meter']['unit_of_measure'] + ')' }),
-            sort: true,
-            formatter: function (decimalValue) {
-              if (typeof decimalValue === 'number') {
-                return decimalValue.toFixed(2);
-              } else {
-                return null;
-              }
-            }
-          }]);
-        }
-
-        if (comparisonType == 'none-comparison'){
-          let detailed_value_list = [];
-          json['reporting_period']['timestamps'].forEach((currentTimestamp, timestampIndex) => {
-            let detailed_value = {};
-            detailed_value['id'] = timestampIndex;
-            detailed_value['startdatetime'] = currentTimestamp;
-            detailed_value['a0'] = json['reporting_period']['values'][timestampIndex];
-            detailed_value_list.push(detailed_value);
-          });
-
-          let detailed_value = {};
-          detailed_value['id'] = detailed_value_list.length;
-          detailed_value['startdatetime'] = t('Total');
-          detailed_value['a0'] = json['reporting_period']['total_in_category'];
-          detailed_value_list.push(detailed_value);
-          setTimeout( () => {
-            setDetailedDataTableData(detailed_value_list);
-          }, 0)
-        } else {
-          let detailed_value_list = [];
-          json['reporting_period']['timestamps'].forEach((currentTimestamp, timestampIndex) => {
-            let detailed_value = {};
-            detailed_value['id'] = timestampIndex;
-            detailed_value['startdatetime'] = currentTimestamp;
-            detailed_value['a0'] = json['base_period']['values'][timestampIndex];
-            detailed_value['a1'] = json['reporting_period']['values'][timestampIndex];
-            detailed_value_list.push(detailed_value);
-          });
-
-          let detailed_value = {};
-          detailed_value['id'] = detailed_value_list.length;
-          detailed_value['startdatetime'] = t('Total');
-          detailed_value['a0'] = json['base_period']['total_in_category'];
-          detailed_value['a1'] = json['reporting_period']['total_in_category'];
-          detailed_value_list.push(detailed_value);
-          setTimeout( () => {
-            setDetailedDataTableData(detailed_value_list);
-          }, 0)
-        }
-
-
-
-        setExcelBytesBase64(json['excel_bytes_base64']);
-
-        // enable submit button
-        setSubmitButtonDisabled(false);
-        // hide spinner
-        setSpinnerHidden(true);
-        // show export button
-        setExportButtonHidden(false);
-
-      } else {
-        toast.error(t(json.description))
-        setSpinnerHidden(true);
-        setSubmitButtonDisabled(false);
-      }
-    }).catch(err => {
-      console.log(err);
-    });
+      '&language=' + language;
+    loadData(url);
   };
 
   const handleExport = e => {
