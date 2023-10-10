@@ -7,7 +7,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 
 ### Changed
-
+- changed dropdown menu columns from 3 to 2 in myems-web
+- 
 ### Fixed
 
 ### Removed

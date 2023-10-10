@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Badge, Card, CardBody, Col, DropdownItem, DropdownMenu, DropdownToggle, Row, Dropdown } from 'reactstrap';
 import { breakpoints, isIterableArray, routesSlicer } from '../../helpers/utils';
@@ -40,7 +40,7 @@ const NavbarDropdownComponents = ({ title, items, right, handleSetNavbarCollapse
                 {items.map((groupItem, index) => {
                   const NavItemGroup = routesSlicer({
                     routes: groupItem.children,
-                    columns: 4
+                    columns: 2
                   });
 
                   return (
@@ -52,7 +52,7 @@ const NavbarDropdownComponents = ({ title, items, right, handleSetNavbarCollapse
                         {NavItemGroup.map((navItems, i) => {
                           return (
                             <Fragment key={`${index}-${i}`}>
-                              <Col xs={6} xl={3}>
+                              <Col xs={6} xl={6}>
                                 {navItems.map((navItem, j) => {
                                   return (
                                     <DropdownItem
