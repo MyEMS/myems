@@ -8,8 +8,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 - changed dropdown menu columns from 3 to 2 in myems-web
-- 
+-
 ### Fixed
+- refactored energy category reports to remove duplicated code in myems-web
 
 ### Removed
 

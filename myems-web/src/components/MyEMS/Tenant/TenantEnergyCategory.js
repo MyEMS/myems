@@ -228,11 +228,11 @@ const TenantEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
         '&reportingperiodstartdatetime=' + moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
         '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
         '&language=' + language;
-      loadDate(url);
+      loadData(url);
     }
   }, []);
 
-  const loadDate = (url) => {
+  const loadData = (url) => {
     // disable submit button
     setSubmitButtonDisabled(true);
     // show spinner
@@ -863,7 +863,7 @@ const TenantEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
       '&reportingperiodstartdatetime=' + moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
       '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
       '&language=' + language;
-    loadDate(url);
+    loadData(url);
   };
 
   const handleExport = e => {
