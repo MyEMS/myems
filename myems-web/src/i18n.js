@@ -11371,6 +11371,7 @@ const resources = {
       'language-vi': 'Tiếng Việt',
       'language-th': 'ไทย',
       'language-tr': 'Türkçe',
+      'language-ms': 'Bahasa Melayu',
       'language-id': 'Bahasa Indonesia',
       'Like What You See?': 'Saya Suka Sistem Ini?',
       'Get MyEMS now': 'Dapatkan MyEMS Sekarang',
