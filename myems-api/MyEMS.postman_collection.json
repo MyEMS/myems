@@ -1,9 +1,8 @@
 {
 	"info": {
-		"_postman_id": "1027f472-95fd-4165-9257-b84ecdcaa28f",
+		"_postman_id": "179f2873-5cbe-4145-a1ed-8bdd5e77fac1",
 		"name": "MyEMS",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "10906958"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -12196,14 +12195,14 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/spaces/1/commands/6",
+									"raw": "{{base_url}}/spaces/1/workingcalendars/6",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"spaces",
 										"1",
-										"commands",
+										"workingcalendars",
 										"6"
 									]
 								}
@@ -23096,7 +23095,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Shopfloor tatistics Report",
+					"name": "GET Shopfloor Statistics Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -23165,7 +23164,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Shopfloor tatistics Report (Quick Mode)",
+					"name": "GET Shopfloor Statistics Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
