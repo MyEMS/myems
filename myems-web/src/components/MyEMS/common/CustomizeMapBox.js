@@ -4,6 +4,7 @@ import AppContext from '../../../context/Context';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import MapboxLanguage from '@mapbox/mapbox-gl-language';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import {checkEmpty, getCookieValue} from "../../../helpers/utils";
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibXllbXMiLCJhIjoiY2xtaW12Z2QyMHpvNzNmcGdta2lmMjBueiJ9.BL2jGoEnetv-9JZR9eTYNQ';
 if (mapboxgl.getRTLTextPluginStatus !== 'loaded') {
@@ -19,6 +20,10 @@ const CustomizeMapBox = ({Latitude, Longitude, Zoom, Geojson, t}) => {
     const { isDark, language } = useContext(AppContext);
     
     useEffect(() => {
+      let is_logged_in = getCookieValue('is_logged_in');
+      if (checkEmpty(is_logged_in) || !is_logged_in) {
+        return;
+      }
       var lang = language;
       if (lang === 'zh_CN') {
         lang = 'zh-Hans';
