@@ -563,14 +563,6 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
         ))}
       </div>
       <div className='card-deck'>
-        {Object.keys(sensor).map((item) => (
-            <RealtimeSensor key={uuid()}
-              sensor={sensor[item]}
-              pointList={pointList}>
-            </RealtimeSensor>
-          ))}
-      </div>
-      <div className='card-deck'>
           <BarChart
             labels={barLabels}
             data={lastYearBarList}
@@ -613,6 +605,14 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             {totalInTCO2E['value'] && <CountUp end={totalInTCO2E['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
           </CardSummary>
         </div>
+      <div className='card-deck'>
+        {Object.keys(sensor).map((item) => (
+            <RealtimeSensor key={uuid()}
+              sensor={sensor[item]}
+              pointList={pointList}>
+            </RealtimeSensor>
+          ))}
+      </div>
       { settings.showOnlineMap ?
         <div className='mb-3 card' style={{ height: '450px' }}>
         <CustomizeMapBox Latitude={rootLatitude} Longitude={rootLongitude} Zoom={3} Geojson={geojson['features']}>
