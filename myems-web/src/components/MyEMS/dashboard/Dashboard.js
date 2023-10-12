@@ -19,7 +19,7 @@ import annotationPlugin from 'chartjs-plugin-annotation';
 import {  Chart as ChartJS } from 'chart.js';
 import BarChart from '../common/BarChart';
 import ChartSpacesStackBar from '../common/ChartSpacesStackBar';
-import CustomizeMap from '../common/AMap';
+import RealtimeSensor from '../common/RealtimeSensor';
 import { getItemFromStore } from '../../../helpers/utils';
 import CustomizeMapBox from '../common/CustomizeMapBox';
 
@@ -74,6 +74,9 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
   const [geojson, setGeojson] = useState({});
   const [rootLatitude, setRootLatitude] = useState('');
   const [rootLongitude, setRootLongitude] = useState('');
+
+  const [sensor, setSensor] = useState({});
+  const [pointList, setPointList] = useState({});
 
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
@@ -407,6 +410,8 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             setChildSpacesInputData(json['child_space_input']);
             setChildSpacesCostData(json['child_space_cost']);
             setMonthLabels(json['reporting_period_cost']['timestamps'][0]);
+            setSensor(json['sensor']);
+            setPointList(json['point']);
           }
         });
       };
@@ -558,6 +563,14 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
         ))}
       </div>
       <div className='card-deck'>
+        {Object.keys(sensor).map((item) => (
+            <RealtimeSensor key={uuid()}
+              sensor={sensor[item]}
+              pointList={pointList}>
+            </RealtimeSensor>
+          ))}
+      </div>
+      <div className='card-deck'>
           <BarChart
             labels={barLabels}
             data={lastYearBarList}
@@ -580,37 +593,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             options={spaceCostLineChartOptions}>
           </LineChart>
       </div>
-      { settings.showOnlineMap?
-        <div className='wrapper'>
-          <div className='wrapper-child-left mb-3'>
-          <CustomizeMapBox Latitude={rootLatitude} Longitude={rootLongitude} Zoom={3} Geojson={geojson['features']}>
-          </CustomizeMapBox>
-          </div>
-          <div className='wrapper-child-right-1'>
-          <CardSummary
-            rate={totalInTCE['increment_rate'] || ''}
-            title={t("This Year's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': t('Ton of Standard Coal'), 'UNIT': '(TCE)' })}
-            color="warning"
-            footnote={t('Per Unit Area')}
-            footvalue={totalInTCE['value_per_unit_area']}
-            footunit="(TCE/M²)">
-            {totalInTCE['value'] && <CountUp end={totalInTCE['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
-          </CardSummary>
-          </div>
-          <div className='wrapper-child-right-2'>
-          <CardSummary
-            rate={totalInTCO2E['increment_rate'] || ''}
-            title={t("This Year's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': t('Ton of Carbon Dioxide Emissions'), 'UNIT': '(TCO2E)' })}
-            color="warning"
-            footnote={t('Per Unit Area')}
-            footvalue={totalInTCO2E['value_per_unit_area']}
-            footunit="(TCO2E/M²)">
-            {totalInTCO2E['value'] && <CountUp end={totalInTCO2E['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
-          </CardSummary>
-          </div>
-        </div>
-        :
-        <div className="card-deck">
+      <div className='wrapper'>
           <CardSummary
             rate={totalInTCE['increment_rate'] || ''}
             title={t("This Year's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': t('Ton of Standard Coal'), 'UNIT': '(TCE)' })}
@@ -630,6 +613,13 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             {totalInTCO2E['value'] && <CountUp end={totalInTCO2E['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
           </CardSummary>
         </div>
+      { settings.showOnlineMap ?
+        <div className='mb-3 card' style={{ height: '450px' }}>
+        <CustomizeMapBox Latitude={rootLatitude} Longitude={rootLongitude} Zoom={3} Geojson={geojson['features']}>
+        </CustomizeMapBox>
+        </div>
+      :
+        <></>
       }
       <Row noGutters>
         <Col className="mb-3 pr-lg-2 mb-3">

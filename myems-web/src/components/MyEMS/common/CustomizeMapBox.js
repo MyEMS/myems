@@ -51,8 +51,8 @@ const CustomizeMapBox = ({Latitude, Longitude, Zoom, Geojson, t}) => {
       if (lang === 'zh_CN') {
         lang = 'zh-Hans';
       } 
+      if (!map.current) return;
       if (Geojson !== null && Geojson !== undefined) {
-        if (map.current) map.current.remove(); // initialize map only once
         map.current = new mapboxgl.Map({
           container: mapContainer.current,
           zoom: Zoom ? Zoom : zoom,
