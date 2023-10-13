@@ -142,13 +142,13 @@ class RealtimeData extends Component {
     const { t } = this.props;
 
     return (
-      <Card className="h-100 bg-gradient">
-        <CardHeader className="bg-transparent">
-          <h5 className="text-white">{this.props.sensorName}</h5>
-          <div className="real-time-user display-4 font-weight-normal text-white"
+      <Card className=" bg-gradient mb-3 overflow-hidden" style={{ minWidth: '12rem', maxWidth: '25%' }}>
+        <CardHeader className="bg-transparent position-relative">
+          <h5>{this.props.sensorName}</h5>
+          <div className="real-time-user display-4 font-weight-normal"
            style={{display:!this.state.currentEnergyValue ? "none" : "inline"}}>{this.state.currentEnergyValue}</div>
         </CardHeader>
-        <CardBody className="text-white fs--1">
+        <CardBody className="fs--1 position-relative">
           <p className="pb-2" style={{ borderBottom: dividerBorder, display:!this.state.energyValuePointName ? "none" : "inline" }}>
             {t('Trend in the last hour of Energy Value Point')} {this.state.energyValuePointName}
           </p>
