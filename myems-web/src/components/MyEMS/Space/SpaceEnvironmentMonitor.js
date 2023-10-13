@@ -262,13 +262,11 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <Row noGutters>
-        {selectSensorList.map(sensor => (
-          <Col lg="3" className="pr-lg-2" key={uuid()}>
-            <RealtimeData sensorId={sensor['id']} sensorName={sensor['name']} />
-          </Col>
+      <div className='card-deck'>
+      {selectSensorList.map(sensor => (
+            <RealtimeData key={uuid()} sensorId={sensor['id']} sensorName={sensor['name']} />
         ))}
-      </Row>
+      </div>
       <Pagination>
         <PaginationItem>
           <PaginationLink first href="#" onClick={() => setCursor(1)} />
