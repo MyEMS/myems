@@ -20,16 +20,14 @@ const RealtimeSensor = ({sensor, pointList, t}) => {
             >
               <p className="mb-0">{t('Point')}</p>
               <p className="mb-0">{t('Realtime Value')}</p>
-              <p className="mb-0">{t('Unit')}</p>
             </ListGroupItem>
             {sensor['point_id_list'].map((key, item) => 
               (<ListGroupItem key={uuid()}
                 className="bg-transparent d-flex justify-content-between px-0 py-1"
                 style={{ borderColor: listItemBorderColor }}
               >
-                <p className="mb-0 ">{sensor['point_name_list'][item]}</p>
+                <p className="mb-0 ">{sensor['point_name_list'][item]}({sensor['point_unit_list'][item]})</p>
                 <p className="mb-0">{pointList[key]}</p>
-                <p className="mb-0">{sensor['point_unit_list'][item]}</p>
               </ListGroupItem>
               ))}
           </ListGroup>
