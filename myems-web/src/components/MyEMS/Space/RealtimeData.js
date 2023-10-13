@@ -49,7 +49,6 @@ class RealtimeData extends Component {
       return response.json();
     }).then(json => {
       if (isResponseOK) {
-        console.log(json);
         let length = json['energy_value']['values'].length;
         let trendLog = length > 60 ? json['energy_value']['values'].slice(length - 60, length)
             : json['energy_value']['values'];
@@ -103,7 +102,6 @@ class RealtimeData extends Component {
         return response.json();
       }).then(json => {
         if (isResponseOK) {
-          console.log(json);
           let trendLog = json['energy_value']['values'];
           let currentEnergyValue = undefined;
           let energyValuePointName = json['energy_value']['name'];
@@ -142,7 +140,7 @@ class RealtimeData extends Component {
     const { t } = this.props;
 
     return (
-      <Card className=" bg-gradient mb-3 overflow-hidden" style={{ minWidth: '12rem', maxWidth: '25%' }}>
+      <Card className="mb-3 overflow-hidden" style={{ minWidth: '12rem', maxWidth: '25%' }}>
         <CardHeader className="bg-transparent position-relative">
           <h5>{this.props.sensorName}</h5>
           <div className="real-time-user display-4 font-weight-normal"
