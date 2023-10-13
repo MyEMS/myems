@@ -12,7 +12,7 @@ const RealtimeSensor = ({sensor, pointList, t}) => {
         <CardHeader className="position-relative">
             <h5 className="mb-0">{sensor['name']}</h5>
         </CardHeader>
-        <CardBody className="text-white fs--1 position-relative">
+        <CardBody className="fs--1 position-relative">
           <ListGroup flush className="mt-4">
             <ListGroupItem
               className="bg-transparent d-flex justify-content-between px-0 py-1 font-weight-semi-bold border-top-0"
