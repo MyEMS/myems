@@ -201,7 +201,7 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
               )}
             </Col>
             <Col>
-              <CustomizeMapBox Latitude={rootLatitude} Longitude={rootLongitude} Zoom={3} Geojson={geojson}></CustomizeMapBox>
+              <CustomizeMapBox Latitude={rootLatitude} Longitude={rootLongitude} Zoom={10} Geojson={geojson}></CustomizeMapBox>
             </Col>
             </Row>
         </CardBody>
