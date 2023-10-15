@@ -29,7 +29,7 @@ const ChildSpacesTable = loadable(() => import('../common/ChildSpacesTable'));
 
 const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
-  const [fetchSuccess, setFetchSuccess] = useState(false);
+  const [isFetchDashboard, setIsFetchDashboard] = useState(true);
   const [periodType, setPeriodType] = useState('monthly');
   const [basePeriodBeginsDatetime, setBasePeriodBeginsDatetime] = useState(current_moment.clone().subtract(1, 'years').startOf('year'));
   const [basePeriodEndsDatetime, setBasePeriodEndsDatetime] = useState(current_moment.clone().subtract(1, 'years'));
@@ -96,7 +96,8 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
       createCookie('token', token, 1000 * 60 * 10 * 1);
 
       let isResponseOK = false;
-      if (!fetchSuccess) {
+      if (isFetchDashboard) {
+        setIsFetchDashboard(false);
         toast(
           <Fragment>
             {t("Welcome to MyEMS")}!<br />
@@ -127,7 +128,6 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
         }).then(json => {
           if (isResponseOK) {
             console.log(json);
-            setFetchSuccess(true);
             // hide spinner
             setSpinnerHidden(true);
             let labels = []
