@@ -561,6 +561,24 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             {cardSummaryItem['subtotal'] && <CountUp end={cardSummaryItem['subtotal']} duration={2} prefix="" separator="," decimal="." decimals={0} />}
           </CardSummary>
         ))}
+         <CardSummary
+            rate={totalInTCE['increment_rate'] || ''}
+            title={t("This Year's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': t('Ton of Standard Coal'), 'UNIT': '(TCE)' })}
+            color="warning"
+            footnote={t('Per Unit Area')}
+            footvalue={totalInTCE['value_per_unit_area']}
+            footunit="(TCE/M²)">
+            {totalInTCE['value'] && <CountUp end={totalInTCE['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+          </CardSummary>
+          <CardSummary
+            rate={totalInTCO2E['increment_rate'] || ''}
+            title={t("This Year's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': t('Ton of Carbon Dioxide Emissions'), 'UNIT': '(TCO2E)' })}
+            color="warning"
+            footnote={t('Per Unit Area')}
+            footvalue={totalInTCO2E['value_per_unit_area']}
+            footunit="(TCO2E/M²)">
+            {totalInTCO2E['value'] && <CountUp end={totalInTCO2E['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+          </CardSummary>
       </div>
       <div className='card-deck'>
           <BarChart
@@ -586,41 +604,25 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           </LineChart>
       </div>
       <div className='wrapper'>
-          <CardSummary
-            rate={totalInTCE['increment_rate'] || ''}
-            title={t("This Year's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': t('Ton of Standard Coal'), 'UNIT': '(TCE)' })}
-            color="warning"
-            footnote={t('Per Unit Area')}
-            footvalue={totalInTCE['value_per_unit_area']}
-            footunit="(TCE/M²)">
-            {totalInTCE['value'] && <CountUp end={totalInTCE['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
-          </CardSummary>
-          <CardSummary
-            rate={totalInTCO2E['increment_rate'] || ''}
-            title={t("This Year's Consumption CATEGORY VALUE UNIT", { 'CATEGORY': t('Ton of Carbon Dioxide Emissions'), 'UNIT': '(TCO2E)' })}
-            color="warning"
-            footnote={t('Per Unit Area')}
-            footvalue={totalInTCO2E['value_per_unit_area']}
-            footunit="(TCO2E/M²)">
-            {totalInTCO2E['value'] && <CountUp end={totalInTCO2E['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
-          </CardSummary>
-        </div>
+
+      </div>
       <div className='card-deck'>
-        {Object.keys(sensor).map((item) => (
+
+      { settings.showOnlineMap ?
+        <div className='mb-3 card' style={{ height: '400px' }}>
+        <CustomizeMapBox Latitude={rootLatitude} Longitude={rootLongitude} Zoom={15} Geojson={geojson['features']}>
+        </CustomizeMapBox>
+        </div>
+      :
+        <></>
+      }
+      {Object.keys(sensor).map((item) => (
             <RealtimeSensor key={uuid()}
               sensor={sensor[item]}
               pointList={pointList}>
             </RealtimeSensor>
           ))}
       </div>
-      { settings.showOnlineMap ?
-        <div className='mb-3 card' style={{ height: '450px' }}>
-        <CustomizeMapBox Latitude={rootLatitude} Longitude={rootLongitude} Zoom={3} Geojson={geojson['features']}>
-        </CustomizeMapBox>
-        </div>
-      :
-        <></>
-      }
       <Row noGutters>
         <Col className="mb-3 pr-lg-2 mb-3">
           <SharePie data={timeOfUseShareData} title={t('Electricity Consumption by Time-Of-Use')} />
