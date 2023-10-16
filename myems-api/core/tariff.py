@@ -301,16 +301,6 @@ class TariffItem:
                                    description='API.TARIFF_NOT_FOUND')
 
         cursor.execute(" SELECT id "
-                       " FROM tbl_tariffs_timeofuses "
-                       " WHERE tariff_id = %s ", (id_,))
-        rows = cursor.fetchall()
-        if rows is not None and len(rows) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.TARIFF_NOT_EMPTY')
-
-        cursor.execute(" SELECT id "
                        " FROM tbl_cost_centers_tariffs "
                        " WHERE tariff_id = %s ", (id_,))
         rows = cursor.fetchall()
@@ -321,6 +311,7 @@ class TariffItem:
                                    description='API.TARIFF_IN_USE')
 
         cursor.execute(" DELETE FROM tbl_tariffs WHERE id = %s ", (id_,))
+        cursor.execute(" DELETE FROM tbl_tariffs_timeofuses WHERE id = %s ", (id_,))
         cnx.commit()
 
         cursor.close()
