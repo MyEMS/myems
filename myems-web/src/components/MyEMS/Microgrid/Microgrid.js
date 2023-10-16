@@ -103,18 +103,10 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
             microgird['id'] = json[index]['id'];
             microgird['name'] = json[index]['name'];
             microgird['uuid'] = json[index]['uuid'];
-            microgird['svg'] = json[index]['svg'];
+            microgird['address'] = json[index]['address'];
             microgird['latitude'] = json[index]['latitude'];
             microgird['longitude'] = json[index]['longitude'];
-            microgird['files'] = [
-              {
-                id: json[index]['uuid'],
-                path: ' product1',
-                src: require('./img/1.png'),
-              }
-            ];
-            microgird['category'] = 'Liverpool';
-
+            microgird['files'] = [{ id: json[index]['uuid'], src: require('./Microgrid.jpeg'), }];
             microgird['parameter1'] = 5.6;
             microgird['parameter2'] = 5.6;
             microgird['parameter3'] = 5.6;
