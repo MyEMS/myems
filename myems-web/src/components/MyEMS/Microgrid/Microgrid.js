@@ -114,17 +114,14 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
               }
             ];
             microgird['category'] = 'Liverpool';
-            microgird['features'] = ['Brand: MyEMS', 'Manufactured: 2011', 'Ton:  800 Ton', 'Model#:  YKK8K3H9-CUG', 'Serial#:  SNXM-143960', 'Type:  Water-Cooled', 'Compressor Type:  Centrifugal', 'Power:  460 Volts / 60 Hz / 3 Ph', 'Refrigerant:  R-134a'];
+
             microgird['parameter1'] = 5.6;
             microgird['parameter2'] = 5.6;
             microgird['parameter3'] = 5.6;
             microgird['parameter4'] = 5.6;
             microgird['parameter5'] = 5.6;
-            microgird['parameter6'] = 5.6;
-            microgird['parameter7'] = 5.6;
             microgird['alarms'] = ['supply temperature is high', 'return temperature is low'];
             microgird['isOnline'] = true;
-            microgird['isRunning'] = true;
             microgridArray.push(microgird);
             microgridIds.push(microgird['id']);
             geojsonData.push({

@@ -18,14 +18,11 @@ const MicrogridList = ({
   svg,
   name,
   category,
-  features,
   parameter1,
   parameter2,
   parameter3,
   parameter4,
   parameter5,
-  parameter6,
-  parameter7,
   alarms,
   isOnline,
   isRunning,
@@ -80,29 +77,11 @@ const MicrogridList = ({
                     {category}
                   </a>
                 </p>
-                {isIterableArray(features) && (
-                  <ul className="list-unstyled d-none d-lg-block">
-                    {features.map((feature, index) => (
-                      <li key={index}>
-                        <FontAwesomeIcon icon="circle" transform="shrink-12" />
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </Col>
-              <Col lg={4} tag={Flex} justify="between" column>
-                <div>
-                  <h4 className="fs-1 fs-md-2 text-warning mb-0">
-                    SoC: {parameter1} %
-                  </h4>
-                  <div className="d-none d-lg-block">
+                <div className="d-none d-lg-block">
                     <p className="fs--1 mb-1">Solar Power:<strong>{parameter2} kW</strong></p>
                     <p className="fs--1 mb-1">Discharge Pwoer:<strong>{parameter3} kW</strong></p>
-                    <p className="fs--1 mb-1">Charge Power:<strong>{parameter4}</strong></p>
+                    <p className="fs--1 mb-1">Charge Power:<strong>{parameter4} kW</strong></p>
                     <p className="fs--1 mb-1">Load Power:<strong>{parameter5} kW</strong></p>
-                    <p className="fs--1 mb-1">Outdoor Temperature:<strong>{parameter6} degree C</strong></p>
-                    <p className="fs--1 mb-1">Indoor Temperature:<strong>{parameter7} degree C</strong></p>
                     <p className="fs--1 mb-1">
                       {t('Communication Status')}:{' '}
                       <strong className={classNames({ 'text-success': isOnline, 'text-danger': !isOnline })}>
@@ -116,6 +95,13 @@ const MicrogridList = ({
                       </strong>
                     </p>
                   </div>
+              </Col>
+              <Col lg={4} tag={Flex} justify="between" column>
+                <div>
+                  <h4 className="fs-1 fs-md-2 text-warning mb-0">
+                    SoC: {parameter1} %
+                  </h4>
+
                 </div>
                 <div className="mt-md-2">
                   <ButtonIcon
@@ -177,8 +163,6 @@ MicrogridList.propTypes = {
   parameter3: PropTypes.number,
   parameter4: PropTypes.number,
   parameter5: PropTypes.number,
-  parameter6: PropTypes.number,
-  parameter7: PropTypes.number,
   cumulativePerformance: PropTypes.number,
   alarms: PropTypes.array,
   isOnline: PropTypes.bool,
