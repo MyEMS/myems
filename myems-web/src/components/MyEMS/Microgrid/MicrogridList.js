@@ -15,9 +15,9 @@ const MicrogridList = ({
   id,
   uuid,
   files,
-  svg,
   name,
-  category,
+  address,
+  postal_code,
   parameter1,
   parameter2,
   parameter3,
@@ -48,16 +48,10 @@ const MicrogridList = ({
           <Col sm={5} md={4}>
             <div className="position-relative h-sm-100">
               <Link className="d-block h-100" to={`/microgriddetails?uuid=${uuid}`} target = "_blank">
-                  {svg
-                  ?
-                    <div dangerouslySetInnerHTML={{__html: svg}}></div>
-                  :
-                    <img
-                      className="img-fluid fit-cover w-sm-100 h-sm-100 rounded absolute-sm-centered"
+                <img
+                  className="img-fluid fit-cover w-sm-100 h-sm-100 rounded absolute-sm-centered"
                       src={files[0]['src']}
-                      alt={files[0].path}
-                    />
-                  }
+                />
                 </Link>
               {isRunning && (
                 <Badge color="success" pill className="position-absolute t-0 r-0 mr-2 mt-2 fs--2 z-index-2">
@@ -73,9 +67,10 @@ const MicrogridList = ({
                   <Link to={`/microgriddetails?uuid=${uuid}`} target = "_blank">{name}</Link>
                 </h5>
                 <p className="fs--1 mb-2 mb-md-3">
-                  <a className="text-500" href="#!">
-                    {category}
-                  </a>
+                    {address}
+                </p>
+                <p className="fs--1 mb-2 mb-md-3">
+                    {postal_code}
                 </p>
                 <div className="d-none d-lg-block">
                     <p className="fs--1 mb-1">Solar Power:<strong>{parameter2} kW</strong></p>
