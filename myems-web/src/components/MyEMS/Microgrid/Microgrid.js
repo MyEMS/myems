@@ -104,6 +104,7 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
             microgird['name'] = json[index]['name'];
             microgird['uuid'] = json[index]['uuid'];
             microgird['address'] = json[index]['address'];
+            microgird['postal_code'] = json[index]['postal_code'];
             microgird['latitude'] = json[index]['latitude'];
             microgird['longitude'] = json[index]['longitude'];
             microgird['files'] = [{ id: json[index]['uuid'], src: require('./Microgrid.jpeg'), }];

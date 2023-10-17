@@ -17,6 +17,7 @@ const MicrogridList = ({
   files,
   name,
   address,
+  postal_code,
   parameter1,
   parameter2,
   parameter3,
@@ -67,6 +68,9 @@ const MicrogridList = ({
                 </h5>
                 <p className="fs--1 mb-2 mb-md-3">
                     {address}
+                </p>
+                <p className="fs--1 mb-2 mb-md-3">
+                    {postal_code}
                 </p>
                 <div className="d-none d-lg-block">
                     <p className="fs--1 mb-1">Solar Power:<strong>{parameter2} kW</strong></p>
