@@ -310,8 +310,10 @@ class TariffItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.TARIFF_IN_USE')
 
+        cursor.execute(" DELETE FROM tbl_tariffs_timeofuses WHERE tariff_id = %s ", (id_,))
+        cnx.commit()
+
         cursor.execute(" DELETE FROM tbl_tariffs WHERE id = %s ", (id_,))
-        cursor.execute(" DELETE FROM tbl_tariffs_timeofuses WHERE id = %s ", (id_,))
         cnx.commit()
 
         cursor.close()
