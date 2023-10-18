@@ -177,19 +177,12 @@ class DistributionSystemItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DISTRIBUTION_SYSTEM_NOT_FOUND')
 
-        # check associated distribution circuits
-        cursor.execute(" SELECT id "
-                       " FROM tbl_distribution_circuits "
-                       " WHERE distribution_system_id = %s ",
-                       (id_,))
-        rows_distribution_circuits = cursor.fetchall()
-        if rows_distribution_circuits is not None and len(rows_distribution_circuits) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_ASSOCIATED_DISTRIBUTION_CIRCUITS')
-
+        # Find distribution_circuit_id properties based on id_
+        cursor.execute(" SELECT id FROM tbl_distribution_circuits WHERE distribution_system_id = %s", (id_,))
+        results = cursor.fetchall()
+        for r in results:
+            cursor.execute(" DELETE FROM tbl_distribution_circuits_points WHERE distribution_circuit_id = %s ", (r[0],))
+        cursor.execute(" DELETE FROM tbl_distribution_circuits WHERE distribution_system_id = %s ", (id_,))
         cursor.execute(" DELETE FROM tbl_distribution_systems WHERE id = %s ", (id_,))
         cnx.commit()
 
