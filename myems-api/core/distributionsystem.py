@@ -177,11 +177,8 @@ class DistributionSystemItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DISTRIBUTION_SYSTEM_NOT_FOUND')
 
-        # Find distribution_circuit_id properties based on id_
-        cursor.execute(" SELECT id FROM tbl_distribution_circuits WHERE distribution_system_id = %s", (id_,))
-        results = cursor.fetchall()
-        for r in results:
-            cursor.execute(" DELETE FROM tbl_distribution_circuits_points WHERE distribution_circuit_id = %s ", (r[0],))
+        cursor.execute(" DELETE FROM tbl_distribution_circuits_points WHERE distribution_circuit_id "
+                       "IN (SELECT id FROM tbl_distribution_circuits WHERE distribution_system_id = %s) ", (id_,))
         cursor.execute(" DELETE FROM tbl_distribution_circuits WHERE distribution_system_id = %s ", (id_,))
         cursor.execute(" DELETE FROM tbl_distribution_systems WHERE id = %s ", (id_,))
         cnx.commit()
