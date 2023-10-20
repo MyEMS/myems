@@ -410,44 +410,34 @@ class MicrogridItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.MICROGRID_NOT_FOUND')
 
-        # todo: check relation with space
-        # cursor.execute(" SELECT space_id "
-        #                " FROM tbl_spaces_microgrids "
-        #                " WHERE microgrid_id = %s ",
-        #                (id_,))
-        # rows_spaces = cursor.fetchall()
-        # if rows_spaces is not None and len(rows_spaces) > 0:
-        #     cursor.close()
-        #     cnx.close()
-        #     raise falcon.HTTPError(status=falcon.HTTP_400,
-        #                            title='API.BAD_REQUEST',
-        #                            description='API.THERE_IS_RELATION_WITH_SPACES')
-
-        # # check relation with meter
-        # cursor.execute(" SELECT meter_id "
-        #                " FROM tbl_microgrids_meters "
-        #                " WHERE microgrid_id = %s ",
-        #                (id_,))
-        # rows_meters = cursor.fetchall()
-        # if rows_meters is not None and len(rows_meters) > 0:
-        #     cursor.close()
-        #     cnx.close()
-        #     raise falcon.HTTPError(status=falcon.HTTP_400,
-        #                            title='API.BAD_REQUEST',
-        #                            description='API.THERE_IS_RELATION_WITH_METERS')
-
-        # check relation with sensor
-        cursor.execute(" SELECT sensor_id "
-                       " FROM tbl_microgrids_sensors "
-                       " WHERE microgrid_id = %s ",
-                       (id_,))
-        rows_sensors = cursor.fetchall()
-        if rows_sensors is not None and len(rows_sensors) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_SENSORS')
+        cursor.execute(" DELETE FROM tbl_microgrids_batteries WHERE microgrid_id = %s ", (id_,))
+        cnx.commit()
+        cursor.execute(" DELETE FROM tbl_microgrids_commands WHERE microgrid_id = %s ", (id_,))
+        cnx.commit()
+        cursor.execute(" DELETE FROM tbl_microgrids_power_conversion_systems WHERE microgrid_id = %s ", (id_,))
+        cnx.commit()
+        cursor.execute(" DELETE FROM tbl_microgrids_evchargers WHERE microgrid_id = %s ", (id_,))
+        cnx.commit()
+        cursor.execute(" DELETE FROM tbl_microgrids_generators WHERE microgrid_id = %s ", (id_,))
+        cnx.commit()
+        cursor.execute(" DELETE FROM tbl_microgrids_grids WHERE microgrid_id = %s ", (id_,))
+        cnx.commit()
+        cursor.execute(" DELETE FROM tbl_microgrids_heatpumps WHERE microgrid_id = %s ", (id_,))
+        cnx.commit()
+        cursor.execute(" DELETE FROM tbl_microgrids_loads WHERE microgrid_id = %s ", (id_,))
+        cnx.commit()
+        cursor.execute(" DELETE FROM tbl_microgrids_photovoltaics WHERE microgrid_id = %s ", (id_,))
+        cnx.commit()
+        cursor.execute(" DELETE FROM tbl_microgrids_sensors WHERE microgrid_id = %s ", (id_,))
+        cnx.commit()
+        cursor.execute(" DELETE FROM tbl_microgrids_users WHERE microgrid_id = %s ", (id_,))
+        cnx.commit()
+        cursor.execute(" DELETE FROM tbl_microgrids_windturbines WHERE microgrid_id = %s ", (id_,))
+        cnx.commit()
+        cursor.execute(" DELETE FROM tbl_microgrids_windturbines WHERE microgrid_id = %s ", (id_,))
+        cnx.commit()
+        cursor.execute(" DELETE FROM tbl_microgrids WHERE id = %s ", (id_,))
+        cnx.commit()
 
         cursor.close()
         cnx.close()
