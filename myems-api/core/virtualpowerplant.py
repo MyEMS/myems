@@ -270,23 +270,9 @@ class VirtualPowerPlantItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.VIRTUAL_POWER_PLANT_NOT_FOUND')
 
-        # todo: check relation with space
-
-        # check relation with microgrid
-        cursor.execute(" SELECT microgrid_id "
-                       " FROM tbl_virtual_power_plants_microgrids "
-                       " WHERE virtual_power_plant_id = %s ",
-                       (id_,))
-        rows_microgrids = cursor.fetchall()
-        if rows_microgrids is not None and len(rows_microgrids) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_MICROGRIDS')
-
-        cursor.execute(" DELETE FROM tbl_virtual_power_plants "
-                       " WHERE id = %s ", (id_,))
+        cursor.execute(" DELETE FROM tbl_virtual_power_plants_microgrids WHERE virtual_power_plant_id = %s ", (id_,))
+        cnx.commit()
+        cursor.execute(" DELETE FROM tbl_virtual_power_plants WHERE id = %s ", (id_,))
         cnx.commit()
 
         cursor.close()
