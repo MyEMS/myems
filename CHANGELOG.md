@@ -13,7 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 - refactored energy category reports to remove duplicated code in myems-web
 - fixed issue on delete action of tariff in myems-api
-- 
+- fixed issue on delete action of distribution system in myems-api
 ### Removed
 
 
