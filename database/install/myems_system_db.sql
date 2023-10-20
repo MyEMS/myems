@@ -297,6 +297,28 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_flow_diagrams_nodes` (
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_energy_flow_diagrams_nodes_index_1` ON  `myems_system_db`.`tbl_energy_flow_diagrams_nodes`   (`name`);
 
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_energy_storage_power_stations`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_energy_storage_power_stations` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_power_stations` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `uuid` CHAR(36) NOT NULL,
+  `address` VARCHAR(255) NOT NULL,
+  `postal_code` VARCHAR(255) NOT NULL,
+  `latitude` DECIMAL(9, 6) NOT NULL,
+  `longitude` DECIMAL(9, 6) NOT NULL,
+  `capacity` DECIMAL(18, 3) NOT NULL,
+  `contact_id` BIGINT NOT NULL,
+  `cost_center_id` BIGINT NOT NULL,
+  `svg` LONGTEXT NOT NULL,
+  `description` VARCHAR(255),
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_power_stations_index_1` ON  `myems_system_db`.`tbl_energy_storage_power_stations` (`name`);
+
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_equipments`
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -565,7 +587,13 @@ VALUES
 (1100,'Advanced Reporting','/advancedreporting',NULL,1),
 (1200,'Knowledge Base','/knowledgebase',NULL,0),
 (1300,'Microgrid','/microgrid',NULL,1),
-(1301,'Microgrid Details','/microgriddetails',NULL,1);
+(1301,'Microgrid Details','/microgriddetails',NULL,1),
+(1400,'Energy Storage Power Station','/energystoragepowerstation',NULL,1),
+(1401,'Energy Storage Power Station Details','/energystoragepowerstationdetails',NULL,1),
+(1500,'Photovoltaic Power Station','/photopowerstation',NULL,1),
+(1501,'Photovoltaic Power Station Details','/photovoltaicpowerstationdetails',NULL,1),
+(1600,'Wind Farm','/windfarm',NULL,1),
+(1601,'Wind Farm Details','/windfarmdetails',NULL,1);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_meters`
@@ -891,6 +919,28 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_offline_meters` (
 CREATE INDEX `tbl_offline_meters_index_1` ON  `myems_system_db`.`tbl_offline_meters`   (`name`);
 CREATE INDEX `tbl_offline_meters_index_2` ON  `myems_system_db`.`tbl_offline_meters`   (`energy_category_id`);
 CREATE INDEX `tbl_offline_meters_index_3` ON  `myems_system_db`.`tbl_offline_meters`   (`energy_item_id`);
+
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_photovoltaic_power_stations`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `uuid` CHAR(36) NOT NULL,
+  `address` VARCHAR(255) NOT NULL,
+  `postal_code` VARCHAR(255) NOT NULL,
+  `latitude` DECIMAL(9, 6) NOT NULL,
+  `longitude` DECIMAL(9, 6) NOT NULL,
+  `capacity` DECIMAL(18, 3) NOT NULL,
+  `contact_id` BIGINT NOT NULL,
+  `cost_center_id` BIGINT NOT NULL,
+  `svg` LONGTEXT NOT NULL,
+  `description` VARCHAR(255),
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_photovoltaic_power_stations_index_1` ON  `myems_system_db`.`tbl_photovoltaic_power_stations` (`name`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_points`
@@ -1715,9 +1765,30 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '3.10.0', '2023-10-08');
+(1, '3.11.0RC', '2023-11-01');
 
 COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_wind_farms`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_wind_farms` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_wind_farms` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `uuid` CHAR(36) NOT NULL,
+  `address` VARCHAR(255) NOT NULL,
+  `postal_code` VARCHAR(255) NOT NULL,
+  `latitude` DECIMAL(9, 6) NOT NULL,
+  `longitude` DECIMAL(9, 6) NOT NULL,
+  `capacity` DECIMAL(18, 3) NOT NULL,
+  `contact_id` BIGINT NOT NULL,
+  `cost_center_id` BIGINT NOT NULL,
+  `svg` LONGTEXT NOT NULL,
+  `description` VARCHAR(255),
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_wind_farms_index_1` ON  `myems_system_db`.`tbl_wind_farms` (`name`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_working_calendars`
