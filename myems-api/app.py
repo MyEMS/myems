@@ -3,7 +3,6 @@ from falcon_cors import CORS
 from falcon_multipart.middleware import MultipartMiddleware
 
 from core import advancedreport, apikey, energyflowdiagram, \
-    energystoragepowerstation, \
     privilege, textmessage, distributioncircuit, virtualmeter, \
     costcenter, point, knowledgefile, meter, tariff, user, storetype, timezone, \
     costfile, offlinemeterfile, version, contact, emailserver, combinedequipment, datasource, equipment, tenant, \
@@ -11,7 +10,8 @@ from core import advancedreport, apikey, energyflowdiagram, \
     offlinemeter, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile, \
     workingcalendar, microgrid, microgridbyuser, microgridbattery, \
     microgridevcharger, microgridgenerator, microgridgrid, microgridheatpump, microgridload, microgridphotovoltaic, \
-    microgridpowerconversionsystem, microgridwindturbine, command, virtualpowerplant
+    microgridpowerconversionsystem, microgridwindturbine, command, virtualpowerplant, \
+    energystoragepowerstation, photovoltaicpowerstation
 
 from reports import advancedreportfile
 from reports import combinedequipmentbatch
@@ -412,6 +412,11 @@ api.add_route('/offlinemeterfiles/{id_}',
               offlinemeterfile.OfflineMeterFileItem())
 api.add_route('/offlinemeterfiles/{id_}/restore',
               offlinemeterfile.OfflineMeterFileRestore())
+
+api.add_route('/photovoltaicpowerstations',
+              photovoltaicpowerstation.PhotovoltaicPowerStationCollection())
+api.add_route('/photovoltaicpowerstations/{id_}',
+              photovoltaicpowerstation.PhotovoltaicPowerStationItem())
 
 api.add_route('/points',
               point.PointCollection())
