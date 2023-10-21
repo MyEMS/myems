@@ -2,7 +2,9 @@ import falcon
 from falcon_cors import CORS
 from falcon_multipart.middleware import MultipartMiddleware
 
-from core import advancedreport, apikey, energyflowdiagram, privilege, textmessage, distributioncircuit, virtualmeter, \
+from core import advancedreport, apikey, energyflowdiagram, \
+    energystoragepowerstation, \
+    privilege, textmessage, distributioncircuit, virtualmeter, \
     costcenter, point, knowledgefile, meter, tariff, user, storetype, timezone, \
     costfile, offlinemeterfile, version, contact, emailserver, combinedequipment, datasource, equipment, tenant, \
     shopfloor, webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, \
@@ -246,6 +248,11 @@ api.add_route('/energyitems',
               energyitem.EnergyItemCollection())
 api.add_route('/energyitems/{id_}',
               energyitem.EnergyItemItem())
+
+api.add_route('/energystoragepowerstations',
+              energystoragepowerstation.EnergyStoragePowerStationCollection())
+api.add_route('/energystoragepowerstations/{id_}',
+              energystoragepowerstation.EnergyStoragePowerStationItem())
 
 api.add_route('/equipments',
               equipment.EquipmentCollection())

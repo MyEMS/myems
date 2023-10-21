@@ -4185,6 +4185,162 @@
 					]
 				},
 				{
+					"name": "Energy Storage Power Station",
+					"item": [
+						{
+							"name": "GET All Energy Storage Power Stations",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "89a46230080ea491b6b347ebba1d10f62721da57c9025a430ad488f47b36febfef1cf615dca508cdfc98c0eb3787af77c663e156002f38edf5eb9165cc6d8ea9",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/energystoragepowerstations",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragepowerstations"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET an Energy Storage Power Station by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "89a46230080ea491b6b347ebba1d10f62721da57c9025a430ad488f47b36febfef1cf615dca508cdfc98c0eb3787af77c663e156002f38edf5eb9165cc6d8ea9",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/energystoragepowerstations/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragepowerstations",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Create New Energy Storage Power Station",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "89a46230080ea491b6b347ebba1d10f62721da57c9025a430ad488f47b36febfef1cf615dca508cdfc98c0eb3787af77c663e156002f38edf5eb9165cc6d8ea9",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"capacity\":600.000, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/energystoragepowerstations",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragepowerstations"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Update an Energy Storage Power Station",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "89a46230080ea491b6b347ebba1d10f62721da57c9025a430ad488f47b36febfef1cf615dca508cdfc98c0eb3787af77c663e156002f38edf5eb9165cc6d8ea9",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"capacity\":600.000, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/energystoragepowerstations/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragepowerstations",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE an Energy Storage Power Station by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "89a46230080ea491b6b347ebba1d10f62721da57c9025a430ad488f47b36febfef1cf615dca508cdfc98c0eb3787af77c663e156002f38edf5eb9165cc6d8ea9",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/energystoragepowerstations/2",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragepowerstations",
+										"2"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "Equipment",
 					"item": [
 						{
