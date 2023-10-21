@@ -590,7 +590,7 @@ VALUES
 (1301,'Microgrid Details','/microgriddetails',NULL,1),
 (1400,'Energy Storage Power Station','/energystoragepowerstation',NULL,1),
 (1401,'Energy Storage Power Station Details','/energystoragepowerstationdetails',NULL,1),
-(1500,'Photovoltaic Power Station','/photopowerstation',NULL,1),
+(1500,'Photovoltaic Power Station','/photovoltaicpowerstation',NULL,1),
 (1501,'Photovoltaic Power Station Details','/photovoltaicpowerstationdetails',NULL,1),
 (1600,'Wind Farm','/windfarm',NULL,1),
 (1601,'Wind Farm Details','/windfarmdetails',NULL,1);
