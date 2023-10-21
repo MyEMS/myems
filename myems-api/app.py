@@ -7,7 +7,7 @@ from core import advancedreport, apikey, energyflowdiagram, privilege, textmessa
     costfile, offlinemeterfile, version, contact, emailserver, combinedequipment, datasource, equipment, tenant, \
     shopfloor, webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, \
     offlinemeter, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile, \
-    workingcalendar, microgrid, microgridbyuser, microgridarchitecturetype, microgridbattery, microgridownertype, \
+    workingcalendar, microgrid, microgridbyuser, microgridbattery, \
     microgridevcharger, microgridgenerator, microgridgrid, microgridheatpump, microgridload, microgridphotovoltaic, \
     microgridpowerconversionsystem, microgridwindturbine, command, virtualpowerplant
 
@@ -344,11 +344,6 @@ api.add_route('/microgrids/{id_}/users/{uid}',
 api.add_route('/microgridbyuser',
               microgridbyuser.MicrogridByUser())
 
-api.add_route('/microgridarchitecturetypes',
-              microgridarchitecturetype.MicrogridArchitectureTypeCollection())
-api.add_route('/microgridarchitecturetypes/{id_}',
-              microgridarchitecturetype.MicrogridArchitectureTypeItem())
-
 api.add_route('/microgridbatteries',
               microgridbattery.MicrogridBatteryCollection())
 api.add_route('/microgridbatteries/{id_}',
@@ -378,11 +373,6 @@ api.add_route('/microgridloads',
               microgridload.MicrogridLoadCollection())
 api.add_route('/microgridloads/{id_}',
               microgridload.MicrogridLoadItem())
-
-api.add_route('/microgridownertypes',
-              microgridownertype.MicrogridOwnerTypeCollection())
-api.add_route('/microgridownertypes/{id_}',
-              microgridownertype.MicrogridOwnerTypeItem())
 
 api.add_route('/microgridphotovoltaics',
               microgridphotovoltaic.MicrogridPhotovoltaicCollection())

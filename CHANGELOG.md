@@ -19,8 +19,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed issue on delete action of distribution system in myems-api
 - fixed issue on delete action of virtual power plant in myems-api
 ### Removed
-
-
+- removed tbl_microgrid_architecture_types from database
+- removed tbl_microgrid_owner_types from database
+- removed microgrid architecture types from myems-api and myems-admin
+- removed microgrid owner types from myems-api and myems-admin
+- 
 ## [v3.10.0] - 2023-10-08
 ### Added
 - added Vietnamese language to myems-web

@@ -9,8 +9,6 @@ app.controller('MicrogridController', function(
     CostCenterService,
     ContactService,
     MicrogridService,
-    MicrogridArchitectureTypeService,
-    MicrogridOwnerTypeService,
     toaster,
     SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
@@ -47,28 +45,6 @@ app.controller('MicrogridController', function(
 		});
 	};
 
-    $scope.getAllMicrogridArchitectureTypes = function() {
-		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-        MicrogridArchitectureTypeService.getAllMicrogridArchitectureTypes(headers, function (response) {
-            if (angular.isDefined(response.status) && response.status === 200) {
-                $scope.microgridarchitecturetypes = response.data;
-            } else {
-                $scope.microgridarchitecturetypes = [];
-            }
-        });
-    };
-
-    $scope.getAllMicrogridOwnerTypes = function() {
-		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-        MicrogridOwnerTypeService.getAllMicrogridOwnerTypes(headers, function (response) {
-            if (angular.isDefined(response.status) && response.status === 200) {
-                $scope.microgridownertypes = response.data;
-            } else {
-                $scope.microgridownertypes = [];
-            }
-        });
-    };
-
 	$scope.addMicrogrid = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/microgrid/microgrid.model.html',
@@ -77,8 +53,6 @@ app.controller('MicrogridController', function(
 			resolve: {
 				params: function() {
 					return {
-						microgridarchitecturetypes: angular.copy($scope.microgridarchitecturetypes),
-						microgridownertypes: angular.copy($scope.microgridownertypes),
 						costcenters: angular.copy($scope.costcenters),
 						contacts: angular.copy($scope.contacts),
 					};
@@ -86,8 +60,6 @@ app.controller('MicrogridController', function(
 			}
 		});
 		modalInstance.result.then(function(microgrid) {
-			microgrid.architecture_type_id = microgrid.architecture_type.id;
-			microgrid.owner_type_id = microgrid.owner_type.id;
 			microgrid.cost_center_id = microgrid.cost_center.id;
 			microgrid.contact_id = microgrid.contact.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -124,8 +96,6 @@ app.controller('MicrogridController', function(
 				params: function() {
 					return {
 						microgrid: angular.copy(microgrid),
-						microgridarchitecturetypes:angular.copy($scope.microgridarchitecturetypes),
-						microgridownertypes:angular.copy($scope.microgridownertypes),
 						costcenters:angular.copy($scope.costcenters),
 						contacts:angular.copy($scope.contacts)
 					};
@@ -134,8 +104,6 @@ app.controller('MicrogridController', function(
 		});
 
 		modalInstance.result.then(function(modifiedMicrogrid) {
-			modifiedMicrogrid.architecture_type_id=modifiedMicrogrid.architecture_type.id;
-			modifiedMicrogrid.owner_type_id=modifiedMicrogrid.owner_type.id;
 			modifiedMicrogrid.cost_center_id=modifiedMicrogrid.cost_center.id;
 			modifiedMicrogrid.contact_id=modifiedMicrogrid.contact.id;
 
@@ -200,8 +168,6 @@ app.controller('MicrogridController', function(
 		    });
 	};
 	$scope.getAllMicrogrids();
-	$scope.getAllMicrogridArchitectureTypes();
-	$scope.getAllMicrogridOwnerTypes();
 	$scope.getAllCostCenters();
 	$scope.getAllContacts();
 	$scope.$on('handleBroadcastMicrogridChanged', function(event) {
@@ -212,8 +178,6 @@ app.controller('MicrogridController', function(
 app.controller('ModalAddMicrogridCtrl', function($scope, $uibModalInstance,params) {
 
 	$scope.operation = "SETTING.ADD_MICROGRID";
-	$scope.microgridarchitecturetypes=params.microgridarchitecturetypes;
-	$scope.microgridownertypes=params.microgridownertypes;
 	$scope.costcenters=params.costcenters;
 	$scope.contacts=params.contacts;
 	$scope.ok = function() {
@@ -228,8 +192,6 @@ app.controller('ModalAddMicrogridCtrl', function($scope, $uibModalInstance,param
 app.controller('ModalEditMicrogridCtrl', function($scope, $uibModalInstance, params) {
 	$scope.operation = "SETTING.EDIT_MICROGRID";
 	$scope.microgrid = params.microgrid;
-	$scope.microgridarchitecturetypes=params.microgridarchitecturetypes;
-	$scope.microgridownertypes=params.microgridownertypes;
 	$scope.costcenters=params.costcenters;
 	$scope.contacts=params.contacts;
 	$scope.ok = function() {
