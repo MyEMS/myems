@@ -149,6 +149,7 @@ class Reporting:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.MICROGRID_NOT_FOUND')
         else:
+            microgrid_id = row[0]
             architecture_type = architecture_type_dict.get(row[8], None)
             owner_type = microgrid_owner_type_dict.get(row[9], None)
             contact = contact_dict.get(row[10], None)
