@@ -23,26 +23,6 @@ class MicrogridByUser:
         cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid "
-                 " FROM tbl_microgrid_architecture_types ")
-        cursor.execute(query)
-        rows_architecture_types = cursor.fetchall()
-        architecture_type_dict = dict()
-        if rows_architecture_types is not None and len(rows_architecture_types) > 0:
-            for row in rows_architecture_types:
-                architecture_type_dict[row[0]] = {"id": row[0],
-                                                  "name": row[1],
-                                                  "uuid": row[2]}
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_microgrid_owner_types ")
-        cursor.execute(query)
-        rows_owner_types = cursor.fetchall()
-
-        owner_type_dict = dict()
-        if rows_owner_types is not None and len(rows_owner_types) > 0:
-            for row in rows_owner_types:
-                owner_type_dict[row[0]] = {"id": row[0], "name": row[1], "uuid": row[2]}
-
-        query = (" SELECT id, name, uuid "
                  " FROM tbl_contacts ")
         cursor.execute(query)
         rows_contacts = cursor.fetchall()
@@ -69,7 +49,6 @@ class MicrogridByUser:
         # query by user
         query = (" SELECT m.id, m.name, m.uuid, "
                  "        m.address, m.postal_code, m.latitude, m.longitude, m.capacity, "
-                 "        m.architecture_type_id, m.owner_type_id, "
                  "        m.contact_id, m.cost_center_id, m.svg, m.description "
                  " FROM tbl_microgrids m INNER JOIN tbl_microgrids_users mu on m.id=mu.microgrid_id "
                  " inner join " + config.myems_user_db['database'] + ".tbl_users u on mu.user_id=u.id "
@@ -81,10 +60,8 @@ class MicrogridByUser:
         result = list()
         if rows_spaces is not None and len(rows_spaces) > 0:
             for row in rows_spaces:
-                architecture_type = architecture_type_dict.get(row[8], None)
-                owner_type = owner_type_dict.get(row[9], None)
-                contact = contact_dict.get(row[10], None)
-                cost_center = cost_center_dict.get(row[11], None)
+                contact = contact_dict.get(row[8], None)
+                cost_center = cost_center_dict.get(row[9], None)
 
                 meta_result = {"id": row[0],
                                "name": row[1],
@@ -94,12 +71,10 @@ class MicrogridByUser:
                                "latitude": row[5],
                                "longitude": row[6],
                                "capacity": row[7],
-                               "architecture_type": architecture_type,
-                               "owner_type": owner_type,
                                "contact": contact,
                                "cost_center": cost_center,
-                               "svg": row[12],
-                               "description": row[13],
+                               "svg": row[10],
+                               "description": row[11],
                                "qrcode": 'microgrid:' + row[2]}
                 result.append(meta_result)
 
