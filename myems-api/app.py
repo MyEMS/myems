@@ -2,14 +2,16 @@ import falcon
 from falcon_cors import CORS
 from falcon_multipart.middleware import MultipartMiddleware
 
-from core import advancedreport, apikey, energyflowdiagram, privilege, textmessage, distributioncircuit, virtualmeter, \
+from core import advancedreport, apikey, energyflowdiagram, \
+    privilege, textmessage, distributioncircuit, virtualmeter, \
     costcenter, point, knowledgefile, meter, tariff, user, storetype, timezone, \
     costfile, offlinemeterfile, version, contact, emailserver, combinedequipment, datasource, equipment, tenant, \
     shopfloor, webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, \
     offlinemeter, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile, \
     workingcalendar, microgrid, microgridbyuser, microgridbattery, \
     microgridevcharger, microgridgenerator, microgridgrid, microgridheatpump, microgridload, microgridphotovoltaic, \
-    microgridpowerconversionsystem, microgridwindturbine, command, virtualpowerplant
+    microgridpowerconversionsystem, microgridwindturbine, command, virtualpowerplant, \
+    energystoragepowerstation, photovoltaicpowerstation, windfarm
 
 from reports import advancedreportfile
 from reports import combinedequipmentbatch
@@ -247,6 +249,11 @@ api.add_route('/energyitems',
 api.add_route('/energyitems/{id_}',
               energyitem.EnergyItemItem())
 
+api.add_route('/energystoragepowerstations',
+              energystoragepowerstation.EnergyStoragePowerStationCollection())
+api.add_route('/energystoragepowerstations/{id_}',
+              energystoragepowerstation.EnergyStoragePowerStationItem())
+
 api.add_route('/equipments',
               equipment.EquipmentCollection())
 api.add_route('/equipments/{id_}',
@@ -405,6 +412,11 @@ api.add_route('/offlinemeterfiles/{id_}',
               offlinemeterfile.OfflineMeterFileItem())
 api.add_route('/offlinemeterfiles/{id_}/restore',
               offlinemeterfile.OfflineMeterFileRestore())
+
+api.add_route('/photovoltaicpowerstations',
+              photovoltaicpowerstation.PhotovoltaicPowerStationCollection())
+api.add_route('/photovoltaicpowerstations/{id_}',
+              photovoltaicpowerstation.PhotovoltaicPowerStationItem())
 
 api.add_route('/points',
               point.PointCollection())
@@ -683,6 +695,11 @@ api.add_route('/wechatmessages',
               wechatmessage.WechatMessageCollection())
 api.add_route('/wechatmessages/{id_}',
               wechatmessage.WechatMessageItem())
+
+api.add_route('/windfarms',
+              windfarm.WindFarmCollection())
+api.add_route('/windfarms/{id_}',
+              windfarm.WindFarmItem())
 
 api.add_route('/workingcalendars',
               workingcalendar.WorkingCalendarCollection())
