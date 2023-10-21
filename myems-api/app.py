@@ -11,7 +11,7 @@ from core import advancedreport, apikey, energyflowdiagram, \
     workingcalendar, microgrid, microgridbyuser, microgridbattery, \
     microgridevcharger, microgridgenerator, microgridgrid, microgridheatpump, microgridload, microgridphotovoltaic, \
     microgridpowerconversionsystem, microgridwindturbine, command, virtualpowerplant, \
-    energystoragepowerstation, photovoltaicpowerstation
+    energystoragepowerstation, photovoltaicpowerstation, windfarm
 
 from reports import advancedreportfile
 from reports import combinedequipmentbatch
@@ -695,6 +695,11 @@ api.add_route('/wechatmessages',
               wechatmessage.WechatMessageCollection())
 api.add_route('/wechatmessages/{id_}',
               wechatmessage.WechatMessageItem())
+
+api.add_route('/windfarms',
+              windfarm.WindFarmCollection())
+api.add_route('/windfarms/{id_}',
+              windfarm.WindFarmItem())
 
 api.add_route('/workingcalendars',
               workingcalendar.WorkingCalendarCollection())
