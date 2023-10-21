@@ -16,8 +16,6 @@
 										<th class="text-center">{{'MICROGRID.LATITUDE' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.LONGITUDE' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.CAPACITY' | translate}}</th>
-										<th class="text-center">{{'MICROGRID.ARCHITECTURE_TYPE' | translate}}</th>
-										<th class="text-center">{{'MICROGRID.OWNER_TYPE' | translate}}</th>
 										<th class="text-center">{{'SETTING.CONTACT' | translate}}</th>
 										<th class="text-center">{{'SETTING.COSTCENTER' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.SVG' | translate}}</th>
@@ -34,8 +32,6 @@
 										<td class="text-center">{{ microgrid.latitude }}</td>
 										<td class="text-center">{{ microgrid.longitude }}</td>
 										<td class="text-center">{{ microgrid.capacity }}</td>
-										<td class="text-center">{{ microgrid.architecture_type.name }}</td>
-										<td class="text-center">{{ microgrid.owner_type.name }}</td>
 										<td class="text-center">{{ microgrid.contact.name }}</td>
 										<td class="text-center">{{ microgrid.cost_center.name }}</td>
 										<td class="text-center">{{(microgrid.svg).substring(0, 32) + '...' }}</td>
