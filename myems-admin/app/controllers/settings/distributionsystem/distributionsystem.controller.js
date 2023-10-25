@@ -119,6 +119,7 @@ app.controller('DistributionSystemController', function(
 							});
 							$scope.getAllDistributionSystems();
           					$scope.$emit('handleEmitDistributionSystemChanged');
+							$window.location.reload();
 		            	} else {
 							toaster.pop({
 								type: "error",
