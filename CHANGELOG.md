@@ -16,8 +16,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 - refactored energy category reports to remove duplicated code in myems-web
 - fixed issue on delete action of tariff in myems-api
-- fixed issue on delete action of distribution system in myems-api
+- fixed issue on delete action of distribution system in myems-api, myems-admin
 - fixed issue on delete action of virtual power plant in myems-api
+
 ### Removed
 - removed tbl_microgrid_architecture_types from database
 - removed tbl_microgrid_owner_types from database
