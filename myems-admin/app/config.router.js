@@ -1322,6 +1322,47 @@ app
                         }
 
                     })
+                    .state('settings.windfarm', {
+                        url: "/windfarm",
+                        templateUrl: "views/settings/windfarm/windfarm.html",
+                        data: {
+                            pageTitle: 'MENU.SETTINGS.WIND_FARM',
+                        },
+                        resolve: {
+                            deps: [
+                                '$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'daterangepicker', 'toaster']).then(
+                                        function () {
+                                            return $ocLazyLoad.load([{
+                                                serie: true,
+                                                files: ['js/daterangepicker/daterangepicker.min.js', 'js/daterangepicker/daterangepicker.min.css']
+                                            }, {
+                                                name: 'daterangepicker',
+                                                files: ['js/daterangepicker/angular-daterangepicker.min.js']
+                                            }, {
+                                                files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
+                                            }, {
+                                                name: 'oitozero.ngSweetAlert',
+                                                files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
+                                            }, {
+                                                serie: true,
+                                                files: [
+                                                    'app/services/settings/windfarm/windfarm.service.js',
+                                                    'app/services/settings/costcenter/costcenter.service.js',
+                                                    'app/services/settings/contact/contact.service.js',
+                                                    'app/services/settings/datasource/point.service.js',
+                                                    'app/controllers/settings/windfarm/windfarm.master.controller.js',
+                                                    'app/controllers/settings/windfarm/windfarm.controller.js',
+                                                ]
+                                            }]);
+                                        }
+                                    );
+                                }
+                            ]
+                        }
+
+                    })
                     .state('settings.menu', {
                         url: "/menu",
                         templateUrl: "views/settings/menu/menu.html",

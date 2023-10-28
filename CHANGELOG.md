@@ -6,9 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 ### Added
 - added sensors realtime data to dashboard in myems-web
-- added energy storage power station to database, myems-api, myems-admin
-- added photovoltaic power station to database, myems-api, myems-admin
-- added wind farm to database, myems-api
+- added energy storage power station to database, myems-api, and myems-admin
+- added photovoltaic power station to database, myems-api, and myems-admin
+- added wind farm to database, myems-api, and myems-admin
 - 
 ### Changed
 - changed dropdown menu columns from 3 to 2 in myems-web
