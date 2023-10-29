@@ -63,3 +63,6 @@ pythonenv*
 
 # ee files
 ee/
+
+# debug files
+pid
