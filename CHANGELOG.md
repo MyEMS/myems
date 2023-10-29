@@ -24,6 +24,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - removed tbl_microgrid_owner_types from database
 - removed microgrid architecture types from myems-api and myems-admin
 - removed microgrid owner types from myems-api and myems-admin
+- removed wind turbine from microgrid
 - 
 ## [v3.10.0] - 2023-10-08
 ### Added

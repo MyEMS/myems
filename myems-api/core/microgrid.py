@@ -356,10 +356,6 @@ class MicrogridItem:
         cnx.commit()
         cursor.execute(" DELETE FROM tbl_microgrids_users WHERE microgrid_id = %s ", (id_,))
         cnx.commit()
-        cursor.execute(" DELETE FROM tbl_microgrids_windturbines WHERE microgrid_id = %s ", (id_,))
-        cnx.commit()
-        cursor.execute(" DELETE FROM tbl_microgrids_windturbines WHERE microgrid_id = %s ", (id_,))
-        cnx.commit()
         cursor.execute(" DELETE FROM tbl_microgrids WHERE id = %s ", (id_,))
         cnx.commit()
 
@@ -1339,83 +1335,6 @@ class MicrogridPowerconversionsystemCollection:
                                "uuid": row[2],
                                "capacity": row[3],
                                }
-                result.append(meta_result)
-
-        resp.text = json.dumps(result)
-
-
-class MicrogridWindturbineCollection:
-    @staticmethod
-    def __init__():
-        """Initializes MicrogridWindturbineCollection"""
-        pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
-    def on_get(req, resp, id_):
-        access_control(req)
-        if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_MICROGRID_ID')
-
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
-
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
-
-        # query meter dict
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_meters ")
-        cursor.execute(query)
-        rows_meters = cursor.fetchall()
-
-        meter_dict = dict()
-        if rows_meters is not None and len(rows_meters) > 0:
-            for row in rows_meters:
-                meter_dict[row[0]] = {"id": row[0],
-                                      "name": row[1],
-                                      "uuid": row[2]}
-        # query point dict
-        query = (" SELECT id, name "
-                 " FROM tbl_points ")
-        cursor.execute(query)
-        rows_points = cursor.fetchall()
-
-        point_dict = dict()
-        if rows_points is not None and len(rows_points) > 0:
-            for row in rows_points:
-                point_dict[row[0]] = {"id": row[0],
-                                      "name": row[1]}
-
-        query = (" SELECT id, name, uuid, "
-                 "        power_point_id, meter_id, capacity "
-                 " FROM tbl_microgrids_windturbines "
-                 " WHERE microgrid_id = %s "
-                 " ORDER BY name ")
-        cursor.execute(query, (id_,))
-        rows = cursor.fetchall()
-
-        result = list()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                power_point = point_dict.get(row[3])
-                meter = meter_dict.get(row[4])
-                meta_result = {"id": row[0],
-                               "name": row[1],
-                               "uuid": row[2],
-                               "power_point": power_point,
-                               "meter": meter,
-                               "capacity": row[5]}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)

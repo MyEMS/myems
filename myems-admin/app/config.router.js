@@ -1164,7 +1164,6 @@ app
                                                     'app/services/settings/microgrid/microgridphotovoltaic.service.js',
                                                     'app/services/settings/microgrid/microgridpowerconversionsystem.service.js',
                                                     'app/services/settings/microgrid/microgridsensor.service.js',
-                                                    'app/services/settings/microgrid/microgridwindturbine.service.js',
                                                     'app/services/settings/microgrid/microgriduser.service.js',
                                                     'app/services/settings/costcenter/costcenter.service.js',
                                                     'app/services/settings/contact/contact.service.js',
@@ -1181,7 +1180,6 @@ app
                                                     'app/controllers/settings/microgrid/microgridphotovoltaic.controller.js',
                                                     'app/controllers/settings/microgrid/microgridpowerconversionsystem.controller.js',
                                                     'app/controllers/settings/microgrid/microgridsensor.controller.js',
-                                                    'app/controllers/settings/microgrid/microgridwindturbine.controller.js',
                                                     'app/controllers/settings/microgrid/microgriduser.controller.js',
                                                 ]
                                             }]);
