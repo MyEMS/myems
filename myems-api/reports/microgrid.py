@@ -32,10 +32,9 @@ class Reporting:
     # Step 10: query associated loads
     # Step 11: query associated photovoltaics
     # Step 12: query associated sensors
-    # Step 13: query associated windturbines
-    # Step 14: query associated meters data
-    # Step 15: query associated points data
-    # Step 16: construct the report
+    # Step 13: query associated meters data
+    # Step 14: query associated points data
+    # Step 15: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
@@ -393,30 +392,7 @@ class Reporting:
         ################################################################################################################
 
         ################################################################################################################
-        # Step 13: query associated windturbines
-        ################################################################################################################
-        cursor_system.execute(" SELECT p.id, mw.name, p.units, p.object_type  "
-                              " FROM tbl_microgrids_windturbines mw, tbl_points p "
-                              " WHERE mw.id = %s AND mw.power_point_id = p.id ",
-                              (microgrid_id,))
-        row_point = cursor_system.fetchone()
-        if row_point is not None:
-            point_list.append({"id": row_point[0],
-                               "name": row_point[1]+'.P',
-                               "units": row_point[2],
-                               "object_type": row_point[3]})
-
-        cursor_system.execute(" SELECT m.id, mw.name, m.energy_category_id  "
-                              " FROM tbl_microgrids_windturbines mw, tbl_meters m "
-                              " WHERE mw.id = %s AND mw.meter_id = m.id ",
-                              (microgrid_id,))
-        row_meter = cursor_system.fetchone()
-        if row_meter is not None:
-            meter_list.append({"id": row_meter[0],
-                               "name": row_meter[1],
-                               "energy_category_id": row_meter[2]})
-        ################################################################################################################
-        # Step 14: query associated meters data
+        # Step 13: query associated meters data
         ################################################################################################################
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -461,7 +437,7 @@ class Reporting:
                 meter_report_list.append(meter_report)
 
         ################################################################################################################
-        # Step 15: query associated points data
+        # Step 14: query associated points data
         ################################################################################################################
         cnx_historical = mysql.connector.connect(**config.myems_historical_db)
         cursor_historical = cnx_historical.cursor()
@@ -533,7 +509,7 @@ class Reporting:
             parameters_data['timestamps'].append(point_timestamps)
             parameters_data['values'].append(point_values)
         ################################################################################################################
-        # Step 16: construct the report
+        # Step 15: construct the report
         ################################################################################################################
         result = dict()
         result['microgrid'] = meta_result
