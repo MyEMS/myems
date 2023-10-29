@@ -10,7 +10,7 @@ from core import advancedreport, apikey, energyflowdiagram, \
     offlinemeter, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile, \
     workingcalendar, microgrid, microgridbyuser, microgridbattery, \
     microgridevcharger, microgridgenerator, microgridgrid, microgridheatpump, microgridload, microgridphotovoltaic, \
-    microgridpowerconversionsystem, microgridwindturbine, command, virtualpowerplant, \
+    microgridpowerconversionsystem, command, virtualpowerplant, \
     energystoragepowerstation, photovoltaicpowerstation, windfarm
 
 from reports import advancedreportfile
@@ -341,8 +341,6 @@ api.add_route('/microgrids/{id_}/photovoltaics',
               microgrid.MicrogridPhotovoltaicCollection())
 api.add_route('/microgrids/{id_}/powerconversionsystems',
               microgrid.MicrogridPowerconversionsystemCollection())
-api.add_route('/microgrids/{id_}/windturbines',
-              microgrid.MicrogridWindturbineCollection())
 api.add_route('/microgrids/{id_}/users',
               microgrid.MicrogridUserCollection())
 api.add_route('/microgrids/{id_}/users/{uid}',
@@ -390,11 +388,6 @@ api.add_route('/microgridpowerconversionsystems',
               microgridpowerconversionsystem.MicrogridPowerconversionsystemCollection())
 api.add_route('/microgridpowerconversionsystems/{id_}',
               microgridpowerconversionsystem.MicrogridPowerconversionsystemItem())
-
-api.add_route('/microgridwindturbines',
-              microgridwindturbine.MicrogridWindturbineCollection())
-api.add_route('/microgridwindturbines/{id_}',
-              microgridwindturbine.MicrogridWindturbineItem())
 
 api.add_route('/notifications',
               notification.NotificationCollection())

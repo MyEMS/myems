@@ -68,6 +68,7 @@ DROP TABLE myems_system_db.tbl_microgrid_architecture_types;
 DROP TABLE myems_system_db.tbl_microgrid_owner_types;
 ALTER TABLE myems_system_db.tbl_microgrids DROP COLUMN architecture_type_id;
 ALTER TABLE myems_system_db.tbl_microgrids DROP COLUMN owner_type_id;
+DROP TABLE myems_system_db.tbl_microgrids_windturbines;
 
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='3.11.0RC', release_date='2023-11-01' WHERE id=1;
