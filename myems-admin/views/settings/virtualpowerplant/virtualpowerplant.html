@@ -13,7 +13,6 @@
 										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
 										<th class="text-center">{{'SETTING.COSTCENTER' | translate}}</th>
 										<th class="text-center">{{'VIRTUAL_POWER_PLANT.BALANCING_PRICE_POINT' | translate}}</th>
-										<th class="text-center">{{'VIRTUAL_POWER_PLANT.SVG' | translate}}</th>
 										<th class="text-center">{{'VIRTUAL_POWER_PLANT.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
 										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 									</tr>
@@ -24,7 +23,6 @@
 										<td class="text-center">{{ virtualpowerplant.name }}</td>
 										<td class="text-center">{{ virtualpowerplant.cost_center.name }}</td>
 										<td class="text-center">{{ virtualpowerplant.balancing_price_point.name }}</td>
-										<td class="text-center">{{(virtualpowerplant.svg).substring(0, 32) + '...' }}</td>
 										<td class="text-center">{{ virtualpowerplant.description }}</td>
 										<td class="text-center">
 											<a ng-click="editVirtualPowerPlant(virtualpowerplant)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
