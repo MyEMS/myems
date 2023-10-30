@@ -8,7 +8,7 @@ from core import advancedreport, apikey, energyflowdiagram, \
     costfile, offlinemeterfile, version, contact, emailserver, combinedequipment, datasource, equipment, tenant, \
     shopfloor, webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, \
     offlinemeter, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile, \
-    workingcalendar, microgrid, microgridbyuser, microgridbattery, \
+    workingcalendar, microgrid, microgridbattery, \
     microgridevcharger, microgridgenerator, microgridgrid, microgridheatpump, microgridload, microgridphotovoltaic, \
     microgridpowerconversionsystem, command, virtualpowerplant, \
     energystoragepowerstation, photovoltaicpowerstation, windfarm
@@ -52,6 +52,7 @@ from reports import metersubmetersbalance
 from reports import metertracking
 from reports import metertrend
 from reports import microgrid as microgridreport
+from reports import microgridlist
 from reports import offlinemeterbatch
 from reports import offlinemetercarbon
 from reports import offlinemetercost
@@ -345,9 +346,6 @@ api.add_route('/microgrids/{id_}/users',
               microgrid.MicrogridUserCollection())
 api.add_route('/microgrids/{id_}/users/{uid}',
               microgrid.MicrogridUserItem())
-
-api.add_route('/microgridbyuser',
-              microgridbyuser.MicrogridByUser())
 
 api.add_route('/microgridbatteries',
               microgridbattery.MicrogridBatteryCollection())
@@ -790,6 +788,8 @@ api.add_route('/reports/metertracking',
               metertracking.Reporting())
 api.add_route('/reports/microgrid',
               microgridreport.Reporting())
+api.add_route('/reports/microgridlist',
+              microgridlist.Reporting())
 api.add_route('/reports/offlinemeterbatch',
               offlinemeterbatch.Reporting())
 api.add_route('/reports/offlinemetercarbon',

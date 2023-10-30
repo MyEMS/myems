@@ -8164,39 +8164,6 @@
 					]
 				},
 				{
-					"name": "Microgrid By User",
-					"item": [
-						{
-							"name": "GET All Microgrids By User",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
-									},
-									{
-										"key": "Token",
-										"value": "651bee53fb97c2dc4c4b34280ff1e0fec210d6453793f09e922317ed817800c33f2140f25d7e13c23a3e9ab92a0dfc58c78a26e4c84af9505ca9c4978bc91dff",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{base_url}}/microgridbyuser",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"microgridbyuser"
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
-				{
 					"name": "Notification",
 					"item": [
 						{
@@ -18846,46 +18813,6 @@
 					"response": []
 				},
 				{
-					"name": "GET Microgrid Report",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "User-UUID",
-								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-								"type": "default"
-							},
-							{
-								"key": "Token",
-								"value": "d63477ddcc607bddaefd540a8aa534cacc7dcbdae39dd5838f409f96c8769083f9f76a33b02db0421c8ec174b75f7eadfa5deb6ea996b78ca6fa1ec2fd6863ed",
-								"type": "default"
-							}
-						],
-						"url": {
-							"raw": "{{base_url}}/reports/microgrid?microgridid=1",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"reports",
-								"microgrid"
-							],
-							"query": [
-								{
-									"key": "microgridid",
-									"value": "1"
-								},
-								{
-									"key": "microgriduuid",
-									"value": "8854d0d4-384a-4951-a000-854f876bbbcf",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "GET Energy Flow Diagram Report",
 					"request": {
 						"method": "GET",
@@ -21579,6 +21506,82 @@
 								{
 									"key": "quickmode",
 									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Microgrid Report",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "default"
+							},
+							{
+								"key": "Token",
+								"value": "d63477ddcc607bddaefd540a8aa534cacc7dcbdae39dd5838f409f96c8769083f9f76a33b02db0421c8ec174b75f7eadfa5deb6ea996b78ca6fa1ec2fd6863ed",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reports/microgrid?microgridid=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"microgrid"
+							],
+							"query": [
+								{
+									"key": "microgridid",
+									"value": "1"
+								},
+								{
+									"key": "microgriduuid",
+									"value": "8854d0d4-384a-4951-a000-854f876bbbcf",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Microgrid List Report",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "default"
+							},
+							{
+								"key": "Token",
+								"value": "004672e92312854fd360d7e5fbbfba1973e49bf33f9ab96cecc1fe6d37af4173821152ae436804752dfca1d51e281981dc302a2ddc83c33dd1c2d69a4e375512",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reports/microgridlist",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"microgridlist"
+							],
+							"query": [
+								{
+									"key": "microgriduuid",
+									"value": "8854d0d4-384a-4951-a000-854f876bbbcf",
+									"disabled": true
 								}
 							]
 						}
