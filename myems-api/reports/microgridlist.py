@@ -1,14 +1,15 @@
+import uuid
 import falcon
 import mysql.connector
 import simplejson as json
-from core.useractivity import access_control
+from core.useractivity import user_logger, admin_control, access_control
 import config
 
 
-class MicrogridByUser:
+class Reporting:
     @staticmethod
     def __init__():
-        """"Initializes MicrogridCollection"""
+        """Initializes Class"""
         pass
 
     @staticmethod
@@ -18,7 +19,6 @@ class MicrogridByUser:
     @staticmethod
     def on_get(req, resp):
         access_control(req)
-        user_uuid = str.strip(req.headers['USER-UUID'])
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -45,16 +45,12 @@ class MicrogridByUser:
                 cost_center_dict[row[0]] = {"id": row[0],
                                             "name": row[1],
                                             "uuid": row[2]}
-
-        # query by user
-        query = (" SELECT m.id, m.name, m.uuid, "
-                 "        m.address, m.postal_code, m.latitude, m.longitude, m.capacity, "
-                 "        m.contact_id, m.cost_center_id, m.svg, m.description "
-                 " FROM tbl_microgrids m INNER JOIN tbl_microgrids_users mu on m.id=mu.microgrid_id "
-                 " inner join " + config.myems_user_db['database'] + ".tbl_users u on mu.user_id=u.id "
-                                                                     " WHERE u.uuid = %s "
-                                                                     " ORDER BY id ")
-        cursor.execute(query, (user_uuid,))
+        query = (" SELECT id, name, uuid, "
+                 "        address, postal_code, latitude, longitude, capacity, "
+                 "        contact_id, cost_center_id, svg, description "
+                 " FROM tbl_microgrids "
+                 " ORDER BY id ")
+        cursor.execute(query)
         rows_spaces = cursor.fetchall()
 
         result = list()
