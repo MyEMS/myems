@@ -47,15 +47,15 @@ class MicrogridCollection:
                                             "uuid": row[2]}
         query = (" SELECT id, name, uuid, "
                  "        address, postal_code, latitude, longitude, capacity, "
-                 "        contact_id, cost_center_id, svg, description "
+                 "        contact_id, cost_center_id, serial_number, svg, description "
                  " FROM tbl_microgrids "
                  " ORDER BY id ")
         cursor.execute(query)
-        rows_spaces = cursor.fetchall()
+        rows_microgrids = cursor.fetchall()
 
         result = list()
-        if rows_spaces is not None and len(rows_spaces) > 0:
-            for row in rows_spaces:
+        if rows_microgrids is not None and len(rows_microgrids) > 0:
+            for row in rows_microgrids:
                 contact = contact_dict.get(row[8], None)
                 cost_center = cost_center_dict.get(row[9], None)
 
@@ -69,8 +69,9 @@ class MicrogridCollection:
                                "capacity": row[7],
                                "contact": contact,
                                "cost_center": cost_center,
-                               "svg": row[10],
-                               "description": row[11],
+                               "serial_number": row[10],
+                               "svg": row[11],
+                               "description": row[12],
                                "qrcode": 'microgrid:' + row[2]}
                 result.append(meta_result)
 
@@ -153,6 +154,13 @@ class MicrogridCollection:
                                    description='API.INVALID_COST_CENTER_ID')
         cost_center_id = new_values['data']['cost_center_id']
 
+        if 'serial_number' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['serial_number'], str) or \
+                len(str.strip(new_values['data']['serial_number'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_SERIAL_NUMBER')
+        serial_number = str.strip(new_values['data']['serial_number'])
+
         if 'svg' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['svg'], str) or \
                 len(str.strip(new_values['data']['svg'])) == 0:
@@ -203,8 +211,8 @@ class MicrogridCollection:
 
         add_values = (" INSERT INTO tbl_microgrids "
                       "    (name, uuid, address, postal_code, latitude, longitude, capacity, "
-                      "     contact_id, cost_center_id, svg, description) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                      "     contact_id, cost_center_id, serial_number, svg, description) "
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     address,
@@ -214,6 +222,7 @@ class MicrogridCollection:
                                     capacity,
                                     contact_id,
                                     cost_center_id,
+                                    serial_number,
                                     svg,
                                     description))
         new_id = cursor.lastrowid
@@ -271,7 +280,7 @@ class MicrogridItem:
 
         query = (" SELECT id, name, uuid, "
                  "        address, postal_code, latitude, longitude, capacity, "
-                 "        contact_id, cost_center_id, svg, description "
+                 "        contact_id, cost_center_id, serial_number, svg, description "
                  " FROM tbl_microgrids "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -295,8 +304,9 @@ class MicrogridItem:
                            "capacity": row[7],
                            "contact": contact,
                            "cost_center": cost_center,
-                           "svg": row[10],
-                           "description": row[11],
+                           "serial_number": row[10],
+                           "svg": row[11],
+                           "description": row[12],
                            "qrcode": 'microgrid:' + row[2]}
 
         resp.text = json.dumps(meta_result)
@@ -443,6 +453,13 @@ class MicrogridItem:
                                    description='API.INVALID_COST_CENTER_ID')
         cost_center_id = new_values['data']['cost_center_id']
 
+        if 'serial_number' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['serial_number'], str) or \
+                len(str.strip(new_values['data']['serial_number'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_SERIAL_NUMBER')
+        serial_number = str.strip(new_values['data']['serial_number'])
+
         if 'svg' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['svg'], str) or \
                 len(str.strip(new_values['data']['svg'])) == 0:
@@ -503,7 +520,7 @@ class MicrogridItem:
         update_row = (" UPDATE tbl_microgrids "
                       " SET name = %s, address = %s, postal_code = %s, latitude = %s, longitude = %s, capacity = %s, "
                       "     contact_id = %s, cost_center_id = %s, "
-                      "     svg = %s, description = %s "
+                      "     serial_number = %s, svg = %s, description = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     address,
@@ -513,6 +530,7 @@ class MicrogridItem:
                                     capacity,
                                     contact_id,
                                     cost_center_id,
+                                    serial_number,
                                     svg,
                                     description,
                                     id_))
