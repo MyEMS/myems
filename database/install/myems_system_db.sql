@@ -658,6 +658,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids` (
   `capacity` DECIMAL(18, 3) NOT NULL,
   `contact_id` BIGINT NOT NULL,
   `cost_center_id` BIGINT NOT NULL,
+  `serial_number` VARCHAR(255) NOT NULL,
   `svg` LONGTEXT NOT NULL,
   `description` VARCHAR(255),
   PRIMARY KEY (`id`));

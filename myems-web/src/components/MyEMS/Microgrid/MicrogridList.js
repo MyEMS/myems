@@ -18,6 +18,7 @@ const MicrogridList = ({
   name,
   address,
   postal_code,
+  serial_number,
   parameter1,
   parameter2,
   parameter3,
@@ -72,6 +73,9 @@ const MicrogridList = ({
                 <p className="fs--1 mb-2 mb-md-3">
                     {postal_code}
                 </p>
+                <p className="fs--1 mb-2 mb-md-3">
+                    {serial_number}
+                </p>
                 <div className="d-none d-lg-block">
                     <p className="fs--1 mb-1">Solar Power:<strong>{parameter2} kW</strong></p>
                     <p className="fs--1 mb-1">Discharge Pwoer:<strong>{parameter3} kW</strong></p>
@@ -84,7 +88,7 @@ const MicrogridList = ({
                       </strong>
                     </p>
                     <p className="fs--1 mb-1">
-                      {t('Equipment Status')}:{' '}
+                      {t('Battery Status')}:{' '}
                       <strong className={classNames({ 'text-success': isRunning, 'text-danger': !isRunning })}>
                         {isRunning ? t('Equipment Running') : t('Equipment Stopped')}
                       </strong>

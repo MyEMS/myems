@@ -107,14 +107,16 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
             microgird['postal_code'] = json[index]['postal_code'];
             microgird['latitude'] = json[index]['latitude'];
             microgird['longitude'] = json[index]['longitude'];
+            microgird['serial_number'] = json[index]['serial_number'];
             microgird['files'] = [{ id: json[index]['uuid'], src: require('./Microgrid.jpeg'), }];
-            microgird['parameter1'] = 5.6;
+            microgird['parameter1'] = json[index]['soc_point_value'];
             microgird['parameter2'] = 5.6;
             microgird['parameter3'] = 5.6;
             microgird['parameter4'] = 5.6;
             microgird['parameter5'] = 5.6;
             microgird['alarms'] = ['supply temperature is high', 'return temperature is low'];
             microgird['isOnline'] = true;
+            microgird['isRunning'] = true;
             microgridArray.push(microgird);
             microgridIds.push(microgird['id']);
             geojsonData.push({
