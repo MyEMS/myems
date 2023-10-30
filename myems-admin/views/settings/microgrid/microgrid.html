@@ -18,7 +18,6 @@
 										<th class="text-center">{{'MICROGRID.CAPACITY' | translate}}</th>
 										<th class="text-center">{{'SETTING.CONTACT' | translate}}</th>
 										<th class="text-center">{{'SETTING.COSTCENTER' | translate}}</th>
-										<th class="text-center">{{'MICROGRID.SVG' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
 										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 									</tr>
@@ -34,7 +33,6 @@
 										<td class="text-center">{{ microgrid.capacity }}</td>
 										<td class="text-center">{{ microgrid.contact.name }}</td>
 										<td class="text-center">{{ microgrid.cost_center.name }}</td>
-										<td class="text-center">{{(microgrid.svg).substring(0, 32) + '...' }}</td>
 										<td class="text-center">{{ microgrid.description }}</td>
 										<td class="text-center">
 											<a ng-click="editMicrogrid(microgrid)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>

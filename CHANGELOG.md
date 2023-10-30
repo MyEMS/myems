@@ -25,7 +25,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - removed microgrid architecture types from myems-api and myems-admin
 - removed microgrid owner types from myems-api and myems-admin
 - removed wind turbine from microgrid
-- 
+- removed svg column from list of microgrid in myems-admin
+- removed svg column from list of virtual power plant farm in myems-admin
+- removed svg column from list of energy storage power station in myems-admin
+- removed svg column from list of photovoltaic power station in myems-admin
+- removed svg column from list of wind farm in myems-admin
 ## [v3.10.0] - 2023-10-08
 ### Added
 - added Vietnamese language to myems-web

@@ -18,7 +18,6 @@
 										<th class="text-center">{{'ENERGY_STORAGE_POWER_STATION.CAPACITY' | translate}}</th>
 										<th class="text-center">{{'SETTING.CONTACT' | translate}}</th>
 										<th class="text-center">{{'SETTING.COSTCENTER' | translate}}</th>
-										<th class="text-center">{{'ENERGY_STORAGE_POWER_STATION.SVG' | translate}}</th>
 										<th class="text-center">{{'ENERGY_STORAGE_POWER_STATION.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
 										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 									</tr>
@@ -34,7 +33,6 @@
 										<td class="text-center">{{ energystoragepowerstation.capacity }}</td>
 										<td class="text-center">{{ energystoragepowerstation.contact.name }}</td>
 										<td class="text-center">{{ energystoragepowerstation.cost_center.name }}</td>
-										<td class="text-center">{{(energystoragepowerstation.svg).substring(0, 32) + '...' }}</td>
 										<td class="text-center">{{ energystoragepowerstation.description }}</td>
 										<td class="text-center">
 											<a ng-click="editEnergyStoragePowerStation(energystoragepowerstation)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
