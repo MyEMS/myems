@@ -1,4 +1,5 @@
 import falcon
+from datetime import datetime, timezone, timedelta
 import mysql.connector
 import simplejson as json
 from core.useractivity import access_control
@@ -88,14 +89,15 @@ class Reporting:
         result = list()
         if rows_microgrids is not None and len(rows_microgrids) > 0:
             for row in rows_microgrids:
+                microgrid_id = row[0]
                 contact = contact_dict.get(row[8], None)
                 cost_center = cost_center_dict.get(row[9], None)
                 # get battery soc point, power point
                 query = (" SELECT soc_point_id, power_point_id "
                          " FROM tbl_microgrids_batteries "
-                         " WHERE id = %s "
+                         " WHERE microgrid_id = %s "
                          " LIMIT 1 ")
-                cursor_system_db.execute(query, (row[0], ))
+                cursor_system_db.execute(query, (microgrid_id, ))
                 row_point = cursor_system_db.fetchone()
                 battery_soc_point_value = None
                 battery_power_point_value = None
@@ -106,9 +108,9 @@ class Reporting:
                 # get photovoltaic power point
                 query = (" SELECT power_point_id "
                          " FROM tbl_microgrids_photovoltaics "
-                         " WHERE id = %s "
+                         " WHERE microgrid_id = %s "
                          " LIMIT 1 ")
-                cursor_system_db.execute(query, (row[0],))
+                cursor_system_db.execute(query, (microgrid_id,))
                 row_point = cursor_system_db.fetchone()
                 photovoltaic_power_point_value = None
                 if row_point is not None and len(row_point) > 0:
@@ -117,9 +119,9 @@ class Reporting:
                 # get grid power point
                 query = (" SELECT power_point_id "
                          " FROM tbl_microgrids_grids "
-                         " WHERE id = %s "
+                         " WHERE microgrid_id = %s "
                          " LIMIT 1 ")
-                cursor_system_db.execute(query, (row[0],))
+                cursor_system_db.execute(query, (microgrid_id,))
                 row_point = cursor_system_db.fetchone()
                 grid_power_point_value = None
                 if row_point is not None and len(row_point) > 0:
@@ -128,15 +130,31 @@ class Reporting:
                 # get load power point
                 query = (" SELECT power_point_id "
                          " FROM tbl_microgrids_loads "
-                         " WHERE id = %s "
+                         " WHERE microgrid_id = %s "
                          " LIMIT 1 ")
-                cursor_system_db.execute(query, (row[0],))
+                cursor_system_db.execute(query, (microgrid_id,))
                 row_point = cursor_system_db.fetchone()
                 load_power_point_value = None
                 if row_point is not None and len(row_point) > 0:
                     if analog_value_latest_dict.get(row_point[0]) is not None:
                         load_power_point_value = analog_value_latest_dict.get(row_point[0])['actual_value']
-                meta_result = {"id": row[0],
+
+                # get gateway latest seen datetime to determine if it is online
+                query = (" SELECT tg.last_seen_datetime_utc "
+                         " FROM tbl_microgrids_batteries mb, tbl_points p, tbl_data_sources tds, tbl_gateways tg "
+                         " WHERE  microgrid_id  = %s "
+                         "        AND mb.soc_point_id = p.id "
+                         "        AND p.data_source_id = tds.id "
+                         "        AND tds.gateway_id  = tg.id ")
+                cursor_system_db.execute(query, (microgrid_id,))
+                row_datetime = cursor_system_db.fetchone()
+                is_online = False
+                if row_datetime is not None and len(row_datetime) > 0:
+                    if isinstance(row_datetime[0], datetime):
+                        if row_datetime[0] + timedelta(minutes=10) > datetime.utcnow():
+                            is_online = True
+
+                meta_result = {"id": microgrid_id,
                                "name": row[1],
                                "uuid": row[2],
                                "address": row[3],
@@ -153,7 +171,9 @@ class Reporting:
                                "battery_power_point_value": battery_power_point_value,
                                "photovoltaic_power_point_value": photovoltaic_power_point_value,
                                "grid_power_point_value": grid_power_point_value,
-                               "load_power_point_value": load_power_point_value}
+                               "load_power_point_value": load_power_point_value,
+                               "is_online": is_online}
+
                 result.append(meta_result)
 
         cursor_system_db.close()
