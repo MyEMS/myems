@@ -115,7 +115,7 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
             microgird['parameter4'] = json[index]['load_power_point_value'];
             microgird['parameter5'] = json[index]['load_power_point_value'];
             microgird['alarms'] = ['supply temperature is high', 'return temperature is low'];
-            microgird['isOnline'] = true;
+            microgird['isOnline'] = json[index]['is_online'];
             microgird['isRunning'] = true;
             microgridArray.push(microgird);
             microgridIds.push(microgird['id']);
