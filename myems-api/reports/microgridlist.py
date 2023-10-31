@@ -90,17 +90,52 @@ class Reporting:
             for row in rows_microgrids:
                 contact = contact_dict.get(row[8], None)
                 cost_center = cost_center_dict.get(row[9], None)
-                # Get SoC Point
-                query = (" SELECT soc_point_id "
+                # get battery soc point, power point
+                query = (" SELECT soc_point_id, power_point_id "
                          " FROM tbl_microgrids_batteries "
-                         " WHERE id = %s ")
+                         " WHERE id = %s "
+                         " LIMIT 1 ")
                 cursor_system_db.execute(query, (row[0], ))
                 row_point = cursor_system_db.fetchone()
-                soc_point_value = None
+                battery_soc_point_value = None
+                battery_power_point_value = None
                 if row_point is not None and len(row_point) > 0:
                     if analog_value_latest_dict.get(row_point[0]) is not None:
-                        soc_point_value = analog_value_latest_dict.get(row_point[0])['actual_value']
-
+                        battery_soc_point_value = analog_value_latest_dict.get(row_point[0])['actual_value']
+                        battery_power_point_value = analog_value_latest_dict.get(row_point[1])['actual_value']
+                # get photovoltaic power point
+                query = (" SELECT power_point_id "
+                         " FROM tbl_microgrids_photovoltaics "
+                         " WHERE id = %s "
+                         " LIMIT 1 ")
+                cursor_system_db.execute(query, (row[0],))
+                row_point = cursor_system_db.fetchone()
+                photovoltaic_power_point_value = None
+                if row_point is not None and len(row_point) > 0:
+                    if analog_value_latest_dict.get(row_point[0]) is not None:
+                        photovoltaic_power_point_value = analog_value_latest_dict.get(row_point[0])['actual_value']
+                # get grid power point
+                query = (" SELECT power_point_id "
+                         " FROM tbl_microgrids_grids "
+                         " WHERE id = %s "
+                         " LIMIT 1 ")
+                cursor_system_db.execute(query, (row[0],))
+                row_point = cursor_system_db.fetchone()
+                grid_power_point_value = None
+                if row_point is not None and len(row_point) > 0:
+                    if analog_value_latest_dict.get(row_point[0]) is not None:
+                        grid_power_point_value = analog_value_latest_dict.get(row_point[0])['actual_value']
+                # get load power point
+                query = (" SELECT power_point_id "
+                         " FROM tbl_microgrids_loads "
+                         " WHERE id = %s "
+                         " LIMIT 1 ")
+                cursor_system_db.execute(query, (row[0],))
+                row_point = cursor_system_db.fetchone()
+                load_power_point_value = None
+                if row_point is not None and len(row_point) > 0:
+                    if analog_value_latest_dict.get(row_point[0]) is not None:
+                        load_power_point_value = analog_value_latest_dict.get(row_point[0])['actual_value']
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
@@ -114,7 +149,11 @@ class Reporting:
                                "serial_number": row[10],
                                "description": row[11],
                                "qrcode": 'microgrid:' + row[2],
-                               "soc_point_value": soc_point_value}
+                               "battery_soc_point_value": battery_soc_point_value,
+                               "battery_power_point_value": battery_power_point_value,
+                               "photovoltaic_power_point_value": photovoltaic_power_point_value,
+                               "grid_power_point_value": grid_power_point_value,
+                               "load_power_point_value": load_power_point_value}
                 result.append(meta_result)
 
         cursor_system_db.close()

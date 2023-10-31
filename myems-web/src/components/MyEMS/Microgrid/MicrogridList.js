@@ -77,9 +77,9 @@ const MicrogridList = ({
                     {serial_number}
                 </p>
                 <div className="d-none d-lg-block">
-                    <p className="fs--1 mb-1">Solar Power:<strong>{parameter2} kW</strong></p>
-                    <p className="fs--1 mb-1">Discharge Pwoer:<strong>{parameter3} kW</strong></p>
-                    <p className="fs--1 mb-1">Charge Power:<strong>{parameter4} kW</strong></p>
+                    <p className="fs--1 mb-1">Battery Power:<strong>{parameter2} kW</strong></p>
+                    <p className="fs--1 mb-1">Photovoltaic Pwoer:<strong>{parameter3} kW</strong></p>
+                    <p className="fs--1 mb-1">Grid Power:<strong>{parameter4} kW</strong></p>
                     <p className="fs--1 mb-1">Load Power:<strong>{parameter5} kW</strong></p>
                     <p className="fs--1 mb-1">
                       {t('Communication Status')}:{' '}
