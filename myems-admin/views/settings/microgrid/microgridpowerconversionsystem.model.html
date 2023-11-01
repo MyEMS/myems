@@ -5,17 +5,27 @@
     <div class="modal-body">
         <form role="form" name="form_microgridpowerconversionsystem" novalidate class="form-horizontal">
             <div class="form-group">
-              <label class="col-sm-2 control-label">{{'MICROGRID.MICROGRID_POWER_CONVERSION_SYSTEM_NAME' | translate}}</label>
+              <label class="col-sm-2 control-label">{{'SETTING.NAME' | translate}}</label>
                 <div class="col-sm-10"><input ng-model="microgridpowerconversionsystem.name" type="text" name="microgridpowerconversionsystemname" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_microgridpowerconversionsystem.microgridpowerconversionsystemname.$invalid && form_microgridpowerconversionsystem.microgridpowerconversionsystemname.$dirty">
-                        <small class="text-danger" ng-show="form_microgridpowerconversionsystem.microgridpowerconversionsystemname.$error.required">{{'MICROGRID.INPUT_MICROGRID_POWER_CONVERSION_SYSTEM_NAME' | translate}}</small>
+                        <small class="text-danger" ng-show="form_microgridpowerconversionsystem.microgridpowerconversionsystemname.$error.required">{{'MICROGRID.INPUT_MICROGRID_POWER_CONVERSION_SYSTEM' | translate}}</small>
                     </div>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-2 control-label">{{'MICROGRID.MICROGRID_POWER_CONVERSION_SYSTEM_CAPACITY' | translate}}</label>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'MICROGRID.RUN_STATE_POINT' | translate}}</label>
+                <div class="col-sm-10">
+                    <ui-select ng-model="microgridpowerconversionsystem.run_state_point.id" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'MICROGRID.CAPACITY' | translate}}</label>
                 <div class="col-sm-10"><input ng-model="microgridpowerconversionsystem.capacity" type="number" name="microgridpowerconversionsystemcapacity" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_microgridpowerconversionsystem.microgridpowerconversionsystemcapacity.$invalid && form_microgridpowerconversionsystem.microgridpowerconversionsystemcapacity.$dirty">
-                        <small class="text-danger" ng-show="form_microgridpowerconversionsystem.microgridpowerconversionsystemcapacity.$error.required">{{'MICROGRID.INPUT_MICROGRID_POWER_CONVERSION_SYSTEM_CAPACITY' | translate}}</small>
+                        <small class="text-danger" ng-show="form_microgridpowerconversionsystem.microgridpowerconversionsystemcapacity.$error.required">{{'MICROGRID.INPUT_CAPACITY' | translate}}</small>
                     </div>
                 </div>
             </div>

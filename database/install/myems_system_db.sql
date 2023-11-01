@@ -704,6 +704,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_power_conversion_sy
   `name` VARCHAR(255) NOT NULL,
   `uuid` CHAR(36) NOT NULL,
   `microgrid_id` BIGINT NOT NULL,
+  `run_state_point_id` BIGINT NOT NULL,
   `capacity` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_microgrids_power_conversion_systems_index_1` ON  `myems_system_db`.`tbl_microgrids_power_conversion_systems` (`name`);
