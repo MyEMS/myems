@@ -6353,7 +6353,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"capacity\":600.000, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"capacity\":600.000, \"contact_id\":1, \"cost_center_id\":1, \"serial_number\": \"S1234567890\", \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgrids",
@@ -6385,7 +6385,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"capacity\":600.000, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"capacity\":600.000, \"contact_id\":1, \"cost_center_id\":1, \"serial_number\": \"S1234567890\", \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgrids/1",
@@ -8081,7 +8081,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Power Conversion System\", \"microgrid_id\":1, \"capacity\": 30}}"
+									"raw": "{\"data\":{\"name\":\"Power Conversion System\", \"microgrid_id\":1, \"run_state_point_id\":1, \"capacity\": 30}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgridpowerconversionsystems",
@@ -8115,7 +8115,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Power Conversion System\", \"microgrid_id\":1, \"capacity\": 50}}"
+									"raw": "{\"data\":{\"name\":\"Power Conversion System\", \"microgrid_id\":1, \"run_state_point_id\":1, \"capacity\": 50}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgridpowerconversionsystems/1",

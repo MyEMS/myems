@@ -1338,7 +1338,19 @@ class MicrogridPowerconversionsystemCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.MICROGRID_NOT_FOUND')
 
-        query = (" SELECT id, name, uuid, capacity "
+        # query point dict
+        query = (" SELECT id, name "
+                 " FROM tbl_points ")
+        cursor.execute(query)
+        rows_points = cursor.fetchall()
+
+        point_dict = dict()
+        if rows_points is not None and len(rows_points) > 0:
+            for row in rows_points:
+                point_dict[row[0]] = {"id": row[0],
+                                      "name": row[1]}
+
+        query = (" SELECT id, name, uuid, run_state_point_id, capacity "
                  " FROM tbl_microgrids_power_conversion_systems "
                  " WHERE microgrid_id = %s "
                  " ORDER BY name ")
@@ -1348,10 +1360,12 @@ class MicrogridPowerconversionsystemCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
+                run_state_point = point_dict.get(row[3])
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
-                               "capacity": row[3],
+                               "run_state_point": run_state_point,
+                               "capacity": row[4],
                                }
                 result.append(meta_result)
 

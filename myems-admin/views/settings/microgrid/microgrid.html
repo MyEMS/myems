@@ -87,8 +87,9 @@
 									<thead>
 									  <tr>
 										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
-										<th class="text-center">{{'MICROGRID.MICROGRID_POWER_CONVERSION_SYSTEM_NAME' | translate}}</th>
-										<th class="text-center">{{'MICROGRID.MICROGRID_POWER_CONVERSION_SYSTEM_CAPACITY' | translate}}</th>
+										<th class="text-center">{{'MICROGRID.MICROGRID_POWER_CONVERSION_SYSTEM' | translate}}</th>
+										<th class="text-center">{{'MICROGRID.RUN_STATE_POINT' | translate}}</th>
+										<th class="text-center">{{'MICROGRID.CAPACITY' | translate}}</th>
 										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 									  </tr>
 									</thead>
@@ -96,6 +97,7 @@
 									  <tr ng-repeat="microgridpowerconversionsystem in microgridpowerconversionsystems">
 										<td class="text-center">{{ microgridpowerconversionsystem.id }}</td>
 										<td class="text-center">{{ microgridpowerconversionsystem.name }}</td>
+										<td class="text-center">{{ microgridpowerconversionsystem.run_state_point.name }}</td>
 										<td class="text-center">{{ microgridpowerconversionsystem.capacity }}</td>
 										<td class="text-center">
 										  <a ng-click="editMicrogridPowerconversionsystem(microgridpowerconversionsystem)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
@@ -154,7 +156,7 @@
 										<th class="text-center">{{'MICROGRID.MICROGRID_PHOTOVOLTAIC_NAME' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.POWER_POINT' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.METER' | translate}}</th>
-										<th class="text-center">{{'MICROGRID.MICROGRID_PHOTOVOLTAIC_CAPACITY' | translate}}</th>
+										<th class="text-center">{{'MICROGRID.CAPACITY' | translate}}</th>
 										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 									  </tr>
 									</thead>
@@ -224,7 +226,7 @@
 										<th class="text-center">{{'MICROGRID.POWER_POINT' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.CHARGE_METER' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.DISCHARGE_METER' | translate}}</th>
-										<th class="text-center">{{'MICROGRID.MICROGRID_BATTERY_CAPACITY' | translate}}</th>
+										<th class="text-center">{{'MICROGRID.CAPACITY' | translate}}</th>
 										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 									  </tr>
 									</thead>
@@ -294,7 +296,7 @@
 										<th class="text-center">{{'MICROGRID.MICROGRID_EVCHARGER_NAME' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.POWER_POINT' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.METER' | translate}}</th>
-										<th class="text-center">{{'MICROGRID.MICROGRID_EVCHARGER_CAPACITY' | translate}}</th>
+										<th class="text-center">{{'MICROGRID.CAPACITY' | translate}}</th>
 										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 									  </tr>
 									</thead>
@@ -363,7 +365,7 @@
 										<th class="text-center">{{'MICROGRID.POWER_POINT' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.BUY_METER' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.SELL_METER' | translate}}</th>
-										<th class="text-center">{{'MICROGRID.MICROGRID_GRID_CAPACITY' | translate}}</th>
+										<th class="text-center">{{'MICROGRID.CAPACITY' | translate}}</th>
 										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 									  </tr>
 									</thead>
@@ -432,7 +434,7 @@
 										<th class="text-center">{{'MICROGRID.MICROGRID_LOAD_NAME' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.POWER_POINT' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.METER' | translate}}</th>
-										<th class="text-center">{{'MICROGRID.MICROGRID_LOAD_CAPACITY' | translate}}</th>
+										<th class="text-center">{{'MICROGRID.CAPACITY' | translate}}</th>
 										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 									  </tr>
 									</thead>
@@ -502,7 +504,7 @@
 										<th class="text-center">{{'MICROGRID.ELECTRICITY_METER' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.HEAT_METER' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.COOLING_METER' | translate}}</th>
-										<th class="text-center">{{'MICROGRID.MICROGRID_HEATPUMP_CAPACITY' | translate}}</th>
+										<th class="text-center">{{'MICROGRID.CAPACITY' | translate}}</th>
 										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 									  </tr>
 									</thead>
@@ -640,7 +642,7 @@
 										<th class="text-center">{{'MICROGRID.MICROGRID_GENERATOR_NAME' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.POWER_POINT' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.METER' | translate}}</th>
-										<th class="text-center">{{'MICROGRID.MICROGRID_GENERATOR_CAPACITY' | translate}}</th>
+										<th class="text-center">{{'MICROGRID.CAPACITY' | translate}}</th>
 										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 									  </tr>
 									</thead>

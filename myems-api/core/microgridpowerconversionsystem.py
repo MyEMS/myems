@@ -35,7 +35,19 @@ class MicrogridPowerconversionsystemCollection:
                                           "name": row[1],
                                           "uuid": row[2]}
 
-        query = (" SELECT id, name, uuid, microgrid_id, capacity "
+        # query point dict
+        query = (" SELECT id, name "
+                 " FROM tbl_points ")
+        cursor.execute(query)
+        rows_points = cursor.fetchall()
+
+        point_dict = dict()
+        if rows_points is not None and len(rows_points) > 0:
+            for row in rows_points:
+                point_dict[row[0]] = {"id": row[0],
+                                      "name": row[1]}
+
+        query = (" SELECT id, name, uuid, microgrid_id, run_state_point_id, capacity "
                  " FROM tbl_microgrids_power_conversion_systems "
                  " ORDER BY id ")
         cursor.execute(query)
@@ -45,11 +57,13 @@ class MicrogridPowerconversionsystemCollection:
         if rows_microgrid_power_conversion_systems is not None and len(rows_microgrid_power_conversion_systems) > 0:
             for row in rows_microgrid_power_conversion_systems:
                 microgrid = microgrid_dict.get(row[3])
+                run_state_point = point_dict.get(row[4])
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
                                "microgrid": microgrid,
-                               "capacity": row[4]}
+                               "run_state_point": run_state_point,
+                               "capacity": row[5]}
                 result.append(meta_result)
 
         cursor.close()
@@ -84,6 +98,13 @@ class MicrogridPowerconversionsystemCollection:
                                    description='API.INVALID_MICROGRID_ID')
         microgrid_id = new_values['data']['microgrid_id']
 
+        if 'run_state_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['run_state_point_id'], int) or \
+                new_values['data']['run_state_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_RUN_STATE_POINT_ID')
+        run_state_point_id = new_values['data']['run_state_point_id']
+
         if 'capacity' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['capacity'], float) or
                      isinstance(new_values['data']['capacity'], int)):
@@ -115,11 +136,12 @@ class MicrogridPowerconversionsystemCollection:
                                    description='API.MICROGRID_POWER_CONVERSION_SYSTEM_NAME_IS_ALREADY_IN_USE')
 
         add_values = (" INSERT INTO tbl_microgrids_power_conversion_systems "
-                      "    (name, uuid, microgrid_id, capacity) "
-                      " VALUES (%s, %s, %s, %s) ")
+                      "    (name, uuid, microgrid_id, run_state_point_id, capacity) "
+                      " VALUES (%s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     microgrid_id,
+                                    run_state_point_id,
                                     capacity))
         new_id = cursor.lastrowid
         cnx.commit()
@@ -186,7 +208,7 @@ class MicrogridPowerconversionsystemItem:
                 point_dict[row[0]] = {"id": row[0],
                                       "name": row[1]}
 
-        query = (" SELECT id, name, uuid, microgrid_id, capacity "
+        query = (" SELECT id, name, uuid, microgrid_id, run_state_point_id, capacity "
                  " FROM tbl_microgrids_power_conversion_systems "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -199,11 +221,13 @@ class MicrogridPowerconversionsystemItem:
                                    description='API.MICROGRID_POWER_CONVERSION_SYSTEM_NOT_FOUND')
         else:
             microgrid = microgrid_dict.get(row[3])
+            run_state_point = point_dict.get(row[4])
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
                            "microgrid": microgrid,
-                           "capacity": row[4]}
+                           "run_state_point": run_state_point,
+                           "capacity": row[5]}
 
         resp.text = json.dumps(meta_result)
 
@@ -267,6 +291,13 @@ class MicrogridPowerconversionsystemItem:
                                    description='API.INVALID_MICROGRID_ID')
         microgrid_id = new_values['data']['microgrid_id']
 
+        if 'run_state_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['run_state_point_id'], int) or \
+                new_values['data']['run_state_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_RUN_STATE_POINT_ID')
+        run_state_point_id = new_values['data']['run_state_point_id']
+
         if 'capacity' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['capacity'], float) or
                      isinstance(new_values['data']['capacity'], int)):
@@ -307,10 +338,11 @@ class MicrogridPowerconversionsystemItem:
                                    description='API.MICROGRID_POWER_CONVERSION_SYSTEM_NAME_IS_ALREADY_IN_USE')
 
         update_row = (" UPDATE tbl_microgrids_power_conversion_systems "
-                      " SET name = %s, microgrid_id = %s, capacity = %s "
+                      " SET name = %s, microgrid_id = %s, run_state_point_id = %s, capacity = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     microgrid_id,
+                                    run_state_point_id,
                                     capacity,
                                     id_))
         cnx.commit()

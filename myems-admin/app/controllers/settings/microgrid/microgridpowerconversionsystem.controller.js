@@ -56,9 +56,9 @@ app.controller('MicrogridPowerconversionsystemController', function(
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.microgridpowerconversionsystems = response.data;
 			} else {
-          	$scope.microgridpowerconversionsystems=[];
-        }
-			});
+          		$scope.microgridpowerconversionsystems=[];
+        	}
+		});
   	};
 
   	$scope.changeMicrogrid=function(item,model){
@@ -85,6 +85,7 @@ app.controller('MicrogridPowerconversionsystemController', function(
   		});
   		modalInstance.result.then(function(microgridpowerconversionsystem) {
         	microgridpowerconversionsystem.microgrid_id = $scope.currentMicrogrid.id;
+			microgridpowerconversionsystem.run_state_point_id = microgridpowerconversionsystem.run_state_point.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   			MicrogridPowerconversionsystemService.addMicrogridPowerconversionsystem(microgridpowerconversionsystem, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 201) {
@@ -129,6 +130,7 @@ app.controller('MicrogridPowerconversionsystemController', function(
 
   		modalInstance.result.then(function(modifiedMicrogridPowerconversionsystem) {
         	modifiedMicrogridPowerconversionsystem.microgrid_id = $scope.currentMicrogrid.id;
+			modifiedMicrogridPowerconversionsystem.run_state_point_id = modifiedMicrogridPowerconversionsystem.run_state_point.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   			MicrogridPowerconversionsystemService.editMicrogridPowerconversionsystem(modifiedMicrogridPowerconversionsystem, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 200) {
