@@ -401,6 +401,7 @@ const resources = {
       'FROM - TO of TOTAL': 'The current display of {{FROM}} - {{TO}} total {{TOTAL}}',
       //Microgrid
       'Battery Status': 'Battery Status',
+      'PCS Run State': 'PCS Run State',
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Created Datetime',
       'File Format': 'File Format',
@@ -1404,6 +1405,7 @@ const resources = {
       'FROM - TO of TOTAL': '当前显示{{FROM}} - {{TO}} 总计{{TOTAL}}',
       //Microgrid
       'Battery Status': '电池状态',
+      'PCS Run State': 'PCS运行状态',
       //Advanced Reporting & Knowledge Base
       'Created Datetime': '生成时间',
       'File Format': '文件格式',
@@ -2434,6 +2436,7 @@ const resources = {
       'FROM - TO of TOTAL': 'Die aktuelle Anzeige von {{FROM}} und {{TO}} total {{TOTAL}}',
       //Microgrid
       'Battery Status': 'Batteriestatus',
+      'PCS Run State': 'PCS-Ausführungsstatus',
       //Advanced Reporting & Knowledge Base
       'Created Datetime': 'Datetime erstellt',
       'File Format': 'Datei Format',
@@ -3455,6 +3458,7 @@ const resources = {
       'FROM - TO of TOTAL': 'Affichage actuel {{FROM}} - {{TO}} total {{TOTAL}}',
       //Microgrid
       'Battery Status': 'État de la batterie',
+      'PCS Run State': 'État de fonctionnement du PCS',
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Créé Datetime',
       'File Format': 'Lime Format',
@@ -4475,6 +4479,7 @@ const resources = {
       'FROM - TO of TOTAL': 'Actualmente se muestra {{FROM}} - {{TO}} total {{TOTAL}}',
       //Microgrid
       'Battery Status': 'Estado de la batería',
+      'PCS Run State': 'Estado de funcionamiento del PCs',
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Fecha y hora creada',
       'File Format': 'Formato de archivo',
@@ -5495,6 +5500,7 @@ const resources = {
       'FROM - TO of TOTAL': '{{FROM}} - {{TO}} из {{TOTAL}} Оборудования',
       //Microgrid
       'Battery Status': 'Состояние батареи',
+      'PCS Run State': 'Режим работы PCS',
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Дата и время создания',
       'File Format': 'Формат файла',
@@ -6515,6 +6521,7 @@ const resources = {
       'FROM - TO of TOTAL': '{{FROM}} - {{TO}} من {{TOTAL}} المعدات',
       //Microgrid
       'Battery Status': 'حالة البطارية',
+      'PCS Run State': 'جهاز الدولة',
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'تاريخ الإنشاء',
       'File Format': 'تنسيق الملف',
@@ -7535,6 +7542,7 @@ const resources = {
       'FROM - TO of TOTAL': '{{FROM}} - {{TO}} của {{TOTAL}} Thiết bị',
       //Microgrid
       'Battery Status': 'Trạng thái pin',
+      'PCS Run State': 'Trạng thái hoạt động PCS',
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Đã tạo Datetime',
       'File Format': 'Định dạng tệp',
@@ -8555,6 +8563,7 @@ const resources = {
       'FROM - TO of TOTAL': '{{FROM}} - {{TO}} ของ {{TOTAL}} อุปกรณ์',
       //Microgrid
       'Battery Status': 'สถานะแบตเตอรี่',
+      'PCS Run State': 'PCS สถานะการทำงาน',
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'วันที่สร้าง',
       'File Format': 'รูปแบบไฟล์',
@@ -9573,6 +9582,7 @@ const resources = {
       'FROM - TO of TOTAL': '{{FROM}} - {{TO}} in {{TOTAL}} Alet -leri',
       //Microgrid
       'Battery Status': 'Batarya durumu',
+      'PCS Run State': 'PCS Çalıştırma Durumu',
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Oluşturulma Tarihi',
       'File Format': 'Dosya Biçimi',
@@ -10593,6 +10603,7 @@ const resources = {
       'FROM - TO of TOTAL': '{{FROM}} - {{TO}} daripada {{TOTAL}} Peralatan',
       //Microgrid
       'Battery Status': 'Status Bateri',
+      'PCS Run State': 'PCS Run State',
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Dicipta Datetime',
       'File Format': 'Format Fail',
@@ -11596,6 +11607,7 @@ const resources = {
       'FROM - TO of TOTAL': 'Tampilan Saat Ini{{FROM}} - {{TO}} Total{{TOTAL}}Peranti',
       //Microgrid
       'Battery Status': 'Status Bateri',
+      'PCS Run State': 'PCS Run State',
       //Advanced Reporting & Knowledge Base
       'Created Datetime': 'Waktu Generasi',
       'File Format': 'Format Berkas',
