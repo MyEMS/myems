@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added photovoltaic power station to database, myems-api, and myems-admin
 - added wind farm to database, myems-api, and myems-admin
 - added serial number to microgrid
+- added run state point to microgrid pcs in database, myems-api and myems-admin
+- 
 ### Changed
 - changed dropdown menu columns from 3 to 2 in myems-web
 -
