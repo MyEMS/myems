@@ -27,6 +27,7 @@ const MicrogridList = ({
   alarms,
   isOnline,
   isRunning,
+  runState,
   sliderSettings,
   index,
   t
@@ -63,7 +64,7 @@ const MicrogridList = ({
           </Col>
           <Col sm={7} md={8}>
             <Row>
-              <Col lg={8}>
+              <Col lg={7}>
                 <h5 className="mt-3 mt-sm-0">
                   <Link to={`/microgriddetails?uuid=${uuid}`} target = "_blank">{name}</Link>
                 </h5>
@@ -81,25 +82,26 @@ const MicrogridList = ({
                     <p className="fs--1 mb-1">Photovoltaic Pwoer:<strong>{parameter3} kW</strong></p>
                     <p className="fs--1 mb-1">Grid Power:<strong>{parameter4} kW</strong></p>
                     <p className="fs--1 mb-1">Load Power:<strong>{parameter5} kW</strong></p>
-                    <p className="fs--1 mb-1">
+                    <p className="fs--1 mb-1">PCS Run State:<strong>{runState}</strong></p>
+                  </div>
+              </Col>
+              <Col lg={5} tag={Flex} justify="between" column>
+                <div>
+                  <h4 className="fs-1 fs-md-2 text-warning mb-0">
+                    SoC: {parameter1} %
+                  </h4>
+                  <p className="fs--1 mb-1">
                       {t('Communication Status')}:{' '}
                       <strong className={classNames({ 'text-success': isOnline, 'text-danger': !isOnline })}>
                         {isOnline ? t('Communication Online') : t('Communication Offline')}
                       </strong>
                     </p>
                     <p className="fs--1 mb-1">
-                      {t('Battery Status')}:{' '}
+                      {t('PCS Run State')}:{' '}
                       <strong className={classNames({ 'text-success': isRunning, 'text-danger': !isRunning })}>
                         {isRunning ? t('Equipment Running') : t('Equipment Stopped')}
                       </strong>
                     </p>
-                  </div>
-              </Col>
-              <Col lg={4} tag={Flex} justify="between" column>
-                <div>
-                  <h4 className="fs-1 fs-md-2 text-warning mb-0">
-                    SoC: {parameter1} %
-                  </h4>
 
                 </div>
                 <div className="mt-md-2">

@@ -36,9 +36,18 @@ class Reporting:
                                    description='API.INVALID_PRIVILEGE')
         user_id = row[0]
         # Get all points latest values
+        digital_value_latest_dict = dict()
         analog_value_latest_dict = dict()
         cnx_historical_db = mysql.connector.connect(**config.myems_historical_db)
         cursor_historical_db = cnx_historical_db.cursor()
+        query = (" SELECT point_id, utc_date_time, actual_value "
+                 " FROM tbl_digital_value_latest ")
+        cursor_historical_db.execute(query, )
+        rows = cursor_historical_db.fetchall()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                digital_value_latest_dict[row[0]] = {"utc_date_time": row[1],
+                                                     "actual_value": row[2]}
         query = (" SELECT point_id, utc_date_time, actual_value "
                  " FROM tbl_analog_value_latest ")
         cursor_historical_db.execute(query,)
@@ -92,6 +101,43 @@ class Reporting:
                 microgrid_id = row[0]
                 contact = contact_dict.get(row[8], None)
                 cost_center = cost_center_dict.get(row[9], None)
+                # get PCS run state point
+                query = (" SELECT run_state_point_id "
+                         " FROM tbl_microgrids_power_conversion_systems "
+                         " WHERE microgrid_id = %s "
+                         " LIMIT 1 ")
+                cursor_system_db.execute(query, (microgrid_id,))
+                row_point = cursor_system_db.fetchone()
+                run_state_point_value = None
+                if row_point is not None and len(row_point) > 0:
+                    if digital_value_latest_dict.get(row_point[0]) is not None:
+                        run_state_point_value = digital_value_latest_dict.get(row_point[0])['actual_value']
+
+                # 0: 初始上电, Initial power on
+                # 1: 待机, Standby
+                # 2: 起动, start
+                # 3: 运行并网,Run grid connection
+                # 4: 运行离网, Running offline
+                # 5: 运行柴发,Running diesel generator
+                # 6: 并网切离网, Grid connection and disconnection
+                # 7: 离网切并网, Off grid switching and grid connection
+                # 8: 掉电处理, Power failure treatment
+                # 9: 关机, Shutdown
+                # 10: 故障, fault
+                # 11: 升级, upgradation
+                if run_state_point_value is None:
+                    run_state = 'Unknown'
+                elif run_state_point_value == 0:
+                    run_state = 'Initializing'
+                elif run_state_point_value == 1:
+                    run_state = 'Standby'
+                elif run_state_point_value == 9:
+                    run_state = 'Shutdown'
+                elif run_state_point_value == 10:
+                    run_state = 'Fault'
+                else:
+                    run_state = 'Running'
+
                 # get battery soc point, power point
                 query = (" SELECT soc_point_id, power_point_id "
                          " FROM tbl_microgrids_batteries "
@@ -172,7 +218,8 @@ class Reporting:
                                "photovoltaic_power_point_value": photovoltaic_power_point_value,
                                "grid_power_point_value": grid_power_point_value,
                                "load_power_point_value": load_power_point_value,
-                               "is_online": is_online}
+                               "is_online": is_online,
+                               "run_state": run_state}
 
                 result.append(meta_result)
 
