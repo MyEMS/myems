@@ -19,6 +19,7 @@ const MicrogridList = ({
   address,
   postal_code,
   serial_number,
+  batteryState,
   parameter1,
   parameter2,
   parameter3,
@@ -27,7 +28,7 @@ const MicrogridList = ({
   alarms,
   isOnline,
   isRunning,
-  runState,
+  PCSRunState,
   sliderSettings,
   index,
   t
@@ -82,7 +83,7 @@ const MicrogridList = ({
                     <p className="fs--1 mb-1">Photovoltaic Pwoer:<strong>{parameter3} kW</strong></p>
                     <p className="fs--1 mb-1">Grid Power:<strong>{parameter4} kW</strong></p>
                     <p className="fs--1 mb-1">Load Power:<strong>{parameter5} kW</strong></p>
-                    <p className="fs--1 mb-1">PCS Run State:<strong>{runState}</strong></p>
+                    <p className="fs--1 mb-1">PCS Run State:<strong>{PCSRunState}</strong></p>
                   </div>
               </Col>
               <Col lg={5} tag={Flex} justify="between" column>
@@ -97,9 +98,10 @@ const MicrogridList = ({
                       </strong>
                     </p>
                     <p className="fs--1 mb-1">
-                      {t('PCS Run State')}:{' '}
-                      <strong className={classNames({ 'text-success': isRunning, 'text-danger': !isRunning })}>
-                        {isRunning ? t('Equipment Running') : t('Equipment Stopped')}
+                      {t('Battery State')}:{' '}
+                      <strong className={classNames({ 'text-success': batteryState === 'Charging' || batteryState === 'Discharging',
+                      'text-danger':  batteryState === 'Unknown' || batteryState === 'Stopped'})}>
+                        {batteryState === 'Charging' ? t('Battery Charging') : batteryState === 'Discharging' ? t('Battery Discharging') : batteryState === 'Stopped' ? t('Battery Stopped'): t('Battery Unknown')}
                       </strong>
                     </p>
 
