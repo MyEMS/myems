@@ -400,7 +400,11 @@ const resources = {
       'All': 'All',
       'FROM - TO of TOTAL': 'The current display of {{FROM}} - {{TO}} total {{TOTAL}}',
       //Microgrid
-      'Battery Status': 'Battery Status',
+      'Battery State': 'Battery State',
+      'Battery Unknown': 'Unknown',
+      'Battery Charging': 'Charging',
+      'Battery Discharging': 'Discharging',
+      'Battery Stopped': 'Stopped',
       'PCS Run State': 'PCS Run State',
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Created Datetime',
@@ -1406,7 +1410,11 @@ const resources = {
       'All': '全部',
       'FROM - TO of TOTAL': '当前显示{{FROM}} - {{TO}} 总计{{TOTAL}}',
       //Microgrid
-      'Battery Status': '电池状态',
+      'Battery State': '电池状态',
+      'Battery Unknown': '未知',
+      'Battery Charging': '充电中',
+      'Battery Discharging': '放电中',
+      'Battery Stopped': '停止',
       'PCS Run State': 'PCS运行状态',
       //Advanced Reporting & Knowledge Base
       'Created Datetime': '生成时间',
@@ -2439,7 +2447,11 @@ const resources = {
       'All': 'Alles',
       'FROM - TO of TOTAL': 'Die aktuelle Anzeige von {{FROM}} und {{TO}} total {{TOTAL}}',
       //Microgrid
-      'Battery Status': 'Batteriestatus',
+      'Battery State': 'Batteriestatus',
+      'Battery Unknown': 'Unbekannt',
+      'Battery Charging': 'Aufladung',
+      'Battery Discharging': 'Selama pembebasan',
+      'Battery Stopped': 'Angehalten',
       'PCS Run State': 'PCS-Ausführungsstatus',
       //Advanced Reporting & Knowledge Base
       'Created Datetime': 'Datetime erstellt',
@@ -3463,7 +3475,11 @@ const resources = {
       'All': 'Tout',
       'FROM - TO of TOTAL': 'Affichage actuel {{FROM}} - {{TO}} total {{TOTAL}}',
       //Microgrid
-      'Battery Status': 'État de la batterie',
+      'Battery State': 'État de la batterie',
+      'Battery Unknown': 'Inconnu',
+      'Battery Charging': 'En charge',
+      'Battery Discharging': 'Dans la décharge',
+      'Battery Stopped': 'A cessé',
       'PCS Run State': 'État de fonctionnement du PCS',
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Créé Datetime',
@@ -4486,7 +4502,11 @@ const resources = {
       'All': 'Todo',
       'FROM - TO of TOTAL': 'Actualmente se muestra {{FROM}} - {{TO}} total {{TOTAL}}',
       //Microgrid
-      'Battery Status': 'Estado de la batería',
+      'Battery State': 'Estado de la batería',
+      'Battery Unknown': 'Desconocido',
+      'Battery Charging': 'En carga',
+      'Battery Discharging': 'En descarga',
+      'Battery Stopped': 'Se ha detenido',
       'PCS Run State': 'Estado de funcionamiento del PCs',
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Fecha y hora creada',
@@ -5509,7 +5529,11 @@ const resources = {
       'All': 'Все',
       'FROM - TO of TOTAL': '{{FROM}} - {{TO}} из {{TOTAL}} Оборудования',
       //Microgrid
-      'Battery Status': 'Состояние батареи',
+      'Battery State': 'Состояние батареи',
+      'Battery Unknown': 'Неизвестный',
+      'Battery Charging': 'Заряжается.',
+      'Battery Discharging': 'В разряде.',
+      'Battery Stopped': 'Прекращено',
       'PCS Run State': 'Режим работы PCS',
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Дата и время создания',
@@ -6532,7 +6556,11 @@ const resources = {
       'All': 'كل',
       'FROM - TO of TOTAL': '{{FROM}} - {{TO}} من {{TOTAL}} المعدات',
       //Microgrid
-      'Battery Status': 'حالة البطارية',
+      'Battery State': 'حالة البطارية',
+      'Battery Unknown': 'غير معروف',
+      'Battery Charging': 'شحن',
+      'Battery Discharging': 'في التفريغ',
+      'Battery Stopped': 'توقف',
       'PCS Run State': 'جهاز الدولة',
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'تاريخ الإنشاء',
@@ -7555,7 +7583,11 @@ const resources = {
       'All': 'Tất cả',
       'FROM - TO of TOTAL': '{{FROM}} - {{TO}} của {{TOTAL}} Thiết bị',
       //Microgrid
-      'Battery Status': 'Trạng thái pin',
+      'Battery State': 'Trạng thái pin',
+      'Battery Unknown': 'Không rõ',
+      'Battery Charging': 'Đang sạc',
+      'Battery Discharging': 'Đang xả',
+      'Battery Stopped': 'Đã dừng',
       'PCS Run State': 'Trạng thái hoạt động PCS',
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Đã tạo Datetime',
@@ -8578,7 +8610,11 @@ const resources = {
       'All': 'ทั้งหมด',
       'FROM - TO of TOTAL': '{{FROM}} - {{TO}} ของ {{TOTAL}} อุปกรณ์',
       //Microgrid
-      'Battery Status': 'สถานะแบตเตอรี่',
+      'Battery State': 'สถานะแบตเตอรี่',
+      'Battery Unknown': 'ไม่ทราบ',
+      'Battery Charging': 'ในการชาร์จ',
+      'Battery Discharging': 'ในการปลดปล่อย',
+      'Battery Stopped': 'หยุดแล้ว',
       'PCS Run State': 'PCS สถานะการทำงาน',
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'วันที่สร้าง',
@@ -9599,7 +9635,11 @@ const resources = {
       'All': 'Tüm',
       'FROM - TO of TOTAL': '{{FROM}} - {{TO}} in {{TOTAL}} Alet -leri',
       //Microgrid
-      'Battery Status': 'Batarya durumu',
+      'Battery State': 'Batarya durumu',
+      'Battery Unknown': 'Bilinmemiş',
+      'Battery Charging': 'Yüklenmek',
+      'Battery Discharging': 'During discharge',
+      'Battery Stopped': 'Durduruldu',
       'PCS Run State': 'PCS Çalıştırma Durumu',
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Oluşturulma Tarihi',
@@ -10622,7 +10662,11 @@ const resources = {
       'All': 'Semua',
       'FROM - TO of TOTAL': '{{FROM}} - {{TO}} daripada {{TOTAL}} Peralatan',
       //Microgrid
-      'Battery Status': 'Status Bateri',
+      'Battery State': 'Status Bateri',
+      'Battery Unknown': 'Tidak diketahui',
+      'Battery Charging': 'Memuatkan',
+      'Battery Discharging': 'Semasa pembuangan',
+      'Battery Stopped': 'Berhenti',
       'PCS Run State': 'PCS Run State',
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Dicipta Datetime',
@@ -11628,7 +11672,11 @@ const resources = {
       'All': 'Seluruh',
       'FROM - TO of TOTAL': 'Tampilan Saat Ini{{FROM}} - {{TO}} Total{{TOTAL}}Peranti',
       //Microgrid
-      'Battery Status': 'Status Bateri',
+      'Battery State': 'Status Bateri',
+      'Battery Unknown': 'Tidak diketahui',
+      'Battery Charging': 'Memuatkan',
+      'Battery Discharging': 'Selama pembebasan',
+      'Battery Stopped': 'Berhenti',
       'PCS Run State': 'PCS Run State',
       //Advanced Reporting & Knowledge Base
       'Created Datetime': 'Waktu Generasi',

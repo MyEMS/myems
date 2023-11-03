@@ -108,10 +108,10 @@ class Reporting:
                          " LIMIT 1 ")
                 cursor_system_db.execute(query, (microgrid_id,))
                 row_point = cursor_system_db.fetchone()
-                run_state_point_value = None
+                pcs_run_state_point_value = None
                 if row_point is not None and len(row_point) > 0:
                     if digital_value_latest_dict.get(row_point[0]) is not None:
-                        run_state_point_value = digital_value_latest_dict.get(row_point[0])['actual_value']
+                        pcs_run_state_point_value = digital_value_latest_dict.get(row_point[0])['actual_value']
 
                 # 0: 初始上电, Initial power on
                 # 1: 待机, Standby
@@ -125,19 +125,46 @@ class Reporting:
                 # 9: 关机, Shutdown
                 # 10: 故障, fault
                 # 11: 升级, upgradation
-                if run_state_point_value is None:
-                    run_state = 'Unknown'
-                elif run_state_point_value == 0:
-                    run_state = 'Initializing'
-                elif run_state_point_value == 1:
-                    run_state = 'Standby'
-                elif run_state_point_value == 9:
-                    run_state = 'Shutdown'
-                elif run_state_point_value == 10:
-                    run_state = 'Fault'
+                if pcs_run_state_point_value is None:
+                    pcs_run_state = 'Unknown'
+                elif pcs_run_state_point_value == 0:
+                    pcs_run_state = 'Initializing'
+                elif pcs_run_state_point_value == 1:
+                    pcs_run_state = 'Standby'
+                elif pcs_run_state_point_value == 9:
+                    pcs_run_state = 'Shutdown'
+                elif pcs_run_state_point_value == 10:
+                    pcs_run_state = 'Fault'
                 else:
-                    run_state = 'Running'
+                    pcs_run_state = 'Running'
 
+                # get battery state point
+                query = (" SELECT battery_state_point_id "
+                         " FROM tbl_microgrids_batteries "
+                         " WHERE microgrid_id = %s "
+                         " LIMIT 1 ")
+                cursor_system_db.execute(query, (microgrid_id,))
+                row_point = cursor_system_db.fetchone()
+                battery_state_point_value = None
+                if row_point is not None and len(row_point) > 0:
+                    if digital_value_latest_dict.get(row_point[0]) is not None:
+                        battery_state_point_value = digital_value_latest_dict.get(row_point[0])['actual_value']
+
+                # 0: 无电池, No Battery
+                # 1: 故障, Fault
+                # 2: 休眠, Sleep
+                # 3: 起动, Starting
+                # 4: 运行充电, Charging
+                # 5: 运行放电, Discharging
+                # 6: 运行停止, Stopped
+                if battery_state_point_value is None:
+                    battery_state = 'Unknown'
+                elif battery_state_point_value == 4:
+                    battery_state = 'Charging'
+                elif battery_state_point_value == 5:
+                    battery_state = 'Discharging'
+                else:
+                    battery_state = 'Stopped'
                 # get battery soc point, power point
                 query = (" SELECT soc_point_id, power_point_id "
                          " FROM tbl_microgrids_batteries "
@@ -213,13 +240,14 @@ class Reporting:
                                "serial_number": row[10],
                                "description": row[11],
                                "qrcode": 'microgrid:' + row[2],
+                               "battery_state": battery_state,
                                "battery_soc_point_value": battery_soc_point_value,
                                "battery_power_point_value": battery_power_point_value,
                                "photovoltaic_power_point_value": photovoltaic_power_point_value,
                                "grid_power_point_value": grid_power_point_value,
                                "load_power_point_value": load_power_point_value,
                                "is_online": is_online,
-                               "run_state": run_state}
+                               "pcs_run_state": pcs_run_state}
 
                 result.append(meta_result)
 
