@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added wind farm to database, myems-api, and myems-admin
 - added serial number to microgrid
 - added run state point to microgrid pcs
+- added battery state point to microgrid batteries
 - 
 ### Changed
 - changed dropdown menu columns from 3 to 2 in myems-web

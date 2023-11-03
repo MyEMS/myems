@@ -27,7 +27,7 @@
                         <small class="text-danger" ng-show="form_microgrid.microgridpostal_code.$error.required">{{'MICROGRID.INPUT_POSTAL_CODE' | translate}}</small>
                     </div>
                 </div>
-              </div>
+            </div>
             <div class="form-group"><label class="col-sm-2 control-label">{{'MICROGRID.LATITUDE' | translate}}</label>
                 <div class="col-sm-10">
                     <input ng-model="microgrid.latitude" type="number" name="microgridlatitude" class="form-control" required>
@@ -80,9 +80,10 @@
                 </div>
             </div>
             <div class="form-group"><label class="col-sm-2 control-label">{{'MICROGRID.SERIAL_NUMBER' | translate}}</label>
-                <div class="col-sm-10"><textarea ng-model="microgrid.serial_number" rows="20" cols="50" name="microgridserialnumber" class="form-control" required=""></textarea>
-                    <div class="m-t-xs" ng-show="form_microgrid.microgridserialnumber.$invalid && form_microgrid.microgridserialnumber.$dirty">
-                        <small class="text-danger" ng-show="form_microgrid.microgridserialnumber.$error.required">{{'MICROGRID.INPUT_SERIAL_NUMBER' | translate}}</small>
+                <div class="col-sm-10">
+                    <input ng-model="microgrid.serial_number" type="text" name="microgridserial_number" class="form-control" required>
+                    <div class="m-t-xs" ng-show="form_microgrid.microgridserial_number.$invalid && form_microgrid.microgridserial_number.$dirty">
+                        <small class="text-danger" ng-show="form_microgrid.microgridserial_number.$error.required">{{'MICROGRID.INPUT_SERIAL_NUMBER' | translate}}</small>
                     </div>
                 </div>
             </div>
