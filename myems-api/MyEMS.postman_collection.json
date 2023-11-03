@@ -6947,7 +6947,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Battery\", \"microgrid_id\":1, \"soc_point_id\":1, \"power_point_id\":1, \"charge_meter_id\":1, \"discharge_meter_id\":2, \"capacity\": 30}}"
+									"raw": "{\"data\":{\"name\":\"Battery\", \"microgrid_id\":1, \"battery_state_point_id\":1, \"soc_point_id\":2, \"power_point_id\":3, \"charge_meter_id\":1, \"discharge_meter_id\":2, \"capacity\": 30}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgridbatteries",
@@ -7012,7 +7012,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Battery\", \"microgrid_id\":1, \"soc_point_id\":1, \"power_point_id\":1, \"charge_meter_id\":1, \"discharge_meter_id\":2, \"capacity\": 50}}"
+									"raw": "{\"data\":{\"name\":\"Battery\", \"microgrid_id\":1, \"battery_state_point_id\":1, \"soc_point_id\":2, \"power_point_id\":3, \"charge_meter_id\":1, \"discharge_meter_id\":2, \"capacity\": 30}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgridbatteries/1",

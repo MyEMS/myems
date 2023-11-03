@@ -768,7 +768,8 @@ class MicrogridBatteryCollection:
                                       "name": row[1]}
 
         query = (" SELECT id, name, uuid, "
-                 "        soc_point_id, power_point_id, charge_meter_id, discharge_meter_id, capacity "
+                 "        battery_state_point_id, soc_point_id, power_point_id, "
+                 "        charge_meter_id, discharge_meter_id, capacity "
                  " FROM tbl_microgrids_batteries "
                  " WHERE microgrid_id = %s "
                  " ORDER BY name ")
@@ -778,18 +779,20 @@ class MicrogridBatteryCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                soc_point = point_dict.get(row[3])
-                power_point = point_dict.get(row[4])
-                charge_meter = meter_dict.get(row[5])
-                discharge_meter = meter_dict.get(row[6])
+                battery_state_point = point_dict.get(row[3])
+                soc_point = point_dict.get(row[4])
+                power_point = point_dict.get(row[5])
+                charge_meter = meter_dict.get(row[6])
+                discharge_meter = meter_dict.get(row[7])
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
+                               "battery_state_point": battery_state_point,
                                "soc_point": soc_point,
                                "power_point": power_point,
                                "charge_meter": charge_meter,
                                "discharge_meter": discharge_meter,
-                               "capacity": row[7]}
+                               "capacity": row[8]}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)

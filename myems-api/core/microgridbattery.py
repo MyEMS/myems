@@ -58,7 +58,7 @@ class MicrogridBatteryCollection:
                                       "name": row[1]}
 
         query = (" SELECT id, name, uuid, microgrid_id, "
-                 "        soc_point_id, power_point_id, "
+                 "        battery_state_point_id, soc_point_id, power_point_id, "
                  "        charge_meter_id, discharge_meter_id, capacity "
                  " FROM tbl_microgrids_batteries "
                  " ORDER BY id ")
@@ -69,10 +69,11 @@ class MicrogridBatteryCollection:
         if rows_microgrid_batteries is not None and len(rows_microgrid_batteries) > 0:
             for row in rows_microgrid_batteries:
                 microgrid = microgrid_dict.get(row[3])
-                soc_point = point_dict.get(row[4])
-                power_point = point_dict.get(row[5])
-                charge_meter = meter_dict.get(row[6])
-                discharge_meter = meter_dict.get(row[7])
+                battery_state_point = point_dict.get(row[4])
+                soc_point = point_dict.get(row[5])
+                power_point = point_dict.get(row[6])
+                charge_meter = meter_dict.get(row[7])
+                discharge_meter = meter_dict.get(row[8])
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
@@ -81,7 +82,7 @@ class MicrogridBatteryCollection:
                                "power_point": power_point,
                                "charge_meter": charge_meter,
                                "discharge_meter": discharge_meter,
-                               "capacity": row[8]}
+                               "capacity": row[9]}
                 result.append(meta_result)
 
         cursor.close()
@@ -115,6 +116,13 @@ class MicrogridBatteryCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
         microgrid_id = new_values['data']['microgrid_id']
+
+        if 'battery_state_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['battery_state_point_id'], int) or \
+                new_values['data']['battery_state_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_BATTERY_STATE_POINT_ID')
+        battery_state_point_id = new_values['data']['battery_state_point_id']
 
         if 'soc_point_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['soc_point_id'], int) or \
@@ -177,6 +185,16 @@ class MicrogridBatteryCollection:
         cursor.execute(" SELECT name "
                        " FROM tbl_points "
                        " WHERE id = %s ",
+                       (battery_state_point_id,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.BATTERY_STATE_POINT_NOT_FOUND')
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_points "
+                       " WHERE id = %s ",
                        (soc_point_id,))
         if cursor.fetchone() is None:
             cursor.close()
@@ -216,12 +234,13 @@ class MicrogridBatteryCollection:
 
         add_values = (" INSERT INTO tbl_microgrids_batteries "
                       "    (name, uuid, microgrid_id, "
-                      "     soc_point_id, power_point_id, "
+                      "     battery_state_point_id, soc_point_id, power_point_id, "
                       "     charge_meter_id, discharge_meter_id, capacity) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ")
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     microgrid_id,
+                                    battery_state_point_id,
                                     soc_point_id,
                                     power_point_id,
                                     charge_meter_id,
@@ -293,7 +312,7 @@ class MicrogridBatteryItem:
                                       "name": row[1]}
 
         query = (" SELECT id, name, uuid, microgrid_id, "
-                 "       soc_point_id, power_point_id, "
+                 "       battery_state_point_id, soc_point_id, power_point_id, "
                  "       charge_meter_id, discharge_meter_id, capacity "
                  " FROM tbl_microgrids_batteries "
                  " WHERE id = %s ")
@@ -307,19 +326,21 @@ class MicrogridBatteryItem:
                                    description='API.MICROGRID_BATTERY_NOT_FOUND')
         else:
             microgrid = microgrid_dict.get(row[3])
-            soc_point = point_dict.get(row[4])
-            power_point = point_dict.get(row[5])
-            charge_meter = meter_dict.get(row[6])
-            discharge_meter = meter_dict.get(row[7])
+            battery_state_point = point_dict.get(row[4])
+            soc_point = point_dict.get(row[5])
+            power_point = point_dict.get(row[6])
+            charge_meter = meter_dict.get(row[7])
+            discharge_meter = meter_dict.get(row[8])
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
                            "microgrid": microgrid,
+                           "battery_state_point": battery_state_point,
                            "soc_point": soc_point,
                            "power_point": power_point,
                            "charge_meter": charge_meter,
                            "discharge_meter": discharge_meter,
-                           "capacity": row[8]}
+                           "capacity": row[9]}
 
         resp.text = json.dumps(meta_result)
 
@@ -382,6 +403,13 @@ class MicrogridBatteryItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
         microgrid_id = new_values['data']['microgrid_id']
+
+        if 'battery_state_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['battery_state_point_id'], int) or \
+                new_values['data']['battery_state_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_BATTERY_STATE_POINT_ID')
+        battery_state_point_id = new_values['data']['battery_state_point_id']
 
         if 'soc_point_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['soc_point_id'], int) or \
@@ -453,6 +481,16 @@ class MicrogridBatteryItem:
         cursor.execute(" SELECT name "
                        " FROM tbl_points "
                        " WHERE id = %s ",
+                       (battery_state_point_id,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.BATTERY_STATE_POINT_NOT_FOUND')
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_points "
+                       " WHERE id = %s ",
                        (soc_point_id,))
         if cursor.fetchone() is None:
             cursor.close()
@@ -492,11 +530,12 @@ class MicrogridBatteryItem:
 
         update_row = (" UPDATE tbl_microgrids_batteries "
                       " SET name = %s, microgrid_id = %s, "
-                      "     soc_point_id = %s, power_point_id = %s, "
+                      "     battery_state_point_id = %s, soc_point_id = %s, power_point_id = %s, "
                       "     charge_meter_id = %s, discharge_meter_id = %s, capacity = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     microgrid_id,
+                                    battery_state_point_id,
                                     soc_point_id,
                                     power_point_id,
                                     charge_meter_id,

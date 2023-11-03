@@ -674,6 +674,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_batteries` (
   `name` VARCHAR(255) NOT NULL,
   `uuid` CHAR(36) NOT NULL,
   `microgrid_id` BIGINT NOT NULL,
+  `battery_state_point_id` BIGINT NOT NULL,
   `soc_point_id` BIGINT NOT NULL,
   `power_point_id` BIGINT NOT NULL,
   `charge_meter_id` BIGINT NOT NULL,
