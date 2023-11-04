@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+-
+### Changed
+-
+### Fixed
+-
+### Removed
+- 
+
+## [v3.11.0] - 2023-11-03
+### Added
 - added sensors realtime data to dashboard in myems-web
 - added energy storage power station to database, myems-api, and myems-admin
 - added photovoltaic power station to database, myems-api, and myems-admin
@@ -33,7 +43,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - removed svg column from list of energy storage power station in myems-admin
 - removed svg column from list of photovoltaic power station in myems-admin
 - removed svg column from list of wind farm in myems-admin
-- 
+
 ## [v3.10.0] - 2023-10-08
 ### Added
 - added Vietnamese language to myems-web
@@ -1486,7 +1496,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v3.10.0...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v3.11.0...HEAD
+[3.11.0]: https://github.com/MyEMS/myems/compare/v3.11.0...v3.10.0
 [3.10.0]: https://github.com/MyEMS/myems/compare/v3.10.0...v3.9.0
 [3.9.0]: https://github.com/MyEMS/myems/compare/v3.9.0...v3.8.0
 [3.8.0]: https://github.com/MyEMS/myems/compare/v3.8.0...v3.7.0

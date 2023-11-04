@@ -74,6 +74,6 @@ ALTER TABLE myems_system_db.tbl_microgrids_power_conversion_systems ADD `run_sta
 ALTER TABLE myems_system_db.tbl_microgrids_batteries ADD `battery_state_point_id` BIGINT NOT NULL AFTER `microgrid_id`;
 
 -- UPDATE VERSION NUMBER
-UPDATE `myems_system_db`.`tbl_versions` SET version='3.11.0RC', release_date='2023-11-01' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='3.11.0', release_date='2023-11-03' WHERE id=1;
 
 COMMIT;
