@@ -32,6 +32,8 @@ RENAME TABLE myems_system_db.tbl_microgrids_converters TO myems_system_db.tbl_mi
 ALTER TABLE myems_system_db.tbl_microgrids_power_conversion_systems
 RENAME INDEX tbl_microgrids_converters_index_1 TO tbl_microgrids_power_conversion_systems_index_1;
 
+DROP TABLE myems_system_db.tbl_microgrids_inverters;
+
 ALTER TABLE myems_reporting_db.tbl_reports DROP COLUMN category;
 ALTER TABLE myems_reporting_db.tbl_reports DROP COLUMN report_code;
 
