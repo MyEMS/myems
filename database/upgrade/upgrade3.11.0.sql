@@ -66,8 +66,8 @@ VALUES
 
 DROP TABLE myems_system_db.tbl_microgrid_architecture_types;
 DROP TABLE myems_system_db.tbl_microgrid_owner_types;
-ALTER TABLE myems_system_db.tbl_microgrids DROP COLUMN architecture_type_id;
-ALTER TABLE myems_system_db.tbl_microgrids DROP COLUMN owner_type_id;
+ALTER TABLE myems_system_db.tbl_microgrids DROP COLUMN microgrid_type_id;
+ALTER TABLE myems_system_db.tbl_microgrids DROP COLUMN microgrid_owner_type_id;
 ALTER TABLE myems_system_db.tbl_microgrids ADD `serial_number` VARCHAR(255) AFTER `cost_center_id`;
 DROP TABLE myems_system_db.tbl_microgrids_windturbines;
 ALTER TABLE myems_system_db.tbl_microgrids_power_conversion_systems ADD `run_state_point_id` BIGINT NOT NULL AFTER `microgrid_id`;
