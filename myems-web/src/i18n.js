@@ -1397,7 +1397,7 @@ const resources = {
       'Notification Delete': '删除',
       'Notification Apply': '应用',
       //Monitoring
-      'Run Commands': '运行命令',
+      'Run Commands': '运行指令',
       'Fault Alarms': '故障报警',
       'Instantaneous Efficiency VALUE UNIT': '瞬时效率 {{VALUE}} {{UNIT}}',
       'Communication Status': '通信状态',
