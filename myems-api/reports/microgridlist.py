@@ -101,17 +101,33 @@ class Reporting:
                 microgrid_id = row[0]
                 contact = contact_dict.get(row[8], None)
                 cost_center = cost_center_dict.get(row[9], None)
-                # get PCS run state point
-                query = (" SELECT run_state_point_id "
-                         " FROM tbl_microgrids_power_conversion_systems "
-                         " WHERE microgrid_id = %s "
-                         " LIMIT 1 ")
+                # get gateway latest seen datetime to determine if it is online
+                query = (" SELECT tg.last_seen_datetime_utc "
+                         " FROM tbl_microgrids_batteries mb, tbl_points p, tbl_data_sources tds, tbl_gateways tg "
+                         " WHERE  microgrid_id  = %s "
+                         "        AND mb.soc_point_id = p.id "
+                         "        AND p.data_source_id = tds.id "
+                         "        AND tds.gateway_id  = tg.id ")
                 cursor_system_db.execute(query, (microgrid_id,))
-                row_point = cursor_system_db.fetchone()
+                row_datetime = cursor_system_db.fetchone()
+                is_online = False
+                if row_datetime is not None and len(row_datetime) > 0:
+                    if isinstance(row_datetime[0], datetime):
+                        if row_datetime[0] + timedelta(minutes=10) > datetime.utcnow():
+                            is_online = True
+
+                # get PCS run state point
                 pcs_run_state_point_value = None
-                if row_point is not None and len(row_point) > 0:
-                    if digital_value_latest_dict.get(row_point[0]) is not None:
-                        pcs_run_state_point_value = digital_value_latest_dict.get(row_point[0])['actual_value']
+                if is_online:
+                    query = (" SELECT run_state_point_id "
+                             " FROM tbl_microgrids_power_conversion_systems "
+                             " WHERE microgrid_id = %s "
+                             " LIMIT 1 ")
+                    cursor_system_db.execute(query, (microgrid_id,))
+                    row_point = cursor_system_db.fetchone()
+                    if row_point is not None and len(row_point) > 0:
+                        if digital_value_latest_dict.get(row_point[0]) is not None:
+                            pcs_run_state_point_value = digital_value_latest_dict.get(row_point[0])['actual_value']
 
                 # 0: 初始上电, Initial power on
                 # 1: 待机, Standby
@@ -139,16 +155,18 @@ class Reporting:
                     pcs_run_state = 'Running'
 
                 # get battery state point
-                query = (" SELECT battery_state_point_id "
-                         " FROM tbl_microgrids_batteries "
-                         " WHERE microgrid_id = %s "
-                         " LIMIT 1 ")
-                cursor_system_db.execute(query, (microgrid_id,))
-                row_point = cursor_system_db.fetchone()
                 battery_state_point_value = None
-                if row_point is not None and len(row_point) > 0:
-                    if digital_value_latest_dict.get(row_point[0]) is not None:
-                        battery_state_point_value = digital_value_latest_dict.get(row_point[0])['actual_value']
+                if is_online:
+                    query = (" SELECT battery_state_point_id "
+                             " FROM tbl_microgrids_batteries "
+                             " WHERE microgrid_id = %s "
+                             " LIMIT 1 ")
+                    cursor_system_db.execute(query, (microgrid_id,))
+                    row_point = cursor_system_db.fetchone()
+
+                    if row_point is not None and len(row_point) > 0:
+                        if digital_value_latest_dict.get(row_point[0]) is not None:
+                            battery_state_point_value = digital_value_latest_dict.get(row_point[0])['actual_value']
 
                 # 0: 无电池, No Battery
                 # 1: 故障, Fault
@@ -165,67 +183,60 @@ class Reporting:
                     battery_state = 'Discharging'
                 else:
                     battery_state = 'Stopped'
+
                 # get battery soc point, power point
-                query = (" SELECT soc_point_id, power_point_id "
-                         " FROM tbl_microgrids_batteries "
-                         " WHERE microgrid_id = %s "
-                         " LIMIT 1 ")
-                cursor_system_db.execute(query, (microgrid_id, ))
-                row_point = cursor_system_db.fetchone()
                 battery_soc_point_value = None
                 battery_power_point_value = None
-                if row_point is not None and len(row_point) > 0:
-                    if analog_value_latest_dict.get(row_point[0]) is not None:
-                        battery_soc_point_value = analog_value_latest_dict.get(row_point[0])['actual_value']
-                        battery_power_point_value = analog_value_latest_dict.get(row_point[1])['actual_value']
-                # get photovoltaic power point
-                query = (" SELECT power_point_id "
-                         " FROM tbl_microgrids_photovoltaics "
-                         " WHERE microgrid_id = %s "
-                         " LIMIT 1 ")
-                cursor_system_db.execute(query, (microgrid_id,))
-                row_point = cursor_system_db.fetchone()
-                photovoltaic_power_point_value = None
-                if row_point is not None and len(row_point) > 0:
-                    if analog_value_latest_dict.get(row_point[0]) is not None:
-                        photovoltaic_power_point_value = analog_value_latest_dict.get(row_point[0])['actual_value']
-                # get grid power point
-                query = (" SELECT power_point_id "
-                         " FROM tbl_microgrids_grids "
-                         " WHERE microgrid_id = %s "
-                         " LIMIT 1 ")
-                cursor_system_db.execute(query, (microgrid_id,))
-                row_point = cursor_system_db.fetchone()
-                grid_power_point_value = None
-                if row_point is not None and len(row_point) > 0:
-                    if analog_value_latest_dict.get(row_point[0]) is not None:
-                        grid_power_point_value = analog_value_latest_dict.get(row_point[0])['actual_value']
-                # get load power point
-                query = (" SELECT power_point_id "
-                         " FROM tbl_microgrids_loads "
-                         " WHERE microgrid_id = %s "
-                         " LIMIT 1 ")
-                cursor_system_db.execute(query, (microgrid_id,))
-                row_point = cursor_system_db.fetchone()
-                load_power_point_value = None
-                if row_point is not None and len(row_point) > 0:
-                    if analog_value_latest_dict.get(row_point[0]) is not None:
-                        load_power_point_value = analog_value_latest_dict.get(row_point[0])['actual_value']
+                if is_online:
+                    query = (" SELECT soc_point_id, power_point_id "
+                             " FROM tbl_microgrids_batteries "
+                             " WHERE microgrid_id = %s "
+                             " LIMIT 1 ")
+                    cursor_system_db.execute(query, (microgrid_id, ))
+                    row_point = cursor_system_db.fetchone()
+                    if row_point is not None and len(row_point) > 0:
+                        if analog_value_latest_dict.get(row_point[0]) is not None:
+                            battery_soc_point_value = analog_value_latest_dict.get(row_point[0])['actual_value']
+                            battery_power_point_value = analog_value_latest_dict.get(row_point[1])['actual_value']
 
-                # get gateway latest seen datetime to determine if it is online
-                query = (" SELECT tg.last_seen_datetime_utc "
-                         " FROM tbl_microgrids_batteries mb, tbl_points p, tbl_data_sources tds, tbl_gateways tg "
-                         " WHERE  microgrid_id  = %s "
-                         "        AND mb.soc_point_id = p.id "
-                         "        AND p.data_source_id = tds.id "
-                         "        AND tds.gateway_id  = tg.id ")
-                cursor_system_db.execute(query, (microgrid_id,))
-                row_datetime = cursor_system_db.fetchone()
-                is_online = False
-                if row_datetime is not None and len(row_datetime) > 0:
-                    if isinstance(row_datetime[0], datetime):
-                        if row_datetime[0] + timedelta(minutes=10) > datetime.utcnow():
-                            is_online = True
+                # get photovoltaic power point
+                photovoltaic_power_point_value = None
+                if is_online:
+                    query = (" SELECT power_point_id "
+                             " FROM tbl_microgrids_photovoltaics "
+                             " WHERE microgrid_id = %s "
+                             " LIMIT 1 ")
+                    cursor_system_db.execute(query, (microgrid_id,))
+                    row_point = cursor_system_db.fetchone()
+                    if row_point is not None and len(row_point) > 0:
+                        if analog_value_latest_dict.get(row_point[0]) is not None:
+                            photovoltaic_power_point_value = analog_value_latest_dict.get(row_point[0])['actual_value']
+
+                # get grid power point
+                grid_power_point_value = None
+                if is_online:
+                    query = (" SELECT power_point_id "
+                             " FROM tbl_microgrids_grids "
+                             " WHERE microgrid_id = %s "
+                             " LIMIT 1 ")
+                    cursor_system_db.execute(query, (microgrid_id,))
+                    row_point = cursor_system_db.fetchone()
+                    if row_point is not None and len(row_point) > 0:
+                        if analog_value_latest_dict.get(row_point[0]) is not None:
+                            grid_power_point_value = analog_value_latest_dict.get(row_point[0])['actual_value']
+
+                # get load power point
+                load_power_point_value = None
+                if is_online:
+                    query = (" SELECT power_point_id "
+                             " FROM tbl_microgrids_loads "
+                             " WHERE microgrid_id = %s "
+                             " LIMIT 1 ")
+                    cursor_system_db.execute(query, (microgrid_id,))
+                    row_point = cursor_system_db.fetchone()
+                    if row_point is not None and len(row_point) > 0:
+                        if analog_value_latest_dict.get(row_point[0]) is not None:
+                            load_power_point_value = analog_value_latest_dict.get(row_point[0])['actual_value']
 
                 meta_result = {"id": microgrid_id,
                                "name": row[1],
