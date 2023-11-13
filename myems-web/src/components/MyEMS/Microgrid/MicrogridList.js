@@ -27,9 +27,7 @@ const MicrogridList = ({
   parameter5,
   alarms,
   isOnline,
-  isRunning,
   PCSRunState,
-  sliderSettings,
   index,
   t
 }) => {
@@ -56,9 +54,9 @@ const MicrogridList = ({
                       src={files[0]['src']}
                 />
                 </Link>
-              {isRunning && (
+              {isOnline && (
                 <Badge color="success" pill className="position-absolute t-0 r-0 mr-2 mt-2 fs--2 z-index-2">
-                  Running
+                  {PCSRunState === 'Running' ? t('PCS Running') : PCSRunState === 'Initializing' ? t('PCS Initializing') : PCSRunState === 'Standby' ? t('PCS Standby') : PCSRunState === 'Shutdown' ? t('PCS Shutdown') : PCSRunState === 'Fault' ? t('PCS Fault') : t('PCS Unknown')}
                 </Badge>
               )}
             </div>
@@ -114,14 +112,14 @@ const MicrogridList = ({
                 </div>
                 <div className="mt-md-2">
                   <ButtonIcon
-                    color={isRunning ? 'outline-danger' : 'outline-secondary'}
+                    color={isOnline ? 'outline-danger' : 'outline-secondary'}
                     size="sm"
                     className={classNames('w-lg-100 mt-2 mr-2 mr-lg-0', {
-                      'border-300': !isRunning
+                      'border-300': !isOnline
                     })}
-                    icon={[isRunning ? 'fas' : 'far', 'exclamation-triangle']}
+                    icon={[isOnline ? 'fas' : 'far', 'exclamation-triangle']}
                     onClick={() =>
-                      isRunning
+                      isOnline
                         ? favouriteItemsDispatch({ type: 'REMOVE', id })
                         : favouriteItemsDispatch({ type: 'ADD', payload: { id } })
                     }
@@ -164,21 +162,21 @@ const MicrogridList = ({
 
 MicrogridList.propTypes = {
   name: PropTypes.string.isRequired,
-  category: PropTypes.string.isRequired,
-  sliderSettings: PropTypes.object.isRequired,
   files: PropTypes.array,
+  address: PropTypes.string,
+  postal_code: PropTypes.string,
+  serial_number: PropTypes.string,
+  batteryState: PropTypes.string,
   parameter1: PropTypes.number,
   parameter2: PropTypes.number,
   parameter3: PropTypes.number,
   parameter4: PropTypes.number,
   parameter5: PropTypes.number,
-  cumulativePerformance: PropTypes.number,
   alarms: PropTypes.array,
   isOnline: PropTypes.bool,
-  isRunning: PropTypes.bool,
-  features: PropTypes.array
+  PCSRunState: PropTypes.string
 };
 
-MicrogridList.defaultProps = { isRunning: false, isOnline: false, files: [] };
+MicrogridList.defaultProps = { isOnline: false, files: [] };
 
 export default withTranslation()(MicrogridList);
