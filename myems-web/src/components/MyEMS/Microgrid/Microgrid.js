@@ -118,7 +118,7 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
             microgird['PCSRunState'] = json[index]['pcs_run_state'];
             microgird['alarms'] = ['supply temperature is high', 'return temperature is low'];
             microgird['isOnline'] = json[index]['is_online'];
-            microgird['isRunning'] = true;
+            microgird['isRunning'] = json[index]['is_online'];
 
             microgridArray.push(microgird);
             microgridIds.push(microgird['id']);
@@ -174,12 +174,6 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
 
   return (
     <Fragment>
-      <div>
-        <Breadcrumb>
-          <BreadcrumbItem>{t('Microgrid')}</BreadcrumbItem><BreadcrumbItem active>{t('Microgrid')}</BreadcrumbItem>
-        </Breadcrumb>
-      </div>
-
       <Card>
         <CardBody className={classNames({ 'p-0  overflow-hidden': isList, 'pb-0': isGrid })}>
           <Row>
