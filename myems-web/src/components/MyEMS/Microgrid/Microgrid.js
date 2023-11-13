@@ -210,9 +210,9 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
                 value={itemsPerPage}
                 onChange={({ target }) => perPage(Number(target.value))}
               >
-                <option value={2}>2</option>
-                <option value={4}>4</option>
-                <option value={6}>6</option>
+                <option value={5}>5</option>
+                <option value={10}>10</option>
+                <option value={20}>20</option>
                 <option value={total}>{t('All')}</option>
               </CustomInput>
               <h6 className="mb-0 text-nowrap ml-2">
