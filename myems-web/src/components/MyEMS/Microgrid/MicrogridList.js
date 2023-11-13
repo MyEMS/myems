@@ -79,11 +79,10 @@ const MicrogridList = ({
                     {serial_number}
                 </p>
                 <div className="d-none d-lg-block">
-                    <p className="fs--1 mb-1">Battery Power:<strong>{parameter2} kW</strong></p>
-                    <p className="fs--1 mb-1">Photovoltaic Power:<strong>{parameter3} kW</strong></p>
-                    <p className="fs--1 mb-1">Grid Power:<strong>{parameter4} kW</strong></p>
-                    <p className="fs--1 mb-1">Load Power:<strong>{parameter5} kW</strong></p>
-                    <p className="fs--1 mb-1">PCS Run State:<strong>{PCSRunState}</strong></p>
+                    <p className="fs--1 mb-1">{t('Battery Power')}:<strong>{parameter2} kW</strong></p>
+                    <p className="fs--1 mb-1">{t('Photovoltaic Power')}:<strong>{parameter3} kW</strong></p>
+                    <p className="fs--1 mb-1">{t('Grid Power')}:<strong>{parameter4} kW</strong></p>
+                    <p className="fs--1 mb-1">{t('Load Power')}:<strong>{parameter5} kW</strong></p>
                   </div>
               </Col>
               <Col lg={5} tag={Flex} justify="between" column>
@@ -102,6 +101,13 @@ const MicrogridList = ({
                       <strong className={classNames({ 'text-success': batteryState === 'Charging' || batteryState === 'Discharging',
                       'text-danger':  batteryState === 'Unknown' || batteryState === 'Stopped'})}>
                         {batteryState === 'Charging' ? t('Battery Charging') : batteryState === 'Discharging' ? t('Battery Discharging') : batteryState === 'Stopped' ? t('Battery Stopped'): t('Battery Unknown')}
+                      </strong>
+                    </p>
+                    <p className="fs--1 mb-1">
+                      {t('PCS Run State')}:{' '}
+                      <strong className={classNames({ 'text-success': PCSRunState === 'Running',
+                      'text-danger':  PCSRunState === 'Unknown' || PCSRunState === 'Initializing' || PCSRunState === 'Standby' || PCSRunState === 'Shutdown' || PCSRunState === 'Fault'})}>
+                        {PCSRunState === 'Running' ? t('PCS Running') : PCSRunState === 'Initializing' ? t('PCS Initializing') : PCSRunState === 'Standby' ? t('PCS Standby') : PCSRunState === 'Shutdown' ? t('PCS Shutdown') : PCSRunState === 'Fault' ? t('PCS Fault') : t('PCS Unknown')}
                       </strong>
                     </p>
 
