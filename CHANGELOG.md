@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
--
+- added charge time and discharge time settings to power conversion system of microgrid
 ### Changed
 -
 ### Fixed
