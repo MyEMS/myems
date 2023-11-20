@@ -1353,7 +1353,15 @@ class MicrogridPowerconversionsystemCollection:
                 point_dict[row[0]] = {"id": row[0],
                                       "name": row[1]}
 
-        query = (" SELECT id, name, uuid, run_state_point_id, capacity "
+        query = (" SELECT id, name, uuid, run_state_point_id, capacity, "
+                 "        charge_start_time1_point_id, charge_end_time1_point_id, "
+                 "        charge_start_time2_point_id, charge_end_time2_point_id, "
+                 "        charge_start_time3_point_id, charge_end_time3_point_id, "
+                 "        charge_start_time4_point_id, charge_end_time4_point_id, "
+                 "        discharge_start_time1_point_id, discharge_end_time1_point_id, "
+                 "        discharge_start_time2_point_id, discharge_end_time2_point_id, "
+                 "        discharge_start_time3_point_id, discharge_end_time3_point_id, "
+                 "        discharge_start_time4_point_id, discharge_end_time4_point_id "
                  " FROM tbl_microgrids_power_conversion_systems "
                  " WHERE microgrid_id = %s "
                  " ORDER BY name ")
@@ -1364,12 +1372,43 @@ class MicrogridPowerconversionsystemCollection:
         if rows is not None and len(rows) > 0:
             for row in rows:
                 run_state_point = point_dict.get(row[3])
+                charge_start_time1_point = point_dict.get(row[5])
+                charge_end_time1_point = point_dict.get(row[6])
+                charge_start_time2_point = point_dict.get(row[7])
+                charge_end_time2_point = point_dict.get(row[8])
+                charge_start_time3_point = point_dict.get(row[9])
+                charge_end_time3_point = point_dict.get(row[10])
+                charge_start_time4_point = point_dict.get(row[11])
+                charge_end_time4_point = point_dict.get(row[12])
+                discharge_start_time1_point = point_dict.get(row[13])
+                discharge_end_time1_point = point_dict.get(row[14])
+                discharge_start_time2_point = point_dict.get(row[15])
+                discharge_end_time2_point = point_dict.get(row[16])
+                discharge_start_time3_point = point_dict.get(row[17])
+                discharge_end_time3_point = point_dict.get(row[18])
+                discharge_start_time4_point = point_dict.get(row[19])
+                discharge_end_time4_point = point_dict.get(row[20])
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
                                "run_state_point": run_state_point,
                                "capacity": row[4],
-                               }
+                               "charge_start_time1_point": charge_start_time1_point,
+                               "charge_end_time1_point": charge_end_time1_point,
+                               "charge_start_time2_point": charge_start_time2_point,
+                               "charge_end_time2_point": charge_end_time2_point,
+                               "charge_start_time3_point": charge_start_time3_point,
+                               "charge_end_time3_point": charge_end_time3_point,
+                               "charge_start_time4_point": charge_start_time4_point,
+                               "charge_end_time4_point": charge_end_time4_point,
+                               "discharge_start_time1_point": discharge_start_time1_point,
+                               "discharge_end_time1_point": discharge_end_time1_point,
+                               "discharge_start_time2_point": discharge_start_time2_point,
+                               "discharge_end_time2_point": discharge_end_time2_point,
+                               "discharge_start_time3_point": discharge_start_time3_point,
+                               "discharge_end_time3_point": discharge_end_time3_point,
+                               "discharge_start_time4_point": discharge_start_time4_point,
+                               "discharge_end_time4_point": discharge_end_time4_point}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)

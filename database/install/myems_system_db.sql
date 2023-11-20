@@ -707,6 +707,22 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_power_conversion_sy
   `microgrid_id` BIGINT NOT NULL,
   `run_state_point_id` BIGINT NOT NULL,
   `capacity` DECIMAL(18, 3) NOT NULL,
+  `charge_start_time1_point_id` BIGINT NOT NULL,
+  `charge_end_time1_point_id` BIGINT NOT NULL,
+  `charge_start_time2_point_id` BIGINT NOT NULL,
+  `charge_end_time2_point_id` BIGINT NOT NULL,
+  `charge_start_time3_point_id` BIGINT NOT NULL,
+  `charge_end_time3_point_id` BIGINT NOT NULL,
+  `charge_start_time4_point_id` BIGINT NOT NULL,
+  `charge_end_time4_point_id` BIGINT NOT NULL,
+  `discharge_start_time1_point_id` BIGINT NOT NULL,
+  `discharge_end_time1_point_id` BIGINT NOT NULL,
+  `discharge_start_time2_point_id` BIGINT NOT NULL,
+  `discharge_end_time2_point_id` BIGINT NOT NULL,
+  `discharge_start_time3_point_id` BIGINT NOT NULL,
+  `discharge_end_time3_point_id` BIGINT NOT NULL,
+  `discharge_start_time4_point_id` BIGINT NOT NULL,
+  `discharge_end_time4_point_id` BIGINT NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_microgrids_power_conversion_systems_index_1` ON  `myems_system_db`.`tbl_microgrids_power_conversion_systems` (`name`);
 
@@ -1699,7 +1715,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '3.11.0', '2023-11-03');
+(1, '3.12.0RC', '2023-12-01');
 
 COMMIT;
 

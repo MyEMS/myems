@@ -47,7 +47,15 @@ class MicrogridPowerconversionsystemCollection:
                 point_dict[row[0]] = {"id": row[0],
                                       "name": row[1]}
 
-        query = (" SELECT id, name, uuid, microgrid_id, run_state_point_id, capacity "
+        query = (" SELECT id, name, uuid, microgrid_id, run_state_point_id, capacity, "
+                 "        charge_start_time1_point_id, charge_end_time1_point_id, "
+                 "        charge_start_time2_point_id, charge_end_time2_point_id, "
+                 "        charge_start_time3_point_id, charge_end_time3_point_id, "
+                 "        charge_start_time4_point_id, charge_end_time4_point_id, "
+                 "        discharge_start_time1_point_id, discharge_end_time1_point_id, "
+                 "        discharge_start_time2_point_id, discharge_end_time2_point_id, "
+                 "        discharge_start_time3_point_id, discharge_end_time3_point_id, "
+                 "        discharge_start_time4_point_id, discharge_end_time4_point_id "
                  " FROM tbl_microgrids_power_conversion_systems "
                  " ORDER BY id ")
         cursor.execute(query)
@@ -58,12 +66,44 @@ class MicrogridPowerconversionsystemCollection:
             for row in rows_microgrid_power_conversion_systems:
                 microgrid = microgrid_dict.get(row[3])
                 run_state_point = point_dict.get(row[4])
+                charge_start_time1_point = point_dict.get(row[6])
+                charge_end_time1_point = point_dict.get(row[7])
+                charge_start_time2_point = point_dict.get(row[8])
+                charge_end_time2_point = point_dict.get(row[9])
+                charge_start_time3_point = point_dict.get(row[10])
+                charge_end_time3_point = point_dict.get(row[11])
+                charge_start_time4_point = point_dict.get(row[12])
+                charge_end_time4_point = point_dict.get(row[13])
+                discharge_start_time1_point = point_dict.get(row[14])
+                discharge_end_time1_point = point_dict.get(row[15])
+                discharge_start_time2_point = point_dict.get(row[16])
+                discharge_end_time2_point = point_dict.get(row[17])
+                discharge_start_time3_point = point_dict.get(row[18])
+                discharge_end_time3_point = point_dict.get(row[19])
+                discharge_start_time4_point = point_dict.get(row[20])
+                discharge_end_time4_point = point_dict.get(row[21])
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
                                "microgrid": microgrid,
                                "run_state_point": run_state_point,
-                               "capacity": row[5]}
+                               "capacity": row[5],
+                               "charge_start_time1_point": charge_start_time1_point,
+                               "charge_end_time1_point": charge_end_time1_point,
+                               "charge_start_time2_point": charge_start_time2_point,
+                               "charge_end_time2_point": charge_end_time2_point,
+                               "charge_start_time3_point": charge_start_time3_point,
+                               "charge_end_time3_point": charge_end_time3_point,
+                               "charge_start_time4_point": charge_start_time4_point,
+                               "charge_end_time4_point": charge_end_time4_point,
+                               "discharge_start_time1_point": discharge_start_time1_point,
+                               "discharge_end_time1_point": discharge_end_time1_point,
+                               "discharge_start_time2_point": discharge_start_time2_point,
+                               "discharge_end_time2_point": discharge_end_time2_point,
+                               "discharge_start_time3_point": discharge_start_time3_point,
+                               "discharge_end_time3_point": discharge_end_time3_point,
+                               "discharge_start_time4_point": discharge_start_time4_point,
+                               "discharge_end_time4_point": discharge_end_time4_point}
                 result.append(meta_result)
 
         cursor.close()
@@ -112,6 +152,118 @@ class MicrogridPowerconversionsystemCollection:
                                    description='API.INVALID_CAPACITY')
         capacity = float(new_values['data']['capacity'])
 
+        if 'charge_start_time1_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['charge_start_time1_point_id'], int) or \
+                new_values['data']['charge_start_time1_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_CHARGE_START_TIME1_POINT_ID')
+        charge_start_time1_point_id = new_values['data']['charge_start_time1_point_id']
+
+        if 'charge_end_time1_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['charge_end_time1_point_id'], int) or \
+                new_values['data']['charge_end_time1_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_CHARGE_END_TIME1_POINT_ID')
+        charge_end_time1_point_id = new_values['data']['charge_end_time1_point_id']
+
+        if 'charge_start_time2_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['charge_start_time2_point_id'], int) or \
+                new_values['data']['charge_start_time2_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_CHARGE_START_TIME2_POINT_ID')
+        charge_start_time2_point_id = new_values['data']['charge_start_time2_point_id']
+
+        if 'charge_end_time2_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['charge_end_time2_point_id'], int) or \
+                new_values['data']['charge_end_time2_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_CHARGE_END_TIME2_POINT_ID')
+        charge_end_time2_point_id = new_values['data']['charge_end_time2_point_id']
+
+        if 'charge_start_time3_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['charge_start_time3_point_id'], int) or \
+                new_values['data']['charge_start_time3_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_CHARGE_START_TIME3_POINT_ID')
+        charge_start_time3_point_id = new_values['data']['charge_start_time3_point_id']
+
+        if 'charge_end_time3_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['charge_end_time3_point_id'], int) or \
+                new_values['data']['charge_end_time3_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_CHARGE_END_TIME3_POINT_ID')
+        charge_end_time3_point_id = new_values['data']['charge_end_time3_point_id']
+
+        if 'charge_start_time4_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['charge_start_time4_point_id'], int) or \
+                new_values['data']['charge_start_time4_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_CHARGE_START_TIME4_POINT_ID')
+        charge_start_time4_point_id = new_values['data']['charge_start_time4_point_id']
+
+        if 'charge_end_time4_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['charge_end_time4_point_id'], int) or \
+                new_values['data']['charge_end_time4_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_CHARGE_END_TIME4_POINT_ID')
+        charge_end_time4_point_id = new_values['data']['charge_end_time4_point_id']
+
+        if 'discharge_start_time1_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['discharge_start_time1_point_id'], int) or \
+                new_values['data']['discharge_start_time1_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_DISCHARGE_START_TIME1_POINT_ID')
+        discharge_start_time1_point_id = new_values['data']['discharge_start_time1_point_id']
+
+        if 'discharge_end_time1_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['discharge_end_time1_point_id'], int) or \
+                new_values['data']['discharge_end_time1_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_DISCHARGE_END_TIME1_POINT_ID')
+        discharge_end_time1_point_id = new_values['data']['discharge_end_time1_point_id']
+
+        if 'discharge_start_time2_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['discharge_start_time2_point_id'], int) or \
+                new_values['data']['discharge_start_time2_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_DISCHARGE_START_TIME2_POINT_ID')
+        discharge_start_time2_point_id = new_values['data']['discharge_start_time2_point_id']
+
+        if 'discharge_end_time2_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['discharge_end_time2_point_id'], int) or \
+                new_values['data']['discharge_end_time2_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_DISCHARGE_END_TIME2_POINT_ID')
+        discharge_end_time2_point_id = new_values['data']['discharge_end_time2_point_id']
+
+        if 'discharge_start_time3_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['discharge_start_time3_point_id'], int) or \
+                new_values['data']['discharge_start_time3_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_DISCHARGE_START_TIME3_POINT_ID')
+        discharge_start_time3_point_id = new_values['data']['discharge_start_time3_point_id']
+
+        if 'discharge_end_time3_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['discharge_end_time3_point_id'], int) or \
+                new_values['data']['discharge_end_time3_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_DISCHARGE_END_TIME3_POINT_ID')
+        discharge_end_time3_point_id = new_values['data']['discharge_end_time3_point_id']
+
+        if 'discharge_start_time4_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['discharge_start_time4_point_id'], int) or \
+                new_values['data']['discharge_start_time4_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_DISCHARGE_START_TIME4_POINT_ID')
+        discharge_start_time4_point_id = new_values['data']['discharge_start_time4_point_id']
+
+        if 'discharge_end_time4_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['discharge_end_time4_point_id'], int) or \
+                new_values['data']['discharge_end_time4_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_DISCHARGE_END_TIME4_POINT_ID')
+        discharge_end_time4_point_id = new_values['data']['discharge_end_time4_point_id']
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -136,13 +288,38 @@ class MicrogridPowerconversionsystemCollection:
                                    description='API.MICROGRID_POWER_CONVERSION_SYSTEM_NAME_IS_ALREADY_IN_USE')
 
         add_values = (" INSERT INTO tbl_microgrids_power_conversion_systems "
-                      "    (name, uuid, microgrid_id, run_state_point_id, capacity) "
-                      " VALUES (%s, %s, %s, %s, %s) ")
+                      "     (name, uuid, microgrid_id, run_state_point_id, capacity, "
+                      "      charge_start_time1_point_id, charge_end_time1_point_id, "
+                      "      charge_start_time2_point_id, charge_end_time2_point_id, "
+                      "      charge_start_time3_point_id, charge_end_time3_point_id, "
+                      "      charge_start_time4_point_id, charge_end_time4_point_id, "
+                      "      discharge_start_time1_point_id, discharge_end_time1_point_id, "
+                      "      discharge_start_time2_point_id, discharge_end_time2_point_id, "
+                      "      discharge_start_time3_point_id, discharge_end_time3_point_id, "
+                      "      discharge_start_time4_point_id, discharge_end_time4_point_id, "
+                      "      ) "
+                      " VALUES (%s, %s, %s, %s, %s %s, %s, %s, %s %s, %s, %s, %s %s, %s, %s, %s %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     microgrid_id,
                                     run_state_point_id,
-                                    capacity))
+                                    capacity,
+                                    charge_start_time1_point_id,
+                                    charge_end_time1_point_id,
+                                    charge_start_time2_point_id,
+                                    charge_end_time2_point_id,
+                                    charge_start_time3_point_id,
+                                    charge_end_time3_point_id,
+                                    charge_start_time4_point_id,
+                                    charge_end_time4_point_id,
+                                    discharge_start_time1_point_id,
+                                    discharge_end_time1_point_id,
+                                    discharge_start_time2_point_id,
+                                    discharge_end_time2_point_id,
+                                    discharge_start_time3_point_id,
+                                    discharge_end_time3_point_id,
+                                    discharge_start_time4_point_id,
+                                    discharge_end_time4_point_id))
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
@@ -208,7 +385,15 @@ class MicrogridPowerconversionsystemItem:
                 point_dict[row[0]] = {"id": row[0],
                                       "name": row[1]}
 
-        query = (" SELECT id, name, uuid, microgrid_id, run_state_point_id, capacity "
+        query = (" SELECT id, name, uuid, microgrid_id, run_state_point_id, capacity, "
+                 "        charge_start_time1_point_id, charge_end_time1_point_id, "
+                 "        charge_start_time2_point_id, charge_end_time2_point_id, "
+                 "        charge_start_time3_point_id, charge_end_time3_point_id, "
+                 "        charge_start_time4_point_id, charge_end_time4_point_id, "
+                 "        discharge_start_time1_point_id, discharge_end_time1_point_id, "
+                 "        discharge_start_time2_point_id, discharge_end_time2_point_id, "
+                 "        discharge_start_time3_point_id, discharge_end_time3_point_id, "
+                 "        discharge_start_time4_point_id, discharge_end_time4_point_id "
                  " FROM tbl_microgrids_power_conversion_systems "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -222,12 +407,44 @@ class MicrogridPowerconversionsystemItem:
         else:
             microgrid = microgrid_dict.get(row[3])
             run_state_point = point_dict.get(row[4])
+            charge_start_time1_point = point_dict.get(row[6])
+            charge_end_time1_point = point_dict.get(row[7])
+            charge_start_time2_point = point_dict.get(row[8])
+            charge_end_time2_point = point_dict.get(row[9])
+            charge_start_time3_point = point_dict.get(row[10])
+            charge_end_time3_point = point_dict.get(row[11])
+            charge_start_time4_point = point_dict.get(row[12])
+            charge_end_time4_point = point_dict.get(row[13])
+            discharge_start_time1_point = point_dict.get(row[14])
+            discharge_end_time1_point = point_dict.get(row[15])
+            discharge_start_time2_point = point_dict.get(row[16])
+            discharge_end_time2_point = point_dict.get(row[17])
+            discharge_start_time3_point = point_dict.get(row[18])
+            discharge_end_time3_point = point_dict.get(row[19])
+            discharge_start_time4_point = point_dict.get(row[20])
+            discharge_end_time4_point = point_dict.get(row[21])
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
                            "microgrid": microgrid,
                            "run_state_point": run_state_point,
-                           "capacity": row[5]}
+                           "capacity": row[5],
+                           "charge_start_time1_point": charge_start_time1_point,
+                           "charge_end_time1_point": charge_end_time1_point,
+                           "charge_start_time2_point": charge_start_time2_point,
+                           "charge_end_time2_point": charge_end_time2_point,
+                           "charge_start_time3_point": charge_start_time3_point,
+                           "charge_end_time3_point": charge_end_time3_point,
+                           "charge_start_time4_point": charge_start_time4_point,
+                           "charge_end_time4_point": charge_end_time4_point,
+                           "discharge_start_time1_point": discharge_start_time1_point,
+                           "discharge_end_time1_point": discharge_end_time1_point,
+                           "discharge_start_time2_point": discharge_start_time2_point,
+                           "discharge_end_time2_point": discharge_end_time2_point,
+                           "discharge_start_time3_point": discharge_start_time3_point,
+                           "discharge_end_time3_point": discharge_end_time3_point,
+                           "discharge_start_time4_point": discharge_start_time4_point,
+                           "discharge_end_time4_point": discharge_end_time4_point}
 
         resp.text = json.dumps(meta_result)
 
@@ -305,6 +522,118 @@ class MicrogridPowerconversionsystemItem:
                                    description='API.INVALID_CAPACITY')
         capacity = float(new_values['data']['capacity'])
 
+        if 'charge_start_time1_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['charge_start_time1_point_id'], int) or \
+                new_values['data']['charge_start_time1_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_CHARGE_START_TIME1_POINT_ID')
+        charge_start_time1_point_id = new_values['data']['charge_start_time1_point_id']
+
+        if 'charge_end_time1_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['charge_end_time1_point_id'], int) or \
+                new_values['data']['charge_end_time1_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_CHARGE_END_TIME1_POINT_ID')
+        charge_end_time1_point_id = new_values['data']['charge_end_time1_point_id']
+
+        if 'charge_start_time2_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['charge_start_time2_point_id'], int) or \
+                new_values['data']['charge_start_time2_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_CHARGE_START_TIME2_POINT_ID')
+        charge_start_time2_point_id = new_values['data']['charge_start_time2_point_id']
+
+        if 'charge_end_time2_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['charge_end_time2_point_id'], int) or \
+                new_values['data']['charge_end_time2_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_CHARGE_END_TIME2_POINT_ID')
+        charge_end_time2_point_id = new_values['data']['charge_end_time2_point_id']
+
+        if 'charge_start_time3_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['charge_start_time3_point_id'], int) or \
+                new_values['data']['charge_start_time3_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_CHARGE_START_TIME3_POINT_ID')
+        charge_start_time3_point_id = new_values['data']['charge_start_time3_point_id']
+
+        if 'charge_end_time3_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['charge_end_time3_point_id'], int) or \
+                new_values['data']['charge_end_time3_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_CHARGE_END_TIME3_POINT_ID')
+        charge_end_time3_point_id = new_values['data']['charge_end_time3_point_id']
+
+        if 'charge_start_time4_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['charge_start_time4_point_id'], int) or \
+                new_values['data']['charge_start_time4_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_CHARGE_START_TIME4_POINT_ID')
+        charge_start_time4_point_id = new_values['data']['charge_start_time4_point_id']
+
+        if 'charge_end_time4_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['charge_end_time4_point_id'], int) or \
+                new_values['data']['charge_end_time4_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_CHARGE_END_TIME4_POINT_ID')
+        charge_end_time4_point_id = new_values['data']['charge_end_time4_point_id']
+
+        if 'discharge_start_time1_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['discharge_start_time1_point_id'], int) or \
+                new_values['data']['discharge_start_time1_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_DISCHARGE_START_TIME1_POINT_ID')
+        discharge_start_time1_point_id = new_values['data']['discharge_start_time1_point_id']
+
+        if 'discharge_end_time1_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['discharge_end_time1_point_id'], int) or \
+                new_values['data']['discharge_end_time1_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_DISCHARGE_END_TIME1_POINT_ID')
+        discharge_end_time1_point_id = new_values['data']['discharge_end_time1_point_id']
+
+        if 'discharge_start_time2_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['discharge_start_time2_point_id'], int) or \
+                new_values['data']['discharge_start_time2_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_DISCHARGE_START_TIME2_POINT_ID')
+        discharge_start_time2_point_id = new_values['data']['discharge_start_time2_point_id']
+
+        if 'discharge_end_time2_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['discharge_end_time2_point_id'], int) or \
+                new_values['data']['discharge_end_time2_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_DISCHARGE_END_TIME2_POINT_ID')
+        discharge_end_time2_point_id = new_values['data']['discharge_end_time2_point_id']
+
+        if 'discharge_start_time3_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['discharge_start_time3_point_id'], int) or \
+                new_values['data']['discharge_start_time3_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_DISCHARGE_START_TIME3_POINT_ID')
+        discharge_start_time3_point_id = new_values['data']['discharge_start_time3_point_id']
+
+        if 'discharge_end_time3_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['discharge_end_time3_point_id'], int) or \
+                new_values['data']['discharge_end_time3_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_DISCHARGE_END_TIME3_POINT_ID')
+        discharge_end_time3_point_id = new_values['data']['discharge_end_time3_point_id']
+
+        if 'discharge_start_time4_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['discharge_start_time4_point_id'], int) or \
+                new_values['data']['discharge_start_time4_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_DISCHARGE_START_TIME4_POINT_ID')
+        discharge_start_time4_point_id = new_values['data']['discharge_start_time4_point_id']
+
+        if 'discharge_end_time4_point_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['discharge_end_time4_point_id'], int) or \
+                new_values['data']['discharge_end_time4_point_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_DISCHARGE_END_TIME4_POINT_ID')
+        discharge_end_time4_point_id = new_values['data']['discharge_end_time4_point_id']
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -338,12 +667,36 @@ class MicrogridPowerconversionsystemItem:
                                    description='API.MICROGRID_POWER_CONVERSION_SYSTEM_NAME_IS_ALREADY_IN_USE')
 
         update_row = (" UPDATE tbl_microgrids_power_conversion_systems "
-                      " SET name = %s, microgrid_id = %s, run_state_point_id = %s, capacity = %s "
+                      " SET name = %s, microgrid_id = %s, run_state_point_id = %s, capacity = %s, "
+                      "     charge_start_time1_point_id = %s, charge_end_time1_point_id = %s, "
+                      "     charge_start_time2_point_id = %s, charge_end_time2_point_id = %s, "
+                      "     charge_start_time3_point_id = %s, charge_end_time3_point_id = %s, "
+                      "     charge_start_time4_point_id = %s, charge_end_time4_point_id = %s, "
+                      "     discharge_start_time1_point_id = %s, discharge_end_time1_point_id = %s, "
+                      "     discharge_start_time2_point_id = %s, discharge_end_time2_point_id = %s, "
+                      "     discharge_start_time3_point_id = %s, discharge_end_time3_point_id = %s, "
+                      "     discharge_start_time4_point_id = %s, discharge_end_time4_point_id = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     microgrid_id,
                                     run_state_point_id,
                                     capacity,
+                                    charge_start_time1_point_id,
+                                    charge_end_time1_point_id,
+                                    charge_start_time2_point_id,
+                                    charge_end_time2_point_id,
+                                    charge_start_time3_point_id,
+                                    charge_end_time3_point_id,
+                                    charge_start_time4_point_id,
+                                    charge_end_time4_point_id,
+                                    discharge_start_time1_point_id,
+                                    discharge_end_time1_point_id,
+                                    discharge_start_time2_point_id,
+                                    discharge_end_time2_point_id,
+                                    discharge_start_time3_point_id,
+                                    discharge_end_time3_point_id,
+                                    discharge_start_time4_point_id,
+                                    discharge_end_time4_point_id,
                                     id_))
         cnx.commit()
 
