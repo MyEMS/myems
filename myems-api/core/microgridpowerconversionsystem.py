@@ -296,9 +296,8 @@ class MicrogridPowerconversionsystemCollection:
                       "      discharge_start_time1_point_id, discharge_end_time1_point_id, "
                       "      discharge_start_time2_point_id, discharge_end_time2_point_id, "
                       "      discharge_start_time3_point_id, discharge_end_time3_point_id, "
-                      "      discharge_start_time4_point_id, discharge_end_time4_point_id, "
-                      "      ) "
-                      " VALUES (%s, %s, %s, %s, %s %s, %s, %s, %s %s, %s, %s, %s %s, %s, %s, %s %s, %s, %s, %s) ")
+                      "      discharge_start_time4_point_id, discharge_end_time4_point_id) "
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     microgrid_id,
