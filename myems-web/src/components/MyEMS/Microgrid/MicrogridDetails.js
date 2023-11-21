@@ -8,6 +8,7 @@ import {
   FormGroup,
   Label,
   Row,
+  Table,
   Spinner,
 } from 'reactstrap';
 import CardSummary from '../common/CardSummary';
@@ -26,6 +27,7 @@ import { APIBaseURL } from '../../../config';
 import useInterval from '../../../hooks/useInterval';
 import { Map } from 'react-leaflet';
 import { useLocation } from 'react-router-dom';
+import Datetime from 'react-datetime';
 
 
 const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
@@ -64,6 +66,22 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
 
 
   // State
+  const [chargeStartTime1, setChargeStartTime1] = useState(null);
+  const [chargeEndTime1, setChargeEndTime1] = useState(null);
+  const [chargeStartTime2, setChargeStartTime2] = useState(null);
+  const [chargeEndTime2, setChargeEndTime2] = useState(null);
+  const [chargeStartTime3, setChargeStartTime3] = useState(null);
+  const [chargeEndTime3, setChargeEndTime3] = useState(null);
+  const [chargeStartTime4, setChargeStartTime4] = useState(null);
+  const [chargeEndTime4, setChargeEndTime4] = useState(null);
+  const [dischargeStartTime1, setDischargeStartTime1] = useState(null);
+  const [dischargeEndTime1, setDischargeEndTime1] = useState(null);
+  const [dischargeStartTime2, setDischargeStartTime2] = useState(null);
+  const [dischargeEndTime2, setDischargeEndTime2] = useState(null);
+  const [dischargeStartTime3, setDischargeStartTime3] = useState(null);
+  const [dischargeEndTime3, setDischargeEndTime3] = useState(null);
+  const [dischargeStartTime4, setDischargeStartTime4] = useState(null);
+  const [dischargeEndTime4, setDischargeEndTime4] = useState(null);
 
   //Results
   const [microgridSVG, setMicrogridSVG] = useState();
@@ -173,6 +191,26 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
           options.push({ 'value': 'a' + index, 'label': currentValue + ' (' + unit + ')'});
         });
         setMicrogridReportingOptions(options);
+
+        setChargeStartTime1(json['schedule']['charge_start_time1'])
+        setChargeEndTime1(json['schedule']['charge_end_time1'])
+        setChargeStartTime2(json['schedule']['charge_start_time2'])
+        setChargeEndTime2(json['schedule']['charge_end_time2'])
+        setChargeStartTime3(json['schedule']['charge_start_time3'])
+        setChargeEndTime3(json['schedule']['charge_end_time3'])
+        setChargeStartTime4(json['schedule']['charge_start_time4'])
+        setChargeEndTime4(json['schedule']['charge_end_time4'])
+
+        setDischargeStartTime1(json['schedule']['discharge_start_time1'])
+        setDischargeEndTime1(json['schedule']['discharge_end_time1'])
+        setDischargeStartTime2(json['schedule']['discharge_start_time2'])
+        setDischargeEndTime2(json['schedule']['discharge_end_time2'])
+        setDischargeStartTime3(json['schedule']['discharge_start_time3'])
+        setDischargeEndTime3(json['schedule']['discharge_end_time3'])
+        setDischargeStartTime4(json['schedule']['discharge_start_time4'])
+        setDischargeEndTime4(json['schedule']['discharge_end_time4'])
+
+
       }
     })
     .catch(err => {
@@ -256,6 +294,47 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
             </CardSummary>
         ))}
       </div>
+      <Table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Charge Start Time</th>
+            <th>Charge End Time</th>
+            <th>Discharge Start Time</th>
+            <th>Discharge End Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeStartTime1} onChange={setChargeStartTime1} /></td>
+            <td><Datetime dateFormat={false} value={chargeEndTime1} onChange={setChargeEndTime1} /></td>
+            <td><Datetime dateFormat={false} value={dischargeStartTime1} onChange={setDischargeStartTime1} /></td>
+            <td><Datetime dateFormat={false} value={dischargeEndTime1} onChange={setDischargeEndTime1} /></td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td><Datetime dateFormat={false} value={chargeStartTime2} onChange={setChargeStartTime2} /></td>
+            <td><Datetime dateFormat={false} value={chargeEndTime2} onChange={setChargeEndTime2} /></td>
+            <td><Datetime dateFormat={false} value={dischargeStartTime2} onChange={setDischargeStartTime2} /></td>
+            <td><Datetime dateFormat={false} value={dischargeEndTime2} onChange={setDischargeEndTime2} /></td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td><Datetime dateFormat={false} value={chargeStartTime3} onChange={setChargeStartTime3} /></td>
+            <td><Datetime dateFormat={false} value={chargeEndTime3} onChange={setChargeEndTime3} /></td>
+            <td><Datetime dateFormat={false} value={dischargeStartTime3} onChange={setDischargeStartTime3} /></td>
+            <td><Datetime dateFormat={false} value={dischargeEndTime3} onChange={setDischargeEndTime3} /></td>
+          </tr>
+          <tr>
+            <th scope="row">4</th>
+            <td><Datetime dateFormat={false} value={chargeStartTime4} onChange={setChargeStartTime4} /></td>
+            <td><Datetime dateFormat={false} value={chargeEndTime4} onChange={setChargeEndTime4} /></td>
+            <td><Datetime dateFormat={false} value={dischargeStartTime4} onChange={setDischargeStartTime4} /></td>
+            <td><Datetime dateFormat={false} value={dischargeEndTime4} onChange={setDischargeEndTime4} /></td>
+          </tr>
+        </tbody>
+      </Table>
     </Fragment>
   );
 };
