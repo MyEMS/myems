@@ -1168,6 +1168,7 @@ app
                                                     'app/services/settings/costcenter/costcenter.service.js',
                                                     'app/services/settings/contact/contact.service.js',
                                                     'app/services/settings/datasource/point.service.js',
+                                                    'app/services/settings/command/command.service.js',
                                                     'app/services/settings/sensor/sensor.service.js',
                                                     'app/controllers/settings/microgrid/microgrid.master.controller.js',
                                                     'app/controllers/settings/microgrid/microgrid.controller.js',

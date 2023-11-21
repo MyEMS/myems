@@ -10,12 +10,14 @@ app.controller('MicrogridPowerconversionsystemController', function(
 	MicrogridPowerconversionsystemService,
 	PointService,
 	MeterService,
+	CommandService,
 	toaster,
 	SweetAlert) {
       $scope.microgrids = [];
       $scope.microgridpowerconversionsystems = [];
-	  $scope.points = [];
 	  $scope.meters = [];
+	  $scope.points = [];
+	  $scope.commands = [];
       $scope.currentMicrogrid = null;
 	  $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
       $scope.getAllMicrogrids = function() {
@@ -50,6 +52,17 @@ app.controller('MicrogridPowerconversionsystemController', function(
 			}
 		});
 	};
+
+	$scope.getAllCommands = function() {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		CommandService.getAllCommands(headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.commands = response.data;
+			} else {
+				$scope.commands = [];
+			}
+		});
+	};
   	$scope.getMicrogridPowerconversionsystemsByMicrogridID = function(id) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   		MicrogridPowerconversionsystemService.getMicrogridPowerconversionsystemsByMicrogridID(id, headers, function (response) {
@@ -79,6 +92,7 @@ app.controller('MicrogridPowerconversionsystemController', function(
   					return {
 						meters: angular.copy($scope.meters),
 						points: angular.copy($scope.points),
+						commands: angular.copy($scope.commands),
   					};
   				}
   			}
@@ -102,6 +116,22 @@ app.controller('MicrogridPowerconversionsystemController', function(
 			microgridpowerconversionsystem.discharge_end_time3_point_id = microgridpowerconversionsystem.discharge_end_time3_point.id;
 			microgridpowerconversionsystem.discharge_start_time4_point_id = microgridpowerconversionsystem.discharge_start_time4_point.id;
 			microgridpowerconversionsystem.discharge_end_time4_point_id = microgridpowerconversionsystem.discharge_end_time4_point.id;
+			microgridpowerconversionsystem.charge_start_time1_command_id = microgridpowerconversionsystem.charge_start_time1_command.id;
+			microgridpowerconversionsystem.charge_end_time1_command_id = microgridpowerconversionsystem.charge_end_time1_command.id;
+			microgridpowerconversionsystem.charge_start_time2_command_id = microgridpowerconversionsystem.charge_start_time2_command.id;
+			microgridpowerconversionsystem.charge_end_time2_command_id = microgridpowerconversionsystem.charge_end_time2_command.id;
+			microgridpowerconversionsystem.charge_start_time3_command_id = microgridpowerconversionsystem.charge_start_time3_command.id;
+			microgridpowerconversionsystem.charge_end_time3_command_id = microgridpowerconversionsystem.charge_end_time3_command.id;
+			microgridpowerconversionsystem.charge_start_time4_command_id = microgridpowerconversionsystem.charge_start_time4_command.id;
+			microgridpowerconversionsystem.charge_end_time4_command_id = microgridpowerconversionsystem.charge_end_time4_command.id;
+			microgridpowerconversionsystem.discharge_start_time1_command_id = microgridpowerconversionsystem.discharge_start_time1_command.id;
+			microgridpowerconversionsystem.discharge_end_time1_command_id = microgridpowerconversionsystem.discharge_end_time1_command.id;
+			microgridpowerconversionsystem.discharge_start_time2_command_id = microgridpowerconversionsystem.discharge_start_time2_command.id;
+			microgridpowerconversionsystem.discharge_end_time2_command_id = microgridpowerconversionsystem.discharge_end_time2_command.id;
+			microgridpowerconversionsystem.discharge_start_time3_command_id = microgridpowerconversionsystem.discharge_start_time3_command.id;
+			microgridpowerconversionsystem.discharge_end_time3_command_id = microgridpowerconversionsystem.discharge_end_time3_command.id;
+			microgridpowerconversionsystem.discharge_start_time4_command_id = microgridpowerconversionsystem.discharge_start_time4_command.id;
+			microgridpowerconversionsystem.discharge_end_time4_command_id = microgridpowerconversionsystem.discharge_end_time4_command.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   			MicrogridPowerconversionsystemService.addMicrogridPowerconversionsystem(microgridpowerconversionsystem, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 201) {
@@ -139,6 +169,7 @@ app.controller('MicrogridPowerconversionsystemController', function(
   						microgridpowerconversionsystem: angular.copy(microgridpowerconversionsystem),
 						meters: angular.copy($scope.meters),
 						points: angular.copy($scope.points),
+						commands: angular.copy($scope.commands),
   					};
   				}
   			}
@@ -163,6 +194,22 @@ app.controller('MicrogridPowerconversionsystemController', function(
 			modifiedMicrogridPowerconversionsystem.discharge_end_time3_point_id = modifiedMicrogridPowerconversionsystem.discharge_end_time3_point.id;
 			modifiedMicrogridPowerconversionsystem.discharge_start_time4_point_id = modifiedMicrogridPowerconversionsystem.discharge_start_time4_point.id;
 			modifiedMicrogridPowerconversionsystem.discharge_end_time4_point_id = modifiedMicrogridPowerconversionsystem.discharge_end_time4_point.id;
+			modifiedMicrogridPowerconversionsystem.charge_start_time1_command_id = modifiedMicrogridPowerconversionsystem.charge_start_time1_command.id;
+			modifiedMicrogridPowerconversionsystem.charge_end_time1_command_id = modifiedMicrogridPowerconversionsystem.charge_end_time1_command.id;
+			modifiedMicrogridPowerconversionsystem.charge_start_time2_command_id = modifiedMicrogridPowerconversionsystem.charge_start_time2_command.id;
+			modifiedMicrogridPowerconversionsystem.charge_end_time2_command_id = modifiedMicrogridPowerconversionsystem.charge_end_time2_command.id;
+			modifiedMicrogridPowerconversionsystem.charge_start_time3_command_id = modifiedMicrogridPowerconversionsystem.charge_start_time3_command.id;
+			modifiedMicrogridPowerconversionsystem.charge_end_time3_command_id = modifiedMicrogridPowerconversionsystem.charge_end_time3_command.id;
+			modifiedMicrogridPowerconversionsystem.charge_start_time4_command_id = modifiedMicrogridPowerconversionsystem.charge_start_time4_command.id;
+			modifiedMicrogridPowerconversionsystem.charge_end_time4_command_id = modifiedMicrogridPowerconversionsystem.charge_end_time4_command.id;
+			modifiedMicrogridPowerconversionsystem.discharge_start_time1_command_id = modifiedMicrogridPowerconversionsystem.discharge_start_time1_command.id;
+			modifiedMicrogridPowerconversionsystem.discharge_end_time1_command_id = modifiedMicrogridPowerconversionsystem.discharge_end_time1_command.id;
+			modifiedMicrogridPowerconversionsystem.discharge_start_time2_command_id = modifiedMicrogridPowerconversionsystem.discharge_start_time2_command.id;
+			modifiedMicrogridPowerconversionsystem.discharge_end_time2_command_id = modifiedMicrogridPowerconversionsystem.discharge_end_time2_command.id;
+			modifiedMicrogridPowerconversionsystem.discharge_start_time3_command_id = modifiedMicrogridPowerconversionsystem.discharge_start_time3_command.id;
+			modifiedMicrogridPowerconversionsystem.discharge_end_time3_command_id = modifiedMicrogridPowerconversionsystem.discharge_end_time3_command.id;
+			modifiedMicrogridPowerconversionsystem.discharge_start_time4_command_id = modifiedMicrogridPowerconversionsystem.discharge_start_time4_command.id;
+			modifiedMicrogridPowerconversionsystem.discharge_end_time4_command_id = modifiedMicrogridPowerconversionsystem.discharge_end_time4_command.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   			MicrogridPowerconversionsystemService.editMicrogridPowerconversionsystem(modifiedMicrogridPowerconversionsystem, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 200) {
@@ -230,6 +277,7 @@ app.controller('MicrogridPowerconversionsystemController', function(
   	$scope.getAllMicrogrids();
 	$scope.getAllPoints();
 	$scope.getAllMeters();
+	$scope.getAllCommands();
     $scope.$on('handleBroadcastMicrogridChanged', function(event) {
       $scope.getAllMicrogrids();
   	});
@@ -242,6 +290,7 @@ app.controller('MicrogridPowerconversionsystemController', function(
   	$scope.operation = "MICROGRID.ADD_MICROGRID_POWER_CONVERSION_SYSTEM";
 	$scope.points=params.points;
 	$scope.meters=params.meters;
+	$scope.commands=params.commands;
   	$scope.ok = function() {
   		$uibModalInstance.close($scope.microgridpowerconversionsystem);
   	};
@@ -256,6 +305,7 @@ app.controller('MicrogridPowerconversionsystemController', function(
   	$scope.microgridpowerconversionsystem = params.microgridpowerconversionsystem;
 	$scope.points=params.points;
 	$scope.meters=params.meters;
+	$scope.commands=params.commands;
   	$scope.ok = function() {
   		$uibModalInstance.close($scope.microgridpowerconversionsystem);
   	};

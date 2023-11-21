@@ -723,6 +723,22 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_power_conversion_sy
   `discharge_end_time3_point_id` BIGINT NOT NULL,
   `discharge_start_time4_point_id` BIGINT NOT NULL,
   `discharge_end_time4_point_id` BIGINT NOT NULL,
+  `charge_start_time1_command_id` BIGINT NOT NULL,
+  `charge_end_time1_command_id` BIGINT NOT NULL,
+  `charge_start_time2_command_id` BIGINT NOT NULL,
+  `charge_end_time2_command_id` BIGINT NOT NULL,
+  `charge_start_time3_command_id` BIGINT NOT NULL,
+  `charge_end_time3_command_id` BIGINT NOT NULL,
+  `charge_start_time4_command_id` BIGINT NOT NULL,
+  `charge_end_time4_command_id` BIGINT NOT NULL,
+  `discharge_start_time1_command_id` BIGINT NOT NULL,
+  `discharge_end_time1_command_id` BIGINT NOT NULL,
+  `discharge_start_time2_command_id` BIGINT NOT NULL,
+  `discharge_end_time2_command_id` BIGINT NOT NULL,
+  `discharge_start_time3_command_id` BIGINT NOT NULL,
+  `discharge_end_time3_command_id` BIGINT NOT NULL,
+  `discharge_start_time4_command_id` BIGINT NOT NULL,
+  `discharge_end_time4_command_id` BIGINT NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_microgrids_power_conversion_systems_index_1` ON  `myems_system_db`.`tbl_microgrids_power_conversion_systems` (`name`);
 
