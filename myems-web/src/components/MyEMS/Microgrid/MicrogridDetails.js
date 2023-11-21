@@ -307,31 +307,31 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
         <tbody>
           <tr>
             <th scope="row">1</th>
-            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeStartTime1} onChange={setChargeStartTime1} /></td>
-            <td><Datetime dateFormat={false} value={chargeEndTime1} onChange={setChargeEndTime1} /></td>
-            <td><Datetime dateFormat={false} value={dischargeStartTime1} onChange={setDischargeStartTime1} /></td>
-            <td><Datetime dateFormat={false} value={dischargeEndTime1} onChange={setDischargeEndTime1} /></td>
+            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeStartTime1} onChange={setChargeStartTime1} onClose={setChargeStartTime1} /></td>
+            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeEndTime1} onChange={setChargeEndTime1}  onClose={setChargeEndTime1} /></td>
+            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeStartTime1} onChange={setDischargeStartTime1} onClose={setDischargeStartTime1} /></td>
+            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeEndTime1} onChange={setDischargeEndTime1} onClose={setDischargeEndTime1} /></td>
           </tr>
           <tr>
             <th scope="row">2</th>
-            <td><Datetime dateFormat={false} value={chargeStartTime2} onChange={setChargeStartTime2} /></td>
-            <td><Datetime dateFormat={false} value={chargeEndTime2} onChange={setChargeEndTime2} /></td>
-            <td><Datetime dateFormat={false} value={dischargeStartTime2} onChange={setDischargeStartTime2} /></td>
-            <td><Datetime dateFormat={false} value={dischargeEndTime2} onChange={setDischargeEndTime2} /></td>
+            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeStartTime2} onChange={setChargeStartTime2} onClose={setChargeStartTime2} /></td>
+            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeEndTime2} onChange={setChargeEndTime2} onClose={setChargeEndTime2} /></td>
+            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeStartTime2} onChange={setDischargeStartTime2} onClose={setDischargeStartTime2} /></td>
+            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeEndTime2} onChange={setDischargeEndTime2} onClose={setDischargeEndTime2} /></td>
           </tr>
           <tr>
             <th scope="row">3</th>
-            <td><Datetime dateFormat={false} value={chargeStartTime3} onChange={setChargeStartTime3} /></td>
-            <td><Datetime dateFormat={false} value={chargeEndTime3} onChange={setChargeEndTime3} /></td>
-            <td><Datetime dateFormat={false} value={dischargeStartTime3} onChange={setDischargeStartTime3} /></td>
-            <td><Datetime dateFormat={false} value={dischargeEndTime3} onChange={setDischargeEndTime3} /></td>
+            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeStartTime3} onChange={setChargeStartTime3} onClose={setChargeStartTime3} /></td>
+            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeEndTime3} onChange={setChargeEndTime3} onClose={setChargeEndTime3} /></td>
+            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeStartTime3} onChange={setDischargeStartTime3} onClose={setDischargeStartTime3} /></td>
+            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeEndTime3} onChange={setDischargeEndTime3} onClose={setDischargeEndTime3} /></td>
           </tr>
           <tr>
             <th scope="row">4</th>
-            <td><Datetime dateFormat={false} value={chargeStartTime4} onChange={setChargeStartTime4} /></td>
-            <td><Datetime dateFormat={false} value={chargeEndTime4} onChange={setChargeEndTime4} /></td>
-            <td><Datetime dateFormat={false} value={dischargeStartTime4} onChange={setDischargeStartTime4} /></td>
-            <td><Datetime dateFormat={false} value={dischargeEndTime4} onChange={setDischargeEndTime4} /></td>
+            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeStartTime4} onChange={setChargeStartTime4} onClose={setChargeStartTime4} /></td>
+            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeEndTime4} onChange={setChargeEndTime4} onClose={setChargeEndTime4} /></td>
+            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeStartTime4} onChange={setDischargeStartTime4} onClose={setDischargeStartTime4} /></td>
+            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeEndTime4} onChange={setDischargeEndTime4} onClose={setDischargeEndTime4} /></td>
           </tr>
         </tbody>
       </Table>
