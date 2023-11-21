@@ -6,6 +6,7 @@ import mysql.connector
 import simplejson as json
 from core.useractivity import access_control, api_key_control
 import config
+from core.utilities import int16_to_hhmm
 
 
 class Reporting:
@@ -245,390 +246,99 @@ class Reporting:
 
         cnx_historical = mysql.connector.connect(**config.myems_historical_db)
         cursor_historical = cnx_historical.cursor()
-        query = (" SELECT actual_value "
+        query = (" SELECT point_id, actual_value "
+                 " FROM tbl_digital_value_latest "
+                 " WHERE point_id = %s "
+                 " UNION ALL "
+                 " SELECT point_id, actual_value "
+                 " FROM tbl_digital_value_latest "
+                 " WHERE point_id = %s "
+                 " UNION ALL "
+                 " SELECT point_id, actual_value "
+                 " FROM tbl_digital_value_latest "
+                 " WHERE point_id = %s "
+                 " UNION ALL "
+                 " SELECT point_id, actual_value "
+                 " FROM tbl_digital_value_latest "
+                 " WHERE point_id = %s "
+                 " UNION ALL "
+                 " SELECT point_id, actual_value "
+                 " FROM tbl_digital_value_latest "
+                 " WHERE point_id = %s "
+                 " UNION ALL "
+                 " SELECT point_id, actual_value "
+                 " FROM tbl_digital_value_latest "
+                 " WHERE point_id = %s "
+                 " UNION ALL "
+                 " SELECT point_id, actual_value "
+                 " FROM tbl_digital_value_latest "
+                 " WHERE point_id = %s "
+                 " UNION ALL "
+                 " SELECT point_id, actual_value "
+                 " FROM tbl_digital_value_latest "
+                 " WHERE point_id = %s "
+                 " UNION ALL "
+                 " SELECT point_id, actual_value "
+                 " FROM tbl_digital_value_latest "
+                 " WHERE point_id = %s "
+                 " UNION ALL "
+                 " SELECT point_id, actual_value "
+                 " FROM tbl_digital_value_latest "
+                 " WHERE point_id = %s "
+                 " UNION ALL "
+                 " SELECT point_id, actual_value "
+                 " FROM tbl_digital_value_latest "
+                 " WHERE point_id = %s "
+                 " UNION ALL "
+                 " SELECT point_id, actual_value "
+                 " FROM tbl_digital_value_latest "
+                 " WHERE point_id = %s "
+                 " UNION ALL "
+                 " SELECT point_id, actual_value "
+                 " FROM tbl_digital_value_latest "
+                 " WHERE point_id = %s "
+                 " UNION ALL "
+                 " SELECT point_id, actual_value "
+                 " FROM tbl_digital_value_latest "
+                 " WHERE point_id = %s "
+                 " UNION ALL "
+                 " SELECT point_id, actual_value "
+                 " FROM tbl_digital_value_latest "
+                 " WHERE point_id = %s "
+                 " UNION ALL "
+                 " SELECT point_id, actual_value "
                  " FROM tbl_digital_value_latest "
                  " WHERE point_id = %s ")
-        cursor_historical.execute(query, (charge_start_time1_point_id, ))
-        row_digital_value = cursor_historical.fetchone()
-        if row_digital_value is not None and len(row_digital_value) > 0:
-            hh = int(row_digital_value[0] / 256)
-            if hh < 10:
-                hh = '0' + str(hh)
-            elif hh < 24:
-                hh = str(hh)
-            else:
-                charge_start_time1_point_value = None
-            mm = row_digital_value[0] % 256
-            if mm < 10:
-                mm = '0' + str(mm)
-            elif mm < 60:
-                mm = str(mm)
-            else:
-                charge_start_time1_point_value = None
-            charge_start_time1_point_value = hh + ':' + mm
-        else:
-            charge_start_time1_point_value = None
-
-        query = (" SELECT actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s ")
-        cursor_historical.execute(query, (charge_end_time1_point_id,))
-        row_digital_value = cursor_historical.fetchone()
-        if row_digital_value is not None and len(row_digital_value) > 0:
-            hh = int(row_digital_value[0] / 256)
-            if hh < 10:
-                hh = '0' + str(hh)
-            elif hh < 24:
-                hh = str(hh)
-            else:
-                charge_end_time1_point_value = None
-            mm = row_digital_value[0] % 256
-            if mm < 10:
-                mm = '0' + str(mm)
-            elif mm < 60:
-                mm = str(mm)
-            else:
-                charge_end_time1_point_value = None
-            charge_end_time1_point_value = hh + ':' + mm
-        else:
-            charge_end_time1_point_value = None
-
-        query = (" SELECT actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s ")
-        cursor_historical.execute(query, (charge_start_time2_point_id,))
-        row_digital_value = cursor_historical.fetchone()
-        if row_digital_value is not None and len(row_digital_value) > 0:
-            hh = int(row_digital_value[0] / 256)
-            if hh < 10:
-                hh = '0' + str(hh)
-            elif hh < 24:
-                hh = str(hh)
-            else:
-                charge_start_time2_point_value = None
-            mm = row_digital_value[0] % 256
-            if mm < 10:
-                mm = '0' + str(mm)
-            elif mm < 60:
-                mm = str(mm)
-            else:
-                charge_start_time2_point_value = None
-            charge_start_time2_point_value = hh + ':' + mm
-        else:
-            charge_start_time2_point_value = None
-
-        query = (" SELECT actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s ")
-        cursor_historical.execute(query, (charge_end_time2_point_id,))
-        row_digital_value = cursor_historical.fetchone()
-        if row_digital_value is not None and len(row_digital_value) > 0:
-            hh = int(row_digital_value[0] / 256)
-            if hh < 10:
-                hh = '0' + str(hh)
-            elif hh < 24:
-                hh = str(hh)
-            else:
-                charge_end_time2_point_value = None
-            mm = row_digital_value[0] % 256
-            if mm < 10:
-                mm = '0' + str(mm)
-            elif mm < 60:
-                mm = str(mm)
-            else:
-                charge_end_time2_point_value = None
-            charge_end_time2_point_value = hh + ':' + mm
-        else:
-            charge_end_time2_point_value = None
-
-        query = (" SELECT actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s ")
-        cursor_historical.execute(query, (charge_start_time3_point_id,))
-        row_digital_value = cursor_historical.fetchone()
-        if row_digital_value is not None and len(row_digital_value) > 0:
-            hh = int(row_digital_value[0] / 256)
-            if hh < 10:
-                hh = '0' + str(hh)
-            elif hh < 24:
-                hh = str(hh)
-            else:
-                charge_start_time3_point_value = None
-            mm = row_digital_value[0] % 256
-            if mm < 10:
-                mm = '0' + str(mm)
-            elif mm < 60:
-                mm = str(mm)
-            else:
-                charge_start_time3_point_value = None
-            charge_start_time3_point_value = hh + ':' + mm
-        else:
-            charge_start_time3_point_value = None
-
-        query = (" SELECT actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s ")
-        cursor_historical.execute(query, (charge_end_time3_point_id,))
-        row_digital_value = cursor_historical.fetchone()
-        if row_digital_value is not None and len(row_digital_value) > 0:
-            hh = int(row_digital_value[0] / 256)
-            if hh < 10:
-                hh = '0' + str(hh)
-            elif hh < 24:
-                hh = str(hh)
-            else:
-                charge_end_time3_point_value = None
-            mm = row_digital_value[0] % 256
-            if mm < 10:
-                mm = '0' + str(mm)
-            elif mm < 60:
-                mm = str(mm)
-            else:
-                charge_end_time3_point_value = None
-            charge_end_time3_point_value = hh + ':' + mm
-        else:
-            charge_end_time3_point_value = None
-
-        query = (" SELECT actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s ")
-        cursor_historical.execute(query, (charge_start_time4_point_id,))
-        row_digital_value = cursor_historical.fetchone()
-        if row_digital_value is not None and len(row_digital_value) > 0:
-            hh = int(row_digital_value[0] / 256)
-            if hh < 10:
-                hh = '0' + str(hh)
-            elif hh < 24:
-                hh = str(hh)
-            else:
-                charge_start_time4_point_value = None
-            mm = row_digital_value[0] % 256
-            if mm < 10:
-                mm = '0' + str(mm)
-            elif mm < 60:
-                mm = str(mm)
-            else:
-                charge_start_time4_point_value = None
-            charge_start_time4_point_value = hh + ':' + mm
-        else:
-            charge_start_time4_point_value = None
-
-        query = (" SELECT actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s ")
-        cursor_historical.execute(query, (charge_end_time4_point_id,))
-        row_digital_value = cursor_historical.fetchone()
-        if row_digital_value is not None and len(row_digital_value) > 0:
-            hh = int(row_digital_value[0] / 256)
-            if hh < 10:
-                hh = '0' + str(hh)
-            elif hh < 24:
-                hh = str(hh)
-            else:
-                charge_end_time4_point_value = None
-            mm = row_digital_value[0] % 256
-            if mm < 10:
-                mm = '0' + str(mm)
-            elif mm < 60:
-                mm = str(mm)
-            else:
-                charge_end_time4_point_value = None
-            charge_end_time4_point_value = hh + ':' + mm
-        else:
-            charge_end_time4_point_value = None
-
-        query = (" SELECT actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s ")
-        cursor_historical.execute(query, (discharge_start_time1_point_id,))
-        row_digital_value = cursor_historical.fetchone()
-        if row_digital_value is not None and len(row_digital_value) > 0:
-            hh = int(row_digital_value[0] / 256)
-            if hh < 10:
-                hh = '0' + str(hh)
-            elif hh < 24:
-                hh = str(hh)
-            else:
-                discharge_start_time1_point_value = None
-            mm = row_digital_value[0] % 256
-            if mm < 10:
-                mm = '0' + str(mm)
-            elif mm < 60:
-                mm = str(mm)
-            else:
-                discharge_start_time1_point_value = None
-            discharge_start_time1_point_value = hh + ':' + mm
-        else:
-            discharge_start_time1_point_value = None
-
-        query = (" SELECT actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s ")
-        cursor_historical.execute(query, (discharge_end_time1_point_id,))
-        row_digital_value = cursor_historical.fetchone()
-        if row_digital_value is not None and len(row_digital_value) > 0:
-            hh = int(row_digital_value[0] / 256)
-            if hh < 10:
-                hh = '0' + str(hh)
-            elif hh < 24:
-                hh = str(hh)
-            else:
-                discharge_end_time1_point_value = None
-            mm = row_digital_value[0] % 256
-            if mm < 10:
-                mm = '0' + str(mm)
-            elif mm < 60:
-                mm = str(mm)
-            else:
-                discharge_end_time1_point_value = None
-            discharge_end_time1_point_value = hh + ':' + mm
-        else:
-            discharge_end_time1_point_value = None
-
-        query = (" SELECT actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s ")
-        cursor_historical.execute(query, (discharge_start_time2_point_id,))
-        row_digital_value = cursor_historical.fetchone()
-        if row_digital_value is not None and len(row_digital_value) > 0:
-            hh = int(row_digital_value[0] / 256)
-            if hh < 10:
-                hh = '0' + str(hh)
-            elif hh < 24:
-                hh = str(hh)
-            else:
-                discharge_start_time2_point_value = None
-            mm = row_digital_value[0] % 256
-            if mm < 10:
-                mm = '0' + str(mm)
-            elif mm < 60:
-                mm = str(mm)
-            else:
-                discharge_start_time2_point_value = None
-            discharge_start_time2_point_value = hh + ':' + mm
-        else:
-            discharge_start_time2_point_value = None
-
-        query = (" SELECT actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s ")
-        cursor_historical.execute(query, (discharge_end_time2_point_id,))
-        row_digital_value = cursor_historical.fetchone()
-        if row_digital_value is not None and len(row_digital_value) > 0:
-            hh = int(row_digital_value[0] / 256)
-            if hh < 10:
-                hh = '0' + str(hh)
-            elif hh < 24:
-                hh = str(hh)
-            else:
-                discharge_end_time2_point_value = None
-            mm = row_digital_value[0] % 256
-            if mm < 10:
-                mm = '0' + str(mm)
-            elif mm < 60:
-                mm = str(mm)
-            else:
-                discharge_end_time2_point_value = None
-            discharge_end_time2_point_value = hh + ':' + mm
-        else:
-            discharge_end_time2_point_value = None
-
-        query = (" SELECT actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s ")
-        cursor_historical.execute(query, (discharge_start_time3_point_id,))
-        row_digital_value = cursor_historical.fetchone()
-        if row_digital_value is not None and len(row_digital_value) > 0:
-            hh = int(row_digital_value[0] / 256)
-            if hh < 10:
-                hh = '0' + str(hh)
-            elif hh < 24:
-                hh = str(hh)
-            else:
-                discharge_start_time3_point_value = None
-            mm = row_digital_value[0] % 256
-            if mm < 10:
-                mm = '0' + str(mm)
-            elif mm < 60:
-                mm = str(mm)
-            else:
-                discharge_start_time3_point_value = None
-            discharge_start_time3_point_value = hh + ':' + mm
-        else:
-            discharge_start_time3_point_value = None
-
-        query = (" SELECT actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s ")
-        cursor_historical.execute(query, (discharge_end_time3_point_id,))
-        row_digital_value = cursor_historical.fetchone()
-        if row_digital_value is not None and len(row_digital_value) > 0:
-            hh = int(row_digital_value[0] / 256)
-            if hh < 10:
-                hh = '0' + str(hh)
-            elif hh < 24:
-                hh = str(hh)
-            else:
-                discharge_end_time3_point_value = None
-            mm = row_digital_value[0] % 256
-            if mm < 10:
-                mm = '0' + str(mm)
-            elif mm < 60:
-                mm = str(mm)
-            else:
-                discharge_end_time3_point_value = None
-            discharge_end_time3_point_value = hh + ':' + mm
-        else:
-            discharge_end_time3_point_value = None
-
-        query = (" SELECT actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s ")
-        cursor_historical.execute(query, (discharge_start_time4_point_id,))
-        row_digital_value = cursor_historical.fetchone()
-        if row_digital_value is not None and len(row_digital_value) > 0:
-            hh = int(row_digital_value[0] / 256)
-            if hh < 10:
-                hh = '0' + str(hh)
-            elif hh < 24:
-                hh = str(hh)
-            else:
-                discharge_start_time4_point_value = None
-            mm = row_digital_value[0] % 256
-            if mm < 10:
-                mm = '0' + str(mm)
-            elif mm < 60:
-                mm = str(mm)
-            else:
-                discharge_start_time4_point_value = None
-            discharge_start_time4_point_value = hh + ':' + mm
-        else:
-            discharge_start_time4_point_value = None
-
-        query = (" SELECT actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s ")
-        cursor_historical.execute(query, (discharge_end_time4_point_id,))
-        row_digital_value = cursor_historical.fetchone()
-        if row_digital_value is not None and len(row_digital_value) > 0:
-            hh = int(row_digital_value[0] / 256)
-            if hh < 10:
-                hh = '0' + str(hh)
-            elif hh < 24:
-                hh = str(hh)
-            else:
-                discharge_end_time4_point_value = None
-            mm = row_digital_value[0] % 256
-            if mm < 10:
-                mm = '0' + str(mm)
-            elif mm < 60:
-                mm = str(mm)
-            else:
-                discharge_end_time4_point_value = None
-            discharge_end_time4_point_value = hh + ':' + mm
-        else:
-            discharge_end_time4_point_value = None
-
+        cursor_historical.execute(query, (charge_start_time1_point_id, charge_end_time1_point_id,
+                                          charge_start_time2_point_id, charge_end_time2_point_id,
+                                          charge_start_time3_point_id, charge_end_time3_point_id,
+                                          charge_start_time4_point_id, charge_end_time4_point_id,
+                                          discharge_start_time1_point_id, discharge_end_time1_point_id,
+                                          discharge_start_time2_point_id, discharge_end_time2_point_id,
+                                          discharge_start_time3_point_id, discharge_end_time3_point_id,
+                                          discharge_start_time4_point_id, discharge_end_time4_point_id))
+        rows = cursor_historical.fetchall()
+        if rows is not None and len(rows) > 0:
+            time_value_dict = dict()
+            for row in rows:
+                point_id = row[0]
+                time_value_dict[point_id] = int16_to_hhmm(row[1])
+        charge_start_time1_value = time_value_dict.get(charge_start_time1_point_id)
+        charge_end_time1_value = time_value_dict.get(charge_end_time1_point_id)
+        charge_start_time2_value = time_value_dict.get(charge_start_time2_point_id)
+        charge_end_time2_value = time_value_dict.get(charge_end_time2_point_id)
+        charge_start_time3_value = time_value_dict.get(charge_start_time3_point_id)
+        charge_end_time3_value = time_value_dict.get(charge_end_time3_point_id)
+        charge_start_time4_value = time_value_dict.get(charge_start_time4_point_id)
+        charge_end_time4_value = time_value_dict.get(charge_end_time4_point_id)
+        discharge_start_time1_value = time_value_dict.get(discharge_start_time1_point_id)
+        discharge_end_time1_value = time_value_dict.get(discharge_end_time1_point_id)
+        discharge_start_time2_value = time_value_dict.get(discharge_start_time2_point_id)
+        discharge_end_time2_value = time_value_dict.get(discharge_end_time2_point_id)
+        discharge_start_time3_value = time_value_dict.get(discharge_start_time3_point_id)
+        discharge_end_time3_value = time_value_dict.get(discharge_end_time3_point_id)
+        discharge_start_time4_value = time_value_dict.get(discharge_start_time4_point_id)
+        discharge_end_time4_value = time_value_dict.get(discharge_end_time4_point_id)
         ################################################################################################################
         # Step 5: query associated evchargers
         ################################################################################################################
@@ -955,21 +665,22 @@ class Reporting:
                 result['reporting_period']['subtotals'].append(meter_report['subtotal'])
 
         result['schedule'] = dict()
-        result['schedule']['charge_start_time1'] = charge_start_time1_point_value
-        result['schedule']['charge_end_time1'] = charge_end_time1_point_value
-        result['schedule']['charge_start_time2'] = charge_start_time2_point_value
-        result['schedule']['charge_end_time2'] = charge_end_time2_point_value
-        result['schedule']['charge_start_time3'] = charge_start_time3_point_value
-        result['schedule']['charge_end_time3'] = charge_end_time3_point_value
-        result['schedule']['charge_start_time4'] = charge_start_time3_point_value
-        result['schedule']['charge_end_time4'] = charge_end_time3_point_value
-        result['schedule']['discharge_start_time1'] = discharge_start_time1_point_value
-        result['schedule']['discharge_end_time1'] = discharge_end_time1_point_value
-        result['schedule']['discharge_start_time2'] = discharge_start_time2_point_value
-        result['schedule']['discharge_end_time2'] = discharge_end_time2_point_value
-        result['schedule']['discharge_start_time3'] = discharge_start_time3_point_value
-        result['schedule']['discharge_end_time3'] = discharge_end_time3_point_value
-        result['schedule']['discharge_start_time4'] = discharge_start_time3_point_value
-        result['schedule']['discharge_end_time4'] = discharge_end_time3_point_value
+        result['schedule']['charge_start_time1'] = charge_start_time1_value
+        result['schedule']['charge_end_time1'] = charge_end_time1_value
+        result['schedule']['charge_start_time2'] = charge_start_time2_value
+        result['schedule']['charge_end_time2'] = charge_end_time2_value
+        result['schedule']['charge_start_time3'] = charge_start_time3_value
+        result['schedule']['charge_end_time3'] = charge_end_time3_value
+        result['schedule']['charge_start_time4'] = charge_start_time4_value
+        result['schedule']['charge_end_time4'] = charge_end_time4_value
+        result['schedule']['discharge_start_time1'] = discharge_start_time1_value
+        result['schedule']['discharge_end_time1'] = discharge_end_time1_value
+        result['schedule']['discharge_start_time2'] = discharge_start_time2_value
+        result['schedule']['discharge_end_time2'] = discharge_end_time2_value
+        result['schedule']['discharge_start_time3'] = discharge_start_time3_value
+        result['schedule']['discharge_end_time3'] = discharge_end_time3_value
+        result['schedule']['discharge_start_time4'] = discharge_start_time4_value
+        result['schedule']['discharge_end_time4'] = discharge_end_time4_value
 
         resp.text = json.dumps(result)
+

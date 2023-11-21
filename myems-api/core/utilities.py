@@ -1016,3 +1016,22 @@ def get_translation(language):
     else:
         language_list = [language]
         return gettext.translation('myems', './i18n/', languages=language_list)
+
+
+def int16_to_hhmm(actual_value):
+    """Convert int16 to time in HH:mm"""
+    hh = int(actual_value / 256)
+    if hh < 10:
+        hh = '0' + str(hh)
+    elif hh < 24:
+        hh = str(hh)
+    else:
+        return None
+    mm = actual_value % 256
+    if mm < 10:
+        mm = '0' + str(mm)
+    elif mm < 60:
+        mm = str(mm)
+    else:
+        return None
+    return hh + ':' + mm
